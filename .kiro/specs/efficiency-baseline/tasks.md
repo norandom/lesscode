@@ -65,10 +65,10 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Boundary: Snapshot_
   - _Requirements: 2.1, 2.6, 8.5, 8.8_
 
-- [ ] 2.3 (P) Run resolved commands with bounded logs and POSIX lifecycle
+- [x] 2.3 (P) Run resolved commands with bounded logs and POSIX lifecycle
   - Execute resolved argument arrays with declared environments and working directories; stream local logs and record monotonic elapsed time.
   - Enforce timeout/log budgets and POSIX descendant termination without hidden retries or shell interpolation.
-  - Done when success, nonzero exit, log exhaustion and child-spawning timeout probes retain correct diagnostics; this task owns Execution files only and may overlap Snapshot tasks.
+  - Done when host-independent execution contracts pass, POSIX lifecycle tests are implemented and independently reviewed, and host-inapplicable tests are explicitly reserved for Linux CI in 7.3. Do not require WSL on a Windows development host or claim skipped tests passed; this task owns Execution files only and may overlap Snapshot tasks.
   - _Boundary: Execution_
   - _Depends: 1.3, 1.5_
   - _Requirements: 4.1, 6.5, 6.7, 8.1, 8.6_
@@ -247,6 +247,10 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 ## Implementation Notes
 
+- User correction after 2.3: WSL is operational according to the user. Prior tool-call timeouts did not justify a general host outage claim. Continue native Windows development; validate POSIX-specific behavior on Linux CI in 7.3, without making WSL a prerequisite. The former STOP_FOR_HUMAN is superseded by this user-approved validation placement; cross-platform release evidence remains mandatory.
+
+- 2.3 debug round 1: No repository fix can establish missing POSIX execution while WSL launch fails before Python. Docker uses the same WSL backend. Pending process.py/test_process.py are preserved uncommitted; no completion or review approval claimed. Do not reset WSL globally without accounting for existing sessions.
+
 - 1.1: Windows workspace resolves to D:\Source\lesscode; use the verified Python 3.12.10 executable or py -3.12, not the Microsoft Store python alias. Canonical tests: .venv-task11/Scripts/python.exe -m unittest discover -v. Build: py -3.12 -m pip wheel . --no-deps --wheel-dir dist. Smoke: installed lesscode-baseline --help and --version.
 
 
@@ -265,4 +269,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 - 2.1: Snapshot | Failure is the concrete typed Result representation. capture_scope identifies source; copy capture follows in 2.2. Supplementary revision can be None; actual source bytes remain authoritative.
 
+
+
+- 2.3 resumed: User authorized native-host development with POSIX lifecycle runtime checks deferred to native Linux CI7.3.80 tests run,6POSIX skips disclosed; independent review APPROVED. Persistence OSError propagation regression covered. Windows execution intentionally awaits2.4.
 
