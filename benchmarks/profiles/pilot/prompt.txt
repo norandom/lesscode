@@ -1,0 +1,5 @@
+Simplify the supplied boltons mathutils.py module while preserving its public
+API and behavior. Keep the upstream copyright and license notices. Edit only the
+candidate product file. Preserve the baseline, evaluator, checks and profile.
+Retain failed attempts and report unavailable telemetry explicitly. Passing the
+declared checks does not establish equivalence for unchecked inputs or methods.

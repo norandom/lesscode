@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "include": [
+      "**/*"
+    ],
+    "exclude": [
+      ".git/**",
+      "**/__pycache__/**",
+      "*.pyc",
+      "**/*.pyc",
+      ".checks/**",
+      ".tools/**",
+      ".venv/**",
+      "runs/**"
+    ],
+    "generated": [],
+    "vendor": [],
+    "tests": [
+      "tests/**"
+    ],
+    "product": [
+      "*.py",
+      "**/*.py"
+    ]
+  },
+  "tools": [
+    {
+      "name": "lizard",
+      "version": "1.17.31",
+      "options": {
+        "language": "python",
+        "extensions": false
+      }
+    },
+    {
+      "name": "jscpd",
+      "version": "4.0.5",
+      "options": {
+        "format": "python",
+        "mode": "weak",
+        "minTokens": 50,
+        "minLines": 5,
+        "maxLines": 100000,
+        "maxSize": "10mb",
+        "ignoreCase": false,
+        "skipComments": false
+      }
+    }
+  ],
+  "checks": [
+    {
+      "check_id": "native",
+      "kind": "native",
+      "required": true,
+      "command": {
+        "command_id": "native",
+        "argv": [
+          "python",
+          "pilot/check.py",
+          "--source",
+          ".",
+          "--output",
+          ".checks/native.xml",
+          "--mode",
+          "native"
+        ],
+        "cwd": ".",
+        "environment": {
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONHASHSEED": "0"
+        },
+        "limits": {
+          "timeout_seconds": 30,
+          "max_log_bytes": 1048576
+        }
+      },
+      "result_path": ".checks/native.xml",
+      "result_format": "junit",
+      "expected_ids": [
+        "native.doctests"
+      ]
+    },
+    {
+      "check_id": "independent",
+      "kind": "invariant",
+      "required": true,
+      "command": {
+        "command_id": "independent",
+        "argv": [
+          "python",
+          "pilot/check.py",
+          "--source",
+          ".",
+          "--output",
+          ".checks/independent.xml",
+          "--mode",
+          "independent"
+        ],
+        "cwd": ".",
+        "environment": {
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONHASHSEED": "0"
+        },
+        "limits": {
+          "timeout_seconds": 30,
+          "max_log_bytes": 1048576
+        }
+      },
+      "result_path": ".checks/independent.xml",
+      "result_format": "junit",
+      "expected_ids": [
+        "independent.golden",
+        "independent.invariants"
+      ]
+    }
+  ],
+  "required_metrics": [
+    "complexity",
+    "duplication",
+    "source_bytes",
+    "physical_lines",
+    "compressed_source_bytes"
+  ],
+  "thresholds": [
+    {
+      "metric_key": "source_bytes",
+      "operator": "delta_maximum",
+      "value": 0,
+      "unit": "bytes"
+    }
+  ],
+  "limits": {
+    "timeout_seconds": 30,
+    "max_log_bytes": 1048576
+  },
+  "evaluator_resources": [
+    "python.json",
+    "pilot/check.py",
+    "pilot/golden.json",
+    "pilot/prompt.txt",
+    "pilot/README.md"
+  ]
+}

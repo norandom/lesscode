@@ -1,0 +1,16 @@
+[
+  {"id":"clamp.below","function":"clamp","args":[-7,-2,3],"expected":-2},
+  {"id":"clamp.inside","function":"clamp","args":[1.5,-2,3],"expected":1.5},
+  {"id":"clamp.above","function":"clamp","args":[7,-2,3],"expected":3},
+  {"id":"clamp.invalid","function":"clamp","args":[0,3,-2],"raises":"ValueError"},
+  {"id":"ceil.default","function":"ceil","args":[-1.5],"expected":-1},
+  {"id":"floor.default","function":"floor","args":[-1.5],"expected":-2},
+  {"id":"ceil.unsorted","function":"ceil","args":[3,[6,2,4]],"expected":4},
+  {"id":"floor.unsorted","function":"floor","args":[3,[6,2,4]],"expected":2},
+  {"id":"ceil.exact","function":"ceil","args":[4,[6,2,4]],"expected":4},
+  {"id":"floor.exact","function":"floor","args":[4,[6,2,4]],"expected":4},
+  {"id":"ceil.missing","function":"ceil","args":[7,[6,2,4]],"raises":"ValueError"},
+  {"id":"floor.missing","function":"floor","args":[1,[6,2,4]],"raises":"ValueError"},
+  {"id":"ceil.empty","function":"ceil","args":[1,[]],"raises":"ValueError"},
+  {"id":"floor.empty","function":"floor","args":[1,[]],"raises":"ValueError"}
+]

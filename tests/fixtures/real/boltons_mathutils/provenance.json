@@ -1,0 +1,19 @@
+{
+  "project": "boltons",
+  "release": "25.0.0",
+  "revision": "c23dbdadb6fecdf505eb4231559561913b84c13f",
+  "source_scope": "Unmodified complete boltons/mathutils.py module; not the entire project",
+  "content_identity_definition": "SHA-256 of the single product file source/mathutils.py, not a future Snapshot.content_hash",
+  "files": {
+    "source/mathutils.py": {
+      "sha256": "298f80d272dd69510a3c6ed50e6ad76f28ac5e9f92aec0aab81322f7c88369a4",
+      "bytes": 7941,
+      "upstream_url": "https://raw.githubusercontent.com/mahmoud/boltons/c23dbdadb6fecdf505eb4231559561913b84c13f/boltons/mathutils.py"
+    },
+    "LICENSE": {
+      "sha256": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+      "bytes": 1497,
+      "upstream_url": "https://raw.githubusercontent.com/mahmoud/boltons/c23dbdadb6fecdf505eb4231559561913b84c13f/LICENSE"
+    }
+  }
+}

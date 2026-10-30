@@ -2,7 +2,7 @@
 
 All executable subtasks are scoped to approximately 1–3 hours, including focused tests. Complete foundation tasks before core work. Unmarked tasks follow sequential order; marked tasks may overlap only the stated peers after their explicit prerequisites. Shared contracts are frozen at the end of foundation; changes to them require serial coordination. Tests belong to their component task unless an explicit integration task names the cross-component flow. No validation task is optional.
 
-- [ ] 1. Establish the runnable foundation and shared evidence contracts
+- [x] 1. Establish the runnable foundation and shared evidence contracts
 - [x] 1.1 Create the local package and test entry points
   - Establish or explicitly locate and verify the designed CPython 3.12.10 and Node 24.22.1 runtimes, recording resolved executable paths; create the installable command entry point and standard-library test discovery while excluding generated environments and runs from source measurement.
   - Make help and version commands runnable without an LLM account or analyzer execution.
@@ -41,7 +41,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3, 1.4_
   - _Requirements: 3.1, 3.2, 3.5, 4.3, 4.4, 4.5, 5.3_
 
-- [ ] 1.6 Provide a licensed pilot corpus and explicit evaluation profile
+- [x] 1.6 Provide a licensed pilot corpus and explicit evaluation profile
   - Select a small real Python fixture at an immutable revision, retain its permissive license and record source and content identity.
   - Supply runnable native/independent checks, required metrics, tool settings, declared limits and experiment controls using the frozen contracts.
   - Done when the corpus/profile validates and its real-project baseline checks pass with explicit dependency setup.
@@ -258,4 +258,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 1.5: Synthetic fixture oracle remains outside candidates; sample evidence bindings are illustrative. Actual execution must freshly bind plan/source identities. Fixtures are LF-pinned through .gitattributes.
+
+
+- 1.6: Profile-relative trusted runner resources live under benchmarks/profiles/pilot, outside candidates. Plan preparation must resolve their argument before changing cwd. Real boltons module/license bytes are protected by nested Git attributes.
 
