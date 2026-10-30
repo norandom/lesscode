@@ -1,0 +1,15 @@
+# Disposable Python and analyzer environments
+.venv/
+.venv-*/
+.tools/
+node_modules/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Local evaluation artifacts and disposable copies
+runs/
+.runs/
+.workspaces/

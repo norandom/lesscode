@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lesscode-baseline"
+dynamic = ["version"]
+description = "Local evidence for supplied Python code simplifications"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[project.scripts]
+lesscode-baseline = "lesscode_baseline.cli:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "lesscode_baseline.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
