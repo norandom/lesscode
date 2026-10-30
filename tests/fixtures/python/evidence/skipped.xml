@@ -1,0 +1,6 @@
+<testsuite name="independent" tests="4">
+  <testcase name="clamp.below"><skipped/></testcase>
+  <testcase name="clamp.inside"><skipped/></testcase>
+  <testcase name="clamp.above"><skipped/></testcase>
+  <testcase name="clamp.bounds"><skipped/></testcase>
+</testsuite>

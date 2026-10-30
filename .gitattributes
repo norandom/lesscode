@@ -1,0 +1,2 @@
+# Synthetic fixture identities use LF bytes on every supported platform.
+tests/fixtures/python/** text eol=lf

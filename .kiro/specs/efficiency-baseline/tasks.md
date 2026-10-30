@@ -33,7 +33,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Boundary: Shared contracts_
   - _Requirements: 7.1, 7.2, 7.8, 8.2, 8.3, 8.4_
 
-- [ ] 1.5 Provide synthetic fixtures and independent checks
+- [x] 1.5 Provide synthetic fixtures and independent checks
   - Create minimal unchanged, duplicated and shorter-but-broken Python pairs plus independent golden/invariant checks outside candidate source.
   - Include normalized and JUnit evidence examples, source suppression cases, missing outputs and evaluator-tampering inputs.
   - Done when expected outcomes are known independently of the future evaluator and fixture identities are recorded.
@@ -255,4 +255,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 - 1.3: Source tests require PYTHONPATH set to resolved src; installed-wheel smoke is separate. Shared contracts expose strict from_dict/loads/dumps; required metric keys are complexity, duplication and source_bytes.
 
+
+
+- 1.5: Synthetic fixture oracle remains outside candidates; sample evidence bindings are illustrative. Actual execution must freshly bind plan/source identities. Fixtures are LF-pinned through .gitattributes.
 

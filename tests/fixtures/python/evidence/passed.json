@@ -1,0 +1,38 @@
+[
+  {
+    "check_id": "clamp.below",
+    "status": "passed",
+    "kind": "golden",
+    "required": true,
+    "source_hash": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+    "plan_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "diagnostic_artifact": null
+  },
+  {
+    "check_id": "clamp.inside",
+    "status": "passed",
+    "kind": "golden",
+    "required": true,
+    "source_hash": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+    "plan_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "diagnostic_artifact": null
+  },
+  {
+    "check_id": "clamp.above",
+    "status": "passed",
+    "kind": "golden",
+    "required": true,
+    "source_hash": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+    "plan_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "diagnostic_artifact": null
+  },
+  {
+    "check_id": "clamp.bounds",
+    "status": "passed",
+    "kind": "invariant",
+    "required": true,
+    "source_hash": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+    "plan_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "diagnostic_artifact": null
+  }
+]

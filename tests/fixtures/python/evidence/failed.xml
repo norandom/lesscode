@@ -1,0 +1,6 @@
+<testsuite name="independent" tests="4">
+  <testcase name="clamp.below"><failure message="regression"/></testcase>
+  <testcase name="clamp.inside"><failure message="regression"/></testcase>
+  <testcase name="clamp.above"><failure message="regression"/></testcase>
+  <testcase name="clamp.bounds"><failure message="regression"/></testcase>
+</testsuite>

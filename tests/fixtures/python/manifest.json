@@ -1,0 +1,399 @@
+{
+  "schema_version": 1,
+  "provenance": "Synthetic authored fixture, no external code; no AI authorship inferred from style.",
+  "source_identity_definition": "sha256 raw bytes of subject.py; fixture-only singleton binding, not a future Snapshot content hash",
+  "plan_identity_definition": "a repeated 64 times is a declared sample plan identity, not a real frozen plan",
+  "expected_ids": [
+    "clamp.below",
+    "clamp.inside",
+    "clamp.above",
+    "clamp.bounds"
+  ],
+  "pairs": [
+    {
+      "id": "unchanged",
+      "baseline": "pairs/unchanged/baseline/subject.py",
+      "candidate": "pairs/unchanged/candidate/subject.py",
+      "behavior_preserved": true,
+      "expected_decision": "accepted",
+      "outputs": {
+        "baseline": [
+          -2,
+          1,
+          3
+        ],
+        "candidate": [
+          -2,
+          1,
+          3
+        ]
+      },
+      "complexity": {
+        "baseline": {
+          "name": "clamp",
+          "start_line": 1,
+          "end_line": 8,
+          "ccn": 3
+        },
+        "candidate": {
+          "name": "clamp",
+          "start_line": 1,
+          "end_line": 8,
+          "ccn": 3
+        }
+      }
+    },
+    {
+      "id": "duplicated",
+      "baseline": "pairs/duplicated/baseline/subject.py",
+      "candidate": "pairs/duplicated/candidate/subject.py",
+      "behavior_preserved": true,
+      "expected_decision": "accepted",
+      "outputs": {
+        "baseline": [
+          -2,
+          1,
+          3
+        ],
+        "candidate": [
+          -2,
+          1,
+          3
+        ]
+      },
+      "complexity": {
+        "baseline": {
+          "name": "clamp",
+          "start_line": 1,
+          "end_line": 8,
+          "ccn": 3
+        },
+        "candidate": {
+          "name": "clamp",
+          "start_line": 1,
+          "end_line": 2,
+          "ccn": 1
+        }
+      }
+    },
+    {
+      "id": "shorter_broken",
+      "baseline": "pairs/shorter_broken/baseline/subject.py",
+      "candidate": "pairs/shorter_broken/candidate/subject.py",
+      "behavior_preserved": false,
+      "expected_decision": "rejected",
+      "outputs": {
+        "baseline": [
+          -2,
+          1,
+          3
+        ],
+        "candidate": [
+          -5,
+          1,
+          7
+        ]
+      },
+      "complexity": {
+        "baseline": {
+          "name": "clamp",
+          "start_line": 1,
+          "end_line": 8,
+          "ccn": 3
+        },
+        "candidate": {
+          "name": "clamp",
+          "start_line": 1,
+          "end_line": 2,
+          "ccn": 1
+        }
+      }
+    }
+  ],
+  "normalized_examples": [
+    {
+      "path": "evidence/passed.json",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "expected_state": "accepted"
+    },
+    {
+      "path": "evidence/failed.json",
+      "statuses": [
+        "failed",
+        "passed",
+        "failed",
+        "failed"
+      ],
+      "expected_state": "rejected"
+    },
+    {
+      "path": "evidence/skipped.json",
+      "statuses": [
+        "skipped",
+        "skipped",
+        "skipped",
+        "skipped"
+      ],
+      "expected_state": "incomplete"
+    },
+    {
+      "path": "evidence/missing.json",
+      "statuses": [
+        "missing",
+        "missing",
+        "missing",
+        "missing"
+      ],
+      "expected_state": "incomplete"
+    },
+    {
+      "path": "evidence/errored.json",
+      "statuses": [
+        "error",
+        "error",
+        "error",
+        "error"
+      ],
+      "expected_state": "incomplete"
+    },
+    {
+      "path": "evidence/deleted_check.json",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "expected_state": "incomplete"
+    }
+  ],
+  "junit_examples": [
+    {
+      "path": "evidence/passed.xml",
+      "testcases": 4
+    },
+    {
+      "path": "evidence/failed.xml",
+      "testcases": 4
+    },
+    {
+      "path": "evidence/skipped.xml",
+      "testcases": 4
+    },
+    {
+      "path": "evidence/errored.xml",
+      "testcases": 4
+    }
+  ],
+  "absent_outputs": [
+    "evidence/absent.json",
+    "evidence/absent.xml"
+  ],
+  "suppression": [
+    {
+      "path": "suppression/generated.py",
+      "marker": "# GENERATED CODE",
+      "expected_metric_state": "unavailable"
+    },
+    {
+      "path": "suppression/forgive.py",
+      "marker": "# #lizard forgive",
+      "expected_metric_state": "unavailable"
+    },
+    {
+      "path": "suppression/forgive_global.py",
+      "marker": "# #lizard forgive global",
+      "expected_metric_state": "unavailable"
+    },
+    {
+      "path": "suppression/jscpd.py",
+      "marker": "# jscpd:ignore-start",
+      "expected_metric_state": "unavailable"
+    }
+  ],
+  "tampering": [
+    {
+      "resource": "configuration",
+      "before": "tampering/configuration.before.txt",
+      "after": "tampering/configuration.after.txt",
+      "expected_state": "invalid"
+    },
+    {
+      "resource": "exclusions",
+      "before": "tampering/exclusions.before.txt",
+      "after": "tampering/exclusions.after.txt",
+      "expected_state": "invalid"
+    },
+    {
+      "resource": "independent_test",
+      "before": "tampering/independent_test.before.txt",
+      "after": "tampering/independent_test.after.txt",
+      "expected_state": "invalid"
+    }
+  ],
+  "duplicate_truth": {
+    "paths": [
+      "pairs/duplicated/baseline/subject.py",
+      "pairs/duplicated/baseline/redundant.py"
+    ],
+    "same_bytes": true,
+    "candidate_paths": [
+      "pairs/duplicated/candidate/subject.py"
+    ],
+    "expected_clone_pairs": 1
+  },
+  "invalid_evidence": [
+    "evidence/duplicate_ids.json",
+    "evidence/foreign_source.json",
+    "evidence/truncated.json",
+    "evidence/duplicate_ids.xml",
+    "evidence/unsafe.xml"
+  ],
+  "files": {
+    "evidence/deleted_check.json": {
+      "sha256": "b0f24b59e11fb70fd8d6f7f475fb83dc81e0629361d2a3952a6b742b1ba95497",
+      "bytes": 940
+    },
+    "evidence/duplicate_ids.json": {
+      "sha256": "a523eec0dea2a37db46e41c5d0ad9841714cdeef928b8d75b240d9f4fad0c2a2",
+      "bytes": 627
+    },
+    "evidence/duplicate_ids.xml": {
+      "sha256": "550ed1bf30409d0d91b60ed3828b79d75e9a0e5de8cb2888cd80caa33912e6ff",
+      "bytes": 84
+    },
+    "evidence/errored.json": {
+      "sha256": "a4a7d1c854119cd6f3ec5e70a0c76f51a41f32cd36f1c4e8d7f1d9d65d4acdae",
+      "bytes": 1252
+    },
+    "evidence/errored.xml": {
+      "sha256": "489ec005691d26d547f183e394cd9b87677ff6b06a997aca8476126f1d2b0247",
+      "bytes": 364
+    },
+    "evidence/failed.json": {
+      "sha256": "ce6f125c224d0b48c3d7d2c06ce575f64ca90995631249f6d4d1cee68ef45578",
+      "bytes": 1256
+    },
+    "evidence/failed.xml": {
+      "sha256": "bc7ce9b9e50f6f94663a67a140238e160412da85afb0730540e03334edcd64fb",
+      "bytes": 352
+    },
+    "evidence/foreign_source.json": {
+      "sha256": "afd225340f1892443e263efd679467eadc9812d4ac4435a103c3307b4a8fcec2",
+      "bytes": 1256
+    },
+    "evidence/missing.json": {
+      "sha256": "bb64ac4a33c11b7aeb1dd87b9d45ed161d5da3ad2cbd50aaf48032a2f582f885",
+      "bytes": 1260
+    },
+    "evidence/passed.json": {
+      "sha256": "1a192b1be46901d1a38f7711ad9385c5bf8322cba32ce3f13a2683ea7846c531",
+      "bytes": 1256
+    },
+    "evidence/passed.xml": {
+      "sha256": "2d4efc1a2bd063921ffe2793e2459832c2d0fde4d0531e5b9fd25f1f1b2d7171",
+      "bytes": 228
+    },
+    "evidence/skipped.json": {
+      "sha256": "8d0c8ee60fb0a33e6bf4c20fe0ae5987218fc2825de2931ffc391340b63c533f",
+      "bytes": 1260
+    },
+    "evidence/skipped.xml": {
+      "sha256": "732deec4d8230d8e942bb327969f064ba7b20cffc72ba75e46ee098aa4de0f43",
+      "bytes": 268
+    },
+    "evidence/truncated.json": {
+      "sha256": "11270d29bb91922c59a5731c6c325aeb1f2414c1d7c1d329a726348ac16f9738",
+      "bytes": 14
+    },
+    "evidence/unsafe.xml": {
+      "sha256": "830589526cbab9193bb5bdb76e4396596b8a489d73a96315d08c1837c2b15030",
+      "bytes": 105
+    },
+    "oracle/check.py": {
+      "sha256": "3c67af11cc4f76f319022c5dcc65bf4b80c9bf549f6e34c26193597895e57aac",
+      "bytes": 2238
+    },
+    "oracle/golden.json": {
+      "sha256": "0f47b8ee418c7912a196a935cdec0207e648560afa1808290adf7cc2af36fd43",
+      "bytes": 306
+    },
+    "pairs/duplicated/baseline/redundant.py": {
+      "sha256": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+      "bytes": 175
+    },
+    "pairs/duplicated/baseline/subject.py": {
+      "sha256": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+      "bytes": 175
+    },
+    "pairs/duplicated/candidate/subject.py": {
+      "sha256": "20377a09a5bc2b888f0f28ce80cab127e459fc2fe826f1315f3d91715c8b1ff8",
+      "bytes": 73
+    },
+    "pairs/shorter_broken/baseline/subject.py": {
+      "sha256": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+      "bytes": 175
+    },
+    "pairs/shorter_broken/candidate/subject.py": {
+      "sha256": "431f7ff295b4b180e99157c8bd2d5191459f8b8511799b90808ce71bc5ccc556",
+      "bytes": 49
+    },
+    "pairs/unchanged/baseline/subject.py": {
+      "sha256": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+      "bytes": 175
+    },
+    "pairs/unchanged/candidate/subject.py": {
+      "sha256": "1c100e76510aa562243bb107436e69856a932f0c2fa1b42800469fde9c0ea5cf",
+      "bytes": 175
+    },
+    "README.md": {
+      "sha256": "f66f57ed5656dfe7fd105033b8dc9ef92423163d47e34dfd63d6838560f8e2ef",
+      "bytes": 3267
+    },
+    "suppression/forgive.py": {
+      "sha256": "4b685e776ffc333f9f9074466831d8c4b86d2fba746f115df64115f83eb06003",
+      "bytes": 193
+    },
+    "suppression/forgive_global.py": {
+      "sha256": "447cc73fc52fbcb6d5b82b09d5d6efa4c739f1082ae6a7c68da03e11c55de269",
+      "bytes": 200
+    },
+    "suppression/generated.py": {
+      "sha256": "2529d17e4392c66e2f8522e0b868d06aaf6cd3769184333c1db8e1a3d12dcd1a",
+      "bytes": 192
+    },
+    "suppression/jscpd.py": {
+      "sha256": "f008262f256447b34fd24a10ca93ff856ced3f2b3dc1822fa76bc85a1e8dc9ad",
+      "bytes": 215
+    },
+    "tampering/configuration.after.txt": {
+      "sha256": "1ba937cbcb1ea103f3e469d6174ee459ce07087b49fdfaf8b502f721103af1fa",
+      "bytes": 20
+    },
+    "tampering/configuration.before.txt": {
+      "sha256": "a3aa863981b6e1cbd8fada8d3da9d8c41b6c6f774618563f19522014cfe74244",
+      "bytes": 19
+    },
+    "tampering/exclusions.after.txt": {
+      "sha256": "787bfdd162aa891a1459fa75d709a5c786f544426bdd610afe27721683e5bd88",
+      "bytes": 25
+    },
+    "tampering/exclusions.before.txt": {
+      "sha256": "3269ba9e225e177499258a411d8042fbd25003ed2510d43e136e5465842aed6b",
+      "bytes": 16
+    },
+    "tampering/independent_test.after.txt": {
+      "sha256": "03481a56daf9beb1a49e467a3e3ccd654ea68771567825a9745662410dc8a94c",
+      "bytes": 12
+    },
+    "tampering/independent_test.before.txt": {
+      "sha256": "5115bb6a4908607225bc55d2379ae72e3470098ba5c53f0dc5340223a0d7dc41",
+      "bytes": 30
+    }
+  },
+  "inventory_sha256": "71bf38bacf059b99eeff55790e39d4cf0851491eecef952e324a982e72b49ad5"
+}
