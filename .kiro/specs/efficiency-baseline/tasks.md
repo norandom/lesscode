@@ -18,7 +18,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.1_
   - _Requirements: 1.2, 1.4, 3.4, 3.7_
 
-- [ ] 1.3 Validate evaluation plans and evidence records
+- [x] 1.3 Validate evaluation plans and evidence records
   - Implement the design's typed profile, plan, snapshot, metric, check, failure and run-result records and JSON boundary validation.
   - Reject unknown fields/versions, non-finite values, duplicate identities and escaping paths; preserve explicit unavailable states and required flags.
   - Done when valid evaluation records round-trip and malformed inputs fail with field-level diagnostics before command execution.
@@ -251,4 +251,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 1.2: Run explicit tool setup with py -3.12 tools/setup_toolchain.py; probes use tools/probe_toolchain.py. Evaluation must never install. jscpd probe uses 20 tokens; production detection remains 50. Linux/macOS execution awaits platform validation.
+
+
+- 1.3: Source tests require PYTHONPATH set to resolved src; installed-wheel smoke is separate. Shared contracts expose strict from_dict/loads/dumps; required metric keys are complexity, duplication and source_bytes.
 
