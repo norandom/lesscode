@@ -50,7 +50,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Requirements: 1.2, 5.1, 7.1, 7.8_
 
 - [ ] 2. Capture inputs and execute bounded checks
-- [ ] 2.1 Classify source scope and identify actual content
+- [x] 2.1 Classify source scope and identify actual content
   - Implement portable scope matching and category precedence over tracked and untracked content, separating product, tests and support files.
   - Record canonical content identities and file changes; reject unreadable inputs, case collisions, symlinks and reparse points.
   - Done when fixture manifests show exact expected inclusions, exclusions and changed-file identities on repeat capture.
@@ -261,4 +261,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 1.6: Profile-relative trusted runner resources live under benchmarks/profiles/pilot, outside candidates. Plan preparation must resolve their argument before changing cwd. Real boltons module/license bytes are protected by nested Git attributes.
+
+
+- 2.1: Snapshot | Failure is the concrete typed Result representation. capture_scope identifies source; copy capture follows in 2.2. Supplementary revision can be None; actual source bytes remain authoritative.
 
