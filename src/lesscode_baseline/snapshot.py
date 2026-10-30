@@ -1,4 +1,4 @@
-"""Identify actual source bytes without Git checkout or writes.
+"""Identify source bytes and create consistent disposable evaluation copies.
 
 Globs match the entire relative POSIX path, case sensitively on every OS.
 ``*``, ``?`` and shell character classes match within one segment; a standalone
@@ -7,17 +7,191 @@ are explicit ScopeRules, never inherited Git ignore or analyzer configuration.
 The content identity is SHA-256 of UTF-8 compact JSON arrays containing sorted
 relative path, byte length and lowercase content SHA-256. Modes and source root
 do not enter this portable byte identity. Scope identity hashes canonical JSON
-of the declared rules separately. Capture creates no disposable evaluation copy.
+of the declared rules separately. ``capture_scope`` only identifies source;
+``capture`` and ``disposable_workspace`` create copies without editing originals.
 """
 
 from fnmatch import fnmatchcase
 from functools import lru_cache
+from contextlib import contextmanager
+from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
+import shutil
 import stat
+from typing import Iterator
 
 from .contracts import ContractError, Failure, FileRecord, ScopeRules, Snapshot
+
+def capture(root: Path, scope: ScopeRules, destination: Path) -> Snapshot | Failure:
+    """Copy selected bytes into a new directory, preserving manifest mode flags.
+
+    The returned root is the copy; its byte identity equals the supplied source.
+    Copying and re-reading source manifests detects concurrent changes, but is
+    not an atomic filesystem snapshot or a hostile-code isolation boundary.
+    """
+    owned = None
+    affected = None
+    try:
+        source, target = _copy_paths(root, destination)
+        before = capture_scope(source, scope)
+        if isinstance(before, Failure):
+            return before
+        root_identity = _object_identity(source.lstat())
+        owned = _OwnedDirectory.create(target)
+        for record in before.files:
+            affected = record.path
+            path = source / record.path
+            _safe_entry(source, path)
+            first = path.lstat()
+            content = path.read_bytes()
+            last = path.lstat()
+            if (_file_identity(first) != _file_identity(last)
+                    or _unsafe(last) or not stat.S_ISREG(last.st_mode)
+                    or stat.S_IMODE(last.st_mode) != record.mode
+                    or len(content) != record.size_bytes
+                    or hashlib.sha256(content).hexdigest() != record.content_hash):
+                raise OSError("source changed during copy")
+            output = target / record.path
+            output.parent.mkdir(parents=True, exist_ok=True)
+            output.write_bytes(content)
+            output.chmod(record.mode)
+        after = capture_scope(source, scope)
+        if isinstance(after, Failure):
+            return after
+        if _object_identity(source.lstat()) != root_identity or after != before:
+            affected = next((a.path if a else b.path for a, b in file_changes(before, after)), None)
+            raise OSError("source changed during copy")
+        # Verify the actual copied bytes rather than assuming successful writes.
+        for record in before.files:
+            affected = record.path
+            output = target / record.path
+            if hashlib.sha256(output.read_bytes()).hexdigest() != record.content_hash:
+                raise OSError("copied bytes do not match source fingerprint")
+        result = Snapshot(str(target), before.content_hash, before.scope_hash,
+                          before.revision, before.files, before.exclusions)
+        owned = None  # Successful caller now owns the persistent copy.
+        return result
+    except (OSError, ContractError, ValueError) as exc:
+        return Failure("snapshot_copy", str(exc), affected, None, None, False, None)
+    finally:
+        if owned is not None:
+            owned.cleanup()
+
+
+@dataclass(frozen=True)
+class DisposableCopies:
+    """In-process lifecycle handle; public snapshot JSON remains unchanged."""
+
+    measurement: Snapshot
+    checks: Path
+
+
+@contextmanager
+def disposable_workspace(root: Path, scope: ScopeRules, destination: Path, *,
+                         retain: bool = False) -> Iterator[DisposableCopies | Failure]:
+    """Create independent measurement/check trees and clean only the owned root.
+
+    Measurement files lose write bits; check files gain owner write permission.
+    This protects against ordinary relative test writes, not privileged or
+    malicious commands. ``retain=True`` explicitly preserves diagnostic copies,
+    including partial capture failures. Cleanup failures raise visibly.
+    """
+    owned = None
+    try:
+        _, target = _copy_paths(root, destination)
+        owned = _OwnedDirectory.create(target)
+        measurement = capture(root, scope, target / "measurement")
+        if isinstance(measurement, Failure):
+            result = measurement
+        else:
+            check = capture(Path(measurement.root), scope, target / "checks")
+            if isinstance(check, Failure):
+                result = check
+            else:
+                for record in measurement.files:
+                    (target / "checks" / record.path).chmod(record.mode | stat.S_IWUSR)
+                    (target / "measurement" / record.path).chmod(record.mode & ~0o222)
+                result = DisposableCopies(measurement, target / "checks")
+    except (OSError, ContractError, ValueError) as exc:
+        result = Failure("snapshot_copy", str(exc), None, None, None, False, None)
+    try:
+        yield result
+    finally:
+        if owned is not None and not retain:
+            owned.cleanup()
+
+
+def _object_identity(info) -> tuple:
+    return info.st_dev, info.st_ino
+
+
+def _file_identity(info) -> tuple:
+    return (*_object_identity(info), info.st_size, info.st_mode,
+            info.st_mtime_ns, info.st_ctime_ns)
+
+
+def _safe_entry(root: Path, path: Path) -> None:
+    for entry in (path, *path.parents):
+        info = entry.lstat()
+        if _unsafe(info):
+            raise OSError("symlink/reparse point cannot be copied")
+        if entry == root:
+            return
+    raise OSError("copy path escapes source root")
+
+
+def _copy_paths(root: Path, destination: Path) -> tuple[Path, Path]:
+    root, destination = Path(root).absolute(), Path(destination).absolute()
+    info = root.lstat()
+    if _unsafe(info) or not stat.S_ISDIR(info.st_mode):
+        raise OSError("source root must be a real directory")
+    parent_info = destination.parent.lstat()
+    if _unsafe(parent_info) or not stat.S_ISDIR(parent_info.st_mode):
+        raise OSError("destination parent must be a real directory")
+    try:
+        destination.lstat()
+    except FileNotFoundError:
+        pass
+    else:
+        raise OSError("destination must be new and cannot be a link/reparse point")
+    source = root.resolve(strict=True)
+    target = destination.parent.resolve(strict=True) / destination.name
+    if target.is_relative_to(source) or source.is_relative_to(target):
+        raise OSError("source and destination cannot overlap")
+    return source, target
+
+
+@dataclass(frozen=True)
+class _OwnedDirectory:
+    path: Path
+    identity: tuple
+
+    @classmethod
+    def create(cls, path: Path):
+        path.mkdir()  # Exclusive creation; never adopt a pre-existing directory.
+        return cls(path, _object_identity(path.lstat()))
+
+    def cleanup(self) -> None:
+        """Refuse replacement roots and links before removing an owned tree."""
+        info = self.path.lstat()
+        if (_unsafe(info) or self.path.resolve(strict=True) != self.path
+                or _object_identity(info) != self.identity):
+            raise OSError("refusing cleanup of replaced or redirected workspace")
+        entries = []
+        def inspect(directory):
+            for entry in directory.iterdir():
+                info = entry.lstat()
+                if _unsafe(info):
+                    raise OSError("refusing cleanup of workspace containing links/reparse points")
+                entries.append((entry, info.st_mode))
+                if stat.S_ISDIR(info.st_mode):
+                    inspect(entry)
+        inspect(self.path)
+        for entry, mode in entries:
+            entry.chmod(stat.S_IMODE(mode) | stat.S_IWUSR)
+        shutil.rmtree(self.path)
 
 def matches(path: str, pattern: str) -> bool:
     """Match portable whole-path globs, including zero-segment globstars."""

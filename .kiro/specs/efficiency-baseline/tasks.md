@@ -58,7 +58,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3, 1.5_
   - _Requirements: 2.1, 2.2, 2.3, 2.5, 2.6_
 
-- [ ] 2.2 Create consistent disposable evaluation copies
+- [x] 2.2 Create consistent disposable evaluation copies
   - Copy selected content while preserving required mode flags and detecting concurrent source changes.
   - Separate frozen measurement input from writable check copies; constrain cleanup to owned directories and support diagnostic retention.
   - Done when write-producing checks cannot alter original fixtures through ordinary relative writes and copy races fail visibly.
@@ -264,4 +264,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 2.1: Snapshot | Failure is the concrete typed Result representation. capture_scope identifies source; copy capture follows in 2.2. Supplementary revision can be None; actual source bytes remain authoritative.
+
 
