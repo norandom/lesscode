@@ -10,7 +10,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Boundary: CLI and Plan_
   - _Requirements: 1.1, 1.3, 1.4_
 
-- [ ] 1.2 Lock and verify the open-source analyzer toolchain
+- [x] 1.2 Lock and verify the open-source analyzer toolchain
   - Using the verified runtimes from 1.1, install the designed Python and Node analyzer versions in isolated tool environments and record exact transitive locks, integrity hashes and applicable license notices.
   - Verify resolved interpreter/package entry points with small real analyzer probes, including forward-slash Windows inputs; do not add runtime auto-installation.
   - Done when clean dependency installation reproduces the pins and both analyzers emit the expected versioned probe evidence.
@@ -248,4 +248,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 ## Implementation Notes
 
 - 1.1: Windows workspace resolves to D:\Source\lesscode; use the verified Python 3.12.10 executable or py -3.12, not the Microsoft Store python alias. Canonical tests: .venv-task11/Scripts/python.exe -m unittest discover -v. Build: py -3.12 -m pip wheel . --no-deps --wheel-dir dist. Smoke: installed lesscode-baseline --help and --version.
+
+
+- 1.2: Run explicit tool setup with py -3.12 tools/setup_toolchain.py; probes use tools/probe_toolchain.py. Evaluation must never install. jscpd probe uses 20 tokens; production detection remains 50. Linux/macOS execution awaits platform validation.
 

@@ -1,0 +1,5 @@
+# CPython 3.12.10 analyzer environment. Install only via explicit setup.
+# Wheel-only hashes; all direct and transitive analyzer dependencies.
+lizard==1.17.31 --hash=sha256:e2a87b0a6be04c2db41a0708fc81ac7ef50694c92360233b7b81088a9695076f
+pathspec==1.1.1 --hash=sha256:a00ce642f577bf7f473932318056212bc4f8bfdf53128c78bbd5af0b9b20b189
+pygments==2.21.0 --hash=sha256:2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9

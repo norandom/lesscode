@@ -1,0 +1,8 @@
+{
+  "name": "lesscode-analyzers",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Explicitly installed local duplication analyzer; never installed during evaluation",
+  "engines": {"node": "24.22.1"},
+  "dependencies": {"jscpd": "4.0.5"}
+}
