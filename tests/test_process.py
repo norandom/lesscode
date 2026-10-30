@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import runpy
 import sys
 import tempfile
 import time
@@ -8,6 +9,15 @@ from unittest.mock import patch
 
 from lesscode_baseline.contracts import ContractError, ExecutionResult, Limits, ResolvedCommand
 from lesscode_baseline.process import execute
+
+
+class ProcessCollectionTests(unittest.TestCase):
+    def test_collection_when_skip_decorator_returns_original_function(self):
+        # skipUnless(True) returns its original function on the matching platform.
+        # Exercise that collection behavior without running a foreign OS workload.
+        with patch("unittest.skipUnless", side_effect=lambda condition, reason: lambda value: value):
+            namespace = runpy.run_path(__file__, run_name="collection_probe")
+        self.assertIn("WindowsProcessTests", namespace)
 
 
 class ProcessTests(unittest.TestCase):
@@ -28,8 +38,8 @@ class ProcessTests(unittest.TestCase):
         marker = self.root / "launched"
         result = self.run_command(f"open({str(marker)!r},'w').write('yes')")
         self.assertIsInstance(result, ExecutionResult)
-        self.assertEqual(result.status, "completed" if os.name == "posix" else "error")
-        self.assertEqual(marker.exists(), os.name == "posix")
+        self.assertEqual(result.status, "completed")
+        self.assertTrue(marker.exists())
         ExecutionResult.from_dict(result.to_dict())
 
     def test_invalid_inputs_never_launch(self):
@@ -103,6 +113,57 @@ class ProcessTests(unittest.TestCase):
         self.assertLess(result.elapsed_seconds, 1)
         time.sleep(.9)
         self.assertFalse((self.root / "orphan").exists())
+
+
+@unittest.skipUnless(os.name == "nt", "native Windows lifecycle")
+class WindowsProcessTests(ProcessTests):
+    # Run the same behavioral probes natively rather than pretending Windows is POSIX.
+    test_success_at_exact_log_boundary = getattr(ProcessTests.test_success_at_exact_log_boundary, "__wrapped__", ProcessTests.test_success_at_exact_log_boundary)
+    test_outcomes_environment_cwd_and_literal_argv = getattr(ProcessTests.test_outcomes_environment_cwd_and_literal_argv, "__wrapped__", ProcessTests.test_outcomes_environment_cwd_and_literal_argv)
+    test_log_budget_is_combined_and_bounded = getattr(ProcessTests.test_log_budget_is_combined_and_bounded, "__wrapped__", ProcessTests.test_log_budget_is_combined_and_bounded)
+    test_missing_executable_preserves_diagnostic_without_retry = getattr(ProcessTests.test_missing_executable_preserves_diagnostic_without_retry, "__wrapped__", ProcessTests.test_missing_executable_preserves_diagnostic_without_retry)
+    test_leader_exit_cleans_up_background_child = getattr(ProcessTests.test_leader_exit_cleans_up_background_child, "__wrapped__", ProcessTests.test_leader_exit_cleans_up_background_child)
+
+    def test_timeout_terminates_parent_and_child_and_retains_logs(self):
+        # Windows venv startup can take longer than the POSIX probe's .25s.
+        code = "import os,subprocess,sys,time;child=subprocess.Popen([sys.executable,'-c',\"import time;time.sleep(1.8);open('survivor','w').write('bad')\"]);print(os.getpid(),child.pid,flush=True);time.sleep(10)"
+        result = self.run_command(code, timeout=1)
+        self.assertEqual(result.status, "timeout")
+        self.assertLess(result.elapsed_seconds, 1.8)
+        self.assertEqual(len((self.logs / result.stdout_artifact).read_text().split()), 2)
+        time.sleep(2)
+        self.assertFalse((self.root / "survivor").exists())
+
+    def test_containment_failures_never_execute_workload(self):
+        for stage in ("_create_job", "_assign_job", "_resume"):
+            with self.subTest(stage=stage):
+                marker = self.root / stage
+                with patch("lesscode_baseline.process_windows." + stage,
+                           side_effect=OSError("containment failure")):
+                    result = self.run_command(f"open({str(marker)!r},'w').write('bad')")
+                self.assertEqual((result.status, result.exit_code), ("error", None))
+                self.assertIn("containment failure", (self.logs / result.stderr_artifact).read_text())
+                time.sleep(.05)
+                self.assertFalse(marker.exists())
+
+    def test_log_persistence_failure_cleans_up_workload(self):
+        from lesscode_baseline.process_windows import run_windows
+        code = "import os,time;os.write(1,b'x');time.sleep(.5);open('persistence-survivor','w').write('bad')"
+        with (self.root / "stderr").open("wb") as stderr:
+            class FailedOutput:
+                def write(self, data):
+                    raise OSError("disk full")
+            with self.assertRaisesRegex(OSError, "disk full"):
+                run_windows(self.command(code), self.root, FailedOutput(), stderr, time.monotonic())
+        time.sleep(.6)
+        self.assertFalse((self.root / "persistence-survivor").exists())
+
+    def test_log_limit_terminates_child(self):
+        code = "import subprocess,sys,os;subprocess.Popen([sys.executable,'-c',\"import time;time.sleep(.8);open('log-survivor','w').write('bad')\"]);\nwhile True: os.write(1,b'x'*4096)"
+        result = self.run_command(code, budget=1000)
+        self.assertEqual(result.status, "log_limit")
+        time.sleep(.9)
+        self.assertFalse((self.root / "log-survivor").exists())
 
 
 if __name__ == "__main__":

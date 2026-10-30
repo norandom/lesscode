@@ -46,8 +46,11 @@ def execute(command: CommandSpec, workspace: Path, logs: Path) -> ExecutionResul
         sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     status, exit_code = "error", None
     with (logs / stdout_name).open("xb") as stdout, (logs / stderr_name).open("xb") as stderr:
-        if os.name != "posix":
-            stderr.write(b"process_containment: Windows Job Object lifecycle is not available\n"[:command.limits.max_log_bytes])
+        if os.name == "nt":
+            from .process_windows import run_windows
+            status, exit_code = run_windows(command, cwd, stdout, stderr, start)
+        elif os.name != "posix":
+            stderr.write(b"process_containment: unsupported operating system\n"[:command.limits.max_log_bytes])
         else:
             status, exit_code = _run_posix(command, cwd, stdout, stderr, start)
     return ExecutionResult(command, exit_code, status, time.monotonic() - start,

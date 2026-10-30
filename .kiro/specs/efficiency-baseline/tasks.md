@@ -73,7 +73,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3, 1.5_
   - _Requirements: 4.1, 6.5, 6.7, 8.1, 8.6_
 
-- [ ] 2.4 Enforce Windows process-tree lifecycle
+- [x] 2.4 Enforce Windows process-tree lifecycle
   - Add the designed suspended launch, kill-on-close job assignment and resume sequence through the private Windows helper.
   - Fail before execution if containment setup fails and retain the common execution evidence contract.
   - Done when Windows timeout and log-limit probes terminate the parent and child while preserving logs; serialize with the prior Execution task.
@@ -272,4 +272,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 2.3 resumed: User authorized native-host development with POSIX lifecycle runtime checks deferred to native Linux CI7.3.80 tests run,6POSIX skips disclosed; independent review APPROVED. Persistence OSError propagation regression covered. Windows execution intentionally awaits2.4.
+
+
+- 2.4: Native Windows JobObject lifecycle verified;94testsrun6POSIXskips. Shared test aliases must tolerate skip decorators returning original functions. Private _winapi use is tied to pinned CPython3.12.10.
 
