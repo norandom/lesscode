@@ -26,7 +26,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.1_
   - _Requirements: 2.1, 2.2, 3.4, 3.7, 4.5, 5.1, 6.1, 6.5_
 
-- [ ] 1.4 Validate experiment and telemetry records
+- [x] 1.4 Validate experiment and telemetry records
   - Extend the same shared contracts with corpus, arm, planned-trial, producer-record and telemetry definitions from the design.
   - Keep observed costs, runtime workloads, generation provenance and missing values explicit; freeze the shared contracts before parallel core work.
   - Done when representative multi-arm records round-trip and duplicate IDs, missing provenance fields and invalid telemetry are rejected.
@@ -254,4 +254,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 1.3: Source tests require PYTHONPATH set to resolved src; installed-wheel smoke is separate. Shared contracts expose strict from_dict/loads/dumps; required metric keys are complexity, duplication and source_bytes.
+
 

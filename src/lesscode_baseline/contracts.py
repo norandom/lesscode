@@ -822,6 +822,404 @@ class RunReport(Record):
                    EnvironmentInfo.from_dict(d["environment"], path + ".environment"))
 
 
+@dataclass(frozen=True)
+class GenerationProvenance(Record):
+    status: Literal["known", "unknown"]
+    description: str | None
+    source: str | None
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "status description source")
+        status = _choice(d["status"], path + ".status", ("known", "unknown"))
+        description = _nullable(d["description"], _string, path + ".description")
+        source = _nullable(d["source"], _string, path + ".source")
+        if status == "known" and (description is None or source is None):
+            _fail(path + ".source", "known provenance requires description and attributed source")
+        if status == "unknown" and (description is not None or source is not None):
+            _fail(path + ".description", "unknown provenance requires null description and source")
+        return cls(status, description, source)
+
+
+@dataclass(frozen=True)
+class CorpusEntry(Record):
+    corpus_id: str
+    origin: str
+    revision: str | None
+    content_hash: str | None
+    spdx_license: str | None
+    license_artifact: str | None
+    generation_provenance: GenerationProvenance
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "corpus_id origin revision content_hash spdx_license license_artifact generation_provenance")
+        revision = _nullable(d["revision"], _string, path + ".revision")
+        content_hash = _nullable(d["content_hash"], _hash, path + ".content_hash")
+        license_id = _nullable(d["spdx_license"], _string, path + ".spdx_license")
+        license_artifact = _nullable(d["license_artifact"], _relative, path + ".license_artifact")
+        if revision is None and content_hash is None:
+            _fail(path + ".content_hash", "revision or content identity is required")
+        if license_id is None and license_artifact is None:
+            _fail(path + ".spdx_license", "SPDX license or recorded license artifact is required")
+        origin = _string(d["origin"], path + ".origin")
+        if not origin.startswith(("https://", "http://")):
+            # Local origins are references, never evaluated or opened here.
+            if PureWindowsPath(origin).is_absolute() or PurePosixPath(origin).is_absolute():
+                _absolute(origin, path + ".origin")
+            else:
+                _relative(origin, path + ".origin", dot=True)
+        return cls(_string(d["corpus_id"], path + ".corpus_id"), origin, revision, content_hash,
+                   license_id, license_artifact, GenerationProvenance.from_dict(d["generation_provenance"], path + ".generation_provenance"))
+
+
+@dataclass(frozen=True)
+class ObservedMeasurement(Record):
+    """Externally supplied observation; absence is explicit and never estimated."""
+
+    status: Literal["available", "unavailable"]
+    value: float | None
+    unit: str
+    source: str | None
+    observed_at: str | None
+    reason: str | None
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "status value unit source observed_at reason")
+        status = _choice(d["status"], path + ".status", ("available", "unavailable"))
+        number = None if d["value"] is None else _number(d["value"], path + ".value", 0)
+        unit = _string(d["unit"], path + ".unit")
+        source = _nullable(d["source"], _string, path + ".source")
+        timestamp = _nullable(d["observed_at"], _timestamp, path + ".observed_at")
+        reason = _nullable(d["reason"], _string, path + ".reason")
+        if status == "available":
+            for field, item in (("value", number), ("source", source), ("observed_at", timestamp)):
+                if item is None:
+                    _fail(path + "." + field, "available observation requires value, source and timestamp")
+            if reason is not None:
+                _fail(path + ".reason", "available observation requires null reason")
+        else:
+            if number is not None:
+                _fail(path + ".value", "unavailable observation requires null value")
+            if reason is None:
+                _fail(path + ".reason", "unavailable observation requires reason")
+        return cls(status, number, unit, source, timestamp, reason)
+
+
+@dataclass(frozen=True)
+class RuntimeBenchmark(Record):
+    benchmark_id: str
+    workload_hash: str
+    environment_hash: str
+    measurement: ObservedMeasurement
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "benchmark_id workload_hash environment_hash measurement")
+        return cls(_string(d["benchmark_id"], path + ".benchmark_id"),
+                   _hash(d["workload_hash"], path + ".workload_hash"),
+                   _hash(d["environment_hash"], path + ".environment_hash"),
+                   ObservedMeasurement.from_dict(d["measurement"], path + ".measurement"))
+
+
+@dataclass(frozen=True)
+class Telemetry(Record):
+    token_usage: ObservedMeasurement
+    provider_cost: ObservedMeasurement
+    agent_elapsed: ObservedMeasurement
+    runtime_benchmarks: tuple[RuntimeBenchmark, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "token_usage provider_cost agent_elapsed runtime_benchmarks")
+        tokens = ObservedMeasurement.from_dict(d["token_usage"], path + ".token_usage")
+        cost = ObservedMeasurement.from_dict(d["provider_cost"], path + ".provider_cost")
+        elapsed = ObservedMeasurement.from_dict(d["agent_elapsed"], path + ".agent_elapsed")
+        _choice(tokens.unit, path + ".token_usage.unit", ("tokens",))
+        if tokens.value is not None:
+            _integer(tokens.value, path + ".token_usage.value")
+        _choice(elapsed.unit, path + ".agent_elapsed.unit", ("seconds",))
+        return cls(tokens, cost, elapsed, _sequence(d["runtime_benchmarks"], RuntimeBenchmark.from_dict,
+                   path + ".runtime_benchmarks", lambda x: x.benchmark_id))
+
+
+@dataclass(frozen=True)
+class Budget(Record):
+    time_seconds: float | None
+    tokens: int | None
+    provider_cost: float | None
+    cost_unit: str | None
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "time_seconds tokens provider_cost cost_unit")
+        seconds = None if d["time_seconds"] is None else _number(d["time_seconds"], path + ".time_seconds", 0)
+        if seconds == 0:
+            _fail(path + ".time_seconds", "time budget must be positive")
+        tokens = None if d["tokens"] is None else _integer(d["tokens"], path + ".tokens", 1)
+        cost = None if d["provider_cost"] is None else _number(d["provider_cost"], path + ".provider_cost", 0)
+        unit = _nullable(d["cost_unit"], _string, path + ".cost_unit")
+        if (cost is None) != (unit is None):
+            _fail(path + ".cost_unit", "provider cost budget requires its unit; absent cost requires null unit")
+        return cls(seconds, tokens, cost, unit)
+
+
+@dataclass(frozen=True)
+class TrialConditions(Record):
+    model: str
+    settings: dict[str, str | int | float | bool | None]
+    prompt_identity: str
+    permissions: tuple[str, ...]
+    budget: Budget
+    interventions: dict[str, str | int | float | bool | None]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "model settings prompt_identity permissions budget interventions")
+        return cls(_string(d["model"], path + ".model"), _mapping(d["settings"], path + ".settings", _setting),
+                   _string(d["prompt_identity"], path + ".prompt_identity"),
+                   _strings(d["permissions"], path + ".permissions"), Budget.from_dict(d["budget"], path + ".budget"),
+                   _mapping(d["interventions"], path + ".interventions", _setting))
+
+
+@dataclass(frozen=True)
+class Arm(Record):
+    arm_id: str
+    interventions: dict[str, str | int | float | bool | None]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "arm_id interventions")
+        return cls(_string(d["arm_id"], path + ".arm_id"), _mapping(d["interventions"], path + ".interventions", _setting))
+
+
+@dataclass(frozen=True)
+class PlannedTrial(Record):
+    trial_id: str
+    arm_id: str
+    corpus_id: str
+    task_id: str
+    repetition: int
+    prompt_identity: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        names = "trial_id arm_id corpus_id task_id repetition prompt_identity"
+        d = _object(value, path, names)
+        return cls(*(_integer(d[n], path + "." + n, 1) if n == "repetition" else _string(d[n], path + "." + n)
+                     for n in names.split()))
+
+
+@dataclass(frozen=True)
+class ExperimentManifest(Record):
+    schema_version: int
+    experiment_id: str
+    corpus: tuple[CorpusEntry, ...]
+    controls: TrialConditions
+    allowed_interventions: tuple[str, ...]
+    arms: tuple[Arm, ...]
+    planned_trials: tuple[PlannedTrial, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "schema_version experiment_id corpus controls allowed_interventions arms planned_trials")
+        version = _version(d["schema_version"], path + ".schema_version")
+        corpus = _sequence(d["corpus"], CorpusEntry.from_dict, path + ".corpus", lambda x: x.corpus_id)
+        controls = TrialConditions.from_dict(d["controls"], path + ".controls")
+        allowed = _strings(d["allowed_interventions"], path + ".allowed_interventions")
+        arms = _sequence(d["arms"], Arm.from_dict, path + ".arms", lambda x: x.arm_id)
+        trials = _sequence(d["planned_trials"], PlannedTrial.from_dict, path + ".planned_trials", lambda x: x.trial_id)
+        for name, items in (("corpus", corpus), ("arms", arms), ("planned_trials", trials)):
+            if not items:
+                _fail(path + "." + name, "must not be empty")
+        for i, arm in enumerate(arms):
+            if set(arm.interventions) != set(allowed):
+                _fail(f"{path}.arms[{i}].interventions", "each arm must declare exactly the allowed intervention fields")
+        if set(controls.interventions) != set(allowed):
+            _fail(path + ".controls.interventions", "control interventions must match declared allowed fields")
+        seen = set()
+        for i, trial in enumerate(trials):
+            for name, ids in (("arm_id", {a.arm_id for a in arms}), ("corpus_id", {c.corpus_id for c in corpus})):
+                if getattr(trial, name) not in ids:
+                    _fail(f"{path}.planned_trials[{i}].{name}", "unknown manifest reference")
+            identity = (trial.arm_id, trial.corpus_id, trial.task_id, trial.repetition)
+            if identity in seen:
+                _fail(f"{path}.planned_trials[{i}]", "duplicate arm/corpus/task/repetition identity")
+            seen.add(identity)
+        return cls(version, _string(d["experiment_id"], path + ".experiment_id"), corpus, controls, allowed, arms, trials)
+
+
+@dataclass(frozen=True)
+class TrialRecord(Record):
+    """Producer-supplied conditions; validation does not certify their truth."""
+
+    schema_version: int
+    trial_id: str
+    arm_id: str
+    corpus_id: str
+    task_id: str
+    repetition: int
+    starting_source_hash: str
+    run_artifact: str | None
+    conditions: TrialConditions
+    execution_order: int
+    seed: int | None
+    completion_state: Literal["completed", "failed", "incomplete", "budget_exhausted", "missing"]
+    budget_exhausted: bool
+    telemetry: Telemetry
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        names = "schema_version trial_id arm_id corpus_id task_id repetition starting_source_hash run_artifact conditions execution_order seed completion_state budget_exhausted telemetry"
+        d = _object(value, path, names)
+        state = _choice(d["completion_state"], path + ".completion_state", ("completed", "failed", "incomplete", "budget_exhausted", "missing"))
+        exhausted = _boolean(d["budget_exhausted"], path + ".budget_exhausted")
+        run = _nullable(d["run_artifact"], _relative, path + ".run_artifact")
+        if state == "completed" and run is None:
+            _fail(path + ".run_artifact", "completed trial requires run evidence reference")
+        if state == "budget_exhausted" and not exhausted:
+            _fail(path + ".budget_exhausted", "exhausted completion requires exhaustion flag")
+        seed = d["seed"]
+        if seed is not None and type(seed) is not int:
+            _fail(path + ".seed", "expected integer or null")
+        return cls(_version(d["schema_version"], path + ".schema_version"),
+                   *(_string(d[n], path + "." + n) for n in ("trial_id", "arm_id", "corpus_id", "task_id")),
+                   _integer(d["repetition"], path + ".repetition", 1), _hash(d["starting_source_hash"], path + ".starting_source_hash"),
+                   run, TrialConditions.from_dict(d["conditions"], path + ".conditions"),
+                   _integer(d["execution_order"], path + ".execution_order", 1), seed, state, exhausted,
+                   Telemetry.from_dict(d["telemetry"], path + ".telemetry"))
+
+
+@dataclass(frozen=True)
+class TrialOutcome(Record):
+    trial_id: str
+    decision: Decision
+    baseline_status: Literal["passed", "ineligible", "invalid", "missing"]
+    required_behavior_status: Literal["passed", "failed", "incomplete"]
+    confounded_differences: tuple[str, ...]
+    reasons: tuple[str, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "trial_id decision baseline_status required_behavior_status confounded_differences reasons")
+        return cls(_string(d["trial_id"], path + ".trial_id"), _choice(d["decision"], path + ".decision", DECISIONS),
+                   _choice(d["baseline_status"], path + ".baseline_status", ("passed", "ineligible", "invalid", "missing")),
+                   _choice(d["required_behavior_status"], path + ".required_behavior_status", ("passed", "failed", "incomplete")),
+                   _strings(d["confounded_differences"], path + ".confounded_differences"),
+                   _sequence(d["reasons"], _string, path + ".reasons"))
+
+
+@dataclass(frozen=True)
+class Distribution(Record):
+    """Descriptive statistics only; null values preserve undefined populations."""
+
+    key: str
+    unit: str
+    n: int
+    mean: float | None
+    median: float | None
+    minimum: float | None
+    maximum: float | None
+    sample_stddev: float | None
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "key unit n mean median minimum maximum sample_stddev")
+        n = _integer(d["n"], path + ".n")
+        numbers = tuple(_nullable(d[k], _number, path + "." + k) for k in ("mean", "median", "minimum", "maximum"))
+        stddev = None if d["sample_stddev"] is None else _number(d["sample_stddev"], path + ".sample_stddev", 0)
+        if (n == 0 and any(x is not None for x in numbers)) or (n > 0 and any(x is None for x in numbers)):
+            _fail(path + ".n", "empty samples require null statistics; nonempty samples require statistics")
+        if (n < 2) != (stddev is None):
+            _fail(path + ".sample_stddev", "sample standard deviation is null exactly when n < 2")
+        if n and not (numbers[2] <= numbers[0] <= numbers[3] and numbers[2] <= numbers[1] <= numbers[3]):
+            _fail(path + ".minimum", "mean and median must lie within min/max")
+        return cls(_string(d["key"], path + ".key"), _string(d["unit"], path + ".unit"), n, *numbers, stddev)
+
+
+@dataclass(frozen=True)
+class ArmSummary(Record):
+    arm_id: str
+    planned_attempts: int
+    state_counts: dict[str, int]
+    eligible_attempts: int
+    correct_attempts: int
+    budget_exhausted_attempts: int
+    all_attempt_structural: tuple[Distribution, ...]
+    accepted_only_structural: tuple[Distribution, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "arm_id planned_attempts state_counts eligible_attempts correct_attempts budget_exhausted_attempts all_attempt_structural accepted_only_structural")
+        count = _integer(d["planned_attempts"], path + ".planned_attempts")
+        counts = _mapping(_object(d["state_counts"], path + ".state_counts", " ".join(DECISIONS)), path + ".state_counts", _integer)
+        eligible = _integer(d["eligible_attempts"], path + ".eligible_attempts")
+        correct = _integer(d["correct_attempts"], path + ".correct_attempts")
+        exhausted = _integer(d["budget_exhausted_attempts"], path + ".budget_exhausted_attempts")
+        if sum(counts.values()) != count:
+            _fail(path + ".state_counts", "state counts must cover planned attempts")
+        if correct > eligible or eligible > count or exhausted > count:
+            _fail(path + ".eligible_attempts", "correct <= eligible <= planned and exhausted <= planned required")
+        return cls(_string(d["arm_id"], path + ".arm_id"), count, counts, eligible, correct, exhausted,
+                   _sequence(d["all_attempt_structural"], Distribution.from_dict, path + ".all_attempt_structural", lambda x: x.key),
+                   _sequence(d["accepted_only_structural"], Distribution.from_dict, path + ".accepted_only_structural", lambda x: x.key))
+
+
+@dataclass(frozen=True)
+class PairedSummary(Record):
+    baseline_arm: str
+    candidate_arm: str
+    differences: tuple[Distribution, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "baseline_arm candidate_arm differences")
+        before = _string(d["baseline_arm"], path + ".baseline_arm")
+        after = _string(d["candidate_arm"], path + ".candidate_arm")
+        if before == after:
+            _fail(path + ".candidate_arm", "paired arms must differ")
+        return cls(before, after, _sequence(d["differences"], Distribution.from_dict, path + ".differences", lambda x: x.key))
+
+
+@dataclass(frozen=True)
+class ExperimentReport(Record):
+    schema_version: int
+    manifest: ExperimentManifest
+    trials: tuple[TrialRecord, ...]
+    extra_trials: tuple[TrialRecord, ...]
+    outcomes: tuple[TrialOutcome, ...]
+    arm_summaries: tuple[ArmSummary, ...]
+    paired_summaries: tuple[PairedSummary, ...]
+    limitations: tuple[str, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "schema_version manifest trials extra_trials outcomes arm_summaries paired_summaries limitations")
+        version = _version(d["schema_version"], path + ".schema_version")
+        manifest = ExperimentManifest.from_dict(d["manifest"], path + ".manifest")
+        trials = _sequence(d["trials"], TrialRecord.from_dict, path + ".trials", lambda x: x.trial_id)
+        extras = _sequence(d["extra_trials"], TrialRecord.from_dict, path + ".extra_trials", lambda x: x.trial_id)
+        outcomes = _sequence(d["outcomes"], TrialOutcome.from_dict, path + ".outcomes", lambda x: x.trial_id)
+        summaries = _sequence(d["arm_summaries"], ArmSummary.from_dict, path + ".arm_summaries", lambda x: x.arm_id)
+        paired = _sequence(d["paired_summaries"], PairedSummary.from_dict, path + ".paired_summaries", lambda x: (x.baseline_arm, x.candidate_arm))
+        planned_ids = {t.trial_id for t in manifest.planned_trials}
+        arm_ids = {a.arm_id for a in manifest.arms}
+        if any(t.trial_id not in planned_ids for t in trials):
+            _fail(path + ".trials", "unplanned trial belongs in extra_trials")
+        if any(t.trial_id in planned_ids for t in extras):
+            _fail(path + ".extra_trials", "extra trial cannot reuse a planned identity")
+        if {o.trial_id for o in outcomes} != planned_ids:
+            _fail(path + ".outcomes", "each scheduled attempt requires exactly one outcome, including missing trials")
+        if {s.arm_id for s in summaries} != arm_ids:
+            _fail(path + ".arm_summaries", "each declared arm requires a summary")
+        for pair in paired:
+            if pair.baseline_arm not in arm_ids or pair.candidate_arm not in arm_ids:
+                _fail(path + ".paired_summaries", "unknown arm reference")
+        return cls(version, manifest, trials, extras, outcomes, summaries, paired,
+                   _sequence(d["limitations"], _string, path + ".limitations"))
+
+
 def _unique_json_object(pairs):
     result = {}
     for key, value in pairs:
