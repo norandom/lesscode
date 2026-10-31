@@ -4,7 +4,7 @@
 Developers need to constrain coding agents before they add convoluted code, using reproducible measurements rather than relying solely on a simplification prompt.
 
 ## Current State
-The efficiency-baseline evaluator is implemented and validated. Its self-evaluation includes a bounded simplification, meaningful CCN/LLOC charts and a documented whole-package duplication-coverage limitation. Package-scoped AGENTS.md instructions already guide names, idiom and evidence preservation; they are not a configurable prevention engine. This spec has approved requirements with 65 criteria across nine areas and a generated design whose quality gate passed. Human design approval, tasks and implementation remain pending.
+The efficiency-baseline evaluator is implemented and validated. Its self-evaluation includes a bounded simplification, meaningful CCN/LLOC charts and a documented whole-package duplication-coverage limitation. Package-scoped AGENTS.md instructions already guide names, idiom and evidence preservation; they are not a configurable prevention engine. This spec has approved requirements with 65 criteria across nine areas, an approved design and 25 approved executable tasks in seven groups. The independent task-graph review passed; implementation has not started.
 
 ## Desired Outcome
 Developers can declare measurable coding rules, check proposed changes against them and receive actionable evidence of violations. Existing debt and newly introduced regressions are reported separately. Coding agents can use the same checks while making changes.
@@ -26,7 +26,7 @@ Build on baseline evidence and profiles. Candidate rule families include per-fun
 - **Downstream**: agent guidance/skills, transactional rewrites and optional integration.
 
 ## Constraints
-English. Open-source analysis and local execution. No arbitrary global reduction target. Rules and exceptions must be visible and reproducible; a rewriting agent cannot silently relax its own gate. Users choose policies appropriate to their projects. Requirements are approved and design is generated; human design approval, tasks and implementation remain pending. Unsupported evidence and unverified required semantic review must not become passes.
+English. Open-source analysis and local execution. No arbitrary global reduction target. Rules and exceptions must be visible and reproducible; a rewriting agent cannot silently relax its own gate. Users choose policies appropriate to their projects. Requirements, design and tasks are approved; implementation is ready to start. Unsupported evidence and unverified required semantic review must not become passes.
 
 ## Evaluation
 Compare identical tasks and starting snapshots with and without policy guidance/enforcement. Report behavior, violations, accepted changes, complexity/duplication/size deltas and observed agent cost separately. Adversarial trials must expose metric gaming and attempts to weaken the rules. The supplied Anthropic simplifier is an optional comparator and wording reference, not the acceptance oracle.

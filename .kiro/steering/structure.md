@@ -10,6 +10,7 @@ Approved baseline implementation locations are detailed in its design File Struc
 
 - `skills/deconvolute/`: planned optional product skill, distinct from Kiro authoring skills; not yet implemented.
 - `src/lesscode_baseline/`: local CLI, typed contracts, snapshots, bounded execution, measurements, decisions, reporting and experiment aggregation.
+- `src/lesscode_baseline/rules/`: approved agent-quality-rules implementation location for downstream policy contracts, evidence interpretation, assessment, guidance and nested CLI commands; implementation has not started. Its design and 25-task plan are approved.
 - `src/lesscode_baseline/AGENTS.md`: package-scoped guidance for idiomatic code, role-revealing names, justified abstractions and preserved evidence contracts; instruction guidance rather than an automatic rule engine.
 - `tests/fixtures/`: synthetic and adversarial behavior fixtures.
 - `benchmarks/`: licensed corpus manifests and fixed evaluator definitions.

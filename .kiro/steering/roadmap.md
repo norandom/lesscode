@@ -3,7 +3,7 @@
 ## Overview
 Develop Deconvolute as a measured system for improving AI-heavy codebases and preventing agents from adding convolution. Establish open-source measurement first, then configurable coding rules and regression gates, followed by deterministic rewriting and optional agent interfaces.
 
-Status: efficiency-baseline is complete: all 33 executable tasks independently reviewed, final feature gate GO, reproducible installed pilots and actual native Windows/Linux/macOS checks passed. Agent-quality-rules has approved requirements and a generated design covering all 65 criteria; design approval and task generation are next. Other later specifications remain discovery briefs, not approved implementation tasks.
+Status: efficiency-baseline is complete: all 33 executable tasks independently reviewed, final feature gate GO, reproducible installed pilots and actual native Windows/Linux/macOS checks passed. Agent-quality-rules has approved requirements, design and 25 executable tasks covering all 65 criteria; the independent task-graph review passed and implementation is next. Other later specifications remain discovery briefs, not approved implementation tasks.
 
 ## Approach Decision
 - **Chosen direction**: open-source, local-first, benchmark-first delivery.
@@ -23,7 +23,7 @@ Core analysis tools must be open source and usable without a paid account. LLM c
 
 ## Specs (dependency order)
 - [x] efficiency-baseline -- Open-source measurement, fixtures and reproducible comparison reports. Final validation GO. Dependencies: none
-- [ ] agent-quality-rules -- User-configurable measured coding constraints, change ratchets and agent-facing violations to prevent new convolution. Requirements approved; design generated and quality gate passed, human design approval pending. Dependencies: efficiency-baseline
+- [ ] agent-quality-rules -- User-configurable measured coding constraints, change ratchets and agent-facing violations to prevent new convolution. Requirements, design and tasks approved; 25 executable tasks, implementation not started. Dependencies: efficiency-baseline
 - [ ] deconvolute-skill -- Audit and reversible simplification workflow consuming declared agent rules, compared with plain Codex. Dependencies: efficiency-baseline, agent-quality-rules
 - [ ] transactional-rewrites -- Evidence-backed preview/apply/rollback with a small rule set. Dependencies: efficiency-baseline, deconvolute-skill
 - [ ] codex-integration -- Optional local MCP facade and verified Codex packaging. Dependencies: deconvolute-skill, transactional-rewrites
@@ -31,5 +31,5 @@ Core analysis tools must be open source and usable without a paid account. LLM c
 ## Decision checkpoints
 1. Complete: efficiency-baseline requirements, corrected design, all implementation tasks and final validation approved.
 2. Complete for the declared fixtures: unchanged-source measurement stability and rejection of behavior-breaking reductions.
-3. Review agent-quality-rules design, then generate and implement approved tasks. Compare ungated versus rule-guided/gated trial records; use the example simplifier skill only as a side reference. Evaluate skill-only trials as an optional comparison.
+3. Implement the approved agent-quality-rules tasks with task-local review and final validation. Compare ungated versus rule-guided/gated trial records; use the example simplifier skill only as a side reference. Evaluate skill-only trials as an optional comparison.
 4. Compare skill-only with tool-assisted trials before expanding semantic backends.

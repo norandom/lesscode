@@ -1,0 +1,182 @@
+# Implementation Plan
+
+Each executable subtask is estimated at 1-3 hours. All verification below is required; no optional coverage is deferred. Component names resolve to the approved design's File Structure Plan.
+
+Default ordering is sequential. Tasks marked `(P)` may skip preceding work once their explicit prerequisites are complete and reviewed. Their component-local follow-ons remain sequential; shared contracts, fixtures and CLI registration must not be edited concurrently. Technical example tests include their usage instructions and index links as part of runnable deliverables, not standalone documentation tasks.
+
+- [ ] 1. Establish runtime and shared policy contracts
+- [ ] 1.1 Verify the existing runtime and package foundation
+  - Verify the pinned uv-managed Python environment and existing analyzer bindings for later real-run validation; use uv.exe on Windows, never Store Python.
+  - Establish the rules package and test discovery within existing packaging, without dependencies or upstream schema changes.
+  - A built wheel imports the new package outside the checkout, and existing CLI startup smoke checks still pass.
+  - _Boundary: Rules CLI_
+  - _Requirements: 8.7, 8.8_
+- [ ] 1.2 Define strict policy and exception inputs
+  - Validate scoped numeric/check/review variants, explicit reference conditions, bounds and exception validity.
+  - Reject duplicate keys/IDs, unsupported versions/selectors, unsafe scopes and invalid numeric combinations; retain every overlapping rule with no implicit default limits.
+  - Round-trip and negative tests establish stable canonical policy identity and field-specific failures.
+  - _Boundary: Policy contracts_
+  - _Requirements: 1.2, 1.4, 1.5, 1.7, 7.1_
+- [ ] 1.3 Define evidence, entity-treatment and review input contracts
+  - Model source-bound evidence inventories, one-to-one entity treatment and scoped review outcomes/provenance.
+  - Distinguish missing values, unresolved matches and unsupported trust; reject contradictory identities and records.
+  - Contract tests round-trip valid inputs and reject malformed or conflicting treatment/review records without changing baseline formats.
+  - _Boundary: Policy contracts_
+  - _Requirements: 2.1, 3.1, 3.7, 5.2, 5.5, 5.8_
+- [ ] 1.4 Define prepared assessment, result and guidance artifact contracts
+  - Specify captured resource identities, fixed validity time, per-entity findings, separate baseline/policy outcomes and storage completion records.
+  - Specify guidance documents/previews with before/proposed bytes, hashes, target identity and renderer identity.
+  - Round-trip tests prove unknown versions, inconsistent accepted flags and malformed artifact identities fail closed.
+  - _Boundary: Policy contracts_
+  - _Requirements: 1.3, 6.3, 7.4, 8.1, 8.2, 8.6, 8.9_
+- [ ] 1.5 Establish baseline-backed policy fixtures
+  - Create minimal complete run stores with indexed prepared plans and matching source/profile/check/artifact identities using existing baseline contracts.
+  - Include accepted, rejected, incomplete and invalid upstream outcomes plus independently declared expected policy findings; keep each later task's added fixtures isolated.
+  - Existing baseline recovery validates intended complete fixtures and rejects deliberately corrupt stores; no fixture bypasses plan or hash admission.
+  - _Boundary: Evidence reader_
+  - _Depends: 1.4_
+  - _Requirements: 4.1, 4.6, 9.1_
+
+- [ ] 2. Read comparable scoped evidence
+- [ ] 2.1 Admit completed runs and validate reference bindings
+  - Recover indexed artifacts and require the prepared plan; validate plan/report/source/profile/check-inventory relationships and the selected same-run baseline reference.
+  - Distinguish incomplete storage from non-accepted evaluation; preserve diagnostics and upstream outcome without reinterpreting them.
+  - Tests reject broken hashes or bindings and report missing required plans as insufficient evidence.
+  - _Boundary: Evidence reader_
+  - _Depends: 1.5_
+  - _Requirements: 1.3, 3.1, 4.1, 4.2, 4.7_
+- [ ] 2.2 Select named quantities and validate measured populations
+  - Select function CCN, exact scalar metrics and declared duplication quantities; retain definitions, locations, producers and pair-span denominators, including ratios above one.
+  - Preserve optional LLOC provenance and named-check evidence; reject aggregate narrowing, incompatible producers/units/scopes and omitted nonempty files.
+  - Tests distinguish valid zero-function inventories from ambiguous empty selections and show absolute-only candidate observations do not require reference metrics.
+  - _Boundary: Evidence reader_
+  - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 4.3, 4.4, 4.5, 4.6_
+- [ ] 2.3 Establish conservative entity continuity
+  - Automatically match only identical file bytes and inventory identities; validate explicit source-bound matched/new/removed/unresolved treatments for changed files.
+  - Reject duplicate/contradictory matches and expose rename/split/merge uncertainty without inferring semantic equivalence.
+  - Tests retain removals and prevent uncertain matches from granting inherited-debt allowance.
+  - _Boundary: Evidence reader_
+  - _Requirements: 3.1, 3.6, 3.7_
+
+- [ ] 3. Evaluate policy without filesystem effects
+- [ ] 3.1 (P) Evaluate numeric limits and entity debt
+  - Evaluate inclusive absolute limits, additional change budgets and ratchet classifications using validated observation fixtures.
+  - Cover unchanged 56, improved 54 and worsened 57 against reference 56/limit 10; crossing 4 to 11, equality, resolved debt, below-limit budget failure and new delta-only unavailable cases.
+  - Tests show each entity's result independently, undefined percentages remain unavailable and improvements never offset regressions elsewhere.
+  - _Boundary: Rule evaluation_
+  - _Depends: 1.4, 1.5_
+  - _Requirements: 2.6, 2.7, 2.8, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7_
+- [ ] 3.2 Evaluate declared checks and semantic reviews
+  - Select exact checks with source/plan binding and validate required reviews against policy/source/criterion/scope and producer provenance.
+  - Distinguish satisfied, concern, unresolved, missing, duplicate/conflicting and mismatched review outcomes; external-independence claims remain unverified locally.
+  - Tests show lower structural counters cannot pass missing required review and rule selection cannot discard upstream behavior failures.
+  - _Boundary: Rule evaluation_
+  - _Requirements: 2.5, 4.2, 4.7, 5.2, 5.3, 5.4, 5.5, 5.8, 9.2_
+- [ ] 3.3 Apply bounded exceptions and derive the overall verdict
+  - Apply exceptions only to established numeric violations at the fixed validity instant; retain active/expired/inapplicable states and original findings.
+  - Preserve invalid/violation/insufficient precedence, advisory disclosures and separate upstream outcome; accept only accepted baseline plus satisfied policy.
+  - Decision-table tests reject attempts to waive behavior, missing evidence or reviews and reproduce identical ordered findings at fixed inputs/time.
+  - _Boundary: Rule evaluation_
+  - _Requirements: 4.1, 4.2, 4.3, 4.7, 7.2, 7.3, 8.3, 8.9_
+
+- [ ] 4. Generate and safely apply pre-change guidance
+- [ ] 4.1 (P) Render applicable policy and semantic guidance
+  - Render all overlapping rules, enforcement, reference conditions, scope, policy identity and unsupported evidence/trust requirements as pre-change guidance.
+  - Include role-revealing names, idiom, responsibilities, repeated policy, indirection, speculative abstractions and simpler-alternative burden while preserving APIs and instruction precedence.
+  - Rendering tests show no implicit thresholds, metric-based semantic certification or authorization to rename public fields.
+  - _Boundary: Guidance updates_
+  - _Depends: 1.4_
+  - _Requirements: 1.1, 1.5, 1.6, 1.7, 5.1, 5.3, 5.6, 5.7, 6.1, 6.2, 6.7_
+- [ ] 4.2 Prepare inspectable instruction-file updates
+  - Validate explicit root/target containment, link/reparse/case-alias restrictions, UTF-8/BOM/newlines and managed markers/body digests.
+  - Preserve unrelated bytes and record the original full-file identity, proposed bytes and diff without modifying the target.
+  - Tests prove preview-only behavior and reject malformed markers, edited managed content, unsupported encoding and unsafe targets.
+  - _Boundary: Guidance updates_
+  - _Requirements: 6.3, 6.4, 6.5, 6.7_
+- [ ] 4.3 Apply requested previews with conflict and repeat protection
+  - Validate preview/policy identities, coordinate cooperating writers and recheck target bytes before designated replacement or exclusive first creation.
+  - Preserve permissions, original recovery bytes and unrelated files; clean up only operation-owned temporaries; require quiescence against noncooperating writers.
+  - Tests demonstrate changed-file conflicts without target writes, competing-writer handling, creation races and unchanged repeat with no timestamp rewrite.
+  - _Boundary: Guidance updates_
+  - _Requirements: 6.4, 6.5, 6.6, 7.6, 8.8_
+
+- [ ] 5. Preserve complete and partial assessment results
+- [ ] 5.1 (P) Render balanced machine and human findings
+  - Produce versioned results and escaped summaries with all observed values, bounds, locations, evidence references, debt, improvements, exceptions and unavailable/advisory findings.
+  - Retain upstream outcome and trust limits; successful report production never means acceptance.
+  - Rendering tests retain unfavorable counters and prevent untrusted names/rationales from corrupting JSON or Markdown.
+  - _Boundary: Assessment storage_
+  - _Depends: 1.4_
+  - _Requirements: 7.6, 8.1, 8.2, 8.3, 8.4_
+- [ ] 5.2 Persist and recover hash-indexed assessments
+  - Write captured inputs, lifecycle manifest, result, summary and diagnostics to a new directory with the final artifact index last.
+  - Verify required files/hashes and external baseline evidence on recovery; leave standalone findings readable but unverified when external evidence is missing.
+  - Recovery tests distinguish storage completion from acceptance and reject corrupt, missing or mismatched artifacts without changing existing runs.
+  - _Boundary: Assessment storage_
+  - _Requirements: 8.1, 8.2, 8.6_
+- [ ] 5.3 Retain diagnostics on interrupted or failed persistence
+  - Exercise failures at manifest, report and final-index boundaries and prevent a false completion marker.
+  - Preserve available partial findings; expose a versioned stderr diagnostic when output cannot be written.
+  - Failure-injection tests confirm original inputs/prior results survive and all incomplete writes recover as incomplete.
+  - _Boundary: Assessment storage_
+  - _Requirements: 8.5, 8.6_
+
+- [ ] 6. Integrate preparation, evaluation and local commands
+- [ ] 6.1 Integrate frozen assessment preparation
+  - Connect policy/evidence readers and input capture, recording exact resource bytes, identities, reviews, treatments and explicit validity time before policy evaluation.
+  - Reject output overlap with source, evaluator, run or inputs; require new identities/output for changed policy or reference.
+  - Integration tests produce a validated prepared artifact while leaving inputs unchanged and show intentional rebaselining cannot overwrite prior findings.
+  - _Boundary: Assessment coordinator, Policy contracts, Evidence reader_
+  - _Depends: 2.3, 5.3_
+  - _Requirements: 1.3, 3.8, 7.4, 7.5, 8.8_
+- [ ] 6.2 Integrate guarded assessment checking and replay
+  - Connect captured evidence, pure rule evaluation and storage; verify inputs before evaluation and immediately before finalization.
+  - Invalidate changed policy, exclusions, check inventory, artifact, review or treatment; retain partial diagnostics and original baseline decisions.
+  - Integration tests reproduce canonical findings for identical captured inputs/time and detect drift without silently using newer inputs.
+  - _Boundary: Assessment coordinator, Evidence reader, Rule evaluation, Assessment storage_
+  - _Depends: 3.3, 6.1_
+  - _Requirements: 4.1, 7.4, 7.5, 8.6, 8.9_
+- [ ] 6.3 Integrate policy inspection and assessment commands
+  - Register nested show/prepare/check commands through the existing CLI with explicit paths/scopes and analyzer-free startup.
+  - Return distinct accepted/violation/invalid/insufficient/internal exits and operation-only success for preparation/inspection.
+  - CLI tests exercise the commands and verify existing plan/run/summarize behavior remains unchanged with no rule-command child workloads.
+  - _Boundary: Rules CLI, Assessment coordinator, Guidance updates_
+  - _Depends: 4.1, 6.2_
+  - _Requirements: 1.1, 1.6, 8.5, 8.7, 8.8_
+- [ ] 6.4 Integrate explicit guidance preview and application commands
+  - Connect designated-root/target preview generation and explicit preview application without implicit AGENTS discovery or automatic writes.
+  - Expose proposed text/target and report operation-only outcomes, conflicts and persistence failures separately from policy acceptance.
+  - Installed-command tests show preview leaves the target untouched, apply changes only the target and repeat is a no-op.
+  - _Boundary: Rules CLI, Guidance updates_
+  - _Depends: 4.3, 6.3_
+  - _Requirements: 6.3, 6.4, 6.5, 6.6, 8.5, 8.7_
+
+- [ ] 7. Validate adopter workflows and native integration
+- [ ] 7.1 Integrate reproducible policy and semantic-review examples
+  - Supply runnable example policies/fixtures for inherited/new/worsened/improved-residual debt, uncertain matches, unavailable evidence, exceptions and preserved instructions.
+  - Exercise a real baseline plan/run followed by rules and demonstrate lower CCN with unreviewed semantics stays insufficient; retain short-file incomplete evidence.
+  - Executable walkthrough checks and accompanying indexed usage instructions reproduce expected results, leave originals unchanged and make no general effectiveness claim.
+  - _Boundary: Rules CLI, Evidence reader, Rule evaluation, Guidance updates_
+  - _Depends: 6.4_
+  - _Requirements: 4.6, 8.8, 9.1, 9.2, 9.5_
+- [ ] 7.2 Integrate supplied guided and unguided trial examples
+  - Use existing experiment interventions to identify policy/guidance/renderer/enforcement versions and explicit unguided nulls, with no new trial runner or statistics engine.
+  - Include an intentionally confounded control and missing telemetry; keep observed task/review/agent evidence separate from static metrics.
+  - Example tests through existing summarization expose controlled-condition differences and label unsupported maintenance savings unmeasured; accompanying usage explains claim limits.
+  - _Boundary: Rules CLI, existing experiment reconciliation_
+  - _Depends: 6.4_
+  - _Requirements: 9.3, 9.4, 9.5_
+- [ ] 7.3 Integrate native installed workflow validation
+  - Extend the existing Windows/Linux/macOS matrix using existing pinned setup, building/installing the wheel outside the checkout.
+  - Exercise rules command exits, baseline-backed checking, temporary guidance preview/apply/repeat and path/newline/link cases with explicit platform skip reasons.
+  - All three native jobs retain commands/results proving no new dependency, analyzer invocation or unrelated source mutation; no platform pass is inferred from another OS.
+  - _Boundary: Rules CLI, existing native CI integration_
+  - _Depends: 7.1, 7.2_
+  - _Requirements: 6.4, 6.5, 6.6, 8.5, 8.7, 8.8_
+- [ ] 7.4 Verify integrated regression and feature readiness
+  - Run focused adverse tests and the unchanged baseline regression suite; audit imports, public schemas, CLI exits and dependency locks against the approved boundary.
+  - Verify all requirements have passing evidence, replay and partial recovery work, and native installed artifacts correspond to the tested revision.
+  - Final integration evidence has no unresolved required failures, records real limitations and updates feature status without claiming skill effectiveness or maintenance savings.
+  - _Boundary: Assessment coordinator, Rules CLI, Assessment storage, native validation integration_
+  - _Depends: 7.3_
+  - _Requirements: 4.1, 4.7, 7.6, 8.6, 8.7, 8.9, 9.5_
