@@ -6,7 +6,7 @@
       "corpus_id": "boltons-mathutils-25.0.0",
       "origin": "https://github.com/mahmoud/boltons",
       "revision": "c23dbdadb6fecdf505eb4231559561913b84c13f",
-      "content_hash": "298f80d272dd69510a3c6ed50e6ad76f28ac5e9f92aec0aab81322f7c88369a4",
+      "content_hash": "515c085db3ae1654e94d86bf97b30e769adca8852cdc4d1e88b1b68b28565e9d",
       "spdx_license": "BSD-3-Clause",
       "license_artifact": "tests/fixtures/real/boltons_mathutils/LICENSE",
       "generation_provenance": {

@@ -237,7 +237,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Requirements: 6.1, 6.7, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 8.2, 8.3, 8.4_
 
 - [ ] 7. Validate the integrated evaluator across supported environments
-- [ ] 7.1 Verify reproducibility and behavior-preservation outcomes
+- [x] 7.1 Verify reproducibility and behavior-preservation outcomes
   - Run real installed analyzers and the licensed/synthetic corpus through the full CLI, checking known results and repeat structural equality.
   - Align the pilot corpus content_hash with its canonical scoped Snapshot identity, keeping raw upstream file hashes and license provenance separate and unchanged.
   - Verify added/removed/untracked inputs and unchanged original-source fingerprints across accepted and shorter-but-broken candidates.
@@ -249,10 +249,11 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - [ ] 7.2 Verify incomplete evidence, tampering and recovery paths
   - Exercise missing analyzers, suppressed/omitted source, parse errors, deleted checks, optional baseline behavior failures and optional metric absence.
   - Inject evaluator changes, stale reports, interrupted writes and bounded child-spawning workloads, retaining observable diagnostics.
+  - Repair discovered baseline Execution/Plan audit gaps: retain analyzer command/outcome metadata and effective configuration, and reject declared analyzer options that the fixed adapters cannot honor instead of silently ignoring them.
   - Done when each failure yields the specified invalid/ineligible/incomplete/rejected state, optional baseline checks cannot bypass eligibility, and descendants terminate.
   - _Boundary: Evaluation integration_
   - _Depends: 7.1_
-  - _Requirements: 2.4, 2.6, 3.7, 4.2, 4.5, 5.3, 5.5, 5.7, 6.7, 8.6_
+  - _Requirements: 2.4, 2.6, 3.4, 3.7, 4.2, 4.5, 5.1, 5.3, 5.5, 5.7, 6.5, 6.7, 8.6_
 
 - [ ] 7.3 Run supported-platform integration in CI
   - Configure Windows, Linux and macOS jobs using locked runtimes/dependencies and the same fixtures; include package startup and genuine analyzer execution.
@@ -359,3 +360,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 6.3: summarize imports explicit repeatable single-record --trials files and recovers completed run artifacts. Separate experiment storage publishes report/evaluations/summary before final hash index; corruption or missing files recover incomplete. Summary exit0 is report success (including baseline-ineligible-only), distinct from run3. Independent321tests7skips and installed summary smoke passed.
 
 - 4.4 corrective Plan isolation: fixed probes receive empty POSIX environment or only OS-derived SystemRoot on Windows. Actual inherited Node preload regression fixed; parent environment preserved and pinned preparation succeeds. Independent323tests7skips; queue33executables.
+
+- 7.1: executable corpus uses canonical Snapshot identity; upstream raw bytes/license retained. validate_pilot runs six installed CLI evaluations and predeclared actual3trial summary; known23functions/max15 and duplication236/118/.5 verified, originals/untracked inventory retained. Completed --resume is read-only with canonical plan binding; partial pilots require fresh output. Independent332tests7skips and real recovery/tamper probes passed.

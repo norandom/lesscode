@@ -10,8 +10,10 @@ not validation of the whole upstream project. Generation provenance is unknown.
 `benchmarks/corpus.json` is an `ExperimentManifest` and `python.json` is a
 `Profile`, both schema version 1 from `lesscode_baseline.contracts`. The corpus
 license artifact is repository relative. The corpus content hash identifies the
-single upstream product file; it is not the future canonical multi-file snapshot
-identity. No candidate, completed trial, observed cost or success is fabricated.
+canonical scoped Snapshot of `source/` under `python.json`, including its path,
+byte length and raw file hash. It equals the expected producer starting-source
+identity. The separate raw upstream file SHA-256 remains in `provenance.json`.
+No candidate, completed trial, observed cost or success is fabricated.
 Three paired repetitions are scheduled for unchanged and supplied-simplification
 arms. These are local supplied-snapshot controls with no model invocation. A
 future model experiment must declare its real model/settings, prompt, permissions

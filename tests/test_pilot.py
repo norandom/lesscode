@@ -1,6 +1,7 @@
 """The licensed pilot is pinned, independently checkable, and contract-valid."""
 
 import hashlib
+from dataclasses import replace
 import json
 import os
 from pathlib import Path
@@ -12,6 +13,8 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from lesscode_baseline import contracts as c
+from lesscode_baseline.snapshot import capture_scope
+from lesscode_baseline.experiments import reconcile
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "tests/fixtures/real/boltons_mathutils"
@@ -27,7 +30,10 @@ class PilotTests(unittest.TestCase):
         self.assertRegex(entry.revision, r"^[0-9a-f]{40}$")
         self.assertEqual(entry.spdx_license, "BSD-3-Clause")
         self.assertEqual(entry.generation_provenance.status, "unknown")
-        self.assertEqual(entry.content_hash, provenance["files"]["source/mathutils.py"]["sha256"])
+        snapshot = capture_scope(FIXTURE / "source", profile.scope)
+        self.assertIsInstance(snapshot, c.Snapshot)
+        self.assertEqual(entry.content_hash, snapshot.content_hash)
+        self.assertNotEqual(entry.content_hash, provenance["files"]["source/mathutils.py"]["sha256"])
         for name, identity in provenance["files"].items():
             content = (FIXTURE / name).read_bytes()
             self.assertEqual(hashlib.sha256(content).hexdigest(), identity["sha256"])
@@ -42,6 +48,29 @@ class PilotTests(unittest.TestCase):
                          hashlib.sha256((PROFILE.parent / "pilot/prompt.txt").read_bytes()).hexdigest())
         self.assertGreaterEqual(len(manifest.arms), 2)
         self.assertEqual({t.arm_id for t in manifest.planned_trials}, {a.arm_id for a in manifest.arms})
+
+    def test_real_scoped_source_matches_manifest_without_false_confounding(self):
+        manifest = c.loads(c.ExperimentManifest, (ROOT / "benchmarks/corpus.json").read_bytes())
+        profile = c.loads(c.Profile, PROFILE.read_bytes())
+        source_hash = capture_scope(FIXTURE / "source", profile.scope).content_hash
+        def unavailable(unit):
+            return {"status": "unavailable", "value": None, "unit": unit,
+                "source": None, "observed_at": None, "reason": "no model or agent usage measured"}
+        telemetry = c.Telemetry.from_dict({"token_usage": unavailable("tokens"), "provider_cost": unavailable("USD"),
+            "agent_elapsed": unavailable("seconds"), "runtime_benchmarks": []})
+        arms = {arm.arm_id: arm for arm in manifest.arms}
+        records = tuple(c.TrialRecord(1, trial.trial_id, trial.arm_id, trial.corpus_id,
+            trial.task_id, trial.repetition, source_hash, None,
+            replace(manifest.controls, interventions=arms[trial.arm_id].interventions), order,
+            0, "incomplete", False, telemetry)
+            for order, trial in enumerate(manifest.planned_trials, 1))
+        result = reconcile(manifest, records)
+        self.assertTrue(all(not trial.confounded_differences for trial in result.planned_trials))
+        self.assertTrue(all(pair.comparable for pair in result.pairings))
+        # Raw upstream file SHA-256 remains a distinct, invalid starting identity.
+        raw_hash = hashlib.sha256((FIXTURE / "source/mathutils.py").read_bytes()).hexdigest()
+        wrong = reconcile(manifest, (replace(records[0], starting_source_hash=raw_hash), *records[1:]))
+        self.assertTrue(wrong.planned_trials[0].confounded_differences)
 
     def run_checks(self, source, output):
         profile = c.loads(c.Profile, PROFILE.read_text())
