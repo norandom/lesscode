@@ -5,7 +5,7 @@ Each executable subtask is estimated at 1-3 hours. All verification below is req
 Default ordering is sequential. Tasks marked `(P)` may skip preceding work once their explicit prerequisites are complete and reviewed. Their component-local follow-ons remain sequential; shared contracts, fixtures and CLI registration must not be edited concurrently. Technical example tests include their usage instructions and index links as part of runnable deliverables, not standalone documentation tasks.
 
 - [ ] 1. Establish runtime and shared policy contracts
-- [ ] 1.1 Verify the existing runtime and package foundation
+- [x] 1.1 Verify the existing runtime and package foundation
   - Verify the pinned uv-managed Python environment and existing analyzer bindings for later real-run validation; use uv.exe on Windows, never Store Python.
   - Establish the rules package and test discovery within existing packaging, without dependencies or upstream schema changes.
   - A built wheel imports the new package outside the checkout, and existing CLI startup smoke checks still pass.
@@ -180,3 +180,6 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Boundary: Assessment coordinator, Rules CLI, Assessment storage, native validation integration_
   - _Depends: 7.3_
   - _Requirements: 4.1, 4.7, 7.6, 8.6, 8.7, 8.9, 9.5_
+
+## Implementation Notes
+- Task 1.1: use uv.exe with explicit pinned Python. The existing development venv uses a local CPython 3.12.10 base; clean installed smoke uses uv-managed 3.12.10. Both and all analyzer pins were verified. Preserve original RED output in a durable task log for subsequent handoffs.
