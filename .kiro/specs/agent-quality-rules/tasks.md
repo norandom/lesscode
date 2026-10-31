@@ -60,7 +60,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Requirements: 3.1, 3.6, 3.7_
 
 - [ ] 3. Evaluate policy without filesystem effects
-- [ ] 3.1 (P) Evaluate numeric limits and entity debt
+- [x] 3.1 (P) Evaluate numeric limits and entity debt
   - Consume RuleSelection: unavailable blocking selections are insufficient, advisory reasons remain visible, confirmed empty populations are disclosed, and absolute-only evaluation requires no reference availability.
   - Evaluate inclusive absolute limits, additional change budgets and ratchet classifications using validated observation fixtures.
   - Cover unchanged 56, improved 54 and worsened 57 against reference 56/limit 10; crossing 4 to 11, equality, resolved debt, below-limit budget failure and new delta-only unavailable cases.
@@ -184,6 +184,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Requirements: 4.1, 4.7, 7.6, 8.6, 8.7, 8.9, 9.5_
 
 ## Implementation Notes
+- Task 3.1: compare decimal budget boundaries with exact decimal subtraction/cross-products; binary-float subtraction and percentage multiplication can falsely reject equality or overflow on finite inputs. Preserve nearby genuine exceedances.
 - Task 2.2: fresh debug returned STOP_FOR_HUMAN for a selection service-contract gap. The proposed correction is recorded in selection-contract-amendment.md; no task 2.2 implementation or design approval is implied.
 - Task 2.1: validate each surviving record's internal identities before cross-record relationships and missing-evidence classification. Missing counterparts must not hide detectable corruption. Preserve validated partial reports' original outcomes, reasons and limitations without claiming completed admission.
 - Task 1.5: byte-count fixtures require fixture-local LF attributes; verify fresh Git checkout with core.autocrlf=true when adding byte-sensitive source fixtures. Complete storage is independent of accepted/rejected/incomplete/invalid evaluation outcomes.
