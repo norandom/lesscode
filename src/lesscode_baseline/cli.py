@@ -23,6 +23,11 @@ def _parser():
     for side in ("baseline", "candidate"):
         run.add_argument("--" + side + "-evidence", action="append", type=Path, default=[],
                          help="producer-supplied optional evidence envelope; repeat for multiple imports")
+    summary = commands.add_parser("summarize", help="summarize recorded experiment trials", allow_abbrev=False)
+    for name in ("experiment", "runs", "out"):
+        summary.add_argument("--" + name, type=Path, required=True)
+    summary.add_argument("--trials", type=Path, action="append", default=[],
+                         help="strict TrialRecord JSON file; repeat for multiple trials")
     return parser
 
 
@@ -55,6 +60,40 @@ def _tool_paths(path):
     return {key: str((path.resolve().parent / value).resolve()) for key, value in document.items()}
 
 
+def _summarize(args):
+    from .contracts import ExperimentManifest, TrialRecord, loads
+    from .experiments import aggregate
+    from .report import _no_links, persist_experiment
+    for path in (args.experiment, args.runs, args.out, *args.trials):
+        _no_links(path.absolute())
+    if args.out.exists():
+        raise ValueError("output must be new")
+    root = args.runs.resolve(strict=True)
+    if not root.is_dir():
+        raise ValueError("--runs must be an artifact root directory")
+    manifest = loads(ExperimentManifest, args.experiment.read_bytes())
+    trials = tuple(loads(TrialRecord, path.read_bytes()) for path in args.trials)
+    output = args.out.resolve()
+    protected = [root, args.experiment.resolve(), Path(__file__).resolve().parent,
+                 *(p.resolve() for p in args.trials)]
+    def check_overlap(paths):
+        if any(output.is_relative_to(p) or p.is_relative_to(output) for p in paths):
+            raise ValueError("summary output overlaps input, run artifacts, source or evaluator directory")
+    check_overlap(protected)
+    result = aggregate(manifest, trials, artifact_root=root)
+    check_overlap([Path(observation.snapshot.root).resolve() for run in result.runs
+                   for observation in (run.report.baseline, run.report.candidate)])
+    persist_experiment(result, output)
+    states = {outcome.decision for outcome in result.report.outcomes}
+    code = 2 if "invalid" in states else 3 if "incomplete" in states else 1 if "rejected" in states else 0
+    print("Summary: " + str(output / "summary.md"))
+    print("Report: " + str(output / "report.json"))
+    for arm in result.report.arm_summaries:
+        print(json.dumps({"arm": arm.arm_id, "planned": arm.planned_attempts,
+                          "states": arm.state_counts}, ensure_ascii=True, sort_keys=True))
+    return code
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     try:
@@ -69,6 +108,8 @@ def main(argv: list[str] | None = None) -> int:
     from .contracts import ContractError, Failure, PreparedPlan, dumps, loads
     from .report import PersistenceError
     try:
+        if args.command == "summarize":
+            return _summarize(args)
         if args.command == "plan":
             prepared = config.prepare(args.profile, args.baseline, args.candidate, args.out,
                                       tool_paths=_tool_paths(args.tool_paths))

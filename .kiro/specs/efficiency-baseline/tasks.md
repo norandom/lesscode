@@ -145,7 +145,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 3.3, 4.3_
   - _Requirements: 3.2, 3.4, 3.7, 5.4, 6.6_
 
-- [x] 4. Freeze plans and enforce comparison rules
+- [ ] 4. Freeze plans and enforce comparison rules
 - [x] 4.1 Prepare immutable executable evaluation plans
   - Resolve supplied profile paths and executables, record source/evaluator/tool identities, and validate required checks/metrics, thresholds and positive limits.
   - Reject overlapping output/source/evaluator roots; prepare command previews without running project checks or installing dependencies.
@@ -169,6 +169,13 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Boundary: Decision_
   - _Depends: 4.2_
   - _Requirements: 4.2, 4.3, 4.5, 4.8, 5.3, 5.4, 5.5, 5.6, 5.7_
+
+- [ ] 4.4 Isolate fixed version-probe environments
+  - Prevent inherited runtime startup configuration from executing undeclared code during plan preparation; retain only explicitly needed OS runtime values.
+  - Done when a real Node preload regression no longer executes during the jscpd version probe, parent environment remains unchanged and pinned tool discovery still succeeds.
+  - _Boundary: CLI and Plan_
+  - _Depends: 4.1, 6.2_
+  - _Requirements: 5.1, 5.2, 6.5, 8.7_
 
 - [x] 5. Persist results and account for controlled experiments
 - [x] 5.1 Persist recoverable run artifacts
@@ -203,7 +210,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 5.3, 4.3_
   - _Requirements: 7.4, 7.5, 7.6, 7.7, 8.1, 8.2, 8.3, 8.4_
 
-- [ ] 6. Integrate the command-line workflows
+- [x] 6. Integrate the command-line workflows
 - [x] 6.1 Integrate the complete pair-evaluation lifecycle
   - Connect prepared plans, capture, frozen measurement, sequential baseline/candidate checks, before/after integrity verification, decisions and persistence.
   - Connect explicit optional-evidence inputs to the existing provenance reader without changing Profile or replacing core measurements; retain raw artifacts and typed populations/runtime identities.
@@ -221,7 +228,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 6.1_
   - _Requirements: 1.1, 1.3, 1.4, 6.1, 6.7, 8.7_
 
-- [ ] 6.3 Integrate experiment summaries into the CLI and report artifacts
+- [x] 6.3 Integrate experiment summaries into the CLI and report artifacts
   - Connect trial import and aggregation to the installed summary command and atomic machine/human artifacts.
   - Apply the designed aggregate exit policy while preserving separate per-state counts, confounding and observed telemetry.
   - Done when a recorded multi-arm pilot is summarized end to end without invoking an LLM or modifying any source input.
@@ -347,3 +354,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 6.1: evaluation.evaluate consumes PreparedPlan, hashes canonical serialization, guards public adapter/check workloads, runs checks in fresh copies and persists partial/final evidence. OptionalEvidenceInput binds imports without changing Profile; runtime envelopes retained separately. Real unchanged accepted/broken rejected with originals preserved; independent301tests7skips.
 
 - 6.2: installed plan/run commands disclose workloads, preserve strict new outputs and map0/1/2/3/4. Package assets retain exact locks; --tool-paths supplies explicit metadata outside checkout. Real installed all decision states and persistence verified; independent308tests7skips. Rebuild wheel after CLI edits.
+
+- 6.3: summarize imports explicit repeatable single-record --trials files and recovers completed run artifacts. Separate experiment storage publishes report/evaluations/summary before final hash index; corruption or missing files recover incomplete. Summary exit0 is report success (including baseline-ineligible-only), distinct from run3. Independent321tests7skips and installed summary smoke passed.

@@ -15,7 +15,7 @@ from typing import Literal
 import uuid
 
 from .contracts import (
-    ContractError, PreparedPlan, Record, RunReport, dumps, loads,
+    ContractError, ExperimentReport, PreparedPlan, Record, RunReport, dumps, loads,
     _hash, _integer, _object, _relative, _sequence, _string, _timestamp, _version,
 )
 
@@ -440,3 +440,181 @@ def persist(report: RunReport, target: Path, *, artifact_root: Path | None = Non
         return store.finalize(report)
     except OSError as exc:
         raise PersistenceError(store.directory, str(exc)) from exc
+
+
+def render_experiment_summary(aggregation) -> str:
+    """Render recorded populations, never recompute a decision or infer costs."""
+    report = ExperimentReport.from_dict(aggregation.report.to_dict())
+    lines = ["# Recorded experiment summary", "", "Format version: 1.",
+             "A successful summary command records outcomes; it does not assert candidate acceptance or equivalence.",
+             "", "## Corpus and declared controls", "",
+             "Experiment: " + _literal(report.manifest.experiment_id)]
+    for entry in report.manifest.corpus:
+        lines.append("- Corpus/source/license/generation_provenance: " + _value(entry.to_dict()))
+    lines += ["- Declared controls: " + _value(report.manifest.controls.to_dict()),
+              "- Allowed interventions: " + _value(report.manifest.allowed_interventions)]
+    for arm in report.manifest.arms:
+        lines.append("- Arm: " + _value(arm.to_dict()))
+    for trial in report.manifest.planned_trials:
+        lines.append("- Planned task/repetition/prompt: " + _value(trial.to_dict()))
+    lines += ["", "## Outcomes and denominators", "",
+              "Correctness is passing all required behavior checks among eligible attempts. Acceptance additionally requires the recorded structural rules.",
+              "Missing and invalid baseline evidence and baseline-ineligible attempts cannot establish behavior success. Extra records never expand the scheduled denominator."]
+    for arm in report.arm_summaries:
+        rate = (100 * arm.correct_attempts / arm.eligible_attempts) if arm.eligible_attempts else None
+        acceptance = (100 * arm.state_counts["accepted"] / arm.planned_attempts) if arm.planned_attempts else None
+        lines += ["", "### Arm " + _literal(arm.arm_id), "",
+                  "- Per-state counts: " + _value(arm.state_counts),
+                  f"- Correctness: numerator {arm.correct_attempts}; eligible-attempt denominator {arm.eligible_attempts}; rate {_value(rate)} percent.",
+                  f"- Acceptance: numerator {arm.state_counts['accepted']}; planned-attempt denominator {arm.planned_attempts}; rate {_value(acceptance)} percent.",
+                  f"- Budget-exhausted attempts: {arm.budget_exhausted_attempts}."]
+        for label, distributions in (("All-attempt", arm.all_attempt_structural), ("Accepted-only", arm.accepted_only_structural)):
+            lines.append("- " + label + " structural absolute deltas (after minus before):")
+            lines.extend("  - " + _value(d.to_dict()) for d in distributions)
+            if not distributions:
+                lines.append("  - unavailable: no comparable scalar samples.")
+    lines += ["", "## Paired variation", "",
+              "Descriptive n, mean, median, min/max and sample standard deviation only; standard deviation is unavailable for n < 2. No inferential confidence interval. Paired differences are right-arm minus left-arm deltas; confounded comparisons are excluded."]
+    lines.extend("- " + _value(pair.to_dict()) for pair in report.paired_summaries)
+    for outcome in report.outcomes:
+        lines.append("- Outcome/reasons/confounding: " + _value(outcome.to_dict()))
+    lines += ["", "## Producer conditions and observed agent telemetry", "",
+              "Producer-supplied observations retain their source, unit and timestamp. Unavailable tokens or cost remain unavailable; none are inferred from source size. Currencies and units are never combined."]
+    for label, records in (("Scheduled", report.trials), ("Extra (excluded from denominators)", report.extra_trials)):
+        for trial in records:
+            lines += ["", "### " + label + " trial " + _literal(trial.trial_id), "",
+                      "- Starting identity, conditions, execution order, seed and completion: " +
+                      _value({k: v for k, v in trial.to_dict().items() if k != "telemetry"}),
+                      "- Observed token usage: " + _value(trial.telemetry.token_usage.to_dict()),
+                      "- Observed provider cost: " + _value(trial.telemetry.provider_cost.to_dict()),
+                      "- Observed agent elapsed: " + _value(trial.telemetry.agent_elapsed.to_dict()),
+                      "- Runtime benchmarks (workload/environment separate from structural and agent cost):"]
+            lines.extend("  - " + _value(b.to_dict()) for b in trial.telemetry.runtime_benchmarks)
+            if not trial.telemetry.runtime_benchmarks:
+                lines.append("  - unavailable (not supplied).")
+    lines += ["", "## Evaluation elapsed and retained evidence", ""]
+    for run in aggregation.runs:
+        lines.append(f"- Trial {_literal(run.trial_id)}: Evaluation elapsed {_literal(run.report.elapsed_seconds)} seconds; origin {_literal(run.origin)}; run {_literal(run.report.run_id)}; plan {_literal(run.report.plan_hash)}. Full source identities and observations retained in evaluations.json; raw logs remain in the recorded run artifact.")
+    lines += ["", "## Limitations", ""]
+    lines.extend("- " + _literal(limit) for limit in report.limitations)
+    return "\n".join(lines) + "\n"
+
+
+@dataclass(frozen=True)
+class ExperimentStorageManifest(Record):
+    """Storage envelope independent of the RunReport lifecycle."""
+    schema_version: int
+    experiment_id: str
+    report_hash: str
+    state: Literal["prepared", "finalized"]
+
+    @classmethod
+    def from_dict(cls, value, path="$input"):
+        d = _object(value, path, "schema_version experiment_id report_hash state")
+        if d["state"] not in ("prepared", "finalized"):
+            raise ContractError(path + ".state: invalid experiment storage state")
+        return cls(_version(d["schema_version"], path + ".schema_version"),
+                   _string(d["experiment_id"], path + ".experiment_id"),
+                   _hash(d["report_hash"], path + ".report_hash"), d["state"])
+
+
+@dataclass(frozen=True)
+class ExperimentArtifactIndex(Record):
+    schema_version: int
+    experiment_id: str
+    report_hash: str
+    artifacts: tuple[ArtifactIdentity, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input"):
+        d = _object(value, path, "schema_version experiment_id report_hash artifacts")
+        return cls(_version(d["schema_version"], path + ".schema_version"),
+                   _string(d["experiment_id"], path + ".experiment_id"),
+                   _hash(d["report_hash"], path + ".report_hash"),
+                   _sequence(d["artifacts"], ArtifactIdentity.from_dict, path + ".artifacts", lambda a: a.path.casefold()))
+
+
+def persist_experiment(aggregation, target: Path) -> ExperimentArtifactIndex:
+    """Publish independent machine/human experiment artifacts, index last.
+
+    Failed writes retain manifest, completed files and temporary bytes. A
+    finalized manifest alone is insufficient: completion requires the index and
+    matching hashes for every indexed file. Input run artifacts remain read-only.
+    """
+    report = ExperimentReport.from_dict(aggregation.report.to_dict())
+    machine = dumps(report).encode("utf-8")
+    summary = render_experiment_summary(aggregation).encode("utf-8")
+    evidence = []
+    records = {trial.trial_id: trial for trial in report.trials}
+    for run in aggregation.runs:
+        validated = RunReport.from_dict(run.report.to_dict())
+        if run.trial_id not in records:
+            raise ContractError("experiment evaluation has no scheduled producer record")
+        evidence.append({"trial_id": run.trial_id, "origin": run.origin,
+                         "run_artifact": records[run.trial_id].run_artifact,
+                         "report": validated.to_dict()})
+    evaluations = json.dumps({"schema_version": 1, "runs": evidence}, ensure_ascii=False,
+                             allow_nan=False, sort_keys=True).encode("utf-8")
+    target = Path(target).absolute()
+    if ".." in target.parts:
+        raise ContractError("output target cannot contain traversal")
+    _no_links(target)
+    target = target.resolve()
+    manifest = ExperimentStorageManifest(1, report.manifest.experiment_id,
+                                         hashlib.sha256(machine).hexdigest(), "prepared")
+    def atomic(name, data):
+        path = _safe(target, name)
+        if path.exists() and name != "manifest.json":
+            raise OSError("refusing to overwrite an existing experiment artifact: " + name)
+        temporary = _safe(target, "." + name + "." + uuid.uuid4().hex + ".tmp")
+        with temporary.open("xb") as handle:
+            handle.write(data)
+            handle.flush()
+            os.fsync(handle.fileno())
+        _safe(target, name)
+        os.replace(temporary, path)
+    try:
+        target.mkdir(parents=True, exist_ok=False)
+        atomic("manifest.json", dumps(manifest).encode("utf-8"))
+        atomic("report.json", machine)
+        atomic("evaluations.json", evaluations)
+        atomic("summary.md", summary)
+        atomic("manifest.json", dumps(replace(manifest, state="finalized")).encode("utf-8"))
+        index = ExperimentArtifactIndex(1, manifest.experiment_id, manifest.report_hash,
+                tuple(_identity(target, path) for path in ("manifest.json", "report.json", "evaluations.json", "summary.md")))
+        atomic("artifacts.json", dumps(index).encode("utf-8"))
+        return index
+    except OSError as exc:
+        raise PersistenceError(target, str(exc)) from exc
+
+
+@dataclass(frozen=True)
+class ExperimentRecovery:
+    state: Literal["complete", "incomplete"]
+    report: ExperimentReport | None
+    diagnostics: tuple[str, ...]
+
+
+def recover_experiment(target: Path) -> ExperimentRecovery:
+    """A manifest without a matching, hash-verified final index is incomplete."""
+    try:
+        target = Path(target).absolute()
+        _no_links(target)
+        target = target.resolve(strict=True)
+        manifest = loads(ExperimentStorageManifest, _safe(target, "manifest.json").read_bytes())
+        index = loads(ExperimentArtifactIndex, _safe(target, "artifacts.json").read_bytes())
+        if manifest.state != "finalized" or (manifest.experiment_id, manifest.report_hash) != (index.experiment_id, index.report_hash):
+            raise ContractError("experiment manifest/index state or identity mismatch")
+        required = {"manifest.json", "report.json", "evaluations.json", "summary.md"}
+        if {a.path for a in index.artifacts} != required:
+            raise ContractError("experiment index must identify all final artifacts")
+        for artifact in index.artifacts:
+            if _identity(target, artifact.path) != artifact:
+                raise ContractError("experiment artifact identity mismatch: " + artifact.path)
+        data = _safe(target, "report.json").read_bytes()
+        report = loads(ExperimentReport, data)
+        if hashlib.sha256(data).hexdigest() != manifest.report_hash or report.manifest.experiment_id != manifest.experiment_id:
+            raise ContractError("experiment report identity mismatch")
+        return ExperimentRecovery("complete", report, ())
+    except (OSError, ContractError, ValueError) as exc:
+        return ExperimentRecovery("incomplete", None, (str(exc),))

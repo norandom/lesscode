@@ -91,3 +91,54 @@ envelopes. These import the existing versioned optional-evidence contract as
 scope, tool metadata and provenance remain authoritative and validated. Imports
 do not recertify freshness. The CLI does not generate coverage/mutation results;
 generated evidence with explicit freshness bounds remains a Python integration API.
+
+## Summarizing recorded experiments
+
+```powershell
+lesscode-baseline summarize --experiment C:/pilot/inputs/experiment.json --trials C:/pilot/inputs/control.json --trials C:/pilot/inputs/skill.json --runs C:/pilot/evidence --out C:/pilot/summary
+```
+
+`--experiment` is a strict schema-version-1 `ExperimentManifest`. Each repeatable
+`--trials FILE` imports exactly one schema-version-1 `TrialRecord` JSON object.
+The manifest does not name producer files: there is no implicit file discovery.
+Omit `--trials` to report all scheduled trials as missing. Unknown fields,
+duplicate JSON keys and duplicate trial IDs are input errors. Use the shared
+`contracts` serializers to produce these records; all controls, budgets,
+provenance and explicit unavailable telemetry fields are required.
+
+`--runs` is the artifact root for each record's relative `run_artifact`, which
+may identify a run directory or its `report.json`. For example,
+`runs/control/report.json` resolves below `C:/pilot/evidence`. Only completed,
+hash-indexed run artifacts establish evaluated evidence; bare, interrupted or
+tampered reports remain incomplete with diagnostics. Summarization executes no
+project checks, analyzers or LLM requests. Recorded source and evaluation inputs
+remain unchanged. Use a new output directory separate from run artifacts,
+source roots and evaluator code. It may be a sibling of the manifest and trial
+files; input files themselves cannot be overwritten or contain the output.
+
+The output includes the public schema-version-1 `ExperimentReport` in
+`report.json`, escaped human evidence in `summary.md`, and complete verified
+`RunReport` records with trial references and origins in `evaluations.json`.
+`manifest.json` records storage state; `artifacts.json` is published last and
+hashes the final files. A missing/mismatched index means incomplete storage even
+if the manifest says finalized. Python callers can inspect this with
+`report.recover_experiment(Path(...))`. Failed writes retain diagnostics and
+temporary files; reuse requires a new output directory.
+
+Summary exit precedence is **2** for invalid input or an invalid planned outcome,
+then **3** for any scheduled missing/incomplete attempt, then **1** for any valid
+rejection, otherwise **0** for successful report production. Persistence/internal
+failures return **4**. Baseline-ineligible outcomes alone permit summary exit 0;
+the pair `run` command returns 3 for that state. Summary exit 0 does not claim
+acceptance: every state remains separately counted. Extra records are listed
+and excluded from scheduled denominators.
+
+Correctness uses its disclosed eligible-attempt denominator, independently of
+acceptance among planned attempts. All-attempt and accepted-only structural
+distributions remain separate; paired statistics exclude confounded comparisons.
+Statistics are descriptive with sample counts and no inferential confidence
+interval. Observed tokens, provider cost and agent time retain individual source,
+unit and timestamp; currencies are not pooled and absent observations remain
+unavailable. Evaluator elapsed time is separate, as are runtime workloads and
+environment identities. Corpus source/license and generation provenance remain
+producer declarations; matching metadata does not prove causal effectiveness.
