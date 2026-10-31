@@ -46,6 +46,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Depends: 1.5_
   - _Requirements: 1.3, 3.1, 4.1, 4.2, 4.7_
 - [ ] 2.2 Select named quantities and validate measured populations
+  - _Blocked: Human review required for the per-rule selection result contract; the approved tuple cannot distinguish confirmed empty populations from unavailable evidence. See selection-contract-amendment.md._
   - Select function CCN, exact scalar metrics and declared duplication quantities; retain definitions, locations, producers and pair-span denominators, including ratios above one.
   - Preserve optional LLOC provenance and named-check evidence; reject aggregate narrowing, incompatible producers/units/scopes and omitted nonempty files.
   - Tests distinguish valid zero-function inventories from ambiguous empty selections and show absolute-only candidate observations do not require reference metrics.
@@ -182,6 +183,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Requirements: 4.1, 4.7, 7.6, 8.6, 8.7, 8.9, 9.5_
 
 ## Implementation Notes
+- Task 2.2: fresh debug returned STOP_FOR_HUMAN for a selection service-contract gap. The proposed correction is recorded in selection-contract-amendment.md; no task 2.2 implementation or design approval is implied.
 - Task 2.1: validate each surviving record's internal identities before cross-record relationships and missing-evidence classification. Missing counterparts must not hide detectable corruption. Preserve validated partial reports' original outcomes, reasons and limitations without claiming completed admission.
 - Task 1.5: byte-count fixtures require fixture-local LF attributes; verify fresh Git checkout with core.autocrlf=true when adding byte-sensitive source fixtures. Complete storage is independent of accepted/rejected/incomplete/invalid evaluation outcomes.
 - Task 1.1: use uv.exe with explicit pinned Python. The existing development venv uses a local CPython 3.12.10 base; clean installed smoke uses uv-managed 3.12.10. Both and all analyzer pins were verified. Preserve original RED output in a durable task log for subsequent handoffs.
