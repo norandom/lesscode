@@ -1,0 +1,129 @@
+{
+  "assessment_date": "2026-10-31",
+  "runtime_equivalence": "Only tasks.md differs between these revisions; current task7.4 edits are documentation only",
+  "native_runtime_revision": "778e46258dbca42d5b07191a4f011b2cb858fb61",
+  "checkout_revision": "f16f3820530e2b1ea2e2752ba9ecb0d03d13c5b6",
+  "suite": {
+    "command": "PYTHONPATH=<absolute checkout>/src uv.exe run --no-project --no-python-downloads --python .venv-task11/Scripts/python.exe python -m unittest discover -q",
+    "skip_scope": [
+      "10 POSIX-only tests",
+      "1 local symlink-creation privilege skip WinError1314, independently confirmed"
+    ],
+    "output": "[failed] ['D:\\\\Source\\\\lesscode\\\\.venv-task11\\\\Scripts\\\\python.exe', '-c', \"import sys; print('out'); print('err',file=sys.stderr); sys.exit(7)\"]\r\n[failed] exit=7 elapsed=0.079s\r\n[later] ['D:\\\\Source\\\\lesscode\\\\.venv-task11\\\\Scripts\\\\python.exe', '-c', \"print('later')\"]\r\n[later] exit=0 elapsed=0.083s\r\n----------------------------------------------------------------------\r\nRan 363 tests in 1126.475s\r\n\r\nOK (skipped=11)\r\n",
+    "skipped": 11,
+    "tests": 363,
+    "elapsed_seconds": 1126.475,
+    "exit_code": 0,
+    "raw_output_sha256": "fef19e2fc7f2838b070288433e4a486d9061db498b32632d1f299b929f44f5c5",
+    "raw_output_base64": "W2ZhaWxlZF0gWydEOlxcU291cmNlXFxsZXNzY29kZVxcLnZlbnYtdGFzazExXFxTY3JpcHRzXFxweXRob24uZXhlJywgJy1jJywgImltcG9ydCBzeXM7IHByaW50KCdvdXQnKTsgcHJpbnQoJ2VycicsZmlsZT1zeXMuc3RkZXJyKTsgc3lzLmV4aXQoNykiXQ0KW2ZhaWxlZF0gZXhpdD03IGVsYXBzZWQ9MC4wNzlzDQpbbGF0ZXJdIFsnRDpcXFNvdXJjZVxcbGVzc2NvZGVcXC52ZW52LXRhc2sxMVxcU2NyaXB0c1xccHl0aG9uLmV4ZScsICctYycsICJwcmludCgnbGF0ZXInKSJdDQpbbGF0ZXJdIGV4aXQ9MCBlbGFwc2VkPTAuMDgzcw0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KUmFuIDM2MyB0ZXN0cyBpbiAxMTI2LjQ3NXMNCg0KT0sgKHNraXBwZWQ9MTEpDQo="
+  },
+  "status": "fresh_suite_and_clean_installed_smoke_pass_task_review_and_feature_gate_pending",
+  "smoke": {
+    "status": "passed",
+    "revision": "f16f3820530e2b1ea2e2752ba9ecb0d03d13c5b6",
+    "wheel": "lesscode_baseline-0.1.0-py3-none-any.whl",
+    "wheel_sha256": "88119823ddefc23639ce71cf685a9e66aaf50636a1e1b6f9cd89cccb14d3a4eb",
+    "stages": 11,
+    "all_stage_exit_codes": 0,
+    "accepted_runs": 1,
+    "complete_experiments": 1,
+    "runtime_imports": 10,
+    "source_import_boundary": "stdlib and local package only",
+    "original_inputs_preserved": true,
+    "limitations": [
+      "single accepted-pair smoke; full adverse and six-pilot coverage belongs to exact native run41198054658",
+      "no skill efficacy or universal equivalence claim"
+    ],
+    "commands": [
+      {
+        "passed": true,
+        "stage": "build-wheel",
+        "exit_code": 0,
+        "elapsed_seconds": 9.803966522216797
+      },
+      {
+        "passed": true,
+        "stage": "clean-venv",
+        "exit_code": 0,
+        "elapsed_seconds": 0.08352088928222656
+      },
+      {
+        "passed": true,
+        "stage": "install-wheel",
+        "exit_code": 0,
+        "elapsed_seconds": 0.6385393142700195
+      },
+      {
+        "passed": true,
+        "stage": "console--help",
+        "exit_code": 0,
+        "elapsed_seconds": 0.3993854522705078
+      },
+      {
+        "passed": true,
+        "stage": "console--version",
+        "exit_code": 0,
+        "elapsed_seconds": 0.2595484256744385
+      },
+      {
+        "passed": true,
+        "stage": "module--help",
+        "exit_code": 0,
+        "elapsed_seconds": 0.2018275260925293
+      },
+      {
+        "passed": true,
+        "stage": "module--version",
+        "exit_code": 0,
+        "elapsed_seconds": 0.24570155143737793
+      },
+      {
+        "passed": true,
+        "stage": "installed-plan",
+        "exit_code": 0,
+        "elapsed_seconds": 5.258862495422363
+      },
+      {
+        "passed": true,
+        "stage": "installed-run",
+        "exit_code": 0,
+        "elapsed_seconds": 110.28318095207214
+      },
+      {
+        "passed": true,
+        "stage": "installed-summarize",
+        "exit_code": 0,
+        "elapsed_seconds": 1.2151541709899902
+      },
+      {
+        "passed": true,
+        "stage": "installed-recovery-imports",
+        "exit_code": 0,
+        "elapsed_seconds": 1.3388643264770508
+      }
+    ]
+  },
+  "local_skip_confirmation": {
+    "native_windows": "same test executed successfully in exact native run41198054658",
+    "tests": 1,
+    "exit_code": 0,
+    "reason": "WinError1314: symlink creation privilege unavailable",
+    "elapsed_seconds": 0.016,
+    "command": "uv.exe run --no-project --no-python-downloads --python .venv-task11/Scripts/python.exe python -m unittest -v tests.test_report.RunPersistenceTests.test_symlink_escape_is_rejected",
+    "skipped": 1
+  },
+  "doc_audit": {
+    "links_and_markers": "pass",
+    "task_completion_edits": 0,
+    "original_numbered_acceptance_criteria": 56,
+    "runtime_edits": 0,
+    "notice_files_sha256_verified": 80
+  },
+  "preserved_failed_attempt": {
+    "remediation": "Build cwd corrected to checkout; installed commands remain external; separate final evidence retained",
+    "runtime_change": "none",
+    "stage": "initial smoke build",
+    "exit_code": 2,
+    "reason": "Owned driver used external scratch cwd for uv build rather than checkout; no project metadata there"
+  }
+}

@@ -66,3 +66,15 @@ Action SHA pins were resolved from official upstream tags on 2026-10-31:
 
 Runner labels are documented in the
 [GitHub-hosted runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners).
+
+The independently reviewed native run
+[41198054658](https://github.com/norandom/lesscode/actions/runs/41198054658)
+tested exact runtime revision `778e46258dbca42d5b07191a4f011b2cb858fb61`.
+All three jobs passed 363 tests each and all 51 stages passed. The durable
+[compact audit summary](evidence/native-41198054658.json) retains exact job and
+artifact IDs, archive digests, skips and measured pilot outcomes. Raw workflow
+artifacts have 14-day retention and may expire; rerun the pinned workflow at the
+desired revision to regenerate inspectable raw evidence. See
+[integrated readiness](../.kiro/specs/efficiency-baseline/readiness.md) for runtime
+equivalence, fresh installed validation, all-criteria coverage and remaining
+review gates. This record establishes fixture-level evaluator validation only.

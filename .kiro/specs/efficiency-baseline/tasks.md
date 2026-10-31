@@ -236,7 +236,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 5.4, 6.2_
   - _Requirements: 6.1, 6.7, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 8.2, 8.3, 8.4_
 
-- [ ] 7. Validate the integrated evaluator across supported environments
+- [x] 7. Validate the integrated evaluator across supported environments
 - [x] 7.1 Verify reproducibility and behavior-preservation outcomes
   - Run real installed analyzers and the licensed/synthetic corpus through the full CLI, checking known results and repeat structural equality.
   - Align the pilot corpus content_hash with its canonical scoped Snapshot identity, keeping raw upstream file hashes and license provenance separate and unchanged.
@@ -263,7 +263,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 7.2_
   - _Requirements: 1.2, 1.4, 3.5, 6.7, 8.6_
 
-- [ ] 7.4 Complete the integrated readiness check
+- [x] 7.4 Complete the integrated readiness check
   - Run the full unit/integration suite and clean-install plan/run/summarize smoke paths against the final state.
   - Reconcile requirement coverage, artifact readability, boundary imports and all platform evidence; preserve unresolved failures rather than declare completion.
   - Done when the packaged evaluator starts, all mandatory checks pass and the real pilot reports can be independently inspected; no skill effectiveness claim is inferred.
@@ -276,7 +276,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - Task-plan review gate: PASS; all 56 acceptance criteria covered, with component contracts, runtime prerequisites, integration and validation represented.
 - Task-graph sanity review: PASS, independent mode. The reviewer requested explicit Node runtime setup; the draft was repaired once and passed the permitted re-review.
 - Baseline eligibility follows the user-confirmed rule: any failed or incomplete declared baseline behavior check makes the trial ineligible; optional metrics are nonblocking unless required.
-- Counts: 7 major groups, 29 executable subtasks, 4 parallel markers. All implementation checkboxes remain open.
+- Initial approved plan: 7 major groups, 29 executable subtasks and 4 parallel markers. Four corrective contract/isolation subtasks brought the executed total to 33. All 33 are now independently reviewed and complete; final feature validation remains a separate gate.
 
 ## Implementation Notes
 
@@ -374,3 +374,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 7.3 run41196920357: Windows full17stages passed (361tests9POSIX skips,6pilot/resume,448indexed runartifacts/60analyzeraudits); Ubuntu/Mac361tests passed14Windows skips but installedpilot exposed CLI metadata Python dereference. Reviewed bounded CLI fix preserves lexical venv path with relative/parent-relative metadata; rebuilt installed POSIX console and Windows12tests pass. Publishing mandatory final native rerun; task stillunchecked.
 
 - 7.3 COMPLETE: independent final review APPROVED actual native run https://github.com/norandom/lesscode/actions/runs/41198054658 at778e46258dbca42d5b07191a4f011b2cb858fb61. All3OS363tests+51stages passed (Windows10POSIX skips; Linux/Mac14Windows skips), native timeout unskipped;18pilot runs+3experiments/resumes,1344indexed artifacts/180audits/36configs verified. Generated native-newline inputs differ acrosshosts and are not claimed identical. ExactupstreamCRLF notice hashes preserved.
+
+- 7.4 COMPLETE: independent review APPROVED. Fresh uv.exe canonical suite363tests1126.475s exit0,11disclosed skips; clean installed11-stage plan/run/summarize/recovery smoke passed, originals preserved. Reviewer independently verified suite/wheel hashes, installed recovery, all56 criteria references,3nativearchives/1344artifact hashes and import boundaries. Runtime unchanged from778e462; final feature gate remains pending. See readiness.md and docs/evidence/readiness-2026-10-31.json.
