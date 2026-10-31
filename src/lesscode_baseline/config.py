@@ -83,12 +83,19 @@ def _probe(argv):
 def _binding(name, requested, executable, entry=None):
     resources = []
     observed = None
-    executable = str(Path(executable).resolve()) if executable else None
+    python_runtime = name in ("python", "lizard") or name.startswith("check/")
+    executable = (os.path.abspath(executable) if python_runtime else str(Path(executable).resolve())) if executable else None
     entry = str(Path(entry).resolve()) if entry else None
     try:
         if not executable:
             raise ValueError("executable was not found")
-        resources.append(_resource("executable", executable))
+        # Python's lexical venv entry point controls site-packages. Fingerprint
+        # the real binary separately and retain the environment configuration.
+        resources.append(_resource("executable", Path(executable).resolve(strict=True)))
+        if python_runtime:
+            environment = Path(executable).parent.parent / "pyvenv.cfg"
+            if environment.is_file():
+                resources.append(_resource("python_environment/pyvenv.cfg", environment))
         if name == "python" or name.startswith("check/"):
             observed = _probe([executable, "-I", "-c", "import platform; print(platform.python_version())"])
         elif name == "node":
@@ -187,7 +194,8 @@ def prepare(config, baseline, candidate, output, *, profile_path=None, tool_path
             value = tool_paths.get(key)
             if value:
                 p = Path(value)
-                return str((evaluator / p).resolve() if not p.is_absolute() else p.resolve())
+                absolute = evaluator / p if not p.is_absolute() else p
+                return os.path.abspath(absolute) if key == "python" else str(absolute.resolve())
             return None
         python = resolve_tool("python")
         node = resolve_tool("node")
@@ -212,7 +220,9 @@ def prepare(config, baseline, candidate, output, *, profile_path=None, tool_path
                 binding = bindings[0]
             else:
                 p = Path(executable)
-                resolved = str((evaluator / p).resolve()) if p.is_absolute() or len(p.parts) > 1 else shutil.which(executable)
+                python_command = p.name.lower() in ("python", "python.exe", "python3", "python3.12")
+                resolved = ((os.path.abspath(evaluator / p) if python_command else str((evaluator / p).resolve()))
+                            if p.is_absolute() or len(p.parts) > 1 else shutil.which(executable))
                 # Never invoke an arbitrary check launcher merely to discover
                 # its version: plugins/startup hooks could execute project work.
                 if p.name.lower() in ("python", "python.exe", "python3", "python3.12"):
@@ -268,7 +278,9 @@ def _command_integrity(prepared):
             expected_pins[name] = "3.12.10" if path.name.lower() in (
                 "python", "python.exe", "python3", "python3.12") else "unspecified"
             if path.is_absolute() or len(path.parts) > 1:
-                resolved = str((Path(prepared.evaluator_root) / path).resolve())
+                declared_path = Path(prepared.evaluator_root) / path
+                resolved = (os.path.abspath(declared_path) if expected_pins[name] == "3.12.10"
+                            else str(declared_path.resolve()))
                 if binding.executable != resolved:
                     changed.append("_context/tool-bindings")
         if binding.status == "available":
@@ -287,10 +299,23 @@ def _command_integrity(prepared):
         for attribute, logical in (("executable", "executable"), ("entry_point", "entry_point")):
             recorded = identities.get(logical)
             value = getattr(tool, attribute)
-            if (recorded is not None and value != recorded) or (
+            # A venv invocation may be a symlink, but its resolved target must
+            # still match the frozen runtime resource, even with identical bytes.
+            expected = value
+            if attribute == "executable" and value is not None:
+                try:
+                    expected = str(Path(value).resolve(strict=True))
+                except (OSError, ValueError):
+                    expected = None
+            if (recorded is not None and expected != recorded) or (
                     tool.status == "available" and
                     (attribute == "executable" or value is not None) and recorded is None):
                 changed.append(prefix + logical)
+        if tool.executable is not None and (name in ("python", "lizard") or name.startswith("check/")):
+            environment = Path(tool.executable).parent.parent / "pyvenv.cfg"
+            expected = str(environment) if environment.is_file() else None
+            if identities.get("python_environment/pyvenv.cfg") != expected:
+                changed.append(prefix + "python_environment/pyvenv.cfg")
         if tool.status == "available" and name in ("lizard", "jscpd"):
             runtime = bindings.get("python" if name == "lizard" else "node")
             if runtime is None or runtime.status != "available" or runtime.executable != tool.executable:

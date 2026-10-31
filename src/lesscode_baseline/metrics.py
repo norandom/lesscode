@@ -475,7 +475,9 @@ def stage_product(snapshot: Snapshot) -> Iterator[Snapshot | Failure]:
     """
     snapshot = Snapshot.from_dict(snapshot.to_dict())
     with tempfile.TemporaryDirectory(prefix="lesscode-metrics-") as temporary:
-        target = Path(temporary) / "product"
+        # Internally owned temp roots can use Windows 8.3 names or macOS /var
+        # aliases. Keep analyzer argv and the OS-resolved cwd on one identity.
+        target = Path(temporary).resolve() / "product"
         target.mkdir()
         affected = None
         try:

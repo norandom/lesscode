@@ -10,11 +10,20 @@ Both bootstrap and clean installation create environments with explicit
 `UV_PYTHON_PREFERENCE`: uv 0.13.5 rejects that preference when combined with
 `--managed-python`. Subsequent commands select the recorded environment's
 absolute Python path.
+Analyzer setup also uses uv to create a fresh tool environment and install its
+hash-locked Python packages. Interpreter bindings retain the venv invocation
+path, fingerprint the resolved binary and `pyvenv.cfg`, and reject changed
+runtime targets or environment configuration during integrity verification.
 
 `tools/ci_validate.py` retains commands, working directories, exit outcomes,
-stdout/stderr, timings and runtime identities. It runs the canonical verbose
-unittest discovery with absolute source `PYTHONPATH`, followed by the native
-parent/descendant timeout test. Host-inapplicable unittest skips remain visible
+stdout/stderr, timings and runtime identities.
+The helper supplies a canonical dedicated scratch directory through `TMPDIR`,
+`TEMP` and `TMP`; its path is recorded in `runtime.json`. This avoids macOS's
+default `/var` alias while preserving strict source and artifact symlink guards.
+Metric staging independently canonicalizes its owned temporary root before
+launching analyzers, keeping Windows 8.3 paths and actual process cwd consistent.
+It runs canonical verbose unittest discovery with absolute source `PYTHONPATH`,
+followed by the native parent/descendant timeout test. Host-inapplicable unittest skips remain visible
 in the canonical log. Other failures remain failures. A failed test stage does
 not prevent independent build and installed-package evidence from being gathered.
 

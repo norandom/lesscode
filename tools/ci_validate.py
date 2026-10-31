@@ -30,6 +30,14 @@ def npm_entry(node):
     raise FileNotFoundError(f"npm JavaScript entry missing beside {node}; checked {candidates}")
 
 
+def scratch_environment(output, environment):
+    # macOS's default /var temporary root aliases /private/var. Canonical
+    # fixtures keep strict symlink rejection and path-based fault injection.
+    temporary = (output / "temporary").resolve()
+    temporary.mkdir()
+    return dict(environment, TMPDIR=str(temporary), TEMP=str(temporary), TMP=str(temporary))
+
+
 class Evidence:
     def __init__(self, root):
         self.root = root
@@ -73,7 +81,7 @@ def main():
     if platform.python_version() != "3.12.10":
         parser.error("CI requires CPython 3.12.10")
     evidence = Evidence(output)
-    clean = dict(os.environ)
+    clean = scratch_environment(output, os.environ)
     clean.pop("PYTHONPATH", None)
     uv = shutil.which("uv.exe" if os.name == "nt" else "uv")
     node = shutil.which("node")
@@ -85,6 +93,7 @@ def main():
     runtime = {"platform": platform.platform(), "python": sys.version,
                "python_invocation": str(python), "python_binary": str(python.resolve()),
                "uv": uv, "node": str(Path(node).resolve()),
+               "temporary_root": clean["TMPDIR"],
                "runner_os": os.environ.get("RUNNER_OS"),
                "runner_arch": os.environ.get("RUNNER_ARCH"),
                "github_sha": os.environ.get("GITHUB_SHA")}

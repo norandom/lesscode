@@ -21,13 +21,17 @@ uv run --no-project --no-python-downloads --python .venv/bin/python python tools
 Node installation layout. No shell wrapper is used. `--tool-root` selects an
 alternative isolated environment, including a fresh directory for reproducing
 installation. The default is `.tools/analyzers/`, excluded from source control.
-Only use disposable tool directories: npm ci replaces that directory's installed
-Node dependency tree. The setup records resolved entry points in entrypoints.json.
+Select a new disposable tool root: setup rejects existing roots and linked
+ancestors without clearing their contents. Use a fresh `--tool-root` for each
+installation. The setup records entry points in entrypoints.json, preserving
+Python's virtual-environment invocation path on POSIX. Python environment creation
+and locked package installation use uv, avoiding copied macOS executables and
+the ensurepip bootstrap. `--uv` may select its explicitly installed executable.
 
 requirements-tools.lock pins all three Python analyzer packages with wheel SHA256
-hashes; pip enforces them and rejects unlocked transitive requirements. The npm
+hashes; uv pip enforces them and rejects unlocked transitive requirements. The npm
 lock pins all 119 packages with registry integrity values. npm ci uses the lock,
-disables lifecycle scripts and does not update dependencies. Bootstrap pip/npm
+disables lifecycle scripts and does not update dependencies. Bootstrap uv/npm
 are installation tools, outside the analyzer dependency inventory.
 
 tools/licenses.json maps every locked package to retained notices in

@@ -25,6 +25,18 @@ def load_helper():
 
 
 class CIHelperTests(unittest.TestCase):
+    def test_scratch_environment_is_canonical_and_does_not_change_parent(self):
+        helper = load_helper()
+        with tempfile.TemporaryDirectory() as temporary:
+            supplied = {"TMPDIR": "/ambient/tmp", "TEMP": "/ambient/temp", "TMP": "/ambient/tmp2", "PATH": "unchanged"}
+            original = dict(supplied)
+            result = helper.scratch_environment(Path(temporary).resolve(), supplied)
+            expected = (Path(temporary) / "temporary").resolve()
+            self.assertTrue(expected.is_dir())
+            self.assertEqual({result[key] for key in ("TMPDIR", "TEMP", "TMP")}, {str(expected)})
+            self.assertEqual(result["PATH"], "unchanged")
+            self.assertEqual(supplied, original)
+
     def test_workflow_environment_allows_explicit_managed_python_creation(self):
         workflow = (ROOT / ".github/workflows/baseline-platforms.yml").read_text()
         environment = dict(os.environ)

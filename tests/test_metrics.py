@@ -12,7 +12,7 @@ import struct
 import sys
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 import zlib
 
 from lesscode_baseline.contracts import Failure, Limits, MetricEvidence, ScopeRules, Snapshot
@@ -343,6 +343,40 @@ class DuplicationMetricTests(unittest.TestCase):
     def measure(self, snapshot=None, node=None, entry=None):
         return measure_duplication(snapshot or self.snapshot(), Path(sys.executable),
             node or self.node, entry or self.entry, self.limits, self.logs)
+
+    def assert_real_duplicates_through_temporary_alias(self, alias):
+        self.write("a.py", self.duplicate)
+        self.write("nested/b.py", self.duplicate)
+        context = MagicMock()
+        context.__enter__.return_value = str(alias)
+        context.__exit__.return_value = False
+        with patch("lesscode_baseline.metrics.tempfile.TemporaryDirectory", return_value=context):
+            metric = self.measure()
+        self.assertEqual(metric.status, "available", metric.reason)
+        self.assertEqual((metric.value.total_tokens, metric.value.duplicated_tokens, metric.value.ratio), (236, 118, .5))
+
+    def test_owned_temporary_alias_uses_same_analyzer_and_working_directory(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            (root / "hop").mkdir()
+            (root / "owned").mkdir()
+            self.assert_real_duplicates_through_temporary_alias(root / "hop/../owned")
+
+    @unittest.skipUnless(os.name == "nt", "native Windows 8.3 temporary-path identity")
+    def test_windows_short_temporary_alias_preserves_real_duplicate_evidence(self):
+        import ctypes
+        from ctypes import wintypes
+        get_short = ctypes.WinDLL("kernel32", use_last_error=True).GetShortPathNameW
+        get_short.argtypes = [wintypes.LPCWSTR, wintypes.LPWSTR, wintypes.DWORD]
+        get_short.restype = wintypes.DWORD
+        with tempfile.TemporaryDirectory(prefix="lesscode-analyzer-long-temporary-", dir=Path.home()) as temporary:
+            short = ctypes.create_unicode_buffer(32768)
+            length = get_short(temporary, short, len(short))
+            self.assertGreater(length, 0, "GetShortPathNameW failed")
+            self.assertLess(length, len(short), "short path exceeds supplied buffer")
+            if "~" not in short.value:
+                self.skipTest("host filesystem does not supply a Windows 8.3 alias")
+            self.assert_real_duplicates_through_temporary_alias(Path(short.value))
 
     def test_real_pair_span_counts_locations_and_configuration_isolation(self):
         self.write("nested/a.py", self.duplicate)
