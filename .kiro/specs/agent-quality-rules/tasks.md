@@ -11,7 +11,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - A built wheel imports the new package outside the checkout, and existing CLI startup smoke checks still pass.
   - _Boundary: Rules CLI_
   - _Requirements: 8.7, 8.8_
-- [ ] 1.2 Define strict policy and exception inputs
+- [x] 1.2 Define strict policy and exception inputs
   - Validate scoped numeric/check/review variants, explicit reference conditions, bounds and exception validity.
   - Reject duplicate keys/IDs, unsupported versions/selectors, unsafe scopes and invalid numeric combinations; retain every overlapping rule with no implicit default limits.
   - Round-trip and negative tests establish stable canonical policy identity and field-specific failures.
