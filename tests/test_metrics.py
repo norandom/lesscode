@@ -3,9 +3,11 @@
 from dataclasses import replace
 import gzip
 import json
+import os
 from io import BytesIO
 from pathlib import Path
 import platform
+import shutil
 import struct
 import sys
 import tempfile
@@ -188,7 +190,8 @@ class ComplexityMetricTests(unittest.TestCase):
     setUp = SizeMetricTests.setUp
     write = SizeMetricTests.write
     snapshot = SizeMetricTests.snapshot
-    interpreter = Path(__file__).resolve().parents[1] / ".tools/analyzers/python/Scripts/python.exe"
+    interpreter = (Path(__file__).resolve().parents[1] / ".tools/analyzers/python" /
+                   ("Scripts/python.exe" if os.name == "nt" else "bin/python"))
 
     def measure(self, snapshot=None, interpreter=None):
         return measure_complexity(snapshot or self.snapshot(), interpreter or self.interpreter,
@@ -332,7 +335,7 @@ class DuplicationMetricTests(unittest.TestCase):
     write = SizeMetricTests.write
     snapshot = SizeMetricTests.snapshot
     assert_unavailable = ComplexityMetricTests.assert_unavailable
-    node = Path("C:/Program Files/nodejs/node.exe")
+    node = Path(shutil.which("node") or "node-unavailable")
     entry = Path(__file__).resolve().parents[1] / ".tools/analyzers/node/node_modules/jscpd/bin/jscpd"
     duplicate = (b"def classify(value):\n    result = 0\n    if value > 0:\n        result += value\n    for item in range(value):\n        result += item\n"
                  + b"    result += 1\n" * 9 + b"    return result\n")

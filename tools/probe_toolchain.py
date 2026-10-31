@@ -5,6 +5,7 @@ This is setup verification, not the future production metric adapter.
 
 import argparse
 import json
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -28,7 +29,13 @@ def run(argv, **kwargs):
 
 def probe(tool_root):
     paths = json.loads((tool_root / "entrypoints.json").read_text(encoding="utf-8"))
-    python, node, entry = (str(Path(paths[key]).resolve(strict=True)) for key in ("python", "node", "jscpd_entry"))
+    # A POSIX venv's bin/python is a symlink. Launch that path to retain its
+    # site-packages; dereferencing it launches the base interpreter instead.
+    for key in ("python", "node", "jscpd_entry"):
+        if not Path(paths[key]).is_file():
+            raise FileNotFoundError(paths[key])
+    python = os.path.abspath(paths["python"])
+    node, entry = (str(Path(paths[key]).resolve(strict=True)) for key in ("node", "jscpd_entry"))
     python_version = run([python, "-c", "import platform; print(platform.python_version())"])
     node_version = run([node, "--version"])
     version = run([node, entry, "--version"])
