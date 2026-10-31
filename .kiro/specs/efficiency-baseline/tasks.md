@@ -97,7 +97,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 2.4_
   - _Requirements: 4.1, 4.4, 4.5, 6.5_
 
-- [ ] 3. Measure structural and optional evidence
+- [x] 3. Measure structural and optional evidence
 - [x] 3.1 Produce deterministic size metrics and input diagnostics
   - Validate Python syntax and stage only measured product paths without inheriting project analyzer configuration.
   - Calculate byte, defined physical-line and deterministic compressed-size values with runtime/definition provenance.
@@ -122,7 +122,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 3.2_
   - _Requirements: 3.2, 3.4, 3.5, 3.7_
 
-- [ ] 3.4 (P) Normalize supplied optional measurements
+- [x] 3.4 (P) Normalize supplied optional measurements
   - Consume coverage, mutation, architecture, nesting and runtime evidence through the shared typed contracts without adding measurement engines.
   - Retain populations, numerators/denominators, explanation and provenance; distinguish newly generated evidence from producer-supplied artifacts.
   - Done when stale/foreign evidence is rejected and population changes remain visible for comparison; this task touches Execution tests/code, not pending Metrics files.
@@ -298,4 +298,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 1.7 corrective foundation: OptionalEvidenceArtifact binds existing metrics/runtime payloads to source/plan/timestamp/origin without changing nested recordshapes. Strictsharedreader tested/reviewed;3.4 can now consume it. Queue30executabletasks after this omitted foundation contract was restored.
+
+
+- 3.4: read_optional_evidence retains validated OptionalEvidenceArtifact/raw bytes and typed Failures. Generated artifacts require time/source/plan/scope/origin checks; imported provenance stays producerclaims. Populationcomparison belongs4.2.
 

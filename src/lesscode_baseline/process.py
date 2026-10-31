@@ -19,7 +19,74 @@ import uuid
 import xml.etree.ElementTree as ET
 
 from .contracts import (CheckEvidence, CheckSpec, CommandSpec, ContractError,
-                        ExecutionResult, Failure, ResolvedCommand)
+                        ExecutionResult, Failure, ResolvedCommand, OptionalEvidenceArtifact)
+
+def read_optional_evidence(result_path: str, workspace: Path, logs: Path,
+                           source_hash: str, plan_hash: str, scope_hash: str, *,
+                           origin: Literal["generated", "producer_supplied"],
+                           generated_since: datetime | None = None,
+                           max_bytes: int = 8 * 1024 * 1024) -> tuple[
+                               OptionalEvidenceArtifact | None, str | None, tuple[Failure, ...]]:
+    """Read a declared artifact without executing any measurement engine.
+
+    The returned envelope retains the producer's complete claims and origin;
+    producer-supplied evidence is not independently verified. Generated reports
+    must have both a file timestamp and a producer timestamp at/after execution
+    start. Callers retain the envelope and raw reference together for reporting.
+    Population comparison belongs to Decision, not this reader.
+    """
+    # Validate caller policy before filesystem access. Failure's path validation
+    # is the shared portable artifact-path contract.
+    Failure.from_dict(Failure("optional_evidence_invalid", "invalid artifact", result_path,
+                             None, None, False, None).to_dict())
+    if any(not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None
+           for value in (source_hash, plan_hash, scope_hash)):
+        raise ContractError("expected source, plan and scope SHA-256 identities")
+    if origin not in ("generated", "producer_supplied"):
+        raise ContractError("expected generated or producer_supplied origin")
+    if type(max_bytes) is not int or max_bytes <= 0:
+        raise ContractError("optional evidence byte limit must be positive")
+    if origin == "generated" and (not isinstance(generated_since, datetime)
+            or generated_since.tzinfo is None or generated_since.utcoffset() is None):
+        raise ContractError("generated evidence requires an aware execution-start timestamp")
+    root = Path(workspace).resolve(strict=True)
+    report = root / result_path
+    _check_report_path(report, root)
+    if not report.exists():
+        return None, None, (Failure("optional_evidence_missing", "optional evidence report missing",
+                                   result_path, None, None, False, None),)
+    raw_artifact = None
+    try:
+        if not report.is_file():
+            raise ContractError("optional evidence must be a regular file")
+        with report.open("rb") as handle:
+            before = os.fstat(handle.fileno())
+            raw = handle.read(max_bytes + 1)
+            after = os.fstat(handle.fileno())
+        if len(raw) > max_bytes:
+            raise ContractError("optional evidence exceeds byte limit")
+        logs = Path(logs).resolve()
+        logs.mkdir(parents=True, exist_ok=True)
+        raw_artifact = uuid.uuid4().hex + ".optional.json"
+        with (logs / raw_artifact).open("xb") as target:
+            target.write(raw)
+        if (before.st_size, before.st_mtime_ns) != (after.st_size, after.st_mtime_ns):
+            raise ContractError("optional evidence changed during read")
+        evidence = OptionalEvidenceArtifact.from_dict(json.loads(raw, object_pairs_hook=_json_unique))
+        if (evidence.source_hash, evidence.plan_hash, evidence.origin) != (source_hash, plan_hash, origin):
+            raise ContractError("optional evidence source/plan/origin mismatch")
+        if any(metric.scope_hash != scope_hash for metric in evidence.metrics):
+            raise ContractError("optional evidence scope mismatch")
+        if origin == "generated":
+            produced = datetime.fromisoformat(evidence.produced_at.replace("Z", "+00:00"))
+            if before.st_mtime_ns < int(generated_since.timestamp() * 1_000_000_000) or produced < generated_since:
+                raise ContractError("optional evidence is stale")
+            if produced > datetime.now(timezone.utc):
+                raise ContractError("optional evidence producer timestamp is in the future")
+        return evidence, raw_artifact, ()
+    except (ContractError, ValueError, UnicodeError) as exc:
+        return None, raw_artifact, (Failure("optional_evidence_invalid", str(exc), result_path,
+                                          None, None, False, raw_artifact),)
 
 def execute_check(spec: CheckSpec, command: ResolvedCommand, workspace: Path,
                   logs: Path, source_hash: str, plan_hash: str) -> tuple[
