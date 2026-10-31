@@ -4,7 +4,7 @@ Each executable subtask is estimated at 1-3 hours. All verification below is req
 
 Default ordering is sequential. Tasks marked `(P)` may skip preceding work once their explicit prerequisites are complete and reviewed. Their component-local follow-ons remain sequential; shared contracts, fixtures and CLI registration must not be edited concurrently. Technical example tests include their usage instructions and index links as part of runnable deliverables, not standalone documentation tasks.
 
-- [ ] 1. Establish runtime and shared policy contracts
+- [x] 1. Establish runtime and shared policy contracts
 - [x] 1.1 Verify the existing runtime and package foundation
   - Verify the pinned uv-managed Python environment and existing analyzer bindings for later real-run validation; use uv.exe on Windows, never Store Python.
   - Establish the rules package and test discovery within existing packaging, without dependencies or upstream schema changes.
@@ -29,7 +29,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - Round-trip tests prove unknown versions, inconsistent accepted flags and malformed artifact identities fail closed.
   - _Boundary: Policy contracts_
   - _Requirements: 1.3, 6.3, 7.4, 8.1, 8.2, 8.6, 8.9_
-- [ ] 1.5 Establish baseline-backed policy fixtures
+- [x] 1.5 Establish baseline-backed policy fixtures
   - Create minimal complete run stores with indexed prepared plans and matching source/profile/check/artifact identities using existing baseline contracts.
   - Include accepted, rejected, incomplete and invalid upstream outcomes plus independently declared expected policy findings; keep each later task's added fixtures isolated.
   - Existing baseline recovery validates intended complete fixtures and rejects deliberately corrupt stores; no fixture bypasses plan or hash admission.
@@ -182,6 +182,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Requirements: 4.1, 4.7, 7.6, 8.6, 8.7, 8.9, 9.5_
 
 ## Implementation Notes
+- Task 1.5: byte-count fixtures require fixture-local LF attributes; verify fresh Git checkout with core.autocrlf=true when adding byte-sensitive source fixtures. Complete storage is independent of accepted/rejected/incomplete/invalid evaluation outcomes.
 - Task 1.1: use uv.exe with explicit pinned Python. The existing development venv uses a local CPython 3.12.10 base; clean installed smoke uses uv-managed 3.12.10. Both and all analyzer pins were verified. Preserve original RED output in a durable task log for subsequent handoffs.
 - Task 1.3: review records preserve wrong-but-well-formed identities. In task 3.2 classify missing/wrong source-policy-scope bindings as insufficient before consistency assertions; duplicates/conflicts are invalid. Do not collapse these through generic exception handling or parse error strings to recover verdict meaning.
 - Task 1.4: prepared artifacts retain supplied reviews, including duplicate/conflicting and mismatched records; task 3.2 must classify duplicates/conflicts as invalid and mismatches as insufficient before binding assertions. Artifact parsing does not claim filesystem admission or external verification.

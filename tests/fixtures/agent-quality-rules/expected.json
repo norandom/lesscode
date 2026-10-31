@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "provenance": "Independently authored synthetic cases; not claims of analyzer or policy execution. Size counts are literal source-byte counts. The real short-file regression is exercised separately through measure_duplication.",
+  "cases": {
+    "accepted": {"baseline_decision": "accepted", "accepted": true, "findings": [{"rule_id": "size", "status": "satisfied", "candidate": 54}, {"rule_id": "api", "status": "satisfied", "candidate": "passed"}]},
+    "rejected": {"baseline_decision": "rejected", "accepted": false, "findings": [{"rule_id": "size", "status": "satisfied", "candidate": 54}, {"rule_id": "api", "status": "violation", "candidate": "failed"}]},
+    "incomplete": {"baseline_decision": "incomplete", "accepted": false, "findings": [{"rule_id": "size", "status": "satisfied", "candidate": 5}, {"rule_id": "api", "status": "satisfied", "candidate": "passed"}, {"rule_id": "duplication", "status": "insufficient", "candidate": null}]},
+    "invalid": {"baseline_decision": "invalid", "accepted": false, "findings": [{"rule_id": "size", "status": "satisfied", "candidate": 54}, {"rule_id": "api", "status": "satisfied", "candidate": "passed"}]}
+  }
+}
