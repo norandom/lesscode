@@ -37,7 +37,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Depends: 1.4_
   - _Requirements: 4.1, 4.6, 9.1_
 
-- [ ] 2. Read comparable scoped evidence
+- [x] 2. Read comparable scoped evidence
 - [x] 2.1 Admit completed runs and validate reference bindings
   - Recover indexed artifacts and require the prepared plan; validate plan/report/source/profile/check-inventory relationships and the selected same-run baseline reference.
   - Distinguish incomplete storage from non-accepted evaluation; preserve diagnostics and upstream outcome without reinterpreting them.
@@ -52,7 +52,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - Tests distinguish valid zero-function inventories from ambiguous empty selections and show absolute-only candidate observations do not require reference metrics.
   - _Boundary: Evidence reader, Policy contracts_
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 4.3, 4.4, 4.5, 4.6_
-- [ ] 2.3 Establish conservative entity continuity
+- [x] 2.3 Establish conservative entity continuity
   - Automatically match only identical file bytes and inventory identities; validate explicit source-bound matched/new/removed/unresolved treatments for changed files.
   - Reject duplicate/contradictory matches and expose rename/split/merge uncertainty without inferring semantic equivalence.
   - Tests retain removals and prevent uncertain matches from granting inherited-debt allowance.

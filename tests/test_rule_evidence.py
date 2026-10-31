@@ -460,6 +460,188 @@ class EvidenceSelectionTests(unittest.TestCase):
         self.assertEqual(result.candidate.entities[0].evidence_refs, ("report.json",))
 
 
+class EntityContinuityTests(unittest.TestCase):
+    def setUp(self):
+        from lesscode_baseline.rules.evidence import read_evidence
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        fixture = materialize(Path(temporary.name) / "continuity")
+        self.policy = fixture["policy"]
+        self.bundle = read_evidence(fixture["run"], self.policy)
+        from dataclasses import replace
+        candidate = self.bundle.report.candidate
+        source = "c" * 64
+        candidate = replace(candidate,
+            snapshot=replace(candidate.snapshot, content_hash=source,
+                files=tuple(replace(f, content_hash="d" * 64) for f in candidate.snapshot.files)),
+            checks=tuple(replace(check, source_hash=source) for check in candidate.checks))
+        inventory = self.bundle.candidate_inventory
+        self.bundle = replace(self.bundle, report=replace(self.bundle.report, candidate=candidate),
+            candidate_inventory=replace(inventory, source_hash=source,
+                entities=tuple(replace(e, source_hash=source) for e in inventory.entities)))
+
+    def functions(self, side, names=("work()",), path="short.py", start=1):
+        from dataclasses import replace
+        from lesscode_baseline.rules.contracts import EvidenceInventory, NumericRule
+        from lesscode_baseline.rules.evidence import select_observations
+        from tests.test_rule_contracts import numeric
+        observation = getattr(self.bundle.report, side)
+        functions = tuple(c.FunctionComplexity(path, name, name, start + i, start + i, 56, 1, 2)
+                          for i, name in enumerate(names))
+        payload = c.ComplexityPayload("complexity", (c.FileComplexity(path, 5),), functions,
+                                      len(functions), 56, 56, 56, 56)
+        metrics = tuple(replace(m, value=payload) if m.key == "complexity" else m
+                        for m in observation.metrics)
+        self.bundle = replace(self.bundle, report=replace(self.bundle.report,
+                              **{side: replace(observation, metrics=metrics)}))
+        metric = next(m for m in metrics if m.key == "complexity")
+        rule = numeric()
+        rule.update(selector={"kind": "function_ccn", "metric_key": None},
+                    evidence={key: getattr(metric, key) for key in
+                              ("unit", "definition_id", "producer", "producer_version")})
+        selection = select_observations(self.bundle, NumericRule.from_dict(rule))
+        # Absolute selection reads candidate only; use the same public selector
+        # on a temporary candidate observation to address the baseline side.
+        if side == "baseline":
+            swapped = replace(self.bundle, report=replace(self.bundle.report, candidate=self.bundle.report.baseline))
+            selection = select_observations(swapped, NumericRule.from_dict(rule))
+        inventory = getattr(self.bundle, side + "_inventory")
+        self.bundle = replace(self.bundle, **{side + "_inventory": EvidenceInventory(
+            inventory.source_hash, "complete", None, selection.candidate.entities)})
+
+    def unchanged_file(self):
+        from dataclasses import replace
+        before = self.bundle.report.baseline.snapshot.files
+        observation = self.bundle.report.candidate
+        snapshot = replace(observation.snapshot, files=before)
+        self.bundle = replace(self.bundle, report=replace(self.bundle.report,
+                              candidate=replace(observation, snapshot=snapshot)))
+
+    def continuity(self, treatments=()):
+        from lesscode_baseline.rules.evidence import establish_continuity
+        return establish_continuity(self.bundle, self.policy, treatments)
+
+    def claim(self, kind, before=None, after=None):
+        from lesscode_baseline.rules.contracts import EntityTreatment, policy_hash
+        return EntityTreatment(policy_hash(self.policy), self.bundle.baseline_inventory.source_hash,
+            self.bundle.candidate_inventory.source_hash, kind, before, after, "owner", "Explicit treatment; no semantic proof")
+
+    def test_identical_file_and_inventory_match_across_different_source_hashes(self):
+        self.functions("baseline")
+        self.functions("candidate")
+        self.unchanged_file()
+        result = self.continuity()
+        self.assertEqual([r.kind for r in result], ["matched"])
+        self.assertEqual(result[0].baseline_id, self.bundle.baseline_inventory.entities[0].inventory_id)
+        self.assertIn("identical", result[0].rationale)
+        self.assertEqual(self.continuity(), result)
+
+    def test_changed_bytes_never_inherit_debt_from_same_name_and_location(self):
+        self.functions("baseline")
+        self.functions("candidate")
+        result = self.continuity()
+        self.assertEqual([r.kind for r in result], ["unresolved", "unresolved"])
+        self.assertTrue(all((r.baseline_id is None) != (r.candidate_id is None) for r in result))
+
+    def test_changed_location_or_name_in_identical_file_is_unresolved(self):
+        self.functions("baseline")
+        self.functions("candidate", ("renamed()",), start=2)
+        self.unchanged_file()
+        self.assertTrue(all(r.kind == "unresolved" for r in self.continuity()))
+
+    def test_explicit_match_is_preserved_as_producer_claim(self):
+        self.functions("baseline")
+        self.functions("candidate", ("renamed()",))
+        claim = self.claim("matched", self.bundle.baseline_inventory.entities[0].inventory_id,
+                           self.bundle.candidate_inventory.entities[0].inventory_id)
+        self.assertEqual(self.continuity((claim,)), (claim,))
+
+    def test_split_can_be_explicit_removal_and_new_without_inherited_allowance(self):
+        self.functions("baseline")
+        self.functions("candidate", ("first()", "second()"))
+        claims = (self.claim("removed", self.bundle.baseline_inventory.entities[0].inventory_id),
+                  *(self.claim("new", after=e.inventory_id) for e in self.bundle.candidate_inventory.entities))
+        self.assertEqual(set(self.continuity(claims)), set(claims))
+        self.assertTrue(all(r.kind != "matched" for r in self.continuity()))
+
+    def test_duplicate_conflicting_absent_and_wrong_source_claims_are_invalid(self):
+        from dataclasses import replace
+        self.functions("baseline")
+        self.functions("candidate")
+        claim = self.claim("matched", self.bundle.baseline_inventory.entities[0].inventory_id,
+                           self.bundle.candidate_inventory.entities[0].inventory_id)
+        for records in ((claim, claim), (claim, self.claim("removed", claim.baseline_id)),
+                        (replace(claim, candidate_id="f" * 64),),
+                        (replace(claim, candidate_source_hash="f" * 64),),
+                        (replace(claim, policy_hash="f" * 64),)):
+            with self.subTest(records=records), self.assertRaises(c.ContractError):
+                self.continuity(records)
+
+    def test_explicit_unresolved_prevents_automatic_match(self):
+        self.functions("baseline")
+        self.functions("candidate")
+        self.unchanged_file()
+        claim = self.claim("unresolved", self.bundle.baseline_inventory.entities[0].inventory_id,
+                           self.bundle.candidate_inventory.entities[0].inventory_id)
+        self.assertEqual(self.continuity((claim,)), (claim,))
+
+    def test_aggregate_requires_identical_product_population(self):
+        self.assertTrue(all(r.kind == "unresolved" for r in self.continuity()))
+        self.unchanged_file()
+        result = self.continuity()
+        self.assertTrue(result)
+        self.assertTrue(all(r.kind == "matched" for r in result))
+
+    def test_reference_binding_is_checked_even_without_supplied_treatments(self):
+        from dataclasses import replace
+        from lesscode_baseline.rules.contracts import PolicyReference
+        self.policy = replace(self.policy, reference=PolicyReference("f" * 64, self.bundle.profile_hash))
+        with self.assertRaises(c.ContractError):
+            self.continuity()
+
+    def test_rename_keeps_identical_bytes_but_requires_explicit_treatment(self):
+        from dataclasses import replace
+        self.functions("baseline")
+        candidate = self.bundle.report.candidate
+        files = tuple(replace(f, path="renamed.py", content_hash=self.bundle.report.baseline.snapshot.files[0].content_hash)
+                      for f in candidate.snapshot.files)
+        self.bundle = replace(self.bundle, report=replace(self.bundle.report,
+            candidate=replace(candidate, snapshot=replace(candidate.snapshot, files=files))))
+        self.functions("candidate", path="renamed.py")
+        self.assertTrue(all(r.kind == "unresolved" for r in self.continuity()))
+
+    def test_measurement_identity_changes_do_not_automatically_match(self):
+        from dataclasses import replace
+        self.functions("baseline")
+        self.functions("candidate")
+        self.unchanged_file()
+        original = self.bundle
+        for field, value in (("definition_id", "other"), ("producer", "other"),
+                             ("producer_version", "2"), ("unit", "other")):
+            with self.subTest(field=field):
+                entity = original.candidate_inventory.entities[0]
+                inventory = replace(original.candidate_inventory,
+                    entities=(replace(entity, metric=replace(entity.metric, **{field: value})),))
+                self.bundle = replace(original, candidate_inventory=inventory)
+                self.assertTrue(all(r.kind == "unresolved" for r in self.continuity()))
+
+    def test_explicit_removal_retained_when_candidate_inventory_empty(self):
+        from dataclasses import replace
+        self.functions("baseline")
+        self.bundle = replace(self.bundle, candidate_inventory=replace(self.bundle.candidate_inventory, entities=()))
+        claim = self.claim("removed", self.bundle.baseline_inventory.entities[0].inventory_id)
+        self.assertEqual(self.continuity((claim,)), (claim,))
+        self.assertEqual([r.kind for r in self.continuity()], ["unresolved"])
+
+    def test_multiple_claims_are_deterministic_and_merges_stay_unresolved(self):
+        self.functions("baseline", ("first()", "second()"))
+        self.functions("candidate")
+        self.assertTrue(all(r.kind == "unresolved" for r in self.continuity()))
+        claims = (*(self.claim("removed", e.inventory_id) for e in self.bundle.baseline_inventory.entities),
+                  self.claim("new", after=self.bundle.candidate_inventory.entities[0].inventory_id))
+        self.assertEqual(self.continuity(claims), self.continuity(tuple(reversed(claims))))
+
+
 class EvidenceAdmissionTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()

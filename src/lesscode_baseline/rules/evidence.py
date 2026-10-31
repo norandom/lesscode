@@ -9,8 +9,75 @@ from lesscode_baseline import contracts as baseline
 from lesscode_baseline.report import ArtifactIndex, RunManifest, recover
 from lesscode_baseline.decision import compare_metrics
 from lesscode_baseline.snapshot import matches
-from .contracts import (EvidenceBundle, EvidenceInventory, EntityObservation, NumericRule,
-                        Policy, PolicyScope, RuleFailure, RuleSelection, Selector)
+from .contracts import (EvidenceBundle, EvidenceInventory, EntityObservation, EntityTreatment,
+                        NumericRule, Policy, PolicyScope, RuleFailure, RuleSelection, Selector,
+                        policy_hash, validate_treatments)
+
+
+def establish_continuity(evidence: EvidenceBundle, policy: Policy,
+                         treatments: tuple[EntityTreatment, ...] = ()) -> tuple[EntityTreatment, ...]:
+    """Resolve exact inventory addresses without certifying semantic equivalence.
+
+    Supplied treatments are disclosed producer claims. Every omitted address
+    remains unresolved unless unchanged product bytes and inventory identity
+    establish an automatic match. Missing entities are never assumed removed
+    or new: a rename, split or merge may explain either side's absence.
+    """
+    evidence = EvidenceBundle.from_dict(evidence.to_dict())
+    policy = Policy.from_dict(policy.to_dict())
+    supplied = validate_treatments(treatments, evidence, policy)
+    resolved = list(supplied)
+    before_used = {r.baseline_id for r in supplied if r.baseline_id is not None}
+    after_used = {r.candidate_id for r in supplied if r.candidate_id is not None}
+    before_files, after_files = (
+        {f.path: (f.content_hash, f.size_bytes) for f in observation.snapshot.files
+         if f.category == "product"}
+        for observation in (evidence.report.baseline, evidence.report.candidate))
+    binding = (policy_hash(policy), evidence.baseline_inventory.source_hash,
+               evidence.candidate_inventory.source_hash)
+
+    def record(kind, before, after, rationale):
+        return EntityTreatment(*binding, kind, before, after, "lesscode:entity-continuity-v1", rationale)
+
+    # Snapshot source hashes legitimately differ when another file changes.
+    # Exclude those hashes and values from the address; retain the complete
+    # measurement identity so incompatible analyzer inventories cannot match.
+    candidates = {}
+    for entity in evidence.candidate_inventory.entities:
+        if entity.inventory_id not in after_used:
+            candidates.setdefault(_continuity_address(entity), []).append(entity)
+    for before in sorted(evidence.baseline_inventory.entities, key=lambda e: e.inventory_id):
+        if before.inventory_id in before_used:
+            continue
+        possible = candidates.get(_continuity_address(before), ())
+        if before.location is None:
+            identical_bytes = bool(before_files) and before_files == after_files
+        else:
+            path = before.location.path
+            identical_bytes = path in before_files and before_files[path] == after_files.get(path)
+        if identical_bytes and len(possible) == 1 and possible[0].inventory_id not in after_used:
+            after = possible[0]
+            resolved.append(record("matched", before.inventory_id, after.inventory_id,
+                "Automatic continuity: identical product file bytes and inventory identity; no semantic certification."))
+            before_used.add(before.inventory_id)
+            after_used.add(after.inventory_id)
+    for inventory, used, side in ((evidence.baseline_inventory, before_used, "baseline"),
+                                  (evidence.candidate_inventory, after_used, "candidate")):
+        for entity in inventory.entities:
+            if entity.inventory_id not in used:
+                resolved.append(record("unresolved", entity.inventory_id if side == "baseline" else None,
+                    entity.inventory_id if side == "candidate" else None,
+                    "Reference treatment not established; rename, split, merge or other change may require an explicit treatment. No inherited-debt allowance established."))
+    # Reuse the public validator for generated and supplied records together.
+    resolved.sort(key=lambda r: (r.baseline_id or "", r.candidate_id or "", r.kind))
+    return validate_treatments(tuple(resolved), evidence, policy)
+
+
+def _continuity_address(entity: EntityObservation):
+    metric = entity.metric
+    return (entity.selector, metric.key, metric.definition_id, metric.producer,
+            metric.producer_version, metric.unit, metric.scope_hash,
+            entity.location, entity.long_name)
 
 
 def select_observations(evidence: EvidenceBundle, rule: NumericRule) -> RuleSelection:
