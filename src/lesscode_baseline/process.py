@@ -10,13 +10,187 @@ from typing import BinaryIO, Literal
 import json
 import os
 from pathlib import Path
+import re
 import selectors
 import signal
 import subprocess
 import time
 import uuid
+import xml.etree.ElementTree as ET
 
-from .contracts import CommandSpec, ContractError, ExecutionResult, ResolvedCommand
+from .contracts import (CheckEvidence, CheckSpec, CommandSpec, ContractError,
+                        ExecutionResult, Failure, ResolvedCommand)
+
+def execute_check(spec: CheckSpec, command: ResolvedCommand, workspace: Path,
+                  logs: Path, source_hash: str, plan_hash: str) -> tuple[
+                      tuple[CheckEvidence, ...], ExecutionResult, tuple[Failure, ...]]:
+    """Execute a declared check once and retain its raw report beside its logs.
+
+    The result path is relative to the command cwd. Remove previous output before
+    launch and require a newly written regular file. JUnit identity is
+    ``classname.name`` (or ``name`` without classname); only declared IDs are
+    accepted. JSON records must already have the current binding and declaration.
+    The caller retains the execution and failures together with the check tuple.
+    """
+    spec = CheckSpec.from_dict(spec.to_dict())
+    command = ResolvedCommand.from_dict(command.to_dict())
+    # Resolution may replace argv, but must not silently alter execution policy.
+    if (command.command_id, command.cwd, command.environment, command.limits) != (
+            spec.command.command_id, spec.command.cwd, spec.command.environment, spec.command.limits):
+        raise ContractError("resolved check command differs from declared execution policy")
+    # Validate bindings before touching the filesystem or launching a command.
+    CheckEvidence.from_dict(CheckEvidence(spec.expected_ids[0], "missing", spec.kind,
+        spec.required, source_hash, plan_hash, None).to_dict())
+    root = Path(workspace).resolve(strict=True)
+    report = root / command.cwd / spec.result_path
+    _check_report_path(report, root)
+    if report.exists():
+        if not report.is_file():
+            raise ContractError("check result path must be a regular file")
+        report.unlink()
+    logs = Path(logs).resolve()
+    launch_ns = time.time_ns()
+    execution = execute(command, root, logs)
+    failures = []
+    raw_artifact = None
+    statuses = {}
+    fallback = "missing"
+    try:
+        _check_report_path(report, root)
+        if report.exists():
+            if not report.is_file():
+                raise ContractError("check report is not a regular file")
+            report_mtime = report.stat().st_mtime_ns
+            raw = report.read_bytes()
+            raw_artifact = uuid.uuid4().hex + ".check." + (
+                "json" if spec.result_format == "normalized" else "xml")
+            # Persistence errors propagate; do not promise an absent artifact.
+            with (logs / raw_artifact).open("xb") as target:
+                target.write(raw)
+            if report_mtime < launch_ns:
+                raise ContractError("check report is stale")
+            statuses = _read_check_report(raw, spec, source_hash, plan_hash)
+        else:
+            failures.append(Failure("check_report_missing", "check command did not write a fresh report",
+                spec.result_path, spec.check_id, None, False, execution.stderr_artifact))
+    except (ContractError, ValueError, ET.ParseError, UnicodeError) as exc:
+        fallback = "error"
+        failures.append(Failure("check_report_invalid", str(exc), spec.result_path,
+                                spec.check_id, None, False, raw_artifact or execution.stderr_artifact))
+    if execution.status != "completed" or execution.exit_code != 0:
+        failures.append(Failure("check_execution", f"execution {execution.status}; exit {execution.exit_code}",
+            None, spec.check_id, None, False, execution.stderr_artifact))
+        statuses = {identity: "error" if status == "passed" else status
+                    for identity, status in statuses.items()}
+        if execution.status != "completed":
+            fallback = "error"
+    checks = tuple(CheckEvidence(identity, statuses.get(identity, fallback), spec.kind,
+        spec.required, source_hash, plan_hash, raw_artifact or execution.stderr_artifact)
+        for identity in spec.expected_ids)
+    return checks, execution, tuple(failures)
+
+
+def _check_report_path(path: Path, root: Path) -> None:
+    if not path.resolve().is_relative_to(root):
+        raise ContractError("check result path escapes workspace")
+    current = root
+    for part in path.relative_to(root).parts:
+        current = current / part
+        if current.is_symlink() or current.is_junction():
+            raise ContractError("check result path contains a link or junction")
+
+
+def _json_unique(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ContractError(f"duplicate JSON field: {key}")
+        result[key] = value
+    return result
+
+
+def _read_check_report(raw: bytes, spec: CheckSpec, source_hash: str,
+                       plan_hash: str) -> dict[str, str]:
+    statuses = {}
+    if spec.result_format == "normalized":
+        records = json.loads(raw, object_pairs_hook=_json_unique)
+        if not isinstance(records, list):
+            raise ContractError("normalized check report must be an array")
+        for value in records:
+            record = CheckEvidence.from_dict(value)
+            if (record.kind, record.required, record.source_hash, record.plan_hash) != (
+                    spec.kind, spec.required, source_hash, plan_hash):
+                raise ContractError(f"check declaration or source/plan binding mismatch: {record.check_id}")
+            _add_check_status(statuses, record.check_id, record.status, spec)
+    else:
+        # Strip zero bytes only for the declaration scan, covering UTF-16/32 XML.
+        # The original bytes are parsed and preserved without transformation.
+        if re.search(br"<!\s*(DOCTYPE|ENTITY)\b", raw.replace(b"\x00", b""), re.I):
+            raise ContractError("DTD and entity declarations are forbidden")
+        tree = ET.fromstring(raw)
+        if tree.tag not in ("testsuite", "testsuites"):
+            raise ContractError("JUnit root must be testsuite or testsuites")
+        _validate_junit_tree(tree)
+        for case in tree.iter("testcase"):
+            name = case.get("name", "")
+            if not name.strip():
+                raise ContractError("JUnit testcase requires a name")
+            classname = case.get("classname", "")
+            identity = classname + "." + name if classname else name
+            status = ("error" if case.find("error") is not None else
+                      "failed" if case.find("failure") is not None else
+                      "skipped" if case.find("skipped") is not None else "passed")
+            _add_check_status(statuses, identity, status, spec)
+        for suite in tree.iter():
+            if suite.tag not in ("testsuite", "testsuites"):
+                continue
+            cases = list(suite.iter("testcase"))
+            for field, actual in (("tests", len(cases)),
+                    ("failures", sum(c.find("failure") is not None for c in cases)),
+                    ("errors", sum(c.find("error") is not None for c in cases)),
+                    ("skipped", sum(c.find("skipped") is not None for c in cases))):
+                if field in suite.attrib and int(suite.attrib[field]) != actual:
+                    raise ContractError(f"JUnit {field} count does not match testcase evidence")
+    return statuses
+
+
+def _add_check_status(statuses, identity, status, spec):
+    if identity in statuses:
+        raise ContractError(f"duplicate check identity: {identity}")
+    if identity not in spec.expected_ids:
+        raise ContractError(f"undeclared check identity: {identity}")
+    statuses[identity] = status
+
+
+def _validate_junit_tree(element):
+    """Support explicit testcase outcome elements; reject ambiguous dialects."""
+    if element.tag in ("testsuite", "testsuites"):
+        allowed = {"testsuite", "properties", "system-out", "system-err"}
+        if element.tag == "testsuite":
+            allowed.add("testcase")
+        for child in element:
+            if child.tag not in allowed:
+                raise ContractError(f"unsupported JUnit element: {child.tag}")
+            if child.tag in ("testsuite", "testcase"):
+                _validate_junit_tree(child)
+    elif element.tag == "testcase":
+        if element.get("status", "run") not in ("run", "passed", "failed"):
+            raise ContractError("unsupported JUnit testcase status; use explicit outcome elements")
+        # Some producers include a redundant status. A failed status must never
+        # become success merely because its required failure/error tag is absent.
+        if element.get("status") == "failed" and not any(
+                child.tag in ("failure", "error") for child in element):
+            raise ContractError("JUnit failed status lacks failure/error evidence")
+        for child in element:
+            if child.tag not in ("failure", "error", "skipped", "properties", "system-out", "system-err"):
+                raise ContractError(f"unsupported JUnit testcase element: {child.tag}")
+    # Metadata and outcome payloads cannot introduce executable structure. The
+    # descendant scans used for identity/count reconciliation must see only the
+    # suite/testcase hierarchy validated above.
+    for child in element:
+        if child.tag not in ("testsuite", "testcase") and any(
+                node.tag in ("testsuites", "testsuite", "testcase") for node in child.iter()):
+            raise ContractError(f"JUnit executable elements inside {child.tag} are forbidden")
 
 def execute(command: CommandSpec, workspace: Path, logs: Path) -> ExecutionResult:
     """Execute once with exactly the declared environment and an absolute argv[0].

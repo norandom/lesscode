@@ -49,7 +49,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.2, 1.3, 1.4_
   - _Requirements: 1.2, 5.1, 7.1, 7.8_
 
-- [ ] 2. Capture inputs and execute bounded checks
+- [x] 2. Capture inputs and execute bounded checks
 - [x] 2.1 Classify source scope and identify actual content
   - Implement portable scope matching and category precedence over tracked and untracked content, separating product, tests and support files.
   - Record canonical content identities and file changes; reject unreadable inputs, case collisions, symlinks and reparse points.
@@ -81,7 +81,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 2.3_
   - _Requirements: 1.4, 8.6_
 
-- [ ] 2.5 Normalize native and independent check outcomes
+- [x] 2.5 Normalize native and independent check outcomes
   - Read fresh normalized or supported JUnit results, retain declared check identities, and bind evidence to the current source and plan.
   - Reject dangerous XML declarations, stale/missing reports and duplicate IDs; retain failed, skipped, missing and errored results without allowing successful output to override nonzero exit.
   - Done when native and independent fixture checks produce accurate evidence including deletion/skipping and mismatch cases.
@@ -275,4 +275,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 2.4: Native Windows JobObject lifecycle verified;94testsrun6POSIXskips. Shared test aliases must tolerate skip decorators returning original functions. Private _winapi use is tied to pinned CPython3.12.10.
+
+
+- 2.5: JUnit metadata/outcome payloads cannot contain executable suite/case nodes; regression prevents manufactured passing cases. Native suite107run6POSIXskip; independent APPROVED.
 
