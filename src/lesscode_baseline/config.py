@@ -17,6 +17,7 @@ from .contracts import (Failure, IntegrityResult, Plan, PreparedPlan,
 from .snapshot import capture_scope
 
 _ROOT = Path(__file__).resolve().parents[2]
+_DATA = Path(__file__).resolve().parent / "data"
 _UNITS = {"complexity": "CCN", "duplication": "ratio", "source_bytes": "bytes",
           "physical_lines": "lines", "compressed_source_bytes": "bytes",
           "coverage": None, "mutation": None, "nesting": None,
@@ -48,7 +49,7 @@ def _overlap(a, b):
 
 def _probe(argv):
     # Fixed probes do not inherit project PYTHONPATH, cwd or profile environment.
-    return subprocess.check_output(argv, cwd=_ROOT, text=True, encoding="utf-8",
+    return subprocess.check_output(argv, cwd=Path(__file__).resolve().parent, text=True, encoding="utf-8",
                                    stderr=subprocess.STDOUT, timeout=10).strip()
 
 
@@ -143,7 +144,7 @@ def prepare(config, baseline, candidate, output, *, profile_path=None, tool_path
         for module in sorted(Path(__file__).parent.glob("*.py")):
             resources.append(_resource("_implementation/" + module.name, module))
         for logical in ("requirements-tools.lock", "tools/package-lock.json"):
-            resources.append(_resource("_locks/" + logical, _ROOT / logical))
+            resources.append(_resource("_locks/" + logical, _DATA / logical))
         metadata = _ROOT / ".tools/analyzers/entrypoints.json"
         if tool_paths is None:
             tool_paths = json.loads(metadata.read_text()) if metadata.is_file() else {}

@@ -17,3 +17,6 @@ version = {attr = "lesscode_baseline.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+lesscode_baseline = ["data/requirements-tools.lock", "data/tools/package-lock.json"]

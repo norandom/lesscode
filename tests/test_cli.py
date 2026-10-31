@@ -1,12 +1,120 @@
-"""Exercise the module command as a user starts it."""
+"""Public command contracts and local durable plan/run integration."""
 
+from contextlib import redirect_stdout, redirect_stderr
+import io
+import json
 import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 
+from lesscode_baseline.cli import main
+from lesscode_baseline.contracts import PreparedPlan, loads
 from lesscode_baseline import __version__
+
+ROOT = Path(__file__).resolve().parents[1]
+PILOT = ROOT / 'tests/fixtures/real/boltons_mathutils/source'
+
+
+class CliTests(unittest.TestCase):
+    def invoke(self, argv):
+        out, err = io.StringIO(), io.StringIO()
+        with redirect_stdout(out), redirect_stderr(err):
+            result = main(argv)
+        return result, out.getvalue(), err.getvalue()
+
+    def test_durable_plan_and_real_missing_tools_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            tools = root / 'tools.json'
+            tools.write_text('{}')
+            plan = root / 'plan.json'
+            args = ['plan', '--profile', str(ROOT / 'benchmarks/profiles/python.json'),
+                    '--baseline', str(PILOT), '--candidate', str(PILOT),
+                    '--tool-paths', str(tools), '--out', str(plan)]
+            code, out, err = self.invoke(args)
+            self.assertEqual(code, 0, err)
+            self.assertIn('baseline', out)
+            self.assertIsInstance(loads(PreparedPlan, plan.read_bytes()), PreparedPlan)
+            self.assertEqual(self.invoke(args)[0], 2)
+            run = root / 'run'
+            code, out, err = self.invoke(['run', '--plan', str(plan), '--out', str(run)])
+            self.assertEqual(code, 3, err)
+            self.assertIn('baseline_ineligible', out)
+            self.assertTrue((run / 'summary.md').is_file())
+            self.assertTrue((run / 'report.json').is_file())
+
+    def test_invalid_document_and_cli_arguments(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            plan = Path(tmp) / 'bad.json'
+            plan.write_text('{}')
+            self.assertEqual(self.invoke(['run', '--plan', str(plan), '--out', str(Path(tmp)/'run')])[0], 2)
+            self.assertEqual(self.invoke(['run'])[0], 2)
+
+    def test_bundled_locks_match_authoritative_sources(self):
+        package = ROOT / 'src/lesscode_baseline/data'
+        for logical in ('requirements-tools.lock', 'tools/package-lock.json'):
+            self.assertEqual((ROOT / logical).read_bytes(), (package / logical).read_bytes())
+
+    def test_decision_mapping(self):
+        from lesscode_baseline.cli import decision_exit_code
+        for decision, expected in [('accepted', 0), ('rejected', 1), ('invalid', 2),
+                                   ('incomplete', 3), ('baseline_ineligible', 3)]:
+            self.assertEqual(decision_exit_code(decision), expected)
+
+    def test_commands_flushed_before_execution_and_surviving_storage_failure(self):
+        from lesscode_baseline.config import prepare
+        from lesscode_baseline.contracts import dumps
+        from lesscode_baseline.report import PersistenceError
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            plan = root / 'plan.json'
+            prepared = prepare(ROOT / 'benchmarks/profiles/python.json', PILOT, PILOT,
+                               plan, tool_paths={})
+            plan.write_text(dumps(prepared))
+            output = root / 'run'
+            class Stream(io.StringIO):
+                flushed = False
+                def flush(self):
+                    self.flushed = True
+            stream, err = Stream(), io.StringIO()
+            def fail(*args, **kwargs):
+                self.assertTrue(stream.flushed)
+                self.assertIn('baseline', stream.getvalue())
+                evidence = kwargs['optional_evidence']
+                self.assertEqual([request.side for request in evidence], ['baseline', 'baseline', 'candidate'])
+                self.assertTrue(all(request.origin == 'producer_supplied' and request.generated_since is None
+                                    for request in evidence))
+                self.assertEqual(evidence[0].path, (root / 'one.json').resolve())
+                raise PersistenceError(output, 'disk failure')
+            with patch('lesscode_baseline.evaluation.evaluate', side_effect=fail), redirect_stdout(stream), redirect_stderr(err):
+                code = main(['run', '--plan', str(plan), '--out', str(output),
+                             '--baseline-evidence', str(root / 'one.json'),
+                             '--baseline-evidence', str(root / 'two.json'),
+                             '--candidate-evidence', str(root / 'three.json')])
+            self.assertEqual(code, 4)
+            self.assertIn(str(output), err.getvalue())
+
+    def test_profile_error_and_storage_error_have_distinct_codes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            tools = root / 'tools.json'
+            tools.write_text('{}')
+            common = ['plan', '--profile', str(ROOT / 'benchmarks/profiles/python.json'),
+                      '--baseline', str(PILOT), '--candidate', str(PILOT), '--tool-paths', str(tools)]
+            self.assertEqual(self.invoke(common + ['--out', str(PILOT / 'plan.json')])[0], 2)
+            # A regular file used as parent causes an actual persistence failure.
+            self.assertEqual(self.invoke(common + ['--out', str(tools / 'plan.json')])[0], 4)
+
+    def test_help_and_version_do_not_prepare_or_evaluate(self):
+        with patch('lesscode_baseline.config.prepare') as prepare, patch('lesscode_baseline.evaluation.evaluate') as evaluate:
+            for args in (['--help'], ['--version'], ['plan', '--help'], ['run', '--help']):
+                self.assertEqual(self.invoke(args)[0], 0)
+            prepare.assert_not_called()
+            evaluate.assert_not_called()
 
 
 class CliStartupTests(unittest.TestCase):

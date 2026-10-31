@@ -213,7 +213,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 2.5, 3.3, 3.4, 4.1, 4.3, 5.2_
   - _Requirements: 1.1, 1.5, 3.6, 4.1, 4.2, 4.3, 4.6, 4.7, 5.2, 5.3, 6.5, 6.7, 8.4, 8.5, 8.8_
 
-- [ ] 6.2 Expose plan and run commands with stable exit behavior
+- [x] 6.2 Expose plan and run commands with stable exit behavior
   - Connect installed/module entry points to preparation and evaluation, printing resolved commands before execution and honoring the designed exit mapping.
   - Ship executable usage examples with the CLI reference as part of command integration, covering local installation and result interpretation.
   - Done when clean installed invocations return the expected outputs/codes for accepted, rejected, invalid, ineligible, incomplete and persistence-error fixtures.
@@ -345,3 +345,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 3.5 corrective Metrics alignment: public duplication key matches mandatory Profile/Decision lookup; exact pair-span definition and typed payload unchanged. Real analyzer integration regression passed; independent285tests7skips. Queue32executables.
 
 - 6.1: evaluation.evaluate consumes PreparedPlan, hashes canonical serialization, guards public adapter/check workloads, runs checks in fresh copies and persists partial/final evidence. OptionalEvidenceInput binds imports without changing Profile; runtime envelopes retained separately. Real unchanged accepted/broken rejected with originals preserved; independent301tests7skips.
+
+- 6.2: installed plan/run commands disclose workloads, preserve strict new outputs and map0/1/2/3/4. Package assets retain exact locks; --tool-paths supplies explicit metadata outside checkout. Real installed all decision states and persistence verified; independent308tests7skips. Rebuild wheel after CLI edits.
