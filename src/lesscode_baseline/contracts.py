@@ -398,6 +398,102 @@ class Plan(Record):
 
 
 @dataclass(frozen=True)
+class ResourceIdentity(Record):
+    """A logical evaluator/tool resource and its resolved byte identity."""
+
+    logical_path: str
+    path: str
+    content_hash: str
+    size_bytes: int
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "logical_path path content_hash size_bytes")
+        return cls(_relative(d["logical_path"], path + ".logical_path"),
+                   _absolute(d["path"], path + ".path"),
+                   _hash(d["content_hash"], path + ".content_hash"),
+                   _integer(d["size_bytes"], path + ".size_bytes"))
+
+
+@dataclass(frozen=True)
+class ToolBinding(Record):
+    """Resolved tool evidence; unavailable bindings never authorize execution."""
+
+    name: str
+    requested_version: str
+    status: Literal["available", "unavailable"]
+    executable: str | None
+    entry_point: str | None
+    observed_version: str | None
+    fingerprint: str | None
+    reason: str | None
+    resources: tuple[ResourceIdentity, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path,
+                    "name requested_version status executable entry_point observed_version fingerprint reason resources")
+        name = _string(d["name"], path + ".name")
+        requested = _string(d["requested_version"], path + ".requested_version")
+        status = _choice(d["status"], path + ".status", ("available", "unavailable"))
+        executable = _nullable(d["executable"], _absolute, path + ".executable")
+        entry_point = _nullable(d["entry_point"], _absolute, path + ".entry_point")
+        observed = _nullable(d["observed_version"], _string, path + ".observed_version")
+        fingerprint = _nullable(d["fingerprint"], _hash, path + ".fingerprint")
+        reason = _nullable(d["reason"], _string, path + ".reason")
+        resources = _sequence(d["resources"], ResourceIdentity.from_dict, path + ".resources",
+                              lambda resource: resource.logical_path.casefold())
+        if status == "available":
+            if executable is None:
+                _fail(path + ".executable", "available tool requires a resolved executable")
+            if observed != requested:
+                _fail(path + ".observed_version", "available tool must match requested_version")
+            if fingerprint is None:
+                _fail(path + ".fingerprint", "available tool requires a fingerprint")
+            if not resources:
+                _fail(path + ".resources", "available tool requires resource identity")
+            if reason is not None:
+                _fail(path + ".reason", "available tool must have null reason")
+        elif reason is None:
+            _fail(path + ".reason", "unavailable tool requires a diagnostic reason")
+        return cls(name, requested, status, executable, entry_point, observed, fingerprint, reason, resources)
+
+
+@dataclass(frozen=True)
+class PreparedPlan(Record):
+    """Durable plan context; freshness and containment belong to runtime validation."""
+
+    schema_version: int
+    plan: Plan
+    profile_path: str
+    evaluator_root: str
+    evaluator_resources: tuple[ResourceIdentity, ...]
+    tools: tuple[ToolBinding, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "schema_version plan profile_path evaluator_root evaluator_resources tools")
+        version = _version(d["schema_version"], path + ".schema_version")
+        plan = Plan.from_dict(d["plan"], path + ".plan")
+        profile_path = _absolute(d["profile_path"], path + ".profile_path")
+        evaluator_root = _absolute(d["evaluator_root"], path + ".evaluator_root")
+        resources = _sequence(d["evaluator_resources"], ResourceIdentity.from_dict, path + ".evaluator_resources",
+                              lambda resource: resource.logical_path.casefold())
+        tools = _sequence(d["tools"], ToolBinding.from_dict, path + ".tools", lambda tool: tool.name)
+        resource_names = {resource.logical_path for resource in resources}
+        for declared in plan.profile.evaluator_resources:
+            if declared not in resource_names:
+                _fail(path + ".evaluator_resources", f"missing declared resource {declared!r}")
+        tool_by_name = {tool.name: tool for tool in tools}
+        for declared in plan.profile.tools:
+            if declared.name not in tool_by_name:
+                _fail(path + ".tools", f"missing declared analyzer {declared.name!r}")
+            if tool_by_name[declared.name].requested_version != declared.version:
+                _fail(path + ".tools.requested_version", f"must match profile pin for {declared.name!r}")
+        return cls(version, plan, profile_path, evaluator_root, resources, tools)
+
+
+@dataclass(frozen=True)
 class FunctionComplexity(Record):
     path: str
     name: str

@@ -57,6 +57,14 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3, 1.4_
   - _Requirements: 3.6, 4.6, 4.7, 8.4_
 
+- [x] 1.8 Repair durable plan resource and tool identities
+  - Define the designed PreparedPlan wrapper, resolved resource identities and explicit available/unavailable tool bindings without changing existing Plan/Profile record shapes.
+  - Validate paths, fingerprints, versions, duplicate identities, declared resource/tool coverage and availability invariants through shared strict readers.
+  - Done when a serialized plan retains the context required for reloading and identifying resource changes, including partial identity and diagnostics for missing tools.
+  - _Boundary: Shared contracts_
+  - _Depends: 1.3_
+  - _Requirements: 1.1, 5.1, 5.2, 5.3, 5.7, 8.7_
+
 - [x] 2. Capture inputs and execute bounded checks
 - [x] 2.1 Classify source scope and identify actual content
   - Implement portable scope matching and category precedence over tracked and untracked content, separating product, tests and support files.
@@ -136,7 +144,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - Reject overlapping output/source/evaluator roots; prepare command previews without running project checks or installing dependencies.
   - Done when the pilot plan is reproducible, tool absence is recorded explicitly, and changed evaluator resources are identified by integrity comparison.
   - _Boundary: CLI and Plan_
-  - _Depends: 1.3, 1.6, 2.2, 2.5_
+  - _Depends: 1.3, 1.6, 1.8, 2.2, 2.5_
   - _Requirements: 1.1, 1.5, 5.1, 5.2, 5.3, 5.7, 8.7_
 
 - [ ] 4.2 (P) Compare metric definitions and calculate honest deltas
@@ -301,4 +309,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 3.4: read_optional_evidence retains validated OptionalEvidenceArtifact/raw bytes and typed Failures. Generated artifacts require time/source/plan/scope/origin checks; imported provenance stays producerclaims. Populationcomparison belongs4.2.
+
+
+- 1.8 corrective foundation: PreparedPlan/ResourceIdentity/ToolBinding preserve reloadable profile/resource/tool state while Plan/Profile serialization stays unchanged. Available tools require exact pins; unavailable partial identities keep diagnostics.166tests6skip independentlyverified. Queue31executables.
 
