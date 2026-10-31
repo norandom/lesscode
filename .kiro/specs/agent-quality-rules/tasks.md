@@ -45,7 +45,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Boundary: Evidence reader_
   - _Depends: 1.5_
   - _Requirements: 1.3, 3.1, 4.1, 4.2, 4.7_
-- [ ] 2.2 Select named quantities and validate measured populations
+- [x] 2.2 Select named quantities and validate measured populations
   - Implement and test the approved versioned RuleSelection contract before integrating selection; retain per-side availability and comparison reasons without mutating global entity inventories.
   - Select function CCN, exact scalar metrics and declared duplication quantities; retain definitions, locations, producers and pair-span denominators, including ratios above one.
   - Preserve optional LLOC provenance and named-check evidence; reject aggregate narrowing, incompatible producers/units/scopes and omitted nonempty files.

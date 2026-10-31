@@ -406,6 +406,36 @@ class EvidenceInventory(Record):
 
 
 @dataclass(frozen=True)
+class RuleSelection(Record):
+    """Per-rule availability and compatibility, distinct from entity continuity."""
+
+    schema_version: int
+    rule_id: str
+    baseline: EvidenceInventory | None
+    candidate: EvidenceInventory
+    comparison_status: Literal["not_required", "comparable", "unavailable"]
+    comparison_reasons: tuple[str, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "schema_version rule_id baseline candidate comparison_status comparison_reasons")
+        if type(d["schema_version"]) is not int or d["schema_version"] != 1:
+            _fail(path + ".schema_version", "unsupported schema_version (expected integer 1)")
+        before = None if d["baseline"] is None else EvidenceInventory.from_dict(d["baseline"], path + ".baseline")
+        after = EvidenceInventory.from_dict(d["candidate"], path + ".candidate")
+        status = _choice(d["comparison_status"], path + ".comparison_status", ("not_required", "comparable", "unavailable"))
+        reasons = _sequence(d["comparison_reasons"], _string, path + ".comparison_reasons", lambda x: x)
+        if status == "unavailable":
+            if before is None or not reasons:
+                _fail(path, "unavailable comparison requires baseline inventory and reasons")
+        elif reasons:
+            _fail(path + ".comparison_reasons", "supported comparison cannot have failure reasons")
+        if status == "comparable" and (before is None or before.status != "complete" or after.status != "complete"):
+            _fail(path, "comparable requires complete baseline and candidate inventories")
+        return cls(1, _string(d["rule_id"], path + ".rule_id"), before, after, status, reasons)
+
+
+@dataclass(frozen=True)
 class EvidenceBundle(Record):
     """In-memory seam; parsing establishes consistency, not artifact admission.
 

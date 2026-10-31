@@ -2,11 +2,176 @@
 
 import hashlib
 import json
+from dataclasses import replace
 from pathlib import Path
 
 from lesscode_baseline import contracts as baseline
 from lesscode_baseline.report import ArtifactIndex, RunManifest, recover
-from .contracts import EvidenceBundle, EvidenceInventory, Policy, RuleFailure
+from lesscode_baseline.decision import compare_metrics
+from lesscode_baseline.snapshot import matches
+from .contracts import (EvidenceBundle, EvidenceInventory, EntityObservation, NumericRule,
+                        Policy, PolicyScope, RuleFailure, RuleSelection, Selector)
+
+
+def select_observations(evidence: EvidenceBundle, rule: NumericRule) -> RuleSelection:
+    """Select a named quantity without interpreting debt or changing evidence."""
+    rule = NumericRule.from_dict(rule.to_dict())
+    candidate, after = _select_side(evidence.report.candidate, rule)
+    if rule.mode == "absolute" and rule.change_budget is None:
+        return RuleSelection(1, rule.rule_id, None, candidate, "not_required", ())
+    reference, before = _select_side(evidence.report.baseline, rule)
+    reasons = []
+    for side, inventory in (("baseline", reference), ("candidate", candidate)):
+        if inventory.status != "complete":
+            reasons.append(f"{side}: {inventory.reason}")
+    # Compare original structured measurements as well as the projected scalar.
+    # Structured delta unavailability is expected; compatibility is independent.
+    comparisons = compare_metrics((before,) if before else (), (after,) if after else ())
+    for comparison in comparisons:
+        if comparison.status != "available":
+            reasons.append(comparison.delta.reason)
+    # Each side covers the whole applicable population. Added/removed product
+    # files under unchanged scope rules remain visible in the original report;
+    # their changing source addresses do not alone invalidate a comparison.
+    if rule.change_budget is not None and rule.change_budget.kind == "percentage_increase":
+        if any(entity.metric.value == 0 for entity in reference.entities):
+            reasons.append("percentage comparison unavailable: baseline value is zero")
+    reasons = tuple(dict.fromkeys(reasons))
+    return RuleSelection(1, rule.rule_id, reference, candidate,
+                         "unavailable" if reasons else "comparable", reasons)
+
+
+def _scope_contains(path: str, scope: PolicyScope) -> bool:
+    if scope.root != ".":
+        prefix = scope.root + "/"
+        if not path.startswith(prefix):
+            return False
+        path = path[len(prefix):]
+    return any(matches(path, pattern) for pattern in scope.include) and not any(
+        matches(path, pattern) for pattern in scope.exclude)
+
+
+def _metric_key(selector: Selector) -> str:
+    if selector.kind == "scalar_metric":
+        return selector.metric_key
+    return "complexity" if selector.kind == "function_ccn" else "duplication"
+
+
+def _select_side(observation: baseline.Observation, rule: NumericRule):
+    source = observation.snapshot.content_hash
+    def unavailable(reason):
+        return EvidenceInventory(source, "unavailable", reason, ()), metric
+    metric = next((m for m in observation.metrics if m.key == _metric_key(rule.selector)), None)
+    product = {f.path for f in observation.snapshot.files if f.category == "product"}
+    selected = {path for path in product if _scope_contains(path, rule.scope)}
+    if not selected or not any(f.size_bytes for f in observation.snapshot.files if f.path in selected):
+        return unavailable("scope has no matching nonempty product population")
+    if rule.selector.kind != "function_ccn" and selected != product:
+        return unavailable("aggregate population cannot be narrowed to the rule scope")
+    if metric is None:
+        return unavailable(f"metric {_metric_key(rule.selector)} missing")
+    entities, reason = _metric_entities(observation, metric, rule.selector)
+    if reason is not None:
+        return unavailable(reason)
+    differences = []
+    # Units describe the selected quantity; the untouched report retains the
+    # analyzer's payload unit, including its pair-span denominator.
+    projected_unit = _quantity_unit(metric, rule.selector)
+    for field in ("definition_id", "producer", "producer_version", "unit"):
+        actual = projected_unit if field == "unit" else getattr(metric, field)
+        if actual != getattr(rule.evidence, field):
+            differences.append(f"{field}: expected {getattr(rule.evidence, field)!r}, observed {actual!r}")
+    if differences:
+        return unavailable("; ".join(differences))
+    if rule.selector.kind == "function_ccn":
+        entities = tuple(e for e in entities if e.location.path in selected)
+    return EvidenceInventory(source, "complete", None, entities), metric
+
+
+def _quantity_unit(metric: baseline.MetricEvidence, selector: Selector) -> str:
+    if selector.kind == "duplication_clone_pairs":
+        return "clone_pairs"
+    if selector.kind in ("duplication_duplicated_tokens", "duplication_total_tokens"):
+        return "tokens"
+    return metric.unit
+
+
+def _metric_entities(observation, metric, selector):
+    """Project validated payloads at deterministic, rule-independent addresses."""
+    if metric.status != "available":
+        return (), f"metric {metric.key} {metric.status}: {metric.reason}"
+    if metric.scope_hash != observation.snapshot.scope_hash:
+        return (), "metric scope_hash differs from snapshot"
+    product = {f.path for f in observation.snapshot.files if f.category == "product"}
+    nonempty = {f.path for f in observation.snapshot.files if f.category == "product" and f.size_bytes}
+    payload = metric.value
+    values = []
+    if selector.kind == "function_ccn":
+        if not isinstance(payload, baseline.ComplexityPayload):
+            return (), "function_ccn requires a complexity function inventory"
+        inventory = {f.path for f in payload.files}
+        if not nonempty <= inventory or not inventory <= product:
+            return (), "complexity file inventory differs from product population or omits nonempty source"
+        values = [(f.ccn, baseline.SourceSpan(f.path, f.start_line, f.end_line), f.long_name)
+                  for f in payload.functions]
+    elif selector.kind == "scalar_metric":
+        if type(payload) not in (int, float):
+            return (), "declared scalar quantity is unavailable for a structured payload"
+        if payload < 0:
+            return (), "declared scalar quantity must be nonnegative"
+        values = [(payload, None, None)]
+    else:
+        if not isinstance(payload, baseline.DuplicationPayload):
+            return (), "duplication selector requires a duplication payload"
+        scanned, zero = set(payload.scanned_paths), set(payload.zero_token_paths)
+        if not nonempty <= (scanned | zero) or not (scanned | zero) <= product:
+            return (), "duplication inventory differs from product population or omits nonempty source"
+        if any(span.path not in scanned for clone in payload.clones for span in (clone.first, clone.second)):
+            return (), "clone location absent from scanned population"
+        quantity = {"duplication_clone_pairs": len(payload.clones),
+                    "duplication_duplicated_tokens": payload.duplicated_tokens,
+                    "duplication_total_tokens": payload.total_tokens,
+                    "duplication_pair_span_ratio": payload.ratio}[selector.kind]
+        if quantity is None:
+            return (), payload.ratio_reason
+        values = [(quantity, None, None)]
+    entities = []
+    for value, location, name in values:
+        address = [observation.snapshot.content_hash, selector.to_dict(), metric.key,
+                   metric.definition_id, metric.producer, metric.producer_version,
+                   metric.scope_hash, location.to_dict() if location else None, name]
+        identity = hashlib.sha256(json.dumps(address, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        projected = replace(metric, value=value, unit=_quantity_unit(metric, selector))
+        # report.json is always indexed, even for supplied optional metrics which
+        # have no separate raw artifact. The report preserves the full payload.
+        entities.append(EntityObservation(identity, observation.snapshot.content_hash, selector,
+            projected, location, name, (metric.raw_artifact or "report.json",)))
+    return tuple(sorted(entities, key=lambda e: e.inventory_id)), None
+
+
+def _address_inventory(observation):
+    """All usable evidence addresses, independent of any rule's scope or order.
+
+    Missing metric coverage is expressed by RuleSelection, not by deleting other
+    metrics' addresses. Completeness here concerns this address inventory.
+    """
+    entities = []
+    for metric in observation.metrics:
+        if isinstance(metric.value, baseline.ComplexityPayload):
+            selectors = (Selector("function_ccn", None),)
+        elif isinstance(metric.value, baseline.DuplicationPayload):
+            selectors = tuple(Selector(kind, None) for kind in ("duplication_clone_pairs",
+                "duplication_duplicated_tokens", "duplication_total_tokens", "duplication_pair_span_ratio"))
+        elif type(metric.value) in (int, float):
+            selectors = (Selector("scalar_metric", metric.key),)
+        else:
+            selectors = ()
+        for selector in selectors:
+            selected, reason = _metric_entities(observation, metric, selector)
+            if reason is None:
+                entities.extend(selected)
+    return EvidenceInventory(observation.snapshot.content_hash, "complete", None,
+                             tuple(sorted(entities, key=lambda e: e.inventory_id)))
 
 def read_evidence(run_directory: Path, policy: Policy) -> EvidenceBundle | RuleFailure:
     """Bind a recovered report to its indexed plan and explicit same-run reference.
@@ -49,10 +214,8 @@ def read_evidence(run_directory: Path, policy: Policy) -> EvidenceBundle | RuleF
         _validate_available_records(prepared, report, policy)
     except (baseline.ContractError, ValueError, OSError) as exc:
         return RuleFailure(1, "prepare", "invalid", (str(exc), *diagnostics), None)
-    reason = "Entity quantities have not been selected from the admitted report"
     return EvidenceBundle(1, report, prepared.plan.profile_hash,
-                          EvidenceInventory(report.baseline.snapshot.content_hash, "unavailable", reason, ()),
-                          EvidenceInventory(report.candidate.snapshot.content_hash, "unavailable", reason, ()))
+                          _address_inventory(report.baseline), _address_inventory(report.candidate))
 
 
 def _read_present(path):

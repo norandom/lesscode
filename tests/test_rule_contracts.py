@@ -286,6 +286,35 @@ def inventory(source=HASH):
             "entities": [entity(source)]}
 
 
+class RuleSelectionContractTests(unittest.TestCase):
+    def selection(self):
+        return {"schema_version": 1, "rule_id": "ccn", "baseline": inventory(),
+                "candidate": inventory("b" * 64), "comparison_status": "comparable",
+                "comparison_reasons": []}
+
+    def test_selection_roundtrip_and_candidate_only_and_unavailable(self):
+        value = self.selection()
+        for changes in ({}, {"baseline": None, "comparison_status": "not_required"},
+                        {"comparison_status": "unavailable", "comparison_reasons": ["producer differs"]}):
+            record = c.RuleSelection.from_dict({**value, **changes})
+            self.assertEqual(record, c.loads(c.RuleSelection, c.dumps(record)))
+            with self.assertRaises(FrozenInstanceError):
+                record.rule_id = "other"
+
+    def test_selection_rejects_versions_identities_and_contradictions(self):
+        missing = {**inventory(), "status": "unavailable", "reason": "missing", "entities": []}
+        for change in ({"schema_version": True}, {"schema_version": 2}, {"rule_id": " "},
+                       {"extra": 1}, {"comparison_status": "unknown"}, {"baseline": None},
+                       {"candidate": missing}, {"baseline": missing},
+                       {"comparison_reasons": ["mismatch"]},
+                       {"comparison_status": "not_required", "comparison_reasons": ["mismatch"]},
+                       {"comparison_status": "unavailable"},
+                       {"comparison_status": "unavailable", "comparison_reasons": [""]},
+                       {"comparison_status": "unavailable", "comparison_reasons": ["x", "x"]}):
+            with self.subTest(change=change), self.assertRaises(c.ContractError):
+                c.RuleSelection.from_dict({**self.selection(), **change})
+
+
 def bundle():
     result = baseline_fixtures.report()
     result["candidate"]["snapshot"]["content_hash"] = "b" * 64

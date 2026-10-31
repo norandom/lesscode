@@ -239,6 +239,227 @@ def materialize(root, name="accepted"):
     return {"run": run, "prepared": prepared, "report": report, "policy": policy,
             "expected": expected_cases[outcome]}
 
+class EvidenceSelectionTests(unittest.TestCase):
+    def setUp(self):
+        from lesscode_baseline.rules.evidence import read_evidence
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        fixture = materialize(Path(temporary.name) / "selection")
+        self.bundle = read_evidence(fixture["run"], fixture["policy"])
+
+    def rule(self, kind="function_ccn", key=None, mode="absolute", **changes):
+        from lesscode_baseline.rules.contracts import NumericRule
+        from tests.test_rule_contracts import numeric
+        metric_key = key if key else "complexity" if kind == "function_ccn" else "duplication"
+        metric = next(m for m in self.bundle.report.candidate.metrics if m.key == metric_key)
+        value = numeric("selected")
+        value.update(selector={"kind": kind, "metric_key": key}, mode=mode,
+                     evidence={field: getattr(metric, field) for field in
+                               ("definition_id", "producer", "producer_version", "unit")})
+        if kind == "duplication_clone_pairs":
+            value["evidence"]["unit"] = "clone_pairs"
+        elif kind in ("duplication_duplicated_tokens", "duplication_total_tokens"):
+            value["evidence"]["unit"] = "tokens"
+        value.update(changes)
+        return NumericRule.from_dict(value)
+
+    def select(self, rule):
+        from lesscode_baseline.rules.evidence import select_observations
+        return select_observations(self.bundle, rule)
+
+    def alter(self, side, **changes):
+        from dataclasses import replace
+        observation = replace(getattr(self.bundle.report, side), **changes)
+        self.bundle = replace(self.bundle, report=replace(self.bundle.report, **{side: observation}))
+
+    def metric(self, side, key, **changes):
+        from dataclasses import replace
+        self.alter(side, metrics=tuple(replace(m, **changes) if m.key == key else m
+                                       for m in getattr(self.bundle.report, side).metrics))
+
+    def test_confirmed_zero_functions_missing_and_outside_scope_are_distinct(self):
+        rule = self.rule()
+        result = self.select(rule)
+        self.assertEqual((result.candidate.status, result.candidate.entities), ("complete", ()))
+        self.assertEqual(result.comparison_status, "not_required")
+        self.metric("candidate", "complexity", status="unavailable", value=None, reason="inventory absent")
+        self.assertIn("inventory absent", self.select(rule).candidate.reason)
+        outside = self.rule(scope={"root": "outside", "include": ["**/*.py"], "exclude": []})
+        self.assertEqual(self.select(outside).candidate.status, "unavailable")
+
+    def test_absolute_scalar_retains_candidate_without_reference_and_checks(self):
+        rule = self.rule("scalar_metric", "source_bytes")
+        checks = self.bundle.report.candidate.checks
+        self.alter("baseline", metrics=())
+        result = self.select(rule)
+        self.assertIsNone(result.baseline)
+        self.assertEqual(result.candidate.entities[0].metric.value, 54)
+        self.assertEqual(self.bundle.report.candidate.checks, checks)
+        self.assertEqual(result.comparison_status, "not_required")
+
+    def test_reference_missing_preserves_candidate_and_reasons(self):
+        rule = self.rule("scalar_metric", "source_bytes", mode="ratchet")
+        self.alter("baseline", metrics=())
+        result = self.select(rule)
+        self.assertEqual(result.candidate.status, "complete")
+        self.assertEqual(result.baseline.status, "unavailable")
+        self.assertEqual(result.comparison_status, "unavailable")
+        self.assertTrue(result.comparison_reasons)
+
+    def test_each_definition_difference_is_unavailable_without_losing_candidate(self):
+        for field in ("definition_id", "producer", "producer_version", "unit", "scope_hash"):
+            original = self.bundle
+            with self.subTest(field=field):
+                rule = self.rule("scalar_metric", "source_bytes", mode="ratchet")
+                self.metric("baseline", "source_bytes", **{field: "f" * 64 if field == "scope_hash" else "other"})
+                result = self.select(rule)
+                self.assertEqual(result.comparison_status, "unavailable")
+                self.assertEqual(result.candidate.status, "complete")
+                self.assertIn(field, " ".join(result.comparison_reasons))
+            self.bundle = original
+
+    def test_function_projection_retains_locations_and_global_ids(self):
+        from dataclasses import replace
+        function = c.FunctionComplexity("short.py", "f", "f(x)", 2, 4, 12, 3, 8)
+        payload = c.ComplexityPayload("complexity", (c.FileComplexity("short.py", 5),),
+                                      (function,), 1, 12, 12, 12, 12)
+        self.metric("candidate", "complexity", value=payload)
+        result = self.select(self.rule())
+        entity = result.candidate.entities[0]
+        self.assertEqual((entity.metric.value, entity.long_name, entity.location),
+                         (12, "f(x)", c.SourceSpan("short.py", 2, 4)))
+        self.assertEqual(entity.evidence_refs, ("candidate/complexity.json",))
+        again = self.select(replace(self.rule(), rule_id="overlapping"))
+        self.assertEqual(entity.inventory_id, again.candidate.entities[0].inventory_id)
+
+    def test_aggregate_narrowing_and_omitted_nonempty_files_are_unavailable(self):
+        from dataclasses import replace
+        snapshot = self.bundle.report.candidate.snapshot
+        extra = replace(snapshot.files[0], path="other.py")
+        self.alter("candidate", snapshot=replace(snapshot, files=(*snapshot.files, extra)))
+        for kind, key in (("function_ccn", None), ("duplication_total_tokens", None)):
+            with self.subTest(kind=kind):
+                self.assertEqual(self.select(self.rule(kind, key)).candidate.status, "unavailable")
+        narrowed = self.rule("scalar_metric", "source_bytes",
+                             scope={"root": ".", "include": ["short.py"], "exclude": []})
+        self.assertIn("population", self.select(narrowed).candidate.reason)
+
+    def test_duplication_projections_keep_pair_span_ratio_above_one_and_denominator(self):
+        payload = c.DuplicationPayload("duplication", 30, 20, 1.5, None, "weak", 150,
+            (c.ClonePair(c.SourceSpan("short.py", 1, 2), c.SourceSpan("short.py", 3, 4)),),
+            ("short.py",), ())
+        self.metric("candidate", "duplication", value=payload)
+        for kind, expected in (("duplication_clone_pairs", 1), ("duplication_duplicated_tokens", 30),
+                               ("duplication_total_tokens", 20), ("duplication_pair_span_ratio", 1.5)):
+            with self.subTest(kind=kind):
+                result = self.select(self.rule(kind))
+                self.assertEqual(result.candidate.entities[0].metric.value, expected)
+                self.assertEqual(self.bundle.report.candidate.metrics[-1].value.total_tokens, 20)
+        self.metric("candidate", "duplication", value=c.DuplicationPayload(
+            "duplication", 0, 0, None, "zero token denominator", "weak", 0, (), ("short.py",), ("short.py",)))
+        self.assertIn("denominator", self.select(self.rule("duplication_pair_span_ratio")).candidate.reason)
+
+    def test_lloc_provenance_and_unsupported_structured_scalar(self):
+        from dataclasses import replace
+        metric = replace(self.bundle.report.candidate.metrics[0], key="lloc", value=7,
+                         unit="logical lines", definition_id="supplied-lloc-v1", producer="owner")
+        self.alter("candidate", metrics=(*self.bundle.report.candidate.metrics, metric))
+        result = self.select(self.rule("scalar_metric", "lloc"))
+        self.assertEqual(result.candidate.entities[0].metric, metric)
+        rule = self.rule("scalar_metric", "complexity")
+        self.assertEqual(self.select(rule).candidate.status, "unavailable")
+
+    def test_selection_order_does_not_mutate_global_inventory(self):
+        before = self.bundle
+        rules = (self.rule(), self.rule("scalar_metric", "source_bytes"), self.rule("duplication_total_tokens"))
+        first = [self.select(rule) for rule in rules]
+        second = [self.select(rule) for rule in reversed(rules)]
+        self.assertEqual(first, list(reversed(second)))
+        self.assertEqual(self.bundle, before)
+        global_ids = {e.inventory_id for e in self.bundle.candidate_inventory.entities}
+        self.assertTrue(global_ids)
+        self.assertTrue(all(e.inventory_id in global_ids for result in first for e in result.candidate.entities))
+
+    def test_percentage_reference_zero_is_explicitly_unavailable(self):
+        rule = self.rule("scalar_metric", "source_bytes", mode="ratchet",
+                         change_budget={"kind": "percentage_increase", "maximum": 5})
+        self.metric("baseline", "source_bytes", value=0)
+        result = self.select(rule)
+        self.assertEqual(result.comparison_status, "unavailable")
+        self.assertIn("zero", " ".join(result.comparison_reasons))
+
+    def test_missing_complexity_does_not_erase_scalar_and_selection_roundtrips(self):
+        from lesscode_baseline.rules.contracts import RuleSelection
+        complexity = self.rule()
+        scalar = self.rule("scalar_metric", "source_bytes", mode="ratchet")
+        self.alter("candidate", metrics=tuple(m for m in self.bundle.report.candidate.metrics
+                                               if m.key != "complexity"))
+        self.assertEqual(self.select(complexity).candidate.status, "unavailable")
+        result = self.select(scalar)
+        self.assertEqual(result.comparison_status, "comparable")
+        self.assertEqual(result, c.loads(RuleSelection, c.dumps(result)))
+
+    def test_empty_product_and_only_empty_files_are_ambiguous(self):
+        from dataclasses import replace
+        rule = self.rule()
+        snapshot = self.bundle.report.candidate.snapshot
+        for files in ((), (replace(snapshot.files[0], size_bytes=0),)):
+            self.alter("candidate", snapshot=replace(snapshot, files=files))
+            self.assertEqual(self.select(rule).candidate.status, "unavailable")
+
+    def test_function_scope_filters_complete_inventory_without_changing_ids(self):
+        from dataclasses import replace
+        snapshot = self.bundle.report.candidate.snapshot
+        files = (*snapshot.files, replace(snapshot.files[0], path="pkg/second.py"))
+        self.alter("candidate", snapshot=replace(snapshot, files=files))
+        functions = (c.FunctionComplexity("short.py", "f", "f()", 1, 2, 4, 2, 8),
+                     c.FunctionComplexity("pkg/second.py", "g", "g()", 1, 2, 15, 2, 8))
+        self.metric("candidate", "complexity", value=c.ComplexityPayload("complexity",
+            tuple(c.FileComplexity(f.path, 5) for f in files), functions, 2, 4, 15, 9.5, 15))
+        full = self.select(self.rule())
+        narrow = self.select(self.rule(scope={"root": "pkg", "include": ["**/*.py"], "exclude": []}))
+        self.assertEqual(len(full.candidate.entities), 2)
+        self.assertEqual(len(narrow.candidate.entities), 1)
+        self.assertIn(narrow.candidate.entities[0], full.candidate.entities)
+
+    def test_whole_scope_added_files_are_comparable_with_complete_inventories(self):
+        from dataclasses import replace
+        snapshot = self.bundle.report.candidate.snapshot
+        extra = replace(snapshot.files[0], path="new.py")
+        self.alter("candidate", snapshot=replace(snapshot, files=(*snapshot.files, extra)))
+        scalar = self.select(self.rule("scalar_metric", "source_bytes", mode="ratchet"))
+        self.assertEqual(scalar.comparison_status, "comparable")
+        self.metric("candidate", "duplication", value=c.DuplicationPayload(
+            "duplication", 0, 30, 0, None, "weak", 0, (), ("short.py", "new.py"), ()))
+        duplication = self.select(self.rule("duplication_total_tokens", mode="ratchet"))
+        self.assertEqual(duplication.comparison_status, "comparable")
+        self.assertEqual(duplication.candidate.entities[0].metric.value, 30)
+
+    def test_policy_expectation_and_selected_units_are_enforced(self):
+        from dataclasses import replace
+        rule = self.rule("duplication_total_tokens")
+        result = self.select(rule)
+        self.assertEqual(result.candidate.entities[0].metric.unit, "tokens")
+        wrong = replace(rule, evidence=replace(rule.evidence, unit="ratio"))
+        self.assertIn("unit", self.select(wrong).candidate.reason)
+        wrong = replace(rule, evidence=replace(rule.evidence, producer="unrecorded analyzer"))
+        self.assertIn("producer", self.select(wrong).candidate.reason)
+
+    def test_undefined_ratio_does_not_erase_zero_counts(self):
+        self.metric("candidate", "duplication", value=c.DuplicationPayload(
+            "duplication", 0, 0, None, "zero token denominator", "weak", 0, (), (), ("short.py",)))
+        result = self.select(self.rule("duplication_clone_pairs"))
+        self.assertEqual(result.candidate.entities[0].metric.value, 0)
+        result = self.select(self.rule("duplication_total_tokens"))
+        self.assertEqual(result.candidate.entities[0].metric.value, 0)
+        self.assertEqual(self.select(self.rule("duplication_pair_span_ratio")).candidate.status, "unavailable")
+
+    def test_report_address_retains_supplied_scalar_without_separate_raw_artifact(self):
+        self.metric("candidate", "source_bytes", raw_artifact=None)
+        result = self.select(self.rule("scalar_metric", "source_bytes"))
+        self.assertEqual(result.candidate.entities[0].evidence_refs, ("report.json",))
+
+
 class EvidenceAdmissionTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
@@ -262,7 +483,7 @@ class EvidenceAdmissionTests(unittest.TestCase):
                 artifact['size_bytes'] = len(path.read_bytes())
         index_path.write_text(json.dumps(index), encoding='utf-8')
 
-    def test_preserves_complete_nonaccepted_reports_and_unavailable_inventories(self):
+    def test_preserves_complete_nonaccepted_reports_and_independent_addresses(self):
         from lesscode_baseline.rules.contracts import EvidenceBundle
         for outcome in ('accepted', 'rejected', 'incomplete', 'invalid'):
             with self.subTest(outcome=outcome):
@@ -272,9 +493,10 @@ class EvidenceAdmissionTests(unittest.TestCase):
                 self.assertEqual(bundle.report, fixture['report'])
                 self.assertEqual(bundle.profile_hash, fixture['prepared'].plan.profile_hash)
                 for inventory in (bundle.baseline_inventory, bundle.candidate_inventory):
-                    self.assertEqual(inventory.status, 'unavailable')
-                    self.assertTrue(inventory.reason)
-                    self.assertEqual(inventory.entities, ())
+                    self.assertEqual(inventory.status, 'complete')
+                    self.assertIsNone(inventory.reason)
+                    self.assertTrue(inventory.entities)
+                    self.assertTrue(any(e.selector.metric_key == 'source_bytes' for e in inventory.entities))
 
     def test_corrupt_hash_invalid_but_missing_completion_insufficient(self):
         for name, kind in (('corrupt', 'invalid'), ('partial', 'insufficient')):
