@@ -98,7 +98,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.2, 2.2, 2.4_
   - _Requirements: 2.3, 3.3, 3.4, 3.5, 3.7_
 
-- [ ] 3.2 Measure per-file and per-function complexity
+- [x] 3.2 Measure per-file and per-function complexity
   - Run the pinned complexity worker through bounded execution and normalize file/function records, including valid files with no functions.
   - Produce distribution/hotspot values and detect the pinned tool's complete source-suppression controls.
   - Done when real fixture locations/counts match known outcomes and suppressed or malformed measurements cannot become complete evidence.
@@ -281,4 +281,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 3.1: stage_product provides verified product-only temporary snapshots; measure_sizes produces source_bytes, physical_lines and compressed_source_bytes with explicit runtime/definition provenance. Complete measure facade waits for3.2/3.3.
+
+
+- 3.2: Pinned Lizard worker validates syntax and file/function inventories; detects suppression controls through pinnedreader normalization. Boltons23functions min1max15median1p954 independently verified. Qualified names retained; leaf names reconcile AST identities.
 
