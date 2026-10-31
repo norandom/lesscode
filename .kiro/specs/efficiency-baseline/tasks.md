@@ -147,7 +147,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3, 1.6, 1.8, 2.2, 2.5_
   - _Requirements: 1.1, 1.5, 5.1, 5.2, 5.3, 5.7, 8.7_
 
-- [ ] 4.2 (P) Compare metric definitions and calculate honest deltas
+- [x] 4.2 (P) Compare metric definitions and calculate honest deltas
   - Compare scope, producer version, definitions and population evidence before calculating changes.
   - Apply declared absolute/percentage rules, preserve non-comparability and require recorded population explanations where specified.
   - Done when zero baseline, unavailable inputs and mismatched definitions produce the designed results; Decision files can be tested independently of plan preparation.
@@ -315,4 +315,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 4.1: prepare returns PreparedPlan; verify_integrity reconstructs resolved commands from frozen profile/resources/bindings without probes, detecting argv/env/cwd/limits/executable edits. Fingerprints include resolved paths. Task6.2 must package/resolve lock resources for installed-wheel operation; config currently uses repository_ROOT for locks/entrypoints defaults.
+
+
+- 4.2: compare_metric(s) returns MetricComparison; use status for compatibility, not delta.status. Structured metrics have no inferredscalarprojection. evaluate_threshold returns passed/failed/unavailable; percent rules unitpercent, others exactmetricunit. Populationchanges need candidateexplanation; rawrecords preserved.
 
