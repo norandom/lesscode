@@ -1,59 +1,73 @@
-# Baseline package setup
+# Install the baseline package
 
-The baseline harness targets CPython 3.12.10 and Node 24.22.1. Startup uses
-Python's standard library and needs no analyzer, LLM account or network access.
-Node is needed by the later duplication analyzer setup, not by help or version.
-Installing the package requires the declared setuptools build dependency.
+Use a checkout of this repository, uv, and CPython 3.12.10. Validation used uv
+0.13.5. The duplication analyzer also requires Node 24.22.1 with npm;
+[analyzer setup](analyzer-setup.md)
+provisions the analysis packages separately. The package's help and version
+commands need neither Node nor an LLM service.
 
-## Verified local runtimes
+Installation can download the interpreter and the declared setuptools build
+dependency. Evaluation does not install dependencies. Use the environment's
+explicit executable paths below; no shell activation or system Python alias is
+needed. On Windows use `uv.exe` directly, including when a shell function named
+`uv` exists. Do not use Windows Store Python.
 
-Verified on Windows on 2026-10-30:
+## Windows PowerShell
 
-| Runtime | Version | Resolved executable |
-| --- | --- | --- |
-| CPython | 3.12.10 | `C:\Users\mariu\AppData\Local\Programs\Python\Python312\python.exe` |
-| Node | 24.22.1 | `C:\Program Files\nodejs\node.exe` |
-
-The checkout path `C:\Users\mariu\Source\lesscode` resolves to
-`D:\Source\lesscode` on this machine. Virtual environments therefore report
-their executable under that resolved root. These paths describe this machine;
-they are not embedded in the package.
-
-Verify the selected runtimes before setup:
+From a fresh checkout's root:
 
 ```powershell
-uv python install 3.12.10
-uv run --no-project --python 3.12.10 python -c "import sys; print(sys.version); print(sys.executable)"
-node --version
-node -p "process.execPath"
-```
-
-## Build and verify
-
-From the repository root on Windows:
-
-```powershell
-uv venv --python 3.12.10 .venv
-uv build --python .venv/Scripts/python.exe --wheel --out-dir dist
-uv pip install --python .venv/Scripts/python.exe --no-deps dist/lesscode_baseline-0.1.0-py3-none-any.whl
-uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python -m unittest discover -v
+uv.exe python install 3.12.10
+uv.exe venv --managed-python --python 3.12.10 .venv
+uv.exe pip install --python .venv/Scripts/python.exe .
 .\.venv\Scripts\lesscode-baseline.exe --help
 .\.venv\Scripts\lesscode-baseline.exe --version
-uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python -m lesscode_baseline --version
+node --version
 ```
 
-On Linux or macOS, use the same uv-managed CPython 3.12.10 setup and substitute
-`.venv/bin/python` and `.venv/bin/lesscode-baseline` for Windows environment paths.
-Cross-platform integration remains a separate validation task.
+The Node output must be `v24.22.1` before analyzer setup. The package version is
+`0.1.0`. Choose a new environment path if `.venv` is already used for something
+else, and substitute it consistently in subsequent commands.
 
-Standard-library discovery also supports source development before installation:
-set `PYTHONPATH` to the absolute `src` directory, then run
-`uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python -m unittest discover -v`.
-The explicit environment path prevents ambient Python aliases from selecting
-another runtime.
+## Linux and macOS
 
-The CLI reference documents the integrated plan, run and summarize commands.
+```sh
+uv python install 3.12.10
+uv venv --managed-python --python 3.12.10 .venv
+uv pip install --python .venv/bin/python .
+.venv/bin/lesscode-baseline --help
+.venv/bin/lesscode-baseline --version
+node --version
+```
 
-Environments, bytecode, build outputs, local `runs/` and `.workspaces/` are
-ignored by Git. Later source-scope implementation must also exclude generated
-material explicitly; Git ignore rules alone do not define measurement scope.
+Use the same pinned versions on each host. Native Windows, Linux and macOS
+validation is recorded in the [CI guide](ci-validation.md). WSL is optional for
+Windows development.
+
+## Build a wheel or work on source
+
+On Windows:
+
+```powershell
+uv.exe build --python .venv/Scripts/python.exe --wheel --out-dir dist
+$env:PYTHONPATH = (Resolve-Path src).Path
+uv.exe run --no-project --no-python-downloads --python .venv/Scripts/python.exe python -m unittest discover -v
+```
+
+On Linux or macOS:
+
+```sh
+uv build --python .venv/bin/python --wheel --out-dir dist
+PYTHONPATH="$PWD/src" uv run --no-project --no-python-downloads --python .venv/bin/python python -m unittest discover -v
+```
+
+Source testing and installed-package testing serve different purposes. Remove
+`PYTHONPATH` when checking a clean installed wheel outside the checkout. See
+[installed-wheel usage](cli.md#using-an-installed-wheel-outside-the-checkout).
+
+Environments, local results and build outputs are ignored by Git. Measurement
+scope is configured separately; Git ignore rules do not define which source
+bytes the evaluator measures.
+
+Next: [install and probe the analyzers](analyzer-setup.md), then run the
+[unchanged fixture](../README.md#try-an-unchanged-pair-first).

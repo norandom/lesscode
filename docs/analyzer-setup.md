@@ -1,13 +1,14 @@
 # Analyzer setup
 
 Setup is explicit and network enabled. Evaluation and the probe never install
-dependencies. Use CPython 3.12.10 and Node 24.22.1 (see runtime-setup.md).
+dependencies. First complete [package setup](runtime-setup.md) with CPython
+3.12.10 and install Node 24.22.1 with npm.
 
 Windows PowerShell:
 
 ```powershell
-uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python tools/setup_toolchain.py
-uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python tools/probe_toolchain.py --output .tools/probe.json
+uv.exe run --no-project --no-python-downloads --python .venv/Scripts/python.exe python tools/setup_toolchain.py
+uv.exe run --no-project --no-python-downloads --python .venv/Scripts/python.exe python tools/probe_toolchain.py --output .tools/probe.json
 ```
 
 Linux/macOS with the pinned runtimes installed:
@@ -17,13 +18,20 @@ uv run --no-project --no-python-downloads --python .venv/bin/python python tools
 uv run --no-project --no-python-downloads --python .venv/bin/python python tools/probe_toolchain.py --output .tools/probe.json
 ```
 
-`--npm-cli` identifies npm's JavaScript entry point; its default is the Windows
-Node installation layout. No shell wrapper is used. `--tool-root` selects an
+The Linux/macOS command contains placeholder paths: replace both with actual
+installed files. `command -v node` identifies the Node invocation; npm's resolved
+entry point is often `npm/bin/npm-cli.js`, but the location depends on your
+installation. Supply the JavaScript file, not a shell wrapper.
+
+`--npm-cli` identifies npm's JavaScript entry point; by default setup looks below
+the resolved Node directory at `node_modules/npm/bin/npm-cli.js`. This matches
+the common Windows layout. Other layouts need the explicit argument above.
+No shell wrapper is used. `--tool-root` selects an
 alternative isolated environment, including a fresh directory for reproducing
 installation. The default is `.tools/analyzers/`, excluded from source control.
 Select a new disposable tool root: setup rejects existing roots and linked
 ancestors without clearing their contents. Use a fresh `--tool-root` for each
-installation. The setup records entry points in entrypoints.json, preserving
+installation. The setup records entry points in `entrypoints.json`, preserving
 Python's virtual-environment invocation path on POSIX. Python environment creation
 and locked package installation use uv, avoiding copied macOS executables and
 the ensurepip bootstrap. `--uv` may select its explicitly installed executable.
@@ -51,6 +59,14 @@ points, command, statistics and clone locations. Temporary inputs are removed
 after verification. Missing tools, unsuccessful commands and missing/incorrect
 JSON fail visibly; they never become successful zero metrics.
 
-Two fresh isolated installs and probes were verified on Windows with the pinned
-runtimes. Linux/macOS commands are provided for the portable setup; they have not
-been executed here. Production metrics and three-platform CI remain later tasks.
+Native Windows, Linux and macOS setup, genuine probes and full installed pilots
+passed in the [recorded platform validation](ci-validation.md). These results
+apply to the recorded versions and fixture inputs, not every possible tool
+installation layout.
+
+After a successful default installation, use
+`--tool-paths .tools/analyzers/entrypoints.json` when preparing a plan. A custom
+tool root produces its metadata there instead. Keep that environment in place
+while a prepared plan refers to it; rerunning setup requires a fresh tool root.
+Next: run the [unchanged fixture](../README.md#try-an-unchanged-pair-first) or
+configure a [project-specific profile](profiles.md).

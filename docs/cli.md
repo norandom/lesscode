@@ -6,13 +6,15 @@ create a candidate. Passing declared checks is evidence, not proof of equivalenc
 
 ## Explicit installation
 
-Use CPython 3.12.10 and Node 24.22.1. From the repository root, install the
-package and explicitly provision the pinned open-source analyzers:
+Follow [runtime setup](runtime-setup.md) for CPython 3.12.10 and package
+installation, then [analyzer setup](analyzer-setup.md) for Node 24.22.1 and
+the pinned tools. The Windows commands, from the repository root, are:
 
 ```powershell
-uv venv --python 3.12.10 .venv
-uv pip install --python .venv/Scripts/python.exe .
-uv run --no-project --python .venv/Scripts/python.exe python tools/setup_toolchain.py --node 'C:/Program Files/nodejs/node.exe'
+uv.exe python install 3.12.10
+uv.exe venv --managed-python --python 3.12.10 .venv
+uv.exe pip install --python .venv/Scripts/python.exe .
+uv.exe run --no-project --no-python-downloads --python .venv/Scripts/python.exe python tools/setup_toolchain.py
 ```
 
 On Linux/macOS use `.venv/bin/python` and supply the absolute Node executable
@@ -31,11 +33,14 @@ From the repository root, this licensed unchanged pair demonstrates the complete
 workflow. Choose new output names for every invocation:
 
 ```powershell
-lesscode-baseline plan --profile benchmarks/profiles/python.json --baseline tests/fixtures/real/boltons_mathutils/source --candidate tests/fixtures/real/boltons_mathutils/source --tool-paths .tools/analyzers/entrypoints.json --out ../comparison-plan.json
-lesscode-baseline run --plan ../comparison-plan.json --out ../comparison-run
+.\.venv\Scripts\lesscode-baseline.exe plan --profile benchmarks/profiles/python.json --baseline tests/fixtures/real/boltons_mathutils/source --candidate tests/fixtures/real/boltons_mathutils/source --tool-paths .tools/analyzers/entrypoints.json --out ../comparison-plan.json
+.\.venv\Scripts\lesscode-baseline.exe run --plan ../comparison-plan.json --out ../comparison-run
 ```
 
-`python -m lesscode_baseline` accepts the same arguments. `--help` and `--version`
+On Linux/macOS use `.venv/bin/lesscode-baseline`; the [README](../README.md#try-an-unchanged-pair-first)
+has the complete commands. The environment's module entry point accepts the same
+arguments, for example `uv.exe run --no-project --no-python-downloads --python .venv/Scripts/python.exe python -m lesscode_baseline --help`.
+`--help` and `--version`
 work without any analyzers. Planning probes fixed tool versions but executes no
 project checks. Both commands print source roots and resolved argv, environment,
 working directory and limits. Run flushes this disclosure before executing the
@@ -43,6 +48,11 @@ checks. The working directory is relative to each fresh disposable source copy.
 Invoking run authorizes those declared commands; inspect the plan first.
 Ordinary disposable copies do not isolate hostile code: use an external sandbox
 for untrusted workloads.
+
+The boltons profile is fixture-specific. Read [profile configuration](profiles.md)
+before substituting your own source roots. The
+[technical overview](technical-overview.md) explains measurement definitions,
+decision precedence and recovery contracts.
 
 The profile and independent evaluator resources must be outside both sources.
 Plan and run outputs must be new and outside sources and the evaluator directory.
@@ -69,9 +79,9 @@ metric improvements. Missing tools produce unavailable metrics, never zeros.
 Build and install a wheel in a clean CPython 3.12 environment:
 
 ```powershell
-uv build --python 3.12.10 --wheel --out-dir dist
-uv venv --python 3.12.10 ../baseline-cli-env
-uv pip install --python ../baseline-cli-env/Scripts/python.exe dist/lesscode_baseline-0.1.0-py3-none-any.whl
+uv.exe build --python 3.12.10 --wheel --out-dir dist
+uv.exe venv --managed-python --python 3.12.10 ../baseline-cli-env
+uv.exe pip install --python ../baseline-cli-env/Scripts/python.exe dist/lesscode_baseline-0.1.0-py3-none-any.whl
 ```
 
 On Linux/macOS use `../baseline-cli-env/bin/python`. Change to another directory
@@ -116,7 +126,7 @@ generated evidence with explicit freshness bounds remains a Python integration A
 ## Summarizing recorded experiments
 
 ```powershell
-lesscode-baseline summarize --experiment C:/pilot/inputs/experiment.json --trials C:/pilot/inputs/control.json --trials C:/pilot/inputs/skill.json --runs C:/pilot/evidence --out C:/pilot/summary
+.\.venv\Scripts\lesscode-baseline.exe summarize --experiment C:/pilot/inputs/experiment.json --trials C:/pilot/inputs/control.json --trials C:/pilot/inputs/skill.json --runs C:/pilot/evidence --out C:/pilot/summary
 ```
 
 `--experiment` is a strict schema-version-1 `ExperimentManifest`. Each repeatable
