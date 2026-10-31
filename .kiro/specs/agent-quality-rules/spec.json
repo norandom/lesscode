@@ -1,16 +1,16 @@
 {
   "feature_name": "agent-quality-rules",
   "created_at": "2026-10-31T15:13:42.2910913+01:00",
-  "updated_at": "2026-10-31T15:26:26.8287012+01:00",
+  "updated_at": "2026-10-31T15:45:14.1799606+01:00",
   "language": "en",
-  "phase": "requirements-generated",
+  "phase": "design-generated",
   "approvals": {
     "requirements": {
       "generated": true,
-      "approved": false
+      "approved": true
     },
     "design": {
-      "generated": false,
+      "generated": true,
       "approved": false
     },
     "tasks": {
