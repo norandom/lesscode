@@ -11,8 +11,9 @@ import math
 import re
 from typing import Literal, Self
 
-from lesscode_baseline.contracts import ContractError, MetricEvidence, Record, RunReport, SourceSpan, dumps, loads
+from lesscode_baseline.contracts import DECISIONS, Decision, ContractError, MetricEvidence, Record, RunReport, SourceSpan, dumps, loads
 from lesscode_baseline.snapshot import matches
+
 
 def _fail(path: str, reason: str):
     raise ContractError(f"{path}: {reason}")
@@ -579,3 +580,357 @@ def validate_reviews(records: tuple[ReviewRecord, ...], evidence: EvidenceBundle
                     or not _in_scope(span.path, policy.target_scope)):
                 _fail("$reviews.locations", "span is outside candidate product inventory or applicable scope")
     return records
+
+
+def _artifact(value, path: str, fields: str) -> dict:
+    d = _object(value, path, "schema_version " + fields)
+    if type(d["schema_version"]) is not int or d["schema_version"] != 1:
+        _fail(path + ".schema_version", "unsupported schema_version (expected integer 1)")
+    return d
+
+
+def _absolute_path(value, path: str) -> str:
+    from pathlib import PurePosixPath, PureWindowsPath
+    value = _string(value, path)
+    parsed = PureWindowsPath(value) if PureWindowsPath(value).drive else PurePosixPath(value)
+    if not parsed.is_absolute() or ".." in parsed.parts or any(c in value for c in "*?[]"):
+        _fail(path, "expected absolute literal path without traversal")
+    return value
+
+
+@dataclass(frozen=True)
+class CapturedResource(Record):
+    """Original external byte identity; reading/rechecking belongs to services."""
+
+    role: Literal["policy", "run_index", "run_artifact", "review", "treatment"]
+    path: str
+    sha256: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "role path sha256")
+        return cls(_choice(d["role"], path + ".role", ("policy", "run_index", "run_artifact", "review", "treatment")),
+                   _absolute_path(d["path"], path + ".path"), _hash(d["sha256"], path + ".sha256"))
+
+
+@dataclass(frozen=True)
+class PreparedAssessment(Record):
+    schema_version: int
+    policy: Policy
+    policy_hash: str
+    evidence: EvidenceBundle
+    resources: tuple[CapturedResource, ...]
+    reviews: tuple[ReviewRecord, ...]
+    treatments: tuple[EntityTreatment, ...]
+    as_of: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "policy policy_hash evidence resources reviews treatments as_of")
+        policy = Policy.from_dict(d["policy"], path + ".policy")
+        identity = _hash(d["policy_hash"], path + ".policy_hash")
+        if identity != policy_hash(policy):
+            _fail(path + ".policy_hash", "does not match captured policy")
+        evidence = EvidenceBundle.from_dict(d["evidence"], path + ".evidence")
+        if policy.reference is not None and (policy.reference.source_hash != evidence.baseline_inventory.source_hash
+                                             or policy.reference.profile_hash != evidence.profile_hash):
+            _fail(path + ".policy.reference", "differs from captured evidence")
+        resources = _sequence(d["resources"], CapturedResource.from_dict, path + ".resources", lambda r: r.path)
+        roles = [r.role for r in resources]
+        if roles.count("policy") != 1 or roles.count("run_index") != 1 or "run_artifact" not in roles:
+            _fail(path + ".resources", "requires one policy, one run_index and indexed run artifacts")
+        reviews = _sequence(d["reviews"], ReviewRecord.from_dict, path + ".reviews")
+        treatments = _sequence(d["treatments"], EntityTreatment.from_dict, path + ".treatments")
+        for role, records in (("review", reviews), ("treatment", treatments)):
+            if records and role not in roles:
+                _fail(path + ".resources", "missing captured " + role + " input")
+        # Wrong review bindings remain input evidence for the evaluator to classify
+        # as insufficient; preparation does not silently discard those records.
+        validate_treatments(treatments, evidence, policy)
+        return cls(1, policy, identity, evidence, tuple(sorted(resources, key=lambda r: (r.role, r.path))),
+                   reviews, treatments, _utc(d["as_of"], path + ".as_of"))
+
+
+@dataclass(frozen=True)
+class EvidenceReference(Record):
+    schema_version: int
+    run_index_hash: str
+    artifact_path: str
+    artifact_hash: str
+    record_address: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "run_index_hash artifact_path artifact_hash record_address")
+        address = d["record_address"]
+        if not isinstance(address, str) or (address != "" and not address.startswith("/")) or re.search(r"~(?![01])", address) or "\x00" in address:
+            _fail(path + ".record_address", "expected JSON Pointer")
+        return cls(1, _hash(d["run_index_hash"], path + ".run_index_hash"),
+                   _literal_path(d["artifact_path"], path + ".artifact_path"),
+                   _hash(d["artifact_hash"], path + ".artifact_hash"), address)
+
+
+@dataclass(frozen=True)
+class ExceptionEffect(Record):
+    exception_id: str
+    state: Literal["active", "expired", "inapplicable"]
+    reason: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "exception_id state reason")
+        return cls(_string(d["exception_id"], path + ".exception_id"),
+                   _choice(d["state"], path + ".state", ("active", "expired", "inapplicable")),
+                   _string(d["reason"], path + ".reason"))
+
+
+@dataclass(frozen=True)
+class PolicyFinding(Record):
+    rule_id: str
+    scope: PolicyScope
+    entity_id: str
+    basis: str
+    enforcement: Literal["blocking", "advisory"]
+    status: Literal["satisfied", "violation", "insufficient", "invalid"]
+    disposition: Literal["improved", "unchanged", "worsened", "inherited_debt", "new_debt", "worsened_debt", "improved_residual_debt", "resolved_debt", "new", "removed", "unresolved", "unavailable", "check", "review"]
+    reference: EntityObservation | None
+    candidate: EntityObservation | None
+    expected: Rule
+    locations: tuple[SourceSpan, ...]
+    evidence_refs: tuple[EvidenceReference, ...]
+    reason: str
+    exceptions: tuple[ExceptionEffect, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "rule_id scope entity_id basis enforcement status disposition reference candidate expected locations evidence_refs reason exceptions")
+        expected = _rule(d["expected"], path + ".expected")
+        scope = PolicyScope.from_dict(d["scope"], path + ".scope")
+        if (d["rule_id"] != expected.rule_id or d["enforcement"] != expected.enforcement or scope != expected.scope):
+            _fail(path, "rule_id/scope/enforcement differs from expected rule")
+        effects = _sequence(d["exceptions"], ExceptionEffect.from_dict, path + ".exceptions", lambda e: e.exception_id)
+        status = _choice(d["status"], path + ".status", ("satisfied", "violation", "insufficient", "invalid"))
+        if any(e.state == "active" for e in effects) and (not isinstance(expected, NumericRule) or status != "violation"):
+            _fail(path + ".exceptions", "active exceptions require an original numeric violation")
+        return cls(expected.rule_id, scope, _entity_id(d["entity_id"], path + ".entity_id"),
+                   _string(d["basis"], path + ".basis"), expected.enforcement, status,
+                   _choice(d["disposition"], path + ".disposition", ("improved", "unchanged", "worsened", "inherited_debt", "new_debt", "worsened_debt", "improved_residual_debt", "resolved_debt", "new", "removed", "unresolved", "unavailable", "check", "review")),
+                   None if d["reference"] is None else EntityObservation.from_dict(d["reference"], path + ".reference"),
+                   None if d["candidate"] is None else EntityObservation.from_dict(d["candidate"], path + ".candidate"),
+                   expected, _sequence(d["locations"], _span, path + ".locations", lambda s: s),
+                   _sequence(d["evidence_refs"], EvidenceReference.from_dict, path + ".evidence_refs", lambda r: r),
+                   _string(d["reason"], path + ".reason"), tuple(sorted(effects, key=lambda e: e.exception_id)))
+
+
+@dataclass(frozen=True)
+class PolicyResult(Record):
+    schema_version: int
+    prepared_hash: str
+    baseline_decision: Decision
+    baseline_reasons: tuple[str, ...]
+    policy_verdict: Literal["satisfied", "violations", "insufficient", "invalid"]
+    policy_accepted: bool
+    findings: tuple[PolicyFinding, ...]
+    diagnostics: tuple[str, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "prepared_hash baseline_decision baseline_reasons policy_verdict policy_accepted findings diagnostics")
+        baseline = _choice(d["baseline_decision"], path + ".baseline_decision", DECISIONS)
+        verdict = _choice(d["policy_verdict"], path + ".policy_verdict", ("satisfied", "violations", "insufficient", "invalid"))
+        accepted = d["policy_accepted"]
+        if type(accepted) is not bool or accepted != (baseline == "accepted" and verdict == "satisfied"):
+            _fail(path + ".policy_accepted", "must equal accepted baseline and satisfied policy")
+        def identity(finding):
+            return finding.rule_id, dumps(finding.scope), finding.entity_id, finding.basis
+        findings = _sequence(d["findings"], PolicyFinding.from_dict, path + ".findings", identity)
+        return cls(1, _hash(d["prepared_hash"], path + ".prepared_hash"), baseline,
+                   _sequence(d["baseline_reasons"], _string, path + ".baseline_reasons"), verdict, accepted,
+                   tuple(sorted(findings, key=identity)), _sequence(d["diagnostics"], _string, path + ".diagnostics"))
+
+
+@dataclass(frozen=True)
+class PolicyArtifact(Record):
+    path: str
+    sha256: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "path sha256")
+        return cls(_literal_path(d["path"], path + ".path"), _hash(d["sha256"], path + ".sha256"))
+
+
+@dataclass(frozen=True)
+class PolicyArtifactIndex(Record):
+    schema_version: int
+    prepared_hash: str
+    files: tuple[PolicyArtifact, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "prepared_hash files")
+        files = _sequence(d["files"], PolicyArtifact.from_dict, path + ".files", lambda f: f.path)
+        names = {f.path for f in files}
+        if not {"manifest.json", "prepared.json", "result.json", "summary.md"} <= names or "artifacts.json" in names:
+            _fail(path + ".files", "requires manifest/prepared/result/summary and cannot index itself")
+        return cls(1, _hash(d["prepared_hash"], path + ".prepared_hash"), tuple(sorted(files, key=lambda f: f.path)))
+
+
+@dataclass(frozen=True)
+class PolicyRecovery(Record):
+    schema_version: int
+    state: Literal["prepared", "running", "finalized"]
+    result: PolicyResult | None
+    index: PolicyArtifactIndex | None
+    external_evidence: Literal["verified", "unverified"]
+    diagnostics: tuple[str, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "state result index external_evidence diagnostics")
+        state = _choice(d["state"], path + ".state", ("prepared", "running", "finalized"))
+        result = None if d["result"] is None else PolicyResult.from_dict(d["result"], path + ".result")
+        index = None if d["index"] is None else PolicyArtifactIndex.from_dict(d["index"], path + ".index")
+        if (state == "finalized" and (result is None or index is None)) or (state != "finalized" and index is not None):
+            _fail(path, "finalized requires result and index; partial state cannot carry completion index")
+        if index is not None and index.prepared_hash != result.prepared_hash:
+            _fail(path + ".index.prepared_hash", "differs from result")
+        return cls(1, state, result, index,
+                   _choice(d["external_evidence"], path + ".external_evidence", ("verified", "unverified")),
+                   _sequence(d["diagnostics"], _string, path + ".diagnostics"))
+
+    @property
+    def complete(self) -> bool:
+        return self.state == "finalized" and self.external_evidence == "verified"
+
+
+@dataclass(frozen=True)
+class RuleFailure(Record):
+    schema_version: int
+    operation: Literal["show", "prepare", "check", "guidance-preview", "guidance-apply", "recover"]
+    kind: Literal["invalid", "insufficient", "conflict", "io", "internal", "persistence"]
+    diagnostics: tuple[str, ...]
+    partial_result: PolicyResult | None
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "operation kind diagnostics partial_result")
+        diagnostics = _sequence(d["diagnostics"], _string, path + ".diagnostics")
+        if not diagnostics:
+            _fail(path + ".diagnostics", "failure requires a diagnostic")
+        return cls(1, _choice(d["operation"], path + ".operation", ("show", "prepare", "check", "guidance-preview", "guidance-apply", "recover")),
+                   _choice(d["kind"], path + ".kind", ("invalid", "insufficient", "conflict", "io", "internal", "persistence")),
+                   diagnostics, None if d["partial_result"] is None else PolicyResult.from_dict(d["partial_result"], path + ".partial_result"))
+
+
+@dataclass(frozen=True)
+class EncodedBytes(Record):
+    """Canonical base64 preserves BOM/newlines and distinguishes empty from absent."""
+
+    encoding: Literal["base64"]
+    data: str
+    sha256: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        import base64
+        import binascii
+        d = _object(value, path, "encoding data sha256")
+        _choice(d["encoding"], path + ".encoding", ("base64",))
+        try:
+            raw = base64.b64decode(d["data"], validate=True)
+        except (ValueError, TypeError, binascii.Error):
+            _fail(path + ".data", "expected canonical base64 bytes")
+        if base64.b64encode(raw).decode("ascii") != d["data"]:
+            _fail(path + ".data", "expected canonical base64 bytes")
+        digest = _hash(d["sha256"], path + ".sha256")
+        if hashlib.sha256(raw).hexdigest() != digest:
+            _fail(path + ".sha256", "differs from bytes")
+        return cls("base64", d["data"], digest)
+
+    def decode(self) -> bytes:
+        import base64
+        return base64.b64decode(self.data, validate=True)
+
+
+@dataclass(frozen=True)
+class GuidanceDocument(Record):
+    schema_version: int
+    policy_hash: str
+    scope: PolicyScope
+    renderer_version: str
+    kind: Literal["pre_change_guidance"]
+    content: EncodedBytes
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "policy_hash scope renderer_version kind content")
+        return cls(1, _hash(d["policy_hash"], path + ".policy_hash"), PolicyScope.from_dict(d["scope"], path + ".scope"),
+                   _string(d["renderer_version"], path + ".renderer_version"),
+                   _choice(d["kind"], path + ".kind", ("pre_change_guidance",)),
+                   EncodedBytes.from_dict(d["content"], path + ".content"))
+
+
+@dataclass(frozen=True)
+class GuidanceUpdate(Record):
+    schema_version: int
+    document: GuidanceDocument
+    policy_resource: CapturedResource
+    root: str
+    target: str
+    before: EncodedBytes | None
+    managed_block_hash: str | None
+    proposed: EncodedBytes
+    diff: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "document policy_resource root target before managed_block_hash proposed diff")
+        resource = CapturedResource.from_dict(d["policy_resource"], path + ".policy_resource")
+        if resource.role != "policy":
+            _fail(path + ".policy_resource.role", "must identify original policy bytes")
+        before = None if d["before"] is None else EncodedBytes.from_dict(d["before"], path + ".before")
+        block = None if d["managed_block_hash"] is None else _hash(d["managed_block_hash"], path + ".managed_block_hash")
+        if before is None and block is not None:
+            _fail(path + ".managed_block_hash", "absent original cannot have managed block")
+        if not isinstance(d["diff"], str) or "\x00" in d["diff"]:
+            _fail(path + ".diff", "expected diff text")
+        return cls(1, GuidanceDocument.from_dict(d["document"], path + ".document"), resource,
+                   _absolute_path(d["root"], path + ".root"), _literal_path(d["target"], path + ".target"),
+                   before, block, EncodedBytes.from_dict(d["proposed"], path + ".proposed"), d["diff"])
+
+
+@dataclass(frozen=True)
+class GuidanceApplyResult(Record):
+    schema_version: int
+    preview_hash: str
+    root: str
+    target: str
+    content_hash: str
+    changed: bool
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "preview_hash root target content_hash changed")
+        if type(d["changed"]) is not bool:
+            _fail(path + ".changed", "expected boolean")
+        return cls(1, _hash(d["preview_hash"], path + ".preview_hash"),
+                   _absolute_path(d["root"], path + ".root"), _literal_path(d["target"], path + ".target"),
+                   _hash(d["content_hash"], path + ".content_hash"), d["changed"])
+
+
+@dataclass(frozen=True)
+class RuleOutput(Record):
+    """Successful operation envelope; only check carries an assessment verdict."""
+
+    schema_version: int
+    operation: Literal["show", "prepare", "check", "guidance-preview", "guidance-apply"]
+    output: GuidanceDocument | PreparedAssessment | PolicyResult | GuidanceUpdate | GuidanceApplyResult
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _artifact(value, path, "operation output")
+        readers = {"show": GuidanceDocument, "prepare": PreparedAssessment, "check": PolicyResult,
+                   "guidance-preview": GuidanceUpdate, "guidance-apply": GuidanceApplyResult}
+        operation = _choice(d["operation"], path + ".operation", tuple(readers))
+        return cls(1, operation, readers[operation].from_dict(d["output"], path + ".output"))

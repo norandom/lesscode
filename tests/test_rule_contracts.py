@@ -519,5 +519,189 @@ class EvidenceInputContractTests(unittest.TestCase):
             self.assertEqual(c.validate_treatments((record,), evidence, p)[0].kind, "unresolved")
 
 
+
+
+def captured():
+    return {"role": "policy", "path": "D:/project/policy.json", "sha256": HASH}
+
+
+def prepared():
+    return {"schema_version": 1, "policy": policy(), "policy_hash": c.policy_hash(c.Policy.from_dict(policy())),
+            "evidence": bundle(), "resources": [captured(), {**captured(), "role": "run_index", "path": "D:/run/artifacts.json"},
+            {**captured(), "role": "run_artifact", "path": "D:/run/plan.json"}],
+            "reviews": [], "treatments": [], "as_of": "2026-10-31T12:00:00Z"}
+
+
+def finding():
+    return {"rule_id": "size", "scope": scope(), "entity_id": "module", "basis": "absolute",
+            "enforcement": "blocking", "status": "satisfied", "disposition": "unchanged",
+            "reference": None, "candidate": None, "expected": numeric(), "locations": [],
+            "evidence_refs": [{"schema_version": 1, "run_index_hash": HASH, "artifact_path": "report.json",
+                               "artifact_hash": HASH, "record_address": "/candidate/metrics/0"}],
+            "reason": "Observed limit satisfied", "exceptions": []}
+
+
+def result():
+    return {"schema_version": 1, "prepared_hash": HASH, "baseline_decision": "accepted",
+            "baseline_reasons": ["Checks passed"], "policy_verdict": "satisfied", "policy_accepted": True,
+            "findings": [finding()], "diagnostics": []}
+
+
+def byte_content(raw):
+    import base64
+    return {"encoding": "base64", "data": base64.b64encode(raw).decode(), "sha256": hashlib.sha256(raw).hexdigest()}
+
+
+def document():
+    return {"schema_version": 1, "policy_hash": HASH, "scope": scope(), "renderer_version": "1",
+            "kind": "pre_change_guidance", "content": byte_content(b"Guidance\r\n")}
+
+
+def update():
+    return {"schema_version": 1, "document": document(), "policy_resource": captured(),
+            "root": "D:/project", "target": "AGENTS.md", "before": byte_content(b"\xef\xbb\xbfUser\r\n"),
+            "managed_block_hash": None, "proposed": byte_content(b"\xef\xbb\xbfUser\r\nGuidance\r\n"), "diff": "+Guidance"}
+
+
+class ArtifactContractTests(unittest.TestCase):
+    def roundtrip(self, cls, value):
+        parsed = c.loads(cls, json.dumps(value))
+        self.assertEqual(parsed, c.loads(cls, c.dumps(parsed)))
+        with self.assertRaises(FrozenInstanceError):
+            parsed.schema_version = 2
+        return parsed
+
+    def test_prepared_captures_fixed_inputs_and_time(self):
+        parsed = self.roundtrip(c.PreparedAssessment, prepared())
+        self.assertEqual(parsed.as_of, "2026-10-31T12:00:00Z")
+        self.assertEqual(parsed.evidence.report, c.EvidenceBundle.from_dict(bundle()).report)
+        self.assertEqual(len(parsed.resources), 3)
+
+    def test_prepared_rejects_version_hash_time_and_resource_errors(self):
+        for key, invalid in [("schema_version", True), ("schema_version", 2), ("policy_hash", "b" * 64),
+                             ("as_of", "2026-10-31"), ("resources", []), ("unknown", 1)]:
+            with self.subTest(key=key, invalid=invalid), self.assertRaises(c.ContractError):
+                c.PreparedAssessment.from_dict({**prepared(), key: invalid})
+        for path in ["relative.json", "D:/run/../policy.json", "D:policy.json"]:
+            with self.subTest(path=path), self.assertRaises(c.ContractError):
+                c.CapturedResource.from_dict({**captured(), "path": path})
+
+    def test_result_roundtrip_and_independent_outcomes(self):
+        self.roundtrip(c.PolicyResult, result())
+        for baseline in ["accepted", "rejected", "incomplete", "baseline_ineligible", "invalid"]:
+            for verdict in ["satisfied", "violations", "insufficient", "invalid"]:
+                accepted = baseline == "accepted" and verdict == "satisfied"
+                value = {**result(), "baseline_decision": baseline, "policy_verdict": verdict,
+                         "policy_accepted": accepted}
+                self.roundtrip(c.PolicyResult, value)
+                with self.assertRaises(c.ContractError):
+                    c.PolicyResult.from_dict({**value, "policy_accepted": not accepted})
+        with self.assertRaises(c.ContractError):
+            c.PolicyResult.from_dict({**result(), "policy_accepted": 1})
+
+    def test_findings_retain_expected_rule_and_exact_evidence(self):
+        parsed = c.PolicyFinding.from_dict(finding())
+        self.assertIsInstance(parsed.expected, c.NumericRule)
+        self.assertEqual(parsed.evidence_refs[0].record_address, "/candidate/metrics/0")
+        for field, bad in [("rule_id", "other"), ("enforcement", "advisory"), ("basis", ""), ("extra", 1)]:
+            with self.subTest(field=field), self.assertRaises(c.ContractError):
+                c.PolicyFinding.from_dict({**finding(), field: bad})
+        for field, bad in [("schema_version", 2), ("artifact_path", "../result.json"),
+                           ("artifact_hash", "bad"), ("record_address", "candidate"), ("record_address", "/bad~2")]:
+            ref = finding()["evidence_refs"][0]
+            with self.subTest(field=field), self.assertRaises(c.ContractError):
+                c.EvidenceReference.from_dict({**ref, field: bad})
+
+    def test_findings_order_and_duplicate_identity(self):
+        value = result()
+        value["findings"] = [{**finding(), "entity_id": "z"}, finding()]
+        self.assertEqual([f.entity_id for f in c.PolicyResult.from_dict(value).findings], ["module", "z"])
+        value["findings"] = [finding(), finding()]
+        with self.assertRaises(c.ContractError):
+            c.PolicyResult.from_dict(value)
+
+    def test_guidance_preserves_bytes_and_absence(self):
+        parsed = self.roundtrip(c.GuidanceUpdate, update())
+        self.assertEqual(parsed.before.decode(), b"\xef\xbb\xbfUser\r\n")
+        self.roundtrip(c.GuidanceDocument, document())
+        self.roundtrip(c.GuidanceUpdate, {**update(), "before": None})
+        for key, invalid in [("target", "../AGENTS.md"), ("root", "."), ("schema_version", 2)]:
+            with self.subTest(key=key), self.assertRaises(c.ContractError):
+                c.GuidanceUpdate.from_dict({**update(), key: invalid})
+        with self.assertRaises(c.ContractError):
+            c.GuidanceUpdate.from_dict({**update(), "before": None, "managed_block_hash": HASH})
+
+    def test_encoded_bytes_fail_closed(self):
+        for key, bad in [("encoding", "utf8"), ("data", "%%%"), ("data", "Zh=="), ("sha256", HASH)]:
+            with self.subTest(key=key), self.assertRaises(c.ContractError):
+                c.EncodedBytes.from_dict({**byte_content(b"f"), key: bad})
+
+    def test_storage_and_partial_failures_do_not_claim_completion(self):
+        files = [{"path": p, "sha256": HASH} for p in ["manifest.json", "prepared.json", "result.json", "summary.md"]]
+        index = {"schema_version": 1, "prepared_hash": HASH, "files": files}
+        self.roundtrip(c.PolicyArtifactIndex, index)
+        with self.assertRaises(c.ContractError):
+            c.PolicyArtifactIndex.from_dict({**index, "files": files[:-1]})
+        partial = {"schema_version": 1, "state": "running", "result": result(), "index": None,
+                   "external_evidence": "unverified", "diagnostics": ["Interrupted"]}
+        self.roundtrip(c.PolicyRecovery, partial)
+        with self.assertRaises(c.ContractError):
+            c.PolicyRecovery.from_dict({**partial, "state": "finalized"})
+        failure = {"schema_version": 1, "operation": "check", "kind": "persistence", "diagnostics": ["Disk full"],
+                   "partial_result": result()}
+        self.roundtrip(c.RuleFailure, failure)
+        complete = {**partial, "state": "finalized", "index": index, "external_evidence": "verified"}
+        self.roundtrip(c.PolicyRecovery, complete)
+        with self.assertRaises(c.ContractError):
+            c.PolicyRecovery.from_dict({**complete, "index": {**index, "prepared_hash": "b" * 64}})
+
+    def test_output_envelope_distinguishes_operations_from_assessment(self):
+        value = {"schema_version": 1, "operation": "check", "output": result()}
+        self.roundtrip(c.RuleOutput, value)
+        shown = {**value, "operation": "show", "output": document()}
+        self.roundtrip(c.RuleOutput, shown)
+        with self.assertRaises(c.ContractError):
+            c.RuleOutput.from_dict({**shown, "policy_accepted": True})
+        with self.assertRaises(c.ContractError):
+            c.RuleOutput.from_dict({**shown, "output": result()})
+        applied = {"schema_version": 1, "preview_hash": HASH, "root": "/repo", "target": "AGENTS.md",
+                   "content_hash": HASH, "changed": False}
+        self.roundtrip(c.GuidanceApplyResult, applied)
+        self.roundtrip(c.RuleOutput, {**value, "operation": "guidance-apply", "output": applied})
+        with self.assertRaises(c.ContractError):
+            c.GuidanceApplyResult.from_dict({**applied, "changed": 0})
+
+    def test_partial_and_external_evidence_remain_distinct(self):
+        files = [{"path": p, "sha256": HASH} for p in ["manifest.json", "prepared.json", "result.json", "summary.md"]]
+        value = {"schema_version": 1, "state": "finalized", "result": result(),
+                 "index": {"schema_version": 1, "prepared_hash": HASH, "files": files},
+                 "external_evidence": "unverified", "diagnostics": ["Run moved"]}
+        self.assertFalse(c.PolicyRecovery.from_dict(value).complete)
+        self.assertTrue(c.PolicyRecovery.from_dict({**value, "external_evidence": "verified"}).complete)
+
+    def test_prepared_review_claims_and_duplicate_resource_detection(self):
+        value = prepared()
+        value["reviews"] = [review_record()]
+        with self.assertRaisesRegex(c.ContractError, "missing captured review"):
+            c.PreparedAssessment.from_dict(value)
+        value["resources"].append({**captured(), "role": "review", "path": "/reviews.json"})
+        parsed = c.PreparedAssessment.from_dict(value)
+        self.assertEqual(parsed.reviews[0].policy_hash, review_record()["policy_hash"])
+        value["resources"].append(value["resources"][0])
+        with self.assertRaisesRegex(c.ContractError, "duplicate identity"):
+            c.PreparedAssessment.from_dict(value)
+
+    def test_exception_effect_preserves_original_violation(self):
+        effect = {"exception_id": "temporary", "state": "active", "reason": "In validity window"}
+        value = {**finding(), "status": "violation", "exceptions": [effect]}
+        parsed = c.PolicyFinding.from_dict(value)
+        self.assertEqual(parsed.status, "violation")
+        self.assertEqual(parsed.exceptions[0].state, "active")
+        with self.assertRaises(c.ContractError):
+            c.PolicyFinding.from_dict({**value, "status": "satisfied"})
+        with self.assertRaises(c.ContractError):
+            c.PolicyFinding.from_dict({**value, "expected": check(), "rule_id": "api"})
+
+
 if __name__ == "__main__":
     unittest.main()

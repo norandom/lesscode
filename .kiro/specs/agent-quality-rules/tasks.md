@@ -23,7 +23,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - Contract tests round-trip valid inputs and reject malformed or conflicting treatment/review records without changing baseline formats.
   - _Boundary: Policy contracts_
   - _Requirements: 2.1, 3.1, 3.7, 5.2, 5.5, 5.8_
-- [ ] 1.4 Define prepared assessment, result and guidance artifact contracts
+- [x] 1.4 Define prepared assessment, result and guidance artifact contracts
   - Specify captured resource identities, fixed validity time, per-entity findings, separate baseline/policy outcomes and storage completion records.
   - Specify guidance documents/previews with before/proposed bytes, hashes, target identity and renderer identity.
   - Round-trip tests prove unknown versions, inconsistent accepted flags and malformed artifact identities fail closed.
@@ -184,3 +184,4 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
 ## Implementation Notes
 - Task 1.1: use uv.exe with explicit pinned Python. The existing development venv uses a local CPython 3.12.10 base; clean installed smoke uses uv-managed 3.12.10. Both and all analyzer pins were verified. Preserve original RED output in a durable task log for subsequent handoffs.
 - Task 1.3: review records preserve wrong-but-well-formed identities. In task 3.2 classify missing/wrong source-policy-scope bindings as insufficient before consistency assertions; duplicates/conflicts are invalid. Do not collapse these through generic exception handling or parse error strings to recover verdict meaning.
+- Task 1.4: prepared artifacts retain supplied reviews, including duplicate/conflicting and mismatched records; task 3.2 must classify duplicates/conflicts as invalid and mismatches as insufficient before binding assertions. Artifact parsing does not claim filesystem admission or external verification.
