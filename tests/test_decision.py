@@ -207,5 +207,174 @@ class MetricComparisonTests(unittest.TestCase):
         self.assertEqual(result.delta.percentage_delta, 100 * (after - before) / before)
 
 
+class AcceptanceTests(unittest.TestCase):
+    def setUp(self):
+        from lesscode_baseline import contracts as c
+        from tests.test_contracts import profile, observation
+        self.c = c
+        self.profile = c.Profile.from_dict(profile())
+        self.baseline = c.Observation.from_dict(observation())
+        self.baseline = replace(self.baseline, metrics=tuple(
+            metric(100, key=key) for key in self.profile.required_metrics))
+        self.candidate = replace(self.baseline, metrics=tuple(
+            replace(value, value=80) for value in self.baseline.metrics))
+        self.integrity = c.IntegrityResult('unchanged', (), c.Protection('local_detection', None))
+
+    def compare(self, baseline=None, candidate=None, profile=None, integrity=None):
+        from lesscode_baseline.decision import compare
+        return compare(baseline or self.baseline, candidate or self.candidate,
+                       profile or self.profile, integrity or self.integrity)
+
+    def check_status(self, observation, status):
+        return replace(observation, checks=(replace(observation.checks[0], status=status),))
+
+    def test_every_primary_state_and_priority(self):
+        cases = [({}, 'accepted'),
+                 ({'integrity': replace(self.integrity, status='changed', changed_resources=('oracle.py',))}, 'invalid'),
+                 ({'baseline': self.check_status(self.baseline, 'failed')}, 'baseline_ineligible'),
+                 ({'candidate': self.check_status(self.candidate, 'failed')}, 'rejected'),
+                 ({'candidate': replace(self.candidate, metrics=())}, 'incomplete')]
+        for arguments, expected in cases:
+            with self.subTest(expected=expected):
+                result = self.compare(**arguments)
+                self.assertEqual(result.decision, expected)
+                self.assertEqual(self.c.Comparison.from_dict(result.to_dict()), result)
+        result = self.compare(baseline=self.check_status(self.baseline, 'failed'),
+                              candidate=self.check_status(self.candidate, 'failed'),
+                              integrity=replace(self.integrity, status='changed', changed_resources=('oracle.py',)))
+        self.assertEqual(result.decision, 'invalid')
+        for text in ['oracle.py', 'baseline', 'candidate', 'failed']:
+            self.assertIn(text, ' '.join(result.reasons))
+
+    def test_all_declared_baseline_checks_even_optional_must_pass(self):
+        optional = replace(self.profile.checks[0], required=False, check_id='optional',
+                           expected_ids=('optional.api',), command=replace(self.profile.checks[0].command, command_id='optional'))
+        profile = replace(self.profile, checks=(*self.profile.checks, optional))
+        for status in ['failed', 'skipped', 'missing', 'error', None]:
+            for required in [True, False]:
+                with self.subTest(status=status, required=required):
+                    spec = replace(optional, required=required)
+                    declared = replace(profile, checks=(*self.profile.checks, spec))
+                    extra = () if status is None else (replace(self.baseline.checks[0], check_id='optional.api', required=required, status=status),)
+                    before = replace(self.baseline, checks=(*self.baseline.checks, *extra))
+                    after = replace(self.candidate, checks=(*self.candidate.checks,
+                        replace(self.candidate.checks[0], check_id='optional.api', required=required)))
+                    self.assertEqual(self.compare(before, after, declared).decision, 'baseline_ineligible')
+
+    def test_shorter_candidate_failure_cannot_be_compensated(self):
+        for kind in ['native', 'golden', 'invariant', 'public_api']:
+            profile = replace(self.profile, checks=(replace(self.profile.checks[0], kind=kind),))
+            before = replace(self.baseline, checks=(replace(self.baseline.checks[0], kind=kind),))
+            after = replace(self.candidate, checks=(replace(self.candidate.checks[0], kind=kind, status='failed'),),
+                            metrics=tuple(replace(m, value=1) for m in self.candidate.metrics))
+            self.assertEqual(self.compare(before, after, profile).decision, 'rejected')
+
+    def test_candidate_required_skipped_missing_error_and_absent_incomplete(self):
+        for status in ['skipped', 'missing', 'error', None]:
+            after = replace(self.candidate, checks=()) if status is None else self.check_status(self.candidate, status)
+            self.assertEqual(self.compare(candidate=after).decision, 'incomplete')
+
+    def test_optional_candidate_failure_rejects_but_absence_is_disclosed(self):
+        profile = replace(self.profile, checks=(replace(self.profile.checks[0], required=False),))
+        before = replace(self.baseline, checks=(replace(self.baseline.checks[0], required=False),))
+        for status, expected in [('failed', 'rejected'), ('missing', 'accepted'), ('skipped', 'accepted'), ('error', 'accepted')]:
+            after = replace(self.candidate, checks=(replace(self.candidate.checks[0], required=False, status=status),))
+            result = self.compare(before, after, profile)
+            self.assertEqual(result.decision, expected)
+            self.assertIn(status, ' '.join(result.reasons))
+
+    def test_required_check_identity_kind_and_flag_are_frozen(self):
+        for change in [dict(required=False), dict(kind='golden'), dict(check_id='replacement')]:
+            after = replace(self.candidate, checks=(replace(self.candidate.checks[0], **change),))
+            self.assertNotEqual(self.compare(candidate=after).decision, 'accepted')
+
+    def test_noncomparable_required_metric_and_missing_both_sides(self):
+        for before, after in [(self.baseline, replace(self.candidate, metrics=())),
+                              (replace(self.baseline, metrics=()), replace(self.candidate, metrics=())),
+                              (self.baseline, replace(self.candidate, metrics=tuple(replace(m, producer_version='2') for m in self.candidate.metrics)))]:
+            self.assertEqual(self.compare(before, after).decision, 'incomplete')
+
+    def test_structured_required_measurement_satisfies_availability_without_scalar(self):
+        value = FindingsPayload('findings', ())
+        before = replace(self.baseline, metrics=tuple(replace(m, value=value) for m in self.baseline.metrics))
+        after = replace(self.candidate, metrics=before.metrics)
+        profile = replace(self.profile, thresholds=())
+        result = self.compare(before, after, profile)
+        self.assertEqual(result.decision, 'accepted')
+        self.assertTrue(all(d.status == 'unavailable' for d in result.metric_deltas))
+        self.assertEqual(self.compare(before, after).decision, 'incomplete')
+
+    def test_optional_metrics_do_not_block_but_limitations_remain(self):
+        for evidence in [metric(None, key='coverage', status='unavailable', reason='producer absent'),
+                         metric(12, key='coverage', producer_version='2')]:
+            before = replace(self.baseline, metrics=(*self.baseline.metrics, metric(key='coverage')))
+            after = replace(self.candidate, metrics=(*self.candidate.metrics, evidence))
+            result = self.compare(before, after)
+            self.assertEqual(result.decision, 'accepted')
+            self.assertIn('coverage', ' '.join(result.reasons))
+            self.assertEqual(self.compare(before, after, replace(self.profile, required_metrics=(*self.profile.required_metrics, 'coverage'))).decision, 'incomplete')
+
+    def test_threshold_violation_overrides_missing_required_metric_and_all_reasons_retained(self):
+        after = replace(self.candidate, metrics=(metric(120, key='source_bytes'),))
+        result = self.compare(candidate=after)
+        self.assertEqual(result.decision, 'rejected')
+        for text in ['source_bytes', 'complexity', 'duplication']:
+            self.assertIn(text, ' '.join(result.reasons))
+        self.assertEqual(self.compare(profile=replace(self.profile, thresholds=(Threshold('absent', 'absolute_maximum', 0, 'bytes'),))).decision, 'incomplete')
+        zero = replace(self.baseline, metrics=tuple(replace(m, value=0) for m in self.baseline.metrics))
+        self.assertEqual(self.compare(zero, profile=replace(self.profile, thresholds=(Threshold('source_bytes', 'percentage_delta_maximum', 0, 'percent'),))).decision, 'incomplete')
+
+    def test_integrity_unavailable_never_accepts_and_protection_is_disclosed(self):
+        self.assertNotEqual(self.compare(integrity=replace(self.integrity, status='unavailable')).decision, 'accepted')
+        for protection in [self.integrity.protection, self.c.Protection('external_isolation_claimed', 'provider:job123')]:
+            result = self.compare(integrity=replace(self.integrity, protection=protection))
+            self.assertIn(protection.mode, ' '.join(result.reasons))
+            if protection.provider_evidence:
+                self.assertIn(protection.provider_evidence, ' '.join(result.reasons))
+            self.assertIn('unchecked behavior', ' '.join(result.reasons))
+            self.assertIn('not proof', ' '.join(result.reasons))
+
+    def test_existing_failures_are_retained_without_optional_metric_blocking(self):
+        failure = self.c.Failure('optional_evidence_missing', 'coverage producer absent', 'coverage.json', None, None, False, None)
+        after = replace(self.candidate, failures=(failure,))
+        result = self.compare(candidate=after)
+        self.assertEqual(result.decision, 'accepted')
+        self.assertIn(failure.code, ' '.join(result.reasons))
+
+    def test_unfinished_or_nonzero_declared_execution_overrides_passed_report(self):
+        from tests.test_contracts import plan
+        command = self.c.ResolvedCommand.from_dict(plan()['resolved_commands'][0])
+        for status, exit_code in [('timeout', None), ('log_limit', None), ('error', None), ('completed', 1)]:
+            execution = self.c.ExecutionResult(command, exit_code, status, 1, 'stdout.log', 'stderr.log', '2026-10-31T08:00:00Z', 'a'*64)
+            for side, expected in [('baseline', 'baseline_ineligible'), ('candidate', 'incomplete')]:
+                changed = replace(getattr(self, side), executions=(execution,))
+                result = self.compare(**{side: changed})
+                self.assertEqual(result.decision, expected)
+                self.assertIn(status, ' '.join(result.reasons))
+
+    def test_foreign_or_duplicate_check_evidence_is_invalid(self):
+        for checks in [(replace(self.candidate.checks[0], source_hash='b'*64),),
+                       (replace(self.candidate.checks[0], plan_hash='b'*64),),
+                       (self.candidate.checks[0], self.candidate.checks[0])]:
+            with self.subTest(checks=checks):
+                self.assertEqual(self.compare(candidate=replace(self.candidate, checks=checks)).decision, 'invalid')
+
+    def test_baseline_ineligibility_precedes_rejection_and_incompleteness(self):
+        before = self.check_status(self.baseline, 'skipped')
+        after = replace(self.check_status(self.candidate, 'failed'), metrics=())
+        result = self.compare(before, after)
+        self.assertEqual(result.decision, 'baseline_ineligible')
+        for detail in ['baseline', 'skipped', 'candidate', 'failed', 'required metric']:
+            self.assertIn(detail, ' '.join(result.reasons))
+
+    def test_declared_command_failure_record_cannot_hide_behind_passed_report(self):
+        failure = self.c.Failure('check_report_invalid', 'fresh report malformed', 'report.json',
+                                 self.profile.checks[0].check_id, None, False, 'bad.json')
+        before = replace(self.baseline, failures=(failure,))
+        after = replace(self.candidate, failures=(failure,))
+        self.assertEqual(self.compare(baseline=before).decision, 'baseline_ineligible')
+        self.assertEqual(self.compare(candidate=after).decision, 'incomplete')
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,4 +1,4 @@
-"""Metric compatibility and numerical comparison, independent of acceptance.
+"""Behavior-first acceptance and metric compatibility under a frozen profile.
 
 Structured measurements retain their producer-defined shape. Their compatibility
 is distinct from availability of a scalar delta; no aggregate score is inferred.
@@ -8,7 +8,123 @@ from dataclasses import dataclass
 import math
 from typing import Literal
 
-from .contracts import MetricDelta, MetricEvidence, PopulationPayload, Threshold
+from .contracts import (Comparison, FrozenProfile, IntegrityResult, MetricDelta,
+                        MetricEvidence, Observation, PopulationPayload, Threshold)
+
+
+def compare(baseline: Observation, candidate: Observation, profile: FrozenProfile,
+            integrity: IntegrityResult) -> Comparison:
+    """Apply the frozen profile without allowing metrics to compensate for behavior.
+
+    Completed normalized check evidence is authoritative when raw executions are
+    not supplied. When executions are supplied, unsuccessful command outcomes
+    cannot be overridden by a passed report. Integrity verification itself is the
+    caller's responsibility; this function performs no execution or filesystem IO.
+    """
+    problems = {state: [] for state in
+                ("invalid", "baseline_ineligible", "rejected", "incomplete")}
+    disclosures = []
+    if integrity.status != "unchanged" or integrity.changed_resources:
+        problems["invalid"].append(
+            f"integrity {integrity.status}; changed resources: {integrity.changed_resources!r}")
+
+    declared = {}
+    commands = {}
+    for spec in profile.checks:
+        commands[spec.command.command_id] = spec
+        for identity in spec.expected_ids:
+            if identity in declared:
+                raise ValueError(f"duplicate declared check identity: {identity}")
+            declared[identity] = spec
+
+    for side, observation in (("baseline", baseline), ("candidate", candidate)):
+        checks = {}
+        for evidence in observation.checks:
+            if evidence.check_id in checks:
+                problems["invalid"].append(f"{side} duplicate check {evidence.check_id}")
+            checks[evidence.check_id] = evidence
+            spec = declared.get(evidence.check_id)
+            if spec is None:
+                problems["invalid"].append(f"{side} undeclared check {evidence.check_id}")
+            elif (evidence.kind, evidence.required) != (spec.kind, spec.required):
+                problems["invalid"].append(
+                    f"{side} check {evidence.check_id} kind/required differs from frozen profile")
+            if evidence.source_hash != observation.snapshot.content_hash:
+                problems["invalid"].append(f"{side} check {evidence.check_id} source identity mismatch")
+        for identity, spec in declared.items():
+            evidence = checks.get(identity)
+            status = evidence.status if evidence else "missing"
+            if status == "passed":
+                continue
+            reason = f"{side} check {identity}: {status}"
+            if side == "baseline":
+                problems["baseline_ineligible"].append(reason)
+            elif status == "failed":
+                problems["rejected"].append(reason)
+            elif spec.required:
+                problems["incomplete"].append(reason)
+            else:
+                disclosures.append(reason + " (optional)")
+        for execution in observation.executions:
+            spec = commands.get(execution.command.command_id)
+            if spec is None or (execution.status == "completed" and execution.exit_code == 0):
+                continue
+            reason = (f"{side} check command {spec.check_id}: {execution.status}; "
+                      f"exit {execution.exit_code}")
+            if side == "baseline":
+                problems["baseline_ineligible"].append(reason)
+            elif spec.required:
+                problems["incomplete"].append(reason)
+            else:
+                disclosures.append(reason + " (optional)")
+        for failure in observation.failures:
+            reason = f"{side} {failure.code}: {failure.message}"
+            disclosures.append(reason)
+            # Adapter failures for optional measurements are limitations, whereas
+            # a declared behavior command failure still invalidates its evidence.
+            spec = declared.get(failure.check_id) or next(
+                (item for item in profile.checks if item.check_id == failure.check_id), None)
+            if spec:
+                if side == "baseline":
+                    problems["baseline_ineligible"].append(reason)
+                elif spec.required:
+                    problems["incomplete"].append(reason)
+
+    baseline_plan_ids = {item.plan_hash for item in baseline.checks}
+    candidate_plan_ids = {item.plan_hash for item in candidate.checks}
+    if len(baseline_plan_ids | candidate_plan_ids) > 1:
+        problems["invalid"].append("check plan identities differ across observations")
+
+    metrics = compare_metrics(baseline.metrics, candidate.metrics)
+    by_key = {item.delta.key: item for item in metrics}
+    required = set(profile.required_metrics)
+    for key in profile.required_metrics:
+        comparison = by_key.get(key)
+        if comparison is None or comparison.status != "available":
+            detail = comparison.delta.reason if comparison else "missing on both sides"
+            problems["incomplete"].append(f"required metric {key}: {detail}")
+    for comparison in metrics:
+        if comparison.delta.key not in required and comparison.status != "available":
+            disclosures.append(f"optional metric {comparison.delta.key}: {comparison.delta.reason}")
+    for threshold in profile.thresholds:
+        comparison = by_key.get(threshold.metric_key)
+        if comparison is None:
+            problems["incomplete"].append(f"threshold metric {threshold.metric_key}: missing")
+            continue
+        result = evaluate_threshold(comparison, threshold)
+        if result.status != "passed":
+            state = "rejected" if result.status == "failed" else "incomplete"
+            problems[state].append(f"threshold {threshold.metric_key}: {result.reason}")
+
+    decision = next((state for state, reasons in problems.items() if reasons), "accepted")
+    reasons = [reason for group in problems.values() for reason in group]
+    if decision == "accepted":
+        reasons.append("Candidate accepted under the frozen profile; required declared checks passed")
+    reasons.extend(disclosures)
+    reasons.append("Results cover only declared checks; unchecked behavior remains; not proof of equivalence")
+    protection = integrity.protection
+    reasons.append(f"Protection: {protection.mode}; provider evidence: {protection.provider_evidence!r}")
+    return Comparison(decision, tuple(reasons), tuple(item.delta for item in metrics))
 
 
 @dataclass(frozen=True)

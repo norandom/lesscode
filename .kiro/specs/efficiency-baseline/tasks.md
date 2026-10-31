@@ -138,7 +138,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3, 1.7, 2.5_
   - _Requirements: 3.6, 4.6, 4.7, 8.4_
 
-- [ ] 4. Freeze plans and enforce comparison rules
+- [x] 4. Freeze plans and enforce comparison rules
 - [x] 4.1 Prepare immutable executable evaluation plans
   - Resolve supplied profile paths and executables, record source/evaluator/tool identities, and validate required checks/metrics, thresholds and positive limits.
   - Reject overlapping output/source/evaluator roots; prepare command previews without running project checks or installing dependencies.
@@ -155,7 +155,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3_
   - _Requirements: 2.4, 4.6, 4.7, 6.2, 6.3, 6.4, 6.6_
 
-- [ ] 4.3 Apply behavior-first eligibility and acceptance
+- [x] 4.3 Apply behavior-first eligibility and acceptance
   - Implement the corrected precedence and retain all reasons: any failed, skipped, missing, errored or unfinished baseline behavior check makes the trial ineligible, regardless of its required flag.
   - Reject observed candidate failures and breached rules, distinguish missing mandatory evidence, and keep optional metric absence nonblocking unless required.
   - Done when table-driven cases cover every decision state and a shorter failing candidate cannot outrank behavior evidence.
@@ -318,4 +318,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 4.2: compare_metric(s) returns MetricComparison; use status for compatibility, not delta.status. Structured metrics have no inferredscalarprojection. evaluate_threshold returns passed/failed/unavailable; percent rules unitpercent, others exactmetricunit. Populationchanges need candidateexplanation; rawrecords preserved.
+
+
+- 4.3: compare returns authoritative Comparison with precedence/allreasons. Allbaselinebehaviornonpasses incloptional are ineligible. NormalizedCheckEvidence is authoritative when executionsabsent; suppliedunsuccessful executions overridepassingrecords. Structuredrequiredmeasurements use MetricComparison.status.
 
