@@ -1,12 +1,14 @@
 """Recoverable local run artifacts, with an index published only after finalization.
 
 RunReport remains the public result contract. The records below describe only
-local storage. No summary or CLI evaluation is supplied by this module.
+local storage. Human summaries present the same evidence without deciding it.
 """
 
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 import hashlib
+import html
+import json
 import os
 from pathlib import Path
 from typing import Literal
@@ -18,6 +20,99 @@ from .contracts import (
 )
 
 _RESERVED = {"manifest.json", "plan.json", "report.json", "summary.md", "artifacts.json"}
+
+
+def _literal(value):
+    """Keep imported text inert in Markdown, including HTML, links and newlines."""
+    text = str(value).replace("\r", "\\r").replace("\n", "\\n").replace("\t", "\\t")
+    text = "".join(c if ord(c) >= 32 and ord(c) != 127 else f"\\u{ord(c):04x}" for c in text)
+    return "`" + html.escape(text, quote=True).replace("`", "&#96;") + "`"
+
+
+def _value(value):
+    if value is None:
+        return "unavailable"
+    if isinstance(value, Record):
+        return _literal(json.dumps(value.to_dict(), ensure_ascii=True, sort_keys=True))
+    return _literal(value)
+
+
+def _product_changes(report):
+    before = {f.path: f for f in report.baseline.snapshot.files if f.category == "product"}
+    after = {f.path: f for f in report.candidate.snapshot.files if f.category == "product"}
+    return {"added": sorted(after.keys() - before.keys()),
+            "removed": sorted(before.keys() - after.keys()),
+            "modified": sorted(p for p in before.keys() & after.keys() if before[p] != after[p])}
+
+
+def render_summary(report: RunReport) -> str:
+    """Render validated recorded evidence; never recalculate decisions or scores."""
+    dumps(report)
+    if not isinstance(report, RunReport):
+        raise ContractError("expected RunReport")
+    lines = ["# Evaluation summary", "", f"Report format version: {report.schema_version}",
+             f"Run: {_literal(report.run_id)}; plan: {_literal(report.plan_hash)}",
+             f"Decision: {_literal(report.decision)}", "", "## Decision reasons", ""]
+    lines.extend("- " + _literal(r) for r in report.reasons)
+    if not report.reasons:
+        lines.append("- No decision reasons recorded.")
+    lines += ["", "## Declared checks", "",
+              "Passing results mean passing the declared checks; this is not proof of equivalence. Unchecked behavior remains unverified."]
+    for label, observation in (("Baseline", report.baseline), ("Candidate", report.candidate)):
+        lines += ["", f"### {label}", ""]
+        if not observation.checks:
+            lines.append("- Check evidence unavailable: no outcomes recorded.")
+        for check in observation.checks:
+            lines.append(f"- {_literal(check.check_id)}: {_literal(check.status)}; kind {_literal(check.kind)}; {'required' if check.required else 'optional'}; diagnostics {_value(check.diagnostic_artifact)}")
+        for execution in observation.executions:
+            lines.append(f"- Execution {_literal(execution.command.command_id)}: {_literal(execution.status)}; exit {_value(execution.exit_code)}; elapsed {_literal(execution.elapsed_seconds)} seconds; stdout {_literal(execution.stdout_artifact)}; stderr {_literal(execution.stderr_artifact)}")
+        for failure in observation.failures:
+            lines.append(f"- Failure {_literal(failure.code)}: {_literal(failure.message)}; path {_value(failure.affected_path)}; check {_value(failure.check_id)}; metric {_value(failure.metric_key)}; diagnostics {_value(failure.raw_artifact)}")
+    lines += ["", "## Integrity and protections", "",
+              f"Status: {_literal(report.integrity.status)}; protection: {_literal(report.integrity.protection.mode)}."]
+    if report.integrity.protection.mode == "local_detection":
+        lines.append("Local change detection does not isolate malicious workloads or prevent privileged writes.")
+    else:
+        lines.append("External isolation is a provider claim; evidence reference: " + _value(report.integrity.protection.provider_evidence))
+    lines.extend("- Changed evaluator resource: " + _literal(p) for p in report.integrity.changed_resources)
+    lines += ["", "## Structural and other metrics", "",
+              "Each producer and definition is separate. Structured payloads are retained as recorded; no combined quality score is calculated."]
+    before = {m.key: m for m in report.baseline.metrics}
+    after = {m.key: m for m in report.candidate.metrics}
+    deltas = {d.key: d for d in report.metric_deltas}
+    # Evidence priorities: test strength/API, complexity/duplication, size, cost.
+    def priority(key):
+        groups = (("coverage", "mutation", "api", "invariant"), ("complexity", "duplication", "nesting", "architecture"), ("bytes", "lines", "size"), ("cost", "token"))
+        return next((i for i, words in enumerate(groups) if any(w in key.lower() for w in words)), 2), key
+    for key in sorted(before.keys() | after.keys() | deltas.keys(), key=priority):
+        lines += ["", "### " + _literal(key), ""]
+        for label, metrics in (("Before", before), ("After", after)):
+            metric = metrics.get(key)
+            if metric is None:
+                lines.append(f"- {label}: unavailable (missing evidence).")
+                continue
+            lines.append(f"- {label}: {_literal(metric.status)}; value {_value(metric.value)}; unit {_literal(metric.unit)}; producer {_literal(metric.producer)} version {_literal(metric.producer_version)}; definition {_literal(metric.definition_id)}; scope {_literal(metric.scope_hash)}; reason {_value(metric.reason)}; raw {_value(metric.raw_artifact)}")
+        delta = deltas.get(key)
+        if delta is None:
+            lines.append("- Delta unavailable: no comparison recorded.")
+        else:
+            lines.append(f"- Comparison: {_literal(delta.status)}; before {_value(delta.before)}; after {_value(delta.after)}; absolute delta {_value(delta.absolute_delta)} {_literal(delta.unit)}; percentage delta {_value(delta.percentage_delta)} percent; reason {_value(delta.reason)}; percentage reason {_value(delta.percentage_reason)}")
+    if not (before or after or deltas):
+        lines.append("Metric evidence unavailable: no measurements recorded.")
+    lines += ["", "## File changes", ""]
+    for label, changes in (("Product files", _product_changes(report)), ("Test files", report.test_file_delta.to_dict())):
+        lines.append(f"- {label}:")
+        for kind, paths in changes.items():
+            lines.append(f"  - {kind}: " + (", ".join(_literal(p) for p in paths) or "none"))
+    lines += ["", "## Time and cost", "",
+              f"Evaluation elapsed: {_literal(report.elapsed_seconds)} seconds.",
+              "Agent execution time: unavailable (not supplied in RunReport).",
+              "Agent token usage and provider cost: unavailable (not supplied in RunReport).",
+              "", "## Limitations", ""]
+    lines.extend("- " + _literal(limit) for limit in report.limitations)
+    if not report.limitations:
+        lines.append("- No additional limitations recorded; unchecked behavior remains unverified.")
+    return "\n".join(lines) + "\n"
 
 
 class PersistenceError(OSError):
@@ -269,8 +364,9 @@ class RunStore:
                     raise OSError(f"registered artifact changed: {artifact.path}")
             self._sealed = True
             self._atomic("report.json", text.encode("utf-8"))
+            self._atomic("summary.md", render_summary(report).encode("utf-8"))
             self._manifest(state="finalized")
-            paths = ["manifest.json", "report.json"]
+            paths = ["manifest.json", "report.json", "summary.md"]
             if "plan.json" in self._owned:
                 paths.append("plan.json")
             paths += [a.path for a in self.manifest.raw_artifacts]
@@ -294,7 +390,7 @@ def recover(target: Path) -> Recovery:
         if manifest.state != "finalized" or (index.run_id, index.plan_hash) != (manifest.run_id, manifest.plan_hash):
             raise ContractError("index/manifest state or identity mismatch")
         by_path = {a.path: a for a in index.artifacts}
-        required = {"manifest.json", "report.json", *(a.path for a in manifest.raw_artifacts)}
+        required = {"manifest.json", "report.json", "summary.md", *(a.path for a in manifest.raw_artifacts)}
         if _safe(directory, "plan.json").exists():
             required.add("plan.json")
         if not required.issubset(by_path):

@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 from lesscode_baseline.contracts import ContractError, RunReport, loads
-from lesscode_baseline.report import PersistenceError, RunStore, persist, recover
+from lesscode_baseline.report import PersistenceError, RunStore, persist, recover, render_summary
 from tests.test_contracts import HASH, report
 
 
@@ -47,7 +47,7 @@ class RunPersistenceTests(unittest.TestCase):
         index = store.finalize(self.report)
         self.assertEqual(index.run_id, "run-1")
         self.assertEqual(loads(RunReport, (self.target / "report.json").read_bytes()), self.report)
-        self.assertEqual({a.path for a in index.artifacts}, {"manifest.json", "report.json", "baseline/size.json", "baseline/native.log"})
+        self.assertEqual({a.path for a in index.artifacts}, {"manifest.json", "report.json", "summary.md", "baseline/size.json", "baseline/native.log"})
         for artifact in index.artifacts:
             data = (self.target / artifact.path).read_bytes()
             self.assertEqual(artifact.content_hash, hashlib.sha256(data).hexdigest())
@@ -235,3 +235,113 @@ class RunPersistenceTests(unittest.TestCase):
             other.write_bytes(b"text")
         with self.assertRaises(PersistenceError):
             store.register_artifact("baseline/log.txt")
+
+class ComparisonSummaryTests(unittest.TestCase):
+    setUp = RunPersistenceTests.setUp
+    store = RunPersistenceTests.store
+    raw = RunPersistenceTests.raw
+
+    def test_structured_payloads_remain_data_without_inferred_deltas(self):
+        import html
+        from lesscode_baseline.contracts import PopulationPayload
+        population = PopulationPayload("population", ("test.one", "test.two"), HASH, 1, 2, "new population")
+        metric = replace(self.report.baseline.metrics[0], key="coverage", value=population, unit="population", definition_id="coverage-v1")
+        changed = replace(population, numerator=2)
+        data = replace(self.report, baseline=replace(self.report.baseline, metrics=(metric,)), candidate=replace(self.report.candidate, metrics=(replace(metric, value=changed),)))
+        text = html.unescape(render_summary(data))
+        for payload in (population, changed):
+            self.assertIn(json.dumps(payload.to_dict(), ensure_ascii=True, sort_keys=True), text)
+        self.assertNotIn("50.0", text)
+        self.assertNotIn("100.0", text)
+        self.assertIn("no comparison recorded", text)
+
+    def test_numeric_deltas_and_zero_percentage_reason_are_preserved(self):
+        from lesscode_baseline.contracts import MetricDelta
+        delta = MetricDelta("source_bytes", "available", 0, 12, 12, None, None, "zero baseline", "bytes")
+        text = render_summary(replace(self.report, metric_deltas=(delta,)))
+        self.assertIn("before `0`; after `12`; absolute delta `12` `bytes`", text)
+        self.assertIn("percentage delta unavailable", text)
+        self.assertIn("zero baseline", text)
+
+    def test_every_decision_retains_reasons_and_version_in_both_formats(self):
+        from lesscode_baseline.contracts import DECISIONS
+        for decision in DECISIONS:
+            with self.subTest(decision=decision):
+                data = replace(self.report, decision=decision, reasons=("first reason", "second reason"))
+                text = render_summary(data)
+                self.assertIn(f"Decision: `{decision}`", text)
+                self.assertIn("first reason", text)
+                self.assertIn("second reason", text)
+                self.assertIn("format version: 1", text)
+                target = self.base / decision
+                source = self.base / "source"
+                (source / "baseline").mkdir(parents=True, exist_ok=True)
+                (source / "baseline/size.json").write_bytes(b"raw")
+                (source / "baseline/native.log").write_bytes(b"log")
+                persist(data, target, artifact_root=source)
+                self.assertEqual((target / "summary.md").read_text(encoding="utf-8"), text)
+                self.assertEqual(recover(target).report, data)
+
+    def test_summary_preserves_missing_checks_metric_reasons_and_producers(self):
+        from lesscode_baseline.contracts import MetricDelta
+        missing = replace(self.report.candidate.metrics[0], status="unavailable", value=None, reason="analyzer absent", producer="different", producer_version="9")
+        data = replace(self.report, candidate=replace(self.report.candidate, metrics=(missing,), checks=(replace(self.report.candidate.checks[0], status="skipped"),)), metric_deltas=(MetricDelta("source_bytes", "unavailable", 12, None, None, None, "analyzer absent", "candidate unavailable", "bytes"),))
+        text = render_summary(data)
+        for value in ("skipped", "analyzer absent", "different", "9", "lesscode", "0.1", "bytes", "candidate unavailable", "raw-source-bytes-v1", HASH):
+            self.assertIn(value, text)
+        self.assertLess(text.index("Declared checks"), text.index("Structural and other metrics"))
+        self.assertIn("not proof of equivalence", text)
+        self.assertIn("Unchecked behavior remains", text)
+
+    def test_changes_integrity_and_time_are_separate(self):
+        from lesscode_baseline.contracts import FileDelta, Protection
+        changed_file = replace(self.report.candidate.snapshot.files[0], content_hash="b" * 64)
+        added_file = replace(changed_file, path="src/new.py")
+        data = replace(self.report, candidate=replace(self.report.candidate, snapshot=replace(self.report.candidate.snapshot, files=(changed_file, added_file))), test_file_delta=FileDelta(("tests/new.py",), ("tests/old.py",), ("tests/edit.py",)), integrity=replace(self.report.integrity, status="changed", changed_resources=("checks/oracle.py",), protection=Protection("external_isolation_claimed", "CI job reference")), elapsed_seconds=17.25)
+        text = render_summary(data)
+        for value in ("src/main.py", "src/new.py", "tests/new.py", "tests/old.py", "tests/edit.py", "checks/oracle.py", "external_isolation_claimed", "CI job reference", "17.25", "Agent execution time: unavailable"):
+            self.assertIn(value, text)
+        self.assertIn("Product files", text)
+        self.assertIn("Test files", text)
+
+    def test_untrusted_text_cannot_inject_markdown_or_html(self):
+        evil = "[click](https://evil.invalid) <script>x</script> `oops`\n# injected"
+        data = replace(self.report, reasons=(evil,), limitations=(evil,))
+        text = render_summary(data)
+        self.assertNotIn("<script>", text)
+        self.assertNotIn("`oops`", text)
+        self.assertNotIn("\n# injected", text)
+        self.assertIn("&lt;script&gt;", text)
+
+    def test_summary_disk_failure_is_incomplete_with_diagnostics_retained(self):
+        store = self.store()
+        self.raw(store)
+        real_replace = __import__("os").replace
+        def fail_summary(source, target):
+            if Path(target).name == "summary.md":
+                raise OSError("summary disk full")
+            return real_replace(source, target)
+        with patch("lesscode_baseline.report.os.replace", side_effect=fail_summary):
+            with self.assertRaises(PersistenceError):
+                store.finalize(self.report)
+        self.assertFalse((self.target / "artifacts.json").exists())
+        self.assertEqual(recover(self.target).state, "incomplete")
+        self.assertEqual((self.target / "baseline/native.log").read_bytes(), b"diagnostic\x00bytes\n")
+
+    def test_missing_tampered_or_unindexed_summary_is_incomplete(self):
+        store = self.store()
+        self.raw(store)
+        store.finalize(self.report)
+        path = self.target / "summary.md"
+        self.assertTrue(path.exists())
+        original = path.read_bytes()
+        path.write_bytes(b"Decision: accepted")
+        self.assertEqual(recover(self.target).state, "incomplete")
+        path.write_bytes(original)
+        index_path = self.target / "artifacts.json"
+        index = json.loads(index_path.read_text())
+        index["artifacts"] = [a for a in index["artifacts"] if a["path"] != "summary.md"]
+        index_path.write_text(json.dumps(index))
+        self.assertEqual(recover(self.target).state, "incomplete")
+        path.unlink()
+        self.assertEqual(recover(self.target).state, "incomplete")

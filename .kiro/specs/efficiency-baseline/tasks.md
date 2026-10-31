@@ -172,7 +172,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3_
   - _Requirements: 6.1, 6.5, 6.7_
 
-- [ ] 5.2 Render truthful comparison summaries
+- [x] 5.2 Render truthful comparison summaries
   - Render the versioned machine report and concise human summary with decision reasons, limitations, separate metrics and protection level.
   - Show product/test changes, elapsed evaluation time, missing evidence and the distinction between passing checks and equivalence.
   - Done when all decision fixtures produce mutually consistent persisted and human-readable outcomes without a compensating quality score.
@@ -324,4 +324,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 5.1: RunStore lifecycle persists manifests/rawrefs and publishes hashedindex last; recover treats invalid/missingindex as incomplete. persist needs explicitartifact_root for referencedbytes. Planhash supplied byintegration (canonicalSHA256ofUTF8dumpsPreparedPlan). Summaryrendering stays5.2.235tests7skips independentlyverified.
+
+
+- 5.2: render_summary produces escaped human evidence without scoreprojections; finalize hashes summary beforecompletionindex; recover requires indexedsummary. Agenttelemetry remains unavailable unless supplied; evaluationelapsed distinct.243tests7skips independentlyverified.
 
