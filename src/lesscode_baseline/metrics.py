@@ -1,4 +1,4 @@
-"""Product-only staging, deterministic size and pinned complexity evidence.
+"""Product-only staging, deterministic size and pinned analyzer evidence.
 
 Physical lines are ``len(original_bytes.splitlines())``: CRLF, LF and CR
 separate lines, with a final unterminated line counted. Compression frames
@@ -13,6 +13,7 @@ import hashlib
 from io import BytesIO
 import json
 import math
+import os
 from pathlib import Path
 import platform
 import stat
@@ -22,11 +23,238 @@ import tempfile
 from typing import Iterator
 import zlib
 
-from .contracts import (ComplexityPayload, Failure, FileComplexity, FunctionComplexity,
-                        Limits, MetricEvidence, ResolvedCommand, Snapshot)
+from .contracts import (ClonePair, ComplexityPayload, DuplicationPayload, Failure,
+                        FileComplexity, FunctionComplexity, Limits, MetricEvidence,
+                        ResolvedCommand, Snapshot, SourceSpan)
 from .process import execute
 
 _LIZARD_VERSION = "1.17.31"
+_JSCPD_VERSION = "4.0.5"
+_DUPLICATION_DEFINITION = "jscpd-python-weak-minlines5-mintokens50-aggregate-pair-span-v1"
+
+# Use the pinned tokenizer's maps, not Python lexical guesses. getTokensCount
+# uses original token positions after filtering; it is not the filtered length.
+_DUPLICATION_INVENTORY = r"""
+const fs = require('fs'), path = require('path');
+try {
+    const entry = process.argv[1], inventory = process.argv[2];
+    const pkg = path.dirname(path.dirname(entry));
+    const manifest = require(path.join(pkg, 'package.json'));
+    if (manifest.version !== '4.0.5') throw Error('wrong jscpd version: ' + manifest.version);
+    const {Tokenizer, tokenize} = require(require.resolve('@jscpd/tokenizer', {paths:[pkg]}));
+    const {weak} = require(require.resolve('@jscpd/core', {paths:[pkg]}));
+    const files = JSON.parse(fs.readFileSync(inventory, 'utf8')).map(name => {
+        const bytes = fs.readFileSync(name);
+        // The actual CLI decodes UTF-8. Refuse replacement decoding of a
+        // Python coding-cookie file rather than measuring changed characters.
+        new TextDecoder('utf-8', {fatal:true}).decode(bytes);
+        const data = bytes.toString();
+        if (/jscpd:ignore-(?:start|end)/.test(data)) throw Error('source suppression: ' + name);
+        const maps = new Tokenizer().generateMaps(name, data, 'python', {mode:weak, minTokens:50});
+        const meaningful = tokenize(data, 'python').filter(t=>weak(t)).some(t=>t.value.length > 0);
+        return {path:name, maps:meaningful ? maps.length : 0,
+                tokens:maps.reduce((n,m)=>n+m.getTokensCount(),0)};
+    });
+    console.log(JSON.stringify({version:manifest.version, files}));
+} catch (error) {
+    console.error(String(error)); process.exit(1);
+}
+"""
+
+
+def measure_duplication(snapshot: Snapshot, interpreter: Path, node: Path, entry: Path,
+                        limits: Limits, logs: Path) -> MetricEvidence:
+    """Run pinned jscpd against an isolated, syntax-validated product manifest.
+
+    The fixed min-lines setting can omit short nonempty files. Such omissions
+    remain unavailable; only an independent inventory of no meaningful tokens can
+    explain an absent source. Pair-span ratio can exceed unique-source coverage.
+    A zero-only scope is unavailable when the vendor emits no fresh JSON report.
+    """
+    snapshot = Snapshot.from_dict(snapshot.to_dict())
+    limits = Limits.from_dict(limits.to_dict())
+    reason, artifact, payload = None, None, None
+    with stage_product(snapshot) as staged:
+        if isinstance(staged, Failure):
+            reason = staged.message
+        else:
+            root = Path(staged.root)
+            inventory = root.parent / "inventory.json"
+            paths = [f.path for f in staged.files]
+            inventory.write_text(json.dumps(paths), encoding="utf-8")
+            syntax = ResolvedCommand("duplication-syntax", (str(interpreter), "-I", "-S", "-c",
+                _SYNTAX_WORKER, str(inventory)), ".", {}, limits, "selected Python")
+            try:
+                syntax_report, artifact = _duplication_worker(syntax, root, logs)
+                if (not isinstance(syntax_report, dict) or set(syntax_report) != {"python", "validated"}
+                        or syntax_report["validated"] != paths or not isinstance(syntax_report["python"], str)
+                        or not syntax_report["python"]):
+                    raise ValueError("syntax inventory/runtime mismatch")
+                if not entry.is_absolute() or not entry.is_file():
+                    raise ValueError("missing absolute jscpd entry path")
+                # Windows OpenSSL needs the OS directory to initialize its
+                # random provider. Do not inherit NODE_OPTIONS or project env.
+                environment = {"SystemRoot": os.environ["SystemRoot"]} if os.name == "nt" else {}
+                worker = ResolvedCommand("duplication-inventory", (node.as_posix(), "-e",
+                    _DUPLICATION_INVENTORY, entry.as_posix(), inventory.as_posix()),
+                    ".", environment, limits, "jscpd " + _JSCPD_VERSION)
+                token_inventory, artifact = _duplication_worker(worker, root, logs)
+                bounds = _duplication_bounds(staged)
+                config = root.parent / "jscpd.json"
+                # Explicit external config and output prevent project discovery.
+                config.write_text(json.dumps({"format":["python"], "mode":"weak",
+                    "minLines":5, "minTokens":50, "maxLines":bounds[0], "maxSize":bounds[1],
+                    "ignore":[], "gitignore":False, "noSymlinks":True}), encoding="utf-8")
+                Path(logs).mkdir(parents=True, exist_ok=True)
+                output = Path(tempfile.mkdtemp(prefix="duplication-", dir=Path(logs).resolve()))
+                report_path = output / "jscpd-report.json"
+                cli = ResolvedCommand("metrics-duplication", (node.as_posix(), entry.as_posix(),
+                    "--config", config.as_posix(), "--format", "python", "--mode", "weak",
+                    "--min-lines", "5", "--min-tokens", "50", "--max-lines", str(bounds[0]),
+                    "--max-size", bounds[1], "--reporters", "json", "--output", output.as_posix(),
+                    "--silent", root.as_posix()), ".", environment, limits, "jscpd " + _JSCPD_VERSION)
+                result = execute(cli, root, logs)
+                artifact = result.stderr_artifact
+                stderr = (Path(logs) / artifact).read_text(encoding="utf-8", errors="replace")
+                if result.status != "completed" or result.exit_code != 0 or stderr:
+                    raise ValueError(f"execution {result.status}; exit {result.exit_code}: {stderr[:2000]}")
+                if not report_path.is_file():
+                    raise ValueError("missing fresh jscpd report")
+                artifact = report_path.relative_to(Path(logs).resolve()).as_posix()
+                report = json.loads(report_path.read_text(encoding="utf-8"))
+                payload = _duplication_payload(report, token_inventory, staged)
+            except (ValueError, TypeError, KeyError, UnicodeError) as exc:
+                artifact = getattr(exc, "artifact", artifact)
+                reason = f"duplication {exc}"
+    return MetricEvidence("jscpd_pair_span_ratio", "unavailable" if reason else "available", payload,
+        "ratio", _DUPLICATION_DEFINITION, "jscpd", _JSCPD_VERSION,
+        snapshot.scope_hash, reason, artifact)
+
+
+class _DuplicationFailure(ValueError):
+    def __init__(self, message: str, artifact: str):
+        super().__init__(message)
+        self.artifact = artifact
+
+
+def _duplication_worker(command: ResolvedCommand, root: Path, logs: Path) -> tuple[object, str]:
+    result = execute(command, root, logs)
+    stderr = (Path(logs) / result.stderr_artifact).read_text(encoding="utf-8", errors="replace")
+    if result.status != "completed" or result.exit_code != 0 or stderr:
+        raise _DuplicationFailure(f"{command.command_id} execution {result.status}; exit {result.exit_code}: {stderr[:2000]}", result.stderr_artifact)
+    try:
+        report = json.loads((Path(logs) / result.stdout_artifact).read_text(encoding="utf-8"))
+    except (ValueError, UnicodeError) as exc:
+        raise _DuplicationFailure("malformed worker report: " + str(exc), result.stdout_artifact) from exc
+    return report, result.stdout_artifact
+
+
+def _duplication_bounds(snapshot: Snapshot) -> tuple[int, str]:
+    data = [_content(Path(snapshot.root), record) for record in snapshot.files]
+    lines = max((content.count(b"\n") + 1 for content in data), default=0) + 1
+    size = max(map(len, data), default=0) + 1
+    # Both bounds flow through JavaScript numbers and bytes.parse. Refuse an
+    # unrepresentable value rather than leave the vendor's silent skip enabled.
+    if lines > 2**53 - 1 or size > 2**53 - 1:
+        raise ValueError("unsupported duplication bounds")
+    return lines, str(size) + "b"
+
+
+def _duplication_payload(report: object, inventory: object, snapshot: Snapshot) -> DuplicationPayload:
+    def integer(value):
+        if type(value) is not int or value < 0:
+            raise ValueError("invalid nonnegative integer statistic")
+        return value
+
+    paths = {record.path: record for record in snapshot.files}
+    if (not isinstance(inventory, dict) or set(inventory) != {"version", "files"}
+            or inventory["version"] != _JSCPD_VERSION or not isinstance(inventory["files"], list)):
+        raise ValueError("invalid pinned tokenizer inventory/version")
+    tokens, zero = {}, []
+    for file in inventory["files"]:
+        if not isinstance(file, dict) or set(file) != {"path", "maps", "tokens"}:
+            raise ValueError("invalid tokenizer file inventory")
+        name = file["path"]
+        if name not in paths or name in tokens:
+            raise ValueError("tokenizer inventory differs from staged manifest")
+        tokens[name] = integer(file["tokens"])
+        maps = integer(file["maps"])
+        if maps == 0:
+            if tokens[name] != 0:
+                raise ValueError("zero-map inventory has nonzero tokens")
+            zero.append(name)
+        elif maps != 1:
+            raise ValueError("unexpected Python token map population")
+    if set(tokens) != set(paths):
+        raise ValueError("tokenizer inventory differs from staged manifest")
+
+    def normalize(name):
+        if not isinstance(name, str):
+            raise ValueError("invalid analyzer path")
+        name = name.replace("\\", "/")
+        root = Path(snapshot.root).as_posix() + "/"
+        if name.startswith(root):
+            name = name[len(root):]
+        elif name.startswith("./"):
+            name = name[2:]
+        if name not in paths:
+            raise ValueError("analyzer path absent from staged manifest")
+        return name
+
+    if not isinstance(report, dict) or not isinstance(report.get("duplicates"), list):
+        raise ValueError("invalid jscpd report schema")
+    statistics_report = report["statistics"]
+    total = statistics_report["total"]
+    formats = statistics_report["formats"]
+    if not isinstance(formats, dict) or set(formats) - {"python"}:
+        raise ValueError("unexpected analyzer formats")
+    scanned = {}
+    python_format = formats.get("python", {})
+    if not isinstance(python_format, dict) or not isinstance(python_format.get("sources", {}), dict):
+        raise ValueError("invalid scanned source schema")
+    for name, value in python_format.get("sources", {}).items():
+        name = normalize(name)
+        if name in scanned:
+            raise ValueError("duplicate scanned path")
+        scanned[name] = integer(value["tokens"])
+    if (not set(paths) - set(zero) <= set(scanned)
+            or any(scanned[n] != tokens[n] for n in scanned)):
+        raise ValueError("scanned source/token inventory differs from staged manifest")
+    denominator = integer(total["tokens"])
+    numerator = integer(total["duplicatedTokens"])
+    if denominator != sum(tokens.values()) or integer(total["sources"]) != len(scanned):
+        raise ValueError("aggregate denominator/source inventory mismatch")
+    clones = []
+    pair_tokens = 0
+    for clone in report["duplicates"]:
+        if clone["format"] != "python":
+            raise ValueError("unexpected clone format")
+        spans = []
+        for key in ("firstFile", "secondFile"):
+            file = clone[key]
+            name = normalize(file["name"])
+            span = SourceSpan.from_dict({"path":name, "start_line":file["start"], "end_line":file["end"]})
+            if name not in scanned or span.end_line > len(_content(Path(snapshot.root), paths[name]).splitlines()):
+                raise ValueError("clone span outside scanned source")
+            if file["startLoc"]["line"] != span.start_line or file["endLoc"]["line"] != span.end_line:
+                raise ValueError("clone location mismatch")
+            start, end = integer(file["startLoc"]["position"]), integer(file["endLoc"]["position"])
+            if end < start:
+                raise ValueError("invalid clone token span")
+            if key == "firstFile":
+                pair_tokens += end - start
+            spans.append(span)
+        spans.sort(key=lambda s: (s.path, s.start_line, s.end_line))
+        clones.append(ClonePair(*spans))
+    if numerator != pair_tokens or integer(total["clones"]) != len(clones):
+        raise ValueError("aggregate pair-span statistics mismatch")
+    clones.sort(key=lambda c: (c.first.path, c.first.start_line, c.first.end_line,
+                               c.second.path, c.second.start_line, c.second.end_line))
+    payload = DuplicationPayload("duplication", numerator, denominator,
+        numerator / denominator if denominator else None,
+        None if denominator else "zero token denominator", "weak", total["percentageTokens"],
+        tuple(clones), tuple(sorted(scanned)), tuple(sorted(zero)))
+    return DuplicationPayload.from_dict(payload.to_dict())
 _COMPLEXITY_DEFINITION = "lizard-python-ccn-files-functions-median-nearest-rank-p95-v1"
 
 # -I retains the selected tool environment's installed packages while excluding

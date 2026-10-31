@@ -106,7 +106,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 3.1_
   - _Requirements: 3.1, 3.4, 3.5, 3.7_
 
-- [ ] 3.3 Measure duplication with complete source reconciliation
+- [x] 3.3 Measure duplication with complete source reconciliation
   - Invoke the pinned duplication CLI with external configuration, normalized paths, explicit limits and fresh JSON output.
   - Use verified aggregate pair-span statistics rather than the zero per-clone token field; reconcile scanned paths and zero-token inputs against staged source.
   - Done when real duplicate fixtures report the documented denominator, while silent omissions, suppression markers, absent reports and invalid limits produce unavailable evidence.
@@ -284,4 +284,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 3.2: Pinned Lizard worker validates syntax and file/function inventories; detects suppression controls through pinnedreader normalization. Boltons23functions min1max15median1p954 independently verified. Qualified names retained; leaf names reconcile AST identities.
+
+
+- 3.3: Pinned jscpd4.0.5 uses pair-span aggregate denominator; never perclone.tokens0. Missing fresh JSON (incl empty-only scopes) or meaningful short-file omission stays unavailable. Windows Node requires SystemRoot; no project env inherited. Native133tests6skip independently reviewed.
 

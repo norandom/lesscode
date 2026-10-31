@@ -14,7 +14,7 @@ from unittest.mock import patch
 import zlib
 
 from lesscode_baseline.contracts import Failure, Limits, MetricEvidence, ScopeRules, Snapshot
-from lesscode_baseline.metrics import measure_complexity, measure_sizes, stage_product
+from lesscode_baseline.metrics import measure_complexity, measure_duplication, measure_sizes, stage_product
 from lesscode_baseline.snapshot import capture_scope
 
 
@@ -325,6 +325,155 @@ class ComplexityMetricTests(unittest.TestCase):
                 return result
             with self.subTest(corruption=corruption), patch("lesscode_baseline.metrics.execute", side_effect=corrupt):
                 self.assertEqual(self.measure().status, "unavailable")
+
+
+class DuplicationMetricTests(unittest.TestCase):
+    setUp = SizeMetricTests.setUp
+    write = SizeMetricTests.write
+    snapshot = SizeMetricTests.snapshot
+    assert_unavailable = ComplexityMetricTests.assert_unavailable
+    node = Path("C:/Program Files/nodejs/node.exe")
+    entry = Path(__file__).resolve().parents[1] / ".tools/analyzers/node/node_modules/jscpd/bin/jscpd"
+    duplicate = (b"def classify(value):\n    result = 0\n    if value > 0:\n        result += value\n    for item in range(value):\n        result += item\n"
+                 + b"    result += 1\n" * 9 + b"    return result\n")
+
+    def measure(self, snapshot=None, node=None, entry=None):
+        return measure_duplication(snapshot or self.snapshot(), Path(sys.executable),
+            node or self.node, entry or self.entry, self.limits, self.logs)
+
+    def test_real_pair_span_counts_locations_and_configuration_isolation(self):
+        self.write("nested/a.py", self.duplicate)
+        self.write("b.py", self.duplicate)
+        self.write("empty.py", b"")
+        self.write(".jscpd.json", b'{"ignore":["**/*"]}')
+        self.write("tests/broken.py", b"invalid !")
+        first = self.measure()
+        self.assertEqual(first.status, "available", first.reason)
+        # Original token-position span is 62 + eight added 7-token lines.
+        self.assertEqual((first.value.total_tokens, first.value.duplicated_tokens), (236, 118))
+        self.assertEqual(first.value.ratio, .5)
+        self.assertEqual(first.value.upstream_percentage, 50)
+        self.assertEqual(first.value.scanned_paths, ("b.py", "nested/a.py"))
+        self.assertEqual(first.value.zero_token_paths, ("empty.py",))
+        self.assertEqual(len(first.value.clones), 1)
+        clone = first.value.clones[0]
+        self.assertEqual({clone.first.path, clone.second.path}, {"b.py", "nested/a.py"})
+        self.assertEqual((clone.first.start_line, clone.first.end_line), (1, 16))
+        self.assertEqual(first.key, "jscpd_pair_span_ratio")
+        self.assertEqual(first.producer_version, "4.0.5")
+        self.assertEqual(MetricEvidence.from_dict(first.to_dict()), first)
+        self.assertEqual(self.measure().value, first.value)
+        self.assertTrue((self.logs / first.raw_artifact).is_file())
+
+    def test_empty_only_retains_missing_vendor_report_and_mixed_zero_inventory(self):
+        for content in (None, b"", b"# only a comment\n\n", b" \n\t\n"):
+            if content is not None:
+                self.write("main.py", content)
+            metric = self.measure()
+            self.assert_unavailable(metric, "missing fresh")
+        self.write("nonempty.py", self.duplicate)
+        for content in (b"", b"# comment\n\n", b" \n\t\n"):
+            self.write("main.py", content)
+            metric = self.measure()
+            self.assertEqual(metric.status, "available", metric.reason)
+            self.assertEqual(metric.value.zero_token_paths, ("main.py",))
+
+    def test_suppression_syntax_and_silent_short_file_omission(self):
+        for marker in (b"jscpd:ignore-start", b"jscpd:ignore-end"):
+            self.write("main.py", b"# " + marker + b"\n" + self.duplicate)
+            self.assert_unavailable(self.measure(), "suppression")
+        self.write("main.py", b"def broken(:")
+        self.assert_unavailable(self.measure(), "syntax")
+        self.write("main.py", b"# coding: latin-1\nx = '\xe9'\n")
+        self.assert_unavailable(self.measure(), "encoded data")
+        self.write("other.py", self.duplicate)
+        self.write("main.py", b"pass\n")
+        self.assert_unavailable(self.measure(), "inventory")
+
+    def test_zero_position_span_with_meaningful_token_is_scanned(self):
+        self.write("main.py", b"pass\n\n\n\n\n")
+        metric = self.measure()
+        self.assertEqual(metric.status, "available", metric.reason)
+        self.assertEqual(metric.value.scanned_paths, ("main.py",))
+        self.assertEqual(metric.value.zero_token_paths, ())
+        self.assertEqual(metric.value.total_tokens, 0)
+        self.assertIsNone(metric.value.ratio)
+        self.assertTrue(metric.value.ratio_reason)
+
+    def test_actual_large_input_explicit_bounds_and_bounded_commands(self):
+        self.write("main.py", self.duplicate + b"#" + b"x" * 110000 + b"\n" * 1100)
+        from lesscode_baseline.process import execute
+        commands = []
+        def observe(command, workspace, logs):
+            commands.append(command)
+            return execute(command, workspace, logs)
+        with patch("lesscode_baseline.metrics.execute", side_effect=observe):
+            metric = self.measure()
+        self.assertEqual(metric.status, "available", metric.reason)
+        self.assertEqual(len(commands), 3)
+        for command in commands:
+            self.assertEqual(command.limits, self.limits)
+            self.assertFalse({"NODE_OPTIONS", "PYTHONPATH", "PATH"} & set(command.environment))
+        argv = commands[-1].argv
+        self.assertTrue(all("\\" not in argument for argument in argv))
+        self.assertGreater(int(argv[argv.index("--max-lines") + 1]), 1100)
+        self.assertGreater(int(argv[argv.index("--max-size") + 1][:-1]), 110000)
+        self.assertEqual(argv[argv.index("--min-tokens") + 1], "50")
+        with patch("lesscode_baseline.metrics._duplication_bounds", side_effect=ValueError("unsupported bounds")):
+            self.assert_unavailable(self.measure(), "unsupported bounds")
+
+    def test_missing_runtime_entry_and_wrong_pinned_version(self):
+        self.write("main.py", self.duplicate)
+        self.assert_unavailable(self.measure(node=self.base / "missing-node.exe"), "execution")
+        self.assert_unavailable(self.measure(entry=self.base / "missing-entry"), "entry")
+        fake = self.base / "other-package"
+        (fake / "bin").mkdir(parents=True)
+        (fake / "package.json").write_text('{"version":"0.0.0"}', encoding="utf-8")
+        (fake / "bin/jscpd").write_text("", encoding="utf-8")
+        metric = self.measure(entry=fake / "bin/jscpd")
+        self.assert_unavailable(metric, "wrong jscpd version")
+        self.assertTrue((self.logs / metric.raw_artifact).read_bytes())
+
+    def test_missing_malformed_omitted_foreign_and_bounded_cli_output(self):
+        self.write("a.py", self.duplicate)
+        self.write("b.py", self.duplicate)
+        from lesscode_baseline.process import execute
+        for corruption in ("missing", "malformed", "omitted", "foreign", "denominator", "numerator",
+                           "location", "percentage", "sources_schema", "timeout", "stderr", "inventory_version"):
+            def corrupt(command, workspace, logs):
+                result = execute(command, workspace, logs)
+                if command.command_id == "duplication-inventory" and corruption == "inventory_version":
+                    output = Path(logs) / result.stdout_artifact
+                    value = json.loads(output.read_text())
+                    value["version"] = "0.0"
+                    output.write_text(json.dumps(value), encoding="utf-8")
+                if command.command_id != "metrics-duplication":
+                    return result
+                report_path = Path(command.argv[command.argv.index("--output") + 1]) / "jscpd-report.json"
+                if corruption == "missing":
+                    report_path.unlink()
+                elif corruption == "malformed":
+                    report_path.write_text("{}", encoding="utf-8")
+                elif corruption == "timeout":
+                    return replace(result, status="timeout", exit_code=None)
+                elif corruption == "stderr":
+                    (Path(logs) / result.stderr_artifact).write_text("[skip] incomplete", encoding="utf-8")
+                else:
+                    report = json.loads(report_path.read_text())
+                    sources = report["statistics"]["formats"]["python"]["sources"]
+                    if corruption == "omitted": sources.pop(next(iter(sources)))
+                    elif corruption == "foreign": sources["../foreign.py"] = sources.pop(next(iter(sources)))
+                    elif corruption == "denominator": report["statistics"]["total"]["tokens"] += 1
+                    elif corruption == "numerator": report["statistics"]["total"]["duplicatedTokens"] = 0
+                    elif corruption == "location": report["duplicates"][0]["firstFile"]["end"] = 100000
+                    elif corruption == "percentage": report["statistics"]["total"]["percentageTokens"] = float("nan")
+                    elif corruption == "sources_schema": report["statistics"]["formats"]["python"] = []
+                    report_path.write_text(json.dumps(report), encoding="utf-8")
+                return result
+            with self.subTest(corruption=corruption), patch("lesscode_baseline.metrics.execute", side_effect=corrupt):
+                metric = self.measure()
+                self.assertEqual(metric.status, "unavailable", metric)
+                self.assertIsNone(metric.value)
 
 
 if __name__ == "__main__":
