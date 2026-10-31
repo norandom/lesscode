@@ -1,6 +1,6 @@
 # Project Structure
 
-The repository contains Kiro authoring workflows, active specifications and the Python baseline package. Foundation, evidence, snapshot, execution, measurement, comparison, reporting, integrated CLI, adverse-path hardening and actual native cross-platform validation are implemented and task-reviewed (32 of 33 tasks). Task 7.4 readiness review and final feature validation remain pending. The baseline spec's `readiness.md` and `requirement-coverage.md` record evidence and limits; `docs/evidence/` retains compact durable audit summaries.
+The repository contains Kiro authoring workflows, specifications and the Python baseline package. Foundation, evidence, snapshots, bounded execution, measurement, comparison, reporting, integrated CLI, adverse paths and native cross-platform validation are implemented and independently reviewed (33 of 33 tasks). The final feature gate returned GO. The baseline spec's `validation.md`, `readiness.md` and `requirement-coverage.md` record evidence and limits; `docs/evidence/` retains compact durable audit summaries.
 
 - `.kiro/steering/`: project policy and roadmap.
 - `.kiro/specs/<feature>/brief.md`: proposed feature boundary.

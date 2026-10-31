@@ -10,8 +10,8 @@ paths after setup.
 See the [CLI reference](docs/cli.md) for explicit installation, complete plan/run
 examples, installed-wheel usage, reports and exit codes.
 
-The evaluator has completed 32 of 33 reviewed implementation tasks. Final
-readiness review and the feature validation gate remain pending. See the
+The Python evaluator has completed all 33 reviewed implementation tasks and
+passed its [final validation gate](.kiro/specs/efficiency-baseline/validation.md). See the
 [readiness evidence](.kiro/specs/efficiency-baseline/readiness.md),
 [all 56 acceptance criteria](.kiro/specs/efficiency-baseline/requirement-coverage.md)
 and [native Windows/Linux/macOS validation](docs/ci-validation.md).

@@ -1,6 +1,6 @@
 # Acceptance-criteria coverage: efficiency-baseline
 
-Assessment date: 2026-10-31. All 56 original numbered acceptance criteria are mapped below. “Covered” means implementation and executable evidence exist for the declared Python evaluator contract. It does not mean complete behavioral equivalence, general corpus effectiveness, or feature-level approval. Task 7.4 independent review and the final `kiro-validate-impl` gate remain pending. See [readiness](readiness.md) for exact revisions, execution results, platform skips and artifact access.
+Assessment date: 2026-10-31. All 56 original numbered acceptance criteria are mapped below. “Covered” means implementation and executable evidence exist for the declared Python evaluator contract. It does not mean complete behavioral equivalence or general corpus effectiveness. Task 7.4 independent review passed and the [final feature gate](validation.md) returned GO. See [readiness](readiness.md) for exact revisions, execution results, platform skips and artifact access.
 
 Test paths below are repository-relative. The full suite executes these tests; native CI also executes genuine analyzers and installed CLI pilots. Optional imported evidence is checked as supplied evidence, not independently manufactured coverage, mutation or runtime measurements.
 
@@ -63,4 +63,4 @@ Test paths below are repository-relative. The full suite executes these tests; n
 | 8.7 | CLI exposes resolved commands before running workloads | `test_commands_flushed_before_execution_and_surviving_storage_failure` in `tests/test_cli.py`; retained native plan/run stdout | Covered |
 | 8.8 | Rejection diagnostics retained, originals never rewritten/reverted | `test_real_shorter_broken_pair_rejected_without_reverting_source` in `tests/test_evaluation.py`; native real/synthetic rejection artifacts | Covered |
 
-No numbered acceptance criterion is omitted from this assessment. Imported optional evidence and producer telemetry are tested with typed fixtures; the pilot does not claim to have run external coverage/mutation engines, LLM generations or a runtime benchmark. The final feature gate must assess this mapping together with review findings and current test evidence.
+No numbered acceptance criterion is omitted from this assessment. Imported optional evidence and producer telemetry are tested with typed fixtures; the pilot does not claim to have run external coverage/mutation engines, LLM generations or a runtime benchmark. The final feature gate assessed this mapping together with independent review findings and current test evidence.

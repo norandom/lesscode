@@ -1,10 +1,10 @@
 # Integrated readiness evidence: efficiency-baseline
 
-Assessment date: 2026-10-31. This is task 7.4's validation record for the Python evaluator. Thirty-two of 33 implementation tasks are completed and independently reviewed. Task 7.4 independent review and the final `kiro-validate-impl` feature gate remain pending. This report does not grant feature-level GO.
+Assessment date: 2026-10-31. This is task 7.4's validation record for the Python evaluator, captured before its independent review. Subsequently, all 33 tasks were completed and independently approved, and the final feature gate returned GO. See the authoritative [final validation](validation.md); capture-time evidence below is retained.
 
 ## Revision and scope
 
-The exact native runtime revision is `778e46258dbca42d5b07191a4f011b2cb858fb61`. The current validation checkout is `f16f3820530e2b1ea2e2752ba9ecb0d03d13c5b6`; `git diff 778e46258dbca42d5b07191a4f011b2cb858fb61 HEAD --name-only` lists only `.kiro/specs/efficiency-baseline/tasks.md`. Thus packaged/runtime/test/tool/workflow inputs are identical to the native-tested revision. Task 7.4 edits documentation only; it changes no evaluator source, schema, fixture, profile, lock, gate or tool resource. Existing unrelated untracked authoring scaffolding is preserved.
+The exact native runtime revision is `778e46258dbca42d5b07191a4f011b2cb858fb61`. The captured validation checkout was `f16f3820530e2b1ea2e2752ba9ecb0d03d13c5b6`; `git diff 778e46258dbca42d5b07191a4f011b2cb858fb61 f16f3820530e2b1ea2e2752ba9ecb0d03d13c5b6 --name-only` lists only `.kiro/specs/efficiency-baseline/tasks.md`. Thus packaged/runtime/test/tool/workflow inputs were identical to the native-tested revision. Task 7.4 and final status publication edit documentation only; they change no evaluator source, schema, fixture, profile, lock, gate or tool resource. Existing unrelated untracked authoring scaffolding is preserved.
 
 Task brief: establish fresh full-suite and clean installed plan/run/summarize evidence; reconcile all 56 numbered acceptance criteria, actual report readability, import boundaries and native platform outcomes; retain failures and limits. This is a documentation/validation task. No artificial feature flag or implementation-mirroring test was added, and no fabricated RED test is claimed.
 

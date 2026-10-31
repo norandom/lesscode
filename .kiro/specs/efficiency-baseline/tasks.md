@@ -276,7 +276,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - Task-plan review gate: PASS; all 56 acceptance criteria covered, with component contracts, runtime prerequisites, integration and validation represented.
 - Task-graph sanity review: PASS, independent mode. The reviewer requested explicit Node runtime setup; the draft was repaired once and passed the permitted re-review.
 - Baseline eligibility follows the user-confirmed rule: any failed or incomplete declared baseline behavior check makes the trial ineligible; optional metrics are nonblocking unless required.
-- Initial approved plan: 7 major groups, 29 executable subtasks and 4 parallel markers. Four corrective contract/isolation subtasks brought the executed total to 33. All 33 are now independently reviewed and complete; final feature validation remains a separate gate.
+- Initial approved plan: 7 major groups, 29 executable subtasks and 4 parallel markers. Four corrective contract/isolation subtasks brought the executed total to 33. All 33 are independently reviewed and complete; the separate final feature validation returned GO.
 
 ## Implementation Notes
 
@@ -376,3 +376,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 7.3 COMPLETE: independent final review APPROVED actual native run https://github.com/norandom/lesscode/actions/runs/41198054658 at778e46258dbca42d5b07191a4f011b2cb858fb61. All3OS363tests+51stages passed (Windows10POSIX skips; Linux/Mac14Windows skips), native timeout unskipped;18pilot runs+3experiments/resumes,1344indexed artifacts/180audits/36configs verified. Generated native-newline inputs differ acrosshosts and are not claimed identical. ExactupstreamCRLF notice hashes preserved.
 
 - 7.4 COMPLETE: independent review APPROVED. Fresh uv.exe canonical suite363tests1126.475s exit0,11disclosed skips; clean installed11-stage plan/run/summarize/recovery smoke passed, originals preserved. Reviewer independently verified suite/wheel hashes, installed recovery, all56 criteria references,3nativearchives/1344artifact hashes and import boundaries. Runtime unchanged from778e462; final feature gate remains pending. See readiness.md and docs/evidence/readiness-2026-10-31.json.
+
+- FINAL VALIDATION: GO, 2026-10-31. All33 tasks independently reviewed,56/56 criteria covered; fresh fullsuite and installed smoke, actual3OS native evidence, separate cross-task design/integration assessment and fresh completion verification passed. No blocked tasks or remediation. See validation.md. Runtime/tool/test/profile/workflow inputs remain778e462; subsequent publication is documentation/status only.
