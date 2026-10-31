@@ -139,7 +139,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Requirements: 3.6, 4.6, 4.7, 8.4_
 
 - [ ] 4. Freeze plans and enforce comparison rules
-- [ ] 4.1 Prepare immutable executable evaluation plans
+- [x] 4.1 Prepare immutable executable evaluation plans
   - Resolve supplied profile paths and executables, record source/evaluator/tool identities, and validate required checks/metrics, thresholds and positive limits.
   - Reject overlapping output/source/evaluator roots; prepare command previews without running project checks or installing dependencies.
   - Done when the pilot plan is reproducible, tool absence is recorded explicitly, and changed evaluator resources are identified by integrity comparison.
@@ -312,4 +312,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 1.8 corrective foundation: PreparedPlan/ResourceIdentity/ToolBinding preserve reloadable profile/resource/tool state while Plan/Profile serialization stays unchanged. Available tools require exact pins; unavailable partial identities keep diagnostics.166tests6skip independentlyverified. Queue31executables.
+
+
+- 4.1: prepare returns PreparedPlan; verify_integrity reconstructs resolved commands from frozen profile/resources/bindings without probes, detecting argv/env/cwd/limits/executable edits. Fingerprints include resolved paths. Task6.2 must package/resolve lock resources for installed-wheel operation; config currently uses repository_ROOT for locks/entrypoints defaults.
 
