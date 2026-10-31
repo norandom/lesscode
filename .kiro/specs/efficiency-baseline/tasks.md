@@ -255,7 +255,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 7.1_
   - _Requirements: 2.4, 2.6, 3.4, 3.7, 4.2, 4.5, 5.1, 5.3, 5.5, 5.7, 6.5, 6.7, 8.6_
 
-- [ ] 7.3 Run supported-platform integration in CI
+- [x] 7.3 Run supported-platform integration in CI
   - Configure Windows, Linux and macOS jobs using locked runtimes/dependencies and the same fixtures; include package startup and genuine analyzer execution.
   - Verify path handling, original preservation, determinism and platform-specific process-tree timeout behavior; retain job evidence without weakening checks for unsupported environments.
   - Done when all available platform jobs have explicit pass/failure evidence; an unexecuted platform remains an outstanding validation gate.
@@ -372,3 +372,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 7.3 native run41194806695: Ubuntu all17stages passed (354tests13Windows skips,6pilot+resume); macOS copied-venv ensurepip aborted and temp aliases failed; Windows354tests13fail1error from83TEMP aliases. Reviewed remediation uses uv fresh locked envs, canonical child scratch/staging, lexical Python invocation with resolvedbinary/pyvenvcfg fingerprints and retarget checks. Actual WSL Linux and Windows83 RED/GREEN plus installed proof passed. Publishing for mandatory native rerun; task remains unchecked.
 
 - 7.3 run41196920357: Windows full17stages passed (361tests9POSIX skips,6pilot/resume,448indexed runartifacts/60analyzeraudits); Ubuntu/Mac361tests passed14Windows skips but installedpilot exposed CLI metadata Python dereference. Reviewed bounded CLI fix preserves lexical venv path with relative/parent-relative metadata; rebuilt installed POSIX console and Windows12tests pass. Publishing mandatory final native rerun; task stillunchecked.
+
+- 7.3 COMPLETE: independent final review APPROVED actual native run https://github.com/norandom/lesscode/actions/runs/41198054658 at778e46258dbca42d5b07191a4f011b2cb858fb61. All3OS363tests+51stages passed (Windows10POSIX skips; Linux/Mac14Windows skips), native timeout unskipped;18pilot runs+3experiments/resumes,1344indexed artifacts/180audits/36configs verified. Generated native-newline inputs differ acrosshosts and are not claimed identical. ExactupstreamCRLF notice hashes preserved.
