@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 from pathlib import Path
 import sys
 
@@ -57,7 +58,11 @@ def _tool_paths(path):
     if not isinstance(document, dict) or any(not isinstance(k, str) or not isinstance(v, str)
                                              for k, v in document.items()):
         raise ValueError("tool paths must be a JSON object of path strings")
-    return {key: str((path.resolve().parent / value).resolve()) for key, value in document.items()}
+    base = path.resolve().parent
+    # The Python invocation path selects its venv; config fingerprints the real
+    # runtime separately. Keep existing metadata-relative semantics for all keys.
+    return {key: os.path.abspath(base / value) if key == "python" else str((base / value).resolve())
+            for key, value in document.items()}
 
 
 def _summarize(args):

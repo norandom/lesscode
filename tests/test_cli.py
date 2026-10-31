@@ -20,6 +20,21 @@ PILOT = ROOT / 'tests/fixtures/real/boltons_mathutils/source'
 
 
 class CliTests(unittest.TestCase):
+    def test_tool_metadata_rejects_invalid_json_types_and_keeps_other_path_rules(self):
+        from lesscode_baseline.cli import _tool_paths
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            metadata = root / "metadata"
+            metadata.mkdir()
+            path = metadata / "tools.json"
+            for invalid in ([], None, {"python": None}, {"python": 123}, {"python": ["python"]}):
+                path.write_text(json.dumps(invalid))
+                with self.subTest(document=invalid), self.assertRaises(ValueError):
+                    _tool_paths(path)
+            path.write_text(json.dumps({"node": "../node", "jscpd_entry": "../tools/jscpd.js"}))
+            self.assertEqual(_tool_paths(path), {"node": str((root / "node").resolve()),
+                                                "jscpd_entry": str((root / "tools/jscpd.js").resolve())})
+
     def invoke(self, argv):
         out, err = io.StringIO(), io.StringIO()
         with redirect_stdout(out), redirect_stderr(err):

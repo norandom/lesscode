@@ -18,6 +18,42 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @unittest.skipUnless(os.name == "posix", "native POSIX interpreter symlink binding")
 class PythonEnvironmentTests(unittest.TestCase):
+    def test_installed_console_keeps_relative_metadata_python_in_its_venv(self):
+        uv = shutil.which("uv")
+        self.assertIsNotNone(uv, "explicit analyzer setup requires uv")
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            environment = root / "analyzer"
+            subprocess.run([uv, "venv", "--python", sys.executable, str(environment)], check=True, capture_output=True)
+            python = environment / "bin/python"
+            subprocess.run([uv, "pip", "install", "--python", str(python), "--require-hashes",
+                            "--only-binary=:all:", "-r", str(ROOT / "requirements-tools.lock")], check=True, capture_output=True)
+            wheels = root / "wheel"
+            subprocess.run([uv, "build", "--python", sys.executable, "--wheel", "--out-dir", str(wheels), str(ROOT)],
+                           check=True, capture_output=True)
+            wheel, = wheels.glob("*.whl")
+            subprocess.run([uv, "pip", "install", "--python", str(python), "--no-deps", str(wheel)],
+                           check=True, capture_output=True)
+            outside = root / "outside"
+            outside.mkdir()
+            source = ROOT / "tests/fixtures/real/boltons_mathutils/source"
+            clean = dict(os.environ)
+            clean.pop("PYTHONPATH", None)
+            for index, (metadata, value) in enumerate(((root, "analyzer/bin/python"),
+                                                      (root / "metadata", "../analyzer/bin/python"))):
+                metadata.mkdir(exist_ok=True)
+                tools = metadata / "entrypoints.json"
+                # Relative entries are anchored to metadata, including parents.
+                tools.write_text(json.dumps({"python": value}))
+                plan = root / f"plan-{index}.json"
+                result = subprocess.run([str(python.with_name("lesscode-baseline")), "plan", "--profile",
+                    str(ROOT / "benchmarks/profiles/python.json"), "--baseline", str(source), "--candidate", str(source),
+                    "--tool-paths", str(tools), "--out", str(plan)], cwd=outside, env=clean, capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                bindings = {binding["name"]: binding for binding in json.loads(plan.read_bytes())["tools"]}
+                self.assertEqual(bindings["lizard"]["status"], "available", bindings["lizard"]["reason"])
+                self.assertEqual(bindings["python"]["executable"], str(python))
+
     def test_locked_lizard_context_and_environment_retargeting(self):
         uv = shutil.which("uv")
         self.assertIsNotNone(uv, "explicit analyzer setup requires uv")
