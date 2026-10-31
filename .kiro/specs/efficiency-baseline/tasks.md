@@ -145,7 +145,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 3.3, 4.3_
   - _Requirements: 3.2, 3.4, 3.7, 5.4, 6.6_
 
-- [ ] 4. Freeze plans and enforce comparison rules
+- [x] 4. Freeze plans and enforce comparison rules
 - [x] 4.1 Prepare immutable executable evaluation plans
   - Resolve supplied profile paths and executables, record source/evaluator/tool identities, and validate required checks/metrics, thresholds and positive limits.
   - Reject overlapping output/source/evaluator roots; prepare command previews without running project checks or installing dependencies.
@@ -170,7 +170,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 4.2_
   - _Requirements: 4.2, 4.3, 4.5, 4.8, 5.3, 5.4, 5.5, 5.6, 5.7_
 
-- [ ] 4.4 Isolate fixed version-probe environments
+- [x] 4.4 Isolate fixed version-probe environments
   - Prevent inherited runtime startup configuration from executing undeclared code during plan preparation; retain only explicitly needed OS runtime values.
   - Done when a real Node preload regression no longer executes during the jscpd version probe, parent environment remains unchanged and pinned tool discovery still succeeds.
   - _Boundary: CLI and Plan_
@@ -239,11 +239,12 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - [ ] 7. Validate the integrated evaluator across supported environments
 - [ ] 7.1 Verify reproducibility and behavior-preservation outcomes
   - Run real installed analyzers and the licensed/synthetic corpus through the full CLI, checking known results and repeat structural equality.
+  - Align the pilot corpus content_hash with its canonical scoped Snapshot identity, keeping raw upstream file hashes and license provenance separate and unchanged.
   - Verify added/removed/untracked inputs and unchanged original-source fingerprints across accepted and shorter-but-broken candidates.
   - Done when the reproducible pilot produces inspectable success/rejection evidence with no dependence on model access or source upload.
   - _Boundary: Evaluation integration_
   - _Depends: 6.3_
-  - _Requirements: 1.1, 1.2, 1.3, 1.5, 2.1, 2.2, 2.3, 2.5, 3.1, 3.2, 3.3, 3.4, 3.5, 4.3, 4.4, 6.1, 6.5, 8.5, 8.8_
+  - _Requirements: 1.1, 1.2, 1.3, 1.5, 2.1, 2.2, 2.3, 2.5, 3.1, 3.2, 3.3, 3.4, 3.5, 4.3, 4.4, 6.1, 6.5, 7.2, 7.8, 8.5, 8.8_
 
 - [ ] 7.2 Verify incomplete evidence, tampering and recovery paths
   - Exercise missing analyzers, suppressed/omitted source, parse errors, deleted checks, optional baseline behavior failures and optional metric absence.
@@ -356,3 +357,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 6.2: installed plan/run commands disclose workloads, preserve strict new outputs and map0/1/2/3/4. Package assets retain exact locks; --tool-paths supplies explicit metadata outside checkout. Real installed all decision states and persistence verified; independent308tests7skips. Rebuild wheel after CLI edits.
 
 - 6.3: summarize imports explicit repeatable single-record --trials files and recovers completed run artifacts. Separate experiment storage publishes report/evaluations/summary before final hash index; corruption or missing files recover incomplete. Summary exit0 is report success (including baseline-ineligible-only), distinct from run3. Independent321tests7skips and installed summary smoke passed.
+
+- 4.4 corrective Plan isolation: fixed probes receive empty POSIX environment or only OS-derived SystemRoot on Windows. Actual inherited Node preload regression fixed; parent environment preserved and pinned preparation succeeds. Independent323tests7skips; queue33executables.

@@ -7,6 +7,7 @@ Local fingerprints detect changes and do not provide hostile-code isolation.
 
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -47,10 +48,31 @@ def _overlap(a, b):
     return a.is_relative_to(b) or b.is_relative_to(a)
 
 
+def _probe_environment():
+    # Absolute executables need no PATH or runtime startup configuration. On
+    # Windows, derive the required OS directory from the OS, not parent input.
+    environment = {}
+    if os.name == "nt":
+        import ctypes
+        from ctypes import wintypes
+
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        directory = kernel32.GetWindowsDirectoryW
+        directory.argtypes = [wintypes.LPWSTR, wintypes.UINT]
+        directory.restype = wintypes.UINT
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = directory(buffer, len(buffer))
+        if not length or length >= len(buffer):
+            raise OSError("cannot determine Windows runtime directory")
+        environment["SystemRoot"] = buffer.value
+    return environment
+
+
 def _probe(argv):
     # Fixed probes do not inherit project PYTHONPATH, cwd or profile environment.
     return subprocess.check_output(argv, cwd=Path(__file__).resolve().parent, text=True, encoding="utf-8",
-                                   stderr=subprocess.STDOUT, timeout=10).strip()
+                                   stderr=subprocess.STDOUT, timeout=10,
+                                   env=_probe_environment()).strip()
 
 
 def _binding(name, requested, executable, entry=None):
