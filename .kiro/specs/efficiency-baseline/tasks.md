@@ -164,7 +164,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Requirements: 4.2, 4.3, 4.5, 4.8, 5.3, 5.4, 5.5, 5.6, 5.7_
 
 - [ ] 5. Persist results and account for controlled experiments
-- [ ] 5.1 Persist recoverable run artifacts
+- [x] 5.1 Persist recoverable run artifacts
   - Persist prepared/running state and raw artifact references, then finalize reports atomically with artifact identities.
   - Prevent overwrite/path escape, retain partial diagnostics after interruption and expose surviving artifacts on persistence failure.
   - Done when interrupted or failed writes never appear as a finished accepted run and reruns use distinct identities.
@@ -321,4 +321,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 4.3: compare returns authoritative Comparison with precedence/allreasons. Allbaselinebehaviornonpasses incloptional are ineligible. NormalizedCheckEvidence is authoritative when executionsabsent; suppliedunsuccessful executions overridepassingrecords. Structuredrequiredmeasurements use MetricComparison.status.
+
+
+- 5.1: RunStore lifecycle persists manifests/rawrefs and publishes hashedindex last; recover treats invalid/missingindex as incomplete. persist needs explicitartifact_root for referencedbytes. Planhash supplied byintegration (canonicalSHA256ofUTF8dumpsPreparedPlan). Summaryrendering stays5.2.235tests7skips independentlyverified.
 
