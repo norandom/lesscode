@@ -7,6 +7,7 @@ import json
 import unittest
 
 from lesscode_baseline.rules import contracts as c
+from tests import test_contracts as baseline_fixtures
 
 
 HASH = "a" * 64
@@ -265,6 +266,257 @@ class PolicyContractTests(unittest.TestCase):
         original = c.policy_hash(self.read(value))
         value["reference"] = {"source_hash": HASH, "profile_hash": HASH}
         self.assertNotEqual(original, c.policy_hash(self.read(value)))
+
+
+
+# Source-bound rule inputs use baseline records without changing their schema.
+
+
+def entity(source=HASH, identity="function-1"):
+    return {"inventory_id": identity, "source_hash": source,
+            "selector": {"kind": "function_ccn", "metric_key": None},
+            "metric": {**baseline_fixtures.metric(), "key": "complexity", "value": 12,
+                       "unit": "CCN", "definition_id": "lizard-ccn-v1"},
+            "location": {"path": "src/main.py", "start_line": 1, "end_line": 4},
+            "long_name": "main()", "evidence_refs": ["baseline/complexity.json"]}
+
+
+def inventory(source=HASH):
+    return {"source_hash": source, "status": "complete", "reason": None,
+            "entities": [entity(source)]}
+
+
+def bundle():
+    result = baseline_fixtures.report()
+    result["candidate"]["snapshot"]["content_hash"] = "b" * 64
+    result["candidate"]["checks"][0]["source_hash"] = "b" * 64
+    return {"schema_version": 1, "report": result, "profile_hash": HASH,
+            "baseline_inventory": inventory(), "candidate_inventory": inventory("b" * 64)}
+
+
+def treatment(kind="matched"):
+    return {"policy_hash": c.policy_hash(c.Policy.from_dict(policy())),
+            "baseline_source_hash": HASH, "candidate_source_hash": "b" * 64,
+            "kind": kind, "baseline_id": "function-1" if kind != "new" else None,
+            "candidate_id": "function-1" if kind != "removed" else None,
+            "producer_id": "maintainer", "rationale": "Explicit continuity review"}
+
+
+def review_policy():
+    return {**policy(), "rules": [review()]}
+
+
+def review_record():
+    return {"policy_hash": c.policy_hash(c.Policy.from_dict(review_policy())),
+            "candidate_source_hash": "b" * 64, "rule_id": "roles", "criterion_id": "role-names",
+            "scope": scope(), "reviewer_id": "maintainer", "outcome": "satisfied",
+            "rationale": "Names describe the data roles", "locations": [entity()["location"]],
+            "provenance": "producer_supplied"}
+
+
+class EvidenceInputContractTests(unittest.TestCase):
+    def read(self, name, value):
+        return c.loads(getattr(c, name), json.dumps(value))
+
+    def test_round_trip_inputs_and_public_baseline_types(self):
+        for name, value in (("EntityObservation", entity()), ("EvidenceInventory", inventory()),
+                            ("EvidenceBundle", bundle()), ("EntityTreatment", treatment()),
+                            ("ReviewRecord", review_record())):
+            with self.subTest(name=name):
+                parsed = self.read(name, value)
+                self.assertEqual(c.loads(type(parsed), c.dumps(parsed)), parsed)
+        parsed = self.read("EvidenceBundle", bundle())
+        self.assertIsInstance(parsed.report, baseline_fixtures.c.RunReport)
+        self.assertIsInstance(parsed.baseline_inventory.entities[0].metric, baseline_fixtures.c.MetricEvidence)
+        self.assertIsInstance(parsed.baseline_inventory.entities[0].location, baseline_fixtures.c.SourceSpan)
+        self.assertEqual(parsed.report.reasons, ("All declared checks passed",))
+
+    def test_unavailable_is_not_zero_and_zero_inventory_is_explicit(self):
+        value = entity()
+        value["metric"].update(status="unavailable", value=None, reason="producer missing")
+        self.assertIsNone(self.read("EntityObservation", value).metric.value)
+        for bad in (0, True):
+            value["metric"]["value"] = bad
+            with self.assertRaises(c.ContractError):
+                self.read("EntityObservation", value)
+        empty = {**inventory(), "entities": []}
+        self.assertEqual(self.read("EvidenceInventory", empty).status, "complete")
+        missing = {**empty, "status": "unavailable", "reason": "no inventory"}
+        self.assertEqual(self.read("EvidenceInventory", missing).reason, "no inventory")
+        for bad in ({**missing, "entities": [entity()]}, {**missing, "reason": None},
+                    {**empty, "reason": "missing"}):
+            with self.assertRaises(c.ContractError):
+                self.read("EvidenceInventory", bad)
+
+    def test_observation_requires_exact_function_address_and_scalar_value(self):
+        for field, bad in (("inventory_id", "*"), ("source_hash", "bad"),
+                           ("location", None), ("long_name", ""), ("evidence_refs", []),
+                           ("evidence_refs", ["../escape"]), ("evidence_refs", ["x", "x"])):
+            with self.subTest(field=field), self.assertRaises(c.ContractError):
+                self.read("EntityObservation", {**entity(), field: bad})
+        for bad in (True, -1, float("inf"), {"kind": "findings", "findings": []}):
+            value = entity()
+            value["metric"]["value"] = bad
+            with self.assertRaises(c.ContractError):
+                self.read("EntityObservation", value)
+        value = entity()
+        value.update(selector={"kind": "scalar_metric", "metric_key": "source_bytes"},
+                     location=None, long_name=None)
+        value["metric"] = baseline_fixtures.metric()
+        self.assertIsNone(self.read("EntityObservation", value).location)
+        value["selector"]["metric_key"] = "other"
+        with self.assertRaises(c.ContractError):
+            self.read("EntityObservation", value)
+
+    def test_inventory_rejects_duplicate_addresses_and_source_mismatch(self):
+        for extra in (entity(), entity(identity="other"), entity("b" * 64, "other")):
+            with self.assertRaises(c.ContractError):
+                self.read("EvidenceInventory", {**inventory(), "entities": [entity(), extra]})
+
+    def test_bundle_rejects_internal_source_location_scope_and_check_conflicts(self):
+        mutations = [lambda v: v["candidate_inventory"].update(source_hash=HASH),
+                     lambda v: v["baseline_inventory"]["entities"][0]["location"].update(path="absent.py"),
+                     lambda v: v["baseline_inventory"]["entities"][0]["metric"].update(scope_hash="c"*64),
+                     lambda v: v["report"]["candidate"]["checks"][0].update(source_hash=HASH),
+                     lambda v: v["report"]["candidate"]["checks"][0].update(plan_hash="c"*64)]
+        for mutate in mutations:
+            value = bundle()
+            mutate(value)
+            with self.assertRaises(c.ContractError):
+                self.read("EvidenceBundle", value)
+
+    def test_frozen_detached_inputs_and_versions(self):
+        value = bundle()
+        parsed = self.read("EvidenceBundle", value)
+        value["baseline_inventory"]["entities"].clear()
+        self.assertEqual(len(parsed.baseline_inventory.entities), 1)
+        with self.assertRaises(FrozenInstanceError):
+            parsed.profile_hash = "c" * 64
+        for bad in (True, 2, "1", 1.0):
+            with self.assertRaises(c.ContractError):
+                self.read("EvidenceBundle", {**bundle(), "schema_version": bad})
+
+    def test_all_treatments_require_unambiguous_sides(self):
+        for kind in ("matched", "new", "removed", "unresolved"):
+            self.assertEqual(self.read("EntityTreatment", treatment(kind)).kind, kind)
+        for kind, left, right in (("matched", None, "function-1"), ("new", "function-1", "function-1"),
+                                  ("removed", "function-1", "function-1"), ("unresolved", None, None)):
+            with self.assertRaises(c.ContractError):
+                self.read("EntityTreatment", {**treatment(kind), "baseline_id": left, "candidate_id": right})
+        for field in ("producer_id", "rationale", "baseline_source_hash", "policy_hash"):
+            with self.assertRaises(c.ContractError):
+                self.read("EntityTreatment", {**treatment(), field: ""})
+
+    def test_treatment_set_is_one_to_one_and_bound_to_inventory_and_policy(self):
+        evidence = self.read("EvidenceBundle", bundle())
+        p = c.Policy.from_dict(policy())
+        record = self.read("EntityTreatment", treatment())
+        self.assertEqual(c.validate_treatments((record,), evidence, p), (record,))
+        self.assertEqual(c.validate_treatments((), evidence, p), ())
+        for records in ((record, record),
+                        (record, self.read("EntityTreatment", treatment("new"))),
+                        (record, self.read("EntityTreatment", treatment("removed")))):
+            with self.assertRaises(c.ContractError):
+                c.validate_treatments(records, evidence, p)
+        for field, bad in (("baseline_id", "absent"), ("candidate_id", "absent"),
+                           ("policy_hash", "c"*64), ("baseline_source_hash", "c"*64),
+                           ("candidate_source_hash", "c"*64)):
+            record = self.read("EntityTreatment", {**treatment(), field: bad})
+            with self.assertRaises(c.ContractError):
+                c.validate_treatments((record,), evidence, p)
+
+    def test_reviews_keep_provenance_without_authenticating_independence(self):
+        evidence = self.read("EvidenceBundle", bundle())
+        p = c.Policy.from_dict(review_policy())
+        record = self.read("ReviewRecord", review_record())
+        self.assertEqual(record.provenance, "producer_supplied")
+        self.assertEqual(record.trust_status("producer_record"), "supported")
+        self.assertEqual(record.trust_status("external_independence"), "unverified")
+        self.assertEqual(c.validate_reviews((record,), evidence, p), (record,))
+        self.assertEqual(c.validate_reviews((), evidence, p), ())
+        for outcome in ("concern", "unresolved"):
+            self.assertEqual(self.read("ReviewRecord", {**review_record(), "outcome": outcome}).outcome, outcome)
+        for field, bad in (("provenance", "authenticated_independent"), ("reviewer_id", ""),
+                           ("rationale", ""), ("locations", []), ("outcome", "passed")):
+            with self.assertRaises(c.ContractError):
+                self.read("ReviewRecord", {**review_record(), field: bad})
+
+    def test_review_conflicts_bindings_membership_and_scope_fail_closed(self):
+        evidence = self.read("EvidenceBundle", bundle())
+        p = c.Policy.from_dict(review_policy())
+        record = self.read("ReviewRecord", review_record())
+        for second in (record, self.read("ReviewRecord", {**review_record(), "outcome": "concern"})):
+            with self.assertRaises(c.ContractError):
+                c.validate_reviews((record, second), evidence, p)
+        for field, bad in (("policy_hash", "c"*64), ("candidate_source_hash", HASH),
+                           ("rule_id", "unknown"), ("criterion_id", "other"),
+                           ("scope", {**scope(), "include": ["other/**"]}),
+                           ("locations", [{"path": "absent.py", "start_line": 1, "end_line": 2}])):
+            value = self.read("ReviewRecord", {**review_record(), field: bad})
+            with self.assertRaises(c.ContractError):
+                c.validate_reviews((value,), evidence, p)
+        outside = bundle()
+        outside["report"]["candidate"]["snapshot"]["files"].append(
+            {**baseline_fixtures.snapshot()["files"][0], "path": "vendor/main.py"})
+        value = self.read("ReviewRecord", {**review_record(), "locations": [
+            {"path": "vendor/main.py", "start_line": 1, "end_line": 2}]})
+        with self.assertRaises(c.ContractError):
+            c.validate_reviews((value,), self.read("EvidenceBundle", outside), p)
+
+    def test_review_spans_are_positive_ordered_literal_and_unique(self):
+        for bad in ({"path": "src/main.py", "start_line": 0, "end_line": 2},
+                    {"path": "src/main.py", "start_line": True, "end_line": 2},
+                    {"path": "src/main.py", "start_line": 3, "end_line": 2},
+                    {"path": "../main.py", "start_line": 1, "end_line": 2}):
+            with self.assertRaises(c.ContractError):
+                self.read("ReviewRecord", {**review_record(), "locations": [bad]})
+        with self.assertRaises(c.ContractError):
+            self.read("ReviewRecord", {**review_record(), "locations": [entity()["location"]]*2})
+
+    def test_unknown_fields_and_duplicate_json_fail_closed_for_every_record(self):
+        for name, value in (("EntityObservation", entity()), ("EvidenceInventory", inventory()),
+                            ("EvidenceBundle", bundle()), ("EntityTreatment", treatment()),
+                            ("ReviewRecord", review_record())):
+            with self.subTest(name=name), self.assertRaises(c.ContractError):
+                self.read(name, {**value, "unexpected": True})
+            with self.assertRaises(c.ContractError):
+                c.loads(getattr(c, name), '{"x":1,"x":2}')
+
+    def test_reference_binding_and_mismatched_entity_kinds_are_rejected(self):
+        evidence = self.read("EvidenceBundle", bundle())
+        for reference in ({"source_hash": "c"*64, "profile_hash": HASH},
+                          {"source_hash": HASH, "profile_hash": "c"*64}):
+            p = c.Policy.from_dict({**policy(), "reference": reference})
+            record = self.read("EntityTreatment", {**treatment(), "policy_hash": c.policy_hash(p)})
+            with self.assertRaises(c.ContractError):
+                c.validate_treatments((record,), evidence, p)
+        value = bundle()
+        candidate = value["candidate_inventory"]["entities"][0]
+        candidate.update(selector={"kind": "scalar_metric", "metric_key": "source_bytes"},
+                         metric=baseline_fixtures.metric(), location=None, long_name=None)
+        with self.assertRaises(c.ContractError):
+            c.validate_treatments((self.read("EntityTreatment", treatment()),),
+                                  self.read("EvidenceBundle", value), c.Policy.from_dict(policy()))
+
+    def test_literal_evidence_and_span_paths_reject_patterns(self):
+        for bad in ("src/*.py", ".", "src/[a].py"):
+            value = entity()
+            value["location"]["path"] = bad
+            with self.assertRaises(c.ContractError):
+                self.read("EntityObservation", value)
+            value = entity()
+            value["evidence_refs"] = [bad]
+            with self.assertRaises(c.ContractError):
+                self.read("EntityObservation", value)
+
+    def test_new_removed_and_one_sided_unresolved_remain_distinct(self):
+        evidence = self.read("EvidenceBundle", bundle())
+        p = c.Policy.from_dict(policy())
+        records = tuple(self.read("EntityTreatment", treatment(kind)) for kind in ("new", "removed"))
+        self.assertEqual(c.validate_treatments(records, evidence, p), records)
+        for side in ("baseline_id", "candidate_id"):
+            record = self.read("EntityTreatment", {**treatment("unresolved"), side: None})
+            self.assertEqual(c.validate_treatments((record,), evidence, p)[0].kind, "unresolved")
 
 
 if __name__ == "__main__":

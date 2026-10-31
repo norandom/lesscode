@@ -17,7 +17,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - Round-trip and negative tests establish stable canonical policy identity and field-specific failures.
   - _Boundary: Policy contracts_
   - _Requirements: 1.2, 1.4, 1.5, 1.7, 7.1_
-- [ ] 1.3 Define evidence, entity-treatment and review input contracts
+- [x] 1.3 Define evidence, entity-treatment and review input contracts
   - Model source-bound evidence inventories, one-to-one entity treatment and scoped review outcomes/provenance.
   - Distinguish missing values, unresolved matches and unsupported trust; reject contradictory identities and records.
   - Contract tests round-trip valid inputs and reject malformed or conflicting treatment/review records without changing baseline formats.
@@ -183,3 +183,4 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
 
 ## Implementation Notes
 - Task 1.1: use uv.exe with explicit pinned Python. The existing development venv uses a local CPython 3.12.10 base; clean installed smoke uses uv-managed 3.12.10. Both and all analyzer pins were verified. Preserve original RED output in a durable task log for subsequent handoffs.
+- Task 1.3: review records preserve wrong-but-well-formed identities. In task 3.2 classify missing/wrong source-policy-scope bindings as insufficient before consistency assertions; duplicates/conflicts are invalid. Do not collapse these through generic exception handling or parse error strings to recover verdict meaning.

@@ -11,7 +11,8 @@ import math
 import re
 from typing import Literal, Self
 
-from lesscode_baseline.contracts import ContractError, Record, dumps, loads
+from lesscode_baseline.contracts import ContractError, MetricEvidence, Record, RunReport, SourceSpan, dumps, loads
+from lesscode_baseline.snapshot import matches
 
 def _fail(path: str, reason: str):
     raise ContractError(f"{path}: {reason}")
@@ -324,3 +325,257 @@ def policy_hash(policy: Policy) -> str:
         raise TypeError("expected Policy")
     canonical = Policy.from_dict(policy.to_dict())
     return hashlib.sha256(dumps(canonical).encode("utf-8")).hexdigest()
+
+
+def _literal_path(value, path: str) -> str:
+    value = _relative(value, path)
+    if any(c in value for c in "*?[]"):
+        _fail(path, "expected literal path, not a pattern")
+    return value
+
+
+def _span(value, path: str) -> SourceSpan:
+    span = SourceSpan.from_dict(value, path)
+    _literal_path(span.path, path + ".path")
+    return span
+
+
+@dataclass(frozen=True)
+class EntityObservation(Record):
+    """One selected scalar at an exact inventory address; null never means zero."""
+
+    inventory_id: str
+    source_hash: str
+    selector: Selector
+    metric: MetricEvidence
+    location: SourceSpan | None
+    long_name: str | None
+    evidence_refs: tuple[str, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "inventory_id source_hash selector metric location long_name evidence_refs")
+        selector = Selector.from_dict(d["selector"], path + ".selector")
+        metric = MetricEvidence.from_dict(d["metric"], path + ".metric")
+        if metric.value is not None:
+            _number(metric.value, path + ".metric.value")
+        location = None if d["location"] is None else _span(d["location"], path + ".location")
+        name = None if d["long_name"] is None else _string(d["long_name"], path + ".long_name")
+        if selector.kind == "function_ccn":
+            if location is None or name is None:
+                _fail(path, "function_ccn requires location and long_name")
+        elif location is not None or name is not None:
+            _fail(path, "aggregate selector requires null location and long_name")
+        if selector.kind == "scalar_metric" and selector.metric_key != metric.key:
+            _fail(path + ".selector.metric_key", "does not match metric key")
+        refs = _sequence(d["evidence_refs"], _literal_path, path + ".evidence_refs", lambda x: x)
+        if not refs:
+            _fail(path + ".evidence_refs", "at least one evidence address is required")
+        return cls(_entity_id(d["inventory_id"], path + ".inventory_id"),
+                   _hash(d["source_hash"], path + ".source_hash"), selector, metric, location, name, refs)
+
+
+@dataclass(frozen=True)
+class EvidenceInventory(Record):
+    """An explicit complete or unavailable inventory, including known empty ones."""
+
+    source_hash: str
+    status: Literal["complete", "unavailable"]
+    reason: str | None
+    entities: tuple[EntityObservation, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "source_hash status reason entities")
+        source = _hash(d["source_hash"], path + ".source_hash")
+        status = _choice(d["status"], path + ".status", ("complete", "unavailable"))
+        reason = None if d["reason"] is None else _string(d["reason"], path + ".reason")
+        entities = _sequence(d["entities"], EntityObservation.from_dict, path + ".entities", lambda e: e.inventory_id)
+        if (status == "complete" and reason is not None) or (status == "unavailable" and (reason is None or entities)):
+            _fail(path, "complete inventory requires null reason; unavailable requires reason and no entities")
+        addresses = set()
+        for entity in entities:
+            if entity.source_hash != source:
+                _fail(path + ".entities", "entity source_hash differs from inventory")
+            address = (entity.selector, entity.metric.key, entity.location, entity.long_name)
+            if address in addresses:
+                _fail(path + ".entities", "duplicate entity address under different inventory IDs")
+            addresses.add(address)
+        return cls(source, status, reason, entities)
+
+
+@dataclass(frozen=True)
+class EvidenceBundle(Record):
+    """In-memory seam; parsing establishes consistency, not artifact admission.
+
+    The reader must separately recover indexed artifacts and bind the prepared
+    plan/profile before treating this bundle as admitted evidence.
+    """
+
+    schema_version: int
+    report: RunReport
+    profile_hash: str
+    baseline_inventory: EvidenceInventory
+    candidate_inventory: EvidenceInventory
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "schema_version report profile_hash baseline_inventory candidate_inventory")
+        if type(d["schema_version"]) is not int or d["schema_version"] != 1:
+            _fail(path + ".schema_version", "unsupported schema_version (expected integer 1)")
+        report = RunReport.from_dict(d["report"], path + ".report")
+        baseline = EvidenceInventory.from_dict(d["baseline_inventory"], path + ".baseline_inventory")
+        candidate = EvidenceInventory.from_dict(d["candidate_inventory"], path + ".candidate_inventory")
+        for side, inventory, observation in (("baseline", baseline, report.baseline), ("candidate", candidate, report.candidate)):
+            context = path + "." + side + "_inventory"
+            if inventory.source_hash != observation.snapshot.content_hash:
+                _fail(context + ".source_hash", "does not match report snapshot")
+            product_paths = {f.path for f in observation.snapshot.files if f.category == "product"}
+            for entity in inventory.entities:
+                if entity.metric.scope_hash != observation.snapshot.scope_hash:
+                    _fail(context + ".entities", "metric scope_hash differs from snapshot")
+                if entity.location is not None and entity.location.path not in product_paths:
+                    _fail(context + ".entities", "location is absent from product inventory")
+            for check in observation.checks:
+                if check.source_hash != inventory.source_hash or check.plan_hash != report.plan_hash:
+                    _fail(path + ".report." + side + ".checks", "check source/plan binding differs from report")
+        return cls(1, report, _hash(d["profile_hash"], path + ".profile_hash"), baseline, candidate)
+
+
+@dataclass(frozen=True)
+class EntityTreatment(Record):
+    """Producer continuity claim, never evidence of semantic equivalence."""
+
+    policy_hash: str
+    baseline_source_hash: str
+    candidate_source_hash: str
+    kind: Literal["matched", "new", "removed", "unresolved"]
+    baseline_id: str | None
+    candidate_id: str | None
+    producer_id: str
+    rationale: str
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "policy_hash baseline_source_hash candidate_source_hash kind baseline_id candidate_id producer_id rationale")
+        kind = _choice(d["kind"], path + ".kind", ("matched", "new", "removed", "unresolved"))
+        baseline = None if d["baseline_id"] is None else _entity_id(d["baseline_id"], path + ".baseline_id")
+        candidate = None if d["candidate_id"] is None else _entity_id(d["candidate_id"], path + ".candidate_id")
+        sides = (baseline is not None, candidate is not None)
+        if ((kind == "matched" and sides != (True, True))
+                or (kind == "new" and sides != (False, True))
+                or (kind == "removed" and sides != (True, False))
+                or (kind == "unresolved" and sides == (False, False))):
+            _fail(path, "treatment kind contradicts baseline_id/candidate_id")
+        return cls(*(_hash(d[key], path + "." + key) for key in
+                     ("policy_hash", "baseline_source_hash", "candidate_source_hash")),
+                   kind, baseline, candidate, _string(d["producer_id"], path + ".producer_id"),
+                   _string(d["rationale"], path + ".rationale"))
+
+
+def validate_treatments(records: tuple[EntityTreatment, ...], evidence: EvidenceBundle,
+                        policy: Policy) -> tuple[EntityTreatment, ...]:
+    """Validate supplied exact IDs only; omitted treatments remain omitted."""
+    evidence = EvidenceBundle.from_dict(evidence.to_dict())
+    policy = Policy.from_dict(policy.to_dict())
+    expected_policy = policy_hash(policy)
+    if policy.reference is not None and (
+            policy.reference.source_hash != evidence.baseline_inventory.source_hash
+            or policy.reference.profile_hash != evidence.profile_hash):
+        _fail("$treatments", "policy reference differs from evidence source/profile")
+    records = _sequence(records, lambda r, p: EntityTreatment.from_dict(r.to_dict(), p), "$treatments")
+    baseline_ids = {e.inventory_id: e for e in evidence.baseline_inventory.entities}
+    candidate_ids = {e.inventory_id: e for e in evidence.candidate_inventory.entities}
+    seen_baseline, seen_candidate = set(), set()
+    for record in records:
+        if (record.policy_hash != expected_policy
+                or record.baseline_source_hash != evidence.baseline_inventory.source_hash
+                or record.candidate_source_hash != evidence.candidate_inventory.source_hash):
+            _fail("$treatments", "policy/source identity differs from evidence")
+        for identity, known, seen in ((record.baseline_id, baseline_ids, seen_baseline),
+                                      (record.candidate_id, candidate_ids, seen_candidate)):
+            if identity is None:
+                continue
+            if identity not in known:
+                _fail("$treatments", "absent inventory ID " + identity)
+            if identity in seen:
+                _fail("$treatments", "duplicate or contradictory treatment for " + identity)
+            seen.add(identity)
+        if record.kind == "matched":
+            baseline = baseline_ids[record.baseline_id]
+            candidate = candidate_ids[record.candidate_id]
+            if baseline.selector != candidate.selector or baseline.metric.key != candidate.metric.key:
+                _fail("$treatments", "matched entities have different metric selectors")
+    return records
+
+
+@dataclass(frozen=True)
+class ReviewRecord(Record):
+    """Disclosed local producer assertion, with no identity authentication."""
+
+    policy_hash: str
+    candidate_source_hash: str
+    rule_id: str
+    criterion_id: str
+    scope: PolicyScope
+    reviewer_id: str
+    outcome: Literal["satisfied", "concern", "unresolved"]
+    rationale: str
+    locations: tuple[SourceSpan, ...]
+    provenance: Literal["producer_supplied"]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "policy_hash candidate_source_hash rule_id criterion_id scope reviewer_id outcome rationale locations provenance")
+        locations = _sequence(d["locations"], _span, path + ".locations", lambda s: s)
+        if not locations:
+            _fail(path + ".locations", "at least one supporting code span is required")
+        return cls(_hash(d["policy_hash"], path + ".policy_hash"),
+                   _hash(d["candidate_source_hash"], path + ".candidate_source_hash"),
+                   _string(d["rule_id"], path + ".rule_id"), _string(d["criterion_id"], path + ".criterion_id"),
+                   PolicyScope.from_dict(d["scope"], path + ".scope"),
+                   _string(d["reviewer_id"], path + ".reviewer_id"),
+                   _choice(d["outcome"], path + ".outcome", ("satisfied", "concern", "unresolved")),
+                   _string(d["rationale"], path + ".rationale"), locations,
+                   _choice(d["provenance"], path + ".provenance", ("producer_supplied",)))
+
+    def trust_status(self, requirement: Literal["producer_record", "external_independence"]) -> Literal["supported", "unverified"]:
+        _choice(requirement, "$review.trust_requirement", ("producer_record", "external_independence"))
+        return "supported" if requirement == "producer_record" else "unverified"
+
+
+def _in_scope(filename: str, scope: PolicyScope) -> bool:
+    if scope.root != ".":
+        prefix = scope.root + "/"
+        if not filename.startswith(prefix):
+            return False
+        filename = filename[len(prefix):]
+    return (any(matches(filename, pattern) for pattern in scope.include)
+            and not any(matches(filename, pattern) for pattern in scope.exclude))
+
+
+def validate_reviews(records: tuple[ReviewRecord, ...], evidence: EvidenceBundle,
+                     policy: Policy) -> tuple[ReviewRecord, ...]:
+    """Check structural bindings; missing reviews and trust remain explicit."""
+    evidence = EvidenceBundle.from_dict(evidence.to_dict())
+    policy = Policy.from_dict(policy.to_dict())
+    expected_policy = policy_hash(policy)
+    records = _sequence(records, lambda r, p: ReviewRecord.from_dict(r.to_dict(), p), "$reviews")
+    rules = {rule.rule_id: rule for rule in policy.rules if isinstance(rule, ReviewRule)}
+    product_paths = {f.path for f in evidence.report.candidate.snapshot.files if f.category == "product"}
+    seen = set()
+    for record in records:
+        if record.policy_hash != expected_policy or record.candidate_source_hash != evidence.candidate_inventory.source_hash:
+            _fail("$reviews", "policy/source identity differs from evidence")
+        rule = rules.get(record.rule_id)
+        if rule is None or rule.criterion_id != record.criterion_id or rule.scope != record.scope:
+            _fail("$reviews", "rule/criterion/scope differs from applicable review rule")
+        identity = (record.criterion_id, record.scope)
+        if identity in seen:
+            _fail("$reviews", "duplicate or conflicting criterion/scope review")
+        seen.add(identity)
+        for span in record.locations:
+            if (span.path not in product_paths or not _in_scope(span.path, record.scope)
+                    or not _in_scope(span.path, policy.target_scope)):
+                _fail("$reviews.locations", "span is outside candidate product inventory or applicable scope")
+    return records
