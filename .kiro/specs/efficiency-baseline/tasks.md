@@ -180,7 +180,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 5.1, 4.3_
   - _Requirements: 4.8, 5.6, 5.7, 6.1, 6.6, 6.7, 8.1_
 
-- [ ] 5.3 (P) Reconcile planned trials and controlled conditions
+- [x] 5.3 (P) Reconcile planned trials and controlled conditions
   - Import producer records and pair by corpus/task/repetition, validating the recorded starting state and intended intervention fields.
   - Reject duplicate identities, materialize missing planned trials, separate extra records and flag confounded pairings.
   - Done when synthetic multi-arm inputs retain every scheduled attempt and identify each unintended control difference; no Reports file changes are needed.
@@ -327,4 +327,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 5.2: render_summary produces escaped human evidence without scoreprojections; finalize hashes summary beforecompletionindex; recover requires indexedsummary. Agenttelemetry remains unavailable unless supplied; evaluationelapsed distinct.243tests7skips independentlyverified.
+
+
+- 5.3: reconcile returns detached Reconciliation with scheduled records or missing outcomes, extras and corpus/task/repetition pairings. Comparable means declared metadata only. Allowed interventions are exact declared keys/per-arm values; revision-only source anchoring remains explicit limitation.260 tests,7 skips reviewed.
 
