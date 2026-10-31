@@ -41,10 +41,7 @@
         "mode": "weak",
         "minTokens": 50,
         "minLines": 5,
-        "maxLines": 100000,
-        "maxSize": "10mb",
-        "ignoreCase": false,
-        "skipComments": false
+        "ignoreCase": false
       }
     }
   ],

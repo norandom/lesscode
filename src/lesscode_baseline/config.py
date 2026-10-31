@@ -19,6 +19,11 @@ from .snapshot import capture_scope
 
 _ROOT = Path(__file__).resolve().parents[2]
 _DATA = Path(__file__).resolve().parent / "data"
+_FIXED_OPTIONS = {
+    "lizard": {"language": "python", "extensions": False},
+    "jscpd": {"format": "python", "mode": "weak", "minTokens": 50,
+              "minLines": 5, "ignoreCase": False},
+}
 _UNITS = {"complexity": "CCN", "duplication": "ratio", "source_bytes": "bytes",
           "physical_lines": "lines", "compressed_source_bytes": "bytes",
           "coverage": None, "mutation": None, "nesting": None,
@@ -133,6 +138,11 @@ def prepare(config, baseline, candidate, output, *, profile_path=None, tool_path
         profile = loads(Profile, dumps(config)) if isinstance(config, Profile) else loads(Profile, path.read_bytes())
         if loads(Profile, path.read_bytes()) != profile:
             raise ValueError("supplied Profile differs from profile_path content")
+        for tool in profile.tools:
+            fixed = _FIXED_OPTIONS.get(tool.name, {})
+            for key, value in tool.options.items():
+                if key not in fixed or type(value) is not type(fixed[key]) or value != fixed[key]:
+                    raise ValueError(f"unsupported {tool.name} option {key}: fixed adapter setting")
         evaluator = path.parent
         source_paths = (Path(baseline).absolute(), Path(candidate).absolute())
         baseline, candidate = (p.resolve(strict=True) for p in source_paths)
@@ -296,6 +306,13 @@ def verify_integrity(prepared):
     """
     changed = []
     plan = prepared.plan
+    try:
+        profile_path = str(Path(prepared.profile_path).resolve(strict=True))
+        if (not any(resource.path == profile_path for resource in prepared.evaluator_resources)
+                or loads(Profile, Path(profile_path).read_bytes()) != plan.profile):
+            changed.append("_context/frozen-profile-content")
+    except (OSError, ValueError, TypeError):
+        changed.append("_context/frozen-profile-content")
     changed.extend(_command_integrity(prepared))
     if _hash(dumps(plan.profile)) != plan.profile_hash:
         changed.append("_context/frozen-profile")

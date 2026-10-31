@@ -6,15 +6,15 @@ dependencies. Use CPython 3.12.10 and Node 24.22.1 (see runtime-setup.md).
 Windows PowerShell:
 
 ```powershell
-py -3.12 tools/setup_toolchain.py
-py -3.12 tools/probe_toolchain.py --output .tools/probe.json
+uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python tools/setup_toolchain.py
+uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python tools/probe_toolchain.py --output .tools/probe.json
 ```
 
 Linux/macOS with the pinned runtimes installed:
 
 ```sh
-python3.12 tools/setup_toolchain.py --node "$(command -v node)" --npm-cli /absolute/path/to/npm/bin/npm-cli.js
-python3.12 tools/probe_toolchain.py --output .tools/probe.json
+uv run --no-project --no-python-downloads --python .venv/bin/python python tools/setup_toolchain.py --node /absolute/path/to/node --npm-cli /absolute/path/to/npm/bin/npm-cli.js
+uv run --no-project --no-python-downloads --python .venv/bin/python python tools/probe_toolchain.py --output .tools/probe.json
 ```
 
 `--npm-cli` identifies npm's JavaScript entry point; its default is the Windows

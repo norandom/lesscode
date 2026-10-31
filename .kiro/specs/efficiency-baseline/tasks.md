@@ -246,7 +246,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 6.3_
   - _Requirements: 1.1, 1.2, 1.3, 1.5, 2.1, 2.2, 2.3, 2.5, 3.1, 3.2, 3.3, 3.4, 3.5, 4.3, 4.4, 6.1, 6.5, 7.2, 7.8, 8.5, 8.8_
 
-- [ ] 7.2 Verify incomplete evidence, tampering and recovery paths
+- [x] 7.2 Verify incomplete evidence, tampering and recovery paths
   - Exercise missing analyzers, suppressed/omitted source, parse errors, deleted checks, optional baseline behavior failures and optional metric absence.
   - Inject evaluator changes, stale reports, interrupted writes and bounded child-spawning workloads, retaining observable diagnostics.
   - Repair discovered baseline Execution/Plan audit gaps: retain analyzer command/outcome metadata and effective configuration, and reject declared analyzer options that the fixed adapters cannot honor instead of silently ignoring them.
@@ -362,3 +362,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 4.4 corrective Plan isolation: fixed probes receive empty POSIX environment or only OS-derived SystemRoot on Windows. Actual inherited Node preload regression fixed; parent environment preserved and pinned preparation succeeds. Independent323tests7skips; queue33executables.
 
 - 7.1: executable corpus uses canonical Snapshot identity; upstream raw bytes/license retained. validate_pilot runs six installed CLI evaluations and predeclared actual3trial summary; known23functions/max15 and duplication236/118/.5 verified, originals/untracked inventory retained. Completed --resume is read-only with canonical plan binding; partial pilots require fresh output. Independent332tests7skips and real recovery/tamper probes passed.
+
+- 7.2: durable typed analyzer audits retain actual argv/config/inventories/status/timing separately from behavior checks. Fixed options validated before probes; unused/nonexistent overrides rejected, bounds derived from manifest. Frozen Profile matches recorded file even after header rehash. Real adverse cases and installed10audit recovery passed; independent347tests7skips. Python development/setup now uses uv/uvx per user; Windows uv.exe avoids shell wrapper stdin issues.

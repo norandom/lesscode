@@ -10,12 +10,14 @@ Use CPython 3.12.10 and Node 24.22.1. From the repository root, install the
 package and explicitly provision the pinned open-source analyzers:
 
 ```powershell
-py -3.12 -m pip install .
-py -3.12 tools/setup_toolchain.py --node 'C:/Program Files/nodejs/node.exe'
+uv venv --python 3.12.10 .venv
+uv pip install --python .venv/Scripts/python.exe .
+uv run --no-project --python .venv/Scripts/python.exe python tools/setup_toolchain.py --node 'C:/Program Files/nodejs/node.exe'
 ```
 
-On Linux/macOS use `python3.12` in place of `py -3.12` and supply the absolute
-Node executable path. If npm is elsewhere, pass `--npm-cli /absolute/path/to/npm/bin/npm-cli.js`.
+On Linux/macOS use `.venv/bin/python` and supply the absolute Node executable
+path. Use uv to select the pinned Python; no Windows Store Python is needed.
+If npm is elsewhere, pass `--npm-cli /absolute/path/to/npm/bin/npm-cli.js`.
 Setup is a separate, network-enabled operation. Plan/run never install tools.
 Setup records absolute interpreter, Node and jscpd paths in
 `.tools/analyzers/entrypoints.json`. Keep those environments in place for the
@@ -67,9 +69,9 @@ metric improvements. Missing tools produce unavailable metrics, never zeros.
 Build and install a wheel in a clean CPython 3.12 environment:
 
 ```powershell
-py -3.12 -m pip wheel . --no-deps --wheel-dir dist
-py -3.12 -m venv ../baseline-cli-env
-../baseline-cli-env/Scripts/python.exe -m pip install dist/lesscode_baseline-0.1.0-py3-none-any.whl
+uv build --python 3.12.10 --wheel --out-dir dist
+uv venv --python 3.12.10 ../baseline-cli-env
+uv pip install --python ../baseline-cli-env/Scripts/python.exe dist/lesscode_baseline-0.1.0-py3-none-any.whl
 ```
 
 On Linux/macOS use `../baseline-cli-env/bin/python`. Change to another directory
@@ -81,6 +83,25 @@ caller supplies evaluator resources and explicitly provisioned external tools.
 An installed package's default tool bindings may be unavailable; supply
 `--tool-paths /absolute/path/to/entrypoints.json` for reproducible operation.
 No `PYTHONPATH` is needed.
+
+## Fixed analyzer settings and audit files
+
+The Python adapters implement Lizard `language="python"`, `extensions=false`
+and jscpd `format="python"`, `mode="weak"`, `minTokens=50`, `minLines=5`,
+`ignoreCase=false`. Omitted option keys mean these defaults. Preparation rejects
+unknown options and incompatible values before probing tools. jscpd weak mode
+excludes comment tokens; `skipComments` is not an option of the pinned vendor.
+`maxLines` and `maxSize` are derived from the actual selected input manifest and
+cannot be overridden in the profile.
+
+Metric log directories retain unique input inventories, the effective jscpd
+configuration and versioned `*.execution.json` audit sidecars. Each sidecar keeps
+the typed execution result (actual argv, limits, tool version, status, exit code,
+elapsed time, timestamp, environment identity and associated stdout/stderr),
+plus its absolute disposable workspace and actual working directory. The actual
+argv inputs remain in the artifact index after disposable workspaces are removed.
+Analyzer audits are raw metric evidence; observation executions describe declared
+behavior checks. Historical Profile/Plan records keep their existing format.
 
 ## Optional supplied evidence
 

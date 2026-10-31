@@ -20,6 +20,7 @@ import stat
 import statistics
 import struct
 import tempfile
+import uuid
 from typing import Iterator
 import zlib
 
@@ -31,6 +32,31 @@ from .process import execute
 _LIZARD_VERSION = "1.17.31"
 _JSCPD_VERSION = "4.0.5"
 _DUPLICATION_DEFINITION = "jscpd-python-weak-minlines5-mintokens50-aggregate-pair-span-v1"
+
+
+def _input_artifact(logs: Path, suffix: str, value: object) -> Path:
+    logs = Path(logs).resolve()
+    logs.mkdir(parents=True, exist_ok=True)
+    path = logs / (uuid.uuid4().hex + suffix)
+    with path.open("x", encoding="utf-8") as handle:
+        json.dump(value, handle, sort_keys=True)
+    return path
+
+
+def _execute_analyzer(command, workspace, logs):
+    result = execute(command, workspace, logs)
+    # Keep the existing typed execution record intact. Absolute runtime
+    # locations remain audit facts even after disposable inputs are removed.
+    root = Path(workspace).resolve()
+    audit = {"schema_version": 1, "kind": "analyzer_execution",
+             "workspace": str(root), "cwd": str((root / command.cwd).resolve()),
+             "execution": result.to_dict()}
+    if command.command_id == "metrics-complexity":
+        audit["effective_options"] = {"language": "python", "extensions": False}
+    path = Path(logs) / (Path(result.stdout_artifact).stem + ".execution.json")
+    with path.open("x", encoding="utf-8") as handle:
+        json.dump(audit, handle, sort_keys=True)
+    return result
 
 # Use the pinned tokenizer's maps, not Python lexical guesses. getTokensCount
 # uses original token positions after filtering; it is not the filtered length.
@@ -79,9 +105,8 @@ def measure_duplication(snapshot: Snapshot, interpreter: Path, node: Path, entry
             reason = staged.message
         else:
             root = Path(staged.root)
-            inventory = root.parent / "inventory.json"
             paths = [f.path for f in staged.files]
-            inventory.write_text(json.dumps(paths), encoding="utf-8")
+            inventory = _input_artifact(logs, ".inventory.json", paths)
             syntax = ResolvedCommand("duplication-syntax", (str(interpreter), "-I", "-S", "-c",
                 _SYNTAX_WORKER, str(inventory)), ".", {}, limits, "selected Python")
             try:
@@ -100,11 +125,11 @@ def measure_duplication(snapshot: Snapshot, interpreter: Path, node: Path, entry
                     ".", environment, limits, "jscpd " + _JSCPD_VERSION)
                 token_inventory, artifact = _duplication_worker(worker, root, logs)
                 bounds = _duplication_bounds(staged)
-                config = root.parent / "jscpd.json"
                 # Explicit external config and output prevent project discovery.
-                config.write_text(json.dumps({"format":["python"], "mode":"weak",
+                config = _input_artifact(logs, ".jscpd.json", {"format":["python"], "mode":"weak",
                     "minLines":5, "minTokens":50, "maxLines":bounds[0], "maxSize":bounds[1],
-                    "ignore":[], "gitignore":False, "noSymlinks":True}), encoding="utf-8")
+                    "ignore":[], "gitignore":False, "noSymlinks":True,
+                    "ignoreCase":False})
                 Path(logs).mkdir(parents=True, exist_ok=True)
                 output = Path(tempfile.mkdtemp(prefix="duplication-", dir=Path(logs).resolve()))
                 report_path = output / "jscpd-report.json"
@@ -113,7 +138,7 @@ def measure_duplication(snapshot: Snapshot, interpreter: Path, node: Path, entry
                     "--min-lines", "5", "--min-tokens", "50", "--max-lines", str(bounds[0]),
                     "--max-size", bounds[1], "--reporters", "json", "--output", output.as_posix(),
                     "--silent", root.as_posix()), ".", environment, limits, "jscpd " + _JSCPD_VERSION)
-                result = execute(cli, root, logs)
+                result = _execute_analyzer(cli, root, logs)
                 artifact = result.stderr_artifact
                 stderr = (Path(logs) / artifact).read_text(encoding="utf-8", errors="replace")
                 if result.status != "completed" or result.exit_code != 0 or stderr:
@@ -138,7 +163,7 @@ class _DuplicationFailure(ValueError):
 
 
 def _duplication_worker(command: ResolvedCommand, root: Path, logs: Path) -> tuple[object, str]:
-    result = execute(command, root, logs)
+    result = _execute_analyzer(command, root, logs)
     stderr = (Path(logs) / result.stderr_artifact).read_text(encoding="utf-8", errors="replace")
     if result.status != "completed" or result.exit_code != 0 or stderr:
         raise _DuplicationFailure(f"{command.command_id} execution {result.status}; exit {result.exit_code}: {stderr[:2000]}", result.stderr_artifact)
@@ -334,11 +359,10 @@ def measure_complexity(snapshot: Snapshot, interpreter: Path, limits: Limits,
             reason = staged.message
         else:
             paths = [record.path for record in staged.files]
-            inventory = Path(staged.root).parent / "inventory.json"
-            inventory.write_text(json.dumps(paths), encoding="utf-8")
+            inventory = _input_artifact(logs, ".inventory.json", paths)
             command = ResolvedCommand("metrics-complexity", (str(interpreter), "-I", "-X", "utf8", "-c",
                 _COMPLEXITY_WORKER, str(inventory)), ".", {}, limits, "Lizard " + _LIZARD_VERSION)
-            result = execute(command, Path(staged.root), logs)
+            result = _execute_analyzer(command, Path(staged.root), logs)
             artifact = result.stdout_artifact
             stderr = (Path(logs) / result.stderr_artifact).read_text(encoding="utf-8", errors="replace")
             if result.status != "completed" or result.exit_code != 0 or stderr:
@@ -495,12 +519,11 @@ def measure_sizes(snapshot: Snapshot, interpreter: Path, limits: Limits,
         else:
             # Inventory sits outside the product tree; it cannot be measured by
             # analyzers and avoids platform argv limits for large manifests.
-            inventory = Path(staged.root).parent / "inventory.json"
             paths = [record.path for record in staged.files]
-            inventory.write_text(json.dumps(paths), encoding="utf-8")
+            inventory = _input_artifact(logs, ".inventory.json", paths)
             command = ResolvedCommand("metrics-syntax", (str(interpreter), "-I", "-S", "-c",
                 _SYNTAX_WORKER, str(inventory)), ".", {}, limits, "selected Python")
-            execution = execute(command, Path(staged.root), logs)
+            execution = _execute_analyzer(command, Path(staged.root), logs)
             artifact = execution.stderr_artifact
             if execution.status != "completed" or execution.exit_code != 0:
                 reason = f"Python syntax validation {execution.status}; exit {execution.exit_code}"

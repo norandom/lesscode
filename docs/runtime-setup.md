@@ -22,7 +22,8 @@ they are not embedded in the package.
 Verify the selected runtimes before setup:
 
 ```powershell
-py -3.12 -c "import sys; print(sys.version); print(sys.executable)"
+uv python install 3.12.10
+uv run --no-project --python 3.12.10 python -c "import sys; print(sys.version); print(sys.executable)"
 node --version
 node -p "process.execPath"
 ```
@@ -32,26 +33,26 @@ node -p "process.execPath"
 From the repository root on Windows:
 
 ```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip wheel . --no-deps --wheel-dir dist
-.\.venv\Scripts\python.exe -m pip install --no-deps dist/lesscode_baseline-0.1.0-py3-none-any.whl
-.\.venv\Scripts\python.exe -m unittest discover -v
+uv venv --python 3.12.10 .venv
+uv build --python .venv/Scripts/python.exe --wheel --out-dir dist
+uv pip install --python .venv/Scripts/python.exe --no-deps dist/lesscode_baseline-0.1.0-py3-none-any.whl
+uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python -m unittest discover -v
 .\.venv\Scripts\lesscode-baseline.exe --help
 .\.venv\Scripts\lesscode-baseline.exe --version
-.\.venv\Scripts\python.exe -m lesscode_baseline --version
+uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python -m lesscode_baseline --version
 ```
 
-On Linux or macOS, select a CPython 3.12.10 executable, use it for
-`-m venv .venv`, and substitute `.venv/bin/python` and
-`.venv/bin/lesscode-baseline` for the Windows environment commands.
+On Linux or macOS, use the same uv-managed CPython 3.12.10 setup and substitute
+`.venv/bin/python` and `.venv/bin/lesscode-baseline` for Windows environment paths.
 Cross-platform integration remains a separate validation task.
 
 Standard-library discovery also supports source development before installation:
 set `PYTHONPATH` to the absolute `src` directory, then run
-`python -m unittest discover -v` with the selected interpreter.
+`uv run --no-project --no-python-downloads --python .venv/Scripts/python.exe python -m unittest discover -v`.
+The explicit environment path prevents ambient Python aliases from selecting
+another runtime.
 
-Only help and version are available at this foundation stage. Evaluation
-commands will be integrated after their components are implemented.
+The CLI reference documents the integrated plan, run and summarize commands.
 
 Environments, bytecode, build outputs, local `runs/` and `.workspaces/` are
 ignored by Git. Later source-scope implementation must also exclude generated
