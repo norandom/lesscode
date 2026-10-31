@@ -1,6 +1,6 @@
-# Proposed selection contract amendment
+# Approved selection contract amendment
 
-Status: awaiting human approval. This document proposes a correction; it does not approve or change the existing design contract.
+Status: approved by the user on 2026-10-31. The correction is incorporated into design.md and tasks.md; task 2.2 implementation may resume.
 
 ## Problem established during task 2.2
 

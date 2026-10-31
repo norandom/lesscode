@@ -160,7 +160,7 @@ Contracts: Service. Outbound dependencies: `report.recover` and baseline typed r
 
 ```python
 def read_evidence(run_directory: Path, policy: Policy) -> EvidenceBundle | RuleFailure: ...
-def select_observations(evidence: EvidenceBundle, rule: NumericRule) -> tuple[EntityObservation, ...]: ...
+def select_observations(evidence: EvidenceBundle, rule: NumericRule) -> RuleSelection: ...
 ```
 
 Admission requires complete recovery with verified artifact hashes. For this first version, the run must include a hash-indexed `PreparedPlan` in `plan.json`; report-only stores cannot establish the fixed check/profile inventory and are insufficient. Bind the prepared plan hash, report plan hash, both snapshot identities, canonical frozen profile hash and actual indexed artifacts. Verify these relationships, not merely that each JSON file parses. Retain the baseline decision unchanged.
@@ -173,7 +173,11 @@ Function-level selection may filter the complete function inventory by declared 
 
 Comparison requires compatible key, definition, producer/version, unit, scope and required population. Changed source content alone is expected; changed scope definitions are not. A baseline `scope_hash` identifies scope rules, not the actual measured population: validate snapshot product-file sets and payload inventories as well. Population changes allowed by the same declared scope remain visible; a rule cannot silently substitute a different subset. For reference-dependent comparisons, existing `compare_metrics` compatibility is necessary, and selector-specific population checks are additional. An absolute-only rule evaluates candidate evidence without requiring a reference metric; the underlying baseline decision still governs overall acceptance. Preserve all noncomparability reasons. Undefined ratios and percentages with reference zero remain unavailable even if the candidate is zero.
 
+`RuleSelection` is the versioned per-rule result approved in [selection-contract-amendment.md](selection-contract-amendment.md). It contains `schema_version`, `rule_id`, `baseline: EvidenceInventory | None`, `candidate: EvidenceInventory`, `comparison_status` (`not_required`, `comparable`, or `unavailable`) and `comparison_reasons`. Each selected side retains its source identity, availability, observations and reason. Confirmed zero functions are complete empty selections only with matching nonempty product scope and complete coverage; missing or ambiguous evidence is unavailable. Absolute-only rules without a change budget use `not_required` and may omit baseline selection. Reference-dependent selections retain baseline status and comparison reasons, without discarding available candidate values. Comparable selections require complete side inventories and no failure reasons. Compatibility does not establish entity continuity. Canonical parsing rejects contradictory statuses and reasons. Bundle inventories remain the stable entity-address source; rule order must not mutate them.
+
 ### Rule evaluation
+
+Numeric evaluation consumes `RuleSelection`: unavailable blocking selections produce insufficient findings, advisory selections retain reasons, and confirmed empty populations are disclosed. Absolute-only rules do not require reference availability. Entity continuity remains a separate requirement for ratchets.
 
 Contracts: Service. Outbound dependency: policy contracts (P0). Inputs are validated value objects, not paths.
 

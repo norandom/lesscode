@@ -46,11 +46,11 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Depends: 1.5_
   - _Requirements: 1.3, 3.1, 4.1, 4.2, 4.7_
 - [ ] 2.2 Select named quantities and validate measured populations
-  - _Blocked: Human review required for the per-rule selection result contract; the approved tuple cannot distinguish confirmed empty populations from unavailable evidence. See selection-contract-amendment.md._
+  - Implement and test the approved versioned RuleSelection contract before integrating selection; retain per-side availability and comparison reasons without mutating global entity inventories.
   - Select function CCN, exact scalar metrics and declared duplication quantities; retain definitions, locations, producers and pair-span denominators, including ratios above one.
   - Preserve optional LLOC provenance and named-check evidence; reject aggregate narrowing, incompatible producers/units/scopes and omitted nonempty files.
   - Tests distinguish valid zero-function inventories from ambiguous empty selections and show absolute-only candidate observations do not require reference metrics.
-  - _Boundary: Evidence reader_
+  - _Boundary: Evidence reader, Policy contracts_
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 4.3, 4.4, 4.5, 4.6_
 - [ ] 2.3 Establish conservative entity continuity
   - Automatically match only identical file bytes and inventory identities; validate explicit source-bound matched/new/removed/unresolved treatments for changed files.
@@ -61,6 +61,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
 
 - [ ] 3. Evaluate policy without filesystem effects
 - [ ] 3.1 (P) Evaluate numeric limits and entity debt
+  - Consume RuleSelection: unavailable blocking selections are insufficient, advisory reasons remain visible, confirmed empty populations are disclosed, and absolute-only evaluation requires no reference availability.
   - Evaluate inclusive absolute limits, additional change budgets and ratchet classifications using validated observation fixtures.
   - Cover unchanged 56, improved 54 and worsened 57 against reference 56/limit 10; crossing 4 to 11, equality, resolved debt, below-limit budget failure and new delta-only unavailable cases.
   - Tests show each entity's result independently, undefined percentages remain unavailable and improvements never offset regressions elsewhere.
