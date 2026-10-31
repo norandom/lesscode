@@ -271,15 +271,12 @@ def evaluate_threshold(comparison: MetricComparison, threshold: Threshold) -> Th
         reason = f"threshold unit {threshold.unit!r} differs from expected {expected_unit!r}"
     elif comparison.status != "available":
         reason = delta.reason or "metric comparison unavailable"
-    elif threshold.operator == "absolute_maximum":
-        observed = delta.after
-        reason = delta.reason if observed is None else None
-    elif threshold.operator == "delta_maximum":
-        observed = delta.absolute_delta
-        reason = delta.reason if observed is None else None
     else:
-        observed = delta.percentage_delta
-        reason = delta.percentage_reason
+        observed, reason = {
+            "absolute_maximum": (delta.after, delta.reason),
+            "delta_maximum": (delta.absolute_delta, delta.reason),
+            "percentage_delta_maximum": (delta.percentage_delta, delta.percentage_reason),
+        }[threshold.operator]
     if observed is None:
         return ThresholdResult(threshold, "unavailable", None, reason or "threshold measurement unavailable")
     if observed > threshold.value:
