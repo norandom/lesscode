@@ -204,13 +204,14 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Requirements: 7.4, 7.5, 7.6, 7.7, 8.1, 8.2, 8.3, 8.4_
 
 - [ ] 6. Integrate the command-line workflows
-- [ ] 6.1 Integrate the complete pair-evaluation lifecycle
+- [x] 6.1 Integrate the complete pair-evaluation lifecycle
   - Connect prepared plans, capture, frozen measurement, sequential baseline/candidate checks, before/after integrity verification, decisions and persistence.
+  - Connect explicit optional-evidence inputs to the existing provenance reader without changing Profile or replacing core measurements; retain raw artifacts and typed populations/runtime identities.
   - Retain partial observations and independent check inventory; preserve original source and never retry or revert candidate code automatically.
   - Done when an unchanged pair completes and a tampered run persists invalid status with all available evidence.
   - _Boundary: Evaluation integration_
   - _Depends: 2.5, 3.3, 3.4, 4.1, 4.3, 5.2_
-  - _Requirements: 1.1, 1.5, 4.1, 4.2, 4.3, 5.2, 5.3, 6.5, 6.7, 8.5, 8.8_
+  - _Requirements: 1.1, 1.5, 3.6, 4.1, 4.2, 4.3, 4.6, 4.7, 5.2, 5.3, 6.5, 6.7, 8.4, 8.5, 8.8_
 
 - [ ] 6.2 Expose plan and run commands with stable exit behavior
   - Connect installed/module entry points to preparation and evaluation, printing resolved commands before execution and honoring the designed exit mapping.
@@ -342,3 +343,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 - 5.4: aggregate returns Aggregation(report,runs); explicit scalar deltas only, all-attempt and accepted-only descriptive populations separate. Required completeness differs from failure; unsuccessful executions cannot establish correctness. Verified artifact recovery required. Independent review283tests7skips; focused40PASS.
 
 - 3.5 corrective Metrics alignment: public duplication key matches mandatory Profile/Decision lookup; exact pair-span definition and typed payload unchanged. Real analyzer integration regression passed; independent285tests7skips. Queue32executables.
+
+- 6.1: evaluation.evaluate consumes PreparedPlan, hashes canonical serialization, guards public adapter/check workloads, runs checks in fresh copies and persists partial/final evidence. OptionalEvidenceInput binds imports without changing Profile; runtime envelopes retained separately. Real unchanged accepted/broken rejected with originals preserved; independent301tests7skips.
