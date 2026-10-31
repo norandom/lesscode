@@ -38,7 +38,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Requirements: 4.1, 4.6, 9.1_
 
 - [ ] 2. Read comparable scoped evidence
-- [ ] 2.1 Admit completed runs and validate reference bindings
+- [x] 2.1 Admit completed runs and validate reference bindings
   - Recover indexed artifacts and require the prepared plan; validate plan/report/source/profile/check-inventory relationships and the selected same-run baseline reference.
   - Distinguish incomplete storage from non-accepted evaluation; preserve diagnostics and upstream outcome without reinterpreting them.
   - Tests reject broken hashes or bindings and report missing required plans as insufficient evidence.
@@ -182,6 +182,7 @@ Default ordering is sequential. Tasks marked `(P)` may skip preceding work once 
   - _Requirements: 4.1, 4.7, 7.6, 8.6, 8.7, 8.9, 9.5_
 
 ## Implementation Notes
+- Task 2.1: validate each surviving record's internal identities before cross-record relationships and missing-evidence classification. Missing counterparts must not hide detectable corruption. Preserve validated partial reports' original outcomes, reasons and limitations without claiming completed admission.
 - Task 1.5: byte-count fixtures require fixture-local LF attributes; verify fresh Git checkout with core.autocrlf=true when adding byte-sensitive source fixtures. Complete storage is independent of accepted/rejected/incomplete/invalid evaluation outcomes.
 - Task 1.1: use uv.exe with explicit pinned Python. The existing development venv uses a local CPython 3.12.10 base; clean installed smoke uses uv-managed 3.12.10. Both and all analyzer pins were verified. Preserve original RED output in a durable task log for subsequent handoffs.
 - Task 1.3: review records preserve wrong-but-well-formed identities. In task 3.2 classify missing/wrong source-policy-scope bindings as insufficient before consistency assertions; duplicates/conflicts are invalid. Do not collapse these through generic exception handling or parse error strings to recover verdict meaning.

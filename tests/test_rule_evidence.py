@@ -238,3 +238,317 @@ def materialize(root, name="accepted"):
     policy = rules.Policy.from_dict(policy_data)
     return {"run": run, "prepared": prepared, "report": report, "policy": policy,
             "expected": expected_cases[outcome]}
+
+class EvidenceAdmissionTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name).resolve()
+
+    def read(self, fixture, policy=None):
+        from lesscode_baseline.rules.evidence import read_evidence
+        return read_evidence(fixture['run'], policy or fixture['policy'])
+
+    def rewrite(self, fixture, filename, mutate):
+        path = fixture['run'] / filename
+        value = json.loads(path.read_bytes())
+        mutate(value)
+        path.write_text(json.dumps(value), encoding='utf-8')
+        index_path = fixture['run'] / 'artifacts.json'
+        index = json.loads(index_path.read_bytes())
+        for artifact in index['artifacts']:
+            if artifact['path'] == filename:
+                artifact['content_hash'] = digest(path.read_bytes())
+                artifact['size_bytes'] = len(path.read_bytes())
+        index_path.write_text(json.dumps(index), encoding='utf-8')
+
+    def test_preserves_complete_nonaccepted_reports_and_unavailable_inventories(self):
+        from lesscode_baseline.rules.contracts import EvidenceBundle
+        for outcome in ('accepted', 'rejected', 'incomplete', 'invalid'):
+            with self.subTest(outcome=outcome):
+                fixture = materialize(self.root / outcome, outcome)
+                bundle = self.read(fixture)
+                self.assertIsInstance(bundle, EvidenceBundle)
+                self.assertEqual(bundle.report, fixture['report'])
+                self.assertEqual(bundle.profile_hash, fixture['prepared'].plan.profile_hash)
+                for inventory in (bundle.baseline_inventory, bundle.candidate_inventory):
+                    self.assertEqual(inventory.status, 'unavailable')
+                    self.assertTrue(inventory.reason)
+                    self.assertEqual(inventory.entities, ())
+
+    def test_corrupt_hash_invalid_but_missing_completion_insufficient(self):
+        for name, kind in (('corrupt', 'invalid'), ('partial', 'insufficient')):
+            fixture = materialize(self.root / name, name)
+            result = self.read(fixture)
+            self.assertEqual(result.kind, kind)
+            self.assertTrue(result.diagnostics)
+
+    def test_report_only_store_is_insufficient_and_retains_outcome_in_diagnostic(self):
+        fixture = materialize(self.root, 'rejected')
+        (fixture['run'] / 'plan.json').unlink()
+        index_path = fixture['run'] / 'artifacts.json'
+        index = json.loads(index_path.read_bytes())
+        index['artifacts'] = [a for a in index['artifacts'] if a['path'] != 'plan.json']
+        index_path.write_text(json.dumps(index), encoding='utf-8')
+        self.assertEqual(recover(fixture['run']).state, 'complete')
+        result = self.read(fixture)
+        self.assertEqual(result.kind, 'insufficient')
+        self.assertIn('rejected', ' '.join(result.diagnostics))
+        self.assertIn('plan.json', ' '.join(result.diagnostics))
+
+    def test_reference_must_select_this_runs_baseline_and_profile(self):
+        from dataclasses import replace
+        from lesscode_baseline.rules.contracts import EvidenceBundle, PolicyReference
+        fixture = materialize(self.root)
+        reference = PolicyReference(fixture['report'].baseline.snapshot.content_hash,
+                                    fixture['prepared'].plan.profile_hash)
+        policy = replace(fixture['policy'], reference=reference)
+        self.assertIsInstance(self.read(fixture, policy), EvidenceBundle)
+        for field in ('source_hash', 'profile_hash'):
+            wrong = replace(policy, reference=replace(reference, **{field: 'f' * 64}))
+            self.assertEqual(self.read(fixture, wrong).kind, 'invalid')
+
+    def test_rehashed_artifacts_do_not_bypass_relationship_validation(self):
+        cases = {
+            'plan_hash': ('plan.json', lambda d: d['plan'].update(profile_hash='f' * 64)),
+            'snapshot': ('report.json', lambda d: d['candidate']['snapshot'].update(content_hash='f' * 64)),
+            'check_source': ('report.json', lambda d: d['candidate']['checks'][0].update(source_hash='f' * 64)),
+            'check_plan': ('report.json', lambda d: d['candidate']['checks'][0].update(plan_hash='f' * 64)),
+            'check_kind': ('report.json', lambda d: d['candidate']['checks'][0].update(required=False)),
+            'check_id': ('report.json', lambda d: d['candidate']['checks'][0].update(check_id='undeclared')),
+            'metric_scope': ('report.json', lambda d: d['candidate']['metrics'][0].update(scope_hash='f' * 64)),
+        }
+        for name, (filename, mutate) in cases.items():
+            with self.subTest(name=name):
+                fixture = materialize(self.root / name)
+                self.rewrite(fixture, filename, mutate)
+                self.assertEqual(recover(fixture['run']).state, 'complete')
+                result = self.read(fixture)
+                self.assertEqual(result.kind, 'invalid')
+                self.assertTrue(result.diagnostics)
+
+    def test_missing_indexed_plan_is_insufficient(self):
+        fixture = materialize(self.root)
+        (fixture['run'] / 'plan.json').unlink()
+        result = self.read(fixture)
+        self.assertEqual(result.kind, 'insufficient')
+        self.assertTrue(result.diagnostics)
+
+    def test_partial_storage_retains_each_nonaccepted_outcome_and_diagnostics(self):
+        from lesscode_baseline.rules.contracts import RuleFailure
+        for outcome in ('rejected', 'incomplete', 'invalid', 'baseline_ineligible'):
+            for missing in ('artifacts.json', 'manifest.json', 'plan.json'):
+                with self.subTest(outcome=outcome, missing=missing):
+                    fixture = materialize(self.root / outcome / missing,
+                                          'accepted' if outcome == 'baseline_ineligible' else outcome)
+                    if outcome == 'baseline_ineligible':
+                        def alter(report):
+                            report['baseline']['checks'] = []
+                            report['decision'] = outcome
+                            report['reasons'] = ['baseline test.api: missing']
+                        self.rewrite(fixture, 'report.json', alter)
+                    report = c.loads(c.RunReport, (fixture['run'] / 'report.json').read_bytes())
+                    self.assertTrue(report.reasons)
+                    self.assertTrue(report.limitations)
+                    (fixture['run'] / missing).unlink()
+                    recovered = recover(fixture['run'])
+                    result = self.read(fixture)
+                    self.assertIsInstance(result, RuleFailure)
+                    self.assertEqual(result.kind, 'insufficient')
+                    for diagnostic in (*recovered.diagnostics, f'upstream outcome: {outcome}',
+                                       *report.reasons, *report.limitations):
+                        self.assertIn(diagnostic, result.diagnostics)
+
+    def test_absent_or_malformed_partial_report_has_no_invented_outcome(self):
+        for malformed in (False, True):
+            with self.subTest(malformed=malformed):
+                fixture = materialize(self.root / str(malformed), 'rejected')
+                (fixture['run'] / 'artifacts.json').unlink()
+                report_path = fixture['run'] / 'report.json'
+                if malformed:
+                    report_path.write_bytes(b'{}')
+                else:
+                    report_path.unlink()
+                result = self.read(fixture)
+                self.assertEqual(result.kind, 'invalid' if malformed else 'insufficient')
+                self.assertFalse(any(d.startswith('upstream outcome:') for d in result.diagnostics))
+
+    def test_baseline_ineligible_and_missing_checks_are_preserved(self):
+        fixture = materialize(self.root)
+        def alter(report):
+            report['baseline']['checks'] = []
+            report['decision'] = 'baseline_ineligible'
+            report['reasons'] = ['baseline test.api: missing']
+        self.rewrite(fixture, 'report.json', alter)
+        bundle = self.read(fixture)
+        self.assertEqual(bundle.report.decision, 'baseline_ineligible')
+        self.assertEqual(bundle.report.reasons, ('baseline test.api: missing',))
+        self.assertEqual(bundle.report.baseline.checks, ())
+
+    def test_profile_and_inventory_hashes_checked_even_with_rebound_plan(self):
+        for field in ('profile_hash', 'evaluator_hash'):
+            with self.subTest(field=field):
+                fixture = materialize(self.root / field)
+                self.rewrite(fixture, 'plan.json', lambda d: d['plan'].update({field: 'f' * 64}))
+                prepared = c.loads(c.PreparedPlan, (fixture['run'] / 'plan.json').read_bytes())
+                plan_hash = digest(c.dumps(prepared).encode())
+                def bind_report(report):
+                    report['plan_hash'] = plan_hash
+                    for side in ('baseline', 'candidate'):
+                        for check in report[side]['checks']:
+                            check['plan_hash'] = plan_hash
+                self.rewrite(fixture, 'report.json', bind_report)
+                self.rewrite(fixture, 'manifest.json', lambda d: d.update(plan_hash=plan_hash))
+                index_path = fixture['run'] / 'artifacts.json'
+                index = json.loads(index_path.read_bytes())
+                index['plan_hash'] = plan_hash
+                index_path.write_text(json.dumps(index), encoding='utf-8')
+                self.assertEqual(recover(fixture['run']).state, 'complete')
+                result = self.read(fixture)
+                self.assertEqual(result.kind, 'invalid')
+                self.assertIn(field, result.diagnostics[0])
+
+    def test_corruption_takes_precedence_over_missing_completion_evidence(self):
+        cases = (
+            ('malformed_index', 'plan.json', 'artifacts.json', b'{}'),
+            ('malformed_manifest', 'artifacts.json', 'manifest.json', b'{}'),
+            ('malformed_report', 'plan.json', 'report.json', b'{}'),
+            ('changed_summary', 'plan.json', 'summary.md', b'changed'),
+        )
+        for name, missing, corrupt, content in cases:
+            with self.subTest(name=name):
+                fixture = materialize(self.root / name)
+                (fixture['run'] / missing).unlink()
+                (fixture['run'] / corrupt).write_bytes(content)
+                result = self.read(fixture)
+                self.assertEqual(result.kind, 'invalid')
+                self.assertTrue(result.diagnostics)
+
+    def test_present_binding_corruption_precedes_missing_index(self):
+        fixture = materialize(self.root)
+        self.rewrite(fixture, 'report.json',
+                     lambda d: d['candidate']['checks'][0].update(plan_hash='f' * 64))
+        (fixture['run'] / 'artifacts.json').unlink()
+        self.assertEqual(self.read(fixture).kind, 'invalid')
+
+    def test_present_completion_identity_conflict_precedes_missing_plan(self):
+        fixture = materialize(self.root)
+        index_path = fixture['run'] / 'artifacts.json'
+        index = json.loads(index_path.read_bytes())
+        index['run_id'] = 'foreign-run'
+        index_path.write_text(json.dumps(index), encoding='utf-8')
+        (fixture['run'] / 'plan.json').unlink()
+        self.assertEqual(self.read(fixture).kind, 'invalid')
+
+    def test_clean_missing_completion_records_are_insufficient(self):
+        for missing in ('artifacts.json', 'manifest.json', 'plan.json', 'report.json'):
+            with self.subTest(missing=missing):
+                fixture = materialize(self.root / missing)
+                (fixture['run'] / missing).unlink()
+                self.assertEqual(self.read(fixture).kind, 'insufficient')
+
+    def test_present_report_binding_corruption_precedes_missing_plan(self):
+        fixture = materialize(self.root)
+        self.rewrite(fixture, 'report.json',
+                     lambda d: d['candidate']['checks'][0].update(source_hash='f' * 64))
+        (fixture['run'] / 'plan.json').unlink()
+        self.assertEqual(self.read(fixture).kind, 'invalid')
+
+    def test_report_only_store_does_not_hide_report_binding_corruption(self):
+        fixture = materialize(self.root)
+        self.rewrite(fixture, 'report.json',
+                     lambda d: d['candidate']['checks'][0].update(source_hash='f' * 64))
+        (fixture['run'] / 'plan.json').unlink()
+        index_path = fixture['run'] / 'artifacts.json'
+        index = json.loads(index_path.read_bytes())
+        index['artifacts'] = [a for a in index['artifacts'] if a['path'] != 'plan.json']
+        index_path.write_text(json.dumps(index), encoding='utf-8')
+        self.assertEqual(recover(fixture['run']).state, 'complete')
+        self.assertEqual(self.read(fixture).kind, 'invalid')
+
+    def test_unindexed_report_references_are_invalid_even_with_missing_plan(self):
+        for category in ('metric', 'check', 'failure', 'stdout', 'stderr'):
+            for missing_plan in (False, True):
+                with self.subTest(category=category, missing_plan=missing_plan):
+                    fixture = materialize(self.root / f'{category}-{missing_plan}')
+                    def change(report):
+                        observation = report['candidate']
+                        reference = 'candidate/unindexed.json'
+                        if category == 'metric':
+                            observation['metrics'][0]['raw_artifact'] = reference
+                        elif category == 'check':
+                            observation['checks'][0]['diagnostic_artifact'] = reference
+                        elif category == 'failure':
+                            observation['failures'] = [c.Failure('fixture', 'fixture diagnostic',
+                                None, None, None, False, reference).to_dict()]
+                        else:
+                            execution = c.ExecutionResult(fixture['prepared'].plan.resolved_commands[0],
+                                0, 'completed', 0, 'candidate/checks.json', 'candidate/checks.json',
+                                '2026-10-31T00:00:00Z', 'f' * 64).to_dict()
+                            execution[category + '_artifact'] = reference
+                            observation['executions'] = [execution]
+                    self.rewrite(fixture, 'report.json', change)
+                    if missing_plan:
+                        (fixture['run'] / 'plan.json').unlink()
+                    result = self.read(fixture)
+                    self.assertEqual(result.kind, 'invalid')
+                    self.assertIn('unindexed', ' '.join(result.diagnostics))
+
+    def test_final_index_conflicts_with_unfinalized_manifest(self):
+        fixture = materialize(self.root)
+        self.rewrite(fixture, 'manifest.json', lambda d: d.update(state='running'))
+        self.assertEqual(self.read(fixture).kind, 'invalid')
+
+    def rebind_plan_identity(self, fixture):
+        prepared = c.loads(c.PreparedPlan, (fixture['run'] / 'plan.json').read_bytes())
+        plan_hash = digest(c.dumps(prepared).encode())
+        self.rewrite(fixture, 'manifest.json', lambda d: d.update(plan_hash=plan_hash))
+        index_path = fixture['run'] / 'artifacts.json'
+        index = json.loads(index_path.read_bytes())
+        index['plan_hash'] = plan_hash
+        index_path.write_text(json.dumps(index), encoding='utf-8')
+
+    def test_plan_internal_corruption_without_report_is_invalid(self):
+        mutations = {
+            'profile_hash': lambda d: d['plan'].update(profile_hash='f' * 64),
+            'evaluator_hash': lambda d: d['plan'].update(evaluator_hash='f' * 64),
+            'snapshot_inventory': lambda d: d['plan']['candidate']['files'][0].update(content_hash='f' * 64),
+            'snapshot_scope': lambda d: d['plan']['candidate'].update(scope_hash='f' * 64),
+        }
+        for name, mutate in mutations.items():
+            with self.subTest(name=name):
+                fixture = materialize(self.root / name)
+                self.rewrite(fixture, 'plan.json', mutate)
+                self.rebind_plan_identity(fixture)
+                (fixture['run'] / 'report.json').unlink()
+                self.assertEqual(self.read(fixture).kind, 'invalid')
+
+    def test_report_snapshot_corruption_without_plan_is_invalid(self):
+        for report_only in (False, True):
+            with self.subTest(report_only=report_only):
+                fixture = materialize(self.root / str(report_only))
+                self.rewrite(fixture, 'report.json', lambda d:
+                             d['candidate']['snapshot']['files'][0].update(content_hash='f' * 64))
+                (fixture['run'] / 'plan.json').unlink()
+                if report_only:
+                    index_path = fixture['run'] / 'artifacts.json'
+                    index = json.loads(index_path.read_bytes())
+                    index['artifacts'] = [a for a in index['artifacts'] if a['path'] != 'plan.json']
+                    index_path.write_text(json.dumps(index), encoding='utf-8')
+                    self.assertEqual(recover(fixture['run']).state, 'complete')
+                self.assertEqual(self.read(fixture).kind, 'invalid')
+
+    def test_available_reference_bindings_checked_without_unrelated_records(self):
+        from dataclasses import replace
+        from lesscode_baseline.rules.contracts import PolicyReference
+        for missing, field in (('report.json', 'source_hash'), ('report.json', 'profile_hash'),
+                               ('plan.json', 'source_hash')):
+            with self.subTest(missing=missing, field=field):
+                fixture = materialize(self.root / (missing + field))
+                reference = PolicyReference(fixture['report'].baseline.snapshot.content_hash,
+                                            fixture['prepared'].plan.profile_hash)
+                (fixture['run'] / missing).unlink()
+                valid_policy = replace(fixture['policy'], reference=reference)
+                self.assertEqual(self.read(fixture, valid_policy).kind, 'insufficient')
+                wrong_policy = replace(valid_policy, reference=replace(reference, **{field: 'f' * 64}))
+                self.assertEqual(self.read(fixture, wrong_policy).kind, 'invalid')
