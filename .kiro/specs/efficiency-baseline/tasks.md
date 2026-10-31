@@ -49,6 +49,14 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.2, 1.3, 1.4_
   - _Requirements: 1.2, 5.1, 7.1, 7.8_
 
+- [x] 1.7 Repair the shared optional-evidence provenance contract
+  - Implement the designed optional-artifact envelope using existing metric and runtime records, with source/plan identities, timestamp and generated versus producer-supplied origin.
+  - Preserve existing record shapes and reject malformed envelopes, duplicate evidence identities and unsupported versions through the shared strict readers.
+  - Done when populated envelopes round-trip without losing producer/population/runtime details and invalid provenance is rejected; this repairs the foundation omission found before 3.4.
+  - _Boundary: Shared contracts_
+  - _Depends: 1.3, 1.4_
+  - _Requirements: 3.6, 4.6, 4.7, 8.4_
+
 - [x] 2. Capture inputs and execute bounded checks
 - [x] 2.1 Classify source scope and identify actual content
   - Implement portable scope matching and category precedence over tracked and untracked content, separating product, tests and support files.
@@ -119,7 +127,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - Retain populations, numerators/denominators, explanation and provenance; distinguish newly generated evidence from producer-supplied artifacts.
   - Done when stale/foreign evidence is rejected and population changes remain visible for comparison; this task touches Execution tests/code, not pending Metrics files.
   - _Boundary: Execution_
-  - _Depends: 1.3, 2.5_
+  - _Depends: 1.3, 1.7, 2.5_
   - _Requirements: 3.6, 4.6, 4.7, 8.4_
 
 - [ ] 4. Freeze plans and enforce comparison rules
@@ -287,4 +295,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 3.3: Pinned jscpd4.0.5 uses pair-span aggregate denominator; never perclone.tokens0. Missing fresh JSON (incl empty-only scopes) or meaningful short-file omission stays unavailable. Windows Node requires SystemRoot; no project env inherited. Native133tests6skip independently reviewed.
+
+
+- 1.7 corrective foundation: OptionalEvidenceArtifact binds existing metrics/runtime payloads to source/plan/timestamp/origin without changing nested recordshapes. Strictsharedreader tested/reviewed;3.4 can now consume it. Queue30executabletasks after this omitted foundation contract was restored.
 

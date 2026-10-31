@@ -924,6 +924,34 @@ class RuntimeBenchmark(Record):
 
 
 @dataclass(frozen=True)
+class OptionalEvidenceArtifact(Record):
+    """Source/plan provenance for generated or producer-supplied optional evidence."""
+
+    schema_version: int
+    artifact_id: str
+    source_hash: str
+    plan_hash: str
+    produced_at: str
+    origin: Literal["generated", "producer_supplied"]
+    metrics: tuple[MetricEvidence, ...]
+    runtime_benchmarks: tuple[RuntimeBenchmark, ...]
+
+    @classmethod
+    def from_dict(cls, value, path="$input") -> Self:
+        d = _object(value, path, "schema_version artifact_id source_hash plan_hash produced_at origin metrics runtime_benchmarks")
+        metrics = _sequence(d["metrics"], MetricEvidence.from_dict, path + ".metrics", lambda x: x.key)
+        benchmarks = _sequence(d["runtime_benchmarks"], RuntimeBenchmark.from_dict,
+                               path + ".runtime_benchmarks", lambda x: x.benchmark_id)
+        if not metrics and not benchmarks:
+            _fail(path, "at least one evidence item is required")
+        return cls(_version(d["schema_version"], path + ".schema_version"),
+                   _string(d["artifact_id"], path + ".artifact_id"),
+                   _hash(d["source_hash"], path + ".source_hash"), _hash(d["plan_hash"], path + ".plan_hash"),
+                   _timestamp(d["produced_at"], path + ".produced_at"),
+                   _choice(d["origin"], path + ".origin", ("generated", "producer_supplied")), metrics, benchmarks)
+
+
+@dataclass(frozen=True)
 class Telemetry(Record):
     token_usage: ObservedMeasurement
     provider_cost: ObservedMeasurement
