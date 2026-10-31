@@ -163,7 +163,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 4.2_
   - _Requirements: 4.2, 4.3, 4.5, 4.8, 5.3, 5.4, 5.5, 5.6, 5.7_
 
-- [ ] 5. Persist results and account for controlled experiments
+- [x] 5. Persist results and account for controlled experiments
 - [x] 5.1 Persist recoverable run artifacts
   - Persist prepared/running state and raw artifact references, then finalize reports atomically with artifact identities.
   - Prevent overwrite/path escape, retain partial diagnostics after interruption and expose surviving artifacts on persistence failure.
@@ -188,7 +188,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.4, 1.6_
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.8_
 
-- [ ] 5.4 Summarize outcomes, variation and observed cost
+- [x] 5.4 Summarize outcomes, variation and observed cost
   - Calculate the designed eligibility, correctness and acceptance counts, including rejected/incomplete attempts and budget-exhausted records.
   - Separate all-attempt results from accepted-only structural statistics; report descriptive variation and sample counts with undefined small-sample values explicit.
   - Done when hand-calculated fixtures match denominators/statistics and missing tokens/cost remain unavailable without being inferred from size.
@@ -331,3 +331,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 - 5.3: reconcile returns detached Reconciliation with scheduled records or missing outcomes, extras and corpus/task/repetition pairings. Comparable means declared metadata only. Allowed interventions are exact declared keys/per-arm values; revision-only source anchoring remains explicit limitation.260 tests,7 skips reviewed.
 
+
+- 5.4: aggregate returns Aggregation(report,runs); explicit scalar deltas only, all-attempt and accepted-only descriptive populations separate. Required completeness differs from failure; unsuccessful executions cannot establish correctness. Verified artifact recovery required. Independent review283tests7skips; focused40PASS.
