@@ -359,11 +359,63 @@ class DuplicationMetricTests(unittest.TestCase):
         clone = first.value.clones[0]
         self.assertEqual({clone.first.path, clone.second.path}, {"b.py", "nested/a.py"})
         self.assertEqual((clone.first.start_line, clone.first.end_line), (1, 16))
-        self.assertEqual(first.key, "jscpd_pair_span_ratio")
+        self.assertEqual(first.key, "duplication")
+        self.assertEqual(first.producer, "jscpd")
+        self.assertEqual(first.definition_id,
+                         "jscpd-python-weak-minlines5-mintokens50-aggregate-pair-span-v1")
+        self.assertEqual(first.unit, "ratio")
         self.assertEqual(first.producer_version, "4.0.5")
         self.assertEqual(MetricEvidence.from_dict(first.to_dict()), first)
         self.assertEqual(self.measure().value, first.value)
         self.assertTrue((self.logs / first.raw_artifact).is_file())
+
+    def test_real_duplication_satisfies_required_profile_and_decision_lookup(self):
+        from lesscode_baseline import contracts as c
+        from lesscode_baseline.decision import compare, compare_metrics
+        from tests.test_contracts import observation, profile
+
+        self.write("a.py", self.duplicate)
+        self.write("b.py", self.duplicate)
+        snapshot = self.snapshot()
+        evidence = self.measure(snapshot)
+        self.assertEqual(evidence.status, "available", evidence.reason)
+        self.assertIsInstance(evidence.value, c.DuplicationPayload)
+        frozen = c.Profile.from_dict(profile())
+        base = c.Observation.from_dict(observation())
+        # Other mandatory evidence is valid; use the unmodified adapter result
+        # for duplication, exactly as the evaluator's metric lookup receives it.
+        other_metrics = tuple(replace(base.metrics[0], key=key, scope_hash=snapshot.scope_hash)
+                              for key in frozen.required_metrics if key != "duplication")
+        base = replace(base, snapshot=snapshot, metrics=other_metrics + (evidence,),
+                       checks=tuple(replace(check, source_hash=snapshot.content_hash)
+                                    for check in base.checks))
+        result = compare(base, base, frozen,
+                         c.IntegrityResult("unchanged", (), c.Protection("local_detection", None)))
+        self.assertEqual(result.decision, "accepted", result.reasons)
+        metrics = {item.delta.key: item for item in compare_metrics(base.metrics, base.metrics)}
+        duplicate = metrics["duplication"]
+        self.assertEqual(duplicate.status, "available")
+        self.assertEqual(duplicate.before.value, evidence.value)
+        self.assertEqual(duplicate.after.value, evidence.value)
+        self.assertEqual(duplicate.delta.status, "unavailable")
+        self.assertIsNone(duplicate.delta.absolute_delta)
+        self.assertIsNone(duplicate.delta.percentage_delta)
+
+    def test_unavailable_duplication_retains_public_key_and_definition(self):
+        self.write("a.py", self.duplicate)
+        for arguments in ({"node": self.base / "missing-node.exe"},
+                          {"entry": self.base / "missing-entry"}):
+            with self.subTest(arguments=arguments):
+                metric = self.measure(**arguments)
+                self.assertEqual(metric.status, "unavailable")
+                self.assertEqual(metric.key, "duplication")
+                self.assertIsNone(metric.value)
+                self.assertTrue(metric.reason)
+                self.assertEqual((metric.producer, metric.producer_version, metric.unit),
+                                 ("jscpd", "4.0.5", "ratio"))
+                self.assertEqual(metric.definition_id,
+                                 "jscpd-python-weak-minlines5-mintokens50-aggregate-pair-span-v1")
+                self.assertEqual(MetricEvidence.from_dict(metric.to_dict()), metric)
 
     def test_empty_only_retains_missing_vendor_report_and_mixed_zero_inventory(self):
         for content in (None, b"", b"# only a comment\n\n", b" \n\t\n"):

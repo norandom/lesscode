@@ -138,6 +138,13 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Depends: 1.3, 1.7, 2.5_
   - _Requirements: 3.6, 4.6, 4.7, 8.4_
 
+- [x] 3.5 Align the duplication adapter with the public metric identifier
+  - Return the mandatory public key duplication for available and unavailable duplication evidence, retaining the producer, aggregate pair-span definition and unchanged typed payload.
+  - Done when actual analyzer output matches the Profile required metric and Decision lookup without a downstream alias or fabricated scalar projection.
+  - _Boundary: Metrics_
+  - _Depends: 3.3, 4.3_
+  - _Requirements: 3.2, 3.4, 3.7, 5.4, 6.6_
+
 - [x] 4. Freeze plans and enforce comparison rules
 - [x] 4.1 Prepare immutable executable evaluation plans
   - Resolve supplied profile paths and executables, record source/evaluator/tool identities, and validate required checks/metrics, thresholds and positive limits.
@@ -333,3 +340,5 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 5.4: aggregate returns Aggregation(report,runs); explicit scalar deltas only, all-attempt and accepted-only descriptive populations separate. Required completeness differs from failure; unsuccessful executions cannot establish correctness. Verified artifact recovery required. Independent review283tests7skips; focused40PASS.
+
+- 3.5 corrective Metrics alignment: public duplication key matches mandatory Profile/Decision lookup; exact pair-span definition and typed payload unchanged. Real analyzer integration regression passed; independent285tests7skips. Queue32executables.

@@ -126,7 +126,7 @@ def measure_duplication(snapshot: Snapshot, interpreter: Path, node: Path, entry
             except (ValueError, TypeError, KeyError, UnicodeError) as exc:
                 artifact = getattr(exc, "artifact", artifact)
                 reason = f"duplication {exc}"
-    return MetricEvidence("jscpd_pair_span_ratio", "unavailable" if reason else "available", payload,
+    return MetricEvidence("duplication", "unavailable" if reason else "available", payload,
         "ratio", _DUPLICATION_DEFINITION, "jscpd", _JSCPD_VERSION,
         snapshot.scope_hash, reason, artifact)
 
