@@ -5,6 +5,11 @@
 CPython 3.12.10 through uv 0.13.5 and Node 24.22.1, then performs the locked
 Lizard 1.17.31 / jscpd 4.0.5 setup and genuine analyzer probe. No Python Store
 alias, shell launcher for npm, analysis service or LLM account is used.
+Both bootstrap and clean installation create environments with explicit
+`uv venv --managed-python --python 3.12.10`. The workflow deliberately omits
+`UV_PYTHON_PREFERENCE`: uv 0.13.5 rejects that preference when combined with
+`--managed-python`. Subsequent commands select the recorded environment's
+absolute Python path.
 
 `tools/ci_validate.py` retains commands, working directories, exit outcomes,
 stdout/stderr, timings and runtime identities. It runs the canonical verbose

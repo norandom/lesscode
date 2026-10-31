@@ -19,7 +19,6 @@ jobs:
       matrix:
         os: [ubuntu-24.04, windows-2025, macos-15-intel]
     env:
-      UV_PYTHON_PREFERENCE: only-managed
       UV_PYTHON: '3.12.10'
     steps:
       - name: Initialize native runner evidence

@@ -10,6 +10,8 @@ import unittest
 from unittest.mock import patch
 import subprocess
 import venv
+import re
+import shutil
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +25,31 @@ def load_helper():
 
 
 class CIHelperTests(unittest.TestCase):
+    def test_workflow_environment_allows_explicit_managed_python_creation(self):
+        workflow = (ROOT / ".github/workflows/baseline-platforms.yml").read_text()
+        environment = dict(os.environ)
+        environment.pop("UV_PYTHON_PREFERENCE", None)
+        for name in ("UV_PYTHON", "UV_PYTHON_PREFERENCE"):
+            match = re.search(r"^      " + name + r":\s*['\"]?([^\s'\"]+)", workflow, re.M)
+            if match:
+                environment[name] = match.group(1)
+        uv = shutil.which("uv.exe" if os.name == "nt" else "uv")
+        self.assertIsNotNone(uv, "CI requires explicitly provisioned uv")
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "managed"
+            result = subprocess.run([uv, "venv", "--managed-python", "--python", "3.12.10", str(target)],
+                                    env=environment, capture_output=True, text=True, timeout=120)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            python = load_helper().venv_python(target)
+            result = subprocess.run([uv, "run", "--no-project", "--no-python-downloads", "--python", str(python),
+                "python", "-c", "import json,platform,sys; print(json.dumps([platform.python_version(),sys.prefix,sys.base_prefix]))"],
+                env=environment, capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            version, prefix, base = json.loads(result.stdout)
+            self.assertEqual(version, "3.12.10")
+            self.assertEqual(Path(prefix).resolve(), target.resolve())
+            self.assertNotEqual(Path(base).resolve(), target.resolve())
+
     @unittest.skipUnless(os.name == "posix", "native POSIX venv symlink context")
     def test_real_probe_invokes_python_in_its_virtual_environment(self):
         spec = importlib.util.spec_from_file_location("probe_toolchain", ROOT / "tools/probe_toolchain.py")
