@@ -90,7 +90,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
   - _Requirements: 4.1, 4.4, 4.5, 6.5_
 
 - [ ] 3. Measure structural and optional evidence
-- [ ] 3.1 Produce deterministic size metrics and input diagnostics
+- [x] 3.1 Produce deterministic size metrics and input diagnostics
   - Validate Python syntax and stage only measured product paths without inheriting project analyzer configuration.
   - Calculate byte, defined physical-line and deterministic compressed-size values with runtime/definition provenance.
   - Done when repeated fixtures produce identical metrics and malformed syntax or unavailable inputs yield explicit unavailable evidence.
@@ -278,4 +278,7 @@ All executable subtasks are scoped to approximately 1–3 hours, including focus
 
 
 - 2.5: JUnit metadata/outcome payloads cannot contain executable suite/case nodes; regression prevents manufactured passing cases. Native suite107run6POSIXskip; independent APPROVED.
+
+
+- 3.1: stage_product provides verified product-only temporary snapshots; measure_sizes produces source_bytes, physical_lines and compressed_source_bytes with explicit runtime/definition provenance. Complete measure facade waits for3.2/3.3.
 
