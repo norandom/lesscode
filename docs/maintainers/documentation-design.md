@@ -41,6 +41,7 @@ comparison. Use plain technical prose, exact commands and explicit limits.
 | --- | --- | --- | --- |
 | README opening | What review problem does this solve? | Behavior plus structural evidence; supplied candidate; local execution | compare, declared checks, evidence |
 | What you get | What can I inspect? | Outcomes, complexity, duplication, size, identity; no universal score | report, scope, profile |
+| Measured on Lesscode | Does this show a real change? | Local before/after chart, remaining hotspots, incomplete whole-package result and separate module scope | CCN, LLOC, convolution, unmeasured effort |
 | Unchanged pair | What can I try first? | Platform-specific commands and expected fixture result; setup links | uv, plan, run, summary |
 | Technical links | Where is the depth? | Indexed guides, contracts and actual validation | definitions, recovery, provenance |
 | Current and planned scope | Can it enforce agent rules today? | Delivered evaluator versus proposed prevention/skills/MCP | supplied snapshots, proposed rules |

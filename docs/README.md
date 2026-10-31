@@ -12,6 +12,7 @@ run the comparison, then inspect the evidence before accepting the change.
 | Run the included unchanged fixture | [README example](../README.md#try-an-unchanged-pair-first) |
 | Compare your own snapshots | [Profile configuration](profiles.md), then [CLI reference](cli.md) |
 | Try the process with a reviewer | [Adoption guide](adoption.md) |
+| Inspect a real simplification of Lesscode | [Self-evaluation example and charts](examples/self-evaluation.md) |
 
 ## Understand the evaluator
 
@@ -27,6 +28,11 @@ Read the [technical overview](technical-overview.md) for the detailed writeup:
 The [CLI reference](cli.md) specifies invocation and exit semantics. The
 [profile guide](profiles.md) explains what you must configure and which rules
 the current implementation can execute.
+
+The [measurement guide](measurement-guide.md) distinguishes LLOC, complexity,
+convolution, role-revealing names and actual maintenance effort. Scoped
+[package instructions](../src/lesscode_baseline/AGENTS.md) guide future coding
+agent edits before a refactoring pass is needed.
 
 ## Inspect the evidence
 

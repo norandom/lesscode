@@ -132,3 +132,9 @@ preparation and new output paths.
 For report states and unsupported evidence, see
 [decision rules](technical-overview.md#decision-rules). For optional evidence
 imports and experiment manifests, see the [CLI reference](cli.md).
+
+The [self-evaluation example](examples/self-evaluation.md) supplies a second
+complete profile for Lesscode's own tests and a separately scoped module
+profile. It retains an incomplete whole-package result rather than silently
+dropping a required measurement. Its auxiliary LLOC and MI observations do not
+change the built-in profile contract.

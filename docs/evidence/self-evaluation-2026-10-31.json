@@ -1,0 +1,1078 @@
+{
+  "schema_version": 1,
+  "status": "verified local refactor; whole-package incomplete; decision-module accepted",
+  "baseline_revision": "d864008f2ce743b529fb5dd4c056d823fa369973",
+  "candidate_revision": "31c8031253c5d751f0741260a70d6438e58016d0",
+  "evaluating_wheel_sha256": "88119823ddefc23639ce71cf685a9e66aaf50636a1e1b6f9cd89cccb14d3a4eb",
+  "whole_package": {
+    "decision": "incomplete",
+    "reasons": [
+      "required metric duplication: baseline metric unavailable: duplication scanned source/token inventory differs from staged manifest; candidate metric unavailable: duplication scanned source/token inventory differs from staged manifest",
+      "Results cover only declared checks; unchecked behavior remains; not proof of equivalence",
+      "Protection: local_detection; provider evidence: None"
+    ],
+    "plan_hash": "16f8786262f6720fb5ba3a3ed98256afda5cc58f137c3c70fd09d33255a2245d",
+    "report_sha256": "2699737f3b9a73ac864cdd8a6e74afed9e4770e57d9c2a8ad31254e0ed82f736",
+    "metrics": {
+      "baseline": {
+        "source_hash": "e268cb3e0eecf48013acddd091b4e627edc8d9fa037d0e36e8411ae426a76386",
+        "product_files": 13,
+        "source_bytes": 256434,
+        "physical_lines": 4953,
+        "compressed_source_bytes": 60066,
+        "function_count": 200,
+        "max_ccn": 56,
+        "sum_ccn": 1367,
+        "target_function": {
+          "ccn": 13,
+          "end_line": 288,
+          "long_name": "evaluate_threshold( comparison : MetricComparison , threshold : Threshold )",
+          "name": "evaluate_threshold",
+          "nloc": 28,
+          "path": "src/lesscode_baseline/decision.py",
+          "start_line": 260,
+          "token_count": 194
+        },
+        "duplication": {
+          "definition_id": "jscpd-python-weak-minlines5-mintokens50-aggregate-pair-span-v1",
+          "key": "duplication",
+          "producer": "jscpd",
+          "producer_version": "4.0.5",
+          "raw_artifact": "baseline/metrics/duplication/duplication-2ixnkvbj/jscpd-report.json",
+          "reason": "duplication scanned source/token inventory differs from staged manifest",
+          "scope_hash": "41cd0b55ffdabcb6eed1c104bdaec2434ac2952ca9c5b98b726aaf0fec276bfb",
+          "status": "unavailable",
+          "unit": "ratio",
+          "value": null
+        },
+        "checks": [
+          {
+            "check_id": "self.unit_suite",
+            "required": true,
+            "status": "passed"
+          },
+          {
+            "check_id": "self.threshold_oracle",
+            "required": true,
+            "status": "passed"
+          }
+        ],
+        "hotspots": [
+          {
+            "ccn": 56,
+            "end_line": 249,
+            "long_name": "prepare( config , baseline , candidate , output , * , profile_path = None , tool_paths = None )",
+            "name": "prepare",
+            "nloc": 101,
+            "path": "src/lesscode_baseline/config.py",
+            "start_line": 132,
+            "token_count": 1167
+          },
+          {
+            "ccn": 54,
+            "end_line": 174,
+            "long_name": "_outcome( item , run , diagnostics )",
+            "name": "_outcome",
+            "nloc": 69,
+            "path": "src/lesscode_baseline/experiments.py",
+            "start_line": 103,
+            "token_count": 647
+          },
+          {
+            "ccn": 53,
+            "end_line": 127,
+            "long_name": "compare( baseline : Observation , candidate : Observation , profile : FrozenProfile , integrity : IntegrityResult )",
+            "name": "compare",
+            "nloc": 106,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 15,
+            "token_count": 823
+          },
+          {
+            "ccn": 53,
+            "end_line": 346,
+            "long_name": "evaluate( prepared : PreparedPlan , output : Path , * , retain_workspaces : bool = False , optional_evidence : tuple [ OptionalEvidenceInput , ... ] = ( )",
+            "name": "evaluate",
+            "nloc": 159,
+            "path": "src/lesscode_baseline/evaluation.py",
+            "start_line": 75,
+            "token_count": 1510
+          },
+          {
+            "ccn": 44,
+            "end_line": 323,
+            "long_name": "_command_integrity( prepared )",
+            "name": "_command_integrity",
+            "nloc": 69,
+            "path": "src/lesscode_baseline/config.py",
+            "start_line": 252,
+            "token_count": 730
+          },
+          {
+            "ccn": 44,
+            "end_line": 259,
+            "long_name": "aggregate( manifest : ExperimentManifest , trials : tuple [ TrialRecord , ... ] , * , reports : Mapping [ str , RunReport ] | None = None , artifact_root : Path | None = None )",
+            "name": "aggregate",
+            "nloc": 83,
+            "path": "src/lesscode_baseline/experiments.py",
+            "start_line": 177,
+            "token_count": 926
+          },
+          {
+            "ccn": 41,
+            "end_line": 242,
+            "long_name": "compare_metric( before : MetricEvidence | None , after : MetricEvidence | None )",
+            "name": "compare_metric",
+            "nloc": 80,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 162,
+            "token_count": 634
+          },
+          {
+            "ccn": 41,
+            "end_line": 282,
+            "long_name": "_duplication_payload( report : object , inventory : object , snapshot : Snapshot )",
+            "name": "_duplication_payload",
+            "nloc": 78,
+            "path": "src/lesscode_baseline/metrics.py",
+            "start_line": 188,
+            "token_count": 832
+          }
+        ]
+      },
+      "candidate": {
+        "source_hash": "ef46f04f20b2149dba2ecee0379269c4175e775005c685361ea4a5527825aedc",
+        "product_files": 13,
+        "source_bytes": 256336,
+        "physical_lines": 4950,
+        "compressed_source_bytes": 60071,
+        "function_count": 200,
+        "max_ccn": 56,
+        "sum_ccn": 1363,
+        "target_function": {
+          "ccn": 9,
+          "end_line": 285,
+          "long_name": "evaluate_threshold( comparison : MetricComparison , threshold : Threshold )",
+          "name": "evaluate_threshold",
+          "nloc": 25,
+          "path": "src/lesscode_baseline/decision.py",
+          "start_line": 260,
+          "token_count": 185
+        },
+        "duplication": {
+          "definition_id": "jscpd-python-weak-minlines5-mintokens50-aggregate-pair-span-v1",
+          "key": "duplication",
+          "producer": "jscpd",
+          "producer_version": "4.0.5",
+          "raw_artifact": "candidate/metrics/duplication/duplication-j1syx82b/jscpd-report.json",
+          "reason": "duplication scanned source/token inventory differs from staged manifest",
+          "scope_hash": "41cd0b55ffdabcb6eed1c104bdaec2434ac2952ca9c5b98b726aaf0fec276bfb",
+          "status": "unavailable",
+          "unit": "ratio",
+          "value": null
+        },
+        "checks": [
+          {
+            "check_id": "self.unit_suite",
+            "required": true,
+            "status": "passed"
+          },
+          {
+            "check_id": "self.threshold_oracle",
+            "required": true,
+            "status": "passed"
+          }
+        ],
+        "hotspots": [
+          {
+            "ccn": 56,
+            "end_line": 249,
+            "long_name": "prepare( config , baseline , candidate , output , * , profile_path = None , tool_paths = None )",
+            "name": "prepare",
+            "nloc": 101,
+            "path": "src/lesscode_baseline/config.py",
+            "start_line": 132,
+            "token_count": 1167
+          },
+          {
+            "ccn": 54,
+            "end_line": 174,
+            "long_name": "_outcome( item , run , diagnostics )",
+            "name": "_outcome",
+            "nloc": 69,
+            "path": "src/lesscode_baseline/experiments.py",
+            "start_line": 103,
+            "token_count": 647
+          },
+          {
+            "ccn": 53,
+            "end_line": 127,
+            "long_name": "compare( baseline : Observation , candidate : Observation , profile : FrozenProfile , integrity : IntegrityResult )",
+            "name": "compare",
+            "nloc": 106,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 15,
+            "token_count": 823
+          },
+          {
+            "ccn": 53,
+            "end_line": 346,
+            "long_name": "evaluate( prepared : PreparedPlan , output : Path , * , retain_workspaces : bool = False , optional_evidence : tuple [ OptionalEvidenceInput , ... ] = ( )",
+            "name": "evaluate",
+            "nloc": 159,
+            "path": "src/lesscode_baseline/evaluation.py",
+            "start_line": 75,
+            "token_count": 1510
+          },
+          {
+            "ccn": 44,
+            "end_line": 323,
+            "long_name": "_command_integrity( prepared )",
+            "name": "_command_integrity",
+            "nloc": 69,
+            "path": "src/lesscode_baseline/config.py",
+            "start_line": 252,
+            "token_count": 730
+          },
+          {
+            "ccn": 44,
+            "end_line": 259,
+            "long_name": "aggregate( manifest : ExperimentManifest , trials : tuple [ TrialRecord , ... ] , * , reports : Mapping [ str , RunReport ] | None = None , artifact_root : Path | None = None )",
+            "name": "aggregate",
+            "nloc": 83,
+            "path": "src/lesscode_baseline/experiments.py",
+            "start_line": 177,
+            "token_count": 926
+          },
+          {
+            "ccn": 41,
+            "end_line": 242,
+            "long_name": "compare_metric( before : MetricEvidence | None , after : MetricEvidence | None )",
+            "name": "compare_metric",
+            "nloc": 80,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 162,
+            "token_count": 634
+          },
+          {
+            "ccn": 41,
+            "end_line": 282,
+            "long_name": "_duplication_payload( report : object , inventory : object , snapshot : Snapshot )",
+            "name": "_duplication_payload",
+            "nloc": 78,
+            "path": "src/lesscode_baseline/metrics.py",
+            "start_line": 188,
+            "token_count": 832
+          }
+        ]
+      }
+    }
+  },
+  "decision_module": {
+    "decision": "accepted",
+    "plan_hash": "cbda8d5205caca385d21e9b42023f9202fa7965754dfbd05e4c8b700611e8b36",
+    "report_sha256": "479a924e63552a278d8582b5ad3d806de83d000ebe2de06b0ec1653ac8dc2d47",
+    "metrics": {
+      "baseline": {
+        "source_hash": "e268cb3e0eecf48013acddd091b4e627edc8d9fa037d0e36e8411ae426a76386",
+        "product_files": 1,
+        "source_bytes": 14944,
+        "physical_lines": 288,
+        "compressed_source_bytes": 4022,
+        "function_count": 7,
+        "max_ccn": 53,
+        "sum_ccn": 119,
+        "target_function": {
+          "ccn": 13,
+          "end_line": 288,
+          "long_name": "evaluate_threshold( comparison : MetricComparison , threshold : Threshold )",
+          "name": "evaluate_threshold",
+          "nloc": 28,
+          "path": "src/lesscode_baseline/decision.py",
+          "start_line": 260,
+          "token_count": 194
+        },
+        "duplication": {
+          "definition_id": "jscpd-python-weak-minlines5-mintokens50-aggregate-pair-span-v1",
+          "key": "duplication",
+          "producer": "jscpd",
+          "producer_version": "4.0.5",
+          "raw_artifact": "baseline/metrics/duplication/duplication-wqpg4k6s/jscpd-report.json",
+          "reason": null,
+          "scope_hash": "b7ff35d891d7a0b462726752ac0a91bf10ccdb6d879133eb3fc1f6047d6de45d",
+          "status": "available",
+          "unit": "ratio",
+          "value": {
+            "clones": [],
+            "duplicated_tokens": 0,
+            "kind": "duplication",
+            "mode": "weak",
+            "ratio": 0.0,
+            "ratio_reason": null,
+            "scanned_paths": [
+              "src/lesscode_baseline/decision.py"
+            ],
+            "total_tokens": 3468,
+            "upstream_percentage": 0,
+            "zero_token_paths": []
+          }
+        },
+        "checks": [
+          {
+            "check_id": "self.unit_suite",
+            "required": true,
+            "status": "passed"
+          },
+          {
+            "check_id": "self.threshold_oracle",
+            "required": true,
+            "status": "passed"
+          }
+        ],
+        "hotspots": [
+          {
+            "ccn": 53,
+            "end_line": 127,
+            "long_name": "compare( baseline : Observation , candidate : Observation , profile : FrozenProfile , integrity : IntegrityResult )",
+            "name": "compare",
+            "nloc": 106,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 15,
+            "token_count": 823
+          },
+          {
+            "ccn": 41,
+            "end_line": 242,
+            "long_name": "compare_metric( before : MetricEvidence | None , after : MetricEvidence | None )",
+            "name": "compare_metric",
+            "nloc": 80,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 162,
+            "token_count": 634
+          },
+          {
+            "ccn": 13,
+            "end_line": 288,
+            "long_name": "evaluate_threshold( comparison : MetricComparison , threshold : Threshold )",
+            "name": "evaluate_threshold",
+            "nloc": 28,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 260,
+            "token_count": 194
+          },
+          {
+            "ccn": 4,
+            "end_line": 159,
+            "long_name": "_scalar( evidence : MetricEvidence | None )",
+            "name": "_scalar",
+            "nloc": 4,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 156,
+            "token_count": 34
+          },
+          {
+            "ccn": 3,
+            "end_line": 153,
+            "long_name": "_finite_number( value )",
+            "name": "_finite_number",
+            "nloc": 7,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 147,
+            "token_count": 36
+          },
+          {
+            "ccn": 3,
+            "end_line": 253,
+            "long_name": "compare_metrics.index( records )",
+            "name": "compare_metrics.index",
+            "nloc": 7,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 247,
+            "token_count": 37
+          },
+          {
+            "ccn": 2,
+            "end_line": 257,
+            "long_name": "compare_metrics( before : tuple [ MetricEvidence , ... ] , after : tuple [ MetricEvidence , ... ] )",
+            "name": "compare_metrics",
+            "nloc": 6,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 245,
+            "token_count": 82
+          }
+        ]
+      },
+      "candidate": {
+        "source_hash": "ef46f04f20b2149dba2ecee0379269c4175e775005c685361ea4a5527825aedc",
+        "product_files": 1,
+        "source_bytes": 14846,
+        "physical_lines": 285,
+        "compressed_source_bytes": 4024,
+        "function_count": 7,
+        "max_ccn": 53,
+        "sum_ccn": 115,
+        "target_function": {
+          "ccn": 9,
+          "end_line": 285,
+          "long_name": "evaluate_threshold( comparison : MetricComparison , threshold : Threshold )",
+          "name": "evaluate_threshold",
+          "nloc": 25,
+          "path": "src/lesscode_baseline/decision.py",
+          "start_line": 260,
+          "token_count": 185
+        },
+        "duplication": {
+          "definition_id": "jscpd-python-weak-minlines5-mintokens50-aggregate-pair-span-v1",
+          "key": "duplication",
+          "producer": "jscpd",
+          "producer_version": "4.0.5",
+          "raw_artifact": "candidate/metrics/duplication/duplication-02pq_h8s/jscpd-report.json",
+          "reason": null,
+          "scope_hash": "b7ff35d891d7a0b462726752ac0a91bf10ccdb6d879133eb3fc1f6047d6de45d",
+          "status": "available",
+          "unit": "ratio",
+          "value": {
+            "clones": [],
+            "duplicated_tokens": 0,
+            "kind": "duplication",
+            "mode": "weak",
+            "ratio": 0.0,
+            "ratio_reason": null,
+            "scanned_paths": [
+              "src/lesscode_baseline/decision.py"
+            ],
+            "total_tokens": 3429,
+            "upstream_percentage": 0,
+            "zero_token_paths": []
+          }
+        },
+        "checks": [
+          {
+            "check_id": "self.unit_suite",
+            "required": true,
+            "status": "passed"
+          },
+          {
+            "check_id": "self.threshold_oracle",
+            "required": true,
+            "status": "passed"
+          }
+        ],
+        "hotspots": [
+          {
+            "ccn": 53,
+            "end_line": 127,
+            "long_name": "compare( baseline : Observation , candidate : Observation , profile : FrozenProfile , integrity : IntegrityResult )",
+            "name": "compare",
+            "nloc": 106,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 15,
+            "token_count": 823
+          },
+          {
+            "ccn": 41,
+            "end_line": 242,
+            "long_name": "compare_metric( before : MetricEvidence | None , after : MetricEvidence | None )",
+            "name": "compare_metric",
+            "nloc": 80,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 162,
+            "token_count": 634
+          },
+          {
+            "ccn": 9,
+            "end_line": 285,
+            "long_name": "evaluate_threshold( comparison : MetricComparison , threshold : Threshold )",
+            "name": "evaluate_threshold",
+            "nloc": 25,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 260,
+            "token_count": 185
+          },
+          {
+            "ccn": 4,
+            "end_line": 159,
+            "long_name": "_scalar( evidence : MetricEvidence | None )",
+            "name": "_scalar",
+            "nloc": 4,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 156,
+            "token_count": 34
+          },
+          {
+            "ccn": 3,
+            "end_line": 153,
+            "long_name": "_finite_number( value )",
+            "name": "_finite_number",
+            "nloc": 7,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 147,
+            "token_count": 36
+          },
+          {
+            "ccn": 3,
+            "end_line": 253,
+            "long_name": "compare_metrics.index( records )",
+            "name": "compare_metrics.index",
+            "nloc": 7,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 247,
+            "token_count": 37
+          },
+          {
+            "ccn": 2,
+            "end_line": 257,
+            "long_name": "compare_metrics( before : tuple [ MetricEvidence , ... ] , after : tuple [ MetricEvidence , ... ] )",
+            "name": "compare_metrics",
+            "nloc": 6,
+            "path": "src/lesscode_baseline/decision.py",
+            "start_line": 245,
+            "token_count": 82
+          }
+        ]
+      }
+    }
+  },
+  "auxiliary": {
+    "schema_version": 1,
+    "producer": "radon",
+    "version": "6.0.1",
+    "definition": "radon.raw.analyze LLOC; mi_visit(multi=False), descriptive only",
+    "plan_hash": "16f8786262f6720fb5ba3a3ed98256afda5cc58f137c3c70fd09d33255a2245d",
+    "dependencies": {
+      "radon": "6.0.1",
+      "mando": "0.7.1",
+      "colorama": "0.4.6",
+      "six": "1.17.0"
+    },
+    "sides": {
+      "baseline": {
+        "source_hash": "e268cb3e0eecf48013acddd091b4e627edc8d9fa037d0e36e8411ae426a76386",
+        "files": {
+          "src/lesscode_baseline/__init__.py": {
+            "sha256": "e2acf5e07729c4447487dcd3d7b2cc4c4cacdd811e82de727820aa828a711965",
+            "raw": {
+              "loc": 3,
+              "lloc": 2,
+              "sloc": 1,
+              "comments": 0,
+              "multi": 0,
+              "blank": 1,
+              "single_comments": 1
+            },
+            "maintainability_index": 100.0
+          },
+          "src/lesscode_baseline/__main__.py": {
+            "sha256": "8fe09d7008aa847f02a9f21605cbb36dd670f04da86ba1c3a52ff3fc29557dc0",
+            "raw": {
+              "loc": 5,
+              "lloc": 3,
+              "sloc": 2,
+              "comments": 0,
+              "multi": 0,
+              "blank": 2,
+              "single_comments": 1
+            },
+            "maintainability_index": 100.0
+          },
+          "src/lesscode_baseline/cli.py": {
+            "sha256": "a0f77bdc5928cc8d6a5dadbd7c968743ff39226da6aaa93d71a92ac905047f90",
+            "raw": {
+              "loc": 159,
+              "lloc": 134,
+              "sloc": 140,
+              "comments": 5,
+              "multi": 0,
+              "blank": 13,
+              "single_comments": 6
+            },
+            "maintainability_index": 39.34488868844846
+          },
+          "src/lesscode_baseline/config.py": {
+            "sha256": "25cd1b2ad0a4c6a6d05c5275c0e1ae15af8a59fe583ea04b3928bc4c11004431",
+            "raw": {
+              "loc": 362,
+              "lloc": 286,
+              "sloc": 308,
+              "comments": 10,
+              "multi": 16,
+              "blank": 27,
+              "single_comments": 11
+            },
+            "maintainability_index": 13.376962216975272
+          },
+          "src/lesscode_baseline/contracts.py": {
+            "sha256": "31844a5f64d168b31e88c1180d4aca47c0b0a84abfda5c04cf1b157c8f68e2f2",
+            "raw": {
+              "loc": 1376,
+              "lloc": 1379,
+              "sloc": 1134,
+              "comments": 2,
+              "multi": 6,
+              "blank": 223,
+              "single_comments": 13
+            },
+            "maintainability_index": 0.0
+          },
+          "src/lesscode_baseline/decision.py": {
+            "sha256": "5d452cb31a61556c04e8fba95cc35ba793dd3f8df64ece2514889deebace21a8",
+            "raw": {
+              "loc": 288,
+              "lloc": 246,
+              "sloc": 240,
+              "comments": 4,
+              "multi": 15,
+              "blank": 27,
+              "single_comments": 6
+            },
+            "maintainability_index": 17.153834018142895
+          },
+          "src/lesscode_baseline/evaluation.py": {
+            "sha256": "63730ce8dfe5a2741e392c04d2766f837a1fa6dd31fe0f74de366955727e4f05",
+            "raw": {
+              "loc": 346,
+              "lloc": 252,
+              "sloc": 283,
+              "comments": 13,
+              "multi": 21,
+              "blank": 28,
+              "single_comments": 14
+            },
+            "maintainability_index": 29.405515055928706
+          },
+          "src/lesscode_baseline/experiments.py": {
+            "sha256": "616fe2e9da2b6a3fddffbce5313ccf7de18f658ffc4f1756abcc2cb8d5ea73d9",
+            "raw": {
+              "loc": 394,
+              "lloc": 307,
+              "sloc": 313,
+              "comments": 9,
+              "multi": 33,
+              "blank": 36,
+              "single_comments": 12
+            },
+            "maintainability_index": 12.68014858976986
+          },
+          "src/lesscode_baseline/metrics.py": {
+            "sha256": "c5446ce675102d54f62436e79bfbffceda3ab81385cba850e1eefe281ae91d78",
+            "raw": {
+              "loc": 567,
+              "lloc": 364,
+              "sloc": 470,
+              "comments": 22,
+              "multi": 30,
+              "blank": 45,
+              "single_comments": 22
+            },
+            "maintainability_index": 13.715612088932716
+          },
+          "src/lesscode_baseline/process.py": {
+            "sha256": "f0e23a309954b759fd99797897e61b67de5ef96f606cf2e86e1cceda2d8b5cb8",
+            "raw": {
+              "loc": 359,
+              "lloc": 271,
+              "sloc": 298,
+              "comments": 15,
+              "multi": 23,
+              "blank": 23,
+              "single_comments": 15
+            },
+            "maintainability_index": 22.604356197701446
+          },
+          "src/lesscode_baseline/process_windows.py": {
+            "sha256": "15e2b97ec7099fc8f4280b2c1417b4ebf1c6239fcbcd0491fb117fd5285ef22a",
+            "raw": {
+              "loc": 174,
+              "lloc": 140,
+              "sloc": 146,
+              "comments": 5,
+              "multi": 5,
+              "blank": 20,
+              "single_comments": 3
+            },
+            "maintainability_index": 39.90443336084527
+          },
+          "src/lesscode_baseline/report.py": {
+            "sha256": "ba20a6e7361e94486712b0d3e3b1f60ac27de11a5058f2f3be5972becf8cd8a8",
+            "raw": {
+              "loc": 620,
+              "lloc": 519,
+              "sloc": 517,
+              "comments": 3,
+              "multi": 20,
+              "blank": 70,
+              "single_comments": 13
+            },
+            "maintainability_index": 0.0
+          },
+          "src/lesscode_baseline/snapshot.py": {
+            "sha256": "3ab53e179ee3c559bebf4f90e2fe196c31e82d3390e8a636aef26f023909679f",
+            "raw": {
+              "loc": 300,
+              "lloc": 229,
+              "sloc": 224,
+              "comments": 4,
+              "multi": 31,
+              "blank": 40,
+              "single_comments": 5
+            },
+            "maintainability_index": 26.73194256818242
+          }
+        },
+        "totals": {
+          "loc": 4953,
+          "lloc": 4132,
+          "sloc": 4076,
+          "comments": 92,
+          "multi": 200,
+          "blank": 555
+        },
+        "target_function": {
+          "loc": 29,
+          "lloc": 27,
+          "sloc": 27,
+          "comments": 1,
+          "multi": 0,
+          "blank": 0,
+          "single_comments": 2
+        },
+        "target_module_mi": 17.153834018142895
+      },
+      "candidate": {
+        "source_hash": "ef46f04f20b2149dba2ecee0379269c4175e775005c685361ea4a5527825aedc",
+        "files": {
+          "src/lesscode_baseline/__init__.py": {
+            "sha256": "e2acf5e07729c4447487dcd3d7b2cc4c4cacdd811e82de727820aa828a711965",
+            "raw": {
+              "loc": 3,
+              "lloc": 2,
+              "sloc": 1,
+              "comments": 0,
+              "multi": 0,
+              "blank": 1,
+              "single_comments": 1
+            },
+            "maintainability_index": 100.0
+          },
+          "src/lesscode_baseline/__main__.py": {
+            "sha256": "8fe09d7008aa847f02a9f21605cbb36dd670f04da86ba1c3a52ff3fc29557dc0",
+            "raw": {
+              "loc": 5,
+              "lloc": 3,
+              "sloc": 2,
+              "comments": 0,
+              "multi": 0,
+              "blank": 2,
+              "single_comments": 1
+            },
+            "maintainability_index": 100.0
+          },
+          "src/lesscode_baseline/cli.py": {
+            "sha256": "a0f77bdc5928cc8d6a5dadbd7c968743ff39226da6aaa93d71a92ac905047f90",
+            "raw": {
+              "loc": 159,
+              "lloc": 134,
+              "sloc": 140,
+              "comments": 5,
+              "multi": 0,
+              "blank": 13,
+              "single_comments": 6
+            },
+            "maintainability_index": 39.34488868844846
+          },
+          "src/lesscode_baseline/config.py": {
+            "sha256": "25cd1b2ad0a4c6a6d05c5275c0e1ae15af8a59fe583ea04b3928bc4c11004431",
+            "raw": {
+              "loc": 362,
+              "lloc": 286,
+              "sloc": 308,
+              "comments": 10,
+              "multi": 16,
+              "blank": 27,
+              "single_comments": 11
+            },
+            "maintainability_index": 13.376962216975272
+          },
+          "src/lesscode_baseline/contracts.py": {
+            "sha256": "31844a5f64d168b31e88c1180d4aca47c0b0a84abfda5c04cf1b157c8f68e2f2",
+            "raw": {
+              "loc": 1376,
+              "lloc": 1379,
+              "sloc": 1134,
+              "comments": 2,
+              "multi": 6,
+              "blank": 223,
+              "single_comments": 13
+            },
+            "maintainability_index": 0.0
+          },
+          "src/lesscode_baseline/decision.py": {
+            "sha256": "3be7cb3c51f6a5e40f466214ffea2e41430c95af60e6d9acca187fe776162149",
+            "raw": {
+              "loc": 285,
+              "lloc": 240,
+              "sloc": 237,
+              "comments": 4,
+              "multi": 15,
+              "blank": 27,
+              "single_comments": 6
+            },
+            "maintainability_index": 18.10085820573414
+          },
+          "src/lesscode_baseline/evaluation.py": {
+            "sha256": "63730ce8dfe5a2741e392c04d2766f837a1fa6dd31fe0f74de366955727e4f05",
+            "raw": {
+              "loc": 346,
+              "lloc": 252,
+              "sloc": 283,
+              "comments": 13,
+              "multi": 21,
+              "blank": 28,
+              "single_comments": 14
+            },
+            "maintainability_index": 29.405515055928706
+          },
+          "src/lesscode_baseline/experiments.py": {
+            "sha256": "616fe2e9da2b6a3fddffbce5313ccf7de18f658ffc4f1756abcc2cb8d5ea73d9",
+            "raw": {
+              "loc": 394,
+              "lloc": 307,
+              "sloc": 313,
+              "comments": 9,
+              "multi": 33,
+              "blank": 36,
+              "single_comments": 12
+            },
+            "maintainability_index": 12.68014858976986
+          },
+          "src/lesscode_baseline/metrics.py": {
+            "sha256": "c5446ce675102d54f62436e79bfbffceda3ab81385cba850e1eefe281ae91d78",
+            "raw": {
+              "loc": 567,
+              "lloc": 364,
+              "sloc": 470,
+              "comments": 22,
+              "multi": 30,
+              "blank": 45,
+              "single_comments": 22
+            },
+            "maintainability_index": 13.715612088932716
+          },
+          "src/lesscode_baseline/process.py": {
+            "sha256": "f0e23a309954b759fd99797897e61b67de5ef96f606cf2e86e1cceda2d8b5cb8",
+            "raw": {
+              "loc": 359,
+              "lloc": 271,
+              "sloc": 298,
+              "comments": 15,
+              "multi": 23,
+              "blank": 23,
+              "single_comments": 15
+            },
+            "maintainability_index": 22.604356197701446
+          },
+          "src/lesscode_baseline/process_windows.py": {
+            "sha256": "15e2b97ec7099fc8f4280b2c1417b4ebf1c6239fcbcd0491fb117fd5285ef22a",
+            "raw": {
+              "loc": 174,
+              "lloc": 140,
+              "sloc": 146,
+              "comments": 5,
+              "multi": 5,
+              "blank": 20,
+              "single_comments": 3
+            },
+            "maintainability_index": 39.90443336084527
+          },
+          "src/lesscode_baseline/report.py": {
+            "sha256": "ba20a6e7361e94486712b0d3e3b1f60ac27de11a5058f2f3be5972becf8cd8a8",
+            "raw": {
+              "loc": 620,
+              "lloc": 519,
+              "sloc": 517,
+              "comments": 3,
+              "multi": 20,
+              "blank": 70,
+              "single_comments": 13
+            },
+            "maintainability_index": 0.0
+          },
+          "src/lesscode_baseline/snapshot.py": {
+            "sha256": "3ab53e179ee3c559bebf4f90e2fe196c31e82d3390e8a636aef26f023909679f",
+            "raw": {
+              "loc": 300,
+              "lloc": 229,
+              "sloc": 224,
+              "comments": 4,
+              "multi": 31,
+              "blank": 40,
+              "single_comments": 5
+            },
+            "maintainability_index": 26.73194256818242
+          }
+        },
+        "totals": {
+          "loc": 4950,
+          "lloc": 4126,
+          "sloc": 4073,
+          "comments": 92,
+          "multi": 200,
+          "blank": 555
+        },
+        "target_function": {
+          "loc": 26,
+          "lloc": 21,
+          "sloc": 24,
+          "comments": 1,
+          "multi": 0,
+          "blank": 0,
+          "single_comments": 2
+        },
+        "target_module_mi": 18.10085820573414
+      }
+    }
+  },
+  "fixed_unit_inventory": 107,
+  "oracle_cases": 24,
+  "semantic_review": {
+    "changed_product_files": 1,
+    "changed_functions": 1,
+    "added_helpers": 0,
+    "added_classes": 0,
+    "public_signature_changes": 0,
+    "review_mode": "inline",
+    "maintenance_effort_savings": "unmeasured",
+    "runtime_performance_change": "unmeasured",
+    "verdict": "APPROVED",
+    "protocol": "kiro-review inline; kiro-verify-completion verified",
+    "requirement_refs": [
+      "4.8",
+      "5.4",
+      "6.2",
+      "6.3",
+      "6.4"
+    ],
+    "red_phase": "N/A: behavior-preserving refactor; existing fixed tests passed before and after"
+  },
+  "limitations": [
+    "Whole-package duplication unavailable; do not claim whole-package acceptance.",
+    "The decision.py profile is a separate narrower evaluation, not a repair to the package run.",
+    "LLOC and MI are auxiliary Radon evidence, not built-in gate metrics.",
+    "Sum CCN is a descriptive sum over the identical function inventory, not a universal simplicity score.",
+    "Windows Git archive exports preserve matching CRLF bytes on both sides."
+  ],
+  "fixed_resources": {
+    "profile.json": "8077252a6f637cf52a111615311293aa779efe01659b3c635cd53c32c94665fe",
+    "decision-only.json": "c71d919ab064f71944f5caed48eabd33292097dce6890fac01d771ae33604258",
+    "check.py": "d3fcaf2c657c6a7c1a0b4bb395e65fdee427d91b0dc93a38ec83776c13488337",
+    "inventory.json": "779f90ad13c646b79d64a60c5abfff805eda654640cd32cd7787d1a295502dac",
+    "test-resources.json": "3c8a4e4ab8d2862dece49040185b8e50180ce8c5702c1d22d26f915a8adc2bb4"
+  },
+  "full_regression": {
+    "command": "PYTHONPATH=absolute src; uv.exe run --no-project --no-python-downloads --python .venv-task11/Scripts/python.exe python -m unittest discover -v",
+    "tests": 363,
+    "elapsed_seconds": 682.646,
+    "exit_code": 0,
+    "skipped": 11,
+    "skip_scope": "10 POSIX-only; one local Windows symlink privilege (WinError1314)",
+    "stderr_sha256": "877a19b91d984d6c779fdb32943048394b294589a5622e6054856e52d58981b7",
+    "stdout_sha256": "f54aa22631a93e4750d5619695fef8dc107adfca1ed9bddab9d5da6fcb45fefa"
+  },
+  "commands": [
+    {
+      "scope": "package",
+      "action": "plan",
+      "argv": [
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-readiness-74-13b04d57cb3f4143bcf7a5c8cceaa6be\\installed\\Scripts\\lesscode-baseline.exe",
+        "plan",
+        "--profile",
+        "D:\\Source\\lesscode\\benchmarks\\profiles\\self-evaluation\\profile.json",
+        "--baseline",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\baseline",
+        "--candidate",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\candidate-final",
+        "--tool-paths",
+        "D:\\Source\\lesscode\\.tools\\analyzers\\entrypoints.json",
+        "--out",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\final-package-plan.json"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 2.5779999997466803
+    },
+    {
+      "scope": "package",
+      "action": "run",
+      "argv": [
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-readiness-74-13b04d57cb3f4143bcf7a5c8cceaa6be\\installed\\Scripts\\lesscode-baseline.exe",
+        "run",
+        "--plan",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\final-package-plan.json",
+        "--out",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\final-package-run"
+      ],
+      "exit_code": 3,
+      "expected_exit": 3,
+      "seconds": 47.09400000004098
+    },
+    {
+      "scope": "decision",
+      "action": "plan",
+      "argv": [
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-readiness-74-13b04d57cb3f4143bcf7a5c8cceaa6be\\installed\\Scripts\\lesscode-baseline.exe",
+        "plan",
+        "--profile",
+        "D:\\Source\\lesscode\\benchmarks\\profiles\\self-evaluation\\decision-only.json",
+        "--baseline",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\baseline",
+        "--candidate",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\candidate-final",
+        "--tool-paths",
+        "D:\\Source\\lesscode\\.tools\\analyzers\\entrypoints.json",
+        "--out",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\final-decision-plan.json"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 2.469000000040978
+    },
+    {
+      "scope": "decision",
+      "action": "run",
+      "argv": [
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-readiness-74-13b04d57cb3f4143bcf7a5c8cceaa6be\\installed\\Scripts\\lesscode-baseline.exe",
+        "run",
+        "--plan",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\final-decision-plan.json",
+        "--out",
+        "C:\\Users\\mariu\\AppData\\Local\\Temp\\lesscode-self-example-bc652f18e251442fa595878c15801cfa\\final-decision-run"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "seconds": 49.59400000004098
+    }
+  ],
+  "test_byte_guard": {
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "guard": "fixed test bytes changed, IDs unchanged",
+    "result": "rejected by external check"
+  },
+  "archive": {
+    "path": "docs/evidence/self-evaluation-2026-10-31.zip",
+    "sha256": "148ad1624c3c6d060b4f41c332a54548ad8a17f5bd09f2acf3b5be3bdcf358cc",
+    "bytes": 857620,
+    "files": 163
+  },
+  "charts": [
+    {
+      "path": "docs/images/self-evaluation-hotspots.svg",
+      "sha256": "548d7138d863709a169427ba6ccee078c5f332e5734515483b24353b54207b2d"
+    },
+    {
+      "path": "docs/images/self-evaluation-local.svg",
+      "sha256": "5d6f989826be616301ed17e3b443ae49ea34d709b5c9e99ccd3f582fdcc1b2d8"
+    }
+  ],
+  "evidence_history": "Initial runs retained locally; published reports use fixed test-byte hashes as well as fixed IDs."
+}

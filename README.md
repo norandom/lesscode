@@ -26,6 +26,23 @@ required.
 equivalence or certify code quality. Missing required evidence prevents
 acceptance; an observed behavior failure cannot be offset by fewer lines.
 
+## A measured example on Lesscode
+
+We applied the workflow to this package and simplified the threshold evaluator:
+
+![One function improved: cyclomatic complexity 13 to 9 and logical lines 27 to 21.](docs/images/self-evaluation-local.svg)
+
+This is a local result. Across 13 product modules, LLOC changes from 4,132 to
+4,126 and the highest CCN stays 56. Source shrinks by 98 bytes, while compressed
+size grows by 5. Whole-package evaluation is incomplete because duplication
+inventory could not be reconciled; a separate `decision.py` scope is accepted.
+No maintenance-hours or runtime improvement is claimed.
+
+The [worked example](docs/examples/self-evaluation.md) includes the code change,
+remaining hotspots, fixed checks, raw evidence and reproduction commands.
+The [measurement guide](docs/measurement-guide.md) explains convolution, naming,
+idiom and maintenance effort beyond line counts.
+
 ## Try an unchanged pair first
 
 Clone this repository, then follow [runtime setup](docs/runtime-setup.md) and
@@ -87,8 +104,10 @@ of a simplification skill on arbitrary repositories.
 
 The next proposed feature is configurable measured rules for coding agents:
 limits, change budgets and regression ratchets with actionable violations.
-Agent-facing prevention is not implemented yet. The current CLI can evaluate
-supplied changes under a fixed profile.
+The general configurable enforcement workflow is not implemented yet. This
+repository already has scoped [AGENTS.md guidance](src/lesscode_baseline/AGENTS.md)
+for role-revealing names, idiomatic code and justified abstractions. The current
+CLI evaluates supplied changes under a fixed profile.
 
 Optional simplification skills, deterministic rewrites, JavaScript/TypeScript
 and Java support, and MCP integration are later work. The CLI runs independently

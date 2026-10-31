@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "include": [
+      "src/**",
+      "tests/**"
+    ],
+    "exclude": [
+      "**/__pycache__/**",
+      "**/*.pyc"
+    ],
+    "generated": [],
+    "vendor": [],
+    "tests": [
+      "tests/**"
+    ],
+    "product": [
+      "src/lesscode_baseline/*.py"
+    ]
+  },
+  "tools": [
+    {
+      "name": "lizard",
+      "version": "1.17.31",
+      "options": {
+        "language": "python",
+        "extensions": false
+      }
+    },
+    {
+      "name": "jscpd",
+      "version": "4.0.5",
+      "options": {
+        "format": "python",
+        "mode": "weak",
+        "minTokens": 50,
+        "minLines": 5,
+        "ignoreCase": false
+      }
+    }
+  ],
+  "checks": [
+    {
+      "check_id": "self",
+      "kind": "invariant",
+      "required": true,
+      "command": {
+        "command_id": "self",
+        "argv": [
+          "python",
+          "check.py",
+          "--source",
+          ".",
+          "--output",
+          ".checks/self.xml"
+        ],
+        "cwd": ".",
+        "environment": {
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONHASHSEED": "0"
+        },
+        "limits": {
+          "timeout_seconds": 120,
+          "max_log_bytes": 4194304
+        }
+      },
+      "result_path": ".checks/self.xml",
+      "result_format": "junit",
+      "expected_ids": [
+        "self.unit_suite",
+        "self.threshold_oracle"
+      ]
+    }
+  ],
+  "required_metrics": [
+    "complexity",
+    "duplication",
+    "source_bytes",
+    "physical_lines",
+    "compressed_source_bytes"
+  ],
+  "thresholds": [
+    {
+      "metric_key": "source_bytes",
+      "operator": "delta_maximum",
+      "value": 0,
+      "unit": "bytes"
+    }
+  ],
+  "limits": {
+    "timeout_seconds": 120,
+    "max_log_bytes": 4194304
+  },
+  "evaluator_resources": [
+    "profile.json",
+    "check.py",
+    "inventory.json",
+    "test-resources.json"
+  ]
+}
