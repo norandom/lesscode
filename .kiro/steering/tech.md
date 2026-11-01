@@ -1,5 +1,11 @@
 # Technology Direction
 
+Install Rust command-line tools through Cargo (owner preference, 2026-11-01),
+pin the crate version and toolchain and use `--locked` where supported. Record
+the exact command, resolved lockfile, executable hash, tool versions, source
+identities, scope/configuration and raw outcomes for reproducible experiments.
+Do not silently replace an analyzer or change metric definitions after a trial.
+
 Current direction (2026-11-01): a native compiled capability-compression core with a skill, targeting Python and TypeScript source. Rust is selected in the approved capability-compression-core design; see `docs/reports/native-compression-direction.md`. Use one library/CLI package and the ast-grep/tree-sitter substrate. Do not port the Python evaluator wholesale. MCP, generic rewrite engines and solver integration are removed from active delivery; do not pre-build extension interfaces. Java is outside this pilot.
 
 The completed Python baseline remains the research/reference implementation. Reuse selected contracts and frozen adverse fixtures; preserve existing CLI compatibility. Target-project runtimes and tests remain necessary. Hardware/performance benchmarking and byte/gzip benefit metrics are excluded; execution bounds and platform correctness remain relevant.

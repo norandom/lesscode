@@ -1,5 +1,20 @@
 # Lesscode / Deconvolute
 
+## Repository workflow and empirical priority
+
+Owner instruction, 2026-11-01: use only `main`. Commit and push directly to
+`main`; do not create feature branches, pull requests or worktrees on separate
+branches. Keep the flow linear and simple. Use ordinary isolated directories
+for experiments when needed, and preserve unrelated working changes. The former
+Dagger PR was merged and its branch removed at the owner's request.
+
+The next delivery priority is local installation and empirical codebase
+measurement, followed by useful behavior-preserving compression trials.
+Cross-platform CI verifies the tool's operability; it does not measure a
+specimen's convolution or demonstrate less code. Do not substitute another
+platform-validation campaign for a real-project baseline. Keep existing
+correctness safeguards while directing new work toward measured code reduction.
+
 ## Authoritative scope: less code, same behavior
 
 Owner clarification, 2026-11-01: hardware execution, accelerator validation and performance optimization/benchmarking are outside Lesscode's scope. Do not make throughput, latency, memory consumption or hardware access acceptance gates for this research. Preserve the declared software-visible behavior, including interaction contracts and safeguards. Process timeouts and cross-platform correctness are operational concerns, not performance targets. Measure maintained implementation and structure; bytes/gzip are not benefit metrics. Earlier trial limitations remain historical records and do not expand this scope.
