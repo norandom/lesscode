@@ -374,7 +374,8 @@ No migration of old CLI records or removal of Python features. Native records us
 a separate schema and command name. Existing source edits remain untouched.
 The requirements approval is recorded from the owner's instruction to proceed.
 The subsequent explicit task-generation `-y` invocation approved this design and
-the implementation plan. Task-graph review passed; implementation has not started.
+the implementation plan. Task-graph review passed before implementation. Current
+implementation and platform-validation status is recorded in validation.md.
 
 Full discovery and inline design review used the Kiro design, discovery, synthesis
 and review rules. The initial draft was repaired to specify scope-review limits,

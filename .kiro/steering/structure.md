@@ -10,9 +10,19 @@ Approved baseline implementation locations are detailed in its design File Struc
 
 - `skills/deconvolute/`: planned optional product skill, distinct from Kiro authoring skills; not yet implemented.
 - `src/lesscode_baseline/`: local CLI, typed contracts, snapshots, bounded execution, measurements, decisions, reporting and experiment aggregation.
-- `src/lesscode_baseline/rules/`: agent-quality-rules implementation location for downstream policy contracts, evidence interpretation, assessment, guidance and nested CLI commands. Six of 25 tasks are reviewed and implemented: shared contracts, fixtures and evidence admission. The per-rule selection contract amendment is approved and task 2.2 is resuming; assessment, guidance and CLI integration remain pending.
+- `src/lesscode_baseline/rules/`: historical policy implementation. The task list marks 9/25 tasks complete; remaining work is retired from active delivery. Preserve uncommitted work and do not treat unchecked tasks as reviewed completion.
 - `src/lesscode_baseline/AGENTS.md`: package-scoped guidance for idiomatic code, role-revealing names, justified abstractions and preserved evidence contracts; instruction guidance rather than an automatic rule engine.
 - `tests/fixtures/`: synthetic and adversarial behavior fixtures.
 - `benchmarks/`: licensed corpus manifests and fixed evaluator definitions.
 
 Keep generated run artifacts separate from measured product source. The measurement feature owns versioned result schemas and scope definitions; downstream features consume them. Record source revision and license for external fixtures.
+The implemented `.kiro/specs/capability-compression-core/` uses one native
+library/CLI package under `native/`, with Scope, Metrics and Compare modules and
+external CLI/integration tests. `.agents/skills/lesscode-discovery/` contains the
+verified recipe. Native tests use cargo-nextest; Python reference tests use
+pytest-xdist. `docs/experiments/native-replay/` and `native-self-apply/` retain
+fresh empirical evidence; the latter includes the adopted policy-helper reuse.
+Current Windows readiness is verified; latest Linux/macOS verification is pending.
+Frozen `docs/experiments/` records remain
+reference evidence. Broad policy, transaction, MCP/plugin and solver-integration
+layers are removed from active delivery, not queued dependencies.
