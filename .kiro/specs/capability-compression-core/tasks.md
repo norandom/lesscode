@@ -57,7 +57,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 1.2_
   - _Requirements: 2.2, 2.3, 2.4, 2.6_
 
-- [ ] 3.2 Add independently defined TypeScript and TSX metrics
+- [x] 3.2 Add independently defined TypeScript and TSX metrics
   - Extend explicit language tables for declarations, wrappers, arrows, branches and handlers without combining language scores.
   - Cover unsupported syntax, parse errors and non-UTF-8 input; retain physical counts when structural measurements are unavailable.
   - Done: hand-reviewed typed fixtures pass with independent definition identities and no double-counted declaration wrappers.

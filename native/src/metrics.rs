@@ -73,13 +73,121 @@ fn available(count: u64) -> MetricValue {
     }
 }
 
+/// logical_statements.v1 for TypeScript/TSX grammar 0.23.2: statement and
+/// declaration alternatives, excluding blocks. Export/ambient wrappers replace
+/// their direct declarations (including nested wrappers). The grammar's bare
+/// namespace expression_statement/internal_module pair also counts once. Class members, enum
+/// members, interface signatures and type expressions are not statements.
+/// A for initializer declaration counts; empty header separators do not.
+pub const TYPESCRIPT_STATEMENT_KINDS: &[&str] = &[
+    "export_statement",
+    "import_statement",
+    "debugger_statement",
+    "expression_statement",
+    "if_statement",
+    "switch_statement",
+    "for_statement",
+    "for_in_statement",
+    "while_statement",
+    "do_statement",
+    "try_statement",
+    "with_statement",
+    "break_statement",
+    "continue_statement",
+    "return_statement",
+    "throw_statement",
+    "empty_statement",
+    "labeled_statement",
+    "function_declaration",
+    "generator_function_declaration",
+    "class_declaration",
+    "lexical_declaration",
+    "variable_declaration",
+    "function_signature",
+    "abstract_class_declaration",
+    "module",
+    "internal_module",
+    "type_alias_declaration",
+    "enum_declaration",
+    "interface_declaration",
+    "import_alias",
+    "ambient_declaration",
+];
+
+/// decisions.v1: else-if is another if; switch_case excludes switch_default.
+/// for-in/of/await-of share one node. Catch counts once, finally/try do not.
+/// Binary &&/||/?? each count once; bitwise and logical assignments do not.
+/// JSX containers add no decision; expressions inside them follow these rules.
+pub const TYPESCRIPT_DECISION_KINDS: &[&str] = &[
+    "if_statement",
+    "ternary_expression",
+    "for_statement",
+    "for_in_statement",
+    "while_statement",
+    "do_statement",
+    "catch_clause",
+    "switch_case",
+];
+
+/// functions.v1 counts executable definitions, including async/generators,
+/// constructors, accessors, object/class methods and nested arrows. Overloads,
+/// ambient declarations, interface methods and abstract signatures do not count.
+pub const TYPESCRIPT_FUNCTION_KINDS: &[&str] = &[
+    "function_declaration",
+    "generator_function_declaration",
+    "function_expression",
+    "generator_function",
+    "method_definition",
+    "arrow_function",
+];
+
+/// Measure TypeScript or TSX with distinct grammar identities and no source execution.
+pub fn measure_typescript(
+    path: &str,
+    source: &[u8],
+    scope_identity: &str,
+    spans: &[SourceSpan],
+    tsx: bool,
+) -> Records<MetricName, MetricMeasurement> {
+    let language = if tsx {
+        Language::Tsx
+    } else {
+        Language::TypeScript
+    };
+    let measured = if tsx {
+        syntax_values(path, source, spans, crate::Tsx, false)
+    } else {
+        syntax_values(path, source, spans, crate::TypeScript, false)
+    };
+    measurements(
+        measured,
+        scope_identity,
+        language,
+        "tree-sitter-typescript@0.23.2",
+    )
+}
+
 pub fn measure_python(
     path: &str,
     source: &[u8],
     scope_identity: &str,
     spans: &[SourceSpan],
 ) -> Records<MetricName, MetricMeasurement> {
-    let measured = python_values(path, source, spans);
+    let measured = syntax_values(path, source, spans, crate::Python, true);
+    measurements(
+        measured,
+        scope_identity,
+        Language::Python,
+        "tree-sitter-python@0.25.0",
+    )
+}
+
+fn measurements(
+    measured: [MetricValue; 4],
+    scope_identity: &str,
+    language: Language,
+    grammar_version: &str,
+) -> Records<MetricName, MetricMeasurement> {
     Records(
         [
             MetricName::PhysicalLines,
@@ -98,8 +206,8 @@ pub fn measure_python(
                         schema_version: SchemaVersion::V1,
                         name,
                         definition_revision: "v1".into(),
-                        language: Language::Python,
-                        grammar_version: "tree-sitter-python@0.25.0".into(),
+                        language,
+                        grammar_version: grammar_version.into(),
                         tool_version: "lesscode-core@0.1.0;ast-grep@0.51.0".into(),
                     },
                     scope_identity: scope_identity.into(),
@@ -115,7 +223,13 @@ pub fn measure_python(
 /// or files from scope resolution; other paths are ignored. physical_lines.v1
 /// counts LF-separated byte lines (CRLF is one separator), including blanks and
 /// comments. Empty input and trailing LF add no line. Line spans are unioned.
-fn python_values(path: &str, source: &[u8], spans: &[SourceSpan]) -> [MetricValue; 4] {
+fn syntax_values<L: ast_grep_language::LanguageExt>(
+    path: &str,
+    source: &[u8],
+    spans: &[SourceSpan],
+    language: L,
+    python: bool,
+) -> [MetricValue; 4] {
     let spans: Vec<_> = spans
         .iter()
         .filter(|span| span.path == path)
@@ -168,7 +282,7 @@ fn python_values(path: &str, source: &[u8], spans: &[SourceSpan]) -> [MetricValu
         fail("selected byte range splits a UTF-8 character", &mut result);
         return result;
     }
-    let tree = crate::AstGrep::new(text, crate::Python);
+    let tree = crate::AstGrep::new(text, language);
     let root = tree.root();
     if root.dfs().any(|node| {
         let range = node.range();
@@ -192,11 +306,30 @@ fn python_values(path: &str, source: &[u8], spans: &[SourceSpan]) -> [MetricValu
             continue;
         }
         let kind = node.kind();
-        let wrapped = matches!(kind.as_ref(), "function_definition" | "class_definition")
+        let wrapped = python
+            && matches!(kind.as_ref(), "function_definition" | "class_definition")
             && node.parent().is_some_and(|p| {
                 p.kind() == "decorated_definition" && selected(p.range().start, p.range().end)
             });
-        let statement = PYTHON_STATEMENT_KINDS.contains(&kind.as_ref()) && !wrapped;
+        let typed_wrapped = !python
+            && node.parent().is_some_and(|p| {
+                (matches!(
+                    p.kind().as_ref(),
+                    "export_statement" | "ambient_declaration"
+                ) || kind == "internal_module" && p.kind() == "expression_statement")
+                    && selected(p.range().start, p.range().end)
+            });
+        let empty_header = !python
+            && kind == "empty_statement"
+            && node.parent().is_some_and(|p| {
+                p.kind() == "for_statement"
+                    && p.field("body").is_none_or(|body| body.range() != range)
+            });
+        let statement = if python {
+            PYTHON_STATEMENT_KINDS.contains(&kind.as_ref()) && !wrapped
+        } else {
+            TYPESCRIPT_STATEMENT_KINDS.contains(&kind.as_ref()) && !typed_wrapped && !empty_header
+        };
         let default_case = kind == "case_clause"
             && node.field("guard").is_none()
             && node
@@ -207,12 +340,24 @@ fn python_values(path: &str, source: &[u8], spans: &[SourceSpan]) -> [MetricValu
             && node
                 .named_children()
                 .any(|c| c.kind() == "case_pattern" && c.text() == "_");
-        let decision = PYTHON_DECISION_KINDS.contains(&kind.as_ref())
-            || (kind == "case_clause" && !default_case);
+        let decision = if python {
+            PYTHON_DECISION_KINDS.contains(&kind.as_ref())
+                || (kind == "case_clause" && !default_case)
+        } else {
+            TYPESCRIPT_DECISION_KINDS.contains(&kind.as_ref())
+                || kind == "binary_expression"
+                    && node
+                        .field("operator")
+                        .is_some_and(|op| matches!(op.text().as_ref(), "&&" | "||" | "??"))
+        };
         for (count, increment) in counts.iter_mut().zip([
             statement,
             decision,
-            PYTHON_FUNCTION_KINDS.contains(&kind.as_ref()),
+            if python {
+                PYTHON_FUNCTION_KINDS.contains(&kind.as_ref())
+            } else {
+                TYPESCRIPT_FUNCTION_KINDS.contains(&kind.as_ref())
+            },
         ]) {
             let Some(next) = count.checked_add(u64::from(increment)) else {
                 fail("metric count overflow", &mut result);
@@ -230,6 +375,208 @@ fn python_values(path: &str, source: &[u8], spans: &[SourceSpan]) -> [MetricValu
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn typed_counts(source: &str, tsx: bool, expected: [u64; 4]) {
+        let result = measure_typescript(
+            "a.ts",
+            source.as_bytes(),
+            "typed-scope",
+            &[SourceSpan {
+                path: "a.ts".into(),
+                start: 0,
+                end: source.len(),
+            }],
+            tsx,
+        );
+        for (name, count) in [
+            MetricName::PhysicalLines,
+            MetricName::LogicalStatements,
+            MetricName::Decisions,
+            MetricName::Functions,
+        ]
+        .into_iter()
+        .zip(expected)
+        {
+            assert_eq!(
+                result.0[&name].value,
+                available(count),
+                "{name:?}: {source}"
+            );
+            assert_eq!(result.0[&name].scope_identity, "typed-scope");
+            assert_eq!(
+                result.0[&name].identity.language,
+                if tsx {
+                    Language::Tsx
+                } else {
+                    Language::TypeScript
+                }
+            );
+            assert_eq!(
+                result.0[&name].identity.grammar_version,
+                "tree-sitter-typescript@0.23.2"
+            );
+            assert_eq!(result.0[&name].identity.definition_revision, "v1");
+        }
+    }
+
+    #[test]
+    fn typescript_typed_declarations_wrappers_and_functions() {
+        // Interface/type/ambient/exported const/exported function/class are six
+        // statements; return + nested lexical declaration + return add three.
+        // Interface signatures, overloads and abstract signatures are not definitions.
+        typed_counts("interface I { f(x: number): number; p: string }\ntype T = I | null;\ndeclare function ambient(x: T): void;\nexport const arrow = (x: number): number => x;\nexport function outer(): number { const inner = function () { return 1; }; return inner(); }\nclass C { method() {} abstract absent(): void; }\n", false, [6, 9, 0, 4]);
+    }
+
+    #[test]
+    fn typescript_control_flow_hand_counted() {
+        // function/if/return/for/expression/while/break/do/expression/try/throw/
+        // expression/switch/three breaks/return + for initializer = 18.
+        // switch cases and catch are clauses, not statements. Decisions are if,
+        // three short circuits, ternary, three loops, catch, two cases = 11.
+        typed_counts("function f(a: number, xs: number[]) {\nif (a && a || a ?? 0) return a ? 1 : 2;\nfor (let i = 0; i < a; i++) a++;\nwhile (a) break;\ndo { a--; } while (a);\ntry { throw a; } catch (e) { a++; } finally {}\nswitch (a) { case 1: break; case 2: break; default: break; }\nreturn 0;\n}\n", false, [9, 18, 11, 1]);
+        typed_counts(
+            "for (const x of xs) { continue; }\nfor (const k in obj) { debugger; }\n",
+            false,
+            [2, 4, 2, 0],
+        );
+    }
+
+    #[test]
+    fn tsx_jsx_expressions_have_independent_counts() {
+        typed_counts("export const View = ({ok}: {ok: boolean}) => <div>{ok && (ok ? <span/> : null)}</div>;\n", true, [1, 1, 2, 1]);
+        typed_counts("const identity = <T,>(x: T): T => x;\n", true, [1, 1, 0, 1]);
+        typed_counts("const n = <number>value;\n", false, [1, 1, 0, 0]);
+    }
+
+    #[test]
+    fn typed_errors_encoding_and_grammar_difference_keep_physical() {
+        for (source, tsx) in [
+            (b"const x: = ;\n".as_slice(), false),
+            (b"const v = <div/>;\n", false),
+            (b"const n = <number>value;\n", true),
+            (b"const v = <div>{</div>;\n", true),
+            (b"\xff\n", false),
+        ] {
+            let result = measure_typescript(
+                "a.ts",
+                source,
+                "scope",
+                &[SourceSpan {
+                    path: "a.ts".into(),
+                    start: 0,
+                    end: source.len(),
+                }],
+                tsx,
+            );
+            assert_eq!(result.0[&MetricName::PhysicalLines].value, available(1));
+            for name in [
+                MetricName::LogicalStatements,
+                MetricName::Decisions,
+                MetricName::Functions,
+            ] {
+                assert!(
+                    matches!(&result.0[&name].value, MetricValue::Unavailable{reason, resolved_lower_bound:None} if !reason.is_empty())
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn typed_union_selection_lines_and_scope_errors() {
+        let source = "// α\r\nexport function f() { return 1; }\r\nconst broken: = ;\r\n";
+        let start = source.find("export").unwrap();
+        let end = source.find("\r\nconst").unwrap();
+        let selected = SourceSpan {
+            path: "a.ts".into(),
+            start,
+            end,
+        };
+        for tsx in [false, true] {
+            let result = measure_typescript(
+                "a.ts",
+                source.as_bytes(),
+                "scope",
+                &[
+                    selected.clone(),
+                    selected.clone(),
+                    SourceSpan {
+                        path: "a.ts".into(),
+                        start: source.find("return").unwrap(),
+                        end: end - 2,
+                    },
+                    SourceSpan {
+                        path: "other.ts".into(),
+                        start: 0,
+                        end: usize::MAX,
+                    },
+                ],
+                tsx,
+            );
+            for (name, count) in [
+                (MetricName::PhysicalLines, 1),
+                (MetricName::LogicalStatements, 2),
+                (MetricName::Decisions, 0),
+                (MetricName::Functions, 1),
+            ] {
+                assert_eq!(result.0[&name].value, available(count));
+            }
+            let empty = measure_typescript("a.ts", b"const x = 1;", "scope", &[], tsx);
+            assert!(empty.0.values().all(|m| m.value == available(0)));
+            let invalid = measure_typescript(
+                "a.ts",
+                b"const x = 1;",
+                "scope",
+                &[SourceSpan {
+                    path: "a.ts".into(),
+                    start: 0,
+                    end: 99,
+                }],
+                tsx,
+            );
+            assert!(invalid
+                .0
+                .values()
+                .all(|m| matches!(m.value, MetricValue::Unavailable { .. })));
+            let split = measure_typescript(
+                "a.ts",
+                source.as_bytes(),
+                "scope",
+                &[SourceSpan {
+                    path: "a.ts".into(),
+                    start: 4,
+                    end: 5,
+                }],
+                tsx,
+            );
+            assert_eq!(split.0[&MetricName::PhysicalLines].value, available(1));
+            assert!(matches!(
+                split.0[&MetricName::Functions].value,
+                MetricValue::Unavailable { .. }
+            ));
+        }
+        typed_counts("", false, [0, 0, 0, 0]);
+        typed_counts("// α\r\n\r\nconst x = '💡';\r\n", true, [3, 1, 0, 0]);
+    }
+
+    #[test]
+    fn typed_declaration_families_and_header_rules() {
+        // import/import alias/type/enum/namespace/interface/overload/definition/
+        // class/export list/export ambient = 11 module statements; namespace
+        // const, function return, class return, ambient namespace const add four.
+        let source = "import { x } from 'x';\nimport Alias = NS.X;\ntype F = (x: number) => void;\nenum E { A, B }\nnamespace N { export const x = 1; }\ninterface I { new(): I; (): void; method(): void; }\nfunction f(x: number): number;\nfunction f(x: number) { return x; }\nabstract class C { abstract absent(): void; constructor() {} get x() { return 1; } set x(v: number) {} field = () => {}; }\nexport { f };\nexport declare namespace D { const v: number; }\n";
+        for tsx in [false, true] {
+            typed_counts(source, tsx, [11, 15, 0, 5]);
+        }
+        // Empty for separators add none; empty body and standalone ; each count.
+        typed_counts("for (;;) ;\n;\n", false, [2, 3, 1, 0]);
+        typed_counts("async function* f(xs: any) { for await (const x of xs) { yield x; } }\nconst obj = { async method() {}, *gen() {} };\n", false, [2,4,1,3]);
+        // Bitwise / logical assignment do not add decisions. Else-if counts as if.
+        typed_counts(
+            "if (a) {} else if (b) {} else {}\na &= b; a &&= b; a ||= b; a ??= b;\n",
+            true,
+            [2, 6, 2, 0],
+        );
+    }
 
     fn span(start: usize, end: usize) -> SourceSpan {
         SourceSpan {
