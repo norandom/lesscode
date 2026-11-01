@@ -9,7 +9,7 @@ work follows listed order and explicit dependencies. Shared model changes requir
 coordination rather than parallel edits. Empirical evidence gaps remain open;
 completing an attempted trial does not itself establish maturity.
 
-- [ ] 1. Establish the native build and shared contracts
+- [x] 1. Establish the native build and shared contracts
 - [x] 1.1 Establish a reproducible native package
   - Create one library/CLI package with pinned toolchain and dependencies; verify grammar selection and license obligations.
   - Compile minimal Python/TS/TSX parser probes and establish test execution on Windows/Linux; record prerequisites, without adding runtimes to native analysis.
@@ -17,7 +17,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: CLI/library foundation_
   - _Requirements: 2.2, 2.3, 4.4_
 
-- [ ] 1.2 Define closed trial and result records
+- [x] 1.2 Define closed trial and result records
   - Encode versioned manifests, frozen trials, targets, ownership maps, checks, metric availability and results; reject unknown fields and duplicate IDs.
   - Establish module boundaries, checked integer counts and stable serialization; keep command execution and rule expressions outside the model.
   - Done: valid records round-trip and malformed, duplicate or unsupported target fields fail fixtures.
