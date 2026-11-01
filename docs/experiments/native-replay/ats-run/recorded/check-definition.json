@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "runner_sha256": "3f5eed3926507853ed262033b1013bbf1c1f925741abe482ccaa7e2bc7d5984a",
+  "harness_sha256": "fdefc78cb21dfbf7109e4e4eba1e88fec74df8952c151abb41ece810b5f27987",
+  "oracle_sha256": "ef658937719be70d849d4461848af2a3f0685317b4d7377b7fc520fc3f645c11",
+  "corpus": "unchanged corpus/outcome/digest/load definitions from archived trial.py",
+  "python": "D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe",
+  "source_fragments": {
+    "original.py.txt": "a32aab6a6dc509c3d67fd5d359c7d84a9ec925e8ae47b7e5e42b705c9a441926",
+    "candidate.py": "6a12eaf1dfeeaab389ade42b3ab4581830a1deb854df637fb8f11675ad5b6e79",
+    "mutant.py": "822bb8ba6684049eb8c44fe1bc63bffaf5a4da50979b3c82ebe586f2efb8fb98"
+  }
+}

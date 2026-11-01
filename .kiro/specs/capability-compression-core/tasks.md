@@ -128,7 +128,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 5.3_
   - _Requirements: 1.1, 2.3, 3.2, 4.1, 4.4_
 
-- [ ] 6.2 Replay ATS and its behavioral negative control
+- [x] 6.2 Replay ATS and its behavioral negative control
   - Run unchanged frozen observations for supplied original/candidate/mutant in isolated copies, then compare using native definitions.
   - Verify full replacement accounting and rejection of the known mutant; report new versus historical counts separately.
   - Done: matching candidate evidence and detected adverse behavior are retained in a reproducible integrated trial.
@@ -184,3 +184,7 @@ completing an attempted trial does not itself establish maturity.
   - _Requirements: 4.2, 4.4, 5.1, 5.5, 5.6, 5.7, 5.8_
 
 
+
+## Implementation Notes
+
+- Native replay preparation 6.1 requires all metric definitions, including unavailable call layers; 6.2 retains that incomplete trial and freezes a separate source-metric target before fresh observations. Keep target changes explicit in later trials.

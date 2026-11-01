@@ -57,3 +57,4 @@ executables exist and report CPython 3.12.10. The NPU environment reports NumPy
 1.26.4, pytest 9.1.1, ONNX 1.22.0 and mypy 2.3.1. The native executable accepts
 both manifests and prepares all six source roots. Available-platform evidence is
 Windows only for this task; Linux/macOS CI and WSL were not run here.
+Task 6.2 fresh ATS replay: [ats-run/README.md](ats-run/README.md).

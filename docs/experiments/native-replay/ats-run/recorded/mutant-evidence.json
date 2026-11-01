@@ -1,0 +1,1291 @@
+{
+  "schema_version": 1,
+  "candidate_ownership": {
+    "schema_version": 1,
+    "replacements": {
+      "ats_agent.py": [
+        {
+          "kind": "whole_file",
+          "path": "ats_agent.py"
+        }
+      ]
+    },
+    "review": {
+      "schema_version": 1,
+      "rationale": "Whole ATS agent module, including retained class members and every translation table/helper. External imports are retained unchanged; this replay tests reporting only.",
+      "relationships": {
+        "ats_agent.py:11256": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python standard library json.dumps",
+          "rationale": "Reviewed call json.dumps at UTF-8 byte 11256: Python standard library json.dumps; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:18212": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call self._get_german_system_prompt at UTF-8 byte 18212: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:18328": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call self._get_english_system_prompt at UTF-8 byte 18328: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:19135": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "OpenAI client API self.client.chat.completions.create",
+          "rationale": "Reviewed call self.client.chat.completions.create at UTF-8 byte 19135: OpenAI client API self.client.chat.completions.create; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:19506": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python standard library json.loads",
+          "rationale": "Reviewed call json.loads at UTF-8 byte 19506: Python standard library json.loads; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:19687": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.str",
+          "rationale": "Reviewed call str at UTF-8 byte 19687: Python builtins.str; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:20091": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol analysis_result.get",
+          "rationale": "Reviewed call analysis_result.get at UTF-8 byte 20091: Python built-in container/string protocol analysis_result.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:20147": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol analysis_result.get",
+          "rationale": "Reviewed call analysis_result.get at UTF-8 byte 20147: Python built-in container/string protocol analysis_result.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:20334": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol analysis_result.get",
+          "rationale": "Reviewed call analysis_result.get at UTF-8 byte 20334: Python built-in container/string protocol analysis_result.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:20519": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call self._generate_german_report at UTF-8 byte 20519: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:20595": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call self._generate_english_report at UTF-8 byte 20595: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:20728": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call self._render_report at UTF-8 byte 20728: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:20864": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call self._render_report at UTF-8 byte 20864: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:21141": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol GERMAN.get",
+          "rationale": "Reviewed call GERMAN.get at UTF-8 byte 21141: Python built-in container/string protocol GERMAN.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:21222": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 21222: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:21295": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 21295: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:21325": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 21325: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:21399": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 21399: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:21461": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol parsing.get",
+          "rationale": "Reviewed call parsing.get at UTF-8 byte 21461: Python built-in container/string protocol parsing.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:21576": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol parsing['detected_language'].upper",
+          "rationale": "Reviewed call parsing['detected_language'].upper at UTF-8 byte 21576: Python built-in container/string protocol parsing['detected_language'].upper; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:21625": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 21625: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:21691": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 21691: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:21706": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 21706: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:21775": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 21775: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:21952": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol category.replace",
+          "rationale": "Reviewed call category.replace at UTF-8 byte 21952: Python built-in container/string protocol category.replace; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22050": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol CATEGORY_NAMES_DE.get",
+          "rationale": "Reviewed call CATEGORY_NAMES_DE.get at UTF-8 byte 22050: Python built-in container/string protocol CATEGORY_NAMES_DE.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22158": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 22158: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22235": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 22235: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22254": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22254: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22319": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22319: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22390": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22390: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22453": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ', '.join",
+          "rationale": "Reviewed call ', '.join at UTF-8 byte 22453: Python built-in container/string protocol ', '.join; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22524": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22524: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22555": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 22555: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22575": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22575: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22642": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22642: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22745": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 22745: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22815": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 22815: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22830": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22830: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22900": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol parsed_info.get",
+          "rationale": "Reviewed call parsed_info.get at UTF-8 byte 22900: Python built-in container/string protocol parsed_info.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:22924": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22924: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22968": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 22968: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:22986": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol parsed_info.get",
+          "rationale": "Reviewed call parsed_info.get at UTF-8 byte 22986: Python built-in container/string protocol parsed_info.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23011": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 23011: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:23055": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 23055: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:23073": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol parsed_info.get",
+          "rationale": "Reviewed call parsed_info.get at UTF-8 byte 23073: Python built-in container/string protocol parsed_info.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23098": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 23098: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:23142": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 23142: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:23165": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol parsed_info.get",
+          "rationale": "Reviewed call parsed_info.get at UTF-8 byte 23165: Python built-in container/string protocol parsed_info.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23201": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 23201: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:23238": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol parsed_info.get",
+          "rationale": "Reviewed call parsed_info.get at UTF-8 byte 23238: Python built-in container/string protocol parsed_info.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23281": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 23281: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23300": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 23300: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:23319": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ', '.join",
+          "rationale": "Reviewed call ', '.join at UTF-8 byte 23319: Python built-in container/string protocol ', '.join; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23375": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol parsed_info.get",
+          "rationale": "Reviewed call parsed_info.get at UTF-8 byte 23375: Python built-in container/string protocol parsed_info.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23422": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 23422: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23441": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 23441: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:23464": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ', '.join",
+          "rationale": "Reviewed call ', '.join at UTF-8 byte 23464: Python built-in container/string protocol ', '.join; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23520": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 23520: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23581": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 23581: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23661": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 23661: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:23946": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.enumerate",
+          "rationale": "Reviewed call enumerate at UTF-8 byte 23946: Python builtins.enumerate; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24008": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol {'high': '❌', 'medium': '⚠', 'low': 'ℹ'}.get",
+          "rationale": "Reviewed call {'high': '❌', 'medium': '⚠', 'low': 'ℹ'}.get at UTF-8 byte 24008: Python built-in container/string protocol {'high': '❌', 'medium': '⚠', 'low': 'ℹ'}.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24059": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 24059: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24119": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 24119: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24160": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 24160: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24195": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 24195: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24278": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 24278: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24326": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 24326: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24370": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 24370: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24441": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 24441: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24456": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 24456: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:24528": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.enumerate",
+          "rationale": "Reviewed call enumerate at UTF-8 byte 24528: Python builtins.enumerate; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24575": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 24575: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24601": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol error.get",
+          "rationale": "Reviewed call error.get at UTF-8 byte 24601: Python built-in container/string protocol error.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24625": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol error.get",
+          "rationale": "Reviewed call error.get at UTF-8 byte 24625: Python built-in container/string protocol error.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24693": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 24693: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:24716": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol error.get",
+          "rationale": "Reviewed call error.get at UTF-8 byte 24716: Python built-in container/string protocol error.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24756": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 24756: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24799": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 24799: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24868": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 24868: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:24883": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 24883: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:24954": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.enumerate",
+          "rationale": "Reviewed call enumerate at UTF-8 byte 24954: Python builtins.enumerate; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25000": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 25000: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25025": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol error.get",
+          "rationale": "Reviewed call error.get at UTF-8 byte 25025: Python built-in container/string protocol error.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25049": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol error.get",
+          "rationale": "Reviewed call error.get at UTF-8 byte 25049: Python built-in container/string protocol error.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25117": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 25117: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:25140": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol error.get",
+          "rationale": "Reviewed call error.get at UTF-8 byte 25140: Python built-in container/string protocol error.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25180": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 25180: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25225": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 25225: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25290": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol keyword_analysis.get",
+          "rationale": "Reviewed call keyword_analysis.get at UTF-8 byte 25290: Python built-in container/string protocol keyword_analysis.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25372": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol keyword_analysis.get",
+          "rationale": "Reviewed call keyword_analysis.get at UTF-8 byte 25372: Python built-in container/string protocol keyword_analysis.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25434": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 25434: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25449": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 25449: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:25507": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol keyword_analysis.get",
+          "rationale": "Reviewed call keyword_analysis.get at UTF-8 byte 25507: Python built-in container/string protocol keyword_analysis.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25570": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 25570: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25584": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 25584: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:25736": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol keyword_analysis.get",
+          "rationale": "Reviewed call keyword_analysis.get at UTF-8 byte 25736: Python built-in container/string protocol keyword_analysis.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25824": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 25824: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25862": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 25862: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:25915": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol keyword_analysis.get",
+          "rationale": "Reviewed call keyword_analysis.get at UTF-8 byte 25915: Python built-in container/string protocol keyword_analysis.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25980": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 25980: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:25994": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 25994: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:26127": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 26127: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26175": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 26175: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26218": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 26218: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26296": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 26296: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26311": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 26311: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:26391": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 26391: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:26497": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.enumerate",
+          "rationale": "Reviewed call enumerate at UTF-8 byte 26497: Python builtins.enumerate; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26559": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol {'critical': '❌', 'high': '⚠', 'medium': 'ℹ', 'low': '•'}.get",
+          "rationale": "Reviewed call {'critical': '❌', 'high': '⚠', 'medium': 'ℹ', 'low': '•'}.get at UTF-8 byte 26559: Python built-in container/string protocol {'critical': '❌', 'high': '⚠', 'medium': 'ℹ', 'low': '•'}.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26629": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 26629: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26685": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 26685: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26726": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 26726: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26748": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 26748: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26823": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 26823: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:26844": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 26844: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26899": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 26899: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:26922": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 26922: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:26979": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 26979: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:27008": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 27008: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27042": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 27042: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:27091": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 27091: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:27107": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol issue.get",
+          "rationale": "Reviewed call issue.get at UTF-8 byte 27107: Python built-in container/string protocol issue.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27151": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 27151: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27191": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 27191: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27234": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol date_issues.get",
+          "rationale": "Reviewed call date_issues.get at UTF-8 byte 27234: Python built-in container/string protocol date_issues.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27277": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 27277: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27292": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 27292: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:27364": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol date_issues.get",
+          "rationale": "Reviewed call date_issues.get at UTF-8 byte 27364: Python built-in container/string protocol date_issues.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27413": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 27413: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27459": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 27459: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27496": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 27496: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27606": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol gap.get",
+          "rationale": "Reviewed call gap.get at UTF-8 byte 27606: Python built-in container/string protocol gap.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27679": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 27679: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27694": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 27694: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:27811": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 27811: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27834": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol gap.get",
+          "rationale": "Reviewed call gap.get at UTF-8 byte 27834: Python built-in container/string protocol gap.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27852": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol gap.get",
+          "rationale": "Reviewed call gap.get at UTF-8 byte 27852: Python built-in container/string protocol gap.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27874": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 27874: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:27909": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 27909: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:27924": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 27924: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:28043": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 28043: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28102": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 28102: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28117": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 28117: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:28204": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 28204: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28251": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 28251: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28290": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 28290: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28351": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 28351: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28366": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 28366: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:28455": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 28455: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28502": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 28502: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28543": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 28543: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28613": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 28613: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28628": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 28628: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:28705": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.enumerate",
+          "rationale": "Reviewed call enumerate at UTF-8 byte 28705: Python builtins.enumerate; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28749": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 28749: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28793": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 28793: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28831": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol ats.get",
+          "rationale": "Reviewed call ats.get at UTF-8 byte 28831: Python built-in container/string protocol ats.get; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28894": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.extend",
+          "rationale": "Reviewed call report.extend at UTF-8 byte 28894: Python built-in container/string protocol report.extend; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:28909": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call label at UTF-8 byte 28909: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:28972": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol report.append",
+          "rationale": "Reviewed call report.append at UTF-8 byte 28972: Python built-in container/string protocol report.append; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:29011": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python built-in container/string protocol '\\n'.join",
+          "rationale": "Reviewed call '\\n'.join at UTF-8 byte 29011: Python built-in container/string protocol '\\n'.join; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:3315": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "openai.OpenAI client construction",
+          "rationale": "Reviewed call OpenAI at UTF-8 byte 3315: openai.OpenAI client construction; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:3341": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python standard library os.getenv",
+          "rationale": "Reviewed call os.getenv at UTF-8 byte 3341: Python standard library os.getenv; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:3400": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python standard library os.getenv",
+          "rationale": "Reviewed call os.getenv at UTF-8 byte 3400: Python standard library os.getenv; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:4130": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.print",
+          "rationale": "Reviewed call print at UTF-8 byte 4130: Python builtins.print; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:4189": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "cv_parser.extract_text_from_file",
+          "rationale": "Reviewed call extract_text_from_file at UTF-8 byte 4189: cv_parser.extract_text_from_file; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:4487": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.print",
+          "rationale": "Reviewed call print at UTF-8 byte 4487: Python builtins.print; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:4506": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.len",
+          "rationale": "Reviewed call len at UTF-8 byte 4506: Python builtins.len; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:4673": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "cv_parser.detect_language",
+          "rationale": "Reviewed call detect_language at UTF-8 byte 4673: cv_parser.detect_language; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:4706": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.print",
+          "rationale": "Reviewed call print at UTF-8 byte 4706: Python builtins.print; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:4836": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "cv_parser.analyze_cv_structure",
+          "rationale": "Reviewed call analyze_cv_structure at UTF-8 byte 4836: cv_parser.analyze_cv_structure; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:4884": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.print",
+          "rationale": "Reviewed call print at UTF-8 byte 4884: Python builtins.print; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:5013": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.print",
+          "rationale": "Reviewed call print at UTF-8 byte 5013: Python builtins.print; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:5076": {
+          "schema_version": 1,
+          "owned_targets": [
+            "ats_agent.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed call self._analyze_with_openai at UTF-8 byte 5076: implementation retained in whole owned module; runtime dispatch remains observable."
+        },
+        "ats_agent.py:5820": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtins.len",
+          "rationale": "Reviewed call len at UTF-8 byte 5820: Python builtins.len; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        },
+        "ats_agent.py:7506": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python standard library json.dumps",
+          "rationale": "Reviewed call json.dumps at UTF-8 byte 7506: Python standard library json.dumps; unchanged surrounding call retained and counted; reporting-only replay does not validate service behavior."
+        }
+      }
+    }
+  },
+  "checks": {
+    "differential": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "31906eae78e8ed41e2fa5ca8feaea4bea14c0a5c0121890ca3b9848af3c909fd",
+        "frozen_trial_digest": "0efb5be7b33bb384afeecd734715ce6d622421d9cc2a04c713d9527ea7022c11",
+        "definition_digest": "77616eb0c759ae056f17811673b251cdd6de37ada979fc2121d0c82a9baedf1f",
+        "status": "passed",
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "baseline-raw/raw.json",
+            "sha256": "46e0eb5cf2b47ce475014091e5f750b8df659080a06ad6a3e76c62b192ba856d"
+          }
+        },
+        "tested_domain": "8820 unchanged fictional ATS corpus cases, exact return or exception type/message; existing subclass dispatch seam",
+        "limitations": [
+          "Finite reporting observations only; external services and non-reporting agent behavior are not executed.",
+          "Raw artifacts and hashes establish consistency, not authenticated execution."
+        ],
+        "summary": {
+          "kind": "case_counts",
+          "expected": 8820,
+          "observed": 8820,
+          "mismatches": 0
+        }
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "73de1fa00095f06e1a22cd7dc6d341cb60688d2e80289a134a3f7396f8134a93",
+        "frozen_trial_digest": "0efb5be7b33bb384afeecd734715ce6d622421d9cc2a04c713d9527ea7022c11",
+        "definition_digest": "77616eb0c759ae056f17811673b251cdd6de37ada979fc2121d0c82a9baedf1f",
+        "status": "failed",
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "mutant-raw/raw.json",
+            "sha256": "4a66d7a5ddabc878a0a117af3c8b1c15f8b98f1ff738cc366f5b21093ef43a5c"
+          }
+        },
+        "tested_domain": "8820 unchanged fictional ATS corpus cases, exact return or exception type/message; existing subclass dispatch seam",
+        "limitations": [
+          "Finite reporting observations only; external services and non-reporting agent behavior are not executed.",
+          "Raw artifacts and hashes establish consistency, not authenticated execution."
+        ],
+        "summary": {
+          "kind": "case_counts",
+          "expected": 8820,
+          "observed": 8820,
+          "mismatches": 2251
+        }
+      }
+    },
+    "dispatch": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "31906eae78e8ed41e2fa5ca8feaea4bea14c0a5c0121890ca3b9848af3c909fd",
+        "frozen_trial_digest": "0efb5be7b33bb384afeecd734715ce6d622421d9cc2a04c713d9527ea7022c11",
+        "definition_digest": "77616eb0c759ae056f17811673b251cdd6de37ada979fc2121d0c82a9baedf1f",
+        "status": "passed",
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "baseline-raw/raw.json",
+            "sha256": "46e0eb5cf2b47ce475014091e5f750b8df659080a06ad6a3e76c62b192ba856d"
+          }
+        },
+        "tested_domain": "8820 unchanged fictional ATS corpus cases, exact return or exception type/message; existing subclass dispatch seam",
+        "limitations": [
+          "Finite reporting observations only; external services and non-reporting agent behavior are not executed.",
+          "Raw artifacts and hashes establish consistency, not authenticated execution."
+        ],
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        }
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "73de1fa00095f06e1a22cd7dc6d341cb60688d2e80289a134a3f7396f8134a93",
+        "frozen_trial_digest": "0efb5be7b33bb384afeecd734715ce6d622421d9cc2a04c713d9527ea7022c11",
+        "definition_digest": "77616eb0c759ae056f17811673b251cdd6de37ada979fc2121d0c82a9baedf1f",
+        "status": "passed",
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "mutant-raw/raw.json",
+            "sha256": "4a66d7a5ddabc878a0a117af3c8b1c15f8b98f1ff738cc366f5b21093ef43a5c"
+          }
+        },
+        "tested_domain": "8820 unchanged fictional ATS corpus cases, exact return or exception type/message; existing subclass dispatch seam",
+        "limitations": [
+          "Finite reporting observations only; external services and non-reporting agent behavior are not executed.",
+          "Raw artifacts and hashes establish consistency, not authenticated execution."
+        ],
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        }
+      }
+    }
+  },
+  "dependency_changes": {}
+}
