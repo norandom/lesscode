@@ -1,0 +1,23 @@
+{
+  "code": 0,
+  "stdout": "Accepted: \\\\?\\D:\\Source\\lesscode\\.runs\\native-replay\\ts01-readmission\\readmission-comparison\n",
+  "stderr": "",
+  "command": [
+    "D:\\Source\\lesscode\\native\\target\\debug\\lesscode-core.exe",
+    "compare",
+    "--frozen",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-readmission\\frozen.json",
+    "--baseline",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-readmission\\baseline",
+    "--candidate",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-readmission\\candidate",
+    "--evidence",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-readmission\\candidate-evidence.json",
+    "--artifact-root",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-readmission",
+    "--out",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-readmission\\readmission-comparison"
+  ],
+  "exact_result_equal": true,
+  "archive_sha256": "73e2accf9957ab758824d735a5e083e52738b7d13ddd62e1fb1849380a93f37a"
+}

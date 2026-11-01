@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "trial_id": "TS01-OpenUltraCode-degradation-6.5",
+  "hypothesis": "Replace the custom ASCII slug loop with existing JavaScript native string operations; retain every degradation API and useful type.",
+  "entry_points": {
+    "degradation": {
+      "kind": "whole_file",
+      "path": "src/degradation.ts"
+    }
+  },
+  "owned": {
+    "src/degradation.ts": {
+      "kind": "whole_file",
+      "path": "src/degradation.ts"
+    },
+    "src/types.ts": {
+      "kind": "whole_file",
+      "path": "src/types.ts"
+    }
+  },
+  "wider_boundary": [
+    "."
+  ],
+  "categories": {
+    ".opencode/lib/fusion-config.ts": "production",
+    ".opencode/plugins/open-ultracode/index.ts": "production",
+    ".opencode/tools/open_ultracode_configure_fusion.ts": "production",
+    "package.json": "configuration",
+    "pnpm-lock.yaml": "configuration",
+    "scripts/validate-assets.ts": "research_support",
+    "src/adversarial.ts": "production",
+    "src/config.ts": "production",
+    "src/degradation.ts": "production",
+    "src/fusion-config-tool.ts": "production",
+    "src/high-effort.ts": "production",
+    "src/hooks.ts": "production",
+    "src/index.ts": "production",
+    "src/opencode-v2.ts": "production",
+    "src/plugin.ts": "production",
+    "src/state.ts": "production",
+    "src/status-tool.ts": "production",
+    "src/types.ts": "production",
+    "src/verification-tool.ts": "production",
+    "src/verification.ts": "production",
+    "tests/adversarial.test.ts": "tests",
+    "tests/agent-asset.test.ts": "tests",
+    "tests/assets.test.ts": "tests",
+    "tests/command-asset.test.ts": "tests",
+    "tests/config.test.ts": "tests",
+    "tests/contracts.test.ts": "tests",
+    "tests/degradation.test.ts": "tests",
+    "tests/docs-asset.test.ts": "tests",
+    "tests/e2e-readiness.test.ts": "tests",
+    "tests/fusion-config-tool.test.ts": "tests",
+    "tests/high-effort.test.ts": "tests",
+    "tests/plugin.test.ts": "tests",
+    "tests/skill-asset.test.ts": "tests",
+    "tests/state.test.ts": "tests",
+    "tests/verification.test.ts": "tests",
+    "tsconfig.json": "configuration"
+  },
+  "exclusions": {},
+  "scope_review": {
+    "schema_version": 1,
+    "rationale": "Whole degradation module and imported type module; all project source retained in wider accounting.",
+    "relationships": {
+      "src/degradation.ts:5069": {
+        "schema_version": 1,
+        "owned_targets": [],
+        "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+        "rationale": "Reviewed native call location and complete module: input.notices.filter((notice) => notice.severity === \"blocked\"). unresolved call at bytes 5069..5132; dynamic, external, ambiguous or unsupported binding; ownership review required"
+      },
+      "src/degradation.ts:5480": {
+        "schema_version": 1,
+        "owned_targets": [],
+        "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+        "rationale": "Reviewed native call location and complete module: input.notices.filter((notice) => notice.severity === \"warning\"). unresolved call at bytes 5480..5543; dynamic, external, ambiguous or unsupported binding; ownership review required"
+      },
+      "src/degradation.ts:6787": {
+        "schema_version": 1,
+        "owned_targets": [],
+        "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+        "rationale": "Reviewed native call location and complete module: new Date().toISOString(),. unresolved call at bytes 6787..6797; dynamic, external, ambiguous or unsupported binding; ownership review required"
+      },
+      "src/degradation.ts:7128": {
+        "schema_version": 1,
+        "owned_targets": [],
+        "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+        "rationale": "Reviewed native call location and complete module: notices.map((notice) => notice.capability).join(\", \"). unresolved call at bytes 7128..7170; dynamic, external, ambiguous or unsupported binding; ownership review required"
+      },
+      "src/degradation.ts:7354": {
+        "schema_version": 1,
+        "owned_targets": [],
+        "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+        "rationale": "Reviewed native call location and complete module: value.trim().toLowerCase()) {. unresolved call at bytes 7354..7366; dynamic, external, ambiguous or unsupported binding; ownership review required"
+      }
+    }
+  },
+  "checks": {
+    "types": {
+      "schema_version": 1,
+      "description": "types frozen unchanged contract check",
+      "required": true,
+      "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+      "artifact_expectations": [],
+      "interpretation": {
+        "kind": "exit_status"
+      }
+    },
+    "project-tests": {
+      "schema_version": 1,
+      "description": "project-tests frozen unchanged contract check",
+      "required": true,
+      "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+      "artifact_expectations": [],
+      "interpretation": {
+        "kind": "exit_status"
+      }
+    },
+    "differential": {
+      "schema_version": 1,
+      "description": "differential frozen unchanged contract check",
+      "required": true,
+      "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+      "artifact_expectations": [],
+      "interpretation": {
+        "kind": "exit_status"
+      }
+    }
+  },
+  "target": {
+    "schema_version": 1,
+    "scope_identity": "production",
+    "language": "type_script",
+    "definitions": {
+      "decisions": {
+        "schema_version": 1,
+        "name": "decisions",
+        "definition_revision": "v1",
+        "language": "type_script",
+        "grammar_version": "tree-sitter-typescript@0.23.2",
+        "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+      },
+      "functions": {
+        "schema_version": 1,
+        "name": "functions",
+        "definition_revision": "v1",
+        "language": "type_script",
+        "grammar_version": "tree-sitter-typescript@0.23.2",
+        "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+      },
+      "logical_statements": {
+        "schema_version": 1,
+        "name": "logical_statements",
+        "definition_revision": "v1",
+        "language": "type_script",
+        "grammar_version": "tree-sitter-typescript@0.23.2",
+        "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+      },
+      "physical_lines": {
+        "schema_version": 1,
+        "name": "physical_lines",
+        "definition_revision": "v1",
+        "language": "type_script",
+        "grammar_version": "tree-sitter-typescript@0.23.2",
+        "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+      }
+    },
+    "minimum_production_statement_reduction": 1,
+    "count_bounds": {},
+    "permitted_structural_tradeoffs": [
+      "Whole modules and wider source count; unknown call layers contextual. No TS project-wide reduction or maintenance claim."
+    ]
+  },
+  "capability_inventory": {
+    "schema_version": 1,
+    "source_identity": "30d3865b1bd971afdb8800557c73bb30e90c36acb140fe2633c84154fa164888",
+    "manifest_references": [
+      "package.json",
+      "pnpm-lock.yaml",
+      "tsconfig.json"
+    ],
+    "artifact": {
+      "schema_version": 1,
+      "path": "inventory.json",
+      "sha256": "7ef81b0da316c0fb651aac76adcf30b7656fcc77bf602f0fd56d3386fb357354"
+    }
+  }
+}

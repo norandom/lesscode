@@ -1,0 +1,19 @@
+{
+  "command": {
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "--import",
+      "file:///D:/Source/OpenUltraCode/node_modules/tsx/dist/loader.mjs",
+      "D:\\Source\\lesscode\\docs\\experiments\\native-replay\\typescript-run\\observe.mjs",
+      "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-record\\mutant",
+      "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-record\\mutant-raw\\observations.json"
+    ],
+    "cwd": "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-record\\mutant",
+    "code": 0,
+    "log": "observations.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "cases": 5542,
+  "mismatches": 4158,
+  "detected": true
+}

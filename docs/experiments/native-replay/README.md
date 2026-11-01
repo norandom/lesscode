@@ -60,3 +60,5 @@ Windows only for this task; Linux/macOS CI and WSL were not run here.
 Task 6.2 fresh ATS replay: [ats-run/README.md](ats-run/README.md).
 
 Task 6.3 continues with the [fresh NPU replay and integrated adverse admission fixtures](npu-run/README.md), including typed provider/helper checks and separately frozen source-metric target.
+
+Task 6.5 records the [bounded real TypeScript capability trial](typescript-run/README.md), with an installed-capability inventory, unchanged project checks, finite differential observations and complete isolated source snapshots.

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\Source\\OpenUltraCode\\node_modules\\typescript\\bin\\tsc",
+    "--noEmit",
+    "--typeRoots",
+    "D:\\Source\\OpenUltraCode\\node_modules\\@types"
+  ],
+  "cwd": "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-record\\candidate",
+  "code": 0,
+  "log": "types.log",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

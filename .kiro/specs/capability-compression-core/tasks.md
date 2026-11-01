@@ -119,7 +119,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 5.2_
   - _Requirements: 2.2, 4.3, 4.4_
 
-- [ ] 6. Validate the external empirical workflow
+- [x] 6. Validate the external empirical workflow
 - [x] 6.1 Prepare reproducible external replay inputs
   - Create new ATS/NPU manifests and narrow research-only conversions without changing originals; verify existing uv environments and fixture prerequisites.
   - Preserve historical metric names, raw artifacts and missing provenance; do not invent digests or reinterpret collector success.
@@ -150,7 +150,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 6.2_
   - _Requirements: 4.1, 4.2, 4.5_
 
-- [ ] 6.5 Run a bounded real TypeScript capability trial
+- [x] 6.5 Run a bounded real TypeScript capability trial
   - Select one existing small typed capability with runnable native project tests in the first 30 minutes; freeze one installed-capability inventory.
   - Evaluate one isolated candidate with a maximum two-hour edit/validation budget, no dependency additions and no upstream adoption.
   - If no feasible target is found or evidence cannot finish, retain an explicit incomplete trial and do not claim TS maturity; development continues.

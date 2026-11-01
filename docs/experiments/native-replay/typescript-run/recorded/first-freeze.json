@@ -1,0 +1,472 @@
+{
+  "schema_version": 1,
+  "manifest": {
+    "schema_version": 1,
+    "trial_id": "TS01-OpenUltraCode-degradation-6.5",
+    "hypothesis": "Replace the custom ASCII slug loop with existing JavaScript native string operations; retain every degradation API and useful type.",
+    "entry_points": {
+      "degradation": {
+        "kind": "whole_file",
+        "path": "src/degradation.ts"
+      }
+    },
+    "owned": {
+      "src/degradation.ts": {
+        "kind": "whole_file",
+        "path": "src/degradation.ts"
+      },
+      "src/types.ts": {
+        "kind": "whole_file",
+        "path": "src/types.ts"
+      }
+    },
+    "wider_boundary": [
+      "."
+    ],
+    "categories": {
+      ".opencode/lib/fusion-config.ts": "production",
+      ".opencode/plugins/open-ultracode/index.ts": "production",
+      ".opencode/tools/open_ultracode_configure_fusion.ts": "production",
+      "package.json": "configuration",
+      "pnpm-lock.yaml": "configuration",
+      "scripts/validate-assets.ts": "research_support",
+      "src/adversarial.ts": "production",
+      "src/config.ts": "production",
+      "src/degradation.ts": "production",
+      "src/fusion-config-tool.ts": "production",
+      "src/high-effort.ts": "production",
+      "src/hooks.ts": "production",
+      "src/index.ts": "production",
+      "src/opencode-v2.ts": "production",
+      "src/plugin.ts": "production",
+      "src/state.ts": "production",
+      "src/status-tool.ts": "production",
+      "src/types.ts": "production",
+      "src/verification-tool.ts": "production",
+      "src/verification.ts": "production",
+      "tests/adversarial.test.ts": "tests",
+      "tests/agent-asset.test.ts": "tests",
+      "tests/assets.test.ts": "tests",
+      "tests/command-asset.test.ts": "tests",
+      "tests/config.test.ts": "tests",
+      "tests/contracts.test.ts": "tests",
+      "tests/degradation.test.ts": "tests",
+      "tests/docs-asset.test.ts": "tests",
+      "tests/e2e-readiness.test.ts": "tests",
+      "tests/fusion-config-tool.test.ts": "tests",
+      "tests/high-effort.test.ts": "tests",
+      "tests/plugin.test.ts": "tests",
+      "tests/skill-asset.test.ts": "tests",
+      "tests/state.test.ts": "tests",
+      "tests/verification.test.ts": "tests",
+      "tsconfig.json": "configuration"
+    },
+    "exclusions": {},
+    "scope_review": {
+      "schema_version": 1,
+      "rationale": "Whole degradation module and imported type module; all project source retained in wider accounting.",
+      "relationships": {}
+    },
+    "checks": {
+      "differential": {
+        "schema_version": 1,
+        "description": "differential frozen unchanged contract check",
+        "required": true,
+        "definition_digest": "f10445d82bf2834388076200af77cb45d1b7841ce4416c64bb426a6adf7cd649",
+        "artifact_expectations": [],
+        "interpretation": {
+          "kind": "exit_status"
+        }
+      },
+      "project-tests": {
+        "schema_version": 1,
+        "description": "project-tests frozen unchanged contract check",
+        "required": true,
+        "definition_digest": "f10445d82bf2834388076200af77cb45d1b7841ce4416c64bb426a6adf7cd649",
+        "artifact_expectations": [],
+        "interpretation": {
+          "kind": "exit_status"
+        }
+      },
+      "types": {
+        "schema_version": 1,
+        "description": "types frozen unchanged contract check",
+        "required": true,
+        "definition_digest": "f10445d82bf2834388076200af77cb45d1b7841ce4416c64bb426a6adf7cd649",
+        "artifact_expectations": [],
+        "interpretation": {
+          "kind": "exit_status"
+        }
+      }
+    },
+    "target": {
+      "schema_version": 1,
+      "scope_identity": "production",
+      "language": "type_script",
+      "definitions": {
+        "physical_lines": {
+          "schema_version": 1,
+          "name": "physical_lines",
+          "definition_revision": "v1",
+          "language": "type_script",
+          "grammar_version": "tree-sitter-typescript@0.23.2",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "logical_statements": {
+          "schema_version": 1,
+          "name": "logical_statements",
+          "definition_revision": "v1",
+          "language": "type_script",
+          "grammar_version": "tree-sitter-typescript@0.23.2",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "decisions": {
+          "schema_version": 1,
+          "name": "decisions",
+          "definition_revision": "v1",
+          "language": "type_script",
+          "grammar_version": "tree-sitter-typescript@0.23.2",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "functions": {
+          "schema_version": 1,
+          "name": "functions",
+          "definition_revision": "v1",
+          "language": "type_script",
+          "grammar_version": "tree-sitter-typescript@0.23.2",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        }
+      },
+      "minimum_production_statement_reduction": 1,
+      "count_bounds": {},
+      "permitted_structural_tradeoffs": [
+        "Whole modules and wider source count; unknown call layers contextual. No TS project-wide reduction or maintenance claim."
+      ]
+    },
+    "capability_inventory": {
+      "schema_version": 1,
+      "source_identity": "30d3865b1bd971afdb8800557c73bb30e90c36acb140fe2633c84154fa164888",
+      "manifest_references": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "tsconfig.json"
+      ],
+      "artifact": {
+        "schema_version": 1,
+        "path": "inventory.json",
+        "sha256": "7ef81b0da316c0fb651aac76adcf30b7656fcc77bf602f0fd56d3386fb357354"
+      }
+    }
+  },
+  "baseline_files": {
+    ".opencode/lib/fusion-config.ts": {
+      "schema_version": 1,
+      "content_digest": "3eb22bdb969f858734ad341dbf5a25ab3341b65ffca8d880cba736e5606f32cf",
+      "category": "production"
+    },
+    ".opencode/plugins/open-ultracode/index.ts": {
+      "schema_version": 1,
+      "content_digest": "a308dbf3e2f08a1dbd408ccb85ef280faf7dae1e93463de2d387b1fd15a8728d",
+      "category": "production"
+    },
+    ".opencode/tools/open_ultracode_configure_fusion.ts": {
+      "schema_version": 1,
+      "content_digest": "6ae2d22fbd211d7258ead163b475574c7866c4d951082c12b6e231403be9daf5",
+      "category": "production"
+    },
+    "package.json": {
+      "schema_version": 1,
+      "content_digest": "9e7cea50617d41616149f7ad07fc92c001ea041a9545649d81bf5a142a615424",
+      "category": "configuration"
+    },
+    "pnpm-lock.yaml": {
+      "schema_version": 1,
+      "content_digest": "ff32aea7cab1d8220f22b51ce01f08fa8c1166392ccceffea6990951d5f95b1f",
+      "category": "configuration"
+    },
+    "scripts/validate-assets.ts": {
+      "schema_version": 1,
+      "content_digest": "3aa53a4828e4aa2a9a24a25ba135c32aa8721042806c59a165d345db85bbd9dd",
+      "category": "research_support"
+    },
+    "src/adversarial.ts": {
+      "schema_version": 1,
+      "content_digest": "16057828385112863f061c1515885cfb4794020f4ac630ad2ae954987d0d3e75",
+      "category": "production"
+    },
+    "src/config.ts": {
+      "schema_version": 1,
+      "content_digest": "10c6d8d3bfd32f4141dacd08b10be406a15739bc7c666b57c8ea0693fbf76650",
+      "category": "production"
+    },
+    "src/degradation.ts": {
+      "schema_version": 1,
+      "content_digest": "be136eea5ea10e79307b8742e4275ad5bfc9534bcff6e92ed2f8d4f4197702ab",
+      "category": "production"
+    },
+    "src/fusion-config-tool.ts": {
+      "schema_version": 1,
+      "content_digest": "0cc1fcb0cb915feb8585d9b21b4fc6ad537305b0f5abf7b8557677ca3a376a74",
+      "category": "production"
+    },
+    "src/high-effort.ts": {
+      "schema_version": 1,
+      "content_digest": "b3cdcf5cdc8b5df0ebed944df9fce3c0de4454487a1c13dab10771b524b0d6d4",
+      "category": "production"
+    },
+    "src/hooks.ts": {
+      "schema_version": 1,
+      "content_digest": "3aeff30eba62705fb720563e3fed1872277dbc2abc3051449784abb119f09610",
+      "category": "production"
+    },
+    "src/index.ts": {
+      "schema_version": 1,
+      "content_digest": "815952bfab210962dd6b4fbadfb85d467195abb8afdb92bace73606debcd1f96",
+      "category": "production"
+    },
+    "src/opencode-v2.ts": {
+      "schema_version": 1,
+      "content_digest": "55a49c8f19da9d88cd2d9e6c932f30efc4302d92cab7b47d20aca5e15c18872f",
+      "category": "production"
+    },
+    "src/plugin.ts": {
+      "schema_version": 1,
+      "content_digest": "3ec9a0124b583f247ffd1e1aa7134bd68b2f8a4a3a71c29ad145e6ecfe8b9c08",
+      "category": "production"
+    },
+    "src/state.ts": {
+      "schema_version": 1,
+      "content_digest": "66303dab1c65f326eadea2b31cb997ea0cc62956ac1ece1edce0063d4593f631",
+      "category": "production"
+    },
+    "src/status-tool.ts": {
+      "schema_version": 1,
+      "content_digest": "b64788614da8ec2c8252e0ede235a530f43611887a7fc7c5606c191db2fd2f20",
+      "category": "production"
+    },
+    "src/types.ts": {
+      "schema_version": 1,
+      "content_digest": "677fb8dfef0d704c804646100183cf7884412a29e44d40b8542ec6a49687fbcf",
+      "category": "production"
+    },
+    "src/verification-tool.ts": {
+      "schema_version": 1,
+      "content_digest": "b834d8f8bc2d35494ce11398d4a8435ec10765208ea51db6fb876068a29e886c",
+      "category": "production"
+    },
+    "src/verification.ts": {
+      "schema_version": 1,
+      "content_digest": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0",
+      "category": "production"
+    },
+    "tests/adversarial.test.ts": {
+      "schema_version": 1,
+      "content_digest": "df9b37813c6dd896f242b4301e6a0941b9f0afe9518223c31dcf14c5984d9192",
+      "category": "tests"
+    },
+    "tests/agent-asset.test.ts": {
+      "schema_version": 1,
+      "content_digest": "ba80764e2c4ba67814d15d6f7a5fb10ad238a23997c53d6e66ec85230a704dae",
+      "category": "tests"
+    },
+    "tests/assets.test.ts": {
+      "schema_version": 1,
+      "content_digest": "af14889e4fa863f74bd1a8d20299137fc7f71f4198e7e90ae69d6ed635e94e35",
+      "category": "tests"
+    },
+    "tests/command-asset.test.ts": {
+      "schema_version": 1,
+      "content_digest": "0638d91fad660d69a25f8d9f15fc13dc8a2f111c4e976ba1706fa14040048e72",
+      "category": "tests"
+    },
+    "tests/config.test.ts": {
+      "schema_version": 1,
+      "content_digest": "0c5927f719b63554222e0fd86eed5454aaa1613d7134045b5d6be8b3e5b7ed6c",
+      "category": "tests"
+    },
+    "tests/contracts.test.ts": {
+      "schema_version": 1,
+      "content_digest": "833e72805cfed047bb549587a933c544e35936ac5cc5477ea1b2aa8bb5f3ee99",
+      "category": "tests"
+    },
+    "tests/degradation.test.ts": {
+      "schema_version": 1,
+      "content_digest": "dc9e9d7559f85883766cc147013642ddfc9423487fa4411d8a3d393b31b1e2f7",
+      "category": "tests"
+    },
+    "tests/docs-asset.test.ts": {
+      "schema_version": 1,
+      "content_digest": "06cf00281b646525fed15593e94964c61823863af22cc0b318f04af89f3436db",
+      "category": "tests"
+    },
+    "tests/e2e-readiness.test.ts": {
+      "schema_version": 1,
+      "content_digest": "32397a864f20a9a64b247ba9e3b5698f0089c588f372e06091009912782f67ca",
+      "category": "tests"
+    },
+    "tests/fusion-config-tool.test.ts": {
+      "schema_version": 1,
+      "content_digest": "762f93aa1397821538f2eeb9a77371d591a017c622ea68be7f0a1704b2cb858e",
+      "category": "tests"
+    },
+    "tests/high-effort.test.ts": {
+      "schema_version": 1,
+      "content_digest": "9094779d8ac1b7d885307e47e4d57cbd7a2dfd12aca6cc5dda761d34c2ee083d",
+      "category": "tests"
+    },
+    "tests/plugin.test.ts": {
+      "schema_version": 1,
+      "content_digest": "39a740d5753f1017bae133570cfca956463aedd9487bc9404142f9526d1c9081",
+      "category": "tests"
+    },
+    "tests/skill-asset.test.ts": {
+      "schema_version": 1,
+      "content_digest": "920434b1d9916aa4cd3fb9177a1d37be96ae57879a0e93bb7617fa814ce80752",
+      "category": "tests"
+    },
+    "tests/state.test.ts": {
+      "schema_version": 1,
+      "content_digest": "b8f94419f714cb9c58d71f94c491e981f989b9eb38f1437c2dcf65b9cb7e5391",
+      "category": "tests"
+    },
+    "tests/verification.test.ts": {
+      "schema_version": 1,
+      "content_digest": "ee91eaa7c2419a6baca9c2071d9023b12f1ab2b21bf01ab4a0174b66f7ecccbe",
+      "category": "tests"
+    },
+    "tsconfig.json": {
+      "schema_version": 1,
+      "content_digest": "5fde4dc064d14bf1eeb332432cb620bccb98b134c2199b7bcb6236367a106efb",
+      "category": "configuration"
+    }
+  },
+  "baseline_identity": "30d3865b1bd971afdb8800557c73bb30e90c36acb140fe2633c84154fa164888",
+  "evaluator_identity": "lesscode-core@0.1.0;workflow.v1",
+  "definitions": {
+    "Python/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    }
+  },
+  "check_definition_digests": {
+    "differential": "f10445d82bf2834388076200af77cb45d1b7841ce4416c64bb426a6adf7cd649",
+    "project-tests": "f10445d82bf2834388076200af77cb45d1b7841ce4416c64bb426a6adf7cd649",
+    "types": "f10445d82bf2834388076200af77cb45d1b7841ce4416c64bb426a6adf7cd649"
+  }
+}

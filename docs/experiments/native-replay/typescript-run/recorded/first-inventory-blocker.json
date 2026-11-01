@@ -1,0 +1,22 @@
+{
+  "command": [
+    "D:\\Source\\lesscode\\native\\target\\debug\\lesscode-core.exe",
+    "compare",
+    "--frozen",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-checks\\frozen-before-edit.json",
+    "--baseline",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-checks\\baseline",
+    "--candidate",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-checks\\candidate",
+    "--evidence",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-checks\\empty-evidence.json",
+    "--artifact-root",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-checks",
+    "--out",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\ts01-checks\\scope-probe"
+  ],
+  "cwd": "D:\\Source\\lesscode",
+  "code": 3,
+  "log": "probe-compare.log",
+  "log_sha256": "5054e750a633b5ca16ed64f3ccb0ac0d2bd87ca4f451a3ca902902f371f4c4b8"
+}
