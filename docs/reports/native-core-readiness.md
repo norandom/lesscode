@@ -7,10 +7,12 @@ project tests. The existing discovery skill supplies the hypothesis and reviewed
 scope; maintainers decide adoption. Analysis needs no hosted account, commercial
 analyzer, Python/Node process, MCP service, solver or accelerator hardware.
 
-Windows correctness and the exercised Python/TypeScript workflow are verified.
-Final cross-platform readiness remains `MANUAL_VERIFY_REQUIRED`: latest Linux
-and macOS matrix results are absent. This is scoped implementation evidence,
-not a feature-wide GO or a general compression efficacy claim.
+Native correctness passed on Windows (102 tests), Linux (103) and macOS (103),
+with zero skips. The previously missing platform evidence is now supplied by
+[Actions run 41333477507](https://github.com/norandom/lesscode/actions/runs/41333477507).
+The [final gate](../../.kiro/specs/capability-compression-core/validation.md)
+records the resulting scoped feature GO. This does not establish general
+compression efficacy or whole-project simplification.
 
 ## Try the existing paired evidence
 
@@ -94,13 +96,13 @@ there is no whole-project maturity claim. A rejected beneficialness hypothesis
 would retain baseline; no deletion quota is required. Missing evidence would keep
 the corresponding maturity claim open.
 
-Initial Windows and Debian WSL foundation builds passed earlier, but that does
-not establish latest integrated Linux coverage. A later WSL build encountered
-SIGBUS with its temporary disk at 99% usage; no reset or cleanup was performed
-for this task. macOS was not executed. The prepared
-[three-platform workflow](../../.github/workflows/native-core.yml) has not been
-pushed or dispatched by this task; configuration is not passing CI evidence.
-Run and retain current Linux/macOS matrix results before cross-platform GO.
+Earlier WSL foundation checks and the subsequent SIGBUS attempt remain historical
+records. Current local Dagger validation and the hosted three-platform run passed
+formatting, Clippy, nextest, the separate doctest command (zero doctests), build
+and CLI help. Linux runs in Dagger; Windows/macOS execute the same script on
+native hosts. The [durable audit summary](../evidence/native-core-41333477507.json)
+records the tested merge revision, identical native source tree and artifact
+identities; raw artifacts have 14-day retention.
 
 ## Implementation cost and trust limits
 

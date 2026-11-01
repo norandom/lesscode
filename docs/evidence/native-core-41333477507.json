@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "run": "https://github.com/norandom/lesscode/actions/runs/41333477507",
+  "run_id": 41333477507,
+  "conclusion": "success",
+  "branch_revision": "e35bc02674e78e0130676dd146f324e824d55e2d",
+  "tested_merge_revision": "76ac246e5b6c2b4d2e355527b4282b18b3e0f56e",
+  "native_tree": "daace324c4ae3cee46ec54574768afec0af8e181",
+  "native_tree_matches_independently_reviewed_revision": "63d4cfb",
+  "platforms": [
+    {
+      "platform": "linux",
+      "checkout_revision": "76ac246e5b6c2b4d2e355527b4282b18b3e0f56e",
+      "tests": 103,
+      "passed": 103,
+      "skipped": 0,
+      "checks": [
+        {
+          "check": "build",
+          "exit_code": 0
+        },
+        {
+          "check": "cargo",
+          "exit_code": 0
+        },
+        {
+          "check": "clippy",
+          "exit_code": 0
+        },
+        {
+          "check": "doctest",
+          "exit_code": 0
+        },
+        {
+          "check": "fmt",
+          "exit_code": 0
+        },
+        {
+          "check": "help",
+          "exit_code": 0
+        },
+        {
+          "check": "nextest",
+          "exit_code": 0
+        },
+        {
+          "check": "overall",
+          "exit_code": 0
+        },
+        {
+          "check": "platform",
+          "exit_code": 0
+        },
+        {
+          "check": "rustc",
+          "exit_code": 0
+        },
+        {
+          "check": "test",
+          "exit_code": 0
+        }
+      ],
+      "test_log_sha256": "3dbbd8484482fff017d81f85b3dc408297d4836dfbe561ab1c8cbebaca2663b5"
+    },
+    {
+      "platform": "windows",
+      "checkout_revision": "76ac246e5b6c2b4d2e355527b4282b18b3e0f56e",
+      "tests": 102,
+      "passed": 102,
+      "skipped": 0,
+      "checks": [
+        {
+          "check": "build",
+          "exit_code": 0
+        },
+        {
+          "check": "cargo",
+          "exit_code": 0
+        },
+        {
+          "check": "clippy",
+          "exit_code": 0
+        },
+        {
+          "check": "doctest",
+          "exit_code": 0
+        },
+        {
+          "check": "fmt",
+          "exit_code": 0
+        },
+        {
+          "check": "help",
+          "exit_code": 0
+        },
+        {
+          "check": "nextest",
+          "exit_code": 0
+        },
+        {
+          "check": "overall",
+          "exit_code": 0
+        },
+        {
+          "check": "platform",
+          "exit_code": 0
+        },
+        {
+          "check": "rustc",
+          "exit_code": 0
+        },
+        {
+          "check": "test",
+          "exit_code": 0
+        },
+        {
+          "check": "toolchain",
+          "exit_code": 0
+        }
+      ],
+      "test_log_sha256": "6229019b9e0097aff2312b50c440ef69d5a98b907b5a813c9fec1a359073b69b"
+    },
+    {
+      "platform": "macos",
+      "checkout_revision": "76ac246e5b6c2b4d2e355527b4282b18b3e0f56e",
+      "tests": 103,
+      "passed": 103,
+      "skipped": 0,
+      "checks": [
+        {
+          "check": "build",
+          "exit_code": 0
+        },
+        {
+          "check": "cargo",
+          "exit_code": 0
+        },
+        {
+          "check": "clippy",
+          "exit_code": 0
+        },
+        {
+          "check": "doctest",
+          "exit_code": 0
+        },
+        {
+          "check": "fmt",
+          "exit_code": 0
+        },
+        {
+          "check": "help",
+          "exit_code": 0
+        },
+        {
+          "check": "nextest",
+          "exit_code": 0
+        },
+        {
+          "check": "overall",
+          "exit_code": 0
+        },
+        {
+          "check": "platform",
+          "exit_code": 0
+        },
+        {
+          "check": "rustc",
+          "exit_code": 0
+        },
+        {
+          "check": "test",
+          "exit_code": 0
+        },
+        {
+          "check": "toolchain",
+          "exit_code": 0
+        }
+      ],
+      "test_log_sha256": "e3aa14b1d3479eedaf71a4ec617121e6e9251f8f2c13a7901baa37aa7d6ec5cb"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 13094791196,
+      "name": "native-core-windows-2025-1",
+      "digest": "sha256:7235f852d3f75da8e6964ce996148d50c21034ad0fd4ca1c09b96a6ad9a2ca67",
+      "expires_at": "2026-11-15T17:58:34Z"
+    },
+    {
+      "id": 13094646035,
+      "name": "native-core-ubuntu-24.04-1",
+      "digest": "sha256:ceadfe1b9f144f7b7ecf916d0997d7d64b733e6704cdec6078fbcfb9f47f28a6",
+      "expires_at": "2026-11-15T17:55:31Z"
+    },
+    {
+      "id": 13094108307,
+      "name": "native-core-macos-15-intel-1",
+      "digest": "sha256:1d15d95bdffc41170fd0f671494a5248f90ac24aeba203a9014430c210346c28",
+      "expires_at": "2026-11-15T18:00:03Z"
+    }
+  ],
+  "limits": [
+    "Zero doctests are defined; command passed.",
+    "Platform correctness does not prove general compression efficacy.",
+    "Uncommitted user changes were not published or validated by this run.",
+    "Raw artifacts expire after 14 days."
+  ],
+  "local_dagger": "dagger-native-e35bc02.json"
+}

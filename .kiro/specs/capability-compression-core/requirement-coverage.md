@@ -1,9 +1,9 @@
 # Acceptance-criterion coverage
 
-All 32 criteria are mapped below. Coverage means the stated local behavior is
-supported; it is not a full platform GO. Fresh native verification is
-[102 Windows tests](../../../docs/evidence/native-core-readiness/nextest.log).
-See [readiness](readiness.md) for current Linux/macOS gaps and supported maturity.
+All 32 criteria are mapped below. Current native verification passed 102 Windows,
+103 Linux and 103 macOS tests with zero skips, plus build, formatting, Clippy,
+doctest and CLI-help checks. See the [platform audit](../../../docs/evidence/native-core-41333477507.json)
+and [readiness](readiness.md) for the exact tested source and supported maturity.
 Test names below are concrete functions in the linked modules, not proposed work.
 
 | Criterion | Implementation and concrete evidence | Scope/qualification |

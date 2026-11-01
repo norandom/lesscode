@@ -31,8 +31,9 @@ The exercised Windows workflow includes real ATS/NPU/TypeScript trials and a
 reviewed Python self-application: 29 statements and 32 physical lines removed
 across the complete two-module contracts capability. The exact approved policy
 contracts file is adopted. These scoped results do not establish general discovery
-efficacy, net repository shrinkage or reduced maintenance effort. Latest Linux
-and macOS integrated verification remains pending; no cross-platform GO is claimed.
+efficacy, net repository shrinkage or reduced maintenance effort. Native checks
+passed on Linux through Dagger and on native Windows/macOS runners; see the
+[CI results and evidence](docs/ci-validation.md#rust-core-dagger-and-actions).
 
 The existing `lesscode-baseline` Python evaluator remains runnable as a research
 and reference implementation. Its commands and historical evidence below are

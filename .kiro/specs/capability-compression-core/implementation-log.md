@@ -44,3 +44,15 @@ Latest Windows checks: native nextest 102 passed; paired Python full suites each
 504 passed and 11 skipped, with identical 515 identities; live adoption checks
 70 passed and 104 subtests passed. Scope and limits are in readiness.md. This
 record does not supply missing Linux/macOS results or establish a feature-wide GO.
+
+## Dagger / hosted platform follow-up
+
+Committed CI revision `e35bc02` supplies Dagger 0.21.8 for Linux and the same
+shared check script on native Windows/macOS. Current Actions run 41333477507
+passed 103/102/103 tests respectively, with zero skips and all recorded checks
+passing. All artifacts were downloaded; checkout identity and the native tree
+were compared with independently validated revision `63d4cfb` and match.
+The controller verified the remaining platform gate inline; no new independent
+review is claimed. Local Dagger passed the real suite and an intentional failure
+probe. See `validation.md` and `docs/evidence/native-core-41333477507.json`.
+The scoped feature gate is GO; no specimens or product implementation changed.

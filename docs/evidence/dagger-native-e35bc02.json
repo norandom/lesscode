@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-11-01T18:55:14.3400748+01:00",
+  "source_revision": "e35bc02674e78e0130676dd146f324e824d55e2d",
+  "native_tree": "daace324c4ae3cee46ec54574768afec0af8e181",
+  "environment": "Dagger 0.21.8 in Debian WSL, Linux x86_64 container",
+  "rust": "1.98.1",
+  "nextest": "0.9.143",
+  "command": "dagger call evidence --source . --revision local-working-tree export --path /tmp/lesscode-native-evidence; dagger call check --source . --revision local-working-tree",
+  "tests": {
+    "failed": 0,
+    "passed": 103,
+    "skipped": 0
+  },
+  "doctests": 0,
+  "checks": [
+    {
+      "check": "build",
+      "exit_code": 0
+    },
+    {
+      "check": "cargo",
+      "exit_code": 0
+    },
+    {
+      "check": "clippy",
+      "exit_code": 0
+    },
+    {
+      "check": "doctest",
+      "exit_code": 0
+    },
+    {
+      "check": "fmt",
+      "exit_code": 0
+    },
+    {
+      "check": "help",
+      "exit_code": 0
+    },
+    {
+      "check": "nextest",
+      "exit_code": 0
+    },
+    {
+      "check": "overall",
+      "exit_code": 0
+    },
+    {
+      "check": "platform",
+      "exit_code": 0
+    },
+    {
+      "check": "rustc",
+      "exit_code": 0
+    },
+    {
+      "check": "test",
+      "exit_code": 0
+    }
+  ],
+  "failure_probe": {
+    "script_exit_code": 7,
+    "evidence_export": "passed",
+    "check": "rejected as expected"
+  },
+  "logs": [
+    {
+      "file": "build.log",
+      "sha256": "59639588a6f1826f129cbcd121edc07279dab94786f5fa5bde6b3439b2e845cc"
+    },
+    {
+      "file": "cargo.log",
+      "sha256": "e71fd2dfdb3de061a5eec27f88750d6f9e221d85d85220c26285270dd47ae93e"
+    },
+    {
+      "file": "clippy.log",
+      "sha256": "f89a57633a0eb4d52d97601406a1a00170460b781b5285d20646f15961adb05a"
+    },
+    {
+      "file": "doctest.log",
+      "sha256": "9e6ac20c8502b0e78a63d4b27c2ca7fed9469ab71af917e98f6788f87719956f"
+    },
+    {
+      "file": "fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "help.log",
+      "sha256": "a6cf58c5786f438da9eabd787679c010a5299591aee49c383c2e2262f7b6b755"
+    },
+    {
+      "file": "nextest.log",
+      "sha256": "37ea9a38f5f0e0e11223a8fdb3e4669ee447f6403bc153723e33f807f77d02eb"
+    },
+    {
+      "file": "platform.log",
+      "sha256": "c542063eee2c254ecc3086e06da71395d84245884acf02e43bb56abee2e342e1"
+    },
+    {
+      "file": "rustc.log",
+      "sha256": "778fbc643a806f0dd123c056e66201d7e8a56a61928ec0a33171be8d6c2d5a37"
+    },
+    {
+      "file": "test.log",
+      "sha256": "00b33e4c1a4b45d57f604a3a49237aa5ba730b23a8deff06e784a57e57473d02"
+    }
+  ],
+  "raw_logs": ".runs/dagger-validation/evidence (local, not versioned)",
+  "actions_run": "https://github.com/norandom/lesscode/actions/runs/41333477507",
+  "actions_status": "pending at local evidence capture",
+  "feature_gate": "MANUAL_VERIFY_REQUIRED: hosted platform results pending"
+}

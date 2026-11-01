@@ -32,8 +32,21 @@ doctests, build and CLI help. Every command retains a log and exit code.
 `evidence` exports these even when a check fails; `check` enforces the aggregate
 exit code. Actions runs both in order and uploads evidence with `if: always()`.
 Setup or container failures remain failed jobs, even if no evidence directory
-could be produced. Artifacts are retained for 14 days. Only build/dependency
-caches are reused; checks execute for the supplied source and revision.
+could be produced. Artifacts are retained for 14 days. Dagger may reuse execution
+results for identical content and arguments; source changes or a different
+revision invalidate the check execution. The enforcement call reuses the same
+evidence result rather than running the suite twice. Cargo dependency/build
+caches are separate from this content-addressed execution cache.
+
+The first hosted run [41333477507](https://github.com/norandom/lesscode/actions/runs/41333477507)
+passed all three jobs: Linux 103 tests, Windows 102 and macOS 103, with zero
+skips. All check exit codes were zero. The separate doctest command passed with
+zero doctests defined. The [durable audit](evidence/native-core-41333477507.json)
+records the PR merge checkout, matching reviewed native tree and artifact
+IDs/digests. Local WSL Dagger also passed, including an intentional failure probe
+that confirmed evidence export and nonzero enforcement; see the
+[local receipt](evidence/dagger-native-e35bc02.json). Its pending-Actions label
+describes the earlier capture time, superseded by the hosted audit.
 
 ## Retained Python baseline
 

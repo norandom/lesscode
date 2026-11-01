@@ -22,7 +22,9 @@ external CLI/integration tests. `.agents/skills/lesscode-discovery/` contains th
 verified recipe. Native tests use cargo-nextest; Python reference tests use
 pytest-xdist. `docs/experiments/native-replay/` and `native-self-apply/` retain
 fresh empirical evidence; the latter includes the adopted policy-helper reuse.
-Current Windows readiness is verified; latest Linux/macOS verification is pending.
+Native Windows/Linux/macOS checks passed in Actions run 41333477507; Linux uses
+Dagger, while Windows/macOS remain native host jobs. Exact revisions and artifact
+identities are retained in `docs/evidence/native-core-41333477507.json`.
 Frozen `docs/experiments/` records remain
 reference evidence. Broad policy, transaction, MCP/plugin and solver-integration
 layers are removed from active delivery, not queued dependencies.

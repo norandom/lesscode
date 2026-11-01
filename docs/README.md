@@ -3,7 +3,8 @@
 Start with the [native workflow and scoped readiness report](reports/native-core-readiness.md).
 Supply the baseline, candidate, reviewed ownership and externally run checks;
 inspect JSON and Markdown before adoption. Python and TypeScript are supported
-for the exercised scopes. Current Linux/macOS integrated validation is pending.
+for the exercised scopes. Native Linux, Windows and macOS checks passed in
+[Actions](ci-validation.md#rust-core-dagger-and-actions).
 The retained Python evaluator guides below remain usable reference workflows.
 
 ## Run your first comparison
