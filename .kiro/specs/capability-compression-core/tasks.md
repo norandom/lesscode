@@ -159,7 +159,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 6.1, 6.4_
   - _Requirements: 2.2, 3.5, 4.1, 4.2, 4.5_
 
-- [ ] 7. Complete bounded self-application and final validation
+- [x] 7. Complete bounded self-application and final validation
 - [x] 7.1 Freeze a supported Lesscode self-trial
   - Select one complete supported capability and record rationale, baseline/evaluator revisions, target, scope, exclusions and independent expected outcomes.
   - Prepare isolated baseline/candidate copies and frozen evaluator/checks outside the editable workspace; verify the relevant existing uv test environment.
@@ -175,7 +175,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: Self-trial_
   - _Requirements: 5.3, 5.4, 5.5, 5.6, 5.7, 5.8_
 
-- [ ] 7.3 Validate and publish scoped readiness evidence
+- [x] 7.3 Validate and publish scoped readiness evidence
   - Run the integrated native/adverse/regression checks and capture available platform evidence; verify all criteria against concrete artifacts.
   - Record workflow maturity separately from compression outcome and unsupported coverage; include working usage and evidence links in the existing indexes.
   - Done: final validation records passed, rejected and outstanding evidence honestly; no forced reduction or retired layer is needed to finish implementation work.

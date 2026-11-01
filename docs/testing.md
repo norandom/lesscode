@@ -50,3 +50,15 @@ parallel experiment records its runner versions, worker count, collection,
 command and outcome. Verify collected test identities and counts before adopting
 a runner change. Timing reported here concerns test execution, not the product's
 code-compression acceptance criteria.
+
+For isolated copies beneath this checkout, explicitly select each copy's
+configuration, root and source path. Otherwise pytest may discover the parent
+checkout's configuration and test the wrong package:
+
+```text
+python -m pytest tests -c SIDE/pyproject.toml --rootdir SIDE -o pythonpath=SIDE/src -n 4 --dist loadfile
+```
+
+Use absolute side paths and record/assert actual imported module locations in
+each worker when admitting a behavior-preservation trial. Equal collection counts
+alone do not establish that the intended implementation was executed.

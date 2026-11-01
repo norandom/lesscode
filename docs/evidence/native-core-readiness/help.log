@@ -1,0 +1,14 @@
+Read-only capability-compression preparation and comparison
+
+Usage: lesscode-core.exe <COMMAND>
+
+Commands:
+  prepare  Freeze the baseline and reviewed manifest in a new external JSON file
+  compare  Compare supplied roots and evidence; write result.json and report.md
+  help     Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
+
+Exit codes: 0 prepared/accepted; 1 rejected/not-demonstrated; 2 incomplete; 3 invalid input, baseline-ineligible or IO failure. Reports require fresh output outside source roots. Checks are supplied, never executed.

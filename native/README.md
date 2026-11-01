@@ -1,11 +1,33 @@
-# Native foundation
+# Native capability-compression core
 
-This separate Rust 2021 package builds one library (`lesscode_core`) and one
-executable (`lesscode-core`). It leaves the existing Python CLI and historical
-evidence unchanged. This milestone provides real Python, TypeScript and TSX
-parser probes and CLI help/version only. Prepare/compare, source inventory,
-metric definitions and evidence decisions belong to subsequent tasks; parser
-success does not establish metric correctness or behavioral equivalence.
+This Rust 2021 package builds one library (`lesscode_core`) and one executable
+(`lesscode-core`). It freezes reviewed capability manifests and compares supplied
+Python, TypeScript and TSX source with source-bound external behavioral evidence.
+It writes JSON and Markdown, counts complete replacements and leaves specimens
+unchanged. It never runs project checks. The existing Python CLI remains available.
+
+Start with the [working paired example and scoped readiness](../docs/reports/native-core-readiness.md).
+`prepare --manifest MANIFEST --baseline ROOT --out FRESH.json` freezes the trial;
+`compare --frozen FROZEN --baseline ROOT --candidate ROOT --evidence EVIDENCE
+--artifact-root ARTIFACTS --out FRESH` produces `result.json` and `report.md`.
+Repeat `--artifact-root` only for distinct required roots. Output must be new and
+outside both specimens. Exit codes: 0 prepared/accepted; 1 rejected/not-demonstrated;
+2 incomplete; 3 invalid input/baseline-ineligible/I/O error.
+
+Metrics use explicit per-language v1 definitions: physical source lines,
+logical grammar statements (compound headers and children, no block containers),
+aggregate decisions (no implicit function base), function definitions and resolved
+internal call layers. Dynamic/cyclic relationships keep full depth unavailable
+with located unresolved calls and optional lower bounds. These are not Radon LLOC
+or Lizard CCN. The [design metric contract](../.kiro/specs/capability-compression-core/design.md#metrics-contract)
+defines them. Byte/gzip size and runtime are not compression-benefit metrics.
+
+Fresh Windows validation passes 102 native tests plus build/fmt/clippy/doctest and
+real ATS readmission. Latest integrated Linux/macOS evidence remains pending;
+prepared CI is not a passing platform result. Finite checks and consistency hashes
+do not establish universal equivalence or trusted execution. See the
+[coverage map](../.kiro/specs/capability-compression-core/requirement-coverage.md)
+and [readiness gate](../.kiro/specs/capability-compression-core/readiness.md).
 
 ## Reproduce the build
 
