@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-01T16:08:45.285271+00:00",
+  "head": "d59696542d781aa0fd0f4cd6037effedff012c5b",
+  "git_status": " M .kiro/specs/agent-quality-rules/spec.json\n M .kiro/specs/deconvolute-skill/brief.md\n M .kiro/steering/product.md\n M .kiro/steering/roadmap.md\n M .kiro/steering/structure.md\n M .kiro/steering/tech.md\n M README.md\n M docs/README.md\n M src/lesscode_baseline/rules/evaluate.py\n M tests/test_rule_evaluation.py\n?? .agents/skills/kiro-debug/\n?? .agents/skills/kiro-discovery/\n?? .agents/skills/kiro-impl/\n?? .agents/skills/kiro-review/\n?? .agents/skills/kiro-spec-batch/\n?? .agents/skills/kiro-spec-design/\n?? .agents/skills/kiro-spec-init/\n?? .agents/skills/kiro-spec-quick/\n?? .agents/skills/kiro-spec-requirements/\n?? .agents/skills/kiro-spec-status/\n?? .agents/skills/kiro-spec-tasks/\n?? .agents/skills/kiro-steering-custom/\n?? .agents/skills/kiro-steering/\n?? .agents/skills/kiro-validate-design/\n?? .agents/skills/kiro-validate-gap/\n?? .agents/skills/kiro-validate-impl/\n?? .agents/skills/kiro-verify-completion/\n?? .agents/skills/lesscode-discovery/agents/\n?? .agents/skills/lesscode-discovery/references/experiment-record.md\n?? .codex/\n?? .kiro/settings/\n?? .kiro/specs/agent-quality-rules/direction-amendment.md\n?? .kiro/specs/capability-compression-core/brief.md\n?? .kiro/specs/capability-compression-core/requirements.md\n?? .kiro/specs/capability-compression-core/research.md\n?? .kiro/specs/capability-compression-core/spec.json\n?? .kiro/specs/capability-compression-core/task-plan-review.md\n?? .kiro/specs/codex-integration/\n?? .kiro/specs/efficiency-baseline/direction-amendment.md\n?? .kiro/specs/efficiency-baseline/evaluation-protocol.md\n?? .kiro/specs/efficiency-baseline/research.md\n?? .kiro/specs/transactional-rewrites/\n?? .openidea/\n?? AGENTS.md\n?? docs/compression-procedure.md\n?? docs/experiments/ats-report/\n?? docs/experiments/capability-guided/\n?? docs/experiments/cegis/\n?? docs/experiments/facdrone/\n?? docs/experiments/feature-path/\n?? docs/experiments/native-self-apply/\n?? docs/experiments/npu-backends/\n?? docs/experiments/outcome-hotspot/\n?? docs/experiments/outcome-llm/\n?? docs/experiments/reader-family/\n?? docs/experiments/report-graph/\n?? docs/experiments/self-apply/\n?? docs/images/cegis-compression.png\n?? docs/images/cegis-compression.svg\n?? docs/images/lesscode-synthesis-statistics.png\n?? docs/images/lesscode-synthesis-statistics.svg\n?? docs/maintainers/synthesis-report-design.md\n?? docs/reports/\n?? docs/repository-capability-driver.md\n",
+  "run_directory": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01",
+  "baseline_identity": "f655aec4a68aa7b97e9c25fd791d42a861cc5cadd2c71e22eb68bbc8d0a170e0",
+  "source_files": 924,
+  "baseline_and_candidate_byte_identical": true,
+  "workingtree_production_and_tests_unchanged": true,
+  "other_concurrent_workingtree_changes": {},
+  "preserved_dirty_files": {
+    "src/lesscode_baseline/rules/evaluate.py": "e77e7e9ea70a9899a4f1646c40ae72a16e954bf34c8e42cf9196bc85cec165eb",
+    "tests/test_rule_evaluation.py": "07a5a70b614c27137b9759c3c59f2a2178add9643540d278cc2b2a8e8bd9223c"
+  },
+  "evaluator": {
+    "executable": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\lesscode-core.exe",
+    "sha256": "5b41c7bf7e3e6d6b015783884dd2b488c8e981490c1f297f4e2de1facc32aa4d",
+    "version": "lesscode-core 0.1.0",
+    "source_identity": {
+      "native/.gitignore": "306fd52e74fca6746e12acc750f232de15e71da917756a1270d74c91f5eb7368",
+      "native/Cargo.lock": "a6ea240e5c57aa58ae61046cc5e739285bc5add5ce00babf7092013c3c3a9e58",
+      "native/Cargo.toml": "22f94e810bfb71dcce23c11f1a58f276690fe458a14f6244aeae6071e72fedf7",
+      "native/licenses/ast-grep-MIT.txt": "81471889c77b2161a3e4dcdb1b2e6ca382e485766132d92d5fe1d7497e7dd2d9",
+      "native/licenses/tree-sitter-typescript-MIT.txt": "49bf33cf78ef5897e4e161ce1517df7de1ae5042a65b6bcfd44401e0fc606559",
+      "native/LICENSES.md": "6f2d8a44ad89b867b49e9bb385f6fee72e1ec989156b5bc9b833ff5058a5122b",
+      "native/README.md": "5e5004c78c41fa69192ceb1a9832da02305ef86b4ea6fda369edd45cd61a285c",
+      "native/rust-toolchain.toml": "887f9be066a15585a2c583578e84b0fcb541126d81546276bad3d2ff00d61167",
+      "native/src/compare.rs": "daa8ab557aae71c6e868abdc226deba4d6abefd2eb0ccdb7755b511e48acfb73",
+      "native/src/lib.rs": "ff6cfa6c18f63de199d5f5c62677314140c87fdffd58ec1e112db061438c3e2b",
+      "native/src/main.rs": "99a8de2d515fc75eef962f558f419a67dfd7a0fbd1b7a6afd705a92a42756af5",
+      "native/src/metrics.rs": "311da69ea6e5e3322de603f306db34ad1cd241a3a6ce016ee9aedb3a98864c04",
+      "native/src/model.rs": "cd6516d87e5e0ee2d8a1dfc784557070fe53660c57d9975dd01999015bd8a651",
+      "native/src/scope.rs": "40f498c411e7866d7d25b3f3cec167dc680ac4eb4c7b64a68388e2c35f74e2c1",
+      "native/tests/cli.rs": "5f7fd233fe8abbdd189695470c35ca60afa466f55710afc37507ef3ac8abcbe7",
+      "native/tests/parsers.rs": "938a21bb2d27be16e9b1920b472bafb7fe6a36b619357cbe55707718eb79588a",
+      "native/tests/workflow.rs": "0f33322ec8b7770c4d3260c3249c6ed30d865f3ce278acb3b6f4c986b469e7dc",
+      "native/THIRD_PARTY_NOTICES.txt": "f6fd69f428451dc7d41ed8c42fb09bfb189a05902e3a038191e0f66625eb5d51"
+    },
+    "head_is_not_source_identity": true
+  },
+  "prerequisite_result_hashes": {
+    "docs\\experiments\\native-replay\\ats-run\\recorded\\candidate-comparison\\result.json": "ed6cf0e60373d5e0a099ad97f56761359d85870fa2ad113af79e77b35ace7221",
+    "docs\\experiments\\native-replay\\ats-run\\recorded\\candidate-probe\\result.json": "3e38319da51102b5e2540abe126f1523243b79c8be026e494348e1ad1794c807",
+    "docs\\experiments\\native-replay\\ats-run\\recorded\\mutant-comparison\\result.json": "c808f5cf96efaa1353eab44741658eb1126ba25690ee97bb5ab2c67a940639d6",
+    "docs\\experiments\\native-replay\\ats-run\\recorded\\mutant-probe\\result.json": "3ddd9e92e3036806d6ffa97dea85a0e63895b5f5a0c8653180a42c279e66ae6f",
+    "docs\\experiments\\native-replay\\typescript-run\\recorded\\result.json": "368521acc326ae55915186230acfbbbf9e33cb146c47c057bae2603ca3c32524"
+  },
+  "environment_probe": {
+    "command": "uv.exe run --no-project --no-python-downloads --python .venv-task11/Scripts/python.exe python -m unittest tests.test_contracts tests.test_rule_contracts tests.test_rule_evidence tests.test_rule_evaluation -q",
+    "cwd": "D:\\Source\\lesscode",
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\baseline\\src",
+    "tests": 171,
+    "result": "OK",
+    "elapsed_seconds": 42.284,
+    "log_sha256": "8c2ae6e277157d0ee934b589db8da0d8e2342d0b3ac8349ac5598249fda2aa2c",
+    "purpose": "Existing relevant environment verified; no task7.2 paired result or project regression claimed."
+  },
+  "durable_artifacts": {
+    "baseline-counts.json": "3e14d29ceca219b09ad31b8d3dde579b740ba76adb180d76f5f4b5759bcf4d90",
+    "baseline.zip": "dd7ca8e28f445ea80c115bf776cbecf482600e6903114b1076295ac899f60914",
+    "check-definition.json": "4d80b50d405c82aed545ea0621ef75a7722fa01bcfd28c8d18e0e2e2600f87de",
+    "environment-probe.log": "8c2ae6e277157d0ee934b589db8da0d8e2342d0b3ac8349ac5598249fda2aa2c",
+    "expected-outcomes.json": "8753e5e22a4117ca6c84ea1ba61cfdb84d86a13683ee7e113be75ea3748a9938",
+    "frozen.json": "6ec709c1939476c02f850720bc3b13e647d2ec43864531a6d07e12bd34461382",
+    "inventory.json": "0a1e7543f4c8332dde7af39b7872602ac34c5e2203b1e19a8a1e4fa792e46927",
+    "manifest.json": "05b59f5ff12d0a1f0725f1bf7a91f633cabdab1e819ef7ce2c0cc87d9ac24736",
+    "plan.md": "9f2037c64db67b39c6ac4fe19c7ed0f171e4a99df14485c816a602a9f9cdcbf1",
+    "preparation.md": "17ceada9266c996e72a9d21a0193bf25ff1a106858694b23e34fd023f53e4829",
+    "prepare.log": "d12cf53a574a0ee100b799feb7a13c0de0bbb09028ce05e21c23bc748cf5b315",
+    "source-inventory.json": "cf747015b8303ff6c5d3bb34c863be8bd5333a99a1d5774961c8b4f997b5dcf7",
+    "tool-inventory.json": "bd80773d0e025ea0544a19e922d98fa2ba965cd1edb9d08d9de8bf66aa27ca48"
+  },
+  "workflow_complete": false,
+  "compression_outcome": "not attempted",
+  "adoption": "retain baseline",
+  "source_edits": 0,
+  "test_edits": 0,
+  "verification": {
+    "native_prepare_exit": 0,
+    "calibration_compare_exit": 2,
+    "candidate_not_edited": true,
+    "full_regression_not_run": true,
+    "archive_paths_and_hashes_match": true,
+    "final_source_and_test_identity_recheck": true
+  }
+}

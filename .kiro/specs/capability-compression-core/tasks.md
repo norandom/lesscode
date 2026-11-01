@@ -160,7 +160,7 @@ completing an attempted trial does not itself establish maturity.
   - _Requirements: 2.2, 3.5, 4.1, 4.2, 4.5_
 
 - [ ] 7. Complete bounded self-application and final validation
-- [ ] 7.1 Freeze a supported Lesscode self-trial
+- [x] 7.1 Freeze a supported Lesscode self-trial
   - Select one complete supported capability and record rationale, baseline/evaluator revisions, target, scope, exclusions and independent expected outcomes.
   - Prepare isolated baseline/candidate copies and frozen evaluator/checks outside the editable workspace; verify the relevant existing uv test environment.
   - Done: the self-trial inputs are reproducible and do not require Rust parsing, feature cuts or rewriting uncommitted work.
