@@ -22,9 +22,9 @@ with located unresolved calls and optional lower bounds. These are not Radon LLO
 or Lizard CCN. The [design metric contract](../.kiro/specs/capability-compression-core/design.md#metrics-contract)
 defines them. Byte/gzip size and runtime are not compression-benefit metrics.
 
-Fresh Windows validation passes 102 native tests plus build/fmt/clippy/doctest and
-real ATS readmission. Latest integrated Linux/macOS evidence remains pending;
-prepared CI is not a passing platform result. Finite checks and consistency hashes
+Native validation passed 102 Windows, 103 Linux and 103 macOS tests with zero
+skips, plus build/fmt/clippy/doctest/CLI checks in Actions run 41333477507;
+the readiness report retains exact source and artifact identities. Finite checks and consistency hashes
 do not establish universal equivalence or trusted execution. See the
 [coverage map](../.kiro/specs/capability-compression-core/requirement-coverage.md)
 and [readiness gate](../.kiro/specs/capability-compression-core/readiness.md).

@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-11-01T19:41:24.1875373+01:00",
+  "claim": "Local research measurement reproducibility, not compression efficacy",
+  "footprint_repeats": "Admitted source and metric payloads identical; mmhmem repository HEAD alone advanced outside the measured source scope",
+  "rust_structure": "22/22 RCA files identical on repetition; 14 named functions in representative source",
+  "probe": "11 cases, 4 mismatches; identical repeated output; candidate rejected",
+  "source_drift": "Only src/lib.rs byte change, LF to CRLF; profile rejection and reviewed replay retained",
+  "markdown": "Local links checked separately",
+  "chart": "Matplotlib PNG visually inspected; SVG parsed",
+  "application_tests": "Not run; no application rewrite",
+  "product_code_changes": 0,
+  "research_source": [
+    {
+      "sha256": "6584b12ec4eddf9e375342483d43c940ebead3fc64f996e80690a32401941007",
+      "path": "measure.py",
+      "physical_lines": 123
+    },
+    {
+      "sha256": "4cb5b1d1c25f510c9bd9b2ac0cf8c571b9e73ee2828c0c632fe75be692133210",
+      "path": "plot.py",
+      "physical_lines": 39
+    },
+    {
+      "sha256": "f9865f8827cacb3cc8b302df93eb34f0a0b5b891c97468e1298b08181a1670c4",
+      "path": "proxy_probe.py",
+      "physical_lines": 66
+    }
+  ]
+}

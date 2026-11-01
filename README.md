@@ -16,6 +16,11 @@ differences also count when judging whether it simplifies the project.
 
 ## What works today
 
+The [local mmhmem/mvibe experiment](docs/experiments/local-adoption/README.md)
+records separate production/test footprints, Cargo-installed Rust analysis,
+reproduction data and a rejected standard-library replacement. These are field
+baselines, with no new compression savings claimed.
+
 The local Rust library and `lesscode-core` CLI now compare supplied Python and
 TypeScript capabilities. They count the complete replacement, including helpers
 and changed callers, and admit frozen, source-bound behavioral evidence before

@@ -1,0 +1,24 @@
+{
+  "target": "D:/Source/mmhmem/.opencode/skills/lesscode-discovery",
+  "opencode": "2.2.5",
+  "source": "D:/Source/lesscode/.agents/skills/lesscode-discovery",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "841c47a7d792f6c1ba5b7b2248f688677e0a0b5bd6ad6e9c35071c7e30491f27"
+    },
+    {
+      "path": "references\\experiment-record.md",
+      "sha256": "b0077fc3b40b12e8b9949cee7f5d1d5cfa35a7e5dd796f61e4f7e6b2bf4fd362"
+    },
+    {
+      "path": "references\\local-measurement.md",
+      "sha256": "3a33b93ecd2fe50bc774cd38586c6957c5bd76037813757ac3c21d4a202b7414"
+    },
+    {
+      "path": "references\\native-workflow.md",
+      "sha256": "42b949401cc58908d9e2249158d2618b56c127632667678f7a85e7b488e79672"
+    }
+  ],
+  "application_source_modified": false
+}

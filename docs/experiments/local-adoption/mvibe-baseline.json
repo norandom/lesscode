@@ -1,0 +1,1632 @@
+{
+  "schema": "research-baseline-v1",
+  "project": "mvibe",
+  "root": "D:\\Source\\mvibe",
+  "revision": "1da21559774e8994b8736b3062d7a4d7589bd9f2",
+  "source_identity": "e652d8a777d5db8932d33d9419b4fed1bc2f2d0df2b88d5cd46e2134dd8d3dee",
+  "tracked_source_files": 153,
+  "selection": "User-nominated repositories; manual candidate selection, not a representative corpus",
+  "scope_manifest_sha256": "9f5af5b87ae082f742b2ce4e1ab03666048b5ace032ed840da2e8312a9a5072a",
+  "measurement_script_sha256": "bc721f538c3913f4aa3f7caca4ee0a8c0fec14486e72fe3361d10937e6ff5641",
+  "categories": {
+    "production": {
+      "physical_lines": 5218,
+      "nloc": 4425,
+      "functions": 367,
+      "ccn_sum": 1237,
+      "max_ccn": 27
+    },
+    "support": {
+      "physical_lines": 1782,
+      "nloc": 1562,
+      "functions": 96,
+      "ccn_sum": 771,
+      "max_ccn": 166
+    },
+    "tests": {
+      "physical_lines": 14044,
+      "nloc": 12535,
+      "functions": 2135,
+      "ccn_sum": 3897,
+      "max_ccn": 62
+    },
+    "fixtures": {
+      "physical_lines": 445,
+      "nloc": 371,
+      "functions": 29,
+      "ccn_sum": 62,
+      "max_ccn": 8
+    }
+  },
+  "production_clones": {
+    "reported_statistics": {
+      "lines": 5181,
+      "tokens": 61180,
+      "sources": 36,
+      "clones": 1,
+      "duplicatedLines": 12,
+      "duplicatedTokens": 114,
+      "percentage": 0.23,
+      "percentageTokens": 0.19,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    },
+    "min_tokens": 50,
+    "min_lines": 5,
+    "max_size": "10mb",
+    "mode": "mild",
+    "max_lines": 100000,
+    "tool": "jscpd 4.0.5",
+    "pairs": [
+      {
+        "reported_lines": 13,
+        "first": "mvibe_auth/api.py",
+        "first_start": 69,
+        "first_end": 81,
+        "second": "mvibe_auth/existing_vibe.py",
+        "second_start": 66,
+        "second_end": 78
+      }
+    ]
+  },
+  "source_inventory": [
+    {
+      "path": "mvibe_auth/__init__.py",
+      "sha256": "46e7db3e1c61f0a1c75236e64e93c61644b0ceebec913120b5d118e989ae2a27",
+      "parts": [
+        {
+          "physical_lines": 13,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/__main__.py",
+      "sha256": "31534cee3dfe89e13b6b405ae44f6e862dcd9bffe854eaf994ee341fc851f873",
+      "parts": [
+        {
+          "physical_lines": 37,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_auth_config.py",
+      "sha256": "19ad83672e11ad34d6dd140deb260db799642a3e921c69fbe3b07dba55f3b553",
+      "parts": [
+        {
+          "physical_lines": 83,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_auth_contracts.py",
+      "sha256": "9b39be8d6278274173af3b14ebceeabc18df82da4d5c6a290965e7ea2cced935",
+      "parts": [
+        {
+          "physical_lines": 88,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_bridge_protocol.py",
+      "sha256": "fc4e5f7a8ffbff891fa46742058f36ba84a7a681f8c1af68ca2899a424b73f75",
+      "parts": [
+        {
+          "physical_lines": 198,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_coordination.py",
+      "sha256": "b1af4a46d49117b6fb7bc7891ecacc5218191d0a6befa0d2ca56d6beb01b5c45",
+      "parts": [
+        {
+          "physical_lines": 152,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_credentials_port.py",
+      "sha256": "cbca7acdc66d91c7448a37a81f0f8a02c68accf5deccfc24c3799239cbfe11a7",
+      "parts": [
+        {
+          "physical_lines": 136,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_http.py",
+      "sha256": "cb49fb19fd86165f653634d438b89b7b71e8ee8e43145ff342d8e6bca5fa61f4",
+      "parts": [
+        {
+          "physical_lines": 135,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_oidc_callback.py",
+      "sha256": "1705caaafe3c5f53a2fa9820a070d025094ff9aaa48bfff0452dd0fa06c0f64b",
+      "parts": [
+        {
+          "physical_lines": 118,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_oidc_client.py",
+      "sha256": "be92d36d2fc2462631e7779e1a7e646fbad48329d3010eb669f47e3ee7133ab2",
+      "parts": [
+        {
+          "physical_lines": 182,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_oidc_config.py",
+      "sha256": "93206b97a59b4c4d10d502123902964144d0d78327dd2ad7ccf7683824ece478",
+      "parts": [
+        {
+          "physical_lines": 92,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_oidc_credentials.py",
+      "sha256": "4d5795afba761a7be94d20ac8d9eaae52c1ed6af8aab75c861d7770e24790626",
+      "parts": [
+        {
+          "physical_lines": 328,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_oidc_platform_credentials.py",
+      "sha256": "6b92f3dfdbb1e94ce838b8f89b5b0206d9c30bf7527ef024b093c915457f8ea6",
+      "parts": [
+        {
+          "physical_lines": 111,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_oidc_runtime.py",
+      "sha256": "5f3b320224da18bdfbdb0c19d74996e23889ab738756f99d1986baed2df4191d",
+      "parts": [
+        {
+          "physical_lines": 323,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/_oidc_service.py",
+      "sha256": "f0329bb3a9ff2be7f18832f9631910892d70e14bfced102c205086b7ecc4a6e2",
+      "parts": [
+        {
+          "physical_lines": 357,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/account_plan.py",
+      "sha256": "f988618288c4161bd129a8a285d9a465492a2aec3b5ba3a27db49c20e1c3df84",
+      "parts": [
+        {
+          "physical_lines": 155,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/api.py",
+      "sha256": "9e756e9df5156b3cca2eb94a00b3de14146ae4a38bbe351388cee016ab02ca6c",
+      "parts": [
+        {
+          "physical_lines": 178,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/bridge.py",
+      "sha256": "e6ef73a95bddda99659b99598ccb8474824407b7c02036527a6c69261b470cb9",
+      "parts": [
+        {
+          "physical_lines": 225,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/concurrency.py",
+      "sha256": "fae2f4cbaa7f571196616ff4aa328ab331035c1285d4c4fbed70b9a436ddab79",
+      "parts": [
+        {
+          "physical_lines": 62,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/existing_vibe.py",
+      "sha256": "a40ca141e72a94be1c0de9a896e32c1760ea9dd0061019c72548534a6f7519da",
+      "parts": [
+        {
+          "physical_lines": 148,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/http.py",
+      "sha256": "2f93b892ccdd42b09e599edfeeb95dcdc57ec3597eae9a280b92b6a6b08b9386",
+      "parts": [
+        {
+          "physical_lines": 334,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/login_cli.py",
+      "sha256": "2baa48b1195dd92bd3fd656537e0ac9c236560e1238bb45c4808b214c991f456",
+      "parts": [
+        {
+          "physical_lines": 96,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/oidc_marker.py",
+      "sha256": "6d13def3ef9a59e517ef4300e4d0b7b8510800987dedb90c44c0839876a9ac54",
+      "parts": [
+        {
+          "physical_lines": 35,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_auth/request_metadata.py",
+      "sha256": "b749c75cc890c88ac764e4cb339c310c882bc8160269f7fa4ef2078fc85e1d41",
+      "parts": [
+        {
+          "physical_lines": 108,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_proxy/__init__.py",
+      "sha256": "eedcba41e05d9fca558197ed7eafb86443e78521c6969bdf7925d6de73eb16c4",
+      "parts": [
+        {
+          "physical_lines": 1,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_proxy/diagnostics.py",
+      "sha256": "cb70ab1d117e9b05af3a17a2d5773ff0fa618c444c70d49023f94e753c834949",
+      "parts": [
+        {
+          "physical_lines": 107,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "mvibe_proxy/streaming.py",
+      "sha256": "addf8e177ab5ae07dbcdc599650e6a37fd7bf465e48a6163787b371c100f641a",
+      "parts": [
+        {
+          "physical_lines": 184,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/scripts/install.ts",
+      "sha256": "18f0029dd3c91f1c443cf6e1901ed9ca816decd4dd879c70d78c53fe28186420",
+      "parts": [
+        {
+          "physical_lines": 189,
+          "category": "support"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/bridge.ts",
+      "sha256": "fd1e6a5826275ebab3afeef27fbe9aa29d40748355ecfa1f7e5f21bbd05cf1e2",
+      "parts": [
+        {
+          "physical_lines": 220,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/http-capture.ts",
+      "sha256": "f9e314b2ed48765c8cba12465471b9d551dbc65c6554f7604adfea6b0c265ef5",
+      "parts": [
+        {
+          "physical_lines": 85,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/index.ts",
+      "sha256": "b4511538fc7cbc215834ee1d8a28a6055b40a7722fbabe3c6b5e3000cdfc10e2",
+      "parts": [
+        {
+          "physical_lines": 74,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/models.ts",
+      "sha256": "25b2b9adba819176752910d39f6233d07f45df53e5c48207e17347feb4eecdc1",
+      "parts": [
+        {
+          "physical_lines": 180,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/protocol.ts",
+      "sha256": "79c28f4832af8f2b5bb3df6aa90485c159d3da96da29aac403d5f81037db6a0d",
+      "parts": [
+        {
+          "physical_lines": 101,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/provider.ts",
+      "sha256": "fbaf7004c220926e95374fb395a47e47f60912cbeedc22468a75ddd8f44b48f3",
+      "parts": [
+        {
+          "physical_lines": 133,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/reasoning.ts",
+      "sha256": "34aac14bd99dc18ff91692d45c662a8c2f6ead0cbdb8a5375e3b95d6837dbdf9",
+      "parts": [
+        {
+          "physical_lines": 17,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/request-context.ts",
+      "sha256": "9cb9ecd89a2d62befaf15170ec9111e4485a0c25c5b76bf582686f1d02824aae",
+      "parts": [
+        {
+          "physical_lines": 42,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/src/windows-job.ts",
+      "sha256": "a59c044715a3895edaebb4b8097642068312c3e0d67fa1af6468c1d7a886ab4f",
+      "parts": [
+        {
+          "physical_lines": 135,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/baseline-integration.test.ts",
+      "sha256": "cd20564eb3d5d4dd5c9f32ca926833679f21c7f36eb4697fdcd4b95b5f9754ee",
+      "parts": [
+        {
+          "physical_lines": 45,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/bridge-process.ts",
+      "sha256": "83d51dd09f33c8742a2c62912decb97443835de521a61abc2b0cfe72409207cc",
+      "parts": [
+        {
+          "physical_lines": 74,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/bridge-root-exit.ts",
+      "sha256": "d5b7f7222c4d4cd59404995f397ec2181decf3a959fd31d820dec9940c329792",
+      "parts": [
+        {
+          "physical_lines": 55,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/bridge.test.ts",
+      "sha256": "8a92d047516e64a7777410a32486ef1b11097183adf38a5e7319567f4533e5bf",
+      "parts": [
+        {
+          "physical_lines": 155,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/check-compatibility.ts",
+      "sha256": "06c87aac761ed6c27ce098cdaa9b72d87972045e7ff68364ee1d1bc896f7bb77",
+      "parts": [
+        {
+          "physical_lines": 45,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/diagnostics.test.ts",
+      "sha256": "ae242f3998810e2ec31259164ece13aae38d566f3bd65d2bf6af58e9208da149",
+      "parts": [
+        {
+          "physical_lines": 94,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/host-fixture-credentials.test.ts",
+      "sha256": "6aa1f113d5afdd6057557d2bf3b0c1ac4857580c7b7071c5532af54ed960f40e",
+      "parts": [
+        {
+          "physical_lines": 37,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/host-fixture-credentials.ts",
+      "sha256": "19703f912bbdc5f396ed9cf1d9f750943ad7ac3e776a515c02ff1bf350664c11",
+      "parts": [
+        {
+          "physical_lines": 35,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/host-integration-plugin.ts",
+      "sha256": "ed2f829be121d5d12b46456bea5aae8042418cbd52067972d993602aecc666f1",
+      "parts": [
+        {
+          "physical_lines": 260,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/host-integration-sitecustomize.py",
+      "sha256": "59661f1603fa010cb8ca58fb90bd6e6e4b8594b525ee31790aafa17896e5fe92",
+      "parts": [
+        {
+          "physical_lines": 90,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/host-integration.ts",
+      "sha256": "e80e76fc3d54dc1afaff77780714ec8bf2836dfb14825123154f4609168f5e78",
+      "parts": [
+        {
+          "physical_lines": 71,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/host-login-plugin.ts",
+      "sha256": "90b5b20a8ca933b4c0e0fb852de6c71ee7b4e8386fbf0473e93f226782b157f3",
+      "parts": [
+        {
+          "physical_lines": 54,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/host-login-smoke.ts",
+      "sha256": "d7af4d4f289071e6bafe51bfccd2d010f01292febaa0515fc7312e745a2f77cc",
+      "parts": [
+        {
+          "physical_lines": 44,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/host-smoke.ts",
+      "sha256": "5aac705ba311c0e1f3425ddf7a86e3c3264e64ebab76cd7fa937bb336ee37451",
+      "parts": [
+        {
+          "physical_lines": 39,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/http-capture.test.ts",
+      "sha256": "a7de3587ecf4991b1254a43a54d43f17ad297c3f3846fa7a22101640eb400362",
+      "parts": [
+        {
+          "physical_lines": 100,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/install-wrapper-smoke.ts",
+      "sha256": "6c299b3eb233b87335d9a90cf1905a3eb81061d2ca5bcf94902b26dfaa4febb3",
+      "parts": [
+        {
+          "physical_lines": 40,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/install.test.ts",
+      "sha256": "4f0228df02c9d347d35c4422eb0b778a9f07df0de78e3c5fdbadc85305368df1",
+      "parts": [
+        {
+          "physical_lines": 130,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/isolation.test.ts",
+      "sha256": "187e765305e63169675f80d6f238d1d86a015a9ef67a3849dc62cb2c4d85aa40",
+      "parts": [
+        {
+          "physical_lines": 99,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/models.test.ts",
+      "sha256": "29b793d694c960461d46efbd4dc4a4d394cc8ca931521c3b54a92e57d5bfc02e",
+      "parts": [
+        {
+          "physical_lines": 192,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/native-metadata.test.ts",
+      "sha256": "6b0b3629a2d46c36ca92b89e02430386f15d1c446545b1a89bbc562efd8190d9",
+      "parts": [
+        {
+          "physical_lines": 106,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/preload.ts",
+      "sha256": "b5fa478e89c6907294ddc1bd5ab2b037816a62ad2ad48cb96359dd9d39b995f9",
+      "parts": [
+        {
+          "physical_lines": 135,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/prepare-host.ts",
+      "sha256": "fdc7697df09ef50b3cdaeae8453ffe5b18613d684c6e2d758aefbd3ffb1a79fd",
+      "parts": [
+        {
+          "physical_lines": 13,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/prepared-runtime.test.ts",
+      "sha256": "45ead4f7a09f95c2705b6a2a0cd97416c908ace38e6e35aa88e8ca9d53b8a845",
+      "parts": [
+        {
+          "physical_lines": 54,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/protocol.test.ts",
+      "sha256": "ddeaa5fff75df85e82406c1372053093bb9088547d6e9cf99f33fa6850c4c89d",
+      "parts": [
+        {
+          "physical_lines": 64,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/provider.test.ts",
+      "sha256": "9f8fa8918461d0cc5414a162efb779af7e0128d9eb9291e58c3ac16fe941c056",
+      "parts": [
+        {
+          "physical_lines": 116,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/reasoning.test.ts",
+      "sha256": "ef5293ae56bc4aa7be41d208f7188929392018859e6d7158a7cb1b513ff0875e",
+      "parts": [
+        {
+          "physical_lines": 71,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/registration.test.ts",
+      "sha256": "ece7d16e0fbb10128a7acf69bf57220b5b1eb35386f8ff2b8a6f6a2269aa3a3e",
+      "parts": [
+        {
+          "physical_lines": 241,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/setup.test.ts",
+      "sha256": "fc2934ec3f43849f60d47df7cc03c1dfcf7c5c2bf86e041b388aa54a6441f82c",
+      "parts": [
+        {
+          "physical_lines": 35,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/synthetic-bridge.py",
+      "sha256": "db2e8a62e3f09e8c29ee823bd980c0d885e709bd567ac8b6a7e0d0c6f7b7d518",
+      "parts": [
+        {
+          "physical_lines": 64,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/synthetic-plugin.ts",
+      "sha256": "cbc8348d33e66c4cb02dbabdf04dddaced5123db296420ecc798af6ce9e597c4",
+      "parts": [
+        {
+          "physical_lines": 40,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-capability.test.ts",
+      "sha256": "775e77c27aaef715ccf50dd02fecc59c7a4cda85acdf4f374a7a728039e7c2bb",
+      "parts": [
+        {
+          "physical_lines": 35,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-cases.test.ts",
+      "sha256": "0e58096f0226bb44a196501ad59b86b425b4a5a4cc841b6521a12d78cb9cc3ed",
+      "parts": [
+        {
+          "physical_lines": 90,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/baseline.ts",
+      "sha256": "55625a69cb3ed248f90627b689a0f8f96c817cde7a6a48974697ebb936aaa297",
+      "parts": [
+        {
+          "physical_lines": 37,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/capability.ts",
+      "sha256": "26365e2b00a0b7e7cee72a4d5d8381344a0e874214aa018ae03c02b3bd4b2781",
+      "parts": [
+        {
+          "physical_lines": 85,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/cases.ts",
+      "sha256": "b53d7e0c4f396955f4207d715df91402d15127fa5e4b56f55046bb6ece22aeec",
+      "parts": [
+        {
+          "physical_lines": 148,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/check-prepared.ts",
+      "sha256": "2c143e47fd8272aeddd612edb9c7f70581a4ec880de248b5625de957a0d82ddf",
+      "parts": [
+        {
+          "physical_lines": 26,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/contracts.ts",
+      "sha256": "faae211e30bcd9d2a1a3471dee513b51942b50b4b164c7dc3f9120d380a13cfa",
+      "parts": [
+        {
+          "physical_lines": 334,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/evidence.ts",
+      "sha256": "2dcdb50a9fd9fcd2c276d1e9ee4b40cfa9a5bd6bc1de82854022130c0332c176",
+      "parts": [
+        {
+          "physical_lines": 254,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/fixtures/mcp-recipe.ts",
+      "sha256": "9dd0e931d9e73ad8c2c67789f3d46297bb1c065ac5471ac40c138644ab114447",
+      "parts": [
+        {
+          "physical_lines": 10,
+          "category": "fixtures"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/fixtures/mcp-server.ts",
+      "sha256": "ebc0010cabe7fd63227ee317970e2d5a94d69744ece82d47d8c2e018dd01fd35",
+      "parts": [
+        {
+          "physical_lines": 31,
+          "category": "fixtures"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/fixtures/workspace.ts",
+      "sha256": "63ba66ed5a754f0b04d94fc9e5a5e4f1400fe9ec05f656664e53f1da7edfd420",
+      "parts": [
+        {
+          "physical_lines": 157,
+          "category": "fixtures"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/host-capability-probe.ts",
+      "sha256": "1ad49e3344e6742fa9413e35d96893307ab9f6a46cb5ec13d6890331ba639634",
+      "parts": [
+        {
+          "physical_lines": 9,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/host-plugin.ts",
+      "sha256": "4e4d06a7b5cf5c0a40316eaf89169bbd2e6bfeb6a5a516fe78960235a830c0cb",
+      "parts": [
+        {
+          "physical_lines": 168,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/host-process-smoke.ts",
+      "sha256": "b304aae22c6e16edd4759694b4ccbf1e48e7ada2114545497e9adb1a191b0317",
+      "parts": [
+        {
+          "physical_lines": 21,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/inventory.ts",
+      "sha256": "b27c659e8d69370cd3a01b7f647f67db9c988d0612862db635d8a10517311f38",
+      "parts": [
+        {
+          "physical_lines": 174,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/mcp-host-plugin.ts",
+      "sha256": "22b1e598a0f00b44636111e2e6a19b979d02362903a21c9921eefa75a0b7d0f0",
+      "parts": [
+        {
+          "physical_lines": 90,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/mcp-probe.ts",
+      "sha256": "b8118923687345b532cff9fc528a6adf491579d0270f12bb6c735feb23b97e21",
+      "parts": [
+        {
+          "physical_lines": 9,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/mcp-report.ts",
+      "sha256": "0b8d24ef1603c2dd719d91b01cad9226dd7af556463d6a24858a0de02eef9394",
+      "parts": [
+        {
+          "physical_lines": 49,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/observe.ts",
+      "sha256": "5c51b8268dda289ed10bb236ddda20ab41521b23c1d813501ccc88a37e166282",
+      "parts": [
+        {
+          "physical_lines": 107,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/preparation.ts",
+      "sha256": "743d4649a9990be6038d0cb9a2e5e918d4900b247e2bb5f117fc610a8af47735",
+      "parts": [
+        {
+          "physical_lines": 46,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/readiness-plugin.ts",
+      "sha256": "0a45fb92ed33a82829136602817bf0934463d98756bc7c0ab629b6500a2bb705",
+      "parts": [
+        {
+          "physical_lines": 40,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/runner.ts",
+      "sha256": "2142bed6998881edd9c2b819a89333d44be72dcb2dd2d29c40657cc559ea73a7",
+      "parts": [
+        {
+          "physical_lines": 180,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/synthetic-inference.ts",
+      "sha256": "183b9c29fc9398411913aac955f7ea375c7ec7b24bdb978eede210ec5c66d899",
+      "parts": [
+        {
+          "physical_lines": 123,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/update-contracts.ts",
+      "sha256": "8ac8208a8789a217a7ba3fd046d58ce139e15e73b92d1bfe2569078a17849de9",
+      "parts": [
+        {
+          "physical_lines": 73,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/workspace-command-probe.ts",
+      "sha256": "675d9b96956d85ed1143a7f469e6f085482e66fd48f48cadfd3b4141376102e2",
+      "parts": [
+        {
+          "physical_lines": 34,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/workspace-command-report.ts",
+      "sha256": "fc07a5f405c2c63a68c3a30ab06c08819fe78ef06b0b7068eb44aaf1bf79cf4c",
+      "parts": [
+        {
+          "physical_lines": 49,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/workspace-host-plugin.ts",
+      "sha256": "b7df63f7b4d948803927e2387e677f3d8078162271529056154c287685ae294d",
+      "parts": [
+        {
+          "physical_lines": 139,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/workspace-mutation-probe.ts",
+      "sha256": "9d0b13942014fccf7570228638c080b8925986f906635d6a9e86fc65299ef140",
+      "parts": [
+        {
+          "physical_lines": 9,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/workspace-query-probe.ts",
+      "sha256": "412ad3b68a08e65bb92c5dc842dd4b27cd36d80ff91f6e8834c9baa3b0391df2",
+      "parts": [
+        {
+          "physical_lines": 9,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-compatibility/workspace-query-report.ts",
+      "sha256": "ad06dd3f39fbf2b701fb7ceb5794c0a965c0ace6aef1563635f9659cdc28aed9",
+      "parts": [
+        {
+          "physical_lines": 97,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-contracts.test.ts",
+      "sha256": "15c70c10d62d6596cb6daea0d051c836dca53b0ce7efa5a9c490c7f1dbef3dec",
+      "parts": [
+        {
+          "physical_lines": 165,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-evidence.test.ts",
+      "sha256": "cb57ad75fc4c6a01f03ac9baa072cbe73fa890fd7bc5e2271706e58988fb1243",
+      "parts": [
+        {
+          "physical_lines": 220,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-host-lifecycle.test.ts",
+      "sha256": "28549dfbc20f22f637ae89035ba71cbee12fc9483a0b3f4ad0a5fe2693e24683",
+      "parts": [
+        {
+          "physical_lines": 35,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-inventory.test.ts",
+      "sha256": "814677f20c57b659452f4153e95479373516dcab40bdc4f40eb2099563e4a4da",
+      "parts": [
+        {
+          "physical_lines": 130,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-mcp.test.ts",
+      "sha256": "f68b86347ce8bb928a241ecc8aaf7bf56fffb984ee6823f55b016fede32bbbc7",
+      "parts": [
+        {
+          "physical_lines": 15,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-observe.test.ts",
+      "sha256": "4985e63ba79b2197b851b13e24431eb4c970cca7ff886090c1d2d6bd88c90693",
+      "parts": [
+        {
+          "physical_lines": 138,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-synthetic-inference.test.ts",
+      "sha256": "86c4b86df8eec9987464309275f6ce737347d243d3da966e727afc08d9c410d4",
+      "parts": [
+        {
+          "physical_lines": 128,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-workspace-command.test.ts",
+      "sha256": "596545238108aa98cf1100ae8d5e3b986806617582379ded7e61b5849cf35751",
+      "parts": [
+        {
+          "physical_lines": 47,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-workspace-mutation.test.ts",
+      "sha256": "288c4a285f56126505f46e7d30881f7f64123fd2ee6ec939e0d958979fc1a47e",
+      "parts": [
+        {
+          "physical_lines": 112,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "packages/opencode-vibe-oidc/test/tool-workspace.test.ts",
+      "sha256": "bc6a9afeac18f57034a3453ade926ed96bd39e69e96b13bb6dde83b63b4858cd",
+      "parts": [
+        {
+          "physical_lines": 95,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "proxy.py",
+      "sha256": "83dd37c2973e6590f9c73d8aab2aad727667d9474371a43f47321ad75ec628d8",
+      "parts": [
+        {
+          "physical_lines": 245,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "scripts/build_release.py",
+      "sha256": "25f41489876a4a407bb6c1fabdba4510a0769280a4a49937a5a5895221781a84",
+      "parts": [
+        {
+          "physical_lines": 105,
+          "category": "support"
+        }
+      ]
+    },
+    {
+      "path": "scripts/capture_native_metadata.py",
+      "sha256": "99dc265ed782ed62ec9d15613508a9aaf8337e2fcc816252f486cdfc2cf53d1f",
+      "parts": [
+        {
+          "physical_lines": 47,
+          "category": "support"
+        }
+      ]
+    },
+    {
+      "path": "scripts/live_evidence.py",
+      "sha256": "3163912436082f438a39a9db847fc62d0f86f5161e2b08ae3949525109f39b7c",
+      "parts": [
+        {
+          "physical_lines": 132,
+          "category": "support"
+        }
+      ]
+    },
+    {
+      "path": "scripts/test_release_install.py",
+      "sha256": "671705401c720fcafa8d2662b8e37d08b0e9a3808f1e19c6edc7d85c6a404e6a",
+      "parts": [
+        {
+          "physical_lines": 92,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tool_verification.py",
+      "sha256": "4230d4a55ae3e8e84e6eb37de7bffe3b12e524b29321fefb8145e318001ffcc9",
+      "parts": [
+        {
+          "physical_lines": 630,
+          "category": "support"
+        }
+      ]
+    },
+    {
+      "path": "scripts/trace-native-vibe.py",
+      "sha256": "c2781466795c4d6119065e210b5c38cedf653a1b45a83033ee90a52ad9d815e4",
+      "parts": [
+        {
+          "physical_lines": 456,
+          "category": "support"
+        }
+      ]
+    },
+    {
+      "path": "scripts/verification.py",
+      "sha256": "03ca4b3eee47e7016fa1ca30ffa731864b7bc7bf562dcaa3dd11dc25c3b83fe2",
+      "parts": [
+        {
+          "physical_lines": 223,
+          "category": "support"
+        }
+      ]
+    },
+    {
+      "path": "tests/bridge_lifecycle_worker.py",
+      "sha256": "ca7ee1054e65c750663ce8b1201faa33580db00c70eddc38221387efa517fca4",
+      "parts": [
+        {
+          "physical_lines": 134,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/conftest.py",
+      "sha256": "28400d3e8a01601eadef22e91b5460a28f6689932818821e65e5269e7a64a3a6",
+      "parts": [
+        {
+          "physical_lines": 171,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/coordination_worker.py",
+      "sha256": "ce8aec3eee9d71d8ac185a17134b2e3ab672285086491826c776818cce646052",
+      "parts": [
+        {
+          "physical_lines": 44,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/fakes.py",
+      "sha256": "71ce7f2591f8f0927c82a9d7e9138de6518813689415a2cbb60f5dd7be3fc800",
+      "parts": [
+        {
+          "physical_lines": 110,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/fixtures/native-vibe-3.0.4-oidc-credentials.py",
+      "sha256": "0e4198a177d5a40f451a40de038713c80c974e89cf02a1d1f2e811645fc0acd3",
+      "parts": [
+        {
+          "physical_lines": 247,
+          "category": "fixtures"
+        }
+      ]
+    },
+    {
+      "path": "tests/portable_store_worker.py",
+      "sha256": "20cc37c81a56c311f95199dc245e1f9ec14b35993cd58c658e5c2c2898cd3c02",
+      "parts": [
+        {
+          "physical_lines": 37,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_account_plan.py",
+      "sha256": "d47c4aad6a3b3985956628c67af4b5f3c4c24293d0cb3b74d72dd02591dc3e30",
+      "parts": [
+        {
+          "physical_lines": 337,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_auth_api.py",
+      "sha256": "14b88553ac31a82b2f3959db6add3c4fab73cb16b8ccb7f6c6f4a9bcad7272b7",
+      "parts": [
+        {
+          "physical_lines": 245,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_auth_config_integration.py",
+      "sha256": "694d3eb1f8d872864c29e4a802a5409b76b2b225d35bed987daf4a1e44d99de4",
+      "parts": [
+        {
+          "physical_lines": 227,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_auth_contracts.py",
+      "sha256": "ef03a639b1f57d944a9cbf872d9200f40e3be71bab50ad4a8bd877e219a60ded",
+      "parts": [
+        {
+          "physical_lines": 163,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_auth_lifecycle.py",
+      "sha256": "9781cb00af191c5fac8ef425309c642e415d7ce07197982e4fe877abb193b5a5",
+      "parts": [
+        {
+          "physical_lines": 316,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_bridge.py",
+      "sha256": "36251f0d2f33a3d666b375bb929bcea8a9e451838dc4c4f7d77b6bbbe2f55e8e",
+      "parts": [
+        {
+          "physical_lines": 86,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_bridge_dispatch.py",
+      "sha256": "e314d33c523259cc787e7e12a85be47302ca847c1297414258f4e1499a9837ad",
+      "parts": [
+        {
+          "physical_lines": 498,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_bridge_lifecycle.py",
+      "sha256": "58fd7c2e1003ead3584c22f7294e3a13c21b4d2cc0deb35ea01d30c09ddc974f",
+      "parts": [
+        {
+          "physical_lines": 222,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_consumer_startup.py",
+      "sha256": "3b831df52c5cd9151331a58eee65162bbd65b32a0240fa1976f7a3549eb81194",
+      "parts": [
+        {
+          "physical_lines": 45,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_coordination.py",
+      "sha256": "0231058aa23d3254f6c9e8ec6a6b587ad2e8caf316ca492cdd3d1eca370eb581",
+      "parts": [
+        {
+          "physical_lines": 349,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_credentials.py",
+      "sha256": "e49ba3cc864810559033f07036cddac1c59d783488f9b9cc42fcc8f431d42a08",
+      "parts": [
+        {
+          "physical_lines": 318,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_existing_vibe.py",
+      "sha256": "51d520c950862389076a6d32216e653465f8ae74b0506b33c6fb28d012f908e1",
+      "parts": [
+        {
+          "physical_lines": 245,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_install_release.py",
+      "sha256": "e3debcc7f4bf9e0b6eb7452603baf4c8a84d4f97e4e1f968e713edd98c5fc040",
+      "parts": [
+        {
+          "physical_lines": 77,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_installation.py",
+      "sha256": "f2f2fdffa0c21d290939be69ba63032a511711deac228178ed07e2ddd1d6cd4b",
+      "parts": [
+        {
+          "physical_lines": 106,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "sha256": "87301c88c19b6c278d5fa96c787e0b3e90bf57f9b0f53b6eae99b929eca3e82f",
+      "parts": [
+        {
+          "physical_lines": 115,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_live_evidence.py",
+      "sha256": "de2a2d9f9855f7aa780ef22df1995027942357946e9606525d04d5be257f795a",
+      "parts": [
+        {
+          "physical_lines": 178,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_login_cli.py",
+      "sha256": "3692f52f76e651be0f4527f37cbdc781400d02f735ac17208c3ce4dbf57cbdae",
+      "parts": [
+        {
+          "physical_lines": 143,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_login_commit.py",
+      "sha256": "2d622dbaa7254bf4cb03dca4c2ee1f0a9e8827cf6c9a99f0044eb37bff8f270d",
+      "parts": [
+        {
+          "physical_lines": 234,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_native_metadata.py",
+      "sha256": "915ec4199978ac12816456746fc47bb8a633842c437c1eb6bc2bda40c78c88be",
+      "parts": [
+        {
+          "physical_lines": 65,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_oidc_login.py",
+      "sha256": "4334a9a80ec67bed4a64ee8200f7d51bed39c543f665c28c62736c356ecd2b33",
+      "parts": [
+        {
+          "physical_lines": 644,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_packaging.py",
+      "sha256": "68db61094b11b8a1f4aea93d8d168a1c12d5502abedbe409a73ccffbcb1f1d79",
+      "parts": [
+        {
+          "physical_lines": 63,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_portable_credentials.py",
+      "sha256": "dcb32ac112baac2e2293d7d7161bd47d321b753e536a88f9607d302fff05bb15",
+      "parts": [
+        {
+          "physical_lines": 183,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_proxy.py",
+      "sha256": "9e1aef7667d6cc101e90895248f8d0679b97f801456f1bd5b9a2df0d3f20ddf7",
+      "parts": [
+        {
+          "physical_lines": 207,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_proxy_diagnostics.py",
+      "sha256": "acee103fd8f74aa2be3261de2556938efe83041ae65d74f1ed534c5a5ba581be",
+      "parts": [
+        {
+          "physical_lines": 199,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_refresh.py",
+      "sha256": "0a5c099892809e53f1275e1dd6eeda90e40af8ea23835fae705f658d82a6a13a",
+      "parts": [
+        {
+          "physical_lines": 259,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_startup.py",
+      "sha256": "d5bd74b6f44392fea9d48da29548e8b897ff1661baf267143796bda6fdbbef18",
+      "parts": [
+        {
+          "physical_lines": 110,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_streaming.py",
+      "sha256": "a842e9e504197e15936b1886e67d797a49d9925432d9b2c96e9bbc6bba758f17",
+      "parts": [
+        {
+          "physical_lines": 342,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_tenant.py",
+      "sha256": "991ff14912c2c8ce511b01aebd1dca099a8877dd0195e42766fe38583d74f4d8",
+      "parts": [
+        {
+          "physical_lines": 268,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_tool_verification.py",
+      "sha256": "86f5099867db0e3fd5ba36aaf326c8242174d044fe613106d2685bfef3be7106",
+      "parts": [
+        {
+          "physical_lines": 154,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_trace_native_vibe.py",
+      "sha256": "e0c05e668746c8097da5338de2d7e11b4f40c207e29cc119a2b77e902b125dfd",
+      "parts": [
+        {
+          "physical_lines": 463,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_traceability.py",
+      "sha256": "064b72ccff56977370b5cc11404e153015db5f3abfee69e1687cc94cbfb587d8",
+      "parts": [
+        {
+          "physical_lines": 175,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/test_transport.py",
+      "sha256": "140e9cdc91e5dce6575542453be618669469fc25ca319bdc8034881fbcca8721",
+      "parts": [
+        {
+          "physical_lines": 302,
+          "category": "tests"
+        }
+      ]
+    }
+  ],
+  "raw_hashes": {
+    "clones": "e5d76ced67a3ea2f5cb4f70782e8c099dfd8cbb5646fcae9c7744c7abc253e47",
+    "repeat": "a7db75e392b2362c61c6796f7a3bcae218ac50fe9a95e8a3fe9f2bd47f419ff4",
+    "baseline": "a7db75e392b2362c61c6796f7a3bcae218ac50fe9a95e8a3fe9f2bd47f419ff4"
+  },
+  "repeat_identical": true,
+  "application_changes": 0,
+  "application_tests_run": false,
+  "compression_adoptions": 0,
+  "limits": [
+    "Tracked Rust/Python/TypeScript/TSX only as declared; not a whole-repository all-language total.",
+    "No project tests or external services executed.",
+    "No maintained-code reduction or maintenance-effort benefit is established.",
+    "Entropy and semantic equivalence are not measured."
+  ],
+  "lizard_definition": "NLOC excludes comments/blanks per Lizard; detected routines include anonymous functions. CCN is triage, not cognitive complexity or a maintainability score.",
+  "reproduction_script_sha256": "6584b12ec4eddf9e375342483d43c940ebead3fc64f996e80690a32401941007",
+  "latest_live_replay": {
+    "exact_original_json_match": true,
+    "physical_counts_match": true,
+    "source_identity": "e652d8a777d5db8932d33d9419b4fed1bc2f2d0df2b88d5cd46e2134dd8d3dee",
+    "revision": "1da21559774e8994b8736b3062d7a4d7589bd9f2",
+    "raw_sha256": "a7db75e392b2362c61c6796f7a3bcae218ac50fe9a95e8a3fe9f2bd47f419ff4",
+    "exact_source_and_metrics_repeat_verified": true,
+    "repeat_revision": "1da21559774e8994b8736b3062d7a4d7589bd9f2",
+    "revision_metadata_changed": false,
+    "repeat_raw_sha256": "a7db75e392b2362c61c6796f7a3bcae218ac50fe9a95e8a3fe9f2bd47f419ff4"
+  }
+}

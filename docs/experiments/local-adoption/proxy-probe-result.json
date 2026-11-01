@@ -1,0 +1,119 @@
+{
+  "source_sha256": "2f93b892ccdd42b09e599edfeeb95dcdc57ec3597eae9a280b92b6a6b08b9386",
+  "cases": [
+    {
+      "case": "wildcard",
+      "rule": "*",
+      "host": "any.example",
+      "scheme": "https",
+      "port": 443,
+      "original": true,
+      "candidate": true,
+      "match": true
+    },
+    {
+      "case": "exact_host",
+      "rule": "example.com",
+      "host": "example.com",
+      "scheme": "https",
+      "port": 443,
+      "original": true,
+      "candidate": true,
+      "match": true
+    },
+    {
+      "case": "subdomain",
+      "rule": "example.com",
+      "host": "sub.example.com",
+      "scheme": "https",
+      "port": 443,
+      "original": true,
+      "candidate": true,
+      "match": true
+    },
+    {
+      "case": "leading_dot_bare_host",
+      "rule": ".internal.example",
+      "host": "internal.example",
+      "scheme": "https",
+      "port": 443,
+      "original": false,
+      "candidate": true,
+      "match": false
+    },
+    {
+      "case": "leading_dot_subdomain",
+      "rule": ".internal.example",
+      "host": "api.internal.example",
+      "scheme": "https",
+      "port": 443,
+      "original": true,
+      "candidate": true,
+      "match": true
+    },
+    {
+      "case": "ipv4_cidr",
+      "rule": "10.0.0.0/8",
+      "host": "10.1.2.3",
+      "scheme": "https",
+      "port": 443,
+      "original": true,
+      "candidate": false,
+      "match": false
+    },
+    {
+      "case": "ipv6_cidr",
+      "rule": "2001:db8::/32",
+      "host": "2001:db8::1",
+      "scheme": "https",
+      "port": 443,
+      "original": true,
+      "candidate": false,
+      "match": false
+    },
+    {
+      "case": "scheme_and_port",
+      "rule": "https://api.example:443",
+      "host": "api.example",
+      "scheme": "https",
+      "port": 443,
+      "original": true,
+      "candidate": false,
+      "match": false
+    },
+    {
+      "case": "scheme_mismatch",
+      "rule": "http://api.example:443",
+      "host": "api.example",
+      "scheme": "https",
+      "port": 443,
+      "original": false,
+      "candidate": false,
+      "match": true
+    },
+    {
+      "case": "port_mismatch",
+      "rule": "example.com:80",
+      "host": "example.com",
+      "scheme": "https",
+      "port": 443,
+      "original": false,
+      "candidate": false,
+      "match": true
+    },
+    {
+      "case": "ip_literal",
+      "rule": "127.0.0.1",
+      "host": "127.0.0.1",
+      "scheme": "http",
+      "port": 80,
+      "original": true,
+      "candidate": true,
+      "match": true
+    }
+  ],
+  "mismatches": 4,
+  "disposition": "rejected_behavior",
+  "application_tests_run": false,
+  "adopted_production_delta": 0
+}

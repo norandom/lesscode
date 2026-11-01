@@ -1,0 +1,6 @@
+{
+  "root": "D:/Source/mvibe",
+  "runtime_roots": ["mvibe_auth", "mvibe_proxy", "packages/opencode-vibe-oidc/src", "proxy.py"],
+  "extensions": [".py", ".ts", ".tsx"],
+  "inline_test_ranges": {}
+}

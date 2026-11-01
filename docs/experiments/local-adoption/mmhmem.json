@@ -1,0 +1,73 @@
+{
+  "root": "D:/Source/mmhmem",
+  "runtime_roots": [
+    "src"
+  ],
+  "extensions": [
+    ".rs"
+  ],
+  "inline_test_ranges": {
+    "src/config.rs": [
+      [
+        261,
+        null
+      ]
+    ],
+    "src/lib.rs": [
+      [
+        49,
+        null
+      ]
+    ],
+    "src/telemetry.rs": [
+      [
+        271,
+        280
+      ],
+      [
+        325,
+        null
+      ]
+    ],
+    "src/services/boilerplate.rs": [
+      [
+        424,
+        null
+      ]
+    ],
+    "src/services/memory.rs": [
+      [
+        333,
+        null
+      ]
+    ],
+    "src/services/session_bus.rs": [
+      [
+        349,
+        null
+      ]
+    ],
+    "src/services/stats.rs": [
+      [
+        228,
+        null
+      ]
+    ],
+    "src/storage/db.rs": [
+      [
+        81,
+        null
+      ]
+    ]
+  },
+  "inline_test_source_sha256": {
+    "src/config.rs": "99dbe4e32e6e2b7fc9c286ee3a8a2b6f18fbe9e3197d839cde5f979c2dbb5dc0",
+    "src/lib.rs": "5e48d078126214bed89e659818f2cb7c2082cc2ce43299d98aebcd6cfecb9fec",
+    "src/services/boilerplate.rs": "587b75fb5c7827f74aeb774665d8b6c39d38086efdee0a28750cc32162e90cd7",
+    "src/services/memory.rs": "26343c1f5deefd58e09fadd02825bca9e3992fa80f9c24b291234b48df325886",
+    "src/services/session_bus.rs": "c2f780feb13e29c52d27d2c0c61a6951b5a7bc1ccde399735bcaeceb3236cb00",
+    "src/services/stats.rs": "18ef326d9b929fe41e461a9a0d6f1a7f0081b5fb37d3cf8da7c2db12c388e336",
+    "src/storage/db.rs": "ba9cf87f0f0147630f04ca01bf26e4a551feb15f8c8d7b625b44c11f78cc1648",
+    "src/telemetry.rs": "572a468982b929129bed77ebb8d79a1ae6d4c0a696227351606e68cc14ab5882"
+  }
+}

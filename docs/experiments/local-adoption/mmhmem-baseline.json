@@ -1,0 +1,759 @@
+{
+  "schema": "research-baseline-v1",
+  "project": "mmhmem",
+  "root": "D:\\Source\\mmhmem",
+  "revision": "0e125a7b0405d552aa943caf37d1b1a0623c5068",
+  "source_identity": "bc2a09bd7023fede95260728bde822abcd4f1b22c719a5327960b31996f82ae0",
+  "tracked_source_files": 36,
+  "selection": "User-nominated repositories; manual candidate selection, not a representative corpus",
+  "scope_manifest_sha256": "0c52e59690924bea3d8a10119f455eece8a5f380bf7b9a093deabb4ed76837d7",
+  "measurement_script_sha256": "bc721f538c3913f4aa3f7caca4ee0a8c0fec14486e72fe3361d10937e6ff5641",
+  "categories": {
+    "production": {
+      "physical_lines": 4418,
+      "nloc": null,
+      "functions": null,
+      "ccn_sum": null,
+      "max_ccn": null
+    },
+    "tests": {
+      "physical_lines": 3805,
+      "nloc": null,
+      "functions": null,
+      "ccn_sum": null,
+      "max_ccn": null
+    }
+  },
+  "production_clones": {
+    "reported_statistics": {
+      "lines": 4398,
+      "tokens": 36309,
+      "sources": 22,
+      "clones": 4,
+      "duplicatedLines": 56,
+      "duplicatedTokens": 494,
+      "percentage": 1.27,
+      "percentageTokens": 1.36,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    },
+    "min_tokens": 50,
+    "min_lines": 5,
+    "max_size": "10mb",
+    "mode": "mild",
+    "max_lines": 100000,
+    "tool": "jscpd 4.0.5",
+    "pairs": [
+      {
+        "reported_lines": 9,
+        "first": "src/services/session_bus.rs",
+        "first_start": 321,
+        "first_end": 329,
+        "second": "src/services/shunt_cache.rs",
+        "second_start": 98,
+        "second_end": 106
+      },
+      {
+        "reported_lines": 19,
+        "first": "src/services/memory.rs",
+        "first_start": 303,
+        "first_end": 321,
+        "second": "src/services/shunt.rs",
+        "second_start": 449,
+        "second_end": 467
+      },
+      {
+        "reported_lines": 11,
+        "first": "src/services/boilerplate.rs",
+        "first_start": 368,
+        "first_end": 378,
+        "second": "src/services/shunt.rs",
+        "second_start": 438,
+        "second_end": 448
+      },
+      {
+        "reported_lines": 21,
+        "first": "src/services/boilerplate.rs",
+        "first_start": 379,
+        "first_end": 399,
+        "second": "src/services/shunt.rs",
+        "second_start": 449,
+        "second_end": 323
+      }
+    ]
+  },
+  "source_inventory": [
+    {
+      "path": "src/config.rs",
+      "sha256": "99dbe4e32e6e2b7fc9c286ee3a8a2b6f18fbe9e3197d839cde5f979c2dbb5dc0",
+      "parts": [
+        {
+          "physical_lines": 260,
+          "category": "production"
+        },
+        {
+          "physical_lines": 156,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "40e4896dc20373bd6e6a7dc33f3d75d20196d21a348aca73f14a88260a0a9687",
+      "parts": [
+        {
+          "physical_lines": 48,
+          "category": "production"
+        },
+        {
+          "physical_lines": 22,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "src/main.rs",
+      "sha256": "5628562a321a33db98af2252c47a410e95511e0c643d802db3f61bbf89119e11",
+      "parts": [
+        {
+          "physical_lines": 166,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/mcp/mod.rs",
+      "sha256": "9c8b7ef9446c486a91b63a53ec28ec4ba50c175345c6d63ea2440bd000e2bfa8",
+      "parts": [
+        {
+          "physical_lines": 11,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/mcp/params.rs",
+      "sha256": "de9b66d289b6b245a11a2b00e44938ff3d037c027f2e75a02dcbd344398faaa9",
+      "parts": [
+        {
+          "physical_lines": 145,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/mcp/server.rs",
+      "sha256": "96fc87de043998b7f7454c310ec2f0c7023573ba5e15295eb650a879ba4662ed",
+      "parts": [
+        {
+          "physical_lines": 203,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/mcp/tools.rs",
+      "sha256": "fe57d85c805f69201a0dd85af7b492538ad9ddbc0052ec816fcfdfa3d98693ea",
+      "parts": [
+        {
+          "physical_lines": 348,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/services/boilerplate.rs",
+      "sha256": "587b75fb5c7827f74aeb774665d8b6c39d38086efdee0a28750cc32162e90cd7",
+      "parts": [
+        {
+          "physical_lines": 423,
+          "category": "production"
+        },
+        {
+          "physical_lines": 27,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "src/services/memory.rs",
+      "sha256": "26343c1f5deefd58e09fadd02825bca9e3992fa80f9c24b291234b48df325886",
+      "parts": [
+        {
+          "physical_lines": 332,
+          "category": "production"
+        },
+        {
+          "physical_lines": 150,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "src/services/mod.rs",
+      "sha256": "a652aaada1691aa284186d7c8e56b948d1b11746d80b09bd09aefb6f10843976",
+      "parts": [
+        {
+          "physical_lines": 16,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/services/paths.rs",
+      "sha256": "c404a78d9501365b4db39e85220f5eab184fe7c3961acd6c4ceea418b7fe743b",
+      "parts": [
+        {
+          "physical_lines": 89,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/services/session_bus.rs",
+      "sha256": "c2f780feb13e29c52d27d2c0c61a6951b5a7bc1ccde399735bcaeceb3236cb00",
+      "parts": [
+        {
+          "physical_lines": 348,
+          "category": "production"
+        },
+        {
+          "physical_lines": 143,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "src/services/shunt.rs",
+      "sha256": "cc62045572aff111d23e417d6fa16e1b15cc418e9f5dacc2d9d376e1e48423fe",
+      "parts": [
+        {
+          "physical_lines": 467,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/services/shunt_cache.rs",
+      "sha256": "eccae2bb4d8200dae51289e2a772a67391f2a833736920365bb2af49845fe7af",
+      "parts": [
+        {
+          "physical_lines": 106,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/services/shunt_types.rs",
+      "sha256": "232747c13ef881c676824447c605854b07ab94ed16921912d89e4ee3e366119f",
+      "parts": [
+        {
+          "physical_lines": 165,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/services/stats.rs",
+      "sha256": "18ef326d9b929fe41e461a9a0d6f1a7f0081b5fb37d3cf8da7c2db12c388e336",
+      "parts": [
+        {
+          "physical_lines": 227,
+          "category": "production"
+        },
+        {
+          "physical_lines": 81,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "src/services/worker.rs",
+      "sha256": "95243728c7b5522e299102ef553085b6bebfe27061335b0d243aa997333da7cb",
+      "parts": [
+        {
+          "physical_lines": 242,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/storage/audit.rs",
+      "sha256": "2f21ffb3d0b36623628fbf2a7c7a2ec6fe0855adbea99fd32c1a8dc0d6e34f86",
+      "parts": [
+        {
+          "physical_lines": 304,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/storage/db.rs",
+      "sha256": "ba9cf87f0f0147630f04ca01bf26e4a551feb15f8c8d7b625b44c11f78cc1648",
+      "parts": [
+        {
+          "physical_lines": 80,
+          "category": "production"
+        },
+        {
+          "physical_lines": 210,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "src/storage/mod.rs",
+      "sha256": "fe1120b85086f23e86b5250fd117cfacce9089832c21b5ed7ee7b1e0413ac30d",
+      "parts": [
+        {
+          "physical_lines": 10,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/storage/schema.rs",
+      "sha256": "99e531418c3f7598c90df5a14c815dc7b3ee8b3db40a8c474b746051be72dc1e",
+      "parts": [
+        {
+          "physical_lines": 114,
+          "category": "production"
+        }
+      ]
+    },
+    {
+      "path": "src/telemetry.rs",
+      "sha256": "572a468982b929129bed77ebb8d79a1ae6d4c0a696227351606e68cc14ab5882",
+      "parts": [
+        {
+          "physical_lines": 314,
+          "category": "production"
+        },
+        {
+          "physical_lines": 81,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/audit_redaction.rs",
+      "sha256": "dd71b34dc124be8388bba77b925ccc2323e2ab46ae2995f30bb4fdcbb309a516",
+      "parts": [
+        {
+          "physical_lines": 390,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/boilerplate.rs",
+      "sha256": "075a002aad7f85d50f30788472d0a9850c22883fb074648ec08a85b72ed64d75",
+      "parts": [
+        {
+          "physical_lines": 223,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/cli.rs",
+      "sha256": "d21360de8b9063070f97dddeab527d849661e5bcfcc55282868ee20e34d726a5",
+      "parts": [
+        {
+          "physical_lines": 75,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/common/mod.rs",
+      "sha256": "f99fc659d650e7df2f817c395fd7c9628eecf6ea0c98c0d6b6ad982c74061b2d",
+      "parts": [
+        {
+          "physical_lines": 143,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/daemon_smoke.rs",
+      "sha256": "f02894a364364ae06f23ab701926dbbe12b211abd8b6873c90f4e7d48ed32c4d",
+      "parts": [
+        {
+          "physical_lines": 90,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/e2e/mod.rs",
+      "sha256": "ca3c0fa2787e53ab3cd3fa5cbe002a65e18c8f4e0335c8cccd1ef7c8772604f1",
+      "parts": [
+        {
+          "physical_lines": 453,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/e2e_measurement.rs",
+      "sha256": "b91ff28c6da37ca3c662d0fb5d97629ff3f8fdb384727e0c03336a504330e952",
+      "parts": [
+        {
+          "physical_lines": 43,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/handoff.rs",
+      "sha256": "b02804567b5b52a151597ee52a097b197fafc4fc0f5557048741141df5222553",
+      "parts": [
+        {
+          "physical_lines": 122,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/loc_caps.rs",
+      "sha256": "f457718da256823ac069855a39369aee9baa3891ddbcc71c8f44ba8dc2f80c2c",
+      "parts": [
+        {
+          "physical_lines": 304,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/mcp_auth.rs",
+      "sha256": "35edcf79b5000f868a3e754efc7640f16243de59a6285e104fb8b3825d0fef10",
+      "parts": [
+        {
+          "physical_lines": 95,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/mcp_tools.rs",
+      "sha256": "b55b6a8499254acdd5745a14e8e20a21caa29fe8c4802bea5263b409cc8873f1",
+      "parts": [
+        {
+          "physical_lines": 153,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/security_paths.rs",
+      "sha256": "8107e65c528cd5ed2a07db08576c0c2e201ac066232e961fd9b71fdac2cd2bf1",
+      "parts": [
+        {
+          "physical_lines": 161,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/shunt.rs",
+      "sha256": "532d6f850e6943ae52da3e706bdf044b5ef4525b6d899cebbb8973e8455a41d2",
+      "parts": [
+        {
+          "physical_lines": 485,
+          "category": "tests"
+        }
+      ]
+    },
+    {
+      "path": "tests/worker_client.rs",
+      "sha256": "f31a883c8675d792f103c8f312c79195f595de10e94bdd7485db40c341de6392",
+      "parts": [
+        {
+          "physical_lines": 198,
+          "category": "tests"
+        }
+      ]
+    }
+  ],
+  "raw_hashes": {
+    "clones": "e09e05a7f8dba7b78a137cfa9c4933f0e251d3e96b478381285b107aa37d4290",
+    "repeat": "21b17cdaee33810b0edef02716b73dfab12943b23ec1969afa7550a479eb7067",
+    "baseline": "21b17cdaee33810b0edef02716b73dfab12943b23ec1969afa7550a479eb7067"
+  },
+  "repeat_identical": true,
+  "application_changes": 0,
+  "application_tests_run": false,
+  "compression_adoptions": 0,
+  "limits": [
+    "Tracked Rust/Python/TypeScript/TSX only as declared; not a whole-repository all-language total.",
+    "No project tests or external services executed.",
+    "No maintained-code reduction or maintenance-effort benefit is established.",
+    "Entropy and semantic equivalence are not measured."
+  ],
+  "rejected_measurement": {
+    "preliminary_ccn_sum": 299,
+    "preliminary_named_routine_count": 125,
+    "tool": "Lizard 1.17.31 Rust reader",
+    "reason": "Lifetime syntax merges function spans: 5 detected versus 14 reviewed named functions in shunt.rs. All Lizard-derived Rust structure/NLOC metrics withheld; raw physical lines retained."
+  },
+  "rust_metrics": {
+    "repeat_all_22_json_files_identical": true,
+    "files": 22,
+    "cyclomatic_sum": 571,
+    "files_detail": [
+      {
+        "path": "src/config.rs",
+        "ploc": 173.0,
+        "lloc": 14.0,
+        "functions": 10.0,
+        "closures": 9.0,
+        "cyclomatic": 43.0,
+        "cognitive": 6.0,
+        "raw_sha256": "d4419ad2031889ba725da6962121aaf7305a8a5cb27f8696ac817737f8cf7013"
+      },
+      {
+        "path": "src/lib.rs",
+        "ploc": 32.0,
+        "lloc": 1.0,
+        "functions": 2.0,
+        "closures": 0.0,
+        "cyclomatic": 3.0,
+        "cognitive": 0.0,
+        "raw_sha256": "6b0e12603bdd19b949dd981f71bf1b45425f0b165f9180bcd6b8d7ed2063ca40"
+      },
+      {
+        "path": "src/main.rs",
+        "ploc": 130.0,
+        "lloc": 37.0,
+        "functions": 12.0,
+        "closures": 4.0,
+        "cyclomatic": 38.0,
+        "cognitive": 10.0,
+        "raw_sha256": "b05840634f4b819410a42b43191b23c95eb27eb0bfbad4a52d3a43d9f6035e19"
+      },
+      {
+        "path": "src/telemetry.rs",
+        "ploc": 250.0,
+        "lloc": 38.0,
+        "functions": 20.0,
+        "closures": 8.0,
+        "cyclomatic": 47.0,
+        "cognitive": 12.0,
+        "raw_sha256": "7e544689588f09a34605b7c8660e6be90de88d0e5d240d587a3bab67991b3881"
+      },
+      {
+        "path": "src/mcp/mod.rs",
+        "ploc": 3.0,
+        "lloc": 0.0,
+        "functions": 0.0,
+        "closures": 0.0,
+        "cyclomatic": 1.0,
+        "cognitive": 0.0,
+        "raw_sha256": "1af8be3c88b3f36005de3e930364bdb8b2181177733dab9e39b7c9ff3f3cb135"
+      },
+      {
+        "path": "src/mcp/params.rs",
+        "ploc": 87.0,
+        "lloc": 0.0,
+        "functions": 3.0,
+        "closures": 0.0,
+        "cyclomatic": 6.0,
+        "cognitive": 0.0,
+        "raw_sha256": "3d8c2802711cf6b70dc2ece83dd4c27e542fb649c6a5659d56ae3f3882fb990f"
+      },
+      {
+        "path": "src/mcp/server.rs",
+        "ploc": 152.0,
+        "lloc": 25.0,
+        "functions": 6.0,
+        "closures": 5.0,
+        "cyclomatic": 19.0,
+        "cognitive": 2.0,
+        "raw_sha256": "fd35472a2b10eabd31bf1688826401e4b21b1a456fb7a966fa690a155465c80c"
+      },
+      {
+        "path": "src/mcp/tools.rs",
+        "ploc": 324.0,
+        "lloc": 55.0,
+        "functions": 11.0,
+        "closures": 6.0,
+        "cyclomatic": 45.0,
+        "cognitive": 25.0,
+        "raw_sha256": "be92386cba271f4e76db6d492683eadc24906302eea39a0137fce198c7fe62ac"
+      },
+      {
+        "path": "src/services/boilerplate.rs",
+        "ploc": 337.0,
+        "lloc": 49.0,
+        "functions": 12.0,
+        "closures": 4.0,
+        "cyclomatic": 51.0,
+        "cognitive": 15.0,
+        "raw_sha256": "c7bc826e2cc342740d05ba71e6a0209cee374ad82bd42f3c263a932f83302e16"
+      },
+      {
+        "path": "src/services/memory.rs",
+        "ploc": 257.0,
+        "lloc": 39.0,
+        "functions": 9.0,
+        "closures": 9.0,
+        "cyclomatic": 50.0,
+        "cognitive": 9.0,
+        "raw_sha256": "a0758615a38cfc854897961da24ed9d92c9605712368f68483dcdf58e39963d5"
+      },
+      {
+        "path": "src/services/mod.rs",
+        "ploc": 9.0,
+        "lloc": 0.0,
+        "functions": 0.0,
+        "closures": 0.0,
+        "cyclomatic": 1.0,
+        "cognitive": 0.0,
+        "raw_sha256": "db96a490349180dd86bf6b136673221e7a5a3cc440441252ba9d45bec1d5f682"
+      },
+      {
+        "path": "src/services/paths.rs",
+        "ploc": 63.0,
+        "lloc": 17.0,
+        "functions": 4.0,
+        "closures": 5.0,
+        "cyclomatic": 21.0,
+        "cognitive": 10.0,
+        "raw_sha256": "55650e4c0c4ac1a98719ebc1594d824ae53ff400677db14da3e5a6636a978b85"
+      },
+      {
+        "path": "src/services/session_bus.rs",
+        "ploc": 266.0,
+        "lloc": 30.0,
+        "functions": 11.0,
+        "closures": 11.0,
+        "cyclomatic": 49.0,
+        "cognitive": 3.0,
+        "raw_sha256": "43c7b6e05a0674ac137d08088fd77693402db6802ffd06afd0b43843f0692873"
+      },
+      {
+        "path": "src/services/shunt_cache.rs",
+        "ploc": 83.0,
+        "lloc": 7.0,
+        "functions": 6.0,
+        "closures": 11.0,
+        "cyclomatic": 19.0,
+        "cognitive": 0.0,
+        "raw_sha256": "5803b4147361c450dcf0258ac655c5a5defb377f11e9478b1b67b5cb6572ef9f"
+      },
+      {
+        "path": "src/services/shunt_types.rs",
+        "ploc": 113.0,
+        "lloc": 2.0,
+        "functions": 3.0,
+        "closures": 0.0,
+        "cyclomatic": 17.0,
+        "cognitive": 2.0,
+        "raw_sha256": "b2c682360876be75076b38eb481c1f7b4e7bca87cd8f2fd567a464589770b307"
+      },
+      {
+        "path": "src/services/shunt.rs",
+        "ploc": 407.0,
+        "lloc": 67.0,
+        "functions": 14.0,
+        "closures": 7.0,
+        "cyclomatic": 46.0,
+        "cognitive": 11.0,
+        "raw_sha256": "41bb8d64a027ae947d95baaf01f63a6eca09e780363ef646da05606737bef7ed"
+      },
+      {
+        "path": "src/services/stats.rs",
+        "ploc": 163.0,
+        "lloc": 21.0,
+        "functions": 11.0,
+        "closures": 3.0,
+        "cyclomatic": 24.0,
+        "cognitive": 3.0,
+        "raw_sha256": "5686bc7c10140563a7eb857fd14618aa4811e8b4bcb52b6b70752fbb6eb54b63"
+      },
+      {
+        "path": "src/services/worker.rs",
+        "ploc": 170.0,
+        "lloc": 24.0,
+        "functions": 8.0,
+        "closures": 6.0,
+        "cyclomatic": 33.0,
+        "cognitive": 6.0,
+        "raw_sha256": "64407c518ec93ce5a5aba4431c5baf3e148b2d1b4caa33f9944112a2b234bf98"
+      },
+      {
+        "path": "src/storage/audit.rs",
+        "ploc": 185.0,
+        "lloc": 24.0,
+        "functions": 11.0,
+        "closures": 8.0,
+        "cyclomatic": 32.0,
+        "cognitive": 2.0,
+        "raw_sha256": "97ce787efbd8a73c870b759722c78dc19cd0f87d2476e4cfa2ab8b28a69ea56b"
+      },
+      {
+        "path": "src/storage/db.rs",
+        "ploc": 47.0,
+        "lloc": 8.0,
+        "functions": 4.0,
+        "closures": 3.0,
+        "cyclomatic": 15.0,
+        "cognitive": 0.0,
+        "raw_sha256": "23ee70222912811dedaee2b919efb7650d1de7742945bba718bb7b6128dac988"
+      },
+      {
+        "path": "src/storage/mod.rs",
+        "ploc": 3.0,
+        "lloc": 0.0,
+        "functions": 0.0,
+        "closures": 0.0,
+        "cyclomatic": 1.0,
+        "cognitive": 0.0,
+        "raw_sha256": "d242aded1004ec3492c67abaa5468e86b1eda8a1c09fc1264273bf61bc7cc950"
+      },
+      {
+        "path": "src/storage/schema.rs",
+        "ploc": 27.0,
+        "lloc": 4.0,
+        "functions": 2.0,
+        "closures": 1.0,
+        "cyclomatic": 10.0,
+        "cognitive": 1.0,
+        "raw_sha256": "4b7c198a2ee206e0768af32a8b19df2f2fa3b94a8a72dec0680223e70ddd30b9"
+      }
+    ],
+    "closures": 100,
+    "definition": "Root aggregate once per file; includes syntax spaces/closures. Not equivalent to Lizard CCN or native Lesscode decisions.",
+    "physical_code_lines": 3281,
+    "named_functions": 159,
+    "logical_lines": 462,
+    "scope": "production segments only",
+    "tool": "rust-code-analysis-cli 0.0.25",
+    "cognitive_sum": 117
+  },
+  "reproduction_script_sha256": "6584b12ec4eddf9e375342483d43c940ebead3fc64f996e80690a32401941007",
+  "latest_live_replay": {
+    "raw_sha256": "8b7a7fc7c27470c772ad7eb19bd2ed475c972ab4ca74d1b1579aba82ba47db35",
+    "physical_counts_match": true,
+    "profile": "mmhmem.json",
+    "source_identity": "e5639f27028416ab86095ec4d8411f2412d0eb763f69abd45042db55fdd30c6f",
+    "revision": "ab925e306b0b39ae349dc4cf95b52cc5d6764ac8",
+    "profile_sha256": "b7f85bf36269b0b2b83157e02b41aa86fd3f95dd73413ce8c0a7161b3ebea7c2",
+    "exact_source_and_metrics_repeat_verified": true,
+    "repeat_revision": "834df471d6cd9f376103fd5c55d41ec8669c9052",
+    "revision_metadata_changed": true,
+    "repeat_raw_sha256": "6331cd300cd59c8e83ea7ecc08476e63e40fb3f8eba73555eb463bffea28dd3c"
+  },
+  "capture_scope_manifest_sha256": "0c52e59690924bea3d8a10119f455eece8a5f380bf7b9a093deabb4ed76837d7",
+  "scope_manifest_role": "mmhmem-initial.json rebinds the original reviewed ranges to their captured byte hashes; hash guards were added after first capture.",
+  "source_drift": {
+    "reason": "LF to CRLF only; normalized HEAD text unchanged",
+    "initial_profile_rejected_live_rerun": true,
+    "file": "src/lib.rs",
+    "reviewed_profile_updated": true,
+    "physical_counts_changed": false,
+    "new_hash": "5e48d078126214bed89e659818f2cb7c2082cc2ce43299d98aebcd6cfecb9fec",
+    "old_hash": "40e4896dc20373bd6e6a7dc33f3d75d20196d21a348aca73f14a88260a0a9687"
+  }
+}
