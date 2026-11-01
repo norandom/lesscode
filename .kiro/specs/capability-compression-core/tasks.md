@@ -33,7 +33,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 1.2_
   - _Requirements: 1.1, 2.1, 4.3, 4.4, 4.5_
 
-- [ ] 2.2 Resolve reviewed ownership selections
+- [x] 2.2 Resolve reviewed ownership selections
   - Resolve whole-file and complete-node selectors, reject missing/ambiguous resolutions and union overlapping spans.
   - Retain entrypoints, ownership rationale and unresolved relationship review; prevent omitted declared source from becoming zero.
   - Done: fixtures distinguish reviewed scope from ambiguous, narrowed or omitted ownership.

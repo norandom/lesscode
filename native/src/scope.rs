@@ -9,6 +9,275 @@ use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
 
+/// Half-open byte range, always a complete selected syntax node or file.
+/// Symbol offsets lie on UTF-8 boundaries; whole files may contain arbitrary bytes.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SourceSpan {
+    pub path: String,
+    pub start: usize,
+    pub end: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ResolvedScope {
+    pub entry_points: Records<String, SourceSpan>,
+    pub owned: Records<String, SourceSpan>,
+    pub spans: Vec<SourceSpan>,
+    pub review: crate::model::ScopeReview,
+    /// All located unresolved relationships survive review; none imply dead code.
+    pub unresolved: Records<String, crate::model::Finding>,
+    pub findings: Vec<crate::model::Finding>,
+}
+
+/// Resolve the manifest's declared scope against a previously inventoried root.
+/// Missing, excluded, stale or unresolvable declared source fails admission,
+/// rather than contributing a zero measurement. Incomplete semantic review is
+/// retained as findings. Relationship IDs and owned target IDs are the keys of
+/// the supplied unresolved map and manifest ownership map respectively.
+pub fn resolve_scope(
+    root: &Path,
+    snapshot: &Snapshot,
+    manifest: &Manifest,
+    unresolved: &Records<String, crate::model::Finding>,
+) -> Result<ResolvedScope, ScopeError> {
+    let entry_points = resolve_selections(root, snapshot, &manifest.entry_points)?;
+    let owned = resolve_selections(root, snapshot, &manifest.owned)?;
+    let spans = union_spans(owned.0.values().cloned().collect());
+    let mut findings = Vec::new();
+    let mut finding = |subject: String, explanation: &str| {
+        findings.push(crate::model::Finding {
+            schema_version: SchemaVersion::V1,
+            subject,
+            explanation: explanation.into(),
+        });
+    };
+    if manifest.scope_review.rationale.trim().is_empty() {
+        finding("scope_review".into(), "ownership rationale is missing");
+    }
+    for (id, entry) in &entry_points.0 {
+        if !spans.iter().any(|span| {
+            span.path == entry.path && span.start <= entry.start && span.end >= entry.end
+        }) {
+            finding(
+                id.clone(),
+                "entry point is omitted or narrowed by declared ownership",
+            );
+        }
+    }
+    for id in unresolved.0.keys() {
+        if !manifest.scope_review.relationships.0.contains_key(id) {
+            finding(
+                id.clone(),
+                "unresolved relationship has no ownership review",
+            );
+        }
+    }
+    for (id, review) in &manifest.scope_review.relationships.0 {
+        let external = review
+            .external_contract
+            .as_ref()
+            .is_some_and(|value| !value.trim().is_empty());
+        if review.rationale.trim().is_empty() || (review.owned_targets.is_empty() && !external) {
+            finding(
+                id.clone(),
+                "relationship requires rationale and owned targets or an external contract",
+            );
+        }
+        for target in &review.owned_targets {
+            if !owned.0.contains_key(target) {
+                finding(
+                    id.clone(),
+                    &format!("reviewed owned target is omitted: {target}"),
+                );
+            }
+        }
+    }
+    Ok(ResolvedScope {
+        entry_points,
+        owned,
+        spans,
+        review: manifest.scope_review.clone(),
+        unresolved: unresolved.clone(),
+        findings,
+    })
+}
+
+/// Resolve complete nodes independently for use by later replacement accounting.
+/// Symbol digests are SHA-256 of the entire source file, matching FileRecord.
+/// Qualified names join enclosing named declarations with `.`. Occurrence is
+/// zero-based among exact qualified-name matches in source order, so repeated
+/// definitions are explicit rather than silently choosing the first one.
+/// Python decorated definitions and TS export declarations include their wrapper.
+/// Named variable declarators include the containing declaration (and any sibling
+/// declarators), preserving declaration headers and exported wrappers in scope.
+pub fn resolve_selections(
+    root: &Path,
+    snapshot: &Snapshot,
+    selections: &Records<String, Selector>,
+) -> Result<Records<String, SourceSpan>, ScopeError> {
+    let mut resolved = BTreeMap::new();
+    for (id, selector) in &selections.0 {
+        let (Selector::WholeFile { path } | Selector::Symbol { path, .. }) = selector;
+        validate_path(path, false)?;
+        let expected = snapshot
+            .files
+            .0
+            .get(path)
+            .map(|file| &file.content_digest)
+            .or_else(|| snapshot.unclassified.0.get(path))
+            .ok_or_else(|| ScopeError(format!("declared source is missing or excluded: {path}")))?;
+        // Recheck every component, including the root, before accessing source.
+        reject_link(root)?;
+        let mut physical = root.to_path_buf();
+        for component in path.split('/') {
+            physical.push(component);
+            reject_link(&physical)?;
+        }
+        let bytes = fs::read(&physical).map_err(|e| ScopeError(format!("{path}: {e}")))?;
+        if digest(&bytes) != *expected {
+            return Err(ScopeError(format!(
+                "source changed since inventory: {path}"
+            )));
+        }
+        let (start, end) = match selector {
+            Selector::WholeFile { .. } => (0, bytes.len()),
+            Selector::Symbol {
+                qualified_name,
+                occurrence,
+                source_digest,
+                ..
+            } => {
+                if source_digest != expected {
+                    return Err(ScopeError(format!(
+                        "selector source digest mismatch: {id} ({path})"
+                    )));
+                }
+                let source = std::str::from_utf8(&bytes)
+                    .map_err(|_| ScopeError(format!("symbol source is not UTF-8: {path}")))?;
+                let matches = match Path::new(path).extension().and_then(|ext| ext.to_str()) {
+                    Some("py" | "pyi") => named_spans(source, crate::Python, qualified_name)?,
+                    Some("ts" | "mts" | "cts") => {
+                        named_spans(source, crate::TypeScript, qualified_name)?
+                    }
+                    Some("tsx") => named_spans(source, crate::Tsx, qualified_name)?,
+                    _ => {
+                        return Err(ScopeError(format!(
+                            "unsupported symbol source language: {path}"
+                        )))
+                    }
+                };
+                let index = usize::try_from(occurrence.0)
+                    .map_err(|_| ScopeError(format!("selector occurrence out of range: {id}")))?;
+                let span = matches.get(index).ok_or_else(|| ScopeError(format!("selector does not resolve exactly once: {id} ({qualified_name}, occurrence {})", occurrence.0)))?;
+                (span.start, span.end)
+            }
+        };
+        resolved.insert(
+            id.clone(),
+            SourceSpan {
+                path: path.clone(),
+                start,
+                end,
+            },
+        );
+    }
+    Ok(Records(resolved))
+}
+
+fn named_spans<L: ast_grep_language::LanguageExt>(
+    source: &str,
+    language: L,
+    name: &str,
+) -> Result<Vec<std::ops::Range<usize>>, ScopeError> {
+    let tree = crate::AstGrep::new(source, language);
+    let root = tree.root();
+    if root.get_inner_node().has_error() || root.dfs().any(|node| node.is_missing()) {
+        return Err(ScopeError(
+            "symbol source contains syntax errors or missing nodes".into(),
+        ));
+    }
+    let named_kind = |kind: &str| {
+        matches!(
+            kind,
+            "function_definition"
+                | "class_definition"
+                | "function_declaration"
+                | "generator_function_declaration"
+                | "class_declaration"
+                | "abstract_class_declaration"
+                | "method_definition"
+                | "method_signature"
+                | "abstract_method_signature"
+                | "function_signature"
+                | "variable_declarator"
+                | "interface_declaration"
+                | "type_alias_declaration"
+                | "enum_declaration"
+                | "internal_module"
+        )
+    };
+    let mut matches = Vec::new();
+    for node in root.dfs() {
+        if !named_kind(&node.kind()) {
+            continue;
+        }
+        let Some(identifier) = node.field("name") else {
+            continue;
+        };
+        let mut names = vec![identifier.text().into_owned()];
+        let mut parent = node.parent();
+        while let Some(ancestor) = parent {
+            if named_kind(&ancestor.kind()) {
+                if let Some(identifier) = ancestor.field("name") {
+                    names.push(identifier.text().into_owned());
+                }
+            }
+            parent = ancestor.parent();
+        }
+        names.reverse();
+        if names.join(".") == name {
+            let mut selected = node;
+            while let Some(parent) = selected.parent() {
+                if matches!(
+                    parent.kind().as_ref(),
+                    "decorated_definition"
+                        | "export_statement"
+                        | "lexical_declaration"
+                        | "variable_declaration"
+                ) {
+                    selected = parent;
+                } else {
+                    break;
+                }
+            }
+            matches.push(selected.range());
+        }
+    }
+    matches.sort_by_key(|range| (range.start, range.end));
+    if matches.windows(2).any(|pair| pair[0] == pair[1]) {
+        return Err(ScopeError(format!(
+            "ambiguous complete-node resolution: {name}"
+        )));
+    }
+    Ok(matches)
+}
+
+/// Deterministic union of overlapping or adjacent spans, separately per file.
+pub fn union_spans(mut spans: Vec<SourceSpan>) -> Vec<SourceSpan> {
+    spans.sort_by(|a, b| (&a.path, a.start, a.end).cmp(&(&b.path, b.start, b.end)));
+    let mut merged: Vec<SourceSpan> = Vec::new();
+    for span in spans {
+        if let Some(last) = merged.last_mut() {
+            if last.path == span.path && span.start <= last.end {
+                last.end = last.end.max(span.end);
+                continue;
+            }
+        }
+        merged.push(span);
+    }
+    merged
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Snapshot {
     pub files: Records<String, FileRecord>,
@@ -341,6 +610,265 @@ mod tests {
                 "build":{"schema_version":1,"rationale":"generated output","kind":"generated"}},
             "scope_review":{"schema_version":1,"rationale":"owned responsibility","relationships":{}},
             "checks":{},"target":null,"capability_inventory":null})).unwrap()
+    }
+    fn symbol(path: &str, name: &str, occurrence: u64, source: &str) -> Selector {
+        Selector::Symbol {
+            path: path.into(),
+            qualified_name: name.into(),
+            occurrence: crate::model::Count(occurrence),
+            source_digest: digest(source.as_bytes()),
+        }
+    }
+    #[test]
+    fn reviewed_selectors_retain_entries_and_union_whole_file_overlap() {
+        let root = Fixture::new();
+        let source = "@decorator\ndef entry():\n    return 1\n\ndef helper():\n    return 2\n";
+        root.write("src/a.py", source);
+        let mut m = manifest();
+        m.entry_points
+            .0
+            .insert("entry".into(), symbol("src/a.py", "entry", 0, source));
+        m.owned
+            .0
+            .insert("entry".into(), symbol("src/a.py", "entry", 0, source));
+        let resolved = resolve_scope(
+            &root.0,
+            &inventory(&root.0, &m).unwrap(),
+            &m,
+            &Records(BTreeMap::new()),
+        )
+        .unwrap();
+        assert_eq!(
+            resolved.spans,
+            vec![SourceSpan {
+                path: "src/a.py".into(),
+                start: 0,
+                end: source.len()
+            }]
+        );
+        assert_eq!(
+            &source[resolved.entry_points.0["entry"].start..resolved.entry_points.0["entry"].end],
+            "@decorator\ndef entry():\n    return 1"
+        );
+        assert_eq!(resolved.review, m.scope_review);
+        assert!(resolved.findings.is_empty());
+    }
+    #[test]
+    fn qualified_occurrences_select_complete_nodes_and_reject_stale_or_missing_source() {
+        let root = Fixture::new();
+        let source = "class A:\n    def run(self):\n        return 'é'\n\ndef run():\n    return 1\ndef run():\n    return 2\n";
+        root.write("src/a.py", source);
+        let mut m = manifest();
+        m.entry_points.0.clear();
+        m.owned.0.clear();
+        m.owned
+            .0
+            .insert("method".into(), symbol("src/a.py", "A.run", 0, source));
+        m.owned
+            .0
+            .insert("repeat".into(), symbol("src/a.py", "run", 1, source));
+        let snapshot = inventory(&root.0, &m).unwrap();
+        let resolved = resolve_scope(&root.0, &snapshot, &m, &Records(BTreeMap::new())).unwrap();
+        assert_eq!(
+            &source[resolved.owned.0["method"].start..resolved.owned.0["method"].end],
+            "def run(self):\n        return 'é'"
+        );
+        assert_eq!(
+            &source[resolved.owned.0["repeat"].start..resolved.owned.0["repeat"].end],
+            "def run():\n    return 2"
+        );
+        for selector in [
+            symbol("src/a.py", "run", 2, source),
+            symbol("src/a.py", "absent", 0, source),
+            symbol("src/a.py", "run", 0, "stale"),
+            symbol("src/missing.py", "run", 0, source),
+        ] {
+            m.owned.0.insert("bad".into(), selector);
+            assert!(resolve_scope(&root.0, &snapshot, &m, &Records(BTreeMap::new())).is_err());
+        }
+        m.owned.0.remove("bad");
+        root.write("src/a.py", "changed = True\n");
+        assert!(resolve_scope(&root.0, &snapshot, &m, &Records(BTreeMap::new())).is_err());
+    }
+    #[test]
+    fn narrowed_or_unreviewed_scope_is_incomplete_and_locations_survive_review() {
+        let root = Fixture::new();
+        let source = "def run():\n    unknown()\n\ndef helper():\n    return 1\n";
+        root.write("src/a.py", source);
+        let mut m = manifest();
+        m.owned
+            .0
+            .insert("a".into(), symbol("src/a.py", "helper", 0, source));
+        m.entry_points
+            .0
+            .insert("entry".into(), symbol("src/a.py", "run", 0, source));
+        let unresolved: Records<String, crate::model::Finding> = serde_json::from_value(json!({"src/a.py:2:5":{"schema_version":1,"subject":"src/a.py:2:5","explanation":"dynamic target"}})).unwrap();
+        let snap = inventory(&root.0, &m).unwrap();
+        let result = resolve_scope(&root.0, &snap, &m, &unresolved).unwrap();
+        assert_eq!(result.unresolved, unresolved);
+        assert_eq!(result.findings.len(), 2);
+        m.owned.0.insert(
+            "a".into(),
+            Selector::WholeFile {
+                path: "src/a.py".into(),
+            },
+        );
+        m.scope_review.relationships = serde_json::from_value(json!({"src/a.py:2:5":{"schema_version":1,"owned_targets":["a"],"external_contract":null,"rationale":"helper owned by selected module"}})).unwrap();
+        let result = resolve_scope(&root.0, &snap, &m, &unresolved).unwrap();
+        assert_eq!(result.unresolved, unresolved);
+        assert!(result.findings.is_empty());
+        m.scope_review
+            .relationships
+            .0
+            .get_mut("src/a.py:2:5")
+            .unwrap()
+            .owned_targets = vec!["omitted".into()];
+        assert!(!resolve_scope(&root.0, &snap, &m, &unresolved)
+            .unwrap()
+            .findings
+            .is_empty());
+        m.scope_review.rationale.clear();
+        assert!(
+            resolve_scope(&root.0, &snap, &m, &unresolved)
+                .unwrap()
+                .findings
+                .len()
+                >= 2
+        );
+    }
+    #[test]
+    fn typed_named_nodes_keep_export_wrappers_and_tsx_bodies() {
+        let root = Fixture::new();
+        let ts =
+            "export class Worker { run(): number { return 1; } }\nexport const invoke = () => 2;\n";
+        let tsx = "export const View = () => <div>é</div>;\n";
+        root.write("src/a.py", "pass\n");
+        root.write("src/a.ts", ts);
+        root.write("src/view.tsx", tsx);
+        let snap = inventory(&root.0, &manifest()).unwrap();
+        let selections = Records(BTreeMap::from([
+            ("method".into(), symbol("src/a.ts", "Worker.run", 0, ts)),
+            ("arrow".into(), symbol("src/a.ts", "invoke", 0, ts)),
+            ("view".into(), symbol("src/view.tsx", "View", 0, tsx)),
+        ]));
+        let result = resolve_selections(&root.0, &snap, &selections).unwrap();
+        assert_eq!(
+            &ts[result.0["method"].start..result.0["method"].end],
+            "run(): number { return 1; }"
+        );
+        assert_eq!(
+            &ts[result.0["arrow"].start..result.0["arrow"].end],
+            "export const invoke = () => 2;"
+        );
+        assert_eq!(
+            &tsx[result.0["view"].start..result.0["view"].end],
+            tsx.trim_end()
+        );
+    }
+    #[test]
+    fn structural_selector_failures_never_fall_back_to_empty_spans() {
+        let root = Fixture::new();
+        root.write("src/a.py", "def broken(:\n");
+        root.write("src/data.txt", "data");
+        fs::write(root.0.join("src/raw.py"), [0xff]).unwrap();
+        let snap = inventory(&root.0, &manifest()).unwrap();
+        for selector in [
+            symbol("src/a.py", "broken", 0, "def broken(:\n"),
+            symbol("src/data.txt", "data", 0, "data"),
+            Selector::Symbol {
+                path: "src/raw.py".into(),
+                qualified_name: "raw".into(),
+                occurrence: crate::model::Count(0),
+                source_digest: digest(&[0xff]),
+            },
+            Selector::WholeFile {
+                path: "src/absent.py".into(),
+            },
+            Selector::WholeFile {
+                path: "../outside.py".into(),
+            },
+        ] {
+            assert!(resolve_selections(
+                &root.0,
+                &snap,
+                &Records(BTreeMap::from([("bad".into(), selector)]))
+            )
+            .is_err());
+        }
+        let whole = Records(BTreeMap::from([(
+            "raw".into(),
+            Selector::WholeFile {
+                path: "src/raw.py".into(),
+            },
+        )]));
+        assert_eq!(
+            resolve_selections(&root.0, &snap, &whole).unwrap().0["raw"].end,
+            1
+        );
+        let mut excluded = manifest();
+        excluded.owned.0.clear();
+        excluded.entry_points.0.clear();
+        excluded.exclusions.0.insert(
+            "src/data.txt".into(),
+            Exclusion {
+                schema_version: SchemaVersion::V1,
+                rationale: "outside ownership".into(),
+                kind: ExclusionKind::MaintainedSource,
+            },
+        );
+        let snap = inventory(&root.0, &excluded).unwrap();
+        let whole = Records(BTreeMap::from([(
+            "data".into(),
+            Selector::WholeFile {
+                path: "src/data.txt".into(),
+            },
+        )]));
+        assert!(resolve_selections(&root.0, &snap, &whole).is_err());
+    }
+    #[test]
+    fn span_union_counts_nested_partial_and_adjacent_ranges_once_per_file() {
+        let span = |path: &str, start, end| SourceSpan {
+            path: path.into(),
+            start,
+            end,
+        };
+        assert_eq!(
+            union_spans(vec![
+                span("b", 0, 2),
+                span("a", 8, 12),
+                span("a", 0, 5),
+                span("a", 2, 4),
+                span("a", 4, 8),
+                span("a", 20, 25)
+            ]),
+            vec![span("a", 0, 12), span("a", 20, 25), span("b", 0, 2)]
+        );
+    }
+    #[test]
+    fn external_contract_review_retains_relationship_without_an_owned_target() {
+        let root = Fixture::new();
+        root.write("src/a.py", "external()\n");
+        let mut m = manifest();
+        let unresolved: Records<String, crate::model::Finding> = serde_json::from_value(json!({"src/a.py:1:1":{"schema_version":1,"subject":"src/a.py:1:1","explanation":"external call"}})).unwrap();
+        m.scope_review.relationships = serde_json::from_value(json!({"src/a.py:1:1":{"schema_version":1,"owned_targets":[],"external_contract":"installed library API","rationale":"dependency owns implementation"}})).unwrap();
+        let snap = inventory(&root.0, &m).unwrap();
+        assert!(resolve_scope(&root.0, &snap, &m, &unresolved)
+            .unwrap()
+            .findings
+            .is_empty());
+        m.scope_review
+            .relationships
+            .0
+            .get_mut("src/a.py:1:1")
+            .unwrap()
+            .external_contract = Some(" ".into());
+        assert_eq!(
+            resolve_scope(&root.0, &snap, &m, &unresolved)
+                .unwrap()
+                .findings
+                .len(),
+            1
+        );
     }
     #[test]
     fn relocated_roots_include_untracked_and_preserve_source() {
