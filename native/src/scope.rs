@@ -1572,14 +1572,26 @@ mod tests {
             "external"
         );
     }
-    #[cfg(unix)]
     #[test]
-    fn rejects_case_collisions_and_symlinks() {
+    fn rejects_case_collisions_when_filesystem_preserves_both_names() {
         let root = Fixture::new();
         root.write("src/a.py", "a");
         root.write("src/A.py", "b");
-        assert!(inventory(&root.0, &manifest()).is_err());
-        fs::remove_file(root.0.join("src/A.py")).unwrap();
+        let names: Vec<_> = fs::read_dir(root.0.join("src"))
+            .unwrap()
+            .map(|entry| entry.unwrap().file_name())
+            .collect();
+        if names.iter().any(|name| name == "a.py") && names.iter().any(|name| name == "A.py") {
+            assert!(inventory(&root.0, &manifest()).is_err());
+        } else {
+            assert!(inventory(&root.0, &manifest()).is_ok());
+        }
+    }
+    #[cfg(unix)]
+    #[test]
+    fn rejects_unix_symlinks() {
+        let root = Fixture::new();
+        root.write("src/a.py", "a");
         std::os::unix::fs::symlink("a.py", root.0.join("src/link.py")).unwrap();
         assert!(inventory(&root.0, &manifest()).is_err());
     }
