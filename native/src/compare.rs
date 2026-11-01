@@ -706,6 +706,26 @@ fn validate_artifact(
     artifact: &Artifact,
     roots: &[PathBuf],
 ) -> Result<(), (EvidenceIssue, String)> {
+    let path = resolve_artifact(artifact, roots)?;
+    let bytes = fs::read(path).map_err(|e| {
+        (
+            EvidenceIssue::Incomplete,
+            format!("raw artifact unreadable: {e}"),
+        )
+    })?;
+    if hash(&bytes) != artifact.sha256 {
+        return Err((
+            EvidenceIssue::Invalid,
+            "raw artifact SHA-256 mismatch".into(),
+        ));
+    }
+    Ok(())
+}
+
+pub(crate) fn resolve_artifact(
+    artifact: &Artifact,
+    roots: &[PathBuf],
+) -> Result<PathBuf, (EvidenceIssue, String)> {
     let invalid = |reason: &str| (EvidenceIssue::Invalid, reason.to_owned());
     let path = Path::new(&artifact.path);
     if artifact.path.is_empty()
@@ -769,16 +789,7 @@ fn validate_artifact(
     if !path.is_file() {
         return Err(invalid("raw artifact is not a regular file"));
     }
-    let bytes = fs::read(path).map_err(|e| {
-        (
-            EvidenceIssue::Incomplete,
-            format!("raw artifact unreadable: {e}"),
-        )
-    })?;
-    if hash(&bytes) != artifact.sha256 {
-        return Err(invalid("raw artifact SHA-256 mismatch"));
-    }
-    Ok(())
+    Ok(path)
 }
 fn is_link(metadata: &fs::Metadata) -> bool {
     #[cfg(windows)]

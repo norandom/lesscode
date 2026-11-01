@@ -96,7 +96,7 @@ completing an attempted trial does not itself establish maturity.
   - _Requirements: 2.1, 3.6, 4.1, 4.2, 4.3, 4.6_
 
 - [ ] 5. Integrate the working command workflow
-- [ ] 5.1 Integrate freezing and paired comparison
+- [x] 5.1 Integrate freezing and paired comparison
   - Connect model, inventory, metrics and comparison through the two library operations; preserve the module dependency direction.
   - Recheck sources before returning, join ownership reviews with unresolved edges, and reject changed frozen definitions.
   - Done: prepared trials produce correctly categorized comparisons and detect mid-comparison source changes.
