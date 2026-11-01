@@ -1,0 +1,506 @@
+{
+  "before": {
+    "module": {
+      "physical_lines": 1056,
+      "ast_statements": 369,
+      "ast_nodes": 5560,
+      "functions": 42
+    },
+    "package_production_python_files": 129,
+    "package_production_python_lines": 42296,
+    "changed_tracked_files": [],
+    "tests": [
+      {
+        "name": "tests.test_artifact_publication.test_csv_schema_and_projection_guarantees_preserve_byte_validation",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_dashboard_json_carries_the_report_identity",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_the_report_digest_is_repeatable_and_matches_the_build",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_canonical_json_round_trips_byte_identically",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_canonical_json_refuses_non_finite_and_naive_values",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_decimal_tokens_are_minimal_and_exponent_free",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_rendering_is_deterministic",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_every_metric_agrees_exactly_between_json_and_csv",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_aligned_returns_csv_mirrors_the_report_rows",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_market_model_rows_carry_inference_and_reconciliation_identity",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_the_csv_inventory_is_canonical_and_extensions_stay_header_only",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_spreadsheet_formula_prefixes_are_neutralized",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_persisted_text_rejects_hidden_controls",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_html_escaping_neutralizes_markup",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_no_rendered_csv_cell_begins_with_an_executable_prefix",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_unsafe_run_identifiers_are_refused",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_publication_writes_a_digest_addressed_verified_bundle",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_republication_is_idempotent",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_renderer_failure_leaves_no_partial_bundle",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_renderer_failure_preserves_the_previous_bundle",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_narrower_format_request_gets_its_own_exact_immutable_inventory",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_promotion_failure_is_typed_and_cleans_its_staging",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_corrupted_existing_bundle_is_refused",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_wider_format_request_coexists_without_extending_an_immutable_bundle",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_missing_requested_renderer_is_refused_before_any_write",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_an_injected_xlsx_renderer_joins_the_manifest",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_csv_then_xlsx_coexist_as_exact_deterministic_publications",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_the_holdings_table_joins_the_canonical_inventory",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_the_holdings_methodology_resolves_in_the_catalogue",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_the_projection_carries_aggregated_and_daily_rows",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_unmeasured_dimensions_survive_into_the_rows_with_their_reason",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_a_contribution_ending_in_a_zero_still_renders_canonically",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_the_usd_canonical_build_reports_in_usd_against_sofr",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_all_then_narrow_exports_each_report_only_the_requested_inventory",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_the_usd_methodology_never_states_the_euro_account",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_the_usd_interpretations_never_state_the_euro_account",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_euro_evidence_under_the_usd_methodology_is_a_currency_mismatch",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_the_usd_report_publishes_csv_and_xlsx_in_usd",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_two_versions_coexist_and_the_pointer_moves_atomically",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_chart_source_points_agree_across_surfaces",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_rebuilding_from_identical_inputs_reproduces_every_coordinate",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_sparse_run_states_are_proven[missing_benchmark-references0]",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_sparse_run_states_are_proven[no_event_and_no_trade-references1]",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_sparse_run_states_are_proven[unavailable_extensions-references2]",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_sparse_run_states_are_proven[unsupported_pre_estr-references3]",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_headline_values_agree_across_all_five_surfaces",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      }
+    ],
+    "test_exit": 1,
+    "test_log_sha256": "274d334cdf35070b7397dd8fd15c70d3d55308cde30d8cfbe6b206dc4e30f1c7",
+    "test_xml_sha256": "499e064654f65908eb1e9eda656160d3977b0149513dc820c2c088a1de3aa990"
+  },
+  "after": {
+    "module": {
+      "physical_lines": 1053,
+      "ast_statements": 341,
+      "ast_nodes": 5408,
+      "functions": 43
+    },
+    "package_production_python_files": 129,
+    "package_production_python_lines": 42293,
+    "changed_tracked_files": [
+      "packages/facdrone-reporting/facdrone_reporting/library/normalized_csv.py"
+    ],
+    "tests": [
+      {
+        "name": "tests.test_artifact_publication.test_csv_schema_and_projection_guarantees_preserve_byte_validation",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_dashboard_json_carries_the_report_identity",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_the_report_digest_is_repeatable_and_matches_the_build",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_canonical_json_round_trips_byte_identically",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_canonical_json_refuses_non_finite_and_naive_values",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_decimal_tokens_are_minimal_and_exponent_free",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_rendering_is_deterministic",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_every_metric_agrees_exactly_between_json_and_csv",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_aligned_returns_csv_mirrors_the_report_rows",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_market_model_rows_carry_inference_and_reconciliation_identity",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_the_csv_inventory_is_canonical_and_extensions_stay_header_only",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_spreadsheet_formula_prefixes_are_neutralized",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_persisted_text_rejects_hidden_controls",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_html_escaping_neutralizes_markup",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_no_rendered_csv_cell_begins_with_an_executable_prefix",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_unsafe_run_identifiers_are_refused",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_publication_writes_a_digest_addressed_verified_bundle",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_republication_is_idempotent",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_renderer_failure_leaves_no_partial_bundle",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_renderer_failure_preserves_the_previous_bundle",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_narrower_format_request_gets_its_own_exact_immutable_inventory",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_promotion_failure_is_typed_and_cleans_its_staging",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_corrupted_existing_bundle_is_refused",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_wider_format_request_coexists_without_extending_an_immutable_bundle",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_a_missing_requested_renderer_is_refused_before_any_write",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_an_injected_xlsx_renderer_joins_the_manifest",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_csv_then_xlsx_coexist_as_exact_deterministic_publications",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_the_holdings_table_joins_the_canonical_inventory",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_the_holdings_methodology_resolves_in_the_catalogue",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_the_projection_carries_aggregated_and_daily_rows",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_unmeasured_dimensions_survive_into_the_rows_with_their_reason",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_holdings_artifacts.test_a_contribution_ending_in_a_zero_still_renders_canonically",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_the_usd_canonical_build_reports_in_usd_against_sofr",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_artifact_publication.test_all_then_narrow_exports_each_report_only_the_requested_inventory",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_the_usd_methodology_never_states_the_euro_account",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_the_usd_interpretations_never_state_the_euro_account",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_euro_evidence_under_the_usd_methodology_is_a_currency_mismatch",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_usd_reporting_publication.test_the_usd_report_publishes_csv_and_xlsx_in_usd",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_artifact_publication.test_two_versions_coexist_and_the_pointer_moves_atomically",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_chart_source_points_agree_across_surfaces",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_rebuilding_from_identical_inputs_reproduces_every_coordinate",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_sparse_run_states_are_proven[missing_benchmark-references0]",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_sparse_run_states_are_proven[no_event_and_no_trade-references1]",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_sparse_run_states_are_proven[unavailable_extensions-references2]",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_sparse_run_states_are_proven[unsupported_pre_estr-references3]",
+        "status": "passed",
+        "error": null
+      },
+      {
+        "name": "tests.test_release1_acceptance.test_headline_values_agree_across_all_five_surfaces",
+        "status": "failed",
+        "error": "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write failed"
+      }
+    ],
+    "test_exit": 1,
+    "test_log_sha256": "291d09f1edd9c8074d628e23f756c7ebe252b874160bae10870a1430271ed58e",
+    "test_xml_sha256": "4baa27773bbe4a17c8a238c3c2e8daa82b402acfcb92802677dba6b9674b2e4d"
+  },
+  "disposition": "rejected_marginal_reduction; full publication gate not passed",
+  "fixture_coverage": "54 CSV artifacts / 3175 rows; three existing typed report fixtures",
+  "upstream_source_drift": [],
+  "research_program_lines": {
+    "check.py": 63,
+    "measure.py": 53,
+    "pin_environment.py": 14,
+    "rewrite.py": 86,
+    "test.ps1": 13
+  }
+}

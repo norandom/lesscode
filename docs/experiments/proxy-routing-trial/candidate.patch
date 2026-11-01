@@ -1,0 +1,92 @@
+--- a/mvibe_auth/http.py
++++ b/mvibe_auth/http.py
+@@ -208,17 +208,14 @@
+ 
+     host = host.strip("[]").lower()
+     port = url.port or {"http": 80, "https": 443}.get(url.scheme)
+-    for rule in no_proxy:
+-        if _no_proxy_rule_matches(rule.lower(), host, url.scheme, port):
+-            return True
+-    return False
++    return any(_no_proxy_rule_matches(rule.lower(), host, url.scheme, port) for rule in no_proxy)
+ 
+ 
+ def _no_proxy_rule_matches(rule: str, host: str, scheme: str, port: int | None) -> bool:
+     if rule == "*":
+         return True
+ 
+-    if (matches := _ip_network_rule_matches(rule, host)) is not None:
++    if (matches := _ip_rule_matches(rule, host, network=True)) is not None:
+         return matches
+ 
+     parsed_rule = _parse_no_proxy_host_rule(rule, scheme)
+@@ -229,36 +226,22 @@
+     if rule_port is not None and rule_port != port:
+         return False
+ 
+-    if (matches := _ip_literal_rule_matches(rule, host)) is not None:
++    if (matches := _ip_rule_matches(rule, host, network=False)) is not None:
+         return matches
+ 
+     return _host_rule_matches(rule, host)
+ 
+ 
+-def _ip_network_rule_matches(rule: str, host: str) -> bool | None:
++def _ip_rule_matches(rule: str, host: str, *, network: bool) -> bool | None:
+     try:
+-        network = ipaddress.ip_network(rule.strip("[]"), strict=False)
++        target = ipaddress.ip_network(rule.strip("[]"), strict=False) if network else ipaddress.ip_address(rule)
+     except ValueError:
+         return None
+-
+     try:
+-        ip = ipaddress.ip_address(host)
++        address = ipaddress.ip_address(host)
+     except ValueError:
+         return False
+-    return ip in network
+-
+-
+-def _ip_literal_rule_matches(rule: str, host: str) -> bool | None:
+-    try:
+-        rule_ip = ipaddress.ip_address(rule)
+-    except ValueError:
+-        return None
+-
+-    try:
+-        host_ip = ipaddress.ip_address(host)
+-    except ValueError:
+-        return False
+-    return host_ip == rule_ip
++    return address in target if network else address == target
+ 
+ 
+ def _host_rule_matches(rule: str, host: str) -> bool:
+@@ -269,22 +252,16 @@
+ 
+ def _parse_no_proxy_host_rule(rule: str, scheme: str) -> tuple[str, int | None] | None:
+     port: int | None = None
+-    if "://" in rule:
+-        parsed = urlparse(rule)
+-        if parsed.scheme and parsed.scheme != scheme:
++    qualified = "://" in rule
++    if qualified or rule.startswith("["):
++        parsed = urlparse(rule if qualified else f"//{rule}")
++        if qualified and parsed.scheme and parsed.scheme != scheme:
+             return None
+         try:
+             port = parsed.port
+         except ValueError:
+             return None
+-        rule = parsed.hostname or ""
+-    elif rule.startswith("["):
+-        parsed = urlparse(f"//{rule}")
+-        try:
+-            port = parsed.port
+-        except ValueError:
+-            return None
+-        rule = parsed.hostname or rule
++        rule = parsed.hostname or ("" if qualified else rule)
+     elif rule.count(":") == 1:
+         rule_host, _, raw_rule_port = rule.partition(":")
+         if raw_rule_port.isdigit():

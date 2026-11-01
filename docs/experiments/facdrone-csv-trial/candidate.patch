@@ -1,0 +1,528 @@
+--- a/packages/facdrone-reporting/facdrone_reporting/library/normalized_csv.py
++++ b/packages/facdrone-reporting/facdrone_reporting/library/normalized_csv.py
+@@ -71,30 +71,32 @@
+         provenance_ids = tuple(
+             item for item in point.source_interval_ids if item in known_provenance
+         )
+-        values = _base_values(
+-            result,
+-            ALIGNED_RETURNS_SCHEMA,
+-            sample_id,
+-            provenance_ids,
+-            section.availability,
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                ALIGNED_RETURNS_SCHEMA,
++                sample_id,
++                provenance_ids,
++                section.availability,
++            )
++            | {
+                 "interval_id": point.interval_id,
+-                "start_at": _field(point, "start_at"),
+-                "end_at": _field(point, "end_at"),
+-                "portfolio_return": _field(point, "portfolio_return"),
+-                "market_return_eur": _field(point, "market_return_eur"),
+-                "eur_risk_free_return": _field(point, "eur_risk_free_return"),
+-                "investable_cash_return_eur": _field(point, "investable_cash_return_eur"),
+-                "active_return": _field(point, "active_return"),
+-                "portfolio_excess_return": _field(point, "portfolio_excess_return"),
+-                "market_excess_return": _field(point, "market_excess_return"),
++                **_fields(
++                    point,
++                    "start_at",
++                    "end_at",
++                    "portfolio_return",
++                    "market_return_eur",
++                    "eur_risk_free_return",
++                    "investable_cash_return_eur",
++                    "active_return",
++                    "portfolio_excess_return",
++                    "market_excess_return",
++                ),
+                 "return_unit": "decimal_return",
+                 "source_interval_ids": _text(point.source_interval_ids),
+             }
+         )
+-        records.append(values)
+     return _projection(ALIGNED_RETURNS_SCHEMA, records)
+ 
+ 
+@@ -119,15 +121,15 @@
+     for point in report.drawdown_points:
+         equity = equity_by_date.get(point.at)
+         interval = interval_by_end.get(point.at)
+-        values = _base_values(
+-            result,
+-            DRAWDOWNS_SCHEMA,
+-            sample_id,
+-            (),
+-            section.availability,
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                DRAWDOWNS_SCHEMA,
++                sample_id,
++                (),
++                section.availability,
++            )
++            | {
+                 "interval_id": interval.interval_id if interval is not None else "",
+                 "episode_id": point.episode_id or "",
+                 "at": _field(point, "at"),
+@@ -138,7 +140,6 @@
+                 "drawdown_unit": "decimal_return",
+             }
+         )
+-        records.append(values)
+     return _projection(DRAWDOWNS_SCHEMA, records)
+ 
+ 
+@@ -176,16 +177,17 @@
+             *(_sensitivity_row(sensitivity) for sensitivity in model.hac_lag_sensitivity),
+         )
+         for availability, fields in rows:
+-            values = _base_values(
+-                result,
+-                MARKET_MODELS_SCHEMA,
+-                model.sample_id,
+-                model.provenance_ids,
+-                _child_availability(model.availability, availability),
+-            )
+-            values.update(shared)
+-            values.update(fields)
+-            records.append(values)
++            records.append(
++                _base_values(
++                    result,
++                    MARKET_MODELS_SCHEMA,
++                    model.sample_id,
++                    model.provenance_ids,
++                    _child_availability(model.availability, availability),
++                )
++                | shared
++                | fields
++            )
+     return _projection(MARKET_MODELS_SCHEMA, records)
+ 
+ 
+@@ -243,18 +245,18 @@
+     for model in report.factor_models:
+         for factor in model.factors:
+             loading = factor.loading
+-            values = _base_values(
+-                result,
+-                FACTOR_ATTRIBUTION_SCHEMA,
+-                model.sample_id,
+-                model.provenance_ids,
+-                _child_availability(
+-                    model.availability,
+-                    loading.estimate.availability,
+-                ),
+-            )
+-            values.update(
+-                {
++            records.append(
++                _base_values(
++                    result,
++                    FACTOR_ATTRIBUTION_SCHEMA,
++                    model.sample_id,
++                    model.provenance_ids,
++                    _child_availability(
++                        model.availability,
++                        loading.estimate.availability,
++                    ),
++                )
++                | {
+                     "model_id": model.model_id,
+                     "model_type": model.model_type,
+                     "factor_id": factor.factor_id,
+@@ -277,7 +279,6 @@
+                     "reconciliation_ids": _text(model.reconciliation_ids),
+                 }
+             )
+-            records.append(values)
+     return _projection(FACTOR_ATTRIBUTION_SCHEMA, records)
+ 
+ 
+@@ -290,15 +291,15 @@
+     method_id = f"{result.report.conventions.methodology_version}:stability.rolling_sharpe/v1"
+     for stability in result.report.stability:
+         for point in stability.rolling_points:
+-            values = _base_values(
+-                result,
+-                ROLLING_METRICS_SCHEMA,
+-                stability.sample_id,
+-                stability.provenance_ids,
+-                stability.availability,
+-            )
+-            values.update(
+-                {
++            records.append(
++                _base_values(
++                    result,
++                    ROLLING_METRICS_SCHEMA,
++                    stability.sample_id,
++                    stability.provenance_ids,
++                    stability.availability,
++                )
++                | {
+                     "at": point.at.isoformat(),
+                     "window": _field(point, "window"),
+                     "model_id": stability.configuration_id,
+@@ -309,7 +310,6 @@
+                     "observations": _field(point, "observations"),
+                 }
+             )
+-            records.append(values)
+     return _projection(ROLLING_METRICS_SCHEMA, records)
+ 
+ 
+@@ -401,15 +401,15 @@
+         lower = _metric_for_role(point.metrics, "uncertainty_lower")
+         upper = _metric_for_role(point.metrics, "uncertainty_upper")
+         sample_id = _single_metric_sample_id(point.metrics)
+-        values = _base_values(
+-            result,
+-            FRONTIER_POINTS_SCHEMA,
+-            sample_id,
+-            _metric_provenance(point.metrics),
+-            _child_availability(lab.availability, point.availability),
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                FRONTIER_POINTS_SCHEMA,
++                sample_id,
++                _metric_provenance(point.metrics),
++                _child_availability(lab.availability, point.availability),
++            )
++            | {
+                 "frontier_id": point.frontier_id,
+                 "point_id": point.point_id,
+                 "point_kind": point.point_kind,
+@@ -426,7 +426,6 @@
+                 "uncertainty_unit": _shared_unit(lower, upper),
+             }
+         )
+-        records.append(values)
+     return _projection(FRONTIER_POINTS_SCHEMA, records)
+ 
+ 
+@@ -443,15 +442,15 @@
+     sample_id = _single_section_sample_id(section)
+     records: list[dict[str, str]] = []
+     for weight in lab.frontier_weights:
+-        values = _base_values(
+-            result,
+-            FRONTIER_WEIGHTS_SCHEMA,
+-            sample_id,
+-            (),
+-            lab.availability,
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                FRONTIER_WEIGHTS_SCHEMA,
++                sample_id,
++                (),
++                lab.availability,
++            )
++            | {
+                 "frontier_id": weight.frontier_id,
+                 "point_id": weight.point_id,
+                 "asset_id": weight.asset_id,
+@@ -459,7 +458,6 @@
+                 "weight_unit": "fraction",
+             }
+         )
+-        records.append(values)
+     return _projection(FRONTIER_WEIGHTS_SCHEMA, records)
+ 
+ 
+@@ -477,15 +475,15 @@
+         ratio = _metric_for_role(point.metrics, "appraisal_ratio")
+         lower = _metric_for_role(point.metrics, "alpha_uncertainty_lower")
+         upper = _metric_for_role(point.metrics, "alpha_uncertainty_upper")
+-        values = _base_values(
+-            result,
+-            APPRAISAL_POINTS_SCHEMA,
+-            point.sample_id,
+-            _metric_provenance(point.metrics),
+-            _child_availability(lab.availability, point.availability),
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                APPRAISAL_POINTS_SCHEMA,
++                point.sample_id,
++                _metric_provenance(point.metrics),
++                _child_availability(lab.availability, point.availability),
++            )
++            | {
+                 "appraisal_id": point.appraisal_id,
+                 "model_id": point.model_id,
+                 "portfolio_id": point.entity_id,
+@@ -500,7 +498,6 @@
+                 "uncertainty_unit": _shared_unit(lower, upper),
+             }
+         )
+-        records.append(values)
+     return _projection(APPRAISAL_POINTS_SCHEMA, records)
+ 
+ 
+@@ -514,18 +511,18 @@
+     records: list[dict[str, str]] = []
+     for observation in lab.spider:
+         metrics = (observation.raw_value, observation.score)
+-        values = _base_values(
+-            result,
+-            RISK_SPIDER_SCHEMA,
+-            _single_metric_sample_id(metrics),
+-            _metric_provenance(metrics),
+-            _child_availability(
+-                lab.availability,
+-                observation.score.availability,
+-            ),
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                RISK_SPIDER_SCHEMA,
++                _single_metric_sample_id(metrics),
++                _metric_provenance(metrics),
++                _child_availability(
++                    lab.availability,
++                    observation.score.availability,
++                ),
++            )
++            | {
+                 "policy_id": observation.policy_id,
+                 "entity_id": observation.entity_id,
+                 "axis_id": observation.axis_id,
+@@ -544,7 +541,6 @@
+                 "composite_score_unit": "",
+             }
+         )
+-        records.append(values)
+     return _projection(RISK_SPIDER_SCHEMA, records)
+ 
+ 
+@@ -565,15 +561,15 @@
+     records: list[dict[str, str]] = []
+     for attribution in report.holdings:
+         for contribution in attribution.contributions:
+-            values = _base_values(
+-                result,
+-                HOLDINGS_CONTRIBUTIONS_SCHEMA,
+-                contribution.sample_id,
+-                contribution.provenance_ids,
+-                _child_availability(attribution.availability, contribution.availability),
+-            )
+-            values.update(
+-                {
++            records.append(
++                _base_values(
++                    result,
++                    HOLDINGS_CONTRIBUTIONS_SCHEMA,
++                    contribution.sample_id,
++                    contribution.provenance_ids,
++                    _child_availability(attribution.availability, contribution.availability),
++                )
++                | {
+                     "attribution_id": attribution.attribution_id,
+                     "dimension": contribution.dimension,
+                     "member_id": contribution.member_id,
+@@ -593,7 +589,6 @@
+                     "reconciliation_ids": _text(attribution.reconciliation_ids),
+                 }
+             )
+-            records.append(values)
+     return _projection(HOLDINGS_CONTRIBUTIONS_SCHEMA, records)
+ 
+ 
+@@ -606,15 +601,15 @@
+     sample_id = _single_section_sample_id(section)
+     records: list[dict[str, str]] = []
+     for point in report.presentation.equity_chart:
+-        values = _base_values(
+-            result,
+-            EQUITY_CHART_DATA_SCHEMA,
+-            sample_id,
+-            (),
+-            section.availability,
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                EQUITY_CHART_DATA_SCHEMA,
++                sample_id,
++                (),
++                section.availability,
++            )
++            | {
+                 "at": _field(point, "at"),
+                 "equity": _field(point, "equity_eur"),
+                 "balance": _field(point, "balance_eur"),
+@@ -641,7 +636,6 @@
+                 "source_record_id": point.source_record_id or "",
+             }
+         )
+-        records.append(values)
+     return _projection(EQUITY_CHART_DATA_SCHEMA, records)
+ 
+ 
+@@ -657,15 +651,15 @@
+     for coordinate in report.presentation.event_coordinates:
+         event = event_by_id[coordinate.event_id]
+         details = {item.key: item.value for item in event.details}
+-        values = _base_values(
+-            result,
+-            EQUITY_EVENTS_SCHEMA,
+-            sample_id,
+-            (),
+-            section.availability,
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                EQUITY_EVENTS_SCHEMA,
++                sample_id,
++                (),
++                section.availability,
++            )
++            | {
+                 "event_id": event.event_id,
+                 "source_record_id": event.source_record_id,
+                 "event_kind": event.event_type,
+@@ -689,7 +683,6 @@
+                 "band_policy_id": report.presentation.event_band_policy_id,
+             }
+         )
+-        records.append(values)
+     return _projection(EQUITY_EVENTS_SCHEMA, records)
+ 
+ 
+@@ -704,15 +697,16 @@
+     trade_by_id = {item.trade_id: item for item in report.trades}
+     for coordinate in report.presentation.trade_coordinates:
+         trade = trade_by_id[coordinate.trade_id]
+-        values = _base_values(
+-            result,
+-            TRADES_SCHEMA,
+-            sample_id,
+-            (),
+-            section.availability,
+-        )
+-        values.update(_trade_fields(trade, coordinate, report))
+-        records.append(values)
++        records.append(
++            _base_values(
++                result,
++                TRADES_SCHEMA,
++                sample_id,
++                (),
++                section.availability,
++            )
++            | _trade_fields(trade, coordinate, report)
++        )
+     return _projection(TRADES_SCHEMA, records)
+ 
+ 
+@@ -769,15 +763,15 @@
+     for snapshot in report.live_risk:
+         for risk_metric in snapshot.metrics:
+             metric = risk_metric.metric
+-            values = _base_values(
+-                result,
+-                LIVE_RISK_SNAPSHOTS_SCHEMA,
+-                metric.sample_id,
+-                snapshot.provenance_ids,
+-                _child_availability(snapshot.availability, metric.availability),
+-            )
+-            values.update(
+-                {
++            records.append(
++                _base_values(
++                    result,
++                    LIVE_RISK_SNAPSHOTS_SCHEMA,
++                    metric.sample_id,
++                    snapshot.provenance_ids,
++                    _child_availability(snapshot.availability, metric.availability),
++                )
++                | {
+                     "snapshot_id": snapshot.snapshot_id,
+                     "observed_at": _field(snapshot, "as_of"),
+                     "metric_id": metric.metric_id,
+@@ -791,7 +785,6 @@
+                     "rule_version": report.conventions.methodology_version,
+                 }
+             )
+-            records.append(values)
+     return _projection(LIVE_RISK_SNAPSHOTS_SCHEMA, records)
+ 
+ 
+@@ -827,15 +820,15 @@
+     report = result.report
+     records: list[dict[str, str]] = []
+     for item in report.methodology:
+-        values = _base_values(
+-            result,
+-            METHODOLOGY_SCHEMA,
+-            item.sample_id or "",
+-            item.provenance_ids,
+-            item.availability,
+-        )
+-        values.update(
+-            {
++        records.append(
++            _base_values(
++                result,
++                METHODOLOGY_SCHEMA,
++                item.sample_id or "",
++                item.provenance_ids,
++                item.availability,
++            )
++            | {
+                 "record_kind": item.record_kind.value,
+                 "item_id": item.item_id,
+                 "name": item.name,
+@@ -853,7 +846,6 @@
+                 "publication_policy": item.publication_policy,
+             }
+         )
+-        records.append(values)
+     return _projection(METHODOLOGY_SCHEMA, records)
+ 
+ 
+@@ -1019,6 +1011,11 @@
+     return CsvProjection(schema=schema, rows=())
+ 
+ 
++def _fields(value: object, *names: str) -> dict[str, str]:
++    """Select named canonical fields in declaration order, retaining full validation."""
++    return {name: _field(value, name) for name in names}
++
++
+ def _field(value: object, field_name: str) -> str:
+     return _text(as_canonical_mapping(value)[field_name])
+ 

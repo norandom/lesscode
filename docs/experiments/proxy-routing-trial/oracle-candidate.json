@@ -1,0 +1,17 @@
+{
+  "counts": {
+    "rule": 109896,
+    "bypass": 8676,
+    "transport": 16
+  },
+  "mismatch_count": 0,
+  "mismatches": [],
+  "reference_observations_sha256": "8e3bcbccc22ed952e0c5702d5b986a4383c17b0af4bc6a8280a5cc54ea3200dd",
+  "leading_dot_mutation_killed": true,
+  "seed": 20261101,
+  "python": "3.12.10 (main, May 30 2025, 05:39:07) [MSC v.1943 64 bit (AMD64)]",
+  "source_hashes": {
+    "before": "2f93b892ccdd42b09e599edfeeb95dcdc57ec3597eae9a280b92b6a6b08b9386",
+    "after": "e564bdbba381929241288e5b3f5c8f12b2f24dc32fbd8c9245fc277fcf504a70"
+  }
+}

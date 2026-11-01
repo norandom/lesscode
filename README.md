@@ -21,6 +21,13 @@ records separate production/test footprints, Cargo-installed Rust analysis,
 reproduction data and a rejected standard-library replacement. These are field
 baselines, with no new compression savings claimed.
 
+The [subsequent real mvibe trial](docs/experiments/proxy-routing-trial/README.md)
+removes **23 module lines and 16 statements**, with all **1,172 tests passing**
+before and after. A [Facdrone CSV trial](docs/experiments/facdrone-csv-trial/README.md)
+preserves 54 tested CSV artifacts but saves only three lines, so it is rejected
+as marginal. These are isolated, test-validated candidates; neither used SMT
+or changed the specimen checkout.
+
 The local Rust library and `lesscode-core` CLI now compare supplied Python and
 TypeScript capabilities. They count the complete replacement, including helpers
 and changed callers, and admit frozen, source-bound behavioral evidence before

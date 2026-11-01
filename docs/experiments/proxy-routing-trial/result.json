@@ -1,0 +1,66 @@
+{
+  "before": {
+    "module": {
+      "physical_lines": 334,
+      "ast_statements": 190,
+      "decisions": 58,
+      "functions": 21
+    },
+    "responsibility": {
+      "physical_lines": 178,
+      "ast_statements": 118,
+      "decisions": 47,
+      "functions": 13
+    },
+    "project_production_physical_lines": 5218,
+    "production_files": 37,
+    "unchanged_test_files": 41,
+    "changed_snapshot_files": [],
+    "tests": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "1172",
+        "time": "82.583",
+        "timestamp": "2026-11-01T19:51:10.940525+01:00",
+        "hostname": "mini"
+      }
+    ],
+    "test_exit": 0
+  },
+  "after": {
+    "module": {
+      "physical_lines": 311,
+      "ast_statements": 174,
+      "decisions": 58,
+      "functions": 20
+    },
+    "responsibility": {
+      "physical_lines": 157,
+      "ast_statements": 102,
+      "decisions": 47,
+      "functions": 12
+    },
+    "project_production_physical_lines": 5195,
+    "production_files": 37,
+    "unchanged_test_files": 41,
+    "changed_snapshot_files": [
+      "mvibe_auth/http.py"
+    ],
+    "tests": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "1172",
+        "time": "60.991",
+        "timestamp": "2026-11-01T19:51:53.660464+01:00",
+        "hostname": "mini"
+      }
+    ],
+    "test_exit": 0
+  }
+}

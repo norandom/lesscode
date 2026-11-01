@@ -1,0 +1,77 @@
+{
+  "direct_row_construction": [
+    {
+      "line": 74,
+      "updates": 1
+    },
+    {
+      "line": 122,
+      "updates": 1
+    },
+    {
+      "line": 404,
+      "updates": 1
+    },
+    {
+      "line": 446,
+      "updates": 1
+    },
+    {
+      "line": 480,
+      "updates": 1
+    },
+    {
+      "line": 517,
+      "updates": 1
+    },
+    {
+      "line": 609,
+      "updates": 1
+    },
+    {
+      "line": 660,
+      "updates": 1
+    },
+    {
+      "line": 707,
+      "updates": 1
+    },
+    {
+      "line": 830,
+      "updates": 1
+    },
+    {
+      "line": 179,
+      "updates": 2
+    },
+    {
+      "line": 246,
+      "updates": 1
+    },
+    {
+      "line": 293,
+      "updates": 1
+    },
+    {
+      "line": 568,
+      "updates": 1
+    },
+    {
+      "line": 772,
+      "updates": 1
+    }
+  ],
+  "named_field_groups": [
+    [
+      "start_at",
+      "end_at",
+      "portfolio_return",
+      "market_return_eur",
+      "eur_risk_free_return",
+      "investable_cash_return_eur",
+      "active_return",
+      "portfolio_excess_return",
+      "market_excess_return"
+    ]
+  ]
+}

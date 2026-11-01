@@ -1,0 +1,134 @@
+{
+  "proxy-routing-trial": {
+    "checks": {
+      "baseline-tests": {
+        "exit": 0,
+        "suites": [
+          {
+            "name": "pytest",
+            "errors": "0",
+            "failures": "0",
+            "skipped": "0",
+            "tests": "1172",
+            "time": "82.583",
+            "timestamp": "2026-11-01T19:51:10.940525+01:00",
+            "hostname": "mini"
+          }
+        ],
+        "log_sha256": "c893134d90f1a2f998882bbff76f41e0cd3f356ec0e69bced87f698e643942e1",
+        "junit_sha256": "bbfb9d786f4ad1234d738baa1d7029cfee9e55a368c131b80b7ed46dda17d0f0"
+      },
+      "candidate-tests": {
+        "exit": 0,
+        "suites": [
+          {
+            "name": "pytest",
+            "errors": "0",
+            "failures": "0",
+            "skipped": "0",
+            "tests": "1172",
+            "time": "60.991",
+            "timestamp": "2026-11-01T19:51:53.660464+01:00",
+            "hostname": "mini"
+          }
+        ],
+        "log_sha256": "6c44d56ba96ab5e163dc2951d6b5bb600209e0cd741f6289a6dfc4cadcdde863",
+        "junit_sha256": "761dc30099cd7f1a4d22191d8246f800553dc04ec9c7c67315fb9920abcac7bc"
+      }
+    },
+    "specimen_tracked_files_unchanged": 256,
+    "research_programs": {
+      "check.py": {
+        "lines": 109,
+        "sha256": "0b71f8dc2477ea080f66b47ac285f1aabb063a4f8804174457a09f16bb032d8a"
+      },
+      "measure.py": {
+        "lines": 49,
+        "sha256": "099033463c1f25da71401eea79bc8565c6015921805f3e7f7bf4fe530605ab2e"
+      },
+      "plot.py": {
+        "lines": 30,
+        "sha256": "351a18579d5348f56d6c799fcb6c0681ff6e901d23ef374b56de47b2e578e507"
+      },
+      "prepare.py": {
+        "lines": 37,
+        "sha256": "7f9802c3426f7352f8cd49324f730e6b362a46d76685ff34acf84ce4579d6b0e"
+      },
+      "rewrite.py": {
+        "lines": 40,
+        "sha256": "0bbad1991821eaae1f0dcc5b5e4c2a7e1c6c4704c3e04ea06d2b4e53eb58393a"
+      },
+      "verify.py": {
+        "lines": 40,
+        "sha256": "e56a60b71e3ab02abf5bce8159ddfe8f091054f465174f725d21f2f79ecffcdd"
+      }
+    },
+    "research_program_lines": 305
+  },
+  "facdrone-csv-trial": {
+    "checks": {
+      "before": {
+        "exit": 1,
+        "suites": [
+          {
+            "name": "pytest",
+            "errors": "0",
+            "failures": "13",
+            "skipped": "0",
+            "tests": "46",
+            "time": "30.440",
+            "timestamp": "2026-11-01T19:59:31.107811+01:00",
+            "hostname": "mini"
+          }
+        ],
+        "log_sha256": "274d334cdf35070b7397dd8fd15c70d3d55308cde30d8cfbe6b206dc4e30f1c7",
+        "junit_sha256": "499e064654f65908eb1e9eda656160d3977b0149513dc820c2c088a1de3aa990"
+      },
+      "after": {
+        "exit": 1,
+        "suites": [
+          {
+            "name": "pytest",
+            "errors": "0",
+            "failures": "13",
+            "skipped": "0",
+            "tests": "46",
+            "time": "48.621",
+            "timestamp": "2026-11-01T20:00:58.984887+01:00",
+            "hostname": "mini"
+          }
+        ],
+        "log_sha256": "291d09f1edd9c8074d628e23f756c7ebe252b874160bae10870a1430271ed58e",
+        "junit_sha256": "4baa27773bbe4a17c8a238c3c2e8daa82b402acfcb92802677dba6b9674b2e4d"
+      }
+    },
+    "specimen_tracked_files_unchanged": 2657,
+    "research_programs": {
+      "check.py": {
+        "lines": 63,
+        "sha256": "a522af8d5809f01e09c733545798a556baab6bbfd53c1bf7a1656f1ee2376353"
+      },
+      "measure.py": {
+        "lines": 53,
+        "sha256": "d3cd5e685123813683d5e009e4e45105539bf0d26903d1696f2e69ca11334637"
+      },
+      "pin_environment.py": {
+        "lines": 14,
+        "sha256": "8f42ab75a06b2ec55aac4de7e52ada2581239a577a9d0a7baf4a18d5e6648103"
+      },
+      "rewrite.py": {
+        "lines": 86,
+        "sha256": "645b00a17994b4e172701a950caeb8dd16d34af73c6ed64cbcadcf4ad93ac7e0"
+      },
+      "test.ps1": {
+        "lines": 13,
+        "sha256": "3f500a422de1aa03a53ba33691d8e90d00900c7ea87847d7634e4816ec418ab7"
+      }
+    },
+    "research_program_lines": 229
+  },
+  "uv": "uv 0.13.5 (46776a95d 2026-10-21 x86_64-pc-windows-msvc)",
+  "review": "inline; no independent code review claimed",
+  "smt": "not run",
+  "native_lesscode_compare": "not run; raw AST/full-module accounting and paired external checks"
+}

@@ -11,6 +11,7 @@ The retained Python evaluator guides below remain usable reference workflows.
 
 | Goal | Guide |
 | --- | --- |
+| Inspect real paired replacements, including a marginal Facdrone result | [mvibe: 23 lines removed](experiments/proxy-routing-trial/README.md) and [Facdrone CSV: rejected](experiments/facdrone-csv-trial/README.md) |
 | Inspect local Rust/Python/TypeScript baselines and a rejected library shortcut | [mmhmem/mvibe measurements, versions, chart and COBESY experiment track](experiments/local-adoption/README.md) |
 | Run Rust and Python tests in parallel | [cargo-nextest and pytest-xdist](testing.md) |
 | Run the same Linux checks in WSL and Actions | [Dagger pipeline and native platform evidence](ci-validation.md#rust-core-dagger-and-actions) |

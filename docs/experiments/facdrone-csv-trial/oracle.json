@@ -1,0 +1,333 @@
+{
+  "tables": [
+    {
+      "fixture": "small_eur",
+      "file": "performance_summary.csv",
+      "rows": 1,
+      "sha256": "9606bedd4cfb268fdc853b3126aee4d68692b2b3b711301907ee21fce575081f"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "performance_metrics.csv",
+      "rows": 29,
+      "sha256": "66f125a15a661dfbad44217f46829e95661a74bf1b1ccf997b581f4aa39b51d9"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "aligned_returns.csv",
+      "rows": 20,
+      "sha256": "6c8b2ad104aa61726ce08b85994e65ee10b64a6a51a306aad5cc2c937ab931e5"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "drawdowns.csv",
+      "rows": 21,
+      "sha256": "d9428f1442d621246ff7189dc247e14b1fbdf880028bf2644c5eab43acbb3af5"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "market_models.csv",
+      "rows": 0,
+      "sha256": "293c0e12a14bd784375e9679198cfd3a0fe1581877d15e1c67335cc168f293e9"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "factor_attribution.csv",
+      "rows": 0,
+      "sha256": "a0581aca58767fb9c1eab02e9dfd03872b6718b15e43c971a454439083dd7e8b"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "rolling_metrics.csv",
+      "rows": 0,
+      "sha256": "9f08f1f9c43b96f0b11679d4ca30d36030a8f67bc3822b21d8ed757628b9ff3c"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "ssr_results.csv",
+      "rows": 1,
+      "sha256": "bb94cbf64652e6377e652018159845d2a290b3acb884558e8ba2c4d20853ecc5"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "frontier_points.csv",
+      "rows": 0,
+      "sha256": "3a49888ec5eae36ebbf4203ef7f81df418ad464f9c7684d6297545840bde8378"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "frontier_weights.csv",
+      "rows": 0,
+      "sha256": "317fa52e71fd66a553fafa46b1c8242ab06d76e4aabc893bc1bb77536fa1a00c"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "appraisal_points.csv",
+      "rows": 0,
+      "sha256": "9f3cb979cb6d6d6ef94ce716f1c4135b3a582bcf13366da0571df3d37b92f01c"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "risk_spider.csv",
+      "rows": 8,
+      "sha256": "4ce2e2e4a0a15d35990888a2cef77d03d184cd7b1fad21496231b6003daf84d4"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "holdings_contributions.csv",
+      "rows": 0,
+      "sha256": "cbf9f637865cf1f3ec624c14487c4edd8912a3801e7187ecad28156560cd43d6"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "equity_chart_data.csv",
+      "rows": 21,
+      "sha256": "fc2d5fba4177339aa05420c0ac49bc04e6eb5fc3cc412c1887751edcdd9ef3ba"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "equity_events.csv",
+      "rows": 0,
+      "sha256": "8f491c0137f59392d9bc052e05c1bd8ab18aaf1778bc3ad5f6cf6f9e42f0d1b3"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "trades.csv",
+      "rows": 0,
+      "sha256": "aec6f60505ee70e59dd42e399ae5c3f5bf2ac5f035d782cee67b732019fe0c33"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "live_risk_snapshots.csv",
+      "rows": 0,
+      "sha256": "6cc1e45a3321ff43fe7f55a1c2c1b9df0bffb59abd604fa7f2664ffc34722888"
+    },
+    {
+      "fixture": "small_eur",
+      "file": "methodology.csv",
+      "rows": 61,
+      "sha256": "91ea617b082c32a7fe9603b22f79d2797da9fd1bc2d0bed95c35bc953b6de9a2"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "performance_summary.csv",
+      "rows": 1,
+      "sha256": "4e275fbbf12fc85ba4ff36d2d82d60e569f59dffa5cd5003e45b65c5168bf3ef"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "performance_metrics.csv",
+      "rows": 29,
+      "sha256": "6c6540c7407095fd15145691b1c6fce88153b98b9948d4a1a6dfa90f0992297f"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "aligned_returns.csv",
+      "rows": 300,
+      "sha256": "28d7753d538ae4c974dc0ded9403e97617ea0c04fca77fcdb30a6bbc8dde3228"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "drawdowns.csv",
+      "rows": 301,
+      "sha256": "9a4c28374147549482ef44be9a22d02c6f11d5d8493b8de4b3bd459dcc5508a5"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "market_models.csv",
+      "rows": 21,
+      "sha256": "af58f97cedd7a802857823447472306ecaa429ca30d2fa7dcd1965a70a09aba1"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "factor_attribution.csv",
+      "rows": 0,
+      "sha256": "a0581aca58767fb9c1eab02e9dfd03872b6718b15e43c971a454439083dd7e8b"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "rolling_metrics.csv",
+      "rows": 462,
+      "sha256": "78686fd8df4ff1cbf879fdd9a6ad9988ad47e50ff586cf1a15aef702cf4ca6e5"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "ssr_results.csv",
+      "rows": 1,
+      "sha256": "9440de01cb984b8e358992a2090aeac999f04a0d68b6e42071c44c665f34f52f"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "frontier_points.csv",
+      "rows": 0,
+      "sha256": "3a49888ec5eae36ebbf4203ef7f81df418ad464f9c7684d6297545840bde8378"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "frontier_weights.csv",
+      "rows": 0,
+      "sha256": "317fa52e71fd66a553fafa46b1c8242ab06d76e4aabc893bc1bb77536fa1a00c"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "appraisal_points.csv",
+      "rows": 0,
+      "sha256": "9f3cb979cb6d6d6ef94ce716f1c4135b3a582bcf13366da0571df3d37b92f01c"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "risk_spider.csv",
+      "rows": 8,
+      "sha256": "a3628a3ef4425d0f43ff2b038e149be9534da407e8b2c76c9daf112e2bd9308d"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "holdings_contributions.csv",
+      "rows": 0,
+      "sha256": "cbf9f637865cf1f3ec624c14487c4edd8912a3801e7187ecad28156560cd43d6"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "equity_chart_data.csv",
+      "rows": 301,
+      "sha256": "05d03599aa553a94b09ff891567762abbdf4a7bfbeed67d183fb8bcc684c57a1"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "equity_events.csv",
+      "rows": 0,
+      "sha256": "8f491c0137f59392d9bc052e05c1bd8ab18aaf1778bc3ad5f6cf6f9e42f0d1b3"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "trades.csv",
+      "rows": 0,
+      "sha256": "aec6f60505ee70e59dd42e399ae5c3f5bf2ac5f035d782cee67b732019fe0c33"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "live_risk_snapshots.csv",
+      "rows": 0,
+      "sha256": "6cc1e45a3321ff43fe7f55a1c2c1b9df0bffb59abd604fa7f2664ffc34722888"
+    },
+    {
+      "fixture": "flagship_eur",
+      "file": "methodology.csv",
+      "rows": 83,
+      "sha256": "b7c7a19669039a3551a728e41bb00601232e1633f8ca8fd373d7726635e1c2c4"
+    },
+    {
+      "fixture": "usd",
+      "file": "performance_summary.csv",
+      "rows": 1,
+      "sha256": "f4254736a08891d07658645aff006ff3c8ad33ecef14f1f00bd6af67ef3bb5d0"
+    },
+    {
+      "fixture": "usd",
+      "file": "performance_metrics.csv",
+      "rows": 29,
+      "sha256": "450f81926a81372c1c270bbcc209fc4183175d353db51e09241e504c8cced5c1"
+    },
+    {
+      "fixture": "usd",
+      "file": "aligned_returns.csv",
+      "rows": 300,
+      "sha256": "71701a850fc1fd6cd1ada97c3c4fae9cabda1ce245e9d82d7c901798b4fb7dc8"
+    },
+    {
+      "fixture": "usd",
+      "file": "drawdowns.csv",
+      "rows": 301,
+      "sha256": "dace123fc9151e2fb419121973b7269375dd677abc1ba3eb5a806e9e96854408"
+    },
+    {
+      "fixture": "usd",
+      "file": "market_models.csv",
+      "rows": 21,
+      "sha256": "5f13375c807d9b9a127c2a1dbe329c0c387fbae5f34a1c0560762c294b0fd5af"
+    },
+    {
+      "fixture": "usd",
+      "file": "factor_attribution.csv",
+      "rows": 0,
+      "sha256": "a0581aca58767fb9c1eab02e9dfd03872b6718b15e43c971a454439083dd7e8b"
+    },
+    {
+      "fixture": "usd",
+      "file": "rolling_metrics.csv",
+      "rows": 462,
+      "sha256": "42e541e25b29eec5e00af4df3cb3290a699fd443eea866369014d728124e1761"
+    },
+    {
+      "fixture": "usd",
+      "file": "ssr_results.csv",
+      "rows": 1,
+      "sha256": "5611e3bfa070d0a129b4d75147141cd0fec8c04f9d7661d55f102e6a0275a505"
+    },
+    {
+      "fixture": "usd",
+      "file": "frontier_points.csv",
+      "rows": 0,
+      "sha256": "3a49888ec5eae36ebbf4203ef7f81df418ad464f9c7684d6297545840bde8378"
+    },
+    {
+      "fixture": "usd",
+      "file": "frontier_weights.csv",
+      "rows": 0,
+      "sha256": "317fa52e71fd66a553fafa46b1c8242ab06d76e4aabc893bc1bb77536fa1a00c"
+    },
+    {
+      "fixture": "usd",
+      "file": "appraisal_points.csv",
+      "rows": 0,
+      "sha256": "9f3cb979cb6d6d6ef94ce716f1c4135b3a582bcf13366da0571df3d37b92f01c"
+    },
+    {
+      "fixture": "usd",
+      "file": "risk_spider.csv",
+      "rows": 8,
+      "sha256": "5c492cc11c7fd25ca8acca5b321a437fdfeb195132f350a6b575fc56798f1092"
+    },
+    {
+      "fixture": "usd",
+      "file": "holdings_contributions.csv",
+      "rows": 0,
+      "sha256": "cbf9f637865cf1f3ec624c14487c4edd8912a3801e7187ecad28156560cd43d6"
+    },
+    {
+      "fixture": "usd",
+      "file": "equity_chart_data.csv",
+      "rows": 301,
+      "sha256": "657e9a10453128595bd7147468f193285f298796504bfab7db8071aa0091353c"
+    },
+    {
+      "fixture": "usd",
+      "file": "equity_events.csv",
+      "rows": 0,
+      "sha256": "8f491c0137f59392d9bc052e05c1bd8ab18aaf1778bc3ad5f6cf6f9e42f0d1b3"
+    },
+    {
+      "fixture": "usd",
+      "file": "trades.csv",
+      "rows": 0,
+      "sha256": "aec6f60505ee70e59dd42e399ae5c3f5bf2ac5f035d782cee67b732019fe0c33"
+    },
+    {
+      "fixture": "usd",
+      "file": "live_risk_snapshots.csv",
+      "rows": 0,
+      "sha256": "6cc1e45a3321ff43fe7f55a1c2c1b9df0bffb59abd604fa7f2664ffc34722888"
+    },
+    {
+      "fixture": "usd",
+      "file": "methodology.csv",
+      "rows": 82,
+      "sha256": "7377711e494744a6ea4763e270e768c54f10937dddee33255e991a0ddc7409a2"
+    }
+  ],
+  "mismatches": 0,
+  "wrong_field_mutation_killed": true,
+  "unrelated_invalid_field_rejection_preserved": true,
+  "python": "3.13.16 (main, Oct  9 2026, 15:21:05) [MSC v.1944 64 bit (AMD64)]",
+  "solver": "not used; unsupported canonical serialization semantics"
+}
