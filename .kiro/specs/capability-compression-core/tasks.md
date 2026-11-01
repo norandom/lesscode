@@ -72,7 +72,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 2.2, 3.2_
   - _Requirements: 1.4, 2.4_
 
-- [ ] 4. Admit evidence and decide comparisons
+- [x] 4. Admit evidence and decide comparisons
 - [x] 4.1 (P) Validate supplied behavioral evidence
   - Bind both sides to source/trial/check identities and raw artifacts; validate differential mismatch and expected/observed case counts.
   - Distinguish failed, missing, changed and erroneous checks; expose tested domain and provenance limits.
@@ -88,7 +88,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: Compare_
   - _Requirements: 2.3, 2.5, 2.6, 2.7, 2.8, 3.3, 3.4, 4.6_
 
-- [ ] 4.3 Render deterministic comparison evidence
+- [x] 4.3 Render deterministic comparison evidence
   - Produce JSON and readable Markdown with hypothesis, complete accounting, definitions, outcomes, dependency disclosure and limitations.
   - Sort stable payloads and separate execution metadata; retain failures and incomplete trials.
   - Done: repeated comparison records render identically apart from metadata and never claim universal equivalence or maintenance savings.

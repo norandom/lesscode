@@ -4,6 +4,212 @@ use sha2::{Digest, Sha256};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 
+/// Both representations contain only comparable evidence; execution timestamps
+/// and runtime metadata belong to the caller, outside these payloads.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ComparisonReport {
+    pub json: String,
+    pub markdown: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ReportInputError(pub String);
+
+impl std::fmt::Display for ReportInputError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.0)
+    }
+}
+impl std::error::Error for ReportInputError {}
+
+/// Render supplied facts without executing checks, measuring source or deciding
+/// acceptance. Context supplies the frozen scope and candidate ownership review.
+/// Collections in the returned evidence views are sorted for presentation; use
+/// the original frozen trial and artifacts when verifying recorded digests.
+pub fn render_comparison(
+    comparison: &Comparison,
+    trial: &FrozenTrial,
+    evidence: &EvidenceBundle,
+) -> Result<ComparisonReport, ReportInputError> {
+    for (field, matches) in [
+        ("trial_id", comparison.trial_id == trial.manifest.trial_id),
+        (
+            "hypothesis",
+            comparison.hypothesis == trial.manifest.hypothesis,
+        ),
+        (
+            "baseline_identity",
+            comparison.baseline_identity == trial.baseline_identity,
+        ),
+        (
+            "frozen_trial_digest",
+            comparison.frozen_trial_digest == frozen_trial_digest(trial),
+        ),
+        (
+            "checks",
+            report_value(&comparison.checks) == report_value(&evidence.checks),
+        ),
+        (
+            "dependency_changes",
+            comparison.dependency_changes == evidence.dependency_changes,
+        ),
+    ] {
+        if !matches {
+            return Err(ReportInputError(format!(
+                "report context mismatch: {field}"
+            )));
+        }
+    }
+    // These are evidence views, with set-like collections sorted for presentation;
+    // they are not replacement frozen-trial/artifact bytes for digest verification.
+    let payload = report_value(&serde_json::json!({
+        "schema_version": 1,
+        "comparison": comparison,
+        "frozen_trial": trial,
+        "candidate_ownership": evidence.candidate_ownership,
+    }));
+    let json = serde_json::to_string_pretty(&payload)
+        .map_err(|error| ReportInputError(error.to_string()))?;
+    let mut markdown = String::from("# Capability comparison\n\nFinite supplied checks cover only their stated tested domains. Unverified behavior remains outside this evidence. Counts do not establish maintenance savings.\n\n");
+    use std::fmt::Write;
+    writeln!(
+        markdown,
+        "Status: {}\n\nHypothesis: {}\n",
+        markdown_cell(&report_value(&comparison.status).to_string()),
+        markdown_cell(&comparison.hypothesis)
+    )
+    .expect("String formatting cannot fail");
+    markdown.push_str("Categories are production, tests, fixtures, research support, configuration and dependency. Missing totals are unsupplied; they are never inferred as zero.\n\n");
+    let mut outcome = payload["comparison"].clone();
+    for field in [
+        "accounting",
+        "checks",
+        "dependency_changes",
+        "check_findings",
+    ] {
+        outcome
+            .as_object_mut()
+            .expect("comparison object")
+            .remove(field);
+    }
+    for (title, value) in [
+        ("Outcome and identities", &outcome),
+        (
+            "Complete file and categorized metric accounting",
+            &payload["comparison"]["accounting"],
+        ),
+        (
+            "Paired behavioral outcomes and tested domains",
+            &payload["comparison"]["checks"],
+        ),
+        (
+            "Behavioral findings",
+            &payload["comparison"]["check_findings"],
+        ),
+        (
+            "Dependency changes and repository decisions",
+            &payload["comparison"]["dependency_changes"],
+        ),
+        (
+            "Frozen scope, rationale, definitions and target",
+            &payload["frozen_trial"],
+        ),
+        (
+            "Candidate ownership and rationale",
+            &payload["candidate_ownership"],
+        ),
+    ] {
+        writeln!(
+            markdown,
+            "## {title}\n\n| Field | Evidence |\n| --- | --- |"
+        )
+        .expect("String formatting cannot fail");
+        markdown_rows(&mut markdown, "", value);
+        markdown.push('\n');
+    }
+    Ok(ComparisonReport { json, markdown })
+}
+
+fn report_value(value: &impl serde::Serialize) -> serde_json::Value {
+    let mut value = serde_json::to_value(value).expect("typed evidence is JSON serializable");
+    fn sort(value: &mut serde_json::Value) {
+        match value {
+            serde_json::Value::Array(items) => {
+                for item in items.iter_mut() {
+                    sort(item);
+                }
+                items.sort_by_cached_key(serde_json::Value::to_string);
+            }
+            serde_json::Value::Object(items) => {
+                for item in items.values_mut() {
+                    sort(item);
+                }
+            }
+            _ => {}
+        }
+    }
+    sort(&mut value);
+    value
+}
+
+fn markdown_cell(text: &str) -> String {
+    let mut escaped = String::new();
+    for character in text.chars() {
+        match character {
+            '&' => escaped.push_str("&amp;"),
+            '<' => escaped.push_str("&lt;"),
+            '>' => escaped.push_str("&gt;"),
+            '\n' => escaped.push_str("<br>"),
+            '\r' => escaped.push_str("&#13;"),
+            '\t' => escaped.push_str("&#9;"),
+            '|' | '`' | '\\' | '*' | '_' | '[' | ']' | '#' => {
+                use std::fmt::Write;
+                write!(escaped, "&#{};", u32::from(character))
+                    .expect("String formatting cannot fail");
+            }
+            control if control.is_control() => {
+                use std::fmt::Write;
+                write!(escaped, "&#{};", u32::from(control))
+                    .expect("String formatting cannot fail");
+            }
+            _ => escaped.push(character),
+        }
+    }
+    escaped
+}
+
+fn markdown_rows(output: &mut String, path: &str, value: &serde_json::Value) {
+    match value {
+        serde_json::Value::Object(fields) if !fields.is_empty() => {
+            for (key, value) in fields {
+                // JSON pointer escaping keeps arbitrary file/check identities
+                // distinct from nested field names.
+                let key = key.replace('~', "~0").replace('/', "~1");
+                markdown_rows(output, &format!("{path}/{key}"), value);
+            }
+        }
+        serde_json::Value::Array(items) if !items.is_empty() => {
+            for (index, item) in items.iter().enumerate() {
+                markdown_rows(output, &format!("{path}/{index}"), item);
+            }
+        }
+        _ => {
+            use std::fmt::Write;
+            let text = value
+                .as_str()
+                .map(str::to_owned)
+                .unwrap_or_else(|| value.to_string());
+            writeln!(
+                output,
+                "| {} | {} |",
+                markdown_cell(path),
+                markdown_cell(&text)
+            )
+            .expect("String formatting cannot fail");
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EvidenceIssue {
     Invalid,
@@ -590,6 +796,190 @@ fn is_link(metadata: &fs::Metadata) -> bool {
 mod tests {
     use super::*;
     use serde_json::json;
+
+    fn report_fixture() -> (Comparison, Fixture) {
+        let mut f = Fixture::new();
+        f.trial.manifest.hypothesis = "replace <custom>|`machinery`\nwith reuse".into();
+        f.trial.manifest.scope_review.rationale = "whole responsibility reviewed".into();
+        f.trial.manifest.target = Some(DecisionFixture::new(10, 5).target);
+        f.evidence.candidate_ownership.review.rationale = "replacement helper included".into();
+        f.evidence.dependency_changes = serde_json::from_value(json!({"library":{
+            "schema_version":1,"description":"reuse installed library","repository_decision":null
+        }}))
+        .unwrap();
+        let digest = frozen_trial_digest(&f.trial);
+        let pair = f.evidence.checks.0.get_mut("api").unwrap();
+        for result in [&mut pair.baseline, &mut pair.candidate] {
+            result.as_mut().unwrap().frozen_trial_digest = digest.clone();
+        }
+        let fixture = DecisionFixture::new(10, 5);
+        let comparison = serde_json::from_value(json!({
+            "schema_version":1,"trial_id":"trial","hypothesis":f.trial.manifest.hypothesis,
+            "baseline_identity":f.trial.baseline_identity,"candidate_identity":f.candidate,
+            "frozen_trial_digest":digest,"status":"rejected-behavior",
+            "reasons":[{"schema_version":1,"subject":"z","explanation":"known failure"},
+                {"schema_version":1,"subject":"a","explanation":"missing evidence"}],
+            "accounting":{"schema_version":1,
+                "files":{"new|<x>`\n.py":{"schema_version":1,"baseline":null,
+                    "candidate":{"schema_version":1,"content_digest":"file-digest","category":"production"}}},
+                "capability_metrics":fixture.metrics,"wider_metrics":fixture.metrics,
+                "category_totals":{"production":fixture.metrics,"tests":{}},
+                "unresolved":{"call":{"schema_version":1,"subject":"a.py:3","explanation":"dynamic dispatch"}}},
+            "checks":f.evidence.checks,"check_findings":[],"dependency_changes":f.evidence.dependency_changes,
+            "limitations":["z limitation","a limitation"],"provenance":["runner declared, not authenticated"]
+        })).unwrap();
+        (comparison, f)
+    }
+
+    #[test]
+    fn reports_retain_complete_evidence_context_and_escape_markdown() {
+        let (comparison, f) = report_fixture();
+        let report = render_comparison(&comparison, &f.trial, &f.evidence).unwrap();
+        let value: serde_json::Value = serde_json::from_str(&report.json).unwrap();
+        assert_eq!(value["comparison"]["status"], "rejected-behavior");
+        assert_eq!(
+            value["comparison"]["accounting"]["capability_metrics"]["statements"]["before"]
+                ["value"]["count"],
+            10
+        );
+        assert_eq!(
+            value["frozen_trial"]["manifest"]["scope_review"]["rationale"],
+            "whole responsibility reviewed"
+        );
+        assert_eq!(
+            value["candidate_ownership"],
+            serde_json::to_value(&f.evidence.candidate_ownership).unwrap()
+        );
+        for expected in [
+            "known failure",
+            "missing evidence",
+            "dynamic dispatch",
+            "whole responsibility reviewed",
+            "tested&#95;domain",
+            "three reviewed API cases",
+            "oracle-v1",
+            "definition&#95;revision",
+            "production",
+            "tests",
+            "runner declared, not authenticated",
+            "finite",
+            "one forwarding function may remain",
+            "reuse installed library",
+            "replacement helper included",
+        ] {
+            assert!(report.markdown.contains(expected), "missing {expected}");
+        }
+        assert!(report.markdown.contains("new&#124;&lt;x&gt;&#96;<br>.py"));
+        assert!(!report.markdown.contains("new|<x>"));
+        assert!(!report.markdown.contains("replace <custom>"));
+        // Dynamic cells cannot create extra table columns or physical rows.
+        for line in report.markdown.lines().filter(|line| line.starts_with('|')) {
+            assert_eq!(line.matches('|').count(), 3, "{line}");
+        }
+    }
+
+    #[test]
+    fn reports_sort_collections_without_mutating_records() {
+        let (comparison, f) = report_fixture();
+        let before = comparison.clone();
+        let mut reordered = comparison.clone();
+        reordered.reasons.reverse();
+        reordered.limitations.reverse();
+        for pair in reordered.checks.0.values_mut() {
+            pair.baseline.as_mut().unwrap().limitations.reverse();
+        }
+        assert_eq!(
+            render_comparison(&comparison, &f.trial, &f.evidence).unwrap(),
+            render_comparison(&reordered, &f.trial, &f.evidence).unwrap()
+        );
+        assert_eq!(comparison, before);
+    }
+
+    #[test]
+    fn incomplete_reports_keep_unavailable_metrics_and_missing_checks() {
+        let (mut comparison, mut f) = report_fixture();
+        comparison.status = ComparisonStatus::Incomplete;
+        comparison.checks.0.clear();
+        f.evidence.checks.0.clear();
+        let metric = comparison
+            .accounting
+            .capability_metrics
+            .0
+            .values_mut()
+            .next()
+            .unwrap();
+        metric.after.value = MetricValue::Unavailable {
+            reason: "parse error".into(),
+            resolved_lower_bound: Some(Count(2)),
+        };
+        metric.delta = None;
+        let report = render_comparison(&comparison, &f.trial, &f.evidence).unwrap();
+        let value: serde_json::Value = serde_json::from_str(&report.json).unwrap();
+        assert_eq!(value["comparison"]["status"], "incomplete");
+        assert!(report.markdown.contains("parse error"));
+        assert!(report.markdown.contains("resolved&#95;lower&#95;bound"));
+        assert!(report.markdown.contains("unavailable"));
+        assert!(report.markdown.contains("incomplete"));
+        assert!(report.markdown.contains("10"));
+    }
+
+    #[test]
+    fn report_context_must_match_trial_and_supplied_evidence() {
+        let (comparison, f) = report_fixture();
+        for field in [
+            "trial_id",
+            "hypothesis",
+            "baseline_identity",
+            "frozen_trial_digest",
+        ] {
+            let mut value = serde_json::to_value(&comparison).unwrap();
+            value[field] = json!("unrelated");
+            let altered = serde_json::from_value(value).unwrap();
+            assert!(render_comparison(&altered, &f.trial, &f.evidence)
+                .unwrap_err()
+                .0
+                .contains(field));
+        }
+        let mut altered = comparison;
+        altered.checks.0.clear();
+        assert!(render_comparison(&altered, &f.trial, &f.evidence)
+            .unwrap_err()
+            .0
+            .contains("checks"));
+    }
+
+    #[test]
+    fn every_outcome_is_reportable_and_runtime_metadata_is_absent() {
+        let (mut comparison, f) = report_fixture();
+        for status in [
+            ComparisonStatus::Invalid,
+            ComparisonStatus::BaselineIneligible,
+            ComparisonStatus::RejectedBehavior,
+            ComparisonStatus::Incomplete,
+            ComparisonStatus::RejectedTarget,
+            ComparisonStatus::NotDemonstrated,
+            ComparisonStatus::Accepted,
+        ] {
+            comparison.status = status;
+            let report = render_comparison(&comparison, &f.trial, &f.evidence).unwrap();
+            let value: serde_json::Value = serde_json::from_str(&report.json).unwrap();
+            assert_eq!(
+                value["comparison"]["status"],
+                serde_json::to_value(status).unwrap()
+            );
+            assert_eq!(value.as_object().unwrap().len(), 4);
+            assert_eq!(
+                value["comparison"]["accounting"]["capability_metrics"]["statements"]["delta"],
+                -5
+            );
+        }
+        let mut evidence = f.evidence.clone();
+        evidence.dependency_changes.0.clear();
+        assert!(render_comparison(&comparison, &f.trial, &evidence)
+            .unwrap_err()
+            .0
+            .contains("dependency_changes"));
+    }
     use std::{
         fs,
         sync::atomic::{AtomicU64, Ordering},
