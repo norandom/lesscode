@@ -142,7 +142,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: External trial integration_
   - _Requirements: 1.2, 1.3, 2.1, 2.5, 3.2, 3.3, 3.5, 4.4_
 
-- [ ] 6.4 Integrate and verify the skill command recipe
+- [x] 6.4 Integrate and verify the skill command recipe
   - Use the recorded ATS replay to exercise the skill recipe end-to-end.
   - Add scope/inventory review and paired-check instructions plus tested native usage.
   - Done: the recipe reproduces the recorded outcome without changing checks or source.

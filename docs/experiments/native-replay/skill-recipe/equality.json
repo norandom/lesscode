@@ -1,0 +1,5 @@
+{
+  "frozen.json": true,
+  "candidate/result.json": true,
+  "mutant/result.json": true
+}

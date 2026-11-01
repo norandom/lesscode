@@ -1,0 +1,32 @@
+{
+  "frozen.json": {
+    "fresh_sha256": "7e04f76fe7ffcc81a0692894ff8ee5d7f14e4934bea507edfa2d996f5e7f32c0",
+    "recorded_sha256": "7e04f76fe7ffcc81a0692894ff8ee5d7f14e4934bea507edfa2d996f5e7f32c0",
+    "byte_identical": true,
+    "recorded_path": "docs/experiments/native-replay/ats-run/recorded/frozen.json"
+  },
+  "candidate/result.json": {
+    "fresh_sha256": "ed6cf0e60373d5e0a099ad97f56761359d85870fa2ad113af79e77b35ace7221",
+    "recorded_sha256": "ed6cf0e60373d5e0a099ad97f56761359d85870fa2ad113af79e77b35ace7221",
+    "byte_identical": true,
+    "recorded_path": "docs/experiments/native-replay/ats-run/recorded/candidate-comparison/result.json"
+  },
+  "candidate/report.md": {
+    "fresh_sha256": "d2013f375dfbd3892ab51c217a08b8353ce97e2c0eb87e3aa4c522375fc4030c",
+    "recorded_sha256": "d2013f375dfbd3892ab51c217a08b8353ce97e2c0eb87e3aa4c522375fc4030c",
+    "byte_identical": true,
+    "recorded_path": "docs/experiments/native-replay/ats-run/recorded/candidate-comparison/report.md"
+  },
+  "mutant/result.json": {
+    "fresh_sha256": "c808f5cf96efaa1353eab44741658eb1126ba25690ee97bb5ab2c67a940639d6",
+    "recorded_sha256": "c808f5cf96efaa1353eab44741658eb1126ba25690ee97bb5ab2c67a940639d6",
+    "byte_identical": true,
+    "recorded_path": "docs/experiments/native-replay/ats-run/recorded/mutant-comparison/result.json"
+  },
+  "mutant/report.md": {
+    "fresh_sha256": "6bc30a213220966f6a2702848ef760f1fb742f7ad0dd4ea780f2b8d132d6342a",
+    "recorded_sha256": "6bc30a213220966f6a2702848ef760f1fb742f7ad0dd4ea780f2b8d132d6342a",
+    "byte_identical": true,
+    "recorded_path": "docs/experiments/native-replay/ats-run/recorded/mutant-comparison/report.md"
+  }
+}
