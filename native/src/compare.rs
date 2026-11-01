@@ -22,6 +22,193 @@ pub struct EvidenceAdmission {
     pub findings: Vec<EvidenceFinding>,
     pub limitations: Vec<String>,
 }
+
+/// A classified fact from scope, metric or evidence admission. All facts survive
+/// selection of the final status, including lower-priority failures.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DecisionFinding {
+    pub status: ComparisonStatus,
+    pub finding: Finding,
+}
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Decision {
+    pub status: ComparisonStatus,
+    pub findings: Vec<DecisionFinding>,
+}
+/// Production-only measurements for one frozen capability and language. The
+/// integration layer supplies snapshot-bound per-side scope identities; those
+/// identities need not be equal when replacement source changes.
+pub struct TargetMeasurements<'a> {
+    pub scope_identity: &'a str,
+    pub baseline_scope_identity: &'a str,
+    pub candidate_scope_identity: &'a str,
+    pub metrics: &'a Records<String, MetricPair>,
+}
+
+/// Pure decision over already admitted facts. This neither runs checks nor
+/// measures source. Permitted structural tradeoffs remain frozen prose; only
+/// explicit numeric count bounds are executable constraints.
+pub fn decide_comparison(
+    target: Option<&Target>,
+    measurements: TargetMeasurements<'_>,
+    evidence: &EvidenceAdmission,
+    additional_findings: &[DecisionFinding],
+) -> Decision {
+    use ComparisonStatus::*;
+    let mut findings = additional_findings.to_vec();
+    findings.extend(evidence.findings.iter().map(|fact| DecisionFinding {
+        status: match fact.issue {
+            EvidenceIssue::Invalid => Invalid,
+            EvidenceIssue::BaselineIneligible => BaselineIneligible,
+            EvidenceIssue::RejectedBehavior => RejectedBehavior,
+            EvidenceIssue::Incomplete => Incomplete,
+        },
+        finding: fact.finding.clone(),
+    }));
+    if !evidence
+        .checks
+        .0
+        .values()
+        .any(|pair| pair.baseline.is_some() && pair.candidate.is_some())
+    {
+        add_decision_finding(
+            &mut findings,
+            Incomplete,
+            "checks",
+            "no complete admitted behavioral evidence pair",
+        );
+    }
+    if let Some(target) = target {
+        if target.scope_identity != measurements.scope_identity || target.scope_identity.is_empty()
+        {
+            add_decision_finding(
+                &mut findings,
+                Invalid,
+                "target",
+                "frozen target capability scope does not match supplied production scope",
+            );
+        }
+        let mut required: std::collections::BTreeSet<_> =
+            target.definitions.0.keys().copied().collect();
+        required.extend(target.count_bounds.0.keys().copied());
+        required.insert(MetricName::LogicalStatements);
+        for name in required {
+            let subject = format!("production/{name:?}");
+            let Some(definition) = target.definitions.0.get(&name) else {
+                add_decision_finding(
+                    &mut findings,
+                    Incomplete,
+                    &subject,
+                    "required frozen metric definition missing",
+                );
+                continue;
+            };
+            let mut matching = measurements.metrics.0.values().filter(|pair| {
+                pair.before.identity.name == name || pair.after.identity.name == name
+            });
+            let pair = matching.next();
+            if pair.is_none() || matching.next().is_some() {
+                add_decision_finding(
+                    &mut findings,
+                    Incomplete,
+                    &subject,
+                    "required production measurement missing or ambiguous",
+                );
+                continue;
+            }
+            let pair = pair.expect("exactly one matching measurement");
+            if definition.name != name
+                || definition.language != target.language
+                || pair.before.identity != *definition
+                || pair.after.identity != *definition
+                || pair.before.scope_identity != measurements.baseline_scope_identity
+                || pair.after.scope_identity != measurements.candidate_scope_identity
+                || measurements.baseline_scope_identity.is_empty()
+                || measurements.candidate_scope_identity.is_empty()
+            {
+                add_decision_finding(&mut findings, Incomplete, &subject, "required metric definitions, language or snapshot-bound scopes are incompatible");
+                continue;
+            }
+            let (MetricValue::Available { count: before }, MetricValue::Available { count: after }) =
+                (&pair.before.value, &pair.after.value)
+            else {
+                add_decision_finding(
+                    &mut findings,
+                    Incomplete,
+                    &subject,
+                    "required production metric unavailable; lower bounds are not totals",
+                );
+                continue;
+            };
+            let delta = after.checked_delta(*before);
+            if delta.is_none() || pair.delta != delta {
+                add_decision_finding(
+                    &mut findings,
+                    Incomplete,
+                    &subject,
+                    "required metric delta unavailable or inconsistent with checked counts",
+                );
+                continue;
+            }
+            if name == MetricName::LogicalStatements
+                && (after >= before
+                    || before.0.checked_sub(after.0).is_none_or(|reduction| {
+                        reduction < target.minimum_production_statement_reduction.0
+                    }))
+            {
+                add_decision_finding(&mut findings, RejectedTarget, &subject, "production statement reduction must be strictly positive and meet the frozen minimum");
+            }
+            if target
+                .count_bounds
+                .0
+                .get(&name)
+                .is_some_and(|bound| after > bound)
+            {
+                add_decision_finding(
+                    &mut findings,
+                    RejectedTarget,
+                    &subject,
+                    "candidate production count exceeds frozen absolute bound",
+                );
+            }
+        }
+    } else {
+        add_decision_finding(
+            &mut findings,
+            NotDemonstrated,
+            "target",
+            "no frozen compression target; measurements remain descriptive",
+        );
+    }
+    let status = [
+        Invalid,
+        BaselineIneligible,
+        RejectedBehavior,
+        Incomplete,
+        RejectedTarget,
+        NotDemonstrated,
+    ]
+    .into_iter()
+    .find(|status| findings.iter().any(|finding| finding.status == *status))
+    .unwrap_or(Accepted);
+    Decision { status, findings }
+}
+
+fn add_decision_finding(
+    findings: &mut Vec<DecisionFinding>,
+    status: ComparisonStatus,
+    subject: &str,
+    explanation: &str,
+) {
+    findings.push(DecisionFinding {
+        status,
+        finding: Finding {
+            schema_version: SchemaVersion::V1,
+            subject: subject.into(),
+            explanation: explanation.into(),
+        },
+    });
+}
 /// Stable SHA-256 of the closed, sorted frozen-trial JSON record.
 pub fn frozen_trial_digest(trial: &FrozenTrial) -> String {
     hash(&serde_json::to_vec(trial).expect("typed frozen trial is JSON serializable"))
@@ -408,6 +595,320 @@ mod tests {
         sync::atomic::{AtomicU64, Ordering},
     };
     static NEXT: AtomicU64 = AtomicU64::new(0);
+
+    fn decision_finding(status: ComparisonStatus, subject: &str) -> DecisionFinding {
+        DecisionFinding {
+            status,
+            finding: Finding {
+                schema_version: SchemaVersion::V1,
+                subject: subject.into(),
+                explanation: format!("{subject} finding"),
+            },
+        }
+    }
+    struct DecisionFixture {
+        target: Target,
+        metrics: Records<String, MetricPair>,
+        admission: EvidenceAdmission,
+    }
+    impl DecisionFixture {
+        fn new(before: u64, after: u64) -> Self {
+            let id = json!({"schema_version":1,"name":"logical_statements","definition_revision":"v1",
+                "language":"python","grammar_version":"grammar-v1","tool_version":"tool-v1"});
+            let pair = json!({"schema_version":1,
+                "before":{"schema_version":1,"identity":id,"scope_identity":"baseline-production",
+                    "value":{"availability":"available","count":before}},
+                "after":{"schema_version":1,"identity":id,"scope_identity":"candidate-production",
+                    "value":{"availability":"available","count":after}},
+                "delta":Count(after).checked_delta(Count(before))});
+            Self {
+                target: serde_json::from_value(
+                    json!({"schema_version":1,"scope_identity":"production",
+                    "language":"python","definitions":{"logical_statements":id},
+                    "minimum_production_statement_reduction":3,"count_bounds":{},
+                    "permitted_structural_tradeoffs":["one forwarding function may remain"]}),
+                )
+                .unwrap(),
+                metrics: serde_json::from_value(json!({"statements":pair})).unwrap(),
+                admission: EvidenceAdmission {
+                    checks: decision_checks(),
+                    findings: vec![],
+                    limitations: vec!["finite checks".into()],
+                },
+            }
+        }
+        fn run(&self, findings: &[DecisionFinding]) -> Decision {
+            decide_comparison(
+                Some(&self.target),
+                self.measurements(),
+                &self.admission,
+                findings,
+            )
+        }
+        fn measurements(&self) -> TargetMeasurements<'_> {
+            TargetMeasurements {
+                scope_identity: "production",
+                baseline_scope_identity: "baseline-production",
+                candidate_scope_identity: "candidate-production",
+                metrics: &self.metrics,
+            }
+        }
+        fn pair(&mut self) -> &mut MetricPair {
+            self.metrics.0.get_mut("statements").unwrap()
+        }
+    }
+
+    fn decision_checks() -> Records<String, PairedCheck> {
+        let result = json!({"schema_version":1,"source_identity":"already-admitted-source",
+            "frozen_trial_digest":"already-admitted-trial","definition_digest":"already-admitted-check",
+            "status":"passed","artifacts":{},"tested_domain":"reviewed API case","limitations":[],
+            "summary":{"kind":"exit_status","code":0}});
+        serde_json::from_value(
+            json!({"api":{"schema_version":1,"baseline":result,"candidate":result}}),
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn absent_behavioral_evidence_prevents_acceptance_without_erasing_metrics() {
+        let mut fixture = DecisionFixture::new(10, 5);
+        fixture.admission.checks.0.clear();
+        let metrics = fixture.metrics.clone();
+        assert_eq!(fixture.run(&[]).status, ComparisonStatus::Incomplete);
+        assert_eq!(fixture.metrics, metrics);
+    }
+
+    #[test]
+    fn decision_precedence_retains_every_conflicting_finding() {
+        use ComparisonStatus::*;
+        let fixture = DecisionFixture::new(10, 5);
+        let ordered = [
+            Invalid,
+            BaselineIneligible,
+            RejectedBehavior,
+            Incomplete,
+            RejectedTarget,
+            NotDemonstrated,
+        ];
+        for first in 0..ordered.len() {
+            let findings: Vec<_> = ordered[first..]
+                .iter()
+                .rev()
+                .map(|status| decision_finding(*status, &format!("{status:?}")))
+                .collect();
+            let decision = fixture.run(&findings);
+            assert_eq!(decision.status, ordered[first]);
+            for finding in findings {
+                assert!(decision.findings.contains(&finding));
+            }
+        }
+        assert_eq!(fixture.run(&[]).status, Accepted);
+    }
+
+    #[test]
+    fn evidence_admission_failures_are_never_offset_by_savings() {
+        use ComparisonStatus::*;
+        for (issue, status) in [
+            (EvidenceIssue::Invalid, Invalid),
+            (EvidenceIssue::BaselineIneligible, BaselineIneligible),
+            (EvidenceIssue::RejectedBehavior, RejectedBehavior),
+            (EvidenceIssue::Incomplete, Incomplete),
+        ] {
+            let mut fixture = DecisionFixture::new(100, 1);
+            fixture
+                .admission
+                .finding(issue, "check", "raw behavioral finding");
+            let decision = fixture.run(&[decision_finding(Incomplete, "scope")]);
+            assert_eq!(decision.status, status);
+            assert!(decision
+                .findings
+                .iter()
+                .any(|f| f.finding.explanation == "raw behavioral finding"));
+        }
+    }
+
+    #[test]
+    fn frozen_statement_threshold_requires_positive_production_reduction() {
+        use ComparisonStatus::*;
+        for (before, after, minimum, expected) in [
+            (10, 7, 3, Accepted),
+            (10, 8, 3, RejectedTarget),
+            (10, 10, 0, RejectedTarget),
+            (0, 0, 0, RejectedTarget),
+            (0, 1, 0, RejectedTarget),
+            (1, 0, 0, Accepted),
+            (1, u64::MAX, 1, Incomplete),
+            (u64::MAX, 0, 1, Incomplete),
+        ] {
+            let mut fixture = DecisionFixture::new(before, after);
+            fixture.target.minimum_production_statement_reduction = Count(minimum);
+            assert_eq!(
+                fixture.run(&[]).status,
+                expected,
+                "{before} -> {after}, minimum {minimum}"
+            );
+        }
+    }
+
+    #[test]
+    fn no_target_is_descriptive_and_metrics_are_retained() {
+        let fixture = DecisionFixture::new(10, 1);
+        let original = fixture.metrics.clone();
+        let result = decide_comparison(None, fixture.measurements(), &fixture.admission, &[]);
+        assert_eq!(result.status, ComparisonStatus::NotDemonstrated);
+        assert_eq!(fixture.metrics, original);
+    }
+
+    #[test]
+    fn unavailable_missing_incompatible_and_ambiguous_metrics_remain_incomplete() {
+        for case in 0..9 {
+            let mut fixture = DecisionFixture::new(10, 5);
+            match case {
+                0 => fixture.metrics.0.clear(),
+                1 => {
+                    fixture.pair().after.value = MetricValue::Unavailable {
+                        reason: "parse error".into(),
+                        resolved_lower_bound: Some(Count(0)),
+                    };
+                    fixture.pair().delta = None;
+                }
+                2 => {
+                    fixture.pair().after.identity.definition_revision = "changed".into();
+                    fixture.pair().delta = None;
+                }
+                3 => fixture.pair().before.scope_identity = "unbound source".into(),
+                4 => fixture.pair().after.scope_identity = "unbound source".into(),
+                5 => {
+                    fixture.pair().before.identity.language = Language::TypeScript;
+                    fixture.pair().after.identity.language = Language::TypeScript;
+                }
+                6 => {
+                    let pair = fixture.pair().clone();
+                    fixture.metrics.0.insert("duplicate".into(), pair);
+                }
+                7 => fixture.target.definitions.0.clear(),
+                8 => fixture.pair().delta = Some(-99),
+                _ => unreachable!(),
+            }
+            let original = fixture.metrics.clone();
+            assert_eq!(
+                fixture.run(&[]).status,
+                ComparisonStatus::Incomplete,
+                "case {case}"
+            );
+            assert_eq!(fixture.metrics, original);
+        }
+    }
+
+    #[test]
+    fn frozen_scope_and_definitions_cannot_be_substituted() {
+        let mut fixture = DecisionFixture::new(10, 5);
+        fixture.target.scope_identity = "different capability".into();
+        assert_eq!(fixture.run(&[]).status, ComparisonStatus::Invalid);
+        fixture.target.scope_identity = "production".into();
+        fixture
+            .target
+            .definitions
+            .0
+            .get_mut(&MetricName::LogicalStatements)
+            .unwrap()
+            .tool_version = "other tool".into();
+        assert_eq!(fixture.run(&[]).status, ComparisonStatus::Incomplete);
+    }
+
+    #[test]
+    fn numeric_bounds_are_absolute_and_tradeoffs_do_not_waive_them() {
+        let mut fixture = DecisionFixture::new(10, 5);
+        let mut functions = fixture.pair().clone();
+        functions.before.identity.name = MetricName::Functions;
+        functions.after.identity.name = MetricName::Functions;
+        functions.before.value = MetricValue::Available { count: Count(2) };
+        functions.after.value = MetricValue::Available { count: Count(3) };
+        functions.delta = Some(1);
+        fixture
+            .target
+            .definitions
+            .0
+            .insert(MetricName::Functions, functions.before.identity.clone());
+        fixture.metrics.0.insert("functions".into(), functions);
+        fixture
+            .target
+            .count_bounds
+            .0
+            .insert(MetricName::Functions, Count(3));
+        assert_eq!(fixture.run(&[]).status, ComparisonStatus::Accepted);
+        fixture
+            .target
+            .count_bounds
+            .0
+            .insert(MetricName::Functions, Count(2));
+        assert_eq!(fixture.run(&[]).status, ComparisonStatus::RejectedTarget);
+        fixture.metrics.0.remove("functions");
+        assert_eq!(fixture.run(&[]).status, ComparisonStatus::Incomplete);
+    }
+
+    #[test]
+    fn formatting_relocation_or_splitting_alone_cannot_be_accepted() {
+        let mut fixture = DecisionFixture::new(10, 10);
+        fixture.target.minimum_production_statement_reduction = Count(0);
+        let mut lines = fixture.pair().clone();
+        lines.before.identity.name = MetricName::PhysicalLines;
+        lines.after.identity.name = MetricName::PhysicalLines;
+        lines.before.value = MetricValue::Available { count: Count(100) };
+        lines.after.value = MetricValue::Available { count: Count(1) };
+        lines.delta = Some(-99);
+        fixture.metrics.0.insert("lines".into(), lines);
+        assert_eq!(fixture.run(&[]).status, ComparisonStatus::RejectedTarget);
+    }
+
+    #[test]
+    fn behavior_missing_metrics_and_multiple_target_failures_are_all_retained() {
+        let mut fixture = DecisionFixture::new(10, 9);
+        fixture
+            .target
+            .count_bounds
+            .0
+            .insert(MetricName::LogicalStatements, Count(0));
+        fixture
+            .target
+            .count_bounds
+            .0
+            .insert(MetricName::Functions, Count(0));
+        fixture.admission.finding(
+            EvidenceIssue::RejectedBehavior,
+            "optional-check",
+            "known regression",
+        );
+        fixture
+            .admission
+            .finding(EvidenceIssue::Incomplete, "required-check", "missing run");
+        let decision = fixture.run(&[]);
+        assert_eq!(decision.status, ComparisonStatus::RejectedBehavior);
+        assert_eq!(
+            decision
+                .findings
+                .iter()
+                .filter(|fact| fact.status == ComparisonStatus::RejectedTarget)
+                .count(),
+            2
+        );
+        assert_eq!(
+            decision
+                .findings
+                .iter()
+                .filter(|fact| fact.status == ComparisonStatus::Incomplete)
+                .count(),
+            2
+        );
+        assert!(decision
+            .findings
+            .iter()
+            .any(|fact| fact.finding.explanation == "known regression"));
+        assert!(decision
+            .findings
+            .iter()
+            .any(|fact| fact.finding.explanation == "missing run"));
+    }
     struct Fixture {
         root: PathBuf,
         trial: FrozenTrial,

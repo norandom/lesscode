@@ -81,7 +81,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 1.2_
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
 
-- [ ] 4.2 Apply frozen targets and decision precedence
+- [x] 4.2 Apply frozen targets and decision precedence
   - Implement all design statuses, preserving every finding and required metric availability; never compensate behavior failures with size savings.
   - Require positive production statement reduction and declared bounds; no target remains descriptive, unavailable metrics remain unavailable.
   - Done: independent decision-table tests cover all statuses, conflicting findings, zero counts and formatting-only reductions.
