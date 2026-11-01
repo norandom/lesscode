@@ -1,0 +1,729 @@
+{
+  "schema_version": 1,
+  "candidate_ownership": {
+    "schema_version": 1,
+    "replacements": {
+      "src/npu_rag/embedding/providers/cpu.py": [
+        {
+          "kind": "whole_file",
+          "path": "src/npu_rag/embedding/providers/cpu.py"
+        },
+        {
+          "kind": "whole_file",
+          "path": "src/npu_rag/embedding/providers/checked_run.py"
+        }
+      ],
+      "src/npu_rag/embedding/providers/vitisai.py": [
+        {
+          "kind": "whole_file",
+          "path": "src/npu_rag/embedding/providers/vitisai.py"
+        }
+      ]
+    },
+    "review": {
+      "schema_version": 1,
+      "rationale": "Whole CPU and VitisAI modules plus the entire new checked_run module. Unchanged source/tests/configuration form the wider copied boundary. Hardware is excluded.",
+      "relationships": {
+        "src/npu_rag/embedding/providers/checked_run.py:1151": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Callable bound to provider._failed, counted in the owned provider modules",
+          "rationale": "Reviewed failure at src/npu_rag/embedding/providers/checked_run.py:1151; Callable bound to provider._failed, counted in the owned provider modules; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1227": {
+          "schema_version": 1,
+          "owned_targets": [
+            "src/npu_rag/embedding/providers/cpu.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed check at src/npu_rag/embedding/providers/checked_run.py:1227; whole owned implementation counted."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1260": {
+          "schema_version": 1,
+          "owned_targets": [
+            "src/npu_rag/embedding/providers/cpu.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed check at src/npu_rag/embedding/providers/checked_run.py:1260; whole owned implementation counted."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1327": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Callable supplied by provider: onnxruntime.InferenceSession.run",
+          "rationale": "Reviewed session_run at src/npu_rag/embedding/providers/checked_run.py:1327; Callable supplied by provider: onnxruntime.InferenceSession.run; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1448": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Callable bound to provider._failed, counted in the owned provider modules",
+          "rationale": "Reviewed failure at src/npu_rag/embedding/providers/checked_run.py:1448; Callable bound to provider._failed, counted in the owned provider modules; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1475": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin type",
+          "rationale": "Reviewed type at src/npu_rag/embedding/providers/checked_run.py:1475; Python builtin type; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1526": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin len",
+          "rationale": "Reviewed len at src/npu_rag/embedding/providers/checked_run.py:1526; Python builtin len; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1560": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Callable bound to provider._failed, counted in the owned provider modules",
+          "rationale": "Reviewed failure at src/npu_rag/embedding/providers/checked_run.py:1560; Callable bound to provider._failed, counted in the owned provider modules; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1590": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin len",
+          "rationale": "Reviewed len at src/npu_rag/embedding/providers/checked_run.py:1590; Python builtin len; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1733": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin isinstance",
+          "rationale": "Reviewed isinstance at src/npu_rag/embedding/providers/checked_run.py:1733; Python builtin isinstance; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1782": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Callable bound to provider._failed, counted in the owned provider modules",
+          "rationale": "Reviewed failure at src/npu_rag/embedding/providers/checked_run.py:1782; Callable bound to provider._failed, counted in the owned provider modules; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1812": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin type",
+          "rationale": "Reviewed type at src/npu_rag/embedding/providers/checked_run.py:1812; Python builtin type; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:1906": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Callable bound to provider._failed, counted in the owned provider modules",
+          "rationale": "Reviewed failure at src/npu_rag/embedding/providers/checked_run.py:1906; Callable bound to provider._failed, counted in the owned provider modules; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:2073": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Callable bound to provider._failed, counted in the owned provider modules",
+          "rationale": "Reviewed failure at src/npu_rag/embedding/providers/checked_run.py:2073; Callable bound to provider._failed, counted in the owned provider modules; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/checked_run.py:955": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Callable bound to provider._failed, counted in the owned provider modules",
+          "rationale": "Reviewed failure at src/npu_rag/embedding/providers/checked_run.py:955; Callable bound to provider._failed, counted in the owned provider modules; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:10030": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError",
+          "rationale": "Reviewed ExecutionError at src/npu_rag/embedding/providers/cpu.py:10030; Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:3754": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin tuple",
+          "rationale": "Reviewed tuple at src/npu_rag/embedding/providers/cpu.py:3754; Python builtin tuple; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:3760": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin str",
+          "rationale": "Reviewed str at src/npu_rag/embedding/providers/cpu.py:3760; Python builtin str; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:3782": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "onnxruntime.get_available_providers",
+          "rationale": "Reviewed ort.get_available_providers at src/npu_rag/embedding/providers/cpu.py:3782; onnxruntime.get_available_providers; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:4488": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "onnxruntime.InferenceSession",
+          "rationale": "Reviewed ort.InferenceSession at src/npu_rag/embedding/providers/cpu.py:4488; onnxruntime.InferenceSession; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:4519": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin str",
+          "rationale": "Reviewed str at src/npu_rag/embedding/providers/cpu.py:4519; Python builtin str; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:4546": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin list",
+          "rationale": "Reviewed list at src/npu_rag/embedding/providers/cpu.py:4546; Python builtin list; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:5423": {
+          "schema_version": 1,
+          "owned_targets": [
+            "src/npu_rag/embedding/providers/cpu.py",
+            "src/npu_rag/embedding/providers/vitisai.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed self._open at src/npu_rag/embedding/providers/cpu.py:5423; whole owned implementation counted."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:5612": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin property",
+          "rationale": "Reviewed property at src/npu_rag/embedding/providers/cpu.py:5612; Python builtin property; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:5865": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin property",
+          "rationale": "Reviewed property at src/npu_rag/embedding/providers/cpu.py:5865; Python builtin property; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:6129": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin property",
+          "rationale": "Reviewed property at src/npu_rag/embedding/providers/cpu.py:6129; Python builtin property; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:6524": {
+          "schema_version": 1,
+          "owned_targets": [
+            "src/npu_rag/embedding/providers/cpu.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed checked_run at src/npu_rag/embedding/providers/cpu.py:6524; whole owned implementation counted."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:8014": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:EnvironmentError_",
+          "rationale": "Reviewed EnvironmentError_ at src/npu_rag/embedding/providers/cpu.py:8014; Unchanged owned API src/npu_rag/embedding/errors.py:EnvironmentError_; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:8224": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python str.join",
+          "rationale": "Reviewed ', '.join at src/npu_rag/embedding/providers/cpu.py:8224; Python str.join; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:8620": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Injected SessionFactory callable; defaults to provider _open",
+          "rationale": "Reviewed build at src/npu_rag/embedding/providers/cpu.py:8620; Injected SessionFactory callable; defaults to provider _open; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:8711": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError",
+          "rationale": "Reviewed ExecutionError at src/npu_rag/embedding/providers/cpu.py:8711; Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:8850": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin type",
+          "rationale": "Reviewed type at src/npu_rag/embedding/providers/cpu.py:8850; Python builtin type; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:9062": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin tuple",
+          "rationale": "Reviewed tuple at src/npu_rag/embedding/providers/cpu.py:9062; Python builtin tuple; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:9068": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin str",
+          "rationale": "Reviewed str at src/npu_rag/embedding/providers/cpu.py:9068; Python builtin str; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:9090": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "onnxruntime.InferenceSession.get_providers",
+          "rationale": "Reviewed session.get_providers at src/npu_rag/embedding/providers/cpu.py:9090; onnxruntime.InferenceSession.get_providers; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:9187": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError",
+          "rationale": "Reviewed ExecutionError at src/npu_rag/embedding/providers/cpu.py:9187; Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/cpu.py:9303": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python str.join",
+          "rationale": "Reviewed ', '.join at src/npu_rag/embedding/providers/cpu.py:9303; Python str.join; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:10092": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin property",
+          "rationale": "Reviewed property at src/npu_rag/embedding/providers/vitisai.py:10092; Python builtin property; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:10270": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin property",
+          "rationale": "Reviewed property at src/npu_rag/embedding/providers/vitisai.py:10270; Python builtin property; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:10447": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin property",
+          "rationale": "Reviewed property at src/npu_rag/embedding/providers/vitisai.py:10447; Python builtin property; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:11178": {
+          "schema_version": 1,
+          "owned_targets": [
+            "src/npu_rag/embedding/providers/cpu.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed checked_run at src/npu_rag/embedding/providers/vitisai.py:11178; whole owned implementation counted."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:12444": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Injected partition probe callable; defaults to owned probe_onnx_runtime",
+          "rationale": "Reviewed probe at src/npu_rag/embedding/providers/vitisai.py:12444; Injected partition probe callable; defaults to owned probe_onnx_runtime; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:12472": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:EnvironmentError_",
+          "rationale": "Reviewed EnvironmentError_ at src/npu_rag/embedding/providers/vitisai.py:12472; Unchanged owned API src/npu_rag/embedding/errors.py:EnvironmentError_; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:13013": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Injected SessionFactory callable; defaults to provider _open",
+          "rationale": "Reviewed build at src/npu_rag/embedding/providers/vitisai.py:13013; Injected SessionFactory callable; defaults to provider _open; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:13120": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError",
+          "rationale": "Reviewed ExecutionError at src/npu_rag/embedding/providers/vitisai.py:13120; Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:13265": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin type",
+          "rationale": "Reviewed type at src/npu_rag/embedding/providers/vitisai.py:13265; Python builtin type; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:13477": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin tuple",
+          "rationale": "Reviewed tuple at src/npu_rag/embedding/providers/vitisai.py:13477; Python builtin tuple; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:13483": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin str",
+          "rationale": "Reviewed str at src/npu_rag/embedding/providers/vitisai.py:13483; Python builtin str; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:13505": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "onnxruntime.InferenceSession.get_providers",
+          "rationale": "Reviewed session.get_providers at src/npu_rag/embedding/providers/vitisai.py:13505; onnxruntime.InferenceSession.get_providers; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:13606": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError",
+          "rationale": "Reviewed ExecutionError at src/npu_rag/embedding/providers/vitisai.py:13606; Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:13726": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python str.join",
+          "rationale": "Reviewed ', '.join at src/npu_rag/embedding/providers/vitisai.py:13726; Python str.join; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:14530": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Injected graph reader callable; defaults to owned _load_graph",
+          "rationale": "Reviewed read at src/npu_rag/embedding/providers/vitisai.py:14530; Injected graph reader callable; defaults to owned _load_graph; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:14714": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:PartitionShareTooLow",
+          "rationale": "Reviewed PartitionShareTooLow at src/npu_rag/embedding/providers/vitisai.py:14714; Unchanged owned API src/npu_rag/embedding/errors.py:PartitionShareTooLow; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:15447": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:PartitionShareTooLow",
+          "rationale": "Reviewed PartitionShareTooLow at src/npu_rag/embedding/providers/vitisai.py:15447; Unchanged owned API src/npu_rag/embedding/errors.py:PartitionShareTooLow; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:16253": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError",
+          "rationale": "Reviewed ExecutionError at src/npu_rag/embedding/providers/vitisai.py:16253; Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:16765": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/types.py:ProviderChoice",
+          "rationale": "Reviewed ProviderChoice at src/npu_rag/embedding/providers/vitisai.py:16765; Unchanged owned API src/npu_rag/embedding/types.py:ProviderChoice; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:16871": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin ValueError",
+          "rationale": "Reviewed ValueError at src/npu_rag/embedding/providers/vitisai.py:16871; Python builtin ValueError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:17614": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "pathlib.Path.is_file",
+          "rationale": "Reviewed context.is_file at src/npu_rag/embedding/providers/vitisai.py:17614; pathlib.Path.is_file; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:17648": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError",
+          "rationale": "Reviewed ExecutionError at src/npu_rag/embedding/providers/vitisai.py:17648; Unchanged owned API src/npu_rag/embedding/errors.py:ExecutionError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:4317": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Unchanged npu_rag.embedding.environment.capability.probe_onnx_runtime software availability API",
+          "rationale": "Reviewed probe_onnx_runtime at src/npu_rag/embedding/providers/vitisai.py:4317; Unchanged npu_rag.embedding.environment.capability.probe_onnx_runtime software availability API; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:5112": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "pathlib.Path.joinpath",
+          "rationale": "Reviewed Path(ort.__file__).parent.joinpath at src/npu_rag/embedding/providers/vitisai.py:5112; pathlib.Path.joinpath; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:5190": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "pathlib.Path.is_file",
+          "rationale": "Reviewed resolved.is_file at src/npu_rag/embedding/providers/vitisai.py:5190; pathlib.Path.is_file; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:5225": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin FileNotFoundError",
+          "rationale": "Reviewed FileNotFoundError at src/npu_rag/embedding/providers/vitisai.py:5225; Python builtin FileNotFoundError; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:5470": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "onnxruntime.InferenceSession",
+          "rationale": "Reviewed ort.InferenceSession at src/npu_rag/embedding/providers/vitisai.py:5470; onnxruntime.InferenceSession; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:5501": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin str",
+          "rationale": "Reviewed str at src/npu_rag/embedding/providers/vitisai.py:5501; Python builtin str; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:5600": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin str",
+          "rationale": "Reviewed str at src/npu_rag/embedding/providers/vitisai.py:5600; Python builtin str; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:6492": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python dict.get",
+          "rationale": "Reviewed context_ops.get at src/npu_rag/embedding/providers/vitisai.py:6492; Python dict.get; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:6781": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin sum",
+          "rationale": "Reviewed sum at src/npu_rag/embedding/providers/vitisai.py:6781; Python builtin sum; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:6818": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python dict.items",
+          "rationale": "Reviewed context_ops.items at src/npu_rag/embedding/providers/vitisai.py:6818; Python dict.items; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:7430": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python dict.get",
+          "rationale": "Reviewed counts.get at src/npu_rag/embedding/providers/vitisai.py:7430; Python dict.get; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:7681": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin len",
+          "rationale": "Reviewed len at src/npu_rag/embedding/providers/vitisai.py:7681; Python builtin len; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:8111": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "onnx.load",
+          "rationale": "Reviewed onnx.load at src/npu_rag/embedding/providers/vitisai.py:8111; onnx.load; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:8121": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "Python builtin str",
+          "rationale": "Reviewed str at src/npu_rag/embedding/providers/vitisai.py:8121; Python builtin str; constructor/interaction software checks only, no hardware claim."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:9938": {
+          "schema_version": 1,
+          "owned_targets": [
+            "src/npu_rag/embedding/providers/cpu.py",
+            "src/npu_rag/embedding/providers/vitisai.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed self._open at src/npu_rag/embedding/providers/vitisai.py:9938; whole owned implementation counted."
+        },
+        "src/npu_rag/embedding/providers/vitisai.py:9986": {
+          "schema_version": 1,
+          "owned_targets": [
+            "src/npu_rag/embedding/providers/vitisai.py"
+          ],
+          "external_contract": null,
+          "rationale": "Reviewed self._verify at src/npu_rag/embedding/providers/vitisai.py:9986; whole owned implementation counted."
+        }
+      }
+    }
+  },
+  "checks": {
+    "differential": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "73c4b51aaf93f0a6b1dbab44d8c3f27534f6e0a28eadcf7e9df42487dbf718e8",
+        "frozen_trial_digest": "c4c2601d1c752b63162fda3df40aebbc4fc764dabf33f3fe8c34d5e3a4124fb9",
+        "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+        "status": "passed",
+        "summary": {
+          "kind": "case_counts",
+          "expected": 3168,
+          "observed": 3168,
+          "mismatches": 0
+        },
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "baseline-raw/differential.json",
+            "sha256": "34b67b945f1da4cddefd67fbb20619ead20968719e6742c1c96c913fe8139f0c"
+          }
+        },
+        "tested_domain": "3168 frozen tensor boundary cases; 339 unchanged software provider/service/postprocess tests; selected mypy modules; retained-member/forbidden-call safety audit",
+        "limitations": [
+          "Finite software-only evidence; no hardware or performance claim.",
+          "Hashes bind supplied artifacts; they do not authenticate execution."
+        ]
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "5336ec9df73c938a0f980b49b72f751b3f2246b3addf699a9f482ea1367df311",
+        "frozen_trial_digest": "c4c2601d1c752b63162fda3df40aebbc4fc764dabf33f3fe8c34d5e3a4124fb9",
+        "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+        "status": "passed",
+        "summary": {
+          "kind": "case_counts",
+          "expected": 3168,
+          "observed": 3168,
+          "mismatches": 0
+        },
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "candidate-raw/differential.json",
+            "sha256": "34b67b945f1da4cddefd67fbb20619ead20968719e6742c1c96c913fe8139f0c"
+          }
+        },
+        "tested_domain": "3168 frozen tensor boundary cases; 339 unchanged software provider/service/postprocess tests; selected mypy modules; retained-member/forbidden-call safety audit",
+        "limitations": [
+          "Finite software-only evidence; no hardware or performance claim.",
+          "Hashes bind supplied artifacts; they do not authenticate execution."
+        ]
+      }
+    },
+    "native-tests": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "73c4b51aaf93f0a6b1dbab44d8c3f27534f6e0a28eadcf7e9df42487dbf718e8",
+        "frozen_trial_digest": "c4c2601d1c752b63162fda3df40aebbc4fc764dabf33f3fe8c34d5e3a4124fb9",
+        "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "baseline-raw/native-tests.json",
+            "sha256": "bb0d1280b3a6adfe7d6ab822ba4979c8bd8337d8e48227b792cfb4847a1ebc61"
+          },
+          "tests.log": {
+            "schema_version": 1,
+            "path": "baseline-raw/tests.log",
+            "sha256": "e1097d9d10719f69f6f3db51b67a126e81c670a061dbdfbb076687b7a9dcb2c1"
+          },
+          "tests.xml": {
+            "schema_version": 1,
+            "path": "baseline-raw/tests.xml",
+            "sha256": "561d0e05e069475c0111c42af6590b4209f8328e8b1bf9a7b8a9f8b45c8dda62"
+          }
+        },
+        "tested_domain": "3168 frozen tensor boundary cases; 339 unchanged software provider/service/postprocess tests; selected mypy modules; retained-member/forbidden-call safety audit",
+        "limitations": [
+          "Finite software-only evidence; no hardware or performance claim.",
+          "Hashes bind supplied artifacts; they do not authenticate execution."
+        ]
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "5336ec9df73c938a0f980b49b72f751b3f2246b3addf699a9f482ea1367df311",
+        "frozen_trial_digest": "c4c2601d1c752b63162fda3df40aebbc4fc764dabf33f3fe8c34d5e3a4124fb9",
+        "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "candidate-raw/native-tests.json",
+            "sha256": "bb0d1280b3a6adfe7d6ab822ba4979c8bd8337d8e48227b792cfb4847a1ebc61"
+          },
+          "tests.log": {
+            "schema_version": 1,
+            "path": "candidate-raw/tests.log",
+            "sha256": "0bdc79de55607f100aa9a4c4e7382670ee7085961af7daaa961d7fda555155a2"
+          },
+          "tests.xml": {
+            "schema_version": 1,
+            "path": "candidate-raw/tests.xml",
+            "sha256": "bb6869a88cb25263d23415c82a9d17aa5febba7a29ccd95be80ac1fdf8c39d7c"
+          }
+        },
+        "tested_domain": "3168 frozen tensor boundary cases; 339 unchanged software provider/service/postprocess tests; selected mypy modules; retained-member/forbidden-call safety audit",
+        "limitations": [
+          "Finite software-only evidence; no hardware or performance claim.",
+          "Hashes bind supplied artifacts; they do not authenticate execution."
+        ]
+      }
+    },
+    "types": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "73c4b51aaf93f0a6b1dbab44d8c3f27534f6e0a28eadcf7e9df42487dbf718e8",
+        "frozen_trial_digest": "c4c2601d1c752b63162fda3df40aebbc4fc764dabf33f3fe8c34d5e3a4124fb9",
+        "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "baseline-raw/types.json",
+            "sha256": "79d8026fb9f670ac4df45d41f262bb3e032e39ceeb7268789f2d908efb2bf534"
+          },
+          "types.log": {
+            "schema_version": 1,
+            "path": "baseline-raw/types.log",
+            "sha256": "0c37c4158c91ef55c724ba017bf6465f26018199badb08e3ff13f98acdf056c2"
+          }
+        },
+        "tested_domain": "3168 frozen tensor boundary cases; 339 unchanged software provider/service/postprocess tests; selected mypy modules; retained-member/forbidden-call safety audit",
+        "limitations": [
+          "Finite software-only evidence; no hardware or performance claim.",
+          "Hashes bind supplied artifacts; they do not authenticate execution."
+        ]
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "5336ec9df73c938a0f980b49b72f751b3f2246b3addf699a9f482ea1367df311",
+        "frozen_trial_digest": "c4c2601d1c752b63162fda3df40aebbc4fc764dabf33f3fe8c34d5e3a4124fb9",
+        "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "candidate-raw/types.json",
+            "sha256": "79d8026fb9f670ac4df45d41f262bb3e032e39ceeb7268789f2d908efb2bf534"
+          },
+          "types.log": {
+            "schema_version": 1,
+            "path": "candidate-raw/types.log",
+            "sha256": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24"
+          }
+        },
+        "tested_domain": "3168 frozen tensor boundary cases; 339 unchanged software provider/service/postprocess tests; selected mypy modules; retained-member/forbidden-call safety audit",
+        "limitations": [
+          "Finite software-only evidence; no hardware or performance claim.",
+          "Hashes bind supplied artifacts; they do not authenticate execution."
+        ]
+      }
+    },
+    "shared-safety": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "73c4b51aaf93f0a6b1dbab44d8c3f27534f6e0a28eadcf7e9df42487dbf718e8",
+        "frozen_trial_digest": "c4c2601d1c752b63162fda3df40aebbc4fc764dabf33f3fe8c34d5e3a4124fb9",
+        "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "baseline-raw/shared-safety.json",
+            "sha256": "51d1992c8db24e3deb60dadf8ba76f4f6b9c8c6d51f8bc0324a67fe07b14dc14"
+          }
+        },
+        "tested_domain": "3168 frozen tensor boundary cases; 339 unchanged software provider/service/postprocess tests; selected mypy modules; retained-member/forbidden-call safety audit",
+        "limitations": [
+          "Finite software-only evidence; no hardware or performance claim.",
+          "Hashes bind supplied artifacts; they do not authenticate execution."
+        ]
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "5336ec9df73c938a0f980b49b72f751b3f2246b3addf699a9f482ea1367df311",
+        "frozen_trial_digest": "c4c2601d1c752b63162fda3df40aebbc4fc764dabf33f3fe8c34d5e3a4124fb9",
+        "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "raw": {
+            "schema_version": 1,
+            "path": "candidate-raw/shared-safety.json",
+            "sha256": "51d1992c8db24e3deb60dadf8ba76f4f6b9c8c6d51f8bc0324a67fe07b14dc14"
+          }
+        },
+        "tested_domain": "3168 frozen tensor boundary cases; 339 unchanged software provider/service/postprocess tests; selected mypy modules; retained-member/forbidden-call safety audit",
+        "limitations": [
+          "Finite software-only evidence; no hardware or performance claim.",
+          "Hashes bind supplied artifacts; they do not authenticate execution."
+        ]
+      }
+    }
+  },
+  "dependency_changes": {}
+}

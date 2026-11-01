@@ -58,3 +58,5 @@ executables exist and report CPython 3.12.10. The NPU environment reports NumPy
 both manifests and prepares all six source roots. Available-platform evidence is
 Windows only for this task; Linux/macOS CI and WSL were not run here.
 Task 6.2 fresh ATS replay: [ats-run/README.md](ats-run/README.md).
+
+Task 6.3 continues with the [fresh NPU replay and integrated adverse admission fixtures](npu-run/README.md), including typed provider/helper checks and separately frozen source-metric target.

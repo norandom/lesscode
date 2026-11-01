@@ -1,0 +1,29 @@
+Command:
+uv.exe run --no-project --no-python-downloads --python .venv-task11/Scripts/python.exe python -m unittest discover -s docs/experiments/native-replay/npu-run -p test_replay.py -v
+
+Exit code: 1 (before replay.py existed)
+
+test_replay (unittest.loader._FailedTest.test_replay) ... ERROR
+
+======================================================================
+ERROR: test_replay (unittest.loader._FailedTest.test_replay)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_replay
+Traceback (most recent call last):
+  File "C:\Users\mariu\AppData\Local\Programs\Python\Python312\Lib\unittest\loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mariu\AppData\Local\Programs\Python\Python312\Lib\unittest\loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "D:\Source\lesscode\docs\experiments\native-replay\npu-run\test_replay.py", line 9, in <module>
+    spec.loader.exec_module(replay)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1132, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1190, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Source\\lesscode\\docs\\experiments\\native-replay\\npu-run\\replay.py'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

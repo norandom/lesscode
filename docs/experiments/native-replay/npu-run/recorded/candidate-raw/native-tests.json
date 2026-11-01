@@ -1,0 +1,9 @@
+{
+  "code": 0,
+  "tests": 339,
+  "failures": 0,
+  "artifacts": [
+    "tests.log",
+    "tests.xml"
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "trial_id": "NPU01-fresh-native-source-target-6.3",
+  "hypothesis": "Share typed batch validation/session/output handling across CPU and VitisAI providers.",
+  "entry_points": {
+    "src/npu_rag/embedding/providers/cpu.py": {
+      "kind": "whole_file",
+      "path": "src/npu_rag/embedding/providers/cpu.py"
+    },
+    "src/npu_rag/embedding/providers/vitisai.py": {
+      "kind": "whole_file",
+      "path": "src/npu_rag/embedding/providers/vitisai.py"
+    }
+  },
+  "owned": {
+    "src/npu_rag/embedding/providers/cpu.py": {
+      "kind": "whole_file",
+      "path": "src/npu_rag/embedding/providers/cpu.py"
+    },
+    "src/npu_rag/embedding/providers/vitisai.py": {
+      "kind": "whole_file",
+      "path": "src/npu_rag/embedding/providers/vitisai.py"
+    }
+  },
+  "wider_boundary": [
+    "."
+  ],
+  "categories": {
+    "pyproject.toml": "dependency",
+    "uv.lock": "dependency",
+    "src/npu_rag/__init__.py": "production",
+    "src/npu_rag/cli/cmd_index.py": "production",
+    "src/npu_rag/cli/cmd_search.py": "production",
+    "src/npu_rag/cli/config.py": "production",
+    "src/npu_rag/cli/index_summary.py": "production",
+    "src/npu_rag/cli/main.py": "production",
+    "src/npu_rag/cli/order.py": "production",
+    "src/npu_rag/cli/render.py": "production",
+    "src/npu_rag/cli/tags.py": "production",
+    "src/npu_rag/cli/__init__.py": "production",
+    "src/npu_rag/embedding/errors.py": "production",
+    "src/npu_rag/embedding/postprocess.py": "production",
+    "src/npu_rag/embedding/profiles.py": "production",
+    "src/npu_rag/embedding/reporting.py": "production",
+    "src/npu_rag/embedding/service.py": "production",
+    "src/npu_rag/embedding/tokenize.py": "production",
+    "src/npu_rag/embedding/types.py": "production",
+    "src/npu_rag/embedding/__init__.py": "production",
+    "src/npu_rag/index/compat.py": "production",
+    "src/npu_rag/index/diversity.py": "production",
+    "src/npu_rag/index/errors.py": "production",
+    "src/npu_rag/index/expansion.py": "production",
+    "src/npu_rag/index/fusion.py": "production",
+    "src/npu_rag/index/rerank.py": "production",
+    "src/npu_rag/index/retriever.py": "production",
+    "src/npu_rag/index/schema.py": "production",
+    "src/npu_rag/index/service.py": "production",
+    "src/npu_rag/index/store.py": "production",
+    "src/npu_rag/index/sync.py": "production",
+    "src/npu_rag/index/types.py": "production",
+    "src/npu_rag/index/__init__.py": "production",
+    "src/npu_rag/ingest/chunk.py": "production",
+    "src/npu_rag/ingest/config.py": "production",
+    "src/npu_rag/ingest/discover.py": "production",
+    "src/npu_rag/ingest/errors.py": "production",
+    "src/npu_rag/ingest/identity.py": "production",
+    "src/npu_rag/ingest/pipeline.py": "production",
+    "src/npu_rag/ingest/report.py": "production",
+    "src/npu_rag/ingest/route.py": "production",
+    "src/npu_rag/ingest/state.py": "production",
+    "src/npu_rag/ingest/types.py": "production",
+    "src/npu_rag/ingest/vision.py": "production",
+    "src/npu_rag/ingest/__init__.py": "production",
+    "src/npu_rag/embedding/bench/corpus.py": "production",
+    "src/npu_rag/embedding/bench/harness.py": "production",
+    "src/npu_rag/embedding/bench/power.py": "production",
+    "src/npu_rag/embedding/bench/__init__.py": "production",
+    "src/npu_rag/embedding/environment/capability.py": "production",
+    "src/npu_rag/embedding/environment/xrt.py": "production",
+    "src/npu_rag/embedding/environment/__init__.py": "production",
+    "src/npu_rag/embedding/models/acquire.py": "production",
+    "src/npu_rag/embedding/models/artifacts.py": "production",
+    "src/npu_rag/embedding/models/export.py": "production",
+    "src/npu_rag/embedding/models/__init__.py": "production",
+    "src/npu_rag/embedding/providers/base.py": "production",
+    "src/npu_rag/embedding/providers/cpu.py": "production",
+    "src/npu_rag/embedding/providers/vitisai.py": "production",
+    "src/npu_rag/embedding/providers/__init__.py": "production",
+    "src/npu_rag/ingest/extract/base.py": "production",
+    "src/npu_rag/ingest/extract/excel.py": "production",
+    "src/npu_rag/ingest/extract/image.py": "production",
+    "src/npu_rag/ingest/extract/markdown.py": "production",
+    "src/npu_rag/ingest/extract/pdf.py": "production",
+    "src/npu_rag/ingest/extract/text.py": "production",
+    "src/npu_rag/ingest/extract/__init__.py": "production",
+    "tests/embedding/test_postprocess.py": "tests",
+    "tests/embedding/test_service.py": "tests",
+    "tests/embedding/providers/test_base.py": "tests",
+    "tests/embedding/providers/test_cpu.py": "tests",
+    "tests/embedding/providers/test_vitisai.py": "tests",
+    "src/npu_rag/embedding/providers/checked_run.py": "production"
+  },
+  "exclusions": {},
+  "scope_review": {
+    "schema_version": 1,
+    "rationale": "Whole CPU and VitisAI modules plus the entire new checked_run module. Unchanged source/tests/configuration form the wider copied boundary. Hardware is excluded.",
+    "relationships": {}
+  },
+  "checks": {
+    "differential": {
+      "schema_version": 1,
+      "description": "Frozen behavioral observations",
+      "required": true,
+      "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+      "artifact_expectations": [],
+      "interpretation": {
+        "kind": "case_counts",
+        "expected": 3168
+      }
+    },
+    "native-tests": {
+      "schema_version": 1,
+      "description": "native-tests software contract",
+      "required": true,
+      "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+      "artifact_expectations": [],
+      "interpretation": {
+        "kind": "exit_status"
+      }
+    },
+    "types": {
+      "schema_version": 1,
+      "description": "types software contract",
+      "required": true,
+      "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+      "artifact_expectations": [],
+      "interpretation": {
+        "kind": "exit_status"
+      }
+    },
+    "shared-safety": {
+      "schema_version": 1,
+      "description": "shared-safety software contract",
+      "required": true,
+      "definition_digest": "35b99ab45fb9a87b0cfb210bfe4717cd8be43a9f30dbb3312a600e8449559ee9",
+      "artifact_expectations": [],
+      "interpretation": {
+        "kind": "exit_status"
+      }
+    }
+  },
+  "target": {
+    "schema_version": 1,
+    "scope_identity": "production",
+    "language": "python",
+    "definitions": {
+      "decisions": {
+        "schema_version": 1,
+        "name": "decisions",
+        "definition_revision": "v1",
+        "language": "python",
+        "grammar_version": "tree-sitter-python@0.25.0",
+        "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+      },
+      "functions": {
+        "schema_version": 1,
+        "name": "functions",
+        "definition_revision": "v1",
+        "language": "python",
+        "grammar_version": "tree-sitter-python@0.25.0",
+        "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+      },
+      "logical_statements": {
+        "schema_version": 1,
+        "name": "logical_statements",
+        "definition_revision": "v1",
+        "language": "python",
+        "grammar_version": "tree-sitter-python@0.25.0",
+        "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+      },
+      "physical_lines": {
+        "schema_version": 1,
+        "name": "physical_lines",
+        "definition_revision": "v1",
+        "language": "python",
+        "grammar_version": "tree-sitter-python@0.25.0",
+        "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+      }
+    },
+    "minimum_production_statement_reduction": 1,
+    "count_bounds": {},
+    "permitted_structural_tradeoffs": [
+      "Whole modules retained in capability accounting; function/call-layer changes reported without inferred maintenance savings.",
+      "Separately authorized 6.3 source-metric target. Unknown internal call layers remain contextual and unavailable; stricter 6.1 all-metric target remains incomplete."
+    ]
+  },
+  "capability_inventory": null
+}

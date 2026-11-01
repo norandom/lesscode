@@ -135,7 +135,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: External trial integration_
   - _Requirements: 1.2, 2.2, 3.3, 3.5, 4.1, 4.2_
 
-- [ ] 6.3 Replay NPU and challenge scope/evidence manipulation
+- [x] 6.3 Replay NPU and challenge scope/evidence manipulation
   - Exercise the full provider/helper replacement with existing software-only checks and negative control in isolated copies.
   - Add moved helpers, scope narrowing, classification changes, missing checks and stale evidence variants to the integrated workflow fixtures.
   - Done: the typed replacement reports its actual evidence and every manipulation is rejected or incomplete without hardware access.

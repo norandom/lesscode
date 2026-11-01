@@ -1,0 +1,20 @@
+{
+  "command": [
+    "compare",
+    "--frozen",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\frozen.json",
+    "--baseline",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\baseline",
+    "--candidate",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\candidate",
+    "--evidence",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\stale-evidence-evidence.json",
+    "--artifact-root",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified",
+    "--out",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\stale-evidence-comparison"
+  ],
+  "code": 3,
+  "stdout": "Invalid: \\\\?\\D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\stale-evidence-comparison\n",
+  "stderr": "differential/candidate: source identity mismatch\n"
+}
