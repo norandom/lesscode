@@ -111,8 +111,8 @@ Denominators: two user-selected repositories inventoried; one replacement family
 given a finite feasibility probe; zero complete paired rewrite trials; zero
 adoptions. Repeats and individual test cases are not independent experiments.
 
-This round adds 228 physical lines of research programs: 123 for collection,
-66 for the feasibility probe and 39 for plotting, plus profiles, evidence and
+This round adds 230 physical lines of research programs: 123 for collection,
+66 for the feasibility probe and 41 for plotting, plus profiles, evidence and
 documentation. These are experiment costs, not production features or savings.
 Their hashes and counts are retained in [verification.json](verification.json).
 

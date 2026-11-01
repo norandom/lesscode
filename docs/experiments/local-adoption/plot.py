@@ -32,8 +32,10 @@ ax.spines[["top", "right", "left"]].set_visible(False)
 ax.grid(axis="x", alpha=0.15)
 ax.set_axisbelow(True)
 fig.text(0.01, 0.01, "Baseline only: no code savings or maintenance benefit demonstrated.", fontsize=9)
-matplotlib.rcParams["svg.hashsalt"] = "lesscode-local-adoption-v1"
+matplotlib.rcParams.update({"svg.hashsalt": "lesscode-local-adoption-v1", "svg.fonttype": "none"})
 fig.savefig(root / "footprint.svg", bbox_inches="tight", metadata={"Date": None})
+svg_path = root / "footprint.svg"
+svg_path.write_text("\n".join(line.rstrip() for line in svg_path.read_text().splitlines()) + "\n")
 fig.savefig(root / "footprint.png", dpi=160, bbox_inches="tight")
 packages = {d.metadata["Name"]: d.version for d in distributions()}
 (root / "plot-environment.json").write_text(json.dumps(packages, indent=2, sort_keys=True) + "\n")

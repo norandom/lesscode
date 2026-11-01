@@ -5,25 +5,25 @@
   "rust_structure": "22/22 RCA files identical on repetition; 14 named functions in representative source",
   "probe": "11 cases, 4 mismatches; identical repeated output; candidate rejected",
   "source_drift": "Only src/lib.rs byte change, LF to CRLF; profile rejection and reviewed replay retained",
-  "markdown": "Local links checked separately",
+  "markdown": "All local experiment Markdown links resolve",
   "chart": "Matplotlib PNG visually inspected; SVG parsed",
   "application_tests": "Not run; no application rewrite",
   "product_code_changes": 0,
   "research_source": [
     {
-      "sha256": "6584b12ec4eddf9e375342483d43c940ebead3fc64f996e80690a32401941007",
+      "physical_lines": 123,
       "path": "measure.py",
-      "physical_lines": 123
+      "sha256": "6584b12ec4eddf9e375342483d43c940ebead3fc64f996e80690a32401941007"
     },
     {
-      "sha256": "4cb5b1d1c25f510c9bd9b2ac0cf8c571b9e73ee2828c0c632fe75be692133210",
+      "physical_lines": 41,
       "path": "plot.py",
-      "physical_lines": 39
+      "sha256": "645ac13e3b39b97ca066128093ac5016d62f75c92e0f3a385bea4362688c7499"
     },
     {
-      "sha256": "f9865f8827cacb3cc8b302df93eb34f0a0b5b891c97468e1298b08181a1670c4",
+      "physical_lines": 66,
       "path": "proxy_probe.py",
-      "physical_lines": 66
+      "sha256": "f9865f8827cacb3cc8b302df93eb34f0a0b5b891c97468e1298b08181a1670c4"
     }
   ]
 }
