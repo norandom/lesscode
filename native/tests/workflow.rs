@@ -77,7 +77,12 @@ impl Pair {
         .unwrap()
     }
     fn evidence(&self, trial: &FrozenTrial) -> EvidenceBundle {
-        let candidate = lesscode_core::scope::inventory(&self.candidate, &trial.manifest).unwrap();
+        // Evidence records candidate bytes under the same frozen classification;
+        // the supplied repository capability inventory describes the baseline.
+        let mut candidate_manifest = trial.manifest.clone();
+        candidate_manifest.capability_inventory = None;
+        let candidate =
+            lesscode_core::scope::inventory(&self.candidate, &candidate_manifest).unwrap();
         let raw: String = Sha256::digest(fs::read(self.artifacts.join("raw.log")).unwrap())
             .iter()
             .map(|b| format!("{b:02x}"))
@@ -359,6 +364,91 @@ fn preparation_verifies_external_capability_inventory_bytes() {
     .unwrap_err()
     .0
     .contains("digest"));
+}
+
+fn trial_with_baseline_capability_inventory(pair: &Pair) -> FrozenTrial {
+    let mut manifest = pair.trial().manifest;
+    let snapshot = lesscode_core::scope::inventory(&pair.baseline, &manifest).unwrap();
+    fs::write(pair.artifacts.join("inventory.json"), "reviewed inventory").unwrap();
+    let sha256 = Sha256::digest(b"reviewed inventory")
+        .iter()
+        .map(|b| format!("{b:02x}"))
+        .collect();
+    manifest.capability_inventory = Some(InventoryReference {
+        schema_version: SchemaVersion::V1,
+        source_identity: snapshot.identity,
+        manifest_references: vec!["a.py".into()],
+        artifact: Artifact {
+            schema_version: SchemaVersion::V1,
+            path: "inventory.json".into(),
+            sha256,
+        },
+    });
+    prepare(
+        manifest,
+        &pair.baseline,
+        std::slice::from_ref(&pair.artifacts),
+    )
+    .unwrap()
+}
+
+#[test]
+fn baseline_capability_inventory_allows_changed_candidate_and_retains_report_binding() {
+    let pair = Pair::new();
+    let trial = trial_with_baseline_capability_inventory(&pair);
+    let evidence = pair.evidence(&trial);
+    let result = pair.compare(&trial, &evidence).unwrap();
+    assert_eq!(
+        result.status,
+        ComparisonStatus::Accepted,
+        "{:?}",
+        result.reasons
+    );
+    assert_ne!(result.baseline_identity, result.candidate_identity);
+    let report = lesscode_core::compare::render_comparison(&result, &trial, &evidence).unwrap();
+    let json: serde_json::Value = serde_json::from_str(&report.json).unwrap();
+    assert_eq!(
+        json["frozen_trial"]["manifest"]["capability_inventory"]["source_identity"],
+        result.baseline_identity
+    );
+    assert_eq!(
+        trial
+            .manifest
+            .capability_inventory
+            .as_ref()
+            .unwrap()
+            .source_identity,
+        result.baseline_identity
+    );
+    let mut stale = trial.clone();
+    stale
+        .manifest
+        .capability_inventory
+        .as_mut()
+        .unwrap()
+        .source_identity = "stale-baseline".into();
+    assert!(pair
+        .compare(&stale, &evidence)
+        .unwrap_err()
+        .0
+        .contains("source identity"));
+}
+
+#[test]
+fn comparison_revalidates_baseline_capability_inventory_artifact() {
+    let pair = Pair::new();
+    let trial = trial_with_baseline_capability_inventory(&pair);
+    let evidence = pair.evidence(&trial);
+    fs::write(
+        pair.artifacts.join("inventory.json"),
+        "changed after prepare",
+    )
+    .unwrap();
+    assert!(pair
+        .compare(&trial, &evidence)
+        .unwrap_err()
+        .0
+        .contains("artifact digest mismatch"));
 }
 
 #[test]

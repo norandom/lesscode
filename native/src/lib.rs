@@ -71,6 +71,8 @@ pub fn prepare(
 /// and `production/{Language}/{Metric}` (Rust enum names). The production subset
 /// is the exact replacement scope used for targets. `wider_metrics` and
 /// `category_totals` cover the wider context and use `{Language}/{Metric}` keys.
+/// A supplied capability inventory remains bound to the frozen baseline; the
+/// candidate uses the same classification rules without inheriting that binding.
 pub fn compare(
     trial: &FrozenTrial,
     baseline: &Path,
@@ -292,7 +294,17 @@ fn compare_inner(
             "baseline no longer matches frozen source".into(),
         ));
     }
-    let replacement = scope::inventory(candidate, &trial.manifest)?;
+    if let Some(reference) = &trial.manifest.capability_inventory {
+        let artifact = compare::resolve_artifact(&reference.artifact, artifact_roots)
+            .map_err(|(_, e)| InputError(e))?;
+        scope::verify_capability_inventory(&original, reference, &artifact)?;
+    }
+    // The repository inventory describes the baseline snapshot, not a claim that
+    // the edited candidate has the same identity. Only this reference is removed
+    // from the candidate inventory input; frozen scope/classification stay intact.
+    let mut candidate_manifest = trial.manifest.clone();
+    candidate_manifest.capability_inventory = None;
+    let replacement = scope::inventory(candidate, &candidate_manifest)?;
     let accounting = scope::account_replacement(
         scope::SourceSide {
             root: baseline,
@@ -530,7 +542,7 @@ fn compare_inner(
         .collect();
     before_recheck();
     recheck(baseline, &trial.manifest, &original, "baseline")?;
-    recheck(candidate, &trial.manifest, &replacement, "candidate")?;
+    recheck(candidate, &candidate_manifest, &replacement, "candidate")?;
     Ok(Comparison {
         schema_version: SchemaVersion::V1,
         trial_id: trial.manifest.trial_id.clone(),
