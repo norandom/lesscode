@@ -49,7 +49,7 @@ completing an attempted trial does not itself establish maturity.
   - _Requirements: 1.2, 1.3, 2.1, 2.5, 4.5_
 
 - [ ] 3. Measure supported source structure
-- [ ] 3.1 (P) Establish Python metric definitions and measurements
+- [x] 3.1 (P) Establish Python metric definitions and measurements
   - Implement versioned physical lines, logical statements, aggregate decisions and function counts using explicit node tables.
   - Cover compound statements, comprehensions, short circuits, nested definitions, Unicode/CRLF and error/unavailable states with independent hand-counted fixtures.
   - Done: fixture counts and definition identities agree; no Radon/Lizard equivalence is implied.
