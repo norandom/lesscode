@@ -163,7 +163,7 @@ capability-inventory artifact; a missing supplied inventory artifact fails input
 admission. Roots are unnecessary when no such inventory is supplied.
 
 Successful command completion is distinct from candidate acceptance: exit 0 for
-accepted, 1 for rejected/not-demonstrated, 2 for incomplete, 3 for invalid input,
+accepted, 1 for rejected/not-demonstrated, 2 for incomplete, 3 for baseline-ineligible, invalid input,
 identity mismatch or IO failure. JSON preserves all reasons. Descriptive reporting
 without a target is not-demonstrated, not accepted.
 

@@ -104,7 +104,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 2.3, 3.3, 4.3_
   - _Requirements: 1.1, 1.3, 2.1, 3.1, 3.2, 4.3, 4.4_
 
-- [ ] 5.2 Expose and test the native CLI
+- [x] 5.2 Expose and test the native CLI
   - Provide prepare/compare arguments, actionable diagnostics and all specified exit codes; require fresh output outside source roots.
   - Test no-target and missing-evidence reporting, output refusal and unchanged source hashes.
   - Done: end-to-end CLI fixtures exercise every status without changing existing Python commands.
