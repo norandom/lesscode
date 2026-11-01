@@ -7,3 +7,4 @@ pub use ast_grep_core::AstGrep;
 pub use ast_grep_language::{Python, Tsx, TypeScript};
 
 pub mod model;
+pub mod scope;

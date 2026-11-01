@@ -25,7 +25,7 @@ completing an attempted trial does not itself establish maturity.
   - _Requirements: 1.1, 2.3, 2.6, 2.7, 3.1, 4.1_
 
 - [ ] 2. Account for complete capability scope
-- [ ] 2.1 (P) Inventory and fingerprint frozen source
+- [x] 2.1 (P) Inventory and fingerprint frozen source
   - Inventory tracked/untracked maintained files with fixed exclusions, categories and normalized identities; reject path escape, symlinks/reparse points and case collisions.
   - Bind supplied capability inventory to the source snapshot; retain generated/tool-state exclusions explicitly.
   - Done: equivalent relocated roots have equal identities; changed content or classification is detected by fixtures.
