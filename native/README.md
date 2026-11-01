@@ -18,6 +18,10 @@ cargo +1.98.1 build --locked --manifest-path native/Cargo.toml
 cargo +1.98.1 run --locked --manifest-path native/Cargo.toml -- --help
 ```
 
+For parallel process-isolated execution use cargo-nextest; retain a separate
+doctest run. See [parallel test commands](../docs/testing.md) for pinned setup and
+the Python reference suite's pytest-xdist command.
+
 For development correctness checks, also run:
 
 ```text

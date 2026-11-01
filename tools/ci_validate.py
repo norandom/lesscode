@@ -112,8 +112,10 @@ def main():
                               "--tool-root", tools, "--output", output / "analyzer-probe.json"])
         shutil.copyfile(tools / "entrypoints.json", output / "entrypoints.json")
     source_env = dict(clean, PYTHONPATH=str(checkout / "src"))
-    # Verbose canonical output retains every executed test and host-only skip.
-    run("canonical-tests", [python, "-m", "unittest", "discover", "-v"], env=source_env)
+    # Keep each file's unittest fixtures together while distributing files.
+    run("canonical-tests", [python, "-m", "pytest", "tests", "-n", "4",
+                            "--dist", "loadfile", "-ra", "--durations=10",
+                            "--junitxml", output / "python-tests.xml"], env=source_env)
     native = ("WindowsProcessTests" if os.name == "nt" else "ProcessTests")
     run("native-process-timeout", [python, "-m", "unittest", "-v",
         f"tests.test_process.{native}.test_timeout_terminates_parent_and_child_and_retains_logs"], env=source_env)
