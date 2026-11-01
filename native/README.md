@@ -18,6 +18,26 @@ cargo +1.98.1 build --locked --manifest-path native/Cargo.toml
 cargo +1.98.1 run --locked --manifest-path native/Cargo.toml -- --help
 ```
 
+For development correctness checks, also run:
+
+```text
+cargo +1.98.1 fmt --manifest-path native/Cargo.toml --all -- --check
+cargo +1.98.1 clippy --locked --manifest-path native/Cargo.toml --all-targets -- -D warnings
+```
+
+The [native correctness workflow](../.github/workflows/native-core.yml) runs these
+commands on Windows, Linux and macOS with Rust 1.98.1 and locked dependencies.
+`cargo test` includes the metric/decision unit fixtures, parser probes, paired
+workflow fixtures and CLI exit-code/source-preservation checks. Platform-gated
+path fixtures exercise Windows reparse points and Unix symlinks/case collisions.
+No hardware access, model downloads or performance suite is required.
+
+Each matrix job retains raw command logs, exit codes, runner/source identities
+and its outcome as a `native-core-<runner>-<attempt>` artifact for 14 days, including
+failed checks. Final validation must link the actual run and retain its evidence
+before artifacts expire. This workflow configuration is not a platform-pass
+claim: absent, skipped, cancelled or failed runs remain missing passing evidence.
+
 Direct dependencies use exact versions and `Cargo.lock` freezes transitive
 versions/checksums. Keep `--locked`; do not update dependencies as part of a
 replay. First builds need network access to the Rust distribution and crates.io
@@ -33,6 +53,8 @@ analyzer or hosted account is needed by native analysis.
   libc development headers and standard build utilities (Debian/Ubuntu
   `build-essential`). Generated grammar C sources ship in the crates; generating
   grammars with Node or tree-sitter CLI is unnecessary.
+- macOS x64: the `x86_64-apple-darwin` toolchain and Xcode Command Line Tools
+  (Apple Clang and SDK). CI uses the `macos-15-intel` hosted runner.
 - rustfmt/clippy are pinned toolchain components for development; neither is
   a native executable runtime requirement. Target-project behavioral checks
   still require their own recorded runtimes.

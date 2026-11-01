@@ -95,7 +95,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: Compare_
   - _Requirements: 2.1, 3.6, 4.1, 4.2, 4.3, 4.6_
 
-- [ ] 5. Integrate the working command workflow
+- [x] 5. Integrate the working command workflow
 - [x] 5.1 Integrate freezing and paired comparison
   - Connect model, inventory, metrics and comparison through the two library operations; preserve the module dependency direction.
   - Recheck sources before returning, join ownership reviews with unresolved edges, and reject changed frozen definitions.
@@ -111,7 +111,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: CLI/library integration_
   - _Requirements: 2.8, 4.2, 4.4, 4.6_
 
-- [ ] 5.3 Integrate portable correctness checks
+- [x] 5.3 Integrate portable correctness checks
   - Add native Windows/Linux/macOS CI using pinned build and meaningful unit/CLI fixtures; check platform path cases.
   - Keep hardware, model downloads and performance benchmarks out; expose missing platform evidence rather than claiming success.
   - Done: the workflow is executable and local available-platform checks pass; actual platform runs are captured during final validation.
