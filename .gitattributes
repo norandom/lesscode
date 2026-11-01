@@ -2,3 +2,4 @@
 tests/fixtures/python/** text eol=lf
 # Notice filenames identify exact upstream distribution bytes, including CRLF.
 tools/notices/*.txt -text
+tools/*.sh text eol=lf

@@ -1,0 +1,16 @@
+{
+  "name": "lesscode-ci",
+  "engineVersion": "v0.21.8",
+  "sdk": {
+    "source": "go"
+  },
+  "include": [
+    "native/Cargo.toml",
+    "native/Cargo.lock",
+    "native/rust-toolchain.toml",
+    "native/src/**",
+    "native/tests/**",
+    "tools/check_native.sh"
+  ],
+  "source": ".dagger"
+}
