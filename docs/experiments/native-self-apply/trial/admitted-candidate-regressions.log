@@ -1,0 +1,96 @@
+[failed] ['D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe', '-c', "import sys; print('out'); print('err',file=sys.stderr); sys.exit(7)"]
+[failed] exit=7 elapsed=0.069s
+[later] ['D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe', '-c', "print('later')"]
+[later] exit=0 elapsed=0.077s
+======================================================================
+FAIL: test_notice_bytes_are_protected_from_git_line_conversion (tests.test_toolchain.ToolchainLockTests.test_notice_bytes_are_protected_from_git_line_conversion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\admitted-candidate\tests\test_toolchain.py", line 60, in test_notice_bytes_are_protected_from_git_line_conversion
+    self.assertTrue(all(line.endswith(": text: unset") for line in result.stdout.splitlines()), result.stdout)
+AssertionError: False is not true : tools/notices/04512a63dce4d2d506ad612dc0bd7681ccf6e3655f7b6eaef7dfac8323d1ec0b.txt: text: unspecified
+tools/notices/0cecece0eafea16c0db208a9c42925e73b24c5cd4b3b20508d828d043e3fe17d.txt: text: unspecified
+tools/notices/0f0ca96f50793990031ebc488a38f7292ff70bce8ab6a8e5eeda674abc32ccdf.txt: text: unspecified
+tools/notices/0f2c1c521a08ca2e202316a29c57cba39077ebe2618cf10f23df410f4047f60a.txt: text: unspecified
+tools/notices/117da2af0d4ce0fe1c8e19b5cff9dcd806adf973d328d27b11d4448c4ff24f76.txt: text: unspecified
+tools/notices/1ac0263302bfb8eedc54a10a44175b0df51419306d5bc1539bfd7a7da121bd08.txt: text: unspecified
+tools/notices/1e76029602ae9b21cc4e612db2496d92febed882ba13ba745f8b3309e85f9d39.txt: text: unspecified
+tools/notices/206c1adcf206dc0031b11232f5b054ec5f1662407ab1ca415247921cab2068ab.txt: text: unspecified
+tools/notices/28090b582d3be121b57ef835e838dc525adeb007512cbc107c44380d96f7c761.txt: text: unspecified
+tools/notices/2b770a704c15de238c3f622b01b0044ddd60b49ee30608ea6991ebf19db7a7a1.txt: text: unspecified
+tools/notices/2c46f1325bd3822a33c1e2c1e49c18d13127ac00f9c8b3b79196c7a126f73cd9.txt: text: unspecified
+tools/notices/2cee71bf4612fc2efe1c6261e3f2b21f3c7259ef8a4f3593b095ae7a7bd65ad9.txt: text: unspecified
+tools/notices/2e97627cb278aa7556fb9e8817368302301a595b6c7582512b8d74c57b773652.txt: text: unspecified
+tools/notices/2fe0235fa666d2901b0d3d0b733ebeea794e8da2d9d54bcc98af2b58e1a1262c.txt: text: unspecified
+tools/notices/35bdd8a44339719441900fb50fbefc5e2dca1ca662cbaed7a687de842c8b70f2.txt: text: unspecified
+tools/notices/3672fb6ef1c214578dfee689643516c2685f61ab08d130517ca8ea24f383a840.txt: text: unspecified
+tools/notices/39c5ec504cf6bd5cd782a7c695828e09189df79f5d94840e4f08feb97b9fd416.txt: text: unspecified
+tools/notices/3aecc12b1cb28832b5f65ab64291de96568c3f236a74d646281b4491f7bcadbf.txt: text: unspecified
+tools/notices/3f4609137f65070541b9214300ea0d640af8192857de0eeb2b03403003d9228a.txt: text: unspecified
+tools/notices/3fd3c7b3a632b5b40ed4d1169f1349f83b4a227687490ee37e8bda04641d2312.txt: text: unspecified
+tools/notices/3fda5977c0904e226190b4e21d64340c1731e2142d6fe5f3dee0090a216b8b63.txt: text: unspecified
+tools/notices/3fe8d55a98dbf260eace67c00cf9bc53edb46234e840098a0b93df3096b97fb6.txt: text: unspecified
+tools/notices/405a272eaef556691ad7dda96db3237c9544afe18725842a1a5b3ec308960222.txt: text: unspecified
+tools/notices/44191656d296391e0ec97e32f5385f0d02b6f2992694082d22ea04ba0f66f9e4.txt: text: unspecified
+tools/notices/483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a.txt: text: unspecified
+tools/notices/48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0.txt: text: unspecified
+tools/notices/4a388ace81f44d9cb2fc5ec28f74560aabf107f90bbbd57f572473bc23681466.txt: text: unspecified
+tools/notices/4cd903859549d4b20b571041f96dfae1136ed079c476126268f9d7cc1b611150.txt: text: unspecified
+tools/notices/4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b.txt: text: unspecified
+tools/notices/5519d0442a0d5e5e17fd32cd8ffd6d19581964509eb94c5b6ef56c363f5fbd17.txt: text: unspecified
+tools/notices/58597ded729a5e749cc323e2ae6e533a31be3622737b33e0239ba075ca14b515.txt: text: unspecified
+tools/notices/5c496ce5ae47eb8e5ddcaa5e29c27c446a3855b19e3a66991b52f361bed22b28.txt: text: unspecified
+tools/notices/5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3.txt: text: unspecified
+tools/notices/5e325595b4ea8cfec3802f545b1def5d7b73e4a5b8e9ba63e32a320f67732292.txt: text: unspecified
+tools/notices/5e6e0182b05c6b9a1d2a120dc788717267b30e4aa1c52658912ce99418a33ce7.txt: text: unspecified
+tools/notices/5e733eb92ed0c571da3f27c5da203e0a9f975b4f96e7692c9fa3660ca54820ec.txt: text: unspecified
+tools/notices/60acd7711e6c138e6041836e32d922705254cc1568a30fdf16aa8f59bb87aeaa.txt: text: unspecified
+tools/notices/69dee148a2cc470554dfa7142e830662062394d0fe67cddd379aba90dc60d6b3.txt: text: unspecified
+tools/notices/6fb9754611c20f6649f68805e8c990e83261f29316e29de9e6cedae607b8634c.txt: text: unspecified
+tools/notices/71a83872ad82f57be692cf827e048e2cd51d45169cfa1ea3f28706d97a872c0f.txt: text: unspecified
+tools/notices/73b5283588baa142c5baaef5f56d3e8fdea7a30b214e8c5737e87640f882453a.txt: text: unspecified
+tools/notices/75cc7144f2e5c78924e204b0c40ff724df2408afe12dcbf52be34ed81d9affe7.txt: text: unspecified
+tools/notices/773e131a7684726005a7e4688a80b4620033bc08499bc1404dd1a1eb3bca725e.txt: text: unspecified
+tools/notices/77ffe84006509949525fd57df06f4a6a80ad862c5314b66ab5bb6ac4cee6280b.txt: text: unspecified
+tools/notices/850a516746bf17f05949d5f0a9cbcf548a0e447d404fe825d8597cabfc87c21c.txt: text: unspecified
+tools/notices/9363d160bf41d46d83901a5d24fc3fe2094c2afc17b4a2378914b273977ee2de.txt: text: unspecified
+tools/notices/93a1506953b08ad4874e1cc0971a1d2ac387ca510da91e4d05e460a6c4966fa3.txt: text: unspecified
+tools/notices/9966260ba3ea9d6a5f839297dca80ddc99735a34b4ae82811cac7b956d2e3afd.txt: text: unspecified
+tools/notices/9b95ff43defd6ae6f8a8e5d948835749666fc67670a20106488556c32a78f890.txt: text: unspecified
+tools/notices/9c4214d48030b7e877ed2fd76044ea079a987c9b3f01f9b6964ba4a475a5a13d.txt: text: unspecified
+tools/notices/a9801fb52ba22ef808682a094da8a7a480584b7ed0dfd0d888ab543616335031.txt: text: unspecified
+tools/notices/a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17.txt: text: unspecified
+tools/notices/aaa78451b6fecd1b9c4594c796c133c0e90cad100372ff8bc6de615e9ef9adf1.txt: text: unspecified
+tools/notices/b2590e53ea6e050512c3993bfc746c394bbba9242fd6909245201bdc1dc6862a.txt: text: unspecified
+tools/notices/be46ce1e3b0479af9ce82d22b465a6d7d2ff084fca0aaf3d54172da2b5eb5781.txt: text: unspecified
+tools/notices/beb6b55bc79e0660b9fd8424c2f65c966991e1a866c23356c1427e146c6cddea.txt: text: unspecified
+tools/notices/bf9b0d665be2a689851eea667ca9f42066ea1d903b38349c51e6a44b2577680a.txt: text: unspecified
+tools/notices/c0fc02a86ae2b179c4729694c523bbf42da674e5136ed8e12e3cb2f26556ea9f.txt: text: unspecified
+tools/notices/c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383.txt: text: unspecified
+tools/notices/c3367f6d01a79d368fc4fbb41b3615fcd92f243d6597ab96742f6f976f9325af.txt: text: unspecified
+tools/notices/c6a7de1428955aa5a692f4d3a3d3ede658d959616944713337cda296736442e1.txt: text: unspecified
+tools/notices/cb3984acf8a000bc42bfbe319b836507bd268ef1d0d53e37363e2d5cac1137e0.txt: text: unspecified
+tools/notices/cd22dc532f51c9fba9f4edae5dc77fc2adbbbb4128ed4f234836480c68253f93.txt: text: unspecified
+tools/notices/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt: text: unspecified
+tools/notices/d0cd141b0c322fded5dfad1d4645bb2fedfc05b7321fe1009469638190d59ef9.txt: text: unspecified
+tools/notices/d11d1efc8124721dd9acd2be17120a11db6ff4b5ee6dcfc456dee1a42beb40e4.txt: text: unspecified
+tools/notices/d39663810f02975743f69d01856f93c7391ce6b842a20189544b9fd464f663f3.txt: text: unspecified
+tools/notices/d4c2065e2b936e62a4eb400efb4576edec9ca1388a9f78aa288e147275e7bc8b.txt: text: unspecified
+tools/notices/d90bf0a089da4cf43d644ed240a0b3825dcdb705e64e38371d56995a4cc9e4c5.txt: text: unspecified
+tools/notices/dc0fe5a22d9336f345ee984f9bf56f11f22877a3aa5fd16a1db9a8ca0e23a5d1.txt: text: unspecified
+tools/notices/dfe975c3a1d4809a73b9528b6dcea0524eace2e60be27ab4e3e45f9c68ded687.txt: text: unspecified
+tools/notices/e05b1eaf5b5f99b7ad75cd1f38858ff9a311780b97715ead67936d60bf96aa7e.txt: text: unspecified
+tools/notices/e21b0992cd8a2e8bf3e5f2f1b392daccab5d27386fcf2bc25e336c4161b5d1f9.txt: text: unspecified
+tools/notices/e2560e002e13281578c75c850061d9255c33d16d732939e8c2db64c2506642fa.txt: text: unspecified
+tools/notices/e3b44af066615de2ea48d18d852d0762f18c0b2efcea714fa48a6f729d405b85.txt: text: unspecified
+tools/notices/e7d1fee7347ffddccc5fd03327ffdb50f8c112be0d5016d62388a92c4ae6e7a9.txt: text: unspecified
+tools/notices/e80373b1ed0f33cecc47173b4b0c6afe0d0318b32dbd84116a1a957e3f7f43a8.txt: text: unspecified
+tools/notices/f1a3942b131d45dfc0419801f74855333c920bb20c98feaeb1a393c4cac86a5a.txt: text: unspecified
+tools/notices/f65c5d9f22a317b2a10803bd1868461ce6499c2ed7217bc80c0cc772a748789c.txt: text: unspecified
+tools/notices/fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85.txt: text: unspecified
+
+
+----------------------------------------------------------------------
+Ran 515 tests in 503.293s
+
+FAILED (failures=1, skipped=11)

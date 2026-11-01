@@ -1,0 +1,220 @@
+======================================================================
+ERROR: test_exception_effect_preserves_original_violation (tests.test_rule_contracts.ArtifactContractTests.test_exception_effect_preserves_original_violation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 726, in test_exception_effect_preserves_original_violation
+    parsed = c.PolicyFinding.from_dict(value)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 718, in from_dict
+    _sequence(d["evidence_refs"], EvidenceReference.from_dict, path + ".evidence_refs", lambda r: r),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 663, in from_dict
+    if not isinstance(address, str) or (address != "" and not address.startswith("/")) or re.search(r"~(?![01])", address) or "\x00" in address:
+                                                                                          ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+
+======================================================================
+ERROR: test_findings_order_and_duplicate_identity (tests.test_rule_contracts.ArtifactContractTests.test_findings_order_and_duplicate_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 647, in test_findings_order_and_duplicate_identity
+    self.assertEqual([f.entity_id for f in c.PolicyResult.from_dict(value).findings], ["module", "z"])
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 743, in from_dict
+    findings = _sequence(d["findings"], PolicyFinding.from_dict, path + ".findings", identity)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 718, in from_dict
+    _sequence(d["evidence_refs"], EvidenceReference.from_dict, path + ".evidence_refs", lambda r: r),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 663, in from_dict
+    if not isinstance(address, str) or (address != "" and not address.startswith("/")) or re.search(r"~(?![01])", address) or "\x00" in address:
+                                                                                          ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+
+======================================================================
+ERROR: test_findings_retain_expected_rule_and_exact_evidence (tests.test_rule_contracts.ArtifactContractTests.test_findings_retain_expected_rule_and_exact_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 632, in test_findings_retain_expected_rule_and_exact_evidence
+    parsed = c.PolicyFinding.from_dict(finding())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 718, in from_dict
+    _sequence(d["evidence_refs"], EvidenceReference.from_dict, path + ".evidence_refs", lambda r: r),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 663, in from_dict
+    if not isinstance(address, str) or (address != "" and not address.startswith("/")) or re.search(r"~(?![01])", address) or "\x00" in address:
+                                                                                          ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+
+======================================================================
+ERROR: test_output_envelope_distinguishes_operations_from_assessment (tests.test_rule_contracts.ArtifactContractTests.test_output_envelope_distinguishes_operations_from_assessment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 689, in test_output_envelope_distinguishes_operations_from_assessment
+    self.roundtrip(c.RuleOutput, value)
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 597, in roundtrip
+    parsed = c.loads(cls, json.dumps(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 1366, in loads
+    return record_type.from_dict(value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 933, in from_dict
+    return cls(1, operation, readers[operation].from_dict(d["output"], path + ".output"))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 743, in from_dict
+    findings = _sequence(d["findings"], PolicyFinding.from_dict, path + ".findings", identity)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 718, in from_dict
+    _sequence(d["evidence_refs"], EvidenceReference.from_dict, path + ".evidence_refs", lambda r: r),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 663, in from_dict
+    if not isinstance(address, str) or (address != "" and not address.startswith("/")) or re.search(r"~(?![01])", address) or "\x00" in address:
+                                                                                          ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+
+======================================================================
+ERROR: test_partial_and_external_evidence_remain_distinct (tests.test_rule_contracts.ArtifactContractTests.test_partial_and_external_evidence_remain_distinct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 708, in test_partial_and_external_evidence_remain_distinct
+    self.assertFalse(c.PolicyRecovery.from_dict(value).complete)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 789, in from_dict
+    result = None if d["result"] is None else PolicyResult.from_dict(d["result"], path + ".result")
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 743, in from_dict
+    findings = _sequence(d["findings"], PolicyFinding.from_dict, path + ".findings", identity)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 718, in from_dict
+    _sequence(d["evidence_refs"], EvidenceReference.from_dict, path + ".evidence_refs", lambda r: r),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 663, in from_dict
+    if not isinstance(address, str) or (address != "" and not address.startswith("/")) or re.search(r"~(?![01])", address) or "\x00" in address:
+                                                                                          ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+
+======================================================================
+ERROR: test_result_roundtrip_and_independent_outcomes (tests.test_rule_contracts.ArtifactContractTests.test_result_roundtrip_and_independent_outcomes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 619, in test_result_roundtrip_and_independent_outcomes
+    self.roundtrip(c.PolicyResult, result())
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 597, in roundtrip
+    parsed = c.loads(cls, json.dumps(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 1366, in loads
+    return record_type.from_dict(value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 743, in from_dict
+    findings = _sequence(d["findings"], PolicyFinding.from_dict, path + ".findings", identity)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 718, in from_dict
+    _sequence(d["evidence_refs"], EvidenceReference.from_dict, path + ".evidence_refs", lambda r: r),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 663, in from_dict
+    if not isinstance(address, str) or (address != "" and not address.startswith("/")) or re.search(r"~(?![01])", address) or "\x00" in address:
+                                                                                          ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+
+======================================================================
+ERROR: test_storage_and_partial_failures_do_not_claim_completion (tests.test_rule_contracts.ArtifactContractTests.test_storage_and_partial_failures_do_not_claim_completion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 676, in test_storage_and_partial_failures_do_not_claim_completion
+    self.roundtrip(c.PolicyRecovery, partial)
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\tests\test_rule_contracts.py", line 597, in roundtrip
+    parsed = c.loads(cls, json.dumps(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 1366, in loads
+    return record_type.from_dict(value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 789, in from_dict
+    result = None if d["result"] is None else PolicyResult.from_dict(d["result"], path + ".result")
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 743, in from_dict
+    findings = _sequence(d["findings"], PolicyFinding.from_dict, path + ".findings", identity)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 718, in from_dict
+    _sequence(d["evidence_refs"], EvidenceReference.from_dict, path + ".evidence_refs", lambda r: r),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in _sequence
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\contracts.py", line 111, in <genexpr>
+    result = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\candidate\src\lesscode_baseline\rules\contracts.py", line 663, in from_dict
+    if not isinstance(address, str) or (address != "" and not address.startswith("/")) or re.search(r"~(?![01])", address) or "\x00" in address:
+                                                                                          ^^
+NameError: name 're' is not defined. Did you forget to import 're'
+
+----------------------------------------------------------------------
+Ran 171 tests in 34.369s
+
+FAILED (errors=7)

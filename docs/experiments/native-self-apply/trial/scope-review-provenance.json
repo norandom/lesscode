@@ -1,0 +1,10 @@
+{
+  "initial_pre_edit_frozen_sha256": "45d434908c0247e30d9870fdd07d12792740641c78648d8a8d85ec6297de8e61",
+  "revised_frozen_sha256": "0b3f1bdf8633b22f9bfcdc5bc93d70831d4f0e93aaf7950f7799dd9ccdbc0840",
+  "revised_check_definition_sha256": "70ab4b993c9495e1d951011003285794e526053ec363ccbf277e812af2ec0b46",
+  "pre_edit_check_definition_sha256": "70ab4b993c9495e1d951011003285794e526053ec363ccbf277e812af2ec0b46",
+  "checks_bytes_unchanged": true,
+  "chronology": "Scope review completed post candidate; final paired checks start only after this reviewed freeze. Preliminary runs are not reused.",
+  "baseline_call_records": 1172,
+  "candidate_call_records": 1149
+}

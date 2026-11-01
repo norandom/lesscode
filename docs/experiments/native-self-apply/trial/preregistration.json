@@ -1,0 +1,8 @@
+{
+  "time": "2026-11-01T16:14:57.229872+00:00",
+  "candidate_unchanged": true,
+  "runner_sha256": "7cf001ff99eb9e99448f6722577c30144ecbeb85591aa6c332e6ebc8a7e5a378",
+  "frozen_sha256": "45d434908c0247e30d9870fdd07d12792740641c78648d8a8d85ec6297de8e61",
+  "target": "25 native statements; no physical/decision/function increases",
+  "attempt_limit": 1
+}

@@ -1,0 +1,13 @@
+IMPORTED_SOURCE=D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\final-candidate\src\lesscode_baseline\rules\contracts.py
+test_adverse_controls (__main__.ExpectedOutcomes.test_adverse_controls) ... ok
+test_frozen_json_obligations (__main__.ExpectedOutcomes.test_frozen_json_obligations) ... ok
+test_keywords_signatures_annotations (__main__.ExpectedOutcomes.test_keywords_signatures_annotations) ... ok
+test_numeric_path_time_boundaries (__main__.ExpectedOutcomes.test_numeric_path_time_boundaries) ... ok
+test_object_precedence_identity_order (__main__.ExpectedOutcomes.test_object_precedence_identity_order) ... ok
+test_public_records_serialization_and_nested_errors (__main__.ExpectedOutcomes.test_public_records_serialization_and_nested_errors) ... ok
+test_sequence_domains_and_reader_order (__main__.ExpectedOutcomes.test_sequence_domains_and_reader_order) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+OK

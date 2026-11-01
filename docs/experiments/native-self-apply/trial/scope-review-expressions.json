@@ -1,0 +1,1512 @@
+{
+  "baseline": {
+    "dataclass": {
+      "owned_targets": [],
+      "external_contract": "dataclasses.dataclass: dataclass"
+    },
+    "ContractError": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "required.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: required.split"
+    },
+    "_string": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "any": {
+      "owned_targets": [],
+      "external_contract": "Python builtin any"
+    },
+    "PurePosixPath(value).is_absolute": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PurePosixPath: PurePosixPath(value).is_absolute"
+    },
+    "PureWindowsPath": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PureWindowsPath: PureWindowsPath"
+    },
+    "tuple": {
+      "owned_targets": [],
+      "external_contract": "Python builtin tuple"
+    },
+    "_sequence": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_choice": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "readers[kind].from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: readers[kind].from_dict"
+    },
+    "record_type.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: record_type.from_dict"
+    },
+    "asdict": {
+      "owned_targets": [],
+      "external_contract": "dataclasses.asdict: asdict"
+    },
+    "type(record).from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: type(record).from_dict"
+    },
+    "json.dumps": {
+      "owned_targets": [],
+      "external_contract": "json: json.dumps"
+    },
+    "isinstance": {
+      "owned_targets": [],
+      "external_contract": "Python builtin isinstance"
+    },
+    "_fail": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "set": {
+      "owned_targets": [],
+      "external_contract": "Python builtin set"
+    },
+    "type": {
+      "owned_targets": [],
+      "external_contract": "Python builtin type"
+    },
+    "math.isfinite": {
+      "owned_targets": [],
+      "external_contract": "math: math.isfinite"
+    },
+    "value.replace('\\\\', '/').split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.replace('\\\\', '/').split"
+    },
+    "reader": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: reader"
+    },
+    "enumerate": {
+      "owned_targets": [],
+      "external_contract": "Python builtin enumerate"
+    },
+    "_number": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "datetime.fromisoformat": {
+      "owned_targets": [],
+      "external_contract": "datetime.datetime: datetime.fromisoformat"
+    },
+    "json.loads": {
+      "owned_targets": [],
+      "external_contract": "json: json.loads"
+    },
+    "_object": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "cls": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: cls"
+    },
+    "_mapping": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "CommandSpec.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_absolute": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_strings": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_version": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_integer": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_nullable": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Plan.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_metric_value": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "ObservedMeasurement.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "TrialConditions.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_boolean": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "ExperimentManifest.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "TypeError": {
+      "owned_targets": [],
+      "external_contract": "Python builtin TypeError"
+    },
+    "optional.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: optional.split"
+    },
+    "value.strip": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.strip"
+    },
+    "re.fullmatch": {
+      "owned_targets": [],
+      "external_contract": "re: re.fullmatch"
+    },
+    "part.endswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: part.endswith"
+    },
+    "PurePosixPath": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PurePosixPath: PurePosixPath"
+    },
+    "windows.is_absolute": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: windows.is_absolute"
+    },
+    "identity": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: identity"
+    },
+    "seen.add": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: seen.add"
+    },
+    "value.items": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.items"
+    },
+    "value.replace": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.replace"
+    },
+    "dumps": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_relative": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Limits.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "len": {
+      "owned_targets": [],
+      "external_contract": "Python builtin len"
+    },
+    "{'complexity', 'duplication', 'source_bytes'}.issubset": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: {'complexity', 'duplication', 'source_bytes'}.issubset"
+    },
+    "ScopeRules.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_hash": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Profile.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Snapshot.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Protection.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "SourceSpan.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "ResolvedCommand.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_timestamp": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Observation.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "IntegrityResult.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "FileDelta.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "EnvironmentInfo.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "origin.startswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: origin.startswith"
+    },
+    "GenerationProvenance.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Budget.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Telemetry.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "sum": {
+      "owned_targets": [],
+      "external_contract": "Python builtin sum"
+    },
+    "issubclass": {
+      "owned_targets": [],
+      "external_contract": "Python builtin issubclass"
+    },
+    "text.decode": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: text.decode"
+    },
+    "value.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.split"
+    },
+    "resource.logical_path.casefold": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: resource.logical_path.casefold"
+    },
+    "PureWindowsPath(origin).is_absolute": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PureWindowsPath: PureWindowsPath(origin).is_absolute"
+    },
+    "PurePosixPath(origin).is_absolute": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PurePosixPath: PurePosixPath(origin).is_absolute"
+    },
+    "' '.join": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: ' '.join"
+    },
+    "counts.values": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: counts.values"
+    },
+    "', '.join": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: ', '.join"
+    },
+    "d.items": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: d.items"
+    },
+    "x.path.casefold": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: x.path.casefold"
+    },
+    "math.isclose": {
+      "owned_targets": [],
+      "external_contract": "math: math.isclose"
+    },
+    "getattr": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: getattr"
+    },
+    "names.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: names.split"
+    },
+    "fields.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: fields.split"
+    },
+    "{'numeric': NumericRule, 'check': CheckRule, 'review': ReviewRule}[kind].from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: {'numeric': NumericRule, 'check': CheckRule, 'review': ReviewRule}[kind].from_dict"
+    },
+    "Policy.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "hashlib.sha256(dumps(canonical).encode('utf-8')).hexdigest": {
+      "owned_targets": [],
+      "external_contract": "hashlib: hashlib.sha256(dumps(canonical).encode('utf-8')).hexdigest"
+    },
+    "_literal_path": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "EvidenceBundle.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "policy_hash": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "instant.utcoffset": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: instant.utcoffset"
+    },
+    "timedelta": {
+      "owned_targets": [],
+      "external_contract": "datetime.timedelta: timedelta"
+    },
+    "PolicyScope.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_rule_fields": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "value.get": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.get"
+    },
+    "_utc": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "policy.to_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Record.to_dict virtual dispatch on caller-supplied subclass"
+    },
+    "Selector.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "MetricEvidence.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "EvidenceInventory.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "RunReport.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "evidence.to_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Record.to_dict virtual dispatch on caller-supplied subclass"
+    },
+    "rules.get": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: rules.get"
+    },
+    "_artifact": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "validate_treatments": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_rule": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "base64.b64decode": {
+      "owned_targets": [],
+      "external_contract": "base64: base64.b64decode"
+    },
+    "CapturedResource.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "ChangeBudget.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "EvidenceExpectation.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "PolicyReference.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "hashlib.sha256": {
+      "owned_targets": [],
+      "external_contract": "hashlib: hashlib.sha256"
+    },
+    "_span": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_entity_id": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "addresses.add": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: addresses.add"
+    },
+    "EntityTreatment.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "filename.startswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: filename.startswith"
+    },
+    "ReviewRecord.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "parsed.is_absolute": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: parsed.is_absolute"
+    },
+    "_absolute_path": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "re.search": {
+      "owned_targets": [],
+      "external_contract": "re: re.search"
+    },
+    "PolicyResult.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "PolicyArtifactIndex.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "base64.b64encode(raw).decode": {
+      "owned_targets": [],
+      "external_contract": "base64: base64.b64encode(raw).decode"
+    },
+    "hashlib.sha256(raw).hexdigest": {
+      "owned_targets": [],
+      "external_contract": "hashlib: hashlib.sha256(raw).hexdigest"
+    },
+    "EncodedBytes.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "GuidanceDocument.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "readers[operation].from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: readers[operation].from_dict"
+    },
+    "sorted": {
+      "owned_targets": [],
+      "external_contract": "Python builtin sorted"
+    },
+    "dumps(canonical).encode": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "r.to_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Record.to_dict virtual dispatch on caller-supplied subclass"
+    },
+    "matches": {
+      "owned_targets": [],
+      "external_contract": "Unchanged lesscode_baseline.snapshot.matches POSIX glob contract"
+    },
+    "roles.count": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: roles.count"
+    },
+    "EntityObservation.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "p.endswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: p.endswith"
+    },
+    "_in_scope": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "address.startswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: address.startswith"
+    },
+    "base64.b64encode": {
+      "owned_targets": [],
+      "external_contract": "base64: base64.b64encode"
+    }
+  },
+  "candidate": {
+    "dataclass": {
+      "owned_targets": [],
+      "external_contract": "dataclasses.dataclass: dataclass"
+    },
+    "ContractError": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "required.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: required.split"
+    },
+    "_string": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "any": {
+      "owned_targets": [],
+      "external_contract": "Python builtin any"
+    },
+    "PurePosixPath(value).is_absolute": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PurePosixPath: PurePosixPath(value).is_absolute"
+    },
+    "PureWindowsPath": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PureWindowsPath: PureWindowsPath"
+    },
+    "tuple": {
+      "owned_targets": [],
+      "external_contract": "Python builtin tuple"
+    },
+    "_sequence": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_choice": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "readers[kind].from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: readers[kind].from_dict"
+    },
+    "record_type.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: record_type.from_dict"
+    },
+    "asdict": {
+      "owned_targets": [],
+      "external_contract": "dataclasses.asdict: asdict"
+    },
+    "type(record).from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: type(record).from_dict"
+    },
+    "json.dumps": {
+      "owned_targets": [],
+      "external_contract": "json: json.dumps"
+    },
+    "isinstance": {
+      "owned_targets": [],
+      "external_contract": "Python builtin isinstance"
+    },
+    "_fail": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "set": {
+      "owned_targets": [],
+      "external_contract": "Python builtin set"
+    },
+    "type": {
+      "owned_targets": [],
+      "external_contract": "Python builtin type"
+    },
+    "math.isfinite": {
+      "owned_targets": [],
+      "external_contract": "math: math.isfinite"
+    },
+    "value.replace('\\\\', '/').split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.replace('\\\\', '/').split"
+    },
+    "reader": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: reader"
+    },
+    "enumerate": {
+      "owned_targets": [],
+      "external_contract": "Python builtin enumerate"
+    },
+    "_number": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "datetime.fromisoformat": {
+      "owned_targets": [],
+      "external_contract": "datetime.datetime: datetime.fromisoformat"
+    },
+    "json.loads": {
+      "owned_targets": [],
+      "external_contract": "json: json.loads"
+    },
+    "_object": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "cls": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: cls"
+    },
+    "_mapping": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "CommandSpec.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_absolute": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_strings": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_version": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_integer": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_nullable": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Plan.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_metric_value": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "ObservedMeasurement.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "TrialConditions.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_boolean": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "ExperimentManifest.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "TypeError": {
+      "owned_targets": [],
+      "external_contract": "Python builtin TypeError"
+    },
+    "optional.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: optional.split"
+    },
+    "value.strip": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.strip"
+    },
+    "re.fullmatch": {
+      "owned_targets": [],
+      "external_contract": "re: re.fullmatch"
+    },
+    "part.endswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: part.endswith"
+    },
+    "PurePosixPath": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PurePosixPath: PurePosixPath"
+    },
+    "windows.is_absolute": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: windows.is_absolute"
+    },
+    "identity": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: identity"
+    },
+    "seen.add": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: seen.add"
+    },
+    "value.items": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.items"
+    },
+    "value.replace": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.replace"
+    },
+    "dumps": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_relative": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Limits.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "len": {
+      "owned_targets": [],
+      "external_contract": "Python builtin len"
+    },
+    "{'complexity', 'duplication', 'source_bytes'}.issubset": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: {'complexity', 'duplication', 'source_bytes'}.issubset"
+    },
+    "ScopeRules.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_hash": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Profile.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Snapshot.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Protection.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "SourceSpan.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "ResolvedCommand.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_timestamp": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Observation.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "IntegrityResult.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "FileDelta.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "EnvironmentInfo.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "origin.startswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: origin.startswith"
+    },
+    "GenerationProvenance.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Budget.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "Telemetry.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "sum": {
+      "owned_targets": [],
+      "external_contract": "Python builtin sum"
+    },
+    "issubclass": {
+      "owned_targets": [],
+      "external_contract": "Python builtin issubclass"
+    },
+    "text.decode": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: text.decode"
+    },
+    "value.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.split"
+    },
+    "resource.logical_path.casefold": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: resource.logical_path.casefold"
+    },
+    "PureWindowsPath(origin).is_absolute": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PureWindowsPath: PureWindowsPath(origin).is_absolute"
+    },
+    "PurePosixPath(origin).is_absolute": {
+      "owned_targets": [],
+      "external_contract": "pathlib.PurePosixPath: PurePosixPath(origin).is_absolute"
+    },
+    "' '.join": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: ' '.join"
+    },
+    "counts.values": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: counts.values"
+    },
+    "', '.join": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: ', '.join"
+    },
+    "d.items": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: d.items"
+    },
+    "x.path.casefold": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: x.path.casefold"
+    },
+    "math.isclose": {
+      "owned_targets": [],
+      "external_contract": "math: math.isclose"
+    },
+    "getattr": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: getattr"
+    },
+    "names.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: names.split"
+    },
+    "_baseline_fail": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_baseline_object": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_baseline_choice": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "{'numeric': NumericRule, 'check': CheckRule, 'review': ReviewRule}[kind].from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: {'numeric': NumericRule, 'check': CheckRule, 'review': ReviewRule}[kind].from_dict"
+    },
+    "Policy.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "hashlib.sha256(dumps(canonical).encode('utf-8')).hexdigest": {
+      "owned_targets": [],
+      "external_contract": "hashlib: hashlib.sha256(dumps(canonical).encode('utf-8')).hexdigest"
+    },
+    "_literal_path": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "EvidenceBundle.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "policy_hash": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "instant.utcoffset": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: instant.utcoffset"
+    },
+    "timedelta": {
+      "owned_targets": [],
+      "external_contract": "datetime.timedelta: timedelta"
+    },
+    "PolicyScope.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_rule_fields": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "value.get": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: value.get"
+    },
+    "_utc": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "policy.to_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Record.to_dict virtual dispatch on caller-supplied subclass"
+    },
+    "Selector.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "MetricEvidence.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "EvidenceInventory.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "RunReport.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "evidence.to_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Record.to_dict virtual dispatch on caller-supplied subclass"
+    },
+    "rules.get": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: rules.get"
+    },
+    "_artifact": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "validate_treatments": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_rule": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "base64.b64decode": {
+      "owned_targets": [],
+      "external_contract": "base64: base64.b64decode"
+    },
+    "CapturedResource.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "ChangeBudget.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "EvidenceExpectation.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "PolicyReference.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "hashlib.sha256": {
+      "owned_targets": [],
+      "external_contract": "hashlib: hashlib.sha256"
+    },
+    "_span": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "_entity_id": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "addresses.add": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: addresses.add"
+    },
+    "EntityTreatment.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "filename.startswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: filename.startswith"
+    },
+    "ReviewRecord.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "parsed.is_absolute": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: parsed.is_absolute"
+    },
+    "_absolute_path": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "re.search": {
+      "owned_targets": [],
+      "external_contract": "re: re.search"
+    },
+    "PolicyResult.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "PolicyArtifactIndex.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "base64.b64encode(raw).decode": {
+      "owned_targets": [],
+      "external_contract": "base64: base64.b64encode(raw).decode"
+    },
+    "hashlib.sha256(raw).hexdigest": {
+      "owned_targets": [],
+      "external_contract": "hashlib: hashlib.sha256(raw).hexdigest"
+    },
+    "EncodedBytes.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "GuidanceDocument.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "readers[operation].from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Caller-supplied callable/record subclass protocol: readers[operation].from_dict"
+    },
+    "sorted": {
+      "owned_targets": [],
+      "external_contract": "Python builtin sorted"
+    },
+    "dumps(canonical).encode": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "r.to_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/contracts.py",
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": "Record.to_dict virtual dispatch on caller-supplied subclass"
+    },
+    "matches": {
+      "owned_targets": [],
+      "external_contract": "Unchanged lesscode_baseline.snapshot.matches POSIX glob contract"
+    },
+    "roles.count": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: roles.count"
+    },
+    "EntityObservation.from_dict": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "p.endswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: p.endswith"
+    },
+    "_in_scope": {
+      "owned_targets": [
+        "src/lesscode_baseline/rules/contracts.py"
+      ],
+      "external_contract": null
+    },
+    "address.startswith": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: address.startswith"
+    },
+    "base64.b64encode": {
+      "owned_targets": [],
+      "external_contract": "base64: base64.b64encode"
+    },
+    "fields.split": {
+      "owned_targets": [],
+      "external_contract": "Python value/container/string/datetime protocol: fields.split"
+    }
+  }
+}

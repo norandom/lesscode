@@ -1,0 +1,58 @@
+IMPORTED_SOURCE=D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-v3-adverse-baseline\src\lesscode_baseline\rules\contracts.py
+test_adverse_controls (__main__.ExpectedOutcomes.test_adverse_controls) ... FAIL
+test_frozen_json_obligations (__main__.ExpectedOutcomes.test_frozen_json_obligations) ... 
+  test_frozen_json_obligations (__main__.ExpectedOutcomes.test_frozen_json_obligations) (case={'operation': '_sequence', 'input': ['x', 'x'], 'reader': '_string', 'identity': 'value', 'error': "$case[1]: duplicate identity 'x'", 'adverse': 'duplicate-check-deletion mutant must fail'}) ... FAIL
+test_keywords_signatures_annotations (__main__.ExpectedOutcomes.test_keywords_signatures_annotations) ... ok
+test_numeric_path_time_boundaries (__main__.ExpectedOutcomes.test_numeric_path_time_boundaries) ... ok
+test_object_precedence_identity_order (__main__.ExpectedOutcomes.test_object_precedence_identity_order) ... ok
+test_public_records_serialization_and_nested_errors (__main__.ExpectedOutcomes.test_public_records_serialization_and_nested_errors) ... FAIL
+test_sequence_domains_and_reader_order (__main__.ExpectedOutcomes.test_sequence_domains_and_reader_order) ... FAIL
+
+======================================================================
+FAIL: test_adverse_controls (__main__.ExpectedOutcomes.test_adverse_controls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\expected_runner.py", line 106, in test_adverse_controls
+    self.invalid(lambda: policy._sequence(['same', 'same'], policy._string, '$case', lambda x: x),
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\expected_runner.py", line 15, in invalid
+    with self.assertRaises(base.ContractError) as caught:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_frozen_json_obligations (__main__.ExpectedOutcomes.test_frozen_json_obligations) (case={'operation': '_sequence', 'input': ['x', 'x'], 'reader': '_string', 'identity': 'value', 'error': "$case[1]: duplicate identity 'x'", 'adverse': 'duplicate-check-deletion mutant must fail'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\expected_runner.py", line 36, in test_frozen_json_obligations
+    self.invalid(call, case['error'])
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\expected_runner.py", line 15, in invalid
+    with self.assertRaises(base.ContractError) as caught:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_public_records_serialization_and_nested_errors (__main__.ExpectedOutcomes.test_public_records_serialization_and_nested_errors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\expected_runner.py", line 98, in test_public_records_serialization_and_nested_errors
+    self.invalid(lambda: policy.PolicyScope.from_dict({'root': '.', 'include': ['x', 'x'], 'exclude': []}),
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\expected_runner.py", line 15, in invalid
+    with self.assertRaises(base.ContractError) as caught:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+======================================================================
+FAIL: test_sequence_domains_and_reader_order (__main__.ExpectedOutcomes.test_sequence_domains_and_reader_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\expected_runner.py", line 72, in test_sequence_domains_and_reader_order
+    self.invalid(lambda: policy._sequence(['x', 'x', 'y'], reader, '$nested.items', lambda x: x),
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\expected_runner.py", line 15, in invalid
+    with self.assertRaises(base.ContractError) as caught:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ContractError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.005s
+
+FAILED (failures=4)

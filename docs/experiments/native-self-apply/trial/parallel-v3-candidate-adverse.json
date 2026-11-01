@@ -1,0 +1,10 @@
+{
+  "exit_code": 0,
+  "conclusion": "Expected duplicate-guard deletion detected by four independent checks",
+  "source_side": "candidate",
+  "frozen_file_sha256": "e5977f5e7400b3e4f15dc2e6d6ace47efd3e447777265bc2119b3dc95c305b2c",
+  "mutation_file": "src/lesscode_baseline/contracts.py",
+  "expected_mutant_exit": 1,
+  "observed_mutant_exit": 1,
+  "raw_log_sha256": "2295cc94e43d563ab148df97a1bead7b71e82c2e5390d0c367370d7b89cf1aef"
+}

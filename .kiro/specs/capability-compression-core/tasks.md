@@ -168,7 +168,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 6.2, 6.3_
   - _Requirements: 5.1, 5.2, 5.3, 5.8_
 
-- [ ] 7.2 Test self-compression without forcing adoption
+- [x] 7.2 Test self-compression without forcing adoption
   - Evaluate one bounded candidate with unchanged relevant checks and project regression suites on both sides; use independent expected-result/adverse fixtures for evaluator changes.
   - Count the whole replacement and report structural tradeoffs separately from tests and research; retain baseline unless benefit and behavior are demonstrated.
   - Done: complete evidence supports acceptance or justified rejection; incomplete evidence leaves maturity open without stopping development.

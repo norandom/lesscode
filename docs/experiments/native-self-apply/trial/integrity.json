@@ -1,0 +1,87 @@
+{
+  "time": "2026-11-01T16:56:15.500871+00:00",
+  "source_files": 924,
+  "original_snapshot_deltas": {
+    ".github/workflows/baseline-platforms.yml": {
+      "expected": "e380d8fe7c6caaca1756625943928f8facfadcd09a5f72bf5a3597417018f70a",
+      "observed": "a90884516819bb4a3eefef1d4d7a12d164551f50b46ab92397713823ca0dd9be"
+    },
+    ".github/workflows/native-core.yml": {
+      "expected": "09e5019349eb0944585a14bf7db266c3f394709a17ffd5a2f04de06c2959347b",
+      "observed": "970613e3547009bd8f4d6610d44301bd4e511b385325157ec1302476ae3c7290"
+    },
+    ".kiro/specs/capability-compression-core/tasks.md": {
+      "expected": "3d8e716b7ca3c59588cfd38f40a623bb3e593cca19d2ddae93f90f4bb30b2b1e",
+      "observed": "7dca446489fcef0f1ff92fd114302847c6bb91448918a3561738777f378f4e14"
+    },
+    "docs/README.md": {
+      "expected": "a56a4a902ebefadba7180cb7d77440c30aa5fa5c31691da1d4835d346be3bf8c",
+      "observed": "5cefcb6ab471fb5c838cf2f6a089c922cc6badaa917b631173fbee6cf724a30b"
+    },
+    "native/README.md": {
+      "expected": "5e5004c78c41fa69192ceb1a9832da02305ef86b4ea6fda369edd45cd61a285c",
+      "observed": "85060f9e026fa7d6d4da2fb69016c4aa3e38bc9fb9793e4f86e5e8837f49e2aa"
+    },
+    "pyproject.toml": {
+      "expected": "06c5489cd7386b9873cd1bbc43edb5ecf856f548c48ed6f22978dcf85c11dea3",
+      "observed": "7b0e86b56c0e63276b4f731f74bfaf3154c7b004500e220ceb03c2ba18e6c212"
+    },
+    "tools/ci_validate.py": {
+      "expected": "0d6f255a2ca38cef35f12d6ce05c13218a00f55278b0c5de6fbdba2cfef0fe43",
+      "observed": "53440084021e8ca6c183f1f0a827f8eaa6bb7d88268ecf331ade582f79b3ab98"
+    }
+  },
+  "original_delta_authorization": {
+    ".kiro/specs/capability-compression-core/tasks.md": "Controller task7.1 completion commit3f03b52",
+    "pyproject.toml": "User requested pytest-xdist/nextest test tooling",
+    "requirements-test.lock": "User requested pinned test-only pytest-xdist dependencies; new after snapshot",
+    "tools/ci_validate.py": "User requested parallel test tooling",
+    ".github/workflows/baseline-platforms.yml": "User requested Python parallel-test CI",
+    ".github/workflows/native-core.yml": "User requested Rust nextest CI",
+    "native/README.md": "User requested nextest instructions",
+    "docs/README.md": "User requested test-tooling documentation index",
+    "docs/testing.md": "User requested test-tooling documentation; new after snapshot"
+  },
+  "new_controller_paths": {
+    "requirements-test.lock": "053baa22c6b3c1676f78fb695e989145dda2982f218db6fb6c472826dd297297",
+    "docs/testing.md": "a8caf3b64aa0985128657b64eb8c3c2ea141e4680d28b261d6e8630ebee99d16"
+  },
+  "baseline_snapshot_deltas": {},
+  "candidate_snapshot_deltas": {
+    "src/lesscode_baseline/rules/contracts.py": {
+      "expected": "2ce40fe977cd0084fb1e7ccd6aa4402c39dbe44cc007b0f17e45d868242e55ab",
+      "observed": "65e939cc9e1d3acac3b0aed289d0283e9a160f28875a5f5a0d79cdb509a8dcfd"
+    }
+  },
+  "frozen_test_deltas": {
+    "baseline": {},
+    "candidate": {}
+  },
+  "frozen_tool_deltas": {
+    "baseline": {},
+    "candidate": {}
+  },
+  "live_tool_deltas": {},
+  "guarded_worker_provenance": {
+    "baseline": {
+      "guarded_processes": 5,
+      "matching_worker_collections": 4,
+      "test_identities": 515
+    },
+    "candidate": {
+      "guarded_processes": 5,
+      "matching_worker_collections": 4,
+      "test_identities": 515
+    }
+  },
+  "evaluator_unchanged": true,
+  "evaluator_source_deltas": {
+    "native/README.md": {
+      "expected": "5e5004c78c41fa69192ceb1a9832da02305ef86b4ea6fda369edd45cd61a285c",
+      "observed": "85060f9e026fa7d6d4da2fb69016c4aa3e38bc9fb9793e4f86e5e8837f49e2aa"
+    }
+  },
+  "pre_edit_runner_unchanged": true,
+  "pre_edit_independent_runner_unchanged": true,
+  "parallel_commands_changed_with_explicit_user_authorization": true
+}

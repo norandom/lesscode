@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\external\trial\expected_runner.py", line 10, in <module>
+    from lesscode_baseline.rules import contracts as policy
+  File "D:\Source\lesscode\.runs\native-self-apply\ns01\candidate\src\lesscode_baseline\rules\contracts.py", line 937, in <module>
+    raise RuntimeError("NS01 candidate reuse flag OFF")
+RuntimeError: NS01 candidate reuse flag OFF

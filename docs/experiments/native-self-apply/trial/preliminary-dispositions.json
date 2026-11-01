@@ -1,0 +1,25 @@
+{
+  "original_trial": "7.1 preparation retained unchanged outside this directory; no behavior/compression verdict",
+  "initial_runner_trial": "Checks frozen before first candidate edit; raw mutant RED and candidate flag stages retained",
+  "candidate_v1": "Relevant suite171:7errors from accidental removal of still-used re import; archived source and patch; no adoption",
+  "candidate_repair": "Restored re import only; same reuse hypothesis, fixed target and boundary; candidate v2 retained for independent review",
+  "terminated_full_commands": [
+    {
+      "phase": "baseline/candidate initial",
+      "conductor_pid": 44240,
+      "outcome": "terminated before completion; no regression result or pass claimed"
+    },
+    {
+      "phase": "candidate-v2 preliminary",
+      "conductor_pid": 30324,
+      "outcome": "terminated before completion; no regression result or pass claimed"
+    },
+    {
+      "phase": "first reviewed freeze",
+      "conductor_pid": 23084,
+      "outcome": "terminated before completion to add explicit property/classmethod descriptor call review before final paired executions"
+    }
+  ],
+  "raw_red_note": "Flag-OFF import gate is protocol scaffolding; four meaningful expected-error failures of guard-deletion mutant are the substantive pre-edit RED evidence.",
+  "frozen_runner_limit": "No separate empty-string literal in independent runner; whitespace/NUL/non-string cases and unchanged existing tests cover the larger input boundary. Arbitrary custom subclasses are not proved."
+}

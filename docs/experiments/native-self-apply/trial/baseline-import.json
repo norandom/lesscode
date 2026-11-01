@@ -1,0 +1,18 @@
+{
+  "command": [
+    "uv.exe",
+    "run",
+    "--no-project",
+    "--no-python-downloads",
+    "--python",
+    "D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe",
+    "python",
+    "-c",
+    "import lesscode_baseline; print(lesscode_baseline.__file__)"
+  ],
+  "cwd": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\check-runs\\baseline",
+  "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\check-runs\\baseline\\src",
+  "exit_code": 0,
+  "elapsed_seconds": 0.125,
+  "log_sha256": "2c73881850bf6ce014c7237bf66a4bd792aa551d19b1b996912c35ea89dff670"
+}
