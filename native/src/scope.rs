@@ -287,6 +287,299 @@ pub struct Snapshot {
     pub identity: String,
 }
 
+/// A source root paired with its frozen inventory.
+pub struct SourceSide<'a> {
+    pub root: &'a Path,
+    pub snapshot: &'a Snapshot,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct SideAccounting {
+    pub selected: Vec<SourceSpan>,
+    pub capability: Vec<SourceSpan>,
+    pub wider: Vec<SourceSpan>,
+    /// Frozen categories for the reported spans; downstream measurements group
+    /// these separately rather than treating tests/configuration as production.
+    pub categories: BTreeMap<String, crate::model::Category>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct ReplacementAccounting {
+    pub baseline: SideAccounting,
+    pub candidate: SideAccounting,
+    pub changed_paths: Vec<String>,
+    pub outside_boundary: Vec<String>,
+    pub dependency_paths: Vec<String>,
+    pub dependency_changes: BTreeMap<String, crate::model::DependencyChange>,
+    pub findings: Vec<crate::model::Finding>,
+}
+
+/// Build paired byte-span accounting without measuring or deciding compression.
+/// Both snapshots must have been inventoried using the frozen manifest. Findings
+/// retain admission failures for the comparison layer; they never erase source.
+/// Located unresolved calls are supplied to `resolve_scope` by later integration.
+pub fn account_replacement(
+    baseline: SourceSide<'_>,
+    candidate: SourceSide<'_>,
+    manifest: &Manifest,
+    evidence: &crate::model::EvidenceBundle,
+) -> Result<ReplacementAccounting, ScopeError> {
+    let original = resolve_scope(
+        baseline.root,
+        baseline.snapshot,
+        manifest,
+        &Records(BTreeMap::new()),
+    )?;
+    let mut result = ReplacementAccounting {
+        findings: original.findings,
+        dependency_changes: evidence.dependency_changes.0.clone(),
+        ..ReplacementAccounting::default()
+    };
+    let mut finding = |subject: &str, explanation: &str| {
+        result.findings.push(crate::model::Finding {
+            schema_version: SchemaVersion::V1,
+            subject: subject.into(),
+            explanation: explanation.into(),
+        });
+    };
+    for side in [&baseline, &candidate] {
+        if side.snapshot.exclusions != manifest.exclusions {
+            finding(
+                "exclusions",
+                "classification changed from frozen exclusions",
+            );
+        }
+        for (path, file) in &side.snapshot.files.0 {
+            if rule(path, &manifest.categories.0) != Some(&file.category) {
+                finding(path, "classification differs from frozen category rules");
+            }
+        }
+    }
+    let ownership = &evidence.candidate_ownership;
+    if ownership.review.rationale.trim().is_empty() {
+        finding(
+            "candidate_ownership",
+            "candidate ownership review rationale is missing",
+        );
+    }
+    let mut selected = Vec::new();
+    for (id, selectors) in &ownership.replacements.0 {
+        if !manifest.owned.0.contains_key(id) {
+            finding(
+                id,
+                "candidate ownership names an unknown baseline owned selector",
+            );
+        }
+        let selections = Records(
+            selectors
+                .iter()
+                .enumerate()
+                .map(|(i, selector)| (i.to_string(), selector.clone()))
+                .collect(),
+        );
+        let spans = resolve_selections(candidate.root, candidate.snapshot, &selections)?;
+        if selectors.is_empty() {
+            finding(id, "candidate owned implementation is omitted");
+        }
+        selected.extend(spans.0.into_values());
+    }
+    let candidate_selected = union_spans(selected);
+    for (id, span) in &original.owned.0 {
+        if !ownership.replacements.0.contains_key(id) {
+            finding(id, "candidate owned implementation is omitted");
+        }
+        if baseline.snapshot.files.0.get(&span.path) == candidate.snapshot.files.0.get(&span.path)
+            && !candidate_selected
+                .iter()
+                .any(|s| s.path == span.path && s.start <= span.start && s.end >= span.end)
+        {
+            finding(
+                id,
+                "unchanged baseline ownership is narrowed by candidate selections",
+            );
+        }
+    }
+    for (id, review) in &ownership.review.relationships.0 {
+        let external = review
+            .external_contract
+            .as_ref()
+            .is_some_and(|s| !s.trim().is_empty());
+        if review.rationale.trim().is_empty() || (review.owned_targets.is_empty() && !external) {
+            finding(id, "candidate relationship ownership review is incomplete");
+        }
+        for target in &review.owned_targets {
+            if !ownership
+                .replacements
+                .0
+                .get(target)
+                .is_some_and(|s| !s.is_empty())
+            {
+                finding(
+                    id,
+                    &format!("candidate relationship owned target is omitted: {target}"),
+                );
+            }
+        }
+    }
+    // Retain every maintained path, including unclassified and explicitly excluded
+    // source. Generated/tool-state trees were already pruned by frozen inventory.
+    let paths: std::collections::BTreeSet<_> = [&baseline, &candidate]
+        .into_iter()
+        .flat_map(|side| {
+            side.snapshot
+                .files
+                .0
+                .keys()
+                .chain(side.snapshot.unclassified.0.keys())
+                .chain(side.snapshot.excluded_files.0.keys())
+        })
+        .cloned()
+        .collect();
+    for path in paths {
+        let record = |snapshot: &Snapshot| {
+            (
+                snapshot.files.0.get(&path).cloned(),
+                snapshot.unclassified.0.get(&path).cloned(),
+                snapshot.excluded_files.0.get(&path).cloned(),
+            )
+        };
+        if record(baseline.snapshot) == record(candidate.snapshot) {
+            continue;
+        }
+        result.changed_paths.push(path.clone());
+        if !manifest
+            .wider_boundary
+            .iter()
+            .any(|rule| matches_rule(&path, rule))
+        {
+            result.outside_boundary.push(path.clone());
+        }
+        if [&baseline, &candidate]
+            .iter()
+            .any(|side| side.snapshot.unclassified.0.contains_key(&path))
+        {
+            finding(
+                &path,
+                "unclassified changed file requires a newly frozen classification",
+            );
+        }
+        if [&baseline, &candidate]
+            .iter()
+            .any(|side| side.snapshot.excluded_files.0.contains_key(&path))
+        {
+            finding(
+                &path,
+                "changed excluded maintained source requires a newly frozen trial",
+            );
+        }
+        let dependency = [&baseline, &candidate].iter().any(|side| {
+            side.snapshot
+                .files
+                .0
+                .get(&path)
+                .is_some_and(|f| f.category == crate::model::Category::Dependency)
+        });
+        if dependency {
+            result.dependency_paths.push(path.clone());
+            if !evidence
+                .dependency_changes
+                .0
+                .get(&path)
+                .is_some_and(|change| {
+                    !change.description.trim().is_empty()
+                        && change
+                            .repository_decision
+                            .as_ref()
+                            .is_some_and(|s| !s.trim().is_empty())
+                })
+            {
+                finding(
+                    &path,
+                    "dependency change requires disclosure and repository review decision",
+                );
+            }
+        }
+        if [&baseline, &candidate].iter().any(|side| {
+            side.snapshot
+                .files
+                .0
+                .get(&path)
+                .is_some_and(|f| f.category == crate::model::Category::Production)
+        }) && !original
+            .spans
+            .iter()
+            .chain(&candidate_selected)
+            .any(|span| span.path == path)
+        {
+            finding(&path, "unrelated or unreviewed production edit requires a clean candidate or reviewed ownership");
+        }
+    }
+    for (side, selected, accounting) in [
+        (&baseline, original.spans, &mut result.baseline),
+        (&candidate, candidate_selected, &mut result.candidate),
+    ] {
+        for span in &selected {
+            if !side.snapshot.files.0.contains_key(&span.path) {
+                finding(
+                    &span.path,
+                    "selected implementation has no frozen classification",
+                );
+            }
+        }
+        let whole = |paths: Vec<String>| {
+            resolve_selections(
+                side.root,
+                side.snapshot,
+                &Records(
+                    paths
+                        .into_iter()
+                        .map(|path| (path.clone(), Selector::WholeFile { path }))
+                        .collect(),
+                ),
+            )
+            .map(|resolved| resolved.0.into_values().collect::<Vec<_>>())
+        };
+        let expanded = whole(
+            result
+                .changed_paths
+                .iter()
+                .filter(|path| side.snapshot.files.0.contains_key(*path))
+                .cloned()
+                .collect(),
+        )?;
+        accounting.selected = selected.clone();
+        accounting.capability = union_spans(selected.into_iter().chain(expanded).collect());
+        let wider = whole(
+            side.snapshot
+                .files
+                .0
+                .keys()
+                .filter(|path| {
+                    manifest
+                        .wider_boundary
+                        .iter()
+                        .any(|rule| matches_rule(path, rule))
+                })
+                .cloned()
+                .collect(),
+        )?;
+        accounting.wider =
+            union_spans(accounting.capability.iter().cloned().chain(wider).collect());
+        accounting.categories = accounting
+            .wider
+            .iter()
+            .filter_map(|span| {
+                side.snapshot
+                    .files
+                    .0
+                    .get(&span.path)
+                    .map(|file| (span.path.clone(), file.category))
+            })
+            .collect();
+    }
+    Ok(result)
+}
+
 /// Invalid paths and unreadable inputs are fatal, with their path in the message.
 #[derive(Debug)]
 pub struct ScopeError(pub String);
@@ -618,6 +911,218 @@ mod tests {
             occurrence: crate::model::Count(occurrence),
             source_digest: digest(source.as_bytes()),
         }
+    }
+    fn ownership(paths: &[&str]) -> crate::model::EvidenceBundle {
+        serde_json::from_value(json!({"schema_version":1,
+            "candidate_ownership":{"schema_version":1,"replacements":{"a":paths.iter().map(|path|json!({"kind":"whole_file","path":path})).collect::<Vec<_>>()},
+            "review":{"schema_version":1,"rationale":"reviewed complete replacement","relationships":{}}},
+            "checks":{},"dependency_changes":{}})).unwrap()
+    }
+    fn accounted(
+        a: &Fixture,
+        b: &Fixture,
+        m: &Manifest,
+        e: &crate::model::EvidenceBundle,
+    ) -> ReplacementAccounting {
+        account_replacement(
+            SourceSide {
+                root: &a.0,
+                snapshot: &inventory(&a.0, m).unwrap(),
+            },
+            SourceSide {
+                root: &b.0,
+                snapshot: &inventory(&b.0, m).unwrap(),
+            },
+            m,
+            e,
+        )
+        .unwrap()
+    }
+    #[test]
+    fn replacement_accounting_moved_and_fragmented_helpers_expand_symmetrically() {
+        let a = Fixture::new();
+        let b = Fixture::new();
+        let mut m = manifest();
+        m.wider_boundary = vec!["src".into()];
+        m.categories
+            .0
+            .insert("outside".into(), Category::Production);
+        a.write("src/a.py", "def run():\n    return 1\n");
+        for root in [&a, &b] {
+            root.write("src/unchanged.py", "unrelated = 100\n");
+        }
+        b.write(
+            "outside/helper.py",
+            "def first():\n    return 1\ndef second():\n    return first()\n",
+        );
+        let result = accounted(
+            &a,
+            &b,
+            &m,
+            &ownership(&["outside/helper.py", "outside/helper.py"]),
+        );
+        assert_eq!(result.changed_paths, vec!["outside/helper.py", "src/a.py"]);
+        assert_eq!(result.outside_boundary, vec!["outside/helper.py"]);
+        assert_eq!(result.baseline.capability.len(), 1);
+        assert_eq!(result.candidate.capability.len(), 1);
+        assert_eq!(result.baseline.wider.len(), 2);
+        assert_eq!(result.candidate.wider.len(), 2);
+        assert!(result.findings.is_empty(), "{:?}", result.findings);
+        // Symmetric expansion includes the original full file and the replacement's
+        // full support, even when selectors only name one fragment.
+        b.write(
+            "src/a.py",
+            "def run():\n    return 0\ndef hidden():\n    return 2\n",
+        );
+        let source = fs::read_to_string(b.0.join("src/a.py")).unwrap();
+        let mut e = ownership(&["src/a.py"]);
+        e.candidate_ownership
+            .replacements
+            .0
+            .insert("a".into(), vec![symbol("src/a.py", "run", 0, &source)]);
+        let result = accounted(&a, &b, &m, &e);
+        assert!(result
+            .candidate
+            .capability
+            .iter()
+            .any(|s| s.path == "src/a.py" && s.end == source.len()));
+        assert!(result
+            .candidate
+            .capability
+            .iter()
+            .any(|s| s.path == "outside/helper.py"));
+        assert!(result
+            .findings
+            .iter()
+            .any(|f| f.explanation.contains("unrelated")));
+    }
+    #[test]
+    fn replacement_accounting_blocks_omissions_narrowing_and_unreviewed_ownership() {
+        let a = Fixture::new();
+        let b = Fixture::new();
+        let m = manifest();
+        let source = "def run():\n    return 1\ndef helper():\n    return 2\n";
+        for root in [&a, &b] {
+            root.write("src/a.py", source);
+        }
+        let mut e = ownership(&["src/a.py"]);
+        e.candidate_ownership
+            .replacements
+            .0
+            .insert("a".into(), vec![symbol("src/a.py", "run", 0, source)]);
+        assert!(accounted(&a, &b, &m, &e)
+            .findings
+            .iter()
+            .any(|f| f.explanation.contains("narrow")));
+        e.candidate_ownership.replacements.0.clear();
+        assert!(accounted(&a, &b, &m, &e)
+            .findings
+            .iter()
+            .any(|f| f.explanation.contains("omitted")));
+        e = ownership(&["src/a.py"]);
+        e.candidate_ownership.review.rationale.clear();
+        assert!(accounted(&a, &b, &m, &e)
+            .findings
+            .iter()
+            .any(|f| f.explanation.contains("review")));
+        e = ownership(&["src/a.py"]);
+        e.candidate_ownership
+            .replacements
+            .0
+            .insert("unknown".into(), vec![]);
+        assert!(accounted(&a, &b, &m, &e)
+            .findings
+            .iter()
+            .any(|f| f.subject == "unknown"));
+    }
+    #[test]
+    fn replacement_accounting_discloses_categories_dependencies_and_blocked_changes() {
+        let a = Fixture::new();
+        let b = Fixture::new();
+        let mut m = manifest();
+        m.exclusions.0.insert(
+            "private".into(),
+            Exclusion {
+                schema_version: SchemaVersion::V1,
+                rationale: "outside capability".into(),
+                kind: ExclusionKind::MaintainedSource,
+            },
+        );
+        for root in [&a, &b] {
+            root.write("src/a.py", "pass\n");
+            root.write("Cargo.toml", "old");
+            root.write("private/hidden.py", "old");
+        }
+        b.write("Cargo.toml", "new");
+        b.write("private/hidden.py", "new");
+        b.write("unknown.txt", "new");
+        b.write("tests/test_a.py", "assert True\n");
+        b.write("settings.json", "{}");
+        let result = accounted(&a, &b, &m, &ownership(&["src/a.py"]));
+        assert_eq!(result.dependency_paths, vec!["Cargo.toml"]);
+        for needle in ["unclassified", "excluded maintained", "dependency"] {
+            assert!(
+                result
+                    .findings
+                    .iter()
+                    .any(|f| f.explanation.contains(needle)),
+                "{needle}: {:?}",
+                result.findings
+            );
+        }
+        assert!(result
+            .candidate
+            .capability
+            .iter()
+            .any(|s| s.path == "settings.json"));
+        assert!(result
+            .candidate
+            .capability
+            .iter()
+            .any(|s| s.path == "tests/test_a.py"));
+        assert_eq!(
+            result.candidate.categories["tests/test_a.py"],
+            Category::Tests
+        );
+        assert_eq!(
+            result.candidate.categories["settings.json"],
+            Category::Configuration
+        );
+        let mut disclosed = ownership(&["src/a.py"]);
+        disclosed.dependency_changes.0.insert(
+            "Cargo.toml".into(),
+            crate::model::DependencyChange {
+                schema_version: SchemaVersion::V1,
+                description: "reviewed installed dependency change".into(),
+                repository_decision: Some("repository decision recorded".into()),
+            },
+        );
+        let reviewed = accounted(&a, &b, &m, &disclosed);
+        assert_eq!(reviewed.dependency_changes, disclosed.dependency_changes.0);
+        assert!(!reviewed
+            .findings
+            .iter()
+            .any(|f| f.explanation.contains("dependency change requires")));
+        let snap_a = inventory(&a.0, &m).unwrap();
+        let mut snap_b = inventory(&b.0, &m).unwrap();
+        snap_b.files.0.get_mut("src/a.py").unwrap().category = Category::Tests;
+        let result = account_replacement(
+            SourceSide {
+                root: &a.0,
+                snapshot: &snap_a,
+            },
+            SourceSide {
+                root: &b.0,
+                snapshot: &snap_b,
+            },
+            &m,
+            &ownership(&["src/a.py"]),
+        )
+        .unwrap();
+        assert!(result
+            .findings
+            .iter()
+            .any(|f| f.explanation.contains("classification")));
     }
     #[test]
     fn reviewed_selectors_retain_entries_and_union_whole_file_overlap() {

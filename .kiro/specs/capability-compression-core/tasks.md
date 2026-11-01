@@ -24,7 +24,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: Model_
   - _Requirements: 1.1, 2.3, 2.6, 2.7, 3.1, 4.1_
 
-- [ ] 2. Account for complete capability scope
+- [x] 2. Account for complete capability scope
 - [x] 2.1 (P) Inventory and fingerprint frozen source
   - Inventory tracked/untracked maintained files with fixed exclusions, categories and normalized identities; reject path escape, symlinks/reparse points and case collisions.
   - Bind supplied capability inventory to the source snapshot; retain generated/tool-state exclusions explicitly.
@@ -41,7 +41,7 @@ completing an attempted trial does not itself establish maturity.
   - _Depends: 2.1_
   - _Requirements: 1.1, 1.3, 1.4_
 
-- [ ] 2.3 Include replacement support beyond original files
+- [x] 2.3 Include replacement support beyond original files
   - Account symmetrically for changed/new/deleted production files, helpers, tables and callers; retain capability and wider-boundary totals separately.
   - Block unclassified changes and changed excluded maintained source; disclose dependency changes and unreviewed ownership.
   - Done: moved/escaped helpers and split-function cases cannot hide maintained implementation; overlapping spans are counted once.
