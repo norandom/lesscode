@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "derivation": "Hand-derived from unchanged contract definitions, not candidate verdicts; task7.2 must implement external checks before editing candidate.",
+  "cases": [
+    {
+      "operation": "_string",
+      "input": " value ",
+      "expected": " value "
+    },
+    {
+      "operation": "_string",
+      "input": " ",
+      "error": "$case: expected nonempty string without NUL"
+    },
+    {
+      "operation": "_string",
+      "input": true,
+      "error": "$case: expected nonempty string without NUL"
+    },
+    {
+      "operation": "_string",
+      "input": "a\u0000b",
+      "error": "$case: expected nonempty string without NUL"
+    },
+    {
+      "operation": "_object",
+      "input": {
+        "z": 1
+      },
+      "fields": "a",
+      "error": "$case.z: unknown field"
+    },
+    {
+      "operation": "_object",
+      "input": {},
+      "fields": "a",
+      "error": "$case.a: required field missing"
+    },
+    {
+      "operation": "_object",
+      "input": [],
+      "fields": "a",
+      "error": "$case: expected object"
+    },
+    {
+      "operation": "_object",
+      "input": {
+        "a": true
+      },
+      "fields": "a",
+      "expected": {
+        "a": true
+      },
+      "call_shape": "fields keyword retained"
+    },
+    {
+      "operation": "_hash",
+      "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expected": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "operation": "_hash",
+      "input": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "error": "$case: expected lowercase SHA-256 fingerprint"
+    },
+    {
+      "operation": "_hash",
+      "input": false,
+      "error": "$case: expected lowercase SHA-256 fingerprint"
+    },
+    {
+      "operation": "_choice",
+      "input": "passed",
+      "choices": [
+        "passed",
+        "failed"
+      ],
+      "expected": "passed"
+    },
+    {
+      "operation": "_choice",
+      "input": 1,
+      "choices": [
+        "passed",
+        "failed"
+      ],
+      "error": "$case: expected one of passed, failed"
+    },
+    {
+      "operation": "_sequence",
+      "input": [
+        "x",
+        "y"
+      ],
+      "reader": "_string",
+      "identity": "value",
+      "expected_tuple": [
+        "x",
+        "y"
+      ]
+    },
+    {
+      "operation": "_sequence",
+      "input": [
+        "x",
+        "x"
+      ],
+      "reader": "_string",
+      "identity": "value",
+      "error": "$case[1]: duplicate identity 'x'",
+      "adverse": "duplicate-check-deletion mutant must fail"
+    },
+    {
+      "operation": "_sequence",
+      "input": [
+        "x",
+        " "
+      ],
+      "reader": "_string",
+      "identity": "value",
+      "error": "$case[1]: expected nonempty string without NUL"
+    },
+    {
+      "operation": "_sequence",
+      "input": "xy",
+      "reader": "_string",
+      "identity": "value",
+      "error": "$case: expected array"
+    },
+    {
+      "operation": "_sequence",
+      "input": [],
+      "reader": "_string",
+      "identity": "value",
+      "expected_tuple": []
+    },
+    {
+      "operation": "_number",
+      "input": true,
+      "error": "$case: expected finite nonnegative number"
+    },
+    {
+      "operation": "_number",
+      "input": 0,
+      "expected": 0
+    },
+    {
+      "operation": "_relative",
+      "input": "a.",
+      "error": "$case: expected relative POSIX path without traversal or normalized components"
+    },
+    {
+      "operation": "_relative",
+      "input": ".",
+      "root": true,
+      "expected": "."
+    },
+    {
+      "operation": "_relative",
+      "input": "a*",
+      "root": true,
+      "error": "$case: root must be a literal relative path"
+    },
+    {
+      "operation": "_utc",
+      "input": "2026-11-01T00:00:00+01:00",
+      "error": "$case: expected explicit UTC timezone"
+    }
+  ],
+  "additional_non_json_domains": [
+    "tuple accepted; string/set/dict sequences rejected",
+    "ordered unknown and missing field precedence",
+    "_fail reason keyword and _object fields keyword",
+    "preserve relevant annotations/signatures with compatibility wrappers",
+    "reader side effects and duplicate failure position",
+    "nested public record serialization and bool/int distinctions",
+    "finite numbers including huge integer overflow, infinities and NaN",
+    "custom subclass coverage limits explicitly disclosed"
+  ]
+}

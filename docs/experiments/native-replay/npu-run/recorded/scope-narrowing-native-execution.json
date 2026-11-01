@@ -1,0 +1,20 @@
+{
+  "command": [
+    "compare",
+    "--frozen",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\frozen.json",
+    "--baseline",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\baseline",
+    "--candidate",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\candidate",
+    "--evidence",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\scope-narrowing-evidence.json",
+    "--artifact-root",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified",
+    "--out",
+    "D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\scope-narrowing-comparison"
+  ],
+  "code": 2,
+  "stdout": "Incomplete: \\\\?\\D:\\Source\\lesscode\\.runs\\native-replay\\task-6.3-verified\\scope-narrowing-comparison\n",
+  "stderr": "src/npu_rag/embedding/providers/cpu.py: candidate owned implementation is omitted\nsrc/npu_rag/embedding/providers/vitisai.py: candidate owned implementation is omitted\nsrc/npu_rag/embedding/providers/checked_run.py:1227: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/cpu.py\nsrc/npu_rag/embedding/providers/checked_run.py:1260: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/cpu.py\nsrc/npu_rag/embedding/providers/cpu.py:5423: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/cpu.py\nsrc/npu_rag/embedding/providers/cpu.py:5423: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/vitisai.py\nsrc/npu_rag/embedding/providers/cpu.py:6524: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/cpu.py\nsrc/npu_rag/embedding/providers/vitisai.py:11178: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/cpu.py\nsrc/npu_rag/embedding/providers/vitisai.py:9938: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/cpu.py\nsrc/npu_rag/embedding/providers/vitisai.py:9938: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/vitisai.py\nsrc/npu_rag/embedding/providers/vitisai.py:9986: candidate relationship owned target is omitted: src/npu_rag/embedding/providers/vitisai.py\nsrc/npu_rag/embedding/providers/checked_run.py: unrelated or unreviewed production edit requires a clean candidate or reviewed ownership\n"
+}

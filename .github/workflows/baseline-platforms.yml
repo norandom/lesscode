@@ -36,6 +36,7 @@ jobs:
           cache-dependency-glob: |
             pyproject.toml
             requirements-tools.lock
+            requirements-test.lock
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: '24.22.1'
@@ -53,6 +54,7 @@ jobs:
           else
             CI_PYTHON="$GITHUB_WORKSPACE/.venv-ci/bin/python"
           fi
+          uv pip install --python "$CI_PYTHON" --require-hashes -r requirements-test.lock
           uv run --no-project --no-python-downloads --python "$CI_PYTHON" python tools/ci_validate.py --out "$RUNNER_TEMP/baseline-evidence/validation"
       - name: Retain native results, including failed stages
         if: always()

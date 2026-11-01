@@ -16,33 +16,118 @@ differences also count when judging whether it simplifies the project.
 
 ## What works today
 
-Check whether a proposed Python simplification preserves declared behavior, and
-inspect what changed in complexity, duplication and source size.
+The local Rust library and `lesscode-core` CLI now compare supplied Python and
+TypeScript capabilities. They count the complete replacement, including helpers
+and changed callers, and admit frozen, source-bound behavioral evidence before
+classifying compression. Native analysis uses pinned open-source dependencies;
+no hosted account, commercial analyzer, MCP service or solver is required.
 
-When a coding agent removes a layer or rewrites a module, a smaller diff is only
-part of the review. Lesscode compares the original and supplied candidate using
-the same checks and pinned open-source analyzers. It produces a local report
-with the evidence behind acceptance, rejection or an incomplete result.
+Start with the [native usage and scoped readiness report](docs/reports/native-core-readiness.md)
+and [build instructions](native/README.md). You supply the original, candidate,
+reviewed scope and externally executed checks. The core leaves specimens unchanged
+and writes JSON plus Markdown to fresh output outside the source roots.
 
-The current implementation is a Python evaluation CLI. You supply both versions
-and the checks. No LLM account, commercial analysis license or source upload is
-required.
+The exercised Windows workflow includes real ATS/NPU/TypeScript trials and a
+reviewed Python self-application: 29 statements and 32 physical lines removed
+across the complete two-module contracts capability. The exact approved policy
+contracts file is adopted. These scoped results do not establish general discovery
+efficacy, net repository shrinkage or reduced maintenance effort. Native checks
+passed on Linux through Dagger and on native Windows/macOS runners; see the
+[CI results and evidence](docs/ci-validation.md#rust-core-dagger-and-actions).
+
+The existing `lesscode-baseline` Python evaluator remains runnable as a research
+and reference implementation. Its commands and historical evidence below are
+preserved. The native CLI is a separate command and schema, not a record migration.
 
 ## What you get
 
 | Review question | Evidence |
 | --- | --- |
 | Did the declared behavior checks pass? | Baseline and candidate outcomes, expected check IDs and diagnostic logs |
-| What became more complicated or repetitive? | Lizard function complexity, hotspots and jscpd clone locations with token counts |
-| How much source changed? | Source bytes, defined physical lines, deterministic compressed size and separate test-file changes |
+| What structural changes occurred? | Native statement, decision and function counts, with unavailable or unresolved call layers disclosed |
+| How much source changed? | Complete-capability physical and logical counts, with tests, support and dependency changes distinguished |
 | Can someone inspect the result? | Versioned JSON, a readable summary, raw outputs and a hash-checked artifact index |
 | Was the comparison held constant? | Source fingerprints, frozen profile, check inventory and recorded tool identities |
 
-`accepted` means the candidate passed the recorded profile. It does not prove
+`accepted` means the candidate passed the frozen target and declared checks. It does not prove
 equivalence or certify code quality. Missing required evidence prevents
 acceptance; an observed behavior failure cannot be offset by fewer lines.
 
+The Python reference evaluator additionally retains its historical Lizard/jscpd
+and source-size fields. Those definitions are separate from native measurements;
+bytes and compressed size are not current compression-benefit criteria.
+
 ## A measured example on Lesscode
+
+The [reusable compression procedure](docs/compression-procedure.md) and repo-local
+agent skill select complete responsibilities and candidate families before
+choosing tools. They compare whole replacements and retain rejected attempts.
+
+The [reader-family prototype](docs/experiments/reader-family/README.md) exercises
+that loop on five real records: 1,126 comparisons and the same 103 contract tests
+pass, but the full replacement saves only three lines. It remains an experiment.
+
+The [outcome-hotspot trial](docs/experiments/outcome-hotspot/README.md) reduces a
+72-line classifier to 60 lines, with CCN 54 to 45. It matches 20,258 differential
+cases and 65 unchanged tests; Z3 verifies the extracted final-decision boundary.
+The candidate remains experimental, with an SMT-augmented LLM pass planned next.
+
+The [trial progress report](docs/reports/compression-trial-progress.md) separates
+earlier results, the current candidate, proof boundaries and subsequent attempts.
+The [continued trial](docs/experiments/outcome-llm/README.md) retains an unsafe
+proposal and its verified revision: CCN reaches 43, with no additional line savings.
+
+The [capability-guided pilot](docs/experiments/capability-guided/run-01/README.md)
+ran one repository discovery pass and six local sessions with dependencies frozen.
+Both arms found the same 12-line / 9-LLOC reuse candidate; this pilot did not show
+additional verified removal from the shared inventory. All attempts are retained.
+
+The [graph-guided trial](docs/experiments/report-graph/README.md) compares a local
+rewrite with joint validation/parser changes. Both match 6,234 cases and pass 18
+existing tests, but LLOC rises from 69 to 70 and 73 respectively. Neither is adopted.
+The graph exposed data and error-order obligations, without a compression gain.
+
+The [feature-path hypothesis experiment](docs/experiments/feature-path/README.md)
+traces actual analyzer evidence through decision, reporting and recovery. Two
+proposed representation collapses lose required behavior; both are rejected.
+It establishes no additional compression and retains the counterexamples.
+
+The [ATS bilingual reporting trial](docs/experiments/ats-report/README.md) selects
+a genuinely repeated capability in a separate legacy codebase. Including all
+translation data and wrappers, the candidate reduces 384 physical lines to 202
+and 298 LLOC to 135, matching 8,820 frozen cases. Function count rises, but total
+decision structure falls. This is a scoped experiment, with no upstream changes.
+
+The [active CPU/NPU backend trial](docs/experiments/npu-backends/README.md) repeats
+the mechanism: 171 to 101 owned physical lines, 68 to 47 LLOC, 3,168 matching
+generated cases and 339 unchanged tests passing on both versions. The
+[two-trial synthesis](docs/reports/capability-compression.md) records what worked,
+all replacement costs and the remaining limits. No upstream adoption is claimed.
+
+The [code-flow synthesis experiment](docs/reports/code-flow-synthesis.md)
+compares two verified representations of synthetic integer functions. Direct
+expressions reduced 66 physical lines to 22; a shared kernel and table used 35.
+Sharing made an already-compact control larger. The report includes charts,
+diffs, proof limits and the next step: Facdrone code measurements before any
+Kiro specification changes.
+
+The [follow-up measurements](docs/experiments/facdrone/selected-parts.md) select
+Facdrone examples without changing them and identify Lesscode's record conversion
+boundary as a substantial target. An initial standard-library substitution was
+rejected by existing tests: less source is useful only when behavior survives.
+
+The [Lesscode synthesis self-application](docs/reports/lesscode-self-application.md)
+now inventories all 282 production function definitions and tests a real
+classifier with CEGIS. Its table preserves the modeled behavior and passes the
+same 44 tests, but grows from 12 to 17 lines. The report retains this rejection,
+explicit exclusions and separate production/test statistics; substantial
+real-project compression remains unproven.
+
+The [Facdrone empirical roadmap](docs/experiments/facdrone/README.md) examines
+a modularized quantitative-finance project and proposes responsibility-level
+replacement trials, separate production/test accounting, and maintenance
+exercises for humans and agents. It distinguishes inspected evidence from
+unproven simplification hypotheses.
 
 The [library replacement trial](docs/experiments/leaf-contracts/README.md) records
 an empirical adoption decision: five library-backed record readers matched
@@ -112,6 +197,8 @@ making it a merge gate.
 
 The [documentation index](docs/README.md) groups the guides by task.
 
+- [Native readiness and working example](docs/reports/native-core-readiness.md): current CLI, empirical outcomes and platform gaps.
+- [All 32 native criteria](.kiro/specs/capability-compression-core/requirement-coverage.md): concrete artifact coverage.
 - [Technical overview](docs/technical-overview.md): architecture, measurement definitions, decision precedence, storage and experiment design.
 - [CLI reference](docs/cli.md): commands, optional evidence, installed-wheel usage and exit codes.
 - [Profiles](docs/profiles.md): scope rules, check contracts, thresholds and evaluator ownership.
@@ -131,6 +218,7 @@ repository already has scoped [AGENTS.md guidance](src/lesscode_baseline/AGENTS.
 for role-revealing names, idiomatic code and justified abstractions. The current
 CLI evaluates supplied changes under a fixed profile.
 
-Optional simplification skills, deterministic rewrites, JavaScript/TypeScript
-and Java support, and MCP integration are later work. The CLI runs independently
+The discovery skill and native Python/TypeScript comparison workflow are now
+implemented for the exercised scopes. General deterministic rewrites, Java
+support and MCP integration are outside the active native delivery. The CLI runs independently
 of a skill or MCP server. See the [roadmap](.kiro/steering/roadmap.md).

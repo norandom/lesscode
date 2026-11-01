@@ -1,0 +1,23 @@
+{
+  "command": [
+    "uv.exe",
+    "run",
+    "--no-project",
+    "--no-python-downloads",
+    "--python",
+    "D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe",
+    "python",
+    "-m",
+    "unittest",
+    "tests.test_contracts",
+    "tests.test_rule_contracts",
+    "tests.test_rule_evidence",
+    "tests.test_rule_evaluation",
+    "-q"
+  ],
+  "cwd": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\check-runs\\candidate",
+  "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\check-runs\\candidate\\src",
+  "exit_code": 1,
+  "elapsed_seconds": 34.842999999877065,
+  "log_sha256": "bbc396883c5850962814dbe305ac52b1cf6d586ce0d57eb27ebab1f9f3c1f1d0"
+}

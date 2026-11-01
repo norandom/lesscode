@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "input_sha256": {
+    "lesscode/docs/experiments/ats-report/trial.py": "fdefc78cb21dfbf7109e4e4eba1e88fec74df8952c151abb41ece810b5f27987",
+    "lesscode/docs/experiments/ats-report/oracle.json": "ef658937719be70d849d4461848af2a3f0685317b4d7377b7fc520fc3f645c11"
+  },
+  "tested_domain": "finite frozen software-only corpus; unchanged native checks where supplied",
+  "limitations": [
+    "Current bytes hashed during preparation; not historical execution provenance.",
+    "Fresh external runner and raw artifacts required before native evidence admission."
+  ]
+}

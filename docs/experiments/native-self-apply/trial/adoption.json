@@ -1,0 +1,16 @@
+{
+  "adopted": true,
+  "path": "src/lesscode_baseline/rules/contracts.py",
+  "baseline_sha256": "2ce40fe977cd0084fb1e7ccd6aa4402c39dbe44cc007b0f17e45d868242e55ab",
+  "adopted_sha256": "65e939cc9e1d3acac3b0aed289d0283e9a160f28875a5f5a0d79cdb509a8dcfd",
+  "review": "independent APPROVED task 7.2",
+  "scope": "policy primitive validation family, complete two-module accounting",
+  "statements_removed": 29,
+  "physical_lines_removed": 32,
+  "decisions_removed": 17,
+  "unsupported": [
+    "Rust self-analysis",
+    "universal equivalence",
+    "measured maintenance effort"
+  ]
+}

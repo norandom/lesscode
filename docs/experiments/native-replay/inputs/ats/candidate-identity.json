@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "manifest": {
+    "schema_version": 1,
+    "trial_id": "ATS01-native-replay",
+    "hypothesis": "Share bilingual report rendering with translation data and preserved dispatch.",
+    "entry_points": {
+      "ats_agent.py": {
+        "kind": "whole_file",
+        "path": "ats_agent.py"
+      }
+    },
+    "owned": {
+      "ats_agent.py": {
+        "kind": "whole_file",
+        "path": "ats_agent.py"
+      }
+    },
+    "wider_boundary": [
+      "."
+    ],
+    "categories": {
+      "ats_agent.py": "production"
+    },
+    "exclusions": {},
+    "scope_review": {
+      "schema_version": 1,
+      "rationale": "Whole ATS agent module, including retained class members and every translation table/helper. External imports are retained unchanged; this replay tests reporting only.",
+      "relationships": {}
+    },
+    "checks": {
+      "differential": {
+        "schema_version": 1,
+        "description": "Frozen behavioral observations",
+        "required": true,
+        "definition_digest": "baba7ff934b8eb4f9e8bf20a31e009a6f612110d4bbe25e8660d5570350d033f",
+        "artifact_expectations": [
+          "differential.json"
+        ],
+        "interpretation": {
+          "kind": "case_counts",
+          "expected": 8820
+        }
+      },
+      "dispatch": {
+        "schema_version": 1,
+        "description": "dispatch software contract",
+        "required": true,
+        "definition_digest": "baba7ff934b8eb4f9e8bf20a31e009a6f612110d4bbe25e8660d5570350d033f",
+        "artifact_expectations": [
+          "dispatch.log"
+        ],
+        "interpretation": {
+          "kind": "exit_status"
+        }
+      }
+    },
+    "target": {
+      "schema_version": 1,
+      "scope_identity": "production",
+      "language": "python",
+      "definitions": {
+        "physical_lines": {
+          "schema_version": 1,
+          "name": "physical_lines",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "logical_statements": {
+          "schema_version": 1,
+          "name": "logical_statements",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "decisions": {
+          "schema_version": 1,
+          "name": "decisions",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "functions": {
+          "schema_version": 1,
+          "name": "functions",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "internal_call_layers": {
+          "schema_version": 1,
+          "name": "internal_call_layers",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        }
+      },
+      "minimum_production_statement_reduction": 1,
+      "count_bounds": {},
+      "permitted_structural_tradeoffs": [
+        "Whole modules retained in capability accounting; function/call-layer changes reported without inferred maintenance savings."
+      ]
+    },
+    "capability_inventory": null
+  },
+  "baseline_files": {
+    "ats_agent.py": {
+      "schema_version": 1,
+      "content_digest": "e10e3f218711736fa977ce02e9e5c801400e84b5a5065c3b61ec72d7c54a4e00",
+      "category": "production"
+    }
+  },
+  "baseline_identity": "03eee7cec8a0f0231d32ca6462cd4b3eb4704baff292e4c41af57f6cab4b7d2b",
+  "evaluator_identity": "lesscode-core@0.1.0;workflow.v1",
+  "definitions": {
+    "Python/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    }
+  },
+  "check_definition_digests": {
+    "differential": "baba7ff934b8eb4f9e8bf20a31e009a6f612110d4bbe25e8660d5570350d033f",
+    "dispatch": "baba7ff934b8eb4f9e8bf20a31e009a6f612110d4bbe25e8660d5570350d033f"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "candidate": "accepted",
+  "mutant": "rejected-behavior",
+  "moved-helper": "invalid",
+  "scope-narrowing": "incomplete",
+  "classification": "invalid",
+  "missing-check": "incomplete",
+  "stale-evidence": "invalid"
+}

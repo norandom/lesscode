@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "source_identity": "f655aec4a68aa7b97e9c25fd791d42a861cc5cadd2c71e22eb68bbc8d0a170e0",
+  "manifest_references": {
+    "pyproject.toml": "06c5489cd7386b9873cd1bbc43edb5ecf856f548c48ed6f22978dcf85c11dea3",
+    "requirements-tools.lock": "5dd7b848d899592ccfdb9710bd2447c84f31e95990cb0e2922a348e0d8cb032f",
+    "src/lesscode_baseline/data/requirements-tools.lock": "5dd7b848d899592ccfdb9710bd2447c84f31e95990cb0e2922a348e0d8cb032f",
+    "src/lesscode_baseline/data/tools/package-lock.json": "ee41a4683f6802a80d1e9d6979565a7fb607e6a41e3c11c86f0eddb988435324",
+    "tools/package.json": "9581fe7edbaa2facb999ebe48b85eabab9fd586822419df0233cf6cabe091f01",
+    "tools/package-lock.json": "ee41a4683f6802a80d1e9d6979565a7fb607e6a41e3c11c86f0eddb988435324"
+  },
+  "runtime": {
+    "CPython": "3.12.10",
+    "executable": "D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe",
+    "sha256": "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14"
+  },
+  "production_dependencies": [],
+  "existing_capabilities": [
+    "Existing lesscode_baseline.contracts _fail/_object/_string/_choice/_hash/_sequence; exact baseline bytes included in source inventory",
+    "Python standard library dataclasses, json, re, datetime, math, pathlib; no runtime package additions"
+  ],
+  "roles": {
+    "build": "setuptools==80.9.0 from pyproject.toml",
+    "tests": "stdlib unittest; uv-managed CPython",
+    "analyzers": "existing Lizard/jscpd locked environments, separately pinned tool-inventory.json",
+    "research": "earlier optional Pydantic/Radon/solver experiments confer no production dependency authorization"
+  },
+  "installed_python_distributions": {
+    "lesscode-baseline": "0.1.0",
+    "pip": "25.0.1"
+  },
+  "tool_inventory_sha256": "bd80773d0e025ea0544a19e922d98fa2ba965cd1edb9d08d9de8bf66aa27ca48",
+  "proposed_dependency_changes": [],
+  "refresh_rule": "Refresh affected entry and freeze anew if source/manifest/locks/contracts change."
+}

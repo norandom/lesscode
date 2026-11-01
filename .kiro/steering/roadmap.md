@@ -1,35 +1,88 @@
 # Roadmap
 
-## Overview
-Develop Deconvolute as a measured system for improving AI-heavy codebases and preventing agents from adding convolution. Establish open-source measurement first, then configurable coding rules and regression gates, followed by deterministic rewriting and optional agent interfaces.
+## Active delivery scope
 
-Status: efficiency-baseline is complete: all 33 executable tasks independently reviewed, final feature gate GO, reproducible installed pilots and actual native Windows/Linux/macOS checks passed. Agent-quality-rules has approved requirements, design and 25 executable tasks covering all 65 criteria; the independent task-graph review passed and implementation is next. Other later specifications remain discovery briefs, not approved implementation tasks.
+Owner decision, 2026-11-01: drop layers first; extend only after demonstrated need.
+The product path is the existing agent skill plus a narrow native comparison core
+and existing project checks. The Rust design and all 22 tasks are approved and
+implemented with independent task review. See [requirements](../specs/capability-compression-core/requirements.md)
+and the [implementation proposal](../../docs/reports/native-compression-direction.md).
 
-## Approach Decision
-- **Chosen direction**: open-source, local-first, benchmark-first delivery.
-- **Why**: every developer can reproduce analysis without a commercial license; controlled comparisons reveal whether each layer adds value.
-- **Alternatives considered**: immediate MCP composition is quick to demonstrate but obscures attribution; three specialized semantic backends add premature maintenance. Full plugin packaging follows proven skill value.
+Current outcome: Windows native workflow verified; fresh ATS, NPU and TypeScript
+trials accepted under explicit source targets and adverse controls detected.
+The supported Python self-trial is reviewed and adopted: 29 statements and 32
+physical lines removed, with paired regression evidence. Full cross-platform
+readiness remains pending current Linux/macOS CI results; do not declare the
+feature complete from local checks. See [readiness](../specs/capability-compression-core/readiness.md).
+Use cargo-nextest for Rust and pytest-xdist for Python via `docs/testing.md`.
 
-## Scope
-- **In**: measurement harness, independent evaluator, configurable measured coding rules and change gates, optional skill, later reversible transformations and MCP.
-- **Out**: SciTools dependencies, mandatory paid analysis, automatic GoF insertion, AI-origin detection, guaranteed equivalence and universal quality scores.
+1. Replay ATS01 and its negative control with a supplied complete capability scope.
+2. Challenge accounting and evidence using NPU01 and rejection fixtures: moved
+   helpers, fragmented functions, missing checks and changed source identities.
+   After this first working slice, run the self-application maturity gate below.
+3. Exercise the same workflow on an unseen capability. The skill inventories
+   installed capabilities once per repository snapshot, proposes a concrete
+   replacement, and records all attempts, including failures.
+4. Establish TypeScript evidence separately. Python evidence does not imply parity.
 
-## Constraints
-Core analysis tools must be open source and usable without a paid account. LLM costs are separate. Python is the first vertical slice; eventual JS/TS and Java support does not imply initial parity. Preserve behavior, APIs, security checks and user changes.
+## Self-application maturity gate
 
-## Boundary Strategy
-- **Why this split**: establish the evaluator before optimization; separate instruction policy, deterministic edits and delivery integration.
-- **Shared seams to watch**: metric definitions, scope manifest, result schema, evaluator ownership and unavailable-check semantics.
+Build and verify the first usable workflow, then use it on a complete Lesscode
+capability. This is a maturity/release-claim gate, not a prerequisite to bootstrap
+or continue development. Freeze the evaluator, source baseline, scope and checks;
+work on an isolated candidate. Require unchanged relevant checks and the existing
+project regression suite before adoption. Changes to evaluator logic additionally
+need independent expected-result fixtures and an adverse case.
 
-## Specs (dependency order)
-- [x] efficiency-baseline -- Open-source measurement, fixtures and reproducible comparison reports. Final validation GO. Dependencies: none
-- [ ] agent-quality-rules -- User-configurable measured coding constraints, change ratchets and agent-facing violations to prevent new convolution. Requirements, design and tasks approved; 25 executable tasks, implementation not started. Dependencies: efficiency-baseline
-- [ ] deconvolute-skill -- Audit and reversible simplification workflow consuming declared agent rules, compared with plain Codex. Dependencies: efficiency-baseline, agent-quality-rules
-- [ ] transactional-rewrites -- Evidence-backed preview/apply/rollback with a small rule set. Dependencies: efficiency-baseline, deconvolute-skill
-- [ ] codex-integration -- Optional local MCP facade and verified Codex packaging. Dependencies: deconvolute-skill, transactional-rewrites
+Record the trial and its net implementation change, structural tradeoffs and
+behavioral evidence. Adopt only a demonstrated safe improvement. A well-supported
+rejection may complete the workflow gate, but is not successful self-compression;
+missing evidence leaves the gate open. No mandatory deletion percentage, weakened
+tests, feature cuts or repeated refactors merely to obtain a green result.
 
-## Decision checkpoints
-1. Complete: efficiency-baseline requirements, corrected design, all implementation tasks and final validation approved.
-2. Complete for the declared fixtures: unchanged-source measurement stability and rejection of behavior-breaking reductions.
-3. Implement the approved agent-quality-rules tasks with task-local review and final validation. Compare ungated versus rule-guided/gated trial records; use the example simplifier skill only as a side reference. Evaluate skill-only trials as an optional comparison.
-4. Compare skill-only with tool-assisted trials before expanding semantic backends.
+Use a supported Lesscode capability first (the retained Python implementation is
+eligible). Do not add Rust source-analysis support just to unblock this gate;
+report native-core coverage separately and do not claim it from Python results.
+Formal design/tasks must carry this gate into final validation.
+
+Measure the whole replacement, including helpers, tables and changed callers.
+Preserve behavior, APIs, useful types, names and safeguards. Count production,
+checks, fixtures and research support separately. No byte/gzip benefit scores,
+hardware validation or performance benchmarking. Tests are behavioral evidence,
+not a default reduction target.
+
+## Active specifications
+
+- `capability-compression-core`: requirements, design and [tasks](../specs/capability-compression-core/tasks.md)
+  approved through the explicit task-generation `-y` invocation. Independent task
+  graph review passed: all 22 executable tasks in 7 groups are implemented and
+  independently reviewed; broader platform validation remains outstanding.
+  One native library/CLI, not a port of the Python evaluator.
+- `deconvolute-skill`: evolve the existing experimental discovery skill alongside
+  that core; no dependency on the broad rule engine or integration platform.
+
+## Removed from the delivery scope
+
+The broad agent-quality-rules platform, generic transactional rewrite engine,
+MCP/plugin/hook delivery, separate pattern adviser, autonomous synthesis platform,
+and multiple specialized rewrite backends are dropped from the active plan.
+They are not queued milestones or prerequisites. Z3 remains research evidence;
+there is no solver integration task or extension interface in this slice.
+
+Preserved specs are historical records, not instructions to resume. A later
+extension requires an observed unmet need and a new scope/design decision; do
+not pre-build adapters, registries or abstractions for these removed layers.
+Simple scope-level targets and frozen checks stay in the comparison workflow.
+
+## Retained evidence and implementation
+
+The completed efficiency-baseline and existing Python CLI remain the reference.
+Agent-quality-rules has 9/25 tasks marked complete; its remaining plan is retired
+from this delivery scope. Preserve existing source and uncommitted work. No public
+CLI contract is removed by this roadmap change. Frozen ATS01/NPU01 and rejected
+trials remain evidence; two manually selected successes do not establish automatic
+candidate discovery efficacy or measured maintenance savings.
+
+Facdrone, ATS and NPU are specimens, not upstream deliverables. Use isolated trial
+copies and leave source projects unchanged. Lesscode studies less code with the
+same behavior; feature deletion and domain redesign cannot manufacture success.

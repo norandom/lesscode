@@ -1,0 +1,56 @@
+{
+  "source_identity": "30d3865b1bd971afdb8800557c73bb30e90c36acb140fe2633c84154fa164888",
+  "source_revision": "8c70b37094e3e73938d5e2d08c8d98840137bf35",
+  "dirty_state": "",
+  "manifest_references": {
+    "package.json": "9e7cea50617d41616149f7ad07fc92c001ea041a9545649d81bf5a142a615424",
+    "pnpm-lock.yaml": "ff32aea7cab1d8220f22b51ce01f08fa8c1166392ccceffea6990951d5f95b1f",
+    "tsconfig.json": "5fde4dc064d14bf1eeb332432cb620bccb98b134c2199b7bcb6236367a106efb"
+  },
+  "runtime": {
+    "node": "v24.22.1",
+    "executable": "C:\\Program Files\\nodejs\\node.exe",
+    "sha256": "d702daa815eabbff763c7d3808e235cf031cf2ca70211b56847bc72f51e240e5"
+  },
+  "runtime_capabilities": [
+    "ECMAScript String.toLowerCase/replace and RegExp; no production dependency additions"
+  ],
+  "installed": {
+    "dependencies": {},
+    "devDependencies": {
+      "@eslint/js": {
+        "declared": "^9.39.4",
+        "installed": "9.39.4",
+        "manifest_sha256": "c68baf2c859b03e43de607b9f1e392008e678a982baed3c93ab52f89843af260"
+      },
+      "@types/node": {
+        "declared": "^20.19.0",
+        "installed": "20.19.43",
+        "manifest_sha256": "30af579da31ec3b497b9405bed1592a8c041f15c8e25db3a010e3c67f765ab41"
+      },
+      "eslint": {
+        "declared": "^9.39.4",
+        "installed": "9.39.4",
+        "manifest_sha256": "80a7caf2adf34963e47b32a1e75157de6d6814c3ae5a9d90358ddd9364833fe7"
+      },
+      "tsx": {
+        "declared": "^4.19.4",
+        "installed": "4.22.4",
+        "manifest_sha256": "b0d63b124b9b85b53d09cff256fa7832cb6a774f8b90ae1353e63df5275824b2"
+      },
+      "typescript": {
+        "declared": "^5.8.3",
+        "installed": "5.9.3",
+        "manifest_sha256": "822ef7ca6452205657b6288b066481ecf508bfbf43455d715cf7d3ec457561e6"
+      },
+      "typescript-eslint": {
+        "declared": "^8.60.1",
+        "installed": "8.61.0",
+        "manifest_sha256": "e984efbb05fd3ddb864c0b77d29a69a649621f8e65381ef1a83ebf0c94e29842"
+      }
+    }
+  },
+  "roles": "All declared dependencies are development/build/test tooling; no declared production libraries.",
+  "exclusions": "node_modules/tool state excluded from source snapshots; installed package manifests hashed separately.",
+  "proposed_changes": []
+}

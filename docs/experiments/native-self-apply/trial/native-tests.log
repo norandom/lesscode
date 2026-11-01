@@ -1,0 +1,139 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.55s
+     Running unittests src\lib.rs (native\target\debug\deps\lesscode_core-16a2efc4f7126052.exe)
+
+running 81 tests
+test compare::tests::no_target_is_descriptive_and_metrics_are_retained ... ok
+test compare::tests::numeric_bounds_are_absolute_and_tradeoffs_do_not_waive_them ... ok
+test compare::tests::behavior_missing_metrics_and_multiple_target_failures_are_all_retained ... ok
+test compare::tests::formatting_relocation_or_splitting_alone_cannot_be_accepted ... ok
+test compare::tests::frozen_scope_and_definitions_cannot_be_substituted ... ok
+test compare::tests::absent_behavioral_evidence_prevents_acceptance_without_erasing_metrics ... ok
+test compare::tests::decision_precedence_retains_every_conflicting_finding ... ok
+test compare::tests::evidence_admission_failures_are_never_offset_by_savings ... ok
+test compare::tests::frozen_statement_threshold_requires_positive_production_reduction ... ok
+test compare::tests::unavailable_missing_incompatible_and_ambiguous_metrics_remain_incomplete ... ok
+test metrics::call_tests::call_layers_cycles_and_lower_bound_are_distinct ... ok
+test metrics::call_tests::call_layers_ambiguous_shadowed_nested_and_dynamic_are_located ... ok
+test metrics::call_tests::review_default_export_is_not_named_export_with_trivia ... ok
+test metrics::call_tests::call_layers_selection_and_unavailable_source_are_preserved ... ok
+test metrics::call_tests::review_python_default_call_is_not_entry_body_edge ... ok
+test metrics::call_tests::call_layers_do_not_search_for_modules_or_assume_exports ... ok
+test metrics::call_tests::review_wildcard_import_can_replace_local_bindings ... ok
+test metrics::call_tests::review_python_module_package_collision_is_ambiguous ... ok
+test metrics::call_tests::call_layers_direct_imported_and_entry_vertex ... ok
+test compare::tests::admits_bound_pair_and_retains_domains_and_limitations ... ok
+test compare::tests::baseline_only_optional_evidence_is_incomplete ... ok
+test metrics::tests::errors_outside_selected_scope_and_empty_selection ... ok
+test metrics::tests::guarded_cases_and_boolean_chains_are_explicit ... ok
+test metrics::tests::grammar_statement_table_covers_imports_bindings_and_suites ... ok
+test metrics::tests::decisions_branches_handlers_comprehensions_and_cases ... ok
+test metrics::tests::nested_functions_lambda_no_implicit_decision ... ok
+test metrics::tests::parse_and_encoding_errors_are_unavailable_not_zero ... ok
+test metrics::tests::physical_newlines_empty_crlf_and_unicode ... ok
+test metrics::tests::compound_statements_and_wrappers_hand_counted ... ok
+test compare::tests::absent_optional_check_is_allowed_with_another_complete_pair ... ok
+test compare::tests::candidate_only_optional_evidence_is_incomplete ... ok
+test metrics::tests::selected_spans_union_nodes_and_shared_lines ... ok
+test model::tests::count_arithmetic_and_json_never_wrap_or_coerce ... ok
+test metrics::tests::typed_errors_encoding_and_grammar_difference_keep_physical ... ok
+test metrics::tests::tsx_jsx_expressions_have_independent_counts ... ok
+test model::tests::duplicate_ids_are_not_overwritten_and_maps_are_sorted ... ok
+test model::tests::comparison_round_trip_retains_incomplete_and_failure_findings ... ok
+test metrics::tests::typescript_typed_declarations_wrappers_and_functions ... ok
+test metrics::tests::typed_union_selection_lines_and_scope_errors ... ok
+test model::tests::target_is_closed_to_supported_counts ... ok
+test model::tests::manifest_round_trip_and_frozen_record ... ok
+test compare::tests::observed_mismatches_reject_even_with_passed_status_and_missing_check ... ok
+test model::tests::metric_deltas_cannot_hide_unavailability_or_definition_changes ... ok
+test model::tests::evidence_round_trip_preserves_bindings_counts_and_missing_sides ... ok
+test model::tests::unavailable_is_distinct_from_zero_and_closed ... ok
+test compare::tests::reports_sort_collections_without_mutating_records ... ok
+test model::tests::unknown_and_unsupported_manifest_fields_fail ... ok
+test metrics::tests::typescript_control_flow_hand_counted ... ok
+test metrics::tests::typed_declaration_families_and_header_rules ... ok
+test compare::tests::incomplete_reports_keep_unavailable_metrics_and_missing_checks ... ok
+test compare::tests::reports_retain_complete_evidence_context_and_escape_markdown ... ok
+test compare::tests::report_context_must_match_trial_and_supplied_evidence ... ok
+test compare::tests::exit_status_and_case_counts_follow_declared_interpretation ... ok
+test compare::tests::baseline_failure_and_optional_candidate_regression_are_preserved ... ok
+test compare::tests::artifact_roots_cannot_ambiguously_bind_the_same_relative_path ... ok
+test scope::tests::span_union_counts_nested_partial_and_adjacent_ranges_once_per_file ... ok
+test scope::tests::rejects_escaping_nonportable_and_colliding_rules ... ok
+test compare::tests::empty_optional_inventory_results_and_zero_expected_are_incomplete ... ok
+test scope::tests::rejects_case_collisions_when_filesystem_preserves_both_names ... ok
+test compare::tests::every_outcome_is_reportable_and_runtime_metadata_is_absent ... ok
+test compare::tests::differential_identity_oracle_and_expected_counts_are_bound ... ok
+test scope::tests::narrowed_or_unreviewed_scope_is_incomplete_and_locations_survive_review ... ok
+test compare::tests::required_missing_checks_results_and_errors_are_incomplete ... ok
+test scope::tests::qualified_occurrences_select_complete_nodes_and_reject_stale_or_missing_source ... ok
+test compare::tests::unknown_check_and_altered_frozen_definition_are_invalid ... ok
+test scope::tests::external_contract_review_retains_relationship_without_an_owned_target ... ok
+test scope::tests::reviewed_selectors_retain_entries_and_union_whole_file_overlap ... ok
+test scope::tests::typed_named_nodes_keep_export_wrappers_and_tsx_bodies ... ok
+test compare::tests::short_or_zero_runs_are_incomplete_and_collector_exit_is_invalid ... ok
+test compare::tests::stale_source_trial_or_check_binding_is_invalid ... ok
+test scope::tests::structural_selector_failures_never_fall_back_to_empty_spans ... ok
+test scope::tests::replacement_accounting_blocks_omissions_narrowing_and_unreviewed_ownership ... ok
+test scope::tests::capability_inventory_requires_snapshot_artifact_and_source_binding ... ok
+test scope::tests::categories_exclusions_and_record_boundaries_affect_identity ... ok
+test workflow_tests::mutation_after_measurement_is_detected_on_either_side ... ok
+test scope::tests::explicit_rules_keep_all_categories_and_have_no_implicit_exclusions ... ok
+test scope::tests::relocated_roots_include_untracked_and_preserve_source ... ok
+test scope::tests::rejects_windows_junction_even_at_exclusion_boundary ... ok
+test scope::tests::replacement_accounting_discloses_categories_dependencies_and_blocked_changes ... ok
+test scope::tests::replacement_accounting_moved_and_fragmented_helpers_expand_symmetrically ... ok
+test compare::tests::artifacts_require_actual_bytes_paths_and_expected_ids ... ok
+
+test result: ok. 81 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running unittests src\main.rs (native\target\debug\deps\lesscode_core-3abd1fb08c928719.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\cli.rs (native\target\debug\deps\cli-d78632eee13a65bc.exe)
+
+running 5 tests
+test output_links_and_reparse_ancestors_are_rejected_before_writes ... ok
+test invalid_inputs_leave_no_output_and_help_explains_contract ... ok
+test omitted_artifact_roots_report_incomplete_and_repeated_reports_are_identical ... ok
+test prepare_freezes_once_and_output_refusals_do_not_write_sources ... ok
+test every_status_is_rendered_with_its_exit_code_and_sources_unchanged ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.66s
+
+     Running tests\parsers.rs (native\target\debug\deps\parsers-cecac97c98735f49.exe)
+
+running 4 tests
+test python_grammar_preserves_source_and_recognizes_function ... ok
+test malformed_inputs_remain_detectable ... ok
+test typescript_grammar_recognizes_types ... ok
+test tsx_grammar_recognizes_jsx_and_types ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\workflow.rs (native\target\debug\deps\workflow-b22cc6413c884b07.exe)
+
+running 12 tests
+test frozen_definitions_and_evaluator_are_checked_without_rebaselining ... ok
+test wider_unrelated_calls_are_reported_without_expanding_owned_capability ... ok
+test preparation_verifies_external_capability_inventory_bytes ... ok
+test support_helpers_are_charged_and_configuration_lines_disclosed ... ok
+test comparison_revalidates_baseline_capability_inventory_artifact ... ok
+test stale_candidate_evidence_and_changed_frozen_checks_are_detected ... ok
+test prepared_pair_measures_real_production_and_separate_categories_deterministically ... ok
+test failures_missing_checks_and_stale_sources_cannot_accept ... ok
+test no_target_is_descriptive_and_missing_ownership_is_incomplete ... ok
+test changing_production_language_does_not_manufacture_a_zero_target_count ... ok
+test unresolved_locations_join_each_sides_ownership_review ... ok
+test baseline_capability_inventory_allows_changed_candidate_and_retains_report_binding ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+   Doc-tests lesscode_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

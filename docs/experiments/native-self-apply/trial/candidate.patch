@@ -1,0 +1,79 @@
+--- a/src/lesscode_baseline/rules/contracts.py
++++ b/src/lesscode_baseline/rules/contracts.py
+@@ -12,35 +12,23 @@
+ from typing import Literal, Self
+ 
+ from lesscode_baseline.contracts import DECISIONS, Decision, ContractError, MetricEvidence, Record, RunReport, SourceSpan, dumps, loads
++from lesscode_baseline.contracts import (
++    _fail as _baseline_fail, _object as _baseline_object, _choice as _baseline_choice,
++    _string, _hash, _sequence,
++)
+ from lesscode_baseline.snapshot import matches
+ 
+ 
+ def _fail(path: str, reason: str):
+-    raise ContractError(f"{path}: {reason}")
++    return _baseline_fail(path, reason)
+ 
+ 
+ def _object(value, path: str, fields: str) -> dict:
+-    if not isinstance(value, dict):
+-        _fail(path, "expected object")
+-    for key in value:
+-        if key not in fields.split():
+-            _fail(f"{path}.{key}", "unknown field")
+-    for key in fields.split():
+-        if key not in value:
+-            _fail(f"{path}.{key}", "required field missing")
+-    return value
+-
+-
+-def _string(value, path: str) -> str:
+-    if not isinstance(value, str) or not value.strip() or "\x00" in value:
+-        _fail(path, "expected nonempty string without NUL")
+-    return value
++    return _baseline_object(value, path, fields)
+ 
+ 
+ def _choice(value, path: str, choices: tuple[str, ...]) -> str:
+-    if not isinstance(value, str) or value not in choices:
+-        _fail(path, f"expected one of {', '.join(choices)}")
+-    return value
++    return _baseline_choice(value, path, choices)
+ 
+ 
+ def _number(value, path: str) -> int | float:
+@@ -55,12 +43,6 @@
+     return value
+ 
+ 
+-def _hash(value, path: str) -> str:
+-    if not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{64}", value):
+-        _fail(path, "expected lowercase SHA-256 fingerprint")
+-    return value
+-
+-
+ def _relative(value, path: str, *, root=False) -> str:
+     value = _string(value, path)
+     if root and value == ".":
+@@ -71,20 +53,6 @@
+     if root and any(c in value for c in "*?[]"):
+         _fail(path, "root must be a literal relative path")
+     return value
+-
+-
+-def _sequence(value, reader, path: str, identity=None) -> tuple:
+-    if not isinstance(value, (list, tuple)):
+-        _fail(path, "expected array")
+-    records = tuple(reader(item, f"{path}[{i}]") for i, item in enumerate(value))
+-    if identity is not None:
+-        seen = set()
+-        for i, record in enumerate(records):
+-            key = identity(record)
+-            if key in seen:
+-                _fail(f"{path}[{i}]", f"duplicate identity {key!r}")
+-            seen.add(key)
+-    return records
+ 
+ 
+ def _utc(value, path: str) -> str:

@@ -1,0 +1,13 @@
+▶ degradation reporting
+  ✔ creates deterministic user-facing notices with safe next actions (1.691ms)
+  ✔ classifies workflow state consistently from notices and enabled mode (0.3153ms)
+  ✔ returns typed DegradationNotice values (0.1132ms)
+✔ degradation reporting (2.981ms)
+ℹ tests 3
+ℹ suites 1
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 327.2258

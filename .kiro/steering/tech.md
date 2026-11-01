@@ -1,6 +1,8 @@
 # Technology Direction
 
-Start with a local measurement CLI and a skill. Add MCP and transactional transformations after controlled evaluation demonstrates benefit. The approved baseline design uses Python for the harness and first fixture language; JS/TS and Java are later scope.
+Current direction (2026-11-01): a native compiled capability-compression core with a skill, targeting Python and TypeScript source. Rust is selected in the approved capability-compression-core design; see `docs/reports/native-compression-direction.md`. Use one library/CLI package and the ast-grep/tree-sitter substrate. Do not port the Python evaluator wholesale. MCP, generic rewrite engines and solver integration are removed from active delivery; do not pre-build extension interfaces. Java is outside this pilot.
+
+The completed Python baseline remains the research/reference implementation. Reuse selected contracts and frozen adverse fixtures; preserve existing CLI compatibility. Target-project runtimes and tests remain necessary. Hardware/performance benchmarking and byte/gzip benefit metrics are excluded; execution bounds and platform correctness remain relevant.
 
 Use uv/uvx for Python development commands and setup. On Windows invoke uv.exe/uvx.exe directly to avoid local PowerShell function wrappers. Select the pinned interpreter explicitly; never invoke or install Windows Store Python. Existing evaluator subprocesses use recorded, absolute pinned runtime bindings. For the current validation environment: uv.exe run --no-project --no-python-downloads --python .venv-task11/Scripts/python.exe python -m unittest discover -q, with PYTHONPATH set to resolved src. Save multiline Python as a script instead of piping it through a shell wrapper.
 

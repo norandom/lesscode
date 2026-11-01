@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "candidate_ownership": {
+    "schema_version": 1,
+    "replacements": {
+      "ats_agent.py": [
+        {
+          "kind": "whole_file",
+          "path": "ats_agent.py"
+        }
+      ]
+    },
+    "review": {
+      "schema_version": 1,
+      "rationale": "Whole ATS agent module, including retained class members and every translation table/helper. External imports are retained unchanged; this replay tests reporting only.",
+      "relationships": {}
+    }
+  },
+  "checks": {
+    "differential": {
+      "schema_version": 1,
+      "baseline": null,
+      "candidate": null
+    },
+    "dispatch": {
+      "schema_version": 1,
+      "baseline": null,
+      "candidate": null
+    }
+  },
+  "dependency_changes": {}
+}

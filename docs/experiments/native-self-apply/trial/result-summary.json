@@ -1,0 +1,10 @@
+{
+  "trial_id": "NS01-policy-primitive-reuse-independent-v1-scope-reviewed-parallel-v3",
+  "baseline_identity": "f655aec4a68aa7b97e9c25fd791d42a861cc5cadd2c71e22eb68bbc8d0a170e0",
+  "candidate_identity": "727540da559b9fd1b477a20466151e26dda865ab7f8b9c4dd3bb55fea2c941e4",
+  "frozen_trial_digest": "8f16fbc8cbb1ad6c3c16aed09287d1297ee435203fde298864c5c22e2932e035",
+  "status": "accepted",
+  "reasons": [],
+  "check_findings": [],
+  "limitations": "Finite Windows/CPython checks; dynamic call layers unavailable; arbitrary hostile objects and Rust/TypeScript self-compression unverified. Full unchanged native limitation catalog is in native-result.zip."
+}

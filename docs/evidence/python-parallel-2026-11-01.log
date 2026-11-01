@@ -1,0 +1,29 @@
+bringing up nodes...
+bringing up nodes...
+
+...........uu.....u.u.uu.u.....u........uu.u...uu.uuuuuuuuuuuu..uu.u...u [  8%]
+...u.......uu.uuuuuu.uu....uu.uuuu.u.......uuu..uu......uuuuuuu.uuu...uu [ 15%]
+.u..uuuuu.u.uuu....uuuuu.uuuu..uuu.......uuuuuuuuuuu.uuu......uuuuu..... [ 21%]
+.......uuuu..uuuuuuuu..uuuu.uuuuuuuuuu....uuuuu..uuu.................... [ 28%]
+.uuuu.....uu.uuuuuuuuuu....................ss.ss..ss.u.uu..........u.uuu [ 38%]
+uuuuuu...s.u...uuuuuu........u...........uuuuuuuuu...uu....u..uuu....uuu [ 46%]
+.uuu..uuuuuuu...uuuuuu.uuuuuuuuuuuuuuuuuuuuuuuuuuu...uuuu.....uuuu...... [ 50%]
+...uu.u........u.....u...u.uuu.u.uuuuu.uuuuu.u....uuuu........u.u.u.u..u [ 58%]
+.u..u..u..u..u..uuuuu.........uuuu...........u.u.uuuu.uu.u..u.uu..uuu..u [ 66%]
+.uuuuu...uuuuuuuuuuuuuuu.u..uuuuu.u...uuuuuuu.u.uu.u.uuuuuuuuu.u..uuu.uu [ 70%]
+u......u..u..uuuuuuuuu.u..u.u...u...........uu.u.....uuuuu.............. [ 79%]
+......uuuu......uuu.................uuuuuuuuuuuuuuuu.uuuuuuuuuuuu...uu.. [ 86%]
+uuuuuuuuu.uuu.uuuu..uuuuuu.........u..u.uu.uu......u..uuuuuuuuuuuuuuuu.u [ 91%]
+uu.uuuu..uu.u.s..u........s........ss....uuuuuuuu...uu..........         [100%]
+============================ slowest 10 durations =============================
+101.66s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_candidate_suppression_and_silent_omission_are_incomplete
+78.29s setup    tests/test_evaluation.py::RealEvaluationTests::test_real_shorter_broken_pair_rejected_without_reverting_source
+49.04s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_deleted_candidate_check_cannot_reduce_frozen_inventory
+44.44s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_timeout_of_child_spawning_check_retains_diagnostics
+40.97s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_optional_baseline_failure_is_ineligible_with_passing_core_evidence
+36.45s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_parse_error_retains_independent_successes_and_rejects_behavior
+35.14s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_optional_metric_absence_is_nonblocking_and_audits_are_indexed
+15.35s call     tests/test_metrics.py::DuplicationMetricTests::test_missing_malformed_omitted_foreign_and_bounded_cli_output
+14.54s call     tests/test_config.py::PreparationTests::test_reloaded_command_changes_invalidate_integrity_without_probes
+10.28s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_stale_report_cannot_substitute_for_new_output
+504 passed, 11 skipped, 485 subtests passed in 434.32s (0:07:14)

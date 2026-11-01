@@ -1,0 +1,26 @@
+{
+  "command": [
+    "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\lesscode-core.exe",
+    "compare",
+    "--frozen",
+    "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\parallel-trial-v3\\frozen.json",
+    "--baseline",
+    "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\baseline",
+    "--candidate",
+    "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\candidate",
+    "--evidence",
+    "D:\\Source\\lesscode\\docs\\experiments\\native-self-apply\\trial\\evidence.json",
+    "--artifact-root",
+    "D:\\Source\\lesscode\\docs\\experiments\\native-self-apply\\trial",
+    "--out",
+    "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\parallel-v3-comparison"
+  ],
+  "cwd": "D:\\Source\\lesscode",
+  "PYTHONPATH": null,
+  "exit_code": 0,
+  "elapsed_seconds": 88.32799999974668,
+  "log_sha256": "7097b6f900099b3540bfa603ea9a38d0c3b26ca690787af19169bd31fdc39ca2",
+  "frozen_file_sha256": "e5977f5e7400b3e4f15dc2e6d6ace47efd3e447777265bc2119b3dc95c305b2c",
+  "source_hashes_before": {},
+  "source_hashes_after": {}
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "ProcessId": 44240,
+    "ParentProcessId": 37016,
+    "CommandLine": "\"D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe\" docs/experiments/native-self-apply/trial/conduct.py regressions"
+  },
+  {
+    "ProcessId": 13720,
+    "ParentProcessId": 44240,
+    "CommandLine": "\"C:\\Users\\mariu\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" docs/experiments/native-self-apply/trial/conduct.py regressions"
+  },
+  {
+    "ProcessId": 30324,
+    "ParentProcessId": 4668,
+    "CommandLine": "\"D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe\" docs/experiments/native-self-apply/trial/conduct.py repaired"
+  },
+  {
+    "ProcessId": 22540,
+    "ParentProcessId": 30324,
+    "CommandLine": "\"C:\\Users\\mariu\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" docs/experiments/native-self-apply/trial/conduct.py repaired"
+  }
+]

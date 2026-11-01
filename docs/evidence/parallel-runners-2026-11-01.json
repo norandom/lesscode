@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-01",
+  "platform": "Windows",
+  "python": "3.12.10",
+  "pytest": "9.1.1",
+  "pytest_xdist": "3.8.0",
+  "python_workers": 4,
+  "python_distribution": "loadfile",
+  "collected": 515,
+  "passed": 504,
+  "skipped": 11,
+  "subtests_passed": 485,
+  "python_seconds": 434.32,
+  "python_exit": 0,
+  "collection_identity_match": true,
+  "rust": "1.98.1",
+  "nextest": "0.9.143",
+  "rust_workers": 4,
+  "rust_passed": 102,
+  "rust_skipped": 0,
+  "nextest_seconds": 1.422,
+  "rust_exit": 0,
+  "doctests": 0,
+  "review": "independent APPROVED",
+  "limitations": [
+    "Windows run only",
+    "Timing compared with earlier serial execution is not a controlled benchmark",
+    "Frozen self-trials retain their original records; parallel trials have separate definitions"
+  ]
+}

@@ -1,0 +1,41 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.1.1, pluggy-1.7.0
+rootdir: D:\Source\lesscode\.runs\native-self-apply\ns01\external\check-runs\parallel-v3-candidate
+configfile: pyproject.toml
+plugins: xdist-3.8.0
+created: 4/4 workers
+4 workers [515 items]
+
+........................................................................ [ 13%]
+........................................................................ [ 27%]
+...............................ss..ss.ss.................s.............. [ 41%]
+........................................................................ [ 55%]
+........................................................................ [ 69%]
+........................................................................ [ 83%]
+..........................s.............................s.....ss........ [ 97%]
+...........                                                              [100%]
+- generated xml file: D:\Source\lesscode\.runs\native-self-apply\ns01\external\parallel-trial-v3\candidate-junit.xml -
+============================ slowest 10 durations =============================
+193.74s setup    tests/test_evaluation.py::RealEvaluationTests::test_real_shorter_broken_pair_rejected_without_reverting_source
+113.97s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_optional_baseline_failure_is_ineligible_with_passing_core_evidence
+90.83s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_candidate_suppression_and_silent_omission_are_incomplete
+79.27s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_deleted_candidate_check_cannot_reduce_frozen_inventory
+69.10s call     tests/test_metrics.py::DuplicationMetricTests::test_missing_malformed_omitted_foreign_and_bounded_cli_output
+67.75s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_optional_metric_absence_is_nonblocking_and_audits_are_indexed
+66.06s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_timeout_of_child_spawning_check_retains_diagnostics
+55.25s call     tests/test_adverse_evaluation.py::AdverseEvaluationTests::test_parse_error_retains_independent_successes_and_rejects_behavior
+45.75s call     tests/test_config.py::PreparationTests::test_reloaded_command_changes_invalidate_integrity_without_probes
+37.32s call     tests/test_config.py::PreparationTests::test_reloaded_tool_path_changes_invalidate_integrity
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_process.py:109: POSIX lifecycle
+SKIPPED [1] tests\test_process.py:84: POSIX lifecycle
+SKIPPED [1] tests\test_process.py:101: POSIX lifecycle
+SKIPPED [1] tests\test_process.py:72: POSIX lifecycle; Windows helper is task 2.4
+SKIPPED [1] tests\test_process.py:65: POSIX lifecycle
+SKIPPED [1] tests\test_process.py:91: POSIX lifecycle
+SKIPPED [1] tests\test_report.py:86: symlink creation unavailable: [WinError 1314] A required privilege is not held by the client: 'C:\\Users\\mariu\\AppData\\Local\\Temp\\tmprl01aw_l\\outside' -> 'C:\\Users\\mariu\\AppData\\Local\\Temp\\tmprl01aw_l\\run\\link'
+SKIPPED [1] tests\test_ci_validate.py:65: native POSIX venv symlink context
+SKIPPED [1] tests\test_toolchain_setup.py:21: native POSIX tool-root symlink protection
+SKIPPED [1] tests\test_python_environment.py:21: native POSIX interpreter symlink binding
+SKIPPED [1] tests\test_python_environment.py:57: native POSIX interpreter symlink binding
+================= 504 passed, 11 skipped in 767.35s (0:12:47) =================

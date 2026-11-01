@@ -1,0 +1,32 @@
+{
+  "inputs_unchanged": true,
+  "input_file_count": 28,
+  "executable_sha256": "ccafc4671330c15f9faa10c96438dba77ecff21a6f2703c1c309b6903040ccea",
+  "outcomes": [
+    {
+      "exit_code": 0,
+      "command": "prepare",
+      "output": [
+        "Prepared \\\\?\\D:\\Source\\lesscode\\.runs\\native-replay\\skill-recipe-6.4\\frozen.json"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "command": "compare candidate",
+      "output": [
+        "Accepted: \\\\?\\D:\\Source\\lesscode\\.runs\\native-replay\\skill-recipe-6.4\\candidate"
+      ]
+    },
+    {
+      "exit_code": 1,
+      "command": "compare mutant",
+      "output": [
+        "RejectedBehavior: \\\\?\\D:\\Source\\lesscode\\.runs\\native-replay\\skill-recipe-6.4\\mutant",
+        "differential/candidate: declared behavioral failure",
+        "differential/candidate: observed behavioral mismatches"
+      ]
+    }
+  ],
+  "run_path": ".runs/native-replay/skill-recipe-6.4",
+  "platform": "Windows x64; PowerShell; 2026-11-01"
+}

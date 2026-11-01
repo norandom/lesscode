@@ -1,0 +1,18 @@
+{
+  "expected_src": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\check-runs\\parallel-v3-candidate\\src",
+  "observed": {
+    "lesscode_baseline/__init__.py": {
+      "path": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\check-runs\\parallel-v3-candidate\\src\\lesscode_baseline\\__init__.py",
+      "sha256": "811352a8c830583e9cdbd3c577b316d6a2762cbb56ffb8408250fde1bf517a83"
+    },
+    "lesscode_baseline/contracts.py": {
+      "path": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\check-runs\\parallel-v3-candidate\\src\\lesscode_baseline\\contracts.py",
+      "sha256": "31844a5f64d168b31e88c1180d4aca47c0b0a84abfda5c04cf1b157c8f68e2f2"
+    },
+    "lesscode_baseline/rules/contracts.py": {
+      "path": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\check-runs\\parallel-v3-candidate\\src\\lesscode_baseline\\rules\\contracts.py",
+      "sha256": "65e939cc9e1d3acac3b0aed289d0283e9a160f28875a5f5a0d79cdb509a8dcfd"
+    }
+  },
+  "pid": 27784
+}

@@ -1,0 +1,13 @@
+{
+  "definition": "Physical lines in newly authored Python check/research apparatus, separate from native production metrics and immutable source copies",
+  "files": {
+    "expected_runner.py": 114,
+    "source_guard.py": 37,
+    "conduct.py": 167,
+    "review_scope.py": 130,
+    "parallel.py": 86,
+    "collect.py": 209
+  },
+  "automated_checks_physical_lines": 151,
+  "research_support_physical_lines": 592
+}

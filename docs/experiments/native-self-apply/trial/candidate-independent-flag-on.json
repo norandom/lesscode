@@ -1,0 +1,17 @@
+{
+  "command": [
+    "uv.exe",
+    "run",
+    "--no-project",
+    "--no-python-downloads",
+    "--python",
+    "D:\\Source\\lesscode\\.venv-task11\\Scripts\\python.exe",
+    "python",
+    "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\external\\trial\\expected_runner.py"
+  ],
+  "cwd": "D:\\Source\\lesscode",
+  "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\native-self-apply\\ns01\\candidate\\src",
+  "exit_code": 0,
+  "elapsed_seconds": 0.26500000013038516,
+  "log_sha256": "5e87142e0e368d5b5425711a2db171ed1aebacdde26257961cf237519e3a74af"
+}

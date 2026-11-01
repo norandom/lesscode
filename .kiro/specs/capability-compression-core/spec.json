@@ -1,0 +1,37 @@
+{
+  "feature_name": "capability-compression-core",
+  "created_at": "2026-11-01T13:36:20.0239546+01:00",
+  "updated_at": "2026-11-01T19:02:39.2242013+01:00",
+  "language": "en",
+  "phase": "implementation-complete",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": true
+    },
+    "design": {
+      "generated": true,
+      "approved": true
+    },
+    "tasks": {
+      "generated": true,
+      "approved": true
+    }
+  },
+  "ready_for_implementation": true,
+  "validation": {
+    "decision": "GO",
+    "tasks_completed": 22,
+    "tasks_total": 22,
+    "independently_reviewed": true,
+    "verified_platforms": [
+      "Windows",
+      "Linux",
+      "macOS"
+    ],
+    "pending": [],
+    "self_application": "reviewed and adopted for the supported Python capability",
+    "report": "validation.md",
+    "platform_evidence": "../../../docs/evidence/native-core-41333477507.json"
+  }
+}

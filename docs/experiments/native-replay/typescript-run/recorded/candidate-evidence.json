@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "candidate_ownership": {
+    "schema_version": 1,
+    "replacements": {
+      "src/degradation.ts": [
+        {
+          "kind": "whole_file",
+          "path": "src/degradation.ts"
+        }
+      ],
+      "src/types.ts": [
+        {
+          "kind": "whole_file",
+          "path": "src/types.ts"
+        }
+      ]
+    },
+    "review": {
+      "schema_version": 1,
+      "rationale": "Whole degradation module and imported type module; all project source retained in wider accounting.",
+      "relationships": {
+        "src/degradation.ts:4937": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+          "rationale": "Reviewed native call location and complete module: input.notices.filter((notice) => notice.severity === \"blocked\"). unresolved call at bytes 4937..5000; dynamic, external, ambiguous or unsupported binding; ownership review required"
+        },
+        "src/degradation.ts:5338": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+          "rationale": "Reviewed native call location and complete module: input.notices.filter((notice) => notice.severity === \"warning\"). unresolved call at bytes 5338..5401; dynamic, external, ambiguous or unsupported binding; ownership review required"
+        },
+        "src/degradation.ts:6608": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+          "rationale": "Reviewed native call location and complete module: new Date().toISOString(),. unresolved call at bytes 6608..6618; dynamic, external, ambiguous or unsupported binding; ownership review required"
+        },
+        "src/degradation.ts:6941": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+          "rationale": "Reviewed native call location and complete module: notices.map((notice) => notice.capability).join(\", \"). unresolved call at bytes 6941..6983; dynamic, external, ambiguous or unsupported binding; ownership review required"
+        },
+        "src/degradation.ts:7095": {
+          "schema_version": 1,
+          "owned_targets": [],
+          "external_contract": "ECMAScript standard Array/String/Date methods; owned callbacks and helpers retained in the whole module",
+          "rationale": "Reviewed native call location and complete module: value.toLowerCase().replace(/[^a-z0-9]+/g, \"-\").replace(/^-|-$/g, \"\") || \"unknown\". unresolved call at bytes 7095..7114; dynamic, external, ambiguous or unsupported binding; ownership review required"
+        }
+      }
+    }
+  },
+  "checks": {
+    "types": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "30d3865b1bd971afdb8800557c73bb30e90c36acb140fe2633c84154fa164888",
+        "frozen_trial_digest": "c585b8d628353c94d9c72bcfceaac6ecfbe5ae2535fa1478afa371d91b2d41f5",
+        "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "types.json": {
+            "schema_version": 1,
+            "path": "baseline-raw/types.json",
+            "sha256": "e8124bdd34b53c3eb8fbc241fee2cd117aeecb49e87ba24c9e3794923592fe00"
+          },
+          "types.log": {
+            "schema_version": 1,
+            "path": "baseline-raw/types.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "tested_domain": "Existing degradation Node tests, strict existing project build and 5542 finite public API observations.",
+        "limitations": [
+          "No external host/permission execution; no universal equivalence.",
+          "Installed dependency source is external, separately inventoried; no dependencies added."
+        ]
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "c3dd8a09fa03ac75ec2f97e1205889ebaae2e6c389081842bb7327cead37a17d",
+        "frozen_trial_digest": "c585b8d628353c94d9c72bcfceaac6ecfbe5ae2535fa1478afa371d91b2d41f5",
+        "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "types.json": {
+            "schema_version": 1,
+            "path": "candidate-raw/types.json",
+            "sha256": "5a552fa68353a9ea97adf6f62099b30e9a755d9b755139080e636eb616873856"
+          },
+          "types.log": {
+            "schema_version": 1,
+            "path": "candidate-raw/types.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "tested_domain": "Existing degradation Node tests, strict existing project build and 5542 finite public API observations.",
+        "limitations": [
+          "No external host/permission execution; no universal equivalence.",
+          "Installed dependency source is external, separately inventoried; no dependencies added."
+        ]
+      }
+    },
+    "project-tests": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "30d3865b1bd971afdb8800557c73bb30e90c36acb140fe2633c84154fa164888",
+        "frozen_trial_digest": "c585b8d628353c94d9c72bcfceaac6ecfbe5ae2535fa1478afa371d91b2d41f5",
+        "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "project-tests.json": {
+            "schema_version": 1,
+            "path": "baseline-raw/project-tests.json",
+            "sha256": "f4e96893844b4c90fb75d83d39c3f9a2c06ecc517f51d55fe42b501a821e1093"
+          },
+          "project-tests.log": {
+            "schema_version": 1,
+            "path": "baseline-raw/project-tests.log",
+            "sha256": "57a5167738dbfcb7eba70e68bf4280ab0a878fe0f1c3792b35879cd359572b61"
+          }
+        },
+        "tested_domain": "Existing degradation Node tests, strict existing project build and 5542 finite public API observations.",
+        "limitations": [
+          "No external host/permission execution; no universal equivalence.",
+          "Installed dependency source is external, separately inventoried; no dependencies added."
+        ]
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "c3dd8a09fa03ac75ec2f97e1205889ebaae2e6c389081842bb7327cead37a17d",
+        "frozen_trial_digest": "c585b8d628353c94d9c72bcfceaac6ecfbe5ae2535fa1478afa371d91b2d41f5",
+        "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "project-tests.json": {
+            "schema_version": 1,
+            "path": "candidate-raw/project-tests.json",
+            "sha256": "6dc07f59cbb5674b53d87d7c4ac5b18e835cb7ce0e77e67b34c164d0f7593648"
+          },
+          "project-tests.log": {
+            "schema_version": 1,
+            "path": "candidate-raw/project-tests.log",
+            "sha256": "1e1c06c5955b7d00703beb46f508a22eb17fc5ff4e5e52075a26de6bc692a4bd"
+          }
+        },
+        "tested_domain": "Existing degradation Node tests, strict existing project build and 5542 finite public API observations.",
+        "limitations": [
+          "No external host/permission execution; no universal equivalence.",
+          "Installed dependency source is external, separately inventoried; no dependencies added."
+        ]
+      }
+    },
+    "differential": {
+      "schema_version": 1,
+      "baseline": {
+        "schema_version": 1,
+        "source_identity": "30d3865b1bd971afdb8800557c73bb30e90c36acb140fe2633c84154fa164888",
+        "frozen_trial_digest": "c585b8d628353c94d9c72bcfceaac6ecfbe5ae2535fa1478afa371d91b2d41f5",
+        "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "differential.json": {
+            "schema_version": 1,
+            "path": "baseline-raw/differential.json",
+            "sha256": "6510ed2d68d23767c7b99762751e4638da265cbb161717a59b648017d25bc27f"
+          },
+          "observations.json": {
+            "schema_version": 1,
+            "path": "baseline-raw/observations.json",
+            "sha256": "b95bb79420d46a3b473bcf34a1f71cc97cf4f2683b0eedbf3c52cd42d53189e4"
+          }
+        },
+        "tested_domain": "Existing degradation Node tests, strict existing project build and 5542 finite public API observations.",
+        "limitations": [
+          "No external host/permission execution; no universal equivalence.",
+          "Installed dependency source is external, separately inventoried; no dependencies added."
+        ]
+      },
+      "candidate": {
+        "schema_version": 1,
+        "source_identity": "c3dd8a09fa03ac75ec2f97e1205889ebaae2e6c389081842bb7327cead37a17d",
+        "frozen_trial_digest": "c585b8d628353c94d9c72bcfceaac6ecfbe5ae2535fa1478afa371d91b2d41f5",
+        "definition_digest": "5074127f36e294f0988d2ee06d112c7775d329d790bdc1d78ddcf86cc763ca84",
+        "status": "passed",
+        "summary": {
+          "kind": "exit_status",
+          "code": 0
+        },
+        "artifacts": {
+          "differential.json": {
+            "schema_version": 1,
+            "path": "candidate-raw/differential.json",
+            "sha256": "6510ed2d68d23767c7b99762751e4638da265cbb161717a59b648017d25bc27f"
+          },
+          "observations.json": {
+            "schema_version": 1,
+            "path": "candidate-raw/observations.json",
+            "sha256": "b95bb79420d46a3b473bcf34a1f71cc97cf4f2683b0eedbf3c52cd42d53189e4"
+          }
+        },
+        "tested_domain": "Existing degradation Node tests, strict existing project build and 5542 finite public API observations.",
+        "limitations": [
+          "No external host/permission execution; no universal equivalence.",
+          "Installed dependency source is external, separately inventoried; no dependencies added."
+        ]
+      }
+    }
+  },
+  "dependency_changes": {}
+}

@@ -1,0 +1,11 @@
+{
+  "selection_started_local": "2026-11-01T16:43:13.8387852+01:00",
+  "selection_completed_by_local": "2026-11-01T16:44:41.1195084+01:00",
+  "source": "Get-Date -Format o tool outputs at the start of the bounded D:/Source survey and after inspecting OpenUltraCode's module/tests/installed prerequisites",
+  "receipt_written_retrospectively": true,
+  "selection_budget_seconds": 1800,
+  "edit_validation_budget_seconds": 7200,
+  "source_specimen": "D:/Source/OpenUltraCode",
+  "upstream_mutations_authorized": false,
+  "dependency_installation_authorized": false
+}

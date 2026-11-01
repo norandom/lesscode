@@ -1,0 +1,3 @@
+RejectedBehavior: \\?\D:\Source\lesscode\.runs\native-replay\skill-recipe-6.4\mutant
+differential/candidate: declared behavioral failure
+differential/candidate: observed behavioral mismatches

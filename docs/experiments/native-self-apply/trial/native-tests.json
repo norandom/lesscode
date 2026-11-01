@@ -1,0 +1,20 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--manifest-path",
+    "native/Cargo.toml",
+    "--locked"
+  ],
+  "cwd": "D:/Source/lesscode",
+  "exit_code": 0,
+  "groups_passed": [
+    81,
+    5,
+    4,
+    12
+  ],
+  "total_passed": 102,
+  "log_sha256": "c39947c8e87e23c04245f3e6a1f4b198dd792cbdec2bcf178fbe36f0e3f475a3",
+  "scope": "Existing Windows Rust unit/integration/CLI checks; no Rust self-compression analysis"
+}
