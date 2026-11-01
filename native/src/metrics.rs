@@ -7,6 +7,792 @@ use crate::model::{
 use crate::scope::SourceSpan;
 use std::collections::BTreeMap;
 
+/// Frozen, caller-supplied source. No filesystem/module search or execution occurs.
+pub struct CallSource<'a> {
+    pub path: &'a str,
+    pub source: &'a [u8],
+    pub language: Language,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CallEdge {
+    pub caller: String,
+    pub target: String,
+    pub location: SourceSpan,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CallLayers {
+    pub measurement: MetricMeasurement,
+    pub resolved: Vec<CallEdge>,
+    /// Keys are stable `path:byte_offset` IDs, accepted by Scope's ownership review.
+    pub unresolved: Records<String, crate::model::Finding>,
+    pub cycles: Vec<String>,
+}
+
+#[derive(Default)]
+struct CallFile {
+    functions: Vec<CallFunction>,
+    calls: Vec<(SourceSpan, Option<String>, String)>,
+    bindings: BTreeMap<String, Vec<String>>,
+    imports: Vec<(String, String, String)>,
+    unsafe_names: std::collections::BTreeSet<String>,
+    wildcard_binding: bool,
+    errors: Vec<String>,
+}
+
+struct CallFunction {
+    id: String,
+    span: SourceSpan,
+    name: Option<String>,
+    exported: bool,
+}
+
+fn in_scope(span: &SourceSpan, spans: &[SourceSpan]) -> bool {
+    spans.iter().any(|s| {
+        s.path == span.path && s.start <= span.start && span.end <= s.end && s.start < s.end
+    })
+}
+
+// Intentionally small grammar surface: top-level undecorated Python def and TS
+// function declarations (optionally export-wrapped); only identifier callees.
+// Every other call remains located. A name with *any* non-call use outside these
+// declarations/imports is unsafe file-wide, including shadowing and rebinding.
+fn call_file<L: ast_grep_language::LanguageExt>(
+    path: &str,
+    text: &str,
+    spans: &[SourceSpan],
+    language: L,
+    python: bool,
+) -> CallFile {
+    let tree = crate::AstGrep::new(text, language);
+    let root = tree.root();
+    let mut file = CallFile::default();
+    let mut allowed_names = Vec::new();
+    let mut import_ranges = Vec::new();
+    for node in root.dfs() {
+        if node.is_error() || node.is_missing() {
+            file.errors.push(format!(
+                "{path}:{}: syntax error or missing node",
+                node.range().start
+            ));
+        }
+        let kind = node.kind();
+        let function = if python {
+            PYTHON_FUNCTION_KINDS
+        } else {
+            TYPESCRIPT_FUNCTION_KINDS
+        };
+        if function.contains(&kind.as_ref()) {
+            let range = node.range();
+            let span = SourceSpan {
+                path: path.into(),
+                start: range.start,
+                end: range.end,
+            };
+            let top = node.parent().is_some_and(|p| {
+                p.range() == root.range() && p.kind() == root.kind()
+                    || !python
+                        && p.kind() == "export_statement"
+                        && p.parent().is_some_and(|gp| gp.kind() == root.kind())
+            });
+            let supported = top
+                && matches!(
+                    kind.as_ref(),
+                    "function_definition" | "function_declaration"
+                );
+            let name = if supported {
+                node.field("name").map(|n| {
+                    allowed_names.push(n.range());
+                    n.text().to_string()
+                })
+            } else {
+                None
+            };
+            let id = format!("{path}:{}", range.start);
+            if let Some(name) = &name {
+                file.bindings
+                    .entry(name.clone())
+                    .or_default()
+                    .push(id.clone());
+            }
+            if in_scope(&span, spans) {
+                let exported = python
+                    || node.parent().is_some_and(|p| {
+                        p.kind() == "export_statement"
+                            && !p.children().any(|child| child.kind() == "default")
+                    });
+                file.functions.push(CallFunction {
+                    id,
+                    span,
+                    name,
+                    exported,
+                });
+            }
+        }
+        let top = node.parent().is_some_and(|p| p.kind() == root.kind());
+        if top && python && kind == "import_from_statement" {
+            // A star import may replace any module binding. No execution or
+            // export-list analysis is available to prove a particular name safe.
+            file.wildcard_binding |= node.named_children().any(|n| n.kind() == "wildcard_import");
+            if let Some(module) = node.field("module_name") {
+                for name in node
+                    .named_children()
+                    .filter(|n| n.range() != module.range())
+                {
+                    let (original, local) = if name.kind() == "aliased_import" {
+                        (name.field("name"), name.field("alias"))
+                    } else {
+                        (Some(name.clone()), Some(name.clone()))
+                    };
+                    if let (Some(original), Some(local)) = (original, local) {
+                        if original.kind() == "dotted_name"
+                            && !original.text().contains('.')
+                            && !local.text().contains('.')
+                        {
+                            file.imports.push((
+                                local.text().to_string(),
+                                module.text().to_string(),
+                                original.text().to_string(),
+                            ));
+                            import_ranges.push(name.range());
+                        }
+                    }
+                }
+            }
+        }
+        if top && !python && kind == "import_statement" && !node.text().starts_with("import type") {
+            if let Some(module) = node.field("source") {
+                let raw = module.text();
+                if raw.len() >= 2 && !raw.contains('\\') {
+                    for spec in node.dfs().filter(|n| {
+                        n.kind() == "import_specifier" && !n.text().starts_with("type ")
+                    }) {
+                        if let Some(original) = spec.field("name") {
+                            let local = spec.field("alias").unwrap_or_else(|| original.clone());
+                            file.imports.push((
+                                local.text().to_string(),
+                                raw[1..raw.len() - 1].into(),
+                                original.text().to_string(),
+                            ));
+                            import_ranges.push(spec.range());
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for node in root.dfs() {
+        let kind = node.kind();
+        if kind == "identifier" {
+            let range = node.range();
+            let callee = node.parent().is_some_and(|p| {
+                matches!(p.kind().as_ref(), "call" | "call_expression")
+                    && p.field("function").is_some_and(|f| f.range() == range)
+            });
+            if !callee
+                && !allowed_names.contains(&range)
+                && !import_ranges
+                    .iter()
+                    .any(|r| r.start <= range.start && range.end <= r.end)
+            {
+                file.unsafe_names.insert(node.text().to_string());
+            }
+        }
+        let bare_decorator =
+            kind == "decorator" && !node.named_children().any(|n| n.kind() == "call");
+        if !matches!(kind.as_ref(), "call" | "call_expression" | "new_expression")
+            && !bare_decorator
+        {
+            continue;
+        }
+        let range = node.range();
+        let location = SourceSpan {
+            path: path.into(),
+            start: range.start,
+            end: range.end,
+        };
+        if !in_scope(&location, spans) {
+            continue;
+        }
+        let caller = file
+            .functions
+            .iter()
+            .filter(|f| f.span.start <= range.start && range.end <= f.span.end)
+            .min_by_key(|f| f.span.end - f.span.start)
+            .map(|f| f.id.clone())
+            .unwrap_or_else(|| format!("{path}:module"));
+        // Python defaults/annotations execute while the definition is created,
+        // not as part of invoking its body. Keep such calls located/unresolved
+        // rather than inventing an edge from that function.
+        let definition_context = python
+            && node.ancestors().any(|ancestor| {
+                PYTHON_FUNCTION_KINDS.contains(&ancestor.kind().as_ref())
+                    && ancestor.field("body").is_none_or(|body| {
+                        let body = body.range();
+                        !(body.start <= range.start && range.end <= body.end)
+                    })
+            });
+        let name = node
+            .field("function")
+            .filter(|n| {
+                !definition_context
+                    && n.kind() == "identifier"
+                    && !node.named_children().any(|c| c.kind() == "optional_chain")
+            })
+            .map(|n| n.text().to_string());
+        file.calls.push((location, name, caller));
+    }
+    file
+}
+
+/// Resolve a module name only against the explicitly supplied descriptor paths.
+/// Python absolute/from-relative imports and TS relative named imports are the
+/// supported forms; package __init__, indexes, aliases and reexports are omitted.
+fn import_paths(path: &str, module: &str, language: Language) -> Vec<String> {
+    let mut parts: Vec<&str> = path.split('/').collect();
+    parts.pop();
+    let mut base = if language == Language::Python {
+        if module.starts_with('.') {
+            for _ in 1..module.bytes().take_while(|b| *b == b'.').count() {
+                if parts.pop().is_none() {
+                    return vec![];
+                }
+            }
+            parts.into_iter().map(str::to_string).collect::<Vec<_>>()
+        } else {
+            vec![]
+        }
+    } else {
+        if !module.starts_with("./") && !module.starts_with("../") {
+            return vec![];
+        }
+        parts.into_iter().map(str::to_string).collect::<Vec<_>>()
+    };
+    let module = if language == Language::Python {
+        module.trim_start_matches('.').replace('.', "/")
+    } else {
+        module.into()
+    };
+    for part in module.split('/') {
+        match part {
+            "" | "." => {}
+            ".." => {
+                if base.pop().is_none() {
+                    return vec![];
+                }
+            }
+            _ => base.push(part.into()),
+        }
+    }
+    let joined = base.join("/");
+    if language == Language::Python {
+        // A supplied package competes with a same-named module. Packages remain
+        // unsupported targets; their presence must still prevent a false choice.
+        vec![format!("{joined}.py"), format!("{joined}/__init__.py")]
+    } else if joined.ends_with(".ts") || joined.ends_with(".tsx") {
+        vec![joined]
+    } else {
+        vec![format!("{joined}.ts"), format!("{joined}.tsx")]
+    }
+}
+
+pub fn measure_call_layers(
+    sources: &[CallSource<'_>],
+    spans: &[SourceSpan],
+    entry_points: &[SourceSpan],
+    scope_identity: &str,
+    language: Language,
+) -> CallLayers {
+    let mut files = BTreeMap::new();
+    let mut errors = Vec::new();
+    for source in sources.iter().filter(|s| {
+        s.language == language || language != Language::Python && s.language != Language::Python
+    }) {
+        if files.contains_key(source.path) {
+            errors.push(format!("{}: duplicate source descriptor", source.path));
+            continue;
+        }
+        let Ok(text) = std::str::from_utf8(source.source) else {
+            errors.push(format!("{}: source is not UTF-8", source.path));
+            continue;
+        };
+        if spans.iter().filter(|s| s.path == source.path).any(|s| {
+            s.start > s.end
+                || s.end > text.len()
+                || !text.is_char_boundary(s.start)
+                || !text.is_char_boundary(s.end)
+        }) {
+            errors.push(format!("{}: invalid selected byte range", source.path));
+            continue;
+        }
+        let file = match source.language {
+            Language::Python => call_file(source.path, text, spans, crate::Python, true),
+            Language::TypeScript => call_file(source.path, text, spans, crate::TypeScript, false),
+            Language::Tsx => call_file(source.path, text, spans, crate::Tsx, false),
+        };
+        errors.extend(file.errors.iter().cloned());
+        files.insert(source.path, file);
+    }
+    for span in spans {
+        if !files.contains_key(span.path.as_str()) {
+            errors.push(format!(
+                "{}: selected source descriptor is missing",
+                span.path
+            ));
+        }
+    }
+    for entry in entry_points {
+        if !in_scope(entry, spans) {
+            errors.push(format!(
+                "{}:{}: entry point is outside selected scope",
+                entry.path, entry.start
+            ));
+        }
+    }
+    let mut resolved = Vec::new();
+    let mut unresolved = BTreeMap::new();
+    let mut graph: BTreeMap<String, Vec<String>> = BTreeMap::new();
+    let mut roots = std::collections::BTreeSet::new();
+    for (path, file) in &files {
+        let mut bindings = file.bindings.clone();
+        for (local, module, original) in &file.imports {
+            let candidates: Vec<_> = import_paths(path, module, language)
+                .into_iter()
+                .filter_map(|p| files.get(p.as_str()).map(|file| (p, file)))
+                .collect();
+            let targets = if candidates.len() == 1 {
+                let (target_path, target) = &candidates[0];
+                if !target_path.ends_with("/__init__.py")
+                    && !target.wildcard_binding
+                    && target.errors.is_empty()
+                    && !target.unsafe_names.contains(original)
+                    && target
+                        .bindings
+                        .get(original)
+                        .is_some_and(|ids| ids.len() == 1)
+                {
+                    target
+                        .functions
+                        .iter()
+                        .filter(|f| f.name.as_ref() == Some(original) && f.exported)
+                        .map(|f| f.id.clone())
+                        .collect()
+                } else {
+                    vec![]
+                }
+            } else {
+                vec![]
+            };
+            // Invalid or duplicate imports must not leave a local definition usable.
+            let ids = bindings.entry(local.clone()).or_default();
+            if targets.len() == 1 {
+                ids.extend(targets);
+            } else {
+                ids.push(String::new());
+            }
+        }
+        for function in &file.functions {
+            graph.entry(function.id.clone()).or_default();
+            if in_scope(&function.span, entry_points) {
+                roots.insert(function.id.clone());
+            }
+        }
+        for (location, name, caller) in &file.calls {
+            if caller.ends_with(":module") {
+                graph.entry(caller.clone()).or_default();
+                if in_scope(location, entry_points) {
+                    roots.insert(caller.clone());
+                }
+            }
+            let target = name
+                .as_ref()
+                .filter(|n| {
+                    !file.wildcard_binding
+                        && !file.unsafe_names.contains(*n)
+                        && file.errors.is_empty()
+                })
+                .and_then(|n| bindings.get(n))
+                .filter(|ids| ids.len() == 1)
+                .and_then(|ids| ids.first())
+                .filter(|id| {
+                    files
+                        .values()
+                        .any(|f| f.functions.iter().any(|fun| &fun.id == *id))
+                });
+            if let Some(target) = target {
+                graph
+                    .entry(caller.clone())
+                    .or_default()
+                    .push(target.clone());
+                resolved.push(CallEdge {
+                    caller: caller.clone(),
+                    target: target.clone(),
+                    location: location.clone(),
+                });
+            } else {
+                let id = format!("{}:{}", location.path, location.start);
+                unresolved.insert(id.clone(), crate::model::Finding { schema_version: SchemaVersion::V1, subject: id, explanation: format!("unresolved call at bytes {}..{}; dynamic, external, ambiguous or unsupported binding; ownership review required", location.start, location.end) });
+            }
+        }
+    }
+    fn depth(
+        id: &str,
+        graph: &BTreeMap<String, Vec<String>>,
+        active: &mut Vec<String>,
+        memo: &mut BTreeMap<String, u64>,
+        cycles: &mut std::collections::BTreeSet<String>,
+    ) -> u64 {
+        if active.iter().any(|s| s == id) {
+            cycles.insert(id.into());
+            return 0;
+        }
+        if let Some(depth) = memo.get(id) {
+            return *depth;
+        }
+        active.push(id.into());
+        let child = graph[id]
+            .iter()
+            .map(|next| depth(next, graph, active, memo, cycles))
+            .max()
+            .unwrap_or(0);
+        active.pop();
+        let result = child
+            .checked_add(1)
+            .expect("path depth is bounded by allocated vertices");
+        // Back edges terminate at zero. Memoization retains a witnessed simple
+        // path lower bound on cycles, and exact longest paths on acyclic graphs.
+        memo.insert(id.into(), result);
+        result
+    }
+    let mut cycles = std::collections::BTreeSet::new();
+    let mut memo = BTreeMap::new();
+    let mut lower = 0;
+    for root in roots {
+        lower = lower.max(depth(
+            &root,
+            &graph,
+            &mut Vec::new(),
+            &mut memo,
+            &mut cycles,
+        ));
+    }
+    for vertex in graph.keys() {
+        depth(vertex, &graph, &mut Vec::new(), &mut memo, &mut cycles);
+    }
+    let value = if errors.is_empty() && unresolved.is_empty() && cycles.is_empty() {
+        available(lower)
+    } else {
+        MetricValue::Unavailable {
+            reason: format!(
+                "{} unresolved calls; {} cycle vertices; {}",
+                unresolved.len(),
+                cycles.len(),
+                errors.join("; ")
+            ),
+            resolved_lower_bound: Some(Count(lower)),
+        }
+    };
+    CallLayers {
+        measurement: MetricMeasurement {
+            schema_version: SchemaVersion::V1,
+            identity: MetricIdentity {
+                schema_version: SchemaVersion::V1,
+                name: MetricName::InternalCallLayers,
+                definition_revision: "v1".into(),
+                language,
+                grammar_version: if language == Language::Python {
+                    "tree-sitter-python@0.25.0"
+                } else {
+                    "tree-sitter-typescript@0.23.2"
+                }
+                .into(),
+                tool_version: "lesscode-core@0.1.0;ast-grep@0.51.0".into(),
+            },
+            scope_identity: scope_identity.into(),
+            value,
+        },
+        resolved,
+        unresolved: Records(unresolved),
+        cycles: cycles.into_iter().collect(),
+    }
+}
+
+#[cfg(test)]
+mod call_tests {
+    use super::*;
+
+    #[test]
+    fn review_wildcard_import_can_replace_local_bindings() {
+        let result = graph(
+            &[(
+                "a.py",
+                "def target():\n    pass\nfrom other import *\ndef entry():\n    target()\n",
+            )],
+            Language::Python,
+        );
+        assert!(result.resolved.is_empty(), "{result:?}");
+        assert_eq!(result.unresolved.0.len(), 1);
+    }
+
+    #[test]
+    fn review_default_export_is_not_named_export_with_trivia() {
+        for helper in [
+            "export  default function helper() {}",
+            "export /*comment*/ default function helper() {}",
+        ] {
+            let result = graph(
+                &[
+                    (
+                        "a.ts",
+                        "import {helper} from './helper'; function entry() { helper(); }",
+                    ),
+                    ("helper.ts", helper),
+                ],
+                Language::TypeScript,
+            );
+            assert!(result.resolved.is_empty(), "{result:?}");
+            assert_eq!(result.unresolved.0.len(), 1);
+        }
+    }
+
+    #[test]
+    fn review_python_default_call_is_not_entry_body_edge() {
+        let result = graph(
+            &[(
+                "a.py",
+                "def tail():\n    pass\ndef mid():\n    tail()\ndef entry(x=mid()):\n    pass\n",
+            )],
+            Language::Python,
+        );
+        assert_eq!(result.unresolved.0.len(), 1, "{result:?}");
+        assert_eq!(result.resolved.len(), 1);
+        assert!(matches!(
+            result.measurement.value,
+            MetricValue::Unavailable {
+                resolved_lower_bound: Some(Count(2)),
+                ..
+            }
+        ));
+    }
+
+    #[test]
+    fn review_python_module_package_collision_is_ambiguous() {
+        let result = graph(
+            &[
+                (
+                    "a.py",
+                    "from helper import tail\ndef entry():\n    tail()\n",
+                ),
+                ("helper.py", "def tail():\n    pass\n"),
+                ("helper/__init__.py", "def tail():\n    pass\n"),
+            ],
+            Language::Python,
+        );
+        assert!(result.resolved.is_empty(), "{result:?}");
+        assert_eq!(result.unresolved.0.len(), 1);
+    }
+
+    fn graph(files: &[(&str, &str)], language: Language) -> CallLayers {
+        let sources: Vec<_> = files
+            .iter()
+            .map(|(path, text)| CallSource {
+                path,
+                source: text.as_bytes(),
+                language,
+            })
+            .collect();
+        let spans: Vec<_> = files
+            .iter()
+            .map(|(path, text)| SourceSpan {
+                path: (*path).into(),
+                start: 0,
+                end: text.len(),
+            })
+            .collect();
+        measure_call_layers(&sources, &spans, &spans, "frozen-scope", language)
+    }
+
+    #[test]
+    fn call_layers_direct_imported_and_entry_vertex() {
+        for (language, files) in [
+            (Language::Python, vec![("main.py", "from helper import tail as end\ndef entry():\n    middle()\ndef middle():\n    end()\n"), ("helper.py", "def tail():\n    pass\n")]),
+            (Language::TypeScript, vec![("main.ts", "import {tail as end} from './helper';\nfunction entry() { middle(); }\nfunction middle() { end(); }"), ("helper.ts", "export function tail() {}")]),
+            (Language::Tsx, vec![("main.tsx", "import {tail as end} from './helper';\nfunction entry() { middle(); }\nfunction middle() { end(); }"), ("helper.tsx", "export function tail() { return <div/>; }")]),
+        ] {
+            let result = graph(&files, language);
+            assert_eq!(result.measurement.value, available(3), "{language:?}: {result:?}");
+            assert_eq!(result.resolved.len(), 2);
+            assert!(result.unresolved.0.is_empty());
+        }
+        assert_eq!(
+            graph(&[("a.py", "def leaf():\n    pass\n")], Language::Python)
+                .measurement
+                .value,
+            available(1)
+        );
+    }
+
+    #[test]
+    fn call_layers_ambiguous_shadowed_nested_and_dynamic_are_located() {
+        for (language, text) in [
+            (Language::Python, "def target():\n    pass\ndef entry(target):\n    target()\n    obj.method()\n"),
+            (Language::Python, "def target():\n    pass\ntarget = other\ndef entry():\n    target()\n"),
+            (Language::Python, "def entry():\n    def nested():\n        pass\n    nested()\n"),
+            (Language::TypeScript, "function target() {} function entry(target: () => void) { target(); obj.method(); }"),
+            (Language::TypeScript, "function target() {} target = other; function entry() { target(); }"),
+            (Language::TypeScript, "function entry() { function nested() {} nested(); }"),
+        ] {
+            let path = if language == Language::Python { "a.py" } else { "a.ts" };
+            let result = graph(&[(path, text)], language);
+            assert!(result.resolved.is_empty(), "{text}: {result:?}");
+            assert!(!result.unresolved.0.is_empty(), "{text}");
+            assert!(matches!(result.measurement.value, MetricValue::Unavailable { resolved_lower_bound: Some(_), .. }));
+            for (id, finding) in result.unresolved.0 { assert_eq!(id, finding.subject); assert!(id.starts_with(path)); }
+        }
+    }
+
+    #[test]
+    fn call_layers_cycles_and_lower_bound_are_distinct() {
+        let result = graph(
+            &[("a.py", "def a():\n    b()\ndef b():\n    a()\n")],
+            Language::Python,
+        );
+        assert!(!result.cycles.is_empty());
+        assert_eq!(result.resolved.len(), 2);
+        assert!(matches!(
+            result.measurement.value,
+            MetricValue::Unavailable {
+                resolved_lower_bound: Some(Count(2)),
+                ..
+            }
+        ));
+        let result = graph(
+            &[("a.ts", "function a() { a(); missing(); }")],
+            Language::TypeScript,
+        );
+        assert_eq!(result.unresolved.0.len(), 1);
+        assert!(!result.cycles.is_empty());
+    }
+
+    #[test]
+    fn call_layers_do_not_search_for_modules_or_assume_exports() {
+        for (language, files) in [
+            (
+                Language::Python,
+                vec![(
+                    "main.py",
+                    "from absent import helper\ndef entry():\n    helper()\n",
+                )],
+            ),
+            (
+                Language::TypeScript,
+                vec![
+                    (
+                        "main.ts",
+                        "import {helper} from './helper'; function entry() { helper(); }",
+                    ),
+                    ("helper.ts", "function helper() {}"),
+                ],
+            ),
+            (
+                Language::TypeScript,
+                vec![
+                    (
+                        "main.ts",
+                        "import {helper} from './helper'; function entry() { helper(); }",
+                    ),
+                    ("helper.ts", "export function helper() {}"),
+                    ("helper.tsx", "export function helper() {}"),
+                ],
+            ),
+        ] {
+            let result = graph(&files, language);
+            assert_eq!(result.unresolved.0.len(), 1);
+            assert!(result.resolved.is_empty());
+        }
+        // A TSX file can directly import a declared TS helper; no runtime loader.
+        let a = "import {helper} from './helper'; function entry() { helper(); }";
+        let b = "export function helper() {}";
+        let spans = [
+            SourceSpan {
+                path: "a.tsx".into(),
+                start: 0,
+                end: a.len(),
+            },
+            SourceSpan {
+                path: "helper.ts".into(),
+                start: 0,
+                end: b.len(),
+            },
+        ];
+        let result = measure_call_layers(
+            &[
+                CallSource {
+                    path: "a.tsx",
+                    source: a.as_bytes(),
+                    language: Language::Tsx,
+                },
+                CallSource {
+                    path: "helper.ts",
+                    source: b.as_bytes(),
+                    language: Language::TypeScript,
+                },
+            ],
+            &spans,
+            &spans,
+            "scope",
+            Language::Tsx,
+        );
+        assert_eq!(result.measurement.value, available(2));
+    }
+
+    #[test]
+    fn call_layers_selection_and_unavailable_source_are_preserved() {
+        let text = "def entry():\n    helper()\ndef helper():\n    pass\n";
+        let selected = SourceSpan {
+            path: "a.py".into(),
+            start: 0,
+            end: text.find("def helper").unwrap() - 1,
+        };
+        let result = measure_call_layers(
+            &[CallSource {
+                path: "a.py",
+                source: text.as_bytes(),
+                language: Language::Python,
+            }],
+            std::slice::from_ref(&selected),
+            std::slice::from_ref(&selected),
+            "scope",
+            Language::Python,
+        );
+        assert_eq!(result.unresolved.0.len(), 1);
+        assert!(result.resolved.is_empty());
+        for bytes in [&b"\xff"[..], &b"def broken(:\n"[..]] {
+            let span = SourceSpan {
+                path: "a.py".into(),
+                start: 0,
+                end: bytes.len(),
+            };
+            let result = measure_call_layers(
+                &[CallSource {
+                    path: "a.py",
+                    source: bytes,
+                    language: Language::Python,
+                }],
+                std::slice::from_ref(&span),
+                std::slice::from_ref(&span),
+                "scope",
+                Language::Python,
+            );
+            assert!(matches!(
+                result.measurement.value,
+                MetricValue::Unavailable { .. }
+            ));
+        }
+    }
+}
+
 /// logical_statements.v1: Python 0.25.0 `_simple_statement` and
 /// `_compound_statement` alternatives. Suites, comments, decorators and clauses
 /// (elif/else/except/finally/case) add no statements. A decorated definition

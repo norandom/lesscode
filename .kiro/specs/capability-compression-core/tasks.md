@@ -48,7 +48,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: Scope_
   - _Requirements: 1.2, 1.3, 2.1, 2.5, 4.5_
 
-- [ ] 3. Measure supported source structure
+- [x] 3. Measure supported source structure
 - [x] 3.1 (P) Establish Python metric definitions and measurements
   - Implement versioned physical lines, logical statements, aggregate decisions and function counts using explicit node tables.
   - Cover compound statements, comprehensions, short circuits, nested definitions, Unicode/CRLF and error/unavailable states with independent hand-counted fixtures.
@@ -64,7 +64,7 @@ completing an attempted trial does not itself establish maturity.
   - _Boundary: Metrics_
   - _Requirements: 2.2, 2.3, 2.4_
 
-- [ ] 3.3 Expose internal call layers and unresolved edges
+- [x] 3.3 Expose internal call layers and unresolved edges
   - Resolve only unambiguous local calls and directly resolved imports inside declared scope; locate all remaining call relationships.
   - Detect recursion/cycles and report partial lower bounds separately from unavailable full depth.
   - Done: direct, imported, ambiguous and recursive fixtures produce correct resolved/unresolved evidence.
