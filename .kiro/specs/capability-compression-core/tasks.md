@@ -73,7 +73,7 @@ completing an attempted trial does not itself establish maturity.
   - _Requirements: 1.4, 2.4_
 
 - [ ] 4. Admit evidence and decide comparisons
-- [ ] 4.1 (P) Validate supplied behavioral evidence
+- [x] 4.1 (P) Validate supplied behavioral evidence
   - Bind both sides to source/trial/check identities and raw artifacts; validate differential mismatch and expected/observed case counts.
   - Distinguish failed, missing, changed and erroneous checks; expose tested domain and provenance limits.
   - Done: stale, altered and incomplete results cannot pass; collector exit zero cannot conceal mismatches.
