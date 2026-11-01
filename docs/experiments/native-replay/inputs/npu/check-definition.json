@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "input_sha256": {
+    "lesscode/docs/experiments/npu-backends/run.py": "b5a470e8917365bd3c1b16094713d3caf8e95626a8bc8ca3a7264fcc90631658",
+    "lesscode/docs/experiments/npu-backends/account.py": "19fefce5da6021dc431e7870df802f3a9ceb1eba9a0160aa097de70397061b49",
+    "npu_rag_from_folder/pyproject.toml": "96db8134340b2c1f3f2cf0388372bcf6086fe0cda2a94120dd84e1268b4fc0b8",
+    "npu_rag_from_folder/tests/embedding/providers/test_cpu.py": "c0bb4c6b3c14ae16cf2ffc7b7e381f7d7024041aa716fbf671a4c18c510842ec",
+    "npu_rag_from_folder/tests/embedding/providers/test_vitisai.py": "13c9c084741a27ceafaa2cd2d62c132d9ecb7059d99eb9256b25ab29feb11cb1",
+    "npu_rag_from_folder/tests/embedding/providers/test_base.py": "c75e67058706f2fcee1d94a800f4ee649eb27a5bcdf35b41c8efea4768b92aff",
+    "npu_rag_from_folder/tests/embedding/test_service.py": "9c4dc6ad34e03108d18dc02cffcf9d4d7f6c51ec5f4ac87bed0bb11fb250498e",
+    "npu_rag_from_folder/tests/embedding/test_postprocess.py": "f01989dd1539fe42f3a47cb931c4cd6c7109a40f846b53bd8ed3acf2acb1ffef"
+  },
+  "tested_domain": "finite frozen software-only corpus; unchanged native checks where supplied",
+  "limitations": [
+    "Current bytes hashed during preparation; not historical execution provenance.",
+    "Fresh external runner and raw artifacts required before native evidence admission."
+  ]
+}

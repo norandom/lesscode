@@ -120,7 +120,7 @@ completing an attempted trial does not itself establish maturity.
   - _Requirements: 2.2, 4.3, 4.4_
 
 - [ ] 6. Validate the external empirical workflow
-- [ ] 6.1 Prepare reproducible external replay inputs
+- [x] 6.1 Prepare reproducible external replay inputs
   - Create new ATS/NPU manifests and narrow research-only conversions without changing originals; verify existing uv environments and fixture prerequisites.
   - Preserve historical metric names, raw artifacts and missing provenance; do not invent digests or reinterpret collector success.
   - Done: replay inputs validate against frozen native records with explicit coverage and unavailable evidence.

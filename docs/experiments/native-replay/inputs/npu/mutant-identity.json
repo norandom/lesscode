@@ -1,0 +1,713 @@
+{
+  "schema_version": 1,
+  "manifest": {
+    "schema_version": 1,
+    "trial_id": "NPU01-native-replay",
+    "hypothesis": "Share typed batch validation/session/output handling across CPU and VitisAI providers.",
+    "entry_points": {
+      "src/npu_rag/embedding/providers/cpu.py": {
+        "kind": "whole_file",
+        "path": "src/npu_rag/embedding/providers/cpu.py"
+      },
+      "src/npu_rag/embedding/providers/vitisai.py": {
+        "kind": "whole_file",
+        "path": "src/npu_rag/embedding/providers/vitisai.py"
+      }
+    },
+    "owned": {
+      "src/npu_rag/embedding/providers/cpu.py": {
+        "kind": "whole_file",
+        "path": "src/npu_rag/embedding/providers/cpu.py"
+      },
+      "src/npu_rag/embedding/providers/vitisai.py": {
+        "kind": "whole_file",
+        "path": "src/npu_rag/embedding/providers/vitisai.py"
+      }
+    },
+    "wider_boundary": [
+      "."
+    ],
+    "categories": {
+      "pyproject.toml": "dependency",
+      "src/npu_rag/__init__.py": "production",
+      "src/npu_rag/cli/__init__.py": "production",
+      "src/npu_rag/cli/cmd_index.py": "production",
+      "src/npu_rag/cli/cmd_search.py": "production",
+      "src/npu_rag/cli/config.py": "production",
+      "src/npu_rag/cli/index_summary.py": "production",
+      "src/npu_rag/cli/main.py": "production",
+      "src/npu_rag/cli/order.py": "production",
+      "src/npu_rag/cli/render.py": "production",
+      "src/npu_rag/cli/tags.py": "production",
+      "src/npu_rag/embedding/__init__.py": "production",
+      "src/npu_rag/embedding/bench/__init__.py": "production",
+      "src/npu_rag/embedding/bench/corpus.py": "production",
+      "src/npu_rag/embedding/bench/harness.py": "production",
+      "src/npu_rag/embedding/bench/power.py": "production",
+      "src/npu_rag/embedding/environment/__init__.py": "production",
+      "src/npu_rag/embedding/environment/capability.py": "production",
+      "src/npu_rag/embedding/environment/xrt.py": "production",
+      "src/npu_rag/embedding/errors.py": "production",
+      "src/npu_rag/embedding/models/__init__.py": "production",
+      "src/npu_rag/embedding/models/acquire.py": "production",
+      "src/npu_rag/embedding/models/artifacts.py": "production",
+      "src/npu_rag/embedding/models/export.py": "production",
+      "src/npu_rag/embedding/postprocess.py": "production",
+      "src/npu_rag/embedding/profiles.py": "production",
+      "src/npu_rag/embedding/providers/__init__.py": "production",
+      "src/npu_rag/embedding/providers/base.py": "production",
+      "src/npu_rag/embedding/providers/checked_run.py": "production",
+      "src/npu_rag/embedding/providers/cpu.py": "production",
+      "src/npu_rag/embedding/providers/vitisai.py": "production",
+      "src/npu_rag/embedding/reporting.py": "production",
+      "src/npu_rag/embedding/service.py": "production",
+      "src/npu_rag/embedding/tokenize.py": "production",
+      "src/npu_rag/embedding/types.py": "production",
+      "src/npu_rag/index/__init__.py": "production",
+      "src/npu_rag/index/compat.py": "production",
+      "src/npu_rag/index/diversity.py": "production",
+      "src/npu_rag/index/errors.py": "production",
+      "src/npu_rag/index/expansion.py": "production",
+      "src/npu_rag/index/fusion.py": "production",
+      "src/npu_rag/index/rerank.py": "production",
+      "src/npu_rag/index/retriever.py": "production",
+      "src/npu_rag/index/schema.py": "production",
+      "src/npu_rag/index/service.py": "production",
+      "src/npu_rag/index/store.py": "production",
+      "src/npu_rag/index/sync.py": "production",
+      "src/npu_rag/index/types.py": "production",
+      "src/npu_rag/ingest/__init__.py": "production",
+      "src/npu_rag/ingest/chunk.py": "production",
+      "src/npu_rag/ingest/config.py": "production",
+      "src/npu_rag/ingest/discover.py": "production",
+      "src/npu_rag/ingest/errors.py": "production",
+      "src/npu_rag/ingest/extract/__init__.py": "production",
+      "src/npu_rag/ingest/extract/base.py": "production",
+      "src/npu_rag/ingest/extract/excel.py": "production",
+      "src/npu_rag/ingest/extract/image.py": "production",
+      "src/npu_rag/ingest/extract/markdown.py": "production",
+      "src/npu_rag/ingest/extract/pdf.py": "production",
+      "src/npu_rag/ingest/extract/text.py": "production",
+      "src/npu_rag/ingest/identity.py": "production",
+      "src/npu_rag/ingest/pipeline.py": "production",
+      "src/npu_rag/ingest/report.py": "production",
+      "src/npu_rag/ingest/route.py": "production",
+      "src/npu_rag/ingest/state.py": "production",
+      "src/npu_rag/ingest/types.py": "production",
+      "src/npu_rag/ingest/vision.py": "production",
+      "tests/embedding/providers/test_base.py": "tests",
+      "tests/embedding/providers/test_cpu.py": "tests",
+      "tests/embedding/providers/test_vitisai.py": "tests",
+      "tests/embedding/test_postprocess.py": "tests",
+      "tests/embedding/test_service.py": "tests",
+      "uv.lock": "dependency"
+    },
+    "exclusions": {},
+    "scope_review": {
+      "schema_version": 1,
+      "rationale": "Whole CPU and VitisAI modules plus the entire new checked_run module. Unchanged source/tests/configuration form the wider copied boundary. Hardware is excluded.",
+      "relationships": {}
+    },
+    "checks": {
+      "differential": {
+        "schema_version": 1,
+        "description": "Frozen behavioral observations",
+        "required": true,
+        "definition_digest": "4e8147720805c16b8b230764addc06a4af6ebdc6ececc9cbb35ba3ee443359d0",
+        "artifact_expectations": [
+          "differential.json"
+        ],
+        "interpretation": {
+          "kind": "case_counts",
+          "expected": 3168
+        }
+      },
+      "native-tests": {
+        "schema_version": 1,
+        "description": "native-tests software contract",
+        "required": true,
+        "definition_digest": "4e8147720805c16b8b230764addc06a4af6ebdc6ececc9cbb35ba3ee443359d0",
+        "artifact_expectations": [
+          "native-tests.log"
+        ],
+        "interpretation": {
+          "kind": "exit_status"
+        }
+      },
+      "shared-safety": {
+        "schema_version": 1,
+        "description": "shared-safety software contract",
+        "required": true,
+        "definition_digest": "4e8147720805c16b8b230764addc06a4af6ebdc6ececc9cbb35ba3ee443359d0",
+        "artifact_expectations": [
+          "shared-safety.log"
+        ],
+        "interpretation": {
+          "kind": "exit_status"
+        }
+      },
+      "types": {
+        "schema_version": 1,
+        "description": "types software contract",
+        "required": true,
+        "definition_digest": "4e8147720805c16b8b230764addc06a4af6ebdc6ececc9cbb35ba3ee443359d0",
+        "artifact_expectations": [
+          "types.log"
+        ],
+        "interpretation": {
+          "kind": "exit_status"
+        }
+      }
+    },
+    "target": {
+      "schema_version": 1,
+      "scope_identity": "production",
+      "language": "python",
+      "definitions": {
+        "physical_lines": {
+          "schema_version": 1,
+          "name": "physical_lines",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "logical_statements": {
+          "schema_version": 1,
+          "name": "logical_statements",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "decisions": {
+          "schema_version": 1,
+          "name": "decisions",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "functions": {
+          "schema_version": 1,
+          "name": "functions",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        },
+        "internal_call_layers": {
+          "schema_version": 1,
+          "name": "internal_call_layers",
+          "definition_revision": "v1",
+          "language": "python",
+          "grammar_version": "tree-sitter-python@0.25.0",
+          "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+        }
+      },
+      "minimum_production_statement_reduction": 1,
+      "count_bounds": {},
+      "permitted_structural_tradeoffs": [
+        "Whole modules retained in capability accounting; function/call-layer changes reported without inferred maintenance savings."
+      ]
+    },
+    "capability_inventory": null
+  },
+  "baseline_files": {
+    "pyproject.toml": {
+      "schema_version": 1,
+      "content_digest": "96db8134340b2c1f3f2cf0388372bcf6086fe0cda2a94120dd84e1268b4fc0b8",
+      "category": "dependency"
+    },
+    "src/npu_rag/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "6c5d2a597ef5cddaa2f45ec0d2fdaecd825d6a8471644c6fd05670f6273b85a9",
+      "category": "production"
+    },
+    "src/npu_rag/cli/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "e8b73d0e000cf91c64bb18a8edb7bdac69ab1f51f6b1454d300978bf316aee0e",
+      "category": "production"
+    },
+    "src/npu_rag/cli/cmd_index.py": {
+      "schema_version": 1,
+      "content_digest": "c7cfc75ba1d294e631744592b06dcffa6190d03c94349559496205493326acf6",
+      "category": "production"
+    },
+    "src/npu_rag/cli/cmd_search.py": {
+      "schema_version": 1,
+      "content_digest": "999d8682d54b1574fa2971071174a01ce19d7153b7fc1c2b0abc071ceb8b1a1d",
+      "category": "production"
+    },
+    "src/npu_rag/cli/config.py": {
+      "schema_version": 1,
+      "content_digest": "5ab5c19617054d604f8581776efe7544557d2f75a74d5f684338a964e9ac89dc",
+      "category": "production"
+    },
+    "src/npu_rag/cli/index_summary.py": {
+      "schema_version": 1,
+      "content_digest": "bbfbb1270c6fc87c0ce1adbbade99b7b543d7f6bab052878e30fa903a8c209f1",
+      "category": "production"
+    },
+    "src/npu_rag/cli/main.py": {
+      "schema_version": 1,
+      "content_digest": "335778dfa57032de6df1d115989ee3f122e0bcef7b0451f804f2e856793e0f07",
+      "category": "production"
+    },
+    "src/npu_rag/cli/order.py": {
+      "schema_version": 1,
+      "content_digest": "59cbf1bfeca25a44fe35f91824450c2f4d2566fa109a9bf92bf9acb76ae7dc4e",
+      "category": "production"
+    },
+    "src/npu_rag/cli/render.py": {
+      "schema_version": 1,
+      "content_digest": "856dd39d1043d91c7cc00ae474f89809311e6bb60d724b3aa2f64cc5db5c89f2",
+      "category": "production"
+    },
+    "src/npu_rag/cli/tags.py": {
+      "schema_version": 1,
+      "content_digest": "babad31325c78e0277f4f3a023dfbf7b80ab56cf8f782125ad90582d6c828be0",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "d1cc18bf2a095ad9ec9da0f84361ff1d3de6c015d0556385b7c3dadecf45f4ba",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/bench/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "5e5e0dcb2be8a56048cb7020ed3df61f47d62741bb871bdfbd9a86c007789b85",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/bench/corpus.py": {
+      "schema_version": 1,
+      "content_digest": "14038cad867ee3011f95a837218a25c303e100aca1cacea3038652fa8b459268",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/bench/harness.py": {
+      "schema_version": 1,
+      "content_digest": "23f9ca71327af899c177117f6604638b73ae4c6176be82ac364aee608fa22970",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/bench/power.py": {
+      "schema_version": 1,
+      "content_digest": "92c7879b2ebff4241377b5648c9d23e7d7d2eaed02e6bd528849fc126a93a8ba",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/environment/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "d86fded140eaf91a1a03433d8dae2c488cbf131217d3acea035b2bc355c9e013",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/environment/capability.py": {
+      "schema_version": 1,
+      "content_digest": "44b893e33876287e585d473ab1de83f851991b2244042123cf4d3eb8fba00fcf",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/environment/xrt.py": {
+      "schema_version": 1,
+      "content_digest": "b868b576e163b5adafbc13021189bb0b4d7dd1c3984fe47d0f63c82c83e6dde1",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/errors.py": {
+      "schema_version": 1,
+      "content_digest": "912b2640833c673df8943c45a4c1be35b9c053b842dd4fe6a2cc6b95245d824b",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/models/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "b243d21c1470fa011dae8a6886ae7bee169ba00e74e75d59293c75f218f60265",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/models/acquire.py": {
+      "schema_version": 1,
+      "content_digest": "21d055c5abd758018f0d91e04f0ac1d0c8ee881285dc2762467da1790459249d",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/models/artifacts.py": {
+      "schema_version": 1,
+      "content_digest": "3a982a859b5095b96b92c4a5c84bf18ecaa6741af746ede865368a5ef6a7400e",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/models/export.py": {
+      "schema_version": 1,
+      "content_digest": "64f0781c49ba345cd0df7d999ad99fad4bfc0821786e772134451615f6a32fcc",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/postprocess.py": {
+      "schema_version": 1,
+      "content_digest": "d5b279ac122bfa70f95cf957720c04758b01971389995ff299b93f52fa85c18f",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/profiles.py": {
+      "schema_version": 1,
+      "content_digest": "30ed94322cd92ecfd16cfccb7ee930fd9ec7ea84d0598c00384a10f27dd7477f",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/providers/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "135cde61e4f2ef22085ceb68357ec6492ae3a2261a1ce0bfa64eb92ca00c46ba",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/providers/base.py": {
+      "schema_version": 1,
+      "content_digest": "2f1758b18dd28c4646786ec23cb09877bab4af46f58fd3c5c4d10327b199cd81",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/providers/checked_run.py": {
+      "schema_version": 1,
+      "content_digest": "210d5d3a7c20f0fe7e5367454207d0286fb56f6678e984e72298ab608143b4fc",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/providers/cpu.py": {
+      "schema_version": 1,
+      "content_digest": "21ff9327f499a06766afe6e950ccb23a357dc309bf2fda8a63e067e0cfd5529d",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/providers/vitisai.py": {
+      "schema_version": 1,
+      "content_digest": "f3c4f210222ad81c8d4dd5dba1406518710c4fe1d5f6534e62ac7beff6c0565a",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/reporting.py": {
+      "schema_version": 1,
+      "content_digest": "db649d036237a7aefb640fd5405ed7d0907bb47ff4427ecc9382ca2af6c50b4f",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/service.py": {
+      "schema_version": 1,
+      "content_digest": "9c2078be4cb6dcfee4c503ea5614e1c3f9e968d71ceb448dcda06d1c2120c779",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/tokenize.py": {
+      "schema_version": 1,
+      "content_digest": "6d7848e0c5f40ca6a796d0febc5fdb237e42e2b6a5dbb16e54a10ace361b4dfe",
+      "category": "production"
+    },
+    "src/npu_rag/embedding/types.py": {
+      "schema_version": 1,
+      "content_digest": "7ad2d3db7130fb6e59801b08bb70b689b9e0af8384876abd7f7d25940e201797",
+      "category": "production"
+    },
+    "src/npu_rag/index/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "3430a3d81df67ec817b1e171d648f5e2e575b96faf77f9f30c3113e605d1e138",
+      "category": "production"
+    },
+    "src/npu_rag/index/compat.py": {
+      "schema_version": 1,
+      "content_digest": "5e2e39011b62771bfcc06e6e7335ffc7d4a4adec1fd0760d810a80a8abfb00bb",
+      "category": "production"
+    },
+    "src/npu_rag/index/diversity.py": {
+      "schema_version": 1,
+      "content_digest": "095ec7c309330fcc085f726e917a9fad85b8fb1e33839b35df0f9da3c968c049",
+      "category": "production"
+    },
+    "src/npu_rag/index/errors.py": {
+      "schema_version": 1,
+      "content_digest": "75b78735c285347dac3bdbb8ebc283fac73ad43c01e789b56b910a75a4aeeabd",
+      "category": "production"
+    },
+    "src/npu_rag/index/expansion.py": {
+      "schema_version": 1,
+      "content_digest": "b6ef4f103b74630f136709629132a1fb25c77ef8cf27b2c39d338a9cc1bc4f3a",
+      "category": "production"
+    },
+    "src/npu_rag/index/fusion.py": {
+      "schema_version": 1,
+      "content_digest": "ec5317737b2b7ae3412b00b1e14a88694d049b1e108fa1559a3708e35c9d4706",
+      "category": "production"
+    },
+    "src/npu_rag/index/rerank.py": {
+      "schema_version": 1,
+      "content_digest": "444af1a167fd8f5df5a49538d134ec652ab212f59b4849d618264a507feb2279",
+      "category": "production"
+    },
+    "src/npu_rag/index/retriever.py": {
+      "schema_version": 1,
+      "content_digest": "d8bd4b84b3d957f9050407b73a9af741f04b281adcda3a5b8e25eea766637989",
+      "category": "production"
+    },
+    "src/npu_rag/index/schema.py": {
+      "schema_version": 1,
+      "content_digest": "ded42f0c494c9c494b43684a0a2aa63eb32aefbe5e9af70778489f6e93cc7eaf",
+      "category": "production"
+    },
+    "src/npu_rag/index/service.py": {
+      "schema_version": 1,
+      "content_digest": "66d5e87b65768d1ac80ab502bb8a3f1354690cf9eff1b1d312b21bf780dfd1ad",
+      "category": "production"
+    },
+    "src/npu_rag/index/store.py": {
+      "schema_version": 1,
+      "content_digest": "82cc06dbf4435ea5aeec8b538d682298378fc52345bb8892fc0f14994f291add",
+      "category": "production"
+    },
+    "src/npu_rag/index/sync.py": {
+      "schema_version": 1,
+      "content_digest": "8f241091d8d0478f3e50120e5d3bbc1018d3bb84d07d2be7d35dcd4072d28c06",
+      "category": "production"
+    },
+    "src/npu_rag/index/types.py": {
+      "schema_version": 1,
+      "content_digest": "3d9d4549763ce21fa4c2e0d6d4e9d0329568a0792d099459a66ba37222a2f7d6",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "250939f458659033985bdb6eb82b354e60c476150ae9ca0acd7ace78ceafa05e",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/chunk.py": {
+      "schema_version": 1,
+      "content_digest": "5fc38d83ecf7f7862df4360cd5911d5645ee969c38daa5b6e3b68e243ac579a2",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/config.py": {
+      "schema_version": 1,
+      "content_digest": "f5b7e0d358270cd6a3416982eb2946a237afe706d12a30c7f926b2fbb8475f85",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/discover.py": {
+      "schema_version": 1,
+      "content_digest": "87a87cbde0f9d028a0c2499bcdacd57c17d0033c1da1094064f95e614befc489",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/errors.py": {
+      "schema_version": 1,
+      "content_digest": "ef01cfa58ec3d5d5c57f9cb9328dba5f8cf13edbe3b92c841df942fead97815a",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/extract/__init__.py": {
+      "schema_version": 1,
+      "content_digest": "dae8147e3afa14d5b68a1fa872e8bdf68368dd43bca265e6933a515f862b70e5",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/extract/base.py": {
+      "schema_version": 1,
+      "content_digest": "1e352e5fc9fc0d36c9e7d6eece74adc45c8b8c8257b32ab3396e72601073bbcb",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/extract/excel.py": {
+      "schema_version": 1,
+      "content_digest": "1500e21a7dc1dcdc0a9ecd24865f1266f4bc06e69c7a2fc0e2d99048a547ba05",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/extract/image.py": {
+      "schema_version": 1,
+      "content_digest": "afc5537b69947fb0747f2299e534c662722c92ad143edbc7851755cbfe808849",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/extract/markdown.py": {
+      "schema_version": 1,
+      "content_digest": "5036476273e1884233851b73325c044bc3388db3e355b5fa5429226bfa3aa623",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/extract/pdf.py": {
+      "schema_version": 1,
+      "content_digest": "41169a81ed3ddf0409e3e3eac032ad83b739c7355dc86c4878400d31ae778848",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/extract/text.py": {
+      "schema_version": 1,
+      "content_digest": "f9a127b345c943bc4caf1a1d450795f968da8ba076a4120732f4ae603420fb19",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/identity.py": {
+      "schema_version": 1,
+      "content_digest": "95008b8c8351b07d701ed50d33f3a5f8c01b72433b58ec31d1f6867f9a4d6453",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/pipeline.py": {
+      "schema_version": 1,
+      "content_digest": "8484098ffd611f2ea6fa0bdd292351bd8fe2d0e58df8421fcad33d115cfd4732",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/report.py": {
+      "schema_version": 1,
+      "content_digest": "4071a90ee1d32c05166763941186718fa6c20278a4db7b009e5f1ac422dcb8ad",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/route.py": {
+      "schema_version": 1,
+      "content_digest": "a7b60515ad9f5d59cf966b3a3046a23dfe9a5749c2137f2f350f417ce5c52b98",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/state.py": {
+      "schema_version": 1,
+      "content_digest": "d8ecb010df70bb2014015fdb2ce988dc05b1c38c2ae73fae49cf3b451d24ed7e",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/types.py": {
+      "schema_version": 1,
+      "content_digest": "3b43648b0659b43b6476429173e3638d54fa2ce2c926acb5517a40221c457daa",
+      "category": "production"
+    },
+    "src/npu_rag/ingest/vision.py": {
+      "schema_version": 1,
+      "content_digest": "11442662e4f772920da0de11feecdfe381070204d77cdb44c59ec71ba3db39d3",
+      "category": "production"
+    },
+    "tests/embedding/providers/test_base.py": {
+      "schema_version": 1,
+      "content_digest": "c75e67058706f2fcee1d94a800f4ee649eb27a5bcdf35b41c8efea4768b92aff",
+      "category": "tests"
+    },
+    "tests/embedding/providers/test_cpu.py": {
+      "schema_version": 1,
+      "content_digest": "c0bb4c6b3c14ae16cf2ffc7b7e381f7d7024041aa716fbf671a4c18c510842ec",
+      "category": "tests"
+    },
+    "tests/embedding/providers/test_vitisai.py": {
+      "schema_version": 1,
+      "content_digest": "13c9c084741a27ceafaa2cd2d62c132d9ecb7059d99eb9256b25ab29feb11cb1",
+      "category": "tests"
+    },
+    "tests/embedding/test_postprocess.py": {
+      "schema_version": 1,
+      "content_digest": "f01989dd1539fe42f3a47cb931c4cd6c7109a40f846b53bd8ed3acf2acb1ffef",
+      "category": "tests"
+    },
+    "tests/embedding/test_service.py": {
+      "schema_version": 1,
+      "content_digest": "9c4dc6ad34e03108d18dc02cffcf9d4d7f6c51ec5f4ac87bed0bb11fb250498e",
+      "category": "tests"
+    },
+    "uv.lock": {
+      "schema_version": 1,
+      "content_digest": "bd0828283281e8ae5cf8b132d89d8f2c2cb059d34522b606ded4256a32d1bb7a",
+      "category": "dependency"
+    }
+  },
+  "baseline_identity": "b817fd69141e1c9c307bf116559725bb05778428e19168f58882f95e285c5e27",
+  "evaluator_identity": "lesscode-core@0.1.0;workflow.v1",
+  "definitions": {
+    "Python/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Python/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "python",
+      "grammar_version": "tree-sitter-python@0.25.0",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "Tsx/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "tsx",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/Decisions": {
+      "schema_version": 1,
+      "name": "decisions",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/Functions": {
+      "schema_version": 1,
+      "name": "functions",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/InternalCallLayers": {
+      "schema_version": 1,
+      "name": "internal_call_layers",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/LogicalStatements": {
+      "schema_version": 1,
+      "name": "logical_statements",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    },
+    "TypeScript/PhysicalLines": {
+      "schema_version": 1,
+      "name": "physical_lines",
+      "definition_revision": "v1",
+      "language": "type_script",
+      "grammar_version": "tree-sitter-typescript@0.23.2",
+      "tool_version": "lesscode-core@0.1.0;ast-grep@0.51.0"
+    }
+  },
+  "check_definition_digests": {
+    "differential": "4e8147720805c16b8b230764addc06a4af6ebdc6ececc9cbb35ba3ee443359d0",
+    "native-tests": "4e8147720805c16b8b230764addc06a4af6ebdc6ececc9cbb35ba3ee443359d0",
+    "shared-safety": "4e8147720805c16b8b230764addc06a4af6ebdc6ececc9cbb35ba3ee443359d0",
+    "types": "4e8147720805c16b8b230764addc06a4af6ebdc6ececc9cbb35ba3ee443359d0"
+  }
+}

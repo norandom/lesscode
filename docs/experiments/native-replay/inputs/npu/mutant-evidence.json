@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "candidate_ownership": {
+    "schema_version": 1,
+    "replacements": {
+      "src/npu_rag/embedding/providers/cpu.py": [
+        {
+          "kind": "whole_file",
+          "path": "src/npu_rag/embedding/providers/cpu.py"
+        },
+        {
+          "kind": "whole_file",
+          "path": "src/npu_rag/embedding/providers/checked_run.py"
+        }
+      ],
+      "src/npu_rag/embedding/providers/vitisai.py": [
+        {
+          "kind": "whole_file",
+          "path": "src/npu_rag/embedding/providers/vitisai.py"
+        }
+      ]
+    },
+    "review": {
+      "schema_version": 1,
+      "rationale": "Whole CPU and VitisAI modules plus the entire new checked_run module. Unchanged source/tests/configuration form the wider copied boundary. Hardware is excluded.",
+      "relationships": {}
+    }
+  },
+  "checks": {
+    "differential": {
+      "schema_version": 1,
+      "baseline": null,
+      "candidate": null
+    },
+    "native-tests": {
+      "schema_version": 1,
+      "baseline": null,
+      "candidate": null
+    },
+    "types": {
+      "schema_version": 1,
+      "baseline": null,
+      "candidate": null
+    },
+    "shared-safety": {
+      "schema_version": 1,
+      "baseline": null,
+      "candidate": null
+    }
+  },
+  "dependency_changes": {}
+}
