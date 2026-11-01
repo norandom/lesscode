@@ -1,5 +1,21 @@
 # Lesscode
 
+The goal is substantial code simplification while preserving features. In grown
+codebases, custom implementations, boilerplate and supporting layers can often
+be replaced by capabilities already provided by the project's framework,
+libraries or language. Lesscode aims to help identify those opportunities and
+check the resulting changes.
+
+The work is to move responsibility into suitable existing capabilities: use a
+framework shorthand, reuse a library operation, or express the same behavior
+with clearer idiomatic code. Success means less code and structure to maintain
+for the same features and public contracts. Moving custom code into another
+module, hiding it behind a wrapper, or dropping a feature does not establish
+that result. A replacement's dependencies, configuration and behavioral
+differences also count when judging whether it simplifies the project.
+
+## What works today
+
 Check whether a proposed Python simplification preserves declared behavior, and
 inspect what changed in complexity, duplication and source size.
 
@@ -27,6 +43,12 @@ equivalence or certify code quality. Missing required evidence prevents
 acceptance; an observed behavior failure cannot be offset by fewer lines.
 
 ## A measured example on Lesscode
+
+The [library replacement trial](docs/experiments/leaf-contracts/README.md) records
+an empirical adoption decision: five library-backed record readers matched
+5,404 differential cases, but saved only four physical lines including their
+support code. That candidate was not adopted into the runtime. Production code,
+test code and trial code are counted separately in its raw results.
 
 We applied the workflow to this package and simplified the threshold evaluator:
 

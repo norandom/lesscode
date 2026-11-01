@@ -1,0 +1,44 @@
+{
+  "seed": 0,
+  "cases": 5404,
+  "mismatch_count": 0,
+  "mismatches": [],
+  "pydantic": "2.12.3",
+  "reference_leaf_classes": {
+    "physical_lines": 65,
+    "bytes": 2368,
+    "statements": 43
+  },
+  "candidate_including_support": {
+    "physical_lines": 61,
+    "bytes": 1588,
+    "statements": 40
+  },
+  "trial_test_code": {
+    "physical_lines": 81,
+    "bytes": 3728,
+    "statements": 46
+  },
+  "reference_module_sha256": "31844a5f64d168b31e88c1180d4aca47c0b0a84abfda5c04cf1b157c8f68e2f2",
+  "limits": [
+    "No runtime migration",
+    "Exact diagnostics not equivalent or tested",
+    "Reference shared helpers remain needed by other records",
+    "Finite deterministic corpus is not proof of equivalence",
+    "Statement count is not LLOC or maintenance effort"
+  ],
+  "checkout_footprint": {
+    "production": {
+      "files": 17,
+      "physical_lines": 6605,
+      "bytes": 336818,
+      "statements": 4555
+    },
+    "automated_tests_excluding_fixtures": {
+      "files": 29,
+      "physical_lines": 7503,
+      "bytes": 415966,
+      "statements": 5870
+    }
+  }
+}
