@@ -1,0 +1,14 @@
+E1b M2 (plan): in _publish_evidence, skip run-slice reference validation on the legacy
+(dictionary-shaped consumed_evidence) route.
+--- a/src/facdrone/shells/cppi/state_repository.py
++++ b/src/facdrone/shells/cppi/state_repository.py
+@@ -518,8 +518,7 @@
+             raise ValueError("consumed evidence does not identify this live decision")
+     bound = bound_payload(event.payload)
+     if bound is None:
+-        require_referenced_slices(conn, "live", namespace, batches, ())
+-        for batch in batches:
++        for batch in batches:  # E1b M2: legacy route skips reference validation
+             append_decision_evidence(conn, batch)
+         return
+     receipts = publish_slices(

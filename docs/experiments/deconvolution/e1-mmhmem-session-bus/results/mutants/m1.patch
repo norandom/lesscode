@@ -1,0 +1,20 @@
+diff --git a/a/src/services/session_bus.rs b/b/src/services/session_bus.rs
+index b24d4dd..c9f8fad 100644
+--- a/a/src/services/session_bus.rs
++++ b/b/src/services/session_bus.rs
+@@ -216,6 +216,7 @@ impl SessionBus {
+                     rusqlite::params![c_project, c_task, c_harness,
+                         format!("Updated working state ({stored_chars} chars)"), now],
+                 )?;
++                    tx.commit()?;
+                     audit.write_event(
+                         AuditEventType::SessionCheckpoint,
+                         &c_harness,
+@@ -223,7 +224,6 @@ impl SessionBus {
+                         serde_json::json!({"task_id": c_task, "objective": c_objective,
+                         "stored_chars": stored_chars}),
+                     )?;
+-                    tx.commit()?;
+                     Ok(())
+                 };
+                 Ok(save())

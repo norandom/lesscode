@@ -1,0 +1,53 @@
+root-unit run1, 2026-11-03: 5960 passed, 177 failed, 4 errors, 17 skipped in 602.65 s (xdist 2, recorder on)
+Failure classes (normalised message, count); none mention the recorder or sys.monitoring:
+  123 failure OSError: [WinError #] A required privilege is not held by the client: 'D:\\Source\\less
+   22 failure PermissionError: [WinError #] The process cannot access the file because it is being used
+    7 failure FileNotFoundError: [WinError #] The system cannot find the file specified
+    4 error   failed on setup with "OSError: [WinError #] A required privilege is not held by the cli
+    2 failure assert False
+ +  where False = <built-in method startswith of str object at #DDE#A
+    2 failure UnicodeDecodeError: 'charmap' codec can't decode byte # in position #: character ma
+    1 failure assert ["plugin 'exa...ample\\tests"] == ["plugin 'exa...xample/tests"]
+  
+  At index # di
+    1 failure assert "plugin 'exam...issions.jsonl" == "plugin 'exam...issions.jsonl"
+  
+  Skipping # 
+    1 failure assert False
+ +  where False = <built-in method endswith of str object at #DDE#D
+    1 failure AssertionError: assert '#dd#a#cf...cf#beae#dfc' == '#aa#da#d...f#fc#b#dd'
+  
+    1 failure sqlalchemy.exc.OperationalError: (psycopg.OperationalError) connection failed: connection 
+    1 failure AssertionError: assert ('first line\...third line\r') == ('first line'... 'third line')
+  
+    1 failure AssertionError: assert (TrailReplay(model=TrailTableModel(table=TrailTable(mandate='ftmo-#
+    1 failure AssertionError: assert (TrailReplay(model=FittedTrailModel(estimator=<facdrone.library.exi
+    1 failure AssertionError: assert (TrailReplay(model=ChandelierModel(k=#.#), declaration=StopDeclarat
+    1 failure AssertionError: assert (TrailReplay(model=TargetScaleTrailModel(estimator=<facdrone.librar
+    1 failure AssertionError: assert 'a#b#f#ad#...#daa#c#' == '#c#e#...#bbc#acd#d#'
+  
+    1 failure AssertionError: assert 'ecbb#e#fa...#d#deedf#' == '#ea#a#...#f#be#f#'
+  
+    1 failure AssertionError: assert 'b#c#b#b#...#f#ae#d#' == '#f#e#...#cf#c#aa'
+  
+    1 failure AssertionError: assert 'b#b#a#d#...#ccc#a#d#' == 'e#ab#f...c#cf#bb#'
+  
+    1 failure assert # == #
+ +  where # = <function main at #D#DC#C#>([])
+ +    where <functio
+    1 failure OSError: [WinError #] %# is not a valid Win# application
+    1 failure AssertionError: assert '# facdrone s... (unique)\n\n' == '# facdrone s... (unique)\n\n'
+  
+    1 failure AssertionError: assert '# facdrone s...d_series`\n\n' == '# facdrone s...d_series`\n\n'
+  
+    1 failure AssertionError: assert 'C' == 'C:\\Users\\m..._this_t#\\src'
+  
+  #x#B[#m#x#B[#m- C:\User
+    1 failure assert 'facdrone-alpha/tasks.md:#:' in "parse error: C:\\Users\\mariu\\AppData\\Local\\Tem
+    1 failure AssertionError: 
+Arrays are not equal
+
+Mismatched elements: # / # (#.#%)
+Max absol
+
+receipt entries: [('run1-root-unit', 618.57, 1)]

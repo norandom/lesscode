@@ -1,0 +1,12 @@
+diff --git a/a/src/services/session_bus.rs b/b/src/services/session_bus.rs
+index b24d4dd..53d134a 100644
+--- a/a/src/services/session_bus.rs
++++ b/b/src/services/session_bus.rs
+@@ -119,7 +119,6 @@ impl SessionBus {
+         let row = self.load_session(&project).await?;
+         let task_id = task
+             .map(str::to_string)
+-            .or_else(|| row.as_ref().map(|r| r.0.clone()))
+             .unwrap_or_else(|| new_task_id(&project));
+         let breadcrumbs = self.load_breadcrumbs(&project).await?;
+         let (objective, working_state_md, last_harness) = match &row {

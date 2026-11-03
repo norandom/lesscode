@@ -1,0 +1,7 @@
+reporting run1: 948 passed, 19 failed, 12 errors, 13 skipped in 1048 s (xdist 2, recorder on)
+   17 failure facdrone_reporting.shells.artifact_publisher.ArtifactPublicationError: staged bundle write
+    8 error   failed on setup with "OSError: [WinError #] A required privilege is not held by the cli
+    4 error   failed on setup with "facdrone_reporting.shells.artifact_publisher.ArtifactPublicationErro
+    1 failure AssertionError: render model for factor_report drifted from golden/render_model/factor_rep
+    1 failure AssertionError: render model for stability_report drifted from golden/render_model/stabili
+recorder mentioned: 0

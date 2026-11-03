@@ -17,6 +17,15 @@ correctness safeguards while directing new work toward measured code reduction.
 
 ## Authoritative scope: less code, same behavior
 
+Owner clarification, 2026-11-02 (supersedes the earlier read-only specimen rule):
+Facdrone's checkout is an editable experimental specimen. Direct rewrites are
+authorized for Lesscode trials; preserve a baseline and retain reproducible diffs
+and behavior evidence. Do not commit or push upstream without further instruction.
+The goal remains whole-responsibility compression, not delivery of a finance
+feature. A blanket AST-statement percentage must not block representation trials:
+freeze suitable complementary metrics before editing and account for the full
+replacement, including named-field mappings, helpers and callers.
+
 Owner clarification, 2026-11-01: hardware execution, accelerator validation and performance optimization/benchmarking are outside Lesscode's scope. Do not make throughput, latency, memory consumption or hardware access acceptance gates for this research. Preserve the declared software-visible behavior, including interaction contracts and safeguards. Process timeouts and cross-platform correctness are operational concerns, not performance targets. Measure maintained implementation and structure; bytes/gzip are not benefit metrics. Earlier trial limitations remain historical records and do not expand this scope.
 
 Owner clarification, 2026-11-01: this project is about code. Its objective is to help agents express the same behavior with substantially less, clearer implementation. Agents remain the means of producing code. Requirements engineering, feature reduction and application-specific domain redesign are outside this work.
@@ -70,5 +79,7 @@ The user clarified on 2026-10-31 that prevention and retrospective improvement b
 The priority is preserved behavior, security and public APIs, followed by reduced complexity, duplication and unnecessary code. Prefer deletion, inlining, reuse and native features before introducing abstractions. GoF patterns require demonstrated benefit.
 
 The core workflow must require no SciTools installation, commercial analyzer, license key or hosted analysis account. Analysis should run independently of Codex; LLM usage costs remain separate. Code style does not reliably establish AI authorship.
+
+Owner decision, 2026-11-03: target languages are Python, TypeScript, JavaScript and Rust. This supersedes the earlier Python-and-TypeScript-only scope below and the rule against adding Rust analysis support. The research direction is H8 in [R19](../../docs/research/2026-11-03/01-dynamic-deconvolution-direction.md): a recorded, mutation-scored trace oracle, edge-based convolution measures and regeneration behind the public API, with per-language tool mappings. Static state models and LLM-authored SMT models are no longer the equivalence authority. No production design or tasks are approved by this decision; E1 and E2 must run first.
 
 Status: efficiency-baseline is complete with final validation GO; its evidence remains historical and valid for the recorded revisions. Agent-quality-rules retains its approved historical plan; tasks.md marks 9 of 25 executable tasks complete, and remaining work is retired from the active delivery plan. Preserve uncommitted implementation. The experimental lesscode-discovery skill exists; measured skill efficacy remains unestablished. ATS01 and NPU01 demonstrate capability-scoped compression in two manually selected trials. The active capability-compression-core requirements, Rust design and 22-task implementation plan are approved through explicit task-generation -y. All 22 tasks are implemented and independently reviewed. The native CLI is verified on Windows with accepted external Python/TypeScript trials; the supported Python self-trial was adopted with 29 fewer statements and 32 fewer physical lines. The scoped native feature gate is GO with retained Windows/Linux/macOS evidence from run 41333477507. The current research focus is local mmhmem/mvibe baselines and behavior-preserving replacement trials; Rust metrics use a separately Cargo-installed research analyzer, not a native Rust comparison backend. Use nextest and pytest-xdist for the respective test suites; keep frozen execution provenance explicit. The broad rule engine, generic transactions, MCP/plugins, separate pattern adviser and solver integration are removed from this delivery scope, not queued prerequisites. Reintroduce only after a concrete unmet need and a new scope decision. Python and TypeScript are target languages; English is the documentation language.

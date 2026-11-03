@@ -1,0 +1,11 @@
+# E1b Arm B: seed tests + trace replay (test_e1b_replay.py).
+# Run from the arm's own working copy of the frozen source (cosmic-ray mutates files in place),
+# never from .runs/e2-facdrone/source. Timeout rule: `sample_mutants.py timeout T_A T_B`.
+[cosmic-ray]
+module-path = ["src/facdrone/shells/decision_evidence_publication.py", "src/facdrone/shells/cppi/state_repository.py"]
+timeout = 2689.2  # backstop: largest measured deadline + 120 s
+excluded-modules = []
+test-command = "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/run_arm.py B --deadline auto"
+
+[cosmic-ray.distributor]
+name = "local"

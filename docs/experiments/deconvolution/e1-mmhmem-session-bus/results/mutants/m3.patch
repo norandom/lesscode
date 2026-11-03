@@ -1,0 +1,13 @@
+diff --git a/a/src/services/session_bus.rs b/b/src/services/session_bus.rs
+index b24d4dd..b881eb4 100644
+--- a/a/src/services/session_bus.rs
++++ b/b/src/services/session_bus.rs
+@@ -19,7 +19,7 @@ use crate::storage::audit::{AuditEventType, AuditWriter, redact_secrets};
+ use crate::storage::db::Db;
+ 
+ /// Working-state cap in characters: 1,500 tokens at ~4 chars/token (Req 2.5).
+-pub const WORKING_STATE_CAP_CHARS: usize = 6_000;
++pub const WORKING_STATE_CAP_CHARS: usize = 5_999;
+ /// Breadcrumbs returned on resume (Req 2.1).
+ pub const RESUME_BREADCRUMB_COUNT: i64 = 15;
+ 

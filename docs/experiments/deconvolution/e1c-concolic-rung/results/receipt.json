@@ -1,0 +1,2032 @@
+{
+ "commands": [
+  {
+   "label": "extras-install-crosshair",
+   "cmd": [
+    "uv.exe",
+    "pip",
+    "install",
+    "--python",
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "--target",
+    "D:/Source/lesscode/.runs/e1c-facdrone/extras",
+    "crosshair-tool"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T17:49:21.879443+00:00",
+   "end_utc": "2026-11-03T17:49:23.995762+00:00",
+   "seconds": 2.12,
+   "exit": 0
+  },
+  {
+   "label": "r5-capture-golden",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "capture.py",
+    "golden"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "E1C_CAPTURE": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/r5-capture-golden.jsonl"
+   },
+   "start_utc": "2026-11-03T17:51:06.872241+00:00",
+   "end_utc": "2026-11-03T17:51:41.406694+00:00",
+   "seconds": 34.53,
+   "exit": 0
+  },
+  {
+   "label": "r5-capture-seeds-root",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "-p",
+    "capture",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "tests/contracts/test_client_acceptance.py",
+    "tests/contracts/test_consumed_publication.py",
+    "tests/contracts/test_execution_delivery_http.py",
+    "tests/contracts/test_execution_reports.py",
+    "tests/contracts/test_target_ancestry.py",
+    "tests/contracts/test_thin_protocol_kit.py",
+    "tests/contracts/test_thin_protocol_kit_account.py",
+    "tests/contracts/test_thin_protocol_kit_resting.py",
+    "tests/unit/test_acceptance_crisis_restart.py",
+    "tests/unit/test_acceptance_parity.py",
+    "tests/unit/test_acquisition_acceptance.py",
+    "tests/unit/test_baseline_store_db.py",
+    "tests/unit/test_cppi_commit_race_db.py",
+    "tests/unit/test_cppi_composed_snapshot.py",
+    "tests/unit/test_cppi_decision_flow.py",
+    "tests/unit/test_cppi_durability.py",
+    "tests/unit/test_cppi_handover_flow.py",
+    "tests/unit/test_cppi_trace_binding.py",
+    "tests/unit/test_handover_repository.py",
+    "tests/unit/test_io_execution_report_retry.py",
+    "tests/unit/test_last_complete_bar_e2e.py",
+    "tests/unit/test_mandate_guard_db.py",
+    "tests/unit/test_mandate_review_db.py",
+    "tests/unit/test_mandate_terminal_db.py",
+    "tests/unit/test_missed_day_db.py",
+    "tests/unit/test_operator_close_durability.py",
+    "tests/unit/test_operator_resume_durability.py",
+    "tests/unit/test_protection_briefing.py",
+    "tests/unit/test_reported_position_protection.py",
+    "tests/unit/test_thin_completion.py",
+    "tests/unit/test_thin_price_shadow.py",
+    "tests/unit/test_thin_protection_journal.py",
+    "tests/unit/test_thin_protocol_journal.py",
+    "tests/unit/test_thin_shadow.py",
+    "tests/unit/test_trail_floor_reset_db.py"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "E1C_CAPTURE": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/r5-capture-seeds.jsonl"
+   },
+   "start_utc": "2026-11-03T17:52:12.133512+00:00",
+   "end_utc": "2026-11-03T17:53:48.963244+00:00",
+   "seconds": 96.83,
+   "exit": 0
+  },
+  {
+   "label": "r5-capture-seeds-reporting",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "-p",
+    "capture",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "tests/test_p1_explanation_acceptance.py"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source/packages/facdrone-reporting",
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "E1C_CAPTURE": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/r5-capture-seeds.jsonl"
+   },
+   "start_utc": "2026-11-03T17:53:51.337573+00:00",
+   "end_utc": "2026-11-03T17:54:15.441849+00:00",
+   "seconds": 24.1,
+   "exit": 0
+  },
+  {
+   "label": "r5-capture-golden-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "e1c_capture.py",
+    "golden"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "E1C_CAPTURE": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/r5-capture-golden.jsonl"
+   },
+   "start_utc": "2026-11-03T17:54:55.355589+00:00",
+   "end_utc": "2026-11-03T17:55:27.722159+00:00",
+   "seconds": 32.37,
+   "exit": 0
+  },
+  {
+   "label": "r5-capture-seeds-root-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "-p",
+    "e1c_capture",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "tests/contracts/test_client_acceptance.py",
+    "tests/contracts/test_consumed_publication.py",
+    "tests/contracts/test_execution_delivery_http.py",
+    "tests/contracts/test_execution_reports.py",
+    "tests/contracts/test_target_ancestry.py",
+    "tests/contracts/test_thin_protocol_kit.py",
+    "tests/contracts/test_thin_protocol_kit_account.py",
+    "tests/contracts/test_thin_protocol_kit_resting.py",
+    "tests/unit/test_acceptance_crisis_restart.py",
+    "tests/unit/test_acceptance_parity.py",
+    "tests/unit/test_acquisition_acceptance.py",
+    "tests/unit/test_baseline_store_db.py",
+    "tests/unit/test_cppi_commit_race_db.py",
+    "tests/unit/test_cppi_composed_snapshot.py",
+    "tests/unit/test_cppi_decision_flow.py",
+    "tests/unit/test_cppi_durability.py",
+    "tests/unit/test_cppi_handover_flow.py",
+    "tests/unit/test_cppi_trace_binding.py",
+    "tests/unit/test_handover_repository.py",
+    "tests/unit/test_io_execution_report_retry.py",
+    "tests/unit/test_last_complete_bar_e2e.py",
+    "tests/unit/test_mandate_guard_db.py",
+    "tests/unit/test_mandate_review_db.py",
+    "tests/unit/test_mandate_terminal_db.py",
+    "tests/unit/test_missed_day_db.py",
+    "tests/unit/test_operator_close_durability.py",
+    "tests/unit/test_operator_resume_durability.py",
+    "tests/unit/test_protection_briefing.py",
+    "tests/unit/test_reported_position_protection.py",
+    "tests/unit/test_thin_completion.py",
+    "tests/unit/test_thin_price_shadow.py",
+    "tests/unit/test_thin_protection_journal.py",
+    "tests/unit/test_thin_protocol_journal.py",
+    "tests/unit/test_thin_shadow.py",
+    "tests/unit/test_trail_floor_reset_db.py"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "E1C_CAPTURE": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/r5-capture-seeds.jsonl"
+   },
+   "start_utc": "2026-11-03T17:55:30.086949+00:00",
+   "end_utc": "2026-11-03T17:57:06.472538+00:00",
+   "seconds": 96.39,
+   "exit": 0
+  },
+  {
+   "label": "r5-capture-seeds-reporting-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "-p",
+    "e1c_capture",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "tests/test_p1_explanation_acceptance.py"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source/packages/facdrone-reporting",
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "E1C_CAPTURE": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/r5-capture-seeds.jsonl"
+   },
+   "start_utc": "2026-11-03T17:57:07.881664+00:00",
+   "end_utc": "2026-11-03T17:57:32.080249+00:00",
+   "seconds": 24.2,
+   "exit": 0
+  },
+  {
+   "label": "r5-check-seeds",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "check_r5.py",
+    "results/r5-capture-seeds.jsonl"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;.",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T17:57:55.783639+00:00",
+   "end_utc": "2026-11-03T17:57:57.920523+00:00",
+   "seconds": 2.14,
+   "exit": 0
+  },
+  {
+   "label": "smoke-ch-166",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "30",
+    "drivers.o_open",
+    "drivers.m166"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T17:58:56.738693+00:00",
+   "end_utc": "2026-11-03T17:59:29.850076+00:00",
+   "seconds": 33.11,
+   "exit": 0
+  },
+  {
+   "label": "smoke-ch-166-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "30",
+    "drivers.o_open",
+    "drivers.m166"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:00:01.702930+00:00",
+   "end_utc": "2026-11-03T18:00:33.148650+00:00",
+   "seconds": 31.45,
+   "exit": 0
+  },
+  {
+   "label": "ch-150",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "290",
+    "drivers.o_open",
+    "drivers.m150"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:02:25.962559+00:00",
+   "end_utc": "2026-11-03T18:07:20.126684+00:00",
+   "seconds": 294.16,
+   "exit": 0
+  },
+  {
+   "label": "ch-166",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "290",
+    "drivers.o_open",
+    "drivers.m166"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:07:23.473383+00:00",
+   "end_utc": "2026-11-03T18:12:15.576188+00:00",
+   "seconds": 292.1,
+   "exit": 0
+  },
+  {
+   "label": "ch-169",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "290",
+    "drivers.o_open",
+    "drivers.m169"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:12:16.943457+00:00",
+   "end_utc": "2026-11-03T18:17:09.823094+00:00",
+   "seconds": 292.88,
+   "exit": 0
+  },
+  {
+   "label": "ch-186",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "290",
+    "drivers.o_rest",
+    "drivers.m186"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:17:12.013827+00:00",
+   "end_utc": "2026-11-03T18:22:04.016315+00:00",
+   "seconds": 292.0,
+   "exit": 0
+  },
+  {
+   "label": "diag-ch-166-verbose",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "-v",
+    "--per_condition_timeout",
+    "20",
+    "drivers.o_open",
+    "drivers.m166"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:25:15.934892+00:00",
+   "end_utc": "2026-11-03T18:25:37.079664+00:00",
+   "seconds": 21.14,
+   "exit": 0
+  },
+  {
+   "label": "diag-probe-ok1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "5",
+    "probe.ok1",
+    "probe.no"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:26:06.594323+00:00",
+   "end_utc": "2026-11-03T18:26:12.704349+00:00",
+   "seconds": 6.11,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-ok2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "5",
+    "probe.ok2",
+    "probe.no2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:26:15.059312+00:00",
+   "end_utc": "2026-11-03T18:26:20.859333+00:00",
+   "seconds": 5.8,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-len1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "5",
+    "probe.len1",
+    "probe.no2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:26:22.245330+00:00",
+   "end_utc": "2026-11-03T18:26:28.316777+00:00",
+   "seconds": 6.07,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-nul",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "5",
+    "probe.nul",
+    "probe.no2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:26:30.708763+00:00",
+   "end_utc": "2026-11-03T18:26:36.654697+00:00",
+   "seconds": 5.95,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-inst",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "5",
+    "probe.inst",
+    "probe.no2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:26:38.075008+00:00",
+   "end_utc": "2026-11-03T18:26:39.110960+00:00",
+   "seconds": 1.04,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-r1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "8",
+    "probe.r1",
+    "probe.r2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:26:52.230241+00:00",
+   "end_utc": "2026-11-03T18:27:01.380927+00:00",
+   "seconds": 9.15,
+   "exit": 0
+  },
+  {
+   "label": "diag-probe-b1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "8",
+    "probe.b1",
+    "probe.b2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:27:03.738376+00:00",
+   "end_utc": "2026-11-03T18:27:12.739008+00:00",
+   "seconds": 9.0,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-i1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "8",
+    "probe.i1",
+    "probe.b2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:27:14.178105+00:00",
+   "end_utc": "2026-11-03T18:27:23.143286+00:00",
+   "seconds": 8.97,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-l1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "8",
+    "probe.l1",
+    "probe.l2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:27:25.440894+00:00",
+   "end_utc": "2026-11-03T18:27:34.281780+00:00",
+   "seconds": 8.84,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-ra",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "8",
+    "probe.ra",
+    "probe.r2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:27:45.649924+00:00",
+   "end_utc": "2026-11-03T18:27:54.680583+00:00",
+   "seconds": 9.03,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-rf",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "8",
+    "probe.rf",
+    "probe.r2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:27:57.046625+00:00",
+   "end_utc": "2026-11-03T18:28:06.949350+00:00",
+   "seconds": 9.9,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-rb",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "8",
+    "probe.rb",
+    "probe.r2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:28:08.309369+00:00",
+   "end_utc": "2026-11-03T18:28:17.093653+00:00",
+   "seconds": 8.78,
+   "exit": 1
+  },
+  {
+   "label": "diag-probe-rc",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "8",
+    "probe.rc",
+    "probe.r2"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:28:19.450629+00:00",
+   "end_utc": "2026-11-03T18:28:28.332426+00:00",
+   "seconds": 8.88,
+   "exit": 1
+  },
+  {
+   "label": "ch3-150",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_open",
+    "drivers.m150"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:29:50.890087+00:00",
+   "end_utc": "2026-11-03T18:33:12.085468+00:00",
+   "seconds": 201.19,
+   "exit": 0
+  },
+  {
+   "label": "ch3-166",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_open",
+    "drivers.m166"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:33:14.454675+00:00",
+   "end_utc": "2026-11-03T18:36:37.858450+00:00",
+   "seconds": 203.4,
+   "exit": 0
+  },
+  {
+   "label": "ch3-169",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_open",
+    "drivers.m169"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:36:39.260197+00:00",
+   "end_utc": "2026-11-03T18:40:02.708044+00:00",
+   "seconds": 203.45,
+   "exit": 0
+  },
+  {
+   "label": "ch3-186",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_rest",
+    "drivers.m186"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:40:05.027507+00:00",
+   "end_utc": "2026-11-03T18:43:26.133830+00:00",
+   "seconds": 201.11,
+   "exit": 0
+  },
+  {
+   "label": "ch3-200",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_rest",
+    "drivers.m200"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:43:27.515863+00:00",
+   "end_utc": "2026-11-03T18:46:47.980996+00:00",
+   "seconds": 200.46,
+   "exit": 0
+  },
+  {
+   "label": "ch3-418",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_hist",
+    "drivers.m418"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:46:50.262341+00:00",
+   "end_utc": "2026-11-03T18:50:11.081622+00:00",
+   "seconds": 200.82,
+   "exit": 1
+  },
+  {
+   "label": "ch3-584",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_intent",
+    "drivers.m584"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:50:12.519266+00:00",
+   "end_utc": "2026-11-03T18:53:33.380049+00:00",
+   "seconds": 200.86,
+   "exit": 0
+  },
+  {
+   "label": "ch3-642",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_served",
+    "drivers.m642"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:53:35.905642+00:00",
+   "end_utc": "2026-11-03T18:56:57.498259+00:00",
+   "seconds": 201.59,
+   "exit": 0
+  },
+  {
+   "label": "ch3-240",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_placed",
+    "drivers.m240"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T18:56:59.796510+00:00",
+   "end_utc": "2026-11-03T19:00:19.711501+00:00",
+   "seconds": 199.91,
+   "exit": 0
+  },
+  {
+   "label": "ch3-241",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "200",
+    "drivers.o_placed",
+    "drivers.m241"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T19:00:21.121811+00:00",
+   "end_utc": "2026-11-03T19:03:41.405751+00:00",
+   "seconds": 200.28,
+   "exit": 0
+  },
+  {
+   "label": "diag3-ch-241-verbose",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "-v",
+    "--per_condition_timeout",
+    "10",
+    "drivers.o_placed",
+    "drivers.m241"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T19:04:00.173033+00:00",
+   "end_utc": "2026-11-03T19:04:11.667620+00:00",
+   "seconds": 11.49,
+   "exit": 0
+  },
+  {
+   "label": "diag-probe-241-unsliced",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "30",
+    "probe.po",
+    "probe.pm"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T19:04:31.398168+00:00",
+   "end_utc": "2026-11-03T19:04:32.748858+00:00",
+   "seconds": 1.35,
+   "exit": 2
+  },
+  {
+   "label": "diag-probe-241-unsliced-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "crosshair",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "30",
+    "probe.po",
+    "probe.pm"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e1c-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;C:/Users/mariu/AppData/Local/Temp/claude/e1c-probe",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-03T19:04:46.113091+00:00",
+   "end_utc": "2026-11-03T19:05:17.176424+00:00",
+   "seconds": 31.06,
+   "exit": 1
+  },
+  {
+   "label": "record-e1c",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "e1c_source.py",
+    "record"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:06:04.589991+00:00",
+   "end_utc": "2026-11-03T19:06:19.565749+00:00",
+   "seconds": 14.98,
+   "exit": 0
+  },
+  {
+   "label": "replay-e1c-frozen",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "e1c_source.py",
+    "replay"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:06:21.950942+00:00",
+   "end_utc": "2026-11-03T19:06:35.186325+00:00",
+   "seconds": 13.24,
+   "exit": 0
+  },
+  {
+   "label": "apply-150",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "150"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:06:49.845869+00:00",
+   "end_utc": "2026-11-03T19:06:50.562719+00:00",
+   "seconds": 0.72,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-150",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:06:52.930160+00:00",
+   "end_utc": "2026-11-03T19:08:22.479946+00:00",
+   "seconds": 89.55,
+   "exit": 0
+  },
+  {
+   "label": "restore-150",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:08:24.704346+00:00",
+   "end_utc": "2026-11-03T19:08:25.345467+00:00",
+   "seconds": 0.64,
+   "exit": 0
+  },
+  {
+   "label": "apply-166",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "166"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:08:26.830855+00:00",
+   "end_utc": "2026-11-03T19:08:27.678996+00:00",
+   "seconds": 0.85,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-166",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:08:30.049901+00:00",
+   "end_utc": "2026-11-03T19:09:19.483118+00:00",
+   "seconds": 49.43,
+   "exit": 0
+  },
+  {
+   "label": "restore-166",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:09:20.867105+00:00",
+   "end_utc": "2026-11-03T19:09:21.507822+00:00",
+   "seconds": 0.64,
+   "exit": 0
+  },
+  {
+   "label": "apply-169",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "169"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:09:23.818529+00:00",
+   "end_utc": "2026-11-03T19:09:24.274997+00:00",
+   "seconds": 0.46,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-169",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:09:25.659901+00:00",
+   "end_utc": "2026-11-03T19:10:14.256691+00:00",
+   "seconds": 48.6,
+   "exit": 0
+  },
+  {
+   "label": "restore-169",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:10:16.525256+00:00",
+   "end_utc": "2026-11-03T19:10:18.453102+00:00",
+   "seconds": 1.93,
+   "exit": 0
+  },
+  {
+   "label": "apply-186",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "186"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:10:20.065271+00:00",
+   "end_utc": "2026-11-03T19:10:20.834657+00:00",
+   "seconds": 0.77,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-186",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:10:23.168786+00:00",
+   "end_utc": "2026-11-03T19:11:30.152931+00:00",
+   "seconds": 66.98,
+   "exit": 1
+  },
+  {
+   "label": "restore-186",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:11:32.431263+00:00",
+   "end_utc": "2026-11-03T19:11:33.116167+00:00",
+   "seconds": 0.68,
+   "exit": 0
+  },
+  {
+   "label": "apply-200",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "200"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:11:34.628016+00:00",
+   "end_utc": "2026-11-03T19:11:35.404947+00:00",
+   "seconds": 0.78,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-200",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:11:37.721893+00:00",
+   "end_utc": "2026-11-03T19:12:05.370876+00:00",
+   "seconds": 27.65,
+   "exit": 0
+  },
+  {
+   "label": "restore-200",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:12:07.626464+00:00",
+   "end_utc": "2026-11-03T19:12:08.292761+00:00",
+   "seconds": 0.67,
+   "exit": 0
+  },
+  {
+   "label": "apply-418",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "418"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:12:09.876849+00:00",
+   "end_utc": "2026-11-03T19:12:10.746105+00:00",
+   "seconds": 0.87,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-418",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:12:13.175619+00:00",
+   "end_utc": "2026-11-03T19:13:42.756423+00:00",
+   "seconds": 89.58,
+   "exit": 1
+  },
+  {
+   "label": "restore-418",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:13:45.007488+00:00",
+   "end_utc": "2026-11-03T19:13:48.426917+00:00",
+   "seconds": 3.42,
+   "exit": 0
+  },
+  {
+   "label": "apply-584",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "584"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:13:50.691335+00:00",
+   "end_utc": "2026-11-03T19:13:52.594841+00:00",
+   "seconds": 1.9,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-584",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:13:54.875165+00:00",
+   "end_utc": "2026-11-03T19:15:32.057360+00:00",
+   "seconds": 97.18,
+   "exit": 0
+  },
+  {
+   "label": "restore-584",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:15:33.257203+00:00",
+   "end_utc": "2026-11-03T19:15:33.439608+00:00",
+   "seconds": 0.18,
+   "exit": 0
+  },
+  {
+   "label": "apply-642",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "642"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:15:33.589669+00:00",
+   "end_utc": "2026-11-03T19:15:33.789022+00:00",
+   "seconds": 0.2,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-642",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:15:35.155404+00:00",
+   "end_utc": "2026-11-03T19:16:07.585682+00:00",
+   "seconds": 32.43,
+   "exit": 0
+  },
+  {
+   "label": "restore-642",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:16:09.820276+00:00",
+   "end_utc": "2026-11-03T19:16:11.190867+00:00",
+   "seconds": 1.37,
+   "exit": 0
+  },
+  {
+   "label": "apply-240",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "240"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:16:12.570317+00:00",
+   "end_utc": "2026-11-03T19:16:13.180027+00:00",
+   "seconds": 0.61,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-240",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:16:15.469897+00:00",
+   "end_utc": "2026-11-03T19:16:39.708370+00:00",
+   "seconds": 24.24,
+   "exit": 0
+  },
+  {
+   "label": "restore-240",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:16:41.922317+00:00",
+   "end_utc": "2026-11-03T19:16:42.384510+00:00",
+   "seconds": 0.46,
+   "exit": 0
+  },
+  {
+   "label": "apply-241",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "apply",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+    "241"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:16:43.784106+00:00",
+   "end_utc": "2026-11-03T19:16:44.373163+00:00",
+   "seconds": 0.59,
+   "exit": 0
+  },
+  {
+   "label": "armB-e1c-241",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--deadline",
+    "auto"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e1c-facdrone/mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:16:46.649170+00:00",
+   "end_utc": "2026-11-03T19:17:10.872968+00:00",
+   "seconds": 24.22,
+   "exit": 1
+  },
+  {
+   "label": "restore-241",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "mutate.py",
+    "restore",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:17:13.093698+00:00",
+   "end_utc": "2026-11-03T19:17:13.584796+00:00",
+   "seconds": 0.49,
+   "exit": 0
+  },
+  {
+   "label": "e1c-cov-frozen",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/run_e1c_arm.py",
+    "B",
+    "--cov",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-e1c"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "E1B_SEEDS": ""
+   },
+   "start_utc": "2026-11-03T19:17:47.065879+00:00",
+   "end_utc": "2026-11-03T19:18:15.759365+00:00",
+   "seconds": 28.69,
+   "exit": 0
+  },
+  {
+   "label": "cov-e1c-combine",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "coverage",
+    "combine",
+    "--keep",
+    "--data-file=D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-e1c/.coverage",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-e1c"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:18:28.833433+00:00",
+   "end_utc": "2026-11-03T19:18:29.653486+00:00",
+   "seconds": 0.82,
+   "exit": 0
+  },
+  {
+   "label": "cov-e1c-report",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/run_arm.py",
+    "report",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-e1c",
+    "D:/Source/lesscode/.runs/e2-facdrone/source"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {},
+   "start_utc": "2026-11-03T19:18:32.049963+00:00",
+   "end_utc": "2026-11-03T19:18:32.878857+00:00",
+   "seconds": 0.83,
+   "exit": 0
+  },
+  {
+   "label": "cov-r4-combine",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "coverage",
+    "combine",
+    "--keep",
+    "--data-file=D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4/.coverage",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:18:34.269236+00:00",
+   "end_utc": "2026-11-03T19:18:35.000037+00:00",
+   "seconds": 0.73,
+   "exit": 0
+  },
+  {
+   "label": "cov-r4-report",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/run_arm.py",
+    "report",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4",
+    "D:/Source/lesscode/.runs/e2-facdrone/source"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {},
+   "start_utc": "2026-11-03T19:18:37.355462+00:00",
+   "end_utc": "2026-11-03T19:18:38.153435+00:00",
+   "seconds": 0.8,
+   "exit": 0
+  },
+  {
+   "label": "cov-e1b-b-rereport",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-c",
+    "import sys,shutil,os; sys.path.insert(0,'D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication'); import run_arm; from pathlib import Path; d=Path('D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-e1b-b-check'); d.mkdir(exist_ok=True); shutil.copy('D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/results/cov-b/.coverage', d/'.coverage'); print(run_arm.report(d, Path(r'D:/Source/lesscode/.runs/e2-facdrone/source'))['files']['src/facdrone/shells/cppi/state_repository.py'])"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {},
+   "start_utc": "2026-11-03T19:18:39.527116+00:00",
+   "end_utc": "2026-11-03T19:18:40.450124+00:00",
+   "seconds": 0.92,
+   "exit": 0
+  },
+  {
+   "label": "cov-c418-only",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "coverage",
+    "run",
+    "--branch",
+    "-p",
+    "--data-file=D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4-primary/.coverage",
+    "--include=D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_evidence_publication.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_evidence_store.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_evidence_reader.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_input_slice_store.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_slice_publisher.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\cppi\\state_repository.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\wiring\\run_evidence_store.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\packages\\facdrone-kernel\\facdrone_kernel\\domain\\decision_evidence.py",
+    "-c",
+    "import sys, e1c_source as E; e=E.O.embedded_engine().__enter__(); d=E.O.replay_engine(e, E.GOLDEN, {'C418-superseded-instruction'}); print(d or 'replay: no divergence')"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:18:58.642983+00:00",
+   "end_utc": "2026-11-03T19:18:59.396242+00:00",
+   "seconds": 0.75,
+   "exit": 1
+  },
+  {
+   "label": "cov-r4-primary-combine",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "coverage",
+    "combine",
+    "--keep",
+    "--data-file=D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4-primary/.coverage",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4-primary"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:19:01.725903+00:00",
+   "end_utc": "2026-11-03T19:19:02.348435+00:00",
+   "seconds": 0.62,
+   "exit": 0
+  },
+  {
+   "label": "cov-r4-primary-report",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/run_arm.py",
+    "report",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4-primary",
+    "D:/Source/lesscode/.runs/e2-facdrone/source"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {},
+   "start_utc": "2026-11-03T19:19:03.730634+00:00",
+   "end_utc": "2026-11-03T19:19:04.697917+00:00",
+   "seconds": 0.97,
+   "exit": 0
+  },
+  {
+   "label": "cov-c418-only-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "coverage",
+    "run",
+    "--branch",
+    "-p",
+    "--data-file=D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4-primary/.coverage",
+    "--include=D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_evidence_publication.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_evidence_store.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_evidence_reader.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_input_slice_store.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\decision_slice_publisher.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\cppi\\state_repository.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\wiring\\run_evidence_store.py,D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\packages\\facdrone-kernel\\facdrone_kernel\\domain\\decision_evidence.py",
+    "results/analysis/replay_only.py",
+    "C418-superseded-instruction"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-03T19:19:28.352178+00:00",
+   "end_utc": "2026-11-03T19:19:58.960854+00:00",
+   "seconds": 30.61,
+   "exit": 0
+  },
+  {
+   "label": "cov-r4-primary-combine-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "coverage",
+    "combine",
+    "--keep",
+    "--data-file=D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4-primary/.coverage",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4-primary"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:20:01.350412+00:00",
+   "end_utc": "2026-11-03T19:20:02.059810+00:00",
+   "seconds": 0.71,
+   "exit": 0
+  },
+  {
+   "label": "cov-r4-primary-report-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/run_arm.py",
+    "report",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1c-concolic-rung/results/cov-r4-primary",
+    "D:/Source/lesscode/.runs/e2-facdrone/source"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {},
+   "start_utc": "2026-11-03T19:20:03.503313+00:00",
+   "end_utc": "2026-11-03T19:20:04.472074+00:00",
+   "seconds": 0.97,
+   "exit": 0
+  },
+  {
+   "label": "scope-frozen-after",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/scope.py"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:20:22.534824+00:00",
+   "end_utc": "2026-11-03T19:20:23.237885+00:00",
+   "seconds": 0.7,
+   "exit": 0
+  },
+  {
+   "label": "scope-mut-after",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/scope.py",
+    "D:/Source/lesscode/.runs/e1c-facdrone/mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-03T19:20:25.587906+00:00",
+   "end_utc": "2026-11-03T19:20:26.049189+00:00",
+   "seconds": 0.46,
+   "exit": 0
+  }
+ ],
+ "facts": [
+  {
+   "time_utc": "2026-11-03T19:21:15.216234+00:00",
+   "apparatus_sha256": {
+    "check_r5.py": "ca673b05d71f0c334950b159e61fcbb2133047ba5ede5c8e352491c7f0954ec8",
+    "drivers.py": "dbbf907cca83a90af02524d05ea3333e6d068d8493cd7857d041261a9fe35a3f",
+    "e1c_capture.py": "eac5a60160d0aae772915a15fe66835bdaafa18a1a02d31965bf6c0ffd6b8e44",
+    "e1c_source.py": "a51a02b23ec06d216c3a8dbf851228df2e4552e8780ea191bb8143be0450463f",
+    "lifted.py": "1106c38479dbb3f4d4bda6aebd5efd398806f321242267656b369f628a214840",
+    "mutate.py": "9af502f995a3387729efb3e668b848f89d6db3cb35aaa92ce0b12fa8807ebd50",
+    "receipt.py": "f79c25bb6220ce173d56dfb054da18035be04fd0c0ee1c34fa0d65f6c9c7089e",
+    "run_e1c_arm.py": "de9de491dcc6f5f2b4547d59cf5b1a7e21c34d71c5e87ce0b7527382423dda90",
+    "test_e1c_replay.py": "5221993a7cfd1e2942e208861055cb55b052beeaab0987ec8de9207d1577d324",
+    "plan.md": "c859114a755e3fb9d866e306540c40431ac205cbebe27a71ce9aada7cd2604b2"
+   },
+   "apparatus_lines": {
+    "check_r5.py": 46,
+    "drivers.py": 100,
+    "e1c_capture.py": 74,
+    "e1c_source.py": 104,
+    "lifted.py": 95,
+    "mutate.py": 40,
+    "receipt.py": 44,
+    "run_e1c_arm.py": 19,
+    "test_e1c_replay.py": 7
+   },
+   "crosshair": "crosshair-tool==0.0.112",
+   "z3": "z3-solver==5.3.3.0",
+   "extras": "D:/Source/lesscode/.runs/e1c-facdrone/extras",
+   "python": "3.13.16",
+   "research_lines_incl_analysis": 535,
+   "budget_lines": 400,
+   "superseded_drivers_v2_sha256": "8368b4f90e50de3ac24c6a29bcae8bf0a45d661ceea2f4d3038d38e4a82d3b71",
+   "golden_e1c_sha256": "c69cb957e2de07faae121262024e10ab070fac5431fc3eef45834f3c8937d487",
+   "facdrone_head": "d49f48bd13c4e3da8a219d5bf73a974a9f982999",
+   "facdrone_status_short_lines": 0
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-03T19:21:04.584757+00:00",
+   "key": "solver-time-accounting",
+   "value": {
+    "ch-200-v2": "started 2026-11-03T18:22:04Z, stopped by the agent (TaskStop) before 18:25:15Z, no output; at most ~190 s solver time",
+    "diag-verbose-1": "first verbose diagnosis of the Literal failure, ~9 s, run directly (not through receipt.py), log not kept beyond the agent temp dir",
+    "solver_seconds_recorded": 3411.33,
+    "solver_seconds_upper_estimate": 3610,
+    "budget_s": 3600
+   }
+  },
+  {
+   "time_utc": "2026-11-03T19:21:06.554277+00:00",
+   "key": "r5",
+   "value": {
+    "golden_corpus_calls": 0,
+    "seed_corpus_calls": 472,
+    "distinct_inputs": 285,
+    "mismatches": 0,
+    "per_fn": {
+     "instruction_history": 121,
+     "opening_tickets": 110,
+     "resting_orders": 109,
+     "intention_ids": 128,
+     "placed_under": 1,
+     "decision_served": 3
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-03T19:21:08.278995+00:00",
+   "key": "golden-e1c",
+   "value": {
+    "sha256": "c69cb957e2de07faae121262024e10ab070fac5431fc3eef45834f3c8937d487",
+    "sequences": 2,
+    "operations": 4,
+    "replay_frozen": "no divergence",
+    "e1b_oracle_sha256_unchanged": "c4c93118a98ae07b1174b42bc0b6a9b297048e6c993993c21797a746c988f074"
+   }
+  },
+  {
+   "time_utc": "2026-11-03T19:21:10.053784+00:00",
+   "key": "armB-e1c",
+   "value": {
+    "killed": {
+     "418": "C418 result length 1 vs 2",
+     "186": "X241 (supplementary) SQL text of resting_orders query",
+     "241": "X241 (supplementary) result key present on one side"
+    },
+    "survived": [
+     150,
+     166,
+     169,
+     200,
+     584,
+     642,
+     240
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-03T19:21:11.704585+00:00",
+   "key": "r4",
+   "value": {
+    "e1b_arm_b_state_repository": {
+     "branches": 56,
+     "missing_branches": 11,
+     "branch_pct": 80.357,
+     "statements": 238,
+     "missing": 10
+    },
+    "plus_C418_only": {
+     "missing_branches": 11,
+     "missing": 10,
+     "branch_pct": 80.357
+    },
+    "plus_all_e1c": {
+     "missing_branches": 9,
+     "missing": 9,
+     "branch_pct": 83.929,
+     "stmt_plus_branch_pct": 93.878
+    },
+    "scope_total_plus_all_e1c": {
+     "branch_pct": 89.222,
+     "coverage_py_pct": 95.551
+    }
+   }
+  }
+ ]
+}

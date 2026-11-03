@@ -1,0 +1,3 @@
+Recorder-validity check, 2026-11-03: failing/erroring test IDs, unrecorded baseline vs recorded run1 vs recorded run2
+root-unit: base=181 run1=181 run2=181 | base^run1=0 base^run2=0 run1^run2=0
+reporting: base=31 run1=31 run2=31 | base^run1=0 base^run2=0 run1^run2=0

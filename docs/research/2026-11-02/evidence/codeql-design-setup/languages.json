@@ -1,0 +1,47 @@
+{
+  "actions" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\actions"
+  ],
+  "cpp" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\cpp"
+  ],
+  "csharp" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\csharp"
+  ],
+  "csv" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\csv"
+  ],
+  "go" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\go"
+  ],
+  "html" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\html"
+  ],
+  "java" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\java"
+  ],
+  "javascript" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\javascript"
+  ],
+  "properties" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\properties"
+  ],
+  "python" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\python"
+  ],
+  "ruby" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\ruby"
+  ],
+  "rust" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\rust"
+  ],
+  "swift" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\swift"
+  ],
+  "xml" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\xml"
+  ],
+  "yaml" : [
+    "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\yaml"
+  ]
+}

@@ -1,0 +1,12 @@
+E1b M1 (plan): adopt the copied slice ledger before the commit transaction, not after.
+Observable only when the commit fails after publish_slices ran (e.g. a conflicting decision id).
+--- a/src/facdrone/shells/cppi/state_repository.py
++++ b/src/facdrone/shells/cppi/state_repository.py
+@@ -429,6 +429,7 @@
+         if event_model.committed_version != next_model.version:
+             raise ValueError("decision event committed_version must match next state version")
+         ledger = replace(self._slice_ledger, last=self._slice_ledger.last.copy())
++        self._slice_ledger = ledger  # E1b M1: adopted before the transaction commits
+         with self.engine.begin() as conn:
+             live = conn.execute(
+                 select(LIVE_RUNTIME_STATE.c.version).where(

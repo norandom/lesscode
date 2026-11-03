@@ -1,5 +1,8 @@
 # Lesscode documentation
 
+Follow the [dated research log](research/README.md) for experiment progress,
+hypothesis revisions, retained negative results and links back to Kiro specs.
+
 Start with the [native workflow and scoped readiness report](reports/native-core-readiness.md).
 Supply the baseline, candidate, reviewed ownership and externally run checks;
 inspect JSON and Markdown before adoption. Python and TypeScript are supported
@@ -11,6 +14,8 @@ The retained Python evaluator guides below remain usable reference workflows.
 
 | Goal | Guide |
 | --- | --- |
+| Inspect the first CodeQL query prototype and its failed callback check | [CG-G0: extraction, frozen oracle and replay](experiments/constraint-modeler/README.md) |
+| Review the proposed graph-driven, multi-pass constraint-modeling research | [Research blueprint and staged experiments](../.kiro/specs/constraint-guided-compression/research.md) |
 | Inspect real paired replacements, including a marginal Facdrone result | [mvibe: 23 lines removed](experiments/proxy-routing-trial/README.md) and [Facdrone CSV: rejected](experiments/facdrone-csv-trial/README.md) |
 | Inspect local Rust/Python/TypeScript baselines and a rejected library shortcut | [mmhmem/mvibe measurements, versions, chart and COBESY experiment track](experiments/local-adoption/README.md) |
 | Run Rust and Python tests in parallel | [cargo-nextest and pytest-xdist](testing.md) |
@@ -33,6 +38,7 @@ The retained Python evaluator guides below remain usable reference workflows.
 | Compare your own snapshots | [Profile configuration](profiles.md), then [CLI reference](cli.md) |
 | Try the process with a reviewer | [Adoption guide](adoption.md) |
 | Drive compression trials from real code opportunities | [Reusable procedure and agent skill](compression-procedure.md) |
+| Choose symbolic-execution and guided-input tooling per language | [Symbolic execution tooling assessment](symbolic-execution-tooling.md) |
 | Understand the input and run a real family prototype | [Reader-family trial plan and results](experiments/reader-family/README.md) |
 | Inspect a smaller classifier and source-derived SMT check | [Outcome hotspot and next LLM compression pass](experiments/outcome-hotspot/README.md) |
 | Inspect a real simplification of Lesscode | [Self-evaluation example and charts](examples/self-evaluation.md) |

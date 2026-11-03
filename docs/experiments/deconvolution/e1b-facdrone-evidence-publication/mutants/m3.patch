@@ -1,0 +1,13 @@
+E1b M3 (plan): change the capture codec's compression level in compact_capture (1 -> 9):
+the stored base64 bytes differ, decoding is unchanged.
+--- a/src/facdrone/shells/decision_evidence_publication.py
++++ b/src/facdrone/shells/decision_evidence_publication.py
+@@ -398,7 +398,7 @@
+             inputs.append(item)
+     compact = replace(captured, inputs=tuple(inputs))
+     return payload | {
+-        "consumed_capture": base64.b64encode(zlib.compress(_CAPTURE.dump_json(compact), 1)).decode()
++        "consumed_capture": base64.b64encode(zlib.compress(_CAPTURE.dump_json(compact), 9)).decode()
+     }
+ 
+ 

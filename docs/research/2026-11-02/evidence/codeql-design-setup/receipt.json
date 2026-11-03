@@ -1,0 +1,16 @@
+{
+  "commands": [
+    "version --format=json",
+    "resolve languages --format=json",
+    "resolve qlpacks --format=json"
+  ],
+  "extraction_run": false,
+  "exits": [
+    0,
+    0,
+    0
+  ],
+  "recorded_at": "2026-11-02T08:00:16.9107356Z",
+  "executable": "C:\\Users\\mariu\\AppData\\Local\\Programs\\CodeQL\\2.26.3\\codeql\\codeql.exe",
+  "sha256": "468add8b12c9ba4761ff4c99225ed5ece3f53fb065b212cecd43ae6295abfa2b"
+}

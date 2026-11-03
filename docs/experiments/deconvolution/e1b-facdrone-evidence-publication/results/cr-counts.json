@@ -1,0 +1,685 @@
+{
+ "A": {
+  "n": 60,
+  "primary": {
+   "survived": 17,
+   "killed": 42,
+   "void": 1
+  },
+  "kill_rate": 0.711864406779661,
+  "observed": {
+   "survived": 17,
+   "killed": 42,
+   "void": 1
+  },
+  "observed_kill_rate": 0.711864406779661,
+  "uncovered_observed": {
+   "void": 1,
+   "survived": 7
+  }
+ },
+ "B": {
+  "n": 60,
+  "primary": {
+   "survived": 15,
+   "killed": 44,
+   "void": 1
+  },
+  "kill_rate": 0.7457627118644068,
+  "observed": {
+   "survived": 15,
+   "killed": 44,
+   "void": 1
+  },
+  "observed_kill_rate": 0.7457627118644068,
+  "uncovered_observed": {
+   "void": 1,
+   "survived": 7
+  }
+ },
+ "intersection": {
+  "A": {
+   "n": 59,
+   "primary": {
+    "survived": 17,
+    "killed": 42
+   },
+   "kill_rate": 0.711864406779661,
+   "observed": {
+    "survived": 17,
+    "killed": 42
+   },
+   "observed_kill_rate": 0.711864406779661,
+   "uncovered_observed": {
+    "survived": 7
+   }
+  },
+  "B": {
+   "n": 59,
+   "primary": {
+    "survived": 15,
+    "killed": 44
+   },
+   "kill_rate": 0.7457627118644068,
+   "observed": {
+    "survived": 15,
+    "killed": 44
+   },
+   "observed_kill_rate": 0.7457627118644068,
+   "uncovered_observed": {
+    "survived": 7
+   }
+  }
+ },
+ "killed_only_by_B": [
+  "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_Eq_LtE|2",
+  "src/facdrone/shells/decision_evidence_publication.py|core/AddNot|15"
+ ],
+ "killed_only_by_A": [],
+ "per_mutant": {
+  "A": {
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceBinaryOperator_BitOr_Sub|0": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 255
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceBinaryOperator_BitOr_FloorDiv|2": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 638
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceBinaryOperator_BitOr_Pow|2": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 638
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_NotEq|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 150
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_NotEq|38": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 469
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Lt|11": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 176
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Lt|39": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 546
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Lt|41": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 604
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_LtE|4": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 150
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_LtE|8": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 169
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_LtE|23": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 241
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 165
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|11": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 176
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|12": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 186
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|15": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 190
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|27": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 366
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|31": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 412
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|42": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 605
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_GtE|16": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 200
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_GtE|32": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 413
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_GtE|33": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 418
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_GtE|43": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 606
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|3": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 149
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|5": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 151
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|14": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 190
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|20": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 240
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|28": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 411
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|37": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 584
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|41": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 640
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_IsNot|11": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 186
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_IsNot|23": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 261
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_IsNot|31": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 436
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_NotEq_LtE|3": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 457
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_NotEq_LtE|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 474
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_NotEq_LtE|5": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 513
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_NotEq_Is|1": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 429
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceAndWithOr|0": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 166
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/NumberReplacer|3": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 200
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/NumberReplacer|14": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 633
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/NumberReplacer|20": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 642
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ZeroIterationForLoop|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 522
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ZeroIterationForLoop|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 541
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_Mul_Pow|1": {
+    "observed": "void",
+    "uncovered": true,
+    "row": 238
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_BitOr_Sub|1": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 191
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_BitOr_Mod|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 363
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_BitOr_RShift|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 400
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_BitOr_LShift|3": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 263
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_Eq_LtE|2": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 299
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_NotEq_Lt|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 265
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_NotEq_LtE|0": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 91
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_Is_IsNot|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 313
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/AddNot|15": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 299
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/AddNot|22": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 387
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceAndWithOr|0": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 91
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceAndWithOr|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 393
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceAndWithOr|7": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 394
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceOrWithAnd|1": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 105
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceOrWithAnd|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 138
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceOrWithAnd|10": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 348
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ZeroIterationForLoop|2": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 283
+   }
+  },
+  "B": {
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceBinaryOperator_BitOr_Sub|0": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 255
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceBinaryOperator_BitOr_FloorDiv|2": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 638
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceBinaryOperator_BitOr_Pow|2": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 638
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_NotEq|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 150
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_NotEq|38": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 469
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Lt|11": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 176
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Lt|39": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 546
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Lt|41": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 604
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_LtE|4": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 150
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_LtE|8": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 169
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_LtE|23": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 241
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 165
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|11": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 176
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|12": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 186
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|15": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 190
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|27": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 366
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|31": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 412
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Gt|42": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 605
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_GtE|16": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 200
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_GtE|32": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 413
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_GtE|33": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 418
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_GtE|43": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 606
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|3": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 149
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|5": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 151
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|14": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 190
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|20": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 240
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|28": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 411
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|37": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 584
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_Is|41": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 640
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_IsNot|11": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 186
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_IsNot|23": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 261
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_Eq_IsNot|31": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 436
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_NotEq_LtE|3": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 457
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_NotEq_LtE|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 474
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_NotEq_LtE|5": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 513
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceComparisonOperator_NotEq_Is|1": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 429
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ReplaceAndWithOr|0": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 166
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/NumberReplacer|3": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 200
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/NumberReplacer|14": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 633
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/NumberReplacer|20": {
+    "observed": "survived",
+    "uncovered": false,
+    "row": 642
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ZeroIterationForLoop|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 522
+   },
+   "src/facdrone/shells/cppi/state_repository.py|core/ZeroIterationForLoop|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 541
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_Mul_Pow|1": {
+    "observed": "void",
+    "uncovered": true,
+    "row": 238
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_BitOr_Sub|1": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 191
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_BitOr_Mod|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 363
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_BitOr_RShift|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 400
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceBinaryOperator_BitOr_LShift|3": {
+    "observed": "survived",
+    "uncovered": true,
+    "row": 263
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_Eq_LtE|2": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 299
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_NotEq_Lt|4": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 265
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_NotEq_LtE|0": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 91
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceComparisonOperator_Is_IsNot|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 313
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/AddNot|15": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 299
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/AddNot|22": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 387
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceAndWithOr|0": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 91
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceAndWithOr|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 393
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceAndWithOr|7": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 394
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceOrWithAnd|1": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 105
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceOrWithAnd|6": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 138
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ReplaceOrWithAnd|10": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 348
+   },
+   "src/facdrone/shells/decision_evidence_publication.py|core/ZeroIterationForLoop|2": {
+    "observed": "killed",
+    "uncovered": false,
+    "row": 283
+   }
+  }
+ }
+}
