@@ -33,6 +33,13 @@ Committed 2026-11-04 as `730e033`: R24, R25, the E1c-2 and E3 directories
 file. The large golden trace `golden-e1c2.json` and `t5-soundness.json` are
 on disk only; their hashes are committed beside them.
 
+Release and archive (2026-11-04): spec, report, citation files and badge
+committed (281a615, 9086551) and pushed; GitHub release `v0.1.0` published;
+Zenodo archived it as DOI 10.5281/zenodo.23958364 under concept DOI
+10.5281/zenodo.23958363 (the README badge and `CITATION.cff` carry the
+concept DOI). Later releases archive automatically; bump `version` and
+`date-released` in `CITATION.cff` and `.zenodo.json` first.
+
 ## Rules that are not negotiable
 
 - Native Windows only, plain user account. WSL is CI-only; nothing executes
