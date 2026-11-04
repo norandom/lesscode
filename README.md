@@ -1,6 +1,6 @@
 # Lesscode
 
-[![DOI](https://zenodo.org/badge/1440672292.svg)](https://zenodo.org/badge/latestdoi/1440672292)
+[![DOI](https://zenodo.org/badge/1440672292.svg)](https://doi.org/10.5281/zenodo.23958363)
 
 The goal is substantial code simplification while preserving features. In grown
 codebases, custom implementations, boilerplate and supporting layers can often

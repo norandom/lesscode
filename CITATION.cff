@@ -10,6 +10,14 @@ authors:
     given-names: Marius
 version: 0.1.0
 date-released: 2026-11-04
+doi: 10.5281/zenodo.23958363
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23958363
+    description: Zenodo concept DOI, resolves to the latest archived release
+  - type: doi
+    value: 10.5281/zenodo.23958364
+    description: Zenodo DOI of release v0.1.0
 license: MIT
 repository-code: https://github.com/norandom/lesscode
 url: https://github.com/norandom/lesscode
