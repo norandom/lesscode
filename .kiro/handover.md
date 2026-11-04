@@ -27,9 +27,11 @@ Candidate root `.runs/e3-facdrone/cand` (only the five files differ from the
 frozen copy); mutant copy `.runs/e3-facdrone/mut` verified identical to the
 candidate at the end. E1c-2 (R24) stands as recorded.
 
-Uncommitted: R24, R25, the E1c-2 and E3 directories, `adaptive.py` and its
-reference, the tooling-doc verifier section, this file. Commit when the
-owner asks.
+Committed 2026-11-04 as `730e033`: R24, R25, the E1c-2 and E3 directories
+(coverage data and files over 1 MB kept out, sha256 sidecars in place),
+`adaptive.py` and its reference, the tooling-doc verifier section, this
+file. The large golden trace `golden-e1c2.json` and `t5-soundness.json` are
+on disk only; their hashes are committed beside them.
 
 ## Rules that are not negotiable
 
