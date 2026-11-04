@@ -1,0 +1,4 @@
+{"log": "ch-418.log", "args": "{'rows': [(None, None, 2, 0, None, 0), (None, None, 2, 0, None, 0), (None, None, 2, 0, [], 0), (None, None, 0, 0, [0, 0], 0), (None, None, 2, 0, [], 0)]}", "o_hist": "[0, 0]", "m418": "[0, 0, 0]", "differ": true}
+{"log": "ch-584.log", "args": "{'cands': [(3, [0, 0], [0, 0, 0, 0, 0, 0, 0, 0]), None, (3, [0, 0], [0, 0, 0, 0, 0, 0, 0, 0])]}", "o_intent": "['aaaaaaaa', 'aaaaaaaa']", "m584": "[]", "differ": true}
+{"log": "ch-240.log", "args": "{'rest': (3, [0], [], []), 'body': (3, 3, None, None, None, 1, [0, 0, 0, 0, 0, 0], None, [], [])}", "o_placed": "True", "m240": "False", "differ": true}
+{"log": "ch-241.log", "args": "{'rest': (2, [], [], []), 'body': (1, 4, None, None, None, 1, [0, 0, 0, 0], None, [0], [])}", "o_placed": "False", "m241": "True", "differ": true}

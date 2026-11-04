@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/ReplaceComparisonOperator_Eq_LtE", "occurrence": 4, "start_pos": [150, 46], "end_pos": [150, 48], "operator_args": {}, "definition_name": "opening_tickets"}, "old": "            LIVE_DECISION_EVENT.c.strategy_id == identity.strategy_id,", "new": "            LIVE_DECISION_EVENT.c.strategy_id <= identity.strategy_id,"}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [148, 149, 150, 151, 152]}

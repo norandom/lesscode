@@ -1,0 +1,1 @@
+{'statements': 1217, 'missing': 33, 'branches': 334, 'missing_branches': 36, 'coverage_py_percent': 95.55125725338492, 'branch_percent': 89.22155688622755}

@@ -1,0 +1,81 @@
+{
+ "seed": 20261104,
+ "weak": false,
+ "pairs": 2,
+ "results": {
+  "identical": {
+   "pair": [
+    [
+     "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id = %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR",
+     {
+      "account_id_1": "e1b-account",
+      "flow_1": "attempt",
+      "strategy_id_1": "e1b-strategy"
+     }
+    ],
+    [
+     "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id = %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR",
+     {
+      "account_id_1": "e1b-account",
+      "flow_1": "attempt",
+      "strategy_id_1": "e1b-strategy"
+     }
+    ]
+   ],
+   "bases": 2,
+   "pass": true,
+   "states": 102,
+   "load_failures": 8,
+   "first_difference": null
+  },
+  "m150-shape": {
+   "pair": [
+    [
+     "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id = %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR",
+     {
+      "account_id_1": "e1b-account",
+      "flow_1": "attempt",
+      "strategy_id_1": "e1b-strategy"
+     }
+    ],
+    [
+     "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id <= %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR",
+     {
+      "account_id_1": "e1b-account",
+      "flow_1": "attempt",
+      "strategy_id_1": "e1b-strategy"
+     }
+    ]
+   ],
+   "bases": 2,
+   "pass": false,
+   "states": 102,
+   "load_failures": 8,
+   "first_difference": {
+    "state": 20,
+    "perturbation": [
+     [
+      "boundary",
+      "live_decision_event",
+      {
+       "account_id": "e1b-account",
+       "flow": "attempt",
+       "strategy_id": "e1b-strateg"
+      }
+     ],
+     [
+      "drop",
+      "live_decision_event",
+      3,
+      null
+     ]
+    ],
+    "recorded": [],
+    "replayed": [
+     "[{\"as_of\": \"2026-09-14T12:00:00+00:00\", \"currency\": \"EUR\", \"consumed_evidence_refs\": [{\"scope\": \"live\", \"step_id\": \"2026-09-14T12:00:00+00:00:scored\", \"execution_id\": \"e1b-account:e1b-strategy:v2\"}, {\"scope\": \"live\", \"step_id\": \"2026-09-14T12:00:00+00:00:rule_book:equity\", \"execution_id\": \"e1b-account:e1b-strategy:v2\"}]}]"
+    ]
+   }
+  }
+ },
+ "failed": 1
+}

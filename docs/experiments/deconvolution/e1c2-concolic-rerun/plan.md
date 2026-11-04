@@ -95,3 +95,137 @@ h total, 300 s per target. Arm B reruns on 10 targets only.
 No compression, no candidate, no whole-scope equivalence. A positive E1c-2
 raises the oracle's measured sensitivity on this scope and supplies E3 with
 the reader-inclusive alphabet and the pure-core requirement.
+
+## Amendment 1 (2026-11-04, execution session, after the driver smokes, before any target run)
+
+- **Smoke harness and the S5 detection rule.** `crosshair check` reads PEP 316 contracts from the
+  source, so the trivial postcondition sits on one generic function, `drivers2.smoke`
+  (`"""post: True"""`), which takes the signature of the driver named in `E1C2_SMOKE`. The first
+  trial (`smoke-o_placed`, 1.5 s) found no checkable function because the docstring had been set
+  at run time; recorded, not a solver result. The second trial (`smoke-o_placed-2`, `--verbose`,
+  15 s, 69 iterations, every path CONFIRMED) showed **no SMT decision with a `lifted.py` frame**,
+  yet the paths did run the lifted code: with string lengths fixed by construction, the lifted
+  comparisons build symbolic booleans without branching, so a missing decision frame does not mean
+  a missing entry (E1c's diagnostic rule is too strict for these drivers). S5 is therefore scored
+  by **entry markers**: in smoke mode only, each lifted function is wrapped to print
+  `ENTER lifted.<name>` before calling the unchanged original. A driver passes S5 if its smoke log
+  holds at least one marker. Target runs do not set `E1C2_SMOKE` and run the lifted code unwrapped.
+- **Step 2 choice.** `kind` (584) is built by `json.loads('"' + v + '"')`, where `v` is either an
+  enumerated literal or a free symbolic string. CrossHair 0.0.112 symbolises through `json.loads`
+  (its pure-Python `jsonlib` with symbolic regex matching): the verbose trial shows decisions in
+  `jsonlib.py`/`relib.py` frames and 0 realisations. The concatenation fallback is not used.
+- **Same domain for 240.** `_placed_under` compares `representation` by identity under mutant 240,
+  and production reads that field from JSONB. A scratch check on the embedded database (frozen
+  copy, not in the receipt, about 15 s): a stored `"legacy"` read back through the SQLAlchemy
+  engine is equal to but **not** identical with the literal. The drivers therefore pass
+  `representation` through the same `json.loads` encoding as `kind`. `lifted.py` is unchanged.
+- **Smoke m241.** Exit 1 after 14 entries: the mutant raises `TypeError` for `rest.parent <= None`
+  (a legacy body without `turn_id` and `parent_id`). That is the mutant's behaviour, and the path
+  entered `lifted.placed_under`, so S5 holds for this driver.
+- **Budget.** Smokes and trials: 295.2 s of solver time, counted against the 1.5 h total.
+
+## Amendment, 2026-11-04 (owner request, before classification): solver-encoding verifier
+
+Before any solver verdict is counted, the solver pipeline must pass four
+checks, recorded in the receipt:
+
+1. Symbolic-ness: each driver's smoke run explores more than one path into
+   `lifted.py` (S5, unchanged).
+2. Encoding soundness: each lifted predicate reproduces the original on every
+   recorded input (E1c's R5 check, rerun if `lifted.py` changed).
+3. Pipeline controls: the known-killable target 418 must yield a
+   counterexample, and one known-equivalent annotation-only mutant must yield
+   "no differences found" with "all paths exhausted". If either control
+   fails, the solver session is void as a whole, not only that target.
+4. Counterexample realizability: every counterexample is replayed
+   concretely through the original and the mutated lifted function and must
+   differ before it is realised as rows. "No differences found" without
+   exhaustion is recorded as inconclusive and never as equivalence.
+
+Predictions S1 to S5 are unchanged. A void session is reported as void.
+
+## Amendment 2 (2026-11-04, execution session, owner request "solver-encoding verifier", during the target runs, before any verdict is counted)
+
+Owner request relayed by the coordinator while `ch-150` to `ch-241` were running; no solver
+verdict had been read or counted. S1 to S5 are unchanged. Before any solver verdict counts toward
+S1 to S3, four checks are run and recorded in `results/receipt.json` and in the README section
+"Verifier":
+
+1. **Symbolic-ness.** Each driver smoke shows more than one explored path into `lifted.py`,
+   scored by the Amendment 1 entry markers (more than one `ENTER` line per smoke log).
+2. **Encoding soundness.** Each lifted predicate reproduces the original on every recorded
+   input: E1c's R5 check (`check_r5.py` on `r5-capture-seeds.jsonl`, 472 calls). `lifted.py` is
+   unchanged (sha256 compared with the E1c receipt); the check is rerun anyway because it is cheap.
+3. **Pipeline controls.** (a) Target 418 must yield a counterexample under `drivers2`. (b) One
+   known-equivalent annotation-only mutant from the E1b sample must yield "No differences found"
+   **with** "All paths exhausted". Chosen: `decision_evidence_publication.py` line 191,
+   `ReplaceBinaryOperator_BitOr_Sub` occurrence 1 (`-> str | None` becomes `-> str - None`, under
+   `from __future__ import annotations`). The mutated function is compiled **in memory** from the
+   frozen file's text with cosmic-ray's exact diff line (`ctl2.py`; no mutant file is written
+   outside `.runs/e1c-facdrone/mut`). Its driver chooses between the two concrete arguments the
+   function distinguishes, `None` and one recorded `ConsumedCapture` (Facdrone's
+   `capture_details()`), so a correct pipeline must exhaust the paths. Same command form and
+   `--per_condition_timeout 300`. If (a) or (b) fails, the solver session is **void as a whole**
+   and no target counts.
+4. **Counterexample realisability.** Every counterexample is replayed concretely (no CrossHair)
+   through the original and mutated lifted functions via the drivers, and must differ before it is
+   realised as rows. "No differences found" without "All paths exhausted" is recorded as
+   inconclusive, never as equivalence.
+
+The verifier's code (`ctl2.py`, the concrete replay) is counted in the line budget and itemised.
+
+## Amendment, 2026-11-04 (owner request, during solver runs): adaptive budgets
+
+The host is shared and sometimes busy, so fixed wall-clock caps can turn load
+into false timeouts. From this point every deadline in E1c-2 is adaptive,
+using `docs/experiments/deconvolution/adaptive.py`:
+
+- Before each heavy step, record `adaptive.py probe` in the receipt.
+- Deadlines are `scaled(base)`: the preregistered base (300 s per solver
+  target, Arm B deadlines, the 1.5 h solver budget) multiplied by the
+  measured load factor, clamped to [1, 4]. Base values are unchanged; the
+  budget means work on an idle machine.
+- A timeout observed while the factor exceeded 1.5 is rerun once after
+  `wait_for_idle`, and only a second timeout under factor at most 1.5 is a
+  counted outcome. Both attempts stay in the receipt.
+- The idle reference (`adaptive-reference.json`) was calibrated on
+  2026-11-04 while the solver itself was running on one core; it is to be
+  recalibrated on a quiet host and the change recorded.
+
+Predictions S1 to S5 are unchanged.
+
+## Amendment 3 (2026-11-04, execution session, owner request "adaptive budgets", after `ch-150` and `ch-166`, before `ch-169`)
+
+- **Change.** Fixed wall-clock caps are replaced by `../adaptive.py` (stdlib; idle reference
+  `../adaptive-reference.json`, `ref_bench_s` 0.311, calibrated 2026-11-04 07:41 local). Every
+  heavy step from `ch-169` on runs through `step2.py`: it probes the host, sets the deadline to
+  `scaled(base)` with the preregistered bases unchanged (300 s per solver target as
+  `--per_condition_timeout`, E1b's measured Arm B deadline per selected seed set, the 1.5 h solver
+  total), and stores the probe and factor in that step's receipt entry. A timeout-type outcome
+  (receipt timeout, `run_arm` "deadline exceeded", or CrossHair "No differences found" without
+  "All paths exhausted") at factor > 1.5 waits for idle (`wait_for_idle`, at most 30 min) and
+  reruns that step once as `<label>-rerun`; only a second timeout at factor <= 1.5 counts; both
+  attempts stay in the receipt.
+- **Runs already completed.** `ch-150` (310.7 s wall) and `ch-166` (307.6 s wall) ran with the
+  fixed 300 s and ended "No differences found" without exhaustion, a timeout-type outcome. No probe
+  was taken before them. A probe taken at 07:41:45 local, while `ch-166` was running, gave factor
+  **1.16** (`cpu_other` 0.139 including the running solver on one of 24 cores, bench 0.283 s vs
+  0.311 s). Wall time exceeded the 300 s condition timeout by only 7 to 11 s (process start and
+  import), so neither run shows load. Both are therefore kept as completed, not marked "rerun
+  pending". The series loop was stopped after `ch-166` and before `ch-169` started; no partial run.
+- **Budget.** The 1.5 h solver total is compared with `scaled(5400)` at the time of each check.
+
+## Amendment 4 (2026-11-04, execution session, after two control load failures, before the counted control run)
+
+- **Control launcher.** `crosshair diffbehavior ctl2.o_ctl ctl2.m_ctl` refused to load the
+  module twice, before any path ran: `SideEffectDetected` for `socket.gethostname` (`ctl-191`,
+  2.0 s) and, with that unblocked, for `os.add_dll_directory` from numpy (`ctl-191-2`, 2.5 s).
+  These are import-time effects of Facdrone's package, not of the function under test. The
+  counted control (`ctl-191-3`) imports `ctl2` first and then calls CrossHair's own `main()` with
+  the same arguments (`diffbehavior --per_condition_timeout <scaled 300> ctl2.o_ctl ctl2.m_ctl`),
+  so CrossHair finds the module already loaded. No CrossHair option and no driver was changed.
+- **Realisation, 584.** The solver's input holds two `set_stops` candidates with the same id and
+  one non-dict candidate. `instruction_records` validates every candidate after `_shadow_seed`
+  and derives row ids from the instruction id, so a non-dict or a duplicate id makes the whole
+  commit fail identically on both sides. The realised sequence keeps the distinguishing part,
+  one JSON-decoded `set_stops` candidate with an id; the mapping is in the README.

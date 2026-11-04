@@ -1,0 +1,57 @@
+Could not import your code:
+
+Traceback (most recent call last):
+  File "C:\Users\mariu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\platform.py", line 987, in uname
+    system, node, release, version, machine = infos = os.uname()
+                                                      ^^^^^^^^
+AttributeError: module 'os' has no attribute 'uname'. Did you mean: 'name'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Source\lesscode\.runs\e1c-facdrone\extras\crosshair\fnutil.py", line 258, in load_by_qualname
+    spec_exists = importlib.util.find_spec(cur_module_name) is not None
+                  ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "<frozen importlib.util>", line 91, in find_spec
+  File "D:\Source\lesscode\docs\experiments\deconvolution\e3-evidence-regeneration\t5_drivers.py", line 15, in <module>
+    import facdrone.shells.decision_evidence_publication as CAND  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\e3-facdrone\cand\src\facdrone\shells\decision_evidence_publication.py", line 15, in <module>
+    from facdrone.shells.decision_evidence_store import (
+        DecisionEvidenceBatch, SealedEvidence, decode_decision_evidence, seal_decision_evidence,
+    )
+  File "D:\Source\lesscode\.runs\e3-facdrone\cand\src\facdrone\shells\decision_evidence_store.py", line 12, in <module>
+    from sqlalchemy import JSON, Connection, Text, bindparam, cast, select
+  File "D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\sqlalchemy\__init__.py", line 12, in <module>
+    from . import util as _util
+  File "D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\sqlalchemy\util\__init__.py", line 14, in <module>
+    from ._collections import coerce_generator_arg as coerce_generator_arg
+  File "D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\sqlalchemy\util\_collections.py", line 39, in <module>
+    from ._has_cy import HAS_CYEXTENSION
+  File "D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\sqlalchemy\util\_has_cy.py", line 32, in <module>
+    _import_cy_extensions()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\sqlalchemy\util\_has_cy.py", line 20, in _import_cy_extensions
+    from ..cyextension import util
+  File "lib/sqlalchemy/cyextension/util.pyx", line 9, in init sqlalchemy.cyextension.util
+  File "D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\sqlalchemy\exc.py", line 27, in <module>
+    from .util import compat
+  File "D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\sqlalchemy\util\compat.py", line 50, in <module>
+    arm = "aarch" in platform.machine().lower()
+                     ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\mariu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\platform.py", line 1110, in machine
+    return uname().machine
+           ~~~~~^^
+  File "C:\Users\mariu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\platform.py", line 990, in uname
+    node = _node()
+  File "C:\Users\mariu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\platform.py", line 698, in _node
+    return socket.gethostname()
+           ~~~~~~~~~~~~~~~~~~^^
+  File "D:\Source\lesscode\.runs\e1c-facdrone\extras\crosshair\auditwall.py", line 237, in audithook
+    handler(event, args)
+    ~~~~~~~^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\e1c-facdrone\extras\crosshair\auditwall.py", line 95, in reject
+    raise SideEffectDetected(
+        f'A "{event}" operation was detected. ' + explain(event, args)
+    )
+crosshair.auditwall.SideEffectDetected: A "socket.gethostname" operation was detected. It's dangerous to run CrossHair on code with side effects. To allow this operation anyway, use "--unblock=socket.gethostname".

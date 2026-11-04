@@ -1,0 +1,20 @@
+t4_arm: mutant 29 core/ReplaceTrueWithFalse occ 6 line 226: [['        zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=True']] -> [['        zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=False']]
+t4_arm: 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+[11/04/26 13:24:59] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [ 44%]
+........................................................................ [ 89%]
+.................                                                        [100%]
+161 passed in 86.43s (0:01:26)
+run_arm B .: exit 0 in 114.0s
+.......ss..................s..ss.s...sssssssss.........s                 [100%]
+40 passed, 16 skipped, 6 deselected in 2.39s
+run_arm B packages/facdrone-research: exit 0 in 20.4s
+.                                                                        [100%]
+1 passed in 2.47s
+run_arm B packages/facdrone-reporting: exit 0 in 26.3s
+t4_arm: run_arm exit 0; replay fresh=True sequences=64
+t4_arm: restored, identical=True

@@ -1,0 +1,3 @@
+Given: (rows=[(None, None, 2, 0, None, 0), (None, None, 2, 0, None, 0), (None, None, 2, 0, [], 0), (None, None, 0, 0, [0, 0], 0), (None, None, 2, 0, [], 0)]),
+  drivers2.o_hist : returns [0, 0]
+    drivers2.m418 : returns [0, 0, 0]

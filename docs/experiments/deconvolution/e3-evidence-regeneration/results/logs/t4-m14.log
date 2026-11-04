@@ -1,0 +1,17 @@
+t4_arm: mutant 14 core/ReplaceBinaryOperator_Mul_Mod occ 1 line 195: [['    payload: Mapping[str, object], *, scope: Literal["live", "simulation"], execution_id: str,']] -> [['    payload: Mapping[str, object], %, scope: Literal["live", "simulation"], execution_id: str,']]
+t4_arm: 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+run_arm: INVALID scope not imported from D:\Source\lesscode\.runs\e3-facdrone\mut: Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import facdrone.shells.cppi.state_repository as m; print(m.__file__)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\e3-facdrone\mut\src\facdrone\shells\cppi\state_repository.py", line 18, in <module>
+    from facdrone.shells.decision_evidence_publication import (
+    ...<4 lines>...
+    )
+  File "D:\Source\lesscode\.runs\e3-facdrone\mut\src\facdrone\shells\decision_evidence_publication.py", line 195
+    payload: Mapping[str, object], %, scope: Literal["live", "simulation"], execution_id: str,
+                                   ^
+SyntaxError: invalid syntax
+
+t4_arm: run_arm exit 2; replay fresh=False sequences=64
+t4_arm: restored, identical=True

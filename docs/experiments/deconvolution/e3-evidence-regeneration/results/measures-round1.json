@@ -1,0 +1,710 @@
+{
+ "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+ "files": {
+  "decision_evidence_publication.py": {
+   "lines": 359,
+   "stmts": 159,
+   "funcs": 19,
+   "qualnames": 19,
+   "writes": 0
+  },
+  "decision_evidence_store.py": {
+   "lines": 280,
+   "stmts": 145,
+   "funcs": 13,
+   "qualnames": 13,
+   "writes": 4
+  },
+  "decision_evidence_reader.py": {
+   "lines": 82,
+   "stmts": 39,
+   "funcs": 4,
+   "qualnames": 4,
+   "writes": 0
+  },
+  "decision_input_slice_store.py": {
+   "lines": 207,
+   "stmts": 124,
+   "funcs": 11,
+   "qualnames": 11,
+   "writes": 5
+  },
+  "decision_slice_publisher.py": {
+   "lines": 146,
+   "stmts": 79,
+   "funcs": 4,
+   "qualnames": 4,
+   "writes": 2
+  }
+ },
+ "total": {
+  "lines": 1074,
+  "stmts": 546,
+  "funcs": 51,
+  "qualnames": 51,
+  "writes": 11,
+  "edges": 60,
+  "module_hops": 7
+ },
+ "edges": [
+  [
+   "decision_evidence_publication.py",
+   "_seal",
+   "decision_evidence_publication.py",
+   "slice_identity"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "_seal",
+   "decision_evidence_store.py",
+   "seal_decision_evidence"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "bind_evidence",
+   "decision_evidence_publication.py",
+   "seal_evidence"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "bind_evidence_with_run_slices",
+   "decision_evidence_publication.py",
+   "seal_evidence_with_run_slices"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "capture_payload",
+   "decision_evidence_publication.py",
+   "deduplicated_inputs"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "deduplicated_inputs",
+   "decision_evidence_publication.py",
+   "_canonical"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "payload_batches",
+   "decision_evidence_publication.py",
+   "bound_payload"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "payload_batches",
+   "decision_evidence_store.py",
+   "decode_decision_evidence"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "resolved_inputs",
+   "decision_evidence_publication.py",
+   "_canonical"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "seal_evidence",
+   "decision_evidence_publication.py",
+   "_seal"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "seal_evidence_with_run_slices",
+   "decision_evidence_publication.py",
+   "_seal"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "slice_bytes",
+   "decision_evidence_publication.py",
+   "_canonical"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "slice_identity",
+   "decision_evidence_publication.py",
+   "slice_bytes"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "stored_evidence_payload",
+   "decision_evidence_publication.py",
+   "bound_payload"
+  ],
+  [
+   "decision_evidence_publication.py",
+   "stored_evidence_payload",
+   "decision_evidence_publication.py",
+   "stored_bound_payload"
+  ],
+  [
+   "decision_evidence_reader.py",
+   "_resolve_batch",
+   "decision_evidence_publication.py",
+   "parse_run_slice"
+  ],
+  [
+   "decision_evidence_reader.py",
+   "_resolve_batch",
+   "decision_evidence_publication.py",
+   "resolved_inputs"
+  ],
+  [
+   "decision_evidence_reader.py",
+   "_resolve_batch",
+   "decision_evidence_reader.py",
+   "_failure"
+  ],
+  [
+   "decision_evidence_reader.py",
+   "_resolve_batch",
+   "decision_input_slice_store.py",
+   "resolve"
+  ],
+  [
+   "decision_evidence_reader.py",
+   "read_resolved_evidence",
+   "decision_evidence_reader.py",
+   "_has_run_slices"
+  ],
+  [
+   "decision_evidence_reader.py",
+   "read_resolved_evidence",
+   "decision_evidence_reader.py",
+   "_resolve_batch"
+  ],
+  [
+   "decision_evidence_reader.py",
+   "read_resolved_evidence",
+   "decision_evidence_store.py",
+   "read_decision_evidence"
+  ],
+  [
+   "decision_evidence_store.py",
+   "_read",
+   "decision_evidence_store.py",
+   "_dump"
+  ],
+  [
+   "decision_evidence_store.py",
+   "_read",
+   "decision_evidence_store.py",
+   "decode_decision_evidence"
+  ],
+  [
+   "decision_evidence_store.py",
+   "_validate",
+   "decision_evidence_store.py",
+   "_aligned"
+  ],
+  [
+   "decision_evidence_store.py",
+   "_validate",
+   "decision_evidence_store.py",
+   "_dump"
+  ],
+  [
+   "decision_evidence_store.py",
+   "_validate",
+   "decision_evidence_store.py",
+   "_records"
+  ],
+  [
+   "decision_evidence_store.py",
+   "append_decision_evidence",
+   "decision_evidence_store.py",
+   "append_sealed_evidence"
+  ],
+  [
+   "decision_evidence_store.py",
+   "append_decision_evidence",
+   "decision_evidence_store.py",
+   "seal_decision_evidence"
+  ],
+  [
+   "decision_evidence_store.py",
+   "decode_consumed_evidence",
+   "decision_evidence_store.py",
+   "_validate"
+  ],
+  [
+   "decision_evidence_store.py",
+   "decode_decision_evidence",
+   "decision_evidence_store.py",
+   "_validate"
+  ],
+  [
+   "decision_evidence_store.py",
+   "encode_decision_evidence",
+   "decision_evidence_store.py",
+   "seal_decision_evidence"
+  ],
+  [
+   "decision_evidence_store.py",
+   "read_decision_evidence",
+   "decision_evidence_store.py",
+   "_read"
+  ],
+  [
+   "decision_evidence_store.py",
+   "seal_decision_evidence",
+   "decision_evidence_store.py",
+   "_dump"
+  ],
+  [
+   "decision_evidence_store.py",
+   "seal_decision_evidence",
+   "decision_evidence_store.py",
+   "_validate"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "_load",
+   "decision_input_slice_store.py",
+   "_row_digest"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "_resolve",
+   "decision_evidence_publication.py",
+   "slice_identity"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "_resolve",
+   "decision_input_slice_store.py",
+   "_load"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "_row_digest",
+   "decision_evidence_publication.py",
+   "slice_bytes"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "append_slice",
+   "decision_input_slice_store.py",
+   "_row_digest"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "chain_length",
+   "decision_input_slice_store.py",
+   "_resolve"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "delta_row",
+   "decision_evidence_publication.py",
+   "slice_identity"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "depth",
+   "decision_input_slice_store.py",
+   "resolve"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "full_row",
+   "decision_evidence_publication.py",
+   "slice_identity"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "resolve",
+   "decision_input_slice_store.py",
+   "_resolve"
+  ],
+  [
+   "decision_input_slice_store.py",
+   "resolve_slice",
+   "decision_input_slice_store.py",
+   "_resolve"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_evidence_publication.py",
+   "slice_identity"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_input_slice_store.py",
+   "_load"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_input_slice_store.py",
+   "append_slice"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_input_slice_store.py",
+   "delta_row"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_input_slice_store.py",
+   "depth"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_input_slice_store.py",
+   "full_row"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_input_slice_store.py",
+   "resolve"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_slice_publisher.py",
+   "referenced_slices"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "publish_slices",
+   "decision_slice_publisher.py",
+   "row"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "referenced_slices",
+   "decision_evidence_publication.py",
+   "parse_run_slice"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "require_referenced_slices",
+   "decision_slice_publisher.py",
+   "referenced_slices"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "row",
+   "decision_input_slice_store.py",
+   "delta_row"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "row",
+   "decision_input_slice_store.py",
+   "full_row"
+  ],
+  [
+   "decision_slice_publisher.py",
+   "row",
+   "decision_input_slice_store.py",
+   "resolve"
+  ]
+ ],
+ "write_sites": [
+  {
+   "file": "decision_evidence_store.py",
+   "line": 231,
+   "match": ".execute(",
+   "in": "decision_evidence_store.py::append_sealed_evidence"
+  },
+  {
+   "file": "decision_evidence_store.py",
+   "line": 232,
+   "match": "insert(",
+   "in": "decision_evidence_store.py::append_sealed_evidence"
+  },
+  {
+   "file": "decision_evidence_store.py",
+   "line": 243,
+   "match": ".execute(",
+   "in": "decision_evidence_store.py::append_sealed_evidence"
+  },
+  {
+   "file": "decision_evidence_store.py",
+   "line": 269,
+   "match": ".execute(",
+   "in": "decision_evidence_store.py::read_decision_evidence"
+  },
+  {
+   "file": "decision_input_slice_store.py",
+   "line": 98,
+   "match": ".execute(",
+   "in": "decision_input_slice_store.py::append_slice"
+  },
+  {
+   "file": "decision_input_slice_store.py",
+   "line": 99,
+   "match": "insert(",
+   "in": "decision_input_slice_store.py::append_slice"
+  },
+  {
+   "file": "decision_input_slice_store.py",
+   "line": 104,
+   "match": ".execute(",
+   "in": "decision_input_slice_store.py::append_slice"
+  },
+  {
+   "file": "decision_input_slice_store.py",
+   "line": 116,
+   "match": ".execute(",
+   "in": "decision_input_slice_store.py::_load"
+  },
+  {
+   "file": "decision_input_slice_store.py",
+   "line": 143,
+   "match": ".add(",
+   "in": "decision_input_slice_store.py::_resolve"
+  },
+  {
+   "file": "decision_slice_publisher.py",
+   "line": 96,
+   "match": ".execute(",
+   "in": "decision_slice_publisher.py::publish_slices"
+  },
+  {
+   "file": "decision_slice_publisher.py",
+   "line": 131,
+   "match": ".execute(",
+   "in": "decision_slice_publisher.py::require_referenced_slices"
+  }
+ ],
+ "structure": {
+  "pure": {
+   "decision_evidence_publication.py::EvidenceBinding.__post_init__": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::money_evidence_payload": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::slice_bytes": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::_canonical": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::parse_run_slice": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::slice_identity": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::deduplicated_inputs": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::resolved_inputs": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::capture_payload": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::bind_evidence": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::seal_evidence": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::seal_evidence_with_run_slices": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::_seal": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::bind_evidence_with_run_slices": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::bound_payload": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::compact_capture": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::payload_batches": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::stored_bound_payload": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_publication.py::stored_evidence_payload": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::_dump": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::_dump.timestamp": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::_records": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::_aligned": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::_validate": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::seal_decision_evidence": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::encode_decision_evidence": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::decode_decision_evidence": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::decode_consumed_evidence": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_store.py::_read": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_reader.py::_failure": {
+    "pass": true,
+    "why": []
+   },
+   "decision_evidence_reader.py::_has_run_slices": {
+    "pass": true,
+    "why": []
+   },
+   "decision_input_slice_store.py::full_row": {
+    "pass": true,
+    "why": []
+   },
+   "decision_input_slice_store.py::delta_row": {
+    "pass": true,
+    "why": []
+   },
+   "decision_input_slice_store.py::_row_digest": {
+    "pass": true,
+    "why": []
+   },
+   "decision_input_slice_store.py::SliceResolver.__init__": {
+    "pass": true,
+    "why": []
+   },
+   "decision_slice_publisher.py::referenced_slices": {
+    "pass": true,
+    "why": []
+   }
+  },
+  "write_sites": [
+   {
+    "file": "decision_evidence_store.py",
+    "line": 231,
+    "match": ".execute(",
+    "in": "decision_evidence_store.py::append_sealed_evidence",
+    "pass": true
+   },
+   {
+    "file": "decision_evidence_store.py",
+    "line": 232,
+    "match": "insert(",
+    "in": "decision_evidence_store.py::append_sealed_evidence",
+    "pass": true
+   },
+   {
+    "file": "decision_evidence_store.py",
+    "line": 243,
+    "match": ".execute(",
+    "in": "decision_evidence_store.py::append_sealed_evidence",
+    "pass": true
+   },
+   {
+    "file": "decision_evidence_store.py",
+    "line": 269,
+    "match": ".execute(",
+    "in": "decision_evidence_store.py::read_decision_evidence",
+    "pass": true
+   },
+   {
+    "file": "decision_input_slice_store.py",
+    "line": 98,
+    "match": ".execute(",
+    "in": "decision_input_slice_store.py::append_slice",
+    "pass": true
+   },
+   {
+    "file": "decision_input_slice_store.py",
+    "line": 99,
+    "match": "insert(",
+    "in": "decision_input_slice_store.py::append_slice",
+    "pass": true
+   },
+   {
+    "file": "decision_input_slice_store.py",
+    "line": 104,
+    "match": ".execute(",
+    "in": "decision_input_slice_store.py::append_slice",
+    "pass": true
+   },
+   {
+    "file": "decision_input_slice_store.py",
+    "line": 116,
+    "match": ".execute(",
+    "in": "decision_input_slice_store.py::_load",
+    "pass": true
+   },
+   {
+    "file": "decision_input_slice_store.py",
+    "line": 143,
+    "match": ".add(",
+    "in": "decision_input_slice_store.py::_resolve",
+    "pass": true
+   },
+   {
+    "file": "decision_slice_publisher.py",
+    "line": 96,
+    "match": ".execute(",
+    "in": "decision_slice_publisher.py::publish_slices",
+    "pass": true
+   },
+   {
+    "file": "decision_slice_publisher.py",
+    "line": 131,
+    "match": ".execute(",
+    "in": "decision_slice_publisher.py::require_referenced_slices",
+    "pass": true
+   }
+  ],
+  "undeclared": [],
+  "declared_unknown": [],
+  "pure_share": 0.706,
+  "pass": true
+ }
+}

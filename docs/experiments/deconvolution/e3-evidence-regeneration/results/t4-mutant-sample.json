@@ -1,0 +1,659 @@
+{
+ "seed": 20261104,
+ "population": 317,
+ "module": "src/facdrone/shells/decision_evidence_publication.py",
+ "candidate_sha256": "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+ "seed_files": [
+  "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+  "packages/facdrone-research/tests/test_study_arm_evidence.py",
+  "packages/facdrone-research/tests/test_study_attribution_routes.py",
+  "packages/facdrone-research/tests/test_study_slice_evidence.py",
+  "packages/facdrone-research/tests/test_weight_study.py",
+  "tests/contracts/test_evidence_compaction_equivalence.py",
+  "tests/contracts/test_evidence_single_pass.py",
+  "tests/contracts/test_sim_consumed_publication.py",
+  "tests/unit/test_decision_evidence_reader.py",
+  "tests/unit/test_decision_evidence_reader_db.py",
+  "tests/unit/test_decision_input_slice_store.py",
+  "tests/unit/test_decision_slice_publisher_db.py",
+  "tests/unit/test_live_slice_namespace_db.py",
+  "tests/unit/test_run_slice_namespace.py",
+  "tests/unit/test_run_slice_sealing.py",
+  "tests/unit/test_run_slice_writers_db.py",
+  "tests/unit/test_stage_projection.py",
+  "tests/unit/test_thin_shadow.py",
+  "tests/unit/test_transient_capture_codec.py"
+ ],
+ "sample": [
+  {
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 83,
+   "col": 7,
+   "hunks": [
+    [
+     82,
+     83,
+     [
+      "    if not ("
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if ("
+    ]
+   ]
+  },
+  {
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 10,
+   "row": 189,
+   "col": 28,
+   "hunks": [
+    [
+     188,
+     189,
+     [
+      "    return bound.details if not bound.batches is None else bound.details | {"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    return bound.details if bound.batches is None else bound.details | {"
+    ]
+   ]
+  },
+  {
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 14,
+   "row": 237,
+   "col": 11,
+   "hunks": [
+    [
+     236,
+     237,
+     [
+      "        if not consumed and (value.uri != f\"{CONSUMED_URI}{value.sha256}\" or value.sha256 not in slices):"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        if consumed and (value.uri != f\"{CONSUMED_URI}{value.sha256}\" or value.sha256 not in slices):"
+    ]
+   ]
+  },
+  {
+   "operator": "core/NumberReplacer",
+   "args": "\"{}\"",
+   "occurrence": 7,
+   "row": 320,
+   "col": 87,
+   "hunks": [
+    [
+     319,
+     320,
+     [
+      "            zlib.compress(_CAPTURE.dump_json(replace(captured, inputs=tuple(inputs))), 0)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            zlib.compress(_CAPTURE.dump_json(replace(captured, inputs=tuple(inputs))), 1)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Add",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 287,
+   "col": 66,
+   "hunks": [
+    [
+     286,
+     287,
+     [
+      "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence + None:"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence | None:"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Add",
+   "args": "\"{}\"",
+   "occurrence": 8,
+   "row": 353,
+   "col": 22,
+   "hunks": [
+    [
+     352,
+     353,
+     [
+      "        return stored + stored_bound_payload(bound)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        return stored | stored_bound_payload(bound)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Div",
+   "args": "\"{}\"",
+   "occurrence": 4,
+   "row": 284,
+   "col": 69,
+   "hunks": [
+    [
+     283,
+     284,
+     [
+      "    return bound.details if bound.batches is None else bound.details / {\"_bound_evidence\": bound}"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    return bound.details if bound.batches is None else bound.details | {\"_bound_evidence\": bound}"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mod",
+   "args": "\"{}\"",
+   "occurrence": 2,
+   "row": 189,
+   "col": 69,
+   "hunks": [
+    [
+     188,
+     189,
+     [
+      "    return bound.details if bound.batches is None else bound.details % {"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    return bound.details if bound.batches is None else bound.details | {"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mod",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 216,
+   "col": 50,
+   "hunks": [
+    [
+     215,
+     216,
+     [
+      "    code: str, configuration: str, namespace: str % None,"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    code: str, configuration: str, namespace: str | None,"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mul",
+   "args": "\"{}\"",
+   "occurrence": 2,
+   "row": 189,
+   "col": 69,
+   "hunks": [
+    [
+     188,
+     189,
+     [
+      "    return bound.details if bound.batches is None else bound.details * {"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    return bound.details if bound.batches is None else bound.details | {"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mul",
+   "args": "\"{}\"",
+   "occurrence": 8,
+   "row": 353,
+   "col": 22,
+   "hunks": [
+    [
+     352,
+     353,
+     [
+      "        return stored * stored_bound_payload(bound)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        return stored | stored_bound_payload(bound)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Sub",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 287,
+   "col": 66,
+   "hunks": [
+    [
+     286,
+     287,
+     [
+      "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence - None:"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence | None:"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Sub",
+   "args": "\"{}\"",
+   "occurrence": 8,
+   "row": 353,
+   "col": 22,
+   "hunks": [
+    [
+     352,
+     353,
+     [
+      "        return stored - stored_bound_payload(bound)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        return stored | stored_bound_payload(bound)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_Mul_LShift",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 195,
+   "col": 35,
+   "hunks": [
+    [
+     194,
+     195,
+     [
+      "    payload: Mapping[str, object], <<, scope: Literal[\"live\", \"simulation\"], execution_id: str,"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    payload: Mapping[str, object], *, scope: Literal[\"live\", \"simulation\"], execution_id: str,"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_Mul_Mod",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 195,
+   "col": 35,
+   "hunks": [
+    [
+     194,
+     195,
+     [
+      "    payload: Mapping[str, object], %, scope: Literal[\"live\", \"simulation\"], execution_id: str,"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    payload: Mapping[str, object], *, scope: Literal[\"live\", \"simulation\"], execution_id: str,"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "args": "\"{}\"",
+   "occurrence": 2,
+   "row": 267,
+   "col": 52,
+   "hunks": [
+    [
+     266,
+     267,
+     [
+      "                    captured.consumed if route.kind >= \"scored\" else (),"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "                    captured.consumed if route.kind == \"scored\" else (),"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_Eq_Is",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 256,
+   "col": 59,
+   "hunks": [
+    [
+     255,
+     256,
+     [
+      "                            captured.signals if route.kind is \"scored\""
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "                            captured.signals if route.kind == \"scored\""
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 313,
+   "col": 60,
+   "hunks": [
+    [
+     312,
+     313,
+     [
+      "            isinstance(value, SliceReference) and value.uri is not f\"{CONSUMED_URI}{value.sha256}\""
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            isinstance(value, SliceReference) and value.uri == f\"{CONSUMED_URI}{value.sha256}\""
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_Is_IsNot",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 273,
+   "col": 42,
+   "hunks": [
+    [
+     272,
+     273,
+     [
+      "            schema_version=1 if namespace is not None else 2,"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            schema_version=1 if namespace is None else 2,"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Eq",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 86,
+   "col": 35,
+   "hunks": [
+    [
+     85,
+     86,
+     [
+      "        or len(set(value.columns)) == len(value.columns)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        or len(set(value.columns)) != len(value.columns)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Gt",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 86,
+   "col": 35,
+   "hunks": [
+    [
+     85,
+     86,
+     [
+      "        or len(set(value.columns)) > len(value.columns)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        or len(set(value.columns)) != len(value.columns)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Is",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 76,
+   "col": 72,
+   "hunks": [
+    [
+     75,
+     76,
+     [
+      "    if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) is currency:"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) != currency:"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Is",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 86,
+   "col": 35,
+   "hunks": [
+    [
+     85,
+     86,
+     [
+      "        or len(set(value.columns)) is len(value.columns)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        or len(set(value.columns)) != len(value.columns)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Is",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 114,
+   "col": 20,
+   "hunks": [
+    [
+     113,
+     114,
+     [
+      "        or slice_id is reference.sha256 or re.fullmatch(\"[0-9a-f]{64}\", slice_id) is None"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        or slice_id != reference.sha256 or re.fullmatch(\"[0-9a-f]{64}\", slice_id) is None"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 86,
+   "col": 35,
+   "hunks": [
+    [
+     85,
+     86,
+     [
+      "        or len(set(value.columns)) < len(value.columns)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        or len(set(value.columns)) != len(value.columns)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_LtE",
+   "args": "\"{}\"",
+   "occurrence": 2,
+   "row": 90,
+   "col": 47,
+   "hunks": [
+    [
+     89,
+     90,
+     [
+      "        not isinstance(row, tuple) or len(row) <= len(value.columns)"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        not isinstance(row, tuple) or len(row) != len(value.columns)"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_LtE",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 219,
+   "col": 67,
+   "hunks": [
+    [
+     218,
+     219,
+     [
+      "    details = {key: value for key, value in payload.items() if key <= \"consumed_capture\"}"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    details = {key: value for key, value in payload.items() if key != \"consumed_capture\"}"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_LtE",
+   "args": "\"{}\"",
+   "occurrence": 6,
+   "row": 237,
+   "col": 35,
+   "hunks": [
+    [
+     236,
+     237,
+     [
+      "        if consumed and (value.uri <= f\"{CONSUMED_URI}{value.sha256}\" or value.sha256 not in slices):"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        if consumed and (value.uri != f\"{CONSUMED_URI}{value.sha256}\" or value.sha256 not in slices):"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceTrueWithFalse",
+   "args": "\"{}\"",
+   "occurrence": 4,
+   "row": 136,
+   "col": 75,
+   "hunks": [
+    [
+     135,
+     136,
+     [
+      "        for index, (item, digest) in enumerate(zip(inputs, digests, strict=False))"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        for index, (item, digest) in enumerate(zip(inputs, digests, strict=True))"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceTrueWithFalse",
+   "args": "\"{}\"",
+   "occurrence": 6,
+   "row": 226,
+   "col": 75,
+   "hunks": [
+    [
+     225,
+     226,
+     [
+      "        zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=False"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=True"
+    ]
+   ]
+  }
+ ]
+}

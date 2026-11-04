@@ -1,0 +1,26 @@
+run_arm: changed ['src/facdrone/shells/cppi/state_repository.py'] lines {'src/facdrone/shells/cppi/state_repository.py': [148, 149, 150, 151, 152]}; 30 selected seed files
+[11/04/26 08:38:13] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [ 43%]
+........................................................................ [ 87%]
+....................F
+================================== FAILURES ===================================
+______________________________ test_e1c2_replay _______________________________
+
+pg_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-d0flqi1n)
+
+    def test_e1c2_replay(pg_engine) -> None:
+        divergence = e1c2_source.O.replay_engine(pg_engine, e1c2_source.GOLDEN)
+>       assert divergence is None, divergence
+E       AssertionError: R-S01-live-reuse-grow-restart op 0 {"op":"readers"}: /sql[2][0]: recorded "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id = %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR" vs replayed "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id <= %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR"
+E       assert 'R-S01-live-reuse-grow-restart op 0 {"op":"readers"}: /sql[2][0]: recorded "SELECT live_decision_event.payload_json \\... AND live_decision_event.strategy_id <= %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR"' is None
+
+..\..\..\docs\experiments\deconvolution\e1c2-concolic-rerun\test_e1c2_replay.py:5: AssertionError
+=========================== short test summary info ===========================
+FAILED ::test_e1c2_replay - AssertionError: R-S01-live-reuse-grow-restart op ...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 164 passed in 54.86s
+run_arm B .: exit 1 in 80.2s

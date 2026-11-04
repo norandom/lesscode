@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/ReplaceComparisonOperator_Eq_LtE", "occurrence": 8, "start_pos": [169, 55], "end_pos": [169, 57], "operator_args": {}, "definition_name": "opening_tickets"}, "old": "                            body.get(\"representation\") == \"legacy\"", "new": "                            body.get(\"representation\") <= \"legacy\""}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174]}

@@ -1,0 +1,28 @@
+D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\pydantic\type_adapter.py:677: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(PydanticSerializationUnexpectedValue: Expected `str` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `bool` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `int` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `float` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `InputSlice` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `SliceReference` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `AuditedAbsence` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  return self.serializer.to_json(
+D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\pydantic\type_adapter.py:677: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(PydanticSerializationUnexpectedValue: Expected `str` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `bool` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `int` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `float` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `InputSlice` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `SliceReference` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `AuditedAbsence` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(PydanticSerializationUnexpectedValue: Expected `str` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `bool` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `int` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes]
+PydanticSerializationUnexpectedValue: Expected `float` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `InputSlice` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `SliceReference` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  PydanticSerializationUnexpectedValue(Expected `AuditedAbsence` - serialized value may not be as expected [field_name='value', input_value=b'x', input_type=bytes])
+  return self.serializer.to_json(
+Given: (items=[(1, (0, 0, []), [], [[(2, -179769313486231580793728971405303415079934132710037826936173778980444968292764750946649017977587207096330286416692887910946555547851940402630657488671505820681908902000708383676273854845817711531764475730270069855571366959622842914819860834936475292719074168444365510704342711559699508093042880177904174497792, []), (6, 1, [0]), (1, 0, [])]])]),
+  t5_drivers.o_capture : returns "(('raise', 'ValueError', 'Out of range float values are not JSON compliant: inf'), [AuditedAbsence(field='scoring', reason='policy returned before scoring')])"
+  t5_drivers.c_capture : returns "(('raise', 'ValueError', 'Out of range float values are not JSON compliant: inf'), [])"

@@ -1,0 +1,63 @@
+run_e3: 191 seed files, 24 of 236 deselections apply
+run_e3: groups [[".", 175], ["packages/facdrone-research", 5], ["packages/facdrone-reporting", 12]]
+run_e3: 191 seed files, 24 of 236 deselections apply
+[11/04/26 13:28:09] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 15%]
+........................................................................ [ 20%]
+.......................................s................................ [ 25%]
+........................................................................ [ 30%]
+........................................................................ [ 35%]
+........................................................................ [ 40%]
+........................................................................ [ 46%]
+........................................................................ [ 51%]
+.....................................................s.................. [ 56%]
+........................................................................ [ 61%]
+........................................................................ [ 66%]
+........................................................................ [ 71%]
+........................................................................ [ 76%]
+........................................................................ [ 81%]
+.....F
+================================== FAILURES ===================================
+_______ test_live_failure_after_batch_insert_rolls_back_then_can_retry ________
+
+writer_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-w5ta1dtz)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001DF75AF2350>
+
+    def test_live_failure_after_batch_insert_rolls_back_then_can_retry(
+        writer_engine: Engine, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        repo = live.SqlLiveStateRepository(writer_engine)
+        current, next_state = _boot(repo)
+    
+        def fail_after_insert(conn: Connection, sealed: SealedEvidence) -> EvidenceReceipt:
+            append_sealed_evidence(conn, sealed)
+            raise RuntimeError("after batch insert")
+    
+        with monkeypatch.context() as patch:
+            patch.setattr(live, "append_sealed_evidence", fail_after_insert)
+            with pytest.raises(RuntimeError, match="after batch insert"):
+                repo.commit(current, next_state, _event(_live_payload()))
+        with writer_engine.connect() as conn:
+            for table in (DECISION_INPUT_SLICE, DECISION_EVIDENCE, LIVE_DECISION_EVENT):
+                assert conn.execute(select(table)).all() == []
+>       assert repo._slice_ledger.last == {}
+E       AssertionError: assert {('prices', '...a8eef4db', 0)} == {}
+E         
+E         Left contains 1 more item:
+E         {('prices', 'GC=F'): ('7b15c4e29824b3ad0ee40c8625251edecfd64f1ffdbcd753c32907e5a8eef4db',
+E                               0)}
+E         Use -v to get more diff
+
+..\..\e2-facdrone\source\tests\unit\test_run_slice_writers_db.py:149: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_run_slice_writers_db.py::test_live_failure_after_batch_insert_rolls_back_then_can_retry
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 1155 passed, 2 skipped, 10 deselected in 576.88s (0:09:36)
+run_arm B .: exit 1 in 611.1s
+run_e3: run_arm exit 1; replay file fresh=False sequences=None operations=None level2_ops=None

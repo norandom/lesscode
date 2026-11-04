@@ -1,0 +1,40 @@
+{
+ "frozen_files": 4851,
+ "cand_files": 4851,
+ "tree_identical": true,
+ "scope_changed_vs_manifest": [],
+ "scope_files": {
+  "src/facdrone/shells/decision_evidence_publication.py": [
+   "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+   true
+  ],
+  "src/facdrone/shells/decision_evidence_store.py": [
+   "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+   true
+  ],
+  "src/facdrone/shells/decision_evidence_reader.py": [
+   "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+   true
+  ],
+  "src/facdrone/shells/decision_input_slice_store.py": [
+   "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+   true
+  ],
+  "src/facdrone/shells/decision_slice_publisher.py": [
+   "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+   true
+  ],
+  "src/facdrone/shells/cppi/state_repository.py": [
+   "ab644039e93473f808316f9eadf5235cabcdaec512ce819424850079ff6eae84",
+   true
+  ],
+  "src/facdrone/shells/wiring/run_evidence_store.py": [
+   "0cfe2bc07f11ed51190f64198182a71b381130ac5af3eb3b34ef27383bbd71bf",
+   true
+  ],
+  "packages/facdrone-kernel/facdrone_kernel/domain/decision_evidence.py": [
+   "a883c60f657c4f3e3f0fafe957c0530fa1b96b6d7b39cc30baef1c2f5b577f61",
+   true
+  ]
+ }
+}

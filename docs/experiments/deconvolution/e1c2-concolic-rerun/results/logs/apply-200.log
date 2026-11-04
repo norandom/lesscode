@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/ReplaceComparisonOperator_Eq_GtE", "occurrence": 16, "start_pos": [200, 32], "end_pos": [200, 34], "operator_args": {}, "definition_name": "resting_orders"}, "old": "                if len(matched) == 1:", "new": "                if len(matched) >= 1:"}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [200]}

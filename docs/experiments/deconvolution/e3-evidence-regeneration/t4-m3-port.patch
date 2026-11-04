@@ -1,0 +1,11 @@
+E3 T4 port of E1b M3: the candidate's compact_capture (line 320) compresses consumed_capture at level 9, not 1.
+--- a/src/facdrone/shells/decision_evidence_publication.py
++++ b/src/facdrone/shells/decision_evidence_publication.py
+@@ -317,6 +317,6 @@
+         inputs.append(item)
+     return payload | {
+         "consumed_capture": base64.b64encode(
+-            zlib.compress(_CAPTURE.dump_json(replace(captured, inputs=tuple(inputs))), 1)
++            zlib.compress(_CAPTURE.dump_json(replace(captured, inputs=tuple(inputs))), 9)
+         ).decode()
+     }

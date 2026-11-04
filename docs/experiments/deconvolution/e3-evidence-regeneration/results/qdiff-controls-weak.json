@@ -1,0 +1,58 @@
+{
+ "seed": 20261104,
+ "weak": true,
+ "pairs": 2,
+ "results": {
+  "identical": {
+   "pair": [
+    [
+     "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id = %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR",
+     {
+      "account_id_1": "e1b-account",
+      "flow_1": "attempt",
+      "strategy_id_1": "e1b-strategy"
+     }
+    ],
+    [
+     "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id = %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR",
+     {
+      "account_id_1": "e1b-account",
+      "flow_1": "attempt",
+      "strategy_id_1": "e1b-strategy"
+     }
+    ]
+   ],
+   "bases": 2,
+   "pass": true,
+   "states": 102,
+   "load_failures": 10,
+   "first_difference": null
+  },
+  "m150-shape": {
+   "pair": [
+    [
+     "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id = %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR",
+     {
+      "account_id_1": "e1b-account",
+      "flow_1": "attempt",
+      "strategy_id_1": "e1b-strategy"
+     }
+    ],
+    [
+     "SELECT live_decision_event.payload_json \nFROM live_decision_event \nWHERE live_decision_event.account_id = %(account_id_1)s::VARCHAR AND live_decision_event.strategy_id <= %(strategy_id_1)s::VARCHAR AND live_decision_event.flow = %(flow_1)s::VARCHAR",
+     {
+      "account_id_1": "e1b-account",
+      "flow_1": "attempt",
+      "strategy_id_1": "e1b-strategy"
+     }
+    ]
+   ],
+   "bases": 2,
+   "pass": true,
+   "states": 102,
+   "load_failures": 10,
+   "first_difference": null
+  }
+ },
+ "failed": 0
+}

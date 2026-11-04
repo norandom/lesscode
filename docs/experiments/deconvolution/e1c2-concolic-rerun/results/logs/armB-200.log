@@ -1,0 +1,9 @@
+run_arm: changed ['src/facdrone/shells/cppi/state_repository.py'] lines {'src/facdrone/shells/cppi/state_repository.py': [200]}; 1 selected seed files
+[11/04/26 08:44:03] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+....                                                                     [100%]
+4 passed in 4.57s
+run_arm B .: exit 0 in 24.8s

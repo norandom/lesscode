@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/ReplaceAndWithOr", "occurrence": 0, "start_pos": [166, 20], "end_pos": [166, 23], "operator_args": {}, "definition_name": "opening_tickets"}, "old": "                    and (", "new": "                    or ("}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174]}

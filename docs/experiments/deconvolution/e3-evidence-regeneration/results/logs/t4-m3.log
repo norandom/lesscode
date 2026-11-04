@@ -1,0 +1,39 @@
+t4_arm: mutant 3 core/NumberReplacer occ 7 line 320: [['            zlib.compress(_CAPTURE.dump_json(replace(captured, inputs=tuple(inputs))), 1)']] -> [['            zlib.compress(_CAPTURE.dump_json(replace(captured, inputs=tuple(inputs))), 0)']]
+t4_arm: 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+[11/04/26 10:30:05] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [ 44%]
+........................................................................ [ 89%]
+................F
+================================== FAILURES ===================================
+_______________________________ test_e3_replay ________________________________
+
+pg_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-f7995od4)
+
+    def test_e3_replay(pg_engine) -> None:
+        env, l2, n = O._attached(pg_engine), [], {"sequences": 0, "operations": 0}
+        out = HERE / "results" / f"sql-divergences-round{os.environ.get('E3_ROUND', '0')}.json"
+        try:
+            for g in GOLDENS:
+                for seq in json.loads(g.read_text(encoding="utf-8"))["sequences"]:
+                    got = O.run_sequence(env, seq)
+                    d = O.first_diff(seq["start_tables"], got["start_tables"])
+                    assert d is None, f"{g.name} {seq['name']} start state: {d}"
+                    for i, (o, a, b) in enumerate(zip(seq["ops"], seq["observations"], got["observations"])):
+                        sa, sb = a.pop("sql", None), b.pop("sql", None)
+                        d = O.first_diff(a, b)
+>                       assert d is None, f"{g.name} {seq['name']} op {i} {O.canon(o)[:160]}: {d}"
+E                       AssertionError: golden-trace.json S09-codecs-compact op 10 {"op":"compact","shape":"single","v":{"c":["value"],"r":[[-0.0],[1],[2],[3]]}}: /result/consumed_capture: recorded "eAG9Vttu4zYQ/RVDz4lL3WUD7UuKXoC+tX1ojUCgJcrhRiK1JGXXCfLvPUNdsu5u0iLFBthFLHJmOOfM9TGwjh+EDba7x8AMqpR1sA1qUUkrtdo6YV1wFXBb6gbnEYuya7a5DpPfwmjLGP79iWtvAte20kbQt/gYbNlVIFU/uNKIhszfejknyjtu70jYGWEtpKVywnSilhyvBdvHp6tADw6a9BEceTsIWFuHUZykWV5s2PgLYkZwq1VZc8fHB/jeClVNaBopWgLDj1y2fN+KkhOWUQnnRjgulahXP9+sjD7 vs replayed "eAEBRwy483sic3RhZ2VzIjpbeyJydW5faWQiOiJkZWNpc2lvbjp0ZXN0IiwiYXNfb2YiOiIyMDI2LTA5LTE0VDEyOjAwOjAwWiIsInN0YWdlIjoic2NvcmUiLCJzZXEiOjAsImlucHV0X3JlZnMiOltdLCJzdGF0ZV9oYXNoIjoic3RyZXNzIiwiaW50ZXJtZWRpYXRlcyI6e30sIm91dHB1dHMiOnsidmFsdWUiOjAuMTIzNDU2Nzg5MDEyMzQ1Nn0sInJlYXNvbl9kYXRhIjpbXSwiYWJzZW5jZXMiOlt
+E                       assert '/result/consumed_capture: recorded "eAG9Vttu4zYQ/RVDz4lL3WUD7UuKXoC+tX1ojUCgJcrhRiK1JGXXCfLvPUNdsu5u0iLFBthFLHJmOOfM9...iwiaW50ZXJtZWRpYXRlcyI6e30sIm91dHB1dHMiOnsidmFsdWUiOjAuMTIzNDU2Nzg5MDEyMzQ1Nn0sInJlYXNvbl9kYXRhIjpbXSwiYWJzZW5jZXMiOlt' is None
+
+..\..\..\docs\experiments\deconvolution\e3-evidence-regeneration\test_e3_replay.py:25: AssertionError
+=========================== short test summary info ===========================
+FAILED ::test_e3_replay - AssertionError: golden-trace.json S09-codecs-compac...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 160 passed in 51.35s
+run_arm B .: exit 1 in 72.8s
+t4_arm: run_arm exit 1; replay fresh=False sequences=8
+t4_arm: restored, identical=True

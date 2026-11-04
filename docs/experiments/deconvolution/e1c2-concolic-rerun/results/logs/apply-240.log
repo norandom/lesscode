@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/ReplaceComparisonOperator_Eq_Is", "occurrence": 20, "start_pos": [240, 35], "end_pos": [240, 37], "operator_args": {}, "definition_name": "_placed_under"}, "old": "        body.get(\"representation\") == \"legacy\"", "new": "        body.get(\"representation\") is \"legacy\""}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [239, 240, 241, 242, 243]}

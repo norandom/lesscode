@@ -1,0 +1,8 @@
+[11/04/26 08:51:35] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.                                                                        [100%]
+1 passed in 8.33s
+run_arm B .: exit 0 in 48.0s

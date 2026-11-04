@@ -1,0 +1,15 @@
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+ENTER lifted.placed_under
+D:\Source\lesscode\docs\experiments\deconvolution\e1c2-concolic-rerun\drivers2.py:123: error: TypeError: '<=' not supported between instances of 'str' and 'NoneType' when calling smoke((2, [0], [], []), (4, 4, [], None, None, 1, [0], None, None, None))

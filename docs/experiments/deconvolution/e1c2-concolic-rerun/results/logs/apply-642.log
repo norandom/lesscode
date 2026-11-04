@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/NumberReplacer", "occurrence": 20, "start_pos": [642, 39], "end_pos": [642, 40], "operator_args": {}, "definition_name": "decision_served"}, "old": "        row = conn.execute(query.limit(1)).first()", "new": "        row = conn.execute(query.limit( 2)).first()"}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [642]}

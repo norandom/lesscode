@@ -1,0 +1,56 @@
+run_e3: 191 seed files, 24 of 236 deselections apply
+run_e3: groups [[".", 175], ["packages/facdrone-research", 5], ["packages/facdrone-reporting", 12]]
+run_e3: 191 seed files, 24 of 236 deselections apply
+[11/04/26 13:39:35] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 15%]
+........................................................................ [ 20%]
+.......................................s................................ [ 25%]
+........................................................................ [ 30%]
+........................................................................ [ 35%]
+........................................................................ [ 40%]
+........................................................................ [ 46%]
+........................................................................ [ 51%]
+.....................................................s.................. [ 56%]
+........................................................................ [ 61%]
+........................................................................ [ 66%]
+........................................................................ [ 71%]
+........................................................................ [ 76%]
+........................................................................ [ 81%]
+...............F
+================================== FAILURES ===================================
+________ test_live_legacy_dictionary_cannot_bypass_reference_presence _________
+
+writer_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-ykpzf3ye)
+
+    def test_live_legacy_dictionary_cannot_bypass_reference_presence(writer_engine: Engine) -> None:
+        import json
+    
+        bound = seal_evidence_with_run_slices(
+            capture_details(),
+            EvidenceBinding(
+                "live", DECISION_ID, f"{IDENTITY.account_id}:{IDENTITY.strategy_id}", "c", "cfg"
+            ),
+        )
+        assert bound.batches is not None
+        payload: dict[str, object] = {
+            "consumed_evidence": [json.loads(b.canonical) for b in bound.batches]
+        }
+        repo = live.SqlLiveStateRepository(writer_engine)
+        current, next_state = _boot(repo)
+>       with pytest.raises(SliceConflictError, match=DECISION_ID):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'facdrone.shells.decision_input_slice_store.SliceConflictError'>
+
+..\..\e2-facdrone\source\tests\unit\test_run_slice_writers_db.py:366: Failed
+=========================== short test summary info ===========================
+FAILED tests/unit/test_run_slice_writers_db.py::test_live_legacy_dictionary_cannot_bypass_reference_presence
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 1165 passed, 2 skipped, 10 deselected in 549.43s (0:09:09)
+run_arm B .: exit 1 in 590.4s
+run_e3: run_arm exit 1; replay file fresh=False sequences=None operations=None level2_ops=None

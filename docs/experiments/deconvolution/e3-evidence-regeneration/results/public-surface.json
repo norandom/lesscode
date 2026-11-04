@@ -1,0 +1,1236 @@
+{
+ "files_scanned": 1754,
+ "intra_set": {
+  "facdrone.shells.decision_evidence_publication": {
+   "BoundEvidence": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "CONSUMED_URI": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "RUN_SLICE_URI": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "parse_run_slice": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "resolved_inputs": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "slice_bytes": [
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ],
+   "slice_identity": [
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ]
+  },
+  "facdrone.shells.decision_evidence_reader": {},
+  "facdrone.shells.decision_evidence_store": {
+   "DecisionEvidenceBatch": [
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "EvidenceConflictError": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ],
+   "SealedEvidence": [
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "decode_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_publication.py"
+   ],
+   "read_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "seal_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_publication.py"
+   ]
+  },
+  "facdrone.shells.decision_input_slice_store": {
+   "Scope": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceConflictError": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceReceipt": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceResolutionError": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceResolver": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceRow": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "_load": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "append_slice": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "delta_row": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "full_row": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "slice_identity": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ]
+  },
+  "facdrone.shells.decision_slice_publisher": {}
+ },
+ "modules": {
+  "facdrone.shells.decision_evidence_publication": {
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "importers": {
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py": "prod",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py": "test",
+    "packages/facdrone-research/tests/test_study_attribution_routes.py": "test",
+    "packages/facdrone-research/tests/test_study_slice_evidence.py": "test",
+    "packages/facdrone-research/tests/test_weight_study.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/decision_moments.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/evidence_reader.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/run_slices.py": "test",
+    "src/facdrone/shells/cppi/decision_record.py": "prod",
+    "src/facdrone/shells/cppi/stage_projection.py": "prod",
+    "src/facdrone/shells/cppi/state_repository.py": "prod",
+    "src/facdrone/shells/decision_evidence_payload.py": "prod",
+    "src/facdrone/shells/wiring/run_evidence_store.py": "prod",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/contracts/test_evidence_single_pass.py": "test",
+    "tests/contracts/test_sim_consumed_publication.py": "test",
+    "tests/unit/test_decision_evidence_reader.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test",
+    "tests/unit/test_decision_input_slice_store.py": "test",
+    "tests/unit/test_decision_slice_publisher_db.py": "test",
+    "tests/unit/test_live_slice_namespace_db.py": "test",
+    "tests/unit/test_run_slice_namespace.py": "test",
+    "tests/unit/test_run_slice_sealing.py": "test",
+    "tests/unit/test_run_slice_writers_db.py": "test",
+    "tests/unit/test_stage_projection.py": "test",
+    "tests/unit/test_thin_shadow.py": "test",
+    "tests/unit/test_transient_capture_codec.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "packages/facdrone-research/tests/test_study_attribution_routes.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "packages/facdrone-testing/facdrone_testing/core/evidence_reader.py",
+      "packages/facdrone-testing/facdrone_testing/core/run_slices.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_sealing.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "BoundEvidence": {
+     "importers": [
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_writers_db.py",
+      "tests/unit/test_thin_shadow.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "CONSUMED_URI": {
+     "importers": [
+      "packages/facdrone-research/tests/test_study_slice_evidence.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "EvidenceBinding": {
+     "importers": [
+      "src/facdrone/shells/cppi/decision_record.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py",
+      "tests/unit/test_stage_projection.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "RUN_SLICE_URI": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "tests/unit/test_decision_slice_publisher_db.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    },
+    "_CAPTURE": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "packages/facdrone-testing/facdrone_testing/core/evidence_reader.py",
+      "packages/facdrone-testing/facdrone_testing/core/run_slices.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_run_slice_sealing.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "_Captured": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "packages/facdrone-testing/facdrone_testing/core/run_slices.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "bind_evidence": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/contracts/test_sim_consumed_publication.py",
+      "tests/unit/test_run_slice_writers_db.py",
+      "tests/unit/test_stage_projection.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "bind_evidence_with_run_slices": {
+     "importers": [
+      "src/facdrone/shells/cppi/decision_record.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py",
+      "tests/unit/test_stage_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "bound_payload": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "capture_payload": {
+     "importers": [
+      "src/facdrone/shells/decision_evidence_payload.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "compact_capture": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_attribution_routes.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "deduplicated_inputs": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/run_slices.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "money_evidence_payload": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/decision_evidence_payload.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "parse_run_slice": {
+     "importers": [
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "payload_batches": {
+     "importers": [
+      "src/facdrone/shells/cppi/stage_projection.py",
+      "src/facdrone/shells/cppi/state_repository.py",
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_attribution_routes.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "packages/facdrone-research/tests/test_weight_study.py",
+      "tests/contracts/test_sim_consumed_publication.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "resolved_inputs": {
+     "importers": [
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "tests/unit/test_decision_evidence_reader_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "seal_evidence": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    },
+    "seal_evidence_with_run_slices": {
+     "importers": [
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "slice_bytes": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "tests/unit/test_decision_input_slice_store.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "slice_identity": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "stored_bound_payload": {
+     "importers": [
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/contracts/test_evidence_single_pass.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "stored_evidence_payload": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_thin_shadow.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.decision_evidence_reader": {
+   "file": "src/facdrone/shells/decision_evidence_reader.py",
+   "importers": {
+    "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py": "prod",
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "packages/facdrone-research/tests/lifecycle_loop_daemon.py": "test",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/unit/test_cppi_decision_record_commit.py": "test",
+    "tests/unit/test_decision_evidence_reader.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "EvidenceResolutionError": {
+     "importers": [
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "SliceResolver": {
+     "importers": [
+      "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py",
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_cppi_decision_record_commit.py"
+     ],
+     "kind": "reexport:facdrone.shells.decision_input_slice_store",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "read_decision_evidence": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py"
+     ],
+     "kind": "reexport:facdrone.shells.decision_evidence_store",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "read_resolved_evidence": {
+     "importers": [
+      "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_cppi_decision_record_commit.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.decision_evidence_store": {
+   "file": "src/facdrone/shells/decision_evidence_store.py",
+   "importers": {
+    "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py": "prod",
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_evidence.py": "test",
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py": "prod",
+    "packages/facdrone-research/tests/lifecycle_loop_daemon.py": "test",
+    "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py": "test",
+    "packages/facdrone-research/tests/test_study_slice_evidence.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/decision_moments.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/evidence.py": "test",
+    "src/facdrone/shells/cppi/decision_record.py": "prod",
+    "src/facdrone/shells/cppi/stage_projection.py": "prod",
+    "src/facdrone/shells/cppi/state_repository.py": "prod",
+    "src/facdrone/shells/lifecycle_evidence.py": "prod",
+    "src/facdrone/shells/wiring/run_evidence_store.py": "prod",
+    "tests/contracts/test_consumed_inputs.py": "test",
+    "tests/contracts/test_consumed_publication.py": "test",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/contracts/test_evidence_single_pass.py": "test",
+    "tests/contracts/test_sim_consumed_publication.py": "test",
+    "tests/unit/test_decision_evidence_reader.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test",
+    "tests/unit/test_decision_evidence_store.py": "test",
+    "tests/unit/test_decision_slice_publisher_db.py": "test",
+    "tests/unit/test_lifecycle_evidence.py": "test",
+    "tests/unit/test_lifecycle_evidence_intervals.py": "test",
+    "tests/unit/test_lifecycle_evidence_projection.py": "test",
+    "tests/unit/test_run_slice_policy.py": "test",
+    "tests/unit/test_run_slice_sealing.py": "test",
+    "tests/unit/test_run_slice_writers_db.py": "test",
+    "tests/unit/test_sim_evidence_moment.py": "test",
+    "tests/unit/test_transient_capture_codec.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_lifecycle_evidence_projection.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "DecisionEvidenceBatch": {
+     "importers": [
+      "src/facdrone/shells/cppi/stage_projection.py",
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py",
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "packages/facdrone-testing/facdrone_testing/core/evidence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_evidence_store.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "EvidenceConflictError": {
+     "importers": [
+      "src/facdrone/shells/cppi/decision_record.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/contracts/test_consumed_publication.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_store.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "EvidenceReceipt": {
+     "importers": [
+      "tests/contracts/test_consumed_publication.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SealedEvidence": {
+     "importers": [
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "_BATCH": {
+     "importers": [
+      "tests/contracts/test_evidence_single_pass.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "_read": {
+     "importers": [
+      "tests/unit/test_run_slice_policy.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "append_decision_evidence": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_evidence.py",
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_sim_consumed_publication.py",
+      "tests/unit/test_decision_evidence_store.py",
+      "tests/unit/test_lifecycle_evidence.py",
+      "tests/unit/test_lifecycle_evidence_intervals.py",
+      "tests/unit/test_lifecycle_evidence_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "append_sealed_evidence": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "decode_consumed_evidence": {
+     "importers": [
+      "src/facdrone/shells/lifecycle_evidence.py",
+      "tests/unit/test_lifecycle_evidence_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "decode_decision_evidence": {
+     "importers": [
+      "tests/contracts/test_consumed_inputs.py",
+      "tests/unit/test_decision_evidence_store.py",
+      "tests/unit/test_lifecycle_evidence_projection.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "encode_decision_evidence": {
+     "importers": [
+      "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "tests/contracts/test_consumed_inputs.py",
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_store.py",
+      "tests/unit/test_lifecycle_evidence_projection.py",
+      "tests/unit/test_sim_evidence_moment.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "read_decision_evidence": {
+     "importers": [
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/contracts/test_sim_consumed_publication.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_evidence_store.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "seal_decision_evidence": {
+     "importers": [
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_policy.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.decision_input_slice_store": {
+   "file": "src/facdrone/shells/decision_input_slice_store.py",
+   "importers": {
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/unit/test_decision_evidence_reader.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test",
+    "tests/unit/test_decision_input_slice_store.py": "test",
+    "tests/unit/test_decision_slice_publisher_db.py": "test",
+    "tests/unit/test_live_slice_namespace_db.py": "test",
+    "tests/unit/test_run_slice_namespace.py": "test",
+    "tests/unit/test_run_slice_policy.py": "test",
+    "tests/unit/test_run_slice_sealing.py": "test",
+    "tests/unit/test_run_slice_writers_db.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "Scope": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "SliceConflictError": {
+     "importers": [
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SliceReceipt": {
+     "importers": [
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SliceResolutionError": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_run_slice_policy.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "SliceResolver": {
+     "importers": [
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_policy.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    },
+    "SliceRow": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_input_slice_store.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    },
+    "_load": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "append_slice": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "chain_length": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "delta_row": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_run_slice_sealing.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "full_row": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "resolve_slice": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "slice_identity": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_policy.py",
+      "tests/unit/test_run_slice_sealing.py"
+     ],
+     "kind": "reexport:facdrone.shells.decision_evidence_publication",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.decision_slice_publisher": {
+   "file": "src/facdrone/shells/decision_slice_publisher.py",
+   "importers": {
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "src/facdrone/shells/cppi/state_repository.py": "prod",
+    "src/facdrone/shells/wiring/run_evidence_store.py": "prod",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test",
+    "tests/unit/test_decision_slice_publisher_db.py": "test",
+    "tests/unit/test_live_slice_namespace_db.py": "test",
+    "tests/unit/test_run_slice_namespace.py": "test",
+    "tests/unit/test_run_slice_policy.py": "test"
+   },
+   "names": {
+    "SliceLedger": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SlicePublication": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_policy.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SliceResolver": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py"
+     ],
+     "kind": "reexport:facdrone.shells.decision_input_slice_store",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "publish_slices": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "referenced_slices": {
+     "importers": [
+      "src/facdrone/shells/wiring/run_evidence_store.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "require_referenced_slices": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    }
+   }
+  }
+ },
+ "root": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "unresolved": {
+  "facdrone.shells.decision_evidence_publication": {
+   "row": [
+    "tests/contracts/test_evidence_compaction_equivalence.py"
+   ]
+  },
+  "facdrone.shells.decision_evidence_reader": {},
+  "facdrone.shells.decision_evidence_store": {},
+  "facdrone.shells.decision_input_slice_store": {},
+  "facdrone.shells.decision_slice_publisher": {}
+ }
+}

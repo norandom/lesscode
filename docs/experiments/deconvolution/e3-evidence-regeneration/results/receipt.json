@@ -1,0 +1,3104 @@
+{
+ "commands": [
+  {
+   "label": "copy-cand",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil; shutil.copytree(r'D:\\Source\\lesscode\\.runs\\e2-facdrone\\source', r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand', symlinks=False); print('copied')"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:28:39.846751+00:00",
+   "end_utc": "2026-11-04T08:28:42.973363+00:00",
+   "seconds": 3.13,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 660.0,
+    "probe": {
+     "time": "2026-11-04T09:28:39",
+     "cpu_total": 9.30249151102508,
+     "cpu_other": 0.0930249151102508,
+     "ram_free_gb": 14.96,
+     "bench_s": 0.204,
+     "pid": 33180,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.96,
+     "factor_cpu": 1.1,
+     "factor": 1.1
+    }
+   }
+  },
+  {
+   "label": "verify-cand",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\verify_cand.py"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:28:53.437612+00:00",
+   "end_utc": "2026-11-04T08:28:55.897519+00:00",
+   "seconds": 2.46,
+   "exit": 0
+  },
+  {
+   "label": "surface-frozen",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "run",
+    "--no-project",
+    "--python",
+    "3.13",
+    "python",
+    "surface.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "results\\public-surface.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:29:03.101031+00:00",
+   "end_utc": "2026-11-04T08:29:08.266069+00:00",
+   "seconds": 5.17,
+   "exit": 0
+  },
+  {
+   "label": "measures-baseline",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "run",
+    "--no-project",
+    "--python",
+    "3.13",
+    "python",
+    "measures.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "results\\measures-baseline.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:29:09.600800+00:00",
+   "end_utc": "2026-11-04T08:29:10.142558+00:00",
+   "seconds": 0.54,
+   "exit": 0
+  },
+  {
+   "label": "measures-structure-selftest",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "run",
+    "--no-project",
+    "--python",
+    "3.13",
+    "python",
+    "measures.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--structure",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\struct-allpure.json",
+    "--out",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\measures-selftest.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:29:22.424568+00:00",
+   "end_utc": "2026-11-04T08:29:24.546963+00:00",
+   "seconds": 2.12,
+   "exit": 0
+  },
+  {
+   "label": "qdiff-controls-weak",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "qdiff.py",
+    "--controls",
+    "--weak"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:29:40.068262+00:00",
+   "end_utc": "2026-11-04T08:30:26.895803+00:00",
+   "seconds": 46.83,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 720.0,
+    "probe": {
+     "time": "2026-11-04T09:29:39",
+     "cpu_total": 16.7323633026289,
+     "cpu_other": 0.167323633026289,
+     "ram_free_gb": 14.95,
+     "bench_s": 0.201,
+     "pid": 9616,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.2,
+     "factor": 1.2
+    }
+   }
+  },
+  {
+   "label": "qdiff-controls",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "qdiff.py",
+    "--controls"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:30:44.544227+00:00",
+   "end_utc": "2026-11-04T08:31:39.235417+00:00",
+   "seconds": 54.69,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 1434.0,
+    "probe": {
+     "time": "2026-11-04T09:30:44",
+     "cpu_total": 35.5393134889084,
+     "cpu_other": 0.355393134889084,
+     "ram_free_gb": 15.01,
+     "bench_s": 0.506,
+     "pid": 5444,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.39,
+     "factor_cpu": 1.55,
+     "factor": 2.39
+    }
+   }
+  },
+  {
+   "label": "qdiff-controls-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "qdiff.py",
+    "--controls"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:32:38.306685+00:00",
+   "end_utc": "2026-11-04T08:33:36.953384+00:00",
+   "seconds": 58.65,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 1290.0,
+    "probe": {
+     "time": "2026-11-04T09:32:37",
+     "cpu_total": 21.9992857342373,
+     "cpu_other": 0.219992857342373,
+     "ram_free_gb": 14.88,
+     "bench_s": 0.456,
+     "pid": 37508,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.15,
+     "factor_cpu": 1.28,
+     "factor": 2.15
+    }
+   }
+  },
+  {
+   "label": "validate-frozen-round0",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "run_e3.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--round",
+    "0",
+    "--deadline",
+    "3185.8"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:33:55.195253+00:00",
+   "end_utc": "2026-11-04T08:43:01.223715+00:00",
+   "seconds": 546.03,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 2569.2,
+    "scaled_s": 3185.8,
+    "probe": {
+     "time": "2026-11-04T09:33:54",
+     "cpu_total": 19.6029163332619,
+     "cpu_other": 0.196029163332619,
+     "ram_free_gb": 14.59,
+     "bench_s": 0.202,
+     "pid": 23572,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.24,
+     "factor": 1.24
+    }
+   }
+  },
+  {
+   "label": "surface-frozen-2",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "run",
+    "--no-project",
+    "--python",
+    "3.13",
+    "python",
+    "surface.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "results\\public-surface.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:43:27.922907+00:00",
+   "end_utc": "2026-11-04T08:43:33.568301+00:00",
+   "seconds": 5.65,
+   "exit": 0
+  },
+  {
+   "label": "measures-baseline-2",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "run",
+    "--no-project",
+    "--python",
+    "3.13",
+    "python",
+    "measures.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "results\\measures-baseline.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:43:34.878581+00:00",
+   "end_utc": "2026-11-04T08:43:35.911377+00:00",
+   "seconds": 1.03,
+   "exit": 0
+  },
+  {
+   "label": "measures-structure-selftest-2",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "run",
+    "--no-project",
+    "--python",
+    "3.13",
+    "python",
+    "measures.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--structure",
+    "results\\structure-selftest-allpure.json",
+    "--out",
+    "results\\measures-selftest-allpure.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:43:37.247571+00:00",
+   "end_utc": "2026-11-04T08:43:38.233611+00:00",
+   "seconds": 0.99,
+   "exit": 0
+  },
+  {
+   "label": "qdiff-controls-weak-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "qdiff.py",
+    "--controls",
+    "--weak"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:43:46.427656+00:00",
+   "end_utc": "2026-11-04T08:44:30.545655+00:00",
+   "seconds": 44.12,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 696.0,
+    "probe": {
+     "time": "2026-11-04T09:43:46",
+     "cpu_total": 13.731190672329,
+     "cpu_other": 0.13731190672329,
+     "ram_free_gb": 15.59,
+     "bench_s": 0.205,
+     "pid": 12656,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.97,
+     "factor_cpu": 1.16,
+     "factor": 1.16
+    }
+   }
+  },
+  {
+   "label": "qdiff-controls-3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "qdiff.py",
+    "--controls"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:44:39.352929+00:00",
+   "end_utc": "2026-11-04T08:45:22.952234+00:00",
+   "seconds": 43.6,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 660.0,
+    "probe": {
+     "time": "2026-11-04T09:44:39",
+     "cpu_total": 8.84514437001475,
+     "cpu_other": 0.08845144370014751,
+     "ram_free_gb": 15.58,
+     "bench_s": 0.207,
+     "pid": 18080,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.98,
+     "factor_cpu": 1.1,
+     "factor": 1.1
+    }
+   }
+  },
+  {
+   "label": "qdiff-round0",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "qdiff.py",
+    "results\\sql-divergences-round0.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:45:31.869319+00:00",
+   "end_utc": "2026-11-04T08:45:52.125055+00:00",
+   "seconds": 20.26,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 660.0,
+    "probe": {
+     "time": "2026-11-04T09:45:31",
+     "cpu_total": 9.37887111742363,
+     "cpu_other": 0.0937887111742363,
+     "ram_free_gb": 15.57,
+     "bench_s": 0.201,
+     "pid": 19488,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.1,
+     "factor": 1.1
+    }
+   }
+  },
+  {
+   "label": "round1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "run_e3.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--round",
+    "1",
+    "--deadline",
+    "4598.9"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T08:59:54.367000+00:00",
+   "end_utc": "2026-11-04T09:12:43.184105+00:00",
+   "seconds": 768.82,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 2569.2,
+    "scaled_s": 4598.9,
+    "probe": {
+     "time": "2026-11-04T09:59:53",
+     "cpu_total": 14.8829642140388,
+     "cpu_other": 0.148829642140388,
+     "ram_free_gb": 15.12,
+     "bench_s": 0.38,
+     "pid": 9700,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.79,
+     "factor_cpu": 1.17,
+     "factor": 1.79
+    }
+   }
+  },
+  {
+   "label": "copy-mut",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil; shutil.copytree(r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand', r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut', symlinks=False); print('copied')"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:20:47.907469+00:00",
+   "end_utc": "2026-11-04T09:20:53.498634+00:00",
+   "seconds": 5.59,
+   "exit": 0
+  },
+  {
+   "label": "verify-mut",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\verify_mut.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:20:56.346253+00:00",
+   "end_utc": "2026-11-04T09:21:00.032133+00:00",
+   "seconds": 3.69,
+   "exit": 0
+  },
+  {
+   "label": "t4-cr-init",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "tool",
+    "run",
+    "--python",
+    "3.13",
+    "--from",
+    "cosmic-ray==8.7.0",
+    "cosmic-ray",
+    "init",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\cosmic-ray-t4.toml",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\t4.sqlite"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {},
+   "start_utc": "2026-11-04T09:21:39.255999+00:00",
+   "end_utc": "2026-11-04T09:22:08.369019+00:00",
+   "seconds": 29.11,
+   "exit": 0
+  },
+  {
+   "label": "t4-sample",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "tool",
+    "run",
+    "--python",
+    "3.13",
+    "--from",
+    "cosmic-ray==8.7.0",
+    "python",
+    "t4_arm.py",
+    "sample",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\t4.sqlite"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:22:12.255956+00:00",
+   "end_utc": "2026-11-04T09:22:19.382546+00:00",
+   "seconds": 7.13,
+   "exit": 0
+  },
+  {
+   "label": "t4-base",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "arm",
+    "--deadline",
+    "2760.0"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:22:46.000095+00:00",
+   "end_utc": "2026-11-04T09:26:05.901176+00:00",
+   "seconds": 199.9,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 1200.0,
+    "scaled_s": 2760.0,
+    "probe": {
+     "time": "2026-11-04T10:22:45",
+     "cpu_total": 40.4810326238633,
+     "cpu_other": 0.404810326238633,
+     "ram_free_gb": 14.42,
+     "bench_s": 0.487,
+     "pid": 23672,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.3,
+     "factor_cpu": 1.68,
+     "factor": 2.3
+    }
+   }
+  },
+  {
+   "label": "t4-m0",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "0",
+    "--deadline",
+    "1469.3"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:28:44.860837+00:00",
+   "end_utc": "2026-11-04T09:28:56.385813+00:00",
+   "seconds": 11.52,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1469.3,
+    "probe": {
+     "time": "2026-11-04T10:28:44",
+     "cpu_total": 7.3471210883,
+     "cpu_other": 0.073471210883,
+     "ram_free_gb": 15.56,
+     "bench_s": 0.311,
+     "pid": 2072,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.47,
+     "factor_cpu": 1.08,
+     "factor": 1.47
+    }
+   }
+  },
+  {
+   "label": "t4-m1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "1",
+    "--deadline",
+    "2288.9"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:29:07.294849+00:00",
+   "end_utc": "2026-11-04T09:29:18.111252+00:00",
+   "seconds": 10.82,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 2288.9,
+    "probe": {
+     "time": "2026-11-04T10:29:06",
+     "cpu_total": 35.6031387643708,
+     "cpu_other": 0.35603138764370795,
+     "ram_free_gb": 15.32,
+     "bench_s": 0.486,
+     "pid": 13916,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.29,
+     "factor_cpu": 1.55,
+     "factor": 2.29
+    }
+   }
+  },
+  {
+   "label": "t4-m2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "2",
+    "--deadline",
+    "1959.0"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:29:26.698075+00:00",
+   "end_utc": "2026-11-04T09:29:44.306759+00:00",
+   "seconds": 17.61,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1959.0,
+    "probe": {
+     "time": "2026-11-04T10:29:26",
+     "cpu_total": 23.8651232824096,
+     "cpu_other": 0.23865123282409598,
+     "ram_free_gb": 15.35,
+     "bench_s": 0.415,
+     "pid": 22392,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.96,
+     "factor_cpu": 1.31,
+     "factor": 1.96
+    }
+   }
+  },
+  {
+   "label": "t4-m3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "3",
+    "--deadline",
+    "3008.5"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:29:54.798454+00:00",
+   "end_utc": "2026-11-04T09:31:16.836292+00:00",
+   "seconds": 82.04,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 3008.5,
+    "probe": {
+     "time": "2026-11-04T10:29:54",
+     "cpu_total": 42.3883613649751,
+     "cpu_other": 0.42388361364975097,
+     "ram_free_gb": 14.64,
+     "bench_s": 0.638,
+     "pid": 33192,
+     "ref_bench_s": 0.212,
+     "factor_bench": 3.01,
+     "factor_cpu": 1.74,
+     "factor": 3.01
+    }
+   }
+  },
+  {
+   "label": "t4-m4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "4",
+    "--deadline",
+    "3598.2"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:31:25.905292+00:00",
+   "end_utc": "2026-11-04T09:34:03.734120+00:00",
+   "seconds": 157.83,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 3598.2,
+    "probe": {
+     "time": "2026-11-04T10:31:25",
+     "cpu_total": 22.8819868214509,
+     "cpu_other": 0.228819868214509,
+     "ram_free_gb": 15.12,
+     "bench_s": 0.764,
+     "pid": 17288,
+     "ref_bench_s": 0.212,
+     "factor_bench": 3.6,
+     "factor_cpu": 1.3,
+     "factor": 3.6
+    }
+   }
+  },
+  {
+   "label": "t4-m5",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "5",
+    "--deadline",
+    "2238.9"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:34:11.961372+00:00",
+   "end_utc": "2026-11-04T09:34:24.603001+00:00",
+   "seconds": 12.64,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 2238.9,
+    "probe": {
+     "time": "2026-11-04T10:34:11",
+     "cpu_total": 10.5058489815868,
+     "cpu_other": 0.105058489815868,
+     "ram_free_gb": 15.13,
+     "bench_s": 0.475,
+     "pid": 30136,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.24,
+     "factor_cpu": 1.12,
+     "factor": 2.24
+    }
+   }
+  },
+  {
+   "label": "t4-m6",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "6",
+    "--deadline",
+    "3318.3"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:34:33.808164+00:00",
+   "end_utc": "2026-11-04T09:34:46.485066+00:00",
+   "seconds": 12.68,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 3318.3,
+    "probe": {
+     "time": "2026-11-04T10:34:33",
+     "cpu_total": 52.4867223412269,
+     "cpu_other": 0.524867223412269,
+     "ram_free_gb": 13.93,
+     "bench_s": 0.704,
+     "pid": 9620,
+     "ref_bench_s": 0.212,
+     "factor_bench": 3.32,
+     "factor_cpu": 2.1,
+     "factor": 3.32
+    }
+   }
+  },
+  {
+   "label": "t4-m7",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "7",
+    "--deadline",
+    "3168.4"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:34:55.401026+00:00",
+   "end_utc": "2026-11-04T09:35:07.624429+00:00",
+   "seconds": 12.22,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 3168.4,
+    "probe": {
+     "time": "2026-11-04T10:34:54",
+     "cpu_total": 33.7690536483457,
+     "cpu_other": 0.337690536483457,
+     "ram_free_gb": 14.12,
+     "bench_s": 0.673,
+     "pid": 37668,
+     "ref_bench_s": 0.212,
+     "factor_bench": 3.17,
+     "factor_cpu": 1.51,
+     "factor": 3.17
+    }
+   }
+  },
+  {
+   "label": "t4-m8",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "8",
+    "--deadline",
+    "2838.6"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:35:16.688005+00:00",
+   "end_utc": "2026-11-04T09:38:38.072908+00:00",
+   "seconds": 201.38,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 2838.6,
+    "probe": {
+     "time": "2026-11-04T10:35:16",
+     "cpu_total": 23.2066631393017,
+     "cpu_other": 0.232066631393017,
+     "ram_free_gb": 14.67,
+     "bench_s": 0.602,
+     "pid": 24936,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.84,
+     "factor_cpu": 1.3,
+     "factor": 2.84
+    }
+   }
+  },
+  {
+   "label": "t4-m9",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "9",
+    "--deadline",
+    "1719.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:38:46.437577+00:00",
+   "end_utc": "2026-11-04T09:38:55.229350+00:00",
+   "seconds": 8.79,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1719.1,
+    "probe": {
+     "time": "2026-11-04T10:38:46",
+     "cpu_total": 12.2046016685701,
+     "cpu_other": 0.122046016685701,
+     "ram_free_gb": 15.32,
+     "bench_s": 0.365,
+     "pid": 36928,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.72,
+     "factor_cpu": 1.14,
+     "factor": 1.72
+    }
+   }
+  },
+  {
+   "label": "t4-m10",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "10",
+    "--deadline",
+    "3158.4"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:39:04.412873+00:00",
+   "end_utc": "2026-11-04T09:39:13.751307+00:00",
+   "seconds": 9.34,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 3158.4,
+    "probe": {
+     "time": "2026-11-04T10:39:03",
+     "cpu_total": 46.649440319629,
+     "cpu_other": 0.46649440319629,
+     "ram_free_gb": 14.75,
+     "bench_s": 0.67,
+     "pid": 19540,
+     "ref_bench_s": 0.212,
+     "factor_bench": 3.16,
+     "factor_cpu": 1.87,
+     "factor": 3.16
+    }
+   }
+  },
+  {
+   "label": "t4-m11",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "11",
+    "--deadline",
+    "1669.2"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:39:21.927244+00:00",
+   "end_utc": "2026-11-04T09:41:49.306215+00:00",
+   "seconds": 147.38,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1669.2,
+    "probe": {
+     "time": "2026-11-04T10:39:21",
+     "cpu_total": 31.0833475831769,
+     "cpu_other": 0.310833475831769,
+     "ram_free_gb": 14.92,
+     "bench_s": 0.354,
+     "pid": 31120,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.67,
+     "factor_cpu": 1.45,
+     "factor": 1.67
+    }
+   }
+  },
+  {
+   "label": "t4-m12",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "12",
+    "--deadline",
+    "1769.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:41:57.587459+00:00",
+   "end_utc": "2026-11-04T09:42:06.083458+00:00",
+   "seconds": 8.5,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1769.1,
+    "probe": {
+     "time": "2026-11-04T10:41:57",
+     "cpu_total": 10.1696697553565,
+     "cpu_other": 0.101696697553565,
+     "ram_free_gb": 15.62,
+     "bench_s": 0.375,
+     "pid": 21800,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.77,
+     "factor_cpu": 1.11,
+     "factor": 1.77
+    }
+   }
+  },
+  {
+   "label": "t4-m13",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "13",
+    "--deadline",
+    "1779.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:42:14.391494+00:00",
+   "end_utc": "2026-11-04T09:42:16.973069+00:00",
+   "seconds": 2.58,
+   "exit": 2,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1779.1,
+    "probe": {
+     "time": "2026-11-04T10:42:14",
+     "cpu_total": 12.7381171367975,
+     "cpu_other": 0.127381171367975,
+     "ram_free_gb": 15.6,
+     "bench_s": 0.378,
+     "pid": 3396,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.78,
+     "factor_cpu": 1.15,
+     "factor": 1.78
+    }
+   }
+  },
+  {
+   "label": "t4-m14",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "14",
+    "--deadline",
+    "1639.2"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:42:25.217420+00:00",
+   "end_utc": "2026-11-04T09:42:28.341421+00:00",
+   "seconds": 3.12,
+   "exit": 2,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1639.2,
+    "probe": {
+     "time": "2026-11-04T10:42:24",
+     "cpu_total": 11.7214955848297,
+     "cpu_other": 0.117214955848297,
+     "ram_free_gb": 15.67,
+     "bench_s": 0.348,
+     "pid": 14636,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.64,
+     "factor_cpu": 1.13,
+     "factor": 1.64
+    }
+   }
+  },
+  {
+   "label": "t4-m15",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "15",
+    "--deadline",
+    "1799.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:42:36.975330+00:00",
+   "end_utc": "2026-11-04T09:46:18.801261+00:00",
+   "seconds": 221.83,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1799.1,
+    "probe": {
+     "time": "2026-11-04T10:42:36",
+     "cpu_total": 20.7328652489851,
+     "cpu_other": 0.207328652489851,
+     "ram_free_gb": 15.68,
+     "bench_s": 0.382,
+     "pid": 35488,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.8,
+     "factor_cpu": 1.26,
+     "factor": 1.8
+    }
+   }
+  },
+  {
+   "label": "t4-restore-after-kill",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil,hashlib; a=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src\\facdrone\\shells\\decision_evidence_publication.py'; b=a.replace(r'\\e3-facdrone\\cand', r'\\e3-facdrone\\mut'); print('before', hashlib.sha256(open(b,'rb').read()).hexdigest()); shutil.copy2(a,b); h=lambda p: hashlib.sha256(open(p,'rb').read()).hexdigest(); print('restored identical', h(a)==h(b)); raise SystemExit(0 if h(a)==h(b) else 1)"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:49:40.025464+00:00",
+   "end_utc": "2026-11-04T09:49:40.998000+00:00",
+   "seconds": 0.97,
+   "exit": 0
+  },
+  {
+   "label": "verify-mut-after-kill",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\verify_mut.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:49:43.532498+00:00",
+   "end_utc": "2026-11-04T09:49:52.232646+00:00",
+   "seconds": 8.7,
+   "exit": 0
+  },
+  {
+   "label": "t4-m16",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "16",
+    "--deadline",
+    "2168.9"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:51:52.657259+00:00",
+   "end_utc": "2026-11-04T09:54:40.214201+00:00",
+   "seconds": 167.56,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 2168.9,
+    "probe": {
+     "time": "2026-11-04T10:51:52",
+     "cpu_total": 20.8649637658693,
+     "cpu_other": 0.20864963765869302,
+     "ram_free_gb": 15.65,
+     "bench_s": 0.459,
+     "pid": 3088,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.17,
+     "factor_cpu": 1.26,
+     "factor": 2.17
+    }
+   }
+  },
+  {
+   "label": "t4-m17",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "17",
+    "--deadline",
+    "1739.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T09:57:09.504262+00:00",
+   "end_utc": "2026-11-04T09:59:31.739546+00:00",
+   "seconds": 142.24,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1739.1,
+    "probe": {
+     "time": "2026-11-04T10:57:09",
+     "cpu_total": 15.1920013644919,
+     "cpu_other": 0.151920013644919,
+     "ram_free_gb": 15.62,
+     "bench_s": 0.368,
+     "pid": 24772,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.74,
+     "factor_cpu": 1.18,
+     "factor": 1.74
+    }
+   }
+  },
+  {
+   "label": "t4-m18",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "18",
+    "--deadline",
+    "2458.8"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T10:00:22.305540+00:00",
+   "end_utc": "2026-11-04T10:00:32.431005+00:00",
+   "seconds": 10.13,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 2458.8,
+    "probe": {
+     "time": "2026-11-04T11:00:21",
+     "cpu_total": 12.191586236965,
+     "cpu_other": 0.12191586236964999,
+     "ram_free_gb": 14.8,
+     "bench_s": 0.521,
+     "pid": 3180,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.46,
+     "factor_cpu": 1.14,
+     "factor": 2.46
+    }
+   }
+  },
+  {
+   "label": "t4-m19",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "19",
+    "--deadline",
+    "1729.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T10:20:41.623235+00:00",
+   "end_utc": "2026-11-04T10:20:59.991827+00:00",
+   "seconds": 18.37,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1729.1,
+    "probe": {
+     "time": "2026-11-04T11:20:41",
+     "cpu_total": 15.6726449556001,
+     "cpu_other": 0.156726449556001,
+     "ram_free_gb": 17.88,
+     "bench_s": 0.367,
+     "pid": 12272,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.73,
+     "factor_cpu": 1.19,
+     "factor": 1.73
+    }
+   }
+  },
+  {
+   "label": "t4-m20",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "20",
+    "--deadline",
+    "3448.3"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T10:52:08.594352+00:00",
+   "end_utc": "2026-11-04T10:55:21.800923+00:00",
+   "seconds": 193.21,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 3448.3,
+    "probe": {
+     "time": "2026-11-04T11:52:07",
+     "cpu_total": 11.9374994975979,
+     "cpu_other": 0.11937499497597899,
+     "ram_free_gb": 17.11,
+     "bench_s": 0.731,
+     "pid": 31700,
+     "ref_bench_s": 0.212,
+     "factor_bench": 3.45,
+     "factor_cpu": 1.14,
+     "factor": 3.45
+    }
+   }
+  },
+  {
+   "label": "t4-m21",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "21",
+    "--deadline",
+    "1519.2"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T10:56:32.080344+00:00",
+   "end_utc": "2026-11-04T10:59:00.666616+00:00",
+   "seconds": 148.59,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1519.2,
+    "probe": {
+     "time": "2026-11-04T11:56:31",
+     "cpu_total": 4.81566146300609,
+     "cpu_other": 0.0481566146300609,
+     "ram_free_gb": 17.1,
+     "bench_s": 0.323,
+     "pid": 27736,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.52,
+     "factor_cpu": 1.05,
+     "factor": 1.52
+    }
+   }
+  },
+  {
+   "label": "t4-m22",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "22",
+    "--deadline",
+    "1839.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T11:16:08.326478+00:00",
+   "end_utc": "2026-11-04T11:16:21.286874+00:00",
+   "seconds": 12.96,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1839.1,
+    "probe": {
+     "time": "2026-11-04T12:16:07",
+     "cpu_total": 11.4979950474517,
+     "cpu_other": 0.114979950474517,
+     "ram_free_gb": 16.25,
+     "bench_s": 0.391,
+     "pid": 14412,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.84,
+     "factor_cpu": 1.13,
+     "factor": 1.84
+    }
+   }
+  },
+  {
+   "label": "t4-m23",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "23",
+    "--deadline",
+    "1689.2"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T11:30:02.171574+00:00",
+   "end_utc": "2026-11-04T11:31:23.013682+00:00",
+   "seconds": 80.84,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1689.2,
+    "probe": {
+     "time": "2026-11-04T12:30:01",
+     "cpu_total": 15.4794772226973,
+     "cpu_other": 0.154794772226973,
+     "ram_free_gb": 16.08,
+     "bench_s": 0.359,
+     "pid": 31652,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.69,
+     "factor_cpu": 1.18,
+     "factor": 1.69
+    }
+   }
+  },
+  {
+   "label": "t4-m24",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "24",
+    "--deadline",
+    "2988.5"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:01:58.853481+00:00",
+   "end_utc": "2026-11-04T12:05:38.916704+00:00",
+   "seconds": 220.05,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 2988.5,
+    "probe": {
+     "time": "2026-11-04T13:01:58",
+     "cpu_total": 29.8973399939343,
+     "cpu_other": 0.29897339993934297,
+     "ram_free_gb": 14.99,
+     "bench_s": 0.633,
+     "pid": 25368,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.99,
+     "factor_cpu": 1.43,
+     "factor": 2.99
+    }
+   }
+  },
+  {
+   "label": "t4-m25",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "25",
+    "--deadline",
+    "1499.2"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:07:18.698791+00:00",
+   "end_utc": "2026-11-04T12:07:30.147430+00:00",
+   "seconds": 11.45,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1499.2,
+    "probe": {
+     "time": "2026-11-04T13:07:18",
+     "cpu_total": 21.8949263505361,
+     "cpu_other": 0.218949263505361,
+     "ram_free_gb": 15.33,
+     "bench_s": 0.318,
+     "pid": 31260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.5,
+     "factor_cpu": 1.28,
+     "factor": 1.5
+    }
+   }
+  },
+  {
+   "label": "t4-m26",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "26",
+    "--deadline",
+    "2178.9"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:08:21.797039+00:00",
+   "end_utc": "2026-11-04T12:08:36.151982+00:00",
+   "seconds": 14.35,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 2178.9,
+    "probe": {
+     "time": "2026-11-04T13:08:21",
+     "cpu_total": 13.0474257541511,
+     "cpu_other": 0.13047425754151099,
+     "ram_free_gb": 15.19,
+     "bench_s": 0.462,
+     "pid": 30620,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.18,
+     "factor_cpu": 1.15,
+     "factor": 2.18
+    }
+   }
+  },
+  {
+   "label": "t4-m27",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "27",
+    "--deadline",
+    "1709.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:08:52.143247+00:00",
+   "end_utc": "2026-11-04T12:09:03.144720+00:00",
+   "seconds": 11.0,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1709.1,
+    "probe": {
+     "time": "2026-11-04T13:08:51",
+     "cpu_total": 18.8065918055116,
+     "cpu_other": 0.18806591805511602,
+     "ram_free_gb": 15.49,
+     "bench_s": 0.362,
+     "pid": 34952,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.71,
+     "factor_cpu": 1.23,
+     "factor": 1.71
+    }
+   }
+  },
+  {
+   "label": "t4-m28",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "28",
+    "--deadline",
+    "1859.1"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:19:41.322892+00:00",
+   "end_utc": "2026-11-04T12:22:48.158533+00:00",
+   "seconds": 186.83,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1859.1,
+    "probe": {
+     "time": "2026-11-04T13:19:40",
+     "cpu_total": 12.7628804606443,
+     "cpu_other": 0.127628804606443,
+     "ram_free_gb": 16.85,
+     "bench_s": 0.395,
+     "pid": 24772,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.86,
+     "factor_cpu": 1.15,
+     "factor": 1.86
+    }
+   }
+  },
+  {
+   "label": "t4-m29",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t4_arm.py",
+    "mutant",
+    "29",
+    "--deadline",
+    "1279.4"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:24:47.914143+00:00",
+   "end_utc": "2026-11-04T12:27:38.294303+00:00",
+   "seconds": 170.38,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 999.5,
+    "scaled_s": 1279.4,
+    "probe": {
+     "time": "2026-11-04T13:24:47",
+     "cpu_total": 11.6633170021577,
+     "cpu_other": 0.11663317002157701,
+     "ram_free_gb": 16.74,
+     "bench_s": 0.271,
+     "pid": 14032,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.28,
+     "factor_cpu": 1.13,
+     "factor": 1.28
+    }
+   }
+  },
+  {
+   "label": "t4-apply-m1",
+   "cmd": [
+    "git",
+    "apply",
+    "--verbose",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication\\mutants\\m1.patch"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {},
+   "start_utc": "2026-11-04T12:27:48.913722+00:00",
+   "end_utc": "2026-11-04T12:27:49.288536+00:00",
+   "seconds": 0.37,
+   "exit": 0
+  },
+  {
+   "label": "t4-hand-m1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "run_e3.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "--round",
+    "t4-m1",
+    "--deadline",
+    "3802.4"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:27:57.697738+00:00",
+   "end_utc": "2026-11-04T12:38:18.145025+00:00",
+   "seconds": 620.43,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 2569.2,
+    "scaled_s": 3802.4,
+    "probe": {
+     "time": "2026-11-04T13:27:57",
+     "cpu_total": 11.9613886636209,
+     "cpu_other": 0.119613886636209,
+     "ram_free_gb": 16.68,
+     "bench_s": 0.314,
+     "pid": 26732,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.48,
+     "factor_cpu": 1.14,
+     "factor": 1.48
+    }
+   }
+  },
+  {
+   "label": "t4-restore-m1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil,hashlib,sys; a=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src\\facdrone\\shells\\cppi\\state_repository.py'; b=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src\\facdrone\\shells\\cppi\\state_repository.py'; shutil.copy2(a,b); h=lambda p: hashlib.sha256(open(p,'rb').read()).hexdigest(); print('restored identical', h(a)==h(b)); sys.exit(0 if h(a)==h(b) else 1)"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:38:21.870645+00:00",
+   "end_utc": "2026-11-04T12:38:24.863205+00:00",
+   "seconds": 2.99,
+   "exit": 0
+  },
+  {
+   "label": "t4-apply-m2",
+   "cmd": [
+    "git",
+    "apply",
+    "--verbose",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication\\mutants\\m2.patch"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {},
+   "start_utc": "2026-11-04T12:39:11.664891+00:00",
+   "end_utc": "2026-11-04T12:39:12.486611+00:00",
+   "seconds": 0.82,
+   "exit": 0
+  },
+  {
+   "label": "t4-hand-m2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "run_e3.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "--round",
+    "t4-m2",
+    "--deadline",
+    "5883.5"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:39:21.354998+00:00",
+   "end_utc": "2026-11-04T12:49:22.798061+00:00",
+   "seconds": 601.43,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 2569.2,
+    "scaled_s": 5883.5,
+    "probe": {
+     "time": "2026-11-04T13:39:20",
+     "cpu_total": 28.6596703935414,
+     "cpu_other": 0.28659670393541403,
+     "ram_free_gb": 14.85,
+     "bench_s": 0.486,
+     "pid": 32452,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.29,
+     "factor_cpu": 1.4,
+     "factor": 2.29
+    }
+   }
+  },
+  {
+   "label": "t4-restore-m2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil,hashlib,sys; a=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src\\facdrone\\shells\\cppi\\state_repository.py'; b=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src\\facdrone\\shells\\cppi\\state_repository.py'; shutil.copy2(a,b); h=lambda p: hashlib.sha256(open(p,'rb').read()).hexdigest(); print('restored identical', h(a)==h(b)); sys.exit(0 if h(a)==h(b) else 1)"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:49:25.103479+00:00",
+   "end_utc": "2026-11-04T12:49:25.641726+00:00",
+   "seconds": 0.54,
+   "exit": 0
+  },
+  {
+   "label": "t4-apply-m3",
+   "cmd": [
+    "git",
+    "apply",
+    "--verbose",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\t4-m3-port.patch"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {},
+   "start_utc": "2026-11-04T12:49:35.096752+00:00",
+   "end_utc": "2026-11-04T12:49:35.196143+00:00",
+   "seconds": 0.1,
+   "exit": 0
+  },
+  {
+   "label": "t4-hand-m3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "run_e3.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "--round",
+    "t4-m3",
+    "--deadline",
+    "4290.6"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T12:49:42.779928+00:00",
+   "end_utc": "2026-11-04T13:05:33.364861+00:00",
+   "seconds": 950.57,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 2569.2,
+    "scaled_s": 4290.6,
+    "probe": {
+     "time": "2026-11-04T13:49:42",
+     "cpu_total": 16.0523091019179,
+     "cpu_other": 0.160523091019179,
+     "ram_free_gb": 18.54,
+     "bench_s": 0.353,
+     "pid": 20880,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.67,
+     "factor_cpu": 1.19,
+     "factor": 1.67
+    }
+   }
+  },
+  {
+   "label": "t4-restore-m3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil,hashlib,sys; a=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src\\facdrone\\shells\\decision_evidence_publication.py'; b=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src\\facdrone\\shells\\decision_evidence_publication.py'; shutil.copy2(a,b); h=lambda p: hashlib.sha256(open(p,'rb').read()).hexdigest(); print('restored identical', h(a)==h(b)); sys.exit(0 if h(a)==h(b) else 1)"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T13:05:36.430433+00:00",
+   "end_utc": "2026-11-04T13:05:38.358649+00:00",
+   "seconds": 1.93,
+   "exit": 0
+  },
+  {
+   "label": "verify-mut-after-t4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\verify_mut.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T13:05:41.067396+00:00",
+   "end_utc": "2026-11-04T13:05:54.408435+00:00",
+   "seconds": 13.34,
+   "exit": 1
+  },
+  {
+   "label": "t4-restore-pyc",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil; c=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand'; m=r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut'; [shutil.copy2(c+'\\\\'+p, m+'\\\\'+p) for p in (r'src\\facdrone\\shells\\__pycache__\\decision_evidence_publication.cpython-313.pyc', r'src\\facdrone\\shells\\cppi\\__pycache__\\state_repository.cpython-313.pyc')]; print('copied 2 pyc')"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T13:06:21.880333+00:00",
+   "end_utc": "2026-11-04T13:06:23.807531+00:00",
+   "seconds": 1.93,
+   "exit": 0
+  },
+  {
+   "label": "verify-mut-after-t4-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\verify_mut.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-04T13:06:26.565898+00:00",
+   "end_utc": "2026-11-04T13:06:29.868790+00:00",
+   "seconds": 3.3,
+   "exit": 0
+  },
+  {
+   "label": "t5-sound",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t5_drivers.py",
+    "sound"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:06:55.513101+00:00",
+   "end_utc": "2026-11-04T13:07:02.160366+00:00",
+   "seconds": 6.65,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 1110.0,
+    "probe": {
+     "time": "2026-11-04T14:06:55",
+     "cpu_total": 24.6036183696702,
+     "cpu_other": 0.24603618369670202,
+     "ram_free_gb": 17.11,
+     "bench_s": 0.392,
+     "pid": 32568,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.85,
+     "factor_cpu": 1.33,
+     "factor": 1.85
+    }
+   }
+  },
+  {
+   "label": "t5-smoke-dedup",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "crosshair",
+    "check",
+    "--per_condition_timeout",
+    "15",
+    "t5_drivers.smoke"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "T5_SMOKE": "dedup"
+   },
+   "start_utc": "2026-11-04T13:07:04.607497+00:00",
+   "end_utc": "2026-11-04T13:07:07.142771+00:00",
+   "seconds": 2.54,
+   "exit": 2
+  },
+  {
+   "label": "t5-smoke-capture",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "crosshair",
+    "check",
+    "--per_condition_timeout",
+    "15",
+    "t5_drivers.smoke"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "T5_SMOKE": "capture"
+   },
+   "start_utc": "2026-11-04T13:07:09.804015+00:00",
+   "end_utc": "2026-11-04T13:07:12.312742+00:00",
+   "seconds": 2.51,
+   "exit": 2
+  },
+  {
+   "label": "t5-smoke-seal",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "crosshair",
+    "check",
+    "--per_condition_timeout",
+    "15",
+    "t5_drivers.smoke"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "T5_SMOKE": "seal"
+   },
+   "start_utc": "2026-11-04T13:07:14.839859+00:00",
+   "end_utc": "2026-11-04T13:07:18.870548+00:00",
+   "seconds": 4.03,
+   "exit": 2
+  },
+  {
+   "label": "t5-sound-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t5_drivers.py",
+    "sound"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:19:35.601554+00:00",
+   "end_utc": "2026-11-04T13:20:40.850324+00:00",
+   "seconds": 65.25,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 600.0,
+    "scaled_s": 768.0,
+    "probe": {
+     "time": "2026-11-04T14:19:35",
+     "cpu_total": 8.00679044179994,
+     "cpu_other": 0.07681813295230078,
+     "ram_free_gb": 19.36,
+     "bench_s": 0.271,
+     "pid": 31852,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.28,
+     "factor_cpu": 1.08,
+     "factor": 1.28
+    }
+   }
+  },
+  {
+   "label": "t5-smoke-dedup-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "check",
+    "--per_condition_timeout",
+    "15",
+    "t5_drivers.smoke"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "T5_SMOKE": "dedup"
+   },
+   "start_utc": "2026-11-04T13:21:57.380963+00:00",
+   "end_utc": "2026-11-04T13:22:17.145571+00:00",
+   "seconds": 19.76,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 60.0,
+    "scaled_s": 80.4,
+    "probe": {
+     "time": "2026-11-04T14:21:57",
+     "cpu_total": 11.5947116051792,
+     "cpu_other": 0.11269880226469053,
+     "ram_free_gb": 18.63,
+     "bench_s": 0.285,
+     "pid": 37332,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.34,
+     "factor_cpu": 1.13,
+     "factor": 1.34
+    }
+   }
+  },
+  {
+   "label": "t5-smoke-capture-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "check",
+    "--per_condition_timeout",
+    "15",
+    "t5_drivers.smoke"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "T5_SMOKE": "capture"
+   },
+   "start_utc": "2026-11-04T13:22:50.774744+00:00",
+   "end_utc": "2026-11-04T13:23:14.963666+00:00",
+   "seconds": 24.19,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 60.0,
+    "scaled_s": 129.6,
+    "probe": {
+     "time": "2026-11-04T14:22:50",
+     "cpu_total": 3.64866503483373,
+     "cpu_other": 0.0364866503483373,
+     "ram_free_gb": 18.66,
+     "bench_s": 0.458,
+     "pid": 27568,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.16,
+     "factor_cpu": 1.04,
+     "factor": 2.16
+    }
+   }
+  },
+  {
+   "label": "t5-smoke-seal-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "check",
+    "--per_condition_timeout",
+    "15",
+    "t5_drivers.smoke"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "T5_SMOKE": "seal"
+   },
+   "start_utc": "2026-11-04T13:23:34.800878+00:00",
+   "end_utc": "2026-11-04T13:23:59.859306+00:00",
+   "seconds": 25.06,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 60.0,
+    "scaled_s": 87.0,
+    "probe": {
+     "time": "2026-11-04T14:23:34",
+     "cpu_total": 17.2885926291516,
+     "cpu_other": 0.172885926291516,
+     "ram_free_gb": 18.34,
+     "bench_s": 0.308,
+     "pid": 8620,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.45,
+     "factor_cpu": 1.21,
+     "factor": 1.45
+    }
+   }
+  },
+  {
+   "label": "t5-ctl-kill",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "t5-ctl-kill",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "495.0",
+    "t5_drivers.k_dedup",
+    "t5_drivers.c_dedup"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:25:11.262520+00:00",
+   "end_utc": "2026-11-04T13:25:12.669438+00:00",
+   "seconds": 1.41,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 300.0,
+    "scaled_s": 495.0,
+    "probe": {
+     "time": "2026-11-04T14:25:10",
+     "cpu_total": 27.5855138928377,
+     "cpu_other": 0.275855138928377,
+     "ram_free_gb": 17.77,
+     "bench_s": 0.35,
+     "pid": 11268,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.65,
+     "factor_cpu": 1.38,
+     "factor": 1.65
+    }
+   }
+  },
+  {
+   "label": "t5-ctl-equiv",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "t5-ctl-equiv",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "357.0",
+    "t5_drivers.e_tiny",
+    "t5_drivers.c_tiny"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:25:45.770022+00:00",
+   "end_utc": "2026-11-04T13:25:46.945220+00:00",
+   "seconds": 1.18,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 300.0,
+    "scaled_s": 357.0,
+    "probe": {
+     "time": "2026-11-04T14:25:45",
+     "cpu_total": 9.9846323410284,
+     "cpu_other": 0.099846323410284,
+     "ram_free_gb": 17.89,
+     "bench_s": 0.252,
+     "pid": 9940,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.19,
+     "factor_cpu": 1.11,
+     "factor": 1.19
+    }
+   }
+  },
+  {
+   "label": "t5-smoke-seal-3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "check",
+    "--per_condition_timeout",
+    "60",
+    "t5_drivers.smoke"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "T5_SMOKE": "seal"
+   },
+   "start_utc": "2026-11-04T13:26:55.739641+00:00",
+   "end_utc": "2026-11-04T13:27:59.721241+00:00",
+   "seconds": 63.98,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 60.0,
+    "scaled_s": 72.6,
+    "probe": {
+     "time": "2026-11-04T14:26:55",
+     "cpu_total": 8.28823690204472,
+     "cpu_other": 0.0828823690204472,
+     "ram_free_gb": 17.58,
+     "bench_s": 0.256,
+     "pid": 13516,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.21,
+     "factor_cpu": 1.09,
+     "factor": 1.21
+    }
+   }
+  },
+  {
+   "label": "t5-ctl-kill-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "330.0",
+    "t5_drivers.k_dedup",
+    "t5_drivers.c_dedup"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:28:11.473238+00:00",
+   "end_utc": "2026-11-04T13:34:15.121029+00:00",
+   "seconds": 363.65,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 300.0,
+    "scaled_s": 330.0,
+    "probe": {
+     "time": "2026-11-04T14:28:11",
+     "cpu_total": 8.82395277099605,
+     "cpu_other": 0.08823952770996049,
+     "ram_free_gb": 17.72,
+     "bench_s": 0.233,
+     "pid": 33156,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.1,
+     "factor_cpu": 1.1,
+     "factor": 1.1
+    }
+   }
+  },
+  {
+   "label": "t5-ctl-equiv-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "333.0",
+    "t5_drivers.e_tiny",
+    "t5_drivers.c_tiny"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:34:27.712613+00:00",
+   "end_utc": "2026-11-04T13:34:32.768862+00:00",
+   "seconds": 5.06,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 300.0,
+    "scaled_s": 333.0,
+    "probe": {
+     "time": "2026-11-04T14:34:27",
+     "cpu_total": 2.12627583383396,
+     "cpu_other": 0.0212627583383396,
+     "ram_free_gb": 16.0,
+     "bench_s": 0.236,
+     "pid": 7516,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.11,
+     "factor_cpu": 1.02,
+     "factor": 1.11
+    }
+   }
+  },
+  {
+   "label": "t5-ch-dedup",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "312.0",
+    "t5_drivers.o_dedup",
+    "t5_drivers.c_dedup"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:35:00.726879+00:00",
+   "end_utc": "2026-11-04T13:40:52.046673+00:00",
+   "seconds": 351.32,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 300.0,
+    "scaled_s": 312.0,
+    "probe": {
+     "time": "2026-11-04T14:35:00",
+     "cpu_total": 2.36321868404253,
+     "cpu_other": 0.0236321868404253,
+     "ram_free_gb": 16.05,
+     "bench_s": 0.22,
+     "pid": 19312,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.04,
+     "factor_cpu": 1.02,
+     "factor": 1.04
+    }
+   }
+  },
+  {
+   "label": "t5-ch-capture",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "348.0",
+    "t5_drivers.o_capture",
+    "t5_drivers.c_capture"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:41:03.681710+00:00",
+   "end_utc": "2026-11-04T13:46:57.100622+00:00",
+   "seconds": 353.42,
+   "exit": 1,
+   "adaptive": {
+    "base_s": 300.0,
+    "scaled_s": 348.0,
+    "probe": {
+     "time": "2026-11-04T14:41:03",
+     "cpu_total": 13.6694077705036,
+     "cpu_other": 0.136694077705036,
+     "ram_free_gb": 15.97,
+     "bench_s": 0.231,
+     "pid": 9952,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.09,
+     "factor_cpu": 1.16,
+     "factor": 1.16
+    }
+   }
+  },
+  {
+   "label": "t5-ch-seal",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys, t5_drivers; from crosshair.main import main; sys.argv = ['crosshair', *sys.argv[1:]]; sys.exit(main())",
+    "diffbehavior",
+    "--per_condition_timeout",
+    "336.0",
+    "t5_drivers.o_seal",
+    "t5_drivers.c_seal"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:47:08.696699+00:00",
+   "end_utc": "2026-11-04T13:52:50.706336+00:00",
+   "seconds": 342.01,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 300.0,
+    "scaled_s": 336.0,
+    "probe": {
+     "time": "2026-11-04T14:47:08",
+     "cpu_total": 2.23928289064058,
+     "cpu_other": 0.0223928289064058,
+     "ram_free_gb": 16.17,
+     "bench_s": 0.238,
+     "pid": 13064,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.12,
+     "factor_cpu": 1.02,
+     "factor": 1.12
+    }
+   }
+  },
+  {
+   "label": "t5-cx-replay",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "t5_drivers.py",
+    "replay",
+    "results/logs/t5-ctl-kill-2.log",
+    "results/logs/t5-ch-capture.log"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand\\src;D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-04T13:53:25.104188+00:00",
+   "end_utc": "2026-11-04T13:53:27.874001+00:00",
+   "seconds": 2.77,
+   "exit": 0,
+   "adaptive": {
+    "base_s": 60.0,
+    "scaled_s": 64.2,
+    "probe": {
+     "time": "2026-11-04T14:53:24",
+     "cpu_total": 5.46017382621081,
+     "cpu_other": 0.0546017382621081,
+     "ram_free_gb": 15.57,
+     "bench_s": 0.226,
+     "pid": 13944,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.07,
+     "factor_cpu": 1.06,
+     "factor": 1.07
+    }
+   }
+  }
+ ],
+ "facts": [
+  {
+   "time_utc": "2026-11-04T08:46:55.363460+00:00",
+   "apparatus_sha256": {
+    "measures.py": "e9ff2d65f220d124d57bfb9f24eba3270bd9cb580529a9fc5307799d66d94538",
+    "qdiff.py": "ca4ceeb422680587586fa5065c383e95f8f7605b7a7afe9642c951a7d32f9765",
+    "receipt3.py": "0aadaa595cb6251406484434c311a8910d0e3a4d295d788d3a101b2a6825fd78",
+    "run_e3.py": "97aff6f383daf1e35ca847d14474a215e75544613471bd7b1214e5c6ec90eecc",
+    "step3.py": "c93756409ca0d3fa31d42ba58959162daf717a9de0dff40ef7d9626ccc355ff2",
+    "surface.py": "f810d1537a78ddc47c25938ea3587df695e0a392bdaee6258bab96db5ba861b7",
+    "test_e3_replay.py": "6d982d37ab5147d1ac3a32d18a26997f5d465ffd76afbae003ad781cf260d3f7",
+    "plan.md": "cd846e205b6e8679a94d9c79f80d0c99e24411c6df6c32a2eecfab674e0c6212"
+   },
+   "apparatus_lines": {
+    "measures.py": 54,
+    "qdiff.py": 108,
+    "receipt3.py": 10,
+    "run_e3.py": 44,
+    "step3.py": 17,
+    "surface.py": 60,
+    "test_e3_replay.py": 33
+   },
+   "label": "step0-freeze",
+   "readme_sha256": "95fa6502972ff8d85dd8e0c39a435e16ab8ffa77d90703c483092ee061a6d1ce",
+   "results_sha256": {
+    "measures-baseline.json": "2c2c122c493242820f1ebd59d0f26de7311d5450048d1ef273c602e78322d64f",
+    "measures-selftest-allpure.json": "ba52e230840187878818ea2be748befa3c6db22133514e1f0c05764466d00397",
+    "public-surface.json": "5335c53db92445b74bffba88eec16cfe0df94863c8e91f5f5d99a1128369a9ce",
+    "qdiff-controls-weak.json": "3305b3bdc8cccd3e5c5297769c6e9d183650027114ba1c03b3a6bb64e10e2d71",
+    "qdiff-controls.json": "b330619ae73a49477f6497a1f460fde726e804b955c5f335131c3232269207c1",
+    "qdiff-sql-divergences-round0.json": "3e60d9de15029472fd7be2372018f6a39e2291ce7832f3f4f589e6137858133c",
+    "sql-divergences-round0.json": "68c2ef82e700910cd4a2d30a69ba124acd404264c8171470beab61669562f6ed",
+    "structure-selftest-allpure.json": "77a9fa517ef95144106b8afc883d4c486ad2069124465ad29464628e34490c9c"
+   },
+   "apparatus_total_lines": 326,
+   "golden_sha256": {
+    "e1b-facdrone-evidence-publication/results/golden-trace.json": "25c86305d73271c56da7c555d9b5b9f876691dcd91a336c8e240f77c95ad7ecb",
+    "e1c-concolic-rung/results/golden-e1c.json": "3c6a81eda92c0fe33e972c52b74410a7a4606067e3e7b8ed4fb6fc6a8daaeb8b",
+    "e1c2-concolic-rerun/results/golden-e1c2.json": "d42cceef9e7842d235a0913c3b986c47ca472c14b6ed3ad0b1a4c9c041e3c8df"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:57:59.561695+00:00",
+   "apparatus_sha256": {
+    "measures.py": "e9ff2d65f220d124d57bfb9f24eba3270bd9cb580529a9fc5307799d66d94538",
+    "qdiff.py": "ca4ceeb422680587586fa5065c383e95f8f7605b7a7afe9642c951a7d32f9765",
+    "receipt3.py": "0aadaa595cb6251406484434c311a8910d0e3a4d295d788d3a101b2a6825fd78",
+    "run_e3.py": "97aff6f383daf1e35ca847d14474a215e75544613471bd7b1214e5c6ec90eecc",
+    "step3.py": "c93756409ca0d3fa31d42ba58959162daf717a9de0dff40ef7d9626ccc355ff2",
+    "surface.py": "f810d1537a78ddc47c25938ea3587df695e0a392bdaee6258bab96db5ba861b7",
+    "t4_arm.py": "b64de1e2aad77e27118b263bc04049a8433da28b2676412dfb1e9a95921ad7fc",
+    "t5_drivers.py": "e5af562ad7036b02c69051f88ed574c36fe81a16a53e55edcdb0aaae5e25bfef",
+    "test_e3_replay.py": "6d982d37ab5147d1ac3a32d18a26997f5d465ffd76afbae003ad781cf260d3f7",
+    "plan.md": "93f93684d4671aee564be0587dbea230fb7545bd4e6e3fd7412bea9c29dfa2ed"
+   },
+   "apparatus_lines": {
+    "measures.py": 54,
+    "qdiff.py": 108,
+    "receipt3.py": 10,
+    "run_e3.py": 44,
+    "step3.py": 17,
+    "surface.py": 60,
+    "t4_arm.py": 70,
+    "t5_drivers.py": 149,
+    "test_e3_replay.py": 33
+   },
+   "step": "3",
+   "t4": {
+    "population": 317,
+    "sample": 30,
+    "seed": 20261104,
+    "killed": 18,
+    "survived": 10,
+    "incompetent": 2,
+    "kill_rate_r22": "18/28=0.643",
+    "post_hoc_excluding_equivalent": "18/23=0.783 (excludes 4,8,11,24,28; labelled post hoc)",
+    "survivors": [
+     4,
+     8,
+     11,
+     15,
+     16,
+     17,
+     21,
+     24,
+     28,
+     29
+    ],
+    "m1": "caught",
+    "m2": "caught",
+    "m3_port_line320": "caught",
+    "arm_base_s": 199.9,
+    "deadline_base_s": 999.5,
+    "seed_files": 19,
+    "deselections": 6
+   },
+   "t5": {
+    "pairs": {
+     "dedup": "inconclusive (1379 it., not exhausted)",
+     "capture": "counterexample, realizable on concrete replay (H4)",
+     "seal": "inconclusive (511 it., not exhausted)"
+    },
+    "controls": {
+     "3a_kill": "counterexample",
+     "3b_equiv": "no differences, all paths exhausted (16 it.)"
+    },
+    "soundness": {
+     "dedup": "300/300 agree",
+     "capture": "151/300 differ (H4 shape)",
+     "seal": "300/300 agree"
+    },
+    "smoke_entries": {
+     "dedup": "41/40",
+     "capture": "8/8",
+     "seal": "1/1 at 15 s (fail); 4/4 and 2/2 at 60 s"
+    },
+    "solver_seconds": 1560.1,
+    "oracle_replay": "not executed: no oracle operation calls capture_payload; an extension would modify frozen apparatus"
+   },
+   "lines": {
+    "step0_apparatus": 326,
+    "t4_arm.py": 70,
+    "t5_drivers.py": 149,
+    "total": 545,
+    "budget": 400,
+    "overrun": 145
+   },
+   "mut_final": "verify-mut-after-t4-2: 4851 files identical"
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-04T08:43:24.413141+00:00",
+   "key": "receipt-overwrite",
+   "value": {
+    "what": "E1c receipt.main loads receipt.json before running its command and writes it after; entries appended by other commands while validate-frozen-round0 ran (surface-frozen-2, measures-baseline-2, measures-structure-selftest-2, notes qdiff-strengthening and apparatus-compaction) were overwritten. They are rerun/re-added below. Rule kept from here on: no receipt write while a step runs."
+   }
+  },
+  {
+   "time_utc": "2026-11-04T08:43:25.729099+00:00",
+   "key": "qdiff-strengthening",
+   "value": {
+    "weak (qdiff-controls-weak)": "flip=reverse only, no boundary row: identical pass 102 states; m150-shape PASSED 102 states -> perturbation too weak",
+    "strength 1 (qdiff-controls)": "flip adds prefix, ~ suffix and parameter string values: m150-shape still PASSED 102 states (needs two coordinated column changes on one live_decision_event row: flow=attempt and strategy_id below e1b-strategy); that code version was superseded and is not kept",
+    "strength 2 (qdiff-controls-2)": "each perturbed state starts with one boundary row in a table the statements name: new key, each column a parameter <column>_<n> binds set to p, p[:-1] or p+~ (int p-1,p,p+1): identical pass 102 states; m150-shape FAILS at state 20 (boundary row account=e1b-account, flow=attempt, strategy_id=e1b-strateg). Exit 1 of that step is the expected control outcome."
+   }
+  },
+  {
+   "time_utc": "2026-11-04T08:43:26.564117+00:00",
+   "key": "apparatus-compaction",
+   "value": {
+    "surface.py, measures.py, qdiff.py": "compacted after their first runs to fit the line budget (blank lines removed, docstrings shortened, qdiff refactored keeping the random call order); rerun as surface-frozen-2, measures-baseline-2, measures-structure-selftest-2, qdiff-controls-weak-2, qdiff-controls-3. run_e3.py, test_e3_replay.py, step3.py, receipt3.py unchanged since validate-frozen-round0."
+   }
+  },
+  {
+   "time_utc": "2026-11-04T09:51:43.989963+00:00",
+   "key": "t4-m16-guard",
+   "value": {
+    "time": "2026-11-04T10:51:43",
+    "cpu_total": 14.1885936116213,
+    "cpu_other": 0.141885936116213,
+    "ram_free_gb": 15.81,
+    "bench_s": 0.288,
+    "pid": 6164,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.36,
+    "factor_cpu": 1.17,
+    "factor": 1.36,
+    "waited_s": 6.1,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T09:57:02.386999+00:00",
+   "key": "t4-m17-guard",
+   "value": {
+    "time": "2026-11-04T10:57:02",
+    "cpu_total": 6.52212876370972,
+    "cpu_other": 0.0652212876370972,
+    "ram_free_gb": 15.57,
+    "bench_s": 0.289,
+    "pid": 12892,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.36,
+    "factor_cpu": 1.07,
+    "factor": 1.36,
+    "waited_s": 139.8,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T10:00:14.959494+00:00",
+   "key": "t4-m18-guard",
+   "value": {
+    "time": "2026-11-04T11:00:14",
+    "cpu_total": 27.6016004976502,
+    "cpu_other": 0.27601600497650197,
+    "ram_free_gb": 15.27,
+    "bench_s": 0.273,
+    "pid": 34324,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.29,
+    "factor_cpu": 1.38,
+    "factor": 1.38,
+    "waited_s": 40.9,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T10:20:30.482383+00:00",
+   "key": "t4-m19-guard",
+   "value": {
+    "time": "2026-11-04T11:20:30",
+    "cpu_total": 21.7559071734942,
+    "cpu_other": 0.21755907173494202,
+    "ram_free_gb": 17.99,
+    "bench_s": 0.311,
+    "pid": 15596,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.47,
+    "factor_cpu": 1.28,
+    "factor": 1.47,
+    "waited_s": 1195.8,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T10:51:56.330057+00:00",
+   "key": "t4-m20-guard",
+   "value": {
+    "time": "2026-11-04T11:51:55",
+    "cpu_total": 26.2888993350621,
+    "cpu_other": 0.262888993350621,
+    "ram_free_gb": 17.23,
+    "bench_s": 0.392,
+    "pid": 36472,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.85,
+    "factor_cpu": 1.36,
+    "factor": 1.85,
+    "waited_s": 1853.7,
+    "idle": false,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T10:56:24.542704+00:00",
+   "key": "t4-m21-guard",
+   "value": {
+    "time": "2026-11-04T11:56:24",
+    "cpu_total": 15.7151391983062,
+    "cpu_other": 0.157151391983062,
+    "ram_free_gb": 17.1,
+    "bench_s": 0.305,
+    "pid": 13384,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.44,
+    "factor_cpu": 1.19,
+    "factor": 1.44,
+    "waited_s": 60.3,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T11:16:00.938102+00:00",
+   "key": "t4-m22-guard",
+   "value": {
+    "time": "2026-11-04T12:16:00",
+    "cpu_total": 8.48923204046398,
+    "cpu_other": 0.0848923204046398,
+    "ram_free_gb": 16.63,
+    "bench_s": 0.315,
+    "pid": 11180,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.49,
+    "factor_cpu": 1.09,
+    "factor": 1.49,
+    "waited_s": 1017.7,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T11:29:54.810981+00:00",
+   "key": "t4-m23-guard",
+   "value": {
+    "time": "2026-11-04T12:29:54",
+    "cpu_total": 15.9031073656908,
+    "cpu_other": 0.159031073656908,
+    "ram_free_gb": 16.08,
+    "bench_s": 0.308,
+    "pid": 20676,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.45,
+    "factor_cpu": 1.19,
+    "factor": 1.45,
+    "waited_s": 810.9,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:01:48.710283+00:00",
+   "key": "t4-m24-guard",
+   "value": {
+    "time": "2026-11-04T13:01:48",
+    "cpu_total": 27.3666023394528,
+    "cpu_other": 0.273666023394528,
+    "ram_free_gb": 15.36,
+    "bench_s": 0.56,
+    "pid": 11072,
+    "ref_bench_s": 0.212,
+    "factor_bench": 2.64,
+    "factor_cpu": 1.38,
+    "factor": 2.64,
+    "waited_s": 1823.2,
+    "idle": false,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:07:09.445924+00:00",
+   "key": "t4-m25-guard",
+   "value": {
+    "time": "2026-11-04T13:07:09",
+    "cpu_total": 10.5915626803027,
+    "cpu_other": 0.10591562680302699,
+    "ram_free_gb": 15.3,
+    "bench_s": 0.265,
+    "pid": 37732,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.25,
+    "factor_cpu": 1.12,
+    "factor": 1.25,
+    "waited_s": 88.0,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:08:14.261113+00:00",
+   "key": "t4-m26-guard",
+   "value": {
+    "time": "2026-11-04T13:08:13",
+    "cpu_total": 13.3547257107991,
+    "cpu_other": 0.133547257107991,
+    "ram_free_gb": 15.09,
+    "bench_s": 0.282,
+    "pid": 28752,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.33,
+    "factor_cpu": 1.15,
+    "factor": 1.33,
+    "waited_s": 41.7,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:08:44.748815+00:00",
+   "key": "t4-m27-guard",
+   "value": {
+    "time": "2026-11-04T13:08:44",
+    "cpu_total": 18.4721655819168,
+    "cpu_other": 0.18472165581916802,
+    "ram_free_gb": 15.47,
+    "bench_s": 0.304,
+    "pid": 1980,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.43,
+    "factor_cpu": 1.23,
+    "factor": 1.43,
+    "waited_s": 6.2,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:19:33.901267+00:00",
+   "key": "t4-m28-guard",
+   "value": {
+    "time": "2026-11-04T13:19:33",
+    "cpu_total": 23.1376875793655,
+    "cpu_other": 0.231376875793655,
+    "ram_free_gb": 16.86,
+    "bench_s": 0.258,
+    "pid": 35992,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.22,
+    "factor_cpu": 1.3,
+    "factor": 1.3,
+    "waited_s": 627.9,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:24:40.672350+00:00",
+   "key": "t4-m29-guard",
+   "value": {
+    "time": "2026-11-04T13:24:40",
+    "cpu_total": 15.1202109104763,
+    "cpu_other": 0.151202109104763,
+    "ram_free_gb": 16.74,
+    "bench_s": 0.266,
+    "pid": 21856,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.25,
+    "factor_cpu": 1.18,
+    "factor": 1.25,
+    "waited_s": 109.9,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:27:47.801399+00:00",
+   "key": "t4-hand-m1-guard",
+   "value": {
+    "time": "2026-11-04T13:27:47",
+    "cpu_total": 10.497107080037,
+    "cpu_other": 0.10497107080037,
+    "ram_free_gb": 16.76,
+    "bench_s": 0.262,
+    "pid": 23060,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.24,
+    "factor_cpu": 1.12,
+    "factor": 1.24,
+    "waited_s": 7.0,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:39:09.884703+00:00",
+   "key": "t4-hand-m2-guard",
+   "value": {
+    "time": "2026-11-04T13:39:09",
+    "cpu_total": 24.837285585513,
+    "cpu_other": 0.24837285585513003,
+    "ram_free_gb": 14.9,
+    "bench_s": 0.289,
+    "pid": 8260,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.36,
+    "factor_cpu": 1.33,
+    "factor": 1.36,
+    "waited_s": 42.4,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T12:49:33.690157+00:00",
+   "key": "t4-hand-m3-guard",
+   "value": {
+    "time": "2026-11-04T13:49:33",
+    "cpu_total": 18.881976238728,
+    "cpu_other": 0.18881976238728002,
+    "ram_free_gb": 18.66,
+    "bench_s": 0.254,
+    "pid": 25644,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.2,
+    "factor_cpu": 1.23,
+    "factor": 1.23,
+    "waited_s": 6.5,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:19:27.391895+00:00",
+   "key": "t5-sound-2-guard",
+   "value": {
+    "time": "2026-11-04T14:19:27",
+    "cpu_total": 18.2169435361835,
+    "cpu_other": 0.182169435361835,
+    "ram_free_gb": 19.35,
+    "bench_s": 0.222,
+    "pid": 26452,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.05,
+    "factor_cpu": 1.22,
+    "factor": 1.22,
+    "waited_s": 395.8,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:21:50.348046+00:00",
+   "key": "t5-smoke-dedup-2-guard",
+   "value": {
+    "time": "2026-11-04T14:21:50",
+    "cpu_total": 7.77653378402677,
+    "cpu_other": 0.0777653378402677,
+    "ram_free_gb": 18.66,
+    "bench_s": 0.291,
+    "pid": 36180,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.37,
+    "factor_cpu": 1.08,
+    "factor": 1.37,
+    "waited_s": 66.5,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:22:42.703123+00:00",
+   "key": "t5-smoke-capture-2-guard",
+   "value": {
+    "time": "2026-11-04T14:22:42",
+    "cpu_total": 15.926655922761,
+    "cpu_other": 0.15926655922761002,
+    "ram_free_gb": 18.72,
+    "bench_s": 0.235,
+    "pid": 9068,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.11,
+    "factor_cpu": 1.19,
+    "factor": 1.19,
+    "waited_s": 22.9,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:23:24.934484+00:00",
+   "key": "t5-smoke-seal-2-guard",
+   "value": {
+    "time": "2026-11-04T14:23:24",
+    "cpu_total": 25.5688421509107,
+    "cpu_other": 0.25568842150910703,
+    "ram_free_gb": 18.4,
+    "bench_s": 0.241,
+    "pid": 28764,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.14,
+    "factor_cpu": 1.34,
+    "factor": 1.34,
+    "waited_s": 7.6,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:25:03.668538+00:00",
+   "key": "t5-ctl-kill-guard",
+   "value": {
+    "time": "2026-11-04T14:25:03",
+    "cpu_total": 17.2669962996454,
+    "cpu_other": 0.16941857504390978,
+    "ram_free_gb": 17.7,
+    "bench_s": 0.26,
+    "pid": 11344,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.23,
+    "factor_cpu": 1.2,
+    "factor": 1.23,
+    "waited_s": 61.4,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:25:37.872143+00:00",
+   "key": "t5-ctl-equiv-guard",
+   "value": {
+    "time": "2026-11-04T14:25:37",
+    "cpu_total": 15.299508924561,
+    "cpu_other": 0.15299508924561,
+    "ram_free_gb": 17.84,
+    "bench_s": 0.247,
+    "pid": 35544,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.17,
+    "factor_cpu": 1.18,
+    "factor": 1.18,
+    "waited_s": 23.0,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:26:49.893532+00:00",
+   "key": "t5-smoke-seal-3-guard",
+   "value": {
+    "time": "2026-11-04T14:26:49",
+    "cpu_total": 9.12126534486815,
+    "cpu_other": 0.0912126534486815,
+    "ram_free_gb": 17.5,
+    "bench_s": 0.25,
+    "pid": 31112,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.18,
+    "factor_cpu": 1.1,
+    "factor": 1.18,
+    "waited_s": 5.8,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:28:05.648323+00:00",
+   "key": "t5-ctl-kill-2-guard",
+   "value": {
+    "time": "2026-11-04T14:28:05",
+    "cpu_total": 15.7111620971628,
+    "cpu_other": 0.157111620971628,
+    "ram_free_gb": 17.71,
+    "bench_s": 0.275,
+    "pid": 22404,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.3,
+    "factor_cpu": 1.19,
+    "factor": 1.3,
+    "waited_s": 5.8,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:34:21.937571+00:00",
+   "key": "t5-ctl-equiv-2-guard",
+   "value": {
+    "time": "2026-11-04T14:34:21",
+    "cpu_total": 5.0235779614533,
+    "cpu_other": 0.050235779614532995,
+    "ram_free_gb": 15.92,
+    "bench_s": 0.219,
+    "pid": 11632,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.03,
+    "factor_cpu": 1.05,
+    "factor": 1.05,
+    "waited_s": 6.4,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:34:54.953545+00:00",
+   "key": "t5-ch-dedup-guard",
+   "value": {
+    "time": "2026-11-04T14:34:54",
+    "cpu_total": 8.4314748805048,
+    "cpu_other": 0.084314748805048,
+    "ram_free_gb": 16.07,
+    "bench_s": 0.263,
+    "pid": 7872,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.24,
+    "factor_cpu": 1.09,
+    "factor": 1.24,
+    "waited_s": 22.0,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:40:57.875120+00:00",
+   "key": "t5-ch-capture-guard",
+   "value": {
+    "time": "2026-11-04T14:40:57",
+    "cpu_total": 8.36610665211924,
+    "cpu_other": 0.0836610665211924,
+    "ram_free_gb": 15.96,
+    "bench_s": 0.219,
+    "pid": 35336,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.03,
+    "factor_cpu": 1.09,
+    "factor": 1.09,
+    "waited_s": 5.7,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-04T13:47:02.900998+00:00",
+   "key": "t5-ch-seal-guard",
+   "value": {
+    "time": "2026-11-04T14:47:02",
+    "cpu_total": 1.68433031212379,
+    "cpu_other": 0.0168433031212379,
+    "ram_free_gb": 16.19,
+    "bench_s": 0.222,
+    "pid": 36580,
+    "ref_bench_s": 0.212,
+    "factor_bench": 1.05,
+    "factor_cpu": 1.02,
+    "factor": 1.05,
+    "waited_s": 5.7,
+    "idle": true,
+    "attempt": 1,
+    "decision": "run"
+   }
+  }
+ ]
+}

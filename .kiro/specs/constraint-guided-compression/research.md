@@ -421,3 +421,23 @@ COBESY validation: conclusion-first structure, explicit disproof conditions,
 separate evidence from hypotheses, concrete replay handoff, no inflated maturity
 claims. This note is a research blueprint; results remain pending.
 
+
+Amendment, 2026-11-04: the guided-generation rung was run twice on the Facdrone
+evidence-publication scope. [R23](../../../docs/research/2026-11-03/05-e1c-concolic-rung.md)
+failed because of driver encoding; [R24](../../../docs/research/2026-11-04/01-e1c2-corrected-solver-rung.md)
+reran it with a solver-encoding verifier and adaptive budgets, killed 7 of 10
+residue targets, proved none equivalent, and fired the preregistered kill
+criterion. Solver verdicts count in this spec only after the four verifier
+checks in [symbolic-execution-tooling.md](../../../docs/symbolic-execution-tooling.md)
+pass, and never as equivalence authority on database-entangled predicates.
+
+Amendment, 2026-11-04 (evening): H8(c) regeneration ran as E3 and is recorded as
+[R25](../../../docs/research/2026-11-04/02-e3-evidence-regeneration.md). One
+round met the recorded oracle on the five evidence modules with 16% fewer lines,
+29% fewer intra-set edges and a statically checked pure core; mutation
+sensitivity missed its preregistered bar (18/28 = 0.643) and one oracle-blind
+difference on an exception path is real. Two protocol rules are proposed, not
+yet adopted: report statement counts in the original's formatting as well as the
+candidate's, and draw sensitivity samples from the original and the candidate
+alike. Gate remains `revise`; the owner decides between a second round (E3b), a
+second scope (E4), or prevention at generation time.

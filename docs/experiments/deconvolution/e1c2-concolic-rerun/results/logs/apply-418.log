@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/ReplaceComparisonOperator_Eq_GtE", "occurrence": 33, "start_pos": [418, 84], "end_pos": [418, 86], "operator_args": {}, "definition_name": "instruction_history"}, "old": "            bodies = conn.execute(select(latest.c.payload_json).where(latest.c.rank == 1)).scalars()", "new": "            bodies = conn.execute(select(latest.c.payload_json).where(latest.c.rank >= 1)).scalars()"}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [418]}

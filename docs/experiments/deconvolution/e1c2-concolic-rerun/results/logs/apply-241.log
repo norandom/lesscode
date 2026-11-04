@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/ReplaceComparisonOperator_Eq_LtE", "occurrence": 23, "start_pos": [241, 24], "end_pos": [241, 26], "operator_args": {}, "definition_name": "_placed_under"}, "old": "        and rest.parent == body.get(\"turn_id\", body.get(\"parent_id\"))", "new": "        and rest.parent <= body.get(\"turn_id\", body.get(\"parent_id\"))"}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [239, 240, 241, 242, 243]}

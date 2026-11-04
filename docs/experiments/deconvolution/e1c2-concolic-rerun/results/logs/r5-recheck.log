@@ -1,0 +1,14 @@
+{
+ "calls": {
+  "instruction_history": 121,
+  "opening_tickets": 110,
+  "resting_orders": 109,
+  "intention_ids": 128,
+  "placed_under": 1,
+  "decision_served": 3
+ },
+ "mismatches": {},
+ "unjson_lines": 0,
+ "distinct_inputs": 285,
+ "first_mismatches": []
+}

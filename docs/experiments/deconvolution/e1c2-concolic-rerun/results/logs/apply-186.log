@@ -1,0 +1,2 @@
+{"mutation": {"module_path": "src\\facdrone\\shells\\cppi\\state_repository.py", "operator_name": "core/ReplaceComparisonOperator_Eq_IsNot", "occurrence": 11, "start_pos": [186, 45], "end_pos": [186, 47], "operator_args": {}, "definition_name": "resting_orders"}, "old": "            LIVE_DECISION_EVENT.c.account_id == identity.account_id,", "new": "            LIVE_DECISION_EVENT.c.account_id is not identity.account_id,"}
+{"changed": ["src/facdrone/shells/cppi/state_repository.py"], "lines": [185, 186, 187, 188, 189]}

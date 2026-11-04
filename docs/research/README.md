@@ -1,11 +1,16 @@
 # Research log
 
-Current direction (2026-11-03): H7's static state models and family-duplication
+Current direction (2026-11-04): H7's static state models and family-duplication
 selection did not verify or compress real scattered code. H8 proposes a recorded,
 mutation-scored trace oracle, edge-based convolution measures and regeneration
-behind the public API. This is a proposal, not a demonstrated compressor. The
-next gates are E1 (oracle feasibility) and E2 (edge census), both preregistered
-in R19 and not yet run. The earlier CodeQL direction is retained as history.
+behind the public API. Gates run so far (R20 to R24): oracle mechanics positive
+on Rust and Python, gain predictions failed, edge selector rejected, solver rung
+rejected as equivalence authority but useful as a verified counterexample
+finder. Regeneration (E3, R25) ran on 2026-11-04: one round met the oracle
+with 16% fewer lines and 29% fewer edges, mutation sensitivity missed its bar
+(0.643) and one oracle-blind difference on an exception path is real. H8(c)
+stands on one scope with a lowered protection claim; the owner decides between
+a second round, a second scope, or prevention. The earlier CodeQL direction is history.
 
 ## Dated lab reports
 
@@ -46,6 +51,8 @@ remain separate; file modification times are not treated as execution evidence.
 
 | Discussion / record day | Record | Status |
 | --- | --- | --- |
+| 2026-11-04 | [25: E3 evidence regeneration](2026-11-04/02-e3-evidence-regeneration.md) | T1-T3 held in 1 round (1,274→1,074 lines, 660→546 statements, 84→60 edges, 11 writes all in shell, 36/51 pure); T4 failed on kill rate 18/28 = 0.643 (M1-M3 caught); T5 found one realizable oracle-blind difference (`capture_payload` absences after an exception) that reading and 300 random inputs had already exposed; reviewer caveat: 26 statements are packing; no kill criterion fired; 545/400 lines; owner decision E3b, E4 or stop |
+| 2026-11-04 | [24: E1c-2 corrected solver rung](2026-11-04/01-e1c2-corrected-solver-rung.md) | S1-S4 failed, S5 held; kill criterion fired on a verified pipeline (4 verifier checks passed); 7 of 10 targets killed (4 by the reader-inclusive alphabet alone, 3 only by realised solver inputs), 3 unresolved, 0 proved equivalent; guided generation rejected as equivalence authority for DB-entangled predicates; owner decision E3 or stop |
 | 2026-11-03 | [23: E1c concolic rung](2026-11-03/05-e1c-concolic-rung.md) | R1-R4 failed, R5 held; 1 of 10 targets solved, 1 of 8 killed; cause: driver encoding concretised strings and the oracle never calls the reader functions; corrected rerun pending owner decision |
 | 2026-11-03 | [22: E1b Facdrone evidence-publication oracle](2026-11-03/04-e1b-evidence-publication-oracle.md) | Oracle byte-deterministic, catches M1-M3 incl. stored-representation change tests miss; kill rate 0.712 to 0.746 on 60 mutants, Q1 gap-halving failed; H8(a) rejected as formulated; random generation found 2 new behaviours; owner decision pending |
 | 2026-11-03 | [21: E2 Facdrone edge census](2026-11-03/03-e2-facdrone-edge-census.md) | 2,275 responsibilities, 94.7% reached; C1/C3/C4 held, C2 and C5 failed; edge measures rejected as the E3 selector; recorder validity proven by diff; two Windows defects in specimen test support recorded |
@@ -87,7 +94,7 @@ They do not replace trial identifiers in the original records.
 | H5 | Complete capability scope exposes substantial redundancy | ATS/NPU positive manually selected cases; not automatic discovery efficacy |
 | H6 | Native measurement plus agent discovery yields useful general compression | Native workflow exercised; local baselines and marginal trials do not establish this broader claim |
 | H7 | Query-grounded, multi-pass constraint modeling drives substantial compression | Never ran end to end in 18 entries; static state models rejected on G0c/G0d; superseded by H8 as the equivalence approach |
-| H8 | A recorded, mutation-scored trace oracle plus edge measures lets an LLM regenerate scattered responsibilities with fewer edges and equal behaviour | H8(a) oracle mechanics positive on mmhmem (R20) and Facdrone (R22) but the gain predictions failed on both, so H8(a) is rejected as formulated; H8(b) edge selector rejected as formulated (R21); H8(c) regeneration untested and not admitted under the preregistered gates; owner decision pending |
+| H8 | A recorded, mutation-scored trace oracle plus edge measures lets an LLM regenerate scattered responsibilities with fewer edges and equal behaviour | H8(a) oracle mechanics positive on mmhmem (R20) and Facdrone (R22) but the gain predictions failed on both, so H8(a) is rejected as formulated; H8(b) edge selector rejected as formulated (R21); H8(c) regeneration untested and not admitted under the preregistered gates; guided-generation rung failed as run (R23) and, corrected and verified, rejected for DB-entangled predicates while killing 7 of 10 residue targets (R24); H8(c) run as E3 (R25): one regeneration round met the oracle with 16% fewer lines and 29% fewer edges and a checked pure core, but mutation sensitivity missed its bar (0.643) and one oracle-blind difference is real, so H8(c) stands on one scope with a lowered protection claim; owner decision pending: second round, second scope, or prevention |
 
 H7 extends scope-wide reasoning and reintroduces solver research for a concrete
 purpose. It does not erase H1-H6 or restore previously dropped infrastructure.

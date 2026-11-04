@@ -1,0 +1,2 @@
+Unable to load "ctl2.o_ctl": SideEffectDetected: A "socket.gethostname" operation was detected. It's dangerous to run CrossHair on code with side effects. To allow this operation anyway, use "--unblock=socket.gethostname".
+Unable to load "ctl2.m_ctl": SideEffectDetected: A "socket.gethostname" operation was detected. It's dangerous to run CrossHair on code with side effects. To allow this operation anyway, use "--unblock=socket.gethostname".

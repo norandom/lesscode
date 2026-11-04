@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\Source\lesscode\docs\experiments\deconvolution\e3-evidence-regeneration\t5_drivers.py", line 134, in <module>
+    run()
+    ~~~^^
+  File "D:\Source\lesscode\docs\experiments\deconvolution\e3-evidence-regeneration\t5_drivers.py", line 129, in wrapped_test
+    @given(st.fixed_dictionaries({k: st.from_type(t) for k, t in hints.items()}))
+    ^^^^^^^^^^^^^^^^^^
+hypothesis.errors.InvalidArgument: Cannot apply @given to a function with defaults.

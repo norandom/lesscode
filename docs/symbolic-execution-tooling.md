@@ -74,6 +74,28 @@ random tier. If the generated inputs find little beyond the seeds, the next
 step is CrossHair over the publication module's pure functions, not a larger
 random budget.
 
+## Solver-encoding verifier, required before any solver verdict counts
+
+Added 2026-11-04 at the owner's request after E1c (R23), where wrong driver
+encodings produced solver outputs that looked like results. The solver step
+is only as trustworthy as the encoding handed to it, so it gets the same
+discipline as the oracle: controls first, verdicts after.
+
+1. Symbolic-ness: the driver smoke explores more than one path into the
+   function under test; a single path means the inputs were concretised.
+2. Encoding soundness: a lifted or translated predicate reproduces the
+   original on every recorded input before it is solved against.
+3. Pipeline controls: a known-killable mutant must yield a counterexample
+   and a known-equivalent mutant must yield exhaustion with no difference; a
+   failed control voids the whole solver session.
+4. Counterexample realizability: every counterexample is replayed concretely
+   through original and mutant and must differ before it is realised as test
+   input. "No differences found" without "all paths exhausted" is
+   inconclusive, never equivalence.
+
+E3 inherits this: differential checks on a candidate's pure core count only
+after these four checks pass for that session.
+
 ## Related records
 
 - [R19, dynamic deconvolution direction](research/2026-11-03/01-dynamic-deconvolution-direction.md), amendments on guided generation, Rust mapping and host constraints.

@@ -1,0 +1,62 @@
+run_e3: 191 seed files, 24 of 236 deselections apply
+run_e3: groups [[".", 175], ["packages/facdrone-research", 5], ["packages/facdrone-reporting", 12]]
+run_e3: 191 seed files, 24 of 236 deselections apply
+[11/04/26 13:49:57] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 15%]
+........................................................................ [ 20%]
+.......................................s................................ [ 25%]
+........................................................................ [ 30%]
+........................................................................ [ 35%]
+........................................................................ [ 40%]
+........................................................................ [ 46%]
+........................................................................ [ 51%]
+.....................................................s.................. [ 56%]
+........................................................................ [ 61%]
+........................................................................ [ 66%]
+........................................................................ [ 71%]
+........................................................................ [ 76%]
+........................................................................ [ 81%]
+........................................................................ [ 87%]
+........................................................................ [ 92%]
+........................................................................ [ 97%]
+....................................F
+================================== FAILURES ===================================
+_______________________________ test_e3_replay ________________________________
+
+pg_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-dzrzxajd)
+
+    def test_e3_replay(pg_engine) -> None:
+        env, l2, n = O._attached(pg_engine), [], {"sequences": 0, "operations": 0}
+        out = HERE / "results" / f"sql-divergences-round{os.environ.get('E3_ROUND', '0')}.json"
+        try:
+            for g in GOLDENS:
+                for seq in json.loads(g.read_text(encoding="utf-8"))["sequences"]:
+                    got = O.run_sequence(env, seq)
+                    d = O.first_diff(seq["start_tables"], got["start_tables"])
+                    assert d is None, f"{g.name} {seq['name']} start state: {d}"
+                    for i, (o, a, b) in enumerate(zip(seq["ops"], seq["observations"], got["observations"])):
+                        sa, sb = a.pop("sql", None), b.pop("sql", None)
+                        d = O.first_diff(a, b)
+>                       assert d is None, f"{g.name} {seq['name']} op {i} {O.canon(o)[:160]}: {d}"
+E                       AssertionError: golden-trace.json S09-codecs-compact op 10 {"op":"compact","shape":"single","v":{"c":["value"],"r":[[-0.0],[1],[2],[3]]}}: /result/consumed_capture: recorded "eAG9Vttu4zYQ/RVDz4lL3WUD7UuKXoC+tX1ojUCgJcrhRiK1JGXXCfLvPUNdsu5u0iLFBthFLHJmOOfM9TGwjh+EDba7x8AMqpR1sA1qUUkrtdo6YV1wFXBb6gbnEYuya7a5DpPfwmjLGP79iWtvAte20kbQt/gYbNlVIFU/uNKIhszfejknyjtu70jYGWEtpKVywnSilhyvBdvHp6tADw6a9BEceTsIWFuHUZykWV5s2PgLYkZwq1VZc8fHB/jeClVNaBopWgLDj1y2fN+KkhOWUQnnRjgulahXP9+sjD7 vs replayed "eNq9Vttu4zYQ/RWDz45L3SzZQPuSohegb20f2sAQaGlkcyORXpKy6w38750hJdlptmmRxQbYRWTOhTxnrk/MOrEDy9YPT8z0qpQ1W7MaKmmlVmsH1rE5E7bUDZ7HPF7e8dVdlP4WxWvO8d+fKPYuUGwrbYB+w0e25nMm1aF3pYGG3G+8noNyL+yelJ0BaxlpOTAd1BKFqPh0mTPdO7SkH+wo2h5980UUJ2m2zIsVD1+oZkBYrcpaOBEuEFsLqhrQNBJaAiOOQrZi20IpCEswwnMDTkgF9ezn+5nRJzurtKK
+E                       assert '/result/consumed_capture: recorded "eAG9Vttu4zYQ/RVDz4lL3WUD7UuKXoC+tX1ojUCgJcrhRiK1JGXXCfLvPUNdsu5u0iLFBthFLHJmOOfM9...+yelJ0BaxlpOTAd1BKFqPh0mTPdO7SkH+wo2h5980UUJ2m2zIsVD1+oZkBYrcpaOBEuEFsLqhrQNBJaAiOOQrZi20IpCEswwnMDTkgF9ezn+5nRJzurtKK' is None
+
+..\..\..\docs\experiments\deconvolution\e3-evidence-regeneration\test_e3_replay.py:25: AssertionError
+============================== warnings summary ===============================
+tests/unit/test_sim_trail_walk_forward.py::test_a_two_month_replay_binds_two_tables_and_records_them
+  D:\Source\lesscode\.runs\e2-facdrone\venv\Lib\site-packages\statsmodels\base\model.py:607: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+    warnings.warn("Maximum Likelihood optimization failed to "
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED ::test_e3_replay - AssertionError: golden-trace.json S09-codecs-compac...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 1402 passed, 2 skipped, 10 deselected, 1 warning in 902.31s (0:15:02)
+run_arm B .: exit 1 in 939.2s
+run_e3: run_arm exit 1; replay file fresh=False sequences=8 operations=52 level2_ops=0

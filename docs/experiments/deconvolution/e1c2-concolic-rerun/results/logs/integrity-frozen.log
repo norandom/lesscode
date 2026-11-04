@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys,json; sys.path.insert(0, r'D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication'); import scope; print(json.dumps({'frozen': scope.record(scope.FROZEN)['changed'], 'mut': scope.record(r'D:/Source/lesscode/.runs/e1c-facdrone/mut')['changed']}))
+                                                                                                                                                                                                                         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication\scope.py", line 45, in record
+    files = {p: {"sha256": sha(root / p), "manifest_sha256": manifest[p],
+                               ~~~~~^~~
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
