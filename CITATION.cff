@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: >-
+  If you use Lesscode, its research records or its experiment apparatus,
+  please cite it using the metadata below. The Zenodo concept DOI resolves
+  to the latest archived release.
+type: software
+title: "Lesscode: measured deconvolution of AI-generated codebases"
+authors:
+  - family-names: Ciepluch
+    given-names: Marius
+version: 0.1.0
+date-released: 2026-11-04
+license: MIT
+repository-code: https://github.com/norandom/lesscode
+url: https://github.com/norandom/lesscode
+abstract: >-
+  Lesscode is a research project on making AI-generated codebases smaller
+  and less entangled while keeping their behaviour at the public surface.
+  It records behaviour from the original under an effect-capturing sandbox,
+  scores that recording by mutation, lets a language model regenerate one
+  scope behind its derived public surface under a structural contract,
+  accepts only on zero divergence, measures size and internal call edges,
+  reviews independently, and searches the pure core for differences the
+  recording cannot see. The repository holds the preregistered experiments,
+  their receipts and the dated research log, a Kiro-style specification of
+  the loop, and a native measurement core.
+keywords:
+  - code simplification
+  - AI-generated code
+  - behaviour preservation
+  - differential testing
+  - mutation testing
+  - concolic execution
+  - spec-driven development
+  - research reproducibility

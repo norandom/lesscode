@@ -1,5 +1,7 @@
 # Lesscode
 
+[![DOI](https://zenodo.org/badge/1440672292.svg)](https://zenodo.org/badge/latestdoi/1440672292)
+
 The goal is substantial code simplification while preserving features. In grown
 codebases, custom implementations, boilerplate and supporting layers can often
 be replaced by capabilities already provided by the project's framework,
@@ -209,6 +211,9 @@ making it a merge gate.
 
 The [documentation index](docs/README.md) groups the guides by task.
 
+The [dated research log](docs/research/README.md) tracks experiments, revised
+hypotheses and the evidence behind the next tool/spec decision.
+
 - [Native readiness and working example](docs/reports/native-core-readiness.md): current CLI, empirical outcomes and platform gaps.
 - [All 32 native criteria](.kiro/specs/capability-compression-core/requirement-coverage.md): concrete artifact coverage.
 - [Technical overview](docs/technical-overview.md): architecture, measurement definitions, decision precedence, storage and experiment design.
@@ -234,3 +239,14 @@ The discovery skill and native Python/TypeScript comparison workflow are now
 implemented for the exercised scopes. General deterministic rewrites, Java
 support and MCP integration are outside the active native delivery. The CLI runs independently
 of a skill or MCP server. See the [roadmap](.kiro/steering/roadmap.md).
+
+## License
+
+Lesscode is licensed under the [MIT License](LICENSE). Third-party dependencies
+and fixtures retain their own licenses and notices; see the
+[native dependency inventory](native/LICENSES.md).
+
+## Citation
+
+Releases are archived on Zenodo; the DOI badge above resolves to the latest
+archived release. Citation metadata is in [CITATION.cff](CITATION.cff).

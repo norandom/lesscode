@@ -103,6 +103,31 @@ Tool assessment for symbolic execution per language:
 - Facdrone test support on Windows: quoted empty `listen_addresses` and
   pipe inheritance on `pg_ctl start`; `os.geteuid` call in the fixture plugin.
 
+## Spec written after E3 (uncommitted)
+
+`.kiro/specs/deconvolution-loop/` (2026-11-04, owner request): brief,
+algorithm-agnostic requirements with a per-requirement feasibility table,
+a provisional design documenting the prototype as built and what a native
+implementation would copy or rebuild, a retrospective prototype-gate
+assessment (`proceed` on one Python scope, `revise` for size-under-
+formatting and sensitivity, `not-run` for scope selection and other
+languages), and research links. Owner approved requirements, design and
+tasks on 2026-11-04 ("approved"). `tasks.md` (reviewed twice by an
+independent agent, 18 findings applied) holds bounded apparatus revisions,
+the regenerator-program prototype and E4; tasks marked "owner go" (3.2, 4,
+5.2, 6.1 for 6.2 to 6.7) still need an explicit answer before they start.
+Next executable tasks without a go: 1.1, 1.2, then 2.1, 2.2, 3.1, 5.1.
+Owner stance recorded: tests belong to the TDD workflow; a cleaner smaller
+AI version is preferred when it holds.
+
+Applied recap paper (uncommitted): `docs/reports/deconvolution-loop-applied.md`,
+the loop in eight steps, results R20 to R25, a preregistered prediction for
+the next three scopes (lines 10 to 20 percent, functions 20 to 30 percent,
+edges 25 to 35 percent fewer; kill rate 0.60 to 0.75; zero held-out
+divergence as the trust row), and the DSPy-style regenerator program the
+owner's model endpoint would run. Linked from the research index and the
+spec's research.md.
+
 ## Open items after E3
 
 1. Owner decision: E3b (second round on the same candidate against m17,

@@ -10,9 +10,19 @@ finder. Regeneration (E3, R25) ran on 2026-11-04: one round met the oracle
 with 16% fewer lines and 29% fewer edges, mutation sensitivity missed its bar
 (0.643) and one oracle-blind difference on an exception path is real. H8(c)
 stands on one scope with a lowered protection claim; the owner decides between
-a second round, a second scope, or prevention. The earlier CodeQL direction is history.
+a second round, a second scope, or prevention. The loop as prototyped is
+documented algorithm-agnostically in the
+[deconvolution-loop spec](../../.kiro/specs/deconvolution-loop/requirements.md)
+with per-requirement feasibility status. The earlier CodeQL direction is history.
 
 ## Dated lab reports
+
+Report for third parties (2026-11-04, no new evidence):
+[Regenerate behind the surface](../reports/deconvolution-loop-applied.md),
+self-contained: setting, the loop in eight steps with definitions, results
+R20 to R25, lessons, limitations, a falsifiable prediction for the next
+three scopes, the loop's place in spec-driven development, glossary and
+references.
 
 Latest proposal: [R19: dynamic deconvolution direction](2026-11-03/01-dynamic-deconvolution-direction.md).
 Owner review of 2026-11-03 recorded; static dataflow and LLM-authored SMT models
