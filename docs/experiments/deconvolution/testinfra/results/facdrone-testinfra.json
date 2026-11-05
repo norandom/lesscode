@@ -1,0 +1,2635 @@
+{
+ "deselections": {
+  "ambiguous": [],
+  "applicable": {
+   "fcntl/POSIX": [
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_failed_arm_is_retained_beside_successful_baseline",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_input_preparation_refusal_is_retained_for_every_declared_arm",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_refused_payload_is_retained_and_hashable[invalid0]",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_refused_payload_is_retained_and_hashable[invalid1]",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_sealed_arm_refuses_before_opening_a_snapshot"
+   ],
+   "file-lock": [],
+   "other": [],
+   "symlink-privilege": [
+    "packages/facdrone-research/tests/test_study_slice_evidence.py::test_slice_store_refuses_symlink_escape"
+   ]
+  },
+  "applicable_count": 6,
+  "applicable_to_supplied_seeds": {
+   "fcntl/POSIX": [
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_failed_arm_is_retained_beside_successful_baseline",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_input_preparation_refusal_is_retained_for_every_declared_arm",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_refused_payload_is_retained_and_hashable[invalid0]",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_refused_payload_is_retained_and_hashable[invalid1]",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_sealed_arm_refuses_before_opening_a_snapshot"
+   ],
+   "file-lock": [],
+   "other": [
+    "tests/unit/test_exit_trail_golden.py::test_january_synthetic_month_is_pinned_and_deterministic[chandelier]",
+    "tests/unit/test_exit_trail_golden.py::test_january_synthetic_month_is_pinned_and_deterministic[model]",
+    "tests/unit/test_exit_trail_golden.py::test_january_synthetic_month_is_pinned_and_deterministic[table]",
+    "tests/unit/test_exit_trail_golden.py::test_january_synthetic_month_is_pinned_under_a_target_scale_record",
+    "tests/unit/test_fixed_weight_combine.py::test_native_none_matches_pre_change_scores_and_captured_payload[False-legacy]",
+    "tests/unit/test_fixed_weight_combine.py::test_native_none_matches_pre_change_scores_and_captured_payload[False-unified]",
+    "tests/unit/test_fixed_weight_combine.py::test_native_none_matches_pre_change_scores_and_captured_payload[True-legacy]",
+    "tests/unit/test_fixed_weight_combine.py::test_native_none_matches_pre_change_scores_and_captured_payload[True-unified]"
+   ],
+   "symlink-privilege": [
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_a_missing_snapshot_store_degrades_only_the_market_section",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_api_responses_are_byte_identical_to_the_published_artifacts",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_each_format_request_emits_only_its_inventory",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_reporting_never_invokes_simulation_or_mutates_evidence",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_republication_is_idempotent_and_digest_stable",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_the_export_service_runs_the_full_production_path",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_the_production_composition_publishes_a_complete_bundle",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_the_snapshot_store_returns_none_for_missing_and_fails_for_tampered",
+    "packages/facdrone-research/tests/test_study_slice_evidence.py::test_slice_store_refuses_symlink_escape",
+    "tests/unit/test_futures_cppi_shortfall.py::test_only_one_affordable_name_trades_when_the_declared_minimum_is_one[1-expected0]",
+    "tests/unit/test_futures_cppi_shortfall.py::test_only_one_affordable_name_trades_when_the_declared_minimum_is_one[2-expected1]"
+   ]
+  },
+  "applicable_to_supplied_seeds_count": 24,
+  "by_cause": {
+   "fcntl/POSIX": 11,
+   "file-lock": 22,
+   "other": 67,
+   "symlink-privilege": 136
+  },
+  "collection_errors": [
+   "packages/facdrone-research/tests/test_census_declaration_guard.py",
+   "packages/facdrone-research/tests/test_census_verdict_store.py",
+   "packages/facdrone-research/tests/test_controlled_study_producer.py",
+   "packages/facdrone-research/tests/test_incumbent_study_route.py",
+   "packages/facdrone-research/tests/test_promotion_publication.py",
+   "packages/facdrone-research/tests/test_recensus_db.py",
+   "packages/facdrone-research/tests/test_study_arm_runtime.py",
+   "packages/facdrone-research/tests/test_study_bounds.py"
+  ],
+  "resolved": 236,
+  "resolved_ids": {
+   "fcntl/POSIX": [
+    "packages/facdrone-research/tests/test_census_scripts_guarded.py::test_each_script_declares_its_family_route_window_and_horizon_before_reading[equity_census-expected0]",
+    "packages/facdrone-research/tests/test_census_scripts_guarded.py::test_each_script_declares_its_family_route_window_and_horizon_before_reading[equity_pod_census-expected1]",
+    "packages/facdrone-research/tests/test_census_scripts_guarded.py::test_each_script_declares_its_family_route_window_and_horizon_before_reading[macro_lens_census-expected2]",
+    "packages/facdrone-research/tests/test_intervention.py::test_an_arm_whose_setting_did_not_reach_the_composition_refuses",
+    "packages/facdrone-research/tests/test_scored_census_inputs.py::test_the_comm_skew_record_keeps_the_seven_stress_series",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_failed_arm_is_retained_beside_successful_baseline",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_input_preparation_refusal_is_retained_for_every_declared_arm",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_refused_payload_is_retained_and_hashable[invalid0]",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_refused_payload_is_retained_and_hashable[invalid1]",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py::test_sealed_arm_refuses_before_opening_a_snapshot",
+    "tests/contracts/test_quality_gates.py::test_mypy_strict_clean"
+   ],
+   "file-lock": [
+    "tests/unit/test_exit_daily_returns.py::test_returns_are_window_bounded_session_only_and_per_symbol",
+    "tests/unit/test_exit_evaluate.py::test_absent_previous_month_is_fitted_and_frozen_without_future_exports",
+    "tests/unit/test_exit_evaluate.py::test_crisis_month_and_resumable_result_skip",
+    "tests/unit/test_exit_evaluate.py::test_result_and_summary_publication_are_append_only",
+    "tests/unit/test_exit_model_trail.py::test_real_excursion_export_and_replay_path_have_identical_columns",
+    "tests/unit/test_exit_months.py::test_monthly_runner_shares_baseline_and_matches_serial_prefix_exports",
+    "tests/unit/test_exit_observation_cache.py::test_empty_row_cache_preserves_exports_and_path_counts[symbols0]",
+    "tests/unit/test_exit_observation_cache.py::test_empty_row_cache_preserves_exports_and_path_counts[symbols1]",
+    "tests/unit/test_exit_observation_cache.py::test_equal_instants_with_different_offsets_keep_exported_path_identity",
+    "tests/unit/test_exit_observation_cache.py::test_projected_midnight_decision_and_later_actual_sessions_keep_distinct_rows",
+    "tests/unit/test_exit_observation_cache.py::test_rolling_start_and_strict_horizon_filter_rows_and_missing_counts",
+    "tests/unit/test_exit_observation_cache.py::test_same_horizon_with_different_terminal_marks_keeps_each_months_payoffs",
+    "tests/unit/test_exit_observation_cache.py::test_sparse_bars_do_not_require_a_scheduled_decision_after_the_label_horizon",
+    "tests/unit/test_exit_observations.py::test_failed_estimation_removes_incomplete_matrix",
+    "tests/unit/test_exit_observations.py::test_failed_rerun_preserves_previous_exports",
+    "tests/unit/test_exit_observations.py::test_parquet_rows_groups_nulls_and_schema_are_preserved",
+    "tests/unit/test_exit_observations.py::test_payoff_and_flag_survive_parquet_export",
+    "tests/unit/test_exit_walk_forward.py::test_two_months_match_serial_tables_and_export_bytes",
+    "tests/unit/test_exit_walk_forward_boundaries.py::test_missing_bars_fit_failures_and_window_boundaries_match_serial",
+    "tests/unit/test_exit_walk_forward_boundaries.py::test_month_end_calendar_uses_its_projection_even_with_later_actual_sessions",
+    "tests/unit/test_exit_walk_forward_boundaries.py::test_monthly_tail_labels_and_path_order_match_actual_prefix_exports",
+    "tests/unit/test_paper_parity.py::test_json_schema_and_append_only_writer"
+   ],
+   "other": [
+    "packages/facdrone-dash/tests/test_dashboard_release_gates.py::test_private_literal_gate_fails_on_a_planted_literal",
+    "packages/facdrone-dash/tests/test_dashboard_run_store_artifacts.py::test_corrupt_export_manifest_is_named_instead_of_linked",
+    "packages/facdrone-dash/tests/test_dashboard_run_store_artifacts.py::test_only_manifest_registered_existing_exports_become_artifact_links",
+    "packages/facdrone-factor-kit/tests/test_causal_series.py::test_mypy_strict_rejects_every_banned_operation",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_a_corrupted_existing_bundle_is_refused",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_a_narrower_format_request_gets_its_own_exact_immutable_inventory",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_a_promotion_failure_is_typed_and_cleans_its_staging",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_a_renderer_failure_preserves_the_previous_bundle",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_a_wider_format_request_coexists_without_extending_an_immutable_bundle",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_all_then_narrow_exports_each_report_only_the_requested_inventory",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_an_injected_xlsx_renderer_joins_the_manifest",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_csv_then_xlsx_coexist_as_exact_deterministic_publications",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_publication_writes_a_digest_addressed_verified_bundle",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_republication_is_idempotent",
+    "packages/facdrone-reporting/tests/test_artifact_publication.py::test_two_versions_coexist_and_the_pointer_moves_atomically",
+    "packages/facdrone-reporting/tests/test_readapi_report.py::test_a_corrupted_bundle_returns_422",
+    "packages/facdrone-reporting/tests/test_readapi_report.py::test_a_malformed_run_id_returns_422",
+    "packages/facdrone-reporting/tests/test_readapi_report.py::test_a_missing_pointer_returns_404",
+    "packages/facdrone-reporting/tests/test_readapi_report.py::test_a_tampered_pointer_returns_422",
+    "packages/facdrone-reporting/tests/test_readapi_report.py::test_an_unknown_run_returns_404",
+    "packages/facdrone-reporting/tests/test_readapi_report.py::test_report_json_is_byte_identical_to_the_published_artifact",
+    "packages/facdrone-reporting/tests/test_readapi_report.py::test_the_workbook_route_needs_only_the_sealed_payload",
+    "packages/facdrone-reporting/tests/test_readapi_report.py::test_the_workbook_route_renders_the_tear_sheet_from_the_sealed_payload",
+    "packages/facdrone-reporting/tests/test_release1_acceptance.py::test_headline_values_agree_across_all_five_surfaces",
+    "packages/facdrone-reporting/tests/test_render_model_goldens.py::TestTheGoldensPinWholeSections::test_a_standing_report_fixture_renders_exactly_its_golden[factor_report-factor_report]",
+    "packages/facdrone-reporting/tests/test_render_model_goldens.py::TestTheGoldensPinWholeSections::test_a_standing_report_fixture_renders_exactly_its_golden[stability_report-stability_report]",
+    "packages/facdrone-reporting/tests/test_usd_reporting_publication.py::test_the_usd_report_publishes_csv_and_xlsx_in_usd",
+    "packages/facdrone-research/tests/test_mandate_reporting.py::test_census_frozen_digest_and_results_unchanged_but_daily_limit_is_injected",
+    "tests/contracts/test_causality_contract.py::test_a_missing_declaration_breaks_the_contract_by_name",
+    "tests/contracts/test_causality_contract.py::test_the_contract_is_registered_in_lint_imports_with_no_skip_option",
+    "tests/contracts/test_causality_contract.py::test_the_descending_eigenvalue_sorts_in_the_tree_are_unflagged",
+    "tests/contracts/test_client_distribution.py::test_the_client_installs_and_passes_the_kit_in_a_bare_venv",
+    "tests/contracts/test_host_shim.py::test_shim_exists_and_is_executable",
+    "tests/contracts/test_runtime_packaging.py::test_one_command_starts_each_half_and_shows_what_it_says",
+    "tests/contracts/test_runtime_packaging.py::test_the_build_receives_its_revision_without_a_manual_export",
+    "tests/unit/test_check_plugins.py::test_a_declared_ticket_without_an_admission_report_names_the_ticket",
+    "tests/unit/test_check_plugins.py::test_a_missing_row_cap_or_entry_names_the_plugin[missing0-no size row example_momentum_loc in .gates/size-baseline.json]",
+    "tests/unit/test_check_plugins.py::test_a_missing_row_cap_or_entry_names_the_plugin[missing2-no [[unit]] entry 'example_momentum' in .kiro/breadth.toml]",
+    "tests/unit/test_check_plugins.py::test_a_plugin_without_tests_or_source_is_named",
+    "tests/unit/test_check_plugins.py::test_an_absent_admission_ledger_refuses_every_declared_ticket",
+    "tests/unit/test_combine_step9.py::test_grid_outputs_match_the_recorded_digest",
+    "tests/unit/test_ctrader_reconcile.py::TestTheWindowsEarlierCycles::test_the_tail_of_the_evidence_file_is_read_bounded",
+    "tests/unit/test_exit_trail_golden.py::test_january_synthetic_month_is_pinned_and_deterministic[chandelier]",
+    "tests/unit/test_exit_trail_golden.py::test_january_synthetic_month_is_pinned_and_deterministic[model]",
+    "tests/unit/test_exit_trail_golden.py::test_january_synthetic_month_is_pinned_and_deterministic[table]",
+    "tests/unit/test_exit_trail_golden.py::test_january_synthetic_month_is_pinned_under_a_target_scale_record",
+    "tests/unit/test_fixed_weight_combine.py::test_native_none_matches_pre_change_scores_and_captured_payload[False-legacy]",
+    "tests/unit/test_fixed_weight_combine.py::test_native_none_matches_pre_change_scores_and_captured_payload[False-unified]",
+    "tests/unit/test_fixed_weight_combine.py::test_native_none_matches_pre_change_scores_and_captured_payload[True-legacy]",
+    "tests/unit/test_fixed_weight_combine.py::test_native_none_matches_pre_change_scores_and_captured_payload[True-unified]",
+    "tests/unit/test_lifecycle_store_db.py::TestTheTableOnTheDatabase::test_the_event_id_is_the_stored_one_whatever_the_session_time_zone",
+    "tests/unit/test_mandate_record.py::test_verified_block_is_copied_from_research_and_deeply_frozen",
+    "tests/unit/test_paper_parity.py::test_cli_success_miss_and_failure_on_fixtures",
+    "tests/unit/test_publish_wiki.py::test_an_unknown_option_is_refused",
+    "tests/unit/test_schema_docs.py::test_committed_schema_er_artifact_is_in_sync",
+    "tests/unit/test_schema_docs.py::test_committed_schema_reference_artifact_is_in_sync",
+    "tests/unit/test_start_ctrader_resume.py::test_declined_override_does_not_start_client",
+    "tests/unit/test_start_ctrader_resume.py::test_manual_rebalance_requires_override",
+    "tests/unit/test_start_ctrader_resume.py::test_override_dry_run_previews_without_starting",
+    "tests/unit/test_start_ctrader_resume.py::test_override_passes_yes_after_verdict_and_shows_next_targets[--yes]",
+    "tests/unit/test_start_ctrader_resume.py::test_override_passes_yes_after_verdict_and_shows_next_targets[-y]",
+    "tests/unit/test_start_ctrader_resume.py::test_stop_refuses_override_without_force",
+    "tests/unit/test_start_ctrader_resume.py::test_y_also_answers_the_existing_neutral_gate",
+    "tests/unit/test_stop_arms.py::test_the_mirror_imports_this_trees_distributions",
+    "tests/unit/test_sync_tickets.py::test_exit_two_on_a_parse_error_naming_file_and_line",
+    "tests/unit/test_thin_retirement.py::test_tests_and_runbooks_no_longer_name_retired_transport",
+    "tests/unit/test_vqvae_feature_hotspots.py::TestUnitVarianceScaleIsBitIdentical::test_dense_panel[1]"
+   ],
+   "symlink-privilege": [
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_a_missing_snapshot_store_degrades_only_the_market_section",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_api_responses_are_byte_identical_to_the_published_artifacts",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_each_format_request_emits_only_its_inventory",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_reporting_never_invokes_simulation_or_mutates_evidence",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_republication_is_idempotent_and_digest_stable",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_the_export_service_runs_the_full_production_path",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_the_production_composition_publishes_a_complete_bundle",
+    "packages/facdrone-reporting/tests/test_reporting_production_composition.py::test_the_snapshot_store_returns_none_for_missing_and_fails_for_tampered",
+    "packages/facdrone-research/tests/test_study_slice_evidence.py::test_slice_store_refuses_symlink_escape",
+    "tests/unit/test_cfd_two_step_record.py::test_empty_operator_citation_is_rejected",
+    "tests/unit/test_cfd_two_step_record.py::test_incompatible_stage_plan_or_duplicate_money_is_rejected[limits-value2]",
+    "tests/unit/test_cfd_two_step_record.py::test_incompatible_stage_plan_or_duplicate_money_is_rejected[plan-growth]",
+    "tests/unit/test_cfd_two_step_record.py::test_incompatible_stage_plan_or_duplicate_money_is_rejected[stage-evaluation]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[daily_loss_fraction-0.2]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[daily_loss_fraction-True]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[max_total_drawdown_fraction-1]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[minimum_trading_days-0]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[minimum_trading_days-True]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[profit_target_fraction-0]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[profit_target_fraction-nan]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[time_limit_days-3]",
+    "tests/unit/test_cfd_two_step_record.py::test_invalid_inactive_stage_cannot_hide_until_transition[time_limit_days-True]",
+    "tests/unit/test_cfd_two_step_record.py::test_missing_reordered_and_duplicated_stages_are_rejected",
+    "tests/unit/test_cfd_two_step_record.py::test_money_rederives_from_initial_capital[challenge-0.1]",
+    "tests/unit/test_cfd_two_step_record.py::test_money_rederives_from_initial_capital[verification-0.05]",
+    "tests/unit/test_cfd_two_step_record.py::test_stage_is_part_of_the_generation_pin_and_runtime_namespace",
+    "tests/unit/test_daemon_profile.py::test_an_unknown_guard_is_refused_by_name",
+    "tests/unit/test_daemon_profile.py::test_every_shared_block_is_refused_at_any_depth[evidence]",
+    "tests/unit/test_daemon_profile.py::test_every_shared_block_is_refused_at_any_depth[instruments]",
+    "tests/unit/test_daemon_profile.py::test_every_shared_block_is_refused_at_any_depth[pod]",
+    "tests/unit/test_daemon_profile.py::test_every_shared_block_is_refused_at_any_depth[root]",
+    "tests/unit/test_daemon_profile.py::test_futures_calendar_requires_an_explicit_lower_bound",
+    "tests/unit/test_daemon_profile.py::test_futures_calendar_requires_coverage_and_loads_an_optional_deadline",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[limit_pct-0]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[limit_pct-1]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[limit_pct-None]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[limit_pct-inf]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[no_limit_reason-a numeric limit carries no reason]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[series-value3]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[series-value4]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[series-value5]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_rule_is_named[typo-0.07]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_section_is_named[buffer_pct--0.01]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_section_is_named[buffer_pct-0.07]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_section_is_named[buffer_pct-nan]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_section_is_named[effective_from-tomorrow]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_section_is_named[groups-value5]",
+    "tests/unit/test_daemon_profile.py::test_invalid_price_limit_section_is_named[known_at-tomorrow]",
+    "tests/unit/test_daemon_profile.py::test_invalid_section_values_are_named[calendar-kind-unknown]",
+    "tests/unit/test_daemon_profile.py::test_invalid_section_values_are_named[observability-sink-typo]",
+    "tests/unit/test_daemon_profile.py::test_invalid_section_values_are_named[serving-mode_kind-wrong]",
+    "tests/unit/test_daemon_profile.py::test_invalid_section_values_are_named[serving-port-0]",
+    "tests/unit/test_daemon_profile.py::test_invalid_section_values_are_named[serving-reentry_margin_minutes--1]",
+    "tests/unit/test_daemon_profile.py::test_missing_section_is_named[calendar]",
+    "tests/unit/test_daemon_profile.py::test_missing_section_is_named[instruments]",
+    "tests/unit/test_daemon_profile.py::test_missing_section_is_named[mandate]",
+    "tests/unit/test_daemon_profile.py::test_missing_section_is_named[observability]",
+    "tests/unit/test_daemon_profile.py::test_missing_section_is_named[pods]",
+    "tests/unit/test_daemon_profile.py::test_missing_section_is_named[serving]",
+    "tests/unit/test_daemon_profile.py::test_missing_series_and_unknown_blocklist_entry_are_named",
+    "tests/unit/test_daemon_profile.py::test_price_limit_knowledge_is_required_and_series_cannot_have_two_groups",
+    "tests/unit/test_daemon_profile.py::test_repeated_section_cannot_hide_its_order",
+    "tests/unit/test_daemon_profile.py::test_serving_margins_feed_the_record",
+    "tests/unit/test_daemon_profile.py::test_the_serving_block_declares_either_guard[checking-checking]",
+    "tests/unit/test_daemon_profile.py::test_the_serving_block_declares_either_guard[pass_through-pass_through]",
+    "tests/unit/test_daemon_profile.py::test_unknown_and_misordered_sections_are_named",
+    "tests/unit/test_exit_record_set_identity.py::test_a_declared_record_set_leaves_every_identity_unchanged",
+    "tests/unit/test_futures_cfd_unchanged.py::test_cfd_daemon_requirement_and_composed_freshness_symbols_do_not_change",
+    "tests/unit/test_futures_cppi_names.py::test_absent_parameters_preserve_legacy_selection_and_config_bytes",
+    "tests/unit/test_futures_cppi_names.py::test_declared_names_override_shared_minimum_and_bound_the_combined_path",
+    "tests/unit/test_futures_cppi_shortfall.py::test_only_one_affordable_name_trades_when_the_declared_minimum_is_one[1-expected0]",
+    "tests/unit/test_futures_cppi_shortfall.py::test_only_one_affordable_name_trades_when_the_declared_minimum_is_one[2-expected1]",
+    "tests/unit/test_futures_instruments.py::test_no_sizing_contract_omits_series_and_ambiguous_sizing_is_refused",
+    "tests/unit/test_futures_instruments.py::test_one_record_per_series_uses_the_selected_sizing_contract",
+    "tests/unit/test_futures_metadata_refresh.py::test_download_refresh_mirrors_the_same_catalog_used_for_acquisition",
+    "tests/unit/test_futures_pod.py::test_scoring_choice_can_reference_cash_without_trading_cash",
+    "tests/unit/test_futures_pod.py::test_unknown_scoring_identity_is_refused",
+    "tests/unit/test_mandate_record.py::test_attributed_sources_keep_their_original_text[FTMO rules, operator 2026-09-25]",
+    "tests/unit/test_mandate_record.py::test_attributed_sources_keep_their_original_text[FTMO support answer (FTMO Discord), relayed by the operator]",
+    "tests/unit/test_mandate_record.py::test_attributed_sources_keep_their_original_text[cTrader account read, operator session 2026-09-25]",
+    "tests/unit/test_mandate_record.py::test_attributed_sources_keep_their_original_text[https://ftmo.com/en/futures/trading-objectives-and-rules/]",
+    "tests/unit/test_mandate_record.py::test_digest_covers_fields_and_is_stable[ftmo-160k]",
+    "tests/unit/test_mandate_record.py::test_digest_covers_fields_and_is_stable[ftmo-futures-growth-150k]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-160k-flat_margin_minutes-15]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-160k-limits.daily_loss_limit-17000]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-160k-limits.daily_loss_limit-200000]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-160k-limits.profit_target-9000]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-160k-position_limit-value3]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-160k-quantity_unit-contracts]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-capital-0]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-capital-True]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-capital-inf]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-capital-nan]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-currency-GBP]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-limits.consistency_threshold-1.1]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-limits.daily_soft_loss-3000]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-limits.lock_at_capital-true]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-limits.trailing_drawdown--1]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-limits.trailing_drawdown-150000]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-limits.trailing_drawdown-None]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-plan-None]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-position_limit.evaluation_max_contracts-1.5]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-position_limit.sim_funded-value23]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-quantity_unit-lots]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-reentry_margin_minutes--1]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-rule_variant-not_a_variant]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-stage-sim_funded]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-verified-value10]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-verified.maximum_drawdown_usd.date-not-a-date]",
+    "tests/unit/test_mandate_record.py::test_invalid_configuration_names_field_and_value[ftmo-futures-growth-150k-verified.maximum_drawdown_usd.source-https://[bad]",
+    "tests/unit/test_mandate_record.py::test_missing_fields_are_named[capital]",
+    "tests/unit/test_mandate_record.py::test_missing_fields_are_named[rule_variant]",
+    "tests/unit/test_mandate_record.py::test_missing_fields_are_named[verified]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[   , relayed by the operator]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[   ]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[, relayed by the operator]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[https://[bad, relayed by the operator]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[operator 2026-02-30]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[operator assertion without a date]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[uncited assertion 2026-09-25]",
+    "tests/unit/test_mandate_record.py::test_operator_relay_does_not_admit_empty_provenance_or_invalid_urls[uncited assertion]",
+    "tests/unit/test_mandate_record.py::test_selected_filename_must_match_record_identity",
+    "tests/unit/test_mandate_record.py::test_unknown_nested_key_is_refused",
+    "tests/unit/test_seed_calendar_bars.py::test_classification_cli_ranges_candidates_and_prints_loadable_profile_block",
+    "tests/unit/test_snapshot_ordering_guard.py::test_the_refusal_names_the_mandate_the_acquisition_must_use",
+    "tests/unit/test_stop_arms.py::test_pod_arm_copies_protection_data_and_reports_the_loaded_values",
+    "tests/unit/test_stop_arms.py::test_pod_arm_refuses_cfd_and_bad_values_before_the_probe",
+    "tests/unit/test_stop_arms.py::test_target_yaml_overlay_loads_on_the_mirrored_usd_record[block0]",
+    "tests/unit/test_stop_arms.py::test_target_yaml_overlay_loads_on_the_mirrored_usd_record[block1]",
+    "tests/unit/test_take_profit_cutover_declaration.py::test_the_loader_reads_the_cutover_next_to_the_record_set[\"2026-10-28\"]",
+    "tests/unit/test_take_profit_cutover_declaration.py::test_the_loader_reads_the_cutover_next_to_the_record_set[2026-10-28]",
+    "tests/unit/test_take_profit_cutover_declaration.py::test_the_loader_refuses_a_cutover_that_is_not_a_date[\"2026-13-01\"]",
+    "tests/unit/test_take_profit_cutover_declaration.py::test_the_loader_refuses_a_cutover_that_is_not_a_date[2026-10-28T10:00:00Z]",
+    "tests/unit/test_take_profit_cutover_declaration.py::test_the_loader_refuses_a_cutover_that_is_not_a_date[tomorrow]",
+    "tests/unit/test_take_profit_step.py::test_the_cutover_is_read_from_the_mandates_trail_declaration"
+   ]
+  },
+  "supplied_seed_files": 191,
+  "total": 236,
+  "unresolved": []
+ },
+ "external_store": {
+  "facts": [
+   {
+    "detail": "FACDRONE_TEST_PG_DSN",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "env",
+    "line": 156,
+    "store_related": true
+   },
+   {
+    "detail": "FACDRONE_TEST_PG_DSN",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "env",
+    "line": 55,
+    "store_related": true
+   },
+   {
+    "detail": "FACDRONE_TEST_PG_DSN",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "env",
+    "line": 67,
+    "store_related": true
+   },
+   {
+    "detail": "FACDRONE_TEST_PG_DSN",
+    "file": "packages/facdrone-testing/facdrone_testing/paths.py",
+    "kind": "env",
+    "line": 89,
+    "store_related": true
+   },
+   {
+    "detail": "FACDRONE_TEST_PG_DSN",
+    "file": "packages/facdrone-testing/facdrone_testing/paths.py",
+    "kind": "env",
+    "line": 98,
+    "store_related": true
+   },
+   {
+    "detail": "FACDRONE_TEST_PG_EMBEDDED",
+    "file": "packages/facdrone-testing/facdrone_testing/paths.py",
+    "kind": "env",
+    "line": 89,
+    "store_related": true
+   },
+   {
+    "detail": "FACDRONE_TEST_PG_KEEP",
+    "file": "packages/facdrone-testing/facdrone_testing/pg_retention.py",
+    "kind": "env",
+    "line": 27,
+    "store_related": true
+   },
+   {
+    "detail": "alembic",
+    "file": "packages/facdrone-testing/facdrone_testing/migrated_schema.py",
+    "kind": "import",
+    "line": 10
+   },
+   {
+    "detail": "alembic",
+    "file": "packages/facdrone-testing/facdrone_testing/migrated_schema.py",
+    "kind": "import",
+    "line": 9
+   },
+   {
+    "detail": "alembic.ini",
+    "file": "alembic.ini",
+    "kind": "file",
+    "line": 0
+   },
+   {
+    "detail": "compose.yaml",
+    "file": "compose.yaml",
+    "kind": "file",
+    "line": 0
+   },
+   {
+    "detail": "createdb",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "command",
+    "line": 71
+   },
+   {
+    "detail": "evidence_engine",
+    "file": "packages/facdrone-testing/facdrone_testing/core/evidence.py",
+    "kind": "fixture",
+    "line": 89
+   },
+   {
+    "detail": "initdb",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "command",
+    "line": 62
+   },
+   {
+    "detail": "migrations",
+    "file": "migrations",
+    "kind": "file",
+    "line": 0
+   },
+   {
+    "detail": "pg_ctl",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "command",
+    "line": 52
+   },
+   {
+    "detail": "pg_ctl",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "command",
+    "line": 67
+   },
+   {
+    "detail": "pg_engine",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "fixture",
+    "line": 144
+   },
+   {
+    "detail": "pgembed",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "import",
+    "line": 22
+   },
+   {
+    "detail": "prices_engine",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "fixture",
+    "line": 210
+   },
+   {
+    "detail": "reader_engine",
+    "file": "packages/facdrone-testing/facdrone_testing/core/evidence_database.py",
+    "kind": "fixture",
+    "line": 14
+   },
+   {
+    "detail": "sim_engine",
+    "file": "packages/facdrone-testing/facdrone_testing/core/runs.py",
+    "kind": "fixture",
+    "line": 103
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "packages/facdrone-testing/facdrone_testing/core/cppi_durability.py",
+    "kind": "import",
+    "line": 16
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "packages/facdrone-testing/facdrone_testing/core/evidence.py",
+    "kind": "import",
+    "line": 8
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "packages/facdrone-testing/facdrone_testing/core/evidence_database.py",
+    "kind": "import",
+    "line": 8
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+    "kind": "import",
+    "line": 24
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "packages/facdrone-testing/facdrone_testing/core/runs.py",
+    "kind": "import",
+    "line": 12
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "import",
+    "line": 19
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "import",
+    "line": 20
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "packages/facdrone-testing/facdrone_testing/migrated_schema.py",
+    "kind": "import",
+    "line": 11
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "src/facdrone/schema.py",
+    "kind": "import",
+    "line": 25
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "src/facdrone/schema.py",
+    "kind": "import",
+    "line": 7
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "src/facdrone/shells/cppi/state_repository.py",
+    "kind": "import",
+    "line": 12
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "src/facdrone/shells/cppi/state_repository.py",
+    "kind": "import",
+    "line": 13
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "src/facdrone/shells/cppi/state_repository.py",
+    "kind": "import",
+    "line": 14
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "tests/unit/test_thin_protocol_journal.py",
+    "kind": "import",
+    "line": 162
+   },
+   {
+    "detail": "sqlalchemy",
+    "file": "tests/unit/test_thin_protocol_journal.py",
+    "kind": "import",
+    "line": 8
+   }
+  ],
+  "host_hazards": [
+   {
+    "detail": "-c listen_addresses='' -c fsync=off -c full_page_writes=off",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "quoted-empty-arg",
+    "line": 66
+   },
+   {
+    "detail": "Path.symlink_to",
+    "file": "packages/facdrone-testing/facdrone_testing/paths.py",
+    "kind": "symlink",
+    "line": 49
+   },
+   {
+    "detail": "os.geteuid",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "posix-api",
+    "line": 57
+   },
+   {
+    "detail": "server._run(pg_ctl, -D, ... 'start')",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "captured-pipes-on-daemon-start",
+    "line": 67
+   }
+  ],
+  "site_packages_followed": [
+   "facdrone_data.testing.pg_server",
+   "sqlalchemy.dialects.postgresql"
+  ],
+  "summary": {
+   "embedded_postgres": true,
+   "migrations": true,
+   "store_env": [
+    "FACDRONE_TEST_PG_DSN",
+    "FACDRONE_TEST_PG_EMBEDDED",
+    "FACDRONE_TEST_PG_KEEP"
+   ]
+  }
+ },
+ "files_scanned": 1860,
+ "fixtures": {
+  "conftest": {
+   "packages/facdrone-dash/tests/conftest.py": [],
+   "packages/facdrone-factor-comm-term-structure/tests/conftest.py": [],
+   "packages/facdrone-factor-kit/tests/conftest.py": [],
+   "packages/facdrone-factor-short-reversal/tests/conftest.py": [],
+   "packages/facdrone-kernel/tests/conftest.py": [],
+   "packages/facdrone-reporting/tests/conftest.py": [],
+   "packages/facdrone-research/tests/conftest.py": [],
+   "tests/conftest.py": [],
+   "tests/parity/conftest.py": []
+  },
+  "plugin_modules": {
+   "facdrone_testing.fixtures": {
+    "files": [
+     "packages/facdrone-testing/facdrone_testing/fixtures.py"
+    ],
+    "fixtures": [
+     "_logging_state_restored",
+     "_migrated_schema",
+     "capture_repo",
+     "clean",
+     "evidence_engine",
+     "git_checkout",
+     "pg_engine",
+     "prices_engine",
+     "project_params",
+     "project_path",
+     "reader_engine",
+     "sim_engine",
+     "store"
+    ]
+   },
+   "tests.unit.test_thin_protocol_journal": {
+    "files": [
+     "tests/unit/test_thin_protocol_journal.py"
+    ],
+    "fixtures": []
+   }
+  },
+  "pytest_plugins": {
+   "packages/facdrone-dash/tests/conftest.py": [
+    "facdrone_testing.fixtures"
+   ],
+   "packages/facdrone-factor-comm-term-structure/tests/conftest.py": [
+    "facdrone_testing.fixtures"
+   ],
+   "packages/facdrone-factor-kit/tests/conftest.py": [
+    "facdrone_testing.fixtures"
+   ],
+   "packages/facdrone-factor-short-reversal/tests/conftest.py": [
+    "facdrone_testing.fixtures"
+   ],
+   "packages/facdrone-kernel/tests/conftest.py": [
+    "facdrone_testing.fixtures"
+   ],
+   "packages/facdrone-reporting/tests/conftest.py": [
+    "facdrone_testing.fixtures"
+   ],
+   "packages/facdrone-research/tests/conftest.py": [
+    "facdrone_testing.fixtures"
+   ],
+   "tests/conftest.py": [
+    "facdrone_testing.fixtures"
+   ],
+   "tests/contracts/test_client_acceptance.py": [
+    "tests.unit.test_thin_protocol_journal"
+   ]
+  },
+  "scope_reaching_autouse_fixtures_not_counted": [],
+  "scope_reaching_fixtures": {}
+ },
+ "import_roots": [
+  ".",
+  "packages/facdrone-client",
+  "packages/facdrone-dash",
+  "packages/facdrone-dash/tests",
+  "packages/facdrone-factor-comm-term-structure",
+  "packages/facdrone-factor-kit",
+  "packages/facdrone-factor-kit/tests",
+  "packages/facdrone-factor-short-reversal",
+  "packages/facdrone-kernel",
+  "packages/facdrone-kernel/examples/factor_plugin",
+  "packages/facdrone-kernel/tests",
+  "packages/facdrone-observe",
+  "packages/facdrone-reporting",
+  "packages/facdrone-reporting/tests",
+  "packages/facdrone-research",
+  "packages/facdrone-research/tests",
+  "packages/facdrone-testing",
+  "packages/facdrone-wire",
+  "src"
+ ],
+ "marker_expression": {
+  "agrees_with_gates": {
+   "db and not port_baseline and not live_broker": true,
+   "not port_baseline and not live_broker": true
+  },
+  "declared": {
+   "db": [
+    {
+     "config": "pyproject.toml",
+     "description": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`."
+    },
+    {
+     "config": "packages/facdrone-dash/pyproject.toml",
+     "description": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`."
+    },
+    {
+     "config": "packages/facdrone-factor-kit/pyproject.toml",
+     "description": "needs the operator PostgreSQL (full-sim / e2e); excluded from the fast gate (`-m 'not db'`)."
+    },
+    {
+     "config": "packages/facdrone-kernel/pyproject.toml",
+     "description": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`."
+    },
+    {
+     "config": "packages/facdrone-reporting/pyproject.toml",
+     "description": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`."
+    },
+    {
+     "config": "packages/facdrone-research/pyproject.toml",
+     "description": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`."
+    }
+   ],
+   "live_broker": [
+    {
+     "config": "pyproject.toml",
+     "description": "reads the operator's live cTrader paper account (.env.ctrader). Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`."
+    },
+    {
+     "config": "packages/facdrone-dash/pyproject.toml",
+     "description": "reads the operator's live broker paper account. Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`."
+    },
+    {
+     "config": "packages/facdrone-factor-kit/pyproject.toml",
+     "description": "reads the operator's live cTrader paper account. Never part of the gates; opt-in manual check: `pytest -m live_broker`."
+    },
+    {
+     "config": "packages/facdrone-kernel/pyproject.toml",
+     "description": "reads the operator's live cTrader paper account (.env.ctrader). Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`."
+    },
+    {
+     "config": "packages/facdrone-reporting/pyproject.toml",
+     "description": "reads the operator's live cTrader paper account (.env.ctrader). Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`."
+    },
+    {
+     "config": "packages/facdrone-research/pyproject.toml",
+     "description": "reads the operator's live cTrader paper account (.env.ctrader). Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`."
+    }
+   ],
+   "parity": [
+    {
+     "config": "pyproject.toml",
+     "description": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)"
+    },
+    {
+     "config": "packages/facdrone-dash/pyproject.toml",
+     "description": "golden tests against the predecessor system's outputs (skipped where the frozen substrate snapshot is absent)"
+    },
+    {
+     "config": "packages/facdrone-factor-kit/pyproject.toml",
+     "description": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)"
+    },
+    {
+     "config": "packages/facdrone-kernel/pyproject.toml",
+     "description": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)"
+    },
+    {
+     "config": "packages/facdrone-reporting/pyproject.toml",
+     "description": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)"
+    },
+    {
+     "config": "packages/facdrone-research/pyproject.toml",
+     "description": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)"
+    }
+   ],
+   "port_baseline": [
+    {
+     "config": "pyproject.toml",
+     "description": "v1-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past v1. Opt-in: `pytest -m port_baseline`."
+    },
+    {
+     "config": "packages/facdrone-dash/pyproject.toml",
+     "description": "predecessor-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past its predecessor. Opt-in: `pytest -m port_baseline`."
+    },
+    {
+     "config": "packages/facdrone-factor-kit/pyproject.toml",
+     "description": "v1-conformance characterization; excluded from the gates (`pytest -m port_baseline` opts in)."
+    },
+    {
+     "config": "packages/facdrone-kernel/pyproject.toml",
+     "description": "v1-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past v1. Opt-in: `pytest -m port_baseline`."
+    },
+    {
+     "config": "packages/facdrone-reporting/pyproject.toml",
+     "description": "v1-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past v1. Opt-in: `pytest -m port_baseline`."
+    },
+    {
+     "config": "packages/facdrone-research/pyproject.toml",
+     "description": "v1-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past v1. Opt-in: `pytest -m port_baseline`."
+    }
+   ]
+  },
+  "distinct_gate_expressions": [
+   "db and not port_baseline and not live_broker",
+   "not port_baseline and not live_broker"
+  ],
+  "excluded": {
+   "live_broker": [
+    "opt-in",
+    "resource:broker"
+   ],
+   "port_baseline": [
+    "opt-in"
+   ]
+  },
+  "gate_expressions": [
+   {
+    "expression": "not port_baseline and not live_broker",
+    "file": "scripts/gates.sh",
+    "ignores": [],
+    "line": 100,
+    "plugins": []
+   },
+   {
+    "expression": "not port_baseline and not live_broker",
+    "file": "scripts/gates.sh",
+    "ignores": [],
+    "line": 135,
+    "plugins": []
+   },
+   {
+    "expression": "db and not port_baseline and not live_broker",
+    "file": "scripts/gates.sh",
+    "ignores": [],
+    "line": 145,
+    "plugins": []
+   },
+   {
+    "expression": "db and not port_baseline and not live_broker",
+    "file": "scripts/gates.sh",
+    "ignores": [],
+    "line": 149,
+    "plugins": []
+   }
+  ],
+  "rule": "exclude a marker whose description declares it opt-in, or names a hardware, network, broker or port resource without saying the tests skip on their own; declaration order",
+  "signals": {
+   "db": [
+    "resource:store",
+    "self-skip"
+   ],
+   "live_broker": [
+    "opt-in",
+    "resource:broker"
+   ],
+   "parity": [],
+   "port_baseline": [
+    "opt-in"
+   ]
+  },
+  "suggested": "not port_baseline and not live_broker"
+ },
+ "repo_root": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "runner": {
+  "configs": [
+   {
+    "addopts": "",
+    "file": "pyproject.toml",
+    "markers": {
+     "db": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`.",
+     "live_broker": "reads the operator's live cTrader paper account (.env.ctrader). Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`.",
+     "parity": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)",
+     "port_baseline": "v1-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past v1. Opt-in: `pytest -m port_baseline`."
+    },
+    "plugins": [],
+    "python_files": [
+     "test_*.py",
+     "*_test.py"
+    ],
+    "pythonpath": [
+     "src",
+     ".",
+     "packages/facdrone-wire",
+     "packages/facdrone-client",
+     "packages/facdrone-observe",
+     "packages/facdrone-research",
+     "packages/facdrone-reporting",
+     "packages/facdrone-dash",
+     "packages/facdrone-testing",
+     "packages/facdrone-kernel",
+     "packages/facdrone-kernel/tests"
+    ],
+    "rootdir": ".",
+    "testpaths": [
+     "tests"
+    ]
+   },
+   {
+    "addopts": "",
+    "file": "packages/facdrone-dash/pyproject.toml",
+    "markers": {
+     "db": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`.",
+     "live_broker": "reads the operator's live broker paper account. Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`.",
+     "parity": "golden tests against the predecessor system's outputs (skipped where the frozen substrate snapshot is absent)",
+     "port_baseline": "predecessor-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past its predecessor. Opt-in: `pytest -m port_baseline`."
+    },
+    "plugins": [],
+    "python_files": [
+     "test_*.py",
+     "*_test.py"
+    ],
+    "pythonpath": [
+     "tests"
+    ],
+    "rootdir": "packages/facdrone-dash",
+    "testpaths": [
+     "tests"
+    ]
+   },
+   {
+    "addopts": "",
+    "file": "packages/facdrone-factor-comm-term-structure/pyproject.toml",
+    "markers": {},
+    "plugins": [],
+    "python_files": [
+     "test_*.py",
+     "*_test.py"
+    ],
+    "pythonpath": [
+     "."
+    ],
+    "rootdir": "packages/facdrone-factor-comm-term-structure",
+    "testpaths": [
+     "tests"
+    ]
+   },
+   {
+    "addopts": "",
+    "file": "packages/facdrone-factor-kit/pyproject.toml",
+    "markers": {
+     "db": "needs the operator PostgreSQL (full-sim / e2e); excluded from the fast gate (`-m 'not db'`).",
+     "live_broker": "reads the operator's live cTrader paper account. Never part of the gates; opt-in manual check: `pytest -m live_broker`.",
+     "parity": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)",
+     "port_baseline": "v1-conformance characterization; excluded from the gates (`pytest -m port_baseline` opts in)."
+    },
+    "plugins": [],
+    "python_files": [
+     "test_*.py",
+     "*_test.py"
+    ],
+    "pythonpath": [
+     "tests"
+    ],
+    "rootdir": "packages/facdrone-factor-kit",
+    "testpaths": [
+     "tests"
+    ]
+   },
+   {
+    "addopts": "",
+    "file": "packages/facdrone-factor-short-reversal/pyproject.toml",
+    "markers": {},
+    "plugins": [],
+    "python_files": [
+     "test_*.py",
+     "*_test.py"
+    ],
+    "pythonpath": [
+     "."
+    ],
+    "rootdir": "packages/facdrone-factor-short-reversal",
+    "testpaths": [
+     "tests"
+    ]
+   },
+   {
+    "addopts": "",
+    "file": "packages/facdrone-kernel/pyproject.toml",
+    "markers": {
+     "db": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`.",
+     "live_broker": "reads the operator's live cTrader paper account (.env.ctrader). Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`.",
+     "parity": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)",
+     "port_baseline": "v1-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past v1. Opt-in: `pytest -m port_baseline`."
+    },
+    "plugins": [],
+    "python_files": [
+     "test_*.py",
+     "*_test.py"
+    ],
+    "pythonpath": [
+     "tests",
+     "examples/factor_plugin"
+    ],
+    "rootdir": "packages/facdrone-kernel",
+    "testpaths": [
+     "tests",
+     "examples/factor_plugin/tests"
+    ]
+   },
+   {
+    "addopts": "",
+    "file": "packages/facdrone-reporting/pyproject.toml",
+    "markers": {
+     "db": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`.",
+     "live_broker": "reads the operator's live cTrader paper account (.env.ctrader). Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`.",
+     "parity": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)",
+     "port_baseline": "v1-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past v1. Opt-in: `pytest -m port_baseline`."
+    },
+    "plugins": [],
+    "python_files": [
+     "test_*.py",
+     "*_test.py"
+    ],
+    "pythonpath": [
+     "tests",
+     "../facdrone-kernel/tests"
+    ],
+    "rootdir": "packages/facdrone-reporting",
+    "testpaths": [
+     "tests"
+    ]
+   },
+   {
+    "addopts": "",
+    "file": "packages/facdrone-research/pyproject.toml",
+    "markers": {
+     "db": "needs the operator PostgreSQL (full-sim / e2e). Skips off a configured host, but RUNS slow there \u2014 excluded from the fast push-gate (`-m 'not db'`); run on the operator host via `-m db`.",
+     "live_broker": "reads the operator's live cTrader paper account (.env.ctrader). Never part of the gates (`scripts/gates.sh` deselects it); opt-in manual real-artifact check: `pytest -m live_broker`.",
+     "parity": "golden tests vs v1 outputs (skipped where the frozen substrate snapshot is absent)",
+     "port_baseline": "v1-conformance characterization (substrate goldens + the run-231 replay) \u2014 DEMOTED from the primary gate (definition-of-done); expected to diverge as the independent system improves past v1. Opt-in: `pytest -m port_baseline`."
+    },
+    "plugins": [],
+    "python_files": [
+     "test_*.py",
+     "*_test.py"
+    ],
+    "pythonpath": [
+     "tests",
+     "../facdrone-reporting/tests"
+    ],
+    "rootdir": "packages/facdrone-research",
+    "testpaths": [
+     "tests"
+    ]
+   }
+  ],
+  "entry_points_pytest11": {},
+  "implied_plugins": [
+   "pytest-timeout",
+   "pytest-xdist"
+  ],
+  "name": "pytest",
+  "plugins": []
+ },
+ "scope": [
+  "src/facdrone/shells/decision_evidence_publication.py",
+  "src/facdrone/shells/decision_evidence_store.py",
+  "src/facdrone/shells/decision_evidence_reader.py",
+  "src/facdrone/shells/decision_input_slice_store.py",
+  "src/facdrone/shells/decision_slice_publisher.py"
+ ],
+ "scope_modules": [
+  "facdrone.shells.decision_evidence_publication",
+  "facdrone.shells.decision_evidence_reader",
+  "facdrone.shells.decision_evidence_store",
+  "facdrone.shells.decision_input_slice_store",
+  "facdrone.shells.decision_slice_publisher",
+  "src.facdrone.shells.decision_evidence_publication",
+  "src.facdrone.shells.decision_evidence_reader",
+  "src.facdrone.shells.decision_evidence_store",
+  "src.facdrone.shells.decision_input_slice_store",
+  "src.facdrone.shells.decision_slice_publisher"
+ ],
+ "scope_references": {
+  "by_module": {
+   "facdrone.shells.decision_evidence_publication": [
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py",
+    "packages/facdrone-research/tests/test_study_attribution_routes.py",
+    "packages/facdrone-research/tests/test_study_slice_evidence.py",
+    "packages/facdrone-research/tests/test_weight_study.py",
+    "tests/contracts/test_evidence_compaction_equivalence.py",
+    "tests/contracts/test_evidence_single_pass.py",
+    "tests/contracts/test_sim_consumed_publication.py",
+    "tests/unit/test_decision_evidence_reader.py",
+    "tests/unit/test_decision_evidence_reader_db.py",
+    "tests/unit/test_decision_input_slice_store.py",
+    "tests/unit/test_decision_slice_publisher_db.py",
+    "tests/unit/test_live_slice_namespace_db.py",
+    "tests/unit/test_run_slice_namespace.py",
+    "tests/unit/test_run_slice_sealing.py",
+    "tests/unit/test_run_slice_writers_db.py",
+    "tests/unit/test_stage_projection.py",
+    "tests/unit/test_thin_shadow.py",
+    "tests/unit/test_transient_capture_codec.py"
+   ],
+   "facdrone.shells.decision_evidence_reader": [
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+    "tests/contracts/test_evidence_compaction_equivalence.py",
+    "tests/unit/test_cppi_decision_record_commit.py",
+    "tests/unit/test_decision_evidence_reader.py",
+    "tests/unit/test_decision_evidence_reader_db.py"
+   ],
+   "facdrone.shells.decision_evidence_store": [
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_evidence.py",
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+    "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py",
+    "packages/facdrone-research/tests/test_study_slice_evidence.py",
+    "tests/contracts/test_consumed_inputs.py",
+    "tests/contracts/test_consumed_publication.py",
+    "tests/contracts/test_evidence_compaction_equivalence.py",
+    "tests/contracts/test_evidence_single_pass.py",
+    "tests/contracts/test_sim_consumed_publication.py",
+    "tests/unit/test_decision_evidence_reader.py",
+    "tests/unit/test_decision_evidence_reader_db.py",
+    "tests/unit/test_decision_evidence_store.py",
+    "tests/unit/test_decision_slice_publisher_db.py",
+    "tests/unit/test_lifecycle_evidence.py",
+    "tests/unit/test_lifecycle_evidence_intervals.py",
+    "tests/unit/test_lifecycle_evidence_projection.py",
+    "tests/unit/test_run_slice_policy.py",
+    "tests/unit/test_run_slice_sealing.py",
+    "tests/unit/test_run_slice_writers_db.py",
+    "tests/unit/test_sim_evidence_moment.py",
+    "tests/unit/test_transient_capture_codec.py"
+   ],
+   "facdrone.shells.decision_input_slice_store": [
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+    "tests/contracts/test_evidence_compaction_equivalence.py",
+    "tests/unit/test_decision_evidence_reader.py",
+    "tests/unit/test_decision_evidence_reader_db.py",
+    "tests/unit/test_decision_input_slice_store.py",
+    "tests/unit/test_decision_slice_publisher_db.py",
+    "tests/unit/test_live_slice_namespace_db.py",
+    "tests/unit/test_run_slice_namespace.py",
+    "tests/unit/test_run_slice_policy.py",
+    "tests/unit/test_run_slice_sealing.py",
+    "tests/unit/test_run_slice_writers_db.py"
+   ],
+   "facdrone.shells.decision_slice_publisher": [
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+    "tests/contracts/test_evidence_compaction_equivalence.py",
+    "tests/unit/test_decision_evidence_reader_db.py",
+    "tests/unit/test_decision_slice_publisher_db.py",
+    "tests/unit/test_live_slice_namespace_db.py",
+    "tests/unit/test_run_slice_namespace.py",
+    "tests/unit/test_run_slice_policy.py"
+   ],
+   "src.facdrone.shells.decision_evidence_publication": [],
+   "src.facdrone.shells.decision_evidence_reader": [],
+   "src.facdrone.shells.decision_evidence_store": [],
+   "src.facdrone.shells.decision_input_slice_store": [],
+   "src.facdrone.shells.decision_slice_publisher": []
+  },
+  "intra_scope": {
+   "facdrone.shells.decision_evidence_publication.BoundEvidence": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_evidence_publication.CONSUMED_URI": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "facdrone.shells.decision_evidence_publication.RUN_SLICE_URI": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_evidence_publication.parse_run_slice": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_evidence_publication.resolved_inputs": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "facdrone.shells.decision_evidence_publication.slice_bytes": [
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ],
+   "facdrone.shells.decision_evidence_publication.slice_identity": [
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ],
+   "facdrone.shells.decision_evidence_store.DecisionEvidenceBatch": [
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_evidence_store.EvidenceConflictError": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ],
+   "facdrone.shells.decision_evidence_store.SealedEvidence": [
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_evidence_store.decode_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_publication.py"
+   ],
+   "facdrone.shells.decision_evidence_store.read_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "facdrone.shells.decision_evidence_store.seal_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_publication.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.Scope": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.SliceConflictError": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.SliceReceipt": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.SliceResolutionError": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.SliceResolver": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.SliceRow": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store._load": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.append_slice": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.delta_row": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.full_row": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "facdrone.shells.decision_input_slice_store.slice_identity": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ]
+  },
+  "parse_errors": [],
+  "production_files": [
+   "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py",
+   "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+   "src/facdrone/shells/cppi/decision_record.py",
+   "src/facdrone/shells/cppi/stage_projection.py",
+   "src/facdrone/shells/cppi/state_repository.py",
+   "src/facdrone/shells/decision_evidence_payload.py",
+   "src/facdrone/shells/lifecycle_evidence.py",
+   "src/facdrone/shells/wiring/run_evidence_store.py"
+  ],
+  "support_files": {
+   "packages/facdrone-research/tests/lifecycle_loop_daemon.py": {
+    "facdrone.shells.decision_evidence_reader": {
+     "SliceResolver": [
+      "import"
+     ],
+     "read_resolved_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "DecisionEvidenceBatch": [
+      "import"
+     ]
+    }
+   },
+   "packages/facdrone-testing/facdrone_testing/core/decision_moments.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "RUN_SLICE_URI": [
+      "attribute"
+     ],
+     "_CAPTURE": [
+      "attribute"
+     ],
+     "_Captured": [
+      "attribute"
+     ],
+     "resolved_inputs": [
+      "attribute"
+     ],
+     "slice_identity": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "DecisionEvidenceBatch": [
+      "import"
+     ],
+     "encode_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "packages/facdrone-testing/facdrone_testing/core/evidence.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "DecisionEvidenceBatch": [
+      "import"
+     ]
+    }
+   },
+   "packages/facdrone-testing/facdrone_testing/core/evidence_reader.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "_CAPTURE": [
+      "attribute"
+     ]
+    }
+   },
+   "packages/facdrone-testing/facdrone_testing/core/run_slices.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "_CAPTURE": [
+      "attribute"
+     ],
+     "_Captured": [
+      "attribute"
+     ],
+     "deduplicated_inputs": [
+      "attribute"
+     ]
+    }
+   }
+  },
+  "test_files": {
+   "packages/facdrone-reporting/tests/test_paper_diagnosis_evidence.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "append_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "EvidenceBinding": [
+      "attribute"
+     ],
+     "seal_evidence_with_run_slices": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_reader": {
+     "EvidenceResolutionError": [
+      "import"
+     ],
+     "read_resolved_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "append_sealed_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "<module>": [
+      "module"
+     ],
+     "SliceResolver": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_slice_publisher": {
+     "SliceLedger": [
+      "import"
+     ],
+     "SlicePublication": [
+      "import"
+     ],
+     "publish_slices": [
+      "import"
+     ]
+    }
+   },
+   "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "DecisionEvidenceBatch": [
+      "import"
+     ]
+    }
+   },
+   "packages/facdrone-research/tests/test_study_arm_evidence.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "payload_batches": [
+      "import"
+     ]
+    }
+   },
+   "packages/facdrone-research/tests/test_study_attribution_routes.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "compact_capture": [
+      "attribute"
+     ],
+     "payload_batches": [
+      "attribute"
+     ]
+    }
+   },
+   "packages/facdrone-research/tests/test_study_slice_evidence.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "CONSUMED_URI": [
+      "attribute"
+     ],
+     "bind_evidence": [
+      "attribute"
+     ],
+     "capture_payload": [
+      "attribute"
+     ],
+     "compact_capture": [
+      "attribute"
+     ],
+     "payload_batches": [
+      "attribute"
+     ],
+     "resolved_inputs": [
+      "attribute"
+     ],
+     "slice_bytes": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "encode_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "packages/facdrone-research/tests/test_weight_study.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "payload_batches": [
+      "import"
+     ]
+    }
+   },
+   "tests/contracts/test_consumed_inputs.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "decode_decision_evidence": [
+      "import"
+     ],
+     "encode_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "tests/contracts/test_consumed_publication.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "EvidenceConflictError": [
+      "import"
+     ],
+     "EvidenceReceipt": [
+      "import"
+     ],
+     "SealedEvidence": [
+      "import"
+     ],
+     "append_decision_evidence": [
+      "import"
+     ],
+     "append_sealed_evidence": [
+      "import"
+     ],
+     "encode_decision_evidence": [
+      "import"
+     ],
+     "read_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "tests/contracts/test_evidence_compaction_equivalence.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "BoundEvidence": [
+      "attribute"
+     ],
+     "EvidenceBinding": [
+      "attribute"
+     ],
+     "deduplicated_inputs": [
+      "attribute"
+     ],
+     "row": [
+      "attribute"
+     ],
+     "seal_evidence": [
+      "attribute"
+     ],
+     "seal_evidence_with_run_slices": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_reader": {
+     "SliceResolver": [
+      "import"
+     ],
+     "read_resolved_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "SealedEvidence": [
+      "import"
+     ],
+     "append_sealed_evidence": [
+      "import"
+     ],
+     "encode_decision_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "SliceResolutionError": [
+      "import"
+     ],
+     "append_slice": [
+      "import"
+     ],
+     "chain_length": [
+      "import"
+     ],
+     "delta_row": [
+      "import"
+     ],
+     "full_row": [
+      "import"
+     ],
+     "resolve_slice": [
+      "import"
+     ],
+     "slice_identity": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_slice_publisher": {
+     "SliceLedger": [
+      "import"
+     ],
+     "SlicePublication": [
+      "import"
+     ]
+    }
+   },
+   "tests/contracts/test_evidence_single_pass.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "BoundEvidence": [
+      "attribute"
+     ],
+     "_CAPTURE": [
+      "attribute"
+     ],
+     "bind_evidence": [
+      "attribute"
+     ],
+     "seal_evidence": [
+      "attribute"
+     ],
+     "stored_bound_payload": [
+      "attribute"
+     ],
+     "stored_evidence_payload": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "<module>": [
+      "module"
+     ],
+     "DecisionEvidenceBatch": [
+      "import"
+     ],
+     "_BATCH": [
+      "attribute"
+     ],
+     "append_sealed_evidence": [
+      "attribute"
+     ],
+     "read_decision_evidence": [
+      "attribute"
+     ],
+     "seal_decision_evidence": [
+      "attribute"
+     ]
+    }
+   },
+   "tests/contracts/test_sim_consumed_publication.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "bind_evidence": [
+      "import"
+     ],
+     "payload_batches": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "append_decision_evidence": [
+      "import"
+     ],
+     "read_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_cppi_decision_record_commit.py": {
+    "facdrone.shells.decision_evidence_reader": {
+     "SliceResolver": [
+      "import"
+     ],
+     "read_resolved_evidence": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_decision_evidence_reader.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "EvidenceBinding": [
+      "attribute"
+     ],
+     "seal_evidence": [
+      "attribute"
+     ],
+     "seal_evidence_with_run_slices": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_reader": {
+     "<module>": [
+      "module"
+     ],
+     "EvidenceResolutionError": [
+      "attribute"
+     ],
+     "read_decision_evidence": [
+      "patched"
+     ],
+     "read_resolved_evidence": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "DecisionEvidenceBatch": [
+      "import"
+     ],
+     "EvidenceConflictError": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "<module>": [
+      "module"
+     ],
+     "Scope": [
+      "attribute"
+     ],
+     "SliceResolutionError": [
+      "attribute"
+     ],
+     "SliceResolver": [
+      "attribute"
+     ],
+     "SliceRow": [
+      "attribute"
+     ],
+     "_load": [
+      "patched"
+     ],
+     "delta_row": [
+      "attribute"
+     ],
+     "full_row": [
+      "attribute"
+     ],
+     "slice_identity": [
+      "attribute"
+     ]
+    }
+   },
+   "tests/unit/test_decision_evidence_reader_db.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "EvidenceBinding": [
+      "attribute"
+     ],
+     "resolved_inputs": [
+      "attribute"
+     ],
+     "seal_evidence": [
+      "attribute"
+     ],
+     "seal_evidence_with_run_slices": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_reader": {
+     "EvidenceResolutionError": [
+      "import"
+     ],
+     "read_resolved_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "DecisionEvidenceBatch": [
+      "import"
+     ],
+     "append_sealed_evidence": [
+      "import"
+     ],
+     "read_decision_evidence": [
+      "import"
+     ],
+     "seal_decision_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "<module>": [
+      "module"
+     ],
+     "SliceResolver": [
+      "attribute"
+     ],
+     "append_slice": [
+      "attribute"
+     ],
+     "delta_row": [
+      "attribute"
+     ],
+     "full_row": [
+      "attribute"
+     ],
+     "slice_identity": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_slice_publisher": {
+     "SliceLedger": [
+      "import"
+     ],
+     "SlicePublication": [
+      "import"
+     ],
+     "publish_slices": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_decision_evidence_store.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "DecisionEvidenceBatch": [
+      "import"
+     ],
+     "EvidenceConflictError": [
+      "import"
+     ],
+     "append_decision_evidence": [
+      "import"
+     ],
+     "decode_decision_evidence": [
+      "import"
+     ],
+     "encode_decision_evidence": [
+      "import"
+     ],
+     "read_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_decision_input_slice_store.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "slice_bytes": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "SliceConflictError": [
+      "import"
+     ],
+     "SliceResolutionError": [
+      "import"
+     ],
+     "SliceResolver": [
+      "import"
+     ],
+     "SliceRow": [
+      "import"
+     ],
+     "append_slice": [
+      "import"
+     ],
+     "chain_length": [
+      "import"
+     ],
+     "delta_row": [
+      "import"
+     ],
+     "full_row": [
+      "import"
+     ],
+     "resolve_slice": [
+      "import"
+     ],
+     "slice_identity": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_decision_slice_publisher_db.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "BoundEvidence": [
+      "import"
+     ],
+     "RUN_SLICE_URI": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "seal_decision_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "SliceConflictError": [
+      "import"
+     ],
+     "SliceReceipt": [
+      "import"
+     ],
+     "SliceResolver": [
+      "import"
+     ],
+     "append_slice": [
+      "import"
+     ],
+     "chain_length": [
+      "import"
+     ],
+     "full_row": [
+      "import"
+     ],
+     "resolve_slice": [
+      "import"
+     ],
+     "slice_identity": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_slice_publisher": {
+     "SliceLedger": [
+      "import"
+     ],
+     "SlicePublication": [
+      "import"
+     ],
+     "publish_slices": [
+      "import"
+     ],
+     "require_referenced_slices": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_lifecycle_evidence.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "append_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_lifecycle_evidence_intervals.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "append_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_lifecycle_evidence_projection.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "<module>": [
+      "module"
+     ],
+     "append_decision_evidence": [
+      "attribute"
+     ],
+     "decode_consumed_evidence": [
+      "attribute"
+     ],
+     "decode_decision_evidence": [
+      "attribute"
+     ],
+     "encode_decision_evidence": [
+      "attribute"
+     ]
+    }
+   },
+   "tests/unit/test_live_slice_namespace_db.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "BoundEvidence": [
+      "import"
+     ],
+     "EvidenceBinding": [
+      "import"
+     ],
+     "bind_evidence_with_run_slices": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "SliceConflictError": [
+      "import"
+     ],
+     "SliceReceipt": [
+      "import"
+     ],
+     "slice_identity": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_slice_publisher": {
+     "SliceLedger": [
+      "import"
+     ],
+     "SlicePublication": [
+      "import"
+     ],
+     "publish_slices": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_run_slice_namespace.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "EvidenceBinding": [
+      "attribute"
+     ],
+     "parse_run_slice": [
+      "attribute"
+     ],
+     "seal_evidence_with_run_slices": [
+      "attribute"
+     ],
+     "slice_identity": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "SliceConflictError": [
+      "import"
+     ],
+     "SliceResolver": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_slice_publisher": {
+     "SliceLedger": [
+      "import"
+     ],
+     "SlicePublication": [
+      "import"
+     ],
+     "publish_slices": [
+      "import"
+     ],
+     "require_referenced_slices": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_run_slice_policy.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "_read": [
+      "import"
+     ],
+     "seal_decision_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "SliceResolutionError": [
+      "import"
+     ],
+     "SliceResolver": [
+      "import"
+     ],
+     "slice_identity": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_slice_publisher": {
+     "SlicePublication": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_run_slice_sealing.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "<module>": [
+      "module"
+     ],
+     "EvidenceBinding": [
+      "attribute"
+     ],
+     "_CAPTURE": [
+      "attribute"
+     ],
+     "bind_evidence_with_run_slices": [
+      "attribute"
+     ],
+     "payload_batches": [
+      "attribute"
+     ],
+     "seal_evidence": [
+      "attribute"
+     ],
+     "seal_evidence_with_run_slices": [
+      "attribute"
+     ],
+     "stored_evidence_payload": [
+      "attribute"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "seal_decision_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "delta_row": [
+      "import"
+     ],
+     "full_row": [
+      "import"
+     ],
+     "slice_identity": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_run_slice_writers_db.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "BoundEvidence": [
+      "import"
+     ],
+     "EvidenceBinding": [
+      "import"
+     ],
+     "bind_evidence": [
+      "import"
+     ],
+     "bind_evidence_with_run_slices": [
+      "import"
+     ],
+     "seal_evidence": [
+      "import"
+     ],
+     "seal_evidence_with_run_slices": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "EvidenceReceipt": [
+      "import"
+     ],
+     "SealedEvidence": [
+      "import"
+     ],
+     "append_sealed_evidence": [
+      "import"
+     ],
+     "read_decision_evidence": [
+      "import"
+     ],
+     "seal_decision_evidence": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_input_slice_store": {
+     "SliceConflictError": [
+      "import"
+     ],
+     "append_slice": [
+      "import"
+     ],
+     "full_row": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_sim_evidence_moment.py": {
+    "facdrone.shells.decision_evidence_store": {
+     "encode_decision_evidence": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_stage_projection.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "EvidenceBinding": [
+      "import"
+     ],
+     "bind_evidence": [
+      "import"
+     ],
+     "bind_evidence_with_run_slices": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_thin_shadow.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "BoundEvidence": [
+      "import"
+     ],
+     "stored_evidence_payload": [
+      "import"
+     ]
+    }
+   },
+   "tests/unit/test_transient_capture_codec.py": {
+    "facdrone.shells.decision_evidence_publication": {
+     "bind_evidence": [
+      "import"
+     ],
+     "capture_payload": [
+      "import"
+     ],
+     "payload_batches": [
+      "import"
+     ]
+    },
+    "facdrone.shells.decision_evidence_store": {
+     "decode_decision_evidence": [
+      "import"
+     ],
+     "encode_decision_evidence": [
+      "import"
+     ]
+    }
+   }
+  },
+  "unresolved": {
+   "facdrone.shells.decision_evidence_publication.row": [
+    "tests/contracts/test_evidence_compaction_equivalence.py"
+   ]
+  }
+ },
+ "seeds": {
+  "counts": {
+   "direct": 30,
+   "recommended": 30,
+   "via_fixture": 0,
+   "via_production": 384,
+   "via_support": 1
+  },
+  "direct": [
+   "packages/facdrone-reporting/tests/test_paper_diagnosis_evidence.py",
+   "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+   "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py",
+   "packages/facdrone-research/tests/test_study_arm_evidence.py",
+   "packages/facdrone-research/tests/test_study_attribution_routes.py",
+   "packages/facdrone-research/tests/test_study_slice_evidence.py",
+   "packages/facdrone-research/tests/test_weight_study.py",
+   "tests/contracts/test_consumed_inputs.py",
+   "tests/contracts/test_consumed_publication.py",
+   "tests/contracts/test_evidence_compaction_equivalence.py",
+   "tests/contracts/test_evidence_single_pass.py",
+   "tests/contracts/test_sim_consumed_publication.py",
+   "tests/unit/test_cppi_decision_record_commit.py",
+   "tests/unit/test_decision_evidence_reader.py",
+   "tests/unit/test_decision_evidence_reader_db.py",
+   "tests/unit/test_decision_evidence_store.py",
+   "tests/unit/test_decision_input_slice_store.py",
+   "tests/unit/test_decision_slice_publisher_db.py",
+   "tests/unit/test_lifecycle_evidence.py",
+   "tests/unit/test_lifecycle_evidence_intervals.py",
+   "tests/unit/test_lifecycle_evidence_projection.py",
+   "tests/unit/test_live_slice_namespace_db.py",
+   "tests/unit/test_run_slice_namespace.py",
+   "tests/unit/test_run_slice_policy.py",
+   "tests/unit/test_run_slice_sealing.py",
+   "tests/unit/test_run_slice_writers_db.py",
+   "tests/unit/test_sim_evidence_moment.py",
+   "tests/unit/test_stage_projection.py",
+   "tests/unit/test_thin_shadow.py",
+   "tests/unit/test_transient_capture_codec.py"
+  ],
+  "ignored_by_gates": [
+   "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py"
+  ],
+  "recommended": [
+   "packages/facdrone-reporting/tests/test_paper_diagnosis_evidence.py",
+   "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+   "packages/facdrone-research/tests/test_study_arm_evidence.py",
+   "packages/facdrone-research/tests/test_study_attribution_routes.py",
+   "packages/facdrone-research/tests/test_study_evidence_compaction.py",
+   "packages/facdrone-research/tests/test_study_slice_evidence.py",
+   "packages/facdrone-research/tests/test_weight_study.py",
+   "tests/contracts/test_consumed_inputs.py",
+   "tests/contracts/test_consumed_publication.py",
+   "tests/contracts/test_evidence_compaction_equivalence.py",
+   "tests/contracts/test_evidence_single_pass.py",
+   "tests/contracts/test_sim_consumed_publication.py",
+   "tests/unit/test_cppi_decision_record_commit.py",
+   "tests/unit/test_decision_evidence_reader.py",
+   "tests/unit/test_decision_evidence_reader_db.py",
+   "tests/unit/test_decision_evidence_store.py",
+   "tests/unit/test_decision_input_slice_store.py",
+   "tests/unit/test_decision_slice_publisher_db.py",
+   "tests/unit/test_lifecycle_evidence.py",
+   "tests/unit/test_lifecycle_evidence_intervals.py",
+   "tests/unit/test_lifecycle_evidence_projection.py",
+   "tests/unit/test_live_slice_namespace_db.py",
+   "tests/unit/test_run_slice_namespace.py",
+   "tests/unit/test_run_slice_policy.py",
+   "tests/unit/test_run_slice_sealing.py",
+   "tests/unit/test_run_slice_writers_db.py",
+   "tests/unit/test_sim_evidence_moment.py",
+   "tests/unit/test_stage_projection.py",
+   "tests/unit/test_thin_shadow.py",
+   "tests/unit/test_transient_capture_codec.py"
+  ],
+  "rule": "direct references, plus test files importing a test-support module whose support-only import closure references the scope, plus test files requesting a conftest/plugin fixture whose body uses such an import; minus files the gate scripts --ignore. via_production is an upper bound only.",
+  "via_fixture": [],
+  "via_production": [
+   "packages/facdrone-dash/tests/test_dashboard_run_store_source.py",
+   "packages/facdrone-dash/tests/test_dashboard_run_store_sql.py",
+   "packages/facdrone-kernel/tests/test_engine_state.py",
+   "packages/facdrone-reporting/tests/test_alpha_sim_year_e2e.py",
+   "packages/facdrone-reporting/tests/test_benchmark_attestation.py",
+   "packages/facdrone-reporting/tests/test_config_metrics_cli.py",
+   "packages/facdrone-reporting/tests/test_export_on_request.py",
+   "packages/facdrone-reporting/tests/test_holdings_g6_gate.py",
+   "packages/facdrone-reporting/tests/test_p1_explanation_acceptance.py",
+   "packages/facdrone-reporting/tests/test_p1_retained_replay.py",
+   "packages/facdrone-reporting/tests/test_paper_diagnosis.py",
+   "packages/facdrone-reporting/tests/test_paper_review.py",
+   "packages/facdrone-reporting/tests/test_paper_snapshot_db.py",
+   "packages/facdrone-reporting/tests/test_policy_metrics.py",
+   "packages/facdrone-reporting/tests/test_record_simulation_request.py",
+   "packages/facdrone-reporting/tests/test_report_surface_removal.py",
+   "packages/facdrone-reporting/tests/test_reporting_mandate_option.py",
+   "packages/facdrone-reporting/tests/test_reporting_production_composition.py",
+   "packages/facdrone-reporting/tests/test_run_pnl_cli.py",
+   "packages/facdrone-reporting/tests/test_run_pnl_database.py",
+   "packages/facdrone-reporting/tests/test_usd_run_persistence.py",
+   "packages/facdrone-research/tests/test_admission_baseline.py",
+   "packages/facdrone-research/tests/test_census_scripts_guarded.py",
+   "packages/facdrone-research/tests/test_controlled_study_producer.py",
+   "packages/facdrone-research/tests/test_equity_census.py",
+   "packages/facdrone-research/tests/test_equity_factors_invariants.py",
+   "packages/facdrone-research/tests/test_incumbent_study_route.py",
+   "packages/facdrone-research/tests/test_init_study.py",
+   "packages/facdrone-research/tests/test_intervention.py",
+   "packages/facdrone-research/tests/test_lifecycle_readings_publish.py",
+   "packages/facdrone-research/tests/test_mandate_reporting.py",
+   "packages/facdrone-research/tests/test_plugin_package.py",
+   "packages/facdrone-research/tests/test_pod_census.py",
+   "packages/facdrone-research/tests/test_promotion_publication.py",
+   "packages/facdrone-research/tests/test_recensus_db.py",
+   "packages/facdrone-research/tests/test_research_factor_diagnosis.py",
+   "packages/facdrone-research/tests/test_scored_census_inputs.py",
+   "packages/facdrone-research/tests/test_study_arm_inputs.py",
+   "packages/facdrone-research/tests/test_study_arm_runtime.py",
+   "packages/facdrone-research/tests/test_study_bounds.py",
+   "packages/facdrone-research/tests/test_study_fixed_portfolio.py",
+   "tests/contracts/test_catchup_packaging.py",
+   "tests/contracts/test_causality_note.py",
+   "tests/contracts/test_client_acceptance.py",
+   "tests/contracts/test_client_wire_compat.py",
+   "tests/contracts/test_client_wire_consumption.py",
+   "tests/contracts/test_composed_policy_parity.py",
+   "tests/contracts/test_execution_delivery_http.py",
+   "tests/contracts/test_execution_reports.py",
+   "tests/contracts/test_handover_acceptance.py",
+   "tests/contracts/test_io_pin_live_readiness.py",
+   "tests/contracts/test_live_trail_parity.py",
+   "tests/contracts/test_mandate_identity_migration.py",
+   "tests/contracts/test_mandate_wire_currency.py",
+   "tests/contracts/test_p1_mandate_identity.py",
+   "tests/contracts/test_real_policy_parity.py",
+   "tests/contracts/test_shell_equivalence.py",
+   "tests/contracts/test_sim_server_parity.py",
+   "tests/contracts/test_target_ancestry.py",
+   "tests/contracts/test_thin_conformance_provenance.py",
+   "tests/contracts/test_thin_protocol_kit.py",
+   "tests/contracts/test_thin_protocol_kit_account.py",
+   "tests/contracts/test_thin_protocol_kit_resting.py",
+   "tests/contracts/test_thin_transfer_window.py",
+   "tests/contracts/test_wire_capture_compat.py",
+   "tests/parity/test_alpha_sim_e2e.py",
+   "tests/parity/test_report_bundle_e2e.py",
+   "tests/property/test_causal_probes_substrate.py",
+   "tests/unit/test_acceptance_crisis_restart.py",
+   "tests/unit/test_acceptance_parity.py",
+   "tests/unit/test_acquisition_acceptance.py",
+   "tests/unit/test_alpha_metadata_and_history.py",
+   "tests/unit/test_alpha_path_independence.py",
+   "tests/unit/test_alpha_policy.py",
+   "tests/unit/test_alpha_policy_admission.py",
+   "tests/unit/test_alpha_policy_fx.py",
+   "tests/unit/test_alpha_policy_sizing.py",
+   "tests/unit/test_alpha_policy_views.py",
+   "tests/unit/test_baseline_store.py",
+   "tests/unit/test_baseline_store_db.py",
+   "tests/unit/test_cadence_decided_session.py",
+   "tests/unit/test_carried_protection.py",
+   "tests/unit/test_catalog_pit_views.py",
+   "tests/unit/test_causal_guard.py",
+   "tests/unit/test_cfd_mechanics.py",
+   "tests/unit/test_cfd_sizing.py",
+   "tests/unit/test_cfd_two_step_record.py",
+   "tests/unit/test_check_causal_cli.py",
+   "tests/unit/test_cli.py",
+   "tests/unit/test_cli_data_intraday.py",
+   "tests/unit/test_cli_pod_dispatch.py",
+   "tests/unit/test_cli_sim.py",
+   "tests/unit/test_cli_supersede.py",
+   "tests/unit/test_client_netted_positions.py",
+   "tests/unit/test_close_retry_storage.py",
+   "tests/unit/test_complete_session.py",
+   "tests/unit/test_composition_gate.py",
+   "tests/unit/test_config_overview_cli.py",
+   "tests/unit/test_config_parameter_overview.py",
+   "tests/unit/test_config_universe_overview.py",
+   "tests/unit/test_cppi_app.py",
+   "tests/unit/test_cppi_cadence.py",
+   "tests/unit/test_cppi_commit_race.py",
+   "tests/unit/test_cppi_commit_race_db.py",
+   "tests/unit/test_cppi_composed_snapshot.py",
+   "tests/unit/test_cppi_conditioning_refresh.py",
+   "tests/unit/test_cppi_decision_flow.py",
+   "tests/unit/test_cppi_durability.py",
+   "tests/unit/test_cppi_handover_flow.py",
+   "tests/unit/test_cppi_monitor_worker.py",
+   "tests/unit/test_cppi_observability.py",
+   "tests/unit/test_cppi_origin.py",
+   "tests/unit/test_cppi_root.py",
+   "tests/unit/test_cppi_seeded_composition.py",
+   "tests/unit/test_cppi_serve.py",
+   "tests/unit/test_cppi_snapshot_loader.py",
+   "tests/unit/test_cppi_trace_binding.py",
+   "tests/unit/test_cppi_writer_lock.py",
+   "tests/unit/test_crossed_stop_out.py",
+   "tests/unit/test_daemon_mode.py",
+   "tests/unit/test_daemon_mode_http.py",
+   "tests/unit/test_daemon_profile.py",
+   "tests/unit/test_daemon_record_composition.py",
+   "tests/unit/test_data_cli_identity.py",
+   "tests/unit/test_data_download_cli.py",
+   "tests/unit/test_data_requirement.py",
+   "tests/unit/test_day_close_boundaries.py",
+   "tests/unit/test_day_close_reconciliation.py",
+   "tests/unit/test_decide_step_timing.py",
+   "tests/unit/test_decision_core.py",
+   "tests/unit/test_decision_day_evidence.py",
+   "tests/unit/test_decision_day_evidence_db.py",
+   "tests/unit/test_decision_day_invalid.py",
+   "tests/unit/test_decision_day_refusals.py",
+   "tests/unit/test_decision_day_served.py",
+   "tests/unit/test_decision_evidence_payload.py",
+   "tests/unit/test_decision_lookahead.py",
+   "tests/unit/test_decision_snapshot.py",
+   "tests/unit/test_decision_stage_timing.py",
+   "tests/unit/test_decision_trace.py",
+   "tests/unit/test_deferred_attempt_ledger_db.py",
+   "tests/unit/test_deferred_intraday_routes.py",
+   "tests/unit/test_depot_capacity.py",
+   "tests/unit/test_depot_durability.py",
+   "tests/unit/test_depot_observation.py",
+   "tests/unit/test_depot_owed_evidence.py",
+   "tests/unit/test_depot_policy.py",
+   "tests/unit/test_depot_rebuy_crossed.py",
+   "tests/unit/test_depot_rebuy_levels.py",
+   "tests/unit/test_depot_rebuy_rules.py",
+   "tests/unit/test_depot_record.py",
+   "tests/unit/test_depot_serving.py",
+   "tests/unit/test_depot_take_profit.py",
+   "tests/unit/test_derived_acquisition.py",
+   "tests/unit/test_derived_acquisition_download.py",
+   "tests/unit/test_docs_gate.py",
+   "tests/unit/test_docs_inventory.py",
+   "tests/unit/test_download_catchup.py",
+   "tests/unit/test_download_catchup_db.py",
+   "tests/unit/test_download_source_selection.py",
+   "tests/unit/test_economic_acceptance.py",
+   "tests/unit/test_entry_gate_daily_stop.py",
+   "tests/unit/test_entry_gate_window.py",
+   "tests/unit/test_equities_pod.py",
+   "tests/unit/test_evidence_writers_db.py",
+   "tests/unit/test_exit_baseline_features.py",
+   "tests/unit/test_exit_baseline_io.py",
+   "tests/unit/test_exit_daily_returns.py",
+   "tests/unit/test_exit_estimate.py",
+   "tests/unit/test_exit_evaluate.py",
+   "tests/unit/test_exit_evaluation_replay.py",
+   "tests/unit/test_exit_features.py",
+   "tests/unit/test_exit_fill_time.py",
+   "tests/unit/test_exit_model_context.py",
+   "tests/unit/test_exit_months.py",
+   "tests/unit/test_exit_months_cli.py",
+   "tests/unit/test_exit_observation_cache.py",
+   "tests/unit/test_exit_path_terminals.py",
+   "tests/unit/test_exit_record_set_identity.py",
+   "tests/unit/test_exit_record_set_roots.py",
+   "tests/unit/test_exit_sampling_features.py",
+   "tests/unit/test_exit_tables_cli.py",
+   "tests/unit/test_exit_target_binding.py",
+   "tests/unit/test_exit_target_scale.py",
+   "tests/unit/test_exit_trail_binding.py",
+   "tests/unit/test_exit_trail_golden.py",
+   "tests/unit/test_exit_trail_replay.py",
+   "tests/unit/test_exit_walk_forward.py",
+   "tests/unit/test_exit_walk_forward_boundaries.py",
+   "tests/unit/test_factor_pages.py",
+   "tests/unit/test_factor_plugins_identity.py",
+   "tests/unit/test_factor_weighting_selection.py",
+   "tests/unit/test_flag_actuator.py",
+   "tests/unit/test_freshness_declaration.py",
+   "tests/unit/test_freshness_recorder.py",
+   "tests/unit/test_freshness_seams_db.py",
+   "tests/unit/test_futures_breaker_floor.py",
+   "tests/unit/test_futures_cfd_unchanged.py",
+   "tests/unit/test_futures_cli.py",
+   "tests/unit/test_futures_composition.py",
+   "tests/unit/test_futures_cppi_commitment.py",
+   "tests/unit/test_futures_cppi_committed_sizing.py",
+   "tests/unit/test_futures_cppi_shortfall.py",
+   "tests/unit/test_futures_day_close.py",
+   "tests/unit/test_futures_day_close_db.py",
+   "tests/unit/test_futures_day_lock.py",
+   "tests/unit/test_futures_floor_budget.py",
+   "tests/unit/test_futures_floor_reports.py",
+   "tests/unit/test_futures_hard_daily.py",
+   "tests/unit/test_futures_instruments.py",
+   "tests/unit/test_futures_live_snapshot.py",
+   "tests/unit/test_futures_metadata_refresh.py",
+   "tests/unit/test_futures_pod.py",
+   "tests/unit/test_futures_policy_limits.py",
+   "tests/unit/test_futures_report_wire.py",
+   "tests/unit/test_futures_serving_projection.py",
+   "tests/unit/test_futures_sizing.py",
+   "tests/unit/test_futures_wire_evidence_db.py",
+   "tests/unit/test_futures_wire_request.py",
+   "tests/unit/test_global_risk.py",
+   "tests/unit/test_golden_decision_chain.py",
+   "tests/unit/test_handover.py",
+   "tests/unit/test_handover_binding.py",
+   "tests/unit/test_handover_cli.py",
+   "tests/unit/test_handover_repository.py",
+   "tests/unit/test_handover_stop_floors.py",
+   "tests/unit/test_intraday_clock.py",
+   "tests/unit/test_intraday_health.py",
+   "tests/unit/test_intraday_panel_open.py",
+   "tests/unit/test_intraday_replay.py",
+   "tests/unit/test_io_execution_report_retry.py",
+   "tests/unit/test_io_persist_run_race_db.py",
+   "tests/unit/test_io_pin_cell_execute_store.py",
+   "tests/unit/test_io_pin_request_budget.py",
+   "tests/unit/test_io_pin_store_faults.py",
+   "tests/unit/test_io_pin_unavailable_matrix.py",
+   "tests/unit/test_io_pin_wait_commit.py",
+   "tests/unit/test_io_probe_existence.py",
+   "tests/unit/test_io_secondary_persist.py",
+   "tests/unit/test_io_snapshot_bound_db.py",
+   "tests/unit/test_io_store_session_db.py",
+   "tests/unit/test_japan_withdrawal.py",
+   "tests/unit/test_joint_feasibility_decision.py",
+   "tests/unit/test_kept_target_floor.py",
+   "tests/unit/test_last_complete_bar_e2e.py",
+   "tests/unit/test_legacy_run_read_path.py",
+   "tests/unit/test_lifecycle_monitor_binding_db.py",
+   "tests/unit/test_lifecycle_monitor_runner_db.py",
+   "tests/unit/test_lifecycle_run_evidence.py",
+   "tests/unit/test_lifecycle_store_db.py",
+   "tests/unit/test_lifecycle_window_commits.py",
+   "tests/unit/test_live_burn_in.py",
+   "tests/unit/test_live_carried_reentry.py",
+   "tests/unit/test_live_state_repository.py",
+   "tests/unit/test_live_trail.py",
+   "tests/unit/test_live_trail_serving.py",
+   "tests/unit/test_mandate_composition.py",
+   "tests/unit/test_mandate_currency_matrix.py",
+   "tests/unit/test_mandate_event_evidence.py",
+   "tests/unit/test_mandate_generation.py",
+   "tests/unit/test_mandate_guard.py",
+   "tests/unit/test_mandate_guard_db.py",
+   "tests/unit/test_mandate_guard_http.py",
+   "tests/unit/test_mandate_guard_retry.py",
+   "tests/unit/test_mandate_record.py",
+   "tests/unit/test_mandate_review_db.py",
+   "tests/unit/test_mandate_terminal_db.py",
+   "tests/unit/test_market_state_health.py",
+   "tests/unit/test_math_index.py",
+   "tests/unit/test_measure_trade_parity.py",
+   "tests/unit/test_mechanics_binding.py",
+   "tests/unit/test_mechanism_telemetry.py",
+   "tests/unit/test_missed_day.py",
+   "tests/unit/test_missed_day_db.py",
+   "tests/unit/test_money_policy.py",
+   "tests/unit/test_money_typing.py",
+   "tests/unit/test_operator_close_durability.py",
+   "tests/unit/test_operator_close_endpoint.py",
+   "tests/unit/test_operator_close_reentry.py",
+   "tests/unit/test_operator_close_resolution.py",
+   "tests/unit/test_operator_close_serving.py",
+   "tests/unit/test_operator_resume_cadence.py",
+   "tests/unit/test_operator_resume_commit.py",
+   "tests/unit/test_operator_resume_durability.py",
+   "tests/unit/test_operator_resume_endpoint.py",
+   "tests/unit/test_operator_resume_history.py",
+   "tests/unit/test_operator_resume_lift.py",
+   "tests/unit/test_operator_resume_serving.py",
+   "tests/unit/test_owed_venue_exit.py",
+   "tests/unit/test_panel_leg_computed_price.py",
+   "tests/unit/test_panel_leg_floors.py",
+   "tests/unit/test_panel_leg_report.py",
+   "tests/unit/test_panel_leg_served_gate.py",
+   "tests/unit/test_paper_missing_profit.py",
+   "tests/unit/test_paper_parity.py",
+   "tests/unit/test_paper_parity_unmeasured.py",
+   "tests/unit/test_pod_resolution.py",
+   "tests/unit/test_pod_signal_resolution.py",
+   "tests/unit/test_pod_universe.py",
+   "tests/unit/test_pods.py",
+   "tests/unit/test_policy_market_state.py",
+   "tests/unit/test_policy_stage_emission.py",
+   "tests/unit/test_position_limit.py",
+   "tests/unit/test_price_door.py",
+   "tests/unit/test_price_limit_gate.py",
+   "tests/unit/test_probe_panel_source.py",
+   "tests/unit/test_protection_amendments.py",
+   "tests/unit/test_protection_briefing.py",
+   "tests/unit/test_publish_wiki.py",
+   "tests/unit/test_quote_scale_boundaries.py",
+   "tests/unit/test_reacquisition_bound.py",
+   "tests/unit/test_ready_cache.py",
+   "tests/unit/test_reentry_ledger.py",
+   "tests/unit/test_report_path.py",
+   "tests/unit/test_report_protection.py",
+   "tests/unit/test_report_stage_timing.py",
+   "tests/unit/test_reported_position_protection.py",
+   "tests/unit/test_resting_entry_book.py",
+   "tests/unit/test_result_surface_removal.py",
+   "tests/unit/test_risk_invariance_gate.py",
+   "tests/unit/test_rule_book_pod.py",
+   "tests/unit/test_rule_book_policy.py",
+   "tests/unit/test_rule_floors.py",
+   "tests/unit/test_rule_grid.py",
+   "tests/unit/test_run_config_inspection.py",
+   "tests/unit/test_run_config_payload.py",
+   "tests/unit/test_run_evidence_store.py",
+   "tests/unit/test_run_policy_composition.py",
+   "tests/unit/test_scheduled_families.py",
+   "tests/unit/test_scheduled_refresh_db.py",
+   "tests/unit/test_serve_schedule.py",
+   "tests/unit/test_serve_schedule_roots.py",
+   "tests/unit/test_served_crossed_stops.py",
+   "tests/unit/test_served_side_evidence.py",
+   "tests/unit/test_serving_evolution.py",
+   "tests/unit/test_session_bar_trail.py",
+   "tests/unit/test_session_flat.py",
+   "tests/unit/test_session_prices.py",
+   "tests/unit/test_session_prices_since.py",
+   "tests/unit/test_session_schedule.py",
+   "tests/unit/test_session_stepper.py",
+   "tests/unit/test_session_stepper_edges.py",
+   "tests/unit/test_session_venue.py",
+   "tests/unit/test_shadow_week.py",
+   "tests/unit/test_sim_crossed_opening.py",
+   "tests/unit/test_sim_day_open.py",
+   "tests/unit/test_sim_driver.py",
+   "tests/unit/test_sim_futures_binding.py",
+   "tests/unit/test_sim_mandate_option.py",
+   "tests/unit/test_sim_result.py",
+   "tests/unit/test_sim_trail_walk_forward.py",
+   "tests/unit/test_slot_structure.py",
+   "tests/unit/test_snapshot_ordering_guard.py",
+   "tests/unit/test_snapshot_readings_rebind.py",
+   "tests/unit/test_starved_book_holds.py",
+   "tests/unit/test_status_cli.py",
+   "tests/unit/test_status_projection.py",
+   "tests/unit/test_stop_fill_realism.py",
+   "tests/unit/test_stress_inputs.py",
+   "tests/unit/test_sweep.py",
+   "tests/unit/test_thin_attempt_capture.py",
+   "tests/unit/test_thin_attempts.py",
+   "tests/unit/test_thin_attempts_db.py",
+   "tests/unit/test_thin_compatibility.py",
+   "tests/unit/test_thin_completion.py",
+   "tests/unit/test_thin_crossed_refusals.py",
+   "tests/unit/test_thin_identity_table.py",
+   "tests/unit/test_thin_ownership.py",
+   "tests/unit/test_thin_price_shadow.py",
+   "tests/unit/test_thin_protection_budget.py",
+   "tests/unit/test_thin_protection_cell_digest.py",
+   "tests/unit/test_thin_protection_journal.py",
+   "tests/unit/test_thin_protocol_journal.py",
+   "tests/unit/test_thin_qualification.py",
+   "tests/unit/test_thin_state_import_db.py",
+   "tests/unit/test_trade_parity.py",
+   "tests/unit/test_trade_parity_decisions.py",
+   "tests/unit/test_trading_calendar.py",
+   "tests/unit/test_trail_floor_reset_db.py",
+   "tests/unit/test_trail_overnight_fold.py",
+   "tests/unit/test_universe_admission.py",
+   "tests/unit/test_usd_run_persistence.py",
+   "tests/unit/test_version_identity.py",
+   "tests/unit/test_wire_projection_resting.py"
+  ],
+  "via_support": [
+   "packages/facdrone-research/tests/test_study_evidence_compaction.py"
+  ]
+ },
+ "test_files_total": 890
+}

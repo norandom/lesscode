@@ -1,0 +1,368 @@
+{
+ "deselections": {
+  "applicable_191_by_cause": {
+   "fcntl/POSIX": 5,
+   "file-lock": 0,
+   "other": 8,
+   "symlink-privilege": 11
+  },
+  "applicable_to_191": 24,
+  "applicable_to_recommended_e1b_scope": 18,
+  "applicable_to_recommended_e3_scope": 6,
+  "collection_errors": [
+   "packages/facdrone-research/tests/test_census_declaration_guard.py",
+   "packages/facdrone-research/tests/test_census_verdict_store.py",
+   "packages/facdrone-research/tests/test_controlled_study_producer.py",
+   "packages/facdrone-research/tests/test_incumbent_study_route.py",
+   "packages/facdrone-research/tests/test_promotion_publication.py",
+   "packages/facdrone-research/tests/test_recensus_db.py",
+   "packages/facdrone-research/tests/test_study_arm_runtime.py",
+   "packages/facdrone-research/tests/test_study_bounds.py"
+  ],
+  "detected_total": 236,
+  "hand_total": 236,
+  "set_equal": true,
+  "symmetric_difference": []
+ },
+ "host": {
+  "hazards": [
+   {
+    "detail": "-c listen_addresses='' -c fsync=off -c full_page_writes=off",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "quoted-empty-arg",
+    "line": 66
+   },
+   {
+    "detail": "Path.symlink_to",
+    "file": "packages/facdrone-testing/facdrone_testing/paths.py",
+    "kind": "symlink",
+    "line": 49
+   },
+   {
+    "detail": "os.geteuid",
+    "file": "packages/facdrone-testing/facdrone_testing/fixtures.py",
+    "kind": "posix-api",
+    "line": 57
+   },
+   {
+    "detail": "server._run(pg_ctl, -D, ... 'start')",
+    "file": "<site-packages>/facdrone_data/testing/pg_server.py",
+    "kind": "captured-pipes-on-daemon-start",
+    "line": 67
+   }
+  ],
+  "store": {
+   "embedded_postgres": true,
+   "migrations": true,
+   "store_env": [
+    "FACDRONE_TEST_PG_DSN",
+    "FACDRONE_TEST_PG_EMBEDDED",
+    "FACDRONE_TEST_PG_KEEP"
+   ]
+  }
+ },
+ "importing_files": {
+  "detected_all_five_modules": 30,
+  "detected_publication_module": 19,
+  "extra": [],
+  "hand": 19,
+  "match": [
+   "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+   "packages/facdrone-research/tests/test_study_arm_evidence.py",
+   "packages/facdrone-research/tests/test_study_attribution_routes.py",
+   "packages/facdrone-research/tests/test_study_slice_evidence.py",
+   "packages/facdrone-research/tests/test_weight_study.py",
+   "tests/contracts/test_evidence_compaction_equivalence.py",
+   "tests/contracts/test_evidence_single_pass.py",
+   "tests/contracts/test_sim_consumed_publication.py",
+   "tests/unit/test_decision_evidence_reader.py",
+   "tests/unit/test_decision_evidence_reader_db.py",
+   "tests/unit/test_decision_input_slice_store.py",
+   "tests/unit/test_decision_slice_publisher_db.py",
+   "tests/unit/test_live_slice_namespace_db.py",
+   "tests/unit/test_run_slice_namespace.py",
+   "tests/unit/test_run_slice_sealing.py",
+   "tests/unit/test_run_slice_writers_db.py",
+   "tests/unit/test_stage_projection.py",
+   "tests/unit/test_thin_shadow.py",
+   "tests/unit/test_transient_capture_codec.py"
+  ],
+  "missing": []
+ },
+ "marker_expression": {
+  "equal": true,
+  "gates": [
+   "db and not port_baseline and not live_broker",
+   "not port_baseline and not live_broker"
+  ],
+  "hand": "not port_baseline and not live_broker",
+  "signals": {
+   "db": [
+    "resource:store",
+    "self-skip"
+   ],
+   "live_broker": [
+    "opt-in",
+    "resource:broker"
+   ],
+   "parity": [],
+   "port_baseline": [
+    "opt-in"
+   ]
+  },
+  "suggested": "not port_baseline and not live_broker"
+ },
+ "seeds_e1b_scope": {
+  "counts": {
+   "direct": 108,
+   "recommended": 116,
+   "via_fixture": 0,
+   "via_production": 432,
+   "via_support": 9
+  },
+  "coverage_191": 191,
+  "coverage_only_via_production": 90,
+  "coverage_outside_upper_bound": [],
+  "hand_static_115": 115,
+  "hand_static_not_in_coverage": {
+   "packages/facdrone-reporting/tests/test_alpha_sim_year_e2e.py": {
+    "cause": "every test skipped by the plugin's operator-DB rule (db/_e2e without pg_engine)",
+    "e2e_stem": true,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 1,
+    "tests": 1
+   },
+   "packages/facdrone-reporting/tests/test_holdings_g6_gate.py": {
+    "cause": "every test deselected by the marker expression",
+    "e2e_stem": false,
+    "excluded_by_marker": 1,
+    "operator_db_skipped": 0,
+    "tests": 1
+   },
+   "packages/facdrone-research/tests/test_weight_study.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 20
+   },
+   "tests/contracts/test_handover_acceptance.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 1
+   },
+   "tests/contracts/test_mandate_identity_migration.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 8
+   },
+   "tests/parity/test_alpha_sim_e2e.py": {
+    "cause": "every test skipped by the plugin's operator-DB rule (db/_e2e without pg_engine)",
+    "e2e_stem": true,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 1,
+    "tests": 1
+   },
+   "tests/parity/test_report_bundle_e2e.py": {
+    "cause": "every test skipped by the plugin's operator-DB rule (db/_e2e without pg_engine)",
+    "e2e_stem": true,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 1,
+    "tests": 1
+   },
+   "tests/unit/test_cppi_origin.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 14
+   },
+   "tests/unit/test_decision_arm_check.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 14
+   },
+   "tests/unit/test_depot_owed_evidence.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 3
+   },
+   "tests/unit/test_futures_day_close_db.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 4
+   },
+   "tests/unit/test_handover.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 13
+   },
+   "tests/unit/test_handover_cli.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 9
+   },
+   "tests/unit/test_io_pin_unavailable_matrix.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 5
+   },
+   "tests/unit/test_result_surface_removal.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 3
+   },
+   "tests/unit/test_serving_evolution.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 8
+   }
+  },
+  "ignored_by_gates": [
+   "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py"
+  ],
+  "recommended_in_coverage": 101,
+  "recommended_not_in_coverage": {
+   "packages/facdrone-reporting/tests/test_alpha_sim_year_e2e.py": {
+    "cause": "every test skipped by the plugin's operator-DB rule (db/_e2e without pg_engine)",
+    "e2e_stem": true,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 1,
+    "tests": 1
+   },
+   "packages/facdrone-reporting/tests/test_holdings_g6_gate.py": {
+    "cause": "every test deselected by the marker expression",
+    "e2e_stem": false,
+    "excluded_by_marker": 1,
+    "operator_db_skipped": 0,
+    "tests": 1
+   },
+   "packages/facdrone-research/tests/test_weight_study.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 20
+   },
+   "tests/contracts/test_handover_acceptance.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 1
+   },
+   "tests/contracts/test_mandate_identity_migration.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 8
+   },
+   "tests/parity/test_alpha_sim_e2e.py": {
+    "cause": "every test skipped by the plugin's operator-DB rule (db/_e2e without pg_engine)",
+    "e2e_stem": true,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 1,
+    "tests": 1
+   },
+   "tests/parity/test_report_bundle_e2e.py": {
+    "cause": "every test skipped by the plugin's operator-DB rule (db/_e2e without pg_engine)",
+    "e2e_stem": true,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 1,
+    "tests": 1
+   },
+   "tests/unit/test_cppi_origin.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 14
+   },
+   "tests/unit/test_depot_owed_evidence.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 3
+   },
+   "tests/unit/test_futures_day_close_db.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 4
+   },
+   "tests/unit/test_handover.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 13
+   },
+   "tests/unit/test_handover_cli.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 9
+   },
+   "tests/unit/test_io_pin_unavailable_matrix.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 5
+   },
+   "tests/unit/test_result_surface_removal.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 3
+   },
+   "tests/unit/test_serving_evolution.py": {
+    "cause": "unexplained statically: tests run but coverage saw no scope line in a test context (import-time only, or the reference is not on an executed path)",
+    "e2e_stem": false,
+    "excluded_by_marker": 0,
+    "operator_db_skipped": 0,
+    "tests": 8
+   }
+  },
+  "upper_bound": 548,
+  "vs_hand_static": {
+   "detected_only": [
+    "tests/unit/test_acquisition_acceptance.py",
+    "tests/unit/test_depot_durability.py"
+   ],
+   "detected_only_in_coverage": [
+    "tests/unit/test_acquisition_acceptance.py",
+    "tests/unit/test_depot_durability.py"
+   ],
+   "hand_only": [
+    "tests/unit/test_decision_arm_check.py"
+   ],
+   "hand_only_in_coverage": []
+  }
+ }
+}

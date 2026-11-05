@@ -67,7 +67,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Boundary: ResidueReport_
   - _Depends: 1.2_
   - _Requirements: 8.7, 10.1, 10.3, 11.1, 11.2_
-- [ ] 2.2 (P) Test-infrastructure detection for a Python repository and scope
+- [x] 2.2 (P) Test-infrastructure detection for a Python repository and scope
   - Given a repository root and a scope, detect the test runner, its
     configuration and markers, fixture and plugin files, external-store
     setup, and the test files that import or reference the scope; emit one
@@ -266,3 +266,17 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   normaliser; not built, not in any task. E3 research code now 591 lines
   against 400; the plan.md hash in the receipt facts is stale by design
   (amendment).
+- 2.2 (2026-11-05): `docs/experiments/deconvolution/testinfra/testinfra.py`
+  (626 lines, static only; never imports the specimen) with `compare.py`
+  (107) and `test_testinfra.py` (144). CLI `testinfra.py <root> --scope
+  <file>... [--baseline-failures <json>] [--seeds-file <txt>]
+  [--site-packages <dir>] [--stem <name>] [--out <dir>]`. On Facdrone it
+  reproduces the 19 importing files, the 236 resolved baseline failures
+  with 24 applicable, and the marker expression `not port_baseline and not
+  live_broker` exactly. The 191 coverage seeds are NOT reproduced
+  statically: 101 of 191 are found, 90 reach the scope only through
+  production modules (coverage-only), 15 recommended files are outside the
+  191 (1 marker-deselected, 3 plugin-skipped, 11 unexplained statically).
+  `--seeds-file` only applies deselections to a supplied list. The Windows
+  shim hazards need `--site-packages`. Known limit: relative imports inside
+  `__init__.py` resolve one level too high (not exercised by Facdrone).

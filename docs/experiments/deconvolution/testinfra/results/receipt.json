@@ -1,0 +1,133 @@
+{
+ "commands": [
+  {
+   "label": "testinfra-tests",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\test_testinfra.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:15:36.143606+00:00",
+   "end_utc": "2026-11-05T05:15:38.932342+00:00",
+   "seconds": 2.79,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "testinfra-help",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\testinfra.py",
+    "--help"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:15:39.157622+00:00",
+   "end_utc": "2026-11-05T05:15:39.478783+00:00",
+   "seconds": 0.32,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "facdrone-e3-scope",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\testinfra.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--scope",
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_evidence_store.py",
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_input_slice_store.py",
+    "src/facdrone/shells/decision_slice_publisher.py",
+    "--baseline-failures",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication\\results\\baseline-failures-by-cause.json",
+    "--seeds-file",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication\\results\\seeds-from-coverage.txt",
+    "--site-packages",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Lib\\site-packages",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\results",
+    "--stem",
+    "facdrone-testinfra"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:15:39.738039+00:00",
+   "end_utc": "2026-11-05T05:15:54.392040+00:00",
+   "seconds": 14.65,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "facdrone-e1b-scope",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\testinfra.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--scope",
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_evidence_store.py",
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_input_slice_store.py",
+    "src/facdrone/shells/decision_slice_publisher.py",
+    "src/facdrone/shells/cppi/state_repository.py",
+    "src/facdrone/shells/wiring/run_evidence_store.py",
+    "packages/facdrone-kernel/facdrone_kernel/domain/decision_evidence.py",
+    "--baseline-failures",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication\\results\\baseline-failures-by-cause.json",
+    "--seeds-file",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication\\results\\seeds-from-coverage.txt",
+    "--site-packages",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Lib\\site-packages",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\results",
+    "--stem",
+    "facdrone-e1b-scope-testinfra"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:15:54.620866+00:00",
+   "end_utc": "2026-11-05T05:16:08.397969+00:00",
+   "seconds": 13.78,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "facdrone-compare",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\compare.py",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\results\\facdrone-testinfra.json",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\results\\facdrone-e1b-scope-testinfra.json",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\results\\facdrone-comparison.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:16:08.702896+00:00",
+   "end_utc": "2026-11-05T05:16:09.200240+00:00",
+   "seconds": 0.5,
+   "exit": 0,
+   "adaptive": null
+  }
+ ],
+ "facts": [],
+ "notes": [
+  {
+   "time_utc": "2026-11-05T05:15:35.906864+00:00",
+   "key": "red-phase",
+   "value": {
+    "command": "venv python -m pytest docs/experiments/deconvolution/testinfra/test_testinfra.py -q -p no:cacheprovider",
+    "exit": 2,
+    "output": "E   ModuleNotFoundError: No module named testinfra (1 error during collection)",
+    "when": "before testinfra.py existed"
+   }
+  }
+ ]
+}

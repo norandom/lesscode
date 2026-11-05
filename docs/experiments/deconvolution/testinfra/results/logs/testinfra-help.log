@@ -1,0 +1,27 @@
+usage: testinfra.py [-h] --scope SCOPE [SCOPE ...]
+                    [--baseline-failures BASELINE_FAILURES]
+                    [--seeds-file SEEDS_FILE] [--site-packages SITE_PACKAGES]
+                    [--out OUT] [--stem STEM]
+                    repo_root
+
+Static test-infrastructure detection for a Python repository and a scope
+(deconvolution-loop task 2.2).
+
+positional arguments:
+  repo_root
+
+options:
+  -h, --help            show this help message and exit
+  --scope SCOPE [SCOPE ...]
+                        scope source files (relative to the root)
+  --baseline-failures BASELINE_FAILURES
+                        recorded failures: list, {cause: [ids]} or
+                        {'deselect': [ids]}
+  --seeds-file SEEDS_FILE
+                        a recorded seed list (one file per line) to apply
+                        deselections to as well
+  --site-packages SITE_PACKAGES
+                        follow store-related third-party modules here (static
+                        read)
+  --out OUT
+  --stem STEM           output file stem (default testinfra: .json and .md)
