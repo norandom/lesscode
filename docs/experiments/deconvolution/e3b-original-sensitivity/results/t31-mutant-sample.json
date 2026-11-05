@@ -1,0 +1,660 @@
+{
+ "seed": 20261104,
+ "population": 307,
+ "module": "src/facdrone/shells/decision_evidence_publication.py",
+ "original_sha256": "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+ "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "seed_files": [
+  "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+  "packages/facdrone-research/tests/test_study_arm_evidence.py",
+  "packages/facdrone-research/tests/test_study_attribution_routes.py",
+  "packages/facdrone-research/tests/test_study_slice_evidence.py",
+  "packages/facdrone-research/tests/test_weight_study.py",
+  "tests/contracts/test_evidence_compaction_equivalence.py",
+  "tests/contracts/test_evidence_single_pass.py",
+  "tests/contracts/test_sim_consumed_publication.py",
+  "tests/unit/test_decision_evidence_reader.py",
+  "tests/unit/test_decision_evidence_reader_db.py",
+  "tests/unit/test_decision_input_slice_store.py",
+  "tests/unit/test_decision_slice_publisher_db.py",
+  "tests/unit/test_live_slice_namespace_db.py",
+  "tests/unit/test_run_slice_namespace.py",
+  "tests/unit/test_run_slice_sealing.py",
+  "tests/unit/test_run_slice_writers_db.py",
+  "tests/unit/test_stage_projection.py",
+  "tests/unit/test_thin_shadow.py",
+  "tests/unit/test_transient_capture_codec.py"
+ ],
+ "sample": [
+  {
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 103,
+   "col": 7,
+   "hunks": [
+    [
+     102,
+     103,
+     [
+      "    if not (\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if (\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 10,
+   "row": 192,
+   "col": 7,
+   "hunks": [
+    [
+     191,
+     192,
+     [
+      "    if not capture is None:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if capture is None:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 14,
+   "row": 286,
+   "col": 15,
+   "hunks": [
+    [
+     285,
+     286,
+     [
+      "            if not route.kind == \"scored\"\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            if route.kind == \"scored\"\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceAndWithOr",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 91,
+   "col": 35,
+   "hunks": [
+    [
+     90,
+     91,
+     [
+      "    if isinstance(ledger, Mapping) or ledger.get(\"currency\", currency) != currency:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) != currency:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd",
+   "args": "\"{}\"",
+   "occurrence": 2,
+   "row": 231,
+   "col": 25,
+   "hunks": [
+    [
+     230,
+     231,
+     [
+      "    return bound.details & {\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    return bound.details | {\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 366,
+   "col": 66,
+   "hunks": [
+    [
+     365,
+     366,
+     [
+      "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence & None:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence | None:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_FloorDiv",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 191,
+   "col": 60,
+   "hunks": [
+    [
+     190,
+     191,
+     [
+      "def capture_payload(capture: ConsumedCapture | None) -> str // None:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "def capture_payload(capture: ConsumedCapture | None) -> str | None:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mod",
+   "args": "\"{}\"",
+   "occurrence": 8,
+   "row": 436,
+   "col": 22,
+   "hunks": [
+    [
+     435,
+     436,
+     [
+      "        return stored % stored_bound_payload(bound)\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        return stored | stored_bound_payload(bound)\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mul",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 191,
+   "col": 45,
+   "hunks": [
+    [
+     190,
+     191,
+     [
+      "def capture_payload(capture: ConsumedCapture * None) -> str | None:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "def capture_payload(capture: ConsumedCapture | None) -> str | None:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mul",
+   "args": "\"{}\"",
+   "occurrence": 8,
+   "row": 436,
+   "col": 22,
+   "hunks": [
+    [
+     435,
+     436,
+     [
+      "        return stored * stored_bound_payload(bound)\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        return stored | stored_bound_payload(bound)\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_BitOr_Pow",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 366,
+   "col": 66,
+   "hunks": [
+    [
+     365,
+     366,
+     [
+      "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence ** None:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence | None:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_Mul_BitAnd",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 220,
+   "col": 4,
+   "hunks": [
+    [
+     219,
+     220,
+     [
+      "    &,\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    *,\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_Mul_BitOr",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 238,
+   "col": 4,
+   "hunks": [
+    [
+     237,
+     238,
+     [
+      "    |,\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    *,\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_Mul_RShift",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 238,
+   "col": 4,
+   "hunks": [
+    [
+     237,
+     238,
+     [
+      "    >>,\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    *,\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceBinaryOperator_Mul_Sub",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 238,
+   "col": 4,
+   "hunks": [
+    [
+     237,
+     238,
+     [
+      "    -,\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    *,\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 184,
+   "col": 27,
+   "hunks": [
+    [
+     183,
+     184,
+     [
+      "        and item.value.uri is not f\"{CONSUMED_URI}{item.value.sha256}\"\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        and item.value.uri == f\"{CONSUMED_URI}{item.value.sha256}\"\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 393,
+   "col": 31,
+   "hunks": [
+    [
+     392,
+     393,
+     [
+      "            and item.value.uri is not f\"{CONSUMED_URI}{item.value.sha256}\"\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            and item.value.uri == f\"{CONSUMED_URI}{item.value.sha256}\"\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 286,
+   "col": 26,
+   "hunks": [
+    [
+     285,
+     286,
+     [
+      "            if route.kind <= \"scored\"\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            if route.kind == \"scored\"\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Eq",
+   "args": "\"{}\"",
+   "occurrence": 4,
+   "row": 265,
+   "col": 65,
+   "hunks": [
+    [
+     264,
+     265,
+     [
+      "    bound = {key: value for key, value in payload.items() if key == \"consumed_capture\"}\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    bound = {key: value for key, value in payload.items() if key != \"consumed_capture\"}\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Gt",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 140,
+   "col": 20,
+   "hunks": [
+    [
+     139,
+     140,
+     [
+      "        or slice_id > reference.sha256\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        or slice_id != reference.sha256\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_GtE",
+   "args": "\"{}\"",
+   "occurrence": 4,
+   "row": 265,
+   "col": 65,
+   "hunks": [
+    [
+     264,
+     265,
+     [
+      "    bound = {key: value for key, value in payload.items() if key >= \"consumed_capture\"}\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    bound = {key: value for key, value in payload.items() if key != \"consumed_capture\"}\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_IsNot",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 348,
+   "col": 25,
+   "hunks": [
+    [
+     347,
+     348,
+     [
+      "            if value.uri is not f\"{CONSUMED_URI}{digest}\" or digest not in slices:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            if value.uri != f\"{CONSUMED_URI}{digest}\" or digest not in slices:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 91,
+   "col": 72,
+   "hunks": [
+    [
+     90,
+     91,
+     [
+      "    if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) < currency:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) != currency:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+   "args": "\"{}\"",
+   "occurrence": 2,
+   "row": 113,
+   "col": 24,
+   "hunks": [
+    [
+     112,
+     113,
+     [
+      "            or len(row) < len(value.columns)\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            or len(row) != len(value.columns)\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceFalseWithTrue",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 125,
+   "col": 18,
+   "hunks": [
+    [
+     124,
+     125,
+     [
+      "        allow_nan=True,\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        allow_nan=False,\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceOrWithAnd",
+   "args": "\"{}\"",
+   "occurrence": 7,
+   "row": 139,
+   "col": 8,
+   "hunks": [
+    [
+     138,
+     139,
+     [
+      "        and not namespace.strip()\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        or not namespace.strip()\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceOrWithAnd",
+   "args": "\"{}\"",
+   "occurrence": 10,
+   "row": 348,
+   "col": 54,
+   "hunks": [
+    [
+     347,
+     348,
+     [
+      "            if value.uri != f\"{CONSUMED_URI}{digest}\" and digest not in slices:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            if value.uri != f\"{CONSUMED_URI}{digest}\" or digest not in slices:\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceOrWithAnd",
+   "args": "\"{}\"",
+   "occurrence": 11,
+   "row": 408,
+   "col": 62,
+   "hunks": [
+    [
+     407,
+     408,
+     [
+      "        return tuple(sealed.batch for sealed in bound.batches and ())\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        return tuple(sealed.batch for sealed in bound.batches or ())\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ReplaceUnaryOperator_Delete_Not",
+   "args": "\"{}\"",
+   "occurrence": 10,
+   "row": 369,
+   "col": 29,
+   "hunks": [
+    [
+     368,
+     369,
+     [
+      "    if bound is not None and  isinstance(bound, BoundEvidence):\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if bound is not None and not isinstance(bound, BoundEvidence):\r"
+    ]
+   ]
+  },
+  {
+   "operator": "core/ZeroIterationForLoop",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 110,
+   "col": 15,
+   "hunks": [
+    [
+     109,
+     110,
+     [
+      "    for row in []:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    for row in value.rows:\r"
+    ]
+   ]
+  }
+ ]
+}

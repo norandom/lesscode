@@ -1,0 +1,700 @@
+{
+ "commands": [
+  {
+   "label": "t31-copy",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil; shutil.copytree(r'D:\\Source\\lesscode\\.runs\\e2-facdrone\\source', r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut', symlinks=False)"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T05:47:44.878243+00:00",
+   "end_utc": "2026-11-05T05:47:48.894053+00:00",
+   "seconds": 4.02,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T06:47:44",
+    "cpu_total": 11.1579852789255,
+    "cpu_other": 0.111579852789255,
+    "ram_free_gb": 14.03,
+    "bench_s": 0.26,
+    "pid": 24512
+   }
+  },
+  {
+   "label": "t31-cr-init",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "tool",
+    "run",
+    "--python",
+    "3.13",
+    "--from",
+    "cosmic-ray==8.7.0",
+    "cosmic-ray",
+    "init",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\cosmic-ray-t31.toml",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\t31.sqlite"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T05:48:01.098554+00:00",
+   "end_utc": "2026-11-05T05:48:05.784436+00:00",
+   "seconds": 4.69,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T06:48:00",
+    "cpu_total": 15.2025146622309,
+    "cpu_other": 0.152025146622309,
+    "ram_free_gb": 13.83,
+    "bench_s": 0.299,
+    "pid": 23980
+   }
+  },
+  {
+   "label": "t31-sample",
+   "cmd": [
+    "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.exe",
+    "tool",
+    "run",
+    "--python",
+    "3.13",
+    "--from",
+    "cosmic-ray==8.7.0",
+    "python",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "sample",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\t31.sqlite"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T05:48:18.465065+00:00",
+   "end_utc": "2026-11-05T05:48:20.691149+00:00",
+   "seconds": 2.23,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T06:48:17",
+    "cpu_total": 35.3315678302774,
+    "cpu_other": 0.353315678302774,
+    "ram_free_gb": 13.14,
+    "bench_s": 0.537,
+    "pid": 17232
+   }
+  },
+  {
+   "label": "t31-base",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "arm",
+    "--deadline",
+    "2244.0"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T05:51:17.414500+00:00",
+   "end_utc": "2026-11-05T05:53:23.017609+00:00",
+   "seconds": 125.6,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T06:51:17",
+    "cpu_total": 16.5859604958726,
+    "cpu_other": 0.165859604958726,
+    "ram_free_gb": 13.72,
+    "bench_s": 0.407,
+    "pid": 15244
+   }
+  },
+  {
+   "label": "t31-m0",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "0",
+    "--deadline",
+    "1281.1"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T05:53:57.423513+00:00",
+   "end_utc": "2026-11-05T05:54:02.261824+00:00",
+   "seconds": 4.84,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T06:53:57",
+    "cpu_total": 16.4995925584846,
+    "cpu_other": 0.164995925584846,
+    "ram_free_gb": 13.93,
+    "bench_s": 0.284,
+    "pid": 16696
+   }
+  },
+  {
+   "label": "t31-m1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "1",
+    "--deadline",
+    "1117.8"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T05:57:31.814840+00:00",
+   "end_utc": "2026-11-05T05:57:56.914097+00:00",
+   "seconds": 25.1,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T06:57:31",
+    "cpu_total": 9.99134145031606,
+    "cpu_other": 0.0999134145031606,
+    "ram_free_gb": 14.91,
+    "bench_s": 0.232,
+    "pid": 16696
+   }
+  }
+ ],
+ "facts": [
+  {
+   "time_utc": "2026-11-05T05:26:26.300144+00:00",
+   "key": "t31-apparatus",
+   "frozen_original": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+   "orig_mut": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+   "sha256": {
+    "docs/experiments/deconvolution/e3b-original-sensitivity/t31_arm.py": "a47d6c255cf6915e75d0e13876bb3831b7cffaf451032e68b1d43b029bc456d2",
+    "docs/experiments/deconvolution/e3b-original-sensitivity/cosmic-ray-t31.toml": "ae08ee4b77b5c4b78fd2a076da9db81b668b88b248ad9299e22b352be07c8157",
+    "docs/experiments/deconvolution/e3-evidence-regeneration/t4_arm.py": "b64de1e2aad77e27118b263bc04049a8433da28b2676412dfb1e9a95921ad7fc",
+    "docs/experiments/deconvolution/e3-evidence-regeneration/run_e3.py": "97aff6f383daf1e35ca847d14474a215e75544613471bd7b1214e5c6ec90eecc",
+    "docs/experiments/deconvolution/e3-evidence-regeneration/test_e3_replay.py": "6d982d37ab5147d1ac3a32d18a26997f5d465ffd76afbae003ad781cf260d3f7",
+    "docs/experiments/deconvolution/e1b-facdrone-evidence-publication/run_arm.py": "22ff75bcce002c05db6d5dd1473445ec0d94bb3ad0aa5217dbee4b56660cdf41",
+    "docs/experiments/deconvolution/guard.py": "ae8de275f9b8b8f81fe845235a1d109b2664e5d5ba65d6b35ed5f58474934d61",
+    "docs/experiments/deconvolution/receipt_atomic.py": "defdc5d91a48a12164a52f00b797a7b8aa02a91862a8aed5165cbebbbf0e8bbd",
+    "docs/experiments/deconvolution/adaptive.py": "bdc93ddb6789d5a60d2b284d29bf4596180b8c285470005b981686759f581b3a"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:37:28.195965+00:00",
+   "key": "t31-apparatus",
+   "frozen_original": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+   "orig_mut": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+   "sha256": {
+    "docs/experiments/deconvolution/e3b-original-sensitivity/t31_arm.py": "a47d6c255cf6915e75d0e13876bb3831b7cffaf451032e68b1d43b029bc456d2",
+    "docs/experiments/deconvolution/e3b-original-sensitivity/cosmic-ray-t31.toml": "ae08ee4b77b5c4b78fd2a076da9db81b668b88b248ad9299e22b352be07c8157",
+    "docs/experiments/deconvolution/e3-evidence-regeneration/t4_arm.py": "b64de1e2aad77e27118b263bc04049a8433da28b2676412dfb1e9a95921ad7fc",
+    "docs/experiments/deconvolution/e3-evidence-regeneration/run_e3.py": "97aff6f383daf1e35ca847d14474a215e75544613471bd7b1214e5c6ec90eecc",
+    "docs/experiments/deconvolution/e3-evidence-regeneration/test_e3_replay.py": "6d982d37ab5147d1ac3a32d18a26997f5d465ffd76afbae003ad781cf260d3f7",
+    "docs/experiments/deconvolution/e1b-facdrone-evidence-publication/run_arm.py": "22ff75bcce002c05db6d5dd1473445ec0d94bb3ad0aa5217dbee4b56660cdf41",
+    "docs/experiments/deconvolution/guard.py": "ae8de275f9b8b8f81fe845235a1d109b2664e5d5ba65d6b35ed5f58474934d61",
+    "docs/experiments/deconvolution/receipt_atomic.py": "defdc5d91a48a12164a52f00b797a7b8aa02a91862a8aed5165cbebbbf0e8bbd",
+    "docs/experiments/deconvolution/adaptive.py": "bdc93ddb6789d5a60d2b284d29bf4596180b8c285470005b981686759f581b3a"
+   }
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-05T05:47:39.155565+00:00",
+   "key": "t31-copy-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:47:38",
+     "cpu_total": 17.326457786928,
+     "cpu_other": 0.17326457786927998,
+     "ram_free_gb": 14.06,
+     "bench_s": 0.271,
+     "pid": 24512,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.28,
+     "factor_cpu": 1.21,
+     "factor": 1.28,
+     "waited_s": 610.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:47:48.900262+00:00",
+   "key": "t31-copy-verify",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:47:55.167037+00:00",
+   "key": "t31-cr-init-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:47:54",
+     "cpu_total": 28.436936152855,
+     "cpu_other": 0.28436936152855,
+     "ram_free_gb": 13.71,
+     "bench_s": 0.257,
+     "pid": 23980,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.21,
+     "factor_cpu": 1.4,
+     "factor": 1.4,
+     "waited_s": 6.0,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:48:11.933420+00:00",
+   "key": "t31-sample-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:48:11",
+     "cpu_total": 13.0848738320948,
+     "cpu_other": 0.130848738320948,
+     "ram_free_gb": 13.71,
+     "bench_s": 0.295,
+     "pid": 17232,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.39,
+     "factor_cpu": 1.15,
+     "factor": 1.39,
+     "waited_s": 6.0,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:48:20.701165+00:00",
+   "key": "t31-sample-overlap",
+   "value": {
+    "population": 307,
+    "e3_population": 317,
+    "sample_file_sha256": "4a255cb96d8e3b9ad2e7bdf2d41fb47e59a9edde3724b23f3d2c7e4822463959",
+    "operators_in_both": [
+     "core/AddNot",
+     "core/ReplaceBinaryOperator_BitOr_Mod",
+     "core/ReplaceBinaryOperator_BitOr_Mul",
+     "core/ReplaceComparisonOperator_Eq_IsNot",
+     "core/ReplaceComparisonOperator_NotEq_Eq",
+     "core/ReplaceComparisonOperator_NotEq_Gt",
+     "core/ReplaceComparisonOperator_NotEq_Lt"
+    ],
+    "lines_in_both": [],
+    "operator_line_in_both": [],
+    "note": "different modules; overlap is informational only"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:48:41.680429+00:00",
+   "key": "t31-base-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:51:05.351468+00:00",
+   "key": "t31-base-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:51:05",
+     "cpu_total": 29.0560439685108,
+     "cpu_other": 0.290560439685108,
+     "ram_free_gb": 14.14,
+     "bench_s": 0.276,
+     "pid": 15244,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.3,
+     "factor_cpu": 1.41,
+     "factor": 1.41,
+     "waited_s": 143.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:51:11.396130+00:00",
+   "key": "t31-base-deadline",
+   "value": {
+    "base_s": 1200,
+    "scaled_s": 2244.0,
+    "factor": 1.87,
+    "probe": {
+     "time": "2026-11-05T06:51:10",
+     "cpu_total": 21.0728284552441,
+     "cpu_other": 0.210728284552441,
+     "ram_free_gb": 14.12,
+     "bench_s": 0.397,
+     "pid": 15244,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.87,
+     "factor_cpu": 1.27,
+     "factor": 1.87
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:53:23.219428+00:00",
+   "key": "t31-m0-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:53:45.591006+00:00",
+   "key": "t31-m0-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:53:45",
+     "cpu_total": 17.2039030416091,
+     "cpu_other": 0.17203903041609098,
+     "ram_free_gb": 13.97,
+     "bench_s": 0.304,
+     "pid": 16696,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.43,
+     "factor_cpu": 1.21,
+     "factor": 1.43,
+     "waited_s": 22.4,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:53:51.587404+00:00",
+   "key": "t31-m0-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 1281.1,
+    "factor": 2.04,
+    "probe": {
+     "time": "2026-11-05T06:53:51",
+     "cpu_total": 20.6095588503333,
+     "cpu_other": 0.20284278074260842,
+     "ram_free_gb": 13.99,
+     "bench_s": 0.432,
+     "pid": 16696,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.04,
+     "factor_cpu": 1.25,
+     "factor": 2.04
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:54:02.269417+00:00",
+   "key": "t31-m0-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:54:02.272259+00:00",
+   "key": "t31-m0-class",
+   "value": {
+    "k": 0,
+    "label": "t31-m0",
+    "operator": "core/AddNot",
+    "row": 103,
+    "col": 7,
+    "occurrence": 3,
+    "exit": 1,
+    "seconds": 4.84,
+    "factor": 2.04,
+    "deadline_base_s": 628.0,
+    "scaled_s": 1281.1,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:54:02.276163+00:00",
+   "key": "t31-m1-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:57:20.209053+00:00",
+   "key": "t31-m1-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:57:19",
+     "cpu_total": 18.0409670803557,
+     "cpu_other": 0.180409670803557,
+     "ram_free_gb": 14.94,
+     "bench_s": 0.245,
+     "pid": 16696,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.16,
+     "factor_cpu": 1.22,
+     "factor": 1.22,
+     "waited_s": 197.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:57:26.044565+00:00",
+   "key": "t31-m1-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 1117.8,
+    "factor": 1.78,
+    "probe": {
+     "time": "2026-11-05T06:57:25",
+     "cpu_total": 13.5778878732813,
+     "cpu_other": 0.135778878732813,
+     "ram_free_gb": 14.91,
+     "bench_s": 0.378,
+     "pid": 16696,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.78,
+     "factor_cpu": 1.16,
+     "factor": 1.78
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:57:56.918074+00:00",
+   "key": "t31-m1-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:57:56.919885+00:00",
+   "key": "t31-m1-class",
+   "value": {
+    "k": 1,
+    "label": "t31-m1",
+    "operator": "core/AddNot",
+    "row": 192,
+    "col": 7,
+    "occurrence": 10,
+    "exit": 1,
+    "seconds": 25.1,
+    "factor": 1.78,
+    "deadline_base_s": 628.0,
+    "scaled_s": 1117.8,
+    "classification": "killed",
+    "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume",
+    "restore_identical": true
+   }
+  }
+ ]
+}

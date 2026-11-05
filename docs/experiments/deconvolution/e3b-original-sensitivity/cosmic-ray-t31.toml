@@ -1,0 +1,10 @@
+# deconvolution-loop task 3.1: cosmic-ray only enumerates the mutation specs of the ORIGINAL's publication
+# module (`init`, cwd .runs/e3-facdrone/orig-mut); t31_arm.py samples and runs them (as cosmic-ray-t4.toml).
+[cosmic-ray]
+module-path = ["src/facdrone/shells/decision_evidence_publication.py"]
+timeout = 3600.0
+excluded-modules = []
+test-command = "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe D:/Source/lesscode/docs/experiments/deconvolution/e3b-original-sensitivity/t31_arm.py arm"
+
+[cosmic-ray.distributor]
+name = "local"

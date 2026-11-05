@@ -1,0 +1,4 @@
+t31-base-pre: identical=True
+t31-base {"probe": {"time": "2026-11-05T06:51:05", "cpu_total": 29.0560439685108, "cpu_other": 0.290560439685108, "ram_free_gb": 14.14, "bench_s": 0.276, "pid": 15244, "ref_bench_s": 0.212, "factor_bench": 1.3, "factor_cpu": 1.41, "factor": 1.41, "waited_s": 143.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-base: exit 0 in 125.6s
+{"label": "t31-base", "exit": 0, "seconds": 125.6, "factor": 1.87, "scaled_s": 2244.0}

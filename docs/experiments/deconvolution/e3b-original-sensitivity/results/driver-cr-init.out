@@ -1,0 +1,2 @@
+t31-cr-init {"probe": {"time": "2026-11-05T06:47:54", "cpu_total": 28.436936152855, "cpu_other": 0.28436936152855, "ram_free_gb": 13.71, "bench_s": 0.257, "pid": 23980, "ref_bench_s": 0.212, "factor_bench": 1.21, "factor_cpu": 1.4, "factor": 1.4, "waited_s": 6.0, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-cr-init: exit 0 in 4.7s

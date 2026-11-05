@@ -1,0 +1,10 @@
+t31-m0-pre: identical=True
+t31-m0 {"probe": {"time": "2026-11-05T06:53:45", "cpu_total": 17.2039030416091, "cpu_other": 0.17203903041609098, "ram_free_gb": 13.97, "bench_s": 0.304, "pid": 16696, "ref_bench_s": 0.212, "factor_bench": 1.43, "factor_cpu": 1.21, "factor": 1.43, "waited_s": 22.4, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m0: exit 1 in 4.8s
+t31-m0-restore: identical=True
+{"k": 0, "label": "t31-m0", "operator": "core/AddNot", "row": 103, "col": 7, "occurrence": 3, "exit": 1, "seconds": 4.84, "factor": 2.04, "deadline_base_s": 628.0, "scaled_s": 1281.1, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m1-pre: identical=True
+t31-m1 {"probe": {"time": "2026-11-05T06:57:19", "cpu_total": 18.0409670803557, "cpu_other": 0.180409670803557, "ram_free_gb": 14.94, "bench_s": 0.245, "pid": 16696, "ref_bench_s": 0.212, "factor_bench": 1.16, "factor_cpu": 1.22, "factor": 1.22, "waited_s": 197.9, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m1: exit 1 in 25.1s
+t31-m1-restore: identical=True
+{"k": 1, "label": "t31-m1", "operator": "core/AddNot", "row": 192, "col": 7, "occurrence": 10, "exit": 1, "seconds": 25.1, "factor": 1.78, "deadline_base_s": 628.0, "scaled_s": 1117.8, "classification": "killed", "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume", "restore_identical": true}

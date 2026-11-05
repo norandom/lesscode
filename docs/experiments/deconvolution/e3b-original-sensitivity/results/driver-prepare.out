@@ -1,0 +1,3 @@
+t31-copy {"probe": {"time": "2026-11-05T06:47:38", "cpu_total": 17.326457786928, "cpu_other": 0.17326457786927998, "ram_free_gb": 14.06, "bench_s": 0.271, "pid": 24512, "ref_bench_s": 0.212, "factor_bench": 1.28, "factor_cpu": 1.21, "factor": 1.28, "waited_s": 610.9, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-copy: exit 0 in 4.0s
+t31-copy-verify: identical=True

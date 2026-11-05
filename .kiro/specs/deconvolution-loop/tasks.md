@@ -91,7 +91,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Requirements: 12.4_
 
 - [ ] 3. Make sensitivity comparable between original and candidate
-- [ ] 3.1 (P) Mutant sampling and arm on the original's module, built the same way as on the candidate
+- [x] 3.1 (P) Mutant sampling and arm on the original's module, built the same way as on the candidate
   - Same seed, population enumeration, sample size, acceptance arm,
     deadline rule, classification, restore-and-verify as in E3, on an
     isolated copy of the original, with the guard from 1.2.
@@ -297,3 +297,19 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   killing test must pass on the candidate, because the exception-path
   difference is in every mutant copy. `.runs/e3-facdrone/orig-check` is a
   copy of the original kept for checks.
+- 3.1 (2026-11-05): `docs/experiments/deconvolution/e3b-original-sensitivity/t31_arm.py`
+  (259 lines) reproduces E3's T4 procedure on the original: population 307
+  specs from the original publication module alone (E3 candidate 317),
+  seed 20261104, 30 draws from sorted keys (re-draw verified identical),
+  same 19 seed files and 6 deselections, same arm stages and
+  classification, deadline max(120, 5 × unmutated arm) scaled by the
+  probed factor, guard before every heavy step, restore by copy and
+  five-file hash check. Mutable copy `.runs/e3-facdrone/orig-mut`
+  (git-ignored), sqlite `.runs/e3-facdrone/t31.sqlite`. Dry run: base 125.6 s
+  (factor 1.87); m0 AddNot line 103 killed by the R16 harness in 4.8 s; m1
+  AddNot line 192 killed by a contracts test in 25.1 s; both restores
+  identical. No rate is computed from two mutants; 3.2 (owner go) runs the
+  full sample. The frozen replay writes its Level 2 file into E3's results;
+  the arm moves it out in a finally block (verified no leftover). Deadline
+  arithmetic goes into `<label>-deadline` notes because the receipt is
+  append-only.

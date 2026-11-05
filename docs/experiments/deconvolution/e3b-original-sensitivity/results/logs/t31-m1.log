@@ -1,0 +1,72 @@
+t31_arm: mutant 1 core/AddNot occ 10 line 192: [['    if capture is None:\r']] -> [['    if not capture is None:\r']]
+t31_arm: root D:\Source\lesscode\.runs\e3-facdrone\orig-mut; 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+[11/05/26 06:57:37] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+F
+================================== FAILURES ===================================
+_ test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume _
+
+connection = <sqlalchemy.engine.base.Connection object at 0x000001CE6A7A5400>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001CE6A84A060>
+record_property = <function record_property.<locals>.append_property at 0x000001CE6A89A160>
+
+    def test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume(
+        connection: Connection,
+        monkeypatch: pytest.MonkeyPatch,
+        record_property: Callable[[str, object], None],
+    ) -> None:
+        volumes = {}
+        for kind in ("cfd", "futures", "real-simulation"):
+            with monkeypatch.context() as patch:
+                if kind == "cfd":
+                    result = run_simulation(replace(make_spec(), policy=no_sleeve_policy()))
+                elif kind == "futures":
+                    result = futures_run(patch)[1]
+                else:
+                    result = real_simulation()[0]
+>               inline = _persist_pair(connection, result, patch)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\..\e2-facdrone\source\tests\contracts\test_evidence_compaction_equivalence.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+connection = <sqlalchemy.engine.base.Connection object at 0x000001CE6A7A5400>
+result = SimRunResult(run_id='sim-test-1', config_snapshot=RunConfigPayload(pod_name='commodities-indices', pod_identity='6a108...factor-short-reversal', 'package_version': '1.0.0'}]})), gap_model_error=None, gap_model_samples=0, windfall_events=())
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001CE6A849F30>
+
+    def _persist_pair(
+        connection: Connection, result: SimRunResult, monkeypatch: pytest.MonkeyPatch
+    ) -> tuple[SealedEvidence, ...]:
+        """Choose both sealers explicitly: this guard also runs before the root switch."""
+        configuration = hashlib.sha256(
+            json.dumps(result.config_snapshot.to_payload(), sort_keys=True).encode()
+        ).hexdigest()
+        compact_run = replace(result, run_id=f"{result.run_id}-v2")
+        inline = []
+        compact_events: list[tuple[SimEvent, publication.BoundEvidence | None]] = []
+        for event in result.evidence_events:
+            if event.event_type != "decision_evidence" or event.details is None:
+                compact_events.append((event, None))
+                continue
+            old = publication.seal_evidence(
+                event.details,
+                scope="simulation",
+                execution_id=f"{result.run_id}-v1",
+                code=result.code_version,
+                configuration=configuration,
+            )
+>           assert old.batches
+E           AssertionError: assert None
+E            +  where None = BoundEvidence(details={'currency': 'EUR', 'as_of': '2025-06-02T20:00:00+00:00', 'snapshot_ref': 'alpha:2025-06-02', 'a...bsence': {'field': 'consumed_evidence', 'reason': 'policy did not provide consumed capture'}}, batches=None, slices=()).batches
+
+..\..\e2-facdrone\source\tests\contracts\test_evidence_compaction_equivalence.py:78: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 3.83s
+run_arm B .: exit 1 in 20.4s
+t31_arm: run_arm exit 1; replay fresh=False sequences=None
+t31_arm: restored, identical=True
