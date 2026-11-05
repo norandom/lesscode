@@ -1,0 +1,28 @@
+{
+ "about": "Hand-written from README.md, section 'Step 3 (T4, T5), 2026-11-04': the T4 survivor table, the post hoc equivalence reading and the T5 counterexample reading (review-step2.md H4). Input classes and anchors added on 2026-11-05 by reading the candidate and original modules. Read by missing_tests.py; not a measured result.",
+ "module": "src/facdrone/shells/decision_evidence_publication.py",
+ "survivors": {
+  "4": {"class": "equivalent", "reason": "Annotation only: the return annotation of bound_payload is never evaluated under `from __future__ import annotations`."},
+  "8": {"class": "equivalent", "reason": "Annotation only: the parameter annotation of _seal is never evaluated under `from __future__ import annotations`."},
+  "11": {"class": "equivalent", "reason": "Annotation only: the return annotation of bound_payload is never evaluated under `from __future__ import annotations`."},
+  "24": {"class": "equivalent", "reason": "`len(set(c)) < len(c)` equals `!=` because a set is never longer than the sequence it was built from."},
+  "28": {"class": "equivalent", "reason": "`zip(strict=...)` does not matter for two sequences of equal length; `digests` is built from `inputs` element by element."},
+  "15": {"class": "closed_assumption", "reason": "`route.kind >= \"scored\"` equals `== \"scored\"` only while the route kinds are the closed set {\"scored\", \"rule_book\"} (\"rule_book\" sorts before \"scored\"); the kernel types them as Literal[\"scored\"] and Literal[\"rule_book\"].", "input_class": "Only if the assumption failed: a route whose kind sorts after \"scored\" (no such kind exists, and pydantic's Literal validation refuses one)."},
+  "16": {"class": "closed_assumption", "reason": "`route.kind is \"scored\"` equals `== \"scored\"` only while pydantic hands back the interned literal object for a Literal field.", "input_class": "Only if the assumption failed: a scored route whose kind is an equal but non-identical string object."},
+  "17": {"class": "real", "original_function": "compact_capture", "original_anchor": "item.value.uri == f\"{CONSUMED_URI}{item.value.sha256}\"", "entry": ["compact_capture"],
+         "observable": "the input's value in the returned consumed_capture (base64, zlib, JSON decoded)",
+         "input_class": "A consumed_capture whose inputs hold an InputSlice and then a SliceReference with the same sha256 but a uri other than `consumed:<sha256>` (for example `consumed:` with another digest, or a `run-slice:` uri): the original keeps that reference unchanged, the mutant replaces it with the retained reference."},
+  "21": {"class": "real", "original_function": "money_evidence_payload", "original_anchor": "ledger.get(\"currency\", currency) != currency", "entry": ["money_evidence_payload"],
+         "observable": "whether money_evidence_payload raises ValueError('... mixed currency')",
+         "input_class": "A payload whose risk_ledger is a Mapping without a `currency` key (the mutant raises 'mixed currency', because the default is the identical Currency object; the original returns), or whose ledger currency differs from the row's, e.g. row EUR and ledger \"USD\" (the original raises, the mutant returns)."},
+  "29": {"class": "real", "original_function": "_captured_payload", "original_anchor": "strict=True", "entry": ["seal_evidence", "seal_evidence_with_run_slices", "bind_evidence", "bind_evidence_with_run_slices"],
+         "observable": "whether sealing raises a pydantic ValidationError",
+         "input_class": "A payload whose consumed_capture JSON carries one typed field in lax form, e.g. a scored route's `minimum_assets` or a SignalVersion `version` as the string \"2\", or a bool field as 0/1: the original (strict) refuses it, the mutant coerces it and seals."}
+ },
+ "differential": {
+  "capture": {"hypothesis": "H4", "function": "capture_payload", "anchor": "deduplicated_inputs(capture.inputs)", "original_function": "capture_payload", "original_anchor": "deduplicated_inputs(capture.inputs)", "entry": ["capture_payload"],
+              "condition": "order of `capture.route(capture.minimum_assets)` and `deduplicated_inputs(capture.inputs)`: the original routes first, the candidate deduplicates first",
+              "observable": "capture.absences after capture_payload raised (both sides raise the same exception)",
+              "input_class": "A ConsumedCapture that has not scored (no scored result and no 'scoring' absence) whose inputs hold an InputSlice with a non-finite float (nan, inf) or a bytes cell, so capture_payload raises on both sides; afterwards the original's capture.absences holds AuditedAbsence('scoring', 'policy returned before scoring') and the candidate's is empty."}
+ }
+}

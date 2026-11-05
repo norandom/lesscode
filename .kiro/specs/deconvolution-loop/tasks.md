@@ -47,7 +47,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Requirements: 11.2, 11.3, 11.4, 11.5, 12.3_
 
 - [ ] 2. Core: turn the E3 residue into artefacts the workflow can consume
-- [ ] 2.1 (P) Missing-test report from survivors and realised counterexamples
+- [x] 2.1 (P) Missing-test report from survivors and realised counterexamples
   - Read the recorded sensitivity outcomes and the differential replay
     records (both existing E3 result files) and emit one report that names,
     per item, the function, line, mutated or differing condition and the
@@ -280,3 +280,20 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   `--seeds-file` only applies deselections to a supplied list. The Windows
   shim hazards need `--site-packages`. Known limit: relative imports inside
   `__init__.py` resolve one level too high (not exercised by Facdrone).
+- 2.1 (2026-11-05): `e3-evidence-regeneration/missing_tests.py` (147 lines)
+  emits `results/missing-tests.{md,json}` from the T4 sample, the receipt
+  facts, the T5 replay log and the hand-encoded readings
+  (`results/t4-survivor-readings.json`); `missing_tests_check.py` (175)
+  scores an external test file on the original copy, the unmodified
+  candidate copy and each real gap's mutant, with guard and atomic receipt
+  (`results/receipt-missing-tests.json`). E3 report: 4 real gaps (T4-17,
+  T4-21, T4-29, T5-capture), 5 equivalent (post hoc), 2 closed-assumption.
+  Usefulness check (preregistered in `results/missing-tests-experiment.md`,
+  frozen hashes, then a dated Result section): a fresh sonnet writer with
+  only the report and the original wrote 17 tests; 3 of 3 gaps killed
+  (1, 2 and 8 tests), exception path exposed by 3 tests failing only on
+  the candidate; prediction held; 5 of 8 runs used; tests discarded, hash
+  5bee7d0a… in the receipt. Attribution rule fixed before any test: a
+  killing test must pass on the candidate, because the exception-path
+  difference is in every mutant copy. `.runs/e3-facdrone/orig-check` is a
+  copy of the original kept for checks.

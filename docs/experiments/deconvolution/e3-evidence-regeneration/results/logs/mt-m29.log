@@ -1,0 +1,188 @@
+......FFFFFFFFFFF                                                        [100%]
+================================== FAILURES ===================================
+_ test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal] _
+
+sealer = <function _seal at 0x000001E5B3FD9580>
+mutate = <function _lax_minimum_assets at 0x000001E5B3FD9440>
+
+    @pytest.mark.parametrize("sealer", _SEALERS)
+    @pytest.mark.parametrize("mutate", [_lax_minimum_assets, _lax_signal_version])
+    def test_t4_29_lax_typed_field_in_capture_is_refused(sealer, mutate) -> None:
+>       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'pydantic_core._pydantic_core.ValidationError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:169: Failed
+_ test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices] _
+
+sealer = <function _seal_slices at 0x000001E5B3FD9620>
+mutate = <function _lax_minimum_assets at 0x000001E5B3FD9440>
+
+    @pytest.mark.parametrize("sealer", _SEALERS)
+    @pytest.mark.parametrize("mutate", [_lax_minimum_assets, _lax_signal_version])
+    def test_t4_29_lax_typed_field_in_capture_is_refused(sealer, mutate) -> None:
+>       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'pydantic_core._pydantic_core.ValidationError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:169: Failed
+_ test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind] _
+
+sealer = <function _bind at 0x000001E5B3FD96C0>
+mutate = <function _lax_minimum_assets at 0x000001E5B3FD9440>
+
+    @pytest.mark.parametrize("sealer", _SEALERS)
+    @pytest.mark.parametrize("mutate", [_lax_minimum_assets, _lax_signal_version])
+    def test_t4_29_lax_typed_field_in_capture_is_refused(sealer, mutate) -> None:
+>       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'pydantic_core._pydantic_core.ValidationError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:169: Failed
+_ test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices] _
+
+sealer = <function _bind_slices at 0x000001E5B3FD9760>
+mutate = <function _lax_minimum_assets at 0x000001E5B3FD9440>
+
+    @pytest.mark.parametrize("sealer", _SEALERS)
+    @pytest.mark.parametrize("mutate", [_lax_minimum_assets, _lax_signal_version])
+    def test_t4_29_lax_typed_field_in_capture_is_refused(sealer, mutate) -> None:
+>       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'pydantic_core._pydantic_core.ValidationError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:169: Failed
+_ test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal] _
+
+sealer = <function _seal at 0x000001E5B3FD9580>
+mutate = <function _lax_signal_version at 0x000001E5B3FD94E0>
+
+    @pytest.mark.parametrize("sealer", _SEALERS)
+    @pytest.mark.parametrize("mutate", [_lax_minimum_assets, _lax_signal_version])
+    def test_t4_29_lax_typed_field_in_capture_is_refused(sealer, mutate) -> None:
+>       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'pydantic_core._pydantic_core.ValidationError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:169: Failed
+_ test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices] _
+
+sealer = <function _seal_slices at 0x000001E5B3FD9620>
+mutate = <function _lax_signal_version at 0x000001E5B3FD94E0>
+
+    @pytest.mark.parametrize("sealer", _SEALERS)
+    @pytest.mark.parametrize("mutate", [_lax_minimum_assets, _lax_signal_version])
+    def test_t4_29_lax_typed_field_in_capture_is_refused(sealer, mutate) -> None:
+>       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'pydantic_core._pydantic_core.ValidationError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:169: Failed
+_ test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind] _
+
+sealer = <function _bind at 0x000001E5B3FD96C0>
+mutate = <function _lax_signal_version at 0x000001E5B3FD94E0>
+
+    @pytest.mark.parametrize("sealer", _SEALERS)
+    @pytest.mark.parametrize("mutate", [_lax_minimum_assets, _lax_signal_version])
+    def test_t4_29_lax_typed_field_in_capture_is_refused(sealer, mutate) -> None:
+>       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'pydantic_core._pydantic_core.ValidationError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:169: Failed
+_ test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices] _
+
+sealer = <function _bind_slices at 0x000001E5B3FD9760>
+mutate = <function _lax_signal_version at 0x000001E5B3FD94E0>
+
+    @pytest.mark.parametrize("sealer", _SEALERS)
+    @pytest.mark.parametrize("mutate", [_lax_minimum_assets, _lax_signal_version])
+    def test_t4_29_lax_typed_field_in_capture_is_refused(sealer, mutate) -> None:
+>       with pytest.raises(ValidationError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'pydantic_core._pydantic_core.ValidationError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:169: Failed
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError] _
+
+cell = nan, error = <class 'ValueError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError] _
+
+cell = inf, error = <class 'ValueError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError] _
+
+cell = b'raw', error = <class 'TypeError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]
+11 failed, 6 passed in 0.76s

@@ -1,0 +1,101 @@
+F.............FFF                                                        [100%]
+================================== FAILURES ===================================
+_________ test_t4_17_compact_capture_keeps_reference_with_foreign_uri _________
+
+    def test_t4_17_compact_capture_keeps_reference_with_foreign_uri() -> None:
+        slice_ = InputSlice(("v",), ((1,), (2,)))
+        digest = pub.slice_identity(slice_)
+        foreign = SliceReference("run-slice:other/" + digest, digest)
+        other_digest = "0" * 64
+        wrong_digest_uri = SliceReference(f"{pub.CONSUMED_URI}{other_digest}", digest)
+        payload = _payload(
+            _capture(_input(slice_, "a"), _input(foreign, "b"), _input(wrong_digest_uri, "c"))
+        )
+        retained_ref = SliceReference("retained:elsewhere", digest)
+        out = pub.compact_capture(payload, lambda _s: retained_ref)
+        inputs = _decode(str(out["consumed_capture"]))["inputs"]
+        assert inputs[0]["value"] == {"uri": "retained:elsewhere", "sha256": digest}
+>       assert inputs[1]["value"] == {"uri": "run-slice:other/" + digest, "sha256": digest}
+E       AssertionError: assert {'sha256': '7...ed:elsewhere'} == {'sha256': '7...06bc5b3e4382'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'uri': 'retained:elsewhere'} != {'uri': 'run-slice:other/7ec02dee2ec53d5e07a0ec50f0ba3ae6a6a325b5d2b8df780ee806bc5b3e4382'}
+E         Use -v to get more diff
+
+tests\unit\test_zz_missing_tests_experiment.py:77: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError] _
+
+cell = nan, error = <class 'ValueError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError] _
+
+cell = inf, error = <class 'ValueError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError] _
+
+cell = b'raw', error = <class 'TypeError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_17_compact_capture_keeps_reference_with_foreign_uri
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]
+4 failed, 13 passed in 0.82s

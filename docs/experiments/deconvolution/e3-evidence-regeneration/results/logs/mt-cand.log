@@ -1,0 +1,76 @@
+..............FFF                                                        [100%]
+================================== FAILURES ===================================
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError] _
+
+cell = nan, error = <class 'ValueError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError] _
+
+cell = inf, error = <class 'ValueError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError] _
+
+cell = b'raw', error = <class 'TypeError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]
+3 failed, 14 passed in 0.69s

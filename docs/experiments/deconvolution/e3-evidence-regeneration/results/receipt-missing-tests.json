@@ -1,0 +1,1275 @@
+{
+ "commands": [
+  {
+   "label": "dry-copy-orig",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import shutil; shutil.copytree(r'D:\\Source\\lesscode\\.runs\\e2-facdrone\\source', r'D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-check', symlinks=False)"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:11:31.349661+00:00",
+   "end_utc": "2026-11-05T05:11:33.546269+00:00",
+   "seconds": 2.2,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T06:11:31",
+    "cpu_total": 9.2769817885061,
+    "cpu_other": 0.092769817885061,
+    "ram_free_gb": 8.8,
+    "bench_s": 0.197,
+    "pid": 26964
+   }
+  },
+  {
+   "label": "dry-m17",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "--junitxml=D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\logs\\dry-m17.xml",
+    "tests/unit/test_zz_missing_tests_experiment.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "E1B_SOURCE_ROOT": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-05T05:12:08.304116+00:00",
+   "end_utc": "2026-11-05T05:12:24.349850+00:00",
+   "seconds": 16.05,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T06:12:08",
+    "cpu_total": 10.2731332040206,
+    "cpu_other": 0.10273133204020599,
+    "ram_free_gb": 9.23,
+    "bench_s": 0.201,
+    "pid": 26964
+   }
+  },
+  {
+   "label": "mt-orig",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "--junitxml=D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\logs\\mt-orig.xml",
+    "tests/unit/test_zz_missing_tests_experiment.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-check",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "E1B_SOURCE_ROOT": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-check",
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-check\\src;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-05T05:15:46.110211+00:00",
+   "end_utc": "2026-11-05T05:16:04.403016+00:00",
+   "seconds": 18.29,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T06:15:45",
+    "cpu_total": 25.7830046989906,
+    "cpu_other": 0.25783004698990597,
+    "ram_free_gb": 8.26,
+    "bench_s": 0.276,
+    "pid": 23260
+   }
+  },
+  {
+   "label": "mt-cand",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "--junitxml=D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\logs\\mt-cand.xml",
+    "tests/unit/test_zz_missing_tests_experiment.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "E1B_SOURCE_ROOT": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-05T05:16:23.540102+00:00",
+   "end_utc": "2026-11-05T05:16:38.486904+00:00",
+   "seconds": 14.95,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T06:16:23",
+    "cpu_total": 14.2221425590906,
+    "cpu_other": 0.142221425590906,
+    "ram_free_gb": 9.34,
+    "bench_s": 0.271,
+    "pid": 23260
+   }
+  },
+  {
+   "label": "mt-m17",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "--junitxml=D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\logs\\mt-m17.xml",
+    "tests/unit/test_zz_missing_tests_experiment.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "E1B_SOURCE_ROOT": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-05T05:16:56.751617+00:00",
+   "end_utc": "2026-11-05T05:17:10.770312+00:00",
+   "seconds": 14.02,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T06:16:56",
+    "cpu_total": 11.6576162673746,
+    "cpu_other": 0.116576162673746,
+    "ram_free_gb": 9.47,
+    "bench_s": 0.212,
+    "pid": 23260
+   }
+  },
+  {
+   "label": "mt-m21",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "--junitxml=D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\logs\\mt-m21.xml",
+    "tests/unit/test_zz_missing_tests_experiment.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "E1B_SOURCE_ROOT": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-05T05:17:28.485738+00:00",
+   "end_utc": "2026-11-05T05:17:40.858007+00:00",
+   "seconds": 12.37,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T06:17:28",
+    "cpu_total": 1.89649468034143,
+    "cpu_other": 0.0189649468034143,
+    "ram_free_gb": 9.61,
+    "bench_s": 0.213,
+    "pid": 23260
+   }
+  },
+  {
+   "label": "mt-m29",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-c",
+    "pyproject.toml",
+    "--rootdir",
+    ".",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "e2_winshim",
+    "--timeout=600",
+    "-m",
+    "not port_baseline and not live_broker",
+    "--junitxml=D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\logs\\mt-m29.xml",
+    "tests/unit/test_zz_missing_tests_experiment.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "E1B_SOURCE_ROOT": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras;D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-05T05:18:01.748988+00:00",
+   "end_utc": "2026-11-05T05:18:25.952475+00:00",
+   "seconds": 24.2,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T06:18:00",
+    "cpu_total": 100.0,
+    "cpu_other": 0.99,
+    "ram_free_gb": 9.36,
+    "bench_s": 0.97,
+    "pid": 23260
+   }
+  }
+ ],
+ "facts": [
+  {
+   "time_utc": "2026-11-05T05:12:24.358595+00:00",
+   "experiment": "missing-tests-usefulness",
+   "label_prefix": "dry",
+   "dry_run": true,
+   "tests_sha256": "dc6d1b113b97e513b79f9422e9c05a269c41ef27469e7e7669fc28d069e6e01a",
+   "runs": {
+    "T4-17": {
+     "label": "dry-m17",
+     "exit": 0,
+     "tests": {
+      "tests.unit.test_zz_missing_tests_experiment::test_trivial": "passed"
+     }
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:18:25.961437+00:00",
+   "experiment": "missing-tests-usefulness",
+   "label_prefix": "mt",
+   "dry_run": false,
+   "tests_sha256": "5bee7d0a732cc8a0a670563249ce2bc5573a28cb887b88a48a1abc2e1ef006e1",
+   "runs": {
+    "orig": {
+     "label": "mt-orig",
+     "exit": 0,
+     "tests": {
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_keeps_reference_with_foreign_uri": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_replaces_matching_consumed_reference": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_without_currency_key_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_other_currency_is_refused": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_same_currency_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_strict_capture_baseline_seals": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]": "passed"
+     }
+    },
+    "cand": {
+     "label": "mt-cand",
+     "exit": 1,
+     "tests": {
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_keeps_reference_with_foreign_uri": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_replaces_matching_consumed_reference": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_without_currency_key_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_other_currency_is_refused": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_same_currency_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_strict_capture_baseline_seals": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]": "failed"
+     }
+    },
+    "T4-17": {
+     "label": "mt-m17",
+     "exit": 1,
+     "tests": {
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_keeps_reference_with_foreign_uri": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_replaces_matching_consumed_reference": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_without_currency_key_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_other_currency_is_refused": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_same_currency_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_strict_capture_baseline_seals": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]": "failed"
+     }
+    },
+    "T4-21": {
+     "label": "mt-m21",
+     "exit": 1,
+     "tests": {
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_keeps_reference_with_foreign_uri": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_replaces_matching_consumed_reference": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_without_currency_key_is_accepted": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_other_currency_is_refused": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_same_currency_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_strict_capture_baseline_seals": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]": "failed"
+     }
+    },
+    "T4-29": {
+     "label": "mt-m29",
+     "exit": 1,
+     "tests": {
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_keeps_reference_with_foreign_uri": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_replaces_matching_consumed_reference": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_without_currency_key_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_other_currency_is_refused": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_same_currency_is_accepted": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_strict_capture_baseline_seals": "passed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]": "failed",
+      "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]": "failed"
+     }
+    }
+   },
+   "scoring": {
+    "tests_total": 17,
+    "valid_on_original": [
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_keeps_reference_with_foreign_uri",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_replaces_matching_consumed_reference",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_other_currency_is_refused",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_same_currency_is_accepted",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_without_currency_key_is_accepted",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_strict_capture_baseline_seals",
+     "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]"
+    ],
+    "failing_on_original": [],
+    "passing_on_candidate": [
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_keeps_reference_with_foreign_uri",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_replaces_matching_consumed_reference",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_other_currency_is_refused",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_same_currency_is_accepted",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_without_currency_key_is_accepted",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t4_29_strict_capture_baseline_seals"
+    ],
+    "exception_path_exposed_by": [
+     "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]",
+     "tests.unit.test_zz_missing_tests_experiment::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]"
+    ],
+    "killed_by": {
+     "T4-17": [
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_17_compact_capture_keeps_reference_with_foreign_uri"
+     ],
+     "T4-21": [
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_with_other_currency_is_refused",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_21_ledger_without_currency_key_is_accepted"
+     ],
+     "T4-29": [
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]",
+      "tests.unit.test_zz_missing_tests_experiment::test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]"
+     ]
+    },
+    "gaps_killed": "3/3",
+    "kill_criterion_report_not_actionable": false,
+    "prediction_held": true
+   }
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-05T05:11:25.544781+00:00",
+   "key": "dry-start",
+   "value": {
+    "tests": "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\test_trivial_dry.py",
+    "tests_sha256": "dc6d1b113b97e513b79f9422e9c05a269c41ef27469e7e7669fc28d069e6e01a",
+    "gaps": [
+     17,
+     21,
+     29
+    ],
+    "dry_run": true,
+    "report_sha256": "c2dfe54ad90e74299ccda1b4eaf5f6a0b744481b0396aa7c69df9cd9cd0c69d1",
+    "runner_sha256": "86357fd0bb82baa641a8fbd6f20c778c224cb3345e26eabd6d250822140dbe87"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:11:33.548399+00:00",
+   "key": "dry-verify-orig",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-check",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:11:33.554710+00:00",
+   "key": "dry-verify-mut",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5",
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058",
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656",
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6",
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:11:33.556936+00:00",
+   "key": "dry-m17-apply",
+   "value": {
+    "mutant": 17,
+    "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+    "row": 313,
+    "old": [
+     [
+      "            isinstance(value, SliceReference) and value.uri == f\"{CONSUMED_URI}{value.sha256}\""
+     ]
+    ],
+    "new": [
+     [
+      "            isinstance(value, SliceReference) and value.uri is not f\"{CONSUMED_URI}{value.sha256}\""
+     ]
+    ],
+    "mut_sha256": "449dad729556c6c7d68f7f74489f9d3d153997ce7311221d6e51601d8f0f7017"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:11:34.670192+00:00",
+   "key": "dry-m17-scope",
+   "value": {
+    "module_file": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src\\facdrone\\shells\\decision_evidence_publication.py",
+    "inside_root": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:11:56.798784+00:00",
+   "key": "dry-m17-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:11:56",
+     "cpu_total": 15.1306774935252,
+     "cpu_other": 0.151306774935252,
+     "ram_free_gb": 8.81,
+     "bench_s": 0.202,
+     "pid": 26964,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.18,
+     "factor": 1.18,
+     "waited_s": 22.1,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:12:02.537557+00:00",
+   "key": "dry-m17-deadline",
+   "value": {
+    "base_s": 600,
+    "deadline_s": 696.0,
+    "probe": {
+     "time": "2026-11-05T06:12:02",
+     "cpu_total": 13.5609150155587,
+     "cpu_other": 0.135609150155587,
+     "ram_free_gb": 9.1,
+     "bench_s": 0.223,
+     "pid": 26964,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.05,
+     "factor_cpu": 1.16,
+     "factor": 1.16
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:12:24.352137+00:00",
+   "key": "dry-m17-unstage",
+   "value": {
+    "removed": [],
+    "left": []
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:12:24.357078+00:00",
+   "key": "dry-m17-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5",
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058",
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656",
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6",
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:15:26.354956+00:00",
+   "key": "mt-start",
+   "value": {
+    "tests": "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\mt\\test_zz_missing_tests_experiment.py",
+    "tests_sha256": "5bee7d0a732cc8a0a670563249ce2bc5573a28cb887b88a48a1abc2e1ef006e1",
+    "gaps": [
+     17,
+     21,
+     29
+    ],
+    "dry_run": false,
+    "report_sha256": "c2dfe54ad90e74299ccda1b4eaf5f6a0b744481b0396aa7c69df9cd9cd0c69d1",
+    "runner_sha256": "86357fd0bb82baa641a8fbd6f20c778c224cb3345e26eabd6d250822140dbe87"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:15:26.357255+00:00",
+   "key": "mt-verify-orig",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-check",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:15:26.359189+00:00",
+   "key": "mt-verify-mut",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5",
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058",
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656",
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6",
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:15:27.437661+00:00",
+   "key": "mt-orig-scope",
+   "value": {
+    "module_file": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-check\\src\\facdrone\\shells\\decision_evidence_publication.py",
+    "inside_root": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:15:33.427362+00:00",
+   "key": "mt-orig-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:15:33",
+     "cpu_total": 11.8527996251847,
+     "cpu_other": 0.118527996251847,
+     "ram_free_gb": 8.98,
+     "bench_s": 0.251,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.18,
+     "factor_cpu": 1.13,
+     "factor": 1.18,
+     "waited_s": 6.0,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:15:39.760832+00:00",
+   "key": "mt-orig-deadline",
+   "value": {
+    "base_s": 600,
+    "deadline_s": 972.0,
+    "probe": {
+     "time": "2026-11-05T06:15:39",
+     "cpu_total": 36.5619804001694,
+     "cpu_other": 0.365619804001694,
+     "ram_free_gb": 8.74,
+     "bench_s": 0.343,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.62,
+     "factor_cpu": 1.58,
+     "factor": 1.62
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:04.408600+00:00",
+   "key": "mt-orig-unstage",
+   "value": {
+    "removed": [],
+    "left": []
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:05.506310+00:00",
+   "key": "mt-cand-scope",
+   "value": {
+    "module_file": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src\\facdrone\\shells\\decision_evidence_publication.py",
+    "inside_root": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:11.912139+00:00",
+   "key": "mt-cand-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:16:11",
+     "cpu_total": 29.2244948333872,
+     "cpu_other": 0.292244948333872,
+     "ram_free_gb": 9.41,
+     "bench_s": 0.252,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.19,
+     "factor_cpu": 1.41,
+     "factor": 1.41,
+     "waited_s": 6.4,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:17.752841+00:00",
+   "key": "mt-cand-deadline",
+   "value": {
+    "base_s": 600,
+    "deadline_s": 702.0,
+    "probe": {
+     "time": "2026-11-05T06:16:17",
+     "cpu_total": 10.7236111965598,
+     "cpu_other": 0.107236111965598,
+     "ram_free_gb": 9.39,
+     "bench_s": 0.247,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.17,
+     "factor_cpu": 1.12,
+     "factor": 1.17
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:38.490549+00:00",
+   "key": "mt-cand-unstage",
+   "value": {
+    "removed": [],
+    "left": []
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:38.495757+00:00",
+   "key": "mt-cand-after",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5",
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058",
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656",
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6",
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:38.500235+00:00",
+   "key": "mt-m17-apply",
+   "value": {
+    "mutant": 17,
+    "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+    "row": 313,
+    "old": [
+     [
+      "            isinstance(value, SliceReference) and value.uri == f\"{CONSUMED_URI}{value.sha256}\""
+     ]
+    ],
+    "new": [
+     [
+      "            isinstance(value, SliceReference) and value.uri is not f\"{CONSUMED_URI}{value.sha256}\""
+     ]
+    ],
+    "mut_sha256": "449dad729556c6c7d68f7f74489f9d3d153997ce7311221d6e51601d8f0f7017"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:39.361703+00:00",
+   "key": "mt-m17-scope",
+   "value": {
+    "module_file": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src\\facdrone\\shells\\decision_evidence_publication.py",
+    "inside_root": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:45.310533+00:00",
+   "key": "mt-m17-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:16:45",
+     "cpu_total": 22.3739540670109,
+     "cpu_other": 0.22373954067010898,
+     "ram_free_gb": 9.38,
+     "bench_s": 0.238,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.12,
+     "factor_cpu": 1.29,
+     "factor": 1.29,
+     "waited_s": 5.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:16:51.083957+00:00",
+   "key": "mt-m17-deadline",
+   "value": {
+    "base_s": 600,
+    "deadline_s": 672.0,
+    "probe": {
+     "time": "2026-11-05T06:16:50",
+     "cpu_total": 7.71274333725154,
+     "cpu_other": 0.0771274333725154,
+     "ram_free_gb": 9.46,
+     "bench_s": 0.238,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.12,
+     "factor_cpu": 1.08,
+     "factor": 1.12
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:10.772744+00:00",
+   "key": "mt-m17-unstage",
+   "value": {
+    "removed": [],
+    "left": []
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:10.776835+00:00",
+   "key": "mt-m17-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5",
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058",
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656",
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6",
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:10.779433+00:00",
+   "key": "mt-m21-apply",
+   "value": {
+    "mutant": 21,
+    "operator": "core/ReplaceComparisonOperator_NotEq_Is",
+    "row": 76,
+    "old": [
+     [
+      "    if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) != currency:"
+     ]
+    ],
+    "new": [
+     [
+      "    if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) is currency:"
+     ]
+    ],
+    "mut_sha256": "8a6d83da25b92ebd8f06ffc470e8c9b1b4b776c5760946a44a9d4965426304e4"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:11.547929+00:00",
+   "key": "mt-m21-scope",
+   "value": {
+    "module_file": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src\\facdrone\\shells\\decision_evidence_publication.py",
+    "inside_root": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:17.267858+00:00",
+   "key": "mt-m21-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:17:17",
+     "cpu_total": 2.76059451721775,
+     "cpu_other": 0.0276059451721775,
+     "ram_free_gb": 9.52,
+     "bench_s": 0.205,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.97,
+     "factor_cpu": 1.03,
+     "factor": 1.03,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:22.888342+00:00",
+   "key": "mt-m21-deadline",
+   "value": {
+    "base_s": 600,
+    "deadline_s": 696.0,
+    "probe": {
+     "time": "2026-11-05T06:17:22",
+     "cpu_total": 13.9189944745938,
+     "cpu_other": 0.13918994474593802,
+     "ram_free_gb": 9.61,
+     "bench_s": 0.207,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.98,
+     "factor_cpu": 1.16,
+     "factor": 1.16
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:40.860910+00:00",
+   "key": "mt-m21-unstage",
+   "value": {
+    "removed": [],
+    "left": []
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:40.864750+00:00",
+   "key": "mt-m21-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5",
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058",
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656",
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6",
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:40.868449+00:00",
+   "key": "mt-m29-apply",
+   "value": {
+    "mutant": 29,
+    "operator": "core/ReplaceTrueWithFalse",
+    "row": 226,
+    "old": [
+     [
+      "        zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=True"
+     ]
+    ],
+    "new": [
+     [
+      "        zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=False"
+     ]
+    ],
+    "mut_sha256": "e38983a5c0592c86f78bf5be8f6f95908175c45cb82d6ba404ef3f78ac422779"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:41.641109+00:00",
+   "key": "mt-m29-scope",
+   "value": {
+    "module_file": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut\\src\\facdrone\\shells\\decision_evidence_publication.py",
+    "inside_root": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:47.351006+00:00",
+   "key": "mt-m29-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T06:17:47",
+     "cpu_total": 14.6899299720347,
+     "cpu_other": 0.146899299720347,
+     "ram_free_gb": 9.54,
+     "bench_s": 0.218,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.03,
+     "factor_cpu": 1.17,
+     "factor": 1.17,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:17:53.202103+00:00",
+   "key": "mt-m29-deadline",
+   "value": {
+    "base_s": 600,
+    "deadline_s": 798.0,
+    "probe": {
+     "time": "2026-11-05T06:17:52",
+     "cpu_total": 13.0435704519582,
+     "cpu_other": 0.130435704519582,
+     "ram_free_gb": 9.45,
+     "bench_s": 0.283,
+     "pid": 23260,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.33,
+     "factor_cpu": 1.15,
+     "factor": 1.33
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:18:25.955379+00:00",
+   "key": "mt-m29-unstage",
+   "value": {
+    "removed": [],
+    "left": []
+   }
+  },
+  {
+   "time_utc": "2026-11-05T05:18:25.959429+00:00",
+   "key": "mt-m29-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+      "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5",
+      "77d8c5dcbca670fbfbbabe80607ef584a1d2a9b1e679896a7d900bb3272011a5"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058",
+      "6fa4611e8ac5dc7fc0fe7822d23f641468aa43d9c3368d763faf68b47e78b058"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656",
+      "d7e09b5a69fbd71d4219e29dfb7f3a98bdf2542b687421a581eb1b037f9e9656"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6",
+      "a7426db2a865e012ddc25c1ea6a6a8654991c52bcd1251d342c65edb79dac6f6"
+     ]
+    }
+   }
+  }
+ ]
+}

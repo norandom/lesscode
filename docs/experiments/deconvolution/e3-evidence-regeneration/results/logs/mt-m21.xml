@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="17" time="0.518" timestamp="2026-11-05T06:17:37.652225+01:00" hostname="mini"><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_17_compact_capture_keeps_reference_with_foreign_uri" time="0.004" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_17_compact_capture_replaces_matching_consumed_reference" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_21_ledger_without_currency_key_is_accepted" time="0.002"><failure message="ValueError: decision evidence and risk ledger declare mixed currency">def test_t4_21_ledger_without_currency_key_is_accepted() -&gt; None:
+&gt;       out = pub.money_evidence_payload({"currency": "EUR", "risk_ledger": {"x": 1}})
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_zz_missing_tests_experiment.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+payload = {'currency': 'EUR', 'risk_ledger': {'x': 1}}
+
+    def money_evidence_payload(payload: dict[str, object]) -&gt; dict[str, object]:
+        """One currency per decision row; pre-currency rows are EUR, without mutation.
+        Untagged nested ledger money inherits the row's currency."""
+        currency = Currency(str(payload.get("currency", "EUR")))
+        ledger = payload.get("risk_ledger")
+        if isinstance(ledger, Mapping) and ledger.get("currency", currency) is currency:
+&gt;           raise ValueError("decision evidence and risk ledger declare mixed currency")
+E           ValueError: decision evidence and risk ledger declare mixed currency
+
+src\facdrone\shells\decision_evidence_publication.py:77: ValueError</failure></testcase><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_21_ledger_with_other_currency_is_refused" time="0.002"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">def test_t4_21_ledger_with_other_currency_is_refused() -&gt; None:
+&gt;       with pytest.raises(ValueError, match="mixed currency"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+tests\unit\test_zz_missing_tests_experiment.py:102: Failed</failure></testcase><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_21_ledger_with_same_currency_is_accepted" time="0.001" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_strict_capture_baseline_seals" time="0.004" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal]" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_seal_slices]" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind]" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_lax_typed_field_in_capture_is_refused[_lax_minimum_assets-_bind_slices]" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal]" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_seal_slices]" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind]" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t4_29_lax_typed_field_in_capture_is_refused[_lax_signal_version-_bind_slices]" time="0.002" /><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]" time="0.002"><failure message="AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []&#10; +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')&#10; +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=&lt;Currency.EUR: 'EUR'&gt;, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences">cell = nan, error = &lt;class 'ValueError'&gt;
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -&gt; None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+&gt;       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=&lt;Currency.EUR: 'EUR'&gt;, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError</failure></testcase><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]" time="0.002"><failure message="AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []&#10; +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')&#10; +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=&lt;Currency.EUR: 'EUR'&gt;, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences">cell = inf, error = &lt;class 'ValueError'&gt;
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -&gt; None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+&gt;       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=&lt;Currency.EUR: 'EUR'&gt;, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError</failure></testcase><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]" time="0.002"><failure message="AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []&#10; +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')&#10; +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=&lt;Currency.EUR: 'EUR'&gt;, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences">cell = b'raw', error = &lt;class 'TypeError'&gt;
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -&gt; None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+&gt;       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=&lt;Currency.EUR: 'EUR'&gt;, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError</failure></testcase></testsuite></testsuites>

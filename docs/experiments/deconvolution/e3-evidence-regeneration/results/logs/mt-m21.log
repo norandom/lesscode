@@ -1,0 +1,107 @@
+..FF..........FFF                                                        [100%]
+================================== FAILURES ===================================
+_____________ test_t4_21_ledger_without_currency_key_is_accepted ______________
+
+    def test_t4_21_ledger_without_currency_key_is_accepted() -> None:
+>       out = pub.money_evidence_payload({"currency": "EUR", "risk_ledger": {"x": 1}})
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_zz_missing_tests_experiment.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+payload = {'currency': 'EUR', 'risk_ledger': {'x': 1}}
+
+    def money_evidence_payload(payload: dict[str, object]) -> dict[str, object]:
+        """One currency per decision row; pre-currency rows are EUR, without mutation.
+        Untagged nested ledger money inherits the row's currency."""
+        currency = Currency(str(payload.get("currency", "EUR")))
+        ledger = payload.get("risk_ledger")
+        if isinstance(ledger, Mapping) and ledger.get("currency", currency) is currency:
+>           raise ValueError("decision evidence and risk ledger declare mixed currency")
+E           ValueError: decision evidence and risk ledger declare mixed currency
+
+src\facdrone\shells\decision_evidence_publication.py:77: ValueError
+______________ test_t4_21_ledger_with_other_currency_is_refused _______________
+
+    def test_t4_21_ledger_with_other_currency_is_refused() -> None:
+>       with pytest.raises(ValueError, match="mixed currency"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_zz_missing_tests_experiment.py:102: Failed
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError] _
+
+cell = nan, error = <class 'ValueError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError] _
+
+cell = inf, error = <class 'ValueError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+_ test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError] _
+
+cell = b'raw', error = <class 'TypeError'>
+
+    @pytest.mark.parametrize(
+        ("cell", "error"),
+        [
+            (float("nan"), ValueError),
+            (float("inf"), ValueError),
+            (b"raw", TypeError),
+        ],
+    )
+    def test_t5_capture_unscored_failure_still_records_scoring_absence(cell, error) -> None:
+        capture = _capture(_input(InputSlice(("v",), ((cell,),))))
+        assert not capture.absences
+        with pytest.raises(error):
+            pub.capture_payload(capture)
+>       assert AuditedAbsence("scoring", "policy returned before scoring") in capture.absences
+E       AssertionError: assert AuditedAbsence(field='scoring', reason='policy returned before scoring') in []
+E        +  where AuditedAbsence(field='scoring', reason='policy returned before scoring') = AuditedAbsence('scoring', 'policy returned before scoring')
+E        +  and   [] = ConsumedCapture(run_id='run', _traces=[], _fail_open={}, currency=<Currency.EUR: 'EUR'>, inputs=[ConsumedInput(source=...=[], comparisons=[], absences=[], versions=(SignalVersion(name='sig', version=1),), scored=None, selected=(), ranks=()).absences
+
+tests\unit\test_zz_missing_tests_experiment.py:189: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_21_ledger_without_currency_key_is_accepted
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t4_21_ledger_with_other_currency_is_refused
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[nan-ValueError]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[inf-ValueError]
+FAILED tests/unit/test_zz_missing_tests_experiment.py::test_t5_capture_unscored_failure_still_records_scoring_absence[raw-TypeError]
+5 failed, 12 passed in 0.63s

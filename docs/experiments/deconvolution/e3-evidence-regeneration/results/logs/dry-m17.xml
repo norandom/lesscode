@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.439" timestamp="2026-11-05T06:12:21.128196+01:00" hostname="mini"><testcase classname="tests.unit.test_zz_missing_tests_experiment" name="test_trivial" time="0.002" /></testsuite></testsuites>

@@ -1,0 +1,173 @@
+{
+ "module": "src/facdrone/shells/decision_evidence_publication.py",
+ "candidate_sha256": "302204c6e3bd8f8f49968f63c56c4ecebeee1876202784a105a9839266e83da9",
+ "real": [
+  {
+   "id": "T4-17",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+   "function": "compact_capture",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 313,
+   "written": "isinstance(value, SliceReference) and value.uri == f\"{CONSUMED_URI}{value.sha256}\"",
+   "mutated": "isinstance(value, SliceReference) and value.uri is not f\"{CONSUMED_URI}{value.sha256}\"",
+   "original_function": "compact_capture",
+   "entry": [
+    "compact_capture"
+   ],
+   "observable": "the input's value in the returned consumed_capture (base64, zlib, JSON decoded)",
+   "original_line": 393,
+   "input_class": "A consumed_capture whose inputs hold an InputSlice and then a SliceReference with the same sha256 but a uri other than `consumed:<sha256>` (for example `consumed:` with another digest, or a `run-slice:` uri): the original keeps that reference unchanged, the mutant replaces it with the retained reference."
+  },
+  {
+   "id": "T4-21",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceComparisonOperator_NotEq_Is",
+   "function": "money_evidence_payload",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 76,
+   "written": "if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) != currency:",
+   "mutated": "if isinstance(ledger, Mapping) and ledger.get(\"currency\", currency) is currency:",
+   "original_function": "money_evidence_payload",
+   "entry": [
+    "money_evidence_payload"
+   ],
+   "observable": "whether money_evidence_payload raises ValueError('... mixed currency')",
+   "original_line": 91,
+   "input_class": "A payload whose risk_ledger is a Mapping without a `currency` key (the mutant raises 'mixed currency', because the default is the identical Currency object; the original returns), or whose ledger currency differs from the row's, e.g. row EUR and ledger \"USD\" (the original raises, the mutant returns)."
+  },
+  {
+   "id": "T4-29",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceTrueWithFalse",
+   "function": "_seal",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 226,
+   "written": "zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=True",
+   "mutated": "zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=False",
+   "original_function": "_captured_payload",
+   "entry": [
+    "seal_evidence",
+    "seal_evidence_with_run_slices",
+    "bind_evidence",
+    "bind_evidence_with_run_slices"
+   ],
+   "observable": "whether sealing raises a pydantic ValidationError",
+   "original_line": 273,
+   "input_class": "A payload whose consumed_capture JSON carries one typed field in lax form, e.g. a scored route's `minimum_assets` or a SignalVersion `version` as the string \"2\", or a bool field as 0/1: the original (strict) refuses it, the mutant coerces it and seals."
+  },
+  {
+   "id": "T5-capture",
+   "hypothesis": "H4",
+   "function": "capture_payload",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 162,
+   "source": "T5 counterexample (t5-ch-capture.log) + soundness corpus (151/300 differ)",
+   "written": "order of `capture.route(capture.minimum_assets)` and `deduplicated_inputs(capture.inputs)`: the original routes first, the candidate deduplicates first",
+   "mutated": null,
+   "observable": "capture.absences after capture_payload raised (both sides raise the same exception)",
+   "entry": [
+    "capture_payload"
+   ],
+   "original_function": "capture_payload",
+   "original_line": 201,
+   "corpus_shapes": {
+    "TypeError": 57,
+    "ValueError": 94
+   },
+   "input_class": "A ConsumedCapture that has not scored (no scored result and no 'scoring' absence) whose inputs hold an InputSlice with a non-finite float (nan, inf) or a bytes cell, so capture_payload raises on both sides; afterwards the original's capture.absences holds AuditedAbsence('scoring', 'policy returned before scoring') and the candidate's is empty.",
+   "replay": {
+    "args": "{'items': [(1, (0, 0, []), [], [[(2, -179769313486231580793728971405303415079934132710037826936173778980444968292764750946649017977587207096330286416692887910946555547851940402630657488671505820681908902000708383676273854845817711531764475730270069855571366959622842914819860834936475292719074168444365510704342711559699508093042880177904174497792, []), (6, 1, [0]), (1, 0, [])]])]}",
+    "original": "(('raise', 'TypeError', 'Object of type bytes is not JSON serializable'), [AuditedAbsence(field='scoring', reason='policy returned before scoring')])",
+    "candidate": "(('raise', 'TypeError', 'Object of type bytes is not JSON serializable'), [])",
+    "differ": true
+   }
+  }
+ ],
+ "equivalent": [
+  {
+   "id": "T4-4",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceBinaryOperator_BitOr_Add",
+   "function": "bound_payload",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 287,
+   "written": "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence | None:",
+   "mutated": "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence + None:",
+   "reason": "Annotation only: the return annotation of bound_payload is never evaluated under `from __future__ import annotations`."
+  },
+  {
+   "id": "T4-8",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceBinaryOperator_BitOr_Mod",
+   "function": "_seal",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 216,
+   "written": "code: str, configuration: str, namespace: str | None,",
+   "mutated": "code: str, configuration: str, namespace: str % None,",
+   "reason": "Annotation only: the parameter annotation of _seal is never evaluated under `from __future__ import annotations`."
+  },
+  {
+   "id": "T4-11",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceBinaryOperator_BitOr_Sub",
+   "function": "bound_payload",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 287,
+   "written": "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence | None:",
+   "mutated": "def bound_payload(payload: Mapping[str, object]) -> BoundEvidence - None:",
+   "reason": "Annotation only: the return annotation of bound_payload is never evaluated under `from __future__ import annotations`."
+  },
+  {
+   "id": "T4-24",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+   "function": "slice_bytes",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 86,
+   "written": "or len(set(value.columns)) != len(value.columns)",
+   "mutated": "or len(set(value.columns)) < len(value.columns)",
+   "reason": "`len(set(c)) < len(c)` equals `!=` because a set is never longer than the sequence it was built from."
+  },
+  {
+   "id": "T4-28",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceTrueWithFalse",
+   "function": "deduplicated_inputs",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 136,
+   "written": "for index, (item, digest) in enumerate(zip(inputs, digests, strict=True))",
+   "mutated": "for index, (item, digest) in enumerate(zip(inputs, digests, strict=False))",
+   "reason": "`zip(strict=...)` does not matter for two sequences of equal length; `digests` is built from `inputs` element by element."
+  }
+ ],
+ "closed_assumption": [
+  {
+   "id": "T4-15",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "function": "_seal",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 267,
+   "written": "captured.consumed if route.kind == \"scored\" else (),",
+   "mutated": "captured.consumed if route.kind >= \"scored\" else (),",
+   "reason": "`route.kind >= \"scored\"` equals `== \"scored\"` only while the route kinds are the closed set {\"scored\", \"rule_book\"} (\"rule_book\" sorts before \"scored\"); the kernel types them as Literal[\"scored\"] and Literal[\"rule_book\"].",
+   "input_class": "Only if the assumption failed: a route whose kind sorts after \"scored\" (no such kind exists, and pydantic's Literal validation refuses one)."
+  },
+  {
+   "id": "T4-16",
+   "source": "T4 survivor",
+   "operator": "core/ReplaceComparisonOperator_Eq_Is",
+   "function": "_seal",
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "line": 256,
+   "written": "captured.signals if route.kind == \"scored\"",
+   "mutated": "captured.signals if route.kind is \"scored\"",
+   "reason": "`route.kind is \"scored\"` equals `== \"scored\"` only while pydantic hands back the interned literal object for a Literal field.",
+   "input_class": "Only if the assumption failed: a scored route whose kind is an equal but non-identical string object."
+  }
+ ],
+ "controls_excluded": [
+  "t5-ctl-kill-2.log"
+ ]
+}
