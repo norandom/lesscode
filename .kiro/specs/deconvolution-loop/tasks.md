@@ -34,7 +34,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
     names the canonical statement and line totals.
   - _Boundary: Measurer_
   - _Requirements: 4.1, 4.2, 4.6, 10.3, 11.1, 11.7_
-- [ ] 1.2 (P) Host guard and atomic receipt as apparatus
+- [x] 1.2 (P) Host guard and atomic receipt as apparatus
   - Promote the idle-wait and memory-floor guard from a scratch script to
     a versioned apparatus file with its thresholds recorded, used by every
     later heavy step.
@@ -237,3 +237,17 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Boundary: ResidueReport (integration)_
   - _Depends: 2.1, 6.4, 6.5, 6.6_
   - _Requirements: 8.7, 10.1, 10.2, 10.3, 11.3_
+
+## Implementation Notes
+
+- 1.2 (2026-11-05): `docs/experiments/deconvolution/guard.py` (56 lines) and
+  `receipt_atomic.py` (153 lines) are the apparatus for every later heavy
+  step. `receipt_atomic.py RECEIPT run LABEL [--cwd] [--env K=V] [--timeout]
+  [--no-probe] -- CMD` takes the receipt path first; `run` probes the host by
+  default (a few seconds), pass `--no-probe` for light steps. Deadline
+  scaling and the idle rerun stay with the caller via `adaptive.scaled`.
+  Thread pinning (BLAS/OpenMP variables to 1) is not set by `run`; heavy-step
+  callers pass it with `--env`. Lock files older than 120 s are broken; the
+  lock is held only for one read-append-replace, never for a whole step.
+  The guard writes `<label>-guard` (and `-guard-2` on a second wait) with
+  the probe and all four thresholds; exit 0 proceed, 3 stop.
