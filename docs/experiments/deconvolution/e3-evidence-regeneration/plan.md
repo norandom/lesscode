@@ -330,3 +330,12 @@ Results are in [README.md](README.md), section "Step 3".
     `<label>-guard`. The step runs if the host is idle, or else if free RAM is above 6 GB.
     Otherwise there is one more wait, then a stop. Mutant 16's killed partial run is kept as
     `logs/t4-m16-partial-killed.log` and was rerun from scratch as `t4-m16`.
+
+## Amendment 3 (2026-11-05, after results)
+
+A separate canonical-format reading of T2 was added after the results; no target or verdict changes.
+`measures2.py` formats copies of both trees with `ruff format` 0.17.3 (`--isolated --line-length 100
+--target-version py313`) and reports the candidate at 546 statements and 1,188 lines against the
+original's 660 and 1,274 (both unchanged by the formatter): statements below the 561 bar, lines above
+the 1,083 bar. Results: `results/measures-canonical-baseline.json`,
+`results/measures-canonical-round1.json`; receipt labels `t11-*`.

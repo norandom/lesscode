@@ -2364,6 +2364,209 @@
      "factor": 1.07
     }
    }
+  },
+  {
+   "label": "t11-check-baseline-red",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--check",
+    "results/measures-baseline.json",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:00:40.583215+00:00",
+   "end_utc": "2026-11-05T05:00:41.117065+00:00",
+   "seconds": 0.53,
+   "exit": 2
+  },
+  {
+   "label": "t11-check-round1-red",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--check",
+    "results/measures-round1.json",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--structure",
+    "candidate-structure.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:00:43.488078+00:00",
+   "end_utc": "2026-11-05T05:00:43.597055+00:00",
+   "seconds": 0.11,
+   "exit": 2
+  },
+  {
+   "label": "t11-check-baseline-green",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--check",
+    "results/measures-baseline.json",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:06.660689+00:00",
+   "end_utc": "2026-11-05T05:01:06.870027+00:00",
+   "seconds": 0.21,
+   "exit": 0
+  },
+  {
+   "label": "t11-check-round1-green",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--check",
+    "results/measures-round1.json",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--structure",
+    "candidate-structure.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:07.060526+00:00",
+   "end_utc": "2026-11-05T05:01:07.244582+00:00",
+   "seconds": 0.18,
+   "exit": 0
+  },
+  {
+   "label": "t11-check-negative-control",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--check",
+    "results/measures-baseline.json",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:17.230301+00:00",
+   "end_utc": "2026-11-05T05:01:17.430611+00:00",
+   "seconds": 0.2,
+   "exit": 1
+  },
+  {
+   "label": "t11-measure-canonical-baseline",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--fmt-dir",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\fmt\\baseline",
+    "--out",
+    "results/measures-canonical-baseline.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:17.700658+00:00",
+   "end_utc": "2026-11-05T05:01:18.487034+00:00",
+   "seconds": 0.79,
+   "exit": 0
+  },
+  {
+   "label": "t11-measure-canonical-round1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--structure",
+    "candidate-structure.json",
+    "--fmt-dir",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\fmt\\round1",
+    "--out",
+    "results/measures-canonical-round1.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:18.685623+00:00",
+   "end_utc": "2026-11-05T05:01:19.059891+00:00",
+   "seconds": 0.37,
+   "exit": 0
+  },
+  {
+   "label": "t11-repeat-canonical-baseline",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--fmt-dir",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\fmt\\baseline",
+    "--out",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\rep-baseline.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:19.361252+00:00",
+   "end_utc": "2026-11-05T05:01:19.759541+00:00",
+   "seconds": 0.4,
+   "exit": 0
+  },
+  {
+   "label": "t11-repeat-canonical-round1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures2.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--structure",
+    "candidate-structure.json",
+    "--fmt-dir",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\fmt\\round1",
+    "--out",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\rep-round1.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:19.939275+00:00",
+   "end_utc": "2026-11-05T05:01:20.335206+00:00",
+   "seconds": 0.4,
+   "exit": 0
+  },
+  {
+   "label": "t11-frozen-rerun-baseline",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\frozen-baseline.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:20.510296+00:00",
+   "end_utc": "2026-11-05T05:01:20.663023+00:00",
+   "seconds": 0.15,
+   "exit": 0
+  },
+  {
+   "label": "t11-frozen-rerun-round1",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures.py",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--structure",
+    "candidate-structure.json",
+    "--out",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\frozen-round1.json"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T05:01:20.829341+00:00",
+   "end_utc": "2026-11-05T05:01:20.973841+00:00",
+   "seconds": 0.14,
+   "exit": 0
   }
  ],
  "facts": [

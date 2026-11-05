@@ -64,6 +64,28 @@ These are the definitions of the plan's scratch script.
 
 The check also reports undeclared defs and the pure share.
 
+### Canonical-format measures (`measures2.py`, added 2026-11-05)
+
+`measures2.py` (46 lines) imports `measures.measure` unchanged and reports its output as
+`as_written`. It then copies the five files to `--fmt-dir` and formats the copies with `ruff format`
+0.17.3 (`uv tool run --offline --python 3.13 ruff==0.17.3 format --isolated --line-length 100
+--target-version py313 --no-cache`). It reports `canonical` lines and stmts per file and in total,
+and records the formatter under `formatter`. The trees themselves are only read.
+`--check FROZEN.json` compares `as_written` to a frozen measures file and exits 1 with the first
+difference.
+
+```
+PY measures2.py --check results/measures-baseline.json --root <ROOT>
+PY measures2.py --check results/measures-round1.json --root <CAND> --structure candidate-structure.json
+PY measures2.py --root <ROOT> --fmt-dir .runs/e3-facdrone/fmt/baseline --out results/measures-canonical-baseline.json
+PY measures2.py --root <CAND> --structure candidate-structure.json --fmt-dir .runs/e3-facdrone/fmt/round1 --out results/measures-canonical-round1.json
+```
+
+Results: the original is unchanged by the formatter (660 stmts, 1,274 lines). The candidate has
+546 stmts and 1,188 lines canonical, against 1,074 lines as written. The formatter cannot change
+`ast.stmt` counts, so it does not undo the packing measured in `results/review-step2.md`. The
+reading is in R25 Amendment 1 and plan Amendment 3.
+
 ## Validation on the frozen copy
 
 | Check | Result |

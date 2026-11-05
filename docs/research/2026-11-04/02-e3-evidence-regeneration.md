@@ -226,3 +226,49 @@ stated with the result it qualifies; facts (counts, hashes, survivors,
 verdicts) are separated from readings (equivalent by inspection, real gap);
 the post hoc rate is labelled; no equivalence or adoption is claimed; the
 decision is the owner's.
+
+## Amendment 1 (2026-11-05): canonical-format reading of T2
+
+Written and executed 2026-11-05, after the results above. This is a
+separate, labelled reading. It changes no target, no prediction and no
+verdict: T2 as preregistered (literal `ast.stmt` and physical lines of the
+files as written) stays held, with 546 statements and 1,074 lines.
+
+`measures2.py` (new, beside the frozen `measures.py`, which it imports
+unchanged) formats copies of the five files of both trees with one pinned
+formatter and counts again. Formatter: `ruff format` 0.17.3, run as
+`uv tool run --offline --python 3.13 ruff==0.17.3 format --isolated
+--line-length 100 --target-version py313 --no-cache`, ruff defaults
+otherwise; line length 100 and py313 are the original's `[tool.ruff]`
+settings. Its as-written counts equal the frozen measures files for both
+trees (`t11-check-baseline-green`, `t11-check-round1-green`, exit 0).
+
+| Tree | Statements as written | Statements canonical | Lines as written | Lines canonical |
+| --- | ---: | ---: | ---: | ---: |
+| Original (`e2-facdrone/source`) | 660 | 660 | 1,274 | 1,274 |
+| Candidate (`e3-facdrone/cand`) | 546 | 546 | 1,074 | 1,188 |
+| T2 bar | at most 561 | | at most 1,083 | |
+
+Reading:
+
+- The original is already in the formatter's canonical form (no count
+  changes). The candidate gains 114 lines under formatting (publication
+  359 to 408, store 280 to 296, reader 82 to 95, slice store 207 to 222,
+  publisher 146 to 167).
+- Canonical lines, 1,188, sit **above** the 1,083 bar: a reduction of 6.8%
+  against 15% required. Under this reading the line clause of T2 would not
+  hold.
+- Canonical statements, 546, sit below the 561 bar. A formatter does not
+  change `ast.stmt` counts, so this figure does not test the reviewer's
+  packing caveat: the reviewer's separated-form count (572, above the bar)
+  splits multi-name imports and tuple assignments, which no formatter
+  undoes. The two figures measure different things and both stand.
+- A reduction claim for this candidate cites the canonical figures:
+  546 statements (−17.3%) and 1,188 lines (−6.8%).
+
+Evidence: `results/measures-canonical-baseline.json`,
+`results/measures-canonical-round1.json`, receipt labels `t11-*` in
+`results/receipt.json` (including the red check before `measures2.py`
+existed, a negative control, repeat runs that are byte-identical, and
+reruns of the frozen measurer that are byte-identical to the frozen
+files).

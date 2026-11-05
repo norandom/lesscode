@@ -18,7 +18,7 @@ predictions E4 reuses. The research-code line budget in 6.1 covers every
 apparatus file authored in 6.1, 6.4 and 6.5.
 
 - [ ] 1. Foundation: measurement and run discipline the later tasks rely on
-- [ ] 1.1 (P) Canonical-format size measures beside the frozen measurer
+- [x] 1.1 (P) Canonical-format size measures beside the frozen measurer
   - Add a new versioned measurer that reports statements and lines twice:
     as written, and after both trees are formatted with one declared
     formatter and settings recorded in the result file. The frozen E3
@@ -251,3 +251,18 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   lock is held only for one read-append-replace, never for a whole step.
   The guard writes `<label>-guard` (and `-guard-2` on a second wait) with
   the probe and all four thresholds; exit 0 proceed, 3 stop.
+- 1.1 (2026-11-05): `e3-evidence-regeneration/measures2.py` (46 lines)
+  imports the frozen measurer and formats copies of the five files with
+  ruff format 0.17.3 (`--isolated --line-length 100 --target-version py313`)
+  under `.runs/e3-facdrone/fmt/`. Canonical reading of E3: original 660
+  statements / 1,274 lines (already formatted); candidate 546 / 1,188. The
+  candidate's canonical line count is above the T2 bar of 1,083 (6.8%
+  below the original against 15% required); the preregistered verdict is
+  unchanged and both amendments say so. Spec finding for the owner: a
+  formatter never changes `ast.stmt` counts, so requirement 4.2 as written
+  cannot expose statement packing (multi-name imports, tuple assignments;
+  the step-2 reviewer's separated-form estimate is about 572). A third
+  reading, a separated-form statement count, would need its own
+  normaliser; not built, not in any task. E3 research code now 591 lines
+  against 400; the plan.md hash in the receipt facts is stale by design
+  (amendment).
