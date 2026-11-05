@@ -339,3 +339,15 @@ A separate canonical-format reading of T2 was added after the results; no target
 original's 660 and 1,274 (both unchanged by the formatter): statements below the 561 bar, lines above
 the 1,083 bar. Results: `results/measures-canonical-baseline.json`,
 `results/measures-canonical-round1.json`; receipt labels `t11-*`.
+
+## Amendment 5 (2026-11-05, after results)
+
+A third, separated-form reading of T2 was added after the results; no target or verdict changes.
+`measures3.py` counts statements with multi-name imports, literal tuple assignments, multiple
+targets, chained comparisons, multi-name `del`/`global`/`nonlocal` and multi-item `with` counted as
+the single statements they replace (rule version 1, declared in the module docstring and in each
+result file). Separated-form statements: original 718, candidate 627 (−12.7%), **above** the 561
+bar. Extras original / candidate: multi-name `import` 0 / 7, `from ... import` 56 / 58, tuple
+assignment 2 / 16, others 0. As-written counts equal the frozen measures files (660 / 546).
+Results: `results/measures-separated-baseline.json`, `results/measures-separated-round1.json`;
+receipt labels `t13-*`; reading in R25 Amendment 3.

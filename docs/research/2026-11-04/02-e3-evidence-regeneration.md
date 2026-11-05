@@ -272,3 +272,59 @@ Evidence: `results/measures-canonical-baseline.json`,
 existed, a negative control, repeat runs that are byte-identical, and
 reruns of the frozen measurer that are byte-identical to the frozen
 files).
+
+## Amendment 3 (2026-11-05): separated-form statement reading of T2
+
+Written and executed 2026-11-05 (deconvolution-loop task 1.3, owner
+decision after task 1.1; requirement 4.2 amendment). This is a third
+labelled reading of T2 next to the original verdict and the canonical
+reading of Amendment 1. No target and no verdict changes.
+
+`measures3.py` (new, beside the frozen `measures.py` and `measures2.py`,
+which it imports unchanged) counts statements in separated form under
+rule version 1, declared in its docstring and copied into each result
+file under `rule`. Every `ast.stmt` counts 1. Extras: a multi-name
+`import` or `from ... import` counts one per name; a tuple or list
+assignment with a same-length literal tuple or list value counts one per
+paired leaf; `a = b = v` counts one per target; a comparison with k
+comparators counts k; `del`, `global` and `nonlocal` count one per name;
+a `with` with n items counts n. Not unpacked: augmented and annotated
+assignments, `a, b = f()` and starred targets, boolean operators,
+conditional expressions, comprehensions, loop targets and similar.
+Its as-written counts equal the frozen measures files for both trees
+(`t13-green-check-baseline`, `t13-green-check-round1`, exit 0; red
+checks `t13-red-*` before the file existed).
+
+| Tree | As written | Canonical (Amendment 1) | Separated, rule 1 |
+| --- | ---: | ---: | ---: |
+| Original (`e2-facdrone/source`) | 660 | 660 | 718 |
+| Candidate (`e3-facdrone/cand`) | 546 | 546 | 627 |
+| T2 bar | at most 561 | at most 561 | at most 561 (bar unchanged) |
+
+Extras by rule (original / candidate): multi-name `import` 0 / 7,
+multi-name `from ... import` 56 / 58, tuple assignment 2 / 16, multiple
+targets 0 / 0, chained comparison 0 / 0, `del` 0 / 0, `global` and
+`nonlocal` 0 / 0, multi-item `with` 0 / 0. Totals 58 / 81.
+
+Reading:
+
+- The candidate's separated-form figure, 627, sits **above** the 561 bar.
+  Against the original's own separated figure (718) it is a reduction of
+  12.7%, short of the 15% the bar encodes.
+- Most of the extras on both sides are multi-name `from ... import`
+  lines, which the original also uses (56 against 58). The difference
+  between the trees comes from multi-name `import` (+7) and tuple
+  assignments (+14).
+- Comparison with the reviewer: leaving out the `from ... import` rule,
+  the breakdown gives 662 for the original and 569 for the candidate. The
+  reviewer's estimate was 662 and 572; the 3-statement gap is the
+  reviewer's merged re-export lines, which rule 1 counts under
+  `from ... import` with every other from-import.
+- A reduction claim for this candidate cites the canonical figure (546,
+  −17.3%) and the separated figure (627, −12.7% against 718) together.
+
+Evidence: `results/measures-separated-baseline.json`,
+`results/measures-separated-round1.json`, receipt labels `t13-*` in
+`results/receipt.json` (red and green pytest of `test_measures3.py`,
+red and green as-written checks, measurements, and repeat runs that are
+byte-identical, `t13-bytecompare`, `t13-bytecompare-round1`).

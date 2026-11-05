@@ -46,6 +46,26 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Boundary: Receipt, HostGuard_
   - _Requirements: 11.2, 11.3, 11.4, 11.5, 12.3_
 
+- [x] 1.3 Separated-form statement count as a third size reading (added 2026-11-05 by owner decision after 1.1)
+  - Add a versioned counter beside the frozen measurer and `measures2.py`
+    that counts statements in separated form: every multi-name import,
+    tuple or multiple-target assignment, chained comparison inside one
+    statement, and similar packing is counted as the single-name
+    statements it replaces, under a declared rule recorded in the result
+    file with a rule version; the as-written count must still equal the
+    frozen measures (dry-run equality check).
+  - Re-read the E3 baseline and candidate under the rule; add a dated
+    amendment to R25 and the E3 plan adding the separated-form figures as a
+    third labelled reading next to the original T2 verdict and the
+    canonical reading. Targets and verdicts are not changed.
+  - Done when both E3 trees have separated-form counts in a result file
+    with the rule version, the as-written counts match the frozen files,
+    and R25's amendment names the separated-form statement totals and says
+    whether the candidate's figure sits above or below the 561 bar.
+  - _Boundary: Measurer_
+  - _Depends: 1.1_
+  - _Requirements: 4.1, 4.2, 4.6, 10.3, 11.1, 11.7_
+
 - [ ] 2. Core: turn the E3 residue into artefacts the workflow can consume
 - [x] 2.1 (P) Missing-test report from survivors and realised counterexamples
   - Read the recorded sensitivity outcomes and the differential replay
@@ -313,3 +333,15 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   the arm moves it out in a finally block (verified no leftover). Deadline
   arithmetic goes into `<label>-deadline` notes because the receipt is
   append-only.
+- 1.3 (2026-11-05): `e3-evidence-regeneration/measures3.py` (69 lines)
+  counts statements in separated form under rule version 1 (multi-name
+  import and from-import per name; tuple assignment with tuple value per
+  target; multiple targets per target; chained comparison per comparator;
+  del, global/nonlocal and multi-item with per item; `a, b = f()`,
+  starred targets, boolean operators, comprehensions and loop targets are
+  not unpacked). E3 third reading: original 718 (from-import 56, tuple 2),
+  candidate 627 (import 7, from-import 58, tuple 16); candidate above the
+  561 bar; 12.7% below the original's separated figure against 15%
+  required. The from-import rule inflates both trees almost equally;
+  without it 662 vs 569, matching the step-2 reviewer's 662 vs 572 within
+  3. Verdicts unchanged; amendments R25 #3 and E3 plan #5.

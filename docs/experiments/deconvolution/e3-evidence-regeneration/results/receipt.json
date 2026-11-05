@@ -2567,6 +2567,208 @@
    "end_utc": "2026-11-05T05:01:20.973841+00:00",
    "seconds": 0.14,
    "exit": 0
+  },
+  {
+   "label": "t13-red-pytest",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\test_measures3.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-05T06:30:16.581545+00:00",
+   "end_utc": "2026-11-05T06:30:18.084144+00:00",
+   "seconds": 1.5,
+   "exit": 2,
+   "adaptive": null
+  },
+  {
+   "label": "t13-red-check-baseline",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\measures3.py",
+    "--check",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\measures-baseline.json",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:30:24.016803+00:00",
+   "end_utc": "2026-11-05T06:30:24.128981+00:00",
+   "seconds": 0.11,
+   "exit": 2,
+   "adaptive": null
+  },
+  {
+   "label": "t13-green-pytest",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\test_measures3.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:30:54.706415+00:00",
+   "end_utc": "2026-11-05T06:30:56.099329+00:00",
+   "seconds": 1.39,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "t13-green-check-baseline",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\measures3.py",
+    "--check",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\measures-baseline.json",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:30:56.245139+00:00",
+   "end_utc": "2026-11-05T06:30:56.424854+00:00",
+   "seconds": 0.18,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "t13-green-check-round1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\measures3.py",
+    "--check",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\measures-round1.json",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--structure",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\candidate-structure.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:30:56.560301+00:00",
+   "end_utc": "2026-11-05T06:30:56.758015+00:00",
+   "seconds": 0.2,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "t13-measure-baseline",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\measures3.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\measures-separated-baseline.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:31:05.796050+00:00",
+   "end_utc": "2026-11-05T06:31:05.997305+00:00",
+   "seconds": 0.2,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "t13-measure-round1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\measures3.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--structure",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\candidate-structure.json",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\measures-separated-round1.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:31:06.143258+00:00",
+   "end_utc": "2026-11-05T06:31:06.342781+00:00",
+   "seconds": 0.2,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "t13-repeat-baseline",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\measures3.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\sep-baseline.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:31:06.490100+00:00",
+   "end_utc": "2026-11-05T06:31:06.697559+00:00",
+   "seconds": 0.21,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "t13-repeat-round1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\measures3.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+    "--structure",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\candidate-structure.json",
+    "--out",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\sep-round1.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:31:06.841137+00:00",
+   "end_utc": "2026-11-05T06:31:07.029445+00:00",
+   "seconds": 0.19,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "t13-bytecompare",
+   "cmd": [
+    "fc.exe",
+    "/b",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\measures-separated-baseline.json",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\sep-baseline.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:31:07.178717+00:00",
+   "end_utc": "2026-11-05T06:31:07.225394+00:00",
+   "seconds": 0.05,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "t13-bytecompare-round1",
+   "cmd": [
+    "fc.exe",
+    "/b",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration\\results\\measures-separated-round1.json",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\sep-round1.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {},
+   "start_utc": "2026-11-05T06:31:07.361521+00:00",
+   "end_utc": "2026-11-05T06:31:07.390234+00:00",
+   "seconds": 0.03,
+   "exit": 0,
+   "adaptive": null
   }
  ],
  "facts": [

@@ -124,6 +124,13 @@ formatting tricks and relocated code.
 2. The Loop shall report statements both as written and after a declared
    canonical formatting of both trees, and a reduction claim shall cite the
    canonical figure.
+   Amendment 2026-11-05 (owner decision after task 1.1): a formatter never
+   changes the statement count, so the Loop shall also report a third
+   reading, the separated-form statement count, in which every multi-name
+   import, tuple assignment, chained comparison and similar packed
+   statement is counted as the number of single-name statements it
+   replaces, under a declared and versioned rule; a reduction claim shall
+   cite the separated-form figure alongside the canonical one.
 3. The Loop shall count every new helper, wrapper, table, configuration or
    changed caller that the candidate introduces, inside or outside the
    original files, as part of the candidate.

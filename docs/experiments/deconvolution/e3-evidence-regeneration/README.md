@@ -86,6 +86,28 @@ Results: the original is unchanged by the formatter (660 stmts, 1,274 lines). Th
 `ast.stmt` counts, so it does not undo the packing measured in `results/review-step2.md`. The
 reading is in R25 Amendment 1 and plan Amendment 3.
 
+### Separated-form statements (`measures3.py`, added 2026-11-05)
+
+`measures3.py` (69 lines) imports `measures.measure` and `measures2.diff` unchanged and reports the
+frozen output as `as_written`. It then counts `separated` statements per file and in total under a
+declared rule, version 1, stored under `rule` {version, text}. Every `ast.stmt` counts 1, and the
+packed forms count as the single statements they replace: multi-name `import` and `from ... import`
+(per name), a tuple or list target with a same-length literal value (per paired leaf), `a = b = v`
+(per target), a comparison with k comparators (k), `del`/`global`/`nonlocal` (per name) and a
+multi-item `with` (per item). The docstring lists what is not unpacked. Each file carries an
+`extra` breakdown by rule. `--check FROZEN.json` works as in `measures2.py`. Hand-counted cases are
+in `test_measures3.py`.
+
+```
+PY measures3.py --check results/measures-baseline.json --root <ROOT>
+PY measures3.py --check results/measures-round1.json --root <CAND> --structure candidate-structure.json
+PY measures3.py --root <ROOT> --out results/measures-separated-baseline.json
+PY measures3.py --root <CAND> --structure candidate-structure.json --out results/measures-separated-round1.json
+```
+
+Results: original 718 separated statements (extras: from-import 56, tuple assignment 2), candidate
+627 (import 7, from-import 58, tuple assignment 16), above the 561 bar. The reading is in R25
+Amendment 3 and plan Amendment 5; receipt labels `t13-*`.
 ## Validation on the frozen copy
 
 | Check | Result |

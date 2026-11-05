@@ -1,0 +1,1 @@
+{"as_written": 546, "separated": {"stmts": 627, "extra": {"import": 7, "from_import": 58, "tuple_assign": 16, "multi_target": 0, "chained_compare": 0, "del": 0, "global_nonlocal": 0, "with_items": 0}}, "rule_version": "1"}
