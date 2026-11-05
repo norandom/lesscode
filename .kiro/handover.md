@@ -123,7 +123,18 @@ tasks on 2026-11-04 ("approved"). `tasks.md` (reviewed twice by an
 independent agent, 18 findings applied) holds bounded apparatus revisions,
 the regenerator-program prototype and E4; tasks marked "owner go" (3.2, 4,
 5.2, 6.1 for 6.2 to 6.7) still need an explicit answer before they start.
-Next executable tasks without a go: 1.1, 1.2, then 2.1, 2.2, 3.1, 5.1.
+Executed 2026-11-05 (owner: "continue the process as planned"), each by
+an implementer subagent, an independent kiro-review and fresh
+verification, then a selective commit: 1.2 (3a14745), 1.1 (3094ec5), 2.2
+(a461ee8), 2.1 (e60c3a0), 3.1 (33180c5). Findings worth knowing: formatted,
+the E3 candidate has 1,188 lines, above the T2 bar of 1,083, and a
+formatter cannot expose statement packing (spec gap in requirement 4.2);
+the missing-test report was actionable (a fresh writer's tests killed 3 of
+3 gaps and exposed the exception path); test-infra detection reproduces
+the 19 importing files, the 236/24 deselections and the marker expression
+but not the 191 coverage seeds. Details in `tasks.md` Implementation
+Notes. Everything remaining needs the owner's go: 3.2, 4, 5.2, 6.1; 5.1
+after 4. Commits are local until pushed.
 Owner stance recorded: tests belong to the TDD workflow; a cleaner smaller
 AI version is preferred when it holds.
 
