@@ -1112,6 +1112,12 @@
     "total_6_1_6_4_6_5": 900,
     "patchcheck_planned": "at most 60 lines, counted"
    }
+  },
+  {
+   "time_utc": "2026-11-06T09:57:11.636593+00:00",
+   "key": "plan-frozen",
+   "plan_md_sha256": "baf5ea1c0b56a1b9f3fb60426b87987eb247813a374e5657172f15acaa07520c",
+   "date": "2026-11-06"
   }
  ],
  "notes": [
@@ -1462,6 +1468,16 @@
     },
     "stated_in_advance": "\"0.70 not met\" on the original sample is expected from the sample composition and is not a result about the arm; T5 stays on the candidate own population and sample; no target changes",
     "earlier_note_error": "sample-composition said \"about 15 competent mutants of reached code\" and \"ceiling near 0.55\"; the correct arithmetic is 15 of 29 = 0.517 (0.483 with #19 equivalent)"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:57:11.324311+00:00",
+   "key": "owner-go-6.2-to-6.7-answer",
+   "value": {
+    "date": "2026-11-06",
+    "answer": "Go for 6.2 to 6.7",
+    "channel": "menu",
+    "plan_frozen": true
    }
   }
  ]

@@ -451,4 +451,4 @@ other language.
 
 ## Owner go
 
-Owner go for 6.2 to 6.7: pending (asked 2026-11-06).
+Owner go for 6.2 to 6.7: **given 2026-11-06** (menu answer "Go for 6.2 to 6.7", after the cost and time were stated: up to 4 regenerator turns at about 37k input / 85k output tokens each on claude-opus-5-5, sensitivity on both trees about 2 hours of host time). The plan is frozen from this line on; later changes are dated amendments.
