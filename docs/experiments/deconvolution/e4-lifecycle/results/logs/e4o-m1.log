@@ -1,0 +1,18 @@
+e4_arm: M1 M1.patch git apply exit 0 ; src/facdrone/shells/lifecycle_store.py mutated sha256=b92700bc175706b0dd5200635259b823e7173b0f0ed60cb6234810b51425ac79 recorded=b92700bc175706b0dd5200635259b823e7173b0f0ed60cb6234810b51425ac79 match=True
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-M1 --deadline 1392.0
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:02:17] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.............................. [ 66%]
+.....................................                                    [100%]
+108 passed, 1 skipped, 1 deselected in 14.24s
+run_e4 .: exit 0 in 28.0s
+.                                                                        [100%]
+1 passed in 1.43s
+run_e4 packages/facdrone-research: exit 0 in 14.6s
+run_e4: exit 0; replay file fresh=True sequences=50/50 operations=317 level2_ops=0
+
+e4_arm: restored, identical=True

@@ -1,0 +1,18 @@
+e4_arm: mutant 8 src/facdrone/shells/cli/lifecycle_group.py core/ReplaceBinaryOperator_Div_RShift occ 11 line 247: [['    rows = parse_ledger((root / "research" / "equity_census_verdicts.jsonl").read_text())\r']] -> [['    rows = parse_ledger((root / "research" >> "equity_census_verdicts.jsonl").read_text())\r']]; mutated sha256=b98e48d226109bcfa4d25eaea33d198f1d17884ab6f3845e3d2f474f3325a0e7
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m8 --deadline 1375.3
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:15:22] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.............................. [ 66%]
+.....................................                                    [100%]
+108 passed, 1 skipped, 1 deselected in 23.65s
+run_e4 .: exit 0 in 53.5s
+.                                                                        [100%]
+1 passed in 2.17s
+run_e4 packages/facdrone-research: exit 0 in 18.7s
+run_e4: exit 0; replay file fresh=True sequences=50/50 operations=317 level2_ops=0
+
+e4_arm: restored, identical=True

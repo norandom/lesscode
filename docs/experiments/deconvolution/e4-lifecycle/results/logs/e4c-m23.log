@@ -1,0 +1,128 @@
+e4_arm: mutant 23 src/facdrone/shells/lifecycle_store.py core/NumberReplacer occ 6 line 269: [['        lambda signal, version, act, reason: enroll(signal, version, act, 0, reason),\r']] -> [['        lambda signal, version, act, reason: enroll(signal, version, act, 1, reason),\r']]; mutated sha256=1ec7cbdcacb04ddaa1daf008e408582841dddca2cdbe18fa455f451102a43b6a
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m23 --deadline 616.7
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:32:03] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+................................F
+================================== FAILURES ===================================
+_________ test_same_bound_runner_uses_only_the_current_census[False] __________
+
+tmp_path = WindowsPath('C:/Users/mariu/AppData/Local/Temp/pytest-of-mariu/pytest-3285/test_same_bound_runner_uses_on0')
+pg_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-9zncc75g)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000299F2642210>
+bind_before_admission = False
+
+    @pytest.mark.parametrize("bind_before_admission", [False, True])
+    def test_same_bound_runner_uses_only_the_current_census(
+        tmp_path: Path,
+        pg_engine: Engine,
+        monkeypatch: pytest.MonkeyPatch,
+        bind_before_admission: bool,
+    ) -> None:
+        for table in (SIGNAL_LIFECYCLE_EVENT, SIGNAL_MONITOR_READING):
+            table.create(pg_engine, checkfirst=True)
+            with pg_engine.begin() as conn:
+                conn.execute(table.delete())
+        clock = [AS_OF]
+        store = LifecycleStore(pg_engine, now=lambda: clock[0])
+        writers = bind_writers(store)
+        ledger = tmp_path / "research/equity_census_verdicts.jsonl"
+        ledger.parent.mkdir()
+        old, new = _row(1), _row(2)
+        ledger.write_text("" if bind_before_admission else json.dumps(old) + "\n")
+        monkeypatch.setattr("facdrone.shells.lifecycle_evidence._consumed", lambda *_: [])
+        monkeypatch.setattr(
+            "facdrone.shells.lifecycle_evidence.LiveEvidence.for_window", lambda *_: BREACH
+        )
+        runner = bind_lifecycle_monitor(
+            tmp_path, replace(make_book(False), engine_db=pg_engine), store, DECLARED
+        )
+>       writers.enroll("sig", 1, Enrollment("unit", "binding regression"), "unit")
+
+tests\unit\test_lifecycle_monitor_binding_db.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\facdrone\shells\lifecycle_store.py:269: in <lambda>
+    lambda signal, version, act, reason: enroll(signal, version, act, 1, reason),
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\facdrone\shells\lifecycle_store.py:261: in <lambda>
+    store.transition(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <facdrone.shells.lifecycle_store.LifecycleStore object at 0x00000299F13CE7B0>
+request = TransitionRequest(signal='sig', version=1, target=<LifecycleState.CANDIDATE: 'candidate'>, authority='registry', evidence=Enrollment(actor='unit', reason='binding regression'), expected_revision=1, reason='unit', decision_id=None)
+connection = None
+
+    def transition(
+        self, request: TransitionRequest, connection: Connection | None = None
+    ) -> TransitionReceipt:
+        """Apply one transition at the expected revision or record why it was refused; a
+        refusal is always recorded in its own transaction so it survives a rolled-back
+        caller (an identical refusal at an identical moment is already on record). A
+        concurrent write inside a caller's transaction has aborted it, so it is re-raised."""
+        r = request
+        standing = self.standing(r.signal, r.version)
+        live = standing if isinstance(standing, StandingRevision) else None
+        current, prior = (live.revision, live.state) if live is not None else (0, None)
+        closes = None
+        if live is not None and prior == LifecycleState.FLAGGED:
+            at = [
+                e.event_id
+                for e in self.events(live.signal, live.version)
+                if e.disposition == "applied" and e.revision == live.revision
+            ]
+            closes = at[0] if at else None
+        event = LifecycleEvent(
+            r.signal,
+            r.version,
+            prior,
+            r.target,
+            r.expected_revision + 1,
+            self._now(),
+            r.authority,
+            r.reason,
+            r.evidence.reference(),
+            "applied",
+            closes,
+            decision_id=r.decision_id,
+        )
+        if current != r.expected_revision:
+            why = f"expected revision {r.expected_revision}, standing is at {current}"
+        else:
+            why = refusal_reason(standing, r.target, r.authority, r.evidence)
+        if why is None:
+            try:
+                event_id = self._write(event, connection)
+            except IntegrityError as clash:  # only the partial unique index can raise here
+                if connection is not None:  # the caller's transaction is aborted: fail loudly
+                    raise
+                why = f"revision {event.revision} was written concurrently ({type(clash).__name__})"
+            else:
+                return TransitionReceipt(
+                    event_id, r.signal, r.version, prior, r.target, event.revision, closes
+                )
+        refused = replace(
+            event,
+            revision=current,
+            reason=f"refused: {why}",
+            disposition="refused",
+            closed_flag_id=None,
+        )
+        with suppress(IntegrityError):  # the same content digest: already recorded
+            self._write(refused)
+>       raise TransitionRefused(
+            f"{event.signal} v{event.version} -> {event.new_state}: {why}"
+        ) from None
+E       facdrone_kernel.domain.signal_lifecycle.TransitionRefused: sig v1 -> candidate: expected revision 1, standing is at 0
+
+src\facdrone\shells\lifecycle_store.py:229: TransitionRefused
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_monitor_binding_db.py::test_same_bound_runner_uses_only_the_current_census[False]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 32 passed, 1 deselected in 4.58s
+run_e4 .: exit 1 in 21.3s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

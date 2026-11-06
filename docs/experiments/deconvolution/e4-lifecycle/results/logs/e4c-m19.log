@@ -1,0 +1,35 @@
+e4_arm: mutant 19 src/facdrone/shells/lifecycle_monitor_runner.py core/NumberReplacer occ 9 line 156: [['            latest = next(r for r in fresh[verdict.windows[-1]] if r.monitor == monitor)\r']] -> [['            latest = next(r for r in fresh[verdict.windows[- 0]] if r.monitor == monitor)\r']]; mutated sha256=359301935901e70367b668f847a700b74a3b275b8455c2935e5457ffa4aa9cc2
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m19 --deadline 641.0
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:28:00] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.F
+================================== FAILURES ===================================
+____ TestTheRunnerAlone.test_a_later_cutoff_evaluates_only_the_new_windows ____
+
+self = <tests.unit.test_lifecycle_monitor_runner_db.TestTheRunnerAlone object at 0x0000025C1F0ECCD0>
+store = <facdrone.shells.lifecycle_store.LifecycleStore object at 0x0000025C20D52120>
+
+    def test_a_later_cutoff_evaluates_only_the_new_windows(self, store: LifecycleStore) -> None:
+        """Resumption: windows already recorded stay; the new ones join the sequence and
+        the flag names three distinct windows (R5.4)."""
+        runner = _runner(store, lambda _t, _w: BREACH)
+        first = runner.run(AS_OF - timedelta(days=2), "d1")
+        assert (first.windows_evaluated, first.flags, first.watch) == (1, (), 1)
+        second = runner.run(AS_OF, "d2")
+>       assert second.windows_evaluated == 2
+E       assert 0 == 2
+E        +  where 0 = MonitorSummary(windows_evaluated=0, flags=(), watch=0, unmeasured=0, not_run=0, unavailable=(('carry', 3, "KeyError: '2026-09-04'"),)).windows_evaluated
+
+tests\unit\test_lifecycle_monitor_runner_db.py:328: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_monitor_runner_db.py::TestTheRunnerAlone::test_a_later_cutoff_evaluates_only_the_new_windows
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 42 passed, 1 skipped, 1 deselected in 7.36s
+run_e4 .: exit 1 in 33.0s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

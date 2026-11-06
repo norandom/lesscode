@@ -1,0 +1,73 @@
+e4_arm: M2 M2.patch git apply exit 0 ; src/facdrone/shells/lifecycle_store.py mutated sha256=da7640cd3362ffc6274ec94e55728f7874038c0fe47f93653fa8a95643bc4950 recorded=da7640cd3362ffc6274ec94e55728f7874038c0fe47f93653fa8a95643bc4950 match=True
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-M2 --deadline 1416.0
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:03:18] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+................................F
+================================== FAILURES ===================================
+_________ test_same_bound_runner_uses_only_the_current_census[False] __________
+
+tmp_path = WindowsPath('C:/Users/mariu/AppData/Local/Temp/pytest-of-mariu/pytest-3262/test_same_bound_runner_uses_on0')
+pg_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-pclmxmb2)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000215886C6690>
+bind_before_admission = False
+
+    @pytest.mark.parametrize("bind_before_admission", [False, True])
+    def test_same_bound_runner_uses_only_the_current_census(
+        tmp_path: Path,
+        pg_engine: Engine,
+        monkeypatch: pytest.MonkeyPatch,
+        bind_before_admission: bool,
+    ) -> None:
+        for table in (SIGNAL_LIFECYCLE_EVENT, SIGNAL_MONITOR_READING):
+            table.create(pg_engine, checkfirst=True)
+            with pg_engine.begin() as conn:
+                conn.execute(table.delete())
+        clock = [AS_OF]
+        store = LifecycleStore(pg_engine, now=lambda: clock[0])
+        writers = bind_writers(store)
+        ledger = tmp_path / "research/equity_census_verdicts.jsonl"
+        ledger.parent.mkdir()
+        old, new = _row(1), _row(2)
+        ledger.write_text("" if bind_before_admission else json.dumps(old) + "\n")
+        monkeypatch.setattr("facdrone.shells.lifecycle_evidence._consumed", lambda *_: [])
+        monkeypatch.setattr(
+            "facdrone.shells.lifecycle_evidence.LiveEvidence.for_window", lambda *_: BREACH
+        )
+        runner = bind_lifecycle_monitor(
+            tmp_path, replace(make_book(False), engine_db=pg_engine), store, DECLARED
+        )
+        writers.enroll("sig", 1, Enrollment("unit", "binding regression"), "unit")
+        ledger.write_text(json.dumps(old) + "\n")
+>       admit_durable(old, store.standing, store.census_references, writers.admit)
+
+tests\unit\test_lifecycle_monitor_binding_db.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\facdrone\pipelines\evaluation\recensus.py:104: in admit_durable
+    standing = standing_of(signal, version)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\facdrone\shells\lifecycle_store.py:106: in standing
+    return StandingRevision(
+<string>:9: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = StandingRevision(signal='sig', version=1, state=<LifecycleState.CANDIDATE: 'candidate'>, revision=0, recorded_at=datetime.datetime(2026, 9, 7, 12, 0, tzinfo=zoneinfo.ZoneInfo(key='GMT')), census=None)
+
+    def __post_init__(self) -> None:
+        if self.revision < 1 or self.version < 1 or not self.signal.strip():
+>           raise ValueError("a standing revision names a signal, a version and a revision >= 1")
+E           ValueError: a standing revision names a signal, a version and a revision >= 1
+
+packages\facdrone-kernel\facdrone_kernel\domain\signal_lifecycle.py:39: ValueError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_monitor_binding_db.py::test_same_bound_runner_uses_only_the_current_census[False]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 32 passed, 1 deselected in 3.58s
+run_e4 .: exit 1 in 17.3s
+run_e4: exit 1; replay file fresh=False sequences=50/50 operations=317 level2_ops=0
+
+e4_arm: restored, identical=True

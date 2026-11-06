@@ -1,0 +1,18 @@
+e4_arm: mutant 21 src/facdrone/shells/lifecycle_projection.py core/ReplaceBinaryOperator_BitOr_LShift occ 4 line 141: [['    baseline: Row | None,\r']] -> [['    baseline: Row << None,\r']]; mutated sha256=76ec44046771c0b33bd89415ff14632703fe50ff3454ef2e96e8a662ef2a4072
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m21 --deadline 831.4
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 13:54:35] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.............................. [ 66%]
+.....................................                                    [100%]
+108 passed, 1 skipped, 1 deselected in 16.20s
+run_e4 .: exit 0 in 31.4s
+.                                                                        [100%]
+1 passed in 2.06s
+run_e4 packages/facdrone-research: exit 0 in 18.7s
+run_e4: exit 0; replay file fresh=True sequences=50/50 operations=317 level2_ops=0
+
+e4_arm: restored, identical=True

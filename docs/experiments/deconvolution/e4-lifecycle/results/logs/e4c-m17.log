@@ -1,0 +1,41 @@
+e4_arm: mutant 17 src/facdrone/shells/lifecycle_evidence.py core/ReplaceComparisonOperator_NotEq_Is occ 0 line 67: [['            str(name) for name, status in premise.get("sensitivities", ()) if status != "tested"\r']] -> [['            str(name) for name, status in premise.get("sensitivities", ()) if status is "tested"\r']]; mutated sha256=3016c681ee23d350399077b1b23062bb3e10bd9112e4e9052b811c746925b455
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m17 --deadline 446.3
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:25:37] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+......F
+================================== FAILURES ===================================
+________ TestTheBaselineProjection.test_only_what_the_census_recorded _________
+
+self = <tests.unit.test_lifecycle_evidence.TestTheBaselineProjection object at 0x000002A849E125D0>
+
+    def test_only_what_the_census_recorded(self) -> None:
+        view = baseline_view(_baseline().row())
+        assert (view.route, view.traded_horizon_days, view.traded_ic_mean) == ("scored", 10, 0.05)
+        assert view.survival_ratio == 0.5
+        assert view.state_shares == {"calm": 0.75, "stressed": 0.25}
+        assert view.state_ic == {"calm": 0.04, "stressed": None}
+        assert view.cost_basis == {
+            "spread": None,
+            "slippage": None,
+            "financing": 0.03,
+            "dividend": None,
+        }
+>       assert view.premise_untested == ("inflation",)
+E       AssertionError: assert () == ('inflation',)
+E         
+E         Right contains one more item: 'inflation'
+E         Use -v to get more diff
+
+tests\unit\test_lifecycle_evidence.py:68: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_evidence.py::TestTheBaselineProjection::test_only_what_the_census_recorded
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 6 passed, 1 deselected in 2.38s
+run_e4 .: exit 1 in 18.5s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

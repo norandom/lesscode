@@ -1,0 +1,9 @@
+{
+ "written": 1793969635.1677225,
+ "root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\orig-mut",
+ "golden": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\golden-a.json",
+ "sequences": 50,
+ "operations": 317,
+ "level2_ops": 0,
+ "divergences": []
+}

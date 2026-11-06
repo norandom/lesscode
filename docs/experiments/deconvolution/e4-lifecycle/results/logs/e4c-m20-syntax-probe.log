@@ -1,0 +1,47 @@
+{
+ "mutant": 20,
+ "module": "src/facdrone/shells/lifecycle_monitor_runner.py",
+ "row": 179,
+ "operator": "core/ReplaceBinaryOperator_Pow_BitXor",
+ "mutated_sha256": "4fe8f12d4f818d5912231dacd5191bd354bf574b0f976497d4012c69017b35a0",
+ "compile": "SyntaxError: invalid syntax (line 179, col 17): ^who,",
+ "import_exit": 1,
+ "import_stderr_tail": [
+  "    ^who,",
+  "    ^",
+  "SyntaxError: invalid syntax"
+ ]
+}
+{
+ "restored_identical": true,
+ "sha256": {
+  "src/facdrone/shells/lifecycle_monitor_runner.py": [
+   "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+   "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb"
+  ],
+  "src/facdrone/shells/lifecycle_store.py": [
+   "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+   "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3"
+  ],
+  "src/facdrone/shells/cli/lifecycle_group.py": [
+   "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+   "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae"
+  ],
+  "src/facdrone/shells/lifecycle_evidence.py": [
+   "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+   "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f"
+  ],
+  "src/facdrone/shells/lifecycle_projection.py": [
+   "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+   "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8"
+  ],
+  "src/facdrone/shells/cppi/lifecycle_seams.py": [
+   "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+   "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2"
+  ],
+  "src/facdrone/shells/wiring/lifecycle_root.py": [
+   "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad",
+   "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad"
+  ]
+ }
+}

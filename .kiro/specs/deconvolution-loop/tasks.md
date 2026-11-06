@@ -213,7 +213,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
     every hypothesis is carried forward by name.
   - _Depends: 6.2_
   - _Requirements: 7.2, 7.3, 7.4, 7.5_
-- [ ] 6.4 Sensitivity on both trees
+- [x] 6.4 Sensitivity on both trees
   - Author the candidate-side mutation configuration, port the semantic
     mutants to where the code moved, and draw the seeded samples for both
     trees the same way.
@@ -541,3 +541,37 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   copied into the directory) on both trees under the receipt: results
   byte-identical to the reviewer's (fact `task-6.3-review`). The review
   claims no equivalence; T6 candidates are H1, H2, H3, H9 pending 6.5.
+- 6.4 (2026-11-06): `e4-lifecycle/e4_arm.py` (253 lines, t31_arm's
+  logic parameterised over both trees; `e4_rates.py` 55; budget 308
+  against 260, overrun reported; running total 480 of 900 before 6.5).
+  Candidate-side cosmic-ray configuration on `cand-turn3`: population
+  1,488 (init wrote nothing, snapshot hashes equal), 30 draws seed
+  20261106 (redraw byte-identical; composition noted before any run: 2
+  syntax errors, 5 in residue, 1 in `study_baseline`). M1 to M4 ported to
+  the candidate (`mutants/M*-cand.patch`, predictions noted before the
+  runs). 70 arms (two bases, 30 sampled plus 4 hand-written per tree),
+  serial, guard before each, deadline from a receipted probe
+  (max(120, 5 × base) scaled; bases 138.6 s original, 81.1 s candidate),
+  no timeout, no rerun, every restore hash-identical, both references
+  unchanged, CRLF preserved. Rates (R22 convention): original 12 killed /
+  17 survived / 1 incompetent = 0.414 (bar 0.70 not met, as the plan
+  stated in advance from the sample's composition; post hoc 0.571 and
+  0.800 labelled); candidate 19 / 9 / 2 = 0.679 (bar not met; post hoc
+  0.679 and 0.864). T5 held (0.60 to 0.75). Hand-written: M1 survived on
+  both trees (predicted alphabet gap), M2, M3, M4 caught on both
+  (predicted; M2 by a binding seed test that precedes the store test
+  under -x, M3 at S09 op 2, M4 at S02 op 7). Survivor readings for all
+  26 survivors with H1 to H13 addressed by name: original 8 equivalent /
+  6 closed_assumption / 3 real (#9 `_compare` >=, #15 scope predicate,
+  which the Level 2 view distinguishes with 9 SQL divergences although
+  Level 1 scores it survived, #17 past-cutoff day); candidate 0 / 6 / 3
+  (#9, #12 fetch-margin day, #21 two failing targets). Residue findings:
+  `lifecycle_root.lifecycle_store` is reached by a seed test (declared
+  residue wrong on that point), `bind_lifecycle` is unreached and
+  undeclared. Apparatus facts: `e4c-m20` first read "killed" because the
+  arm captures stdout only, reclassified incompetent by a receipted
+  syntax probe; labels m1 to m4 and M1 to M4 collide on the
+  case-insensitive filesystem (logs overwritten, classifications intact
+  by timestamp). Reviewed by an independent sonnet agent: NEEDS_FIXES
+  (#12 misclassified, collision list, m15 Level 2 observation, README
+  text) then APPROVED.

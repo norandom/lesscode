@@ -1,0 +1,18 @@
+e4_arm: mutant 11 src/facdrone/shells/cppi/lifecycle_seams.py core/ReplaceBinaryOperator_Div_Add occ 3 line 89: [['        read_parameters(project_root / "conf" / "base" / "parameters.yml")\r']] -> [['        read_parameters(project_root / "conf" + "base" / "parameters.yml")\r']]; mutated sha256=0b4b6d09cbcc5536ef1286c2c456ad884d21b1baba62c13429c5a4ca2bd2619b
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m11 --deadline 454.4
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:20:14] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.............................. [ 66%]
+.....................................                                    [100%]
+108 passed, 1 skipped, 1 deselected in 14.72s
+run_e4 .: exit 0 in 28.5s
+.                                                                        [100%]
+1 passed in 1.67s
+run_e4 packages/facdrone-research: exit 0 in 15.0s
+run_e4: exit 0; replay file fresh=True sequences=50/50 operations=317 level2_ops=0
+
+e4_arm: restored, identical=True

@@ -1,0 +1,18 @@
+e4_arm: mutant 21 src/facdrone/shells/lifecycle_monitor_runner.py core/ReplaceUnaryOperator_USub_Not occ 4 line 226: [['                say(lost[-1][0], lost[-1][1], **lost[-1][2])\r']] -> [['                say(lost[-1][0], lost[not 1][1], **lost[-1][2])\r']]; mutated sha256=79a8420ef4d84f25b7b577492ae258d508815bf34c75e8e3ed017e4614b9d93b
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m21 --deadline 462.5
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:29:58] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.............................. [ 66%]
+.....................................                                    [100%]
+108 passed, 1 skipped, 1 deselected in 21.67s
+run_e4 .: exit 0 in 38.8s
+.                                                                        [100%]
+1 passed in 2.13s
+run_e4 packages/facdrone-research: exit 0 in 24.4s
+run_e4: exit 0; replay file fresh=True sequences=50/50 operations=317 level2_ops=0
+
+e4_arm: restored, identical=True

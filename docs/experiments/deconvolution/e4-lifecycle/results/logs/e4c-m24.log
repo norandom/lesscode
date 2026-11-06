@@ -1,0 +1,15 @@
+e4_arm: mutant 24 src/facdrone/shells/lifecycle_store.py core/ReplaceBinaryOperator_Pow_Mul occ 0 line 60: [['    content = {**asdict(event), "event_at": event.event_at.astimezone(UTC).isoformat()}\r']] -> [['    content = {*asdict(event), "event_at": event.event_at.astimezone(UTC).isoformat()}\r']]; mutated sha256=c11e3525bc769f12e4ee232c0a1072116f6baa4a99fa5ce37a2d086ff94de5c3
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m24 --deadline 519.3
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+run_e4: INVALID scope not imported from D:\Source\lesscode\.runs\e4-lifecycle\cand-mut: Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import facdrone.shells.lifecycle_store as m; print(m.__file__)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\e4-lifecycle\cand-mut\src\facdrone\shells\lifecycle_store.py", line 60
+    content = {*asdict(event), "event_at": event.event_at.astimezone(UTC).isoformat()}
+                                         ^
+SyntaxError: invalid syntax
+
+run_e4: exit 2; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

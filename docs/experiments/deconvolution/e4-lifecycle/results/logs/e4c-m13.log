@@ -1,0 +1,56 @@
+e4_arm: mutant 13 src/facdrone/shells/lifecycle_evidence.py core/ReplaceBinaryOperator_Sub_Div occ 1 line 151: [['        ic_window = replace(window, start=window.cutoff - timedelta(days=self.ic_days))\r']] -> [['        ic_window = replace(window, start=window.cutoff / timedelta(days=self.ic_days))\r']]; mutated sha256=eb627dca2f5b80d059025b9a56c4394475f81ff169d6a396e49f986056609c48
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m13 --deadline 503.1
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:22:23] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........F
+================================== FAILURES ===================================
+________ TestTheLiveEvidence.test_consumed_ic_joined_to_the_days_state ________
+
+self = <tests.unit.test_lifecycle_evidence.TestTheLiveEvidence object at 0x000002790A4C2850>
+evidence_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-nao4vm9f)
+
+    def test_consumed_ic_joined_to_the_days_state(self, evidence_engine: Engine) -> None:
+        """The retained batch consumed one IC value for carry v3 at 10 days, observed on
+        2026-08-03 with knowledge on 2026-09-14: the window through 2026-09-14 holds it,
+        under the state the loop read that day; cost and contribution are absent by
+        their reasons, never healthy."""
+        with evidence_engine.begin() as conn:
+            append_decision_evidence(conn, evidence_batch())
+        readings = _readings(
+            {date(2026, 8, 3): MarketState.STRESSED, date(2026, 8, 4): MarketState.CALM},
+        )
+        window = Window("2026-09-14", date(2026, 8, 1), date(2026, 9, 14))
+>       evidence = live_evidence(evidence_engine, readings, ("carry", 3, 10), window, 450)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_lifecycle_evidence.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\facdrone\shells\lifecycle_evidence.py:137: in live_evidence
+    return read_evidence(engine, readings, (window,), ic_days).for_window(signal, window)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = LiveEvidence(readings=<function _readings.<locals>.fake at 0x000002790C3A34C0>, consumed=[ConsumedIC(signal=SignalVers...ence(field='available_at', reason='retained IC rows contain no availability timestamp'), value=-0.15),))], ic_days=450)
+signal = ('carry', 3, 10)
+window = Window(window_id='2026-09-14', start=datetime.date(2026, 8, 1), cutoff=datetime.date(2026, 9, 14))
+
+    def for_window(self, signal: tuple[str, int, int], window: Window) -> MonitorEvidence | str:
+        """Apply the original signal, horizon and knowledge bounds to retained ICs."""
+        name, version, horizon = signal
+>       ic_window = replace(window, start=window.cutoff / timedelta(days=self.ic_days))
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: unsupported operand type(s) for /: 'datetime.date' and 'datetime.timedelta'
+
+src\facdrone\shells\lifecycle_evidence.py:151: TypeError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_evidence.py::TestTheLiveEvidence::test_consumed_ic_joined_to_the_days_state
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 8 passed, 1 deselected in 3.42s
+run_e4 .: exit 1 in 19.4s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

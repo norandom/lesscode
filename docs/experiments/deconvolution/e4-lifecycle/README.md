@@ -283,3 +283,246 @@ $PY $D\receipt_atomic.py $R run pureshare-e4-t<k> --no-probe --cwd $E4 $EV -- $P
 $PY $D\receipt_atomic.py $R run patchcheck-e4-t<k> --no-probe --cwd $E4 $EV -- $PY patchcheck.py <cand> --out results\patchcheck-e4-t<k>.json
 $PY $D\guard.py e4-t<k>-arm --receipt $R; <adaptive.scaled(1200) probe -> note e4-t<k>-arm-deadline>; $PY $D\receipt_atomic.py $R run e4-t<k>-arm --cwd $E4 --env OPENBLAS_NUM_THREADS=1 --env OMP_NUM_THREADS=1 --env MKL_NUM_THREADS=1 --env PYTHONWARNINGS=ignore --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONIOENCODING=utf-8 --timeout <scaled+120> -- $PY run_e4.py <cand> --round e4-t<k> --deadline <scaled>
 ```
+
+## 6.4 Sensitivity on both trees (2026-11-06)
+
+Deconvolution-loop task 6.4 under the frozen [plan.md](plan.md) section 6.4: the same seed (20261106), draw rule
+(`t31_arm.draw` over the sorted spec keys), arm (`run_e4.py`: import probe, the 12 seed files with the one deselection,
+the 50-sequence replay), deadline rule (`scaled(max(120, 5 × unmutated seconds of that tree))`, hand-written mutants at
+base 1,200 s), classification and restore-and-verify on both trees; different populations over different code
+(requirement 8.6). Original: reference `.runs/e2-facdrone/source`, mutable copy `.runs/e4-lifecycle/orig-mut`, labels
+`e4o-*`. Candidate: reference `.runs/e4-lifecycle/cand-turn3` (accepted at turn 3), mutable copy `.runs/e4-lifecycle/cand-mut`,
+labels `e4c-*`. Every arm: `guard.py` first, then `receipt_atomic` with `OPENBLAS/OMP/MKL_NUM_THREADS=1`, serial pytest,
+the deadline from a receipted probe (note `<label>-deadline`), the seven files hash-verified before (`-pre`) and after
+(`-restore`) every mutant. **No guard stop, no timeout, no rerun, no `-wait` note; all 70 `-pre` and 68 `-restore` notes
+`identical=true`** (the references were only read; CRLF kept byte for byte: every post-apply hash in the `-class` notes
+equals the hash `e4_sample.py` or `mutants/hand-mutants.json` recorded). The 68 arms ran from 11:58 to 13:50 UTC
+(arm seconds 1,372 original, 1,354 candidate); deadline factors 1.08 to 4.0 (`e4o-m6` at the 4.0 clamp, `e4c-m8` at
+3.39, while the 6.3 reviewer's probes ran), none reached.
+
+### Apparatus (registered by facts `task-6.4-apparatus`, `task-6.4-apparatus-2` before first use)
+
+| File | Lines | sha256 | Role |
+| --- | ---: | --- | --- |
+| `e4_arm.py` | 253 | `7b7d0cbb…f2dc` | `t31_arm.py`'s procedure with roots, the seven files and the arm parameterised (`arm`, `mutant`, `hand` inner; `prepare`, `base`, `dry`, `hand-run` drivers); imports `draw`, `hunks_of`, `apply_hunks`, `restore`, `sha` from `t31_arm` |
+| `e4_rates.py` | 55 | `2b13e4f4…5abf` | rates from the receipt's last `-class` note per label; `results/e4-rates.json` (`21428651…9c42` after the review correction; `24f0ec54…dcfb` before), `--check` identical (`e4-rates`, `e4-rates-check`; `e4-rates-2`, `e4-rates-check-2`) |
+| `cosmic-ray-e4-cand.toml` | 21 | `d67fb85d…d551` | the candidate's mutation configuration, same seven module paths and operator set |
+| `test_e4_arm.py` | 32 | `95084096…370e` | the new logic only (classification, status-line parse); `test-e4-arm` 2 passed |
+| `mutants/M1-cand.patch` … `M4-cand.patch`, `mutants/hand-mutants.json` | 11, 11, 24, 11; 122 | `bc69d255…`, `a007627a…`, `a5f0f936…`, `ac32cb79…`; `fde02dea…9d4a` | the ports (below) and the recorded patch, target and mutated hashes the arm checks (`mutants-cand-generate`) |
+| `results/e4-cand-mutant-sample.json` | 737 | `7d709763…30f0` | 30 of the candidate's 1,488 specs; redraw byte-identical (`e4-sample-cand`, `e4-sample-cand-redraw`) |
+| `results/e4-survivor-readings.json` | 64 | `273fc174…7027` (`5193d239…ea4e` before the review correction) | hand-written readings of every survivor, classes `equivalent` / `closed_assumption` / `real`, reviewer hypotheses by name |
+| counted in 6.4 | **308** | | budget 260: **overrun of 48 lines, reported, not compacted**; running total 97 (6.1) + 75 (6.2) + 308 = **480 of 900** |
+
+`e4_sample_cand.py` was not needed (`e4_sample.py --root`). `cosmic-ray init cosmic-ray-e4-cand.toml .runs/e4-lifecycle/e4-cand.sqlite`
+ran with cwd `cand-turn3` (`e4-cr-init-cand`, 6.1 s); tree snapshots before and after (2,798 files: path, size, mtime)
+both hash `40e868d7…071e`, so nothing was written into the candidate. Population 1,488 (original 1,468):
+runner 387, group 344, evidence 265, store 221, projection 107, root 103, seams 61. Sample per module: group 11,
+evidence 7, store 5, runner 3, root 3, seams 1, projection 0. The 11 `lifecycle_group` draws are the same specs on
+both trees (the module sorts first and its population is 343 against 344), so draws 0 to 10 compare like for like;
+draws 11 to 29 differ. Composition recorded before any result (note `cand-sample-composition`): 2 syntax errors (#20,
+#24), 0 annotation-only, 5 in the declared residue (#5, #6, #8 `lifecycle_review`; #28, #29 root `lifecycle_store`),
+1 in `study_baseline` (#27); expected ceiling 22 of 28 = 0.786.
+
+### Unmutated arms
+
+| Label | Exit | Seconds | Factor | Deadline | Groups |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `e4o-base` (orig-mut) | 0 | 138.6 | 2.94 | 3,528 | root 108 passed, 1 skipped, 1 deselected (91.2 s); research 1 passed (35.7 s); replay fresh 50/50, 317 ops, `level2_ops` 0 |
+| `e4c-base` (cand-mut) | 0 | 81.1 | 1.82 | 2,184 | root 108 passed, 1 skipped, 1 deselected (57.1 s); research 1 passed (22.8 s); replay fresh 50/50, 317 ops, `level2_ops` 0 |
+
+Both ran under load (round 0 took 75.7 s idle; the acceptance 49.6 s), so the mutant deadline bases are 692.8 s
+(original) and 405.7 s (candidate), scaled per mutant.
+
+### Per mutant, original (`e4o-m<k>`; line numbers of the frozen files)
+
+| k | File:line | Function | Operator | Class | First failing reason | s |
+| ---: | --- | --- | --- | --- | --- | ---: |
+| 0 | `lifecycle_group:151` | `lifecycle_readings` | AddNot | killed | `test_lifecycle_monitor_runner_db.py::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce` | 26.5 |
+| 1 | `lifecycle_group:181` | `lifecycle_readings` | AddNot | killed | `test_lifecycle_monitor_runner_db.py::test_method_revision_keeps_old_rows_and_reproduces_only_current[True]` | 28.6 |
+| 2 | `lifecycle_group:222` | `_pod_of` | AddNot | survived | | 50.9 |
+| 3 | `lifecycle_group:70` | `lifecycle_retire` | NumberReplacer (`[:17]`) | killed | replay S07-cli-retire op 2 `/result/output` (event id 17 chars) | 24.7 |
+| 4 | `lifecycle_group:214` | `_compare` | NumberReplacer (`else 1`) | killed | `…::test_method_revision_keeps_old_rows_and_reproduces_only_current[True]` | 25.6 |
+| 5 | `lifecycle_group:266` | `lifecycle_review` | Div→Add | survived | | 66.9 |
+| 6 | `lifecycle_group:266` | `lifecycle_review` | Div→FloorDiv | survived | | 93.1 |
+| 7 | `lifecycle_group:160` | `lifecycle_readings` | Div→Mod | killed | `…::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce` | 29.1 |
+| 8 | `lifecycle_group:254` | `lifecycle_review` | Div→RShift | survived | | 44.9 |
+| 9 | `lifecycle_group:209` | `_compare` | Eq→GtE | survived | | 42.1 |
+| 10 | `lifecycle_group:210` | `_compare` | Eq→Is | killed | `…::test_method_revision_keeps_old_rows_and_reproduces_only_current[True]` | 19.4 |
+| 11 | `lifecycle_seams:66` | `evidence.for_window` (annotation) | BitOr→FloorDiv | survived | | 42.9 |
+| 12 | `lifecycle_evidence:147` | `read_evidence` | NumberReplacer (`+ 0`) | killed | `test_lifecycle_run_evidence.py::test_three_signals_two_windows_load_once_and_next_run_refreshes` | 18.3 |
+| 13 | `lifecycle_evidence:166` | `LiveEvidence.for_window` (annotation) | BitOr→FloorDiv | survived | | 43.0 |
+| 14 | `lifecycle_evidence:126` | `_lookback` (annotation) | BitOr→Pow | survived | | 43.6 |
+| 15 | `lifecycle_evidence:79` | `_consumed_query` | Eq→LtE | survived | | 44.1 |
+| 16 | `lifecycle_evidence:130` | `_lookback` | GtE→Eq | killed | `test_lifecycle_evidence_intervals.py::test_earliest_value_endpoint_and_exact_recent_window` | 18.2 |
+| 17 | `lifecycle_evidence:114` | `_daily` | LtE→IsNot | survived | | 56.2 |
+| 18 | `lifecycle_evidence:118` | `_daily` | NotEq→GtE | killed | `test_lifecycle_evidence.py::TestTheLiveEvidence::test_consumed_ic_joined_to_the_days_state` (ValueError) | 22.8 |
+| 19 | `lifecycle_evidence:81` | `_consumed_query` | True→False | killed | `test_lifecycle_evidence_projection.py::test_query_projects_only_identity_and_consumed` | 21.4 |
+| 20 | `lifecycle_monitor_runner:333` | `MonitorRunner._row` (annotation) | BitOr→RShift | survived | | 49.4 |
+| 21 | `lifecycle_projection:141` | `signal_standing` (annotation) | BitOr→LShift | survived | | 51.3 |
+| 22 | `lifecycle_store:194` | `LifecycleStore.transition` (annotation) | BitOr→Add | survived | | 46.5 |
+| 23 | `lifecycle_store:260` | `_bound` (annotation) | BitOr→BitAnd | survived | | 41.5 |
+| 24 | `lifecycle_store:166` | `LifecycleStore._write` | Pow→LShift | incompetent | SyntaxError (`INVALID scope`) | 0.6 |
+| 25 | `lifecycle_store:138` | `LifecycleStore.open_flags` | Eq→LtE | killed | `test_lifecycle_monitor_binding_db.py::test_same_bound_runner_uses_only_the_current_census[False]` | 16.7 |
+| 26 | `lifecycle_root:34` | `study_baseline` | NumberReplacer (`[-2]`) | survived | | 41.3 |
+| 27 | `lifecycle_root:16` | `lifecycle_store` (annotation) | BitOr→RShift | survived | | 43.6 |
+| 28 | `lifecycle_root:23` | `lifecycle_store` | Div→LShift | killed | `…::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce` | 19.5 |
+| 29 | `lifecycle_root:34` | `study_baseline` | USub→Invert | survived | | 44.6 |
+
+### Per mutant, candidate (`e4c-m<k>`; line numbers of `cand-turn3`)
+
+| k | File:line | Function | Operator | Class | First failing reason | s |
+| ---: | --- | --- | --- | --- | --- | ---: |
+| 0 | `lifecycle_group:148` | `lifecycle_readings` | AddNot | killed | `…::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce` | 22.8 |
+| 1 | `lifecycle_group:179` | `lifecycle_readings` | AddNot | killed | `…::test_method_revision_keeps_old_rows_and_reproduces_only_current[True]` | 22.5 |
+| 2 | `lifecycle_group:215` | `_pod_of` | AddNot | survived | | 47.3 |
+| 3 | `lifecycle_group:67` | `lifecycle_retire` | NumberReplacer (`[:17]`) | killed | replay S07-cli-retire op 2 `/result/output` | 37.0 |
+| 4 | `lifecycle_group:207` | `_compare` | NumberReplacer (`else 1`) | killed | `…::test_method_revision_keeps_old_rows_and_reproduces_only_current[True]` | 28.0 |
+| 5 | `lifecycle_group:259` | `lifecycle_review` | Div→Add | survived | | 61.0 |
+| 6 | `lifecycle_group:259` | `lifecycle_review` | Div→FloorDiv | survived | | 74.5 |
+| 7 | `lifecycle_group:157` | `lifecycle_readings` | Div→Mod | killed | `…::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce` | 28.3 |
+| 8 | `lifecycle_group:247` | `lifecycle_review` | Div→RShift | survived | | 74.3 |
+| 9 | `lifecycle_group:202` | `_compare` | Eq→GtE | survived | | 91.3 |
+| 10 | `lifecycle_group:203` | `_compare` | Eq→Is | killed | `…::test_method_revision_keeps_old_rows_and_reproduces_only_current[True]` | 21.9 |
+| 11 | `lifecycle_seams:89` | `bind_lifecycle` | Div→Add | survived | | 44.6 |
+| 12 | `lifecycle_evidence:129` | `read_evidence` | Add→BitOr (`ic_days \| 1`) | survived | | 48.4 |
+| 13 | `lifecycle_evidence:151` | `LiveEvidence.for_window` | Sub→Div | killed | `test_lifecycle_evidence.py::TestTheLiveEvidence::test_consumed_ic_joined_to_the_days_state` (TypeError) | 20.8 |
+| 14 | `lifecycle_evidence:115` | `_daily` | Eq→Gt | killed | `test_lifecycle_evidence_intervals.py::test_earliest_value_endpoint_and_exact_recent_window` (ValueError) | 19.0 |
+| 15 | `lifecycle_evidence:76` | `_consumed_query` | Gt→Lt | killed | `…::TestTheLiveEvidence::test_consumed_ic_joined_to_the_days_state` | 30.9 |
+| 16 | `lifecycle_evidence:111` | `_daily` | LtE→Eq | killed | `…::TestTheLiveEvidence::test_consumed_ic_joined_to_the_days_state` | 17.7 |
+| 17 | `lifecycle_evidence:67` | `baseline_view` | NotEq→Is | killed | `test_lifecycle_evidence.py::TestTheBaselineProjection::test_only_what_the_census_recorded` | 19.6 |
+| 18 | `lifecycle_evidence:174` | `LiveEvidence.for_window` | Not deleted | killed | `…::TestTheLiveEvidence::test_no_consumed_ic_is_not_run_with_its_reason` | 25.7 |
+| 19 | `lifecycle_monitor_runner:156` | `_verdict` | NumberReplacer (`[-0]`) | killed | `test_lifecycle_monitor_runner_db.py::TestTheRunnerAlone::test_a_later_cutoff_evaluates_only_the_new_windows` | 34.9 |
+| 20 | `lifecycle_monitor_runner:179` | `_records` | Pow→BitXor (`^who`) | incompetent | SyntaxError at import (probe `e4c-m20-syntax-probe`; see findings) | 10.7 |
+| 21 | `lifecycle_monitor_runner:226` | `MonitorRunner.run` | USub→Not (`lost[not 1]`) | survived | | 64.5 |
+| 22 | `lifecycle_store:209` | `LifecycleStore.transition` | AddNot (`not why is None`) | killed | `test_lifecycle_monitor_binding_db.py::test_same_bound_runner_uses_only_the_current_census[False]` | 24.0 |
+| 23 | `lifecycle_store:269` | `bind_writers` | NumberReplacer (enroll expected 1) | killed | `…::test_same_bound_runner_uses_only_the_current_census[False]` | 22.5 |
+| 24 | `lifecycle_store:60` | `_event_id` | Pow→Mul (`{*asdict`) | incompetent | SyntaxError (`INVALID scope`) | 0.6 |
+| 25 | `lifecycle_store:134` | `LifecycleStore.open_flags` | Eq→Lt | killed | `…::TestTheLiveRiskSurface::test_the_flag_is_on_the_status_surface_after_background_completion` (ValueError) | 22.4 |
+| 26 | `lifecycle_store:126` | `LifecycleStore.admitted` | Is→NotEq | killed | `…::test_same_bound_runner_uses_only_the_current_census[False]` (ValueError) | 38.0 |
+| 27 | `lifecycle_root:34` | `study_baseline` | NumberReplacer (`[-0]`) | survived | | 85.8 |
+| 28 | `lifecycle_root:23` | `lifecycle_store` | Div→BitAnd | killed | `…::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce` | 26.5 |
+| 29 | `lifecycle_root:23` | `lifecycle_store` | Div→RShift | killed | `…::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce` | 25.2 |
+
+### Rates (R22 convention, killed / (killed + survived), incompetent excluded; bar 0.70 unchanged; `results/e4-rates.json`)
+
+| Tree | Killed | Survived | Incompetent | Rate | Bar 0.70 | Post hoc, equivalent excluded (labelled, not the result) | Post hoc, equivalent and residue-sited excluded (labelled) |
+| --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |
+| original (`e4o`) | 12 | 17 | 1 (#24) | 12/29 = **0.414** | not met | 12/21 = 0.571 (8 annotation-only: #11, 13, 14, 20, 21, 22, 23, 27) | 12/15 = 0.800 (+ #2, 5, 6, 8, 26, 29) |
+| candidate (`e4c`) | 19 | 9 | 2 (#20, #24) | 19/28 = **0.679** | not met | 19/28 = 0.679 (no equivalent survivor; the first reading excluded #12 and gave 19/27 = 0.704, corrected after the review) | 19/22 = 0.864 (#2, 5, 6, 8, 11, 27) |
+
+**T5 (band 0.60 to 0.75 on the candidate's own sample, falsifier < 0.55 or > 0.85): 19/28 = 0.679, held.** Counting
+#20 as the arm's raw exit would give 20/29 = 0.690, also in the band; the 0.70 bar is not met either way. The original's
+0.414 against the bar is, as the plan states in advance, a result about the sample's composition (ceiling 15/29 =
+0.517 with the 14 expected survivors: 13 of them survived; the fourteenth, #28, was killed, see findings), not about
+the arm's sensitivity; the four competent survivors of exercised original code are #2, #9, #15, #17 (readings below).
+On the candidate the expected survivors were 6 of 28 (ceiling 0.786); nine survived (#2, #5, #6, #8, #9, #11, #12,
+#21, #27): four of the six expected (#28 and #29 were killed against expectation, see findings) plus #9, #11, #12 and
+#21. No target is changed. The two rates are on different samples of different populations; the
+11 shared `lifecycle_group` draws classify identically on both trees (killed 0, 1, 3, 4, 7, 10; survived 2, 5, 6, 8, 9).
+
+### Hand-written mutants: outcome against the prediction (`mutants/README.md`, note `mutants-cand-predictions`)
+
+| Id | Predicted | Original (`e4o-M<j>`) | Candidate (`e4c-M<j>`, port) | Read |
+| --- | --- | --- | --- | --- |
+| M1 overdue window one day early | survives (alphabet gap) | survived, 43.8 s | survived, 73.4 s (same construct at cand line 145) | as predicted on both; the gap is expressible by the alphabet (`flag`, `tick 1`, `overdue_flags days=1`), carried to 6.5/6.7 under 9.6 |
+| M2 revision bump dropped | caught by seed tests (store test named) and by the corpus at S01 op 1 | caught: `test_lifecycle_monitor_binding_db.py::test_same_bound_runner_uses_only_the_current_census[False]` (`ValueError: a standing revision names … a revision >= 1`), 18.6 s | caught: the same node, 27.7 s (same construct at cand line 196) | caught as predicted; under `-x` the first failing node is the binding test, which runs before the store test the README named (the candidate-side prediction said so); the corpus was not reached |
+| M3 not-run records before readings | seed tests pass; caught by the corpus at S09 op 2, `result.emitted.carry@3[0].event` | caught: replay S09-watch-unmeasured-not-run op 2 `/result/emitted/carry@3[0]/boundary (present on one side only)`, 26.1 s | caught: identical divergence, 43.8 s (port: `_emit` folded into `_records`, the `not_run` list built before the readings) | caught as predicted at the predicted sequence, operation and record index; `first_diff` names the first differing key of that record (`boundary`, a reading field absent from a not-run record) rather than `event` |
+| M4 census from any authority | seed tests pass; caught by the corpus at S02 op 7 `result.census` | caught: replay S02-refusals-recorded op 7 `/result/census: recorded null vs replayed "enrollment:operator"`, 27.7 s | caught: identical divergence, 37.1 s (same construct at cand line 101) | caught exactly as predicted on both |
+
+Every port is the same semantic change (`mutants/hand-mutants.json`, `port`); each applied cleanly to a scratch copy and
+to the mutable copy with the recorded mutated hash (`git apply` exit 0, hashes in the `-class` notes); none was unportable.
+
+### Survivor readings (`results/e4-survivor-readings.json`; every reviewer hypothesis of [review-e4.md](review-e4.md) section 8 addressed by name there)
+
+- Original, 17 survivors: 8 **equivalent** (annotation-only under `from __future__ import annotations`: #11, 13, 14,
+  20, 21, 22, 23, 27); 6 **closed_assumption** (#5, 6, 8 in the declared residue `lifecycle_review`; #26, 29 in
+  `study_baseline`, reached only through patched names; #2 `_pod_of`, patched by every seed test and oracle
+  operation that reaches `lifecycle readings`); 3 **real**: #9 (`_compare` `>=`: a re-measurement greater than the
+  stored (value, boundary) is never exercised, H11), #15 (`_consumed_query` `scope <= "live"`: no seeded row has a
+  scope sorting below `live`, so Level 1 agrees; **Level 2 distinguishes it**: `rounde4o-m15.json` holds 9 SQL
+  divergences, `scope <=` against the recorded `scope =`, first S21 op 1; the arm scores Level 1 only, so it stays
+  survived, and the observation goes to the 6.7 protection statement; note `e4o-m15-level2-observation`; H13), #17
+  (`_daily` past-cutoff day admitted: no consumed IC observed after a window's cutoff in any exercised read, H7/H13).
+- Candidate, 9 survivors: 0 **equivalent**; 6 **closed_assumption** (#2 `_pod_of` patched away; #5, 6, 8
+  `lifecycle_review`; #27 `study_baseline`; #11 `bind_lifecycle` in the seams, a function no seed test and no oracle
+  operation calls, residue the plan does not declare); 3 **real**: #9 (as the original's #9), #12 (`read_evidence`
+  `ic_days | 1` for `+ 1`, the lower fetch margin of the consumed read: the corpus's one odd-`ic_days` run, S21 op 5
+  with `ic_days` 5, fetches one day less under the mutant and still agrees because no row the lookback uses lies in
+  that day; first read as `equivalent` on the even declarations 60/450/900, corrected after the 6.4 review, note
+  `e4-rates-2`; H13) and #21 (`MonitorRunner.run` emits the first lost record's message with the latest record's
+  fields: only two failing targets with different failure texts distinguish it; the corpus never loses two signals in
+  one run; H6).
+- Hypotheses: H1, H2, H3 and H9 show no survivor at the review's sites (no draw landed on `_cycle`'s `None` branch,
+  `_compare`'s echo order, the `_t`/`_a` defaults, `from None`/`suppress`, or `_monitored`'s imports); the one seams
+  survivor (#11) is unreached code, not a patch-timing effect. The candidate's draws at H2 (#23), H3 (#22), H4 (#25,
+  #26, M2, M4), H5 (#19), H10 (#17) and H13 (#13 to #16, #18) are all killed. H6 (#21), H7 (M1, original #17),
+  H11 (#9 on both trees) and H13 (candidate #12, original #15 and #17) are faults the corpus does not see at sites
+  the review's probes had covered with agreeing inputs. H8 is not read on the candidate (0 of its 107 projection specs were drawn); H12 had no draw on either tree.
+
+### Findings and deviations
+
+- **`lifecycle_root.lifecycle_store` is reached by a seed test.** The plan declares it reached by no seed test;
+  `e4o-m28`, `e4c-m28` and `e4c-m29` (its line 23) are killed by
+  `test_lifecycle_monitor_runner_db.py::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce`
+  (the CLI `readings` command's default store). Whether an oracle operation reaches it is not shown (`-x` stops at the
+  seed test). The original's #27 (line 16) survived only because it is annotation-only. Conversely
+  `cppi/lifecycle_seams.bind_lifecycle` (`e4c-m11`) is unreached and undeclared. Both go to the 6.7 residue report.
+- **`e4c-m20` classification corrected in a second `-class` note** (the last note per label is authoritative, the E3b
+  convention): the arm's pytest group exited 1 in 9.4 s with nothing collected and `e4_arm.classify` fell back to
+  `exit 1` (killed) because `e4_arm.arm` prints `run_e4`'s stdout only and pytest reports a plugin/conftest load
+  failure on stderr. The receipted light probe `e4c-m20-syntax-probe` (apply, `compile()`, import from `cand-mut/src`,
+  restore, verify) shows `SyntaxError: invalid syntax (line 179, col 17): ^who,`; the plan classifies a SyntaxError at
+  import as incompetent, and the draw was listed as a syntax error in `cand-sample-composition` before the run. Both
+  numbers are reported above. `e4_arm.py` was not edited after the runs (kill criterion 5); the stderr loss affects
+  log text only, never an exit code; every other killed row carries its `FAILED` node from stdout.
+- **Label collision on a case-insensitive filesystem** (full inventory after the review, note `label-collision-full`):
+  the brief's labels `e4{o,c}-m<k>` and `e4{o,c}-M<j>` share `logs/<label>.log` and
+  `results/sql-divergences-round<label>.json` for k = j in 1..4, and each M run came after its m run. Logs: all eight
+  (`e4o-m1..m4.log`, `e4c-m1..m4.log`) now hold the M run's content. Level 2 files: m1 and m4 wrote none on either
+  tree (killed by a seed test before the replay), so `rounde4{o,c}-M1.json` and `-M4.json` are M1's and M4's;
+  `rounde4{o,c}-m2.json` is the sampled survivor's (M2 was killed by a seed test and wrote none); only
+  `rounde4{o,c}-m3.json` is overwritten, by M3 (both killed at the replay). No classification depends on an overwritten
+  artefact: every `m1..m4` `-class` note was written from its own log before the M run started (original 12:00 to
+  12:08 UTC against M starts 13:02 to 13:04; candidate 13:06 to 13:09 against 13:45 to 13:50), and the receipt's
+  command entries of all sixteen runs are intact. Later tasks keep labels distinct beyond letter case.
+- Line budget: 308 counted lines against 260 (48 over), in `e4_arm.py`'s two-tree, seven-file, hand-written-mutant
+  handling and `e4_rates.py`'s second post hoc reading; reported, not compacted.
+- The unmutated arms ran at factors 2.94 and 1.82 (the 6.3 reviewer's probes shared the host), so the mutant deadline
+  bases (692.8 s, 405.7 s) are larger than an idle base would give; no deadline was approached (longest arm 93.1 s).
+- 34 Level 2 files `results/sql-divergences-rounde4{o,c}-*.json` were written (every arm that reached the replay);
+  33 have `level2_ops` 0 and `rounde4o-m15.json` has **9** (the widened `scope <=` predicate in the replayed SQL
+  against the recorded `scope =`, first S21 op 1; note `e4o-m15-level2-observation`): the arm scores Level 1 only,
+  so #15 stays survived, and the Level 2 view's ability to distinguish it is carried to the 6.7 protection statement.
+  Nothing from earlier rounds was moved or deleted.
+- **Review corrections (independent review of 6.4, 2026-11-06, NEEDS_FIXES on four points; every primary number
+  reproduced):** candidate #12 reclassified `equivalent` → `real` (above; the post hoc candidate readings became
+  19/28 = 0.679 and 19/22 = 0.864; `e4-rates-2`, `e4-rates-check-2` identical; R22 rate and T5 unchanged); the
+  label-collision inventory completed; the false `level2_ops` sentence replaced by the m15 observation; the survivor
+  counts in the text corrected (nine candidate survivors; three original `real` survivors with #2 as
+  `closed_assumption`; `e4c-m8` at factor 3.39). No arm was rerun; `e4_arm.py` and `e4_rates.py` are unchanged.
+- Nothing was committed; 6.5 to 6.7 are not started here.
+
+### Not claimed
+
+No equivalence between the trees: 0.679 on the candidate's sample and 0.414 on the original's are two readings on
+different populations, each with the composition stated above, and thirty draws carry no significance. The hand-written
+set shows the arm catches the three faults it was predicted to catch and misses the one it was predicted to miss; it
+says nothing about faults outside those four classes. The survivor classes are readings of the code, not proofs; a
+`closed_assumption` survivor is unprotected code, and the protection statement of 6.7 must list it.
+
+### Commands as executed (PowerShell 7; full argv, cwd and env in the receipt; drivers `results/driver-6.4-stage-{a,b}.out`)
+
+```
+PY=D:\Source\lesscode\.runs\e2-facdrone\venv\Scripts\python.exe   D=D:\Source\lesscode\docs\experiments\deconvolution   E4=$D\e4-lifecycle   R=$E4\results\receipt.json   UV=<winget>\uv.exe
+$PY $D\receipt_atomic.py $R run mutants-cand-generate --no-probe --cwd $E4 -- $PY <scratch>\gen_cand_mutants.py <scratch>\mcheck-cand     # M<j>-cand.patch, hand-mutants.json
+<register fact task-6.4-apparatus; note mutants-cand-predictions>; $PY $D\receipt_atomic.py $R run test-e4-arm --no-probe --cwd $E4 -- $PY -m pytest test_e4_arm.py -q -p no:cacheprovider
+$PY e4_arm.py prepare orig; $PY e4_arm.py prepare cand                       # e4o-copy, e4o-copy-verify, e4c-copy, e4c-copy-verify (guarded copytree, no .git/__pycache__/.pytest_cache)
+$PY $D\receipt_atomic.py $R run cand-tree-snapshot-before --no-probe -- $PY <scratch>\snapshot.py <cand-turn3> <out>; $PY $D\guard.py e4-cr-init-cand --receipt $R
+$PY $D\receipt_atomic.py $R run e4-cr-init-cand --cwd <cand-turn3> -- $UV tool run --python 3.13 --from cosmic-ray==8.7.0 cosmic-ray init $E4\cosmic-ray-e4-cand.toml D:\Source\lesscode\.runs\e4-lifecycle\e4-cand.sqlite; <cand-tree-snapshot-after>
+$PY $D\receipt_atomic.py $R run e4-sample-cand --no-probe --cwd $E4 -- $UV tool run --python 3.13 --from cosmic-ray==8.7.0 python e4_sample.py <e4-cand.sqlite> --root <cand-turn3> --out results\e4-cand-mutant-sample.json   # and e4-sample-cand-redraw to scratch
+$PY e4_arm.py base orig; $PY e4_arm.py base cand                             # e4o-base, e4c-base: guard, scaled(1200) probe -> -deadline note, receipt run of `e4_arm.py arm <tree> --round <label> --deadline S`
+$PY e4_arm.py dry orig 0 1 ... 29; $PY e4_arm.py hand-run orig 1 2 3 4; $PY e4_arm.py dry cand 0 ... 29; $PY e4_arm.py hand-run cand 1 2 3 4
+   # per mutant: -pre, guard, -deadline (scaled(max(120, 5 x base s)) or scaled(1200)), receipt run `e4_arm.py mutant|hand <tree> K --round <label> --deadline S` with the thread pins, -restore, -class
+$PY $D\receipt_atomic.py $R run e4c-m20-syntax-probe --no-probe --cwd $E4 -- $PY <scratch>\m20_probe.py; <second e4c-m20-class note; fact task-6.4-apparatus-2>
+$PY $D\receipt_atomic.py $R run e4-rates --no-probe --cwd $E4 -- $PY e4_rates.py; $PY $D\receipt_atomic.py $R run e4-rates-check --no-probe --cwd $E4 -- $PY e4_rates.py --check
+```

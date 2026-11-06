@@ -1,0 +1,31 @@
+=== prepare orig 2026-11-06T12:22:17.9084322+01:00
+e4o-copy {"probe": {"time": "2026-11-06T12:35:58", "cpu_total": 16.9531140774872, "cpu_other": 0.169531140774872, "ram_free_gb": 9.36, "bench_s": 0.291, "pid": 39576, "ref_bench_s": 0.212, "factor_bench": 1.37, "factor_cpu": 1.2, "factor": 1.37, "waited_s": 820.4, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+e4o-copy: exit 0 in 4.8s
+e4o-copy-verify: identical=True
+=== prepare cand 2026-11-06T12:36:09.9152118+01:00
+e4c-copy {"probe": {"time": "2026-11-06T12:38:28", "cpu_total": 24.5311115783813, "cpu_other": 0.24531111578381298, "ram_free_gb": 8.36, "bench_s": 0.291, "pid": 41560, "ref_bench_s": 0.212, "factor_bench": 1.37, "factor_cpu": 1.33, "factor": 1.37, "waited_s": 138.6, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+e4c-copy: exit 0 in 2.0s
+e4c-copy-verify: identical=True
+=== snapshot cand before 2026-11-06T12:38:36.6923802+01:00
+cand-tree-snapshot-before: exit 0 in 0.2s
+=== guard cr-init 2026-11-06T12:38:37.1526439+01:00
+e4-cr-init-cand {"probe": {"time": "2026-11-06T12:38:59", "cpu_total": 27.2073425001398, "cpu_other": 0.272073425001398, "ram_free_gb": 8.58, "bench_s": 0.243, "pid": 31044, "ref_bench_s": 0.212, "factor_bench": 1.15, "factor_cpu": 1.37, "factor": 1.37, "waited_s": 22.6, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+=== cr-init cand 2026-11-06T12:38:59.9768658+01:00
+e4-cr-init-cand: exit 0 in 6.1s
+=== snapshot cand after 2026-11-06T12:39:12.2801502+01:00
+cand-tree-snapshot-after: exit 0 in 0.3s
+=== sample cand 2026-11-06T12:39:12.7679737+01:00
+e4-sample-cand: exit 0 in 1.3s
+=== sample cand redraw 2026-11-06T12:39:14.2973314+01:00
+e4-sample-cand-redraw: exit 0 in 1.3s
+=== base orig 2026-11-06T12:39:15.9152971+01:00
+e4o-base-pre: identical=True
+e4o-base {"probe": {"time": "2026-11-06T12:42:00", "cpu_total": 14.8651448839197, "cpu_other": 0.14865144883919698, "ram_free_gb": 8.61, "bench_s": 0.314, "pid": 42732, "ref_bench_s": 0.212, "factor_bench": 1.48, "factor_cpu": 1.17, "factor": 1.48, "waited_s": 164.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+e4o-base: exit 0 in 138.6s
+{"label": "e4o-base", "exit": 0, "seconds": 138.55, "factor": 2.94, "scaled_s": 3528.0}
+=== base cand 2026-11-06T12:44:36.8421586+01:00
+e4c-base-pre: identical=True
+e4c-base {"probe": {"time": "2026-11-06T12:56:35", "cpu_total": 21.7196614559947, "cpu_other": 0.217196614559947, "ram_free_gb": 10.06, "bench_s": 0.294, "pid": 38144, "ref_bench_s": 0.212, "factor_bench": 1.39, "factor_cpu": 1.28, "factor": 1.39, "waited_s": 718.0, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+e4c-base: exit 0 in 81.1s
+{"label": "e4c-base", "exit": 0, "seconds": 81.14, "factor": 1.82, "scaled_s": 2184.0}
+=== stage A done 2026-11-06T12:58:08.7336433+01:00

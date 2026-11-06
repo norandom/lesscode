@@ -1,0 +1,58 @@
+e4_arm: mutant 26 src/facdrone/shells/lifecycle_store.py core/ReplaceComparisonOperator_Is_NotEq occ 0 line 126: [['            if isinstance(s, StandingRevision) and s.state is LifecycleState.ADMITTED\r']] -> [['            if isinstance(s, StandingRevision) and s.state != LifecycleState.ADMITTED\r']]; mutated sha256=01c38e899cef1e35bab18bc79186b3314cc4a21381e21470f8d9d6f5225e6caf
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m26 --deadline 535.5
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:37:06] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+................................F
+================================== FAILURES ===================================
+_________ test_same_bound_runner_uses_only_the_current_census[False] __________
+
+tmp_path = WindowsPath('C:/Users/mariu/AppData/Local/Temp/pytest-of-mariu/pytest-3287/test_same_bound_runner_uses_on0')
+pg_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-oseld02a)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001A4EDF12210>
+bind_before_admission = False
+
+    @pytest.mark.parametrize("bind_before_admission", [False, True])
+    def test_same_bound_runner_uses_only_the_current_census(
+        tmp_path: Path,
+        pg_engine: Engine,
+        monkeypatch: pytest.MonkeyPatch,
+        bind_before_admission: bool,
+    ) -> None:
+        for table in (SIGNAL_LIFECYCLE_EVENT, SIGNAL_MONITOR_READING):
+            table.create(pg_engine, checkfirst=True)
+            with pg_engine.begin() as conn:
+                conn.execute(table.delete())
+        clock = [AS_OF]
+        store = LifecycleStore(pg_engine, now=lambda: clock[0])
+        writers = bind_writers(store)
+        ledger = tmp_path / "research/equity_census_verdicts.jsonl"
+        ledger.parent.mkdir()
+        old, new = _row(1), _row(2)
+        ledger.write_text("" if bind_before_admission else json.dumps(old) + "\n")
+        monkeypatch.setattr("facdrone.shells.lifecycle_evidence._consumed", lambda *_: [])
+        monkeypatch.setattr(
+            "facdrone.shells.lifecycle_evidence.LiveEvidence.for_window", lambda *_: BREACH
+        )
+        runner = bind_lifecycle_monitor(
+            tmp_path, replace(make_book(False), engine_db=pg_engine), store, DECLARED
+        )
+        writers.enroll("sig", 1, Enrollment("unit", "binding regression"), "unit")
+        ledger.write_text(json.dumps(old) + "\n")
+        admit_durable(old, store.standing, store.census_references, writers.admit)
+>       (first,) = runner._monitored()
+        ^^^^^^^^
+E       ValueError: not enough values to unpack (expected 1, got 0)
+
+tests\unit\test_lifecycle_monitor_binding_db.py:74: ValueError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_monitor_binding_db.py::test_same_bound_runner_uses_only_the_current_census[False]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 32 passed, 1 deselected in 9.37s
+run_e4 .: exit 1 in 36.1s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

@@ -1,0 +1,12 @@
+e4_arm: mutant 20 src/facdrone/shells/lifecycle_monitor_runner.py core/ReplaceBinaryOperator_Pow_BitXor occ 2 line 179: [['                **who,\r']] -> [['                ^who,\r']]; mutated sha256=4fe8f12d4f818d5912231dacd5191bd354bf574b0f976497d4012c69017b35a0
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m20 --deadline 555.8
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:29:30] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+run_e4 .: exit 1 in 9.4s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

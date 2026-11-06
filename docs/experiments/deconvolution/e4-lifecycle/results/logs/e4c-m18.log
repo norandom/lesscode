@@ -1,0 +1,35 @@
+e4_arm: mutant 18 src/facdrone/shells/lifecycle_evidence.py core/ReplaceUnaryOperator_Delete_Not occ 3 line 174: [['        if not series and lookback is None:\r']] -> [['        if  series and lookback is None:\r']]; mutated sha256=0ebe7c95dc3899cc143bc31183ebdd1da35aadb0bed5aeb809ae9ba01a37147c
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m18 --deadline 657.2
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:26:15] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........F
+================================== FAILURES ===================================
+_____ TestTheLiveEvidence.test_no_consumed_ic_is_not_run_with_its_reason ______
+
+self = <tests.unit.test_lifecycle_evidence.TestTheLiveEvidence object at 0x000001B9CAAF2990>
+evidence_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-dunn5r9h)
+
+    def test_no_consumed_ic_is_not_run_with_its_reason(self, evidence_engine: Engine) -> None:
+        with evidence_engine.begin() as conn:
+            append_decision_evidence(conn, evidence_batch())
+        readings = _readings({})
+        before = Window("2026-09-10", date(2026, 8, 1), date(2026, 9, 10))  # knowledge after
+>       assert live_evidence(evidence_engine, readings, ("carry", 3, 10), before, 450) == (
+            "no IC consumed at the traded horizon (10d) in window 2026-09-10"
+        )
+E       AssertionError: assert MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'fin...='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={}) == 'no IC consumed at the traded horizon (10d) in window 2026-09-10'
+E        +  where MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'fin...='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={}) = live_evidence(Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-dunn5r9h), <function _readings.<locals>.fake at 0x000001B9CC760220>, ('carry', 3, 10), Window(window_id='2026-09-10', start=datetime.date(2026, 8, 1), cutoff=datetime.date(2026, 9, 10)), 450)
+
+tests\unit\test_lifecycle_evidence.py:118: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_evidence.py::TestTheLiveEvidence::test_no_consumed_ic_is_not_run_with_its_reason
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 9 passed, 1 deselected in 4.25s
+run_e4 .: exit 1 in 24.3s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

@@ -1,0 +1,18 @@
+e4_arm: mutant 23 src/facdrone/shells/lifecycle_store.py core/ReplaceBinaryOperator_BitOr_BitAnd occ 3 line 260: [['    cycle: tuple[Connection | None, str | None],\r']] -> [['    cycle: tuple[Connection & None, str | None],\r']]; mutated sha256=743fedf596569e3a16ca88d9e1034f4897038f71ee4018ce469375ab03af9257
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m23 --deadline 775.9
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 13:56:49] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.............................. [ 66%]
+.....................................                                    [100%]
+108 passed, 1 skipped, 1 deselected in 12.95s
+run_e4 .: exit 0 in 26.4s
+.                                                                        [100%]
+1 passed in 1.54s
+run_e4 packages/facdrone-research: exit 0 in 14.1s
+run_e4: exit 0; replay file fresh=True sequences=50/50 operations=317 level2_ops=0
+
+e4_arm: restored, identical=True

@@ -1,0 +1,40 @@
+e4_arm: mutant 15 src/facdrone/shells/lifecycle_evidence.py core/ReplaceComparisonOperator_Gt_Lt occ 0 line 76: [['        .where(t.c.scope == "live", t.c.knowledge_at > since, t.c.knowledge_at <= through)\r']] -> [['        .where(t.c.scope == "live", t.c.knowledge_at < since, t.c.knowledge_at <= through)\r']]; mutated sha256=37b10e84f491cbf093ac1c8b4c0f4214ffc9e93e394e1d311c300e5ef81e46a6
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m15 --deadline 563.9
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:23:38] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........F
+================================== FAILURES ===================================
+________ TestTheLiveEvidence.test_consumed_ic_joined_to_the_days_state ________
+
+self = <tests.unit.test_lifecycle_evidence.TestTheLiveEvidence object at 0x0000019756462850>
+evidence_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-357th30m)
+
+    def test_consumed_ic_joined_to_the_days_state(self, evidence_engine: Engine) -> None:
+        """The retained batch consumed one IC value for carry v3 at 10 days, observed on
+        2026-08-03 with knowledge on 2026-09-14: the window through 2026-09-14 holds it,
+        under the state the loop read that day; cost and contribution are absent by
+        their reasons, never healthy."""
+        with evidence_engine.begin() as conn:
+            append_decision_evidence(conn, evidence_batch())
+        readings = _readings(
+            {date(2026, 8, 3): MarketState.STRESSED, date(2026, 8, 4): MarketState.CALM},
+        )
+        window = Window("2026-09-14", date(2026, 8, 1), date(2026, 9, 14))
+        evidence = live_evidence(evidence_engine, readings, ("carry", 3, 10), window, 450)
+>       assert not isinstance(evidence, str)
+E       AssertionError: assert not True
+E        +  where True = isinstance('no IC consumed at the traded horizon (10d) in window 2026-09-14', str)
+
+tests\unit\test_lifecycle_evidence.py:99: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_evidence.py::TestTheLiveEvidence::test_consumed_ic_joined_to_the_days_state
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 8 passed, 1 deselected in 7.49s
+run_e4 .: exit 1 in 29.5s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

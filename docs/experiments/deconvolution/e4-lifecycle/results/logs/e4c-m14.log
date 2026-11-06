@@ -1,0 +1,64 @@
+e4_arm: mutant 14 src/facdrone/shells/lifecycle_evidence.py core/ReplaceComparisonOperator_Eq_Gt occ 1 line 115: [['            if old[1] == known and old != point:\r']] -> [['            if old[1] > known and old != point:\r']]; mutated sha256=2d2c986cbbca438b242b402ac05f856477cc9e0bb96eebf714ac2fa13d534280
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m14 --deadline 438.2
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:23:01] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+..........F
+================================== FAILURES ===================================
+____________ test_earliest_value_endpoint_and_exact_recent_window _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026F06B4A9F0>
+
+    def test_earliest_value_endpoint_and_exact_recent_window(monkeypatch: pytest.MonkeyPatch) -> None:
+        old = _ic(OLD, ((date(2026, 8, 3), 0.9),))
+        recent = _ic(RECENT, ((date(2026, 8, 3), 0.1), (RECENT.date() - timedelta(days=30), 0.1)))
+>       evidence = _project(monkeypatch, [recent, old, old])
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_lifecycle_evidence_intervals.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_lifecycle_evidence_intervals.py:42: in _project
+    return lifecycle_evidence.live_evidence(engine, readings, ("carry", 3, 20), FRAME, 450)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\facdrone\shells\lifecycle_evidence.py:137: in live_evidence
+    return read_evidence(engine, readings, (window,), ic_days).for_window(signal, window)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\facdrone\shells\lifecycle_evidence.py:163: in for_window
+    series = _daily(traded, ic_window)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+consumed = [ConsumedIC(signal=SignalVersion(name='carry', version=3), asset_class='commodities', sleeve='macro', horizon_days=20,...blended=0.5), knowledge_at=datetime.datetime(2026, 9, 15, 23, 0, tzinfo=datetime.timezone.utc), conditioned_window=())]
+window = Window(window_id='2026-12-24', start=datetime.date(2025, 9, 30), cutoff=datetime.date(2026, 12, 24))
+
+    def _daily(consumed: list[values.ConsumedIC], window: Window) -> dict[date, tuple[float, datetime]]:
+        series: dict[date, tuple[float, datetime]] = {}
+        for c in consumed:
+            known = c.knowledge_at
+            if not isinstance(known, datetime) or known.tzinfo is None:
+                raise ValueError("missing dated consumption endpoint")
+            known = known.astimezone(UTC)
+            for v in c.window if isinstance(c.window, tuple) else ():
+                day = _observed_day(v.observed_at)
+                if day > known.date():
+                    raise ValueError("observed session date follows consumption")
+                if not window.start <= day <= window.cutoff:
+                    continue
+                point = (float(v.value), known)
+                old = series.get(day, point)
+                if old[1] > known and old != point:
+>                   raise ValueError("conflicting IC at first consumption")
+E                   ValueError: conflicting IC at first consumption
+
+src\facdrone\shells\lifecycle_evidence.py:116: ValueError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_evidence_intervals.py::test_earliest_value_endpoint_and_exact_recent_window
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 10 passed, 1 deselected in 3.46s
+run_e4 .: exit 1 in 17.8s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

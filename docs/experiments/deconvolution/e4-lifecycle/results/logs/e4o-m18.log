@@ -1,0 +1,70 @@
+e4_arm: mutant 18 src/facdrone/shells/lifecycle_evidence.py core/ReplaceComparisonOperator_NotEq_GtE occ 3 line 118: [['            if old[1] == known and old != point:\r']] -> [['            if old[1] == known and old >= point:\r']]; mutated sha256=e56d6140251415bde4819d6e61430196fca7a09fde8039242f7dd74fd710625d
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m18 --deadline 1115.4
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 13:52:09] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........F
+================================== FAILURES ===================================
+________ TestTheLiveEvidence.test_consumed_ic_joined_to_the_days_state ________
+
+self = <tests.unit.test_lifecycle_evidence.TestTheLiveEvidence object at 0x000002E429F32710>
+evidence_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-e63iw3cl)
+
+    def test_consumed_ic_joined_to_the_days_state(self, evidence_engine: Engine) -> None:
+        """The retained batch consumed one IC value for carry v3 at 10 days, observed on
+        2026-08-03 with knowledge on 2026-09-14: the window through 2026-09-14 holds it,
+        under the state the loop read that day; cost and contribution are absent by
+        their reasons, never healthy."""
+        with evidence_engine.begin() as conn:
+            append_decision_evidence(conn, evidence_batch())
+        readings = _readings(
+            {date(2026, 8, 3): MarketState.STRESSED, date(2026, 8, 4): MarketState.CALM},
+        )
+        window = Window("2026-09-14", date(2026, 8, 1), date(2026, 9, 14))
+>       evidence = live_evidence(evidence_engine, readings, ("carry", 3, 10), window, 450)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_lifecycle_evidence.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\facdrone\shells\lifecycle_evidence.py:155: in live_evidence
+    return read_evidence(engine, readings, (window,), ic_days).for_window(signal, window)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\facdrone\shells\lifecycle_evidence.py:181: in for_window
+    series = _daily(traded, ic_window)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+consumed = [ConsumedIC(signal=SignalVersion(name='carry', version=3), asset_class='commodities', sleeve='macro', horizon_days=10,..._at=AuditedAbsence(field='available_at', reason='retained IC rows contain no availability timestamp'), value=-0.15),))]
+window = Window(window_id='2026-09-14', start=datetime.date(2025, 6, 21), cutoff=datetime.date(2026, 9, 14))
+
+    def _daily(consumed: list[values.ConsumedIC], window: Window) -> dict[date, tuple[float, datetime]]:
+        series: dict[date, tuple[float, datetime]] = {}
+        for c in consumed:
+            known = c.knowledge_at
+            if not isinstance(known, datetime) or known.tzinfo is None:
+                raise ValueError("missing dated consumption endpoint")
+            known = known.astimezone(UTC)
+            for v in c.window if isinstance(c.window, tuple) else ():
+                day = _observed_day(v.observed_at)
+                if day > known.date():
+                    raise ValueError("observed session date follows consumption")
+                if not window.start <= day <= window.cutoff:
+                    continue
+                point = (float(v.value), known)
+                old = series.get(day, point)
+                if old[1] == known and old >= point:
+>                   raise ValueError("conflicting IC at first consumption")
+E                   ValueError: conflicting IC at first consumption
+
+src\facdrone\shells\lifecycle_evidence.py:119: ValueError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_evidence.py::TestTheLiveEvidence::test_consumed_ic_joined_to_the_days_state
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 8 passed, 1 deselected in 3.21s
+run_e4 .: exit 1 in 21.3s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

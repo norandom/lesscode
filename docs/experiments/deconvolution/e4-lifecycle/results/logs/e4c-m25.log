@@ -1,0 +1,43 @@
+e4_arm: mutant 25 src/facdrone/shells/lifecycle_store.py core/ReplaceComparisonOperator_Eq_Lt occ 6 line 134: [['            applied = [e for e in self.events(signal, version) if e.disposition == "applied"]\r']] -> [['            applied = [e for e in self.events(signal, version) if e.disposition < "applied"]\r']]; mutated sha256=fa9c7de277c8192c0db46b9e3e790072cd7bd5d47300bdbfd390a09522c6d7b9
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m25 --deadline 490.9
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:33:02] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................F
+================================== FAILURES ===================================
+_ TestTheLiveRiskSurface.test_the_flag_is_on_the_status_surface_after_background_completion _
+
+self = <tests.unit.test_lifecycle_monitor_runner_db.TestTheLiveRiskSurface object at 0x00000261246A4690>
+store = <facdrone.shells.lifecycle_store.LifecycleStore object at 0x0000026126437550>
+
+    def test_the_flag_is_on_the_status_surface_after_background_completion(
+        self, store: LifecycleStore
+    ) -> None:
+        """R8.6: the decision that raised the flag is served, and the next read of the
+        surface after background completion carries the flag as a warning with the decision
+        identity; the build identity is beside it as it always was."""
+        runner = _CompletedMonitor(_runner(store, lambda _t, _w: BREACH))
+        client = make_client(monitor=runner, lifecycle=self._status_seam(store), code_version="b1")
+        with client:
+            before = client.get("/status").json()
+            decision = client.post("/decision", json=make_body(160_000.0)).json()
+            runner.wait()
+            after = client.get("/status").json()
+            build = client.get("/ready").json()["code_version"]
+        assert before["lifecycle"] == {"open_flags": []}
+>       (flag,) = after["lifecycle"]["open_flags"]
+        ^^^^^^^
+E       ValueError: not enough values to unpack (expected 1, got 0)
+
+tests\unit\test_lifecycle_monitor_runner_db.py:285: ValueError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_monitor_runner_db.py::TestTheLiveRiskSurface::test_the_flag_is_on_the_status_surface_after_background_completion
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 40 passed, 1 deselected in 5.99s
+run_e4 .: exit 1 in 21.2s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

@@ -1,0 +1,38 @@
+e4_arm: mutant 16 src/facdrone/shells/lifecycle_evidence.py core/ReplaceComparisonOperator_GtE_Eq occ 0 line 130: [['        if isinstance(c.knowledge_at, datetime) and c.knowledge_at.astimezone(UTC).date() >= start\r']] -> [['        if isinstance(c.knowledge_at, datetime) and c.knowledge_at.astimezone(UTC).date() == start\r']]; mutated sha256=8b06e464b8c63f5e2dde5848b9f9f9dc8be6befcc508d335b854650a72179325
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m16 --deadline 859.1
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 13:50:17] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+..........F
+================================== FAILURES ===================================
+____________ test_earliest_value_endpoint_and_exact_recent_window _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002A0D1292330>
+
+    def test_earliest_value_endpoint_and_exact_recent_window(monkeypatch: pytest.MonkeyPatch) -> None:
+        old = _ic(OLD, ((date(2026, 8, 3), 0.9),))
+        recent = _ic(RECENT, ((date(2026, 8, 3), 0.1), (RECENT.date() - timedelta(days=30), 0.1)))
+        evidence = _project(monkeypatch, [recent, old, old])
+        assert evidence.ic_values == (0.9, 0.1)
+        assert evidence.ic_intervals == (
+            (date(2026, 8, 3), OLD.date()),
+            (RECENT.date() - timedelta(days=30), RECENT.date()),
+        )
+>       assert evidence.lookback_ic == (0.1, 0.1)
+E       assert () == (0.1, 0.1)
+E         
+E         Right contains 2 more items, first extra item: 0.1
+E         Use -v to get more diff
+
+tests\unit\test_lifecycle_evidence_intervals.py:54: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_evidence_intervals.py::test_earliest_value_endpoint_and_exact_recent_window
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 10 passed, 1 deselected in 2.92s
+run_e4 .: exit 1 in 17.1s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

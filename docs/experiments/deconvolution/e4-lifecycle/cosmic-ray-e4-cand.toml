@@ -1,0 +1,21 @@
+# deconvolution-loop task 6.4: cosmic-ray 8.7.0 only enumerates the mutation specs of the ACCEPTED CANDIDATE's seven
+# lifecycle files (`cosmic-ray init cosmic-ray-e4-cand.toml <session>`, cwd .runs/e4-lifecycle/cand-turn3, read only, the
+# session written to .runs/e4-lifecycle/e4-cand.sqlite); e4_sample.py draws 30 of them (seed 20261106, `--root` the
+# candidate) and e4_arm.py applies and runs them in the mutable copy .runs/e4-lifecycle/cand-mut. Same operator set and the
+# same seven module paths as cosmic-ray-e4.toml (no operator filter). `exec` is never run; the test-command is by name only.
+[cosmic-ray]
+module-path = [
+  "src/facdrone/shells/lifecycle_monitor_runner.py",
+  "src/facdrone/shells/lifecycle_store.py",
+  "src/facdrone/shells/cli/lifecycle_group.py",
+  "src/facdrone/shells/lifecycle_evidence.py",
+  "src/facdrone/shells/lifecycle_projection.py",
+  "src/facdrone/shells/cppi/lifecycle_seams.py",
+  "src/facdrone/shells/wiring/lifecycle_root.py",
+]
+timeout = 3600.0
+excluded-modules = []
+test-command = "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/e4_arm.py arm cand"
+
+[cosmic-ray.distributor]
+name = "local"

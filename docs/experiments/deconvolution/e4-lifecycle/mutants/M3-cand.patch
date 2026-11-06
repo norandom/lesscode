@@ -1,0 +1,24 @@
+--- a/src/facdrone/shells/lifecycle_monitor_runner.py
++++ b/src/facdrone/shells/lifecycle_monitor_runner.py
+@@ -164,6 +164,10 @@
+     or the refused flag (an expected outcome, R12.5)."""
+     who = {"signal": target.signal, "version": target.version, "decision_id": decision_id}
+     out: list[Record] = [
++        ("lifecycle.not_run", "a window did not run", {"window": w, "reason": why, **who})
++        for w, why in outcome.not_run
++    ]
++    out += [
+         (
+             "lifecycle.reading",
+             "one monitor reading",
+@@ -181,10 +185,6 @@
+         )
+         for window_id, readings in outcome.windows.items()
+         for r in readings
+-    ]
+-    out += [
+-        ("lifecycle.not_run", "a window did not run", {"window": w, "reason": why, **who})
+-        for w, why in outcome.not_run
+     ]
+     out += [
+         ("lifecycle.watch", "a breach without persistence", {"monitor": m, "count": n, **who})

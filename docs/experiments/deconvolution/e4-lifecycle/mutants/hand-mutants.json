@@ -1,0 +1,123 @@
+{
+ "written": "2026-11-06",
+ "orig_reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "cand_reference": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+ "mutants": {
+  "M1": {
+   "orig": {
+    "patch": "mutants/M1.patch",
+    "target": "src/facdrone/shells/lifecycle_store.py",
+    "reference_sha256": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "patch_sha256": "89699566b9e908d3e79321d597ada0811253e23086e448e3394502a7bcd035a3",
+    "git_apply_check": 0,
+    "git_apply": 0,
+    "stderr": "",
+    "mutated_sha256": "b92700bc175706b0dd5200635259b823e7173b0f0ed60cb6234810b51425ac79",
+    "compile": "ok",
+    "crlf_lines": 289,
+    "lf_lines": 289
+   },
+   "cand": {
+    "patch": "mutants/M1-cand.patch",
+    "target": "src/facdrone/shells/lifecycle_store.py",
+    "reference_sha256": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+    "patch_sha256": "bc69d2551d63a7f10287b35cf849fefa9eb0cd74d153cd2469f1b1865e92443e",
+    "git_apply_check": 0,
+    "git_apply": 0,
+    "stderr": "",
+    "mutated_sha256": "015c36ac5fe257f7fa494ccfa2d5d14355559431d1e8e679164ab99aedab4bff",
+    "compile": "ok",
+    "crlf_lines": 273,
+    "lf_lines": 273,
+    "port": "overdue_flags: same construct at cand line 145 (orig 148)"
+   }
+  },
+  "M2": {
+   "orig": {
+    "patch": "mutants/M2.patch",
+    "target": "src/facdrone/shells/lifecycle_store.py",
+    "reference_sha256": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "patch_sha256": "01ee894d458d422eece64931a0bf27715ac569a0f146fe6cd97c4b977536f181",
+    "git_apply_check": 0,
+    "git_apply": 0,
+    "stderr": "",
+    "mutated_sha256": "da7640cd3362ffc6274ec94e55728f7874038c0fe47f93653fa8a95643bc4950",
+    "compile": "ok",
+    "crlf_lines": 289,
+    "lf_lines": 289
+   },
+   "cand": {
+    "patch": "mutants/M2-cand.patch",
+    "target": "src/facdrone/shells/lifecycle_store.py",
+    "reference_sha256": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+    "patch_sha256": "a007627adc2d0f4c16a02249bb9698d9906b79983dfa0f9c5b199de6bf853ba0",
+    "git_apply_check": 0,
+    "git_apply": 0,
+    "stderr": "",
+    "mutated_sha256": "2d3694e2335f3aeaf38bca29f771fc82f671fb3c9e41db53ca77c24654c5ffac",
+    "compile": "ok",
+    "crlf_lines": 273,
+    "lf_lines": 273,
+    "port": "transition: same construct at cand line 196 (orig 212); the refusal path was restructured but the applied revision is still r.expected_revision + 1"
+   }
+  },
+  "M3": {
+   "orig": {
+    "patch": "mutants/M3.patch",
+    "target": "src/facdrone/shells/lifecycle_monitor_runner.py",
+    "reference_sha256": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+    "patch_sha256": "7dceff53347386a809c870381d3d0c1426300d8ca1abf4f95422953bec7d57eb",
+    "git_apply_check": 0,
+    "git_apply": 0,
+    "stderr": "",
+    "mutated_sha256": "175ddfd1441b35c149f4939f2cb9758ef93ad6284306b87b14df28b802b3fcf1",
+    "compile": "ok",
+    "crlf_lines": 397,
+    "lf_lines": 397
+   },
+   "cand": {
+    "patch": "mutants/M3-cand.patch",
+    "target": "src/facdrone/shells/lifecycle_monitor_runner.py",
+    "reference_sha256": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+    "patch_sha256": "a5f0f936682aa3ddfa8177769c4590300705d447eddb6e30a57c7aa74c63e2d1",
+    "git_apply_check": 0,
+    "git_apply": 0,
+    "stderr": "",
+    "mutated_sha256": "f30b7bf62c38fa561fe61ac672133c4ce6e0efd86a93aa0efae668a3c04718f2",
+    "compile": "ok",
+    "crlf_lines": 356,
+    "lf_lines": 356,
+    "port": "_emit folded into the module function _records (cand lines 162-199): the not_run records are emitted before the readings instead of after; same reorder"
+   }
+  },
+  "M4": {
+   "orig": {
+    "patch": "mutants/M4.patch",
+    "target": "src/facdrone/shells/lifecycle_store.py",
+    "reference_sha256": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "patch_sha256": "b0526f6dd762ecb124c721ce89fadf89c3cc1a7f334677f4984b46a69b963dea",
+    "git_apply_check": 0,
+    "git_apply": 0,
+    "stderr": "",
+    "mutated_sha256": "1c1aefe91eb9e95bd5a6ffe3d13f5f55e15207dc4a15be8e942a63a0284c10d9",
+    "compile": "ok",
+    "crlf_lines": 289,
+    "lf_lines": 289
+   },
+   "cand": {
+    "patch": "mutants/M4-cand.patch",
+    "target": "src/facdrone/shells/lifecycle_store.py",
+    "reference_sha256": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+    "patch_sha256": "ac32cb7973c97ca27c8f96b4ea2e33ab8e853b532443c301ed07254b8b071ffd",
+    "git_apply_check": 0,
+    "git_apply": 0,
+    "stderr": "",
+    "mutated_sha256": "aa469bd1db5e36a612251ba1037a1f6b727792587c138089f1ad65ff81d0d8ee",
+    "compile": "ok",
+    "crlf_lines": 273,
+    "lf_lines": 273,
+    "port": "standing: same construct at cand line 101 (orig 105); _applied was inlined, the census rule unchanged"
+   }
+  }
+ }
+}

@@ -1,0 +1,18 @@
+e4_arm: mutant 26 src/facdrone/shells/wiring/lifecycle_root.py core/NumberReplacer occ 2 line 34: [['    return {"reference": cited[-1], "baseline": baselines[cited[-1]]["baseline"]} if cited else None\r']] -> [['    return {"reference": cited[-1], "baseline": baselines[cited[- 2]]["baseline"]} if cited else None\r']]; mutated sha256=49e3adc8f1a4ea59854e205d0ffba86e12b7b9361a2258d28e1dc69aeeb2d0ed
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m26 --deadline 769.0
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 13:58:39] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.............................. [ 66%]
+.....................................                                    [100%]
+108 passed, 1 skipped, 1 deselected in 13.18s
+run_e4 .: exit 0 in 26.1s
+.                                                                        [100%]
+1 passed in 1.40s
+run_e4 packages/facdrone-research: exit 0 in 14.3s
+run_e4: exit 0; replay file fresh=True sequences=50/50 operations=317 level2_ops=0
+
+e4_arm: restored, identical=True

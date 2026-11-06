@@ -1,0 +1,5 @@
+M1 orig patch 89699566b9e9 mutated b92700bc1757 apply 0 ok | cand patch bc69d2551d63 mutated 015c36ac5fe2 check 0 apply 0 ok
+M2 orig patch 01ee894d458d mutated da7640cd3362 apply 0 ok | cand patch a007627adc2d mutated 2d3694e2335f check 0 apply 0 ok
+M3 orig patch 7dceff533473 mutated 175ddfd1441b apply 0 ok | cand patch a5f0f936682a mutated f30b7bf62c38 check 0 apply 0 ok
+M4 orig patch b0526f6dd762 mutated 1c1aefe91eb9 apply 0 ok | cand patch ac32cb7973c9 mutated aa469bd1db5e check 0 apply 0 ok
+hand-mutants.json fde02dea30306e0044b7b96d9c9709129750d3eea2bd1b50a5c314b20dfa9d4a

@@ -1,0 +1,59 @@
+{
+ "seed": 20261106,
+ "n": 30,
+ "rule": "sorted(random.Random(seed).sample(sorted(keys), n)); keys = (module, operator, args, occurrence, row, col)",
+ "population": 1488,
+ "population_per_module": {
+  "src/facdrone/shells/cli/lifecycle_group.py": 344,
+  "src/facdrone/shells/cppi/lifecycle_seams.py": 61,
+  "src/facdrone/shells/lifecycle_evidence.py": 265,
+  "src/facdrone/shells/lifecycle_monitor_runner.py": 387,
+  "src/facdrone/shells/lifecycle_projection.py": 107,
+  "src/facdrone/shells/lifecycle_store.py": 221,
+  "src/facdrone/shells/wiring/lifecycle_root.py": 103
+ },
+ "sample_per_module": {
+  "src/facdrone/shells/cli/lifecycle_group.py": 11,
+  "src/facdrone/shells/cppi/lifecycle_seams.py": 1,
+  "src/facdrone/shells/lifecycle_evidence.py": 7,
+  "src/facdrone/shells/lifecycle_monitor_runner.py": 3,
+  "src/facdrone/shells/lifecycle_projection.py": 0,
+  "src/facdrone/shells/lifecycle_store.py": 5,
+  "src/facdrone/shells/wiring/lifecycle_root.py": 3
+ },
+ "operators": {
+  "core/AddNot": 4,
+  "core/NumberReplacer": 5,
+  "core/ReplaceBinaryOperator_Add_BitOr": 1,
+  "core/ReplaceBinaryOperator_Div_Add": 2,
+  "core/ReplaceBinaryOperator_Div_BitAnd": 1,
+  "core/ReplaceBinaryOperator_Div_FloorDiv": 1,
+  "core/ReplaceBinaryOperator_Div_Mod": 1,
+  "core/ReplaceBinaryOperator_Div_RShift": 2,
+  "core/ReplaceBinaryOperator_Pow_BitXor": 1,
+  "core/ReplaceBinaryOperator_Pow_Mul": 1,
+  "core/ReplaceBinaryOperator_Sub_Div": 1,
+  "core/ReplaceComparisonOperator_Eq_Gt": 1,
+  "core/ReplaceComparisonOperator_Eq_GtE": 1,
+  "core/ReplaceComparisonOperator_Eq_Is": 1,
+  "core/ReplaceComparisonOperator_Eq_Lt": 1,
+  "core/ReplaceComparisonOperator_Gt_Lt": 1,
+  "core/ReplaceComparisonOperator_Is_NotEq": 1,
+  "core/ReplaceComparisonOperator_LtE_Eq": 1,
+  "core/ReplaceComparisonOperator_NotEq_Is": 1,
+  "core/ReplaceUnaryOperator_Delete_Not": 1,
+  "core/ReplaceUnaryOperator_USub_Not": 1
+ },
+ "reference": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+ "module_sha256": {
+  "src/facdrone/shells/cli/lifecycle_group.py": "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+  "src/facdrone/shells/cppi/lifecycle_seams.py": "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+  "src/facdrone/shells/lifecycle_evidence.py": "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+  "src/facdrone/shells/lifecycle_monitor_runner.py": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+  "src/facdrone/shells/lifecycle_projection.py": "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+  "src/facdrone/shells/lifecycle_store.py": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+  "src/facdrone/shells/wiring/lifecycle_root.py": "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad"
+ },
+ "session": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\e4-cand.sqlite",
+ "marks": "not port_baseline and not live_broker"
+}

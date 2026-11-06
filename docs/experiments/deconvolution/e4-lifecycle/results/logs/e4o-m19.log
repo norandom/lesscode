@@ -1,0 +1,36 @@
+e4_arm: mutant 19 src/facdrone/shells/lifecycle_evidence.py core/ReplaceTrueWithFalse occ 0 line 81: [['        .execution_options(stream_results=True, yield_per=32)\r']] -> [['        .execution_options(stream_results=False, yield_per=32)\r']]; mutated sha256=afc3d619d8f2b9318744af67eeea9bf227d4c7b93a226e70b7ff43b40fb3e24c
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m19 --deadline 914.5
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 13:52:50] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.............................F
+================================== FAILURES ===================================
+_______________ test_query_projects_only_identity_and_consumed ________________
+
+    def test_query_projects_only_identity_and_consumed() -> None:
+        at = evidence_batch().identity.as_of
+        query = lifecycle_evidence._consumed_query(at - timedelta(days=1), at)
+        compiled = str(
+            query.compile(dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True})  # type: ignore[no-untyped-call]
+        )
+        projection = compiled.partition("FROM")[0]
+        assert len(query.selected_columns) == 2
+        assert projection.count("decision_evidence.payload") == 2
+        assert projection.count("decision_evidence.payload ->") == 2
+        assert "'identity'" in projection and "'consumed'" in projection
+        assert "SELECT decision_evidence.payload," not in projection
+>       assert query.get_execution_options()["stream_results"] is True
+E       assert False is True
+
+tests\unit\test_lifecycle_evidence_projection.py:59: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_evidence_projection.py::test_query_projects_only_identity_and_consumed
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 29 passed, 1 deselected in 3.75s
+run_e4 .: exit 1 in 19.7s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

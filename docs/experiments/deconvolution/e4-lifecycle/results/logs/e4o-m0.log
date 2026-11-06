@@ -1,0 +1,45 @@
+e4_arm: mutant 0 src/facdrone/shells/cli/lifecycle_group.py core/AddNot occ 5 line 151: [['    if not sep or not version_text.isdigit():\r']] -> [['    if not not sep or not version_text.isdigit():\r']]; mutated sha256=e52f37d3634d382d1e63e88b2e4e081b2a4efb9b9702270751ba6b4f89f677f1
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m0 --deadline 928.4
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 12:58:57] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.........F
+================================== FAILURES ===================================
+_ TestThePublishedReadings.test_the_reproduction_command_refuses_what_it_cannot_reproduce _
+
+self = <tests.unit.test_lifecycle_monitor_runner_db.TestThePublishedReadings object at 0x0000018C14918F50>
+store = <facdrone.shells.lifecycle_store.LifecycleStore object at 0x0000018C165DF5F0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018C165DF490>
+
+    def test_the_reproduction_command_refuses_what_it_cannot_reproduce(
+        self, store: LifecycleStore, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """R10.6: no reading recorded is exit 2; a reading whose baseline digest matches no
+        ledger baseline (or whose rules changed) is refused as not reproducible, exit 2."""
+        from typer.testing import CliRunner
+    
+        from facdrone.shells.cli.app import app
+    
+        _runner(store, lambda _t, _w: BREACH).run(AS_OF, "d1")
+        monkeypatch.setenv(
+            "FACDRONE_TEST_PG_DSN", store._engine.url.render_as_string(hide_password=False)
+        )
+        runner = CliRunner()
+        missing = runner.invoke(app, ["lifecycle", "readings", "carry@3", "--window", "2026-01-01"])
+>       assert missing.exit_code == 2 and "no reading recorded" in missing.output
+E       assert (2 == 2 and 'no reading recorded' in "Usage: root lifecycle readings [OPTIONS] TARGET\nTry 'root lifecycle readings --help' for help.\n┌─ Error ───────────... for example carry@3              │\n└─────────────────────────────────────────────────────────────────────────────┘\n")
+E        +  where 2 = <Result SystemExit(2)>.exit_code
+E        +  and   "Usage: root lifecycle readings [OPTIONS] TARGET\nTry 'root lifecycle readings --help' for help.\n┌─ Error ───────────... for example carry@3              │\n└─────────────────────────────────────────────────────────────────────────────┘\n" = <Result SystemExit(2)>.output
+
+tests\unit\test_lifecycle_monitor_runner_db.py:499: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_monitor_runner_db.py::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 50 passed, 1 skipped, 1 deselected in 7.22s
+run_e4 .: exit 1 in 25.5s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

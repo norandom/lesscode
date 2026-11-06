@@ -1,0 +1,15 @@
+e4_arm: mutant 24 src/facdrone/shells/lifecycle_store.py core/ReplaceBinaryOperator_Pow_LShift occ 1 line 166: [['        row = {**asdict(stamped), "known_at": self._now()}\r']] -> [['        row = {<<asdict(stamped), "known_at": self._now()}\r']]; mutated sha256=a6576495a3d240c723ce16b01b2d853e27cd21c36c084d3794ea58beafe34546
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m24 --deadline 769.0
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+run_e4: INVALID scope not imported from D:\Source\lesscode\.runs\e4-lifecycle\orig-mut: Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import facdrone.shells.lifecycle_store as m; print(m.__file__)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Source\lesscode\.runs\e4-lifecycle\orig-mut\src\facdrone\shells\lifecycle_store.py", line 166
+    row = {<<asdict(stamped), "known_at": self._now()}
+           ^^
+SyntaxError: invalid syntax
+
+run_e4: exit 2; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

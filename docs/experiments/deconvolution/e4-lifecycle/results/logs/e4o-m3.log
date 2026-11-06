@@ -1,0 +1,39 @@
+e4_arm: M3 M3.patch git apply exit 0 ; src/facdrone/shells/lifecycle_monitor_runner.py mutated sha256=175ddfd1441b35c149f4939f2cb9758ef93ad6284306b87b14df28b802b3fcf1 recorded=175ddfd1441b35c149f4939f2cb9758ef93ad6284306b87b14df28b802b3fcf1 match=True
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-M3 --deadline 1308.0
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:03:55] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.............................. [ 66%]
+....................................F
+================================== FAILURES ===================================
+_______________________________ test_e4_replay ________________________________
+
+pg_engine = Engine(postgresql+psycopg://postgres@/facdrone_test?host=C%3A%5CUsers%5Cmariu%5CAppData%5CLocal%5CTemp%5Cfacdrone-pg-8nl484ut)
+
+    def test_e4_replay(pg_engine) -> None:
+        trace, env, l2, n = json.loads(GOLDEN.read_text(encoding="utf-8")), O._attached(pg_engine), [], {"sequences": 0, "operations": 0}
+        out = HERE / "results" / f"sql-divergences-round{os.environ.get('E4_ROUND', '0')}.json"
+        try:
+            for seq in trace["sequences"]:
+                got = O.run_sequence(env, seq)
+                d = O.first_diff(seq["start_tables"], got["start_tables"])
+                assert d is None, f"{seq['name']} start state: {d}"
+                for i, (o, a, b) in enumerate(zip(seq["ops"], seq["observations"], got["observations"])):
+                    sa, sb = a.pop("sql", None), b.pop("sql", None)
+                    d = O.first_diff(a, b)
+>                   assert d is None, f"{seq['name']} op {i} {O.canon(o)[:160]}: {d}"
+E                   AssertionError: S09-watch-unmeasured-not-run op 2 {"evidence":{"windows":{"2026-09-04":"none","2026-09-05":"thin","2026-09-06":"breach"}},"op":"run"}: /result/emitted/carry@3[0]/boundary (present on one side only)
+E                   assert '/result/emitted/carry@3[0]/boundary (present on one side only)' is None
+
+..\..\..\docs\experiments\deconvolution\e4-lifecycle\test_e4_replay.py:24: AssertionError
+=========================== short test summary info ===========================
+FAILED ::test_e4_replay - AssertionError: S09-watch-unmeasured-not-run op 2 {...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 107 passed, 1 skipped, 1 deselected in 9.42s
+run_e4 .: exit 1 in 24.8s
+run_e4: exit 1; replay file fresh=False sequences=8/50 operations=68 level2_ops=0
+
+e4_arm: restored, identical=True

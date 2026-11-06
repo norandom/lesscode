@@ -1,0 +1,44 @@
+e4_arm: mutant 28 src/facdrone/shells/wiring/lifecycle_root.py core/ReplaceBinaryOperator_Div_BitAnd occ 1 line 23: [['    credentials = project_root() / "conf" / "local" / "credentials.yml"\r']] -> [['    credentials = project_root() / "conf" & "local" / "credentials.yml"\r']]; mutated sha256=69a9f59829ad76fd6570715c5c9aaa19d1bac0ef9158420e0afc6d2969a48e92
+e4_arm: cand root D:\Source\lesscode\.runs\e4-lifecycle\cand-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\cand-mut --round e4c-m28 --deadline 559.9
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 14:44:00] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s.........F
+================================== FAILURES ===================================
+_ TestThePublishedReadings.test_the_reproduction_command_refuses_what_it_cannot_reproduce _
+
+self = <tests.unit.test_lifecycle_monitor_runner_db.TestThePublishedReadings object at 0x0000017D31B3D090>
+store = <facdrone.shells.lifecycle_store.LifecycleStore object at 0x0000017D33807490>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000017D33807330>
+
+    def test_the_reproduction_command_refuses_what_it_cannot_reproduce(
+        self, store: LifecycleStore, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """R10.6: no reading recorded is exit 2; a reading whose baseline digest matches no
+        ledger baseline (or whose rules changed) is refused as not reproducible, exit 2."""
+        from typer.testing import CliRunner
+    
+        from facdrone.shells.cli.app import app
+    
+        _runner(store, lambda _t, _w: BREACH).run(AS_OF, "d1")
+        monkeypatch.setenv(
+            "FACDRONE_TEST_PG_DSN", store._engine.url.render_as_string(hide_password=False)
+        )
+        runner = CliRunner()
+        missing = runner.invoke(app, ["lifecycle", "readings", "carry@3", "--window", "2026-01-01"])
+>       assert missing.exit_code == 2 and "no reading recorded" in missing.output
+E       assert (1 == 2)
+E        +  where 1 = <Result TypeError("unsupported operand type(s) for /: 'str' and 'str'")>.exit_code
+
+tests\unit\test_lifecycle_monitor_runner_db.py:499: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_monitor_runner_db.py::TestThePublishedReadings::test_the_reproduction_command_refuses_what_it_cannot_reproduce
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 50 passed, 1 skipped, 1 deselected in 6.42s
+run_e4 .: exit 1 in 24.9s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True

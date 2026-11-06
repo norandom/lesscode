@@ -1,0 +1,63 @@
+e4_arm: mutant 10 src/facdrone/shells/cli/lifecycle_group.py core/ReplaceComparisonOperator_Eq_Is occ 6 line 210: [['        same = same and getattr(again, "disposition", None) == row["disposition"]\r']] -> [['        same = same and getattr(again, "disposition", None) is row["disposition"]\r']]; mutated sha256=022f031a53a9bf561358f4e7d7989ef0d6adfc120b76b71fbdb958f3ee035b91
+e4_arm: orig root D:\Source\lesscode\.runs\e4-lifecycle\orig-mut; D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\run_e4.py D:\Source\lesscode\.runs\e4-lifecycle\orig-mut --round e4o-m10 --deadline 769.0
+run_e4: groups [[".", 12], ["packages/facdrone-research", 1]]
+[11/06/26 13:45:02] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+.........................................s..........F
+================================== FAILURES ===================================
+____ test_method_revision_keeps_old_rows_and_reproduces_only_current[True] ____
+
+store = <facdrone.shells.lifecycle_store.LifecycleStore object at 0x0000021DABA6CB00>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000021DABAFF430>
+old_first = True
+
+    @pytest.mark.parametrize("old_first", [True, False])
+    def test_method_revision_keeps_old_rows_and_reproduces_only_current(
+        store: LifecycleStore, monkeypatch: pytest.MonkeyPatch, old_first: bool
+    ) -> None:
+        """Real SQL persistence; calculator/CLI evidence supplied by this runner harness."""
+    
+        from typer.testing import CliRunner
+    
+        import facdrone.shells.cli.app as cli
+        from facdrone.shells.lifecycle_monitor_runner import _rules_revision
+    
+        old, current = method_revisions(store, monkeypatch)
+        first, second = (old, current) if old_first else (current, old)
+        first.run(AS_OF - timedelta(days=1), "first")
+        if old_first:
+            refusal = CliRunner().invoke(cli.app, READINGS_COMMAND)
+            assert refusal.exit_code == 2 and "rules changed" in refusal.output
+        second.run(AS_OF - timedelta(days=1), "second")
+        assert not store.open_flags(), "two windows per method never become four consecutive breaches"
+        legacy = [r for r in store.readings("carry", 3) if r["rules_revision"] == old._rules]
+        assert legacy
+        result = CliRunner().invoke(cli.app, READINGS_COMMAND)
+>       assert result.exit_code == 0 and "DIFFERS" not in result.output, result.output
+E       AssertionError: decay_half_life          DIFFERS  was descriptive None
+E         dwell_distance           DIFFERS  was unmeasured None
+E         horizon_mismatch         DIFFERS  was descriptive None
+E         ic_gap                   DIFFERS  was within 1.3877787807814457e-17
+E         macro_premise            DIFFERS  was descriptive None
+E         sign_stability           DIFFERS  was within 1.0
+E         state_ic:calm            DIFFERS  was unmeasured None
+E         state_ic:dislocated      DIFFERS  was unmeasured None
+E         state_ic:stressed        DIFFERS  was unmeasured None
+E         survival                 DIFFERS  was unmeasured None
+E         traded_horizon_ic        DIFFERS  was breach -0.10000000000000002
+E         
+E       assert (1 == 0)
+E        +  where 1 = <Result SystemExit(1)>.exit_code
+
+tests\unit\test_lifecycle_monitor_runner_db.py:529: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_lifecycle_monitor_runner_db.py::test_method_revision_keeps_old_rows_and_reproduces_only_current[True]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 51 passed, 1 skipped, 1 deselected in 4.88s
+run_e4 .: exit 1 in 18.3s
+run_e4: exit 1; replay file fresh=False sequences=None/None operations=None level2_ops=None
+
+e4_arm: restored, identical=True
