@@ -151,7 +151,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Requirements: 6.1, 6.7, 6.8, 11.2_
 
 - [ ] 5. Integration: the new pieces on the E3 scope and round 0 on a second scope
-- [ ] 5.1 Integration check of the regenerator program's output on the E3 scope
+- [x] 5.1 Integration check of the regenerator program's output on the E3 scope
   - Run the edit-scope hash check and the structure check on the tree from
     task 4; measure it with the measurer from 1.1. Acceptance is not run,
     and this task does not assert the structural prediction; a failing
@@ -397,3 +397,23 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   agent: APPROVED with one should-fix (applied). Behaviour of the
   candidate is unknown until 5.1 (structure, measures) and an acceptance
   run (6.x); nothing is claimed beyond the smoke.
+- 5.1 (2026-11-06): `docs/experiments/deconvolution/t51-integration/`
+  (`editscope.py` 65 lines, `pureshare.py` 37, tests 67, 6 cases red then
+  green). Edit-scope check on `.runs/e4-regen/cand-t4` against the frozen
+  copy: 1,965 files per side over root files, src, tests, packages (the
+  reviewer's full-tree walk, 2,798 files, agrees), nothing added or
+  removed, exactly the five scope files differ, hashes equal the
+  regenerator's `t4-turn2-candidate` note: pass. Structure check with the
+  declaration from `result.json` (36 pure / 17 shell): 53 defs all
+  declared, 0 pure-check failures, 12 write sites all in declared shell
+  functions: pass. Measures of the t4-turn2 candidate (original / E3 round
+  1 / t4-turn2): lines 1,274 / 1,074 / 1,214 (canonical 1,274 / 1,188 /
+  1,210), statements 660 / 546 / 549 (separated 718 / 627 / 610),
+  functions 67 / 51 / 53, edges 84 / 60 / 63, write sites 13 / 11 / 12,
+  pure share by functions 0.706 / 0.679 (by statements in defs 0.628).
+  Against the E3 targets, for information only: statements, functions,
+  edges, write sites and pure share inside; lines (bar 1,083) and
+  separated statements (bar 561) outside, as for round 1. Nothing
+  asserted (5.5), no acceptance, behaviour unknown. Reviewer reran every
+  measurer byte-identically; APPROVED; the removed-file test case was
+  added after the review (receipt `test-editscope-green-2`).

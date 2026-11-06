@@ -1,0 +1,1 @@
+{"root": "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4", "stmts": {"pure": 246, "shell": 146, "undeclared": 0, "outside_defs": 157}, "stmts_in_defs": 392, "stmts_all": 549, "pure_share_by_stmts_in_defs": 0.628, "pure_share_by_stmts_all": 0.448, "pure_share_by_funcs": 0.679}

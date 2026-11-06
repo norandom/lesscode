@@ -1,0 +1,556 @@
+{
+ "commands": [
+  {
+   "label": "test-editscope-red",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "test_editscope.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T08:55:14.948220+00:00",
+   "end_utc": "2026-11-06T08:55:17.386445+00:00",
+   "seconds": 2.44,
+   "exit": 2,
+   "adaptive": null
+  },
+  {
+   "label": "test-editscope-green",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "test_editscope.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T08:55:52.369599+00:00",
+   "end_utc": "2026-11-06T08:55:54.692253+00:00",
+   "seconds": 2.32,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "extract-structure",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import json,hashlib,sys; from pathlib import Path; src=Path(sys.argv[1]); r=json.loads(src.read_text(encoding='utf-8')); out=Path('structure-t4.json'); out.write_text(json.dumps({k: r['structure'][k] for k in ('pure','shell')}, indent=1), encoding='utf-8'); print(json.dumps({'source': str(src), 'source_sha256': hashlib.sha256(src.read_bytes()).hexdigest(), 'structure_sha256': hashlib.sha256(out.read_bytes()).hexdigest(), 'pure': len(r['structure']['pure']), 'shell': len(r['structure']['shell'])}))",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\t4-turn2\\result.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+   },
+   "start_utc": "2026-11-06T08:55:57.691678+00:00",
+   "end_utc": "2026-11-06T08:55:57.961545+00:00",
+   "seconds": 0.27,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "editscope-t4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "editscope.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "--scope",
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_evidence_store.py",
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_input_slice_store.py",
+    "src/facdrone/shells/decision_slice_publisher.py",
+    "--mentions",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\t4-turn2\\result.json",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\t4-turn2\\response.json",
+    "--out",
+    "results\\editscope-t4.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T08:56:20.286274+00:00",
+   "end_utc": "2026-11-06T08:56:21.731468+00:00",
+   "seconds": 1.45,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "measures-t4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "measures.py",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "--structure",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration\\structure-t4.json",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration\\results\\measures-t4.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T08:56:27.421564+00:00",
+   "end_utc": "2026-11-06T08:56:27.715975+00:00",
+   "seconds": 0.29,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "measures-canonical-t4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "measures2.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "--structure",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration\\structure-t4.json",
+    "--fmt-dir",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\fmt-t4",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration\\results\\measures-canonical-t4.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T08:56:27.961945+00:00",
+   "end_utc": "2026-11-06T08:56:28.678821+00:00",
+   "seconds": 0.72,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "measures-separated-t4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "measures3.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "--structure",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration\\structure-t4.json",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration\\results\\measures-separated-t4.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3-evidence-regeneration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T08:56:28.959499+00:00",
+   "end_utc": "2026-11-06T08:56:29.315889+00:00",
+   "seconds": 0.36,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "pureshare-t4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "pureshare.py",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "--structure",
+    "structure-t4.json",
+    "--out",
+    "results\\pureshare-t4.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T08:56:56.047938+00:00",
+   "end_utc": "2026-11-06T08:56:56.301958+00:00",
+   "seconds": 0.25,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "test-editscope-green-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "test_editscope.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:03:30.905955+00:00",
+   "end_utc": "2026-11-06T09:03:33.130683+00:00",
+   "seconds": 2.22,
+   "exit": 0,
+   "adaptive": null
+  }
+ ],
+ "facts": [
+  {
+   "time_utc": "2026-11-06T08:59:55.804244+00:00",
+   "step": "structure-t4",
+   "source": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\t4-turn2\\result.json",
+   "source_sha256_on_disk": "8655a97b02dacdc0badf67d0cdde3f26510adaa857baf1cc734bf00bc31e9b7b",
+   "source_sha256_lf": "396a5179e2f5f614726e48ddc57d16533ccee606136a8e8ae6f996487d2ffcf6",
+   "source_sidecar": "396a5179e2f5f614726e48ddc57d16533ccee606136a8e8ae6f996487d2ffcf6",
+   "structure_sha256": "02ef9fa84e73fe074944f938f7847cbef74c6a1288d24e3c67ce6bb24cafd850",
+   "pure": 36,
+   "shell": 17
+  },
+  {
+   "time_utc": "2026-11-06T08:59:55.811671+00:00",
+   "step": "turn-file-hashes",
+   "files": {
+    "result.json": {
+     "on_disk": "8655a97b02dacdc0badf67d0cdde3f26510adaa857baf1cc734bf00bc31e9b7b",
+     "lf_normalised": "396a5179e2f5f614726e48ddc57d16533ccee606136a8e8ae6f996487d2ffcf6",
+     "sidecar": "396a5179e2f5f614726e48ddc57d16533ccee606136a8e8ae6f996487d2ffcf6",
+     "sidecar_equals_lf": true,
+     "crlf": 94
+    },
+    "response.json": {
+     "on_disk": "ea216ab06cfc8cbd0e8e63282bbca88997e4ea1886aaa0da779d87f518529cce",
+     "lf_normalised": "05e7b990b6abc980dec3c6905bf516a1fe05b40f8d17d29042243eb9d73eef3c",
+     "sidecar": "05e7b990b6abc980dec3c6905bf516a1fe05b40f8d17d29042243eb9d73eef3c",
+     "sidecar_equals_lf": true,
+     "crlf": 37
+    }
+   },
+   "reading": "sidecar and regenerator receipt hashes are of the LF form; the files on disk are CRLF (Windows text mode); content identical"
+  },
+  {
+   "time_utc": "2026-11-06T08:59:55.814036+00:00",
+   "step": "editscope-t4",
+   "edit_scope": "pass",
+   "verdict": "pass",
+   "files_compared": 1965,
+   "files_original": 1965,
+   "files_candidate": 1965,
+   "only_in_original": [],
+   "only_in_candidate": [],
+   "differing": [
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_evidence_store.py",
+    "src/facdrone/shells/decision_input_slice_store.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "differing_outside_scope": [],
+   "candidate_hashes": {
+    "src/facdrone/shells/decision_evidence_publication.py": "4d328cc04f6e2c99cd4808ce104453e28b1dba388adc6a224083586e9b2cebfa",
+    "src/facdrone/shells/decision_evidence_reader.py": "bdefe6b697747bb9b0e060d249dd0a559f1f8dafe9becf1442180db5397e9578",
+    "src/facdrone/shells/decision_evidence_store.py": "27eba0f0334da302dfad936705b19cb6fe0936df376fed255b8c9db04d675e3e",
+    "src/facdrone/shells/decision_input_slice_store.py": "842cb8d5f27ea5c5c90924edbb8d335fff6b2fc9a10dbdb1ce733b2fb7aa3569",
+    "src/facdrone/shells/decision_slice_publisher.py": "fbf61509fcd5ff915b40f19b83272eb78036c46b250417219257d3652cc89898"
+   },
+   "original_hashes": {
+    "src/facdrone/shells/decision_evidence_publication.py": "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+    "src/facdrone/shells/decision_evidence_reader.py": "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+    "src/facdrone/shells/decision_evidence_store.py": "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+    "src/facdrone/shells/decision_input_slice_store.py": "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+    "src/facdrone/shells/decision_slice_publisher.py": "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+   },
+   "candidate_hashes_equal_t4-turn2-candidate_note": true,
+   "dirs": [
+    "src",
+    "tests",
+    "packages"
+   ],
+   "mentions_outside_scope_tokens": [
+    "publication.py",
+    "publisher.py",
+    "reader.py",
+    "slice_store.py",
+    "store.py"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T08:59:55.818210+00:00",
+   "step": "measures-t4",
+   "root": "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+   "as_written": {
+    "lines": 1214,
+    "stmts": 549,
+    "funcs": 53,
+    "qualnames": 53,
+    "writes": 12,
+    "edges": 63,
+    "module_hops": 7
+   },
+   "canonical": {
+    "lines": 1210,
+    "stmts": 549
+   },
+   "separated": {
+    "stmts": 610,
+    "extra": {
+     "import": 0,
+     "from_import": 58,
+     "tuple_assign": 3,
+     "multi_target": 0,
+     "chained_compare": 0,
+     "del": 0,
+     "global_nonlocal": 0,
+     "with_items": 0
+    }
+   },
+   "structure": {
+    "pass": true,
+    "undeclared": [],
+    "declared_unknown": [],
+    "pure_failures": [],
+    "pure_checks": 36,
+    "write_sites_outside_shell": [],
+    "write_sites": [
+     [
+      "decision_evidence_store.py",
+      246,
+      ".execute(",
+      "decision_evidence_store.py::append_sealed_evidence"
+     ],
+     [
+      "decision_evidence_store.py",
+      247,
+      "insert(",
+      "decision_evidence_store.py::append_sealed_evidence"
+     ],
+     [
+      "decision_evidence_store.py",
+      258,
+      ".execute(",
+      "decision_evidence_store.py::append_sealed_evidence"
+     ],
+     [
+      "decision_evidence_store.py",
+      287,
+      ".execute(",
+      "decision_evidence_store.py::read_decision_evidence"
+     ],
+     [
+      "decision_input_slice_store.py",
+      107,
+      ".execute(",
+      "decision_input_slice_store.py::append_slice"
+     ],
+     [
+      "decision_input_slice_store.py",
+      108,
+      "insert(",
+      "decision_input_slice_store.py::append_slice"
+     ],
+     [
+      "decision_input_slice_store.py",
+      113,
+      ".execute(",
+      "decision_input_slice_store.py::append_slice"
+     ],
+     [
+      "decision_input_slice_store.py",
+      125,
+      ".execute(",
+      "decision_input_slice_store.py::_load"
+     ],
+     [
+      "decision_input_slice_store.py",
+      151,
+      ".add(",
+      "decision_input_slice_store.py::_walk"
+     ],
+     [
+      "decision_slice_publisher.py",
+      99,
+      ".execute(",
+      "decision_slice_publisher.py::SlicePublication.retained"
+     ],
+     [
+      "decision_slice_publisher.py",
+      163,
+      "update(",
+      "decision_slice_publisher.py::require_referenced_slices"
+     ],
+     [
+      "decision_slice_publisher.py",
+      164,
+      ".execute(",
+      "decision_slice_publisher.py::require_referenced_slices"
+     ]
+    ],
+    "pure_share_by_funcs": 0.679
+   },
+   "pure_share_by_stmts": {
+    "stmts": {
+     "pure": 246,
+     "shell": 146,
+     "undeclared": 0,
+     "outside_defs": 157
+    },
+    "stmts_in_defs": 392,
+    "stmts_all": 549,
+    "pure_share_by_stmts_in_defs": 0.628,
+    "pure_share_by_stmts_all": 0.448
+   },
+   "targets_T2_T3_information_only": {
+    "lines": 1083,
+    "stmts": 561,
+    "funcs": 67,
+    "edges": 67,
+    "writes": 13,
+    "pure_share": 0.5
+   },
+   "per_file_as_written": {
+    "decision_evidence_publication.py": {
+     "lines": 427,
+     "stmts": 163,
+     "funcs": 20,
+     "qualnames": 20,
+     "writes": 0
+    },
+    "decision_evidence_store.py": {
+     "lines": 298,
+     "stmts": 145,
+     "funcs": 13,
+     "qualnames": 13,
+     "writes": 4
+    },
+    "decision_evidence_reader.py": {
+     "lines": 82,
+     "stmts": 37,
+     "funcs": 3,
+     "qualnames": 3,
+     "writes": 0
+    },
+    "decision_input_slice_store.py": {
+     "lines": 225,
+     "stmts": 121,
+     "funcs": 12,
+     "qualnames": 12,
+     "writes": 5
+    },
+    "decision_slice_publisher.py": {
+     "lines": 182,
+     "stmts": 83,
+     "funcs": 5,
+     "qualnames": 5,
+     "writes": 3
+    }
+   },
+   "formatter": "ruff format 0.17.3",
+   "separated_rule_version": "1"
+  },
+  {
+   "time_utc": "2026-11-06T08:59:55.824397+00:00",
+   "step": "files",
+   "t51": {
+    "editscope.py": {
+     "lines": 65,
+     "sha256": "4c1317c6183ce57bcf00aac917ae11395adef1ff22c1ad3fdce7b6ab9455ccb5"
+    },
+    "test_editscope.py": {
+     "lines": 59,
+     "sha256": "61ae9faa641af283ecc7061da1ef2442672227b4839486856a81a153fec6de40"
+    },
+    "pureshare.py": {
+     "lines": 37,
+     "sha256": "6572808f87fadce7e988410bd8deff70662c82fa177fb7fb6aec289bca75c705"
+    },
+    "README.md": {
+     "lines": 171,
+     "sha256": "7a078d1d2598ea12a191a6a74624dccc4597fecc3afa11f20edd5092333e7531"
+    },
+    "structure-t4.json": {
+     "lines": 59,
+     "sha256": "02ef9fa84e73fe074944f938f7847cbef74c6a1288d24e3c67ce6bb24cafd850"
+    }
+   },
+   "results": {
+    "editscope-t4.json": "fc1989ad7b8a6e21acecddac8b8f235d5ad24da82a44bbb5117bba57e2444081",
+    "measures-t4.json": "9f188d0ac4b9b98af54ba93c74b90b01f4c5651478ac3bdabc8d17e13a7d6ee8",
+    "measures-canonical-t4.json": "f2e3b8fbe961bff739760f003a2bc79b5d0fb5428e42322260e94ef576fdad99",
+    "measures-separated-t4.json": "00582de7977ea9f23c32e746dbafdc8b2fcf16b7a7044c39edfc2ae526a08040",
+    "pureshare-t4.json": "b7a6e662cb4f1f061cb32818d7fcbd24500514819cfdc1a5a874cc9a0ea7a614"
+   },
+   "e3_measurers_unchanged_read_only": {
+    "measures.py": {
+     "lines": 54,
+     "sha256": "e9ff2d65f220d124d57bfb9f24eba3270bd9cb580529a9fc5307799d66d94538"
+    },
+    "measures2.py": {
+     "lines": 46,
+     "sha256": "4da2966cf5b8e85bd832005278d725e5dcd8694253b9fb35c7a15cd029156209"
+    },
+    "measures3.py": {
+     "lines": 69,
+     "sha256": "9dee44b5dd9f20389bd91ff5ca9ecf95960c6f148c3985454b51ced470fd24ce"
+    },
+    "surface.py": {
+     "lines": 60,
+     "sha256": "f810d1537a78ddc47c25938ea3587df695e0a392bdaee6258bab96db5ba861b7"
+    }
+   },
+   "python": "3.13.16",
+   "bytecode_in_cand_t4_after_runs": 0
+  },
+  {
+   "time_utc": "2026-11-06T09:00:18.729848+00:00",
+   "step": "files-final",
+   "README.md": {
+    "lines": 171,
+    "sha256": "0e9b7595ce5cdebb1774f8803a391a0d512009dae7d9181976f7b9f4938fe6f7"
+   },
+   "reason": "README line-count cells corrected to physical counts after the files fact; the files fact's README hash is superseded by this one"
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-06T08:59:55.826918+00:00",
+   "key": "mentions-classification",
+   "value": {
+    "tokens": [
+     "publication.py",
+     "publisher.py",
+     "reader.py",
+     "slice_store.py",
+     "store.py"
+    ],
+    "classification": "shorthand for the five scope files in the model's summarised thinking (tallying functions per file); each token is the suffix of one scope file name; no file outside the scope is mentioned in result.json or response.json",
+    "from": [
+     "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\t4-turn2\\result.json",
+     "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\t4-turn2\\response.json"
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:59:55.830862+00:00",
+   "key": "not-claimed",
+   "value": {
+    "acceptance": "not run",
+    "behaviour": "unknown until an acceptance run",
+    "sensitivity": "not run",
+    "structural_prediction_5_5": "not asserted; structure check and measures reported as recorded",
+    "editscope_walk": "repo root + src, tests, packages; other top-level directories not hashed"
+   }
+  }
+ ]
+}

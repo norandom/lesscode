@@ -1,0 +1,68 @@
+{
+ "original": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "candidate": "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+ "dirs": [
+  "src",
+  "tests",
+  "packages"
+ ],
+ "skip_dirs": [
+  ".git",
+  ".pytest_cache",
+  "__pycache__"
+ ],
+ "skip_suffix": [
+  ".pyc"
+ ],
+ "files_original": 1965,
+ "files_candidate": 1965,
+ "files_compared": 1965,
+ "only_in_original": [],
+ "only_in_candidate": [],
+ "differing": [
+  "src/facdrone/shells/decision_evidence_publication.py",
+  "src/facdrone/shells/decision_evidence_reader.py",
+  "src/facdrone/shells/decision_evidence_store.py",
+  "src/facdrone/shells/decision_input_slice_store.py",
+  "src/facdrone/shells/decision_slice_publisher.py"
+ ],
+ "scope": [
+  "src/facdrone/shells/decision_evidence_publication.py",
+  "src/facdrone/shells/decision_evidence_reader.py",
+  "src/facdrone/shells/decision_evidence_store.py",
+  "src/facdrone/shells/decision_input_slice_store.py",
+  "src/facdrone/shells/decision_slice_publisher.py"
+ ],
+ "differing_outside_scope": [],
+ "scope_unchanged": [],
+ "scope_missing": [],
+ "original_hashes": {
+  "src/facdrone/shells/decision_evidence_publication.py": "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+  "src/facdrone/shells/decision_evidence_reader.py": "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+  "src/facdrone/shells/decision_evidence_store.py": "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+  "src/facdrone/shells/decision_input_slice_store.py": "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+  "src/facdrone/shells/decision_slice_publisher.py": "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+ },
+ "candidate_hashes": {
+  "src/facdrone/shells/decision_evidence_publication.py": "4d328cc04f6e2c99cd4808ce104453e28b1dba388adc6a224083586e9b2cebfa",
+  "src/facdrone/shells/decision_evidence_reader.py": "bdefe6b697747bb9b0e060d249dd0a559f1f8dafe9becf1442180db5397e9578",
+  "src/facdrone/shells/decision_evidence_store.py": "27eba0f0334da302dfad936705b19cb6fe0936df376fed255b8c9db04d675e3e",
+  "src/facdrone/shells/decision_input_slice_store.py": "842cb8d5f27ea5c5c90924edbb8d335fff6b2fc9a10dbdb1ce733b2fb7aa3569",
+  "src/facdrone/shells/decision_slice_publisher.py": "fbf61509fcd5ff915b40f19b83272eb78036c46b250417219257d3652cc89898"
+ },
+ "edit_scope": "pass",
+ "verdict": "pass",
+ "mentions": {
+  "files": [
+   "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\t4-turn2\\result.json",
+   "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\t4-turn2\\response.json"
+  ],
+  "outside_scope": [
+   "publication.py",
+   "publisher.py",
+   "reader.py",
+   "slice_store.py",
+   "store.py"
+  ]
+ }
+}
