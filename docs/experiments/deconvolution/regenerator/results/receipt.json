@@ -1,0 +1,459 @@
+{
+ "commands": [
+  {
+   "label": "t4-turn1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\regen_turn.py",
+    "run",
+    "--request",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\request-e3-turn1.json",
+    "--cand",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "--receipt",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\receipt.json",
+    "--label",
+    "t4-turn1"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator",
+   "env": {},
+   "start_utc": "2026-11-06T08:19:06.802577+00:00",
+   "end_utc": "2026-11-06T08:24:17.006882+00:00",
+   "seconds": 310.2,
+   "exit": 3,
+   "adaptive": null
+  },
+  {
+   "label": "t4-turn1-retry",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\regen_turn.py",
+    "run",
+    "--request",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\request-e3-turn1.json",
+    "--cand",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "--receipt",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\receipt.json",
+    "--label",
+    "t4-turn1-retry",
+    "--thinking-display",
+    "summarized"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator",
+   "env": {},
+   "start_utc": "2026-11-06T08:25:29.276682+00:00",
+   "end_utc": "2026-11-06T08:34:49.313752+00:00",
+   "seconds": 560.04,
+   "exit": 3,
+   "adaptive": null
+  },
+  {
+   "label": "t4-turn2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "regen_turn.py",
+    "run",
+    "--request",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\request-e3-turn1.json",
+    "--cand",
+    "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "--receipt",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\receipt.json",
+    "--label",
+    "t4-turn2",
+    "--max-tokens",
+    "128000",
+    "--effort",
+    "medium",
+    "--thinking-display",
+    "summarized"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator",
+   "env": {},
+   "start_utc": "2026-11-06T08:37:31.190007+00:00",
+   "end_utc": "2026-11-06T08:48:44.525905+00:00",
+   "seconds": 673.34,
+   "exit": 0,
+   "adaptive": null
+  }
+ ],
+ "facts": [
+  {
+   "time_utc": "2026-11-06T08:18:59.299149+00:00",
+   "key": "t4-extras",
+   "anthropic": "2.6.0",
+   "target": ".runs/regen-extras",
+   "installed_with": "uv pip install --python <e2-facdrone venv> --target .runs/regen-extras anthropic",
+   "python": "3.13.16 (e2-facdrone venv, extras appended to sys.path)"
+  },
+  {
+   "time_utc": "2026-11-06T08:19:09.701514+00:00",
+   "key": "t4-turn1-inputs",
+   "apparatus": {
+    "regen_turn.py": "f0f53f67d56e0e50ae5e65b966096f1719ae1a0b7683cef5580f7b47480eb38e"
+   },
+   "request": {
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\request-e3-turn1.json": "20e48d54fdb04f1bd19e12e1ec85591b35bddb8dcef1cc946548a50912cb4c11"
+   },
+   "surface": "5335c53db92445b74bffba88eec16cfe0df94863c8e91f5f5d99a1128369a9ce",
+   "frozen_scope": {
+    "src/facdrone/shells/decision_evidence_publication.py": "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+    "src/facdrone/shells/decision_evidence_store.py": "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+    "src/facdrone/shells/decision_evidence_reader.py": "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+    "src/facdrone/shells/decision_input_slice_store.py": "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+    "src/facdrone/shells/decision_slice_publisher.py": "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+   },
+   "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+   "endpoint": {
+    "style": "anthropic",
+    "host": "api.anthropic.com",
+    "model_sha256": "005912bee6ee4543cec4404b5a02b9bcb11a6f1dcc134b6693c7ccde5fdd2f69"
+   },
+   "feedback_kind": null,
+   "prompts": {
+    "system.txt": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user.txt": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:25:29.466964+00:00",
+   "key": "t4-turn1-retry-inputs",
+   "apparatus": {
+    "regen_turn.py": "978f5edcb232b105d8b66e11aaa4c035a27cfced7f8ab6702b3f82a3323071b4"
+   },
+   "request": {
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\request-e3-turn1.json": "20e48d54fdb04f1bd19e12e1ec85591b35bddb8dcef1cc946548a50912cb4c11"
+   },
+   "surface": "5335c53db92445b74bffba88eec16cfe0df94863c8e91f5f5d99a1128369a9ce",
+   "frozen_scope": {
+    "src/facdrone/shells/decision_evidence_publication.py": "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+    "src/facdrone/shells/decision_evidence_store.py": "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+    "src/facdrone/shells/decision_evidence_reader.py": "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+    "src/facdrone/shells/decision_input_slice_store.py": "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+    "src/facdrone/shells/decision_slice_publisher.py": "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+   },
+   "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+   "endpoint": {
+    "style": "anthropic",
+    "host": "api.anthropic.com",
+    "model_sha256": "005912bee6ee4543cec4404b5a02b9bcb11a6f1dcc134b6693c7ccde5fdd2f69"
+   },
+   "feedback_kind": null,
+   "prompts": {
+    "system.txt": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user.txt": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:37:31.460943+00:00",
+   "key": "t4-turn2-inputs",
+   "apparatus": {
+    "regen_turn.py": "978f5edcb232b105d8b66e11aaa4c035a27cfced7f8ab6702b3f82a3323071b4"
+   },
+   "request": {
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\request-e3-turn1.json": "20e48d54fdb04f1bd19e12e1ec85591b35bddb8dcef1cc946548a50912cb4c11"
+   },
+   "surface": "5335c53db92445b74bffba88eec16cfe0df94863c8e91f5f5d99a1128369a9ce",
+   "frozen_scope": {
+    "src/facdrone/shells/decision_evidence_publication.py": "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+    "src/facdrone/shells/decision_evidence_store.py": "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+    "src/facdrone/shells/decision_evidence_reader.py": "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+    "src/facdrone/shells/decision_input_slice_store.py": "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+    "src/facdrone/shells/decision_slice_publisher.py": "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+   },
+   "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+   "endpoint": {
+    "style": "anthropic",
+    "host": "api.anthropic.com",
+    "model_sha256": "005912bee6ee4543cec4404b5a02b9bcb11a6f1dcc134b6693c7ccde5fdd2f69"
+   },
+   "feedback_kind": null,
+   "prompts": {
+    "system.txt": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user.txt": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:53:53.738275+00:00",
+   "key": "t4-apparatus-after-review",
+   "date": "2026-11-06",
+   "regen_turn_sha256": "038cbad2363cf48382e11a55c779a5f1bc127fbe9781e0e055f764b27a9727ff",
+   "change": "_save writes with newline=\"\n\" so bytes on disk equal the hashed text; no change to prompts, request building, hashing or the turn logic; the three recorded turns ran under 978f5edc... (retry, turn2) and f0f53f67... (turn1)",
+   "reason": "kiro-review should-fix 1: sidecar hashes did not match raw CRLF bytes on disk"
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-06T08:18:59.619118+00:00",
+   "key": "t4-dry-prompt",
+   "value": {
+    "system_sha256": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user_sha256": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402",
+    "system_chars": 1730,
+    "user_chars": 87447,
+    "checked": "five scope files, surface JSON, definitions, targets, contract, acceptance command present; no feedback section"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:24:16.695376+00:00",
+   "key": "t4-turn1-failed",
+   "value": {
+    "reason": "ReadError: [WinError 10054] An existing connection was forcibly closed by the remote host",
+    "outcome": "failed",
+    "exit": 3
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:25:29.100392+00:00",
+   "key": "t4-turn1-retry-decision",
+   "value": {
+    "after": "t4-turn1 failed with ReadError WinError 10054 at 310 s, before any response was received",
+    "change": "retry once with --thinking-display summarized so the stream carries thinking deltas (adaptive thinking is unchanged; display is an opt-in); stream progress is now recorded on failure",
+    "retries_remaining_after_this": 0
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:34:48.924926+00:00",
+   "key": "t4-turn1-retry-turn",
+   "value": {
+    "mode": "json_schema+stream",
+    "anthropic_version": "2.6.0",
+    "counted_input_tokens": 36115,
+    "thinking_display": "summarized",
+    "stream": {
+     "events": 10839,
+     "last_event": "message_stop",
+     "last_event_s": 556.42
+    },
+    "elapsed_s": 556.42,
+    "stop_reason": "max_tokens",
+    "stop_details": null,
+    "usage": {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "inference_geo": "global",
+     "input_tokens": 36557,
+     "output_tokens": 64000,
+     "output_tokens_details": {
+      "thinking_tokens": 64000
+     },
+     "server_tool_use": null,
+     "service_tier": "standard",
+     "speed": "standard"
+    },
+    "max_tokens": 64000,
+    "effort": "high",
+    "system_sha256": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user_sha256": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402",
+    "request_sha256": "2d7feed00391f5b0ba8bc8f2a681f7bb49ad003f28d8351b8692bef8dffd74a3",
+    "response_sha256": "989ccff4442d089ed39c5fbc9a5dbb1f10db28e4d50c24cdca476f81e4092deb",
+    "model_sent": "claude-opus-5-5",
+    "model_returned": "claude-opus-5-5",
+    "message_id": "msg_011CgmMZ3za6qworyk9Jd1eh",
+    "request_id": null,
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "response_sha256_saved": "989ccff4442d089ed39c5fbc9a5dbb1f10db28e4d50c24cdca476f81e4092deb"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:34:48.926132+00:00",
+   "key": "t4-turn1-retry-failed",
+   "value": {
+    "reason": "stop_reason max_tokens",
+    "outcome": "failed",
+    "exit": 3
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:35:37.438709+00:00",
+   "key": "t4-smoke-outcome",
+   "value": {
+    "turns": {
+     "t4-turn1": "failed: transport ReadError WinError 10054 at 310 s, no response received",
+     "t4-turn1-retry": "failed: stop_reason max_tokens; usage output_tokens 64000 of which thinking_tokens 64000, no text block, no JSON"
+    },
+    "retries_used": 1,
+    "retries_allowed": 1,
+    "candidate_tree": "D:/Source/lesscode/.runs/e4-regen/cand-t4 exists as a verified copy; no file written; the five scope files still equal the frozen copy by sha256",
+    "py_compile": "not run: no candidate files were written",
+    "apparatus_final_sha256": {
+     "regen_turn.py": "978f5edcb232b105d8b66e11aaa4c035a27cfced7f8ab6702b3f82a3323071b4"
+    },
+    "note": "the apparatus hash in fact t4-turn1-inputs (f0f53f67...) is the pre-patch file; the retry fact holds the patched hash; the final hash follows a comment removal after the retry started, see README"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:35:53.351731+00:00",
+   "key": "t4-smoke-outcome-correction",
+   "value": {
+    "corrects": "t4-smoke-outcome.note",
+    "text": "fact t4-turn1-inputs holds the pre-patch regen_turn.py (f0f53f67...); the patch (stream progress, --thinking-display) and a one-comment cleanup were both applied before t4-turn1-retry started, so fact t4-turn1-retry-inputs already holds the final hash 978f5edc..."
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:37:31.025231+00:00",
+   "key": "t4-turn2-decision",
+   "value": {
+    "date": "2026-11-06",
+    "by": "controller",
+    "after": "t4-turn1 (connection reset at 310 s, no response) and t4-turn1-retry (stop_reason max_tokens: 64,000 output tokens all spent in thinking, no text block)",
+    "change": "one further recorded turn with --max-tokens 128000 (the model maximum) and --effort medium, thinking display summarized kept so the stream stays active; same request file, same prompts",
+    "not_changed": "signature, prompts, model, schema, candidate root, no feedback section"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:48:43.942612+00:00",
+   "key": "t4-turn2-turn",
+   "value": {
+    "mode": "json_schema+stream",
+    "anthropic_version": "2.6.0",
+    "counted_input_tokens": 36115,
+    "thinking_display": "summarized",
+    "stream": {
+     "events": 14231,
+     "last_event": "message_stop",
+     "last_event_s": 668.37
+    },
+    "elapsed_s": 668.37,
+    "stop_reason": "end_turn",
+    "stop_details": null,
+    "usage": {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "inference_geo": "global",
+     "input_tokens": 36557,
+     "output_tokens": 84992,
+     "output_tokens_details": {
+      "thinking_tokens": 63504
+     },
+     "server_tool_use": null,
+     "service_tier": "standard",
+     "speed": "standard"
+    },
+    "max_tokens": 128000,
+    "effort": "medium",
+    "system_sha256": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user_sha256": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402",
+    "request_sha256": "2ab4b6f076f20c5cde574a04d0995b79e5294f0ab7150f0f1ed72f8d31142bf4",
+    "response_sha256": "05e7b990b6abc980dec3c6905bf516a1fe05b40f8d17d29042243eb9d73eef3c",
+    "model_sent": "claude-opus-5-5",
+    "model_returned": "claude-opus-5-5",
+    "message_id": "msg_011CgmNUMVFLc4Q8ZgkDAGNC",
+    "request_id": null,
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "response_sha256_saved": "05e7b990b6abc980dec3c6905bf516a1fe05b40f8d17d29042243eb9d73eef3c"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:48:43.958475+00:00",
+   "key": "t4-turn2-candidate",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e4-regen\\cand-t4",
+    "files": [
+     {
+      "path": "src/facdrone/shells/decision_evidence_publication.py",
+      "bytes": 15423,
+      "sha256": "4d328cc04f6e2c99cd4808ce104453e28b1dba388adc6a224083586e9b2cebfa",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/decision_evidence_store.py",
+      "bytes": 12644,
+      "sha256": "27eba0f0334da302dfad936705b19cb6fe0936df376fed255b8c9db04d675e3e",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/decision_evidence_reader.py",
+      "bytes": 3339,
+      "sha256": "bdefe6b697747bb9b0e060d249dd0a559f1f8dafe9becf1442180db5397e9578",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/decision_input_slice_store.py",
+      "bytes": 8706,
+      "sha256": "842cb8d5f27ea5c5c90924edbb8d335fff6b2fc9a10dbdb1ce733b2fb7aa3569",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/decision_slice_publisher.py",
+      "bytes": 7054,
+      "sha256": "fbf61509fcd5ff915b40f19b83272eb78036c46b250417219257d3652cc89898",
+      "crlf": true
+     }
+    ],
+    "result_sha256": "396a5179e2f5f614726e48ddc57d16533ccee606136a8e8ae6f996487d2ffcf6",
+    "structure_counts": {
+     "pure": 36,
+     "shell": 17
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:50:10.312089+00:00",
+   "key": "t4-turn2-pycompile",
+   "value": {
+    "command": "py_compile.compile(path, cfile=<scratchpad>/pyc/<name>.pyc, doraise=True) with PYTHONDONTWRITEBYTECODE=1, e2-facdrone venv CPython 3.13.16",
+    "results": {
+     "src/facdrone/shells/decision_evidence_publication.py": {
+      "py_compile": "ok",
+      "lines": 427,
+      "bytes": 15423,
+      "sha256": "4d328cc04f6e2c99cd4808ce104453e28b1dba388adc6a224083586e9b2cebfa"
+     },
+     "src/facdrone/shells/decision_evidence_store.py": {
+      "py_compile": "ok",
+      "lines": 298,
+      "bytes": 12644,
+      "sha256": "27eba0f0334da302dfad936705b19cb6fe0936df376fed255b8c9db04d675e3e"
+     },
+     "src/facdrone/shells/decision_evidence_reader.py": {
+      "py_compile": "ok",
+      "lines": 82,
+      "bytes": 3339,
+      "sha256": "bdefe6b697747bb9b0e060d249dd0a559f1f8dafe9becf1442180db5397e9578"
+     },
+     "src/facdrone/shells/decision_input_slice_store.py": {
+      "py_compile": "ok",
+      "lines": 225,
+      "bytes": 8706,
+      "sha256": "842cb8d5f27ea5c5c90924edbb8d335fff6b2fc9a10dbdb1ce733b2fb7aa3569"
+     },
+     "src/facdrone/shells/decision_slice_publisher.py": {
+      "py_compile": "ok",
+      "lines": 182,
+      "bytes": 7054,
+      "sha256": "fbf61509fcd5ff915b40f19b83272eb78036c46b250417219257d3652cc89898"
+     }
+    },
+    "total_lines": 1214,
+    "pyc_or_pycache_in_candidate_tree_after": 0,
+    "meaning": "information for task 5.1, not a gate"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:50:10.616766+00:00",
+   "key": "t4-smoke-outcome-2",
+   "value": {
+    "supersedes": "t4-smoke-outcome (kept)",
+    "statement": "the task-4 done criterion is met by t4-turn2: one logged turn on the E3 scope (stop_reason end_turn, request 2ab4b6f0..., response 05e7b990..., model claude-opus-5-5 sent and returned, seed null) yielded a candidate tree at .runs/e4-regen/cand-t4 with the five scope files written (hashes in t4-turn2-candidate), and the receipt holds the prompt, response, model identifier and seed hashes",
+    "turns": {
+     "t4-turn1": "failed, connection reset",
+     "t4-turn1-retry": "failed, max_tokens",
+     "t4-turn2": "end_turn"
+    },
+    "not_claimed": "no acceptance run, no measures, no structure check, no edit-scope check (task 5.1)"
+   }
+  }
+ ]
+}

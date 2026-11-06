@@ -131,7 +131,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Depends: 1.1, 3.1_
   - _Requirements: 8.2, 8.3, 8.6, 10.2_
 
-- [ ] 4. Regenerator as a recorded single-turn program with a turn rule (owner go for model budget)
+- [x] 4. Regenerator as a recorded single-turn program with a turn rule (owner go for model budget)
   - Define the regenerator brief as a fixed signature: inputs (scope files,
     derived surface, definitions, targets, structural contract, acceptance
     command, and for a turn after a failed turn only the previous turn's
@@ -365,3 +365,35 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   (comparability per requirement 8.6 stated) and E3 plan #4. Reviewed by
   an independent sonnet agent: 5 should-fix (table cells, factor range,
   note count, comparability sentence, time zone) applied, then APPROVED.
+- 4 (2026-11-06): `docs/experiments/deconvolution/regenerator/regen_turn.py`
+  (337 lines, budget 300, overrun reported) is the regenerator as a
+  fixed-signature program: `TurnRequest` (scope root and files, surface
+  path, definitions, targets, contract, acceptance command, feedback
+  None | failed{first_divergence, measure_gaps} |
+  accepted_scored{+surviving_faults, counterexamples}; other keys refused)
+  → system brief + user prompt (inputs verbatim, feedback section only when
+  present) → `client.messages.stream` on the endpoint from
+  `~/.lesscode/model.env` (style, base URL, model, key; key only via
+  `api_key()`, redacted everywhere) with `output_config.effort` and a JSON
+  schema output → `write_candidate` into a verified copy of the frozen
+  tree, refusing any path outside the scope before writing. Receipt holds
+  per turn the sha256 of system, user, request body (rebuildable from the
+  saved prompts and recorded parameters) and response, model sent and
+  returned, seed null (endpoint has none), usage, stop reason. Smoke on the
+  E3 scope took three recorded turns against claude-opus-5-5: t4-turn1
+  connection reset after 310 s of silent stream; t4-turn1-retry (thinking
+  display on) stop `max_tokens`, 64,000 output tokens all thinking;
+  t4-turn2 (`--max-tokens 128000 --effort medium`, controller decision
+  noted) `end_turn`, 36,557 in / 84,992 out (63,504 thinking), 668 s,
+  five files 1,214 lines (vs 1,274), all compile, 36 pure / 17 shell
+  declared; exactly the five scope files differ from the frozen copy
+  (reviewer: 0 added, 0 other differing). Apparatus facts: the model needs
+  the 128k output ceiling and medium effort for a 1,274-line scope in one
+  turn; a silent stream over five minutes gets cut, so thinking display
+  stays on; sidecars hash the text as sent, and `_save` now writes LF so
+  bytes match (review should-fix, recorded in fact
+  `t4-apparatus-after-review`). Prompt and response texts stay on disk
+  (specimen source); sidecars committed. Reviewed by an independent sonnet
+  agent: APPROVED with one should-fix (applied). Behaviour of the
+  candidate is unknown until 5.1 (structure, measures) and an acceptance
+  run (6.x); nothing is claimed beyond the smoke.

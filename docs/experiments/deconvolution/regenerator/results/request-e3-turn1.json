@@ -1,0 +1,33 @@
+{
+ "scope_root": ".runs/e2-facdrone/source",
+ "scope_files": [
+  "src/facdrone/shells/decision_evidence_publication.py",
+  "src/facdrone/shells/decision_evidence_store.py",
+  "src/facdrone/shells/decision_evidence_reader.py",
+  "src/facdrone/shells/decision_input_slice_store.py",
+  "src/facdrone/shells/decision_slice_publisher.py"
+ ],
+ "surface_path": "docs/experiments/deconvolution/e3-evidence-regeneration/results/public-surface.json",
+ "definitions": "- Public API (one sentence): every name that code outside the regenerated files imports from them, with its signature and observable behaviour, including private names that tests import.\n- Pure core: functions that take no engine, connection or session, open none, and execute no SQL; they compute payloads, digests, codecs, bindings and predicates from values.\n- Effect shell: functions that hold a connection or engine and perform reads or writes; they call the pure core and contain no predicate logic beyond dispatch.\n- Level 1 observation: return value or exception type and message, ordered table dumps after each operation, files written. Level 2 observation: SQL statement text and parameters.\n- Write site: a static match of `execute|add|add_all|commit|flush|delete|merge(` or `insert|update|delete(` in the file text. Note: the `.add` rule also flags `set.add`.\n- Intra-set call edge: a distinct (caller function, callee function) pair, static, by name, with both functions inside the five scope files.",
+ "targets": {
+  "files": "the five scope files together",
+  "baseline_original": {
+   "lines": 1274,
+   "ast_statements": 660,
+   "functions": 67,
+   "write_sites": 13,
+   "intra_set_call_edges": 84
+  },
+  "lines_max": 1083,
+  "ast_statements_max": 561,
+  "functions_max": 67,
+  "write_sites_max": 13,
+  "intra_set_call_edges_max": 67,
+  "pure_core_share_min": 0.5,
+  "level1_divergences": 0,
+  "note": "T2 and T3 of the E3 plan; T1 is zero Level 1 divergence on all 64 recorded sequences plus identical codec-harness output plus every seed test passing"
+ },
+ "contract": "Declare every function (including methods, by qualname) of every scope file in \"structure\" as exactly one of \"pure\" or \"shell\", as \"<file>.py::<qualname>\" entries, e.g. \"decision_evidence_store.py::_read\" or \"decision_evidence_publication.py::EvidenceBinding.__post_init__\".\n- A declared pure function has no engine, connection or session parameter and makes no SQL execution call (`execute`, `add`, `add_all`, `commit`, `flush`, `delete`, `merge`); a static check verifies this for every declared pure function.\n- Every write site (static match of `execute|add|add_all|commit|flush|delete|merge(` or `insert|update|delete(`) must be inside a declared shell function.\n- The declared pure core must hold at least 50% of the candidate's functions.\n- Write sites at most 13; intra-set call edges at most 67 (20% below the original's 84); AST statements at most 561 (15% below 660); physical lines at most 1,083 (15% below 1,274); functions at most 67.\n- Names that tests patch or override (kind \"patch\" in the surface) must remain module globals that the module's own functions look up by name at call time (no capture into closures, defaults or class attributes).\n- No file outside the five scope files may change; no test, recorded corpus or apparatus file may be touched; such a candidate is void.\n- Keep the statement text and parameters of every SQL statement unchanged; the acceptance arm records them (Level 2) and judges differences.",
+ "acceptance_command": "python run_e3.py <candidate-root> --round N   # run from docs/experiments/deconvolution/e3-evidence-regeneration by the loop: 191 seed test files with the baseline deselections, the R16 codec harness, then replay of 64 recorded sequences (Level 1 divergence fails; Level 2 SQL pairs are collected and judged separately). Exit 0 is acceptance.",
+ "feedback": null
+}

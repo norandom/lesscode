@@ -1,0 +1,95 @@
+{
+ "files": [
+  {
+   "path": "src/facdrone/shells/decision_evidence_publication.py",
+   "bytes": 15423,
+   "sha256": "4d328cc04f6e2c99cd4808ce104453e28b1dba388adc6a224083586e9b2cebfa",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/decision_evidence_store.py",
+   "bytes": 12644,
+   "sha256": "27eba0f0334da302dfad936705b19cb6fe0936df376fed255b8c9db04d675e3e",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/decision_evidence_reader.py",
+   "bytes": 3339,
+   "sha256": "bdefe6b697747bb9b0e060d249dd0a559f1f8dafe9becf1442180db5397e9578",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/decision_input_slice_store.py",
+   "bytes": 8706,
+   "sha256": "842cb8d5f27ea5c5c90924edbb8d335fff6b2fc9a10dbdb1ce733b2fb7aa3569",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/decision_slice_publisher.py",
+   "bytes": 7054,
+   "sha256": "fbf61509fcd5ff915b40f19b83272eb78036c46b250417219257d3652cc89898",
+   "crlf": true
+  }
+ ],
+ "structure": {
+  "pure": [
+   "decision_evidence_publication.py::EvidenceBinding.__post_init__",
+   "decision_evidence_publication.py::money_evidence_payload",
+   "decision_evidence_publication.py::slice_bytes",
+   "decision_evidence_publication.py::_canonical",
+   "decision_evidence_publication.py::parse_run_slice",
+   "decision_evidence_publication.py::slice_identity",
+   "decision_evidence_publication.py::deduplicated_inputs",
+   "decision_evidence_publication.py::resolved_inputs",
+   "decision_evidence_publication.py::capture_payload",
+   "decision_evidence_publication.py::bind_evidence",
+   "decision_evidence_publication.py::seal_evidence",
+   "decision_evidence_publication.py::_bound",
+   "decision_evidence_publication.py::seal_evidence_with_run_slices",
+   "decision_evidence_publication.py::_run_slice_inputs",
+   "decision_evidence_publication.py::bind_evidence_with_run_slices",
+   "decision_evidence_publication.py::bound_payload",
+   "decision_evidence_publication.py::compact_capture",
+   "decision_evidence_publication.py::payload_batches",
+   "decision_evidence_publication.py::stored_bound_payload",
+   "decision_evidence_publication.py::stored_evidence_payload",
+   "decision_evidence_store.py::_timestamp",
+   "decision_evidence_store.py::_dump",
+   "decision_evidence_store.py::_records",
+   "decision_evidence_store.py::_aligned",
+   "decision_evidence_store.py::_validate",
+   "decision_evidence_store.py::seal_decision_evidence",
+   "decision_evidence_store.py::encode_decision_evidence",
+   "decision_evidence_store.py::decode_decision_evidence",
+   "decision_evidence_store.py::decode_consumed_evidence",
+   "decision_evidence_store.py::_read",
+   "decision_evidence_reader.py::_has_run_slices",
+   "decision_input_slice_store.py::full_row",
+   "decision_input_slice_store.py::delta_row",
+   "decision_input_slice_store.py::_row_digest",
+   "decision_input_slice_store.py::SliceResolver.__init__",
+   "decision_slice_publisher.py::referenced_slices"
+  ],
+  "shell": [
+   "decision_evidence_store.py::append_decision_evidence",
+   "decision_evidence_store.py::append_sealed_evidence",
+   "decision_evidence_store.py::read_decision_evidence",
+   "decision_evidence_reader.py::_resolve_batch",
+   "decision_evidence_reader.py::read_resolved_evidence",
+   "decision_input_slice_store.py::append_slice",
+   "decision_input_slice_store.py::_load",
+   "decision_input_slice_store.py::_walk",
+   "decision_input_slice_store.py::_resolve",
+   "decision_input_slice_store.py::resolve_slice",
+   "decision_input_slice_store.py::chain_length",
+   "decision_input_slice_store.py::SliceResolver.resolve",
+   "decision_input_slice_store.py::SliceResolver.depth",
+   "decision_slice_publisher.py::SlicePublication.row",
+   "decision_slice_publisher.py::SlicePublication.retained",
+   "decision_slice_publisher.py::publish_slices",
+   "decision_slice_publisher.py::require_referenced_slices"
+  ]
+ },
+ "change_log": "decision_evidence_publication.py: seal_evidence and seal_evidence_with_run_slices now share one private _bound (replacing _captured_payload and _seal_captured); it decodes the capture, converts inputs to run-slice references only when a namespace is given, builds each route identity directly (same scope/execution/step_id/as_of/versions values as the former replace chain) and seals with schema_version 1 or 2. Error order kept: run-slice conversion before as_of parsing. _valid_slice_scalar inlined into slice_bytes with identical predicate. deduplicated_inputs no longer uses set.add (dict membership instead) so the pure core has no write-site match. compact_capture replaces every input via dataclass replace (equal values, identical encoded capture). bind_evidence and stored_bound_payload use conditional expressions; stored_evidence_payload pops inside the comprehension (same key order). Function docstrings became comments. decision_evidence_store.py: _check_record/_check_source_identity/_check_transform/_check_ic/_check_input/_validate_records folded into one _validate(value, adapter=_BATCH) with identical check order and messages; batch-only stage/route checks run only for DecisionEvidenceBatch, so decode_consumed_evidence reuses it. _json removed (_dump has a compact default separator); the nested timestamp default became module-level _timestamp bound with functools.partial. _records is an iterative preorder walk (same yield order). SQL text and parameters unchanged. decision_evidence_reader.py: _failure and _resolve_input inlined into _resolve_batch (identical messages and chaining); read_resolved_evidence only routes batches with run slices to _resolve_batch. read_decision_evidence stays a module global looked up at call time. decision_input_slice_store.py: _rebuild and _refusal inlined into _resolve/chain_length with identical messages; _walk loops on base_id instead of break; _row_digest inlines its canonical text; SliceResolver.resolve rebinds fresh caches on namespace change instead of clearing in place (not preserved: external references to the old cache dicts no longer see them emptied). _load remains a module global used by _walk. decision_slice_publisher.py: _referenced_id inlined into referenced_slices with identical message; row/retained build rows with inline expressions in the same evaluation order. All SQL statements unchanged. Deliberately not preserved: function/class docstrings (now comments, __doc__ differs; ConsumedEvidence/_Captured/SealedEvidence auto-generated dataclass __doc__), private helper names removed (_json, _check_*, _validate_records, _captured_payload, _seal_captured, _valid_slice_scalar, _failure, _resolve_input, _rebuild, _refusal, _referenced_id), none of which appear in the public surface.",
+ "written_utc": "2026-11-06T08:48:43.957237+00:00"
+}
