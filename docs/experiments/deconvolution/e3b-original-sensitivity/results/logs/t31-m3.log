@@ -1,0 +1,63 @@
+t31_arm: mutant 3 core/ReplaceAndWithOr occ 0 line 91: [['    if isinstance(ledger, Mapping) and ledger.get("currency", currency) != currency:\r']] -> [['    if isinstance(ledger, Mapping) or ledger.get("currency", currency) != currency:\r']]
+t31_arm: root D:\Source\lesscode\.runs\e3-facdrone\orig-mut; 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+[11/05/26 07:30:37] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+F
+================================== FAILURES ===================================
+_ test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume _
+
+connection = <sqlalchemy.engine.base.Connection object at 0x0000015995A35400>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000015995ADA060>
+record_property = <function record_property.<locals>.append_property at 0x0000015995B2E160>
+
+    def test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume(
+        connection: Connection,
+        monkeypatch: pytest.MonkeyPatch,
+        record_property: Callable[[str, object], None],
+    ) -> None:
+        volumes = {}
+        for kind in ("cfd", "futures", "real-simulation"):
+            with monkeypatch.context() as patch:
+                if kind == "cfd":
+>                   result = run_simulation(replace(make_spec(), policy=no_sleeve_policy()))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\..\e2-facdrone\source\tests\contracts\test_evidence_compaction_equivalence.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\facdrone\shells\sim\driver.py:607: in run_simulation
+    spec.serve_schedule.step(spec, market, replay)
+src\facdrone\shells\sim\driver.py:218: in step
+    record_decision(spec, market, replay, decision)
+src\facdrone\shells\sim\driver.py:558: in record_decision
+    details=spec.evidence_compactor(evidence_payload(decision, fx=market.fx)),
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\facdrone\shells\decision_evidence_payload.py:290: in evidence_payload
+    return money_evidence_payload(payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+payload = {'action': 'FLATTEN', 'approved_sizing': {'approval_ref': None, 'approved_on': None, 'minimum_survival_rate': None, 'multiplier': 8.0, ...}, 'as_of': '2025-06-02T20:00:00+00:00', 'breaker_overlay': 1.0, ...}
+
+    def money_evidence_payload(payload: dict[str, object]) -> dict[str, object]:
+        """One currency per decision row; pre-currency rows are EUR, without mutation.
+    
+        Untagged nested ledger money inherits the row's currency. NewTypes themselves
+        erase at runtime, so the explicit declarations are the values we can compare.
+        """
+        currency = Currency(str(payload.get("currency", "EUR")))
+        ledger = payload.get("risk_ledger")
+>       if isinstance(ledger, Mapping) or ledger.get("currency", currency) != currency:
+                                          ^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'get'
+
+src\facdrone\shells\decision_evidence_publication.py:91: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 2.53s
+run_arm B .: exit 1 in 14.6s
+t31_arm: run_arm exit 1; replay fresh=False sequences=None
+t31_arm: restored, identical=True

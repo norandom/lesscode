@@ -1,0 +1,44 @@
+t31_arm: mutant 23 core/ReplaceComparisonOperator_NotEq_Lt occ 2 line 113: [['            or len(row) != len(value.columns)\r']] -> [['            or len(row) < len(value.columns)\r']]
+t31_arm: root D:\Source\lesscode\.runs\e3-facdrone\orig-mut; 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+[11/05/26 07:55:34] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [ 44%]
+........................................................................ [ 89%]
+.................                                                        [100%]
+161 passed in 38.04s
+run_arm B .: exit 0 in 50.5s
+.......ss....F
+================================== FAILURES ===================================
+__________ test_invalid_slices_are_refused_before_retention[value1] ___________
+
+value = InputSlice(columns=('a',), rows=((1, 2),))
+tmp_path = WindowsPath('C:/Users/mariu/AppData/Local/Temp/pytest-of-mariu/pytest-3100/test_invalid_slices_are_refuse1')
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            InputSlice(("a", "a"), ((1, 2),)),
+            InputSlice(("a",), ((1, 2),)),
+            InputSlice(("a",), ((float("nan"),),)),
+            InputSlice(("a",), ((float("inf"),),)),
+            InputSlice(("a",), ((cast(Any, {"bad": 1}),),)),
+            InputSlice(("a",), (cast(Any, "x"),)),
+            InputSlice(cast(Any, ["a"]), ((1,),)),
+        ],
+    )
+    def test_invalid_slices_are_refused_before_retention(value: Any, tmp_path: Path) -> None:
+>       with pytest.raises((TypeError, ValueError)):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (<class 'TypeError'>, <class 'ValueError'>)
+
+..\..\..\..\e2-facdrone\source\packages\facdrone-research\tests\test_study_slice_evidence.py:96: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_study_slice_evidence.py::test_invalid_slices_are_refused_before_retention[value1]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 11 passed, 2 skipped, 6 deselected in 1.33s
+run_arm B packages/facdrone-research: exit 1 in 12.8s
+t31_arm: run_arm exit 1; replay fresh=True sequences=64
+t31_arm: restored, identical=True

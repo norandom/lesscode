@@ -1,0 +1,78 @@
+t31_arm: mutant 17 core/ReplaceComparisonOperator_Eq_LtE occ 1 line 286: [['            if route.kind == "scored"\r']] -> [['            if route.kind <= "scored"\r']]
+t31_arm: root D:\Source\lesscode\.runs\e3-facdrone\orig-mut; 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+[11/05/26 07:50:06] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+F
+================================== FAILURES ===================================
+_ test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume _
+
+connection = <sqlalchemy.engine.base.Connection object at 0x000001A3134A9400>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001A31354A060>
+record_property = <function record_property.<locals>.append_property at 0x000001A3135A2160>
+
+    def test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume(
+        connection: Connection,
+        monkeypatch: pytest.MonkeyPatch,
+        record_property: Callable[[str, object], None],
+    ) -> None:
+        volumes = {}
+        for kind in ("cfd", "futures", "real-simulation"):
+            with monkeypatch.context() as patch:
+                if kind == "cfd":
+                    result = run_simulation(replace(make_spec(), policy=no_sleeve_policy()))
+                elif kind == "futures":
+                    result = futures_run(patch)[1]
+                else:
+                    result = real_simulation()[0]
+>               inline = _persist_pair(connection, result, patch)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\..\e2-facdrone\source\tests\contracts\test_evidence_compaction_equivalence.py:171: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\e2-facdrone\source\tests\contracts\test_evidence_compaction_equivalence.py:71: in _persist_pair
+    old = publication.seal_evidence(
+src\facdrone\shells\decision_evidence_publication.py:260: in seal_evidence
+    return BoundEvidence(bound, _seal_captured(captured, identity))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\facdrone\shells\decision_evidence_publication.py:304: in _seal_captured
+    batches.append(seal_decision_evidence(batch))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\facdrone\shells\decision_evidence_store.py:225: in seal_decision_evidence
+    checked = _validate(batch)
+              ^^^^^^^^^^^^^^^^
+src\facdrone\shells\decision_evidence_store.py:191: in _validate
+    _validate_records(checked)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+checked = DecisionEvidenceBatch(identity=DecisionEvidenceIdentity(scope='simulation', execution_id='589307f5860a9f8f-v1', step_i...s-rulebook.internal_rules', reason='leg outputs retained; internal quality/momentum/hurdle formulas are not exposed')))
+
+    def _validate_records(checked: DecisionEvidenceBatch | ConsumedEvidence) -> None:
+        identity = checked.identity
+        if not all(
+            s.strip()
+            for s in (
+                identity.execution_id,
+                identity.step_id,
+                identity.versions.code,
+                identity.versions.configuration,
+            )
+        ):
+            raise ValueError("evidence requires execution, step and version identities")
+        _aligned(tuple(signal.name for signal in identity.versions.signals))
+        for record in _records(checked):
+            _check_record(record)
+            if isinstance(record, values.SignalVersion) and record not in identity.versions.signals:
+>               raise ValueError("signal version absent from decision identity")
+E               ValueError: signal version absent from decision identity
+
+src\facdrone\shells\decision_evidence_store.py:220: ValueError
+=========================== short test summary info ===========================
+FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 9.04s
+run_arm B .: exit 1 in 21.3s
+t31_arm: run_arm exit 1; replay fresh=False sequences=None
+t31_arm: restored, identical=True

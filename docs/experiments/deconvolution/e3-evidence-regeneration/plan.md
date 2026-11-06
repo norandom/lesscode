@@ -351,3 +351,16 @@ bar. Extras original / candidate: multi-name `import` 0 / 7, `from ... import` 5
 assignment 2 / 16, others 0. As-written counts equal the frozen measures files (660 / 546).
 Results: `results/measures-separated-baseline.json`, `results/measures-separated-round1.json`;
 receipt labels `t13-*`; reading in R25 Amendment 3.
+
+## Amendment 4 (2026-11-06, after results)
+
+The T4 sensitivity procedure was run on the original's publication module (deconvolution-loop tasks
+3.1 and 3.2, `../e3b-original-sensitivity/`): same seed and draw rule, same acceptance arm, deadline rule,
+classification and restore-and-verify, roots `e2-facdrone/source` (frozen) and `e3-facdrone/orig-mut`.
+No target or verdict changes; the 0.70 bar stands. Original: 17 killed, 9 survived, 4 incompetent,
+17/26 = 0.654 (post hoc equivalent-excluded 17/22 = 0.773, labelled). Candidate (T4): 18/28 = 0.643
+(18/23 = 0.783). The series of 2026-11-05 stopped after mutant 24 when the session ended; that mutant's
+arm had been terminated (exit 1073807364), its classification is void, and mutants 24 to 29 ran on
+2026-11-06 under receipt note `t31-resume-2026-11-06`. Survivors: four annotation-only, five real corpus
+gaps (lines 184, 393, 140, 91, 125), three of them at the sites of the candidate's real survivors. Reading
+in R25 Amendment 2: T4's failure measures the arm on this module, not a loss from regeneration.

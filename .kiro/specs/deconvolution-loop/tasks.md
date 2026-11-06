@@ -122,7 +122,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Boundary: Sensitivity_
   - _Depends: 1.2_
   - _Requirements: 8.1, 8.2, 8.5, 8.6, 11.4, 11.5_
-- [ ] 3.2 Run the original's full sample and report both rates (owner go)
+- [x] 3.2 Run the original's full sample and report both rates (owner go)
   - Report killed, survived, incompetent and the kill rate for the original
     and the candidate on populations drawn the same way; label the post
     hoc equivalent-excluded reading separately; the 0.70 bar is unchanged.
@@ -345,3 +345,23 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   required. The from-import rule inflates both trees almost equally;
   without it 662 vs 569, matching the step-2 reviewer's 662 vs 572 within
   3. Verdicts unchanged; amendments R25 #3 and E3 plan #5.
+- 3.2 (2026-11-05 and 2026-11-06): full sample on the original,
+  `t31_arm.py dry 0..29`; the series was cut off after mutant 24 on
+  2026-11-05 (07:01 UTC, session ended; m24's arm terminated with exit
+  1073807364, classification void) and completed on 2026-11-06 with
+  `dry 24..29` under receipt notes `t31-resume-2026-11-06` and its
+  `-correction`; the last `t31-m<k>-class` note per k is authoritative.
+  Original: killed 17, survived 9, incompetent 4, 17/26 = 0.654 (post hoc
+  equivalent-excluded 17/22 = 0.773, labelled); candidate from E3's receipt:
+  18/10/2, 0.643 (18/23 = 0.783). Neither meets 0.70; the bar is unchanged.
+  Survivors: four annotation-only, five real corpus gaps (lines 184, 393,
+  140, 91, 125), two at the sites of the candidate's real survivors; T4's
+  failure measures the arm on this module, not a loss from regeneration.
+  `t32_summary.py` (82 lines, test 26) computes both arms from the receipts
+  only and `--check` reproduces `results/t32-summary.json`; readings in
+  `results/t32-survivor-readings.json`. Apparatus fact: a terminated arm
+  reads as "killed: exit <code>" in `classify`; a resume must void such a
+  classification by hand (done here by receipt note). Amendments R25 #2
+  (comparability per requirement 8.6 stated) and E3 plan #4. Reviewed by
+  an independent sonnet agent: 5 should-fix (table cells, factor range,
+  note count, comparability sentence, time zone) applied, then APPROVED.

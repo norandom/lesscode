@@ -328,3 +328,70 @@ Evidence: `results/measures-separated-baseline.json`,
 `results/receipt.json` (red and green pytest of `test_measures3.py`,
 red and green as-written checks, measurements, and repeat runs that are
 byte-identical, `t13-bytecompare`, `t13-bytecompare-round1`).
+
+## Amendment 2 (2026-11-06): the same sensitivity arm on the original
+
+Written 2026-11-06, executed 2026-11-05 and 2026-11-06 (deconvolution-loop
+task 3.2, owner go on 2026-11-05; the number 2 was reserved for this
+reading when Amendments 1 and 3 were written). No target and no verdict
+changes; the 0.70 bar stands.
+
+T4 measured the acceptance arm's sensitivity on the candidate only, so the
+0.643 could not be read as a loss or a gain. Task 3.1 ported the procedure
+to the original's `decision_evidence_publication.py` (`e3b-original-
+sensitivity/t31_arm.py`: same seed 20261104, 30 draws from the sorted
+cosmic-ray spec keys of the module's own population of 307, same arm, same
+deadline rule, classification and restore-and-verify against the frozen
+`e2-facdrone/source`). Comparability, as requirement 8.6 asks: the two
+rates come from the same seed, draw rule, arm and classification, but from
+different populations (307 specs of the original module, 317 of the
+candidate's) over different code, so they are comparable in procedure and
+not draw for draw; a one-kill difference on 26 and 28 competent mutants
+carries no significance. Task 3.2 ran the sample. The 2026-11-05 series was
+cut off after mutant 24 when the session ended; mutant 24's arm had been
+terminated (exit 1073807364), so that classification is void and the
+mutant was rerun with mutants 25 to 29 on 2026-11-06 under a dated receipt
+note (`t31-resume-2026-11-06`). Every pre and post hash check is
+`identical=true`; no timeout rerun was needed.
+
+| Arm | Killed | Survived | Incompetent | Rate | Bar 0.70 | Post hoc, equivalent-excluded (labelled, not the result) |
+| --- | ---: | ---: | ---: | ---: | --- | ---: |
+| Original (`e2-facdrone/source`) | 17 | 9 | 4 | 17/26 = 0.654 | not met | 17/22 = 0.773 (m5, m6, m8, m10 annotation-only) |
+| Candidate (`e3-facdrone/cand`, T4 above) | 18 | 10 | 2 | 18/28 = 0.643 | not met | 18/23 = 0.783 (m4, m8, m11, m24, m28) |
+
+Survivors on the original: four annotation-only (`|` in return or
+parameter annotations, never evaluated under `from __future__ import
+annotations`) and five real gaps of the acceptance corpus: m15 and m16
+(`==` to `is not` on a `consumed:` URI, lines 184 and 393), m19 (`!=` to
+`>` on the run-slice digest, line 140), m22 (`!=` to `<` on the ledger
+currency, line 91) and m24 (`allow_nan=False` to `True` in the canonical
+dump, line 125). m16 and m22 are the sites of the candidate's real survivors
+m17 and m21, and m15 repeats m17's condition in `resolved_inputs`; m19 is the site where the candidate's m23 was
+killed only because `is` also fails the equal-id case. The input classes
+are: a malformed `consumed:` reference whose digest is present; a run-slice
+id that differs from its digest and sorts below it; a ledger currency
+sorting above the row's; a non-finite float in a canonicalised value.
+
+Reading. The arm is as sensitive on the original as on the candidate: the
+two rates differ by one kill on samples of 26 and 28 competent mutants, and
+no significance is claimed from thirty draws. T4's failure therefore
+measures the acceptance arm on this module, not damage done by the
+regeneration; the candidate did not lose protection relative to the
+original, and neither tree reaches the 0.70 the plan asked of the
+candidate. The two protocol rules proposed under "Tool/spec consequence"
+(statement counts in the original's formatting; sensitivity on original and
+candidate alike) are now both executed readings (Amendments 1 and 3, and
+this one); requirement 8.2 of the deconvolution-loop spec already asks for
+the pair. What the pair does not give is a sensitivity target that the
+corpus can meet: the five real gaps are corpus gaps shared by both trees,
+and closing them is test work (the owner's stance: tests belong to the TDD
+workflow), not regeneration work.
+
+Evidence: `docs/experiments/deconvolution/e3b-original-sensitivity/`
+(README section "Full sample (task 3.2)", `results/receipt.json` labels
+`t31-m0` to `t31-m29` with their `-pre`, `-deadline`, `-restore` and
+`-class` notes, `results/driver-full.out`, `results/driver-resume.out`,
+`results/logs/t31-m*.log`, `results/t32-summary.json` from
+`t32_summary.py` with `--check` byte-identical, `results/t32-survivor-
+readings.json`). Research code for the task: `t32_summary.py` 82 lines and
+its test 26 lines.

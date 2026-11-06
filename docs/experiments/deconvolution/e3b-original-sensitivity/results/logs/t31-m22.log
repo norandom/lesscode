@@ -1,0 +1,20 @@
+t31_arm: mutant 22 core/ReplaceComparisonOperator_NotEq_Lt occ 0 line 91: [['    if isinstance(ledger, Mapping) and ledger.get("currency", currency) != currency:\r']] -> [['    if isinstance(ledger, Mapping) and ledger.get("currency", currency) < currency:\r']]
+t31_arm: root D:\Source\lesscode\.runs\e3-facdrone\orig-mut; 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+[11/05/26 07:53:57] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [ 44%]
+........................................................................ [ 89%]
+.................                                                        [100%]
+161 passed in 37.42s
+run_arm B .: exit 0 in 50.1s
+.......ss..................s..ss.s...sssssssss.........s                 [100%]
+40 passed, 16 skipped, 6 deselected in 1.74s
+run_arm B packages/facdrone-research: exit 0 in 13.6s
+.                                                                        [100%]
+1 passed in 1.21s
+run_arm B packages/facdrone-reporting: exit 0 in 12.8s
+t31_arm: run_arm exit 0; replay fresh=True sequences=64
+t31_arm: restored, identical=True

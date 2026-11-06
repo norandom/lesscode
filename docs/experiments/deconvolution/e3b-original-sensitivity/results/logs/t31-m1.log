@@ -1,6 +1,6 @@
 t31_arm: mutant 1 core/AddNot occ 10 line 192: [['    if capture is None:\r']] -> [['    if not capture is None:\r']]
 t31_arm: root D:\Source\lesscode\.runs\e3-facdrone\orig-mut; 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
-[11/05/26 06:57:37] INFO     Using                              __init__.py:281
+[11/05/26 07:29:37] INFO     Using                              __init__.py:281
                              'D:\Source\lesscode\.runs\e2-facdr                
                              one\venv\Lib\site-packages\kedro\f                
                              ramework\project\rich_logging.yml'                
@@ -9,9 +9,9 @@ F
 ================================== FAILURES ===================================
 _ test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume _
 
-connection = <sqlalchemy.engine.base.Connection object at 0x000001CE6A7A5400>
-monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001CE6A84A060>
-record_property = <function record_property.<locals>.append_property at 0x000001CE6A89A160>
+connection = <sqlalchemy.engine.base.Connection object at 0x000001B4B9C55400>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001B4B9CFA060>
+record_property = <function record_property.<locals>.append_property at 0x000001B4B9D4A160>
 
     def test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume(
         connection: Connection,
@@ -33,9 +33,9 @@ record_property = <function record_property.<locals>.append_property at 0x000001
 ..\..\e2-facdrone\source\tests\contracts\test_evidence_compaction_equivalence.py:171: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-connection = <sqlalchemy.engine.base.Connection object at 0x000001CE6A7A5400>
+connection = <sqlalchemy.engine.base.Connection object at 0x000001B4B9C55400>
 result = SimRunResult(run_id='sim-test-1', config_snapshot=RunConfigPayload(pod_name='commodities-indices', pod_identity='6a108...factor-short-reversal', 'package_version': '1.0.0'}]})), gap_model_error=None, gap_model_samples=0, windfall_events=())
-monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001CE6A849F30>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001B4B9CF9F30>
 
     def _persist_pair(
         connection: Connection, result: SimRunResult, monkeypatch: pytest.MonkeyPatch
@@ -66,7 +66,7 @@ E            +  where None = BoundEvidence(details={'currency': 'EUR', 'as_of': 
 =========================== short test summary info ===========================
 FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume
 !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
-1 failed in 3.83s
-run_arm B .: exit 1 in 20.4s
+1 failed in 3.24s
+run_arm B .: exit 1 in 18.4s
 t31_arm: run_arm exit 1; replay fresh=False sequences=None
 t31_arm: restored, identical=True

@@ -1,0 +1,141 @@
+{
+ "about": "Task 3.2: sensitivity of the same acceptance arm on the original and on the E3 candidate, same seed (20261104), 30 draws each from the sorted spec keys of the module's own cosmic-ray population; populations 307 and 317.",
+ "resume": [
+  {
+   "reason": "the 2026-11-05 series stopped after t31-m24 at 08:01 UTC when the session ended (t31-m25-pre verified, t31-m25 never started); t31-m24 arm B exited 1073807364 (process terminated), so its killed classification is void and the mutant is rerun; mutants 24-29 run now with the same sample, seed, deadline rule and classification; the last t31-mK-class note per k is authoritative",
+   "driver": "t31_arm.py dry 24 25 26 27 28 29",
+   "output": "results/driver-resume.out"
+  },
+  {
+   "corrects": "t31-resume-2026-11-06",
+   "text": "the stop time was 07:01 UTC (08:01 local, UTC+1), as the t31-m25-pre note of 2026-11-05 shows; t31-m25-pre therefore appears twice (2026-11-05 and the 2026-11-06 resume), both identical=true"
+  }
+ ],
+ "original": {
+  "arm": "original (.runs/e2-facdrone/source, t31 series)",
+  "n": 30,
+  "missing": [],
+  "other": [],
+  "counts": {
+   "killed": 17,
+   "survived": 9,
+   "incompetent": 4
+  },
+  "mutants": {
+   "killed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    7,
+    9,
+    17,
+    18,
+    20,
+    21,
+    23,
+    25,
+    26,
+    27,
+    28,
+    29
+   ],
+   "survived": [
+    5,
+    6,
+    8,
+    10,
+    15,
+    16,
+    19,
+    22,
+    24
+   ],
+   "incompetent": [
+    11,
+    12,
+    13,
+    14
+   ]
+  },
+  "rate": 0.654,
+  "rate_formula": "killed / (killed + survived)",
+  "bar": 0.7,
+  "meets_bar": false,
+  "post_hoc": {
+   "label": "equivalent-excluded, not preregistered, not the result",
+   "equivalent_by_inspection": [
+    5,
+    6,
+    8,
+    10
+   ],
+   "rate": 0.773
+  }
+ },
+ "candidate": {
+  "arm": "candidate (.runs/e3-facdrone/cand, E3 T4)",
+  "n": 30,
+  "missing": [],
+  "other": [],
+  "counts": {
+   "killed": 18,
+   "survived": 10,
+   "incompetent": 2
+  },
+  "mutants": {
+   "killed": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    9,
+    10,
+    12,
+    18,
+    19,
+    20,
+    22,
+    23,
+    25,
+    26,
+    27
+   ],
+   "survived": [
+    4,
+    8,
+    11,
+    15,
+    16,
+    17,
+    21,
+    24,
+    28,
+    29
+   ],
+   "incompetent": [
+    13,
+    14
+   ]
+  },
+  "rate": 0.643,
+  "rate_formula": "killed / (killed + survived)",
+  "bar": 0.7,
+  "meets_bar": false,
+  "post_hoc": {
+   "label": "equivalent-excluded, not preregistered, not the result",
+   "equivalent_by_inspection": [
+    4,
+    8,
+    11,
+    24,
+    28
+   ],
+   "rate": 0.783
+  }
+ }
+}

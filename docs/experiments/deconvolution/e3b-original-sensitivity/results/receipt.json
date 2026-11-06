@@ -179,6 +179,905 @@
     "bench_s": 0.232,
     "pid": 16696
    }
+  },
+  {
+   "label": "t31-m0",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "0",
+    "--deadline",
+    "672.0"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:29:07.831956+00:00",
+   "end_utc": "2026-11-05T06:29:14.714782+00:00",
+   "seconds": 6.88,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:29:07",
+    "cpu_total": 19.4724724756703,
+    "cpu_other": 0.19472472475670302,
+    "ram_free_gb": 14.5,
+    "bench_s": 0.206,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "1",
+    "--deadline",
+    "759.9"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:29:32.185321+00:00",
+   "end_utc": "2026-11-05T06:29:54.907770+00:00",
+   "seconds": 22.72,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:29:31",
+    "cpu_total": 22.7351499421021,
+    "cpu_other": 0.227351499421021,
+    "ram_free_gb": 14.41,
+    "bench_s": 0.236,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "2",
+    "--deadline",
+    "703.4"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:30:11.934494+00:00",
+   "end_utc": "2026-11-05T06:30:15.918273+00:00",
+   "seconds": 3.98,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:30:11",
+    "cpu_total": 12.3469609557336,
+    "cpu_other": 0.123469609557336,
+    "ram_free_gb": 14.37,
+    "bench_s": 0.2,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "3",
+    "--deadline",
+    "747.3"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:30:33.042929+00:00",
+   "end_utc": "2026-11-05T06:30:51.574715+00:00",
+   "seconds": 18.53,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:30:32",
+    "cpu_total": 7.45975801518281,
+    "cpu_other": 0.0745975801518281,
+    "ram_free_gb": 14.33,
+    "bench_s": 0.217,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "4",
+    "--deadline",
+    "697.1"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:31:08.677170+00:00",
+   "end_utc": "2026-11-05T06:31:12.605040+00:00",
+   "seconds": 3.93,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:31:08",
+    "cpu_total": 16.7990593367833,
+    "cpu_other": 0.167990593367833,
+    "ram_free_gb": 14.31,
+    "bench_s": 0.208,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m5",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "5",
+    "--deadline",
+    "709.6"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:31:29.724414+00:00",
+   "end_utc": "2026-11-05T06:32:58.321740+00:00",
+   "seconds": 88.6,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T07:31:29",
+    "cpu_total": 8.9171194647511,
+    "cpu_other": 0.089171194647511,
+    "ram_free_gb": 14.48,
+    "bench_s": 0.211,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m6",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "6",
+    "--deadline",
+    "715.9"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:33:15.434230+00:00",
+   "end_utc": "2026-11-05T06:34:47.578013+00:00",
+   "seconds": 92.14,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T07:33:15",
+    "cpu_total": 19.4109291773134,
+    "cpu_other": 0.194109291773134,
+    "ram_free_gb": 14.33,
+    "bench_s": 0.199,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m7",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "7",
+    "--deadline",
+    "741.0"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:35:04.641867+00:00",
+   "end_utc": "2026-11-05T06:35:08.678342+00:00",
+   "seconds": 4.04,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:35:04",
+    "cpu_total": 7.59540435638999,
+    "cpu_other": 0.0759540435638999,
+    "ram_free_gb": 14.4,
+    "bench_s": 0.2,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m8",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "8",
+    "--deadline",
+    "722.2"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:35:25.827283+00:00",
+   "end_utc": "2026-11-05T06:36:58.568837+00:00",
+   "seconds": 92.74,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T07:35:25",
+    "cpu_total": 13.9268417236518,
+    "cpu_other": 0.139268417236518,
+    "ram_free_gb": 14.24,
+    "bench_s": 0.235,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m9",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "9",
+    "--deadline",
+    "879.2"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:38:34.852700+00:00",
+   "end_utc": "2026-11-05T06:38:39.572019+00:00",
+   "seconds": 4.72,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:38:34",
+    "cpu_total": 36.0559604707124,
+    "cpu_other": 0.360559604707124,
+    "ram_free_gb": 13.38,
+    "bench_s": 0.308,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m10",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "10",
+    "--deadline",
+    "810.1"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:39:53.389247+00:00",
+   "end_utc": "2026-11-05T06:42:09.185247+00:00",
+   "seconds": 135.8,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T07:39:53",
+    "cpu_total": 15.8667626970355,
+    "cpu_other": 0.158667626970355,
+    "ram_free_gb": 12.92,
+    "bench_s": 0.299,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m11",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "11",
+    "--deadline",
+    "747.3"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:43:55.853601+00:00",
+   "end_utc": "2026-11-05T06:43:57.155809+00:00",
+   "seconds": 1.3,
+   "exit": 2,
+   "adaptive": {
+    "time": "2026-11-05T07:43:55",
+    "cpu_total": 26.8659450494052,
+    "cpu_other": 0.26865945049405204,
+    "ram_free_gb": 12.68,
+    "bench_s": 0.37,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m12",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "12",
+    "--deadline",
+    "822.7"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:44:50.039974+00:00",
+   "end_utc": "2026-11-05T06:44:51.061151+00:00",
+   "seconds": 1.02,
+   "exit": 2,
+   "adaptive": {
+    "time": "2026-11-05T07:44:49",
+    "cpu_total": 12.0954714269296,
+    "cpu_other": 0.12095471426929601,
+    "ram_free_gb": 12.78,
+    "bench_s": 0.289,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m13",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "13",
+    "--deadline",
+    "810.1"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:45:08.300326+00:00",
+   "end_utc": "2026-11-05T06:45:09.328746+00:00",
+   "seconds": 1.03,
+   "exit": 2,
+   "adaptive": {
+    "time": "2026-11-05T07:45:08",
+    "cpu_total": 10.8564081191264,
+    "cpu_other": 0.108564081191264,
+    "ram_free_gb": 13.22,
+    "bench_s": 0.258,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m14",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "14",
+    "--deadline",
+    "1155.5"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:45:26.566216+00:00",
+   "end_utc": "2026-11-05T06:45:27.556647+00:00",
+   "seconds": 0.99,
+   "exit": 2,
+   "adaptive": {
+    "time": "2026-11-05T07:45:26",
+    "cpu_total": 5.40863347064728,
+    "cpu_other": 0.054086334706472804,
+    "ram_free_gb": 13.26,
+    "bench_s": 0.241,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m15",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "15",
+    "--deadline",
+    "703.4"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:45:44.666605+00:00",
+   "end_utc": "2026-11-05T06:47:18.119861+00:00",
+   "seconds": 93.45,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T07:45:44",
+    "cpu_total": 14.6283182475314,
+    "cpu_other": 0.146283182475314,
+    "ram_free_gb": 13.27,
+    "bench_s": 0.256,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m16",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "16",
+    "--deadline",
+    "797.6"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:47:35.997536+00:00",
+   "end_utc": "2026-11-05T06:49:44.843944+00:00",
+   "seconds": 128.85,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T07:47:35",
+    "cpu_total": 17.9790757379605,
+    "cpu_other": 0.179790757379605,
+    "ram_free_gb": 11.61,
+    "bench_s": 0.249,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m17",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "17",
+    "--deadline",
+    "690.8"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:50:01.742815+00:00",
+   "end_utc": "2026-11-05T06:50:26.911672+00:00",
+   "seconds": 25.17,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:50:01",
+    "cpu_total": 9.22507257550763,
+    "cpu_other": 0.0922507257550763,
+    "ram_free_gb": 14.0,
+    "bench_s": 0.203,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m18",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "18",
+    "--deadline",
+    "734.8"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:50:44.405507+00:00",
+   "end_utc": "2026-11-05T06:50:49.175786+00:00",
+   "seconds": 4.77,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:50:44",
+    "cpu_total": 15.1743029660766,
+    "cpu_other": 0.151743029660766,
+    "ram_free_gb": 13.92,
+    "bench_s": 0.222,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m19",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "19",
+    "--deadline",
+    "766.2"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:51:06.880046+00:00",
+   "end_utc": "2026-11-05T06:52:48.532892+00:00",
+   "seconds": 101.65,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T07:51:06",
+    "cpu_total": 17.357683054172,
+    "cpu_other": 0.17357683054172,
+    "ram_free_gb": 13.88,
+    "bench_s": 0.238,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m20",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "20",
+    "--deadline",
+    "822.7"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:53:06.523855+00:00",
+   "end_utc": "2026-11-05T06:53:11.787800+00:00",
+   "seconds": 5.26,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:53:06",
+    "cpu_total": 20.8436983937016,
+    "cpu_other": 0.208436983937016,
+    "ram_free_gb": 13.4,
+    "bench_s": 0.213,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m21",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "21",
+    "--deadline",
+    "854.1"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:53:29.781300+00:00",
+   "end_utc": "2026-11-05T06:53:35.119266+00:00",
+   "seconds": 5.34,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:53:29",
+    "cpu_total": 27.3153620523054,
+    "cpu_other": 0.273153620523054,
+    "ram_free_gb": 13.82,
+    "bench_s": 0.241,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m22",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "22",
+    "--deadline",
+    "715.9"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:53:52.508944+00:00",
+   "end_utc": "2026-11-05T06:55:13.062084+00:00",
+   "seconds": 80.55,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-05T07:53:52",
+    "cpu_total": 12.8708760700645,
+    "cpu_other": 0.12870876070064502,
+    "ram_free_gb": 14.87,
+    "bench_s": 0.201,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m23",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "23",
+    "--deadline",
+    "703.4"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:55:30.073056+00:00",
+   "end_utc": "2026-11-05T06:56:37.208499+00:00",
+   "seconds": 67.14,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:55:29",
+    "cpu_total": 12.281662465273,
+    "cpu_other": 0.12281662465273,
+    "ram_free_gb": 14.96,
+    "bench_s": 0.201,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m24",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "24",
+    "--deadline",
+    "690.8"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-05T06:56:54.100667+00:00",
+   "end_utc": "2026-11-05T07:01:04.672371+00:00",
+   "seconds": 250.57,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-05T07:56:53",
+    "cpu_total": 9.31703602085702,
+    "cpu_other": 0.09317036020857021,
+    "ram_free_gb": 14.97,
+    "bench_s": 0.198,
+    "pid": 13256
+   }
+  },
+  {
+   "label": "t31-m24",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "24",
+    "--deadline",
+    "1011.1"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T07:42:22.208317+00:00",
+   "end_utc": "2026-11-06T07:44:45.745402+00:00",
+   "seconds": 143.54,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T08:42:21",
+    "cpu_total": 10.7704774050019,
+    "cpu_other": 0.107704774050019,
+    "ram_free_gb": 13.52,
+    "bench_s": 0.245,
+    "pid": 29436
+   }
+  },
+  {
+   "label": "t31-m25",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "25",
+    "--deadline",
+    "885.5"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T07:45:03.528387+00:00",
+   "end_utc": "2026-11-06T07:45:56.991581+00:00",
+   "seconds": 53.46,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-06T08:45:03",
+    "cpu_total": 19.8698054343133,
+    "cpu_other": 0.198698054343133,
+    "ram_free_gb": 12.88,
+    "bench_s": 0.217,
+    "pid": 29436
+   }
+  },
+  {
+   "label": "t31-m26",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "26",
+    "--deadline",
+    "810.1"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T07:46:14.055282+00:00",
+   "end_utc": "2026-11-06T07:46:23.063895+00:00",
+   "seconds": 9.01,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-06T08:46:13",
+    "cpu_total": 19.279718887311,
+    "cpu_other": 0.19279718887310998,
+    "ram_free_gb": 11.49,
+    "bench_s": 0.198,
+    "pid": 29436
+   }
+  },
+  {
+   "label": "t31-m27",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "27",
+    "--deadline",
+    "684.5"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T07:46:40.710457+00:00",
+   "end_utc": "2026-11-06T07:46:49.269114+00:00",
+   "seconds": 8.56,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-06T08:46:40",
+    "cpu_total": 6.77204224940078,
+    "cpu_other": 0.0677204224940078,
+    "ram_free_gb": 12.24,
+    "bench_s": 0.428,
+    "pid": 29436
+   }
+  },
+  {
+   "label": "t31-m28",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "28",
+    "--deadline",
+    "860.4"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T07:47:06.970705+00:00",
+   "end_utc": "2026-11-06T07:47:16.451362+00:00",
+   "seconds": 9.48,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-06T08:47:06",
+    "cpu_total": 14.3368147763431,
+    "cpu_other": 0.14336814776343101,
+    "ram_free_gb": 12.31,
+    "bench_s": 0.196,
+    "pid": 29436
+   }
+  },
+  {
+   "label": "t31-m29",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e3b-original-sensitivity\\t31_arm.py",
+    "mutant",
+    "29",
+    "--deadline",
+    "709.6"
+   ],
+   "cwd": null,
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T07:47:33.700343+00:00",
+   "end_utc": "2026-11-06T07:49:16.710350+00:00",
+   "seconds": 103.01,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-06T08:47:33",
+    "cpu_total": 11.910829860473,
+    "cpu_other": 0.11910829860472999,
+    "ram_free_gb": 12.23,
+    "bench_s": 0.197,
+    "pid": 29436
+   }
   }
  ],
  "facts": [
@@ -694,6 +1593,4115 @@
     "classification": "killed",
     "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume",
     "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:28:50.498757+00:00",
+   "key": "t31-m0-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:28:56.282172+00:00",
+   "key": "t31-m0-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:28:56",
+     "cpu_total": 10.349384202305,
+     "cpu_other": 0.10349384202305,
+     "ram_free_gb": 14.5,
+     "bench_s": 0.208,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.98,
+     "factor_cpu": 1.12,
+     "factor": 1.12,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:02.091499+00:00",
+   "key": "t31-m0-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 672.0,
+    "factor": 1.07,
+    "probe": {
+     "time": "2026-11-05T07:29:01",
+     "cpu_total": 6.96574823498832,
+     "cpu_other": 0.0696574823498832,
+     "ram_free_gb": 14.48,
+     "bench_s": 0.199,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.94,
+     "factor_cpu": 1.07,
+     "factor": 1.07
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:14.717969+00:00",
+   "key": "t31-m0-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:14.719898+00:00",
+   "key": "t31-m0-class",
+   "value": {
+    "k": 0,
+    "label": "t31-m0",
+    "operator": "core/AddNot",
+    "row": 103,
+    "col": 7,
+    "occurrence": 3,
+    "exit": 1,
+    "seconds": 6.88,
+    "factor": 1.07,
+    "deadline_base_s": 628.0,
+    "scaled_s": 672.0,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:14.721922+00:00",
+   "key": "t31-m1-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:20.521117+00:00",
+   "key": "t31-m1-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:29:20",
+     "cpu_total": 16.2036849680601,
+     "cpu_other": 0.16203684968060098,
+     "ram_free_gb": 14.47,
+     "bench_s": 0.23,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.08,
+     "factor_cpu": 1.19,
+     "factor": 1.19,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:26.392402+00:00",
+   "key": "t31-m1-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 759.9,
+    "factor": 1.21,
+    "probe": {
+     "time": "2026-11-05T07:29:26",
+     "cpu_total": 17.0729665820616,
+     "cpu_other": 0.170729665820616,
+     "ram_free_gb": 14.42,
+     "bench_s": 0.213,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.0,
+     "factor_cpu": 1.21,
+     "factor": 1.21
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:54.911027+00:00",
+   "key": "t31-m1-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:54.912463+00:00",
+   "key": "t31-m1-class",
+   "value": {
+    "k": 1,
+    "label": "t31-m1",
+    "operator": "core/AddNot",
+    "row": 192,
+    "col": 7,
+    "occurrence": 10,
+    "exit": 1,
+    "seconds": 22.72,
+    "factor": 1.21,
+    "deadline_base_s": 628.0,
+    "scaled_s": 759.9,
+    "classification": "killed",
+    "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:29:54.914515+00:00",
+   "key": "t31-m2-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:00.620278+00:00",
+   "key": "t31-m2-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:30:00",
+     "cpu_total": 16.1242043213807,
+     "cpu_other": 0.16124204321380697,
+     "ram_free_gb": 14.33,
+     "bench_s": 0.219,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.03,
+     "factor_cpu": 1.19,
+     "factor": 1.19,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:06.265034+00:00",
+   "key": "t31-m2-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 703.4,
+    "factor": 1.12,
+    "probe": {
+     "time": "2026-11-05T07:30:06",
+     "cpu_total": 10.3759680702665,
+     "cpu_other": 0.103759680702665,
+     "ram_free_gb": 14.39,
+     "bench_s": 0.2,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.94,
+     "factor_cpu": 1.12,
+     "factor": 1.12
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:15.921894+00:00",
+   "key": "t31-m2-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:15.923314+00:00",
+   "key": "t31-m2-class",
+   "value": {
+    "k": 2,
+    "label": "t31-m2",
+    "operator": "core/AddNot",
+    "row": 286,
+    "col": 15,
+    "occurrence": 14,
+    "exit": 1,
+    "seconds": 3.98,
+    "factor": 1.12,
+    "deadline_base_s": 628.0,
+    "scaled_s": 703.4,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:15.925554+00:00",
+   "key": "t31-m3-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:21.734249+00:00",
+   "key": "t31-m3-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:30:21",
+     "cpu_total": 12.7571670732668,
+     "cpu_other": 0.127571670732668,
+     "ram_free_gb": 14.34,
+     "bench_s": 0.209,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.99,
+     "factor_cpu": 1.15,
+     "factor": 1.15,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:27.389477+00:00",
+   "key": "t31-m3-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 747.3,
+    "factor": 1.19,
+    "probe": {
+     "time": "2026-11-05T07:30:27",
+     "cpu_total": 16.2914028646387,
+     "cpu_other": 0.16291402864638702,
+     "ram_free_gb": 14.33,
+     "bench_s": 0.2,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.94,
+     "factor_cpu": 1.19,
+     "factor": 1.19
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:51.577862+00:00",
+   "key": "t31-m3-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:51.579260+00:00",
+   "key": "t31-m3-class",
+   "value": {
+    "k": 3,
+    "label": "t31-m3",
+    "operator": "core/ReplaceAndWithOr",
+    "row": 91,
+    "col": 35,
+    "occurrence": 0,
+    "exit": 1,
+    "seconds": 18.53,
+    "factor": 1.19,
+    "deadline_base_s": 628.0,
+    "scaled_s": 747.3,
+    "classification": "killed",
+    "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:51.581429+00:00",
+   "key": "t31-m4-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:30:57.330993+00:00",
+   "key": "t31-m4-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:30:57",
+     "cpu_total": 16.6204599902227,
+     "cpu_other": 0.166204599902227,
+     "ram_free_gb": 14.31,
+     "bench_s": 0.218,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.03,
+     "factor_cpu": 1.2,
+     "factor": 1.2,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:31:03.029485+00:00",
+   "key": "t31-m4-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 697.1,
+    "factor": 1.11,
+    "probe": {
+     "time": "2026-11-05T07:31:02",
+     "cpu_total": 9.80029788043268,
+     "cpu_other": 0.0980029788043268,
+     "ram_free_gb": 14.33,
+     "bench_s": 0.199,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.94,
+     "factor_cpu": 1.11,
+     "factor": 1.11
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:31:12.608390+00:00",
+   "key": "t31-m4-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:31:12.609832+00:00",
+   "key": "t31-m4-class",
+   "value": {
+    "k": 4,
+    "label": "t31-m4",
+    "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd",
+    "row": 231,
+    "col": 25,
+    "occurrence": 2,
+    "exit": 1,
+    "seconds": 3.93,
+    "factor": 1.11,
+    "deadline_base_s": 628.0,
+    "scaled_s": 697.1,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:31:12.612246+00:00",
+   "key": "t31-m5-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:31:18.352778+00:00",
+   "key": "t31-m5-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:31:18",
+     "cpu_total": 11.6292481091456,
+     "cpu_other": 0.116292481091456,
+     "ram_free_gb": 14.33,
+     "bench_s": 0.201,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.13,
+     "factor": 1.13,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:31:24.045029+00:00",
+   "key": "t31-m5-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 709.6,
+    "factor": 1.13,
+    "probe": {
+     "time": "2026-11-05T07:31:23",
+     "cpu_total": 11.2920944394958,
+     "cpu_other": 0.112920944394958,
+     "ram_free_gb": 14.47,
+     "bench_s": 0.2,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.94,
+     "factor_cpu": 1.13,
+     "factor": 1.13
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:32:58.326599+00:00",
+   "key": "t31-m5-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:32:58.328479+00:00",
+   "key": "t31-m5-class",
+   "value": {
+    "k": 5,
+    "label": "t31-m5",
+    "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd",
+    "row": 366,
+    "col": 66,
+    "occurrence": 5,
+    "exit": 0,
+    "seconds": 88.6,
+    "factor": 1.13,
+    "deadline_base_s": 628.0,
+    "scaled_s": 709.6,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:32:58.332808+00:00",
+   "key": "t31-m6-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:33:04.172787+00:00",
+   "key": "t31-m6-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:33:03",
+     "cpu_total": 13.5098425540947,
+     "cpu_other": 0.135098425540947,
+     "ram_free_gb": 14.25,
+     "bench_s": 0.207,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.98,
+     "factor_cpu": 1.16,
+     "factor": 1.16,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:33:09.797504+00:00",
+   "key": "t31-m6-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 715.9,
+    "factor": 1.14,
+    "probe": {
+     "time": "2026-11-05T07:33:09",
+     "cpu_total": 12.1362514801804,
+     "cpu_other": 0.121362514801804,
+     "ram_free_gb": 14.32,
+     "bench_s": 0.21,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.99,
+     "factor_cpu": 1.14,
+     "factor": 1.14
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:34:47.581600+00:00",
+   "key": "t31-m6-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:34:47.583307+00:00",
+   "key": "t31-m6-class",
+   "value": {
+    "k": 6,
+    "label": "t31-m6",
+    "operator": "core/ReplaceBinaryOperator_BitOr_FloorDiv",
+    "row": 191,
+    "col": 60,
+    "occurrence": 1,
+    "exit": 0,
+    "seconds": 92.14,
+    "factor": 1.14,
+    "deadline_base_s": 628.0,
+    "scaled_s": 715.9,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:34:47.585882+00:00",
+   "key": "t31-m7-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:34:53.301911+00:00",
+   "key": "t31-m7-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:34:53",
+     "cpu_total": 14.1678166274496,
+     "cpu_other": 0.141678166274496,
+     "ram_free_gb": 14.37,
+     "bench_s": 0.236,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.11,
+     "factor_cpu": 1.17,
+     "factor": 1.17,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:34:58.962629+00:00",
+   "key": "t31-m7-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 741.0,
+    "factor": 1.18,
+    "probe": {
+     "time": "2026-11-05T07:34:58",
+     "cpu_total": 15.3342890439836,
+     "cpu_other": 0.153342890439836,
+     "ram_free_gb": 14.27,
+     "bench_s": 0.213,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.0,
+     "factor_cpu": 1.18,
+     "factor": 1.18
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:35:08.682137+00:00",
+   "key": "t31-m7-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:35:08.683780+00:00",
+   "key": "t31-m7-class",
+   "value": {
+    "k": 7,
+    "label": "t31-m7",
+    "operator": "core/ReplaceBinaryOperator_BitOr_Mod",
+    "row": 436,
+    "col": 22,
+    "occurrence": 8,
+    "exit": 1,
+    "seconds": 4.04,
+    "factor": 1.18,
+    "deadline_base_s": 628.0,
+    "scaled_s": 741.0,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:35:08.686219+00:00",
+   "key": "t31-m8-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:35:14.365628+00:00",
+   "key": "t31-m8-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:35:14",
+     "cpu_total": 8.07257745962523,
+     "cpu_other": 0.0807257745962523,
+     "ram_free_gb": 14.34,
+     "bench_s": 0.202,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.09,
+     "factor": 1.09,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:35:20.120776+00:00",
+   "key": "t31-m8-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 722.2,
+    "factor": 1.15,
+    "probe": {
+     "time": "2026-11-05T07:35:19",
+     "cpu_total": 13.395013938212,
+     "cpu_other": 0.13395013938212,
+     "ram_free_gb": 14.24,
+     "bench_s": 0.199,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.94,
+     "factor_cpu": 1.15,
+     "factor": 1.15
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:36:58.576202+00:00",
+   "key": "t31-m8-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:36:58.579622+00:00",
+   "key": "t31-m8-class",
+   "value": {
+    "k": 8,
+    "label": "t31-m8",
+    "operator": "core/ReplaceBinaryOperator_BitOr_Mul",
+    "row": 191,
+    "col": 45,
+    "occurrence": 0,
+    "exit": 0,
+    "seconds": 92.74,
+    "factor": 1.15,
+    "deadline_base_s": 628.0,
+    "scaled_s": 722.2,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:36:58.586129+00:00",
+   "key": "t31-m9-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:38:22.904295+00:00",
+   "key": "t31-m9-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:38:22",
+     "cpu_total": 13.5358263063458,
+     "cpu_other": 0.135358263063458,
+     "ram_free_gb": 13.21,
+     "bench_s": 0.278,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.31,
+     "factor_cpu": 1.16,
+     "factor": 1.31,
+     "waited_s": 84.3,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:38:28.904731+00:00",
+   "key": "t31-m9-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 879.2,
+    "factor": 1.4,
+    "probe": {
+     "time": "2026-11-05T07:38:28",
+     "cpu_total": 28.4239665764141,
+     "cpu_other": 0.284239665764141,
+     "ram_free_gb": 13.21,
+     "bench_s": 0.274,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.29,
+     "factor_cpu": 1.4,
+     "factor": 1.4
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:38:39.582686+00:00",
+   "key": "t31-m9-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:38:39.586109+00:00",
+   "key": "t31-m9-class",
+   "value": {
+    "k": 9,
+    "label": "t31-m9",
+    "operator": "core/ReplaceBinaryOperator_BitOr_Mul",
+    "row": 436,
+    "col": 22,
+    "occurrence": 8,
+    "exit": 1,
+    "seconds": 4.72,
+    "factor": 1.4,
+    "deadline_base_s": 628.0,
+    "scaled_s": 879.2,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:38:39.595444+00:00",
+   "key": "t31-m10-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:39:41.430643+00:00",
+   "key": "t31-m10-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:39:41",
+     "cpu_total": 10.8642394428658,
+     "cpu_other": 0.108642394428658,
+     "ram_free_gb": 12.92,
+     "bench_s": 0.29,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.37,
+     "factor_cpu": 1.12,
+     "factor": 1.37,
+     "waited_s": 61.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:39:47.451521+00:00",
+   "key": "t31-m10-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 810.1,
+    "factor": 1.29,
+    "probe": {
+     "time": "2026-11-05T07:39:47",
+     "cpu_total": 19.8592074057264,
+     "cpu_other": 0.198592074057264,
+     "ram_free_gb": 12.91,
+     "bench_s": 0.274,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.29,
+     "factor_cpu": 1.25,
+     "factor": 1.29
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:42:09.200087+00:00",
+   "key": "t31-m10-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:42:09.206313+00:00",
+   "key": "t31-m10-class",
+   "value": {
+    "k": 10,
+    "label": "t31-m10",
+    "operator": "core/ReplaceBinaryOperator_BitOr_Pow",
+    "row": 366,
+    "col": 66,
+    "occurrence": 5,
+    "exit": 0,
+    "seconds": 135.8,
+    "factor": 1.29,
+    "deadline_base_s": 628.0,
+    "scaled_s": 810.1,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:42:09.215783+00:00",
+   "key": "t31-m11-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:43:44.162033+00:00",
+   "key": "t31-m11-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:43:43",
+     "cpu_total": 14.8643501184098,
+     "cpu_other": 0.148643501184098,
+     "ram_free_gb": 12.76,
+     "bench_s": 0.26,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.23,
+     "factor_cpu": 1.17,
+     "factor": 1.23,
+     "waited_s": 94.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:43:49.877528+00:00",
+   "key": "t31-m11-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 747.3,
+    "factor": 1.19,
+    "probe": {
+     "time": "2026-11-05T07:43:49",
+     "cpu_total": 12.6122483170745,
+     "cpu_other": 0.12612248317074498,
+     "ram_free_gb": 12.76,
+     "bench_s": 0.252,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.19,
+     "factor_cpu": 1.14,
+     "factor": 1.19
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:43:57.163768+00:00",
+   "key": "t31-m11-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:43:57.166568+00:00",
+   "key": "t31-m11-class",
+   "value": {
+    "k": 11,
+    "label": "t31-m11",
+    "operator": "core/ReplaceBinaryOperator_Mul_BitAnd",
+    "row": 220,
+    "col": 4,
+    "occurrence": 0,
+    "exit": 2,
+    "seconds": 1.3,
+    "factor": 1.19,
+    "deadline_base_s": 628.0,
+    "scaled_s": 747.3,
+    "classification": "incompetent",
+    "first_failing_reason": "scope not imported from the mutant copy",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:43:57.170409+00:00",
+   "key": "t31-m12-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:44:38.473676+00:00",
+   "key": "t31-m12-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:44:38",
+     "cpu_total": 14.7627800359874,
+     "cpu_other": 0.147627800359874,
+     "ram_free_gb": 12.55,
+     "bench_s": 0.255,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.2,
+     "factor_cpu": 1.17,
+     "factor": 1.2,
+     "waited_s": 41.3,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:44:44.269097+00:00",
+   "key": "t31-m12-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 822.7,
+    "factor": 1.31,
+    "probe": {
+     "time": "2026-11-05T07:44:43",
+     "cpu_total": 20.4524162450666,
+     "cpu_other": 0.204524162450666,
+     "ram_free_gb": 12.54,
+     "bench_s": 0.277,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.31,
+     "factor_cpu": 1.26,
+     "factor": 1.31
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:44:51.071256+00:00",
+   "key": "t31-m12-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:44:51.076582+00:00",
+   "key": "t31-m12-class",
+   "value": {
+    "k": 12,
+    "label": "t31-m12",
+    "operator": "core/ReplaceBinaryOperator_Mul_BitOr",
+    "row": 238,
+    "col": 4,
+    "occurrence": 1,
+    "exit": 2,
+    "seconds": 1.02,
+    "factor": 1.31,
+    "deadline_base_s": 628.0,
+    "scaled_s": 822.7,
+    "classification": "incompetent",
+    "first_failing_reason": "scope not imported from the mutant copy",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:44:51.080778+00:00",
+   "key": "t31-m13-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:44:56.850987+00:00",
+   "key": "t31-m13-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:44:56",
+     "cpu_total": 10.674772838713,
+     "cpu_other": 0.10674772838713001,
+     "ram_free_gb": 12.9,
+     "bench_s": 0.265,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.25,
+     "factor_cpu": 1.12,
+     "factor": 1.25,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:02.574830+00:00",
+   "key": "t31-m13-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 810.1,
+    "factor": 1.29,
+    "probe": {
+     "time": "2026-11-05T07:45:02",
+     "cpu_total": 22.5638324322773,
+     "cpu_other": 0.225638324322773,
+     "ram_free_gb": 12.85,
+     "bench_s": 0.245,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.16,
+     "factor_cpu": 1.29,
+     "factor": 1.29
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:09.334821+00:00",
+   "key": "t31-m13-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:09.338149+00:00",
+   "key": "t31-m13-class",
+   "value": {
+    "k": 13,
+    "label": "t31-m13",
+    "operator": "core/ReplaceBinaryOperator_Mul_RShift",
+    "row": 238,
+    "col": 4,
+    "occurrence": 1,
+    "exit": 2,
+    "seconds": 1.03,
+    "factor": 1.29,
+    "deadline_base_s": 628.0,
+    "scaled_s": 810.1,
+    "classification": "incompetent",
+    "first_failing_reason": "scope not imported from the mutant copy",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:09.342712+00:00",
+   "key": "t31-m14-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:15.011972+00:00",
+   "key": "t31-m14-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:45:14",
+     "cpu_total": 10.1376991457803,
+     "cpu_other": 0.10137699145780299,
+     "ram_free_gb": 13.25,
+     "bench_s": 0.236,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.11,
+     "factor_cpu": 1.11,
+     "factor": 1.11,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:20.856726+00:00",
+   "key": "t31-m14-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 1155.5,
+    "factor": 1.84,
+    "probe": {
+     "time": "2026-11-05T07:45:20",
+     "cpu_total": 10.5676382926422,
+     "cpu_other": 0.10567638292642201,
+     "ram_free_gb": 13.26,
+     "bench_s": 0.391,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.84,
+     "factor_cpu": 1.12,
+     "factor": 1.84
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:27.563213+00:00",
+   "key": "t31-m14-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:27.565641+00:00",
+   "key": "t31-m14-class",
+   "value": {
+    "k": 14,
+    "label": "t31-m14",
+    "operator": "core/ReplaceBinaryOperator_Mul_Sub",
+    "row": 238,
+    "col": 4,
+    "occurrence": 1,
+    "exit": 2,
+    "seconds": 0.99,
+    "factor": 1.84,
+    "deadline_base_s": 628.0,
+    "scaled_s": 1155.5,
+    "classification": "incompetent",
+    "first_failing_reason": "scope not imported from the mutant copy",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:27.569017+00:00",
+   "key": "t31-m15-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:33.280389+00:00",
+   "key": "t31-m15-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:45:33",
+     "cpu_total": 9.05411145953218,
+     "cpu_other": 0.0905411145953218,
+     "ram_free_gb": 13.26,
+     "bench_s": 0.256,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.21,
+     "factor_cpu": 1.1,
+     "factor": 1.21,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:45:38.944074+00:00",
+   "key": "t31-m15-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 703.4,
+    "factor": 1.12,
+    "probe": {
+     "time": "2026-11-05T07:45:38",
+     "cpu_total": 10.6503162527796,
+     "cpu_other": 0.106503162527796,
+     "ram_free_gb": 13.27,
+     "bench_s": 0.238,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.12,
+     "factor_cpu": 1.12,
+     "factor": 1.12
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:47:18.124559+00:00",
+   "key": "t31-m15-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:47:18.127162+00:00",
+   "key": "t31-m15-class",
+   "value": {
+    "k": 15,
+    "label": "t31-m15",
+    "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+    "row": 184,
+    "col": 27,
+    "occurrence": 0,
+    "exit": 0,
+    "seconds": 93.45,
+    "factor": 1.12,
+    "deadline_base_s": 628.0,
+    "scaled_s": 703.4,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:47:18.130329+00:00",
+   "key": "t31-m16-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:47:24.066458+00:00",
+   "key": "t31-m16-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:47:23",
+     "cpu_total": 20.5809446784892,
+     "cpu_other": 0.205809446784892,
+     "ram_free_gb": 12.08,
+     "bench_s": 0.253,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.19,
+     "factor_cpu": 1.26,
+     "factor": 1.26,
+     "waited_s": 5.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:47:30.054898+00:00",
+   "key": "t31-m16-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 797.6,
+    "factor": 1.27,
+    "probe": {
+     "time": "2026-11-05T07:47:29",
+     "cpu_total": 21.0356970115592,
+     "cpu_other": 0.210356970115592,
+     "ram_free_gb": 11.72,
+     "bench_s": 0.233,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.1,
+     "factor_cpu": 1.27,
+     "factor": 1.27
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:49:44.849621+00:00",
+   "key": "t31-m16-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:49:44.852093+00:00",
+   "key": "t31-m16-class",
+   "value": {
+    "k": 16,
+    "label": "t31-m16",
+    "operator": "core/ReplaceComparisonOperator_Eq_IsNot",
+    "row": 393,
+    "col": 31,
+    "occurrence": 3,
+    "exit": 0,
+    "seconds": 128.85,
+    "factor": 1.27,
+    "deadline_base_s": 628.0,
+    "scaled_s": 797.6,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:49:44.855228+00:00",
+   "key": "t31-m17-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:49:50.466117+00:00",
+   "key": "t31-m17-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:49:50",
+     "cpu_total": 8.50173239430008,
+     "cpu_other": 0.0850173239430008,
+     "ram_free_gb": 13.95,
+     "bench_s": 0.201,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.09,
+     "factor": 1.09,
+     "waited_s": 5.6,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:49:56.108851+00:00",
+   "key": "t31-m17-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 690.8,
+    "factor": 1.1,
+    "probe": {
+     "time": "2026-11-05T07:49:55",
+     "cpu_total": 9.20329900543809,
+     "cpu_other": 0.0920329900543809,
+     "ram_free_gb": 13.98,
+     "bench_s": 0.204,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.96,
+     "factor_cpu": 1.1,
+     "factor": 1.1
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:26.917525+00:00",
+   "key": "t31-m17-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:26.920268+00:00",
+   "key": "t31-m17-class",
+   "value": {
+    "k": 17,
+    "label": "t31-m17",
+    "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+    "row": 286,
+    "col": 26,
+    "occurrence": 1,
+    "exit": 1,
+    "seconds": 25.17,
+    "factor": 1.1,
+    "deadline_base_s": 628.0,
+    "scaled_s": 690.8,
+    "classification": "killed",
+    "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:26.924053+00:00",
+   "key": "t31-m18-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:32.840847+00:00",
+   "key": "t31-m18-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:50:32",
+     "cpu_total": 17.347757878219,
+     "cpu_other": 0.17347757878219,
+     "ram_free_gb": 13.84,
+     "bench_s": 0.264,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.25,
+     "factor_cpu": 1.21,
+     "factor": 1.25,
+     "waited_s": 5.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:38.676246+00:00",
+   "key": "t31-m18-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 734.8,
+    "factor": 1.17,
+    "probe": {
+     "time": "2026-11-05T07:50:38",
+     "cpu_total": 14.6973299937003,
+     "cpu_other": 0.146973299937003,
+     "ram_free_gb": 13.89,
+     "bench_s": 0.213,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.0,
+     "factor_cpu": 1.17,
+     "factor": 1.17
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:49.180988+00:00",
+   "key": "t31-m18-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:49.183593+00:00",
+   "key": "t31-m18-class",
+   "value": {
+    "k": 18,
+    "label": "t31-m18",
+    "operator": "core/ReplaceComparisonOperator_NotEq_Eq",
+    "row": 265,
+    "col": 65,
+    "occurrence": 4,
+    "exit": 1,
+    "seconds": 4.77,
+    "factor": 1.17,
+    "deadline_base_s": 628.0,
+    "scaled_s": 734.8,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:49.187005+00:00",
+   "key": "t31-m19-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:50:55.111556+00:00",
+   "key": "t31-m19-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:50:54",
+     "cpu_total": 20.1793661278458,
+     "cpu_other": 0.201793661278458,
+     "ram_free_gb": 13.9,
+     "bench_s": 0.256,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.21,
+     "factor_cpu": 1.25,
+     "factor": 1.25,
+     "waited_s": 5.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:51:01.085127+00:00",
+   "key": "t31-m19-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 766.2,
+    "factor": 1.22,
+    "probe": {
+     "time": "2026-11-05T07:51:00",
+     "cpu_total": 17.8763075880901,
+     "cpu_other": 0.178763075880901,
+     "ram_free_gb": 13.9,
+     "bench_s": 0.225,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.06,
+     "factor_cpu": 1.22,
+     "factor": 1.22
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:52:48.538622+00:00",
+   "key": "t31-m19-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:52:48.541329+00:00",
+   "key": "t31-m19-class",
+   "value": {
+    "k": 19,
+    "label": "t31-m19",
+    "operator": "core/ReplaceComparisonOperator_NotEq_Gt",
+    "row": 140,
+    "col": 20,
+    "occurrence": 3,
+    "exit": 0,
+    "seconds": 101.65,
+    "factor": 1.22,
+    "deadline_base_s": 628.0,
+    "scaled_s": 766.2,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:52:48.545193+00:00",
+   "key": "t31-m20-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:52:54.485284+00:00",
+   "key": "t31-m20-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:52:54",
+     "cpu_total": 17.3862061592699,
+     "cpu_other": 0.173862061592699,
+     "ram_free_gb": 13.64,
+     "bench_s": 0.243,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.15,
+     "factor_cpu": 1.21,
+     "factor": 1.21,
+     "waited_s": 5.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:00.462746+00:00",
+   "key": "t31-m20-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 822.7,
+    "factor": 1.31,
+    "probe": {
+     "time": "2026-11-05T07:53:00",
+     "cpu_total": 23.5806036359292,
+     "cpu_other": 0.235806036359292,
+     "ram_free_gb": 13.55,
+     "bench_s": 0.208,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.98,
+     "factor_cpu": 1.31,
+     "factor": 1.31
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:11.798843+00:00",
+   "key": "t31-m20-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:11.802605+00:00",
+   "key": "t31-m20-class",
+   "value": {
+    "k": 20,
+    "label": "t31-m20",
+    "operator": "core/ReplaceComparisonOperator_NotEq_GtE",
+    "row": 265,
+    "col": 65,
+    "occurrence": 4,
+    "exit": 1,
+    "seconds": 5.26,
+    "factor": 1.31,
+    "deadline_base_s": 628.0,
+    "scaled_s": 822.7,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:11.807441+00:00",
+   "key": "t31-m21-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:17.864630+00:00",
+   "key": "t31-m21-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:53:17",
+     "cpu_total": 21.0840193486882,
+     "cpu_other": 0.21084019348688202,
+     "ram_free_gb": 13.68,
+     "bench_s": 0.245,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.16,
+     "factor_cpu": 1.27,
+     "factor": 1.27,
+     "waited_s": 6.1,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:23.901396+00:00",
+   "key": "t31-m21-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 854.1,
+    "factor": 1.36,
+    "probe": {
+     "time": "2026-11-05T07:53:23",
+     "cpu_total": 26.2075403985525,
+     "cpu_other": 0.262075403985525,
+     "ram_free_gb": 14.12,
+     "bench_s": 0.249,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.17,
+     "factor_cpu": 1.36,
+     "factor": 1.36
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:35.126276+00:00",
+   "key": "t31-m21-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:35.129605+00:00",
+   "key": "t31-m21-class",
+   "value": {
+    "k": 21,
+    "label": "t31-m21",
+    "operator": "core/ReplaceComparisonOperator_NotEq_IsNot",
+    "row": 348,
+    "col": 25,
+    "occurrence": 5,
+    "exit": 1,
+    "seconds": 5.34,
+    "factor": 1.36,
+    "deadline_base_s": 628.0,
+    "scaled_s": 854.1,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:35.134444+00:00",
+   "key": "t31-m22-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:41.151582+00:00",
+   "key": "t31-m22-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:53:40",
+     "cpu_total": 20.5518749392952,
+     "cpu_other": 0.205518749392952,
+     "ram_free_gb": 14.74,
+     "bench_s": 0.214,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.01,
+     "factor_cpu": 1.26,
+     "factor": 1.26,
+     "waited_s": 6.0,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:53:46.873902+00:00",
+   "key": "t31-m22-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 715.9,
+    "factor": 1.14,
+    "probe": {
+     "time": "2026-11-05T07:53:46",
+     "cpu_total": 12.3736024211881,
+     "cpu_other": 0.123736024211881,
+     "ram_free_gb": 14.8,
+     "bench_s": 0.204,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.96,
+     "factor_cpu": 1.14,
+     "factor": 1.14
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:55:13.067627+00:00",
+   "key": "t31-m22-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:55:13.070320+00:00",
+   "key": "t31-m22-class",
+   "value": {
+    "k": 22,
+    "label": "t31-m22",
+    "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+    "row": 91,
+    "col": 72,
+    "occurrence": 0,
+    "exit": 0,
+    "seconds": 80.55,
+    "factor": 1.14,
+    "deadline_base_s": 628.0,
+    "scaled_s": 715.9,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:55:13.074179+00:00",
+   "key": "t31-m23-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:55:18.738292+00:00",
+   "key": "t31-m23-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:55:18",
+     "cpu_total": 9.51119684470055,
+     "cpu_other": 0.0951119684470055,
+     "ram_free_gb": 14.95,
+     "bench_s": 0.201,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.11,
+     "factor": 1.11,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:55:24.356862+00:00",
+   "key": "t31-m23-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 703.4,
+    "factor": 1.12,
+    "probe": {
+     "time": "2026-11-05T07:55:24",
+     "cpu_total": 10.7591280576638,
+     "cpu_other": 0.107591280576638,
+     "ram_free_gb": 14.97,
+     "bench_s": 0.209,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.99,
+     "factor_cpu": 1.12,
+     "factor": 1.12
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:56:37.214605+00:00",
+   "key": "t31-m23-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:56:37.217506+00:00",
+   "key": "t31-m23-class",
+   "value": {
+    "k": 23,
+    "label": "t31-m23",
+    "operator": "core/ReplaceComparisonOperator_NotEq_Lt",
+    "row": 113,
+    "col": 24,
+    "occurrence": 2,
+    "exit": 1,
+    "seconds": 67.14,
+    "factor": 1.12,
+    "deadline_base_s": 628.0,
+    "scaled_s": 703.4,
+    "classification": "killed",
+    "first_failing_reason": "FAILED tests/test_study_slice_evidence.py::test_invalid_slices_are_refused_before_retention[value1]",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:56:37.221073+00:00",
+   "key": "t31-m24-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:56:42.856086+00:00",
+   "key": "t31-m24-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-05T07:56:42",
+     "cpu_total": 8.1620723271054,
+     "cpu_other": 0.081620723271054,
+     "ram_free_gb": 14.96,
+     "bench_s": 0.204,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.96,
+     "factor_cpu": 1.09,
+     "factor": 1.09,
+     "waited_s": 5.6,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-05T06:56:48.498371+00:00",
+   "key": "t31-m24-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 690.8,
+    "factor": 1.1,
+    "probe": {
+     "time": "2026-11-05T07:56:48",
+     "cpu_total": 9.31223651486479,
+     "cpu_other": 0.0931223651486479,
+     "ram_free_gb": 14.95,
+     "bench_s": 0.208,
+     "pid": 13256,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.98,
+     "factor_cpu": 1.1,
+     "factor": 1.1
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T07:01:04.836487+00:00",
+   "key": "t31-m24-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-05T07:01:04.852394+00:00",
+   "key": "t31-m24-class",
+   "value": {
+    "k": 24,
+    "label": "t31-m24",
+    "operator": "core/ReplaceFalseWithTrue",
+    "row": 125,
+    "col": 18,
+    "occurrence": 0,
+    "exit": 1,
+    "seconds": 250.57,
+    "factor": 1.1,
+    "deadline_base_s": 628.0,
+    "scaled_s": 690.8,
+    "classification": "killed",
+    "first_failing_reason": "run_arm B .: exit 1073807364",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-05T07:01:04.895137+00:00",
+   "key": "t31-m25-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:37:26.082735+00:00",
+   "key": "t31-resume-2026-11-06",
+   "value": {
+    "reason": "the 2026-11-05 series stopped after t31-m24 at 08:01 UTC when the session ended (t31-m25-pre verified, t31-m25 never started); t31-m24 arm B exited 1073807364 (process terminated), so its killed classification is void and the mutant is rerun; mutants 24-29 run now with the same sample, seed, deadline rule and classification; the last t31-mK-class note per k is authoritative",
+    "driver": "t31_arm.py dry 24 25 26 27 28 29",
+    "output": "results/driver-resume.out"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:37:32.206266+00:00",
+   "key": "t31-m24-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:42:09.804356+00:00",
+   "key": "t31-m24-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T08:42:09",
+     "cpu_total": 19.9419175110322,
+     "cpu_other": 0.199419175110322,
+     "ram_free_gb": 14.51,
+     "bench_s": 0.235,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.11,
+     "factor_cpu": 1.25,
+     "factor": 1.25,
+     "waited_s": 277.6,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:42:15.945189+00:00",
+   "key": "t31-m24-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 1011.1,
+    "factor": 1.61,
+    "probe": {
+     "time": "2026-11-06T08:42:15",
+     "cpu_total": 27.8545984871495,
+     "cpu_other": 0.278545984871495,
+     "ram_free_gb": 13.88,
+     "bench_s": 0.342,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.61,
+     "factor_cpu": 1.39,
+     "factor": 1.61
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:44:45.758153+00:00",
+   "key": "t31-m24-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:44:45.761582+00:00",
+   "key": "t31-m24-class",
+   "value": {
+    "k": 24,
+    "label": "t31-m24",
+    "operator": "core/ReplaceFalseWithTrue",
+    "row": 125,
+    "col": 18,
+    "occurrence": 0,
+    "exit": 0,
+    "seconds": 143.54,
+    "factor": 1.61,
+    "deadline_base_s": 628.0,
+    "scaled_s": 1011.1,
+    "classification": "survived",
+    "first_failing_reason": "",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:44:45.765775+00:00",
+   "key": "t31-m25-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:44:51.593367+00:00",
+   "key": "t31-m25-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T08:44:51",
+     "cpu_total": 13.1965428631733,
+     "cpu_other": 0.131965428631733,
+     "ram_free_gb": 12.89,
+     "bench_s": 0.2,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.94,
+     "factor_cpu": 1.15,
+     "factor": 1.15,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:44:57.576355+00:00",
+   "key": "t31-m25-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 885.5,
+    "factor": 1.41,
+    "probe": {
+     "time": "2026-11-06T08:44:57",
+     "cpu_total": 18.1464956568839,
+     "cpu_other": 0.181464956568839,
+     "ram_free_gb": 12.8,
+     "bench_s": 0.299,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.41,
+     "factor_cpu": 1.22,
+     "factor": 1.41
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:45:56.997580+00:00",
+   "key": "t31-m25-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:45:57.002270+00:00",
+   "key": "t31-m25-class",
+   "value": {
+    "k": 25,
+    "label": "t31-m25",
+    "operator": "core/ReplaceOrWithAnd",
+    "row": 139,
+    "col": 8,
+    "occurrence": 7,
+    "exit": 1,
+    "seconds": 53.46,
+    "factor": 1.41,
+    "deadline_base_s": 628.0,
+    "scaled_s": 885.5,
+    "classification": "killed",
+    "first_failing_reason": "FAILED tests/unit/test_run_slice_namespace.py::test_malformed_reference_refuses[run-slice:/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:45:57.007175+00:00",
+   "key": "t31-m26-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:02.700791+00:00",
+   "key": "t31-m26-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T08:46:02",
+     "cpu_total": 7.73147452611876,
+     "cpu_other": 0.07731474526118759,
+     "ram_free_gb": 11.46,
+     "bench_s": 0.203,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.96,
+     "factor_cpu": 1.08,
+     "factor": 1.08,
+     "waited_s": 5.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:08.413074+00:00",
+   "key": "t31-m26-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 810.1,
+    "factor": 1.29,
+    "probe": {
+     "time": "2026-11-06T08:46:08",
+     "cpu_total": 6.84515078693221,
+     "cpu_other": 0.06845150786932211,
+     "ram_free_gb": 11.48,
+     "bench_s": 0.273,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.29,
+     "factor_cpu": 1.07,
+     "factor": 1.29
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:23.073066+00:00",
+   "key": "t31-m26-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:23.077706+00:00",
+   "key": "t31-m26-class",
+   "value": {
+    "k": 26,
+    "label": "t31-m26",
+    "operator": "core/ReplaceOrWithAnd",
+    "row": 348,
+    "col": 54,
+    "occurrence": 10,
+    "exit": 1,
+    "seconds": 9.01,
+    "factor": 1.29,
+    "deadline_base_s": 628.0,
+    "scaled_s": 810.1,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:23.083456+00:00",
+   "key": "t31-m27-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:29.124936+00:00",
+   "key": "t31-m27-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T08:46:28",
+     "cpu_total": 19.0642889252227,
+     "cpu_other": 0.19064288925222703,
+     "ram_free_gb": 11.48,
+     "bench_s": 0.218,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.03,
+     "factor_cpu": 1.24,
+     "factor": 1.24,
+     "waited_s": 6.0,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:34.844625+00:00",
+   "key": "t31-m27-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 684.5,
+    "factor": 1.09,
+    "probe": {
+     "time": "2026-11-06T08:46:34",
+     "cpu_total": 7.92680427544397,
+     "cpu_other": 0.0792680427544397,
+     "ram_free_gb": 12.24,
+     "bench_s": 0.202,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.09,
+     "factor": 1.09
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:49.275539+00:00",
+   "key": "t31-m27-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:49.279349+00:00",
+   "key": "t31-m27-class",
+   "value": {
+    "k": 27,
+    "label": "t31-m27",
+    "operator": "core/ReplaceOrWithAnd",
+    "row": 408,
+    "col": 62,
+    "occurrence": 11,
+    "exit": 1,
+    "seconds": 8.56,
+    "factor": 1.09,
+    "deadline_base_s": 628.0,
+    "scaled_s": 684.5,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:49.284061+00:00",
+   "key": "t31-m28-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:46:55.303169+00:00",
+   "key": "t31-m28-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T08:46:55",
+     "cpu_total": 26.3547849905872,
+     "cpu_other": 0.263547849905872,
+     "ram_free_gb": 12.24,
+     "bench_s": 0.211,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.0,
+     "factor_cpu": 1.36,
+     "factor": 1.36,
+     "waited_s": 6.0,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:47:01.110962+00:00",
+   "key": "t31-m28-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 860.4,
+    "factor": 1.37,
+    "probe": {
+     "time": "2026-11-06T08:47:00",
+     "cpu_total": 17.3412476120782,
+     "cpu_other": 0.17341247612078198,
+     "ram_free_gb": 12.1,
+     "bench_s": 0.291,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.37,
+     "factor_cpu": 1.21,
+     "factor": 1.37
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:47:16.465689+00:00",
+   "key": "t31-m28-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:47:16.472028+00:00",
+   "key": "t31-m28-class",
+   "value": {
+    "k": 28,
+    "label": "t31-m28",
+    "operator": "core/ReplaceUnaryOperator_Delete_Not",
+    "row": 369,
+    "col": 29,
+    "occurrence": 10,
+    "exit": 1,
+    "seconds": 9.48,
+    "factor": 1.37,
+    "deadline_base_s": 628.0,
+    "scaled_s": 860.4,
+    "classification": "killed",
+    "first_failing_reason": "R16 harness differs",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:47:16.480572+00:00",
+   "key": "t31-m29-pre",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:47:22.290473+00:00",
+   "key": "t31-m29-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T08:47:22",
+     "cpu_total": 15.1498112801269,
+     "cpu_other": 0.15149811280126899,
+     "ram_free_gb": 12.22,
+     "bench_s": 0.208,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.98,
+     "factor_cpu": 1.18,
+     "factor": 1.18,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:47:28.011322+00:00",
+   "key": "t31-m29-deadline",
+   "value": {
+    "base_s": 628.0,
+    "scaled_s": 709.6,
+    "factor": 1.13,
+    "probe": {
+     "time": "2026-11-06T08:47:27",
+     "cpu_total": 11.1190942807626,
+     "cpu_other": 0.111190942807626,
+     "ram_free_gb": 12.18,
+     "bench_s": 0.206,
+     "pid": 29436,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.97,
+     "factor_cpu": 1.13,
+     "factor": 1.13
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:49:16.727230+00:00",
+   "key": "t31-m29-restore",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\orig-mut",
+    "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "identical": true,
+    "sha256": {
+     "src/facdrone/shells/decision_evidence_publication.py": [
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41",
+      "81f3448c47c6b2fc0bb0b946a839a3b495ccf3be5879ce66853b224fe9d9eb41"
+     ],
+     "src/facdrone/shells/decision_evidence_store.py": [
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98",
+      "1490d8118dc9ffb58ce8d69cc5f591952d952ff472acfd20e38b3d62d6d52d98"
+     ],
+     "src/facdrone/shells/decision_evidence_reader.py": [
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9",
+      "274df9f55de8d9cbfff6aea05779f5c5ce1ded87c9ab1ea9789d366665f1bfd9"
+     ],
+     "src/facdrone/shells/decision_input_slice_store.py": [
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6",
+      "73bf310f1f2b64278cd77b59afa3f0930c2d36c05249b8bdb41eded680ca22b6"
+     ],
+     "src/facdrone/shells/decision_slice_publisher.py": [
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7",
+      "b961558e01dd41aa1a58a1da5d915d53ff23b96bd7770cc1748b649e38b8e9f7"
+     ]
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:49:16.735861+00:00",
+   "key": "t31-m29-class",
+   "value": {
+    "k": 29,
+    "label": "t31-m29",
+    "operator": "core/ZeroIterationForLoop",
+    "row": 110,
+    "col": 15,
+    "occurrence": 0,
+    "exit": 1,
+    "seconds": 103.01,
+    "factor": 1.13,
+    "deadline_base_s": 628.0,
+    "scaled_s": 709.6,
+    "classification": "killed",
+    "first_failing_reason": "FAILED tests/test_study_slice_evidence.py::test_invalid_slices_are_refused_before_retention[value1]",
+    "restore_identical": true
+   }
+  },
+  {
+   "time_utc": "2026-11-06T07:55:32.446248+00:00",
+   "key": "t31-resume-2026-11-06-correction",
+   "value": {
+    "corrects": "t31-resume-2026-11-06",
+    "text": "the stop time was 07:01 UTC (08:01 local, UTC+1), as the t31-m25-pre note of 2026-11-05 shows; t31-m25-pre therefore appears twice (2026-11-05 and the 2026-11-06 resume), both identical=true"
    }
   }
  ]

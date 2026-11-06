@@ -1,0 +1,39 @@
+t31_arm: mutant 25 core/ReplaceOrWithAnd occ 7 line 139: [['        or not namespace.strip()\r']] -> [['        and not namespace.strip()\r']]
+t31_arm: root D:\Source\lesscode\.runs\e3-facdrone\orig-mut; 19 seed files ['packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py', 'packages/facdrone-research/tests/test_study_arm_evidence.py', 'packages/facdrone-research/tests/test_study_attribution_routes.py', 'packages/facdrone-research/tests/test_study_slice_evidence.py', 'packages/facdrone-research/tests/test_weight_study.py', 'tests/contracts/test_evidence_compaction_equivalence.py', 'tests/contracts/test_evidence_single_pass.py', 'tests/contracts/test_sim_consumed_publication.py', 'tests/unit/test_decision_evidence_reader.py', 'tests/unit/test_decision_evidence_reader_db.py', 'tests/unit/test_decision_input_slice_store.py', 'tests/unit/test_decision_slice_publisher_db.py', 'tests/unit/test_live_slice_namespace_db.py', 'tests/unit/test_run_slice_namespace.py', 'tests/unit/test_run_slice_sealing.py', 'tests/unit/test_run_slice_writers_db.py', 'tests/unit/test_stage_projection.py', 'tests/unit/test_thin_shadow.py', 'tests/unit/test_transient_capture_codec.py']
+[11/06/26 08:45:14] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+........................................................................ [ 44%]
+..............................F
+================================== FAILURES ===================================
+_ test_malformed_reference_refuses[run-slice:/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa] _
+
+uri = 'run-slice:/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+
+    @pytest.mark.parametrize(
+        "uri",
+        [
+            "run-slice:",
+            "run-slice:" + "a" * 64,
+            "run-slice:/" + "a" * 64,
+            "run-slice: /" + "a" * 64,
+            "run-slice:ns/",
+            "run-slice:ns/" + "b" * 64,
+            "consumed:ns/" + "a" * 64,
+        ],
+    )
+    def test_malformed_reference_refuses(uri: str) -> None:
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+..\..\e2-facdrone\source\tests\unit\test_run_slice_namespace.py:54: Failed
+=========================== short test summary info ===========================
+FAILED tests/unit/test_run_slice_namespace.py::test_malformed_reference_refuses[run-slice:/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 102 passed in 28.96s
+run_arm B .: exit 1 in 43.5s
+t31_arm: run_arm exit 1; replay fresh=False sequences=None
+t31_arm: restored, identical=True

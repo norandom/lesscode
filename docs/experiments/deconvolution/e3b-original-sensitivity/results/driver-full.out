@@ -1,0 +1,126 @@
+t31-m0-pre: identical=True
+t31-m0 {"probe": {"time": "2026-11-05T07:28:56", "cpu_total": 10.349384202305, "cpu_other": 0.10349384202305, "ram_free_gb": 14.5, "bench_s": 0.208, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 0.98, "factor_cpu": 1.12, "factor": 1.12, "waited_s": 5.8, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m0: exit 1 in 6.9s
+t31-m0-restore: identical=True
+{"k": 0, "label": "t31-m0", "operator": "core/AddNot", "row": 103, "col": 7, "occurrence": 3, "exit": 1, "seconds": 6.88, "factor": 1.07, "deadline_base_s": 628.0, "scaled_s": 672.0, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m1-pre: identical=True
+t31-m1 {"probe": {"time": "2026-11-05T07:29:20", "cpu_total": 16.2036849680601, "cpu_other": 0.16203684968060098, "ram_free_gb": 14.47, "bench_s": 0.23, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.08, "factor_cpu": 1.19, "factor": 1.19, "waited_s": 5.8, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m1: exit 1 in 22.7s
+t31-m1-restore: identical=True
+{"k": 1, "label": "t31-m1", "operator": "core/AddNot", "row": 192, "col": 7, "occurrence": 10, "exit": 1, "seconds": 22.72, "factor": 1.21, "deadline_base_s": 628.0, "scaled_s": 759.9, "classification": "killed", "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume", "restore_identical": true}
+t31-m2-pre: identical=True
+t31-m2 {"probe": {"time": "2026-11-05T07:30:00", "cpu_total": 16.1242043213807, "cpu_other": 0.16124204321380697, "ram_free_gb": 14.33, "bench_s": 0.219, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.03, "factor_cpu": 1.19, "factor": 1.19, "waited_s": 5.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m2: exit 1 in 4.0s
+t31-m2-restore: identical=True
+{"k": 2, "label": "t31-m2", "operator": "core/AddNot", "row": 286, "col": 15, "occurrence": 14, "exit": 1, "seconds": 3.98, "factor": 1.12, "deadline_base_s": 628.0, "scaled_s": 703.4, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m3-pre: identical=True
+t31-m3 {"probe": {"time": "2026-11-05T07:30:21", "cpu_total": 12.7571670732668, "cpu_other": 0.127571670732668, "ram_free_gb": 14.34, "bench_s": 0.209, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 0.99, "factor_cpu": 1.15, "factor": 1.15, "waited_s": 5.8, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m3: exit 1 in 18.5s
+t31-m3-restore: identical=True
+{"k": 3, "label": "t31-m3", "operator": "core/ReplaceAndWithOr", "row": 91, "col": 35, "occurrence": 0, "exit": 1, "seconds": 18.53, "factor": 1.19, "deadline_base_s": 628.0, "scaled_s": 747.3, "classification": "killed", "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume", "restore_identical": true}
+t31-m4-pre: identical=True
+t31-m4 {"probe": {"time": "2026-11-05T07:30:57", "cpu_total": 16.6204599902227, "cpu_other": 0.166204599902227, "ram_free_gb": 14.31, "bench_s": 0.218, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.03, "factor_cpu": 1.2, "factor": 1.2, "waited_s": 5.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m4: exit 1 in 3.9s
+t31-m4-restore: identical=True
+{"k": 4, "label": "t31-m4", "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd", "row": 231, "col": 25, "occurrence": 2, "exit": 1, "seconds": 3.93, "factor": 1.11, "deadline_base_s": 628.0, "scaled_s": 697.1, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m5-pre: identical=True
+t31-m5 {"probe": {"time": "2026-11-05T07:31:18", "cpu_total": 11.6292481091456, "cpu_other": 0.116292481091456, "ram_free_gb": 14.33, "bench_s": 0.201, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 0.95, "factor_cpu": 1.13, "factor": 1.13, "waited_s": 5.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m5: exit 0 in 88.6s
+t31-m5-restore: identical=True
+{"k": 5, "label": "t31-m5", "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd", "row": 366, "col": 66, "occurrence": 5, "exit": 0, "seconds": 88.6, "factor": 1.13, "deadline_base_s": 628.0, "scaled_s": 709.6, "classification": "survived", "first_failing_reason": "", "restore_identical": true}
+t31-m6-pre: identical=True
+t31-m6 {"probe": {"time": "2026-11-05T07:33:03", "cpu_total": 13.5098425540947, "cpu_other": 0.135098425540947, "ram_free_gb": 14.25, "bench_s": 0.207, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 0.98, "factor_cpu": 1.16, "factor": 1.16, "waited_s": 5.8, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m6: exit 0 in 92.1s
+t31-m6-restore: identical=True
+{"k": 6, "label": "t31-m6", "operator": "core/ReplaceBinaryOperator_BitOr_FloorDiv", "row": 191, "col": 60, "occurrence": 1, "exit": 0, "seconds": 92.14, "factor": 1.14, "deadline_base_s": 628.0, "scaled_s": 715.9, "classification": "survived", "first_failing_reason": "", "restore_identical": true}
+t31-m7-pre: identical=True
+t31-m7 {"probe": {"time": "2026-11-05T07:34:53", "cpu_total": 14.1678166274496, "cpu_other": 0.141678166274496, "ram_free_gb": 14.37, "bench_s": 0.236, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.11, "factor_cpu": 1.17, "factor": 1.17, "waited_s": 5.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m7: exit 1 in 4.0s
+t31-m7-restore: identical=True
+{"k": 7, "label": "t31-m7", "operator": "core/ReplaceBinaryOperator_BitOr_Mod", "row": 436, "col": 22, "occurrence": 8, "exit": 1, "seconds": 4.04, "factor": 1.18, "deadline_base_s": 628.0, "scaled_s": 741.0, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m8-pre: identical=True
+t31-m8 {"probe": {"time": "2026-11-05T07:35:14", "cpu_total": 8.07257745962523, "cpu_other": 0.0807257745962523, "ram_free_gb": 14.34, "bench_s": 0.202, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 0.95, "factor_cpu": 1.09, "factor": 1.09, "waited_s": 5.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m8: exit 0 in 92.7s
+t31-m8-restore: identical=True
+{"k": 8, "label": "t31-m8", "operator": "core/ReplaceBinaryOperator_BitOr_Mul", "row": 191, "col": 45, "occurrence": 0, "exit": 0, "seconds": 92.74, "factor": 1.15, "deadline_base_s": 628.0, "scaled_s": 722.2, "classification": "survived", "first_failing_reason": "", "restore_identical": true}
+t31-m9-pre: identical=True
+t31-m9 {"probe": {"time": "2026-11-05T07:38:22", "cpu_total": 13.5358263063458, "cpu_other": 0.135358263063458, "ram_free_gb": 13.21, "bench_s": 0.278, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.31, "factor_cpu": 1.16, "factor": 1.31, "waited_s": 84.3, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m9: exit 1 in 4.7s
+t31-m9-restore: identical=True
+{"k": 9, "label": "t31-m9", "operator": "core/ReplaceBinaryOperator_BitOr_Mul", "row": 436, "col": 22, "occurrence": 8, "exit": 1, "seconds": 4.72, "factor": 1.4, "deadline_base_s": 628.0, "scaled_s": 879.2, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m10-pre: identical=True
+t31-m10 {"probe": {"time": "2026-11-05T07:39:41", "cpu_total": 10.8642394428658, "cpu_other": 0.108642394428658, "ram_free_gb": 12.92, "bench_s": 0.29, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.37, "factor_cpu": 1.12, "factor": 1.37, "waited_s": 61.8, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m10: exit 0 in 135.8s
+t31-m10-restore: identical=True
+{"k": 10, "label": "t31-m10", "operator": "core/ReplaceBinaryOperator_BitOr_Pow", "row": 366, "col": 66, "occurrence": 5, "exit": 0, "seconds": 135.8, "factor": 1.29, "deadline_base_s": 628.0, "scaled_s": 810.1, "classification": "survived", "first_failing_reason": "", "restore_identical": true}
+t31-m11-pre: identical=True
+t31-m11 {"probe": {"time": "2026-11-05T07:43:43", "cpu_total": 14.8643501184098, "cpu_other": 0.148643501184098, "ram_free_gb": 12.76, "bench_s": 0.26, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.23, "factor_cpu": 1.17, "factor": 1.23, "waited_s": 94.9, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m11: exit 2 in 1.3s
+t31-m11-restore: identical=True
+{"k": 11, "label": "t31-m11", "operator": "core/ReplaceBinaryOperator_Mul_BitAnd", "row": 220, "col": 4, "occurrence": 0, "exit": 2, "seconds": 1.3, "factor": 1.19, "deadline_base_s": 628.0, "scaled_s": 747.3, "classification": "incompetent", "first_failing_reason": "scope not imported from the mutant copy", "restore_identical": true}
+t31-m12-pre: identical=True
+t31-m12 {"probe": {"time": "2026-11-05T07:44:38", "cpu_total": 14.7627800359874, "cpu_other": 0.147627800359874, "ram_free_gb": 12.55, "bench_s": 0.255, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.2, "factor_cpu": 1.17, "factor": 1.2, "waited_s": 41.3, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m12: exit 2 in 1.0s
+t31-m12-restore: identical=True
+{"k": 12, "label": "t31-m12", "operator": "core/ReplaceBinaryOperator_Mul_BitOr", "row": 238, "col": 4, "occurrence": 1, "exit": 2, "seconds": 1.02, "factor": 1.31, "deadline_base_s": 628.0, "scaled_s": 822.7, "classification": "incompetent", "first_failing_reason": "scope not imported from the mutant copy", "restore_identical": true}
+t31-m13-pre: identical=True
+t31-m13 {"probe": {"time": "2026-11-05T07:44:56", "cpu_total": 10.674772838713, "cpu_other": 0.10674772838713001, "ram_free_gb": 12.9, "bench_s": 0.265, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.25, "factor_cpu": 1.12, "factor": 1.25, "waited_s": 5.8, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m13: exit 2 in 1.0s
+t31-m13-restore: identical=True
+{"k": 13, "label": "t31-m13", "operator": "core/ReplaceBinaryOperator_Mul_RShift", "row": 238, "col": 4, "occurrence": 1, "exit": 2, "seconds": 1.03, "factor": 1.29, "deadline_base_s": 628.0, "scaled_s": 810.1, "classification": "incompetent", "first_failing_reason": "scope not imported from the mutant copy", "restore_identical": true}
+t31-m14-pre: identical=True
+t31-m14 {"probe": {"time": "2026-11-05T07:45:14", "cpu_total": 10.1376991457803, "cpu_other": 0.10137699145780299, "ram_free_gb": 13.25, "bench_s": 0.236, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.11, "factor_cpu": 1.11, "factor": 1.11, "waited_s": 5.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m14: exit 2 in 1.0s
+t31-m14-restore: identical=True
+{"k": 14, "label": "t31-m14", "operator": "core/ReplaceBinaryOperator_Mul_Sub", "row": 238, "col": 4, "occurrence": 1, "exit": 2, "seconds": 0.99, "factor": 1.84, "deadline_base_s": 628.0, "scaled_s": 1155.5, "classification": "incompetent", "first_failing_reason": "scope not imported from the mutant copy", "restore_identical": true}
+t31-m15-pre: identical=True
+t31-m15 {"probe": {"time": "2026-11-05T07:45:33", "cpu_total": 9.05411145953218, "cpu_other": 0.0905411145953218, "ram_free_gb": 13.26, "bench_s": 0.256, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.21, "factor_cpu": 1.1, "factor": 1.21, "waited_s": 5.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m15: exit 0 in 93.5s
+t31-m15-restore: identical=True
+{"k": 15, "label": "t31-m15", "operator": "core/ReplaceComparisonOperator_Eq_IsNot", "row": 184, "col": 27, "occurrence": 0, "exit": 0, "seconds": 93.45, "factor": 1.12, "deadline_base_s": 628.0, "scaled_s": 703.4, "classification": "survived", "first_failing_reason": "", "restore_identical": true}
+t31-m16-pre: identical=True
+t31-m16 {"probe": {"time": "2026-11-05T07:47:23", "cpu_total": 20.5809446784892, "cpu_other": 0.205809446784892, "ram_free_gb": 12.08, "bench_s": 0.253, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.19, "factor_cpu": 1.26, "factor": 1.26, "waited_s": 5.9, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m16: exit 0 in 128.8s
+t31-m16-restore: identical=True
+{"k": 16, "label": "t31-m16", "operator": "core/ReplaceComparisonOperator_Eq_IsNot", "row": 393, "col": 31, "occurrence": 3, "exit": 0, "seconds": 128.85, "factor": 1.27, "deadline_base_s": 628.0, "scaled_s": 797.6, "classification": "survived", "first_failing_reason": "", "restore_identical": true}
+t31-m17-pre: identical=True
+t31-m17 {"probe": {"time": "2026-11-05T07:49:50", "cpu_total": 8.50173239430008, "cpu_other": 0.0850173239430008, "ram_free_gb": 13.95, "bench_s": 0.201, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 0.95, "factor_cpu": 1.09, "factor": 1.09, "waited_s": 5.6, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m17: exit 1 in 25.2s
+t31-m17-restore: identical=True
+{"k": 17, "label": "t31-m17", "operator": "core/ReplaceComparisonOperator_Eq_LtE", "row": 286, "col": 26, "occurrence": 1, "exit": 1, "seconds": 25.17, "factor": 1.1, "deadline_base_s": 628.0, "scaled_s": 690.8, "classification": "killed", "first_failing_reason": "FAILED tests/contracts/test_evidence_compaction_equivalence.py::test_every_fixture_day_and_route_reconstructs_exact_bytes_and_saves_stored_volume", "restore_identical": true}
+t31-m18-pre: identical=True
+t31-m18 {"probe": {"time": "2026-11-05T07:50:32", "cpu_total": 17.347757878219, "cpu_other": 0.17347757878219, "ram_free_gb": 13.84, "bench_s": 0.264, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.25, "factor_cpu": 1.21, "factor": 1.25, "waited_s": 5.9, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m18: exit 1 in 4.8s
+t31-m18-restore: identical=True
+{"k": 18, "label": "t31-m18", "operator": "core/ReplaceComparisonOperator_NotEq_Eq", "row": 265, "col": 65, "occurrence": 4, "exit": 1, "seconds": 4.77, "factor": 1.17, "deadline_base_s": 628.0, "scaled_s": 734.8, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m19-pre: identical=True
+t31-m19 {"probe": {"time": "2026-11-05T07:50:54", "cpu_total": 20.1793661278458, "cpu_other": 0.201793661278458, "ram_free_gb": 13.9, "bench_s": 0.256, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.21, "factor_cpu": 1.25, "factor": 1.25, "waited_s": 5.9, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m19: exit 0 in 101.7s
+t31-m19-restore: identical=True
+{"k": 19, "label": "t31-m19", "operator": "core/ReplaceComparisonOperator_NotEq_Gt", "row": 140, "col": 20, "occurrence": 3, "exit": 0, "seconds": 101.65, "factor": 1.22, "deadline_base_s": 628.0, "scaled_s": 766.2, "classification": "survived", "first_failing_reason": "", "restore_identical": true}
+t31-m20-pre: identical=True
+t31-m20 {"probe": {"time": "2026-11-05T07:52:54", "cpu_total": 17.3862061592699, "cpu_other": 0.173862061592699, "ram_free_gb": 13.64, "bench_s": 0.243, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.15, "factor_cpu": 1.21, "factor": 1.21, "waited_s": 5.9, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m20: exit 1 in 5.3s
+t31-m20-restore: identical=True
+{"k": 20, "label": "t31-m20", "operator": "core/ReplaceComparisonOperator_NotEq_GtE", "row": 265, "col": 65, "occurrence": 4, "exit": 1, "seconds": 5.26, "factor": 1.31, "deadline_base_s": 628.0, "scaled_s": 822.7, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m21-pre: identical=True
+t31-m21 {"probe": {"time": "2026-11-05T07:53:17", "cpu_total": 21.0840193486882, "cpu_other": 0.21084019348688202, "ram_free_gb": 13.68, "bench_s": 0.245, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.16, "factor_cpu": 1.27, "factor": 1.27, "waited_s": 6.1, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m21: exit 1 in 5.3s
+t31-m21-restore: identical=True
+{"k": 21, "label": "t31-m21", "operator": "core/ReplaceComparisonOperator_NotEq_IsNot", "row": 348, "col": 25, "occurrence": 5, "exit": 1, "seconds": 5.34, "factor": 1.36, "deadline_base_s": 628.0, "scaled_s": 854.1, "classification": "killed", "first_failing_reason": "R16 harness differs", "restore_identical": true}
+t31-m22-pre: identical=True
+t31-m22 {"probe": {"time": "2026-11-05T07:53:40", "cpu_total": 20.5518749392952, "cpu_other": 0.205518749392952, "ram_free_gb": 14.74, "bench_s": 0.214, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 1.01, "factor_cpu": 1.26, "factor": 1.26, "waited_s": 6.0, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m22: exit 0 in 80.5s
+t31-m22-restore: identical=True
+{"k": 22, "label": "t31-m22", "operator": "core/ReplaceComparisonOperator_NotEq_Lt", "row": 91, "col": 72, "occurrence": 0, "exit": 0, "seconds": 80.55, "factor": 1.14, "deadline_base_s": 628.0, "scaled_s": 715.9, "classification": "survived", "first_failing_reason": "", "restore_identical": true}
+t31-m23-pre: identical=True
+t31-m23 {"probe": {"time": "2026-11-05T07:55:18", "cpu_total": 9.51119684470055, "cpu_other": 0.0951119684470055, "ram_free_gb": 14.95, "bench_s": 0.201, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 0.95, "factor_cpu": 1.11, "factor": 1.11, "waited_s": 5.7, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m23: exit 1 in 67.1s
+t31-m23-restore: identical=True
+{"k": 23, "label": "t31-m23", "operator": "core/ReplaceComparisonOperator_NotEq_Lt", "row": 113, "col": 24, "occurrence": 2, "exit": 1, "seconds": 67.14, "factor": 1.12, "deadline_base_s": 628.0, "scaled_s": 703.4, "classification": "killed", "first_failing_reason": "FAILED tests/test_study_slice_evidence.py::test_invalid_slices_are_refused_before_retention[value1]", "restore_identical": true}
+t31-m24-pre: identical=True
+t31-m24 {"probe": {"time": "2026-11-05T07:56:42", "cpu_total": 8.1620723271054, "cpu_other": 0.081620723271054, "ram_free_gb": 14.96, "bench_s": 0.204, "pid": 13256, "ref_bench_s": 0.212, "factor_bench": 0.96, "factor_cpu": 1.09, "factor": 1.09, "waited_s": 5.6, "idle": true}, "thresholds": {"max_wait_s": 1800.0, "cpu_other_max": 0.35, "ram_floor_gb": 8.0, "ram_min_gb": 6.0}, "attempt": 1, "decision": "run"}
+t31-m24: exit 1 in 250.6s
+t31-m24-restore: identical=True
+{"k": 24, "label": "t31-m24", "operator": "core/ReplaceFalseWithTrue", "row": 125, "col": 18, "occurrence": 0, "exit": 1, "seconds": 250.57, "factor": 1.1, "deadline_base_s": 628.0, "scaled_s": 690.8, "classification": "killed", "first_failing_reason": "run_arm B .: exit 1073807364", "restore_identical": true}
+t31-m25-pre: identical=True

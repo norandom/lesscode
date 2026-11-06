@@ -12,7 +12,7 @@ reciprocal link required by the research protocol.
 | Recorder and acceptance on Python with an external store (req 2, 3, 8) | [R22](../../../docs/research/2026-11-03/04-e1b-evidence-publication-oracle.md) | byte-identical recordings; replay catches stored-representation change; kill rate 0.712 to 0.746 |
 | Differential, first attempt | [R23](../../../docs/research/2026-11-03/05-e1c-concolic-rung.md) | failed on driver encoding; alphabet gap identified |
 | Verifier gates (req 9) | [R24](../../../docs/research/2026-11-04/01-e1c2-corrected-solver-rung.md) | four checks, controls, 7 of 10 killed, 0 proved; solver narrowed to finder |
-| The whole loop on one scope (req 1 to 12) | [R25](../../../docs/research/2026-11-04/02-e3-evidence-regeneration.md) | T1 to T3 held in one round; T4 0.643 failed; T5 one real oracle-blind difference; packing caveat |
+| The whole loop on one scope (req 1 to 12) | [R25](../../../docs/research/2026-11-04/02-e3-evidence-regeneration.md) | T1 to T3 held in one round; T4 0.643 failed; T5 one real oracle-blind difference; packing caveat. Amendment 2 (2026-11-06, task 3.2): original 17/26 = 0.654 on the same arm, candidate 0.643; neither meets 0.70; T4 measures the arm, not the regeneration (req 8.2 pair executed) |
 | Verifier rules | [symbolic-execution-tooling.md](../../../docs/symbolic-execution-tooling.md) | placement rule and the four checks |
 | Budgets | `docs/experiments/deconvolution/adaptive.py` | probe, scale, wait_for_idle; reference 0.212 s |
 
