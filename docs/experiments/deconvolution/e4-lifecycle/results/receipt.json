@@ -415,6 +415,266 @@
     "bench_s": 0.685,
     "pid": 7352
    }
+  },
+  {
+   "label": "measures4-baseline",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures4.py",
+    "--root",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "--fmt-dir",
+    "D:/Source/lesscode/.runs/e4-lifecycle/fmt",
+    "--label",
+    "baseline"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:27:35.577557+00:00",
+   "end_utc": "2026-11-06T09:27:36.412733+00:00",
+   "seconds": 0.84,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "measures4-baseline-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "measures4.py",
+    "--root",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "--fmt-dir",
+    "D:/Source/lesscode/.runs/e4-lifecycle/fmt-2",
+    "--label",
+    "baseline-2",
+    "--out-dir",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:27:36.694062+00:00",
+   "end_utc": "2026-11-06T09:27:37.274086+00:00",
+   "seconds": 0.58,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "tree-snapshot-before",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-c",
+    "import os,sys,json,hashlib; root,out=sys.argv[1],sys.argv[2]; rows=[]\nfor d,_,fs in os.walk(root):\n    for f in fs:\n        p=os.path.join(d,f); st=os.stat(p); rows.append([os.path.relpath(p,root).replace(\"\\\\\",\"/\"),st.st_size,st.st_mtime_ns])\nrows.sort(); body=json.dumps(rows); open(out,\"w\",encoding=\"utf-8\").write(body); print(len(rows),\"files; sha256\",hashlib.sha256(body.encode()).hexdigest())",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/tree-before.json"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:28:36.219590+00:00",
+   "end_utc": "2026-11-06T09:28:36.554425+00:00",
+   "seconds": 0.33,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e4-cr-init",
+   "cmd": [
+    "C:/Users/mariu/AppData/Local/Microsoft/WinGet/Packages/astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe/uv.exe",
+    "tool",
+    "run",
+    "--python",
+    "3.13",
+    "--from",
+    "cosmic-ray==8.7.0",
+    "cosmic-ray",
+    "init",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/cosmic-ray-e4.toml",
+    "D:/Source/lesscode/.runs/e4-lifecycle/e4-orig.sqlite"
+   ],
+   "cwd": "D:/Source/lesscode/.runs/e2-facdrone/source",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:28:36.733195+00:00",
+   "end_utc": "2026-11-06T09:28:43.015595+00:00",
+   "seconds": 6.28,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "tree-snapshot-after",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-c",
+    "import os,sys,json,hashlib; root,out=sys.argv[1],sys.argv[2]; rows=[]\nfor d,_,fs in os.walk(root):\n    for f in fs:\n        p=os.path.join(d,f); st=os.stat(p); rows.append([os.path.relpath(p,root).replace(\"\\\\\",\"/\"),st.st_size,st.st_mtime_ns])\nrows.sort(); body=json.dumps(rows); open(out,\"w\",encoding=\"utf-8\").write(body); print(len(rows),\"files; sha256\",hashlib.sha256(body.encode()).hexdigest())",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/tree-after.json"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:28:43.278922+00:00",
+   "end_utc": "2026-11-06T09:28:43.787632+00:00",
+   "seconds": 0.51,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "mutants-generate",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/gen_mutants.py"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:28:52.675885+00:00",
+   "end_utc": "2026-11-06T09:28:52.825640+00:00",
+   "seconds": 0.15,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e4-sample",
+   "cmd": [
+    "C:/Users/mariu/AppData/Local/Microsoft/WinGet/Packages/astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe/uv.exe",
+    "tool",
+    "run",
+    "--python",
+    "3.13",
+    "--from",
+    "cosmic-ray==8.7.0",
+    "python",
+    "e4_sample.py",
+    "D:/Source/lesscode/.runs/e4-lifecycle/e4-orig.sqlite"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:29:10.492739+00:00",
+   "end_utc": "2026-11-06T09:29:11.886431+00:00",
+   "seconds": 1.39,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e4-sample-redraw",
+   "cmd": [
+    "C:/Users/mariu/AppData/Local/Microsoft/WinGet/Packages/astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe/uv.exe",
+    "tool",
+    "run",
+    "--python",
+    "3.13",
+    "--from",
+    "cosmic-ray==8.7.0",
+    "python",
+    "e4_sample.py",
+    "D:/Source/lesscode/.runs/e4-lifecycle/e4-orig.sqlite",
+    "--out",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/e4-orig-mutant-sample-redraw.json"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:29:12.213945+00:00",
+   "end_utc": "2026-11-06T09:29:14.540594+00:00",
+   "seconds": 2.33,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "mutants-apply-check",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-c",
+    "import hashlib,json,shutil,subprocess,sys\nfrom pathlib import Path\nfz,mut,sc=Path(sys.argv[1]),Path(sys.argv[2]),Path(sys.argv[3]); out={}\nfor p in sorted(mut.glob(\"M*.patch\")):\n    text=p.read_bytes().decode(\"utf-8\"); rel=text.splitlines()[0].split(\"--- a/\",1)[1]\n    d=sc/\"mcheck\"/p.stem; shutil.rmtree(d,ignore_errors=True); (d/rel).parent.mkdir(parents=True); shutil.copyfile(fz/rel,d/rel)\n    before=hashlib.sha256((d/rel).read_bytes()).hexdigest()\n    chk=subprocess.run([\"git\",\"apply\",\"--check\",str(p)],cwd=d,capture_output=True,text=True)\n    app=subprocess.run([\"git\",\"apply\",str(p)],cwd=d,capture_output=True,text=True)\n    src=(d/rel).read_bytes(); after=hashlib.sha256(src).hexdigest()\n    try: compile(src.decode(\"utf-8\"),rel,\"exec\"); comp=\"ok\"\n    except SyntaxError as e: comp=f\"SyntaxError: {e}\"\n    files=sorted(str(x.relative_to(d)).replace(\"\\\\\",\"/\") for x in d.rglob(\"*\") if x.is_file())\n    out[p.stem]={\"file\":rel,\"patch_sha256\":hashlib.sha256(text.encode()).hexdigest(),\"frozen_sha256\":before,\"frozen_matches\":before==hashlib.sha256((fz/rel).read_bytes()).hexdigest(),\"git_apply_check_exit\":chk.returncode,\"git_apply_check_err\":chk.stderr.strip()[:200],\"git_apply_exit\":app.returncode,\"git_apply_err\":app.stderr.strip()[:200],\"mutated_sha256\":after,\"changed\":after!=before,\"compile\":comp,\"files_in_scratch\":files,\"hunks\":text.count(\"\\n@@ \")}\nprint(json.dumps(out,indent=1))",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/mutants",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:29:22.679434+00:00",
+   "end_utc": "2026-11-06T09:29:23.213331+00:00",
+   "seconds": 0.53,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e4-dry-prompt",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "regen_turn.py",
+    "prompt",
+    "--request",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn1.json",
+    "--out",
+    "D:/Source/lesscode/.runs/e4-lifecycle/dry-prompt"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/regenerator",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:33:56.189575+00:00",
+   "end_utc": "2026-11-06T09:33:56.380304+00:00",
+   "seconds": 0.19,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "plan-redact-for-reviewer",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/redact_plan.py"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:53:20.347163+00:00",
+   "end_utc": "2026-11-06T09:53:20.824828+00:00",
+   "seconds": 0.48,
+   "exit": 1,
+   "adaptive": null
+  },
+  {
+   "label": "plan-redact-for-reviewer-2",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/redact_plan.py"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T09:54:19.917923+00:00",
+   "end_utc": "2026-11-06T09:54:20.045372+00:00",
+   "seconds": 0.13,
+   "exit": 0,
+   "adaptive": null
   }
  ],
  "facts": [
@@ -674,6 +934,184 @@
     "replay-frozen",
     "round0-ident"
    ]
+  },
+  {
+   "time_utc": "2026-11-06T09:40:23.790148+00:00",
+   "key": "task-6.1-apparatus",
+   "date": "2026-11-06",
+   "sha256": {
+    "plan.md": "a597b17e4b9e23ef3cea1c2151699895f394187a5de426245d9004983c0006c6",
+    "measures4.py": "29b0623d28f54fa6ac3a4c487814637fe17d8b6f9bd3e6ddd02110129c384be0",
+    "e4_sample.py": "107b4ff0ecbc7bbebbe30298b606e9da256b074a7d64556757708260b4fa41e7",
+    "cosmic-ray-e4.toml": "ab8c00a4004ce8209c720b64777336aada1afda2fa878631b79bb2e6a1fb46fe",
+    "reviewer-brief.md": "2c8eeb263de9079df1292169ce00bfc37e74147b8322c3675fcd2b0c2e53db91",
+    "mutants/README.md": "457b5aa5031a964526886757c8247eeb7c94df927d403800ade9de02a7fecbd3",
+    "mutants/M1.patch": "89699566b9e908d3e79321d597ada0811253e23086e448e3394502a7bcd035a3",
+    "mutants/M2.patch": "01ee894d458d422eece64931a0bf27715ac569a0f146fe6cd97c4b977536f181",
+    "mutants/M3.patch": "7dceff53347386a809c870381d3d0c1426300d8ca1abf4f95422953bec7d57eb",
+    "mutants/M4.patch": "b0526f6dd762ecb124c721ce89fadf89c3cc1a7f334677f4984b46a69b963dea",
+    "results/request-e4-turn1.json": "c2a98af36e24beec8a90bfad6b238ae235735f5eabda2f1fd42cebd828968396",
+    "results/e4-orig-mutant-sample.json": "cf9863639fc25f67b2278c75a321f16e93413184bc7d3b6cdb3ba88d598dd5a6",
+    "results/measures4-baseline.json": "bec3e6bfcbfa2b5d4bd4c81742a91a6518e178c1e9c27387c5fb2ebb3a551018",
+    "results/measures4-baseline-canonical.json": "67aef1ab4bc67f05533961252f4915456712ac2cf4f41f9b990bb004af658edb",
+    "results/measures4-baseline-separated.json": "42124ddab2345c68ebdee8b3bcb69364f6e07ca186164f7873c1b2bcd613bc08"
+   },
+   "lines": {
+    "plan.md": 397,
+    "measures4.py": 44,
+    "e4_sample.py": 53,
+    "cosmic-ray-e4.toml": 22,
+    "reviewer-brief.md": 86,
+    "mutants/README.md": 43,
+    "mutants/M1.patch": 11,
+    "mutants/M2.patch": 11,
+    "mutants/M3.patch": 20,
+    "mutants/M4.patch": 11,
+    "results/request-e4-turn1.json": 38,
+    "results/e4-orig-mutant-sample.json": 738,
+    "results/measures4-baseline.json": 672,
+    "results/measures4-baseline-canonical.json": 110,
+    "results/measures4-baseline-separated.json": 127
+   },
+   "runs_sha256": {
+    ".runs/e4-lifecycle/e4-orig.sqlite": "4c58b923bf4e6f1b745bd5605098b382defe0aa12f7b8137834ae9900c274d80",
+    ".runs/e4-lifecycle/dry-prompt/system.txt": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    ".runs/e4-lifecycle/dry-prompt/user.txt": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9"
+   },
+   "budget": {
+    "counted_files": [
+     "measures4.py",
+     "e4_sample.py"
+    ],
+    "counted_lines": 97,
+    "budget_lines_6_1": 140,
+    "budget_lines_total_6_1_6_4_6_5": 900,
+    "overrun": false,
+    "tests_written": "none: both scripts call E3/E3b functions that have their own tests (test_measures3.py, test_t31_arm.py)"
+   },
+   "baseline_measures_original": {
+    "lines": 1495,
+    "lines_canonical": 1495,
+    "stmts": 759,
+    "stmts_separated": 844,
+    "funcs": 69,
+    "writes": 12,
+    "edges": 89,
+    "module_hops": 12,
+    "reproduced": "measures4-baseline and measures4-baseline-2 (scratch) text-identical"
+   },
+   "population": {
+    "total": 1468,
+    "per_module": {
+     "lifecycle_group": 343,
+     "lifecycle_evidence": 287,
+     "lifecycle_monitor_runner": 281,
+     "lifecycle_store": 231,
+     "lifecycle_projection": 150,
+     "lifecycle_root": 102,
+     "lifecycle_seams": 74
+    }
+   },
+   "sample": {
+    "seed": 20261106,
+    "n": 30,
+    "redraw_identical": true,
+    "per_module": {
+     "lifecycle_group": 11,
+     "lifecycle_evidence": 8,
+     "lifecycle_store": 4,
+     "lifecycle_root": 4,
+     "lifecycle_monitor_runner": 1,
+     "lifecycle_projection": 1,
+     "lifecycle_seams": 1
+    }
+   },
+   "predictions_fixed": [
+    "T1 acceptance within 3 turns",
+    "T2 canonical lines <= 1345",
+    "T3 functions <= 55, falsified at >= 59",
+    "T4 edges <= 66, falsified at >= 72",
+    "T5 candidate kill rate 0.60 to 0.75, falsified below 0.55 or above 0.85; original beside; bar 0.70 unchanged",
+    "T6 at least one oracle-blind difference",
+    "T7 zero divergence on the held-out corpus, seed 20261107",
+    "S structural contract"
+   ],
+   "owner_go": "pending (asked 2026-11-06)"
+  },
+  {
+   "time_utc": "2026-11-06T09:54:20.463816+00:00",
+   "key": "task-6.1-apparatus-2",
+   "date": "2026-11-06",
+   "review": "independent review of 6.1, items 1 to 5 applied before the owner go (plan not yet frozen)",
+   "sha256": {
+    "e4-lifecycle/plan.md": "a461bafeb0f2b2f7ac1c0c2bc669008e7c223f16e1c934e3699b16c517c5e96c",
+    "e4-lifecycle/plan-for-reviewer.md": "5290eba04b0c34e333c9ea6c37a2c73abf6a96c7f9a7068d293d94084bf5deda",
+    "e4-lifecycle/reviewer-brief.md": "ce9539452fe418f082baaebd44f56e6defae4230340f7dfd8b610fd94a423996",
+    "e4-lifecycle/e4_oracle.py": "a6d0b899bdb4506c399e36725296ec261d505e006a76a679240e4606c9bdbd1d",
+    "e4-lifecycle/run_e4.py": "3443be46423b52b47d89074c702df1a79a37a1dd74b9f66862cbf0b22fdd577b",
+    "e4-lifecycle/surface4.py": "26aa763aced681d61a436e4766abb0ec994d0092cb8edcb9854bc8367e4a81e1",
+    "e4-lifecycle/test_e4_replay.py": "7e3fabb383afa54d2a50c4d691bec7a84f6031c8b0b7c999956cad16d68001a1",
+    "regenerator/regen_turn.py": "038cbad2363cf48382e11a55c779a5f1bc127fbe9781e0e055f764b27a9727ff",
+    "e3-evidence-regeneration/measures.py": "e9ff2d65f220d124d57bfb9f24eba3270bd9cb580529a9fc5307799d66d94538",
+    "e3-evidence-regeneration/measures2.py": "4da2966cf5b8e85bd832005278d725e5dcd8694253b9fb35c7a15cd029156209",
+    "e3-evidence-regeneration/measures3.py": "9dee44b5dd9f20389bd91ff5ca9ecf95960c6f148c3985454b51ced470fd24ce",
+    "e3-evidence-regeneration/surface.py": "f810d1537a78ddc47c25938ea3587df695e0a392bdaee6258bab96db5ba861b7",
+    "e3-evidence-regeneration/qdiff.py": "ca4ceeb422680587586fa5065c383e95f8f7605b7a7afe9642c951a7d32f9765",
+    "e3-evidence-regeneration/t5_drivers.py": "e5af562ad7036b02c69051f88ed574c36fe81a16a53e55edcdb0aaae5e25bfef",
+    "e3-evidence-regeneration/missing_tests.py": "14127ae5347fe4f37ce5dbf42a22f688103913650fee00102f2e805254f44655",
+    "e3b-original-sensitivity/t31_arm.py": "a47d6c255cf6915e75d0e13876bb3831b7cffaf451032e68b1d43b029bc456d2",
+    "e3b-original-sensitivity/cosmic-ray-t31.toml": "ae08ee4b77b5c4b78fd2a076da9db81b668b88b248ad9299e22b352be07c8157",
+    "e1b-facdrone-evidence-publication/sample_mutants.py": "b1843245854238d01173b890c973bb8eb3226dc6cf1993a8252923addb31d75a",
+    "e1b-facdrone-evidence-publication/run_arm.py": "22ff75bcce002c05db6d5dd1473445ec0d94bb3ad0aa5217dbee4b56660cdf41",
+    "e1b-facdrone-evidence-publication/e1b_oracle.py": "c4c93118a98ae07b1174b42bc0b6a9b297048e6c993993c21797a746c988f074",
+    "t51-integration/editscope.py": "4c1317c6183ce57bcf00aac917ae11395adef1ff22c1ad3fdce7b6ab9455ccb5",
+    "t51-integration/pureshare.py": "6572808f87fadce7e988410bd8deff70662c82fa177fb7fb6aec289bca75c705",
+    "guard.py": "ae8de275f9b8b8f81fe845235a1d109b2664e5d5ba65d6b35ed5f58474934d61",
+    "receipt_atomic.py": "defdc5d91a48a12164a52f00b797a7b8aa02a91862a8aed5165cbebbbf0e8bbd",
+    "adaptive.py": "bdc93ddb6789d5a60d2b284d29bf4596180b8c285470005b981686759f581b3a",
+    "adaptive-reference.json": "9724f3eb6f18e69d430357cb8849b97d7416b88345f71335416375cb59e3601f",
+    "testinfra/testinfra.py": "1cbb55e2169c48ce0d9c137be781c4b41c98cca938552087d380bff9c0f9057c"
+   },
+   "lines": {
+    "e4-lifecycle/plan.md": 454,
+    "e4-lifecycle/plan-for-reviewer.md": 423,
+    "e4-lifecycle/reviewer-brief.md": 89,
+    "e4-lifecycle/e4_oracle.py": 534,
+    "e4-lifecycle/run_e4.py": 77,
+    "e4-lifecycle/surface4.py": 60,
+    "e4-lifecycle/test_e4_replay.py": 32,
+    "regenerator/regen_turn.py": 337,
+    "e3-evidence-regeneration/measures.py": 54,
+    "e3-evidence-regeneration/measures2.py": 46,
+    "e3-evidence-regeneration/measures3.py": 69,
+    "e3-evidence-regeneration/surface.py": 60,
+    "e3-evidence-regeneration/qdiff.py": 108,
+    "e3-evidence-regeneration/t5_drivers.py": 149,
+    "e3-evidence-regeneration/missing_tests.py": 147,
+    "e3b-original-sensitivity/t31_arm.py": 259,
+    "e3b-original-sensitivity/cosmic-ray-t31.toml": 10,
+    "e1b-facdrone-evidence-publication/sample_mutants.py": 74,
+    "e1b-facdrone-evidence-publication/run_arm.py": 221,
+    "e1b-facdrone-evidence-publication/e1b_oracle.py": 406,
+    "t51-integration/editscope.py": 65,
+    "t51-integration/pureshare.py": 37,
+    "guard.py": 56,
+    "receipt_atomic.py": 153,
+    "adaptive.py": 126,
+    "adaptive-reference.json": 11,
+    "testinfra/testinfra.py": 626
+   },
+   "supersedes_for": [
+    "e4-lifecycle/plan.md (edited after review)",
+    "e4-lifecycle/reviewer-brief.md (edited after review)"
+   ],
+   "redaction": "plan-for-reviewer.md = plan.md minus the sample composition, the hand-written mutant pointers and the differential pair list (receipt plan-redact-for-reviewer-2; the first run plan-redact-for-reviewer failed its own leak check and is kept)",
+   "budget_unchanged": {
+    "counted_lines_6_1": 97,
+    "budget_6_1": 140,
+    "total_6_1_6_4_6_5": 900,
+    "patchcheck_planned": "at most 60 lines, counted"
+   }
   }
  ],
  "notes": [
@@ -892,6 +1330,138 @@
     "receipt_timeout": "--timeout 2520 is receipt_atomic.py's own subprocess timeout (deadline + 120 s), not part of run_e4.py's argv; run_e4.py received --deadline 2400.0 (see the command entry)",
     "same_pattern": "record-a, record-b and replay-frozen deadlines (base 600) were computed the same way; their scaled() probes were not receipted either, their guard probes were (1.47, 1.30, 1.28); each finished in under 35 s",
     "lesson": "take the factor from the guard's receipted probe, or receipt the scaled() probe, so every deadline is traceable"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:40:23.792712+00:00",
+   "key": "cr-init-decision",
+   "value": {
+    "date": "2026-11-06",
+    "decision": "cosmic-ray init ran with cwd at the FROZEN copy (module paths relative to it); the session went to .runs/e4-lifecycle/e4-orig.sqlite; .runs/e4-lifecycle/orig-mut was not created (6.4 creates it)",
+    "evidence": "tree-snapshot-before and tree-snapshot-after (4,851 files: path, size, mtime_ns) both hash fa4cd12b5b9d015543d39728f5e9278a3854d502e8adec22fb808da224cea3a9: identical, nothing written into the tree",
+    "session_sha256": "4c58b923bf4e6f1b745bd5605098b382defe0aa12f7b8137834ae9900c274d80",
+    "module_path_keys": "stored with backslashes by cosmic-ray on Windows; sample_mutants.specs normalises them to forward slashes"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:40:23.794243+00:00",
+   "key": "sample-composition",
+   "value": {
+    "date": "2026-11-06",
+    "information_not_prediction": true,
+    "annotation_only": [
+     11,
+     13,
+     14,
+     20,
+     21,
+     22,
+     23,
+     27
+    ],
+    "syntax_error_incompetent": [
+     24
+    ],
+    "in_declared_residue": {
+     "lifecycle_review": [
+      5,
+      6,
+      8
+     ],
+     "lifecycle_root.lifecycle_store": [
+      28
+     ]
+    },
+    "in_study_baseline_reached_only_through_patched_names": [
+     26,
+     29
+    ],
+    "reading": "about 15 competent mutants of reached code; the R22-convention ceiling on this sample is near 0.55; the post hoc reading is reported beside it, labelled; T5 is judged on the candidate sample as the report states"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:40:23.795659+00:00",
+   "key": "mutants-choice",
+   "value": {
+    "date": "2026-11-06",
+    "M1": "lifecycle_store.overdue_flags window off by one day: predicted to survive (alphabet gap: no sequence observes a flag within one day of the overdue age)",
+    "M2": "lifecycle_store.transition revision bump dropped: predicted caught by the seed tests (test_enroll_admit_flag_readmit_and_retire_append_events) and by the corpus at S01 op 1",
+    "M3": "MonitorRunner._emit emits not_run records before readings: predicted to pass the seed tests and to be caught by the corpus at S09 op 2",
+    "M4": "LifecycleStore.standing takes the census reference from any authority: predicted to pass the seed tests and to be caught by the corpus at S02 op 7",
+    "verification": "mutants-apply-check: git apply --check and git apply on scratch single-file copies, mutated sha256 recorded in mutants/README.md, all four compile; the frozen tree was not touched",
+    "generator": "a scratch script (receipt mutants-generate, not kept); the patches are the artefacts"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:40:23.797390+00:00",
+   "key": "e4-dry-prompt",
+   "value": {
+    "date": "2026-11-06",
+    "request": "results/request-e4-turn1.json c2a98af36e24beec8a90bfad6b238ae235735f5eabda2f1fd42cebd828968396",
+    "system_sha256": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user_sha256": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9",
+    "system_chars": 1730,
+    "user_chars": 90590,
+    "user_lines": 2268,
+    "feedback_section": false,
+    "no_call": true,
+    "texts_kept_under": ".runs/e4-lifecycle/dry-prompt (user.txt holds specimen source; not committed)"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:40:23.798726+00:00",
+   "key": "owner-go-6.2-to-6.7",
+   "value": {
+    "date": "2026-11-06",
+    "status": "pending",
+    "asked_in": "plan.md, last line",
+    "covers": "6.2 regeneration (at most 4 model turns, 128k output tokens each), 6.3 review, 6.4 sensitivity on both trees (68 arm runs), 6.5 differential (3 pairs), 6.6 held-out recording, 6.7 residue and research entry"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:54:20.448796+00:00",
+   "key": "sample-composition-correction",
+   "value": {
+    "date": "2026-11-06",
+    "review": "independent review of 6.1, item 2 (the note sample-composition stays as written)",
+    "competent": 29,
+    "incompetent": [
+     24
+    ],
+    "expected_survivors": {
+     "annotation_only": [
+      11,
+      13,
+      14,
+      20,
+      21,
+      22,
+      23,
+      27
+     ],
+     "declared_residue": [
+      5,
+      6,
+      8,
+      28
+     ],
+     "study_baseline_reached_only_through_patched_names": [
+      26,
+      29
+     ],
+     "count": 14
+    },
+    "ceiling": {
+     "killed_max": 15,
+     "rate_max": 0.517,
+     "if_19_equivalent": {
+      "killed_max": 14,
+      "rate_max": 0.483,
+      "why": "#19 turns stream_results=True into False in _consumed_query: a fetch strategy with the same rows"
+     }
+    },
+    "stated_in_advance": "\"0.70 not met\" on the original sample is expected from the sample composition and is not a result about the arm; T5 stays on the candidate own population and sample; no target changes",
+    "earlier_note_error": "sample-composition said \"about 15 competent mutants of reached code\" and \"ceiling near 0.55\"; the correct arithmetic is 15 of 29 = 0.517 (0.483 with #19 equivalent)"
    }
   }
  ]

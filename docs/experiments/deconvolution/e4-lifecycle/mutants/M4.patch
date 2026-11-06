@@ -1,0 +1,11 @@
+--- a/src/facdrone/shells/lifecycle_store.py
++++ b/src/facdrone/shells/lifecycle_store.py
+@@ -102,7 +102,7 @@
+         if not applied:
+             return UnrecordedStanding(signal, version)
+         last = max(applied, key=lambda e: e.revision)
+-        census = last.evidence_ref if last.authority == "census" else None
++        census = last.evidence_ref
+         return StandingRevision(
+             signal, version, last.new_state, last.revision, last.event_at, census
+         )

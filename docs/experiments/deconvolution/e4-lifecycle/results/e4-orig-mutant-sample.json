@@ -1,0 +1,739 @@
+{
+ "seed": 20261106,
+ "n": 30,
+ "rule": "sorted(random.Random(seed).sample(sorted(keys), n)); keys = (module, operator, args, occurrence, row, col)",
+ "population": 1468,
+ "population_per_module": {
+  "src/facdrone/shells/cli/lifecycle_group.py": 343,
+  "src/facdrone/shells/cppi/lifecycle_seams.py": 74,
+  "src/facdrone/shells/lifecycle_evidence.py": 287,
+  "src/facdrone/shells/lifecycle_monitor_runner.py": 281,
+  "src/facdrone/shells/lifecycle_projection.py": 150,
+  "src/facdrone/shells/lifecycle_store.py": 231,
+  "src/facdrone/shells/wiring/lifecycle_root.py": 102
+ },
+ "sample_per_module": {
+  "src/facdrone/shells/cli/lifecycle_group.py": 11,
+  "src/facdrone/shells/cppi/lifecycle_seams.py": 1,
+  "src/facdrone/shells/lifecycle_evidence.py": 8,
+  "src/facdrone/shells/lifecycle_monitor_runner.py": 1,
+  "src/facdrone/shells/lifecycle_projection.py": 1,
+  "src/facdrone/shells/lifecycle_store.py": 4,
+  "src/facdrone/shells/wiring/lifecycle_root.py": 4
+ },
+ "operators": {
+  "core/AddNot": 3,
+  "core/NumberReplacer": 4,
+  "core/ReplaceBinaryOperator_BitOr_Add": 1,
+  "core/ReplaceBinaryOperator_BitOr_BitAnd": 1,
+  "core/ReplaceBinaryOperator_BitOr_FloorDiv": 2,
+  "core/ReplaceBinaryOperator_BitOr_LShift": 1,
+  "core/ReplaceBinaryOperator_BitOr_Pow": 1,
+  "core/ReplaceBinaryOperator_BitOr_RShift": 2,
+  "core/ReplaceBinaryOperator_Div_Add": 1,
+  "core/ReplaceBinaryOperator_Div_FloorDiv": 1,
+  "core/ReplaceBinaryOperator_Div_LShift": 1,
+  "core/ReplaceBinaryOperator_Div_Mod": 1,
+  "core/ReplaceBinaryOperator_Div_RShift": 1,
+  "core/ReplaceBinaryOperator_Pow_LShift": 1,
+  "core/ReplaceComparisonOperator_Eq_GtE": 1,
+  "core/ReplaceComparisonOperator_Eq_Is": 1,
+  "core/ReplaceComparisonOperator_Eq_LtE": 2,
+  "core/ReplaceComparisonOperator_GtE_Eq": 1,
+  "core/ReplaceComparisonOperator_LtE_IsNot": 1,
+  "core/ReplaceComparisonOperator_NotEq_GtE": 1,
+  "core/ReplaceTrueWithFalse": 1,
+  "core/ReplaceUnaryOperator_USub_Invert": 1
+ },
+ "reference": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "module_sha256": {
+  "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+  "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+  "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+  "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+  "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+  "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+  "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f"
+ },
+ "session": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\e4-orig.sqlite",
+ "seed_files": [
+  "packages/facdrone-research/tests/test_lifecycle_readings_publish.py",
+  "tests/unit/test_cppi_monitor_worker.py",
+  "tests/unit/test_lifecycle_evidence.py",
+  "tests/unit/test_lifecycle_evidence_intervals.py",
+  "tests/unit/test_lifecycle_evidence_projection.py",
+  "tests/unit/test_lifecycle_monitor_binding_db.py",
+  "tests/unit/test_lifecycle_monitor_runner_db.py",
+  "tests/unit/test_lifecycle_projection.py",
+  "tests/unit/test_lifecycle_run_evidence.py",
+  "tests/unit/test_lifecycle_store_db.py",
+  "tests/unit/test_lifecycle_window_commits.py",
+  "tests/unit/test_monitor_windows.py"
+ ],
+ "deselect": [
+  "tests/unit/test_lifecycle_store_db.py::TestTheTableOnTheDatabase::test_the_event_id_is_the_stored_one_whatever_the_session_time_zone"
+ ],
+ "marks": "not port_baseline and not live_broker",
+ "sample": [
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 151,
+   "col": 7,
+   "hunks": [
+    [
+     150,
+     151,
+     [
+      "    if not not sep or not version_text.isdigit():\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if not sep or not version_text.isdigit():\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 11,
+   "row": 181,
+   "col": 7,
+   "hunks": [
+    [
+     180,
+     181,
+     [
+      "    if not all(r[\"monitor\"] == \"window\" for r in stored):\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    if all(r[\"monitor\"] == \"window\" for r in stored):\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/AddNot",
+   "args": "\"{}\"",
+   "occurrence": 15,
+   "row": 222,
+   "col": 11,
+   "hunks": [
+    [
+     221,
+     222,
+     [
+      "        if not any(signal in bucket for bucket in buckets):\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        if any(signal in bucket for bucket in buckets):\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/NumberReplacer",
+   "args": "\"{}\"",
+   "occurrence": 4,
+   "row": 70,
+   "col": 67,
+   "hunks": [
+    [
+     69,
+     70,
+     [
+      "        f\"at revision {receipt.revision} (event {receipt.event_id[: 17]})\"\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        f\"at revision {receipt.revision} (event {receipt.event_id[:16]})\"\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/NumberReplacer",
+   "args": "\"{}\"",
+   "occurrence": 32,
+   "row": 214,
+   "col": 29,
+   "hunks": [
+    [
+     213,
+     214,
+     [
+      "    return 1 if differs else 1\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    return 1 if differs else 0\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/ReplaceBinaryOperator_Div_Add",
+   "args": "\"{}\"",
+   "occurrence": 13,
+   "row": 266,
+   "col": 65,
+   "hunks": [
+    [
+     265,
+     266,
+     [
+      "    declared = monitor_declaration(read_parameters(root / \"conf\" + \"base\" / \"parameters.yml\"))\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    declared = monitor_declaration(read_parameters(root / \"conf\" / \"base\" / \"parameters.yml\"))\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/ReplaceBinaryOperator_Div_FloorDiv",
+   "args": "\"{}\"",
+   "occurrence": 13,
+   "row": 266,
+   "col": 65,
+   "hunks": [
+    [
+     265,
+     266,
+     [
+      "    declared = monitor_declaration(read_parameters(root / \"conf\" // \"base\" / \"parameters.yml\"))\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    declared = monitor_declaration(read_parameters(root / \"conf\" / \"base\" / \"parameters.yml\"))\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/ReplaceBinaryOperator_Div_Mod",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 160,
+   "col": 39,
+   "hunks": [
+    [
+     159,
+     160,
+     [
+      "        read_parameters(project_root() % \"conf\" / \"base\" / \"parameters.yml\")\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        read_parameters(project_root() / \"conf\" / \"base\" / \"parameters.yml\")\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/ReplaceBinaryOperator_Div_RShift",
+   "args": "\"{}\"",
+   "occurrence": 11,
+   "row": 254,
+   "col": 43,
+   "hunks": [
+    [
+     253,
+     254,
+     [
+      "    rows = parse_ledger((root / \"research\" >> \"equity_census_verdicts.jsonl\").read_text())\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    rows = parse_ledger((root / \"research\" / \"equity_census_verdicts.jsonl\").read_text())\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/ReplaceComparisonOperator_Eq_GtE",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 209,
+   "col": 41,
+   "hunks": [
+    [
+     208,
+     209,
+     [
+      "        same = again is not None and now >= (row[\"value\"], row[\"boundary\"])\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        same = again is not None and now == (row[\"value\"], row[\"boundary\"])\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cli/lifecycle_group.py",
+   "operator": "core/ReplaceComparisonOperator_Eq_Is",
+   "args": "\"{}\"",
+   "occurrence": 6,
+   "row": 210,
+   "col": 60,
+   "hunks": [
+    [
+     209,
+     210,
+     [
+      "        same = same and getattr(again, \"disposition\", None) is row[\"disposition\"]\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        same = same and getattr(again, \"disposition\", None) == row[\"disposition\"]\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/cppi/lifecycle_seams.py",
+   "operator": "core/ReplaceBinaryOperator_BitOr_FloorDiv",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 66,
+   "col": 83,
+   "hunks": [
+    [
+     65,
+     66,
+     [
+      "        def for_window(target: MonitoredSignal, window: Window) -> MonitorEvidence // str:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        def for_window(target: MonitoredSignal, window: Window) -> MonitorEvidence | str:\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_evidence.py",
+   "operator": "core/NumberReplacer",
+   "args": "\"{}\"",
+   "occurrence": 9,
+   "row": 147,
+   "col": 70,
+   "hunks": [
+    [
+     146,
+     147,
+     [
+      "        consumed = _consumed(engine, since - timedelta(days=ic_days + 0), through)\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        consumed = _consumed(engine, since - timedelta(days=ic_days + 1), through)\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_evidence.py",
+   "operator": "core/ReplaceBinaryOperator_BitOr_FloorDiv",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 166,
+   "col": 90,
+   "hunks": [
+    [
+     165,
+     166,
+     [
+      "    def for_window(self, signal: tuple[str, int, int], window: Window) -> MonitorEvidence // str:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    def for_window(self, signal: tuple[str, int, int], window: Window) -> MonitorEvidence | str:\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_evidence.py",
+   "operator": "core/ReplaceBinaryOperator_BitOr_Pow",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 126,
+   "col": 61,
+   "hunks": [
+    [
+     125,
+     126,
+     [
+      ") -> tuple[values.DatedICValue, ...] | values.AuditedAbsence ** None:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     ") -> tuple[values.DatedICValue, ...] | values.AuditedAbsence | None:\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_evidence.py",
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 79,
+   "col": 25,
+   "hunks": [
+    [
+     78,
+     79,
+     [
+      "        .where(t.c.scope <= \"live\", t.c.knowledge_at > since, t.c.knowledge_at <= through)\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        .where(t.c.scope == \"live\", t.c.knowledge_at > since, t.c.knowledge_at <= through)\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_evidence.py",
+   "operator": "core/ReplaceComparisonOperator_GtE_Eq",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 130,
+   "col": 90,
+   "hunks": [
+    [
+     129,
+     130,
+     [
+      "        if isinstance(c.knowledge_at, datetime) and c.knowledge_at.astimezone(UTC).date() == start\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        if isinstance(c.knowledge_at, datetime) and c.knowledge_at.astimezone(UTC).date() >= start\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_evidence.py",
+   "operator": "core/ReplaceComparisonOperator_LtE_IsNot",
+   "args": "\"{}\"",
+   "occurrence": 2,
+   "row": 114,
+   "col": 39,
+   "hunks": [
+    [
+     113,
+     114,
+     [
+      "            if not window.start <= day is not window.cutoff:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            if not window.start <= day <= window.cutoff:\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_evidence.py",
+   "operator": "core/ReplaceComparisonOperator_NotEq_GtE",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 118,
+   "col": 39,
+   "hunks": [
+    [
+     117,
+     118,
+     [
+      "            if old[1] == known and old >= point:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            if old[1] == known and old != point:\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_evidence.py",
+   "operator": "core/ReplaceTrueWithFalse",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 81,
+   "col": 42,
+   "hunks": [
+    [
+     80,
+     81,
+     [
+      "        .execution_options(stream_results=False, yield_per=32)\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        .execution_options(stream_results=True, yield_per=32)\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_monitor_runner.py",
+   "operator": "core/ReplaceBinaryOperator_BitOr_RShift",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 333,
+   "col": 78,
+   "hunks": [
+    [
+     332,
+     333,
+     [
+      "        self, cycle: _Cycle, window: str, r: MonitorReading, disposition: str >> None\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        self, cycle: _Cycle, window: str, r: MonitorReading, disposition: str | None\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_projection.py",
+   "operator": "core/ReplaceBinaryOperator_BitOr_LShift",
+   "args": "\"{}\"",
+   "occurrence": 4,
+   "row": 141,
+   "col": 18,
+   "hunks": [
+    [
+     140,
+     141,
+     [
+      "    baseline: Row << None,\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    baseline: Row | None,\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_store.py",
+   "operator": "core/ReplaceBinaryOperator_BitOr_Add",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 194,
+   "col": 65,
+   "hunks": [
+    [
+     193,
+     194,
+     [
+      "        self, request: TransitionRequest, connection: Connection + None = None\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        self, request: TransitionRequest, connection: Connection | None = None\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_store.py",
+   "operator": "core/ReplaceBinaryOperator_BitOr_BitAnd",
+   "args": "\"{}\"",
+   "occurrence": 3,
+   "row": 260,
+   "col": 28,
+   "hunks": [
+    [
+     259,
+     260,
+     [
+      "    cycle: tuple[Connection & None, str | None],\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    cycle: tuple[Connection | None, str | None],\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_store.py",
+   "operator": "core/ReplaceBinaryOperator_Pow_LShift",
+   "args": "\"{}\"",
+   "occurrence": 1,
+   "row": 166,
+   "col": 15,
+   "hunks": [
+    [
+     165,
+     166,
+     [
+      "        row = {<<asdict(stamped), \"known_at\": self._now()}\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "        row = {**asdict(stamped), \"known_at\": self._now()}\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/lifecycle_store.py",
+   "operator": "core/ReplaceComparisonOperator_Eq_LtE",
+   "args": "\"{}\"",
+   "occurrence": 5,
+   "row": 138,
+   "col": 86,
+   "hunks": [
+    [
+     137,
+     138,
+     [
+      "            if applied and (last := max(applied, key=lambda e: e.revision)).new_state <= \"flagged\":\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "            if applied and (last := max(applied, key=lambda e: e.revision)).new_state == \"flagged\":\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/wiring/lifecycle_root.py",
+   "operator": "core/NumberReplacer",
+   "args": "\"{}\"",
+   "occurrence": 2,
+   "row": 34,
+   "col": 65,
+   "hunks": [
+    [
+     33,
+     34,
+     [
+      "    return {\"reference\": cited[-1], \"baseline\": baselines[cited[- 2]][\"baseline\"]} if cited else None\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    return {\"reference\": cited[-1], \"baseline\": baselines[cited[-1]][\"baseline\"]} if cited else None\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/wiring/lifecycle_root.py",
+   "operator": "core/ReplaceBinaryOperator_BitOr_RShift",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 16,
+   "col": 35,
+   "hunks": [
+    [
+     15,
+     16,
+     [
+      "def lifecycle_store(engine: Engine >> None = None) -> LifecycleStore:\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "def lifecycle_store(engine: Engine | None = None) -> LifecycleStore:\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/wiring/lifecycle_root.py",
+   "operator": "core/ReplaceBinaryOperator_Div_LShift",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 23,
+   "col": 33,
+   "hunks": [
+    [
+     22,
+     23,
+     [
+      "    credentials = project_root() << \"conf\" / \"local\" / \"credentials.yml\"\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    credentials = project_root() / \"conf\" / \"local\" / \"credentials.yml\"\r"
+    ]
+   ]
+  },
+  {
+   "module": "src/facdrone/shells/wiring/lifecycle_root.py",
+   "operator": "core/ReplaceUnaryOperator_USub_Invert",
+   "args": "\"{}\"",
+   "occurrence": 0,
+   "row": 34,
+   "col": 31,
+   "hunks": [
+    [
+     33,
+     34,
+     [
+      "    return {\"reference\": cited[~1], \"baseline\": baselines[cited[-1]][\"baseline\"]} if cited else None\r"
+     ]
+    ]
+   ],
+   "old": [
+    [
+     "    return {\"reference\": cited[-1], \"baseline\": baselines[cited[-1]][\"baseline\"]} if cited else None\r"
+    ]
+   ]
+  }
+ ]
+}

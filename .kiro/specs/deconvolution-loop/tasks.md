@@ -178,7 +178,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 3.1, 3.3, 3.4, 11.7, 12.1, 12.2, 12.3_
 
 - [ ] 6. E4: preregister and run the loop on the second scope
-- [ ] 6.1 Preregistration and original-side apparatus (owner go for 6.2 to 6.7 answered here)
+- [x] 6.1 Preregistration and original-side apparatus (owner go for 6.2 to 6.7 answered here)
   - Write the plan with frozen input identities, the predictions of the
     report's section 8 (canonical lines, functions, edges, rounds, kill
     rate on both trees, at least one oracle-blind difference, zero
@@ -451,3 +451,39 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   file is CRLF; deadline provenance) then APPROVED after the sidecars,
   README, receipt notes and a `newline="\n"` write in `record()` for
   future recordings.
+- 6.1 (2026-11-06): `e4-lifecycle/plan.md` (454 lines, fixed, dated;
+  edits after review marked and made before the go) preregisters E4 on the
+  lifecycle scope: frozen identities (seven files, surface, seeds, corpus
+  LF-body 0b2e383d… / raw 62791b32…, every apparatus file hashed in
+  receipt facts `task-6.1-apparatus` and `-2`), baseline measures of the
+  original scope by `measures4.py` (E3 measurers rebound to seven files:
+  1,495 lines = canonical, 759 statements, 844 separated, 69 functions, 89
+  edges, 12 write sites), predictions T1 to T7 transcribed from the report's
+  section 8 with absolute bars (T1 accepted at turn ≤ 3, turn 4 = not held
+  not falsified; T2 canonical lines ≤ 1,345, ≥ 1,346 fails; T3 functions
+  ≤ 55, ≥ 59 fails; T4 edges ≤ 66, ≥ 72 fails; T5 candidate kill rate
+  0.60 to 0.75 on its own 30-draw sample, < 0.55 or > 0.85 fails, the E3
+  T4 bar 0.70 stated for both trees; T6 ≥ 1 oracle-blind difference; T7
+  zero divergence on a held-out corpus, seed 20261107) and the structural
+  contract S (write sites ≤ 12 all in shell, pure ≥ 0.50, the patched
+  names and instance attributes stay as looked up). Kill criteria grouped
+  (void the candidate: edit outside the seven files, patching failure per
+  a new `patchcheck.py` sentinel step; void a sub-step; stop the run),
+  adaptive budgets, research-code budget 900 lines for 6.1/6.4/6.5 (788
+  estimated). Original-side apparatus: `cosmic-ray-e4.toml` (seven
+  modules), population 1,468 (init wrote nothing into the frozen tree,
+  snapshot hashes equal), 30-draw sample seed 20261106 (`e4_sample.py`,
+  redraw byte-identical; composition: 8 annotation-only, 1 incompetent, 4
+  in residue, 2 in `study_baseline`, so the original's sample caps at
+  15/29 = 0.517 by construction, stated in advance), four hand-written
+  mutants (`mutants/M1..M4.patch`, apply cleanly; M1 overdue window off by
+  a day, predicted survivor: alphabet gap; M2 revision bump dropped,
+  caught by a store seed test and S01 op 1; M3 not_run before readings,
+  seeds pass, S09 op 2 catches; M4 census ref from any authority, seeds
+  pass, S02 op 7 catches), reviewer brief with a redacted plan copy
+  (`plan-for-reviewer.md`, 15 redactions, leak check receipted), frozen
+  turn-1 request `results/request-e4-turn1.json` and its dry prompt hashes.
+  Research code 97 lines against 140. Reviewed by an independent sonnet
+  agent: NEEDS_FIXES (T1 gap, ceiling 0.55 → 0.517, untestable patching
+  branch, brief vs plan disclosure, missing apparatus hashes) then
+  APPROVED. Owner go for 6.2 to 6.7: asked 2026-11-06, see plan.md.

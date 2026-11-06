@@ -1,0 +1,11 @@
+--- a/src/facdrone/shells/lifecycle_store.py
++++ b/src/facdrone/shells/lifecycle_store.py
+@@ -209,7 +209,7 @@
+             r.version,
+             prior,
+             r.target,
+-            r.expected_revision + 1,
++            r.expected_revision,
+             self._now(),
+             r.authority,
+             r.reason,

@@ -1,0 +1,11 @@
+--- a/src/facdrone/shells/lifecycle_store.py
++++ b/src/facdrone/shells/lifecycle_store.py
+@@ -145,7 +145,7 @@
+ 
+     def overdue_flags(self, after: timedelta) -> tuple[OpenFlag, ...]:
+         now = self._now()
+-        return tuple(f for f in self.open_flags() if f.overdue(now, after))
++        return tuple(f for f in self.open_flags() if f.overdue(now, after - timedelta(days=1)))
+ 
+     def readings(self, signal: str, version: int) -> tuple[dict[str, object], ...]:
+         """Every reading recorded for the version, in window then monitor order (11.3,

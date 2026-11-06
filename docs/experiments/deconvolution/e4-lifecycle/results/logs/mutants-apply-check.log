@@ -1,0 +1,70 @@
+{
+ "M1": {
+  "file": "src/facdrone/shells/lifecycle_store.py",
+  "patch_sha256": "89699566b9e908d3e79321d597ada0811253e23086e448e3394502a7bcd035a3",
+  "frozen_sha256": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+  "frozen_matches": true,
+  "git_apply_check_exit": 0,
+  "git_apply_check_err": "",
+  "git_apply_exit": 0,
+  "git_apply_err": "",
+  "mutated_sha256": "b92700bc175706b0dd5200635259b823e7173b0f0ed60cb6234810b51425ac79",
+  "changed": true,
+  "compile": "ok",
+  "files_in_scratch": [
+   "src/facdrone/shells/lifecycle_store.py"
+  ],
+  "hunks": 1
+ },
+ "M2": {
+  "file": "src/facdrone/shells/lifecycle_store.py",
+  "patch_sha256": "01ee894d458d422eece64931a0bf27715ac569a0f146fe6cd97c4b977536f181",
+  "frozen_sha256": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+  "frozen_matches": true,
+  "git_apply_check_exit": 0,
+  "git_apply_check_err": "",
+  "git_apply_exit": 0,
+  "git_apply_err": "",
+  "mutated_sha256": "da7640cd3362ffc6274ec94e55728f7874038c0fe47f93653fa8a95643bc4950",
+  "changed": true,
+  "compile": "ok",
+  "files_in_scratch": [
+   "src/facdrone/shells/lifecycle_store.py"
+  ],
+  "hunks": 1
+ },
+ "M3": {
+  "file": "src/facdrone/shells/lifecycle_monitor_runner.py",
+  "patch_sha256": "7dceff53347386a809c870381d3d0c1426300d8ca1abf4f95422953bec7d57eb",
+  "frozen_sha256": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+  "frozen_matches": true,
+  "git_apply_check_exit": 0,
+  "git_apply_check_err": "",
+  "git_apply_exit": 0,
+  "git_apply_err": "",
+  "mutated_sha256": "175ddfd1441b35c149f4939f2cb9758ef93ad6284306b87b14df28b802b3fcf1",
+  "changed": true,
+  "compile": "ok",
+  "files_in_scratch": [
+   "src/facdrone/shells/lifecycle_monitor_runner.py"
+  ],
+  "hunks": 2
+ },
+ "M4": {
+  "file": "src/facdrone/shells/lifecycle_store.py",
+  "patch_sha256": "b0526f6dd762ecb124c721ce89fadf89c3cc1a7f334677f4984b46a69b963dea",
+  "frozen_sha256": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+  "frozen_matches": true,
+  "git_apply_check_exit": 0,
+  "git_apply_check_err": "",
+  "git_apply_exit": 0,
+  "git_apply_err": "",
+  "mutated_sha256": "1c1aefe91eb9e95bd5a6ffe3d13f5f55e15207dc4a15be8e942a63a0284c10d9",
+  "changed": true,
+  "compile": "ok",
+  "files_in_scratch": [
+   "src/facdrone/shells/lifecycle_store.py"
+  ],
+  "hunks": 1
+ }
+}

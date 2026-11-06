@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\mariu\AppData\Local\Temp\claude\D--Source-lesscode\2f0bcc15-b460-4947-82dc-f42a87ae3c94\scratchpad\redact_plan.py", line 38, in <module>
+    assert leak not in out, leak
+           ^^^^^^^^^^^^^^^
+AssertionError: e4-orig-mutant-sample

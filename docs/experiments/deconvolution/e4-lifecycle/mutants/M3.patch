@@ -1,0 +1,20 @@
+--- a/src/facdrone/shells/lifecycle_monitor_runner.py
++++ b/src/facdrone/shells/lifecycle_monitor_runner.py
+@@ -206,6 +206,8 @@
+         self, say: Emit, target: MonitoredSignal, outcome: _Outcome, decision_id: str
+     ) -> None:
+         who = {"signal": target.signal, "version": target.version, "decision_id": decision_id}
++        for window_id, reason in outcome.not_run:
++            say("lifecycle.not_run", "a window did not run", window=window_id, reason=reason, **who)
+         for window_id, readings in outcome.windows.items():
+             for r in readings:
+                 say(
+@@ -221,8 +223,6 @@
+                     limitation=r.limitation,
+                     **who,
+                 )
+-        for window_id, reason in outcome.not_run:
+-            say("lifecycle.not_run", "a window did not run", window=window_id, reason=reason, **who)
+         for monitor, count in outcome.watch:
+             say(
+                 "lifecycle.watch",
