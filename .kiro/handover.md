@@ -143,6 +143,22 @@ mutant 24 when the session ended; a terminated arm reads as "killed" in
 "proceed" (pause lifted); order 4 (waits for
 `C:\Users\mariu\.lesscode\model.env`), then 5.2 scope choice (survey done:
 lifecycle monitor group ranked first), then 6.1; 5.1 after 4.
+Done 2026-11-06, each reviewed by an independent sonnet agent and
+pushed: 4 (576e072: regenerator program `regenerator/regen_turn.py`,
+three recorded turns against claude-opus-5-5, the third at 128k output /
+medium effort produced the E3-scope candidate `.runs/e4-regen/cand-t4`;
+the first turn's silent stream was cut at 310 s, the second spent 64k
+tokens thinking), 5.1 (d5cbb2f: that candidate 1,214 lines / 549
+statements / 53 functions / 63 edges / pure 0.679, edit-scope and
+structure pass, behaviour untested), 5.2 (be6226d: lifecycle scope
+apparatus `e4-lifecycle/`, 24-operation recorder, corpus 50 sequences /
+317 operations recorded twice byte-identically, round 0 exit 0 in 75.7
+s; goldens on disk under `.runs/e4-lifecycle`), 6.1 (1d9c59c: E4 plan
+with T1 to T7 fixed, original-side sample and four hand-written
+mutants, reviewer brief). Owner go for 6.2 to 6.7 asked 2026-11-06.
+Lessons: receipt the probe that sets a deadline; sidecar hashes must
+be over the bytes as stored (CRLF on Windows bit three times); a
+terminated arm reads as killed in `classify`.
 Owner stance recorded: tests belong to the TDD workflow; a cleaner smaller
 AI version is preferred when it holds.
 
