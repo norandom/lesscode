@@ -1,0 +1,400 @@
+{
+ "a": "c_standing",
+ "b": "k_standing",
+ "n": 300,
+ "seed": 20261106,
+ "calls": 300,
+ "mismatches": [
+  {
+   "args": "{'flag': (4089506564114, 25108), 'readings': [(-35369, -10395, 649834568, -121645100408832001, 14213909326090752)], 'standing': (-9894711944, 1340, 26504159118515142790473801466380288), 'baseline': None, 'now': 41363}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-20', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-24T12:00:00+00:00', 'age_days': 16, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'flag': None, 'readings': [(29537, 18446744073709551617, -588, 3101503447743, 406133827254828), (-4556, -5673730821696234601070075622457344, 98, 750, 446251665), (-250052673, 345331045094, 2112, 4112086293, -153412), (12270, -5185278264, 9903, 1068, -213638566), (7498, 750, -5511965231, 461610, 1434)], 'now': 89086592807, 'standing': (-245033, -2584211, -203), 'baseline': (100000000000, 2313)}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'flag': None, 'readings': [(29537, 18446744073709551617, -588, 3101503447743, 406133827254828), (-4556, -5673730821696234601070075622457344, 98, 750, 446251665), (-250052673, 345331045094, 2112, 4112086293, -153412), (-250052673, 345331045094, 2112, 4112086293, -153412), (7498, 750, -5511965231, 461610, 1434)], 'now': 89086592807, 'standing': (-245033, -2584211, -203), 'baseline': (100000000000, 2313)}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'flag': None, 'readings': [(29537, 18446744073709551617, -588, 3101503447743, 406133827254828), (-4556, -5673730821696234601070075622457344, 98, 750, 446251665), (98, 345331045094, 2112, 4112086293, -153412), (-250052673, 345331045094, 2112, 4112086293, -153412), (7498, 750, -5511965231, 461610, 1434)], 'now': 89086592807, 'standing': (-245033, -2584211, -203), 'baseline': (100000000000, 2313)}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'standing': (-1098259, 10392916, 20414), 'baseline': None, 'now': -17404, 'readings': [(784, 1268078, 2808, -660, 89904)], 'flag': None}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")"
+  },
+  {
+   "args": "{'now': -5278988089057223, 'flag': None, 'standing': (198, 4295, -544890241761531648), 'baseline': (-454, 3), 'readings': [(-827632, 24284593, 375212, 124281527253038, 562949953421311)]}",
+   "c_standing": "('raise', 'KeyError', \"'window_id'\")",
+   "k_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")"
+  },
+  {
+   "args": "{'now': -5278988089057223, 'flag': (-454, 3), 'standing': (198, 4295, -544890241761531648), 'baseline': (-454, 3), 'readings': [(-827632, 24284593, 375212, 124281527253038, 562949953421311)]}",
+   "c_standing": "('raise', 'KeyError', \"'window_id'\")",
+   "k_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")"
+  },
+  {
+   "args": "{'standing': (198, 4295, -544890241761531648), 'now': 3, 'flag': None, 'baseline': (-454, 3), 'readings': [(-827632, 24284593, 375212, 124281527253038, 562949953421311), (-827632, 24284593, 375212, 124281527253038, 562949953421311)]}",
+   "c_standing": "('raise', 'KeyError', \"'window_id'\")",
+   "k_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")"
+  },
+  {
+   "args": "{'now': 108346, 'readings': [(-1362482617948015, 290118, 846812, -396225293261, 90551803), (85267137806, 279, 1396, 938, -121470)], 'baseline': (153810, 5240), 'standing': (-9223372036854775807, -463, 17434), 'flag': None}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'now': 108346, 'readings': [(-1362482617948015, 290118, 846812, -396225293261, 90551803), (85267137806, 279, 1396, 938, -121470)], 'baseline': (153810, 5240), 'standing': (-9223372036854775807, 279, 17434), 'flag': None}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'now': -7121, 'readings': [(1559, -490, 580, 10000, -7192), (21115, 66, 279, 6203, -11393802487278244), (281474976710656, 34, 78916, 91904, 755153), (1274, 67898, 1987, 3349, -45893), (-1144, 67, -27169997, -34209506, 132096), (-439, 42337, 770594, 224708859024, 35724096), (-4631384, -546, -40257015196330, -2027741, -23887), (1405, 955479, 717, -19209, -2344), (-15062, -528654269, 526, 7674957752, -3679794), (-1243, 726351, -551, 353, 4768), (-120811, 107354, 412, 120, -7089), (2356967, -12511, -52446850448, 47642, -1398528), (183, 899, -5, -405388, 533), (2600167, 448809585, 1596744569, 55440524282, 288146), (-8398718926, 5561273114, -1401, 503, 2454), (-36152, -54113259088262, 13133850237288366080, 4145344, -131), (1241234, -1319, 1025308404935272, -4999, -231772), (25950, -13099, 127036900815537123291561984, -143, 11659), (330959292173, 2026, -1169733, 130832071954, 108698), (-276, -36411997, 2454, 2273985, 3333840067805024), (11731, -61379002142549582626953363456, -61, 2659186, 132096), (1264664, 209, -1589, -156754, 241675)], 'baseline': None, 'standing': (269564761, -1135603344, -2979), 'flag': None}",
+   "c_standing": "('raise', 'KeyError', \"'disposition'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'now': -7121, 'readings': [(1559, -490, 580, 10000, -7192), (21115, 66, 279, 6203, -11393802487278244), (281474976710656, 34, 78916, 91904, 755153), (1274, 67898, 1987, 3349, -45893), (-1144, 67, -27169997, -34209506, 132096), (-439, 42337, 770594, 224708859024, 35724096), (-4631384, -546, -40257015196330, -2027741, -23887), (1405, 955479, 717, -19209, -2344), (-15062, -528654269, 526, 7674957752, -3679794), (-1243, 726351, -551, 353, 4768), (-120811, 107354, 412, 120, -7089), (2356967, -12511, -52446850448, 47642, -1398528), (183, 899, -5, -405388, 533), (2600167, -8398718926, 1596744569, 55440524282, 288146), (-8398718926, 5561273114, -1401, 503, 2454), (-36152, -54113259088262, 13133850237288366080, 4145344, -131), (1241234, -1319, 1025308404935272, -4999, -231772), (25950, -13099, 127036900815537123291561984, -143, 11659), (330959292173, 2026, -1169733, 130832071954, 108698), (-276, -36411997, 2454, 2273985, 3333840067805024), (11731, -61379002142549582626953363456, -61, 2659186, 132096), (1264664, 209, -1589, -156754, 241675)], 'baseline': None, 'standing': (269564761, -1135603344, -2979), 'flag': None}",
+   "c_standing": "('raise', 'KeyError', \"'disposition'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'now': -7121, 'readings': [(1559, -490, 580, 10000, -7192), (21115, 66, 279, 6203, -11393802487278244), (281474976710656, 34, 78916, 91904, 755153), (1274, 67898, 1987, 3349, -45893), (-1144, 67, -27169997, -34209506, 132096), (-439, 42337, 770594, 224708859024, 35724096), (-4631384, -546, -40257015196330, -2027741, -23887), (1405, 955479, 717, -19209, -2344), (-15062, -528654269, 526, 7674957752, -3679794), (-1243, 726351, -551, 353, 4768), (-120811, 107354, 412, 120, -7089), (2356967, -12511, -52446850448, 47642, -1398528), (183, 899, -439, -405388, 533), (2600167, -8398718926, 1596744569, 55440524282, 288146), (-8398718926, 5561273114, -1401, 503, 2454), (-36152, -54113259088262, 13133850237288366080, 4145344, -131), (1241234, -1319, 1025308404935272, -4999, -231772), (25950, -13099, 127036900815537123291561984, -143, 11659), (330959292173, 2026, -1169733, 130832071954, 108698), (-276, -36411997, 2454, 2273985, 3333840067805024), (11731, -61379002142549582626953363456, -61, 2659186, 132096), (1264664, 209, -1589, -156754, 241675)], 'baseline': None, 'standing': (269564761, -1135603344, -2979), 'flag': None}",
+   "c_standing": "('raise', 'KeyError', \"'disposition'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'now': -7121, 'readings': [(1559, -490, 580, 10000, -7192), (-1243, 726351, -551, 353, 4768), (281474976710656, 34, 78916, 91904, 755153), (1274, 67898, 1987, 3349, -45893), (-1144, 67, -27169997, -34209506, 132096), (-439, 42337, 770594, 224708859024, 35724096), (-4631384, -546, -40257015196330, -2027741, -23887), (1405, 955479, 717, -19209, -2344), (-15062, -528654269, 526, 7674957752, -3679794), (-1243, 726351, -551, 353, 4768), (-120811, 107354, 412, 120, -7089), (2356967, -12511, -52446850448, 47642, -1398528), (183, 899, -439, -405388, 533), (2600167, -8398718926, 1596744569, 55440524282, 288146), (-8398718926, 5561273114, -1401, 503, 2454), (-36152, -54113259088262, 13133850237288366080, 4145344, -131), (1241234, -1319, 1025308404935272, -4999, -231772), (25950, -13099, 127036900815537123291561984, -143, 11659), (330959292173, 2026, -1169733, 130832071954, 108698), (-276, -36411997, 2454, 2273985, 3333840067805024), (11731, -61379002142549582626953363456, -61, 2659186, 132096), (1264664, 209, -1589, -156754, 241675)], 'baseline': None, 'standing': (269564761, -1135603344, -2979), 'flag': None}",
+   "c_standing": "('raise', 'KeyError', \"'disposition'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'now': -7121, 'readings': [(1559, -490, 580, 10000, -7192), (-1243, 726351, -551, 353, 4768), (281474976710656, 34, 78916, 91904, 755153), (1274, 67898, 1987, 3349, -45893), (-1144, 67, -27169997, -34209506, 132096), (-439, 42337, 770594, 224708859024, 35724096), (-4631384, -546, -40257015196330, -2027741, -23887), (1405, 955479, 717, -19209, -2344), (-1243, 726351, -551, 353, 4768), (-1243, 726351, -551, 353, 4768), (-120811, 107354, 412, 120, -7089), (2356967, -12511, -52446850448, 47642, -1398528), (183, 899, -439, -405388, 533), (2600167, -8398718926, 1596744569, 55440524282, 288146), (-8398718926, 5561273114, -1401, 503, 2454), (-36152, -54113259088262, 13133850237288366080, 4145344, -131), (1241234, -1319, 1025308404935272, -4999, -231772), (25950, -13099, 127036900815537123291561984, -143, 11659), (330959292173, 2026, -1169733, 130832071954, 108698), (-276, -36411997, 2454, 2273985, 3333840067805024), (11731, -61379002142549582626953363456, -61, 2659186, 132096), (1264664, 209, -1589, -156754, 241675)], 'baseline': None, 'standing': (269564761, -1135603344, -2979), 'flag': None}",
+   "c_standing": "('raise', 'KeyError', \"'disposition'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'now': -7121, 'readings': [(1559, -490, 580, 10000, -7192), (-1243, 726351, -551, 353, 4768), (281474976710656, 34, 78916, 91904, 755153), (1274, 3333840067805024, 1987, 3349, -45893), (-1144, 67, -27169997, -34209506, 132096), (-439, 42337, 770594, 224708859024, 35724096), (-4631384, -546, -40257015196330, -2027741, -23887), (1405, 955479, 717, -19209, -2344), (-1243, 726351, -551, 353, 4768), (-1243, 726351, -551, 353, 4768), (-120811, 107354, 412, 120, -7089), (2356967, -12511, -52446850448, 47642, -1398528), (183, 899, -439, -405388, 533), (2600167, -8398718926, 1596744569, 55440524282, 288146), (-8398718926, 5561273114, -1401, 503, 2454), (-36152, -54113259088262, 13133850237288366080, 4145344, -131), (1241234, -1319, 1025308404935272, -4999, -231772), (25950, -13099, 127036900815537123291561984, -143, 11659), (330959292173, 2026, -1169733, 130832071954, 108698), (-276, -36411997, 2454, 2273985, 3333840067805024), (11731, -61379002142549582626953363456, -61, 2659186, 132096), (1264664, 209, -1589, -156754, 241675)], 'baseline': None, 'standing': (269564761, -1135603344, -2979), 'flag': None}",
+   "c_standing": "('raise', 'KeyError', \"'disposition'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'standing': (-27389, -8451, 493), 'baseline': (11549757684294, -915), 'now': -72392650318683176960, 'flag': (6707, 215405), 'readings': [(-2801, 694754079755565056, -373253711, 53346596294970340159204098048, 4453163), (280, 215210, -175149, 13925, -307), (575, -7595, 611, -30505, -89), (-605466, 278, -1311030, -810, -684), (3379677, -1680245405349165924352, -3531, 999999, 1235)]}",
+   "c_standing": "('raise', 'KeyError', \"'window_id'\")",
+   "k_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")"
+  },
+  {
+   "args": "{'readings': [(-1091, -178500011, 2392, -9007199254740991, -2283), (-2424, -615, 266970465141, 154651, 7718)], 'now': 34114034763, 'baseline': (13561, -1183503), 'standing': (752917, 347, -226708), 'flag': (2268, -223)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")"
+  },
+  {
+   "args": "{'standing': (752917, 347, -226708), 'readings': [(-1091, -178500011, 2392, -9007199254740991, -2283), (-2424, -615, 266970465141, 154651, 7718), (-2424, -615, 266970465141, 154651, 7718)], 'now': -223, 'baseline': (13561, -1183503), 'flag': None}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")"
+  },
+  {
+   "args": "{'flag': (674, 129053251715119680), 'standing': (158, -42836631680, -632), 'now': 126, 'baseline': None, 'readings': [(-15527, 17841063974, -218, 484, 1195070651350645), (6489745919997228032, 206567, -584, -18540, 2899054)]}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")"
+  },
+  {
+   "args": "{'standing': (158, -42836631680, -632), 'baseline': None, 'readings': [(-15527, 17841063974, -218, 484, 1195070651350645)], 'flag': None, 'now': 1}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")"
+  },
+  {
+   "args": "{'readings': [(162, 5148, 14779, -116235192, 5387), (65535, 1472, -13282, -17980, 8450), (-6921, -12484, 1114111, -16279312295, -503202998775), (1723952303299500, -36842, 2097152, 20261106, -4549), (-570, 350, -2840, 7046772, -2938459080), (815, -37638832, -21304169, 49556131361406, 5465)], 'now': -553644849356206157990985728, 'baseline': None, 'standing': (1566029347, -3243490, -915), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w0', 'value': -6921, 'boundary': -12484, 'comparator': '>=', 'units': 'u', 'disposition': 'Breached', 'limitation': 'no IC', 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(-570, 350, -2840, 7046772, -2938459080), (65535, 1472, -13282, -17980, 8450), (-6921, -12484, 1114111, -16279312295, -503202998775), (1723952303299500, -36842, 2097152, 20261106, -4549), (-570, 350, -2840, 7046772, -2938459080), (815, -37638832, -21304169, 49556131361406, 5465)], 'now': -553644849356206157990985728, 'baseline': None, 'standing': (1566029347, -3243490, -915), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w0', 'value': -6921, 'boundary': -12484, 'comparator': '>=', 'units': 'u', 'disposition': 'Breached', 'limitation': 'no IC', 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(-6921, -12484, 1114111, -16279312295, -503202998775), (65535, 1472, -13282, -17980, 8450), (-6921, -12484, 1114111, -16279312295, -503202998775), (1723952303299500, -36842, 2097152, 20261106, -4549), (-570, 350, -2840, 7046772, -2938459080), (815, -37638832, -21304169, 49556131361406, 5465)], 'now': -553644849356206157990985728, 'baseline': None, 'standing': (1566029347, -3243490, -915), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w0', 'value': -6921, 'boundary': -12484, 'comparator': '>=', 'units': 'u', 'disposition': 'Breached', 'limitation': 'no IC', 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': 'no IC'}, {'window': 'w0', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(-6921, -12484, 1114111, -16279312295, -503202998775), (65535, 1472, -13282, -17980, 8450), (-6921, -12484, 1114111, -16279312295, -503202998775), (1723952303299500, -36842, 2097152, 20261106, -4549), (65535, 1472, -13282, -17980, 8450), (815, -37638832, -21304169, 49556131361406, 5465)], 'now': -553644849356206157990985728, 'baseline': None, 'standing': (1566029347, -3243490, -915), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w0', 'value': -6921, 'boundary': -12484, 'comparator': '>=', 'units': 'u', 'disposition': 'Breached', 'limitation': 'no IC', 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': 'no IC'}, {'window': 'w0', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(-6921, -12484, 1114111, -16279312295, -503202998775), (65535, 1472, -13282, -17980, 8450), (-6921, -12484, 1114111, -16279312295, -503202998775), (1723952303299500, -36842, 2097152, 20261106, -4549), (65535, 1472, -13282, -17980, 8450), (815, -37638832, 1566029347, 49556131361406, 5465)], 'now': -553644849356206157990985728, 'baseline': None, 'standing': (1566029347, -3243490, -915), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w0', 'value': -6921, 'boundary': -12484, 'comparator': '>=', 'units': 'u', 'disposition': 'Breached', 'limitation': 'no IC', 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': 'no IC'}, {'window': 'w0', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(-6921, -12484, 1114111, -16279312295, -503202998775), (65535, 1472, -13282, -17980, 8450), (-6921, -12484, 1114111, -16279312295, -503202998775), (1723952303299500, -36842, 2097152, 20261106, -4549), (1723952303299500, -36842, 2097152, 20261106, -4549), (815, -37638832, 1566029347, 49556131361406, 5465)], 'now': -553644849356206157990985728, 'baseline': None, 'standing': (1566029347, -3243490, -915), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w0', 'value': -6921, 'boundary': -12484, 'comparator': '>=', 'units': 'u', 'disposition': 'Breached', 'limitation': 'no IC', 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': 'no IC'}, {'window': 'w0', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(-6921, -12484, 1114111, -16279312295, -503202998775), (65535, 1472, -13282, -17980, 8450), (-6921, -12484, 1114111, -16279312295, -503202998775), (-6921, -12484, 1114111, -16279312295, -503202998775), (1723952303299500, -36842, 2097152, 20261106, -4549), (815, -37638832, 1566029347, 49556131361406, 5465)], 'now': -553644849356206157990985728, 'baseline': None, 'standing': (1566029347, -3243490, -915), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w0', 'value': -6921, 'boundary': -12484, 'comparator': '>=', 'units': 'u', 'disposition': 'Breached', 'limitation': 'no IC', 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-23', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': 'no IC'}, {'window': 'w0', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(-21, 1635, 283, -3717, 635904665330), (109518274760310513467392, 2099, 260721, 132708639587668, -1511)], 'now': 389567, 'flag': (-236, 122965669493), 'standing': (-77032, 524289, -44044), 'baseline': None}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")"
+  },
+  {
+   "args": "{'readings': [(-21, 1635, 283, -3717, 635904665330), (109518274760310513467392, 2099, 260721, 132708639587668, -1511)], 'now': 389567, 'flag': (-236, 122965669493), 'standing': (-77032, 524289, -44044), 'baseline': (-236, 122965669493)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")"
+  },
+  {
+   "args": "{'readings': [(-21, 1635, 283, -3717, 635904665330), (109518274760310513467392, 2099, 260721, 109518274760310513467392, -1511)], 'now': 389567, 'flag': (-236, 122965669493), 'standing': (-77032, 524289, -44044), 'baseline': (-236, 122965669493)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")"
+  },
+  {
+   "args": "{'readings': [(-21, 1635, 283, -3717, 635904665330), (-21, 1635, 283, -3717, 635904665330)], 'now': 389567, 'flag': (-236, 122965669493), 'standing': (-77032, 524289, -44044), 'baseline': (-236, 122965669493)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")"
+  },
+  {
+   "args": "{'standing': (-77032, 524289, -44044), 'readings': [(-21, 1635, 283, -3717, 635904665330), (-21, 1635, 283, -3717, 635904665330), (-21, 1635, 283, -3717, 635904665330)], 'now': 122965669493, 'flag': None, 'baseline': (-236, 122965669493)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")"
+  },
+  {
+   "args": "{'baseline': (-223152242, 327), 'flag': (-17592186044417, 482586260485113305366528), 'standing': (30705, 320, -41606528), 'readings': [(-164315705085, -2587855, -28030, 94843202, -199526411422), (237935, 144799, -325, -16262668624860985425920, -232), (-284037022685277733743755264, -439843427667057, -23141238425, 750, 1966), (3458, -4670, 1858, 244, -1039924), (-281, -552562761110466658304, 436579159, -74947893, -78048), (-8198, 19059, -15, -593755424, 8044)], 'now': 7437}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'baseline': (-223152242, 327), 'flag': (-17592186044417, 482586260485113305366528), 'standing': (30705, 320, -41606528), 'readings': [(-164315705085, -2587855, -28030, 94843202, -199526411422), (237935, 144799, -325, -16262668624860985425920, -232), (-284037022685277733743755264, -439843427667057, -23141238425, 750, 1966), (3458, -4670, 1858, 244, -1039924), (-281, -552562761110466658304, 436579159, -74947893, -78048), (3458, -4670, 1858, 244, -1039924)], 'now': 7437}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'baseline': (-223152242, 327), 'flag': (-17592186044417, 482586260485113305366528), 'standing': (30705, 320, -41606528), 'readings': [(-164315705085, -2587855, -28030, 94843202, -199526411422), (237935, 144799, -325, -16262668624860985425920, -232), (-284037022685277733743755264, -439843427667057, -23141238425, 750, 1966), (-284037022685277733743755264, -439843427667057, -23141238425, 750, 1966), (-281, -552562761110466658304, 436579159, -74947893, -78048), (3458, -4670, 1858, 244, -1039924)], 'now': 7437}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'standing': (30705, 320, -41606528), 'baseline': (-223152242, 327), 'flag': None, 'readings': [(-164315705085, -2587855, -28030, 94843202, -199526411422), (237935, 144799, -325, -16262668624860985425920, -232), (-284037022685277733743755264, -439843427667057, -23141238425, 750, 1966), (-284037022685277733743755264, -439843427667057, -23141238425, 750, 1966), (-281, -552562761110466658304, 436579159, -74947893, -78048), (3458, -4670, 1858, 244, -1039924), (3458, -4670, 1858, 244, -1039924)], 'now': 482586260485113305366528}",
+   "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'baseline': None, 'standing': (-447448, 3049, -769), 'flag': (-1270180226, 593), 'now': 312, 'readings': [(-1566, 198541350021302175156666368, 2801, -20344801763, -2734), (1782, -24274408, 32534, 1649, -9071)]}",
+   "c_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'baseline': None, 'standing': (-447448, 3049, -769), 'flag': (-1270180226, 593), 'now': 312, 'readings': [(1782, -24274408, 32534, 1649, -9071), (1782, -24274408, 32534, 1649, -9071)]}",
+   "c_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'flag': None, 'now': 5846975, 'standing': (1826, -35126961, -39887), 'readings': [(-20465, -7712258090383, 1458513492, -7880, 42673424474105315328), (-65, 1070, 6569137, 9454, 15090743918), (3446, -7052, -499, 8680620, -3897), (-13351, 9974885736970, -261, -263, 11214711), (19889, -5242165096077610450944, -1585779, 479001599, 8325), (880, 9999999999999999, -24328634, 2464329568, 136978963736), (-2209, -25024171, 704, -2147483649, 113020), (2873153385087087952224371934756864, 600, -7998, 1011, -655333), (-2408, 141, -40, 281, -879), (166, -175539980584, 1023698, 1821, -3261), (-29007178, -457, 7700, -33, 5640)], 'baseline': (580439, -6893)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'KeyError', \"'disposition'\")"
+  },
+  {
+   "args": "{'flag': None, 'now': 5846975, 'standing': (1826, -35126961, -39887), 'readings': [(-20465, -7712258090383, 1458513492, -7880, 42673424474105315328), (-65, 1070, 6569137, 9454, 15090743918), (-7052, -7052, -499, 8680620, -3897), (-13351, 9974885736970, -261, -263, 11214711), (19889, -5242165096077610450944, -1585779, 479001599, 8325), (880, 9999999999999999, -24328634, 2464329568, 136978963736), (-2209, -25024171, 704, -2147483649, 113020), (2873153385087087952224371934756864, 600, -7998, 1011, -655333), (-2408, 141, -40, 281, -879), (166, -175539980584, 1023698, 1821, -3261), (-29007178, -457, 7700, -33, 5640)], 'baseline': (580439, -6893)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'KeyError', \"'disposition'\")"
+  },
+  {
+   "args": "{'now': 769, 'flag': None, 'baseline': None, 'standing': (148, -342046, 7257923), 'readings': [(-1316, 145784, 150, -16307297, 3891791), (-6043, 469, 52156064942336887510394858373120, -2944367105, 27849)]}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-15', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w1', 'value': -1316, 'boundary': 145784, 'comparator': '>=', 'units': 'u', 'disposition': 'Within its boundary', 'limitation': None, 'judged_at': '2026-09-07 12:00:00+00:00'}, {'monitor': 'Peak minus mean IC', 'key': 'ic_gap', 'window': 'w2', 'value': -6043, 'boundary': 469, 'comparator': '>=', 'units': 'u', 'disposition': 'Within its boundary",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-15', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}, {'window': 'w2', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'now': 769, 'flag': None, 'baseline': None, 'standing': (148, -342046, 7257923), 'readings': [(-6043, 469, 52156064942336887510394858373120, -2944367105, 27849), (-6043, 469, 52156064942336887510394858373120, -2944367105, 27849)]}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-15', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'Peak minus mean IC', 'key': 'ic_gap', 'window': 'w2', 'value': -6043, 'boundary': 469, 'comparator': '>=', 'units': 'u', 'disposition': 'Within its boundary', 'limitation': 'no IC', 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Flagged: earning the no-edge weight', 'since': '2026-08-15', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w2', 'reason': 'no IC'}, {'window': 'w2', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(80878, 90, 16155465265867752, 2273954540998284288, -28991), (1331557201, -1793155, 333, 1063818524332764, 119998897555060113408), (41257, -7, -1804, -10222, 2146217148), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-9206642, -93, 267, 5600992, -2377406), (-1243005989, -112189824, -176, -207, -7277), (-86645, -476, 8759, 2297, -127768020), (24, -12312, 98278, 4621226, -1008512504), (-1285057, 342598714, 4409, 519898, -8008974), (50279691988122, -1464, -18864, -178232, -353), (204546, 1379, 1125899906842625, -48704, -1512606583), (84365, -885951, 14554, 318, 3653924), (388, 268435457, -2512, 2971864694963908608, 461846851036496986112), (-18243708712852492288, 2754, 8638, 29803260053, 665999), (2534201, -9830543, -9071604937182425382912, 21353543536204060, 26), (327674, -390237273598053952, -12672, 1036, 88597), (-7427789747804002, 358712352, -231730134, 723711, -33799), (18557153, -86623421252398601549643776, 637182119, -56786800682437, -883)], 'flag': (2916467, -2324), 'now': -27237321, 'baseline': (-707, 283601), 'standing': (311418, -3771, -4162926785)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': None, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-21T11:59:59+00:00', 'age_days': 17, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'readings': [(80878, 90, 16155465265867752, 2273954540998284288, -28991), (1331557201, -1793155, 333, 1063818524332764, 119998897555060113408), (41257, -7, -1804, -10222, 2146217148), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-9206642, -93, 267, 5600992, -2377406), (-1243005989, -112189824, -176, -207, -7277), (-86645, -476, 8759, 2297, -127768020), (24, -12312, 98278, 4621226, -1008512504), (-1285057, 342598714, 4409, 519898, -8008974), (50279691988122, -1464, -18864, -178232, -353), (204546, 1379, 1125899906842625, -48704, -1512606583), (84365, -885951, 14554, 318, 3653924), (388, 268435457, -2512, 2971864694963908608, 461846851036496986112), (-18243708712852492288, 2754, 8638, 29803260053, 665999), (2534201, -9830543, -9071604937182425382912, 21353543536204060, 26), (327674, -390237273598053952, -12672, 1036, 88597), (-7427789747804002, 358712352, -231730134, 723711, -33799), (18557153, -86623421252398601549643776, 637182119, -56786800682437, -9007199254740991)], 'flag': (2916467, -2324), 'now': -27237321, 'baseline': (-707, 283601), 'standing': (311418, -3771, -4162926785)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': None, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-21T11:59:59+00:00', 'age_days': 17, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'readings': [(80878, 90, 16155465265867752, 2273954540998284288, -28991), (1331557201, -1793155, 333, 1063818524332764, 119998897555060113408), (41257, -7, -1804, -10222, 2146217148), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-9206642, -93, 267, 5600992, -2377406), (-1243005989, -112189824, -176, -207, -7277), (-86645, -476, 8759, 2297, -127768020), (24, -12312, 98278, 4621226, -1008512504), (-1285057, 342598714, 4409, 519898, -8008974), (50279691988122, -1464, -18864, -178232, -353), (204546, 1379, 1125899906842625, -48704, -1512606583), (84365, -885951, 14554, 318, 3653924), (388, 268435457, -2512, 2971864694963908608, 461846851036496986112), (-18243708712852492288, 2754, 8638, 29803260053, 665999), (2534201, -9830543, -9071604937182425382912, 21353543536204060, 26), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-7427789747804002, 358712352, -231730134, 723711, -33799), (18557153, -86623421252398601549643776, 637182119, -56786800682437, -9007199254740991)], 'flag': (2916467, -2324), 'now': -27237321, 'baseline': (-707, 283601), 'standing': (311418, -3771, -4162926785)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': None, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-21T11:59:59+00:00', 'age_days': 17, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'readings': [(80878, 90, 16155465265867752, 2273954540998284288, -28991), (1331557201, -1793155, 333, 1063818524332764, 119998897555060113408), (41257, -7, -1804, -10222, 2146217148), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-9206642, -93, 267, 5600992, -2377406), (-1243005989, -112189824, -176, -207, -7277), (-86645, -476, 8759, 2297, -127768020), (24, -12312, 98278, 4621226, -1008512504), (-1285057, 342598714, 4409, 519898, -8008974), (50279691988122, -1464, -18864, -178232, -353), (204546, 1379, 1125899906842625, -48704, -1512606583), (84365, -885951, 14554, 318, 3653924), (388, 268435457, -2512, 2971864694963908608, 461846851036496986112), (-18243708712852492288, 2754, 8638, 29803260053, 665999), (2534201, -9830543, -9071604937182425382912, 21353543536204060, 26), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-7427789747804002, 358712352, -231730134, 723711, -33799), (18557153, -86623421252398601549643776, 637182119, -56786800682437, -9007199254740991)], 'flag': (2916467, -2324), 'now': -27237321, 'baseline': (2916467, -2324), 'standing': (311418, -3771, -4162926785)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': None, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-21T11:59:59+00:00', 'age_days': 17, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'readings': [(80878, 90, 16155465265867752, 2273954540998284288, -28991), (1331557201, -1793155, 333, 1063818524332764, 119998897555060113408), (41257, -7, -1804, -10222, 2146217148), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-9206642, -93, 267, 5600992, -2377406), (-1243005989, -112189824, -176, -207, -7277), (-86645, -476, 8759, 2297, -127768020), (24, -12312, 98278, 4621226, -1008512504), (-1285057, 342598714, 4409, 519898, -8008974), (50279691988122, -1464, -18864, -178232, -353), (204546, 1379, 1125899906842625, -48704, -1512606583), (84365, -885951, 14554, 318, 3653924), (50279691988122, -1464, -18864, -178232, -353), (-18243708712852492288, 2754, 8638, 29803260053, 665999), (2534201, -9830543, -9071604937182425382912, 21353543536204060, 26), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-7427789747804002, 358712352, -231730134, 723711, -33799), (18557153, -86623421252398601549643776, 637182119, -56786800682437, -9007199254740991)], 'flag': (2916467, -2324), 'now': -27237321, 'baseline': (2916467, -2324), 'standing': (311418, -3771, -4162926785)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': None, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-21T11:59:59+00:00', 'age_days': 17, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'readings': [(80878, 90, 16155465265867752, 2273954540998284288, -28991), (1331557201, -1793155, 333, 1063818524332764, 119998897555060113408), (41257, -7, -1804, -10222, 2146217148), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-9206642, -93, 267, 5600992, -2377406), (-1243005989, -112189824, -176, -207, -7277), (-86645, -476, 8759, 2297, -127768020), (24, -12312, 98278, 4621226, -1008512504), (-1285057, 342598714, 4409, 519898, -8008974), (50279691988122, -1464, -18864, -178232, -353), (204546, 1379, 1125899906842625, -48704, -1512606583), (-7427789747804002, 358712352, -231730134, 723711, -33799), (50279691988122, -1464, -18864, -178232, -353), (-18243708712852492288, 2754, 8638, 29803260053, 665999), (2534201, -9830543, -9071604937182425382912, 21353543536204060, 26), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-7427789747804002, 358712352, -231730134, 723711, -33799), (18557153, -86623421252398601549643776, 637182119, -56786800682437, -9007199254740991)], 'flag': (2916467, -2324), 'now': -27237321, 'baseline': (2916467, -2324), 'standing': (311418, -3771, -4162926785)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': None, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-21T11:59:59+00:00', 'age_days': 17, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'readings': [(80878, 90, 16155465265867752, 2273954540998284288, -28991), (1331557201, -1793155, 333, 1063818524332764, 119998897555060113408), (41257, -7, -1804, -10222, 2146217148), (-5838, -50226, -665145211, -9007199254740991, -153480435), (50279691988122, -1464, -18864, -178232, -353), (-1243005989, -112189824, -176, -207, -7277), (-86645, -476, 8759, 2297, -127768020), (24, -12312, 98278, 4621226, -1008512504), (-1285057, 342598714, 4409, 519898, -8008974), (50279691988122, -1464, -18864, -178232, -353), (204546, 1379, 1125899906842625, -48704, -1512606583), (-7427789747804002, 358712352, -231730134, 723711, -33799), (50279691988122, -1464, -18864, -178232, -353), (-18243708712852492288, 2754, 8638, 29803260053, 665999), (2534201, -9830543, -9071604937182425382912, 21353543536204060, 26), (-5838, -50226, -665145211, -9007199254740991, -153480435), (-7427789747804002, 358712352, -231730134, 723711, -33799), (18557153, -86623421252398601549643776, 637182119, -56786800682437, -9007199254740991)], 'flag': (2916467, -2324), 'now': -27237321, 'baseline': (2916467, -2324), 'standing': (311418, -3771, -4162926785)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': None, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-21T11:59:59+00:00', 'age_days': 17, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'standing': (-69977, 298, 4874), 'baseline': None, 'flag': None, 'readings': [(694272, 74288, 261, -51845696, 1355), (2717512, -6234, 185727028927278, 4966, -1558), (6265, 837, -442238576371563, -37796076018, 704), (-4654, -1672634825, -91, -635, 936), (363, -4109, 150, 410, -5928957), (3604, 13064, -3442, 172, 756), (2717512, -6234, 185727028927278, 4966, -1558), (750, -841, 251755183, 142816, -494896), (2717512, -6234, 185727028927278, 4966, -1558)], 'now': -236952055915}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'standing': (-69977, 298, 4874), 'baseline': None, 'flag': None, 'readings': [(694272, 74288, 261, -51845696, 1355), (2717512, -6234, 185727028927278, 4966, -1558), (6265, 837, -442238576371563, -37796076018, 704), (694272, 74288, 261, -51845696, 1355), (363, -4109, 150, 410, -5928957), (3604, 13064, -3442, 172, 756), (2717512, -6234, 185727028927278, 4966, -1558), (750, -841, 251755183, 142816, -494896), (2717512, -6234, 185727028927278, 4966, -1558)], 'now': -236952055915}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'standing': (-69977, 298, 4874), 'baseline': None, 'flag': None, 'readings': [(694272, 74288, 261, -51845696, 1355), (2717512, -6234, 185727028927278, 4966, -1558), (6265, 837, -442238576371563, -37796076018, 704), (694272, 74288, 261, -51845696, 1355), (363, -4109, 150, 410, -5928957), (3604, 13064, -3442, 172, 756), (2717512, -6234, 185727028927278, 4966, -1558), (750, -841, 251755183, 142816, -494896), (6265, 837, -442238576371563, -37796076018, 704)], 'now': -236952055915}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'standing': (-69977, 298, 4874), 'baseline': None, 'flag': None, 'readings': [(694272, 74288, 261, -51845696, 1355), (2717512, -442238576371563, 185727028927278, 4966, -1558), (6265, 837, -442238576371563, -37796076018, 704), (694272, 74288, 261, -51845696, 1355), (363, -4109, 150, 410, -5928957), (3604, 13064, -3442, 172, 756), (2717512, -6234, 185727028927278, 4966, -1558), (750, -841, 251755183, 142816, -494896), (6265, 837, -442238576371563, -37796076018, 704)], 'now': -236952055915}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'KeyError', \"'window_id'\")"
+  },
+  {
+   "args": "{'baseline': (-4097, 2685292), 'readings': [(558822, -733, 16777217, -9240763737047, -599), (-638, 836, 229135, 35366890, -3395), (-571211, 1409150, -37945164, -5, -3305647310), (84851500, -1401491005045202, -1539, -42469, -584)], 'now': -90395748, 'standing': (22964111331775, -172402956, 372), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w1', 'value': -571211, 'boundary': 1409150, 'comparator': '>=', 'units': 'u', 'disposition': 'Within its boundary', 'limitation': None, 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}], 'flag': None}"
+  },
+  {
+   "args": "{'baseline': (-4097, 2685292), 'readings': [(558822, -733, 16777217, -9240763737047, -599), (-638, 836, 229135, 35366890, -3395), (-571211, 1409150, -37945164, -5, -3305647310), (84851500, -1401491005045202, -1539, -733, -584)], 'now': -90395748, 'standing': (22964111331775, -172402956, 372), 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w1', 'value': -571211, 'boundary': 1409150, 'comparator': '>=', 'units': 'u', 'disposition': 'Within its boundary', 'limitation': None, 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}], 'flag': None}"
+  },
+  {
+   "args": "{'baseline': (-4097, 2685292), 'readings': [(558822, -733, 16777217, -9240763737047, -599), (-638, 836, 229135, 35366890, -3395), (-571211, 1409150, -37945164, -5, -3305647310), (84851500, -1401491005045202, -1539, -733, -584)], 'now': -90395748, 'standing': (22964111331775, -172402956, 372), 'flag': (-4097, 2685292)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w1', 'value': -571211, 'boundary': 1409150, 'comparator': '>=', 'units': 'u', 'disposition': 'Within its boundary', 'limitation': None, 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': {'reason': 'IC at the traded horizon breached ",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-25T11:59:59+00:00', 'age_days': 13, 'overdue': False, 'event_id': 'FEV', 'decision_id': "
+  },
+  {
+   "args": "{'baseline': (-4097, 2685292), 'readings': [(558822, -733, 16777217, -9240763737047, -599), (-571211, 1409150, -37945164, -5, -3305647310), (-571211, 1409150, -37945164, -5, -3305647310), (84851500, -1401491005045202, -1539, -733, -584)], 'now': -90395748, 'standing': (22964111331775, -172402956, 372), 'flag': (-4097, 2685292)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w1', 'value': -571211, 'boundary': 1409150, 'comparator': '>=', 'units': 'u', 'disposition': 'Within its boundary', 'limitation': None, 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': {'reason': 'IC at the traded horizon breached ",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}, {'window': 'w1', 'reason': None}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-25T11:59:59+00:00', 'age_days': 13, 'overdue': False, "
+  },
+  {
+   "args": "{'baseline': (-4097, 2685292), 'readings': [(558822, -733, 16777217, -9240763737047, -599), (-571211, 1409150, -37945164, -5, -3305647310), (558822, -733, 16777217, -9240763737047, -599), (84851500, -1401491005045202, -1539, -733, -584)], 'now': -90395748, 'standing': (22964111331775, -172402956, 372), 'flag': (-4097, 2685292)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': None}, {'window': 'w0', 'reason': None}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-25T11:59:59+00:00', 'age_days': 13, 'overdue': False, ",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'baseline': (-4097, 2685292), 'readings': [(558822, -733, 16777217, -9240763737047, -599), (-571211, 1409150, -37945164, -5, -3305647310), (558822, -733, 16777217, -9240763737047, -599), (558822, -733, 16777217, -9240763737047, -599)], 'now': -90395748, 'standing': (22964111331775, -172402956, 372), 'flag': (-4097, 2685292)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': None}, {'window': 'w0', 'reason': None}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-25T11:59:59+00:00', 'age_days': 13, 'overdue': False, ",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'baseline': (-4097, 2685292), 'readings': [(558822, -733, 16777217, -9240763737047, -599), (-571211, 1409150, -37945164, -5, -3305647310), (558822, -733, 16777217, -9240763737047, -599), (558822, -733, 16777217, -9240763737047, -599)], 'now': -90395748, 'standing': (22964111331775, -172402956, 372), 'flag': (-90395748, 2685292)}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-26', 'revision': 2, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': [], 'digest': ''}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': None}, {'window': 'w0', 'reason': None}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-26T12:00:00+00:00', 'age_days': 12, 'overdue': False, ",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'baseline': None, 'readings': [(-1747608850, 173277, -77, 60629573, -3275), (-4772588, -1099511627775, -8388607, -18655, 70), (-24030, -71115307252815791493318984073216, 256, 600, 72458146), (2013, 299757154, -17085351262, 237189322606798, -20416), (-36503176007, 99999999999, 52608, -102926513813, 2395401), (290055, 1446460216, -476947172885, -66636, -161401966828451552), (-682, 6105110895493, -13880, 5731866, -1929720), (208567, 50, -3100, -2777, -8253671829042634752), (150, -169339, -165938, -168661, 1024), (-17542401609907392, 134689, 311215931172989023503253504, 16032, 3876), (-5690, 171456, -372, 2213507, 16721853190045732), (-5698, 69447717, -9263, 1940780, -1659), (-2507, 20315216, -304250263527211, -13620668080, 3033), (-5507323, 1441, 7503825, -389, -14345919), (-7195968, -85, 8525001831005, -2213002, 57749617611162726925592814419968), (-139158745, -3162070353170, -3528670009, -2099036997697, 750), (59716, 1798492316544127467520, 389481964093994, -38484, -173), (-3939, -755944036, 436, -47357828, -11768), (-855037199161004391932872359936, -72057594037927935, 38558523197016, -539054, -215)], 'standing': (-293, 5088, -1652), 'now': -4021, 'flag': None}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-10', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [{'monitor': 'window', 'key': 'window', 'window': 'w0', 'value': -24030, 'boundary': -71115307252815791493318984073216, 'comparator': '>=', 'units': 'u', 'disposition': 'Breached', 'limitation': None, 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': None}",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-10', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': None}], 'flag': None}"
+  },
+  {
+   "args": "{'standing': (-57151789531773, 5386735509573634, -730117435), 'flag': (848481454961, -661830697), 'baseline': (848481454961, -661830697), 'readings': [(10351809, -238, 144454478595, 53, -3018457), (1451, -88448376094906800, -4313344, -2192, -559433), (-7704679312226806251068063744, -3315, -552581500786412290048, -3445267617, 109213), (307, -57522469084045, 512, -1037, -1768), (-579241, 91298399, 155579, -34953, -1191308055355873), (-7704679312226806251068063744, -3315, -552581500786412290048, -3445267617, 689024549144), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (109213, -30589104, -2251799813685248, 115779805, -10239), (-64801005, -79502054979586570162989432832, 80654641626981028855808, 56813728963306768, 71025044159406374754713600), (238, -6490, 43, 160, 155501), (3274, -40848826981, -303, -467, -4301), (2813, -1996754, -2631, -6931, 1826)], 'now': 49973}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': None, 'survival_ratio': None, 'states': [], 'digest': 'aaaaaaaaaaaaaaaa'}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}], 'flag': {'reason': 'plain', 'opened_at': '2026-08-27T11:59:59+00:00', 'age_days': 13, 'overdue': False, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'standing': (-57151789531773, 5386735509573634, -730117435), 'flag': (848481454961, -661830697), 'baseline': (848481454961, -661830697), 'readings': [(10351809, -238, 144454478595, 53, -3018457), (1451, -88448376094906800, -4313344, -2192, -559433), (-7704679312226806251068063744, -3315, -552581500786412290048, -3445267617, 109213), (307, -57522469084045, 512, -1037, -1768), (-579241, 91298399, 155579, -34953, -1191308055355873), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (109213, -30589104, -2251799813685248, 115779805, -10239), (-64801005, -79502054979586570162989432832, 80654641626981028855808, 56813728963306768, 71025044159406374754713600), (238, -6490, 43, 160, 155501), (3274, -40848826981, -303, -467, -4301), (2813, -1996754, -2631, -6931, 1826)], 'now': 49973}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': None, 'survival_ratio': None, 'states': [], 'digest': 'aaaaaaaaaaaaaaaa'}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}], 'flag': {'reason': 'plain', 'opened_at': '2026-08-27T11:59:59+00:00', 'age_days': 13, 'overdue': False, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'standing': (-57151789531773, 5386735509573634, -730117435), 'flag': (848481454961, -661830697), 'baseline': (848481454961, -661830697), 'readings': [(10351809, -238, 144454478595, 53, -3018457), (1451, -88448376094906800, -4313344, -2192, -559433), (-7704679312226806251068063744, -3315, -552581500786412290048, -3445267617, 109213), (307, -57522469084045, 512, -1037, -1768), (-579241, 91298399, 155579, -34953, -1191308055355873), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (109213, -30589104, -2251799813685248, 115779805, -10239), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (238, -6490, 43, 160, 155501), (3274, -40848826981, -303, -467, -4301), (2813, -1996754, -2631, -6931, 1826)], 'now': 49973}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': None, 'survival_ratio': None, 'states': [], 'digest': 'aaaaaaaaaaaaaaaa'}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}], 'flag': {'reason': 'plain', 'opened_at': '2026-08-27T11:59:59+00:00', 'age_days': 13, 'overdue': False, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'standing': (-57151789531773, 5386735509573634, -730117435), 'flag': (848481454961, -661830697), 'baseline': (848481454961, -661830697), 'readings': [(10351809, -238, 144454478595, 53, -3018457), (1451, -88448376094906800, -4313344, -2192, -559433), (-7704679312226806251068063744, -3315, -552581500786412290048, -3445267617, 109213), (307, -57522469084045, 512, -1037, -1768), (-579241, 91298399, 155579, -34953, -1191308055355873), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (109213, -30589104, -2251799813685248, 115779805, -10239), (-159050020293, -38521767709358920, -67404, 88410010696, 842854248), (-1037, -6490, 43, 160, 155501), (3274, -40848826981, -303, -467, -4301), (2813, -1996754, -2631, -6931, 1826)], 'now': 49973}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'None', 'traded_horizon_days': None, 'ic_mean': None, 'survival_ratio': None, 'states': [], 'digest': 'aaaaaaaaaaaaaaaa'}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}], 'flag': {'reason': 'plain', 'opened_at': '2026-08-27T11:59:59+00:00', 'age_days': 13, 'overdue': False, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+   "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+  },
+  {
+   "args": "{'now': -928, 'flag': None, 'baseline': None, 'readings': [(-67108865, -9104, -168, -125204756, -89614091), (-1392888545, 26777469992, -141, 2005, -3834832), (196359, 4309744, -713, 2251799813685248, 233), (-67108865, -9104, -168, -125204756, -89614091), (208665, -29832623176, -3944, -75630, 11972989453), (-67108865, -9104, -168, -125204756, -89614091)], 'standing': (-171, -295418209, 50331648)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'KeyError', \"'disposition'\")"
+  },
+  {
+   "args": "{'standing': (-171, -295418209, 50331648), 'now': 0, 'flag': None, 'readings': [(-67108865, -9104, -168, -125204756, -89614091), (-1392888545, 26777469992, -141, 2005, -3834832), (196359, 4309744, -713, 2251799813685248, 233), (-67108865, -9104, -168, -125204756, -89614091), (208665, -29832623176, -3944, -75630, 11972989453)], 'baseline': None}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "('raise', 'KeyError', \"'disposition'\")"
+  },
+  {
+   "args": "{'standing': (-171, -295418209, 50331648), 'now': 0, 'flag': None, 'readings': [(-67108865, -9104, -168, -125204756, -89614091), (-1392888545, 26777469992, -141, 2005, -3834832), (208665, -29832623176, -3944, -75630, 11972989453), (-67108865, -9104, -168, -125204756, -89614091), (208665, -29832623176, -3944, -75630, 11972989453)], 'baseline': None}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w0', 'reason': None}], 'flag': None}"
+  },
+  {
+   "args": "{'standing': (270, 4009, 99634737754), 'now': -120067, 'baseline': (21073982442, 21073982442), 'flag': (14886667336830457856, 21073982442), 'readings': [(-655913, -1802, 713, -21751, 127665), (-7641353333416919, 1456, 2465343, 11457755, 17412), (189233765435857408, 3040, -2095, -48499680, 19073766445846), (-808153876, 29129791222134593441234944, -6716584, -131072, -836247), (-7641353333416919, 1456, 2465343, 11457755, 17412), (270, 392038567545, -193576094477804, 74465, 772), (-1553, -1271, 76293, -175, -586), (-7641353333416919, 1456, 2465343, 11457755, 17412), (-655913, -1802, 713, -21751, 127665)]}",
+   "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'scored', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': ['calm', 'stress'], 'digest': 'aaaaaaaaaaaaaaaa'}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': None}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-12T11:59:59+00:00', 'age_days': 28, 'overdue': True, 'event_id': ",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': {'route': 'scored', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': 0.8, 'states': ['calm', 'stress'], 'digest': 'aaaaaaaaaaaaaaaa'}, 'baseline_note': None, 'readings': [{'monitor': 'Peak minus mean IC', 'key': 'ic_gap', 'window': 'w1', 'value': 189233765435857408, 'boundary': 3040, 'comparator': '>=', 'units': 'u', 'disposition': 'Did not run', 'limitation': None, 'judged_at': '2026-09-07 12:00:00+00:00'}], 'readings_note': None, 'not_run': [], 'flag': {'reason': "
+  },
+  {
+   "args": "{'flag': (16866, 174517079), 'standing': (-249, 1097, -78488), 'now': -31468245136, 'readings': [(3207194, 2146, 16627, 6812, 1019857), (-13293917390079868780150784, -4182170828970724, 68823, 55163163889, 1112), (3207194, 2146, 16627, 6812, 1019857)], 'baseline': None}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w2', 'reason': None}, {'window': 'w2', 'reason': None}], 'flag': {'reason': 'plain', 'opened_at': '2026-09-01T12:00:00+00:00', 'age_days': 8, 'overdue': False, 'event_id': 'FEV', 'decision_id': 'dec'}}"
+  },
+  {
+   "args": "{'flag': (16866, 174517079), 'standing': (2146, 1097, -78488), 'now': -31468245136, 'readings': [(3207194, 2146, 16627, 6812, 1019857), (-13293917390079868780150784, -4182170828970724, 68823, 55163163889, 1112), (3207194, 2146, 16627, 6812, 1019857)], 'baseline': None}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Admitted', 'since': '2026-08-16', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w2', 'reason': None}, {'window': 'w2', 'reason': None}], 'flag': {'reason': 'plain', 'opened_at': '2026-09-01T12:00:00+00:00', 'age_days': 8, 'overdue': False, 'event_id': 'FEV', 'decision_id': 'dec'}}"
+  },
+  {
+   "args": "{'flag': (16866, 174517079), 'standing': (2146, 1097, -78488), 'now': -31468245136, 'readings': [(-13293917390079868780150784, -4182170828970724, 68823, 55163163889, 1112), (-13293917390079868780150784, -4182170828970724, 68823, 55163163889, 1112), (3207194, 2146, 16627, 6812, 1019857)], 'baseline': None}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Admitted', 'since': '2026-08-16', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w2', 'reason': None}], 'flag': {'reason': 'plain', 'opened_at': '2026-09-01T12:00:00+00:00', 'age_days': 8, 'overdue': False, 'event_id': 'FEV', 'decision_id': 'dec'}}"
+  },
+  {
+   "args": "{'flag': (16866, 174517079), 'standing': (2146, 1097, -78488), 'now': -31468245136, 'readings': [(-13293917390079868780150784, -4182170828970724, 68823, 55163163889, 1112), (-13293917390079868780150784, -4182170828970724, 68823, 55163163889, 1112), (3207194, 2146, 16627, 6812, 1019857)], 'baseline': (16866, 174517079)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Admitted', 'since': '2026-08-16', 'revision': 2, 'baseline': {'route': 'scored', 'traded_horizon_days': None, 'ic_mean': 0.05, 'survival_ratio': None, 'states': [], 'digest': 'aaaaaaaaaaaaaaaa'}, 'baseline_note': None, 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w2', 'reason': None}], 'flag': {'reason': 'plain', 'opened_at': '2026-09-01T12:00:00+00:00', 'age_days': 8, 'overdue': False, 'event_id': 'FEV', 'decision_id': 'dec'}}"
+  },
+  {
+   "args": "{'readings': [(104921975, -313488, -8156992048628044909485339181056, -2322, 103996880646848798180046274560), (104921975, -313488, -8156992048628044909485339181056, -2322, 103996880646848798180046274560), (104921975, -313488, -8156992048628044909485339181056, -2322, 103996880646848798180046274560)], 'now': 552473786, 'baseline': None, 'flag': None, 'standing': (312, 312, 766)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w2', 'reason': 'no IC'}, {'window': 'w2', 'reason': 'no IC'}, {'window': 'w2', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(104921975, -313488, -8156992048628044909485339181056, -2322, 103996880646848798180046274560), (104921975, -313488, -313488, -2322, 103996880646848798180046274560), (104921975, -313488, -8156992048628044909485339181056, -2322, 103996880646848798180046274560)], 'now': 552473786, 'baseline': None, 'flag': None, 'standing': (312, 312, 766)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w2', 'reason': 'no IC'}, {'window': 'w2', 'reason': 'no IC'}, {'window': 'w2', 'reason': 'no IC'}], 'flag': None}"
+  },
+  {
+   "args": "{'readings': [(104921975, 103996880646848798180046274560, -8156992048628044909485339181056, -2322, 103996880646848798180046274560), (104921975, -313488, -313488, -2322, 103996880646848798180046274560), (104921975, -313488, -8156992048628044909485339181056, -2322, 103996880646848798180046274560)], 'now': 552473786, 'baseline': None, 'flag': None, 'standing': (312, 312, 766)}",
+   "c_standing": "('raise', 'KeyError', \"'monitor'\")",
+   "k_standing": "{'signal': 'carry', 'version': 3, 'standing': 'No recorded standing', 'since': None, 'revision': None, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w2', 'reason': 'no IC'}, {'window': 'w2', 'reason': 'no IC'}, {'window': 'w2', 'reason': 'no IC'}], 'flag': None}"
+  }
+ ],
+ "first": {
+  "args": "{'flag': (4089506564114, 25108), 'readings': [(-35369, -10395, 649834568, -121645100408832001, 14213909326090752)], 'standing': (-9894711944, 1340, 26504159118515142790473801466380288), 'baseline': None, 'now': 41363}",
+  "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-20', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-24T12:00:00+00:00', 'age_days': 16, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+  "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+ },
+ "verdict": "found"
+}

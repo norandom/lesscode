@@ -1,0 +1,12 @@
+{
+ "pair": "compare",
+ "kind": "plant",
+ "sides": [
+  "k_compare",
+  "c_compare"
+ ],
+ "deadline_s": 408.0,
+ "exit": 1,
+ "output": "Given: (rows=[(0, 2, 23, 0, 3), (2, 2, 0, 0, 1), (0, 2, 23, 0, 3), (0, 0, 0, 0, 0), (0, 0, 0, 0, 0), (0, 0, 0, 0, 0)], fresh=[(0, 25, 0, 2)]),\n  e5_drivers.k_compare : returns \"(['survival                 DIFFERS  was not_run 23', 'survival                 DIFFERS  was not_run 23'], 0)\"\n  e5_drivers.c_compare : returns \"(['survival                 DIFFERS  was not_run 23', 'survival                 DIFFERS  was not_run 23'], 1)\"\n",
+ "verdict": "counterexample"
+}

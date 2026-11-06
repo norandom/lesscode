@@ -1,0 +1,47 @@
+{
+ "logs\\e5-compare-solve-plant.crosshair.txt": {
+  "sha256": "a22ed4431d1a6852d1cd87727f60497c4791c2fe332929909f1891f2d7348f66",
+  "given": true,
+  "verdict": "counterexample"
+ },
+ "logs\\e5-compare-solve-rename.crosshair.txt": {
+  "sha256": "3271776d89c7be4c6d0021230bbf75d113103ac5ce13b9633d3ca5937358e3d2",
+  "given": false,
+  "verdict": "exhausted"
+ },
+ "logs\\e5-compare-solve-pair.crosshair.txt": {
+  "sha256": "c137d01542dc90209bfda790e99f88afebd62438224fac8d4f267259cdb6910f",
+  "given": true,
+  "verdict": "counterexample"
+ },
+ "logs\\e5-standing-solve-plant.crosshair.txt": {
+  "sha256": "8a39fec4c5e661ab70a9b89b42946451a4221d8c07699eca5c1ec522b74bb456",
+  "given": true,
+  "verdict": "counterexample"
+ },
+ "logs\\e5-standing-solve-rename.crosshair.txt": {
+  "sha256": "3271776d89c7be4c6d0021230bbf75d113103ac5ce13b9633d3ca5937358e3d2",
+  "given": false,
+  "verdict": "exhausted"
+ },
+ "logs\\e5-standing-solve-pair.crosshair.txt": {
+  "sha256": "db8b6d2ac8718dd84a57cc29cbe6e6acc0056dc090e8fe673f0fa97beae5138c",
+  "given": true,
+  "verdict": "counterexample"
+ },
+ "logs\\e5-window-solve-plant.crosshair.txt": {
+  "sha256": "188ccffd1ae03ca56c8fcb7b2d555367f20f375539eb894a945aca6956ad244c",
+  "given": false,
+  "verdict": "inconclusive"
+ },
+ "logs\\e5-window-solve-rename.crosshair.txt": {
+  "sha256": "3271776d89c7be4c6d0021230bbf75d113103ac5ce13b9633d3ca5937358e3d2",
+  "given": false,
+  "verdict": "exhausted"
+ },
+ "logs\\e5-window-solve-pair.crosshair.txt": {
+  "sha256": "13f477191feae1cfc6e46db39eb89544a24e5c3c34f7ce8fee8e71a33405e92f",
+  "given": false,
+  "verdict": "inconclusive"
+ }
+}

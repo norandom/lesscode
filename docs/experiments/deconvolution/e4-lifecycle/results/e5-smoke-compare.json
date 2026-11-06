@@ -1,0 +1,11 @@
+{
+ "pair": "compare",
+ "per_condition_timeout": "15",
+ "exit": 0,
+ "entries": {
+  "orig": 63,
+  "cand": 63
+ },
+ "output": [],
+ "symbolic": true
+}

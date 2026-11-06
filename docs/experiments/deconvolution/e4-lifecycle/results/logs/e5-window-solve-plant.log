@@ -1,0 +1,11 @@
+{
+ "pair": "window",
+ "kind": "plant",
+ "sides": [
+  "k_window",
+  "c_window"
+ ],
+ "deadline_s": 972.0,
+ "exit": 0,
+ "verdict": "inconclusive"
+}

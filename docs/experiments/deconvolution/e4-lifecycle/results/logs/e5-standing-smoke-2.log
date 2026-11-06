@@ -1,0 +1,10 @@
+{
+ "pair": "standing",
+ "per_condition_timeout": "15",
+ "exit": 0,
+ "entries": {
+  "orig": 22,
+  "cand": 22
+ },
+ "symbolic": true
+}

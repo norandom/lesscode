@@ -1,0 +1,11 @@
+{
+ "pair": "compare",
+ "kind": "pair",
+ "sides": [
+  "o_compare",
+  "c_compare"
+ ],
+ "deadline_s": 447.0,
+ "exit": 1,
+ "verdict": "counterexample"
+}

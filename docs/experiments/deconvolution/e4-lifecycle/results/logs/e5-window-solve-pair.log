@@ -1,0 +1,11 @@
+{
+ "pair": "window",
+ "kind": "pair",
+ "sides": [
+  "o_window",
+  "c_window"
+ ],
+ "deadline_s": 732.0,
+ "exit": 0,
+ "verdict": "inconclusive"
+}

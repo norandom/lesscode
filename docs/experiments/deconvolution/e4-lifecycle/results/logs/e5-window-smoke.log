@@ -1,0 +1,10 @@
+{
+ "pair": "window",
+ "per_condition_timeout": "15",
+ "exit": 1,
+ "entries": {
+  "orig": 3,
+  "cand": 3
+ },
+ "symbolic": true
+}

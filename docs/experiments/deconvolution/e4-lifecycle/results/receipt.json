@@ -5108,6 +5108,606 @@
    "seconds": 0.21,
    "exit": 0,
    "adaptive": null
+  },
+  {
+   "label": "e5-compare-solve-plant",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "compare",
+    "--deadline",
+    "408",
+    "--kind",
+    "plant"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T14:15:11.543259+00:00",
+   "end_utc": "2026-11-06T14:22:36.908676+00:00",
+   "seconds": 445.36,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T15:15:11",
+    "cpu_total": 26.9375769556398,
+    "cpu_other": 0.26937576955639797,
+    "ram_free_gb": 10.54,
+    "bench_s": 0.252,
+    "pid": 43596
+   }
+  },
+  {
+   "label": "e5-compare-solve-rename",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "compare",
+    "--deadline",
+    "447",
+    "--kind",
+    "rename"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T14:32:17.932582+00:00",
+   "end_utc": "2026-11-06T14:32:30.855536+00:00",
+   "seconds": 12.92,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T15:32:17",
+    "cpu_total": 32.6288868137258,
+    "cpu_other": 0.326288868137258,
+    "ram_free_gb": 14.17,
+    "bench_s": 0.454,
+    "pid": 41636
+   }
+  },
+  {
+   "label": "e5-compare-solve-pair",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "compare",
+    "--deadline",
+    "447",
+    "--kind",
+    "pair"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T14:33:43.915756+00:00",
+   "end_utc": "2026-11-06T14:41:27.851689+00:00",
+   "seconds": 463.93,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T15:33:43",
+    "cpu_total": 32.687396048091,
+    "cpu_other": 0.32687396048091005,
+    "ram_free_gb": 12.68,
+    "bench_s": 0.292,
+    "pid": 40600
+   }
+  },
+  {
+   "label": "e5-standing-solve-plant",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "standing",
+    "--deadline",
+    "531",
+    "--kind",
+    "plant"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T15:03:07.919428+00:00",
+   "end_utc": "2026-11-06T15:12:15.091364+00:00",
+   "seconds": 547.17,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T16:03:07",
+    "cpu_total": 27.5599943765955,
+    "cpu_other": 0.27559994376595504,
+    "ram_free_gb": 9.58,
+    "bench_s": 0.435,
+    "pid": 9416
+   }
+  },
+  {
+   "label": "e5-standing-solve-rename",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "standing",
+    "--deadline",
+    "402",
+    "--kind",
+    "rename"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T15:16:47.060265+00:00",
+   "end_utc": "2026-11-06T15:16:53.759614+00:00",
+   "seconds": 6.7,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T16:16:46",
+    "cpu_total": 23.4394341778962,
+    "cpu_other": 0.23439434177896198,
+    "ram_free_gb": 11.81,
+    "bench_s": 0.256,
+    "pid": 46380
+   }
+  },
+  {
+   "label": "e5-standing-solve-pair",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "standing",
+    "--deadline",
+    "390",
+    "--kind",
+    "pair"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T15:17:43.292396+00:00",
+   "end_utc": "2026-11-06T15:24:38.645741+00:00",
+   "seconds": 415.35,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T16:17:42",
+    "cpu_total": 20.2209534927193,
+    "cpu_other": 0.20220953492719299,
+    "ram_free_gb": 11.71,
+    "bench_s": 0.303,
+    "pid": 43640
+   }
+  },
+  {
+   "label": "e5-window-solve-plant",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "window",
+    "--deadline",
+    "972",
+    "--kind",
+    "plant"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T15:26:14.777479+00:00",
+   "end_utc": "2026-11-06T15:42:44.889601+00:00",
+   "seconds": 990.11,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T16:26:14",
+    "cpu_total": 15.3785814018265,
+    "cpu_other": 0.153785814018265,
+    "ram_free_gb": 16.75,
+    "bench_s": 0.358,
+    "pid": 35304
+   }
+  },
+  {
+   "label": "e5-window-solve-rename",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "window",
+    "--deadline",
+    "387",
+    "--kind",
+    "rename"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T15:59:33.217377+00:00",
+   "end_utc": "2026-11-06T15:59:38.301099+00:00",
+   "seconds": 5.08,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T16:59:32",
+    "cpu_total": 14.5151492592124,
+    "cpu_other": 0.145151492592124,
+    "ram_free_gb": 14.2,
+    "bench_s": 0.278,
+    "pid": 23324
+   }
+  },
+  {
+   "label": "e5-window-solve-pair",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--solve",
+    "window",
+    "--deadline",
+    "732",
+    "--kind",
+    "pair"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T16:00:12.202632+00:00",
+   "end_utc": "2026-11-06T16:12:31.666081+00:00",
+   "seconds": 739.46,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T17:00:11",
+    "cpu_total": 7.7612835098685,
+    "cpu_other": 0.077612835098685,
+    "ram_free_gb": 14.38,
+    "bench_s": 0.27,
+    "pid": 10508
+   }
+  },
+  {
+   "label": "e5-compare-replay",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--replay",
+    "compare",
+    "..\\results\\logs\\e5-compare-solve-plant.log",
+    "..\\results\\logs\\e5-compare-solve-pair.log"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T16:13:01.076053+00:00",
+   "end_utc": "2026-11-06T16:13:06.053053+00:00",
+   "seconds": 4.98,
+   "exit": 1,
+   "adaptive": null
+  },
+  {
+   "label": "e5-standing-replay",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--replay",
+    "standing",
+    "..\\results\\logs\\e5-standing-solve-plant.log",
+    "..\\results\\logs\\e5-standing-solve-pair.log"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T16:13:06.363289+00:00",
+   "end_utc": "2026-11-06T16:13:11.133151+00:00",
+   "seconds": 4.77,
+   "exit": 1,
+   "adaptive": null
+  },
+  {
+   "label": "e5-gates-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--gates"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T16:13:11.425750+00:00",
+   "end_utc": "2026-11-06T16:13:12.960610+00:00",
+   "seconds": 1.53,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e5-given-extract",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import json, pathlib, hashlib; out = {}\nfor p in ('compare', 'standing', 'window'):\n    for k in ('plant', 'rename', 'pair'):\n        j = json.load(open(f'e5-solve-{p}-{k}.json', encoding='utf-8')); t = pathlib.Path('logs') / f'e5-{p}-solve-{k}.crosshair.txt'\n        t.write_text(j['output'], encoding='utf-8'); out[str(t)] = {'sha256': hashlib.sha256(t.read_bytes()).hexdigest(), 'given': 'Given:' in j['output'], 'verdict': j['verdict']}\nprint(json.dumps(out, indent=1))"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results",
+   "env": {},
+   "start_utc": "2026-11-06T16:13:34.735560+00:00",
+   "end_utc": "2026-11-06T16:13:34.903245+00:00",
+   "seconds": 0.17,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e5-compare-replay-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--replay",
+    "compare",
+    "..\\results\\logs\\e5-compare-solve-plant.crosshair.txt",
+    "..\\results\\logs\\e5-compare-solve-pair.crosshair.txt"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T16:13:35.122421+00:00",
+   "end_utc": "2026-11-06T16:13:38.431272+00:00",
+   "seconds": 3.31,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e5-standing-replay-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--replay",
+    "standing",
+    "..\\results\\logs\\e5-standing-solve-plant.crosshair.txt",
+    "..\\results\\logs\\e5-standing-solve-pair.crosshair.txt"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T16:13:38.602075+00:00",
+   "end_utc": "2026-11-06T16:13:41.802838+00:00",
+   "seconds": 3.2,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e5-gates-3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--gates"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T16:13:41.986083+00:00",
+   "end_utc": "2026-11-06T16:13:42.927442+00:00",
+   "seconds": 0.94,
+   "exit": 1,
+   "adaptive": null
+  },
+  {
+   "label": "e5-gates-4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e5_drivers.py",
+    "--gates"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\differential",
+   "env": {
+    "PYTHONPATH": "D:\\Source\\lesscode\\.runs\\e1c-facdrone\\extras;D:\\Source\\lesscode\\.runs\\e1b-facdrone\\extras",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T16:15:55.545759+00:00",
+   "end_utc": "2026-11-06T16:15:56.506049+00:00",
+   "seconds": 0.96,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e6-hash7-before",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\hash7.py",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:21:37.814861+00:00",
+   "end_utc": "2026-11-06T16:21:37.971469+00:00",
+   "seconds": 0.16,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e6-shim-compile",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import ast, sys; src = open('e4_record2.py', encoding='utf-8').read(); ast.parse(src); print('ok', len(src.splitlines()), 'lines')"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:22:13.208615+00:00",
+   "end_utc": "2026-11-06T16:22:13.349037+00:00",
+   "seconds": 0.14,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e6-record-a",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e4_record2.py",
+    "record",
+    "--out",
+    "D:/Source/lesscode/.runs/e4-lifecycle/held-out-a.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-06T16:23:00.600247+00:00",
+   "end_utc": "2026-11-06T16:23:27.142705+00:00",
+   "seconds": 26.54,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T17:23:00",
+    "cpu_total": 22.41838935909,
+    "cpu_other": 0.2241838935909,
+    "ram_free_gb": 14.12,
+    "bench_s": 0.199,
+    "pid": 37084
+   }
+  },
+  {
+   "label": "e6-record-b",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e4_record2.py",
+    "record",
+    "--out",
+    "D:/Source/lesscode/.runs/e4-lifecycle/held-out-b.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-06T16:23:58.407696+00:00",
+   "end_utc": "2026-11-06T16:24:22.024444+00:00",
+   "seconds": 23.62,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T17:23:58",
+    "cpu_total": 11.8353576880355,
+    "cpu_other": 0.11835357688035501,
+    "ram_free_gb": 13.9,
+    "bench_s": 0.207,
+    "pid": 15448
+   }
+  },
+  {
+   "label": "e6-validate",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\e66_validate.py"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:24:30.226761+00:00",
+   "end_utc": "2026-11-06T16:24:30.562322+00:00",
+   "seconds": 0.34,
+   "exit": 0,
+   "adaptive": null
   }
  ],
  "facts": [
@@ -6336,6 +6936,396 @@
     "e4-rates-check-2"
    ],
    "supersedes_readme_hash_in": "task-6.4-summary"
+  },
+  {
+   "time_utc": "2026-11-06T16:15:55.362100+00:00",
+   "new": {
+    "e4-lifecycle/differential/e5_drivers.py": {
+     "lines": 192,
+     "sha256": "c65309ad73392d782dbe666a9cfaab68b7cb4c010c775974b8a0784e702a25e3"
+    },
+    "e4-lifecycle/differential/pairs.md": {
+     "lines": 178,
+     "sha256": "c7280d4c3ad82b05a7243e73dcfddfa28b0ceafb314b9eddd11be5456fea7ae4"
+    }
+   },
+   "rule": "re-registration after driver fix 4 (summary mode only; note e5-driver-fix-4)",
+   "key": "task-6.5-apparatus-5",
+   "date": "2026-11-06",
+   "solver_and_replay_results_from": "9fc4acbc56a57fee2d747ba743ea9a0147ec44595d7c14d6823e4de1448f87b2",
+   "counted_lines": {
+    "overrun": 43,
+    "allowance_6_5": 149,
+    "e5_drivers.py": 192
+   },
+   "supersedes": "task-6.5-apparatus-4"
+  },
+  {
+   "time_utc": "2026-11-06T16:15:56.908188+00:00",
+   "expressibility": {
+    "standing": "inexpressible: standing never None from the store; input outside the declared type Standing",
+    "compare": "inexpressible: no alphabet operation corrupts a stored reading row; input inside _compare declared type"
+   },
+   "key": "task-6.5-phase2",
+   "phase": "2 of 2 complete: nine solver runs, four concrete replays, gates summary e5-gates-4, README and pairs.md final",
+   "replays": {
+    "standing": "plant differ true; pair differ true (error ordering: standing None + states non-mapping)",
+    "compare": "plant differ true; pair differ true (F3 shape, KeyError monitor after an emitted line)"
+   },
+   "date": "2026-11-06",
+   "sha256": {
+    "e4-lifecycle/differential/e5_drivers.py": "c65309ad73392d782dbe666a9cfaab68b7cb4c010c775974b8a0784e702a25e3",
+    "e4-lifecycle/differential/pairs.md": "c7280d4c3ad82b05a7243e73dcfddfa28b0ceafb314b9eddd11be5456fea7ae4",
+    "e4-lifecycle/differential/README.md": "089e0ca4a7de622adf6beaa13fc5ac532015f41425b3d9e848722b2c22a4ecc7",
+    "e4-lifecycle/results/e5-corpus-compare.json": "98a1d84e910b30649d6380ba3a3d8b7b37fa8ca810c59b6c62ec235d54039986",
+    "e4-lifecycle/results/e5-corpus-standing.json": "6e80446e971aba6d978c3e6782aac20557d45cb04e5bc363ea8dc0d116fdf630",
+    "e4-lifecycle/results/e5-corpus-window.json": "0c5d5b2a634815b76d90897fc8152bc700a481bcf9681865f74ae63fd14ef65d",
+    "e4-lifecycle/results/e5-gates.json": "9abad2efa9f8b429a4d8d25f17376c21e8495fb4f6628136a2b48196ad6fc47f",
+    "e4-lifecycle/results/e5-plant-compare.json": "b05b963c9d5d939a212c9e9f9201e7cc1a9a500f67f7d0c403f8636f709f3400",
+    "e4-lifecycle/results/e5-plant-standing.json": "19a07cf3ee612b5070b0d2c3a0bbe22705317ac42e6df09c8e9c9550e08af94a",
+    "e4-lifecycle/results/e5-plant-window.json": "7e9f61e8a9cc2e5cb5b7707497c0a4dde4f0829126f7dc4034bb5e886431aa0c",
+    "e4-lifecycle/results/e5-rename-compare.json": "3ef71f8d62c3732d5add422e3031a00d06a5a4497bde19c4100f386c5c10d297",
+    "e4-lifecycle/results/e5-rename-standing.json": "aa79f611ac2f992cec2e54210611c8595db09dcac57117fd4ea4fc9e9f2b2a40",
+    "e4-lifecycle/results/e5-rename-window.json": "b48351d9407f46560bd082912917b84ebaa53f5a393f700c60e15b162cdf884c",
+    "e4-lifecycle/results/e5-replay-compare.json": "b44f2671eb779f60407b5640ddcdbf20d417ab515e41ea75023e3917296e3aa3",
+    "e4-lifecycle/results/e5-replay-standing.json": "e113499414425747a609e21d2ada22b11a1a335e1c8419e5d9eb19bb5b259029",
+    "e4-lifecycle/results/e5-smoke-compare.json": "2d4ceeb6a16cfb1bed09b1419025da3a831e1fb734802513267b450395afe9b8",
+    "e4-lifecycle/results/e5-smoke-standing.json": "f0a4764d03ed575ae9c6533681d51eac55035fb4a1edfd9f181bbfc32a730bad",
+    "e4-lifecycle/results/e5-smoke-window.json": "07f13f0b040bcc93ef61465631797311bca80324d410a460f93ef166b242d764",
+    "e4-lifecycle/results/e5-solve-compare-pair.json": "b3a63d392fab14aee0d9c1849d7b4611c4fe17787eaa4a4e36ade241ca4278d1",
+    "e4-lifecycle/results/e5-solve-compare-plant.json": "9313defe59adbd689c8d5f975257e4cbf572ab669c2602df91b9f028e19982ca",
+    "e4-lifecycle/results/e5-solve-compare-rename.json": "6dc33606d18eaa09084aa20bd64f02843ba1937ccd65800e569faaf1d7902731",
+    "e4-lifecycle/results/e5-solve-standing-pair.json": "891c35fd095677a34ced0c70d402658386ac34e4eac7ec544a4d13cc5914f2f1",
+    "e4-lifecycle/results/e5-solve-standing-plant.json": "db72a8c1c17b2405f3f484c47942f15d7f8ed353f56101fb9805c9a87f917c5c",
+    "e4-lifecycle/results/e5-solve-standing-rename.json": "35aa515b48f8a0e4566683c4ccb5a5f1c53434fe65167390577c94d3206e3e5e",
+    "e4-lifecycle/results/e5-solve-window-pair.json": "ac49e4473fe2077a37638b95b59a58dac2278c49b5833090d696bfd7c2846ba4",
+    "e4-lifecycle/results/e5-solve-window-plant.json": "6b0cbfac51d990d9a7cb0e4397044c9e9dac7c5c07e779a1d1d5f992bbb0900d",
+    "e4-lifecycle/results/e5-solve-window-rename.json": "b3876533a95b2dc12047f27c1ec5d75ddca053bf5880d3d02a544306e91f50b6",
+    "e4-lifecycle/results/logs/e5-compare-solve-pair.crosshair.txt": "c137d01542dc90209bfda790e99f88afebd62438224fac8d4f267259cdb6910f",
+    "e4-lifecycle/results/logs/e5-compare-solve-plant.crosshair.txt": "a22ed4431d1a6852d1cd87727f60497c4791c2fe332929909f1891f2d7348f66",
+    "e4-lifecycle/results/logs/e5-compare-solve-rename.crosshair.txt": "3271776d89c7be4c6d0021230bbf75d113103ac5ce13b9633d3ca5937358e3d2",
+    "e4-lifecycle/results/logs/e5-standing-solve-pair.crosshair.txt": "db8b6d2ac8718dd84a57cc29cbe6e6acc0056dc090e8fe673f0fa97beae5138c",
+    "e4-lifecycle/results/logs/e5-standing-solve-plant.crosshair.txt": "8a39fec4c5e661ab70a9b89b42946451a4221d8c07699eca5c1ec522b74bb456",
+    "e4-lifecycle/results/logs/e5-standing-solve-rename.crosshair.txt": "3271776d89c7be4c6d0021230bbf75d113103ac5ce13b9633d3ca5937358e3d2",
+    "e4-lifecycle/results/logs/e5-window-solve-pair.crosshair.txt": "13f477191feae1cfc6e46db39eb89544a24e5c3c34f7ce8fee8e71a33405e92f",
+    "e4-lifecycle/results/logs/e5-window-solve-plant.crosshair.txt": "188ccffd1ae03ca56c8fcb7b2d555367f20f375539eb894a945aca6956ad244c",
+    "e4-lifecycle/results/logs/e5-window-solve-rename.crosshair.txt": "3271776d89c7be4c6d0021230bbf75d113103ac5ce13b9633d3ca5937358e3d2"
+   },
+   "T6": "held on the compare pair under the per-pair reading (F3, H1, oracle-blind, error path, realised concretely, inexpressible); standing adds a new H8 error-ordering finding (F7 candidate); window void; under the strict reading of criterion 4 the differential contributes not found and T6 rests on the review probes F1, F3",
+   "solver": {
+    "compare": {
+     "plant": "counterexample 445.4 s (scaled 408, factor 1.36)",
+     "rename": "exhausted 16 iterations 12.9 s",
+     "pair": "counterexample 463.9 s (scaled 447, factor 1.45), not gated by check 2"
+    },
+    "window": {
+     "plant": "INCONCLUSIVE 5559 iterations 990.1 s (scaled 972, factor 3.24): solver control fails, pair void per brief; plan criterion 4 strict reading voids 6.5, owner decides in 6.7",
+     "rename": "exhausted 16 iterations 5.1 s",
+     "pair": "inconclusive 5719 iterations 739.5 s (scaled 732, factor 2.44), not read"
+    },
+    "total_command_seconds": 3626.2,
+    "standing": {
+     "plant": "counterexample 547.2 s (scaled 531, factor 1.41)",
+     "rename": "exhausted 16 iterations 6.7 s",
+     "pair": "counterexample 415.4 s (scaled 390, factor 1.36), not gated by check 2"
+    }
+   },
+   "budget": {
+    "running_total_known": "97 + 60 + 15 + 303 + e5_drivers",
+    "overrun": 43,
+    "e5_drivers_lines": 192,
+    "allowance": 149
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:22:13.026834+00:00",
+   "key": "task-6.6-apparatus",
+   "date": "2026-11-06",
+   "rule": "plan kill criterion 5: the 6.6 recorder shim registered by fact with hash and line count before its first run",
+   "new": {
+    "e4-lifecycle/e4_record2.py": {
+     "sha256": "427a6619c555d05cc10fe7fe5c671f828dd48a81ff80a15f00a10b45ba423e09",
+     "lines": 21
+    }
+   },
+   "counted_lines": {
+    "e4_record2.py": 21,
+    "allowance_6_6": 20,
+    "overrun": 1,
+    "running_total": "667 (fact task-6.5-phase1) + 21 = 688 of 900; tests excluded"
+   },
+   "what_it_does": "rebinds e4_oracle.SEED to 20261107 and e4_oracle.N_GENERATED to 48 before calling e4_oracle.record unchanged (26 seed + 48 generated sequences, same alphabet with lifecycle_review excluded, same normalisations); its replay mode calls e4_oracle.replay_engine unchanged and writes a Level 2 file; e4_oracle.py, run_e4.py and test_e4_replay.py are not edited (e4_oracle.py replay --golden and E4_SOURCE_ROOT already exist, plan 6.6)",
+   "reused_unchanged": {
+    "e4-lifecycle/e4_oracle.py": "a6d0b899bdb4506c399e36725296ec261d505e006a76a679240e4606c9bdbd1d",
+    "e4-lifecycle/run_e4.py": "3443be46423b52b47d89074c702df1a79a37a1dd74b9f66862cbf0b22fdd577b",
+    "e4-lifecycle/test_e4_replay.py": "7e3fabb383afa54d2a50c4d691bec7a84f6031c8b0b7c999956cad16d68001a1",
+    "guard.py": "ae8de275f9b8b8f81fe845235a1d109b2664e5d5ba65d6b35ed5f58474934d61",
+    "receipt_atomic.py": "defdc5d91a48a12164a52f00b797a7b8aa02a91862a8aed5165cbebbbf0e8bbd",
+    "adaptive.py": "bdc93ddb6789d5a60d2b284d29bf4596180b8c285470005b981686759f581b3a",
+    "adaptive-reference.json": "9724f3eb6f18e69d430357cb8849b97d7416b88345f71335416375cb59e3601f"
+   },
+   "scratch_helpers_not_apparatus": {
+    "e66_heavy.py": {
+     "sha256": "328310a3ecbf1c9f0799e8555fccaa1fd23074bb1bf193a762f9d20743fee494",
+     "lines": 23
+    },
+    "hash7.py": {
+     "sha256": "32914322ba73507c5084d513391a9a1b04c0ba9bb6424e57f72a37ae45b3a167",
+     "lines": 16
+    },
+    "hostfacts.py": {
+     "sha256": "747e6264543b500a3a395cf2efe45bf64a6e4341be76ecc822dfc025bf9c292a",
+     "lines": 31
+    }
+   },
+   "plan_6_6_names": {
+    "outputs": [
+     ".runs/e4-lifecycle/held-out-a.json",
+     ".runs/e4-lifecycle/held-out-b.json",
+     "sidecars .sha256"
+    ],
+    "labels": [
+     "e6-record-a",
+     "e6-record-b",
+     "e6-replay-frozen",
+     "e6-replay-cand",
+     "e6-replay-cand-l2"
+    ],
+    "deadline_base_s": {
+     "record": 600,
+     "replay": 600,
+     "source": "plan Budgets: recording base 600 s scaled; replay base 600 s scaled"
+    },
+    "seed": 20261107,
+    "generated": 48,
+    "seed_sequences": 26
+   },
+   "deviations_from_task_brief": [
+    "file names held-out-a/b.json as the frozen plan 6.6 names them, not golden2-a/b.json; the committed sidecar is results/held-out-e4.json.sha256",
+    "deadline base 600 s (plan Budgets) rather than the brief's 1200 s",
+    "the T7 replays use e4_oracle.py replay --golden exactly as plan 6.6 says; the Level 2 file results/sql-divergences-e6-cand.json the brief asks for is written by a second replay through the shim's replay mode (same replay_engine), label e6-replay-cand-l2"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T16:22:34.793641+00:00",
+   "key": "task-6.6-apparatus-2",
+   "date": "2026-11-06",
+   "supersedes": "task-6.6-apparatus",
+   "rule": "re-registration before the shim's first run: the two double blank-line separators became single ones so the file meets the plan's 20-line bound; no statement changed (e6-shim-compile ran on the 21-line version; no recording or replay has run)",
+   "new": {
+    "e4-lifecycle/e4_record2.py": {
+     "sha256": "567007a6ab267e261b048484b2f3968b45bc96fc76183622b1440031bba47fef",
+     "lines": 19
+    }
+   },
+   "counted_lines": {
+    "e4_record2.py": 19,
+    "allowance_6_6": 20,
+    "overrun": 0,
+    "running_total": "667 (fact task-6.5-phase1) + 19 = 686 of 900; tests excluded"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:24:17.446508+00:00",
+   "key": "task-6.5-review-fixes",
+   "verdict_6_5": "void under plan criterion 4 (window planted-mutant solver control failed); T6 holds on F3 and F1 from the 6.3 probes; compare and standing solver counterexamples reported as evidence, not credited",
+   "supersedes": "task-6.5-phase2 (text of README.md and pairs.md only)",
+   "date": "2026-11-06",
+   "rule": "text-only fixes after the independent review of 6.5; no rerun; results unchanged",
+   "files": {
+    "e4-lifecycle/differential/e5_drivers.py": {
+     "lines": 192,
+     "sha256": "c65309ad73392d782dbe666a9cfaab68b7cb4c010c775974b8a0784e702a25e3",
+     "note": "unchanged since task-6.5-apparatus-5"
+    },
+    "e4-lifecycle/differential/README.md": {
+     "sha256": "64a3b7e392da8dfe6c0e8f4a426dd2deb56177c43ee2e2e948497d1bf145cae3",
+     "lines": 150
+    },
+    "e4-lifecycle/differential/pairs.md": {
+     "sha256": "0b594bf92e2da2c433c4687868be86f205b52c46edfb651a446d4515e9ab2632",
+     "lines": 181
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:24:30.518679+00:00",
+   "key": "task-6.6-corpus",
+   "date": "2026-11-06",
+   "seed": 20261107,
+   "files": {
+    "held-out-a.json": {
+     "raw_sha256": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "raw_bytes": 5633158,
+     "crlf_in_raw": false,
+     "body_sha256": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "body_bytes": 5633158,
+     "raw_equals_body": true,
+     "sequences": 74,
+     "operations": 424,
+     "seed_sequences": 26,
+     "generated_sequences": 48,
+     "hypothesis_seed": 20261107,
+     "generated_requested": 48,
+     "root": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+     "hypothesis": "6.170.14",
+     "sqlalchemy": "2.0.50",
+     "alphabet_equals_acceptance": true,
+     "lifecycle_review_in_alphabet": false,
+     "scope_sha256_equals_acceptance": true,
+     "seed_ops_equal_acceptance": true,
+     "generated_only_signatures": [
+      "enroll:TransitionRefused<None",
+      "retire:TransitionRefused<None"
+     ],
+     "harness_suspects": [],
+     "sidecar_line1": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed  held-out-a.json",
+     "ops_per_generated": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      6,
+      6,
+      6,
+      6,
+      6,
+      7,
+      7,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "sidecar_line1_verifies": true
+    },
+    "held-out-b.json": {
+     "raw_sha256": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "raw_bytes": 5633158,
+     "crlf_in_raw": false,
+     "body_sha256": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "body_bytes": 5633158,
+     "raw_equals_body": true,
+     "sequences": 74,
+     "operations": 424,
+     "seed_sequences": 26,
+     "generated_sequences": 48,
+     "hypothesis_seed": 20261107,
+     "generated_requested": 48,
+     "root": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+     "hypothesis": "6.170.14",
+     "sqlalchemy": "2.0.50",
+     "alphabet_equals_acceptance": true,
+     "lifecycle_review_in_alphabet": false,
+     "scope_sha256_equals_acceptance": true,
+     "seed_ops_equal_acceptance": true,
+     "generated_only_signatures": [
+      "enroll:TransitionRefused<None",
+      "retire:TransitionRefused<None"
+     ],
+     "harness_suspects": [],
+     "sidecar_line1": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed  held-out-b.json",
+     "ops_per_generated": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      6,
+      6,
+      6,
+      6,
+      6,
+      7,
+      7,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "sidecar_line1_verifies": true
+    }
+   },
+   "byte_identical": true,
+   "identity": {
+    "body_sha256": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+    "body_bytes": 5633158,
+    "raw_sha256": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+    "raw_bytes": 5633158
+   },
+   "acceptance_corpus": {
+    "body_sha256": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+    "sequences": 50,
+    "operations": 317,
+    "hypothesis_seed": 20261106
+   },
+   "committed": "results/held-out-e4.json.sha256 only (file over 1 MB)",
+   "committed_sha256": "bd91a090811457c2cd395dbcaba18f14737f4131ce02b81b69adceecaacc5c1f"
   }
  ],
  "notes": [
@@ -18332,6 +19322,693 @@
      "factor_bench": 1.34,
      "factor_cpu": 1.36,
      "factor": 1.36
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T14:29:04.964700+00:00",
+   "key": "e5-phase2-stop-1",
+   "value": {
+    "text": "phase 2 series (scratch phase2.ps1: guard, probe note, receipted --solve per label, serial) was stopped by the Claude Code harness for critically low host memory after the first of nine runs completed (e5-compare-solve-plant: counterexample, 445.4 s at scaled 408 s, factor 1.36; the guard had waited 765.8 s for idle before it). The second label e5-compare-solve-rename had not started: no guard note, no deadline note, no command entry. No CrossHair or E2-venv process left running; free RAM 7.11 GB of 29.62 at the check. Not restarted by the implementer (harness rule: restart only when asked); the remaining eight runs, the replays and --gates wait for a renewed go",
+    "date": "2026-11-06",
+    "completed": [
+     "e5-compare-solve-plant"
+    ],
+    "remaining": [
+     "e5-compare-solve-rename",
+     "e5-compare-solve-pair",
+     "e5-standing-solve-plant",
+     "e5-standing-solve-rename",
+     "e5-standing-solve-pair",
+     "e5-window-solve-plant",
+     "e5-window-solve-rename",
+     "e5-window-solve-pair",
+     "replays",
+     "e5-gates-2"
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-06T14:30:20.314805+00:00",
+   "key": "e5-phase2-resume-1",
+   "value": {
+    "order": [
+     "e5-compare-solve-rename",
+     "e5-compare-solve-pair",
+     "e5-standing-solve-plant",
+     "e5-standing-solve-rename",
+     "e5-standing-solve-pair",
+     "e5-window-solve-plant",
+     "e5-window-solve-rename",
+     "e5-window-solve-pair",
+     "replays per Given log",
+     "e5-gates-2"
+    ],
+    "reason": "the Claude Code harness reaped the serial phase-2 script under host memory pressure after e5-compare-solve-plant completed; coordinator renewed the solver go",
+    "execution": "one label per background job from here (guard, probe note, receipted run), the next launched after the completion notification; drivers and parameters unchanged (e5_drivers.py 9fc4acbc...)",
+    "free_ram_gb_at_resume": 7.9,
+    "not_rerun": "e5-compare-solve-plant (completed, counterexample)",
+    "date": "2026-11-06"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T14:32:03.867595+00:00",
+   "key": "e5-compare-solve-rename-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T15:32:03",
+     "cpu_total": 23.0591890270653,
+     "cpu_other": 0.23059189027065302,
+     "ram_free_gb": 14.35,
+     "bench_s": 0.316,
+     "pid": 38168,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.49,
+     "factor_cpu": 1.3,
+     "factor": 1.49,
+     "waited_s": 95.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T14:32:10.843323+00:00",
+   "key": "e5-compare-solve-rename-deadline",
+   "value": {
+    "label": "e5-compare-solve-rename",
+    "base_s": 300,
+    "factor": 1.49,
+    "scaled_s": 447.0,
+    "probe": {
+     "time": "2026-11-06T15:32:10",
+     "cpu_total": 32.6816145266717,
+     "cpu_other": 0.32681614526671704,
+     "ram_free_gb": 14.23,
+     "bench_s": 0.3,
+     "pid": 3156,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.42,
+     "factor_cpu": 1.49,
+     "factor": 1.49
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T14:33:29.681280+00:00",
+   "key": "e5-compare-solve-pair-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T15:33:29",
+     "cpu_total": 31.2161441838174,
+     "cpu_other": 0.31216144183817396,
+     "ram_free_gb": 12.73,
+     "bench_s": 0.302,
+     "pid": 45976,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.42,
+     "factor_cpu": 1.45,
+     "factor": 1.45,
+     "waited_s": 43.2,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T14:33:36.975841+00:00",
+   "key": "e5-compare-solve-pair-deadline",
+   "value": {
+    "label": "e5-compare-solve-pair",
+    "base_s": 300,
+    "factor": 1.49,
+    "scaled_s": 447.0,
+    "probe": {
+     "time": "2026-11-06T15:33:36",
+     "cpu_total": 33.0504240955926,
+     "cpu_other": 0.33050424095592595,
+     "ram_free_gb": 12.63,
+     "bench_s": 0.308,
+     "pid": 38784,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.45,
+     "factor_cpu": 1.49,
+     "factor": 1.49
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:02:52.945069+00:00",
+   "key": "e5-standing-solve-plant-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T16:02:52",
+     "cpu_total": 27.9855006532626,
+     "cpu_other": 0.279855006532626,
+     "ram_free_gb": 9.91,
+     "bench_s": 0.298,
+     "pid": 37788,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.41,
+     "factor_cpu": 1.39,
+     "factor": 1.41,
+     "waited_s": 1265.6,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:03:00.020242+00:00",
+   "key": "e5-standing-solve-plant-deadline",
+   "value": {
+    "label": "e5-standing-solve-plant",
+    "base_s": 300,
+    "factor": 1.77,
+    "scaled_s": 531.0,
+    "probe": {
+     "time": "2026-11-06T16:02:59",
+     "cpu_total": 28.330796902986,
+     "cpu_other": 0.28330796902986,
+     "ram_free_gb": 9.53,
+     "bench_s": 0.375,
+     "pid": 31884,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.77,
+     "factor_cpu": 1.4,
+     "factor": 1.77
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:16:33.823017+00:00",
+   "key": "e5-standing-solve-rename-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T16:16:33",
+     "cpu_total": 29.8400067089656,
+     "cpu_other": 0.298400067089656,
+     "ram_free_gb": 11.75,
+     "bench_s": 0.307,
+     "pid": 45344,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.45,
+     "factor_cpu": 1.43,
+     "factor": 1.45,
+     "waited_s": 241.3,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:16:40.423846+00:00",
+   "key": "e5-standing-solve-rename-deadline",
+   "value": {
+    "label": "e5-standing-solve-rename",
+    "base_s": 300,
+    "factor": 1.34,
+    "scaled_s": 402.0,
+    "probe": {
+     "time": "2026-11-06T16:16:39",
+     "cpu_total": 25.6059717100903,
+     "cpu_other": 0.25605971710090303,
+     "ram_free_gb": 11.77,
+     "bench_s": 0.247,
+     "pid": 6944,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.17,
+     "factor_cpu": 1.34,
+     "factor": 1.34
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:17:30.308565+00:00",
+   "key": "e5-standing-solve-pair-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T16:17:30",
+     "cpu_total": 26.3896035859691,
+     "cpu_other": 0.26389603585969096,
+     "ram_free_gb": 11.68,
+     "bench_s": 0.264,
+     "pid": 41564,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.25,
+     "factor_cpu": 1.36,
+     "factor": 1.36,
+     "waited_s": 23.1,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:17:36.915000+00:00",
+   "key": "e5-standing-solve-pair-deadline",
+   "value": {
+    "label": "e5-standing-solve-pair",
+    "base_s": 300,
+    "factor": 1.3,
+    "scaled_s": 390.0,
+    "probe": {
+     "time": "2026-11-06T16:17:36",
+     "cpu_total": 23.1934718335851,
+     "cpu_other": 0.231934718335851,
+     "ram_free_gb": 11.69,
+     "bench_s": 0.255,
+     "pid": 37872,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.2,
+     "factor_cpu": 1.3,
+     "factor": 1.3
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:26:00.698133+00:00",
+   "key": "e5-window-solve-plant-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T16:26:00",
+     "cpu_total": 20.7674971038626,
+     "cpu_other": 0.20767497103862598,
+     "ram_free_gb": 16.83,
+     "bench_s": 0.31,
+     "pid": 43272,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.46,
+     "factor_cpu": 1.26,
+     "factor": 1.46,
+     "waited_s": 63.5,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:26:07.977979+00:00",
+   "key": "e5-window-solve-plant-deadline",
+   "value": {
+    "label": "e5-window-solve-plant",
+    "base_s": 300,
+    "factor": 3.24,
+    "scaled_s": 972.0,
+    "probe": {
+     "time": "2026-11-06T16:26:06",
+     "cpu_total": 36.2164652294931,
+     "cpu_other": 0.36216465229493106,
+     "ram_free_gb": 16.75,
+     "bench_s": 0.686,
+     "pid": 4588,
+     "ref_bench_s": 0.212,
+     "factor_bench": 3.24,
+     "factor_cpu": 1.57,
+     "factor": 3.24
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:59:20.733286+00:00",
+   "key": "e5-window-solve-rename-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T16:59:20",
+     "cpu_total": 9.26199971375649,
+     "cpu_other": 0.0926199971375649,
+     "ram_free_gb": 14.25,
+     "bench_s": 0.255,
+     "pid": 18948,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.2,
+     "factor_cpu": 1.1,
+     "factor": 1.2,
+     "waited_s": 950.2,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:59:27.092077+00:00",
+   "key": "e5-window-solve-rename-deadline",
+   "value": {
+    "label": "e5-window-solve-rename",
+    "base_s": 300,
+    "factor": 1.29,
+    "scaled_s": 387.0,
+    "probe": {
+     "time": "2026-11-06T16:59:26",
+     "cpu_total": 12.0972602945234,
+     "cpu_other": 0.120972602945234,
+     "ram_free_gb": 14.25,
+     "bench_s": 0.273,
+     "pid": 25200,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.29,
+     "factor_cpu": 1.14,
+     "factor": 1.29
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T15:59:59.238956+00:00",
+   "key": "e5-window-solve-pair-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T16:59:58",
+     "cpu_total": 13.9600557634222,
+     "cpu_other": 0.139600557634222,
+     "ram_free_gb": 14.38,
+     "bench_s": 0.253,
+     "pid": 46772,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.19,
+     "factor_cpu": 1.16,
+     "factor": 1.19,
+     "waited_s": 5.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:00:05.740334+00:00",
+   "key": "e5-window-solve-pair-deadline",
+   "value": {
+    "label": "e5-window-solve-pair",
+    "base_s": 300,
+    "factor": 2.44,
+    "scaled_s": 732.0,
+    "probe": {
+     "time": "2026-11-06T17:00:04",
+     "cpu_total": 16.2518693050751,
+     "cpu_other": 0.162518693050751,
+     "ram_free_gb": 14.39,
+     "bench_s": 0.517,
+     "pid": 13552,
+     "ref_bench_s": 0.212,
+     "factor_bench": 2.44,
+     "factor_cpu": 1.19,
+     "factor": 2.44
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:15:55.171099+00:00",
+   "key": "e5-driver-fix-4",
+   "value": {
+    "text": "--gates (e5-gates-3) crashed on the replay result files (lists); isinstance(v, str) became isinstance(v, (str, list)) in the one summary line. No gate, driver function, domain, mutant, renaming, deadline or verdict touched; every solver and replay result file predates the fix. Summary rebuilt as e5-gates-4",
+    "after": {
+     "pairs.md": "c7280d4c3ad82b05a7243e73dcfddfa28b0ceafb314b9eddd11be5456fea7ae4",
+     "e5_drivers.py": "c65309ad73392d782dbe666a9cfaab68b7cb4c010c775974b8a0784e702a25e3"
+    },
+    "date": "2026-11-06",
+    "before": {
+     "e5_drivers.py": "9fc4acbc56a57fee2d747ba743ea9a0147ec44595d7c14d6823e4de1448f87b2"
+    },
+    "kind": "summary mode only"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:16:02.498038+00:00",
+   "key": "e5-phase2-trees-unchanged",
+   "value": {
+    "date": "2026-11-06",
+    "after": "task 6.5 phase 2 (nine solver runs, replays, gates)",
+    "trees": {
+     "e4-t3-hash7-after-frozen": {
+      "match": true,
+      "files": 7
+     },
+     "e4-t3-hash7-after-cand": {
+      "match": true,
+      "files": 7
+     }
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:22:48.968942+00:00",
+   "key": "e6-record-a-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T17:22:48",
+     "cpu_total": 13.4476004951294,
+     "cpu_other": 0.134476004951294,
+     "ram_free_gb": 14.07,
+     "bench_s": 0.204,
+     "pid": 5376,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.96,
+     "factor_cpu": 1.16,
+     "factor": 1.16,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:22:54.726868+00:00",
+   "key": "e6-record-a-deadline",
+   "value": {
+    "label": "e6-record-a",
+    "base_s": 600.0,
+    "factor": 1.13,
+    "scaled_s": 678.0,
+    "probe": {
+     "time": "2026-11-06T17:22:54",
+     "cpu_total": 11.8029005734761,
+     "cpu_other": 0.118029005734761,
+     "ram_free_gb": 14.15,
+     "bench_s": 0.204,
+     "pid": 37084,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.96,
+     "factor_cpu": 1.13,
+     "factor": 1.13
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:23:46.693523+00:00",
+   "key": "e6-record-b-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T17:23:46",
+     "cpu_total": 19.0871688395422,
+     "cpu_other": 0.190871688395422,
+     "ram_free_gb": 13.89,
+     "bench_s": 0.232,
+     "pid": 35404,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.09,
+     "factor_cpu": 1.24,
+     "factor": 1.24,
+     "waited_s": 5.8,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:23:52.617770+00:00",
+   "key": "e6-record-b-deadline",
+   "value": {
+    "label": "e6-record-b",
+    "base_s": 600.0,
+    "factor": 1.14,
+    "scaled_s": 684.0,
+    "probe": {
+     "time": "2026-11-06T17:23:52",
+     "cpu_total": 12.5125708554941,
+     "cpu_other": 0.125125708554941,
+     "ram_free_gb": 13.9,
+     "bench_s": 0.205,
+     "pid": 15448,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.97,
+     "factor_cpu": 1.14,
+     "factor": 1.14
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:24:00.487315+00:00",
+   "key": "e5-timeouts",
+   "value": {
+    "date": "2026-11-06",
+    "rule": "receipt --timeout = round(scaled deadline + 120, 1) by construction of the runner scripts (phase2.ps1, phase2_one.ps1); receipt_atomic.py does not record the timeout per command, these are the values the runner printed",
+    "timeouts_s": {
+     "e5-compare-solve-plant": 528,
+     "e5-compare-solve-rename": 567,
+     "e5-compare-solve-pair": 567,
+     "e5-standing-solve-plant": 651,
+     "e5-standing-solve-rename": 522,
+     "e5-standing-solve-pair": 510,
+     "e5-window-solve-plant": 1092,
+     "e5-window-solve-rename": 507,
+     "e5-window-solve-pair": 852
+    },
+    "no_timeout_occurred": true,
+    "scaled_s": {
+     "e5-compare-solve-plant": 408,
+     "e5-compare-solve-rename": 447,
+     "e5-compare-solve-pair": 447,
+     "e5-standing-solve-plant": 531,
+     "e5-standing-solve-rename": 402,
+     "e5-standing-solve-pair": 390,
+     "e5-window-solve-plant": 972,
+     "e5-window-solve-rename": 387,
+     "e5-window-solve-pair": 732
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:24:17.223286+00:00",
+   "key": "e5-review-fixes",
+   "value": {
+    "source": "independent review of 6.5: NEEDS_FIXES, text only, all results confirmed",
+    "sha256": {
+     "pairs.md": "0b594bf92e2da2c433c4687868be86f205b52c46edfb651a446d4515e9ab2632",
+     "README.md": "64a3b7e392da8dfe6c0e8f4a426dd2deb56177c43ee2e2e948497d1bf145cae3"
+    },
+    "date": "2026-11-06",
+    "fixes": [
+     "README solver table factors from the -deadline notes (compare pair 1.49, standing plant 1.77, standing pair 1.30); standing plant listed as the third run above 1.5",
+     "criterion 4 read literally: 6.5 void as a whole; T6 paragraph led by the strict reading (holds on F3 and F1 from the 6.3 probes; solver counterexamples reported as evidence, not credited to 6.5); per-pair reading kept second, labelled; pairs.md wording corrected",
+     "compare pair counterexample decoding: _n truncates fresh to ic_gap, window, ic_gap, so survival is absent and DIFFERS is printed",
+     "budget: 667 as recorded, 672 live (e4_rates.py 55)",
+     "receipt timeouts per solve in note e5-timeouts (scaled + 120 by construction)",
+     "gate 1 stated as a path-count signal only"
+    ],
+    "no_reruns": true,
+    "lines": {
+     "pairs.md": 181,
+     "README.md": 150
+    },
+    "drivers_unchanged": "c65309ad73392d782dbe666a9cfaab68b7cb4c010c775974b8a0784e702a25e3"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:24:48.966153+00:00",
+   "key": "e6-replay-frozen-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T17:24:48",
+     "cpu_total": 23.5744355604983,
+     "cpu_other": 0.23574435560498302,
+     "ram_free_gb": 13.89,
+     "bench_s": 0.223,
+     "pid": 22364,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.05,
+     "factor_cpu": 1.31,
+     "factor": 1.31,
+     "waited_s": 5.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:24:54.807661+00:00",
+   "key": "e6-replay-frozen-deadline",
+   "value": {
+    "label": "e6-replay-frozen",
+    "base_s": 600.0,
+    "factor": 1.26,
+    "scaled_s": 756.0,
+    "probe": {
+     "time": "2026-11-06T17:24:54",
+     "cpu_total": 20.4173821740827,
+     "cpu_other": 0.204173821740827,
+     "ram_free_gb": 13.89,
+     "bench_s": 0.202,
+     "pid": 37996,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.95,
+     "factor_cpu": 1.26,
+     "factor": 1.26
     }
    }
   }

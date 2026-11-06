@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\differential\e5_drivers.py", line 183, in <module>
+    kw = {k.arg: ast.literal_eval(k.value) for k in ast.parse(f"f{re.search(r'Given: (\(.*\)),', text).group(1)}", mode="eval").body.keywords}
+                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'group'

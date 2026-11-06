@@ -1,0 +1,13 @@
+{
+ "a": "c_compare",
+ "b": "k_compare",
+ "n": 300,
+ "seed": 20261106,
+ "calls": 300,
+ "first": {
+  "args": "{'fresh': [], 'rows': [(-153824, -6405, 263446965, 2305843009213693952, -35369), (-65916137, -2373994289635790531854284594610176, 11520, 20261106, 11151)]}",
+  "c_compare": "(['ic_gap                   DIFFERS  was within 263446965', 'ic_gap                   DIFFERS  was within 11520'], 1)",
+  "k_compare": "(['ic_gap                   DIFFERS  was within 263446965', 'ic_gap                   DIFFERS  was within 11520'], 0)"
+ },
+ "verdict": "found"
+}

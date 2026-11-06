@@ -1,0 +1,12 @@
+{
+ "pair": "window",
+ "kind": "pair",
+ "sides": [
+  "o_window",
+  "c_window"
+ ],
+ "deadline_s": 732.0,
+ "exit": 0,
+ "output": "No differences found. (attempted 5719 iterations)\nConsider increasing the --max_uninteresting_iterations option.\n",
+ "verdict": "inconclusive"
+}

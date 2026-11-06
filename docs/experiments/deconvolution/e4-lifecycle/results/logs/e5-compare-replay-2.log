@@ -1,0 +1,16 @@
+[
+ {
+  "log": "e5-compare-solve-plant.crosshair.txt",
+  "args": "{'rows': [(0, 2, 23, 0, 3), (2, 2, 0, 0, 1), (0, 2, 23, 0, 3), (0, 0, 0, 0, 0), (0, 0, 0, 0, 0), (0, 0, 0, 0, 0)], 'fresh': [(0, 25, 0, 2)]}",
+  "k_compare": "(['survival                 DIFFERS  was not_run 23', 'survival                 DIFFERS  was not_run 23'], 0)",
+  "c_compare": "(['survival                 DIFFERS  was not_run 23', 'survival                 DIFFERS  was not_run 23'], 1)",
+  "differ": true
+ },
+ {
+  "log": "e5-compare-solve-pair.crosshair.txt",
+  "args": "{'rows': [(0, 2, 0, 0, 3), (2, 2, 0, 0, 0), (2, 2, 0, 0, 2)], 'fresh': [(1, 0, 0, 2), (2, 0, 0, 2), (1, 0, 0, 1), (0, 0, 0, 0)]}",
+  "o_compare": "(['survival                 DIFFERS  was not_run 0'], ('raise', 'KeyError', \"'monitor'\"))",
+  "c_compare": "([], ('raise', 'KeyError', \"'monitor'\"))",
+  "differ": true
+ }
+]

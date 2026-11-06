@@ -225,7 +225,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
     addressed by name in the survivor classification.
   - _Depends: 6.3_
   - _Requirements: 7.5, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
-- [ ] 6.5 Differential behind the four gates
+- [x] 6.5 Differential behind the four gates
   - Select at most the preregistered number of pure-function pairs between
     original and candidate, each tied to a named reviewer hypothesis, and
     author their drivers with recorded domains.
@@ -575,3 +575,33 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   by timestamp). Reviewed by an independent sonnet agent: NEEDS_FIXES
   (#12 misclassified, collision list, m15 Level 2 observation, README
   text) then APPROVED.
+- 6.5 (2026-11-06): `e4-lifecycle/differential/` (`e5_drivers.py` 192
+  lines against the plan's 149, overrun reported; `pairs.md`
+  preregistered before any gate ran, hash in the receipt). Three pairs,
+  the plan's cap: `compare` (H1/F3, H11; `_compare` echoes vs returns
+  lines), `standing` (H8, H7; `signal_standing` with six helpers vs one
+  body), `window` (H13; `for_window` with `_lookback` vs inlined). Gates:
+  smoke (a path-count signal only), generated corpus of 300 with seed
+  20261106 (compare differs 24/300 in the F3 shape, standing 2/300 in the
+  predicted error ordering, window agrees 300/300), planted mutant found
+  by the corpus on all three, renaming clean on all three. Solver (nine
+  runs, 300 s base scaled by receipted probes, 3,626 s in total, no
+  timeout; the first serial script was reaped by the harness under memory
+  pressure after one run and the rest ran one job each): compare plant
+  counterexample / rename exhausted / pair counterexample; standing the
+  same; window plant inconclusive at 990 s and pair inconclusive, so the
+  solver failed a control. Under the plan's criterion 4 that voids 6.5 as
+  a whole (reported as void; 6.2 to 6.4 and 6.6 stand). Evidence
+  reported anyway: the compare and standing counterexamples replay
+  concretely on both trees (original prints partial lines before
+  `KeyError: 'monitor'`, the candidate prints nothing; original and
+  candidate raise different AttributeErrors on `standing=None` with a
+  string baseline), both inexpressible by the alphabet (`readings`
+  returns whole rows; `standing` never yields None), the standing one a
+  new error-ordering difference proposed as F7. T6 reading: held, on F3
+  and F1 found by the 6.3 review's probes on both trees; the solver
+  evidence is not credited to 6.5. Reviewed by an independent sonnet
+  agent (every gate rerun in-process, byte-identical): NEEDS_FIXES
+  (factors quoted from the guard probe instead of the deadline note,
+  per-pair void wording, a counterexample decoding, timeouts not
+  recorded) then APPROVED.

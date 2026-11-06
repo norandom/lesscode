@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\differential\e5_drivers.py", line 189, in <module>
+    res = {q: {g: v if isinstance(v, str) else {k: w for k, w in v.items() if k not in ("mismatches", "output")} for g, v in gs.items()} for q, gs in res.items()}
+                                                                 ^^^^^^^
+AttributeError: 'list' object has no attribute 'items'

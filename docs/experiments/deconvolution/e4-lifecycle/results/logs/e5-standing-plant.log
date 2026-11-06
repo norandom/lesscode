@@ -1,0 +1,13 @@
+{
+ "a": "c_standing",
+ "b": "k_standing",
+ "n": 300,
+ "seed": 20261106,
+ "calls": 300,
+ "first": {
+  "args": "{'flag': (4089506564114, 25108), 'readings': [(-35369, -10395, 649834568, -121645100408832001, 14213909326090752)], 'standing': (-9894711944, 1340, 26504159118515142790473801466380288), 'baseline': None, 'now': 41363}",
+  "c_standing": "{'signal': 'carry', 'version': 3, 'standing': 'Candidate: not in the book', 'since': '2026-08-20', 'revision': 2, 'baseline': None, 'baseline_note': 'no admission baseline recorded', 'readings': [], 'readings_note': 'no reading recorded: the monitor has not judged this version', 'not_run': [{'window': 'w1', 'reason': 'no IC'}], 'flag': {'reason': 'IC at the traded horizon breached on 3 consecutive windows', 'opened_at': '2026-08-24T12:00:00+00:00', 'age_days': 16, 'overdue': True, 'event_id': 'FEV', 'decision_id': 'dec'}}",
+  "k_standing": "('raise', 'KeyError', \"'monitor'\")"
+ },
+ "verdict": "found"
+}

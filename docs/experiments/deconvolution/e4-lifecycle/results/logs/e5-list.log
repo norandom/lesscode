@@ -1,0 +1,35 @@
+{
+ "compare": {
+  "domain": "(rows: list[tuple[int, int, int, int, int]], fresh: list[tuple[int, int, int, int]]) -> object",
+  "sides": [
+   "o_compare",
+   "c_compare",
+   "k_compare",
+   "e_compare",
+   "ct_compare",
+   "et_compare"
+  ]
+ },
+ "standing": {
+  "domain": "(standing: tuple[int, int, int], baseline: Optional[tuple[int, int]], readings: list[tuple[int, int, int, int, int]], flag: Optional[tuple[int, int]], now: int) -> object",
+  "sides": [
+   "o_standing",
+   "c_standing",
+   "k_standing",
+   "e_standing",
+   "ct_standing",
+   "et_standing"
+  ]
+ },
+ "window": {
+  "domain": "(consumed: list[tuple[int, int, int, int, int]], states: list[tuple[int, int]], ic_days: int) -> object",
+  "sides": [
+   "o_window",
+   "c_window",
+   "k_window",
+   "e_window",
+   "ct_window",
+   "et_window"
+  ]
+ }
+}

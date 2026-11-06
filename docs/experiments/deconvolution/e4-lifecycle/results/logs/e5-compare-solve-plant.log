@@ -1,0 +1,11 @@
+{
+ "pair": "compare",
+ "kind": "plant",
+ "sides": [
+  "k_compare",
+  "c_compare"
+ ],
+ "deadline_s": 408.0,
+ "exit": 1,
+ "verdict": "counterexample"
+}

@@ -1,0 +1,10 @@
+{
+ "a": "c_compare",
+ "b": "e_compare",
+ "n": 300,
+ "seed": 20261106,
+ "calls": 300,
+ "mismatches": [],
+ "first": null,
+ "verdict": "no spurious"
+}

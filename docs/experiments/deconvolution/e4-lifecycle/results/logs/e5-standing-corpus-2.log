@@ -1,0 +1,13 @@
+{
+ "a": "o_standing",
+ "b": "c_standing",
+ "n": 300,
+ "seed": 20261106,
+ "calls": 300,
+ "first": {
+  "args": "{'now': 108346, 'readings': [(-1362482617948015, 290118, 846812, -396225293261, 90551803), (85267137806, 279, 1396, 938, -121470)], 'baseline': (153810, 5240), 'standing': (-9223372036854775807, -463, 17434), 'flag': None}",
+  "o_standing": "('raise', 'AttributeError', \"'NoneType' object has no attribute 'signal'\")",
+  "c_standing": "('raise', 'AttributeError', \"'str' object has no attribute 'get'\")"
+ },
+ "verdict": "differ"
+}

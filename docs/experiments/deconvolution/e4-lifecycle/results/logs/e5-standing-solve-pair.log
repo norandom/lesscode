@@ -1,0 +1,11 @@
+{
+ "pair": "standing",
+ "kind": "pair",
+ "sides": [
+  "o_standing",
+  "c_standing"
+ ],
+ "deadline_s": 390.0,
+ "exit": 1,
+ "verdict": "counterexample"
+}

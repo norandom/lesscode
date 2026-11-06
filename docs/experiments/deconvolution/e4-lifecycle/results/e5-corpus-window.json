@@ -1,0 +1,10 @@
+{
+ "a": "o_window",
+ "b": "c_window",
+ "n": 300,
+ "seed": 20261106,
+ "calls": 300,
+ "mismatches": [],
+ "first": null,
+ "verdict": "agree"
+}

@@ -1,0 +1,835 @@
+{
+ "a": "c_window",
+ "b": "k_window",
+ "n": 300,
+ "seed": 20261106,
+ "calls": 300,
+ "mismatches": [
+  {
+   "args": "{'ic_days': -2634, 'consumed': [(-153824, -6405, 263446965, 2305843009213693952, -35369), (-65916137, -2373994289635790531854284594610176, 11520, 4278190080, -756653), (-576, -55515433909, -622, 142976, 159434040662233801840014172841050112), (121727, -272, -6721345161811, -2364, -156), (-100000000000000001, 828, 858, -90046325884907996315648, 1328609769642654), (-2551, 221, -751, -3132957910, -62693)], 'states': []}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-10008, 3565, 113, 874517433, 42877), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (150, 278, -28617672, 11, 60597), (-693, -351, -422345, 638, -9248)], 'ic_days': -2417, 'states': [(-480, 364888), (-283399315724, 687)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (150, 278, -28617672, 11, 60597), (-693, -351, -422345, 638, -9248)], 'ic_days': -2417, 'states': [(-480, 364888), (-283399315724, 687)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (150, -298578, -28617672, 11, 60597), (-693, -351, -422345, 638, -9248)], 'ic_days': -2417, 'states': [(-480, 364888), (-283399315724, 687)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (150, -298578, -28617672, 11, 60597), (-693, -351, -422345, 638, -9248)], 'ic_days': -2417, 'states': [(-283399315724, 687), (-283399315724, 687)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (150, -298578, -28617672, 11, 60597), (-693, 150, -422345, 638, -9248)], 'ic_days': -2417, 'states': [(-283399315724, 687), (-283399315724, 687)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (-693, 150, -422345, 638, -9248)], 'ic_days': -2417, 'states': [(-283399315724, 687), (-283399315724, 687)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578), (2111146122397767936, 482, -274877906943, -133502850538084, -298578)], 'ic_days': -2417, 'states': [(-283399315724, 687), (-283399315724, 687)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': -296, 'consumed': [(-14472125, 31, 46395, 7305, -815170496319), (12939715, -179, 507, -3045, 51671), (-9803595, 280, 288, -5, -1339982)], 'states': [(-1661, 15622)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'ic_days': -296, 'consumed': [(-14472125, 31, 46395, 7305, -815170496319), (12939715, -179, 507, -3045, 51671), (-9803595, 280, 288, -5, -1339982)], 'states': [(-1661, 288)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'ic_days': -296, 'consumed': [(-14472125, 31, 46395, 7305, -815170496319), (12939715, -179, 507, -3045, 51671), (12939715, -179, 507, -3045, 51671)], 'states': [(-1661, 288)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'ic_days': -296, 'consumed': [(12939715, -179, 507, -3045, 51671), (12939715, -179, 507, -3045, 51671), (12939715, -179, 507, -3045, 51671)], 'states': [(-1661, 288)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'ic_days': -296, 'consumed': [(12939715, -179, 12939715, -3045, 51671), (12939715, -179, 507, -3045, 51671), (12939715, -179, 507, -3045, 51671)], 'states': [(-1661, 288)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'consumed': [(12939715, -179, 12939715, -3045, 51671), (12939715, -179, 507, -3045, 51671), (12939715, -179, 507, -3045, 51671)], 'states': [(12939715, -179)], 'ic_days': -3045}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'consumed': [(-2513, 794, -600, -64463, -3), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (2290, 873430180, -1134879900, -2526083882712953914621099398660096, 894), (-10819513, -511, -1844072, 798, 431709)], 'states': [(4194303, -496981), (251012, 2677387869325648), (4194303, -496981)], 'ic_days': -62727916238}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-2513, 794, -600, -64463, -3), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (2290, 873430180, -1134879900, -2526083882712953914621099398660096, 894), (-10819513, -511, -1844072, 798, -4072682811397867008)], 'states': [(4194303, -496981), (251012, 2677387869325648), (4194303, -496981)], 'ic_days': -62727916238}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-2513, 794, -600, -64463, -3), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (-10819513, -511, -1844072, 798, -4072682811397867008), (-10819513, -511, -1844072, 798, -4072682811397867008)], 'states': [(4194303, -496981), (251012, 2677387869325648), (4194303, -496981)], 'ic_days': -62727916238}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-2513, 794, 3160, -64463, -3), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (-10819513, -511, -1844072, 798, -4072682811397867008), (-10819513, -511, -1844072, 798, -4072682811397867008)], 'states': [(4194303, -496981), (251012, 2677387869325648), (4194303, -496981)], 'ic_days': -62727916238}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-2513, 794, 3160, -64463, -3), (-15763, -4072682811397867008, 3160, -12125726066465, 196648570594), (-15763, -4072682811397867008, 3160, -496981, 196648570594), (-10819513, -511, -1844072, 798, -4072682811397867008), (-10819513, -511, -1844072, 798, -4072682811397867008)], 'states': [(4194303, -496981), (251012, 2677387869325648), (4194303, -496981)], 'ic_days': -62727916238}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': -93896, 'states': [(-2428184, 812383883681), (-2428184, 812383883681)], 'consumed': [(655332471896091392, -781, -65638493178, -158139271069147430912, 371), (-428153, -4626232, 192, -34009553242, -2022674333439), (-509, -41781, -188002038758, 41950, 937226), (-428153, -4626232, 192, -34009553242, -2022674333439), (634818, 231, -45877007, -110178, 30831), (41247544, 193426482, 57899609467656, -15245630, -122361), (-132239, 136462, -313, -156843, 241), (-14891, 1781196563384, 14667, 64721578, 66274)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': -93896, 'states': [(-2428184, 812383883681), (-2428184, 812383883681)], 'consumed': [(655332471896091392, -781, -65638493178, -158139271069147430912, 371), (-14891, 1781196563384, 14667, 64721578, 66274), (-509, -41781, -188002038758, 41950, 937226), (-428153, -4626232, 192, -34009553242, -2022674333439), (634818, 231, -45877007, -110178, 30831), (41247544, 193426482, 57899609467656, -15245630, -122361), (-132239, 136462, -313, -156843, 241), (-14891, 1781196563384, 14667, 64721578, 66274)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': -93896, 'states': [(-2428184, 812383883681), (-2428184, 812383883681)], 'consumed': [(655332471896091392, -781, -65638493178, -158139271069147430912, 371), (-14891, 1781196563384, 14667, 64721578, 66274), (-509, -41781, -188002038758, 41950, 937226), (-428153, -4626232, 192, -34009553242, -2022674333439), (-14891, 1781196563384, 14667, 64721578, 66274), (41247544, 193426482, 57899609467656, -15245630, -122361), (-132239, 136462, -313, -156843, 241), (-14891, 1781196563384, 14667, 64721578, 66274)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': -93896, 'states': [(-2428184, 812383883681), (-2428184, 812383883681)], 'consumed': [(655332471896091392, -781, -65638493178, -158139271069147430912, 371), (-14891, 1781196563384, 14667, 64721578, 66274), (-509, -41781, -188002038758, 41950, 937226), (-428153, -4626232, 192, -34009553242, -2022674333439), (-14891, 1781196563384, 14667, 64721578, 66274), (41247544, 193426482, 57899609467656, -15245630, -122361), (-132239, 136462, -313, -156843, 241), (-14891, -2428184, 14667, 64721578, 66274)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'states': [(-1840876, -7594)], 'consumed': [(-205, -4430526, 10000, -14941, -7272), (624, 1866, -510510, -38621120, -9223372036854775808), (288472831, 4145, -10002994, -2913, -6292994042), (70, -618446, -24694, 30072572, 114097168558831274295296), (37663, 113, -2705, 2248, -2771209510683177472), (8876, 79, 357226267, -1031, 80951547790318354432)], 'ic_days': 103369}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-205, -4430526, 10000, -14941, -7272), (624, 1866, -510510, -38621120, -9223372036854775808), (288472831, 4145, -10002994, -2913, -6292994042), (70, -618446, -24694, 30072572, 114097168558831274295296), (37663, 113, -2705, 2248, -2771209510683177472)], 'states': [], 'ic_days': 0}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(99392456, 54187, 27306, 504, 42116372325608818999296), (-214219, -1125802382492544512, -10601359, 832792, 857023502), (-4152, 76939792039200832, -13566339064388308, 206, -13348)], 'ic_days': 45863321723368136, 'states': [(-2397, 1235809474), (-28144, 3204), (58896, -784), (43784, -5425376701), (-15200, 36228882339), (448163, -147939), (49, -467), (-201, -44), (42, -473299)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(130521, -636228, -19, 1559, -490), (-8392531516759892, 4430564643, 756, -4971481338576, 21115), (161351058, 4075, -51224, 10000000000001, 281474976710656), (268677, 634489510906966, 812811234429771038747997434198097920, 1793, 1274), (1093, 1162, 16679179879, -97, -1144)], 'states': [(-27169997, -34209506), (-316, -347)], 'ic_days': 12638}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(130521, -636228, -19, 1559, -490), (-8392531516759892, 4430564643, 756, -4971481338576, 21115), (161351058, 4075, -51224, 10000000000001, 281474976710656), (268677, 634489510906966, 812811234429771038747997434198097920, 1793, 1274), (1093, 1162, 16679179879, -97, -1144)], 'states': [(-27169997, -34209506), (-27169997, -34209506)], 'ic_days': 12638}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(130521, -636228, -19, 1559, -490), (-8392531516759892, 4430564643, 756, -4971481338576, 21115), (161351058, 4075, -51224, -4971481338576, 281474976710656), (268677, 634489510906966, 812811234429771038747997434198097920, 1793, 1274), (1093, 1162, 16679179879, -97, -1144)], 'states': [(-27169997, -34209506), (-27169997, -34209506)], 'ic_days': 12638}",
+   "c_window": "('raise', 'ValueError', 'conflicting latest consumed lookback')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(130521, -636228, -19, 1559, -490), (-8392531516759892, 4430564643, 756, -4971481338576, 21115), (130521, -636228, -19, 1559, -490), (268677, 634489510906966, 812811234429771038747997434198097920, 1793, 1274), (1093, 1162, 16679179879, -97, -1144)], 'states': [(-27169997, -34209506), (-27169997, -34209506)], 'ic_days': 12638}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(130521, -636228, -19, 1559, -490), (-8392531516759892, 4430564643, 756, -4971481338576, 21115), (-8392531516759892, 4430564643, 756, -4971481338576, 21115), (268677, 634489510906966, 812811234429771038747997434198097920, 1793, 1274), (1093, 1162, 16679179879, -97, -1144)], 'states': [(-27169997, -34209506), (-27169997, -34209506)], 'ic_days': 12638}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(130521, -636228, -19, 1559, -490), (1093, 1162, 16679179879, -97, -1144), (-8392531516759892, 4430564643, 756, -4971481338576, 21115), (268677, 634489510906966, 812811234429771038747997434198097920, 1793, 1274), (1093, 1162, 16679179879, -97, -1144)], 'states': [(-27169997, -34209506), (-27169997, -34209506)], 'ic_days': 12638}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(130521, -636228, -19, 1559, -490), (1093, 1162, 16679179879, -97, -1144), (268677, 634489510906966, 812811234429771038747997434198097920, 1793, 1274), (268677, 634489510906966, 812811234429771038747997434198097920, 1793, 1274), (1093, 1162, 16679179879, -97, -1144)], 'states': [(-27169997, -34209506), (-27169997, -34209506)], 'ic_days': 12638}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(13147, -124197738298684), (75, 11677070653), (-13245, 256)], 'consumed': [(13529751, -14912, -570178834017384576, -49700194415467, -4174), (-42495846234116584, 45715163, 620072575377383531269324800, -922118006, 2433), (13, -32613526538361790464, 473, 61092, -19275902644), (117, 59668, -7423261537, -717529, 46681312), (-1676508260, 3974, -796769783344000, -197300, 1944), (-561, -2200, 765298, 52657, -11415)], 'ic_days': 4145344}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(13147, -124197738298684), (75, 11677070653), (-13245, 256)], 'consumed': [(13529751, -14912, -570178834017384576, -49700194415467, -4174), (-42495846234116584, 45715163, 620072575377383531269324800, -922118006, 2433), (-561, -2200, 765298, 3974, -11415), (117, 59668, -7423261537, -717529, 46681312), (-1676508260, 3974, -796769783344000, -197300, 1944), (-561, -2200, 765298, 52657, -11415)], 'ic_days': 4145344}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'states': [(13147, -124197738298684), (75, 11677070653), (-13245, 256)], 'consumed': [(13529751, -14912, -570178834017384576, -49700194415467, -4174), (-42495846234116584, 45715163, 620072575377383531269324800, -922118006, 2433), (-561, -2200, 765298, 3974, -11415), (13529751, -14912, -570178834017384576, -49700194415467, -4174), (-1676508260, 3974, -796769783344000, -197300, 1944), (-561, -2200, 765298, 52657, -11415)], 'ic_days': 4145344}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(-1068773, 1613409, 7123, -4994805750236121057460224, 252326), (12780379758, -43805904, 4149, 88203399061100134400, -3339094), (-104867, -11225410, 13008, -297, -90), (670, -2264169668693, 4743056849884358, 147384, 191195107), (371, 974, 162347, -226, 9725735), (86825872169, 67, 526006174143, -307174, -21232)], 'states': [(-191994344823328, 770458), (1242194, 562949953421313)], 'ic_days': 187}",
+   "c_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(0.1,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=((datetime.date(2026, 9, 2), datetime.date(2026, 9, 5)),), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-1068773, 1613409, 7123, -4994805750236121057460224, 252326), (12780379758, -43805904, -191994344823328, 88203399061100134400, -3339094), (-104867, -11225410, 13008, -297, -90), (670, -2264169668693, 4743056849884358, 147384, 191195107), (371, 974, 162347, -226, 9725735), (86825872169, 67, 526006174143, -307174, -21232)], 'states': [(-191994344823328, 770458), (1242194, 562949953421313)], 'ic_days': 187}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-1068773, 1613409, 7123, -4994805750236121057460224, 252326), (12780379758, -43805904, -191994344823328, 88203399061100134400, -3339094), (-104867, -11225410, 13008, -297, -90), (-104867, -11225410, 13008, -297, -90), (371, 974, 162347, -226, 9725735), (86825872169, 67, 526006174143, -307174, -21232)], 'states': [(-191994344823328, 770458), (1242194, 562949953421313)], 'ic_days': 187}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-1068773, 1613409, 7123, -4994805750236121057460224, 252326), (12780379758, -43805904, -191994344823328, 88203399061100134400, -3339094), (-104867, -11225410, 13008, -297, -90), (-104867, -11225410, 13008, 9725735, -90), (371, 974, 162347, -226, 9725735), (86825872169, 67, 526006174143, -307174, -21232)], 'states': [(-191994344823328, 770458), (1242194, 562949953421313)], 'ic_days': 187}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-1068773, 1613409, 7123, -4994805750236121057460224, 252326), (12780379758, -43805904, -191994344823328, 88203399061100134400, -3339094), (-104867, -11225410, 13008, -297, -90)], 'states': [(371, 974)], 'ic_days': -226}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(12780379758, -43805904, -191994344823328, 88203399061100134400, -3339094), (12780379758, -43805904, -191994344823328, 88203399061100134400, -3339094), (-104867, -11225410, 13008, -297, -90)], 'states': [(371, 974)], 'ic_days': -226}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-25834077959854, -6102, 66, -109, -130), (2857146, 11003659, 4075, 123, 1277052), (-5701, -2144, -972820, -50700266465465, -1090233111915253), (1063, 1900034501277992704, -31273455989002416839469674616848384, -295, -292621194), (-51495539, -295025077318, -274877906944, -127458, 1269076968)], 'ic_days': 225, 'states': [(451, -22462508442)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'calm': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-5701, -2144, -972820, -50700266465465, -1090233111915253), (-51495539, -295025077318, -274877906944, -127458, 1269076968), (-5701, -2144, -972820, -50700266465465, -1090233111915253), (1063, 1900034501277992704, -31273455989002416839469674616848384, -295, -292621194), (-51495539, -295025077318, -274877906944, -127458, 1269076968)], 'ic_days': 225, 'states': [(451, -22462508442)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-5701, -2144, -972820, -50700266465465, -1090233111915253), (-51495539, -295025077318, -274877906944, -127458, 1269076968), (-5701, -2144, -972820, -50700266465465, -1090233111915253), (1063, 1900034501277992704, -31273455989002416839469674616848384, -295, -292621194), (-51495539, -295025077318, -274877906944, -127458, 1269076968)], 'states': [(1063, 1900034501277992704)], 'ic_days': -295}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-5701, -2144, -972820, -50700266465465, -1090233111915253), (-51495539, -295025077318, -274877906944, -127458, 1269076968), (-2144, -2144, -972820, -50700266465465, -1090233111915253), (1063, 1900034501277992704, -31273455989002416839469674616848384, -295, -292621194), (-51495539, -295025077318, -274877906944, -127458, 1269076968)], 'states': [(1063, 1900034501277992704)], 'ic_days': -295}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-5701, -2144, -972820, -50700266465465, -1090233111915253), (1063, -295025077318, -274877906944, -127458, 1269076968), (-2144, -2144, -972820, -50700266465465, -1090233111915253), (1063, 1900034501277992704, -31273455989002416839469674616848384, -295, -292621194), (-51495539, -295025077318, -274877906944, -127458, 1269076968)], 'states': [(1063, 1900034501277992704)], 'ic_days': -295}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(3037302029469004, 441), (274, 862438), (226, -1474827), (2179293193904141107200, -188778521815821)], 'ic_days': 152882, 'consumed': [(-13107, 2378086438350372, -15250439, -1091, -178500011), (-71441063288296964096, -674214, -2283, -181, -123753), (266970465141, 154651, 7718, -888, 40), (-223, 34114034763, 117, 2391789, 15825522), (93, 260, -289261, -17990804135, -1464), (-13799, 10135822, -1426609009, -55444936, -451134955), (-36308, -265782520968547, 878, -8549, -33551098), (7037069, 1783704289, -23450, -33853563, 989713), (54051, 3243, -58, -18837607, -15532)]}",
+   "c_window": "MonitorEvidence(ic_values=(0.2,), lookback_ic=(0.2,), dwell_days={'stress': 2}, state_ic={'stress': (0.2,)}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.2}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 5)),), state_intervals={'stress': ((datetime.date(2026, 9, 3), datetime.date(2026, 9, 5)),)})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-13107, 2378086438350372, -15250439, -1091, -178500011), (-71441063288296964096, -674214, -2283, -181, -123753), (266970465141, 154651, 7718, -888, 40), (3037302029469004, 441, 0, 93, 260)], 'states': [], 'ic_days': -1464}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(0.2,), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-1091, 2378086438350372, -15250439, -1091, -178500011), (-71441063288296964096, -674214, -2283, -181, -123753), (266970465141, 154651, 7718, -888, 40), (3037302029469004, 441, 0, 93, 260)], 'states': [], 'ic_days': -1464}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(0.2,), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-1091, 2378086438350372, -15250439, -1091, -178500011), (-71441063288296964096, -674214, -2283, -181, -123753), (266970465141, -15250439, 7718, -888, 40), (3037302029469004, 441, 0, 93, 260)], 'states': [], 'ic_days': -1464}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(0.2,), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(9444559, -30112), (68572, -50672), (-272819918293931, 526962)], 'ic_days': 154, 'consumed': [(-231481862, -8493428269848860, 6948684486284, -26681907314, 20), (-9, 141429362512823, -111552170917470958522013319168, -10861471, -15527), (1019, 51, -1564788, -519011, 6489745919997228032), (131512922, -25396750, -2160, 521311711724, 64164021), (-12725, -8764, -9003, 129761, 2605), (-3135538, -1869, 2942311, 11266, -131313332), (-3334, -2012393167, -2679, 24007, -14616228405349), (10326213560, -48947097, 123835514323633, -324704586791140416, -13418), (2674, -106175, -19752, 23330669, 124912849), (-333282818639816, 3015, -201647860280876695552, 65535, -122)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(9444559, -30112), (68572, -50672), (-272819918293931, 526962)], 'ic_days': 154, 'consumed': [(-231481862, -8493428269848860, 6948684486284, -26681907314, 20), (-9, 141429362512823, -111552170917470958522013319168, -10861471, -15527), (1019, 51, -1564788, -519011, 6489745919997228032), (131512922, -25396750, -2160, 521311711724, 64164021), (-12725, -8764, -9003, 129761, 2605), (-3135538, -1869, 2942311, 11266, -131313332), (-3334, -2012393167, -2679, 24007, -14616228405349), (10326213560, -48947097, -111552170917470958522013319168, -324704586791140416, -13418), (2674, -106175, -19752, 23330669, 124912849), (-333282818639816, 3015, -201647860280876695552, 65535, -122)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(9444559, -30112), (68572, -50672), (-272819918293931, 526962)], 'ic_days': 154, 'consumed': [(-231481862, -8493428269848860, 6948684486284, -26681907314, 20), (-9, 141429362512823, -111552170917470958522013319168, -10861471, -15527), (10326213560, -48947097, -111552170917470958522013319168, -324704586791140416, -13418), (131512922, -25396750, -2160, 521311711724, 64164021), (-12725, -8764, -9003, 129761, 2605), (-3135538, -1869, 2942311, 11266, -131313332), (-3334, -2012393167, -2679, 24007, -14616228405349), (10326213560, -48947097, -111552170917470958522013319168, -324704586791140416, -13418), (2674, -106175, -19752, 23330669, 124912849), (-333282818639816, 3015, -201647860280876695552, 65535, -122)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(9444559, -30112), (68572, -50672), (-272819918293931, 526962)], 'ic_days': 154, 'consumed': [(-231481862, -8493428269848860, 6948684486284, -26681907314, 20), (-9, 141429362512823, -111552170917470958522013319168, -10861471, -15527), (10326213560, -48947097, -111552170917470958522013319168, -324704586791140416, -13418), (131512922, -25396750, -2160, 521311711724, 64164021), (-12725, -8764, -9003, 129761, 2605), (-12725, -8764, -9003, 129761, 2605), (-3334, -2012393167, -2679, 24007, -14616228405349), (10326213560, -48947097, -111552170917470958522013319168, -324704586791140416, -13418), (2674, -106175, -19752, 23330669, 124912849), (-333282818639816, 3015, -201647860280876695552, 65535, -122)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-231481862, -8493428269848860, 6948684486284, -26681907314, 20), (-9, 141429362512823, -111552170917470958522013319168, -10861471, -15527), (10326213560, -48947097, 0, 131512922, -25396750)], 'states': [], 'ic_days': 64164021}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-231481862, -8493428269848860, 6948684486284, -26681907314, 20), (-9, 141429362512823, -111552170917470958522013319168, -10861471, -15527), (10326213560, -48947097, 0, -231481862, -25396750)], 'states': [], 'ic_days': 64164021}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(-537765, 900167953861), (272, 499), (-17598014, -42128)], 'consumed': [(-10809938518, 108075, 215, -4153230, -10401050270359), (295160472453473828864, -10993, 252, -1163, -1758304), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (-4425, -162144, -421, -9969, -103045481264812), (-1273, -1187148, 668869992921787, 2141, 10202), (-7430396, 1511684, 670498, 1312, -496), (-22742, -197977, -1701, -1282, 10670), (-6824331, -366, 245, -2030377042020521213952, 190119643), (-42976030406113124352, -8901, -8297019893606289319657472, -416, 183), (-737420, -15295515141639, -219, -34151930, -17539756828060192), (511, -22541498454, -55463, -13, 1613), (-704150, -78800765, 2922, 1418, 114), (-39034001, -999999999999999, 1260, -4117145, -3868986), (-162320190243824, 44007, 40574, 5866326, 65535), (250, -219, -13412610933808295936, -526663468432191424, -482), (6387, -7084, -272105, -21995, 181)], 'ic_days': -32800}",
+   "c_window": "MonitorEvidence(ic_values=(0.3,), lookback_ic=(0.3,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.3}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 5)),), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(-537765, 900167953861), (-537765, 900167953861), (-17598014, -42128)], 'consumed': [(-10809938518, 108075, 215, -4153230, -10401050270359), (295160472453473828864, -10993, 252, -1163, -1758304), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (-4425, -162144, -421, -9969, -103045481264812), (-1273, -1187148, 668869992921787, 2141, 10202), (-7430396, 1511684, 670498, 1312, -496), (-22742, -197977, -1701, -1282, 10670), (-6824331, -366, 245, -2030377042020521213952, 190119643), (-42976030406113124352, -8901, -8297019893606289319657472, -416, 183), (-737420, -15295515141639, -219, -34151930, -17539756828060192), (511, -22541498454, -55463, -13, 1613), (-704150, -78800765, 2922, 1418, 114), (-39034001, -999999999999999, 1260, -4117145, -3868986), (-162320190243824, 44007, 40574, 5866326, 65535), (250, -219, -13412610933808295936, -526663468432191424, -482), (6387, -7084, -272105, -21995, 181)], 'ic_days': -32800}",
+   "c_window": "MonitorEvidence(ic_values=(0.3,), lookback_ic=(0.3,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.3}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 5)),), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(-537765, 900167953861), (-537765, 900167953861), (-17598014, -42128)], 'consumed': [(-10809938518, 108075, 215, -4153230, -10401050270359), (295160472453473828864, -10993, 252, -1163, -1758304), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (-4425, -162144, -421, -9969, -103045481264812), (-1273, -1187148, 668869992921787, 2141, 10202), (-7430396, 1511684, 670498, 1312, -496), (-22742, -197977, -1701, -1282, 10670), (-6824331, -366, 245, -2030377042020521213952, 190119643), (-42976030406113124352, -8901, -8297019893606289319657472, -416, 183), (-737420, -15295515141639, -219, -34151930, -17539756828060192), (511, -22541498454, -55463, -13, 1613), (-704150, -78800765, 2922, 1418, 114), (-39034001, -999999999999999, 1260, -4117145, -3868986), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (250, -219, -13412610933808295936, -526663468432191424, -482), (6387, -7084, -272105, -21995, 181)], 'ic_days': -32800}",
+   "c_window": "MonitorEvidence(ic_values=(0.3,), lookback_ic=(0.3,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.3}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 5)),), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(-537765, 900167953861), (-537765, 900167953861), (-17598014, -42128)], 'consumed': [(-10809938518, 108075, 215, -4153230, -10401050270359), (295160472453473828864, -10993, 252, -1163, -1758304), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (-4425, -162144, -421, -9969, -103045481264812), (-1273, -1187148, 668869992921787, 2141, 10202), (-7430396, 1511684, 670498, 1312, -496), (-22742, -197977, -1701, -1282, 10670), (-6824331, -366, 245, -2030377042020521213952, 190119643), (-42976030406113124352, -8901, -8297019893606289319657472, -416, 183), (-737420, -15295515141639, -219, -34151930, -17539756828060192), (511, -22541498454, -55463, -13, 1613), (-704150, -78800765, 2922, 1418, 114), (-39034001, -999999999999999, 1260, -4117145, -3868986), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (250, -219, 900167953861, -526663468432191424, -482), (6387, -7084, -272105, -21995, 181)], 'ic_days': -32800}",
+   "c_window": "MonitorEvidence(ic_values=(0.3,), lookback_ic=(0.3,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.3}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 5)),), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(-10809938518, 108075, 215, -4153230, -10401050270359), (295160472453473828864, -10993, 252, -1163, -1758304), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (-4425, -162144, -421, -9969, -103045481264812), (-1273, -1187148, 668869992921787, 2141, 10202), (-7430396, 1511684, 670498, 1312, -496), (-22742, -197977, -1701, -1282, 10670), (-6824331, -366, 245, -2030377042020521213952, 190119643), (-42976030406113124352, -8901, -8297019893606289319657472, -416, 183), (-737420, -15295515141639, -219, -34151930, -17539756828060192), (511, -22541498454, -55463, -13, 1613), (-704150, -78800765, 2922, 1418, 114), (-39034001, -999999999999999, 1260, -4117145, -3868986), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (250, -219, 900167953861, -526663468432191424, -482), (6387, -7084, -272105, -21995, 181)], 'states': [(-537765, 900167953861), (-537765, 900167953861), (-17598014, -42128), (6387, -7084)], 'ic_days': -21995}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(0.3,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(89903738941, 13180157, 460382258465495552, 1024, -368105606), (295160472453473828864, -10993, 252, -1163, -1758304), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (-4425, -162144, -421, -9969, -103045481264812), (-1273, -1187148, 668869992921787, 2141, 10202), (-7430396, 1511684, 670498, 1312, -496), (-22742, -197977, -1701, -1282, 10670), (-6824331, -366, 245, -2030377042020521213952, 190119643), (-42976030406113124352, -8901, -8297019893606289319657472, -416, 183), (-737420, -15295515141639, -219, -34151930, -17539756828060192), (511, -22541498454, -55463, -13, 1613), (-704150, -78800765, 2922, 1418, 114), (-39034001, -999999999999999, 1260, -4117145, -3868986), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (250, -219, 900167953861, -526663468432191424, -482), (6387, -7084, -272105, -21995, 181)], 'states': [(-537765, 900167953861), (-537765, 900167953861), (-17598014, -42128), (6387, -7084)], 'ic_days': -21995}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(0.3,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(89903738941, 13180157, 460382258465495552, 1024, -368105606), (295160472453473828864, -10993, 252, -1163, -1758304), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (-4425, -162144, -421, -9969, -103045481264812), (-1273, -1187148, 668869992921787, 2141, 10202), (-7430396, 1511684, 670498, 1312, -496), (-22742, -197977, -1701, -1282, 10670), (-6824331, -366, 245, -2030377042020521213952, 190119643), (1613, -8901, -8297019893606289319657472, -416, 183), (-737420, -15295515141639, -219, -34151930, -17539756828060192), (511, -22541498454, -55463, -13, 1613), (-704150, -78800765, 2922, 1418, 114), (-39034001, -999999999999999, 1260, -4117145, -3868986), (89903738941, 13180157, 460382258465495552, 1024, -368105606), (250, -219, 900167953861, -526663468432191424, -482), (6387, -7084, -272105, -21995, 181)], 'states': [(-537765, 900167953861), (-537765, 900167953861), (-17598014, -42128), (6387, -7084)], 'ic_days': -21995}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(0.3,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 377286, 'states': [(-28520969, 306589589568360), (-162, -34669976), (-2905, -2137), (-1358, 5148), (17749758886, 5461), (-558164952572120, -9055)], 'consumed': [(17140787469806480, 1528, 738030, 32371, -7247938), (48569728704582, 961331, 189, 2518, -14684)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 377286, 'states': [(-28520969, 306589589568360), (-162, -34669976), (-2905, -2137), (-1358, 5148), (17749758886, 5461), (-558164952572120, -9055)], 'consumed': [(48569728704582, 961331, 189, 2518, -14684), (48569728704582, 961331, 189, 2518, -14684)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 377286, 'states': [(-28520969, 306589589568360), (-162, -34669976), (-1358, 5148), (-1358, 5148), (17749758886, 5461), (-558164952572120, -9055)], 'consumed': [(48569728704582, 961331, 189, 2518, -14684), (48569728704582, 961331, 189, 2518, -14684)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 377286, 'states': [(-28520969, 306589589568360), (-162, -34669976), (-28520969, 306589589568360), (-1358, 5148), (17749758886, 5461), (-558164952572120, -9055)], 'consumed': [(48569728704582, 961331, 189, 2518, -14684), (48569728704582, 961331, 189, 2518, -14684)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 377286, 'states': [(-28520969, 306589589568360), (-162, -34669976), (-28520969, 306589589568360), (-1358, 5148), (17749758886, 5461), (-558164952572120, -9055)], 'consumed': [(48569728704582, 961331, -1358, 2518, -14684), (48569728704582, 961331, 189, 2518, -14684)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 377286, 'states': [(-28520969, 306589589568360), (-162, -34669976), (-28520969, 306589589568360), (-1358, 5148), (17749758886, 5461), (-558164952572120, 961331)], 'consumed': [(48569728704582, 961331, -1358, 2518, -14684), (48569728704582, 961331, 189, 2518, -14684)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(68259563071, 1190)], 'ic_days': 389567, 'consumed': [(2492, 216493869, 602, 19320064258254676, -560), (2492, 216493869, 602, 19320064258254676, -560), (200119869, -1723, -52837, -2304870, 259), (1291, -6625, 706930, 353163, 227), (100, 706930, 645, 962, -1519783), (-723, -77032, 524289, -44044, -112614), (-21, 1635, 283, -3717, 635904665330), (109518274760310513467392, 2099, 260721, 132708639587668, -1511)]}",
+   "c_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(), dwell_days={}, state_ic={'calm': (0.1,)}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=((datetime.date(2026, 9, 1), datetime.date(2026, 9, 1)),), state_intervals={'calm': ((datetime.date(2026, 9, 1), datetime.date(2026, 9, 1)),)})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(68259563071, 1190)], 'ic_days': 389567, 'consumed': [(2492, 216493869, 602, 19320064258254676, -560), (2492, 216493869, 602, 19320064258254676, -560), (200119869, -1723, -52837, -2304870, 259), (109518274760310513467392, 2099, 260721, 132708639587668, -1511), (100, 706930, 645, 962, -1519783), (-723, -77032, 524289, -44044, -112614), (-21, 1635, 283, -3717, 635904665330), (109518274760310513467392, 2099, 260721, 132708639587668, -1511)]}",
+   "c_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(), dwell_days={}, state_ic={'calm': (0.1,)}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=((datetime.date(2026, 9, 1), datetime.date(2026, 9, 1)),), state_intervals={'calm': ((datetime.date(2026, 9, 1), datetime.date(2026, 9, 1)),)})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(68259563071, 1190)], 'ic_days': 389567, 'consumed': [(2492, 216493869, 602, 19320064258254676, -560), (2492, 216493869, 602, 19320064258254676, -560), (200119869, -1723, -52837, -2304870, 259), (109518274760310513467392, 2099, 260721, 132708639587668, -1511), (100, 706930, 645, 962, -1519783), (-723, -77032, 524289, -44044, -112614), (-723, -77032, 524289, -44044, -112614), (109518274760310513467392, 2099, 260721, 132708639587668, -1511)]}",
+   "c_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(), dwell_days={}, state_ic={'calm': (0.1,)}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=((datetime.date(2026, 9, 1), datetime.date(2026, 9, 1)),), state_intervals={'calm': ((datetime.date(2026, 9, 1), datetime.date(2026, 9, 1)),)})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(68259563071, 1190)], 'ic_days': 389567, 'consumed': [(2492, 216493869, 602, 19320064258254676, -560), (2492, 602, 602, 19320064258254676, -560), (200119869, -1723, -52837, -2304870, 259), (109518274760310513467392, 2099, 260721, 132708639587668, -1511), (100, 706930, 645, 962, -1519783), (-723, -77032, 524289, -44044, -112614), (-723, -77032, 524289, -44044, -112614), (109518274760310513467392, 2099, 260721, 132708639587668, -1511)]}",
+   "c_window": "('raise', 'ValueError', 'conflicting IC at first consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [(68259563071, 1190)], 'ic_days': 389567, 'consumed': [(2492, 19320064258254676, 602, 19320064258254676, -560), (2492, 602, 602, 19320064258254676, -560), (200119869, -1723, -52837, -2304870, 259), (109518274760310513467392, 2099, 260721, 132708639587668, -1511), (100, 706930, 645, 962, -1519783), (-723, -77032, 524289, -44044, -112614), (-723, -77032, 524289, -44044, -112614), (109518274760310513467392, 2099, 260721, 132708639587668, -1511)]}",
+   "c_window": "('raise', 'ValueError', 'conflicting IC at first consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(7232, 118, 439755923948748800, 7232, -287), (7232, 118, 439755923948748800, 7232, -287)], 'states': [(7232, 118)], 'ic_days': 7232}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(0.2,), lookback_ic=(), dwell_days={}, state_ic={'calm': (0.2,)}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={2: 0.2}, ic_intervals=((datetime.date(2026, 9, 2), datetime.date(2026, 9, 2)),), state_intervals={'calm': ((datetime.date(2026, 9, 2), datetime.date(2026, 9, 2)),)})"
+  },
+  {
+   "args": "{'consumed': [(1271074, 12074518, 19491545052, 20261106, -156488247807), (128, -36, -327, 302, 9945243), (-85576517, -3337, -6575450265, -151740886508, -370783), (141305, 451502037, -528, -265426074665, -132991134313734584926208), (313389195, 2731983, 22087597202, 7718054403, -7183), (871, -374997583358582656, -12471, 1672, 195134515991599)], 'ic_days': 230275058348, 'states': [(132096, 2344026731763)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(1271074, 12074518, 19491545052, 20261106, -156488247807), (128, -36, -327, 7718054403, 9945243), (-85576517, -3337, -6575450265, -151740886508, -370783), (141305, 451502037, -528, -265426074665, -132991134313734584926208), (313389195, 2731983, 22087597202, 7718054403, -7183), (871, -374997583358582656, -12471, 1672, 195134515991599)], 'ic_days': 230275058348, 'states': [(132096, 2344026731763)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(1271074, 12074518, 19491545052, 20261106, -156488247807), (128, -36, -327, 7718054403, 9945243), (-85576517, -3337, -6575450265, -151740886508, -370783), (141305, 451502037, -528, -265426074665, -132991134313734584926208), (871, -374997583358582656, -12471, 1672, 195134515991599), (871, -374997583358582656, -12471, 1672, 195134515991599)], 'ic_days': 230275058348, 'states': [(132096, 2344026731763)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(1271074, 12074518, 19491545052, 20261106, -156488247807), (128, -36, -327, 7718054403, 9945243), (-85576517, -3337, -6575450265, -151740886508, -370783), (141305, 451502037, -528, -265426074665, -132991134313734584926208), (871, -374997583358582656, -12471, 871, 195134515991599), (871, -374997583358582656, -12471, 1672, 195134515991599)], 'ic_days': 230275058348, 'states': [(132096, 2344026731763)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(1271074, 12074518, 19491545052, 20261106, -156488247807), (128, -36, -327, 7718054403, 9945243), (-85576517, -3337, -6575450265, -151740886508, -370783)], 'states': [(871, -374997583358582656)], 'ic_days': 871}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(1271074, 12074518, 19491545052, 20261106, -156488247807), (-85576517, -3337, -6575450265, -151740886508, -370783), (-85576517, -3337, -6575450265, -151740886508, -370783)], 'states': [(871, -374997583358582656)], 'ic_days': 871}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(1271074, 12074518, 19491545052, 20261106, -156488247807)], 'states': [(-85576517, -3337)], 'ic_days': -151740886508}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'ic_days': -1603, 'consumed': [(-1325383, -197, -11573063001, -1989, 675275669341159), (-312, -10034474, 575591799, 1502, -2106287), (65, 98808541851935264, -10617585, -4959, -114008851806764), (-66673367, -498, 660620759597170, 9202, 38345), (46897, -1951972101385500, 52, 5992946, -77346), (1174856240, 340, -2557548, -97923, -504), (47205, 1000000000000000000, 898338230093414, 1857, 4882)], 'states': [(149, 1272), (480, 12046597979), (-50014989, -10640), (-7746, 4009), (42, -551), (-13570662045357, -47285929166082696), (6450, 111244), (-9279, 750), (-2837, 18272), (-4298, 20141709), (859, 2440), (60268, -1276), (8221, 494495443453339)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'calm': 2}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'ic_days': -1603, 'consumed': [(-1325383, -197, -11573063001, -1989, 675275669341159), (-312, -10034474, 575591799, 1502, -2106287), (65, 98808541851935264, -10617585, -4959, -114008851806764), (-66673367, -498, 660620759597170, -13570662045357, 38345), (46897, -1951972101385500, 52, 5992946, -77346), (1174856240, 340, -2557548, -97923, -504), (47205, 1000000000000000000, 898338230093414, 1857, 4882)], 'states': [(149, 1272), (480, 12046597979), (-50014989, -10640), (-7746, 4009), (42, -551), (-13570662045357, -47285929166082696), (6450, 111244), (-9279, 750), (-2837, 18272), (-4298, 20141709), (859, 2440), (60268, -1276), (8221, 494495443453339)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'calm': 2}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'ic_days': -1603, 'consumed': [(-1325383, -197, -11573063001, -1989, 675275669341159), (-312, -10034474, 575591799, 1502, -2106287), (65, 98808541851935264, -10617585, -4959, -114008851806764), (-66673367, -498, 660620759597170, -13570662045357, 38345), (46897, -1951972101385500, 52, 5992946, -77346), (1174856240, 340, -2557548, -97923, -504), (47205, 1000000000000000000, 898338230093414, 1857, 4882)], 'states': [(-7746, 4009), (480, 12046597979), (-50014989, -10640), (-7746, 4009), (42, -551), (-13570662045357, -47285929166082696), (6450, 111244), (-9279, 750), (-2837, 18272), (-4298, 20141709), (859, 2440), (60268, -1276), (8221, 494495443453339)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'stress': 1, 'calm': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'ic_days': -1603, 'consumed': [(-1325383, -197, -11573063001, -1989, 675275669341159), (-312, -10034474, 575591799, 1502, -2106287), (65, 98808541851935264, -10617585, -4959, -114008851806764), (-66673367, -498, 660620759597170, -13570662045357, 38345), (46897, -1951972101385500, 52, 5992946, -77346), (1174856240, 340, -2557548, -97923, -504), (47205, 1000000000000000000, 898338230093414, 1857, 4882)], 'states': [(-7746, 4009), (480, 12046597979), (-50014989, -10640), (-7746, 4009), (42, -551), (-13570662045357, -47285929166082696), (-2837, 18272), (-9279, 750), (-2837, 18272), (-4298, 20141709), (859, 2440), (60268, -1276), (8221, 494495443453339)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'stress': 1, 'calm': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'consumed': [(-10253, -635, -5185, 1024, 1153)], 'states': [(-127613422117, -460)], 'ic_days': -3531844}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(0.2,), lookback_ic=(0.2,), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={2: 0.2}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 3)),), state_intervals={})"
+  },
+  {
+   "args": "{'consumed': [(49154, 2907, 1361, 1072266141635296037387108352, -31817), (-6612, 2020, -1779, 24, -221), (-1599, 409020, 100366595, -246023, 1468662)], 'states': [(-1078, 31450321570045), (3991705, -357731), (-564, -876), (-17674965187679410454528, -2060645789548744691829759597871104), (605, 105171687802), (-30837163, -377), (417, 35925), (15834458, 223)], 'ic_days': -25}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(0.1,), dwell_days={'stress': 1, 'calm': 1}, state_ic={'stress': (0.1,)}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={2: 0.1}, ic_intervals=((datetime.date(2026, 9, 1), datetime.date(2026, 9, 4)),), state_intervals={'stress': ((datetime.date(2026, 9, 1), datetime.date(2026, 9, 4)),)})"
+  },
+  {
+   "args": "{'consumed': [(49154, 2907, 1361, 1072266141635296037387108352, -31817), (-1599, 409020, 100366595, -246023, 1468662), (-1599, 409020, 100366595, -246023, 1468662)], 'states': [(-1078, 31450321570045), (3991705, -357731), (-564, -876), (-17674965187679410454528, -2060645789548744691829759597871104), (605, 105171687802), (-30837163, -377), (417, 35925), (15834458, 223)], 'ic_days': -25}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(0.1,), dwell_days={'stress': 1, 'calm': 1}, state_ic={'stress': (0.1,)}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={2: 0.1}, ic_intervals=((datetime.date(2026, 9, 1), datetime.date(2026, 9, 4)),), state_intervals={'stress': ((datetime.date(2026, 9, 1), datetime.date(2026, 9, 4)),)})"
+  },
+  {
+   "args": "{'consumed': [(-152413302730972157311489690042368, 2835057318, -171, 9, 1260), (65523, 273, -15010942935017017126682624, -3756506, -13885)], 'ic_days': -18660, 'states': [(-2330, 35435958146062), (-404, 1519), (-161, 222), (-8018, 155), (65958, 693842555875)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(65523, 273, -15010942935017017126682624, -3756506, -13885), (65523, 273, -15010942935017017126682624, -3756506, -13885)], 'ic_days': -18660, 'states': [(-2330, 35435958146062), (-404, 1519), (-161, 222), (-8018, 155), (65958, 693842555875)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(65523, 273, -15010942935017017126682624, -3756506, -13885), (65523, 273, -15010942935017017126682624, -3756506, -13885)], 'ic_days': -18660, 'states': [(-2330, 35435958146062), (-8018, 155), (-161, 222), (-8018, 155), (65958, 693842555875)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(65523, 273, -15010942935017017126682624, -3756506, -13885), (65523, 273, -15010942935017017126682624, -3756506, -13885)], 'ic_days': -18660, 'states': [(-2330, 35435958146062), (-8018, 155), (-161, 222), (-8018, 155), (-2330, 35435958146062)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(65523, 273, -15010942935017017126682624, -3756506, -13885), (65523, 273, -15010942935017017126682624, -3756506, -13885)], 'ic_days': -18660, 'states': [(-2330, 35435958146062), (-8018, 155), (-161, 222), (-8018, 155), (-8018, 155)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(65523, 273, -15010942935017017126682624, -3756506, -13885), (65523, 273, -15010942935017017126682624, -3756506, -13885)], 'ic_days': -18660, 'states': [(-2330, -8018), (-8018, 155), (-161, 222), (-8018, 155), (-8018, 155)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(65523, 273, -15010942935017017126682624, -3756506, -13885), (65523, 273, -15010942935017017126682624, -3756506, -13885)], 'ic_days': -18660, 'states': [(-2330, -8018), (-8018, 155), (-8018, 155), (-8018, 155), (-8018, 155)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'ic_days': -43, 'consumed': [(-26286854, -19816, -208, -13314, 181149), (-2895, -11045789389, 325188780383420481536, -26310643, 273727), (11203, -127109416777, 423, 219, -3488303), (183, 414811, 960506674137086, -941, -18446744073709551617), (-16644656, -43556703173, -470, -914, -316724935938440), (1260, -36308, 183, -4924, -32250), (-15234, -1434, 9033515, 116935, 29158760171232536), (-15274104009671, 47276, 2270, -36028797018963967, 233), (-4586884, -3400000524574388649984, 179, -180762817423957884928, 197), (-5673, -2841958, -230358, -26172797259848, -538745214335295168), (248281, -196, 518, -7295, 735), (-12485865, -3818163220065, -1539231600, 16979, 83886080), (-629752050, 825, -1265, 24059148, 99), (13142843048517413496525160448, 16927464, -389, 8, 1032324), (426, 23791, 45, -104591, 13983), (-431, -18537, -132, -392, 182661), (34364430, -5212, -980, 3579973, 324), (-19064284722691966472054353663361024, -2994, -234207055975966, -725, -788), (850662, 25454611, 2124, -30940640590, -6325)], 'states': [(-160371443192162, 3322), (677, -594)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'ic_days': -43, 'consumed': [(-26286854, -19816, -208, -13314, 181149), (-2895, -11045789389, 325188780383420481536, -26310643, 273727), (11203, -127109416777, 423, 219, -3488303), (183, 414811, 960506674137086, -941, -18446744073709551617), (-16644656, -43556703173, -470, -914, -316724935938440), (1260, -36308, 183, -4924, -32250), (-15234, -1434, 9033515, 116935, 29158760171232536), (-15274104009671, 47276, 2270, -36028797018963967, -6325), (-4586884, -3400000524574388649984, 179, -180762817423957884928, 197), (-5673, -2841958, -230358, -26172797259848, -538745214335295168), (248281, -196, 518, -7295, 735), (-12485865, -3818163220065, -1539231600, 16979, 83886080), (-629752050, 825, -1265, 24059148, 99), (13142843048517413496525160448, 16927464, -389, 8, 1032324), (426, 23791, 45, -104591, 13983), (-431, -18537, -132, -392, 182661), (34364430, -5212, -980, 3579973, 324), (-19064284722691966472054353663361024, -2994, -234207055975966, -725, -788), (850662, 25454611, 2124, -30940640590, -6325)], 'states': [(-160371443192162, 3322), (677, -594)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'ic_days': -43, 'consumed': [(-26286854, -19816, -208, -13314, 181149), (-2895, -11045789389, 325188780383420481536, -26310643, 273727), (11203, -127109416777, 423, 219, -3488303), (248281, -196, 518, -7295, 735), (-16644656, -43556703173, -470, -914, -316724935938440), (1260, -36308, 183, -4924, -32250), (-15234, -1434, 9033515, 116935, 29158760171232536), (-15274104009671, 47276, 2270, -36028797018963967, -6325), (-4586884, -3400000524574388649984, 179, -180762817423957884928, 197), (-5673, -2841958, -230358, -26172797259848, -538745214335295168), (248281, -196, 518, -7295, 735), (-12485865, -3818163220065, -1539231600, 16979, 83886080), (-629752050, 825, -1265, 24059148, 99), (13142843048517413496525160448, 16927464, -389, 8, 1032324), (426, 23791, 45, -104591, 13983), (-431, -18537, -132, -392, 182661), (34364430, -5212, -980, 3579973, 324), (-19064284722691966472054353663361024, -2994, -234207055975966, -725, -788), (850662, 25454611, 2124, -30940640590, -6325)], 'states': [(-160371443192162, 3322), (677, -594)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'ic_days': -43, 'consumed': [(-26286854, -19816, -208, -13314, 181149), (-2895, -11045789389, 325188780383420481536, -26310643, 273727), (11203, -127109416777, 423, 219, -3488303), (248281, -196, 518, -7295, 735), (-16644656, -43556703173, -470, -914, -316724935938440), (1260, -36308, 183, -4924, -32250), (-15234, -1434, 9033515, 116935, 29158760171232536), (-15274104009671, 47276, 2270, -36028797018963967, -6325), (-4586884, -3400000524574388649984, 179, -180762817423957884928, 197), (-5673, -2841958, -230358, -26172797259848, -538745214335295168), (248281, -196, 518, -7295, 735), (-12485865, -3818163220065, -1539231600, 16979, 83886080), (-629752050, 825, -1265, 24059148, 99), (13142843048517413496525160448, 16927464, -389, 8, 1032324), (426, 23791, 45, -104591, 13983), (-431, -18537, -132, -392, 182661), (34364430, -5212, -980, 3579973, 324), (-19064284722691966472054353663361024, -2994, -234207055975966, -725, -788), (850662, 25454611, 2124, -30940640590, -6325)], 'states': [(677, -594), (677, -594)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'ic_days': -43, 'consumed': [(-26286854, -19816, -208, -13314, 181149), (-2895, -11045789389, 325188780383420481536, -26310643, 273727), (11203, -127109416777, 423, 219, -3488303), (248281, -196, 518, -7295, 735), (-16644656, -43556703173, -470, -914, -316724935938440), (1260, -36308, 183, -4924, -32250), (-15234, -1434, 9033515, 116935, 29158760171232536), (-15274104009671, 47276, 2270, -36028797018963967, -6325), (-4586884, -3400000524574388649984, 179, -180762817423957884928, 197), (-5673, -2841958, -230358, -26172797259848, -538745214335295168), (248281, -196, 518, -7295, 735), (-12485865, -3818163220065, -43556703173, 16979, 83886080), (-629752050, 825, -1265, 24059148, 99), (13142843048517413496525160448, 16927464, -389, 8, 1032324), (426, 23791, 45, -104591, 13983), (-431, -18537, -132, -392, 182661), (34364430, -5212, -980, 3579973, 324), (-19064284722691966472054353663361024, -2994, -234207055975966, -725, -788), (850662, 25454611, 2124, -30940640590, -6325)], 'states': [(677, -594), (677, -594)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'ic_days': -12090, 'states': [(-200208786694, -4485490195098177024), (-94550, -319547596), (-655333, 150), (141, -40), (2240531076299461583341287899136, -199)], 'consumed': [(-457810, 300, 9999999999999999, -24328634, 2464329568), (-8268, -2209, -25024171, 704, -2147483649)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': -12090, 'states': [(-200208786694, -4485490195098177024), (-94550, -319547596), (-655333, 150), (141, -40), (2240531076299461583341287899136, -199)], 'consumed': [(-8268, -2209, -25024171, 704, -2147483649), (-8268, -2209, -25024171, 704, -2147483649)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': -12090, 'states': [(-200208786694, -4485490195098177024), (-94550, -319547596), (-655333, 150), (141, -40), (2240531076299461583341287899136, -199)], 'consumed': [(150, -2209, -25024171, 704, -2147483649), (-8268, -2209, -25024171, 704, -2147483649)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': -12090, 'states': [(-200208786694, -4485490195098177024), (-94550, -319547596), (141, -40), (141, -40), (2240531076299461583341287899136, -199)], 'consumed': [(150, -2209, -25024171, 704, -2147483649), (-8268, -2209, -25024171, 704, -2147483649)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': -12090, 'states': [(-94550, -319547596), (-94550, -319547596), (141, -40), (141, -40), (2240531076299461583341287899136, -199)], 'consumed': [(150, -2209, -25024171, 704, -2147483649), (-8268, -2209, -25024171, 704, -2147483649)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': -12090, 'states': [(-94550, -319547596), (141, -40), (141, -40), (141, -40), (2240531076299461583341287899136, -199)], 'consumed': [(150, -2209, -25024171, 704, -2147483649), (-8268, -2209, -25024171, 704, -2147483649)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'states': [(133, -12294597945139268), (197, 47220), (-4502115, -392), (1502, -121132), (-833, 23701285), (-10360595, 750), (-301233, 162340), (-76392568, -3028518), (-46401, 1184), (-1461183, -223132704963453517824), (-62920521, 69336), (120, 986165595678648960), (828, 1937), (-21849, 31377), (13188421147, 614), (1457, 1631), (-415, -90822), (-2369, 34840668966399), (-2855064542, -4012), (10000, -255)], 'ic_days': -77, 'consumed': [(830653, 87638, -2311, 731, -9570), (-36738, -28, 1196, 31378, -297), (12321, 9145624, 16725794911, -27648, -16307297), (-13013700, -6043, 469, 52156064942336887510394858373120, -2944367105), (209332507, -14193647, 769, 853890811311469, 2751), (-4083, -753133, 17747048, 5079, 3441), (-69532492, -1895, -2432902008176639999, -775, 46645), (1505793319, -54, -345429704956180011417600, -1669, 94)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'states': [(133, -12294597945139268), (197, 47220), (-4502115, -392), (1502, -121132), (-833, 23701285), (-10360595, 750), (-301233, 162340), (-76392568, -3028518), (-46401, 1184), (-1461183, -223132704963453517824), (-62920521, 69336), (120, 986165595678648960), (828, 1937), (-21849, 31377), (13188421147, 614), (1457, 1631), (13188421147, 614), (-2369, 34840668966399), (-2855064542, -4012), (10000, -255)], 'ic_days': -77, 'consumed': [(830653, 87638, -2311, 731, -9570), (-36738, -28, 1196, 31378, -297), (12321, 9145624, 16725794911, -27648, -16307297), (-13013700, -6043, 469, 52156064942336887510394858373120, -2944367105), (209332507, -14193647, 769, 853890811311469, 2751), (-4083, -753133, 17747048, 5079, 3441), (-69532492, -1895, -2432902008176639999, -775, 46645), (1505793319, -54, -345429704956180011417600, -1669, 94)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(830653, 87638, -2311, 731, -9570), (-36738, -28, 1196, 31378, -297), (12321, 9145624, 16725794911, -27648, -16307297), (-13013700, -6043, 469, 52156064942336887510394858373120, -2944367105), (209332507, -14193647, 769, 853890811311469, 2751), (-4083, -753133, 17747048, 5079, 3441), (-69532492, -1895, -2432902008176639999, -775, 46645), (1505793319, -54, -345429704956180011417600, -1669, 94)], 'states': [(133, -12294597945139268), (197, 47220), (-4502115, -392), (1502, -121132), (-833, 23701285), (-10360595, 750), (-301233, 162340), (-76392568, -3028518), (-46401, 1184), (-1461183, -223132704963453517824), (-62920521, 69336), (830653, 87638)], 'ic_days': 731}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(830653, 87638, -2311, 731, -9570), (-36738, -28, 1196, 31378, -297), (12321, 9145624, 16725794911, -27648, -16307297), (-13013700, -6043, 469, 52156064942336887510394858373120, -2944367105), (209332507, -14193647, 769, 853890811311469, 2751), (-4083, -753133, 17747048, 5079, 3441), (-833, 23701285, 0, 1505793319, -54)], 'states': [], 'ic_days': 94}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(830653, 87638, -2311, 731, -9570), (-36738, -28, 1196, 31378, -297), (12321, 9145624, 16725794911, -27648, -16307297), (-13013700, -6043, 469, 52156064942336887510394858373120, -2944367105), (209332507, -14193647, 769, 853890811311469, 2751), (-4083, 209332507, 17747048, 5079, 3441), (-833, 23701285, 0, 1505793319, -54)], 'states': [], 'ic_days': 94}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 7095603220, 'consumed': [(2028, 212, 42698940677207, 704423, -545493956), (-17717641376435, -71, 41091200610, 68578471, 5509306), (-5313, -923798, 3041374, 3606421, 6559), (21816748241305, -5135, -79502, 480183, -339261111692465024), (274877906943, 207, 5890, -155802, -23180)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 7095603220, 'consumed': [(2028, 212, 42698940677207, 704423, -545493956), (2028, 212, 42698940677207, 704423, -545493956), (-5313, -923798, 3041374, 3606421, 6559), (21816748241305, -5135, -79502, 480183, -339261111692465024), (274877906943, 207, 5890, -155802, -23180)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 7095603220, 'consumed': [(2028, 212, 42698940677207, 704423, -545493956), (2028, 212, 42698940677207, 704423, -545493956), (-5313, -923798, 3041374, 3606421, 6559), (21816748241305, -5135, -79502, 480183, -339261111692465024), (2028, 212, 42698940677207, 704423, -545493956)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 7095603220, 'consumed': [(2028, 212, 42698940677207, 704423, -545493956), (2028, 212, 42698940677207, 704423, -545493956), (-5313, -923798, 3041374, 3606421, 6559), (21816748241305, -5135, -79502, 480183, -339261111692465024), (2028, 212, 212, 704423, -545493956)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 7095603220, 'consumed': [(2028, 212, 42698940677207, 704423, -545493956), (2028, 212, 42698940677207, 704423, -545493956), (2028, 212, 42698940677207, 704423, -545493956), (21816748241305, -5135, -79502, 480183, -339261111692465024), (2028, 212, 212, 704423, -545493956)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 7095603220, 'consumed': [(2028, 212, 42698940677207, 704423, -545493956), (21816748241305, -5135, -79502, 480183, -339261111692465024), (2028, 212, 42698940677207, 704423, -545493956), (21816748241305, -5135, -79502, 480183, -339261111692465024), (2028, 212, 212, 704423, -545493956)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 7095603220, 'consumed': [(2028, 212, 42698940677207, 704423, -545493956), (21816748241305, -5135, -79502, 480183, -339261111692465024), (2028, 212, 42698940677207, 704423, -545493956), (21816748241305, -5135, -79502, 480183, -339261111692465024), (2028, 212, 212, 704423, 480183)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(424, -11067, -4021694063, 1624872, -82468381), (-2106927459, 311418, -3771, -4162926785, 5707), (2146217148, 78042, 0, 2017082592, -88787), (2146217148, 78042, 0, 2017082592, -88787)], 'states': [], 'ic_days': -1804}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(-2106927459, 311418, -3771, -4162926785, 5707), (-2106927459, 311418, -3771, -4162926785, 5707), (2146217148, 78042, 0, 2017082592, -88787), (2146217148, 78042, 0, 2017082592, -88787)], 'states': [], 'ic_days': -1804}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(-2106927459, 311418, -3771, -4162926785, 5707), (2146217148, 78042, 0, 2017082592, -88787), (2146217148, 78042, 0, 2017082592, -88787), (2146217148, 78042, 0, 2017082592, -88787)], 'states': [], 'ic_days': -1804}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': 2922, 'consumed': [(1379, 1125899906842625, -48704, -1512606583, 63801), (-885951, 14554, 318, 3653924, -655724), (268435457, -2512, 2971864694963908608, 461846851036496986112, -757614), (2754, 8638, 29803260053, 665999, -2661141), (-9830543, -9071604937182425382912, 21353543536204060, 26, -54930341), (-390237273598053952, -12672, 1036, 88597, -960), (358712352, -231730134, 723711, -33799, -308)], 'states': []}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 2922, 'consumed': [(1379, 1125899906842625, -48704, -1512606583, 63801), (-885951, 14554, 318, 3653924, -655724), (268435457, -2512, 2971864694963908608, 461846851036496986112, -757614), (1379, 1125899906842625, -48704, -1512606583, 63801), (-9830543, -9071604937182425382912, 21353543536204060, 26, -54930341), (-390237273598053952, -12672, 1036, 88597, -960), (358712352, -231730134, 723711, -33799, -308)], 'states': []}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 2922, 'consumed': [(1379, 1125899906842625, -48704, -1512606583, 63801), (-885951, 14554, 318, 3653924, -655724), (268435457, -2512, 2971864694963908608, 461846851036496986112, -757614), (358712352, -231730134, 723711, -33799, -308), (-9830543, -9071604937182425382912, 21353543536204060, 26, -54930341), (-390237273598053952, -12672, 1036, 88597, -960), (358712352, -231730134, 723711, -33799, -308)], 'states': []}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 2922, 'consumed': [(1379, 1125899906842625, -48704, -1512606583, 63801), (-885951, 14554, 318, 3653924, -655724), (268435457, -2512, 2971864694963908608, 461846851036496986112, -757614), (358712352, -231730134, 723711, -33799, -308), (-9830543, -9071604937182425382912, 21353543536204060, 3653924, -54930341), (-390237273598053952, -12672, 1036, 88597, -960), (358712352, -231730134, 723711, -33799, -308)], 'states': []}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 2922, 'consumed': [(1379, 1125899906842625, -48704, -1512606583, 63801), (-885951, 14554, 318, 3653924, -655724), (268435457, -2512, 2971864694963908608, -390237273598053952, -757614), (358712352, -231730134, 723711, -33799, -308), (-9830543, -9071604937182425382912, 21353543536204060, 3653924, -54930341), (-390237273598053952, -12672, 1036, 88597, -960), (358712352, -231730134, 723711, -33799, -308)], 'states': []}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(1379, 1125899906842625, -48704, -1512606583, 63801), (-885951, 14554, 318, 3653924, -655724), (268435457, -2512, 2971864694963908608, -390237273598053952, -757614), (358712352, -231730134, 723711, -33799, -308), (-9830543, -9071604937182425382912, 21353543536204060, 3653924, -54930341), (-390237273598053952, -12672, 1036, 88597, -960), (358712352, -231730134, 723711, -33799, -308)], 'states': [(-390237273598053952, -12672)], 'ic_days': 88597}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(2856, -36072144003, -41405248, 4747, 217), (-15756483, 335577, 260, 164, -703779553), (109, -78, 0, -2252341, -3380)], 'states': [], 'ic_days': -973600}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(-3380, -36072144003, -41405248, 4747, 217), (-15756483, 335577, 260, 164, -703779553), (109, -78, 0, -2252341, -3380)], 'states': [], 'ic_days': -973600}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(-3380, -36072144003, -2252341, 4747, 217), (-15756483, 335577, 260, 164, -703779553), (109, -78, 0, -2252341, -3380)], 'states': [], 'ic_days': -973600}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(109, -78, 0, -2252341, -3380), (-15756483, 335577, 260, 164, -703779553), (109, -78, 0, -2252341, -3380)], 'states': [], 'ic_days': -973600}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(109, -2252341, 0, -2252341, -3380), (-15756483, 335577, 260, 164, -703779553), (109, -78, 0, -2252341, -3380)], 'states': [], 'ic_days': -973600}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(4850, -1284, 2095552581, -41377, -675), (50945260, -11694719716877596, 629, 55684, -5678391415), (-605575, 5818500957, -627012107008368, 8140, -95802), (493, -35229, -16223064, -15902676551, 35), (-68268, -11787412, -32319922, 430, -841), (45919572677644722176, 920918, 110728842999, 581864, -70223173), (286725840, -5645041118, -32589158477190044730, 254, 322150), (98961777144419024, -2255757846666, 57781, -90085, 43784252640), (-7588, 42932142276196488, -18897706630, -150, -949), (100264724211, 1040695, -25089091, 4948993383455094996992, 64173), (372, 33940369504, -4097, 2685292, -406400492), (-733, 16777217, -9240763737047, -599, -4624), (836, 229135, 35366890, -3395, -439114), (1409150, -37945164, -5, -3305647310, 63)], 'states': [(2026, -42469)], 'ic_days': 4536631712}",
+   "c_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(0.1,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 4)),), state_intervals={})",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'consumed': [(4850, -1284, 2095552581, -41377, -675), (50945260, -11694719716877596, 629, 55684, -5678391415), (-605575, 5818500957, -627012107008368, 8140, -95802), (493, -35229, -16223064, -15902676551, 35), (-68268, -11787412, -32319922, 430, -841), (45919572677644722176, 920918, 110728842999, 581864, -70223173), (286725840, -5645041118, -32589158477190044730, 254, 322150), (493, -35229, -16223064, -15902676551, 35), (-7588, 42932142276196488, -18897706630, -150, -949), (100264724211, 1040695, -25089091, 4948993383455094996992, 64173), (372, 33940369504, -4097, 2685292, -406400492), (-733, 16777217, -9240763737047, -599, -4624), (836, 229135, 35366890, -3395, -439114), (1409150, -37945164, -5, -3305647310, 63)], 'states': [(2026, -42469)], 'ic_days': 4536631712}",
+   "c_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(0.1,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 4)),), state_intervals={})",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'consumed': [(4850, -1284, 2095552581, -41377, -675), (50945260, -11694719716877596, 629, 55684, -5678391415), (-605575, 5818500957, -627012107008368, 8140, -95802), (493, -35229, -16223064, -15902676551, 35), (-68268, -11787412, -32319922, 430, -841), (45919572677644722176, 920918, 110728842999, 581864, -70223173), (286725840, -5645041118, -32589158477190044730, 254, 322150), (493, -35229, -16223064, -15902676551, 35), (-7588, 42932142276196488, -18897706630, -150, -18897706630), (100264724211, 1040695, -25089091, 4948993383455094996992, 64173), (372, 33940369504, -4097, 2685292, -406400492), (-733, 16777217, -9240763737047, -599, -4624), (836, 229135, 35366890, -3395, -439114), (1409150, -37945164, -5, -3305647310, 63)], 'states': [(2026, -42469)], 'ic_days': 4536631712}",
+   "c_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(0.1,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 4)),), state_intervals={})",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'consumed': [(4850, -1284, 2095552581, -41377, -675), (50945260, -11694719716877596, 629, 55684, -5678391415), (-605575, 5818500957, -627012107008368, 8140, -95802), (493, -35229, -16223064, -15902676551, 35), (-68268, -11787412, -32319922, 430, -841), (45919572677644722176, 920918, 110728842999, 581864, -70223173), (286725840, -5645041118, -32589158477190044730, 254, 322150), (493, -35229, -16223064, -15902676551, 35), (-7588, 42932142276196488, -18897706630, -150, -18897706630), (100264724211, 1040695, -25089091, 4948993383455094996992, 64173), (372, 33940369504, -4097, 2685292, -406400492), (-733, 16777217, -9240763737047, -599, -4624), (836, 229135, 35366890, -3395, -627012107008368), (1409150, -37945164, -5, -3305647310, 63)], 'states': [(2026, -42469)], 'ic_days': 4536631712}",
+   "c_window": "MonitorEvidence(ic_values=(0.1,), lookback_ic=(0.1,), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=((datetime.date(2026, 9, 3), datetime.date(2026, 9, 4)),), state_intervals={})",
+   "k_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'stress': 1}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={1: 0.1}, ic_intervals=(), state_intervals={})"
+  },
+  {
+   "args": "{'consumed': [(4850, -1284, 2095552581, -68268, -675), (50945260, -11694719716877596, 629, 55684, -5678391415), (45919572677644722176, 920918, 0, 493, -35229)], 'states': [], 'ic_days': 35}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(1266, -75, -75258, 52593, 19401), (-1362872, 72765, 32456, 7071832815370515, -1374)], 'ic_days': -426, 'states': [(-163514266291, 90676), (403, -14530), (7952, 57412), (882, -21885854621), (957318026068231, -28539834), (-26713936, -10549971), (5661740, 188489), (-2062, -6)]}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={'calm': 2}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(1266, -75, -75258, 52593, 19401), (-1362872, 72765, 32456, 7071832815370515, -1374)], 'states': [], 'ic_days': 0}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 20051775976, 'consumed': [(2109411, -1415215, -132, 250, 431), (51842, -24556742, 1883111, -2097152, 470773972), (100, 354757054, 673394401, -464, -11773873), (22710, -565, -288071, 594, 52174407845655), (2710, 53182, -2273, -40810, 206), (457, 3554, 330938, -28046855, -27624899), (1362, 673569, -38318150, -398992737, 1015), (-25768, -2962, -262, 314354340, -24736642195), (8270, 13066, -1203146, 48, 40191), (583333, 401, -11998, 4742350781483092216381440, -82520231), (219, -1293, -129493, -260, 302644256), (-247881652892046400, 30344, 914, -29822278, -681925)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 20051775976, 'consumed': [(2109411, -1415215, -132, 250, 431), (2109411, -1415215, -132, 250, 431), (100, 354757054, 673394401, -464, -11773873), (22710, -565, -288071, 594, 52174407845655), (2710, 53182, -2273, -40810, 206), (457, 3554, 330938, -28046855, -27624899), (1362, 673569, -38318150, -398992737, 1015), (-25768, -2962, -262, 314354340, -24736642195), (8270, 13066, -1203146, 48, 40191), (583333, 401, -11998, 4742350781483092216381440, -82520231), (219, -1293, -129493, -260, 302644256), (-247881652892046400, 30344, 914, -29822278, -681925)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 20051775976, 'consumed': [(2109411, -1415215, -132, 250, 431), (2109411, -1415215, 250, 250, 431), (100, 354757054, 673394401, -464, -11773873), (22710, -565, -288071, 594, 52174407845655), (2710, 53182, -2273, -40810, 206), (457, 3554, 330938, -28046855, -27624899), (1362, 673569, -38318150, -398992737, 1015), (-25768, -2962, -262, 314354340, -24736642195), (8270, 13066, -1203146, 48, 40191), (583333, 401, -11998, 4742350781483092216381440, -82520231), (219, -1293, -129493, -260, 302644256), (-247881652892046400, 30344, 914, -29822278, -681925)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 20051775976, 'consumed': [(2109411, -1415215, -132, 250, 431), (2109411, -1415215, 250, 250, 431), (100, 354757054, 673394401, -464, -11773873), (22710, -565, -288071, 594, 52174407845655), (2710, 53182, -2273, -40810, 206), (457, 3554, 330938, -28046855, -27624899), (1362, 673569, -38318150, -398992737, 1015), (-25768, -2962, -262, 314354340, -24736642195), (8270, 13066, -1203146, 48, 40191), (583333, 401, -11998, 4742350781483092216381440, -82520231), (219, -1293, -2962, -260, 302644256), (-247881652892046400, 30344, 914, -29822278, -681925)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 20051775976, 'consumed': [(2109411, -1415215, -132, 250, 431), (2109411, -1415215, 250, 250, 431), (100, 354757054, 673394401, -464, -11773873), (22710, -565, -288071, 594, 52174407845655), (2710, 53182, -2273, -40810, 206), (457, 3554, 330938, -28046855, -27624899), (1362, 673569, -38318150, -398992737, 1015), (-25768, -2962, -262, 314354340, -24736642195), (8270, 13066, -1203146, 48, 40191), (2710, 401, -11998, 4742350781483092216381440, -82520231), (219, -1293, -2962, -260, 302644256), (-247881652892046400, 30344, 914, -29822278, -681925)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 20051775976, 'consumed': [(2109411, -1415215, -132, 250, 431), (2109411, -1415215, 250, 250, 431), (100, 354757054, 673394401, -2962, -11773873), (22710, -565, -288071, 594, 52174407845655), (2710, 53182, -2273, -40810, 206), (457, 3554, 330938, -28046855, -27624899), (1362, 673569, -38318150, -398992737, 1015), (-25768, -2962, -262, 314354340, -24736642195), (8270, 13066, -1203146, 48, 40191), (2710, 401, -11998, 4742350781483092216381440, -82520231), (219, -1293, -2962, -260, 302644256), (-247881652892046400, 30344, 914, -29822278, -681925)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'states': [], 'ic_days': 20051775976, 'consumed': [(2109411, -1415215, -132, 250, 431), (2109411, -1415215, 250, 250, 431), (100, 354757054, 673394401, -2962, -11773873), (22710, -565, -288071, 594, 52174407845655), (2710, 53182, -2273, -40810, 206), (457, 3554, 330938, -28046855, -27624899), (1362, 673569, -38318150, -398992737, 1015), (-25768, -2962, -262, 314354340, -24736642195), (2109411, -1415215, 250, 250, 431), (2710, 401, -11998, 4742350781483092216381440, -82520231), (219, -1293, -2962, -260, 302644256), (-247881652892046400, 30344, 914, -29822278, -681925)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'ic_days': 8027, 'states': [(2953, -348)], 'consumed': [(-1212, 5794, -49559112, -195663, -7970), (-12, -96, -2309716450, 1760, 498), (8776, -10730246, -1113, -9111, -65045955138730), (-12, -96, -2309716450, 1760, 498), (3662, 29469994001, 44, -38170, -1242543), (348, 29469994001, -281, 1760, -2053210)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 8027, 'states': [(2953, -348)], 'consumed': [(-1212, 5794, -49559112, -195663, -7970), (3662, 29469994001, 44, -38170, -1242543), (8776, -10730246, -1113, -9111, -65045955138730), (-12, -96, -2309716450, 1760, 498), (3662, 29469994001, 44, -38170, -1242543), (348, 29469994001, -281, 1760, -2053210)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(8776, -10730246, 0, 0, 8776)], 'states': [], 'ic_days': -9111}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'consumed': [(120, 1826, 256738, 208998376, -4107), (41770646, 61871, 137438953471, -11597, 252431), (-2692, -30, 0, 41770646, 61871)], 'states': [], 'ic_days': 252431}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'ambiguous observed session date')"
+  },
+  {
+   "args": "{'consumed': [(-7110201, -121162, -464191, -23147659, -7343), (-1100564522531, 17592186044415, 561927611493, -12121, 19143857609231980036096), (14094, -166459501950702198728949760, 145883, -717143, -6652915549), (3133743, -424, 118, 1735647, -326789), (-1100564522531, 17592186044415, 561927611493, -12121, 19143857609231980036096)], 'states': [], 'ic_days': -1697423}",
+   "c_window": "MonitorEvidence(ic_values=(), lookback_ic=(), dwell_days={}, state_ic={}, cost={'spread': None, 'slippage': None, 'financing': None, 'dividend': None}, contribution=None, standalone=None, contribution_contaminated='under-mandate contribution is not attributed per signal live', ic_by_horizon={}, ic_intervals=(), state_intervals={})",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': -1366377, 'states': [(-6526574122825, 1756224), (-492, 35193), (-102586585, -139579294), (-6259, -736), (-256, 4017), (-19811, -14536839), (-917878809, 178), (-1480204, 677), (-217238, 19531), (27161, 110)], 'consumed': [(161681224, 120143, 122029126, 654, 2384), (2446, -9223372036854775809, 5945, 2400, 4970176), (198219506368, -17951221, 278329687137562034176, 12333432720413, -2992635), (-22170182, 35184372088833, 265927, -395, 7165159), (242640, -86492386, -29567, -181505923, -88619780842241540096)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': -1366377, 'states': [(-6526574122825, 1756224), (-492, 35193), (-102586585, -139579294), (-6259, -736), (-256, 4017), (-6259, -736), (-917878809, 178), (-1480204, 677), (-217238, 19531), (27161, 110)], 'consumed': [(161681224, 120143, 122029126, 654, 2384), (2446, -9223372036854775809, 5945, 2400, 4970176), (198219506368, -17951221, 278329687137562034176, 12333432720413, -2992635), (-22170182, 35184372088833, 265927, -395, 7165159), (242640, -86492386, -29567, -181505923, -88619780842241540096)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': -1366377, 'states': [(-6526574122825, 1756224), (-492, 35193), (-102586585, -139579294), (-6259, -736), (-256, 4017), (-6259, -736), (-917878809, 178), (-1480204, 677), (-217238, 19531), (27161, 110)], 'consumed': [(161681224, 120143, 122029126, 654, 2384), (2446, -9223372036854775809, 5945, 2400, 4970176), (198219506368, -17951221, 278329687137562034176, 12333432720413, -2992635), (242640, -86492386, -29567, -181505923, -88619780842241540096), (242640, -86492386, -29567, -181505923, -88619780842241540096)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': -1366377, 'states': [(-6526574122825, 1756224), (-492, 35193), (-102586585, -139579294), (-6259, -736), (-256, 4017), (-6259, -736), (-917878809, 178), (-1480204, 677), (-217238, 19531), (27161, 110)], 'consumed': [(161681224, 120143, -181505923, 654, 2384), (2446, -9223372036854775809, 5945, 2400, 4970176), (198219506368, -17951221, 278329687137562034176, 12333432720413, -2992635), (242640, -86492386, -29567, -181505923, -88619780842241540096), (242640, -86492386, -29567, -181505923, -88619780842241540096)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': -1366377, 'states': [(-6526574122825, 1756224), (-492, 35193), (-102586585, -139579294), (-6259, -736), (-256, 4017), (-6259, -736), (-917878809, 178), (-1480204, 677), (-217238, 19531), (27161, 110)], 'consumed': [(161681224, 120143, -181505923, 654, 2384), (2446, -9223372036854775809, 5945, 2400, 4970176), (198219506368, -17951221, 278329687137562034176, 12333432720413, -2992635), (242640, -86492386, 35193, -181505923, -88619780842241540096), (242640, -86492386, -29567, -181505923, -88619780842241540096)]}",
+   "c_window": "('raise', 'ValueError', 'ambiguous observed session date')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': -1366377, 'states': [(-6526574122825, 1756224), (-492, 35193), (-102586585, -139579294), (-6259, -736), (-256, 4017), (-6259, -736), (-917878809, 178), (-1480204, 677), (-217238, 19531), (27161, 110)], 'consumed': [(198219506368, -17951221, 278329687137562034176, 12333432720413, -2992635), (2446, -9223372036854775809, 5945, 2400, 4970176), (198219506368, -17951221, 278329687137562034176, 12333432720413, -2992635), (242640, -86492386, 35193, -181505923, -88619780842241540096), (242640, -86492386, -29567, -181505923, -88619780842241540096)]}",
+   "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+   "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+  },
+  {
+   "args": "{'ic_days': 5775755, 'consumed': [(2329, -650102, -217462, 10260, -8645029120003835), (6720610660057897626836664320, 141462476405835584, 17692660, 9083, -309), (99, -1555909421, 1657, -5017, 39), (-1120585123775733, 271759273, 817, -244230470074, 57161617), (8061, 667578, -5859, 461086077006940536832, -6871071376776)], 'states': [(-41394, 21590678), (-450992, 8899), (7107, 1064500018560), (5722899, 750), (269, 132096)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': 5775755, 'consumed': [(2329, -650102, -217462, 10260, -8645029120003835), (6720610660057897626836664320, 141462476405835584, 17692660, 9083, -309), (99, -1555909421, 1657, -5017, 39), (-1120585123775733, 271759273, 817, -244230470074, 57161617), (8061, 667578, -5859, 461086077006940536832, -6871071376776)], 'states': [(-41394, 21590678), (-450992, 8899), (7107, 1064500018560), (-450992, 8899), (269, 132096)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': 5775755, 'consumed': [(2329, -650102, -217462, 10260, -8645029120003835), (6720610660057897626836664320, 141462476405835584, 17692660, 9083, -309), (-1120585123775733, 271759273, 817, -244230470074, 57161617), (-1120585123775733, 271759273, 817, -244230470074, 57161617), (8061, 667578, -5859, 461086077006940536832, -6871071376776)], 'states': [(-41394, 21590678), (-450992, 8899), (7107, 1064500018560), (-450992, 8899), (269, 132096)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'ic_days': 5775755, 'consumed': [(2329, -650102, -217462, 10260, -8645029120003835), (6720610660057897626836664320, 141462476405835584, 17692660, 9083, -309), (-1120585123775733, 271759273, 817, -244230470074, 57161617), (-1120585123775733, 271759273, 817, -244230470074, 57161617), (8061, 667578, -5859, 461086077006940536832, -6871071376776)], 'states': [(-41394, 21590678), (-450992, 8899), (-450992, 8899), (-450992, 8899), (269, 132096)]}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  },
+  {
+   "args": "{'consumed': [(-450992, 8899, 0, 6720610660057897626836664320, 8899)], 'states': [(-450992, 8899)], 'ic_days': 6720610660057897626836664320}",
+   "c_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'",
+   "k_window": "('raise', 'ValueError', 'observed session date follows consumption')"
+  }
+ ],
+ "first": {
+  "args": "{'ic_days': -2634, 'consumed': [(-153824, -6405, 263446965, 2305843009213693952, -35369), (-65916137, -2373994289635790531854284594610176, 11520, 4278190080, -756653), (-576, -55515433909, -622, 142976, 159434040662233801840014172841050112), (121727, -272, -6721345161811, -2364, -156), (-100000000000000001, 828, 858, -90046325884907996315648, 1328609769642654), (-2551, 221, -751, -3132957910, -62693)], 'states': []}",
+  "c_window": "('raise', 'ValueError', 'observed session date follows consumption')",
+  "k_window": "'no IC consumed at the traded horizon (1d) in window 2026-09-05'"
+ },
+ "verdict": "found"
+}

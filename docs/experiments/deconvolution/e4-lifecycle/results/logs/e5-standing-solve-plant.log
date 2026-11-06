@@ -1,0 +1,11 @@
+{
+ "pair": "standing",
+ "kind": "plant",
+ "sides": [
+  "k_standing",
+  "c_standing"
+ ],
+ "deadline_s": 531.0,
+ "exit": 1,
+ "verdict": "counterexample"
+}

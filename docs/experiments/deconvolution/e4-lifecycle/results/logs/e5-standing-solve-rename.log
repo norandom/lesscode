@@ -1,0 +1,11 @@
+{
+ "pair": "standing",
+ "kind": "rename",
+ "sides": [
+  "et_standing",
+  "ct_standing"
+ ],
+ "deadline_s": 402.0,
+ "exit": 0,
+ "verdict": "exhausted"
+}
