@@ -1,0 +1,26 @@
+{
+ "seeds": [
+  "packages/facdrone-research/tests/test_lifecycle_readings_publish.py",
+  "tests/unit/test_cppi_monitor_worker.py",
+  "tests/unit/test_lifecycle_evidence.py",
+  "tests/unit/test_lifecycle_evidence_intervals.py",
+  "tests/unit/test_lifecycle_evidence_projection.py",
+  "tests/unit/test_lifecycle_monitor_binding_db.py",
+  "tests/unit/test_lifecycle_monitor_runner_db.py",
+  "tests/unit/test_lifecycle_projection.py",
+  "tests/unit/test_lifecycle_run_evidence.py",
+  "tests/unit/test_lifecycle_store_db.py",
+  "tests/unit/test_lifecycle_window_commits.py",
+  "tests/unit/test_monitor_windows.py"
+ ],
+ "dropped": {
+  "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py": "gate --ignore",
+  "packages/facdrone-research/tests/test_controlled_study_producer.py": "collection error on this host (fcntl)",
+  "packages/facdrone-research/tests/test_recensus_db.py": "collection error on this host (fcntl)"
+ },
+ "deselect": [
+  "tests/unit/test_lifecycle_store_db.py::TestTheTableOnTheDatabase::test_the_event_id_is_the_stored_one_whatever_the_session_time_zone"
+ ],
+ "marks": "not port_baseline and not live_broker",
+ "testinfra_sha256": "fcefcbf16e5c61513d18b9cefb33634e034b88a3ce3593fc1034bed654baf62c"
+}

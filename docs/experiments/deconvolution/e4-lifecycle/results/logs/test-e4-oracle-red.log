@@ -1,0 +1,17 @@
+
+=================================== ERRORS ====================================
+_ ERROR collecting docs/experiments/deconvolution/e4-lifecycle/test_e4_oracle.py _
+ImportError while importing test module 'D:\Source\lesscode\docs\experiments\deconvolution\e4-lifecycle\test_e4_oracle.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\mariu\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+e4-lifecycle\test_e4_oracle.py:10: in <module>
+    import e4_oracle as O  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'e4_oracle'
+=========================== short test summary info ===========================
+ERROR e4-lifecycle\test_e4_oracle.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.72s

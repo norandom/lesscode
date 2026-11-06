@@ -1,0 +1,13 @@
+[11/06/26 09:59:03] INFO     Using                              __init__.py:281
+                             'D:\Source\lesscode\.runs\e2-facdr                
+                             one\venv\Lib\site-packages\kedro\f                
+                             ramework\project\rich_logging.yml'                
+                              as logging configuration.                        
+{
+ "sequences": 26,
+ "operations": 185,
+ "generated_only_signatures": [],
+ "harness_suspects": [],
+ "sha256": "f6acb3a4f8af4752cdec51da0f58341df827603f44aa65305aae3b563d49cc5a",
+ "bytes": 2910943
+}

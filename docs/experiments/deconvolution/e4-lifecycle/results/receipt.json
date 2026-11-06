@@ -1,0 +1,898 @@
+{
+ "commands": [
+  {
+   "label": "copy-ident",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-c",
+    "import shutil; shutil.copytree(r'D:\\Source\\lesscode\\.runs\\e2-facdrone\\source', r'D:\\Source\\lesscode\\.runs\\e4-lifecycle\\ident', symlinks=False, ignore=shutil.ignore_patterns('.git', '__pycache__', '.pytest_cache')); print('copied')"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-06T08:49:42.068158+00:00",
+   "end_utc": "2026-11-06T08:49:44.401411+00:00",
+   "seconds": 2.33,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T09:49:41",
+    "cpu_total": 22.0235480181898,
+    "cpu_other": 0.220235480181898,
+    "ram_free_gb": 10.33,
+    "bench_s": 0.224,
+    "pid": 12904
+   }
+  },
+  {
+   "label": "hash7-before",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/hash7.py",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "D:/Source/lesscode/.runs/e4-lifecycle/ident"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-06T08:49:51.216755+00:00",
+   "end_utc": "2026-11-06T08:49:51.371547+00:00",
+   "seconds": 0.15,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T09:49:51",
+    "cpu_total": 17.9037762168829,
+    "cpu_other": 0.179037762168829,
+    "ram_free_gb": 10.29,
+    "bench_s": 0.213,
+    "pid": 38308
+   }
+  },
+  {
+   "label": "surface4-frozen",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "surface4.py",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "--out",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/results/public-surface.json"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {},
+   "start_utc": "2026-11-06T08:49:58.721097+00:00",
+   "end_utc": "2026-11-06T08:50:11.426629+00:00",
+   "seconds": 12.71,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T09:49:58",
+    "cpu_total": 15.591021971988,
+    "cpu_other": 0.15591021971988,
+    "ram_free_gb": 10.43,
+    "bench_s": 0.231,
+    "pid": 29108
+   }
+  },
+  {
+   "label": "testinfra-e4-scope",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "testinfra/testinfra.py",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "--scope",
+    "src/facdrone/shells/lifecycle_monitor_runner.py",
+    "src/facdrone/shells/lifecycle_store.py",
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/lifecycle_evidence.py",
+    "src/facdrone/shells/lifecycle_projection.py",
+    "src/facdrone/shells/cppi/lifecycle_seams.py",
+    "src/facdrone/shells/wiring/lifecycle_root.py",
+    "--baseline-failures",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication/results/baseline-failures-by-cause.json",
+    "--site-packages",
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Lib/site-packages",
+    "--out",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/results",
+    "--stem",
+    "testinfra"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-06T08:50:19.520454+00:00",
+   "end_utc": "2026-11-06T08:50:35.392387+00:00",
+   "seconds": 15.87,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T09:50:19",
+    "cpu_total": 30.0477785238522,
+    "cpu_other": 0.30047778523852203,
+    "ram_free_gb": 10.9,
+    "bench_s": 0.391,
+    "pid": 9528
+   }
+  },
+  {
+   "label": "test-e4-oracle-red",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/test_e4_oracle.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-06T08:53:19.673507+00:00",
+   "end_utc": "2026-11-06T08:53:22.345962+00:00",
+   "seconds": 2.67,
+   "exit": 2,
+   "adaptive": {
+    "time": "2026-11-06T09:53:19",
+    "cpu_total": 18.8077721482715,
+    "cpu_other": 0.188077721482715,
+    "ram_free_gb": 12.74,
+    "bench_s": 0.402,
+    "pid": 29108
+   }
+  },
+  {
+   "label": "test-e4-oracle-green",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/test_e4_oracle.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T08:57:10.540751+00:00",
+   "end_utc": "2026-11-06T08:57:22.276468+00:00",
+   "seconds": 11.74,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T09:57:10",
+    "cpu_total": 29.9337743069798,
+    "cpu_other": 0.299337743069798,
+    "ram_free_gb": 12.37,
+    "bench_s": 0.331,
+    "pid": 31304
+   }
+  },
+  {
+   "label": "smoke-record",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "e4_oracle.py",
+    "record",
+    "--out",
+    "D:/Source/lesscode/.runs/e4-lifecycle/smoke.json",
+    "--generated",
+    "0"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T08:58:56.674291+00:00",
+   "end_utc": "2026-11-06T08:59:21.243454+00:00",
+   "seconds": 24.57,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T09:58:56",
+    "cpu_total": 51.0631254241093,
+    "cpu_other": 0.510631254241093,
+    "ram_free_gb": 12.33,
+    "bench_s": 0.297,
+    "pid": 10576
+   }
+  },
+  {
+   "label": "record-a",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "e4_oracle.py",
+    "record",
+    "--out",
+    "D:/Source/lesscode/.runs/e4-lifecycle/golden-a.json"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T09:00:14.846142+00:00",
+   "end_utc": "2026-11-06T09:00:47.991508+00:00",
+   "seconds": 33.15,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T10:00:14",
+    "cpu_total": 27.6608704251089,
+    "cpu_other": 0.276608704251089,
+    "ram_free_gb": 12.32,
+    "bench_s": 0.299,
+    "pid": 18180
+   }
+  },
+  {
+   "label": "record-b",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "e4_oracle.py",
+    "record",
+    "--out",
+    "D:/Source/lesscode/.runs/e4-lifecycle/golden-b.json"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T09:02:29.217621+00:00",
+   "end_utc": "2026-11-06T09:02:57.465324+00:00",
+   "seconds": 28.25,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T10:02:29",
+    "cpu_total": 46.7904431187136,
+    "cpu_other": 0.467904431187136,
+    "ram_free_gb": 12.04,
+    "bench_s": 0.217,
+    "pid": 9072
+   }
+  },
+  {
+   "label": "replay-frozen",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "e4_oracle.py",
+    "replay",
+    "--golden",
+    "D:/Source/lesscode/.runs/e4-lifecycle/golden-a.json"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T09:03:38.935612+00:00",
+   "end_utc": "2026-11-06T09:03:59.428051+00:00",
+   "seconds": 20.49,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T10:03:38",
+    "cpu_total": 28.6913267149441,
+    "cpu_other": 0.286913267149441,
+    "ram_free_gb": 12.91,
+    "bench_s": 0.219,
+    "pid": 24076
+   }
+  },
+  {
+   "label": "seeds-freeze",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "run_e4.py",
+    "seeds"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {},
+   "start_utc": "2026-11-06T09:04:06.896351+00:00",
+   "end_utc": "2026-11-06T09:04:07.229884+00:00",
+   "seconds": 0.33,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T10:04:06",
+    "cpu_total": 19.8727021910505,
+    "cpu_other": 0.198727021910505,
+    "ram_free_gb": 12.81,
+    "bench_s": 0.26,
+    "pid": 37520
+   }
+  },
+  {
+   "label": "round0-ident",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "run_e4.py",
+    "D:/Source/lesscode/.runs/e4-lifecycle/ident",
+    "--round",
+    "0",
+    "--deadline",
+    "2400.0"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T09:04:52.082943+00:00",
+   "end_utc": "2026-11-06T09:06:07.733891+00:00",
+   "seconds": 75.65,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T10:04:51",
+    "cpu_total": 27.2695289073333,
+    "cpu_other": 0.272695289073333,
+    "ram_free_gb": 12.27,
+    "bench_s": 0.266,
+    "pid": 38692
+   }
+  },
+  {
+   "label": "host-facts",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/hostfacts.py"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-06T09:06:48.825134+00:00",
+   "end_utc": "2026-11-06T09:06:51.268922+00:00",
+   "seconds": 2.44,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T10:06:48",
+    "cpu_total": 53.8446632418012,
+    "cpu_other": 0.538446632418012,
+    "ram_free_gb": 9.02,
+    "bench_s": 0.386,
+    "pid": 26912
+   }
+  },
+  {
+   "label": "hash7-after",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "C:/Users/mariu/AppData/Local/Temp/claude/D--Source-lesscode/2f0bcc15-b460-4947-82dc-f42a87ae3c94/scratchpad/hash7.py",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "D:/Source/lesscode/.runs/e4-lifecycle/ident"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-06T09:06:58.801676+00:00",
+   "end_utc": "2026-11-06T09:06:59.092581+00:00",
+   "seconds": 0.29,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T10:06:58",
+    "cpu_total": 59.3747561707704,
+    "cpu_other": 0.5937475617077039,
+    "ram_free_gb": 9.21,
+    "bench_s": 0.29,
+    "pid": 9368
+   }
+  },
+  {
+   "label": "test-e4-oracle-after-review",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/test_e4_oracle.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+   },
+   "start_utc": "2026-11-06T09:17:38.583366+00:00",
+   "end_utc": "2026-11-06T09:18:06.392686+00:00",
+   "seconds": 27.81,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T10:17:37",
+    "cpu_total": 48.5205619347542,
+    "cpu_other": 0.48520561934754197,
+    "ram_free_gb": 9.91,
+    "bench_s": 0.685,
+    "pid": 7352
+   }
+  }
+ ],
+ "facts": [
+  {
+   "time_utc": "2026-11-06T09:07:57.271945+00:00",
+   "label": "task-5.2-round0",
+   "apparatus_sha256": {
+    "surface4.py": "26aa763aced681d61a436e4766abb0ec994d0092cb8edcb9854bc8367e4a81e1",
+    "e4_oracle.py": "cd0c605cec22fbe3b118f2ab48047d85a6da4390d4408b94665092421deb3c33",
+    "run_e4.py": "3443be46423b52b47d89074c702df1a79a37a1dd74b9f66862cbf0b22fdd577b",
+    "test_e4_oracle.py": "4513253ea3b43b88fc30adf50687e339550b99ccce006c51e543294dc4a5bcf8",
+    "test_e4_replay.py": "7e3fabb383afa54d2a50c4d691bec7a84f6031c8b0b7c999956cad16d68001a1"
+   },
+   "apparatus_lines": {
+    "surface4.py": 60,
+    "e4_oracle.py": 534,
+    "run_e4.py": 77,
+    "test_e4_oracle.py": 69,
+    "test_e4_replay.py": 32
+   },
+   "budget": {
+    "counted_files": [
+     "surface4.py",
+     "e4_oracle.py",
+     "run_e4.py"
+    ],
+    "counted_lines": 671,
+    "budget_lines": 600,
+    "overrun_lines": 71,
+    "tests_excluded": [
+     "test_e4_oracle.py",
+     "test_e4_replay.py"
+    ],
+    "compacted": false
+   },
+   "results_sha256": {
+    "golden-e4.json.sha256": "e204ad86d1defcb8bc51d32a7f5b6ff8ecd19d2f0846c38544e01edb7f058bd0",
+    "public-surface.json": "e0b4fdc4f32c3c6fc342afd10045cbaec6f48a8a419dbd4757766d508f7a354c",
+    "seeds.json": "35626dd378c86fef7d024a597d8386611002f3a8fdda985d7abc56ad782e95bf",
+    "sql-divergences-round0.json": "e6ae4a42be10a16c7a42d7bc99265d58f7779e70de873288c8d5dce8909f2c91",
+    "testinfra.json": "fcefcbf16e5c61513d18b9cefb33634e034b88a3ce3593fc1034bed654baf62c",
+    "testinfra.md": "8a60cafd7f4528150c6992a3c7b29592543ce2951c3f51595735411711c2b727"
+   },
+   "scope_sha256_frozen_before": {
+    "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+    "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+    "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+    "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+    "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+    "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f",
+    "lines_total": 1495
+   },
+   "scope_sha256_frozen_after": {
+    "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+    "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+    "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+    "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+    "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+    "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f",
+    "lines_total": 1495
+   },
+   "scope_sha256_ident_after": {
+    "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+    "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+    "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+    "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+    "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+    "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f",
+    "lines_total": 1495
+   },
+   "frozen_and_ident_identical_before_and_after": true,
+   "corpus": {
+    "sha256": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+    "bytes": 5479067,
+    "byte_identical_recordings": true,
+    "path": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\golden-a.json",
+    "sidecar": "results/golden-e4.json.sha256",
+    "sequences": 50,
+    "operations": 317,
+    "seeds": 26,
+    "generated": 24,
+    "hypothesis_seed": 20261106,
+    "alphabet": [
+     "admit",
+     "admit_durable",
+     "admitted",
+     "baseline_view",
+     "census_references",
+     "cli_enroll",
+     "cli_readings",
+     "cli_retire",
+     "enroll",
+     "events",
+     "flag",
+     "ledger",
+     "live_evidence",
+     "open_flags",
+     "overdue_flags",
+     "readings",
+     "retire",
+     "run",
+     "seams",
+     "seed_evidence",
+     "standing",
+     "standing_view",
+     "tick",
+     "transition"
+    ],
+    "excluded_from_alphabet": [
+     "lifecycle_review (owner condition: wall-clock read)"
+    ],
+    "generated_only_signatures": [
+     "enroll:TransitionRefused<None",
+     "retire:TransitionRefused<None"
+    ],
+    "harness_suspects": []
+   },
+   "replay_frozen_driver": {
+    "level1_divergence": null,
+    "level2_differences": 0,
+    "receipt_label": "replay-frozen"
+   },
+   "round0_ident": {
+    "exit": 0,
+    "seconds": 75.7,
+    "deadline_base_s": 1200,
+    "deadline_scaled_s": 2400.0,
+    "factor_at_scaling": 2.0,
+    "groups": {
+     ".": "108 passed, 1 skipped, 1 deselected (47.8 s; 11 seed files + test_e4_replay.py)",
+     "packages/facdrone-research": "1 passed (26.7 s)"
+    },
+    "replay": {
+     "fresh": true,
+     "sequences": 50,
+     "operations": 317,
+     "level2_ops": 0
+    }
+   },
+   "seeds": [
+    "packages/facdrone-research/tests/test_lifecycle_readings_publish.py",
+    "tests/unit/test_cppi_monitor_worker.py",
+    "tests/unit/test_lifecycle_evidence.py",
+    "tests/unit/test_lifecycle_evidence_intervals.py",
+    "tests/unit/test_lifecycle_evidence_projection.py",
+    "tests/unit/test_lifecycle_monitor_binding_db.py",
+    "tests/unit/test_lifecycle_monitor_runner_db.py",
+    "tests/unit/test_lifecycle_projection.py",
+    "tests/unit/test_lifecycle_run_evidence.py",
+    "tests/unit/test_lifecycle_store_db.py",
+    "tests/unit/test_lifecycle_window_commits.py",
+    "tests/unit/test_monitor_windows.py"
+   ],
+   "seed_files": 12,
+   "seeds_dropped": {
+    "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py": "gate --ignore",
+    "packages/facdrone-research/tests/test_controlled_study_producer.py": "collection error on this host (fcntl)",
+    "packages/facdrone-research/tests/test_recensus_db.py": "collection error on this host (fcntl)"
+   },
+   "deselections": [
+    "tests/unit/test_lifecycle_store_db.py::TestTheTableOnTheDatabase::test_the_event_id_is_the_stored_one_whatever_the_session_time_zone"
+   ],
+   "via_fixture_false_positives_excluded": [
+    "tests/unit/test_intraday_panel_cache.py",
+    "tests/unit/test_intraday_read_note.py",
+    "tests/unit/test_intraday_upsert_concurrency_db.py",
+    "tests/unit/test_release_receipt.py"
+   ],
+   "baseline_failure_list": {
+    "file": "e1b-facdrone-evidence-publication/results/baseline-failures-by-cause.json",
+    "entries": 244,
+    "resolved_node_ids": 236,
+    "collection_errors": 8,
+    "reconciliation": "244 = 236 node ids (the E1b/E3 deselect list, set-equal per testinfra validation) + 8 fcntl collection-error modules; two of the 8 import the scope and are dropped at file level"
+   },
+   "marker_expression": "not port_baseline and not live_broker",
+   "host": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.16 (main, Oct  9 2026, 15:21:05) [MSC v.1944 64 bit (AMD64)]",
+    "user": "mini\\mariu",
+    "is_admin_token": false,
+    "high_integrity_level": false,
+    "symlink_privilege": false,
+    "wsl_used": false,
+    "serial": "one heavy job at a time; pytest without xdist (-p no:xdist not needed: no -n given, serial by default); groups run one after another",
+    "thread_pins": {
+     "OPENBLAS_NUM_THREADS": "1 (passed via receipt --env to every recording and pytest)",
+     "OMP_NUM_THREADS": "1 (passed via receipt --env to every recording and pytest)",
+     "MKL_NUM_THREADS": "1 (passed via receipt --env to every recording and pytest)"
+    },
+    "versions": {
+     "sqlalchemy": "2.0.50",
+     "pytest": "9.0.3",
+     "hypothesis": "6.170.14",
+     "psycopg": "3.3.4",
+     "typer": "0.26.7"
+    }
+   },
+   "surface_vs_rationale": {
+    "deriver_adds": [
+     "cli/lifecycle_group: _cited_baseline, _lifecycle_store, _pod_of, configured_pods, read_parameters as explicit `patched` names (the rationale said 'module globals patched by tests')",
+     "lifecycle_evidence: _consumed also `attribute` (read), live_evidence `attribute`",
+     "wiring/lifecycle_root: study_baseline `attribute`"
+    ],
+    "deriver_drops": [
+     "lifecycle_monitor_runner instance attributes _rules, _append, _evidence, _monitored (set/read on runner objects, not module names)",
+     "lifecycle_store instance attributes _engine, standing (read/patched on store objects)",
+     "lifecycle_evidence LiveEvidence (patched as the string target 'facdrone.shells.lifecycle_evidence.LiveEvidence.for_window': the deriver resolves only module.name strings)",
+     "lifecycle_projection labeled_reason (referenced by no outside file; the rationale listed it as an alphabet operation, not as surface)"
+    ],
+    "unresolved": 0,
+    "intra_set_excluded": "_rules_revision (CLI and root), MonitorRunner/MonitorSources/MonitoredSignal/Evidence (seams), LifecycleStore/bind_writers, baseline_view/live_evidence/read_evidence, signal_standing, lifecycle_store/study_baseline"
+   },
+   "residue_declared": [
+    "lifecycle_group.lifecycle_admit",
+    "lifecycle_group.lifecycle_review",
+    "lifecycle_root.pod_lifecycle_standing",
+    "lifecycle_root.lifecycle_store"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T09:10:10.696568+00:00",
+   "label": "task-5.2-readme",
+   "readme_sha256": "fcb1e6400116ee8d6336fd576bb80dbb9e4162f00c49530e4b04c2ceccd8696f",
+   "readme_lines": 190
+  },
+  {
+   "time_utc": "2026-11-06T09:18:20.764533+00:00",
+   "label": "apparatus-after-review",
+   "date": "2026-11-06",
+   "reason": "independent review of 5.2, point 1(d): record() writes the golden and its sidecar with newline='\n' so raw bytes equal the hashed body; no other apparatus change",
+   "e4_oracle.py": {
+    "sha256": "a6d0b899bdb4506c399e36725296ec261d505e006a76a679240e4606c9bdbd1d",
+    "lines": 534,
+    "previous_sha256": "cd0c605cec22fbe3b118f2ab48047d85a6da4390d4408b94665092421deb3c33"
+   },
+   "budget_counted_lines": 671,
+   "test_e4_oracle": {
+    "receipt_label": "test-e4-oracle-after-review",
+    "result": "7 passed",
+    "exit": 0
+   },
+   "sidecars_sha256": {
+    "e4-lifecycle\\results\\golden-e4.json.sha256": "d390c0eea0e3000bc956d626463f7d3ea4244649002bb54d280a28a39c09015c",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\golden-a.json.sha256": "d390c0eea0e3000bc956d626463f7d3ea4244649002bb54d280a28a39c09015c",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\golden-b.json.sha256": "53a5def47786a2a50256a2e6502530e4a8273ce9839df140d5523d9dbe9f7e06",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\smoke.json.sha256": "edae919d22c9f6cb60dbab50360cadb7c77add9f02c42512bdaf12f6e61cafbd"
+   },
+   "readme_sha256": "a21777be913b6bdc383a63646563514a77c443c6fd60146450e7c53114f84d37",
+   "readme_lines": 201,
+   "not_rerun": [
+    "record-a",
+    "record-b",
+    "replay-frozen",
+    "round0-ident"
+   ]
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-06T08:53:22.642058+00:00",
+   "key": "red-phase",
+   "value": {
+    "test_e4_oracle.py": "written before e4_oracle.py; the collection fails on ImportError (see logs/test-e4-oracle-red.log)",
+    "via_fixture_seeds_excluded": {
+     "files": [
+      "tests/unit/test_intraday_panel_cache.py",
+      "tests/unit/test_intraday_read_note.py",
+      "tests/unit/test_intraday_upsert_concurrency_db.py",
+      "tests/unit/test_release_receipt.py"
+     ],
+     "why": "testinfra via_fixture matched the fixture name `store` of facdrone_testing/core/lifecycle.py; the three intraday files define their own `store` fixture (an Engine) and test_release_receipt.py requests no scope-reaching fixture; none references the seven modules (scope_references.test_files has no entry for them)"
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T08:58:49.767249+00:00",
+   "key": "smoke-record-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T09:58:49",
+     "cpu_total": 29.6953514474818,
+     "cpu_other": 0.296953514474818,
+     "ram_free_gb": 11.78,
+     "bench_s": 0.295,
+     "pid": 7808,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.39,
+     "factor_cpu": 1.42,
+     "factor": 1.42,
+     "waited_s": 85.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 600.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:00:08.168825+00:00",
+   "key": "record-a-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T10:00:07",
+     "cpu_total": 26.9182689815402,
+     "cpu_other": 0.269182689815402,
+     "ram_free_gb": 12.26,
+     "bench_s": 0.311,
+     "pid": 37660,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.47,
+     "factor_cpu": 1.37,
+     "factor": 1.47,
+     "waited_s": 6.4,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 900.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:02:22.297965+00:00",
+   "key": "record-b-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T10:02:22",
+     "cpu_total": 22.9414254456901,
+     "cpu_other": 0.229414254456901,
+     "ram_free_gb": 12.31,
+     "bench_s": 0.25,
+     "pid": 39228,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.18,
+     "factor_cpu": 1.3,
+     "factor": 1.3,
+     "waited_s": 87.3,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 900.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:03:32.451284+00:00",
+   "key": "replay-frozen-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T10:03:32",
+     "cpu_total": 15.5298887550301,
+     "cpu_other": 0.155298887550301,
+     "ram_free_gb": 12.75,
+     "bench_s": 0.272,
+     "pid": 23956,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.28,
+     "factor_cpu": 1.18,
+     "factor": 1.28,
+     "waited_s": 5.9,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 900.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:04:11.675185+00:00",
+   "key": "corpus-identity",
+   "value": {
+    "golden_a": "D:/Source/lesscode/.runs/e4-lifecycle/golden-a.json",
+    "golden_b": "D:/Source/lesscode/.runs/e4-lifecycle/golden-b.json",
+    "sha256_both": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+    "bytes": 5479067,
+    "byte_identical": true,
+    "decision": "5.48 MB exceeds the 1 MB limit for results/, so the golden stays on disk under .runs/e4-lifecycle/ and only results/golden-e4.json.sha256 (the sidecar) is committed; test_e4_replay.py falls back to golden-a.json when results/golden-e4.json is absent",
+    "hypothesis_seed": 20261106,
+    "generated": 24,
+    "seeds": 26
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:04:45.185521+00:00",
+   "key": "round0-ident-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T10:04:44",
+     "cpu_total": 31.8933062673394,
+     "cpu_other": 0.318933062673394,
+     "ram_free_gb": 12.15,
+     "bench_s": 0.301,
+     "pid": 18748,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.42,
+     "factor_cpu": 1.47,
+     "factor": 1.47,
+     "waited_s": 6.4,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1200.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:17:26.004981+00:00",
+   "key": "corpus-identity-correction",
+   "value": {
+    "date": "2026-11-06",
+    "review": "independent review of 5.2, point 1",
+    "golden_a_and_b_raw": {
+     "sha256": "62791b3269b843586300f394ce53c88193269ac0d509f0eb0443a5140c805bd3",
+     "bytes": 5643360,
+     "line_endings": "CRLF"
+    },
+    "golden_a_and_b_lf_body": {
+     "sha256": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+     "bytes": 5479067,
+     "role": "the identity record() computes; cited by the corpus-identity note and fact task-5.2-round0"
+    },
+    "cause": "Path.write_text without newline= translates \\n to \\r\\n on Windows (e4_oracle.py record(), lines 508-513 as reviewed); the same mechanism as e1b_oracle.py:387-389, so the E1b/E3 goldens on disk differ from their hashed bodies the same way",
+    "both_files_identical": "yes, on raw bytes and on the LF body",
+    "replay_unaffected": "read_text normalises newlines before json.loads; replay-frozen and round0-ident read the same content",
+    "fix_applied": {
+     "sidecars": "line 1 raw sha256 (verifies against the file as stored), line 2 `#` lf-body sha256 and size: results/golden-e4.json.sha256, .runs/e4-lifecycle/golden-a.json.sha256, golden-b.json.sha256, smoke.json.sha256",
+     "smoke": {
+      "raw_sha256": "fb7dc308b7874f756e08d08911bd4cf58be1ad213cbd8fb72eb97fae47ce1fa7",
+      "raw_bytes": 2996882,
+      "lf_body_sha256": "f6acb3a4f8af4752cdec51da0f58341df827603f44aa65305aae3b563d49cc5a",
+      "lf_body_bytes": 2910943
+     },
+     "record()": "now writes the golden and the sidecar with newline='\\n' so future recordings (task 6.6 held-out corpus) have raw bytes equal to the hashed body; the body hash stays the identity; not re-recorded now"
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T09:17:26.008015+00:00",
+   "key": "round0-ident-deadline-provenance",
+   "value": {
+    "date": "2026-11-06",
+    "review": "independent review of 5.2, point 2",
+    "how_2.0_was_chosen": "the shell computed T=$(python -c 'import adaptive; d,i=adaptive.scaled(1200); print(d)') immediately before guard.py round0-ident; adaptive.scaled() ran its own probe (bench + Get-Counter) and returned factor 2.0 -> 2400.0; only the printed 'deadline 2400.0' reached the console; that probe's dict (bench_s, cpu_other) was not written to the receipt. No rounding and no ceiling were applied by me: 2.0 is what that probe returned (max(bench/0.212, 1/(1-cpu_other)) clamped to [1, 4])",
+    "relation_to_guard_probe": "the guard's receipted probe a few seconds later read factor 1.47 (bench 0.301 s, cpu_other 0.319); 2.0 is above it, so the deadline was looser than the receipted probe would have given (1764 s)",
+    "run_used_s": 75.7,
+    "deadline_s": 2400.0,
+    "receipt_timeout": "--timeout 2520 is receipt_atomic.py's own subprocess timeout (deadline + 120 s), not part of run_e4.py's argv; run_e4.py received --deadline 2400.0 (see the command entry)",
+    "same_pattern": "record-a, record-b and replay-frozen deadlines (base 600) were computed the same way; their scaled() probes were not receipted either, their guard probes were (1.47, 1.30, 1.28); each finished in under 35 s",
+    "lesson": "take the factor from the guard's receipted probe, or receipt the scaled() probe, so every deadline is traceable"
+   }
+  }
+ ]
+}

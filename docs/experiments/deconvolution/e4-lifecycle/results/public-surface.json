@@ -1,0 +1,673 @@
+{
+ "files_scanned": 1754,
+ "intra_set": {
+  "facdrone.shells.cli.lifecycle_group": {},
+  "facdrone.shells.cppi.lifecycle_seams": {},
+  "facdrone.shells.lifecycle_evidence": {
+   "baseline_view": [
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/cppi/lifecycle_seams.py"
+   ],
+   "live_evidence": [
+    "src/facdrone/shells/cli/lifecycle_group.py"
+   ],
+   "read_evidence": [
+    "src/facdrone/shells/cppi/lifecycle_seams.py"
+   ]
+  },
+  "facdrone.shells.lifecycle_monitor_runner": {
+   "Evidence": [
+    "src/facdrone/shells/cppi/lifecycle_seams.py"
+   ],
+   "MonitorRunner": [
+    "src/facdrone/shells/cppi/lifecycle_seams.py",
+    "src/facdrone/shells/cppi/lifecycle_seams.py"
+   ],
+   "MonitorSources": [
+    "src/facdrone/shells/cppi/lifecycle_seams.py"
+   ],
+   "MonitoredSignal": [
+    "src/facdrone/shells/cppi/lifecycle_seams.py"
+   ],
+   "_rules_revision": [
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/wiring/lifecycle_root.py"
+   ]
+  },
+  "facdrone.shells.lifecycle_projection": {
+   "signal_standing": [
+    "src/facdrone/shells/wiring/lifecycle_root.py"
+   ]
+  },
+  "facdrone.shells.lifecycle_store": {
+   "LifecycleStore": [
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/cppi/lifecycle_seams.py",
+    "src/facdrone/shells/wiring/lifecycle_root.py",
+    "src/facdrone/shells/wiring/lifecycle_root.py"
+   ],
+   "bind_writers": [
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/cppi/lifecycle_seams.py"
+   ]
+  },
+  "facdrone.shells.wiring.lifecycle_root": {
+   "lifecycle_store": [
+    "src/facdrone/shells/cli/lifecycle_group.py"
+   ],
+   "study_baseline": [
+    "src/facdrone/shells/cli/lifecycle_group.py"
+   ]
+  }
+ },
+ "modules": {
+  "facdrone.shells.cli.lifecycle_group": {
+   "file": "src/facdrone/shells/cli/lifecycle_group.py",
+   "importers": {
+    "packages/facdrone-research/tests/lifecycle_loop_support.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/lifecycle.py": "test",
+    "src/facdrone/shells/cli/app.py": "prod"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "packages/facdrone-research/tests/lifecycle_loop_support.py",
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "_cited_baseline": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "_lifecycle_store": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py"
+     ],
+     "kind": "reexport:facdrone.shells.wiring.lifecycle_root",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "_pod_of": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "configured_pods": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py"
+     ],
+     "kind": "reexport:facdrone.shells.wiring.composition",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "lifecycle_app": {
+     "importers": [
+      "src/facdrone/shells/cli/app.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "read_parameters": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py"
+     ],
+     "kind": "reexport:facdrone.shells.wiring.composition",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.cppi.lifecycle_seams": {
+   "file": "src/facdrone/shells/cppi/lifecycle_seams.py",
+   "importers": {
+    "packages/facdrone-research/tests/lifecycle_loop_daemon.py": "test",
+    "packages/facdrone-research/tests/lifecycle_loop_support.py": "test",
+    "src/facdrone/shells/cppi/binding.py": "prod",
+    "tests/unit/test_lifecycle_monitor_binding_db.py": "test"
+   },
+   "names": {
+    "LifecycleSeams": {
+     "importers": [
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "bind_lifecycle": {
+     "importers": [
+      "src/facdrone/shells/cppi/binding.py",
+      "packages/facdrone-research/tests/lifecycle_loop_support.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "bind_lifecycle_monitor": {
+     "importers": [
+      "tests/unit/test_lifecycle_monitor_binding_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.lifecycle_evidence": {
+   "file": "src/facdrone/shells/lifecycle_evidence.py",
+   "importers": {
+    "packages/facdrone-testing/facdrone_testing/core/lifecycle.py": "test",
+    "tests/unit/test_lifecycle_evidence.py": "test",
+    "tests/unit/test_lifecycle_evidence_intervals.py": "test",
+    "tests/unit/test_lifecycle_evidence_projection.py": "test",
+    "tests/unit/test_lifecycle_monitor_binding_db.py": "test",
+    "tests/unit/test_lifecycle_run_evidence.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+      "tests/unit/test_lifecycle_evidence_intervals.py",
+      "tests/unit/test_lifecycle_evidence_projection.py",
+      "tests/unit/test_lifecycle_run_evidence.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "Readings": {
+     "importers": [
+      "tests/unit/test_lifecycle_evidence.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "_consumed": {
+     "importers": [
+      "tests/unit/test_lifecycle_evidence_intervals.py",
+      "tests/unit/test_lifecycle_evidence_projection.py",
+      "tests/unit/test_lifecycle_monitor_binding_db.py",
+      "tests/unit/test_lifecycle_run_evidence.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched",
+      "attribute"
+     ]
+    },
+    "_consumed_query": {
+     "importers": [
+      "tests/unit/test_lifecycle_evidence_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "_observed_day": {
+     "importers": [
+      "tests/unit/test_lifecycle_evidence_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "baseline_view": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+      "tests/unit/test_lifecycle_evidence.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched",
+      "import"
+     ]
+    },
+    "live_evidence": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+      "tests/unit/test_lifecycle_evidence.py",
+      "tests/unit/test_lifecycle_evidence_intervals.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched",
+      "import",
+      "attribute"
+     ]
+    },
+    "read_evidence": {
+     "importers": [
+      "tests/unit/test_lifecycle_run_evidence.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.lifecycle_monitor_runner": {
+   "file": "src/facdrone/shells/lifecycle_monitor_runner.py",
+   "importers": {
+    "packages/facdrone-research/tests/lifecycle_loop_daemon.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/lifecycle.py": "test",
+    "src/facdrone/shells/cppi/monitor_worker.py": "prod",
+    "src/facdrone/shells/cppi/seams.py": "prod",
+    "tests/unit/test_cppi_monitor_worker.py": "test",
+    "tests/unit/test_lifecycle_monitor_runner_db.py": "test",
+    "tests/unit/test_lifecycle_projection.py": "test",
+    "tests/unit/test_lifecycle_run_evidence.py": "test",
+    "tests/unit/test_lifecycle_window_commits.py": "test",
+    "tests/unit/test_monitor_windows.py": "test"
+   },
+   "names": {
+    "Emit": {
+     "importers": [
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "tests/unit/test_cppi_monitor_worker.py",
+      "tests/unit/test_lifecycle_monitor_runner_db.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "Evidence": {
+     "importers": [
+      "tests/unit/test_lifecycle_run_evidence.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "FlagWriter": {
+     "importers": [
+      "tests/unit/test_lifecycle_monitor_runner_db.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "MonitorRunner": {
+     "importers": [
+      "src/facdrone/shells/cppi/monitor_worker.py",
+      "src/facdrone/shells/cppi/seams.py",
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+      "tests/unit/test_cppi_monitor_worker.py",
+      "tests/unit/test_lifecycle_monitor_runner_db.py",
+      "tests/unit/test_lifecycle_run_evidence.py",
+      "tests/unit/test_lifecycle_window_commits.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "MonitorSources": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+      "tests/unit/test_lifecycle_monitor_runner_db.py",
+      "tests/unit/test_lifecycle_run_evidence.py",
+      "tests/unit/test_lifecycle_window_commits.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "MonitorSummary": {
+     "importers": [
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "tests/unit/test_lifecycle_monitor_runner_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "MonitoredSignal": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+      "tests/unit/test_lifecycle_monitor_runner_db.py",
+      "tests/unit/test_lifecycle_run_evidence.py",
+      "tests/unit/test_lifecycle_window_commits.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "_flag_reason": {
+     "importers": [
+      "tests/unit/test_lifecycle_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "_rules_revision": {
+     "importers": [
+      "tests/unit/test_lifecycle_monitor_runner_db.py",
+      "tests/unit/test_monitor_windows.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.lifecycle_projection": {
+   "file": "src/facdrone/shells/lifecycle_projection.py",
+   "importers": {
+    "tests/unit/test_lifecycle_projection.py": "test"
+   },
+   "names": {
+    "monitor_label": {
+     "importers": [
+      "tests/unit/test_lifecycle_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "signal_standing": {
+     "importers": [
+      "tests/unit/test_lifecycle_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.lifecycle_store": {
+   "file": "src/facdrone/shells/lifecycle_store.py",
+   "importers": {
+    "packages/facdrone-research/tests/lifecycle_loop_daemon.py": "test",
+    "packages/facdrone-research/tests/lifecycle_loop_support.py": "test",
+    "packages/facdrone-research/tests/study_prior_fixture.py": "test",
+    "packages/facdrone-research/tests/test_controlled_study_producer.py": "test",
+    "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py": "test",
+    "packages/facdrone-research/tests/test_lifecycle_readings_publish.py": "test",
+    "packages/facdrone-research/tests/test_recensus_db.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/lifecycle.py": "test",
+    "src/facdrone/shells/cppi/binding.py": "prod",
+    "src/facdrone/shells/cppi/snapshot_sources.py": "prod",
+    "tests/unit/test_lifecycle_monitor_binding_db.py": "test",
+    "tests/unit/test_lifecycle_monitor_runner_db.py": "test",
+    "tests/unit/test_lifecycle_store_db.py": "test",
+    "tests/unit/test_lifecycle_window_commits.py": "test"
+   },
+   "names": {
+    "LifecycleStore": {
+     "importers": [
+      "src/facdrone/shells/cppi/binding.py",
+      "src/facdrone/shells/cppi/snapshot_sources.py",
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "packages/facdrone-research/tests/lifecycle_loop_support.py",
+      "packages/facdrone-research/tests/study_prior_fixture.py",
+      "packages/facdrone-research/tests/test_controlled_study_producer.py",
+      "packages/facdrone-research/tests/test_lifecycle_readings_publish.py",
+      "packages/facdrone-research/tests/test_recensus_db.py",
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+      "tests/unit/test_lifecycle_monitor_binding_db.py",
+      "tests/unit/test_lifecycle_monitor_runner_db.py",
+      "tests/unit/test_lifecycle_store_db.py",
+      "tests/unit/test_lifecycle_window_commits.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "TransitionRequest": {
+     "importers": [
+      "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py",
+      "tests/unit/test_lifecycle_store_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "bind_writers": {
+     "importers": [
+      "packages/facdrone-research/tests/study_prior_fixture.py",
+      "packages/facdrone-research/tests/test_recensus_db.py",
+      "packages/facdrone-testing/facdrone_testing/core/lifecycle.py",
+      "tests/unit/test_lifecycle_monitor_binding_db.py",
+      "tests/unit/test_lifecycle_monitor_runner_db.py",
+      "tests/unit/test_lifecycle_store_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.wiring.lifecycle_root": {
+   "file": "src/facdrone/shells/wiring/lifecycle_root.py",
+   "importers": {
+    "packages/facdrone-research/facdrone_research/commands/app.py": "prod",
+    "packages/facdrone-research/facdrone_research/commands/frozen_study.py": "prod",
+    "packages/facdrone-research/tests/lifecycle_loop_support.py": "test",
+    "packages/facdrone-research/tests/study_prior_fixture.py": "test",
+    "packages/facdrone-research/tests/test_controlled_study_producer.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "packages/facdrone-research/tests/lifecycle_loop_support.py",
+      "packages/facdrone-research/tests/test_controlled_study_producer.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "lifecycle_store": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/app.py",
+      "packages/facdrone-research/facdrone_research/commands/frozen_study.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "pod_lifecycle_standing": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/app.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "project_root": {
+     "importers": [
+      "packages/facdrone-research/tests/test_controlled_study_producer.py"
+     ],
+     "kind": "reexport:facdrone.shells.wiring.composition",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "study_baseline": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/frozen_study.py",
+      "packages/facdrone-research/tests/study_prior_fixture.py",
+      "packages/facdrone-research/tests/test_controlled_study_producer.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    }
+   }
+  }
+ },
+ "root": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "unresolved": {
+  "facdrone.shells.cli.lifecycle_group": {},
+  "facdrone.shells.cppi.lifecycle_seams": {},
+  "facdrone.shells.lifecycle_evidence": {},
+  "facdrone.shells.lifecycle_monitor_runner": {},
+  "facdrone.shells.lifecycle_projection": {},
+  "facdrone.shells.lifecycle_store": {},
+  "facdrone.shells.wiring.lifecycle_root": {}
+ }
+}

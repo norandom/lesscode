@@ -161,7 +161,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Boundary: RoundController, Measurer (integration)_
   - _Depends: 1.1, 4_
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 6.4, 6.5_
-- [ ] 5.2 Second scope: surface, seeds, corpus and round 0 on an identical copy (owner go, owner-approved scope)
+- [x] 5.2 Second scope: surface, seeds, corpus and round 0 on an identical copy (owner go, owner-approved scope)
   - The owner approves the second Facdrone scope from a written rationale
     (800 to 2,500 lines, one scattered responsibility, store behind it,
     tests executing most of it); this task does not pick it.
@@ -417,3 +417,37 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   asserted (5.5), no acceptance, behaviour unknown. Reviewer reran every
   measurer byte-identically; APPROVED; the removed-file test case was
   added after the review (receipt `test-editscope-green-2`).
+- 5.2 (2026-11-06): scope = lifecycle monitor group, seven files, 1,495
+  lines (`e4-lifecycle/scope-rationale.md`; owner chose it from the survey
+  and confirmed it after the rationale's four problems were put to them:
+  the full-loop db test imports fcntl through the research app, lazy-import
+  patching on the CLI and evidence modules, the import-linter and fan-out
+  gates name these modules, `lifecycle_review` reads the wall clock;
+  conditions: four functions residue, `lifecycle_review` out of the
+  alphabet, patching as an E4 kill criterion). Apparatus `surface4.py` 60,
+  `e4_oracle.py` 534, `run_e4.py` 77 lines (671 against 600, overrun
+  reported), tests 7 + replay target. Surface derived (0 unresolved; five
+  patched `lifecycle_group` globals explicit; instance-attribute patches
+  declared, not derivable). Seeds by detection: 15 direct test files, 12
+  kept (full-loop test gate-ignored, two fcntl collection errors dropped at
+  file level), one node deselection from E1b's 236+8 baseline list, marker
+  `not port_baseline and not live_broker`. Corpus: 24-operation alphabet
+  (store writers and readers, tick, scripted runs, evidence, projection,
+  seams, three CLI commands), injected clock and declared sort orders, 26
+  seed + 24 generated sequences (Hypothesis seed 20261106), 50 sequences /
+  317 operations; two recordings byte-identical (raw sha256 62791b32…,
+  5,643,360 bytes CRLF; LF-body identity 0b2e383d…, 5,479,067 bytes, the
+  value `record()` hashes; goldens on disk under `.runs/e4-lifecycle`,
+  sidecars committed); replay against the frozen original: Level 1 no
+  divergence, Level 2 0. Round 0 on the identical copy: exit 0 in 75.7 s
+  (root group 108 passed, 1 skipped, 1 deselected; research group 1
+  passed; replay fresh 50/50, level2_ops 0), deadline 2400 s scaled from
+  an unreceipted probe (factor 2.0; the guard's receipted probe said 1.47;
+  lesson noted: receipt the probe that sets the deadline), thread pins in
+  the recorded env, host facts (Windows 11 26200, CPython 3.13.16, plain
+  user, no admin token, no symlink privilege, serial). Scope files hashed
+  identical in both trees before and after. Reviewed by an independent
+  sonnet agent: NEEDS_FIXES (corpus identity hashed the LF body while the
+  file is CRLF; deadline provenance) then APPROVED after the sidecars,
+  README, receipt notes and a `newline="\n"` write in `record()` for
+  future recordings.

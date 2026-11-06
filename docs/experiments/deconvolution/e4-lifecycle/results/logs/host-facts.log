@@ -1,0 +1,35 @@
+{
+ "os": "Windows-11-10.0.26200-SP0",
+ "win32_ver": [
+  "11",
+  "10.0.26200",
+  "SP0",
+  "Multiprocessor Free"
+ ],
+ "machine": "AMD64",
+ "python": "3.13.16 (main, Oct  9 2026, 15:21:05) [MSC v.1944 64 bit (AMD64)]",
+ "executable": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+ "user": "mini\\mariu",
+ "is_admin_token": false,
+ "high_integrity_level": false,
+ "medium_integrity_level": true,
+ "symlink_privilege": false,
+ "wsl_used": false,
+ "execution": "native Windows, PowerShell/Git Bash launched python.exe directly; no bash from Python",
+ "thread_pins": {
+  "OPENBLAS_NUM_THREADS": "1 (passed via receipt --env to every recording and pytest)",
+  "OMP_NUM_THREADS": "1 (passed via receipt --env to every recording and pytest)",
+  "MKL_NUM_THREADS": "1 (passed via receipt --env to every recording and pytest)"
+ },
+ "serial": "one heavy job at a time; pytest without xdist (-p no:xdist not needed: no -n given, serial by default); groups run one after another",
+ "marker_expression": "not port_baseline and not live_broker",
+ "cpu_count": 24,
+ "versions": {
+  "sqlalchemy": "2.0.50",
+  "pytest": "9.0.3",
+  "hypothesis": "6.170.14",
+  "psycopg": "3.3.4",
+  "typer": "0.26.7"
+ },
+ "embedded_postgres_bin_dir_line": "BIN_DIR = Path(pgembed.__file__).parent / \"pginstall\" / \"bin\""
+}

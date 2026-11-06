@@ -1,0 +1,1 @@
+testinfra: 890 test files; seeds {'direct': 15, 'via_support': 0, 'via_fixture': 4, 'via_production': 168, 'recommended': 18}; marker `not port_baseline and not live_broker`
