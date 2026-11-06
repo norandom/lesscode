@@ -452,3 +452,7 @@ other language.
 ## Owner go
 
 Owner go for 6.2 to 6.7: **given 2026-11-06** (menu answer "Go for 6.2 to 6.7", after the cost and time were stated: up to 4 regenerator turns at about 37k input / 85k output tokens each on claude-opus-5-5, sensitivity on both trees about 2 hours of host time). The plan is frozen from this line on; later changes are dated amendments.
+
+## Amendment 1 (2026-11-06, after the 6.3 review)
+
+The apparatus table above lists `reviewer-brief.md` at `2c8eeb26…` (86 lines), which is the version before the 6.1 review edits; the brief handed to the 6.3 reviewer is `ce953945…` (89 lines), the hash recorded in receipt fact `task-6.1-apparatus-2`. No target, prediction or procedure changes. Found by the 6.3 reviewer.

@@ -1277,6 +1277,78 @@
     "bench_s": 0.259,
     "pid": 38876
    }
+  },
+  {
+   "label": "mutants-cand-generate",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\gen_cand_mutants.py",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\mcheck-cand"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T11:19:10.479447+00:00",
+   "end_utc": "2026-11-06T11:19:12.654561+00:00",
+   "seconds": 2.18,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "test-e4-arm",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "test_e4_arm.py",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T11:21:47.069729+00:00",
+   "end_utc": "2026-11-06T11:21:49.441299+00:00",
+   "seconds": 2.37,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "review-probes-orig",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "review_probes.py",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "results/review-probes-orig.json"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {},
+   "start_utc": "2026-11-06T11:24:42.791609+00:00",
+   "end_utc": "2026-11-06T11:24:58.118698+00:00",
+   "seconds": 15.33,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "review-probes-cand",
+   "cmd": [
+    "D:/Source/lesscode/.runs/e2-facdrone/venv/Scripts/python.exe",
+    "review_probes.py",
+    "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3",
+    "results/review-probes-cand.json"
+   ],
+   "cwd": "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle",
+   "env": {},
+   "start_utc": "2026-11-06T11:24:58.573606+00:00",
+   "end_utc": "2026-11-06T11:25:18.320981+00:00",
+   "seconds": 19.75,
+   "exit": 0,
+   "adaptive": null
   }
  ],
  "facts": [
@@ -1940,6 +2012,178 @@
     "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\cppi\\lifecycle_seams.py",
     "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\wiring\\lifecycle_root.py"
    ]
+  },
+  {
+   "time_utc": "2026-11-06T11:21:46.851291+00:00",
+   "key": "task-6.4-apparatus",
+   "date": "2026-11-06",
+   "rule": "plan kill criterion 5: new 6.4 apparatus registered by fact before its first run",
+   "new": {
+    "e4_arm.py": {
+     "sha256": "7b7d0cbb94274db566e4f2fd154871d5834669d7b86360b419b55c417815f2dc",
+     "lines": 253
+    },
+    "e4_rates.py": {
+     "sha256": "c12263f467c6305efc2bc3547d1f62826b4e97d96a1bade9483088c6dba92cc3",
+     "lines": 50
+    },
+    "cosmic-ray-e4-cand.toml": {
+     "sha256": "d67fb85dd31dff2a1ab82aa33ba975ebc1a9ca58eed0924028ead78700b8d551",
+     "lines": 21
+    },
+    "test_e4_arm.py": {
+     "sha256": "9508409637a577295888fbefd9d8f11125f0ce8b2bcb2edb9d769e60d0d1370e",
+     "lines": 32
+    },
+    "mutants/hand-mutants.json": {
+     "sha256": "fde02dea30306e0044b7b96d9c9709129750d3eea2bd1b50a5c314b20dfa9d4a",
+     "lines": 122
+    },
+    "mutants/M1-cand.patch": {
+     "sha256": "bc69d2551d63a7f10287b35cf849fefa9eb0cd74d153cd2469f1b1865e92443e",
+     "lines": 11
+    },
+    "mutants/M2-cand.patch": {
+     "sha256": "a007627adc2d0f4c16a02249bb9698d9906b79983dfa0f9c5b199de6bf853ba0",
+     "lines": 11
+    },
+    "mutants/M3-cand.patch": {
+     "sha256": "a5f0f936682aa3ddfa8177769c4590300705d447eddb6e30a57c7aa74c63e2d1",
+     "lines": 24
+    },
+    "mutants/M4-cand.patch": {
+     "sha256": "ac32cb7973c97ca27c8f96b4ea2e33ab8e853b532443c301ed07254b8b071ffd",
+     "lines": 11
+    }
+   },
+   "counted_lines": {
+    "e4_arm.py": 253,
+    "e4_rates.py": 50,
+    "budget_6.4": 260,
+    "e4_sample_cand.py": "not written: e4_sample.py takes --root",
+    "tests_excluded": [
+     "test_e4_arm.py"
+    ]
+   },
+   "reused_unchanged": {
+    "e4-lifecycle/run_e4.py": "3443be46423b52b47d89074c702df1a79a37a1dd74b9f66862cbf0b22fdd577b",
+    "e4-lifecycle/e4_sample.py": "107b4ff0ecbc7bbebbe30298b606e9da256b074a7d64556757708260b4fa41e7",
+    "e4-lifecycle/surface4.py": "26aa763aced681d61a436e4766abb0ec994d0092cb8edcb9854bc8367e4a81e1",
+    "e4-lifecycle/test_e4_replay.py": "7e3fabb383afa54d2a50c4d691bec7a84f6031c8b0b7c999956cad16d68001a1",
+    "e4-lifecycle/e4_oracle.py": "a6d0b899bdb4506c399e36725296ec261d505e006a76a679240e4606c9bdbd1d",
+    "e4-lifecycle/cosmic-ray-e4.toml": "ab8c00a4004ce8209c720b64777336aada1afda2fa878631b79bb2e6a1fb46fe",
+    "e3b-original-sensitivity/t31_arm.py": "a47d6c255cf6915e75d0e13876bb3831b7cffaf451032e68b1d43b029bc456d2",
+    "e1b-facdrone-evidence-publication/sample_mutants.py": "b1843245854238d01173b890c973bb8eb3226dc6cf1993a8252923addb31d75a",
+    "e1b-facdrone-evidence-publication/run_arm.py": "22ff75bcce002c05db6d5dd1473445ec0d94bb3ad0aa5217dbee4b56660cdf41",
+    "guard.py": "ae8de275f9b8b8f81fe845235a1d109b2664e5d5ba65d6b35ed5f58474934d61",
+    "receipt_atomic.py": "defdc5d91a48a12164a52f00b797a7b8aa02a91862a8aed5165cbebbbf0e8bbd",
+    "adaptive.py": "bdc93ddb6789d5a60d2b284d29bf4596180b8c285470005b981686759f581b3a",
+    "e4-lifecycle/mutants/M1.patch": "89699566b9e908d3e79321d597ada0811253e23086e448e3394502a7bcd035a3",
+    "e4-lifecycle/mutants/M2.patch": "01ee894d458d422eece64931a0bf27715ac569a0f146fe6cd97c4b977536f181",
+    "e4-lifecycle/mutants/M3.patch": "7dceff53347386a809c870381d3d0c1426300d8ca1abf4f95422953bec7d57eb",
+    "e4-lifecycle/mutants/M4.patch": "b0526f6dd762ecb124c721ce89fadf89c3cc1a7f334677f4984b46a69b963dea",
+    "e4-lifecycle/mutants/README.md": "457b5aa5031a964526886757c8247eeb7c94df927d403800ade9de02a7fecbd3",
+    "e4-lifecycle/results/e4-orig-mutant-sample.json": "cf9863639fc25f67b2278c75a321f16e93413184bc7d3b6cdb3ba88d598dd5a6",
+    "e4-lifecycle/plan.md": "baf5ea1c0b56a1b9f3fb60426b87987eb247813a374e5657172f15acaa07520c"
+   },
+   "hand_mutants": {
+    "M1": {
+     "orig": {
+      "patch_sha256": "89699566b9e908d3e79321d597ada0811253e23086e448e3394502a7bcd035a3",
+      "mutated_sha256": "b92700bc175706b0dd5200635259b823e7173b0f0ed60cb6234810b51425ac79",
+      "target": "src/facdrone/shells/lifecycle_store.py"
+     },
+     "cand": {
+      "patch_sha256": "bc69d2551d63a7f10287b35cf849fefa9eb0cd74d153cd2469f1b1865e92443e",
+      "mutated_sha256": "015c36ac5fe257f7fa494ccfa2d5d14355559431d1e8e679164ab99aedab4bff",
+      "target": "src/facdrone/shells/lifecycle_store.py",
+      "port": "overdue_flags: same construct at cand line 145 (orig 148)",
+      "git_apply_check": 0,
+      "compile": "ok"
+     }
+    },
+    "M2": {
+     "orig": {
+      "patch_sha256": "01ee894d458d422eece64931a0bf27715ac569a0f146fe6cd97c4b977536f181",
+      "mutated_sha256": "da7640cd3362ffc6274ec94e55728f7874038c0fe47f93653fa8a95643bc4950",
+      "target": "src/facdrone/shells/lifecycle_store.py"
+     },
+     "cand": {
+      "patch_sha256": "a007627adc2d0f4c16a02249bb9698d9906b79983dfa0f9c5b199de6bf853ba0",
+      "mutated_sha256": "2d3694e2335f3aeaf38bca29f771fc82f671fb3c9e41db53ca77c24654c5ffac",
+      "target": "src/facdrone/shells/lifecycle_store.py",
+      "port": "transition: same construct at cand line 196 (orig 212); the refusal path was restructured but the applied revision is still r.expected_revision + 1",
+      "git_apply_check": 0,
+      "compile": "ok"
+     }
+    },
+    "M3": {
+     "orig": {
+      "patch_sha256": "7dceff53347386a809c870381d3d0c1426300d8ca1abf4f95422953bec7d57eb",
+      "mutated_sha256": "175ddfd1441b35c149f4939f2cb9758ef93ad6284306b87b14df28b802b3fcf1",
+      "target": "src/facdrone/shells/lifecycle_monitor_runner.py"
+     },
+     "cand": {
+      "patch_sha256": "a5f0f936682aa3ddfa8177769c4590300705d447eddb6e30a57c7aa74c63e2d1",
+      "mutated_sha256": "f30b7bf62c38fa561fe61ac672133c4ce6e0efd86a93aa0efae668a3c04718f2",
+      "target": "src/facdrone/shells/lifecycle_monitor_runner.py",
+      "port": "_emit folded into the module function _records (cand lines 162-199): the not_run records are emitted before the readings instead of after; same reorder",
+      "git_apply_check": 0,
+      "compile": "ok"
+     }
+    },
+    "M4": {
+     "orig": {
+      "patch_sha256": "b0526f6dd762ecb124c721ce89fadf89c3cc1a7f334677f4984b46a69b963dea",
+      "mutated_sha256": "1c1aefe91eb9e95bd5a6ffe3d13f5f55e15207dc4a15be8e942a63a0284c10d9",
+      "target": "src/facdrone/shells/lifecycle_store.py"
+     },
+     "cand": {
+      "patch_sha256": "ac32cb7973c97ca27c8f96b4ea2e33ab8e853b532443c301ed07254b8b071ffd",
+      "mutated_sha256": "aa469bd1db5e36a612251ba1037a1f6b727792587c138089f1ad65ff81d0d8ee",
+      "target": "src/facdrone/shells/lifecycle_store.py",
+      "port": "standing: same construct at cand line 101 (orig 105); _applied was inlined, the census rule unchanged",
+      "git_apply_check": 0,
+      "compile": "ok"
+     }
+    }
+   },
+   "trees": {
+    "orig": {
+     "reference": "D:/Source/lesscode/.runs/e2-facdrone/source",
+     "mutable": "D:/Source/lesscode/.runs/e4-lifecycle/orig-mut",
+     "labels": "e4o-*"
+    },
+    "cand": {
+     "reference": "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3",
+     "mutable": "D:/Source/lesscode/.runs/e4-lifecycle/cand-mut",
+     "labels": "e4c-*"
+    }
+   },
+   "generator": "scratch gen_cand_mutants.py (receipt mutants-cand-generate, not kept); the patches and hand-mutants.json are the artefacts"
+  },
+  {
+   "time_utc": "2026-11-06T11:25:53.302051+00:00",
+   "key": "task-6.3-review",
+   "date": "2026-11-06",
+   "reviewer": "independent sonnet agent, fresh context, brief reviewer-brief.md, redacted plan",
+   "probes": 128,
+   "agree": 102,
+   "disagree": 26,
+   "controller_rerun": "review-probes-orig/-cand byte-identical to the reviewer's results",
+   "sha256": {
+    "review-e4.md": "5683adda8d141aeb470587c0d275f3c96648d3ff11dc4cc77b4c935ea50c6d58",
+    "review_probes.py": "ea34c2ca75b50b3148bc74863f81a7255c5ebf47714564be2b0f41216d2fea15",
+    "results/review-probes-orig.json": "bc623fdb72bae381930ba657b9cd1507cac2692bbea788b48dcca4f28bba8996",
+    "results/review-probes-cand.json": "b82c2acef9a16f29170b238d0b92ef1e6a59846d1566a53750d711959bca2b95",
+    "reviewer-brief.md": "ce9539452fe418f082baaebd44f56e6defae4230340f7dfd8b610fd94a423996"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:25:54.482185+00:00",
+   "key": "plan-amendment-1",
+   "plan_md_sha256": "73ca650fb8dd87d1b8523e0372ddaaca0713ae7e135af742336173936f7f8ac7",
+   "date": "2026-11-06"
   }
  ],
  "notes": [
@@ -3092,6 +3336,29 @@
      "turn 1 spent the whole 128k output budget thinking at effort medium (task 4 saw the same at effort high with 64k); the preregistered parameters were kept, the turn counted"
     ],
     "not_done_here": "6.3 to 6.7 (review, sensitivity, differential, held-out corpus, residue report and research entry); nothing committed"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:21:46.855391+00:00",
+   "key": "mutants-cand-predictions",
+   "value": {
+    "date": "2026-11-06",
+    "fixed_before_any_run": true,
+    "basis": "the four ports make the same semantic change on the candidate (hand-mutants.json `port`); the arm, the 12 seed files, the deselection and the 50-sequence corpus are the same on both trees, so the predicted catchers are the original's (mutants/README.md), with the first failing node read under pytest -x in the seed-file order of results/seeds.json",
+    "M1": "survives on the candidate (alphabet gap: no sequence observes a flag whose age lies in (after - 1 day, after]); the seed test judges 30 days against 14",
+    "M2": "caught: by the seed tests first (the applied event lands at r.expected_revision, so the first node in -x order that enrolls and then admits, or asserts revision 1 after an enrolment, fails; the README names test_lifecycle_store_db.py::TestTheTableOnTheDatabase::test_enroll_admit_flag_readmit_and_retire_append_events and test_the_enrollment_command_is_the_registry_route_from_absent; an earlier file in the order, test_lifecycle_monitor_binding_db.py or test_lifecycle_monitor_runner_db.py, may fail first); the corpus would report S01 op 1 result.revision",
+    "M3": "caught by the corpus only: seed tests pass (membership, not order, is asserted); first divergence S09 op 2 path result.emitted.carry@3[0].event (lifecycle.reading recorded, lifecycle.not_run replayed)",
+    "M4": "caught by the corpus only: seed tests pass; first divergence S02 op 7 path result.census (None recorded, enrollment:operator replayed)",
+    "evidence_rule": "caught = the arm exits nonzero on the mutated copy; the first failing node or the first divergence is the evidence (mutants/README.md)"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:25:53.656370+00:00",
+   "key": "reviewer-brief-hash-discrepancy",
+   "value": {
+    "date": "2026-11-06",
+    "found_by": "6.3 reviewer",
+    "text": "plan.md apparatus table lists reviewer-brief.md at 2c8eeb26... (86 lines), the pre-review version; the frozen brief is ce953945... (89 lines) as fact task-6.1-apparatus-2 records; documentation inconsistency only, recorded as plan Amendment 1"
    }
   }
  ]

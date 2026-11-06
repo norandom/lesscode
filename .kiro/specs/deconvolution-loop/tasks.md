@@ -205,7 +205,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
     query-differential verdict.
   - _Depends: 6.1_
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 4.3, 4.4, 4.5, 5.5, 6.2, 6.3, 6.6, 6.7_
-- [ ] 6.3 Independent review of the accepted candidate
+- [x] 6.3 Independent review of the accepted candidate
   - A fresh agent with the reviewer brief verifies hashes, surface
     signatures and measures, states hypotheses, probes them on both trees
     and reports formatting effects.
@@ -516,3 +516,28 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   no negative control, README wording). Prompt and response texts of the
   three turns stay on disk under `regenerator/results/turns/e4-turn*`;
   sidecars committed.
+- 6.3 (2026-11-06): `e4-lifecycle/review-e4.md` by a fresh sonnet agent
+  under `reviewer-brief.md` and the redacted plan (forbidden: plan.md,
+  mutants, samples, turn requests, the regenerator's turn texts and change
+  log). Verification: 2,791 files outside the scope identical by hash, the
+  seven scope hashes equal the receipt, all 37 surface names present with
+  the same kind and signature, measures reproduce byte for byte, patchcheck
+  passes on both trees; one apparatus inconsistency (the plan's table
+  lists the pre-review brief hash; recorded as plan Amendment 1).
+  Formatting: candidate 1,397 as written / 1,405 canonical (four lines
+  over 100 characters), no multi-statement lines, seven docstrings
+  dropped. Patching table: all 12 names and six instance attributes still
+  looked up at call time; three seam lookups moved from bind time to ask
+  time. Thirteen hypotheses, 128 probes executed on both trees: 102 agree,
+  26 differ, grouped as F1 (error path: an evidence callable returning
+  None is accepted silently by the candidate, the original raises and
+  reports the signal unavailable), F2 (bind_writers lambdas accept extra
+  arguments; the original raises TypeError), F3 (CLI lines printed before
+  a malformed stored row are lost), F4 (TransitionRefused raised `from
+  None`, context differs), F5 (seam patch timing), F6 (import side
+  effects). Carry-forward: survivors in H1 to H3 and H9 to be read as
+  outside the alphabet; differential pairs named per hypothesis. The
+  controller reran the reviewer's probe harness (`review_probes.py`,
+  copied into the directory) on both trees under the receipt: results
+  byte-identical to the reviewer's (fact `task-6.3-review`). The review
+  claims no equivalence; T6 candidates are H1, H2, H3, H9 pending 6.5.
