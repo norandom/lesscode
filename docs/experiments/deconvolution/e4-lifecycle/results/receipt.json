@@ -5708,6 +5708,159 @@
    "seconds": 0.34,
    "exit": 0,
    "adaptive": null
+  },
+  {
+   "label": "e6-replay-frozen",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e4_oracle.py",
+    "replay",
+    "--golden",
+    "D:/Source/lesscode/.runs/e4-lifecycle/held-out-a.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e2-facdrone/source/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-06T16:25:00.619643+00:00",
+   "end_utc": "2026-11-06T16:25:23.250168+00:00",
+   "seconds": 22.63,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T17:25:00",
+    "cpu_total": 13.582033956095,
+    "cpu_other": 0.13582033956095,
+    "ram_free_gb": 13.82,
+    "bench_s": 0.219,
+    "pid": 37996
+   }
+  },
+  {
+   "label": "e6-replay-cand",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e4_oracle.py",
+    "replay",
+    "--golden",
+    "D:/Source/lesscode/.runs/e4-lifecycle/held-out-a.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "E4_SOURCE_ROOT": "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3",
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-06T16:26:12.221413+00:00",
+   "end_utc": "2026-11-06T16:26:35.561268+00:00",
+   "seconds": 23.34,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T17:26:12",
+    "cpu_total": 9.76878970753146,
+    "cpu_other": 0.0976878970753146,
+    "ram_free_gb": 13.92,
+    "bench_s": 0.203,
+    "pid": 42652
+   }
+  },
+  {
+   "label": "e6-overlap",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\e66_overlap.py"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:26:59.028457+00:00",
+   "end_utc": "2026-11-06T16:26:59.328589+00:00",
+   "seconds": 0.3,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e6-host-facts",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\hostfacts.py"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:26:59.578942+00:00",
+   "end_utc": "2026-11-06T16:27:01.192657+00:00",
+   "seconds": 1.61,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e6-replay-cand-l2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "e4_record2.py",
+    "replay",
+    "--golden",
+    "D:/Source/lesscode/.runs/e4-lifecycle/held-out-a.json",
+    "--l2",
+    "D:/Source/lesscode/docs/experiments/deconvolution/e4-lifecycle/results/sql-divergences-e6-cand.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "E4_SOURCE_ROOT": "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3",
+    "PYTHONPATH": "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3/src;D:/Source/lesscode/docs/experiments/deconvolution/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;D:/Source/lesscode/docs/experiments/deconvolution/e2-facdrone-edge-census"
+   },
+   "start_utc": "2026-11-06T16:27:12.930703+00:00",
+   "end_utc": "2026-11-06T16:27:35.096511+00:00",
+   "seconds": 22.17,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T17:27:12",
+    "cpu_total": 15.6746644030715,
+    "cpu_other": 0.156746644030715,
+    "ram_free_gb": 13.57,
+    "bench_s": 0.24,
+    "pid": 15504
+   }
+  },
+  {
+   "label": "e6-hash7-after",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "C:\\Users\\mariu\\AppData\\Local\\Temp\\claude\\D--Source-lesscode\\2f0bcc15-b460-4947-82dc-f42a87ae3c94\\scratchpad\\hash7.py",
+    "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3"
+   ],
+   "cwd": null,
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:27:49.460181+00:00",
+   "end_utc": "2026-11-06T16:27:49.659945+00:00",
+   "seconds": 0.2,
+   "exit": 0,
+   "adaptive": null
   }
  ],
  "facts": [
@@ -7326,6 +7479,190 @@
    },
    "committed": "results/held-out-e4.json.sha256 only (file over 1 MB)",
    "committed_sha256": "bd91a090811457c2cd395dbcaba18f14737f4131ce02b81b69adceecaacc5c1f"
+  },
+  {
+   "time_utc": "2026-11-06T16:28:17.290553+00:00",
+   "key": "task-6.6-replay",
+   "date": "2026-11-06",
+   "corpus": {
+    "golden": ".runs/e4-lifecycle/held-out-a.json",
+    "sha256": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+    "sequences": 74,
+    "operations": 424,
+    "seed": 20261107,
+    "fact": "task-6.6-corpus"
+   },
+   "replay_frozen": {
+    "label": "e6-replay-frozen",
+    "root": "D:/Source/lesscode/.runs/e2-facdrone/source",
+    "command": "e4_oracle.py replay --golden <held-out-a>",
+    "exit": 0,
+    "seconds": 22.63,
+    "stdout_last_line": "replay: level1 no divergence; level2 differences 0 []",
+    "level1": null,
+    "level2_count": 0,
+    "reading": "apparatus reproduces the frozen original on the held-out corpus (kill criterion 7 not triggered)"
+   },
+   "replay_cand": {
+    "label": "e6-replay-cand",
+    "root": "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3",
+    "env": "E4_SOURCE_ROOT=cand-turn3, PYTHONPATH cand-turn3/src first (e4_oracle fails closed if the scope does not import from E4_SOURCE_ROOT)",
+    "command": "e4_oracle.py replay --golden <held-out-a>",
+    "exit": 0,
+    "seconds": 23.34,
+    "stdout_last_line": "replay: level1 no divergence; level2 differences 0 []",
+    "level1_first_divergence": null,
+    "level2_count": 0,
+    "level2_first_pair": null
+   },
+   "replay_cand_l2_file": {
+    "label": "e6-replay-cand-l2",
+    "command": "e4_record2.py replay --golden <held-out-a> --l2 results/sql-divergences-e6-cand.json (e4_oracle.replay_engine unchanged)",
+    "exit": 0,
+    "seconds": 22.17,
+    "file": "results/sql-divergences-e6-cand.json",
+    "sha256": "2bbca319644b038827048586945403b8fd8155abcfe7724645759d3cdfe548ec",
+    "content": {
+     "written": 1793982453.8589087,
+     "root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+     "golden": "D:/Source/lesscode/.runs/e4-lifecycle/held-out-a.json",
+     "level1": null,
+     "level2_ops": 0,
+     "divergences": []
+    },
+    "written_inside_command_window": true,
+    "root_recorded_in_file": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3"
+   },
+   "T7": {
+    "bar": "zero Level 1 divergence on every sequence of the held-out corpus replayed on the accepted candidate; Level 2 pairs, if any, passing the query differential",
+    "level1_divergences": 0,
+    "level2_pairs": 0,
+    "qdiff": "not run: no Level 2 pair",
+    "reading": "held",
+    "read_on": "e6-replay-cand (the plan's command); e6-replay-cand-l2 agrees and carries the file",
+    "generated_sequences_not_shapeable_by_the_regenerator": 48,
+    "seed_sequences_repeating_the_acceptance_corpus": 26,
+    "overlap_note": "e6-overlap: 1 of 48 generated sequences is an exact duplicate of an acceptance generated sequence; 47 share no first operation"
+   },
+   "trees": {
+    "e6-hash7-before": {
+     "D:/Source/lesscode/.runs/e2-facdrone/source": {
+      "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+      "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+      "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+      "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+      "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+      "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+      "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f",
+      "lines_total": 1495
+     },
+     "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3": {
+      "src/facdrone/shells/lifecycle_monitor_runner.py": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+      "src/facdrone/shells/lifecycle_store.py": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+      "src/facdrone/shells/cli/lifecycle_group.py": "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+      "src/facdrone/shells/lifecycle_evidence.py": "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+      "src/facdrone/shells/lifecycle_projection.py": "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+      "src/facdrone/shells/cppi/lifecycle_seams.py": "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+      "src/facdrone/shells/wiring/lifecycle_root.py": "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad",
+      "lines_total": 1397
+     },
+     "identical": false
+    },
+    "e6-hash7-after": {
+     "D:/Source/lesscode/.runs/e2-facdrone/source": {
+      "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+      "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+      "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+      "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+      "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+      "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+      "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f",
+      "lines_total": 1495
+     },
+     "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3": {
+      "src/facdrone/shells/lifecycle_monitor_runner.py": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+      "src/facdrone/shells/lifecycle_store.py": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+      "src/facdrone/shells/cli/lifecycle_group.py": "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+      "src/facdrone/shells/lifecycle_evidence.py": "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+      "src/facdrone/shells/lifecycle_projection.py": "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+      "src/facdrone/shells/cppi/lifecycle_seams.py": "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+      "src/facdrone/shells/wiring/lifecycle_root.py": "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad",
+      "lines_total": 1397
+     },
+     "identical": false
+    },
+    "unchanged": true,
+    "frozen_matches_fact_e4-t3-hash7-after-frozen": true,
+    "cand_matches_fact_e4-t3-hash7-after-cand": true
+   },
+   "integrity": {
+    "guard_stops": 0,
+    "guard_second_attempts": 0,
+    "timeouts": 0,
+    "reruns": 0,
+    "reaped_jobs": 0,
+    "heavy_jobs": [
+     "e6-record-a",
+     "e6-record-b",
+     "e6-replay-frozen",
+     "e6-replay-cand",
+     "e6-replay-cand-l2"
+    ],
+    "factors": {
+     "e6-record-a": 1.13,
+     "e6-record-b": 1.14,
+     "e6-replay-frozen": 1.26,
+     "e6-replay-cand": 1.14,
+     "e6-replay-cand-l2": 1.44
+    },
+    "deadlines_s": {
+     "e6-record-a": 678.0,
+     "e6-record-b": 684.0,
+     "e6-replay-frozen": 756.0,
+     "e6-replay-cand": 684.0,
+     "e6-replay-cand-l2": 864.0
+    },
+    "longest_run_s": 26.54,
+    "serial": "one heavy job at a time, each as its own background shell; light steps e6-overlap and e6-host-facts ran between heavy jobs"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:30:26.262460+00:00",
+   "key": "task-6.6-summary",
+   "date": "2026-11-06",
+   "T7": "held (0 Level 1 divergences on 74/74 sequences, 0 Level 2 pairs, fact task-6.6-replay)",
+   "readme_sha256": "fae6a90f3c2c3bf9f304e90d9192c783ac497592e9fd61855fd9703f4484434a",
+   "readme_lines": 624,
+   "readme_section": "6.6 Held-out corpus after acceptance (2026-11-06)",
+   "files": {
+    "e4-lifecycle/e4_record2.py": {
+     "sha256": "567007a6ab267e261b048484b2f3968b45bc96fc76183622b1440031bba47fef",
+     "lines": 19,
+     "unchanged_since_task-6.6-apparatus-2": true
+    },
+    "e4-lifecycle/results/held-out-e4.json.sha256": {
+     "sha256": "bd91a090811457c2cd395dbcaba18f14737f4131ce02b81b69adceecaacc5c1f",
+     "lines": 2
+    },
+    "e4-lifecycle/results/sql-divergences-e6-cand.json": {
+     "sha256": "2bbca319644b038827048586945403b8fd8155abcfe7724645759d3cdfe548ec",
+     "lines": 8
+    }
+   },
+   "runs_not_committed": {
+    ".runs/e4-lifecycle/held-out-a.json": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+    ".runs/e4-lifecycle/held-out-b.json": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+    ".runs/e4-lifecycle/held-out-a.json.sha256": "bd91a090811457c2cd395dbcaba18f14737f4131ce02b81b69adceecaacc5c1f",
+    ".runs/e4-lifecycle/held-out-b.json.sha256": "af185891cc56668477c1ae82e6c9c699fece57b07d27d3cae9027cbb3a1aa0b5"
+   },
+   "budget": {
+    "counted_6.6": 19,
+    "allowance_6.6": 20,
+    "running_total": 686,
+    "of": 900
+   },
+   "not_committed": true,
+   "next": "6.7 residue report, research entry, index"
   }
  ],
  "notes": [
@@ -20009,6 +20346,134 @@
      "factor_bench": 0.95,
      "factor_cpu": 1.26,
      "factor": 1.26
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:26:00.638256+00:00",
+   "key": "e6-replay-cand-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T17:26:00",
+     "cpu_total": 14.7875159264841,
+     "cpu_other": 0.147875159264841,
+     "ram_free_gb": 13.91,
+     "bench_s": 0.215,
+     "pid": 14924,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.01,
+     "factor_cpu": 1.17,
+     "factor": 1.17,
+     "waited_s": 22.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:26:06.469660+00:00",
+   "key": "e6-replay-cand-deadline",
+   "value": {
+    "label": "e6-replay-cand",
+    "base_s": 600.0,
+    "factor": 1.14,
+    "scaled_s": 684.0,
+    "probe": {
+     "time": "2026-11-06T17:26:06",
+     "cpu_total": 11.9969277115039,
+     "cpu_other": 0.119969277115039,
+     "ram_free_gb": 13.93,
+     "bench_s": 0.2,
+     "pid": 42652,
+     "ref_bench_s": 0.212,
+     "factor_bench": 0.94,
+     "factor_cpu": 1.14,
+     "factor": 1.14
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:26:59.280592+00:00",
+   "key": "e6-overlap",
+   "value": {
+    "date": "2026-11-06",
+    "held_out_generated": 48,
+    "acceptance_generated": 24,
+    "exact_duplicates_of_an_acceptance_generated_sequence": 1,
+    "share_first_op_with_some_acceptance_generated_sequence": 1,
+    "share_prefix_of_at_least_2_ops": 1,
+    "share_prefix_of_at_least_3_ops": 1,
+    "longest_shared_prefix_histogram": {
+     "0": 47,
+     "3": 1
+    },
+    "start_states_held_out": {
+     "None": 17,
+     "S01-store-full-cycle": 18,
+     "S08-runner-flags-once-and-repeat-serves-nothing": 13
+    },
+    "op_names_in_held_out_not_in_acceptance_generated": [
+     "open_flags"
+    ],
+    "op_names_in_acceptance_generated_not_in_held_out": [],
+    "seed_sequences": "the 26 seed sequences repeat the acceptance corpus's by construction (fact task-6.6-corpus seed_ops_equal_acceptance)",
+    "method": "prefix = same start state and the same canonical JSON of ops[0..k); a prefix of 0 means no acceptance generated sequence shares even the first operation"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:27:00.661877+00:00",
+   "key": "e6-replay-cand-l2-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T17:27:00",
+     "cpu_total": 19.6317663812032,
+     "cpu_other": 0.196317663812032,
+     "ram_free_gb": 13.59,
+     "bench_s": 0.274,
+     "pid": 18588,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.29,
+     "factor_cpu": 1.24,
+     "factor": 1.29,
+     "waited_s": 6.1,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T16:27:06.871100+00:00",
+   "key": "e6-replay-cand-l2-deadline",
+   "value": {
+    "label": "e6-replay-cand-l2",
+    "base_s": 600.0,
+    "factor": 1.44,
+    "scaled_s": 864.0,
+    "probe": {
+     "time": "2026-11-06T17:27:06",
+     "cpu_total": 30.3192290162044,
+     "cpu_other": 0.303192290162044,
+     "ram_free_gb": 13.4,
+     "bench_s": 0.237,
+     "pid": 15504,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.12,
+     "factor_cpu": 1.44,
+     "factor": 1.44
     }
    }
   }

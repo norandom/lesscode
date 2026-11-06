@@ -1,0 +1,24 @@
+{
+ "date": "2026-11-06",
+ "held_out_generated": 48,
+ "acceptance_generated": 24,
+ "exact_duplicates_of_an_acceptance_generated_sequence": 1,
+ "share_first_op_with_some_acceptance_generated_sequence": 1,
+ "share_prefix_of_at_least_2_ops": 1,
+ "share_prefix_of_at_least_3_ops": 1,
+ "longest_shared_prefix_histogram": {
+  "0": 47,
+  "3": 1
+ },
+ "start_states_held_out": {
+  "None": 17,
+  "S01-store-full-cycle": 18,
+  "S08-runner-flags-once-and-repeat-serves-nothing": 13
+ },
+ "op_names_in_held_out_not_in_acceptance_generated": [
+  "open_flags"
+ ],
+ "op_names_in_acceptance_generated_not_in_held_out": [],
+ "seed_sequences": "the 26 seed sequences repeat the acceptance corpus's by construction (fact task-6.6-corpus seed_ops_equal_acceptance)",
+ "method": "prefix = same start state and the same canonical JSON of ops[0..k); a prefix of 0 means no acceptance generated sequence shares even the first operation"
+}

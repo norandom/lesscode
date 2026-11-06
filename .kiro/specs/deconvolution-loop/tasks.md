@@ -238,7 +238,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
     record.
   - _Depends: 6.3_
   - _Requirements: 7.5, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
-- [ ] 6.6 Held-out corpus after acceptance
+- [x] 6.6 Held-out corpus after acceptance
   - Record a new corpus version from the original after acceptance, with
     its own identity and the same validation as 5.2, and replay it against
     the accepted candidate.
@@ -605,3 +605,22 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   (factors quoted from the guard probe instead of the deadline note,
   per-pair void wording, a counterexample decoding, timeouts not
   recorded) then APPROVED.
+- 6.6 (2026-11-06): `e4-lifecycle/e4_record2.py` (19 lines, the plan's
+  shim: rebinds the seed to 20261107 and the generated count to 48,
+  calls the recorder and replayer unchanged; registered before any run).
+  Held-out corpus recorded twice from the frozen original:
+  `.runs/e4-lifecycle/held-out-a.json` and `-b.json` byte-identical, raw
+  sha256 = LF-body sha256 27a2cc9a… (5,633,158 bytes, LF after the 5.2
+  fix), 74 sequences (26 seed + 48 generated), 424 operations, alphabet
+  and seed sequences equal to the acceptance corpus; sidecar committed.
+  Replay against the frozen original: Level 1 none, Level 2 0 (kill
+  criterion 7 not triggered). Replay against the accepted candidate
+  `cand-turn3`: Level 1 none, Level 2 0, Level 2 file fresh inside the
+  command window. T7 held. Five guarded runs with receipted probes
+  (600 s base scaled, 678 to 864 s), longest 26.5 s, no timeout, no
+  rerun, both trees and the acceptance goldens unchanged by hash.
+  Overlap (informational): 1 of 48 generated sequences duplicates an
+  acceptance sequence; the rest share no first operation under the
+  receipt's identity. Budget 686 as recorded (691 live). Reviewed by an
+  independent sonnet agent: APPROVED (two low notes applied to the
+  README: the live budget figure and the overlap definition).

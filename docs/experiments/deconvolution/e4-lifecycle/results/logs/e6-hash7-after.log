@@ -1,0 +1,23 @@
+{
+ "D:/Source/lesscode/.runs/e2-facdrone/source": {
+  "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+  "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+  "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+  "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+  "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+  "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+  "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f",
+  "lines_total": 1495
+ },
+ "D:/Source/lesscode/.runs/e4-lifecycle/cand-turn3": {
+  "src/facdrone/shells/lifecycle_monitor_runner.py": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+  "src/facdrone/shells/lifecycle_store.py": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+  "src/facdrone/shells/cli/lifecycle_group.py": "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+  "src/facdrone/shells/lifecycle_evidence.py": "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+  "src/facdrone/shells/lifecycle_projection.py": "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+  "src/facdrone/shells/cppi/lifecycle_seams.py": "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+  "src/facdrone/shells/wiring/lifecycle_root.py": "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad",
+  "lines_total": 1397
+ },
+ "identical": false
+}

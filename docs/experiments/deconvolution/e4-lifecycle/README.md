@@ -526,3 +526,100 @@ $PY e4_arm.py dry orig 0 1 ... 29; $PY e4_arm.py hand-run orig 1 2 3 4; $PY e4_a
 $PY $D\receipt_atomic.py $R run e4c-m20-syntax-probe --no-probe --cwd $E4 -- $PY <scratch>\m20_probe.py; <second e4c-m20-class note; fact task-6.4-apparatus-2>
 $PY $D\receipt_atomic.py $R run e4-rates --no-probe --cwd $E4 -- $PY e4_rates.py; $PY $D\receipt_atomic.py $R run e4-rates-check --no-probe --cwd $E4 -- $PY e4_rates.py --check
 ```
+
+## 6.6 Held-out corpus after acceptance (2026-11-06)
+
+Deconvolution-loop task 6.6 under the frozen [plan.md](plan.md) section 6.6: a corpus recorded from the frozen
+original **after** acceptance, with a Hypothesis seed that did not exist before (20261107), replayed on the accepted
+candidate `.runs/e4-lifecycle/cand-turn3`. T7 is read on this replay. Every command, probe, hash and verdict is in
+`results/receipt.json` (labels `e6-*`, facts `task-6.6-apparatus`, `-apparatus-2`, `-corpus`, `-replay`, `-summary`),
+logs in `results/logs/e6-*.log`. Nothing was committed.
+
+**Result: T7 held.** Zero Level 1 divergence on all 74 sequences (424 operations) and zero Level 2 pairs on the
+accepted candidate; the same corpus replays with zero divergence at both levels on the frozen original.
+
+### Result table
+
+| Step | Receipt label | Outcome |
+| --- | --- | --- |
+| Seven files of both trees hashed before | `e6-hash7-before` | frozen original = fact `e4-t3-hash7-after-frozen`; candidate = fact `e4-t3-hash7-after-cand` (1,495 and 1,397 lines) |
+| Recorder shim registered, syntax-checked | facts `task-6.6-apparatus` (21 lines), `task-6.6-apparatus-2` (19 lines, `567007a6…47fef`), `e6-shim-compile` | `e4_record2.py`: rebinds `e4_oracle.SEED` to 20261107 and `N_GENERATED` to 48, calls `e4_oracle.record` and `replay_engine` unchanged |
+| Recording 1 and 2 from the frozen original | `e6-record-a`, `e6-record-b` | 74 sequences (26 seed + 48 generated), 424 operations; both raw sha256 `27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed`, 5,633,158 bytes; byte-identical; 26.5 s and 23.6 s |
+| Validation | `e6-validate`, fact `task-6.6-corpus` | raw bytes = LF body (no CRLF; raw hash = body hash); alphabet identical to the acceptance corpus (`lifecycle_review` absent); `scope_sha256` identical; the 26 seed sequences' operations identical to the acceptance corpus's; sidecars verify |
+| Replay on the frozen original (driver) | `e6-replay-frozen` | `replay: level1 no divergence; level2 differences 0 []`, 22.6 s |
+| Replay on the accepted candidate (driver, `E4_SOURCE_ROOT=cand-turn3`) | `e6-replay-cand` | `replay: level1 no divergence; level2 differences 0 []`, 23.3 s: **T7 held** |
+| Second candidate replay writing the Level 2 file | `e6-replay-cand-l2` | `results/sql-divergences-e6-cand.json` (root `cand-turn3`, `level1` null, `level2_ops` 0, written inside the command window), 22.2 s |
+| Overlap with the acceptance corpus (informational) | `e6-overlap` | 1 of 48 generated sequences is an exact duplicate of an acceptance generated sequence; 47 share no first operation under the receipt's identity (same start state and same operations; ignoring the start state, 11 of the 47 share a first operation name) |
+| Seven files re-hashed after | `e6-hash7-after` | both trees unchanged |
+| Host facts | `e6-host-facts` | Windows 11 10.0.26200, CPython 3.13.16, user `mini\mariu`, no admin token, medium integrity, no symlink privilege, WSL unused, threads pinned to 1, serial |
+
+### Corpus identity
+
+- `.runs/e4-lifecycle/held-out-a.json` and `held-out-b.json` (the plan's names; not committed, `.runs/` is ignored):
+  sha256 `27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed`, 5,633,158 bytes, **one figure**: since
+  `record()` writes with `newline="\n"` (5.2 review fix) the raw bytes are the hashed LF body, so the raw hash and the
+  body hash coincide (the acceptance corpus had two figures, `62791b32…` raw CRLF and `0b2e383d…` body). Both files
+  agree. Sidecars: line 1 the raw hash (verifies against the file), line 2 a `#` line with the body hash and size.
+  Committed: `results/held-out-e4.json.sha256` (sidecar of `-a`; the file is over 1 MB).
+- 74 sequences: the 26 seed sequences S01 to S26 (operations identical to the acceptance corpus's by construction)
+  plus 48 generated G00 to G47 (seed 20261107, 3 to 8 operations each, 18 of length 3 and 10 of length 8; start
+  states: 17 fresh, 18 from S01, 13 from S08, none from S24), 424 operations (acceptance corpus: 50 and 317).
+- `meta`: `hypothesis_seed` 20261107, `generated_requested` 48, Hypothesis 6.170.14, SQLAlchemy 2.0.50, root the
+  frozen original, `scope_sha256` the seven frozen hashes, `harness_suspects` empty, `generated_only_signatures`
+  `enroll:TransitionRefused<None` and `retire:TransitionRefused<None` (the same two as the acceptance corpus).
+
+### T7 reading
+
+| Id | Bar | Held-out corpus on `cand-turn3` | Reading |
+| --- | --- | --- | --- |
+| T7 | zero Level 1 divergence on every sequence; Level 2 pairs, if any, passing the query differential | 0 Level 1 divergences on 74/74 sequences; 0 Level 2 pairs (`qdiff.py` not run: nothing to compare) | **held** |
+
+The 48 generated sequences are the ones the regenerator could not have been shaped by (recorded after acceptance
+from a seed that did not exist before); the 26 seed sequences repeat the acceptance corpus and are reported
+separately: they too replay without divergence, which the acceptance arm already showed. The overlap note says how
+much of the 48 is new in operation terms: one exact duplicate of an acceptance generated sequence (a 3-operation
+sequence), 47 with no shared first operation; `open_flags` appears in the held-out generated set and not in the
+acceptance generated set; no operation name appears only in the acceptance set.
+
+### Deviations from the task brief (the plan wins)
+
+- File names `held-out-a/b.json` and `results/held-out-e4.json.sha256` as plan 6.6 names them, not `golden2-*`.
+- Recording and replay deadlines from `adaptive.scaled(600)` (plan Budgets: recording base 600 s, replay base 600 s),
+  not 1,200 s; every `scaled()` probe is receipted as `<label>-deadline` (factors 1.13, 1.14, 1.26, 1.14, 1.44;
+  deadlines 678 to 864 s; longest run 26.5 s). Guards: five, all `run` at attempt 1; no stop, no timeout, no rerun,
+  no reaped job.
+- The T7 replays use `e4_oracle.py replay --golden <held-out>` exactly as plan 6.6 says; the Level 2 file the brief
+  asks for (`results/sql-divergences-e6-cand.json`) comes from a second replay through the shim's `replay` mode, which
+  calls `e4_oracle.replay_engine` unchanged (label `e6-replay-cand-l2`, same result). `e4_oracle.py`, `run_e4.py` and
+  `test_e4_replay.py` were not edited: `--golden` and `E4_SOURCE_ROOT` already exist, so driver mode needs no shim
+  for the golden path (`test_e4_replay.py`'s constant golden path is not used by 6.6).
+- The shim was first registered at 21 lines; before its first run the two double blank-line separators became
+  single ones (no statement changed) and it was re-registered at 19 lines (`task-6.6-apparatus-2`).
+- Line budget: `e4_record2.py` 19 counted lines against the plan's 20; running total 667 (fact `task-6.5-phase1`)
+  + 19 = **686 of 900**, tests excluded (as recorded; the live total is 691 because `e4_rates.py` grew to
+  55 lines after the 6.4 review, see the 6.5 review).
+
+### Not claimed
+
+Zero divergence on 74 sequences is a reading on this corpus, not equivalence: the alphabet is the one of
+scope-rationale section 4 minus `lifecycle_review`, the generated sequences are 3 to 8 operations over at most two
+starting states, and the residue of 5.2 (unreached functions, the deselected node, the skipped operator-tier test, a
+breaching window through the real retained-evidence join, threaded races) is untouched. The one duplicate sequence
+contributes nothing new; the 47 others are new operation sequences from the same alphabet and domains, not new
+input classes. Nothing about the regenerator's determinism or about other scopes.
+
+### Commands as executed (PowerShell 7; full argv, cwd and env in the receipt; driver `<scratch>\e66_heavy.py` = guard, `scaled(600)` note, receipt run with the thread pins and `--timeout` scaled + 120)
+
+```
+PY=D:\Source\lesscode\.runs\e2-facdrone\venv\Scripts\python.exe   D=D:\Source\lesscode\docs\experiments\deconvolution   E4=$D\e4-lifecycle   R=$E4\results\receipt.json
+PP_ORIG="<frozen>/src;$D/e1b-facdrone-evidence-publication;D:/Source/lesscode/.runs/e1b-facdrone/extras;$D/e2-facdrone-edge-census"   PP_CAND="<cand-turn3>/src;(same tail)"
+$PY $D\receipt_atomic.py $R run e6-hash7-before --no-probe -- $PY <scratch>\hash7.py <frozen> <cand-turn3>
+<fact task-6.6-apparatus>; $PY $D\receipt_atomic.py $R run e6-shim-compile --no-probe --cwd $E4 -- $PY -c "ast.parse(open('e4_record2.py').read())"; <fact task-6.6-apparatus-2>
+$PY <scratch>\e66_heavy.py e6-record-a 600 $E4 {"PYTHONPATH":PP_ORIG} -- $PY e4_record2.py record --out D:/Source/lesscode/.runs/e4-lifecycle/held-out-a.json   # then e6-record-b
+$PY $D\receipt_atomic.py $R run e6-validate --no-probe -- $PY <scratch>\e66_validate.py            # hashes, counts, sidecar line 2, results\held-out-e4.json.sha256, fact task-6.6-corpus
+$PY <scratch>\e66_heavy.py e6-replay-frozen 600 $E4 {"PYTHONPATH":PP_ORIG} -- $PY e4_oracle.py replay --golden D:/Source/lesscode/.runs/e4-lifecycle/held-out-a.json
+$PY <scratch>\e66_heavy.py e6-replay-cand 600 $E4 {"E4_SOURCE_ROOT":<cand-turn3>,"PYTHONPATH":PP_CAND} -- $PY e4_oracle.py replay --golden D:/Source/lesscode/.runs/e4-lifecycle/held-out-a.json
+$PY $D\receipt_atomic.py $R run e6-overlap --no-probe -- $PY <scratch>\e66_overlap.py; $PY $D\receipt_atomic.py $R run e6-host-facts --no-probe -- $PY <scratch>\hostfacts.py
+$PY <scratch>\e66_heavy.py e6-replay-cand-l2 600 $E4 {"E4_SOURCE_ROOT":<cand-turn3>,"PYTHONPATH":PP_CAND} -- $PY e4_record2.py replay --golden <held-out-a> --l2 $E4\results\sql-divergences-e6-cand.json
+$PY $D\receipt_atomic.py $R run e6-hash7-after --no-probe -- $PY <scratch>\hash7.py <frozen> <cand-turn3>; <fact task-6.6-replay>; <fact task-6.6-summary>
+```
