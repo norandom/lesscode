@@ -441,3 +441,22 @@ yet adopted: report statement counts in the original's formatting as well as the
 candidate's, and draw sensitivity samples from the original and the candidate
 alike. Gate remains `revise`; the owner decides between a second round (E3b), a
 second scope (E4), or prevention at generation time.
+
+Amendment, 2026-11-06: H8(c) ran on a second Facdrone scope as E4 and is recorded
+as [R26](../../../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md). The
+recorded regenerator program accepted at its third turn on the seven lifecycle
+monitor files with 25% fewer functions and 29% fewer intra-scope edges inside the
+preregistered bands, 11 write sites in declared shells and a checked pure core;
+the line prediction failed (1,405 canonical lines against at most 1,345, 6%
+fewer). Sensitivity 0.679 on the candidate held its band, the original scored
+0.414 on its own sample by composition, and neither meets 0.70; seven
+oracle-blind differences on error and malformed-input paths are concrete; a
+corpus of 74 sequences recorded after acceptance (26 of them the acceptance
+seed sequences replayed again, 47 new; 1 generated sequence duplicates an
+acceptance one) replays with zero divergence;
+the differential is void on a failed solver control. Gate remains `revise`; the
+owner decides between a third scope, adoption of the E4 candidate outside the
+loop, or prevention. Four protocol amendments are proposed for the
+deconvolution-loop spec: the surface includes the recorder's imports, turn
+parameters are preregistered, content hashes are over bytes as stored, and
+receipt labels are distinct beyond letter case.

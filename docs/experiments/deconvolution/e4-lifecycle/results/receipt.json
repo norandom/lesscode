@@ -5861,6 +5861,57 @@
    "seconds": 0.2,
    "exit": 0,
    "adaptive": null
+  },
+  {
+   "label": "missing-tests-e4",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "missing_tests4.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:40:06.710326+00:00",
+   "end_utc": "2026-11-06T16:40:07.258107+00:00",
+   "seconds": 0.55,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "missing-tests-e4-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "missing_tests4.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:42:50.607556+00:00",
+   "end_utc": "2026-11-06T16:42:51.479517+00:00",
+   "seconds": 0.87,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "missing-tests-e4-3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "missing_tests4.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T16:58:21.195807+00:00",
+   "end_utc": "2026-11-06T16:58:21.841703+00:00",
+   "seconds": 0.65,
+   "exit": 0,
+   "adaptive": null
   }
  ],
  "facts": [
@@ -7663,6 +7714,211 @@
    },
    "not_committed": true,
    "next": "6.7 residue report, research entry, index"
+  },
+  {
+   "time_utc": "2026-11-06T16:40:06.399825+00:00",
+   "rule": "plan kill criterion 5: the 6.7 reader shim registered by fact with hash and line count before its first run; the E3 generator missing_tests.py is imported unchanged (14127ae5347fe4f37ce5dbf42a22f688103913650fee00102f2e805254f44655), never edited",
+   "inputs_read_only": {
+    "results/e5-gates.json": "9abad2efa9f8b429a4d8d25f17376c21e8495fb4f6628136a2b48196ad6fc47f",
+    "results/e4-survivor-readings.json": "273fc1745a54763cfa4200c08a5e77ebafaf788fdccc73100dc1f013f65b7027"
+   },
+   "trees_read_only": [
+    ".runs/e2-facdrone/source",
+    ".runs/e4-lifecycle/cand-turn3"
+   ],
+   "new": {
+    "e4-lifecycle/missing_tests4.py": {
+     "lines": 100,
+     "sha256": "854f86e00028844dd8ee801438cbf46b9e004d7bf978f8819cb352d54a25ebc4"
+    },
+    "e4-lifecycle/results/missing-tests-e4-inputs.json": {
+     "sha256": "613b6ec8c8aad67dcdeacee1c54fe1f74ae7570348ba3506fd4c076461dc35a1",
+     "hand_written": true,
+     "lines": 44
+    }
+   },
+   "key": "task-6.7-apparatus",
+   "counted_lines": {
+    "allowance_plan": "about 60 (plan Budgets: a missing-tests reader shim)",
+    "running_total": "691 live (6.1 97 + 6.2 75 + 6.4 308 + 6.5 192 + 6.6 19) + 100 = 791 of 900; tests excluded; 686 as recorded through 6.6",
+    "missing_tests4.py": 100
+   },
+   "date": "2026-11-06"
+  },
+  {
+   "time_utc": "2026-11-06T16:42:50.190286+00:00",
+   "rule": "re-registration: the first version was 100 lines against the task's 80-line bound; compacted (same inputs, outputs, checks and rendering; no reading changed) and re-registered before the rerun; the first fact and the first run missing-tests-e4 stay in the receipt",
+   "counted_lines": {
+    "bound_task": "80",
+    "missing_tests4.py": 80,
+    "running_total": "691 live + 80 = 771 of 900; tests excluded"
+   },
+   "new": {
+    "e4-lifecycle/missing_tests4.py": {
+     "lines": 80,
+     "sha256": "00413ec9fc6242c3fa45c210df200efc5365e54ced6ea7bab4f64b325d814bd2"
+    }
+   },
+   "supersedes": "task-6.7-apparatus",
+   "key": "task-6.7-apparatus-2",
+   "date": "2026-11-06"
+  },
+  {
+   "time_utc": "2026-11-06T16:50:04.359711+00:00",
+   "key": "task-6.7-files",
+   "date": "2026-11-06",
+   "task": "deconvolution-loop 6.7: residue report, research entry R26, index, spec links, handover",
+   "files": {
+    "docs/experiments/deconvolution/e4-lifecycle/missing_tests4.py": {
+     "sha256": "00413ec9fc6242c3fa45c210df200efc5365e54ced6ea7bab4f64b325d814bd2",
+     "lines": 80
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4-inputs.json": {
+     "sha256": "613b6ec8c8aad67dcdeacee1c54fe1f74ae7570348ba3506fd4c076461dc35a1",
+     "lines": 44
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4.md": {
+     "sha256": "c238b9b2a6b736d0555b263766bfe2308aab9beacde71d2b233691657890c810",
+     "lines": 334
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4.json": {
+     "sha256": "77586a073aed8c21687390e4b5ae5998170ae9482ea2ea658e55449ca65569f5",
+     "lines": 477
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/residue.md": {
+     "sha256": "6211a0cb30b4b0d0b7b5d6242b9e4bacc06d934eb6db7b468b674ff46e27ac33",
+     "lines": 140
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/logs/missing-tests-e4.log": {
+     "sha256": "dc19e822078a71062a12789f9db2bfc2f03bfedd35e80d4947a4fa3d51810182",
+     "lines": 1
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/logs/missing-tests-e4-2.log": {
+     "sha256": "dc19e822078a71062a12789f9db2bfc2f03bfedd35e80d4947a4fa3d51810182",
+     "lines": 1
+    },
+    "docs/research/2026-11-06/01-e4-lifecycle-regeneration.md": {
+     "sha256": "0bf4d5af378e1bc5613d24da758209f379667b6cd986d07237fe3dd1c5c7abe0",
+     "lines": 291
+    },
+    "docs/research/README.md": {
+     "sha256": "ef465169c6d84e036c8c85d9f04dd03adea534e4362b59429114465cb647265f",
+     "lines": 158
+    },
+    ".kiro/specs/deconvolution-loop/research.md": {
+     "sha256": "5d48ea0925dc64a0d5506c153b8eb162a5095a22d7f191c4e8d8f6265d3db692",
+     "lines": 34
+    },
+    ".kiro/specs/constraint-guided-compression/research.md": {
+     "sha256": "2dcf76e709ce04863c415f074e7544761d2eaae96fcfddc7349f29187a4f7280",
+     "lines": 460
+    },
+    ".kiro/handover.md": {
+     "sha256": "70894f35f7e2f518f2d9f992a3acb0b8daa6d21fc1ffafbe06f75e7c3c17741d",
+     "lines": 256
+    }
+   },
+   "written_new": [
+    "e4-lifecycle/missing_tests4.py",
+    "e4-lifecycle/results/missing-tests-e4-inputs.json",
+    "e4-lifecycle/results/missing-tests-e4.md",
+    "e4-lifecycle/results/missing-tests-e4.json",
+    "e4-lifecycle/residue.md",
+    "docs/research/2026-11-06/01-e4-lifecycle-regeneration.md"
+   ],
+   "edited": [
+    "docs/research/README.md",
+    ".kiro/specs/deconvolution-loop/research.md",
+    ".kiro/specs/constraint-guided-compression/research.md",
+    ".kiro/handover.md"
+   ],
+   "not_edited": [
+    "e4-lifecycle/README.md",
+    "e4-lifecycle/plan.md",
+    "e4-lifecycle/review-e4.md",
+    "e4-lifecycle/differential/*",
+    "e3-evidence-regeneration/missing_tests.py",
+    "frozen original, candidate trees, goldens"
+   ],
+   "generator_runs": [
+    "missing-tests-e4 (first version, 100 lines, exit 0, superseded)",
+    "missing-tests-e4-2 (80 lines, exit 0, the report)"
+   ],
+   "report_entries": {
+    "total": 28,
+    "closed_assumption": 12,
+    "real": 7,
+    "review_finding": 7,
+    "solver_counterexample": 2
+   },
+   "budget": {
+    "counted_6_7": 80,
+    "running_total": 771,
+    "of": 900,
+    "recorded_through_6_6": 686,
+    "live_through_6_6": 691
+   },
+   "heavy_runs": "none (no Facdrone test, no arm, no recording, no endpoint); the generator is static",
+   "not_committed": true
+  },
+  {
+   "time_utc": "2026-11-06T17:00:12.792598+00:00",
+   "key": "task-6.7-files-2",
+   "date": "2026-11-06",
+   "supersedes": "task-6.7-files",
+   "reason": "text fixes after the independent review of 6.7 (note task-6.7-review-fixes); the report regenerated as missing-tests-e4-3 after the e4c-m21 site correction in the hand-written inputs",
+   "files": {
+    "docs/experiments/deconvolution/e4-lifecycle/missing_tests4.py": {
+     "sha256": "00413ec9fc6242c3fa45c210df200efc5365e54ced6ea7bab4f64b325d814bd2",
+     "lines": 80
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4-inputs.json": {
+     "sha256": "2db03a45143bf91bc43fe36cee5418e98d055463092f7be2f35dbef828fc2a46",
+     "lines": 45
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4.md": {
+     "sha256": "0fe876dd1cbdedc16741e87180ce4ed44c05cac8b1e436e09a8d65f44de8b05c",
+     "lines": 334
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4.json": {
+     "sha256": "4e6f3c109f90c6d1df009955633249624d38c117efc07f2f5d8d682ad1932776",
+     "lines": 477
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/residue.md": {
+     "sha256": "06c01e1451c81796c3306152f852d614836da6d992693d10eeeb61550e310494",
+     "lines": 152
+    },
+    "docs/experiments/deconvolution/e4-lifecycle/results/logs/missing-tests-e4-3.log": {
+     "sha256": "dc19e822078a71062a12789f9db2bfc2f03bfedd35e80d4947a4fa3d51810182",
+     "lines": 1
+    },
+    "docs/research/2026-11-06/01-e4-lifecycle-regeneration.md": {
+     "sha256": "7c04f963754312b3d82f61945961ad7d4cbc703ca1ab9fc0f75588315f75c948",
+     "lines": 310
+    },
+    "docs/research/README.md": {
+     "sha256": "33350d523ca845d3c81f4e521cc5bfc90536ef9255110b4997d02fdfc8f21328",
+     "lines": 160
+    },
+    ".kiro/specs/deconvolution-loop/research.md": {
+     "sha256": "10517ca345ffe52a2fb87daec453b82e12211ac574455f124a5ca30198af5c31",
+     "lines": 34
+    },
+    ".kiro/specs/constraint-guided-compression/research.md": {
+     "sha256": "63bec12f937f2aca1fb464f9918c75b933c7595306f9637f10986a8fed11d499",
+     "lines": 462
+    },
+    ".kiro/handover.md": {
+     "sha256": "74854743e2d480b4be699db3f5bece2acc96fb0ac5fdf211fef4a0a74512b202",
+     "lines": 265
+    }
+   },
+   "budget": {
+    "counted_6_7": 80,
+    "running_total": 771,
+    "of": 900
+   },
+   "not_committed": true
   }
  ],
  "notes": [
@@ -20474,6 +20730,79 @@
      "factor_bench": 1.12,
      "factor_cpu": 1.44,
      "factor": 1.44
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T17:00:12.425702+00:00",
+   "key": "task-6.7-review-fixes",
+   "value": {
+    "date": "2026-11-06",
+    "review": "independent review of 6.7: NEEDS_FIXES, every number reproduced; nine text fixes applied, no rerun except the generator rerun the review asked for (missing-tests-e4-3, generator unchanged)",
+    "fixes": [
+     "1 R26 completion date: 2026-11-06 about 17:50 Europe/Berlin (was 2026-11-07)",
+     "2 held-out qualifier (26 acceptance seed sequences replayed again, 47 new, 1 duplicate) wherever 74 is the headline: R26 title, Decision, T7 row; index direction, row and H8 cell; handover paragraph and H8 row; both spec research entries",
+     "3 Decision and residue.md section 3 lead: the review's 128 probes found F1 to F6; the void differential adds F7 and a second route to F3 as evidence only",
+     "4 residue.md sections 2 and 5: the window pair listed as an unresolved differential target",
+     "5 residue.md section 4: exact expected and actual survivor sets per tree; #2 is _pod_of, never declared residue",
+     "6 e4c-m21 original site: no equivalent construct (line 185 is lost.append); inputs JSON corrected, report regenerated as missing-tests-e4-3 with the unchanged generator (00413ec9...), residue table row corrected",
+     "7 R26: Hypothesis and falsification section added",
+     "8 price stated as an assumption from the published list price as known to the writer on 2026-11-06",
+     "9 handover: per-task review record from tasks.md; 6.1 to 6.6 committed (1d9c59c, 46355f6, 9232a49, f415a38, 2f5bb0d, 20b2977, a44e79f); item 4 rewritten as the 6.7 files to commit"
+    ],
+    "files": {
+     "docs/experiments/deconvolution/e4-lifecycle/missing_tests4.py": {
+      "sha256": "00413ec9fc6242c3fa45c210df200efc5365e54ced6ea7bab4f64b325d814bd2",
+      "lines": 80
+     },
+     "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4-inputs.json": {
+      "sha256": "2db03a45143bf91bc43fe36cee5418e98d055463092f7be2f35dbef828fc2a46",
+      "lines": 45
+     },
+     "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4.md": {
+      "sha256": "0fe876dd1cbdedc16741e87180ce4ed44c05cac8b1e436e09a8d65f44de8b05c",
+      "lines": 334
+     },
+     "docs/experiments/deconvolution/e4-lifecycle/results/missing-tests-e4.json": {
+      "sha256": "4e6f3c109f90c6d1df009955633249624d38c117efc07f2f5d8d682ad1932776",
+      "lines": 477
+     },
+     "docs/experiments/deconvolution/e4-lifecycle/residue.md": {
+      "sha256": "06c01e1451c81796c3306152f852d614836da6d992693d10eeeb61550e310494",
+      "lines": 152
+     },
+     "docs/experiments/deconvolution/e4-lifecycle/results/logs/missing-tests-e4-3.log": {
+      "sha256": "dc19e822078a71062a12789f9db2bfc2f03bfedd35e80d4947a4fa3d51810182",
+      "lines": 1
+     },
+     "docs/research/2026-11-06/01-e4-lifecycle-regeneration.md": {
+      "sha256": "7c04f963754312b3d82f61945961ad7d4cbc703ca1ab9fc0f75588315f75c948",
+      "lines": 310
+     },
+     "docs/research/README.md": {
+      "sha256": "33350d523ca845d3c81f4e521cc5bfc90536ef9255110b4997d02fdfc8f21328",
+      "lines": 160
+     },
+     ".kiro/specs/deconvolution-loop/research.md": {
+      "sha256": "10517ca345ffe52a2fb87daec453b82e12211ac574455f124a5ca30198af5c31",
+      "lines": 34
+     },
+     ".kiro/specs/constraint-guided-compression/research.md": {
+      "sha256": "63bec12f937f2aca1fb464f9918c75b933c7595306f9637f10986a8fed11d499",
+      "lines": 462
+     },
+     ".kiro/handover.md": {
+      "sha256": "74854743e2d480b4be699db3f5bece2acc96fb0ac5fdf211fef4a0a74512b202",
+      "lines": 265
+     }
+    },
+    "generator_unchanged": "00413ec9fc6242c3fa45c210df200efc5365e54ced6ea7bab4f64b325d814bd2",
+    "report_entries": {
+     "total": 28,
+     "closed_assumption": 12,
+     "real": 7,
+     "review_finding": 7,
+     "solver_counterexample": 2
     }
    }
   }

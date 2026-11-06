@@ -150,7 +150,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Depends: 1.2_
   - _Requirements: 6.1, 6.7, 6.8, 11.2_
 
-- [ ] 5. Integration: the new pieces on the E3 scope and round 0 on a second scope
+- [x] 5. Integration: the new pieces on the E3 scope and round 0 on a second scope
 - [x] 5.1 Integration check of the regenerator program's output on the E3 scope
   - Run the edit-scope hash check and the structure check on the tree from
     task 4; measure it with the measurer from 1.1. Acceptance is not run,
@@ -177,7 +177,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Depends: 1.2, 2.2_
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 3.1, 3.3, 3.4, 11.7, 12.1, 12.2, 12.3_
 
-- [ ] 6. E4: preregister and run the loop on the second scope
+- [x] 6. E4: preregister and run the loop on the second scope
 - [x] 6.1 Preregistration and original-side apparatus (owner go for 6.2 to 6.7 answered here)
   - Write the plan with frozen input identities, the predictions of the
     report's section 8 (canonical lines, functions, edges, rounds, kill
@@ -247,7 +247,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Boundary: Recorder, Replayer_
   - _Depends: 6.2_
   - _Requirements: 2.3, 2.4, 2.7_
-- [ ] 6.7 Residue, research entry and index (integration)
+- [x] 6.7 Residue, research entry and index (integration)
   - Produce the missing-test report with the generator from 2.1 and the
     residue; write the research entry with every prediction reported as
     held or failed, including the held-out divergence row; update the
@@ -624,3 +624,27 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   receipt's identity. Budget 686 as recorded (691 live). Reviewed by an
   independent sonnet agent: APPROVED (two low notes applied to the
   README: the live budget figure and the overlap definition).
+- 6.7 (2026-11-06): `e4-lifecycle/missing_tests4.py` (80 lines; adapts
+  the E3 generator's functions by import, E3 file unchanged) produced
+  `results/missing-tests-e4.md` and `.json`: 28 entries (12 closed
+  assumptions, 7 real survivors incl. M1, 7 review findings F1 to F7, 2
+  solver counterexamples), each with the site on both trees, input class,
+  nearest seed test and the killing test described, not written (owner's
+  stance: tests belong to the TDD workflow). `residue.md`: protection
+  level, coverage, the declared residue corrected (`lifecycle_store` is
+  reached, `bind_lifecycle` is unreached and undeclared), the Level 2
+  observation on original #15, F1 to F7 with input classes and
+  reachability as a reading, the unresolved `window` pair, what nobody may
+  read E4 as protecting. Research entry R26
+  `docs/research/2026-11-06/01-e4-lifecycle-regeneration.md` (310 lines,
+  conclusion first, hypothesis and falsification, predictions table T1 to
+  T7 and S each held or failed, turn record with usage 109,499 in /
+  325,973 out and an estimated $6.96 at list price, kill criteria status,
+  apparatus findings, limits, four spec amendments proposed, budget 771 of
+  900, COBESY check). Index row, direction paragraph and H8 lineage
+  updated; both spec research files and the handover updated. Reviewed by
+  an independent sonnet agent (every figure recomputed, generator rerun
+  byte-identical): NEEDS_FIXES (a false completion date, the 74-sequence
+  qualifier, credit to the void differential, five wording points) then
+  APPROVED. All tasks of the spec are done; the owner's next decision is
+  recorded in the handover.
