@@ -126,15 +126,23 @@ the regenerator-program prototype and E4; tasks marked "owner go" (3.2, 4,
 Executed 2026-11-05 (owner: "continue the process as planned"), each by
 an implementer subagent, an independent kiro-review and fresh
 verification, then a selective commit: 1.2 (3a14745), 1.1 (3094ec5), 2.2
-(a461ee8), 2.1 (e60c3a0), 3.1 (33180c5). Findings worth knowing: formatted,
+(a461ee8), 2.1 (e60c3a0), 3.1 (33180c5), 1.3 (606e37d), and on 2026-11-06
+3.2 (eb80fc4). Findings worth knowing: formatted,
 the E3 candidate has 1,188 lines, above the T2 bar of 1,083, and a
 formatter cannot expose statement packing (spec gap in requirement 4.2);
 the missing-test report was actionable (a fresh writer's tests killed 3 of
 3 gaps and exposed the exception path); test-infra detection reproduces
 the 19 importing files, the 236/24 deselections and the marker expression
 but not the 191 coverage seeds. Details in `tasks.md` Implementation
-Notes. Everything remaining needs the owner's go: 3.2, 4, 5.2, 6.1; 5.1
-after 4. Commits are local until pushed.
+Notes. Task 3.2 (2026-11-06): the same sensitivity arm on the original
+scores 17/26 = 0.654 against the candidate's 18/28 = 0.643; neither meets
+0.70; T4's failure measures the arm on this module, not a loss from
+regeneration (R25 Amendment 2). The 2026-11-05 series was cut off after
+mutant 24 when the session ended; a terminated arm reads as "killed" in
+`classify`, so the rerun voided it by receipt note. Owner on 2026-11-06:
+"proceed" (pause lifted); order 4 (waits for
+`C:\Users\mariu\.lesscode\model.env`), then 5.2 scope choice (survey done:
+lifecycle monitor group ranked first), then 6.1; 5.1 after 4.
 Owner stance recorded: tests belong to the TDD workflow; a cleaner smaller
 AI version is preferred when it holds.
 
