@@ -1,17 +1,18 @@
 # Regenerate behind the surface: a measured loop for shrinking AI-generated code
 
-Report on the Lesscode deconvolution research, November 2026.
+Report on the Lesscode deconvolution research, November 2026; written
+2026-11-04, updated 2026-11-06.
 
 - Project: Lesscode, a research effort to make AI-generated codebases
   smaller and less entangled without changing their behaviour.
-- Period covered: 1 to 4 November 2026. Six experiments on two real
-  codebases, recorded as dated entries R19 to R25 in the project's
+- Period covered: 1 to 6 November 2026. Seven experiments on two real
+  codebases, recorded as dated entries R19 to R26 in the project's
   research log.
 - Audience: a reader who knows software verification and SMT solving but
   has not followed this project. Every project-specific term is defined on
   first use; a glossary is at the end.
-- Status: research results on one scope. Nothing here has been adopted
-  into any product.
+- Status: research results on two scopes of one Python codebase. Nothing
+  here has been adopted into any product.
 
 ## 1. Executive summary
 
@@ -41,11 +42,31 @@ catches 64 percent of injected faults, not the 70 percent we predicted,
 and one real behavioural difference on an exception path was invisible to
 the recording and was found by review and random testing instead.
 
+On its second run, two days later, the regenerator was no longer an
+interactive agent but a recorded program: one request per turn to a model
+endpoint, every prompt and response hashed into the receipt, and a turn
+rule that feeds a failed turn's successor only the first divergence and the
+measure gaps. On seven modules (1,495 lines) of the same application the
+loop accepted at the third of four allowed turns, after one turn in which
+the model spent its whole output budget thinking and one in which the
+candidate failed on a name only the recording apparatus imports. The
+accepted rewrite had 25 percent fewer functions and 29 percent fewer
+internal call edges, inside the bands we had preregistered, and only
+6 percent fewer lines after canonical formatting, below the 10 to 20 we
+had predicted; that prediction failed. The recording killed 68 percent of
+injected faults on the rewrite, inside its band. A second agent's 128
+probes and the solver's replays found seven differences invisible to the
+recording, all on error or malformed-input paths. A corpus of 74 sequences
+recorded after acceptance replayed on the rewrite with zero divergence.
+The solver step voided itself on a failed control and is credited with
+nothing.
+
 Our conclusion is that the loop is a usable research instrument and worth
 building into a spec-driven development workflow, as long as its output is
 read as "measured protection with a declared residue" and never as
-"equivalent". Automatic selection of what to rewrite, behaviour over
-several rounds, and languages other than Python remain unproven.
+"equivalent". Automatic selection of what to rewrite and languages other
+than Python remain unproven. Behaviour over several rounds has been
+observed once.
 
 ## 2. The problem
 
@@ -98,7 +119,13 @@ used under isolated frozen copies that were never modified.
   consumed, which signals and route it took, seal that evidence into the
   database with content digests, and read it back. Original size: 1,274
   lines, 660 statements, 67 functions, 13 database write sites, 84 call
-  edges among the five files.
+  edges among the five files. The second scope, chosen by the owner from a
+  written survey for the second run, is its signal lifecycle monitor: seven
+  modules that plan monitoring windows after a served decision, assess
+  evidence, append readings, raise flags through a store that is the sole
+  transition authority, and expose five operator commands. Original size:
+  1,495 lines, 759 statements, 69 functions, 12 write-site matches of which
+  three are writes, 89 call edges among the seven files.
 - mmhmem, a Rust server that gives coding agents shared memory. Its
   session bus (checkpoint and resume of working state) served as the Rust
   specimen for the recording oracle.
@@ -227,6 +254,36 @@ measures and acceptance outcome are recorded. Every file outside the scope
 is hashed against the frozen original; any difference, including a touched
 test, corpus or apparatus file, voids the candidate.
 
+Since the second run the regenerator is a recorded program rather than an
+interactive agent. It has a fixed signature: the inputs above, plus a
+feedback field that is empty on the first turn and, on a turn after a
+failed turn, carries exactly two things, the previous turn's first
+divergence and its measure gaps against the targets (this is the turn
+rule; any other key is refused before anything is sent). It makes one
+streamed request per turn and writes the returned files into a fresh copy
+of the frozen tree, refusing any path outside the scope. The receipt holds,
+per turn, the content hashes of the system prompt, the user prompt, the
+request body and the response, the model identifier as sent and as
+returned, the token usage and the stop reason; the endpoint exposes no
+seed, so none is claimed. The parameters that worked are part of the
+preregistration: an output ceiling of 128,000 tokens at medium reasoning
+effort with the thinking stream displayed. At 64,000 tokens and high
+effort the model spent the whole budget thinking and returned nothing; a
+turn that ends without a text block is a failed turn that counts against
+the four, and its successor receives the same request again, because a
+turn without a candidate has no divergence to report. A rewrite that keeps
+every surface name can still fail: the arm's replay target imports what
+the recorder needs, and one of those names was not in the derived surface
+because only the recorder, outside the tree, used it. The surface a
+candidate must keep is therefore the tree's references plus the recorder's
+own imports.
+
+Tests that patch private names are checked by a separate sentinel step
+before the arm's verdict counts: every patched module global must still be
+the name the candidate's own functions look up at call time, and every
+patched instance attribute must keep its role. On the second scope that
+check covered twelve names and six attributes on both trees.
+
 ### Step 5. Accept on zero divergence
 
 A candidate is accepted when all recorded sequences replay with zero
@@ -294,7 +351,7 @@ residue, and nothing stronger.
 
 ## 5. Results
 
-### 5.1 The six experiments
+### 5.1 The seven experiments
 
 | Entry | Question | Specimen | Outcome |
 | --- | --- | --- | --- |
@@ -304,6 +361,7 @@ residue, and nothing stronger.
 | R23 | Does solver-guided input generation resolve the faults the oracle missed? | Same scope, 10 surviving faults | Failed as run: the drivers concretised strings, and the oracle never called the scope's reader functions at all. |
 | R24 | Same question, with the drivers corrected and a verifier in front of the solver | Same | Verifier controls passed. 7 of 10 faults killed: 4 by the extended oracle alone, 3 only by solver-found inputs. 0 proved equivalent. The preregistered threshold was missed, so the solver is admitted as a counterexample finder, not as an equivalence authority. |
 | R25 | Does a model regenerate the scope smaller and less coupled within the acceptance rule? | Five modules, 1,274 lines | Accepted in round 1. See 5.2. |
+| R26 | Does the recorded regenerator program, under the turn rule, meet the section 8 predictions on a second scope? | Seven lifecycle modules, 1,495 lines | Accepted at turn 3. Functions, edges, kill rate, oracle-blind differences and the held-out corpus held; the line prediction failed; the solver step void. See 5.3. |
 
 ### 5.2 The regeneration run in detail
 
@@ -349,6 +407,83 @@ preregistered 400; the overrun is reported, nothing was compacted. Machine
 time was about five and a half hours including the fault-injection and
 solver phases, on a shared host at load factors between 1.0 and 3.6.
 
+Three readings were added to this run afterwards, each as a dated
+amendment that changes no verdict. Formatted with one pinned formatter,
+the candidate has 1,188 lines, 6.8 percent fewer than the original and
+above the 1,083 bar; the as-written figure stands as preregistered. In
+separated form, with multi-name imports and tuple assignments counted one
+per name, the candidate has 627 statements against the original's 718,
+12.7 percent fewer. And the same fault-injection arm applied to the
+original's own module killed 17 of 26 competent faults (0.654), one kill
+apart from the candidate's 0.643; neither reaches 0.70, so the failed
+prediction measures the recording's sensitivity on this module, not a loss
+caused by the rewrite.
+
+### 5.3 The second scope
+
+The second run (R26, 6 November 2026) tested the section 8 predictions on
+the first of their three scopes, with absolute bars fixed on this scope
+before any heavy step: canonical lines at most 1,345, functions at most 55,
+edges at most 66, kill rate on the candidate's own 30-fault sample in 0.60
+to 0.75, at least one difference invisible to the recording, zero
+divergence on a held-out corpus, and a structural contract S (write sites
+at most 12 and all in shell functions, at least half the functions pure,
+twelve patched names and six instance attributes preserved). The owner
+chose the scope after four problems were put to them: patching by name
+across lazy imports, a wall-clock read in one command, two commands no test
+exercises on this host, and repository gates that name these modules. Four
+functions were declared residue and the clock-reading command was left out
+of the recording's alphabet.
+
+| Prediction | Bar on this scope | Measured | Held |
+| --- | --- | --- | --- |
+| T1 Acceptance within three turns | turn 3 at the latest | turn 3 | Yes |
+| T2 Lines, canonical | at most 1,345 (original 1,495) | 1,405, 6.0 percent fewer | No |
+| T3 Functions | at most 55 (original 69) | 52, 24.6 percent fewer | Yes |
+| T4 Call edges | at most 66 (original 89) | 63, 29.2 percent fewer | Yes |
+| T5 Kill rate on the candidate | 0.60 to 0.75 | 19 of 28 competent faults, 0.679; the original's own sample 12 of 29, 0.414, a result about that sample's composition stated in advance; the 0.70 bar unmet on both | Yes |
+| T6 A difference the recording cannot see | at least one, concretely replayed, on an error or malformed-input path | seven (F1 to F7): a `None` evidence accepted silently; bound writers accepting extra arguments; partial command output lost on a corrupted stored row; a changed exception chain; three seam names resolved at a different time; a changed import-time module set; a changed error ordering under double malformation | Yes |
+| T7 Divergence on a held-out corpus | zero | 0 on 74 sequences, 424 operations, recorded after acceptance from a new seed; 26 of them the acceptance seed sequences replayed again, 47 new, 1 generated sequence a duplicate of an acceptance one | Yes |
+| S Structural contract | as stated | 11 write sites, all in the 25 declared shells; 27 of 52 functions pure (0.519); every function declared; patch check passing on both trees | Yes |
+
+The turn record, which is the first observation of the loop over more
+than one round:
+
+| Turn | Stop reason | Tokens in / out (of which thinking) | Elapsed | Outcome |
+| --- | --- | --- | --- | --- |
+| 1 | output budget exhausted | 36,347 / 128,000 (128,000) | 1,117 s | thinking only, no candidate; counts as a failed turn |
+| 2 | end of turn, same request as turn 1 | 36,347 / 95,292 (64,819) | 782 s | seven files written; edit scope, structure and patch check pass; the arm failed at test collection on `labeled_reason`, a name only the recorder imports |
+| 3 | end of turn, turn 1's request plus the feedback section | 36,805 / 102,681 (73,922) | 836 s | accepted: zero divergence on 50 sequences and 317 operations, every seed test passing |
+
+The three turns used 109,499 input and 325,973 output tokens, about $7 at
+the model's list price by our estimate from the receipt's usage figures.
+The accepted turn cost about a third of that; the other two thirds bought a
+thinking-budget exhaustion and an apparatus gap.
+
+Of the four hand-written faults, three were caught on both trees at the
+predicted place: a dropped revision bump by a test, a reordered emission
+and a wrongly sourced census reference by the recording alone. The fourth,
+a flag counted overdue one day early, survived on both trees, as predicted:
+the alphabet can express the catching sequence and neither corpus carried
+it. Fault injection also corrected the declared residue in both directions:
+one function declared unreached is reached by a test, and one function not
+declared is reached by nothing.
+
+The solver step is void. Its control on the `window` pair, a planted fault
+that 164 of 300 random inputs expose, was not reached by the solver in
+5,559 iterations; the search spends its paths on early error branches of a
+date computation. Under the preregistered rule a failed control voids the
+whole step. Its two realised counterexamples on the other pairs still
+replay concretely on both trees and are kept as evidence credited to no
+step: one is the lost-output difference the reviewer had already found by
+probing, the other a new error-ordering difference the drivers' author had
+predicted by reading the two bodies before any gate ran.
+
+Budget: 771 research lines against 900. The run took from 10:08 to 16:28
+UTC between the first regenerator turn and the last held-out hash check,
+after a morning of apparatus and preregistration, on a shared host; no
+step timed out and none was rerun.
+
 ## 6. What we learned
 
 **The set of recorded operations decides what is visible.** Four of the
@@ -385,18 +520,55 @@ size claims are reported after canonical formatting of both trees.
 named globals had to survive because tests patch them. Test suites that
 exercise a scope through its surface leave the rewrite more room.
 
+**The surface includes what the recorder imports.** A rewrite that kept
+all 37 derived surface names was rejected at test collection because the
+recording's replay target imports one more name, used by nothing in the
+tree. Surface derivation must take the recorder as an input, or the loop
+will reject candidates for a gap of its own making.
+
+**The model's thinking budget is a parameter of the experiment.** Two of
+six recorded turns ended with the whole output budget spent on reasoning
+and no candidate returned, once at 64,000 tokens and high effort, once at
+128,000 and medium. Those turns cost as much as productive ones and count
+against the round cap, so output ceiling, effort and thinking display are
+preregistered with the rest.
+
+**A solver that fails its own control says nothing about the candidate.**
+On the second scope the differential found a planted fault with random
+inputs but not with the solver, and under the rule we had set that voided
+the step. The counterexamples it had produced on other pairs are kept as
+evidence, but the step's verdict is "not found". This repeats the earlier
+finding that CrossHair stalls on date-heavy predicates, and it is the
+reason the solver is the last gate and never the only one.
+
+**A fault sample's composition is read before the run.** On the second
+scope the original's 30-draw sample contained 8 annotation-only faults and
+6 in the declared residue, which capped its kill rate at 0.517 before any
+arm ran; we said so in the plan and reported 0.414 as the composition
+result it is. A rate on the original is only a comparison for the
+candidate's when both samples are read this way.
+
 ## 7. Limitations
 
-- One scope, five files, one regenerator, one round, one language, one
-  host. These are feasibility results, not efficacy results.
-- Zero divergence is a statement about 64 sequences. The measured
-  sensitivity (0.643) and the declared residue are the honest size of the
+- Two scopes of one codebase, one language, one host, two regenerators
+  (an interactive agent, then a program) that were never compared on the
+  same frozen scope. These are feasibility results, not efficacy results.
+- Zero divergence is a statement about 64 sequences on the first scope and
+  about 50 plus 74 sequences on the second. The measured sensitivities
+  (0.643 and 0.679) and the declared residues are the honest size of the
   claim.
 - Every real gap found so far is on malformed or failing inputs, where
   recorded traces are thinnest.
-- The fault-injection rate on the candidate is not comparable with the
-  earlier rate on the original: different fault population, different test
-  selection. Future runs sample both trees the same way.
+- On the first scope the fault-injection rate on the candidate was at
+  first not comparable with the earlier rate on the original: different
+  fault population, different test selection. The same arm was later run
+  on the original (0.654 against 0.643), and the second scope sampled both
+  trees the same way from the start; the original's sample there was
+  composition-limited, as section 6 says.
+- The solver differential failed its own control on the second scope and
+  is void there. It has produced one credited counterexample in two runs,
+  and nothing on either scope that review and random inputs had not
+  already exposed.
 - Performance, memory and other non-functional behaviour were not
   measured. The rewrite dropped a cache and repeats some hashing.
 - The apparatus is Python-specific and was assembled by hand for this
@@ -425,6 +597,27 @@ The last row is the one that decides trust. If an accepted rewrite
 diverges on sequences recorded later, the acceptance alphabet is too weak
 and must be strengthened before anything else is tuned.
 
+The first of the three scopes has been measured (R26, section 5.3). The
+bands above are unchanged; this is one row of three, and the medians are
+not yet decided.
+
+| Quantity | Scope 1 of 3: measured | Against the band |
+| --- | --- | --- |
+| Lines, canonical | 6.0 percent fewer (1,495 to 1,405) | outside the band; failed on this scope |
+| Functions | 24.6 percent fewer (69 to 52) | held |
+| Intra-scope call edges | 29.2 percent fewer (89 to 63) | held |
+| Rounds to acceptance | 3 | held, as the one scope allowed up to 3; the other two must accept in round 1 for the row to hold as written |
+| Kill rate on the candidate | 0.679 | held |
+| Differences invisible to the recording | 7, all on error or malformed-input paths | held |
+| Divergence on a corpus recorded after acceptance | zero on 74 sequences | held |
+
+For the lines row to hold over three scopes, both remaining scopes must
+reach at least 10 percent fewer canonical lines. The second scope's
+rewrite removed functions and edges and kept most of the text; the first
+scope's had duplicated sealing and validation paths to fold. Where a scope
+carries fewer verbatim repeats, the loop removes structure before it
+removes lines.
+
 ## 9. Where the loop belongs in spec-driven development
 
 The owner develops with a spec-driven workflow in the Kiro style
@@ -446,16 +639,17 @@ on.
   budgets, dated amendments) is the research-side counterpart of the
   workflow's phase approvals.
 
-The regeneration step is where a model API endpoint enters. In the run
-reported here the regenerator was an interactive agent, run once. For a
-repeatable loop it becomes a program in the sense of DSPy: a signature
-with fixed inputs (scope files, surface, contract, targets, and from the
-previous round the first divergence, the measure gaps and the surviving
-faults) and fixed outputs (candidate files, structure declaration, change
-log); a hard metric (acceptance) and a soft one (measures against targets);
-and a bounded optimisation loop of at most four turns per scope, where
-each turn is fed only the first divergence and the measure deltas. Two
-things this enables have not been done: bootstrapping the regenerator's
+The regeneration step is where a model API endpoint enters. In the first
+run the regenerator was an interactive agent, run once. For a repeatable
+loop it becomes a program in the sense of DSPy: a signature with fixed
+inputs (scope files, surface, contract, targets, and from the previous
+round the first divergence, the measure gaps and the surviving faults) and
+fixed outputs (candidate files, structure declaration, change log); a hard
+metric (acceptance) and a soft one (measures against targets); and a
+bounded optimisation loop of at most four turns per scope, where each turn
+is fed only the first divergence and the measure deltas. That program now
+exists and ran the second scope (section 4, step 4; section 5.3). Two
+things it enables have not been done: bootstrapping the regenerator's
 examples from accepted candidates across scopes, and comparing two
 regenerator programs on the same frozen scope under the same oracle. The
 second is the experiment that would show whether the loop or the model is
@@ -468,19 +662,47 @@ hand the loop the test files and deselections explicitly.
 ## 10. Open work, in order of how much it blocks the next step
 
 1. Scope selection. Rejected once (R21); every scope so far was chosen by
-   hand. Without it the loop serves a developer who already knows where
-   the mess is.
-2. Multi-round behaviour. Never observed; the one run accepted in round 1.
-3. Canonical-format measures and the missing-test report. Both cheap,
-   both unbuilt, both needed before the prediction in section 8 can be
-   scored.
-4. Test-infrastructure detection: runner, markers, fixtures, store setup.
-5. Other languages. A Rust oracle exists (R20); no regeneration has run
+   hand, the second from a written survey with its problems stated.
+   Without it the loop serves a developer who already knows where the mess
+   is.
+2. Other languages. A Rust oracle exists (R20); no regeneration has run
    outside Python. The per-language tool stack is assessed in the
    project's tooling note: bounded model checking and cargo-mutants for
    Rust, CrossHair and cosmic-ray for Python, property tests only for
-   JavaScript and TypeScript, where no mature concolic engine exists.
-6. Cost and scaling. One scope took a working day of machine time.
+   JavaScript and TypeScript, where no mature concolic engine exists. The
+   recorder is also written per scope: the second Python scope needed a
+   new 534-line recorder for its own alphabet and reused only the generic
+   parts of the first.
+3. Four amendments to the loop's specification, each from an observation
+   on the second run and none yet adopted: the surface is the tree's
+   references plus the recorder's imports; the turn parameters (output
+   ceiling, effort, thinking display) are preregistered and a thinking-only
+   turn counts as failed; content hashes are over the bytes as stored (a
+   CRLF host bit three times); receipt labels are distinct beyond letter
+   case. Two rules from the first run, canonical-format counts on both
+   trees and fault sampling on both trees, were executed by design on the
+   second and should be written into the specification as they stand.
+4. The remaining two scopes of the section 8 prediction, which decide the
+   medians. The second and third must accept in round 1 for the rounds row
+   to hold, and both must reach 10 percent fewer canonical lines for the
+   lines row to hold.
+5. Comparing two regenerator programs on the same frozen scope, which
+   would separate the loop's contribution from the model's.
+6. Cost and scaling. Each scope took a working day of machine time; the
+   second also took about $7 of model time by our estimate.
+
+Closed since the first version of this report, each on 5 or 6 November
+2026 with its own receipt: canonical-format and separated-form measures
+(built; the first scope's candidate re-read under both); the missing-test
+report (built; a fresh agent given only the report wrote tests that
+killed 3 of 3 listed gaps and exposed the exception-path difference on the
+first scope; the second scope's report has 28 entries, tests described and
+not written); static test-infrastructure detection for a Python repository
+(built; it reproduced the importing files, the baseline deselections and
+the marker expression, but not the coverage-derived seed list, and it
+supplied the seeds the second scope used); multi-round behaviour (observed
+once, three turns, with the turn rule exercised once); the regenerator as a
+recorded program (built and used for the second scope).
 
 ## 11. Glossary
 
@@ -506,6 +728,19 @@ hand the loop the test files and deselections explicitly.
 - Residue: everything a run declares unprotected.
 - Adaptive deadline: a preregistered base time scaled by a measured
   host-load factor.
+- Turn rule: a regenerator turn after a failed turn receives the unchanged
+  inputs plus only the previous turn's first divergence and its measure
+  gaps; after an accepted, sensitivity-scored turn it also receives the
+  surviving faults and realised counterexamples; nothing else.
+- Held-out corpus: a corpus recorded from the original after a candidate
+  has been accepted, from a seed that did not exist before, and replayed
+  against that candidate; the row of the prediction table that decides
+  trust.
+- Patching check: a sentinel step that verifies, on both trees, that every
+  name tests patch is still the module global the candidate's own
+  functions look up at call time and that patched instance attributes keep
+  their roles; a candidate that fails it is void whatever the acceptance
+  arm said.
 
 ## 12. References
 
@@ -517,7 +752,11 @@ Project records (research log entries, each with plan, receipts and logs):
 - R22, Evidence-publication oracle (Python). `docs/research/2026-11-03/04-e1b-evidence-publication-oracle.md`
 - R23, Concolic rung as run. `docs/research/2026-11-03/05-e1c-concolic-rung.md`
 - R24, Corrected solver rung with verifier. `docs/research/2026-11-04/01-e1c2-corrected-solver-rung.md`
-- R25, E3 evidence regeneration. `docs/research/2026-11-04/02-e3-evidence-regeneration.md`
+- R25, E3 evidence regeneration, with Amendments 1 to 3 (canonical and separated readings; the same arm on the original). `docs/research/2026-11-04/02-e3-evidence-regeneration.md`
+- R26, E4 lifecycle regeneration with the recorded regenerator program. `docs/research/2026-11-06/01-e4-lifecycle-regeneration.md`
+- E4 experiment directory: plan, scope rationale, README, review, residue statement, differential, mutants, rates and the missing-test report. `docs/experiments/deconvolution/e4-lifecycle/`
+- The regenerator program and its recorded turns. `docs/experiments/deconvolution/regenerator/`
+- Run report and prototype résumé after two scopes, written 2026-11-06. `docs/reports/deconvolution-loop-run-report.md`
 - Retrospective of the earlier static track, R1 to R18. `docs/research/2026-11-02/01-retrospective.md`
 - Symbolic-execution tooling per language, including the KLEE assessment and the verifier rules. `docs/symbolic-execution-tooling.md`
 - Deconvolution-loop specification: algorithm-agnostic requirements with per-requirement feasibility status, and a design documenting the prototype. `.kiro/specs/deconvolution-loop/`
