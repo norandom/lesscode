@@ -675,6 +675,608 @@
    "seconds": 0.13,
    "exit": 0,
    "adaptive": null
+  },
+  {
+   "label": "patchcheck-frozen",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "patchcheck.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "results\\patchcheck-frozen.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T10:05:53.634129+00:00",
+   "end_utc": "2026-11-06T10:06:06.674071+00:00",
+   "seconds": 13.04,
+   "exit": 1,
+   "adaptive": null
+  },
+  {
+   "label": "patchcheck-frozen-2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "patchcheck.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "--out",
+    "results\\patchcheck-frozen.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T10:08:24.841903+00:00",
+   "end_utc": "2026-11-06T10:08:30.682878+00:00",
+   "seconds": 5.84,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e4-turn1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "regen_turn.py",
+    "run",
+    "--request",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\request-e4-turn1.json",
+    "--cand",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn1",
+    "--receipt",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\receipt.json",
+    "--label",
+    "e4-turn1",
+    "--max-tokens",
+    "128000",
+    "--effort",
+    "medium",
+    "--thinking-display",
+    "summarized"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T10:08:46.779937+00:00",
+   "end_utc": "2026-11-06T10:27:33.202953+00:00",
+   "seconds": 1126.42,
+   "exit": 3,
+   "adaptive": null
+  },
+  {
+   "label": "editscope-e4-t1",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "editscope.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn1",
+    "--scope",
+    "src/facdrone/shells/lifecycle_monitor_runner.py",
+    "src/facdrone/shells/lifecycle_store.py",
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/lifecycle_evidence.py",
+    "src/facdrone/shells/lifecycle_projection.py",
+    "src/facdrone/shells/cppi/lifecycle_seams.py",
+    "src/facdrone/shells/wiring/lifecycle_root.py",
+    "--dirs",
+    ".agents",
+    ".claude",
+    ".codex",
+    ".dagger",
+    ".gates",
+    ".github",
+    ".import_linter_cache",
+    ".kiro",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".sentrux",
+    "bin",
+    "conf",
+    "docs",
+    "migrations",
+    "packages",
+    "research",
+    "scripts",
+    "src",
+    "tests",
+    "tmp",
+    "wiki",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\editscope-e4-t1.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T10:28:33.004693+00:00",
+   "end_utc": "2026-11-06T10:28:37.432943+00:00",
+   "seconds": 4.43,
+   "exit": 1,
+   "adaptive": null
+  },
+  {
+   "label": "e4-turn2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "regen_turn.py",
+    "run",
+    "--request",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\request-e4-turn2.json",
+    "--cand",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+    "--receipt",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\receipt.json",
+    "--label",
+    "e4-turn2",
+    "--max-tokens",
+    "128000",
+    "--effort",
+    "medium",
+    "--thinking-display",
+    "summarized"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T10:28:40.857216+00:00",
+   "end_utc": "2026-11-06T10:41:48.691691+00:00",
+   "seconds": 787.83,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "editscope-e4-t2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "editscope.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+    "--scope",
+    "src/facdrone/shells/lifecycle_monitor_runner.py",
+    "src/facdrone/shells/lifecycle_store.py",
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/lifecycle_evidence.py",
+    "src/facdrone/shells/lifecycle_projection.py",
+    "src/facdrone/shells/cppi/lifecycle_seams.py",
+    "src/facdrone/shells/wiring/lifecycle_root.py",
+    "--dirs",
+    ".agents",
+    ".claude",
+    ".codex",
+    ".dagger",
+    ".gates",
+    ".github",
+    ".import_linter_cache",
+    ".kiro",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".sentrux",
+    "bin",
+    "conf",
+    "docs",
+    "migrations",
+    "packages",
+    "research",
+    "scripts",
+    "src",
+    "tests",
+    "tmp",
+    "wiki",
+    "--mentions",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\e4-turn2\\result.json",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\e4-turn2\\response.json",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\editscope-e4-t2.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T10:42:42.877174+00:00",
+   "end_utc": "2026-11-06T10:42:45.542815+00:00",
+   "seconds": 2.67,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "structure-e4-t2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import json,sys; d=json.load(open(sys.argv[1],encoding='utf-8')); json.dump(d['structure'], open(sys.argv[2],'w',encoding='utf-8'), indent=1); print({k: len(v) for k, v in d['structure'].items()})",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\e4-turn2\\result.json",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\structure-e4-t2.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T10:42:45.799154+00:00",
+   "end_utc": "2026-11-06T10:42:45.980949+00:00",
+   "seconds": 0.18,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "measures4-e4-t2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "measures4.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+    "--structure",
+    "results\\structure-e4-t2.json",
+    "--fmt-dir",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\fmt-t2",
+    "--label",
+    "e4-t2"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T10:42:46.143393+00:00",
+   "end_utc": "2026-11-06T10:42:46.795994+00:00",
+   "seconds": 0.65,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "pureshare-e4-t2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "pureshare4.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+    "--structure",
+    "results\\structure-e4-t2.json",
+    "--out",
+    "results\\pureshare-e4-t2.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T10:42:46.947289+00:00",
+   "end_utc": "2026-11-06T10:42:47.112629+00:00",
+   "seconds": 0.17,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "patchcheck-e4-t2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "patchcheck.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+    "--out",
+    "results\\patchcheck-e4-t2.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T10:42:47.253575+00:00",
+   "end_utc": "2026-11-06T10:42:58.682672+00:00",
+   "seconds": 11.43,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "pycompile-e4-t2",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys; [compile(open(f, encoding='utf-8').read(), f, 'exec') for f in sys.argv[1:]]; print('compiled', len(sys.argv) - 1)",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2\\src\\facdrone\\shells\\lifecycle_monitor_runner.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2\\src\\facdrone\\shells\\lifecycle_store.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2\\src\\facdrone\\shells\\cli\\lifecycle_group.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2\\src\\facdrone\\shells\\lifecycle_evidence.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2\\src\\facdrone\\shells\\lifecycle_projection.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2\\src\\facdrone\\shells\\cppi\\lifecycle_seams.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2\\src\\facdrone\\shells\\wiring\\lifecycle_root.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T10:42:58.922413+00:00",
+   "end_utc": "2026-11-06T10:42:59.122365+00:00",
+   "seconds": 0.2,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e4-t2-arm",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "run_e4.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+    "--round",
+    "e4-t2",
+    "--deadline",
+    "1644"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T10:44:43.312403+00:00",
+   "end_utc": "2026-11-06T10:45:02.532501+00:00",
+   "seconds": 19.22,
+   "exit": 1,
+   "adaptive": {
+    "time": "2026-11-06T11:44:43",
+    "cpu_total": 14.1836175355147,
+    "cpu_other": 0.141836175355147,
+    "ram_free_gb": 11.37,
+    "bench_s": 0.251,
+    "pid": 10332
+   }
+  },
+  {
+   "label": "e4-turn3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "regen_turn.py",
+    "run",
+    "--request",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\request-e4-turn3.json",
+    "--cand",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+    "--receipt",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\receipt.json",
+    "--label",
+    "e4-turn3",
+    "--max-tokens",
+    "128000",
+    "--effort",
+    "medium",
+    "--thinking-display",
+    "summarized"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T10:47:00.411846+00:00",
+   "end_utc": "2026-11-06T11:01:01.725674+00:00",
+   "seconds": 841.31,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "editscope-e4-t3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "editscope.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+    "--scope",
+    "src/facdrone/shells/lifecycle_monitor_runner.py",
+    "src/facdrone/shells/lifecycle_store.py",
+    "src/facdrone/shells/cli/lifecycle_group.py",
+    "src/facdrone/shells/lifecycle_evidence.py",
+    "src/facdrone/shells/lifecycle_projection.py",
+    "src/facdrone/shells/cppi/lifecycle_seams.py",
+    "src/facdrone/shells/wiring/lifecycle_root.py",
+    "--dirs",
+    ".agents",
+    ".claude",
+    ".codex",
+    ".dagger",
+    ".gates",
+    ".github",
+    ".import_linter_cache",
+    ".kiro",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".sentrux",
+    "bin",
+    "conf",
+    "docs",
+    "migrations",
+    "packages",
+    "research",
+    "scripts",
+    "src",
+    "tests",
+    "tmp",
+    "wiki",
+    "--mentions",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\e4-turn3\\result.json",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\e4-turn3\\response.json",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\editscope-e4-t3.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\t51-integration",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T11:01:40.321212+00:00",
+   "end_utc": "2026-11-06T11:01:42.956646+00:00",
+   "seconds": 2.64,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "structure-e4-t3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import json,sys; d=json.load(open(sys.argv[1],encoding='utf-8')); json.dump(d['structure'], open(sys.argv[2],'w',encoding='utf-8'), indent=1); print({k: len(v) for k, v in d['structure'].items()})",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\e4-turn3\\result.json",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\structure-e4-t3.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T11:01:43.180749+00:00",
+   "end_utc": "2026-11-06T11:01:43.330322+00:00",
+   "seconds": 0.15,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "measures4-e4-t3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "measures4.py",
+    "--root",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+    "--structure",
+    "results\\structure-e4-t3.json",
+    "--fmt-dir",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\fmt-t3",
+    "--label",
+    "e4-t3"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T11:01:43.496509+00:00",
+   "end_utc": "2026-11-06T11:01:44.006162+00:00",
+   "seconds": 0.51,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "pureshare-e4-t3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "pureshare4.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+    "--structure",
+    "results\\structure-e4-t3.json",
+    "--out",
+    "results\\pureshare-e4-t3.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T11:01:44.181820+00:00",
+   "end_utc": "2026-11-06T11:01:44.400797+00:00",
+   "seconds": 0.22,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "patchcheck-e4-t3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "patchcheck.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+    "--out",
+    "results\\patchcheck-e4-t3.json"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T11:01:44.619912+00:00",
+   "end_utc": "2026-11-06T11:01:52.980647+00:00",
+   "seconds": 8.36,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "pycompile-e4-t3",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "-c",
+    "import sys; [compile(open(f, encoding='utf-8').read(), f, 'exec') for f in sys.argv[1:]]; print('compiled', len(sys.argv) - 1)",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\lifecycle_monitor_runner.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\lifecycle_store.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\cli\\lifecycle_group.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\lifecycle_evidence.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\lifecycle_projection.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\cppi\\lifecycle_seams.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\wiring\\lifecycle_root.py"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONWARNINGS": "ignore"
+   },
+   "start_utc": "2026-11-06T11:01:53.183065+00:00",
+   "end_utc": "2026-11-06T11:01:53.352691+00:00",
+   "seconds": 0.17,
+   "exit": 0,
+   "adaptive": null
+  },
+  {
+   "label": "e4-t3-arm",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "run_e4.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+    "--round",
+    "e4-t3",
+    "--deadline",
+    "1512"
+   ],
+   "cwd": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle",
+   "env": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONWARNINGS": "ignore",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONIOENCODING": "utf-8"
+   },
+   "start_utc": "2026-11-06T11:02:43.702822+00:00",
+   "end_utc": "2026-11-06T11:03:33.339058+00:00",
+   "seconds": 49.64,
+   "exit": 0,
+   "adaptive": {
+    "time": "2026-11-06T12:02:43",
+    "cpu_total": 7.5648272710842,
+    "cpu_other": 0.075648272710842,
+    "ram_free_gb": 11.82,
+    "bench_s": 0.259,
+    "pid": 38876
+   }
   }
  ],
  "facts": [
@@ -1118,6 +1720,226 @@
    "key": "plan-frozen",
    "plan_md_sha256": "baf5ea1c0b56a1b9f3fb60426b87987eb247813a374e5657172f15acaa07520c",
    "date": "2026-11-06"
+  },
+  {
+   "time_utc": "2026-11-06T10:05:52.336927+00:00",
+   "key": "patchcheck-apparatus",
+   "sha256": {
+    "patchcheck.py": "620d090bba141b2e2c9fef490d121ee768a34ab256b1167215b95773f6324220"
+   },
+   "lines": {
+    "patchcheck.py": 89
+   },
+   "paths": [
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\patchcheck.py"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T10:05:53.034924+00:00",
+   "key": "pureshare4-apparatus",
+   "sha256": {
+    "pureshare4.py": "8bd123a5e547a758528bda9382ba041918235e02c206dcce07e9b7069c1797c0"
+   },
+   "lines": {
+    "pureshare4.py": 15
+   },
+   "paths": [
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\pureshare4.py"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T10:08:24.665416+00:00",
+   "key": "patchcheck-apparatus-2",
+   "sha256": {
+    "patchcheck.py": "6c915e1d5c45249dbd4269165ca837cb0c6cb5339719d3b4251ad798bad9d178"
+   },
+   "lines": {
+    "patchcheck.py": 60
+   },
+   "paths": [
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\patchcheck.py"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T10:08:49.189759+00:00",
+   "key": "e4-turn1-inputs",
+   "apparatus": {
+    "regen_turn.py": "038cbad2363cf48382e11a55c779a5f1bc127fbe9781e0e055f764b27a9727ff"
+   },
+   "request": {
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\request-e4-turn1.json": "c2a98af36e24beec8a90bfad6b238ae235735f5eabda2f1fd42cebd828968396"
+   },
+   "surface": "e0b4fdc4f32c3c6fc342afd10045cbaec6f48a8a419dbd4757766d508f7a354c",
+   "frozen_scope": {
+    "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+    "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+    "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+    "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+    "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+    "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f"
+   },
+   "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn1",
+   "endpoint": {
+    "style": "anthropic",
+    "host": "api.anthropic.com",
+    "model_sha256": "005912bee6ee4543cec4404b5a02b9bcb11a6f1dcc134b6693c7ccde5fdd2f69"
+   },
+   "feedback_kind": null,
+   "prompts": {
+    "system.txt": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user.txt": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:28:40.658615+00:00",
+   "key": "request-e4-turn2",
+   "sha256": {
+    "request-e4-turn2.json": "c2a98af36e24beec8a90bfad6b238ae235735f5eabda2f1fd42cebd828968396"
+   },
+   "lines": {
+    "request-e4-turn2.json": 38
+   },
+   "paths": [
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\request-e4-turn2.json"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T10:28:42.518957+00:00",
+   "key": "e4-turn2-inputs",
+   "apparatus": {
+    "regen_turn.py": "038cbad2363cf48382e11a55c779a5f1bc127fbe9781e0e055f764b27a9727ff"
+   },
+   "request": {
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\request-e4-turn2.json": "c2a98af36e24beec8a90bfad6b238ae235735f5eabda2f1fd42cebd828968396"
+   },
+   "surface": "e0b4fdc4f32c3c6fc342afd10045cbaec6f48a8a419dbd4757766d508f7a354c",
+   "frozen_scope": {
+    "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+    "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+    "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+    "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+    "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+    "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f"
+   },
+   "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+   "endpoint": {
+    "style": "anthropic",
+    "host": "api.anthropic.com",
+    "model_sha256": "005912bee6ee4543cec4404b5a02b9bcb11a6f1dcc134b6693c7ccde5fdd2f69"
+   },
+   "feedback_kind": null,
+   "prompts": {
+    "system.txt": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user.txt": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:47:00.275941+00:00",
+   "key": "request-e4-turn3",
+   "sha256": {
+    "request-e4-turn3.json": "7b5394c9180e2c1b5a92245d7aca29c6c10b9618285e19914b5689d841d93804"
+   },
+   "lines": {
+    "request-e4-turn3.json": 73
+   },
+   "paths": [
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\request-e4-turn3.json"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T10:47:01.947046+00:00",
+   "key": "e4-turn3-inputs",
+   "apparatus": {
+    "regen_turn.py": "038cbad2363cf48382e11a55c779a5f1bc127fbe9781e0e055f764b27a9727ff"
+   },
+   "request": {
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e4-lifecycle\\results\\request-e4-turn3.json": "7b5394c9180e2c1b5a92245d7aca29c6c10b9618285e19914b5689d841d93804"
+   },
+   "surface": "e0b4fdc4f32c3c6fc342afd10045cbaec6f48a8a419dbd4757766d508f7a354c",
+   "frozen_scope": {
+    "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+    "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+    "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+    "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+    "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+    "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f"
+   },
+   "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+   "endpoint": {
+    "style": "anthropic",
+    "host": "api.anthropic.com",
+    "model_sha256": "005912bee6ee4543cec4404b5a02b9bcb11a6f1dcc134b6693c7ccde5fdd2f69"
+   },
+   "feedback_kind": "failed",
+   "prompts": {
+    "system.txt": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user.txt": "2e1da3904efe6902d3f9688e1e941af59d00a50065efe073a799a47779ba28dd"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:05:24.563710+00:00",
+   "key": "e4-t3-hash7-after-cand",
+   "sha256": {
+    "lifecycle_monitor_runner.py": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+    "lifecycle_store.py": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+    "lifecycle_group.py": "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+    "lifecycle_evidence.py": "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+    "lifecycle_projection.py": "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+    "lifecycle_seams.py": "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+    "lifecycle_root.py": "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad"
+   },
+   "lines": {
+    "lifecycle_monitor_runner.py": 356,
+    "lifecycle_store.py": 273,
+    "lifecycle_group.py": 271,
+    "lifecycle_evidence.py": 206,
+    "lifecycle_projection.py": 139,
+    "lifecycle_seams.py": 95,
+    "lifecycle_root.py": 57
+   },
+   "paths": [
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\lifecycle_monitor_runner.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\lifecycle_store.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\cli\\lifecycle_group.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\lifecycle_evidence.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\lifecycle_projection.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\cppi\\lifecycle_seams.py",
+    "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3\\src\\facdrone\\shells\\wiring\\lifecycle_root.py"
+   ]
+  },
+  {
+   "time_utc": "2026-11-06T11:05:24.714281+00:00",
+   "key": "e4-t3-hash7-after-frozen",
+   "sha256": {
+    "lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+    "lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+    "lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+    "lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+    "lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+    "lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+    "lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f"
+   },
+   "lines": {
+    "lifecycle_monitor_runner.py": 397,
+    "lifecycle_store.py": 289,
+    "lifecycle_group.py": 278,
+    "lifecycle_evidence.py": 215,
+    "lifecycle_projection.py": 161,
+    "lifecycle_seams.py": 97,
+    "lifecycle_root.py": 58
+   },
+   "paths": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\lifecycle_monitor_runner.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\lifecycle_store.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\cli\\lifecycle_group.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\lifecycle_evidence.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\lifecycle_projection.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\cppi\\lifecycle_seams.py",
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source\\src\\facdrone\\shells\\wiring\\lifecycle_root.py"
+   ]
   }
  ],
  "notes": [
@@ -1478,6 +2300,798 @@
     "answer": "Go for 6.2 to 6.7",
     "channel": "menu",
     "plan_frozen": true
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:27:32.878210+00:00",
+   "key": "e4-turn1-turn",
+   "value": {
+    "mode": "json_schema+stream",
+    "anthropic_version": "2.6.0",
+    "counted_input_tokens": 35905,
+    "thinking_display": "summarized",
+    "stream": {
+     "events": 19767,
+     "last_event": "message_stop",
+     "last_event_s": 1116.94
+    },
+    "elapsed_s": 1116.94,
+    "stop_reason": "max_tokens",
+    "stop_details": null,
+    "usage": {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "inference_geo": "global",
+     "input_tokens": 36347,
+     "output_tokens": 128000,
+     "output_tokens_details": {
+      "thinking_tokens": 128000
+     },
+     "server_tool_use": null,
+     "service_tier": "standard",
+     "speed": "standard"
+    },
+    "max_tokens": 128000,
+    "effort": "medium",
+    "system_sha256": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user_sha256": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9",
+    "request_sha256": "81a13a6d69cc9658346ec0ff769788b1e63d1363b05f0e7432f8bf55163ee91f",
+    "response_sha256": "20d42fec37dd7cd198dc366c6c03167a28356b6a81069a3eae8105995cb16cdc",
+    "model_sent": "claude-opus-5-5",
+    "model_returned": "claude-opus-5-5",
+    "message_id": "msg_011CgmVSLawGF1Leu4WNPLnA",
+    "request_id": null,
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "response_sha256_saved": "20d42fec37dd7cd198dc366c6c03167a28356b6a81069a3eae8105995cb16cdc"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:27:32.880798+00:00",
+   "key": "e4-turn1-failed",
+   "value": {
+    "reason": "stop_reason max_tokens",
+    "outcome": "failed",
+    "exit": 3
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:28:32.866004+00:00",
+   "key": "e4-turn1-verdict",
+   "value": {
+    "turn": 1,
+    "label": "e4-turn1",
+    "verdict": "failed",
+    "exit": 3,
+    "reason": "stop_reason max_tokens: the whole 128,000-token output budget was spent on thinking (usage.output_tokens_details.thinking_tokens 128000); the message carries no text block, so no JSON result, no files written, no candidate",
+    "elapsed_s": 1116.94,
+    "stream_events": 19767,
+    "counted_input_tokens": 35905,
+    "usage": {
+     "input_tokens": 36347,
+     "output_tokens": 128000,
+     "thinking_tokens": 128000,
+     "cache_read_input_tokens": 0
+    },
+    "model_sent": "claude-opus-5-5",
+    "model_returned": "claude-opus-5-5",
+    "message_id": "msg_011CgmVSLawGF1Leu4WNPLnA",
+    "parameters": {
+     "max_tokens": 128000,
+     "effort": "medium",
+     "thinking_display": "summarized",
+     "preregistered": true,
+     "unchanged": true
+    },
+    "files_written": 0,
+    "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn1 (fresh copy of the frozen tree, left unmodified by the program)",
+    "editscope": "run as information on the unmodified root: results/editscope-e4-t1.json (expected: no file differs, verdict fail because no scope file changed)",
+    "structure": "not read (no candidate)",
+    "measures": "not read (no candidate)",
+    "patchcheck": "not run (no candidate)",
+    "arm": "not run (no candidate)",
+    "first_divergence": null,
+    "measure_gaps": null,
+    "rule_applied": "plan 6.2 step 1: a stop_reason other than end_turn is a failed turn that counts against the four; step 4: a turn that failed for a transport or stop reason without a candidate gives the next turn no feedback section (the request is turn 1's)",
+    "next": "e4-turn2 with results/request-e4-turn2.json, a byte-identical copy of request-e4-turn1.json (feedback null), fresh root cand-turn2",
+    "counts_against_four": true,
+    "turns_used": 1
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:41:48.084536+00:00",
+   "key": "e4-turn2-turn",
+   "value": {
+    "mode": "json_schema+stream",
+    "anthropic_version": "2.6.0",
+    "counted_input_tokens": 35905,
+    "thinking_display": "summarized",
+    "stream": {
+     "events": 18023,
+     "last_event": "message_stop",
+     "last_event_s": 781.47
+    },
+    "elapsed_s": 781.47,
+    "stop_reason": "end_turn",
+    "stop_details": null,
+    "usage": {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "inference_geo": "global",
+     "input_tokens": 36347,
+     "output_tokens": 95292,
+     "output_tokens_details": {
+      "thinking_tokens": 64819
+     },
+     "server_tool_use": null,
+     "service_tier": "standard",
+     "speed": "standard"
+    },
+    "max_tokens": 128000,
+    "effort": "medium",
+    "system_sha256": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user_sha256": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9",
+    "request_sha256": "81a13a6d69cc9658346ec0ff769788b1e63d1363b05f0e7432f8bf55163ee91f",
+    "response_sha256": "c78ba9d585e4dc67c7358ed55678fc88af7701cc17da2ac5343c6fbe40d843f3",
+    "model_sent": "claude-opus-5-5",
+    "model_returned": "claude-opus-5-5",
+    "message_id": "msg_011CgmWx7BF92nbmTqv2mjVQ",
+    "request_id": null,
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "response_sha256_saved": "c78ba9d585e4dc67c7358ed55678fc88af7701cc17da2ac5343c6fbe40d843f3"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:41:48.099979+00:00",
+   "key": "e4-turn2-candidate",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+    "files": [
+     {
+      "path": "src/facdrone/shells/lifecycle_monitor_runner.py",
+      "bytes": 17819,
+      "sha256": "6d4d56c8e1db52a5909be6674821644c77f522d0c9e358eb583adab9f3e58b1f",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/lifecycle_store.py",
+      "bytes": 12656,
+      "sha256": "3a92d96a9e9e7ac51afd8f4a3fb029e2d86bb0cb3a0dcc30cc6a24042ea5db25",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/cli/lifecycle_group.py",
+      "bytes": 13903,
+      "sha256": "a144d647202a3a8d0aa8dd5498593eeda7cff0f84036d1f7dd2b389f58501282",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/lifecycle_evidence.py",
+      "bytes": 9972,
+      "sha256": "29768ce2378a3d83db7cc9d0f939b23490c07d024fcda199665da0b342d7beb1",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/lifecycle_projection.py",
+      "bytes": 6165,
+      "sha256": "866302c33834530fe56622af4a85b554195c983c2b50e1bb8cd905b9f53d7f41",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/cppi/lifecycle_seams.py",
+      "bytes": 4859,
+      "sha256": "4e1286279d69b031b67b5dc68480807e831e1d599496643f1040945bb8f62540",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/wiring/lifecycle_root.py",
+      "bytes": 2876,
+      "sha256": "f3b0b0b718f2296cf264de33919f93cccfc704c75aaf6a3494a941d2c6d754a9",
+      "crlf": true
+     }
+    ],
+    "result_sha256": "c03191ffd467c09f3a5e553dd8a8d321e608e273e4bc2c7b44ada80ac240f738",
+    "structure_counts": {
+     "pure": 26,
+     "shell": 26
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:44:31.167988+00:00",
+   "key": "e4-t2-arm-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T11:44:30",
+     "cpu_total": 10.632001002628,
+     "cpu_other": 0.10632001002628,
+     "ram_free_gb": 11.35,
+     "bench_s": 0.251,
+     "pid": 4968,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.18,
+     "factor_cpu": 1.12,
+     "factor": 1.18,
+     "waited_s": 22.7,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:44:37.352469+00:00",
+   "key": "e4-t2-arm-deadline",
+   "value": {
+    "label": "e4-t2-arm",
+    "base_s": 1200,
+    "factor": 1.37,
+    "scaled_s": 1644.0,
+    "probe": {
+     "time": "2026-11-06T11:44:36",
+     "cpu_total": 13.2744039597746,
+     "cpu_other": 0.132744039597746,
+     "ram_free_gb": 11.35,
+     "bench_s": 0.291,
+     "pid": 29372,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.37,
+     "factor_cpu": 1.15,
+     "factor": 1.37
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T10:46:53.568898+00:00",
+   "key": "e4-turn2-verdict",
+   "value": {
+    "turn": {
+     "stop_reason": "end_turn",
+     "elapsed_s": 781.47,
+     "command_seconds": 787.83,
+     "stream_events": 18023,
+     "counted_input_tokens": 35905,
+     "usage": {
+      "input_tokens": 36347,
+      "output_tokens": 95292,
+      "thinking_tokens": 64819
+     },
+     "model_returned": "claude-opus-5-5",
+     "message_id": "msg_011CgmWx7BF92nbmTqv2mjVQ",
+     "files_written": 7,
+     "structure_counts": {
+      "pure": 26,
+      "shell": 26
+     },
+     "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2"
+    },
+    "label": "e4-turn2",
+    "verdict": "failed",
+    "arm_exit": 1,
+    "candidate_lines_as_written": {
+     "lifecycle_monitor_runner.py": 376,
+     "lifecycle_store.py": 268,
+     "lifecycle_group.py": 274,
+     "lifecycle_evidence.py": 210,
+     "lifecycle_projection.py": 151,
+     "lifecycle_seams.py": 110,
+     "lifecycle_root.py": 58,
+     "total": 1447
+    },
+    "editscope": {
+     "verdict": "pass",
+     "files_compared": 2798,
+     "only_in_original": 0,
+     "only_in_candidate": 0,
+     "differing": "exactly the seven scope files",
+     "outside_scope": [],
+     "mentions_outside_scope": "change-log prose tokens only (cli/app.py and sentence fragments ending in .py), no edit outside the scope",
+     "file": "results/editscope-e4-t2.json"
+    },
+    "structure": {
+     "pass": true,
+     "pure_share_by_funcs": 0.5,
+     "undeclared": [],
+     "declared_unknown": [],
+     "pure_failures": [],
+     "write_sites_outside_shell": [],
+     "file": "results/structure-e4-t2.json"
+    },
+    "measures": {
+     "as_written": {
+      "lines": 1447,
+      "stmts": 730,
+      "funcs": 52,
+      "writes": 12,
+      "edges": 61,
+      "module_hops": 9
+     },
+     "canonical_lines": 1449,
+     "separated_stmts": 820,
+     "pure_share_by_stmts_in_defs": 0.39,
+     "bars": {
+      "T2_lines_canonical_max_1345": "not met (1449)",
+      "T3_functions_max_55": "met (52)",
+      "T4_edges_max_66": "met (61)",
+      "S_write_sites_max_12": "met (12)",
+      "S_pure_share_min_0.50": "met (0.5)"
+     },
+     "note": "bars are read as T2 to T4 and S only on an accepted turn; here they are information fed back as measure_gaps",
+     "files": "results/measures4-e4-t2*.json, results/pureshare-e4-t2.json"
+    },
+    "patchcheck": {
+     "pass": true,
+     "file": "results/patchcheck-e4-t2.json"
+    },
+    "py_compile": "7 of 7 compile (pycompile-e4-t2)",
+    "arm": {
+     "label": "e4-t2-arm",
+     "exit": 1,
+     "seconds": 19.22,
+     "deadline_s": 1644.0,
+     "factor": 1.37,
+     "groups": {
+      ".": "exit 2: collection error, 0 seed tests ran (1 deselected, 1 error in 2.91 s)",
+      "packages/facdrone-research": "not run (-x stop after the root group)"
+     },
+     "replay": {
+      "ran": false,
+      "file": "results/sql-divergences-rounde4-t2.json absent",
+      "fresh": false,
+      "sequences": null,
+      "operations": null,
+      "level2_ops": null
+     }
+    },
+    "first_divergence": "docs/experiments/deconvolution/e4-lifecycle/test_e4_replay.py (collection error in the root pytest group, -x, before any of the 12 seed test files ran; the replay of the 50 recorded sequences did not run): ImportError: cannot import name 'labeled_reason' from 'facdrone.shells.lifecycle_projection' (<candidate>/src/facdrone/shells/lifecycle_projection.py)",
+    "measure_gaps": {
+     "lines_canonical": {
+      "candidate": 1449,
+      "target_max": 1345,
+      "gap": 104
+     },
+     "functions": {
+      "candidate": 52,
+      "target_max": 55,
+      "gap": -3
+     },
+     "intra_set_call_edges": {
+      "candidate": 61,
+      "target_max": 66,
+      "gap": -5
+     },
+     "write_sites": {
+      "candidate": 12,
+      "target_max": 12,
+      "gap": 0
+     },
+     "pure_core_share": {
+      "candidate": 0.5,
+      "target_min": 0.5,
+      "gap": 0.0
+     },
+     "level1_divergences": {
+      "candidate": "not reached",
+      "target": 0,
+      "gap": null
+     }
+    },
+    "finding": "labeled_reason is not a name of results/public-surface.json (surface4.py scanned the specimen tree, where only lifecycle_projection itself calls it); the acceptance apparatus e4_oracle.py imports it at module level (line 38) for op_standing_view, so the arm cannot collect on a candidate that folds it away although the candidate kept every surface name. The arm is the authority under the plan (6.2 step 2c, 3), so the turn is failed with this node as the first divergence; the surface/oracle gap is reported, e4_oracle.py and the surface are not edited (kill criterion 5).",
+    "rule_applied": "plan 6.2 step 2c (first failing test node) and step 4 (next request = turn 1's plus feedback {failed, first_divergence, measure_gaps}); kill criterion 2a form: a failed turn, not a void",
+    "next": "e4-turn3 with results/request-e4-turn3.json on a fresh root cand-turn3",
+    "counts_against_four": true,
+    "turns_used": 2
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:01:01.320819+00:00",
+   "key": "e4-turn3-turn",
+   "value": {
+    "mode": "json_schema+stream",
+    "anthropic_version": "2.6.0",
+    "counted_input_tokens": 36363,
+    "thinking_display": "summarized",
+    "stream": {
+     "events": 17681,
+     "last_event": "message_stop",
+     "last_event_s": 836.01
+    },
+    "elapsed_s": 836.01,
+    "stop_reason": "end_turn",
+    "stop_details": null,
+    "usage": {
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "inference_geo": "global",
+     "input_tokens": 36805,
+     "output_tokens": 102681,
+     "output_tokens_details": {
+      "thinking_tokens": 73922
+     },
+     "server_tool_use": null,
+     "service_tier": "standard",
+     "speed": "standard"
+    },
+    "max_tokens": 128000,
+    "effort": "medium",
+    "system_sha256": "5fab7bf26d199531772ac32cbb53eb592bb5ee156d6ac9664aac423ef596ae41",
+    "user_sha256": "2e1da3904efe6902d3f9688e1e941af59d00a50065efe073a799a47779ba28dd",
+    "request_sha256": "48d2255baa16112f90234d1f6739a45e6d0a559891b846488ba4ae784517db0b",
+    "response_sha256": "354ddd67117f56aecbba268470bc398292efca6522002011a8a8e104e0488735",
+    "model_sent": "claude-opus-5-5",
+    "model_returned": "claude-opus-5-5",
+    "message_id": "msg_011CgmYM6ZYTqgKkgQFPrQkP",
+    "request_id": null,
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "response_sha256_saved": "354ddd67117f56aecbba268470bc398292efca6522002011a8a8e104e0488735"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:01:01.332876+00:00",
+   "key": "e4-turn3-candidate",
+   "value": {
+    "root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+    "files": [
+     {
+      "path": "src/facdrone/shells/lifecycle_monitor_runner.py",
+      "bytes": 16012,
+      "sha256": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/lifecycle_store.py",
+      "bytes": 11628,
+      "sha256": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/cli/lifecycle_group.py",
+      "bytes": 13658,
+      "sha256": "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/lifecycle_evidence.py",
+      "bytes": 9601,
+      "sha256": "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/lifecycle_projection.py",
+      "bytes": 5776,
+      "sha256": "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/cppi/lifecycle_seams.py",
+      "bytes": 4329,
+      "sha256": "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+      "crlf": true
+     },
+     {
+      "path": "src/facdrone/shells/wiring/lifecycle_root.py",
+      "bytes": 2853,
+      "sha256": "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad",
+      "crlf": true
+     }
+    ],
+    "result_sha256": "f2f8f1414590e544dcbe256ce83bdf2113343597d25615cfdcdeed25c4370480",
+    "structure_counts": {
+     "pure": 27,
+     "shell": 25
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:02:31.586407+00:00",
+   "key": "e4-t3-arm-guard",
+   "value": {
+    "probe": {
+     "time": "2026-11-06T12:02:31",
+     "cpu_total": 30.542004163685,
+     "cpu_other": 0.30542004163685,
+     "ram_free_gb": 11.74,
+     "bench_s": 0.305,
+     "pid": 32268,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.44,
+     "factor_cpu": 1.44,
+     "factor": 1.44,
+     "waited_s": 23.0,
+     "idle": true
+    },
+    "thresholds": {
+     "max_wait_s": 1800.0,
+     "cpu_other_max": 0.35,
+     "ram_floor_gb": 8.0,
+     "ram_min_gb": 6.0
+    },
+    "attempt": 1,
+    "decision": "run"
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:02:37.785765+00:00",
+   "key": "e4-t3-arm-deadline",
+   "value": {
+    "label": "e4-t3-arm",
+    "base_s": 1200,
+    "factor": 1.26,
+    "scaled_s": 1512.0,
+    "probe": {
+     "time": "2026-11-06T12:02:37",
+     "cpu_total": 20.3436492760018,
+     "cpu_other": 0.203436492760018,
+     "ram_free_gb": 11.82,
+     "bench_s": 0.256,
+     "pid": 29728,
+     "ref_bench_s": 0.212,
+     "factor_bench": 1.21,
+     "factor_cpu": 1.26,
+     "factor": 1.26
+    }
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:05:24.863841+00:00",
+   "key": "e4-turn3-verdict",
+   "value": {
+    "turn": 3,
+    "label": "e4-turn3",
+    "verdict": "accepted",
+    "arm_exit": 0,
+    "turn_meta": {
+     "stop_reason": "end_turn",
+     "elapsed_s": 836.01,
+     "command_seconds": 841.31,
+     "counted_input_tokens": 35905,
+     "usage": {
+      "input_tokens": 36805,
+      "output_tokens": 102681,
+      "thinking_tokens": 73922
+     },
+     "model_returned": "claude-opus-5-5",
+     "message_id": "msg_011CgmYM6ZYTqgKkgQFPrQkP",
+     "request": "results/request-e4-turn3.json = turn 1's request plus feedback {kind: failed, first_divergence, measure_gaps} (sha256 7b5394c9180e2c1b5a92245d7aca29c6c10b9618285e19914b5689d841d93804)",
+     "files_written": 7,
+     "structure_counts": {
+      "pure": 27,
+      "shell": 25
+     },
+     "candidate_root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3"
+    },
+    "candidate_lines_as_written": {
+     "lifecycle_monitor_runner.py": 356,
+     "lifecycle_store.py": 273,
+     "lifecycle_group.py": 271,
+     "lifecycle_evidence.py": 206,
+     "lifecycle_projection.py": 139,
+     "lifecycle_seams.py": 95,
+     "lifecycle_root.py": 57,
+     "total": 1397
+    },
+    "editscope": {
+     "verdict": "pass",
+     "files_compared": 2798,
+     "only_in_original": 0,
+     "only_in_candidate": 0,
+     "differing": "exactly the seven scope files",
+     "outside_scope": [],
+     "mentions_outside_scope": [],
+     "file": "results/editscope-e4-t3.json"
+    },
+    "structure": {
+     "pass": true,
+     "pure_share_by_funcs": 0.519,
+     "undeclared": [],
+     "declared_unknown": [],
+     "pure_failures": [],
+     "write_sites_outside_shell": [],
+     "file": "results/structure-e4-t3.json"
+    },
+    "measures": {
+     "as_written": {
+      "lines": 1397,
+      "stmts": 720,
+      "funcs": 52,
+      "writes": 11,
+      "edges": 63,
+      "module_hops": 10
+     },
+     "canonical_lines": 1405,
+     "canonical_stmts": 720,
+     "separated_stmts": 803,
+     "separated_extras": {
+      "from_import": 77,
+      "tuple_assign": 3,
+      "chained_compare": 3
+     },
+     "pure_share_by_stmts_in_defs": 0.4,
+     "pure_share_by_stmts_all": 0.308,
+     "original": {
+      "lines": 1495,
+      "lines_canonical": 1495,
+      "stmts": 759,
+      "stmts_separated": 844,
+      "funcs": 69,
+      "writes": 12,
+      "edges": 89,
+      "module_hops": 12
+     },
+     "files": "results/measures4-e4-t3*.json, results/pureshare-e4-t3.json"
+    },
+    "patchcheck": {
+     "pass": true,
+     "file": "results/patchcheck-e4-t3.json"
+    },
+    "py_compile": "7 of 7 compile (pycompile-e4-t3)",
+    "arm": {
+     "label": "e4-t3-arm",
+     "exit": 0,
+     "seconds": 49.64,
+     "deadline_s": 1512.0,
+     "factor": 1.26,
+     "deadline_note": "e4-t3-arm-deadline",
+     "guard_note": "e4-t3-arm-guard",
+     "groups": {
+      ".": "exit 0 in 33.5 s: 108 passed, 1 skipped, 1 deselected (pytest 18.63 s)",
+      "packages/facdrone-research": "exit 0 in 15.4 s: 1 passed"
+     },
+     "replay": {
+      "ran": true,
+      "file": "results/sql-divergences-rounde4-t3.json",
+      "fresh": true,
+      "sequences": "50/50",
+      "operations": 317,
+      "level2_ops": 0,
+      "level1": "no divergence"
+     }
+    },
+    "level2": {
+     "occurred": false,
+     "qdiff": "not applicable (no pair)"
+    },
+    "first_divergence": null,
+    "acceptance_conditions": {
+     "editscope_pass": true,
+     "arm_exit_0_with_fresh_complete_replay": true,
+     "level2_pairs_pass_or_none": true,
+     "patchcheck_pass": true
+    },
+    "readings_on_the_accepted_candidate": {
+     "T1": "held: accepted at turn k = 3 (<= 3)",
+     "T2": "failed: canonical lines 1405 >= 1346 (6.0 % below 1495; the bar is <= 1345)",
+     "T3": "held: functions 52 <= 55 (band 49 to 55)",
+     "T4": "held: intra-scope call edges 63 <= 66 (band 58 to 66)",
+     "S": "held: write sites 11 <= 12, every one inside a declared shell function; pure share by function count 0.519 >= 0.50; every function declared, every pure check passing; patched names module globals looked up at call time and instance attributes present (patchcheck pass)",
+     "S_beside": "pure share by statements inside defs 0.40 (no bar)",
+     "statements": "as written 720 (original 759), canonical 720, separated 803 (original 844); no target"
+    },
+    "rule_applied": "plan 6.2 step 3: accepted when (a) passes, (c) exits 0 with a fresh complete replay file and (d) has no pair; 6.2 ends at the first accepted turn",
+    "turns_used": 3
+   }
+  },
+  {
+   "time_utc": "2026-11-06T11:05:25.017293+00:00",
+   "key": "6.2-summary",
+   "value": {
+    "task": "deconvolution-loop 6.2, E4 regeneration and acceptance on the lifecycle scope",
+    "date": "2026-11-06",
+    "plan": "plan.md sha256 baf5ea1c0b56a1b9f3fb60426b87987eb247813a374e5657172f15acaa07520c (fact plan-frozen)",
+    "turns_used": 3,
+    "turns": {
+     "1": {
+      "label": "e4-turn1",
+      "outcome": "failed",
+      "why": "stop_reason max_tokens: 128,000 output tokens all spent on thinking, no text block, no candidate",
+      "elapsed_s": 1116.94,
+      "usage": {
+       "input": 36347,
+       "output": 128000,
+       "thinking": 128000
+      },
+      "counts": true
+     },
+     "2": {
+      "label": "e4-turn2",
+      "outcome": "failed",
+      "why": "arm exit 1 in 19.2 s: collection error of test_e4_replay.py, ImportError labeled_reason from lifecycle_projection (folded away by the candidate; the name is not in public-surface.json, the oracle imports it); editscope pass, structure pass, patchcheck pass; canonical 1449 lines, 52 functions, 61 edges",
+      "elapsed_s": 781.47,
+      "usage": {
+       "input": 36347,
+       "output": 95292,
+       "thinking": 64819
+      },
+      "counts": true
+     },
+     "3": {
+      "label": "e4-turn3",
+      "outcome": "accepted",
+      "why": "arm exit 0 in 49.6 s; editscope pass; patchcheck pass; replay fresh 50/50, 317 operations, level2_ops 0",
+      "elapsed_s": 836.01,
+      "usage": {
+       "input": 36805,
+       "output": 102681,
+       "thinking": 73922
+      },
+      "counts": true
+     }
+    },
+    "final_verdict": "accepted at turn 3",
+    "accepted_candidate_root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+    "accepted_candidate_sha256": {
+     "src/facdrone/shells/lifecycle_monitor_runner.py": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+     "src/facdrone/shells/lifecycle_store.py": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+     "src/facdrone/shells/cli/lifecycle_group.py": "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+     "src/facdrone/shells/lifecycle_evidence.py": "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+     "src/facdrone/shells/lifecycle_projection.py": "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+     "src/facdrone/shells/cppi/lifecycle_seams.py": "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+     "src/facdrone/shells/wiring/lifecycle_root.py": "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad"
+    },
+    "T1": "held (accepted at turn 3, within the <= 3 bar)",
+    "readings_information_not_asserted": {
+     "T2": "failed: canonical 1405 lines against the bar <= 1345 (band 1196 to 1345); 6.0 % fewer than 1495",
+     "T3": "held: 52 functions (bar <= 55, band 49 to 55)",
+     "T4": "held: 63 intra-scope call edges (bar <= 66, band 58 to 66)",
+     "S": "held: 11 write sites (<= 12) all inside declared shell functions; pure share by functions 0.519 (>= 0.50); 52 of 52 functions declared, every pure check passing; patchcheck both tiers pass on the candidate (and on the frozen original: patchcheck-frozen-2)",
+     "S_beside": "pure share by statements inside defs 0.40, by all statements 0.308 (no bar)",
+     "statements": "720 as written and canonical, 803 separated (original 759 / 759 / 844); module hops 10 (original 12)"
+    },
+    "level2": {
+     "occurred": false,
+     "qdiff_verdict": "not run: no Level 2 pair on any turn that reached the replay"
+    },
+    "kill_criteria": "none fired: no candidate changed a file outside the seven (criterion 1), patchcheck passed on every candidate (2b), the replay file of the accepted turn is fresh and complete (3), no apparatus file named in the plan was edited (5), no divergence on the frozen or identical copy (7), acceptance before four turns (8)",
+    "apparatus_authored_in_6.2": {
+     "patchcheck.py": {
+      "lines": 60,
+      "sha256_final": "see fact patchcheck-apparatus-2",
+      "history": "fact patchcheck-apparatus (89 lines, control misread typer's SystemExit as an exception, run patchcheck-frozen exit 1), fixed and compacted before any candidate was judged, fact patchcheck-apparatus-2, run patchcheck-frozen-2 exit 0"
+     },
+     "pureshare4.py": {
+      "lines": 15,
+      "sha256": "see fact pureshare4-apparatus",
+      "why": "plan step 2b names pureshare.py, whose file list is E3's surface.SET (five files); the shim rebinds SET to surface4.SET as measures4.py does"
+     }
+    },
+    "line_budget": {
+     "counted_6.2": 75,
+     "counted_6.1": 97,
+     "running_total": 172,
+     "budget": 900
+    },
+    "deviations_from_plan": [
+     "pureshare4.py authored (15 lines) because pureshare.py is bound to the E3 file set; registered by fact before use (criterion 5 rule)",
+     "patchcheck.py first registered at 89 lines and run (exit 1) before the fix to 60 lines; both registrations and both runs stay in the receipt",
+     "turn 1's root cand-turn1 (no candidate) was still edit-scope checked as information (editscope-e4-t1: no file differs)",
+     "request-e4-turn2.json is a byte-identical copy of request-e4-turn1.json (same sha256 c2a98af3...), so the step-1 file naming and the step-4 'the request is turn 1's' rule both hold",
+     "the first attempt to launch the e4-t2 arm never executed (PowerShell parse error in the launch command, no guard, probe, note or command entry resulted); the second launch is the only e4-t2-arm entry"
+    ],
+    "findings_for_the_owner": [
+     "labeled_reason (lifecycle_projection) is not a public-surface name, yet e4_oracle.py imports it at module level; turn 2 was rejected at collection for folding it away. The acceptance apparatus therefore protects one name the surface does not declare; the regenerator learned it only through the turn rule's first divergence. Not repaired here (no apparatus edit after the first heavy step); for 6.3 to 6.7 and the research entry.",
+     "turn 1 spent the whole 128k output budget thinking at effort medium (task 4 saw the same at effort high with 64k); the preregistered parameters were kept, the turn counted"
+    ],
+    "not_done_here": "6.3 to 6.7 (review, sensitivity, differential, held-out corpus, residue report and research entry); nothing committed"
    }
   }
  ]

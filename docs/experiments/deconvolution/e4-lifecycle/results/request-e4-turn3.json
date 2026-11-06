@@ -1,0 +1,73 @@
+{
+ "scope_root": ".runs/e2-facdrone/source",
+ "scope_files": [
+  "src/facdrone/shells/lifecycle_monitor_runner.py",
+  "src/facdrone/shells/lifecycle_store.py",
+  "src/facdrone/shells/cli/lifecycle_group.py",
+  "src/facdrone/shells/lifecycle_evidence.py",
+  "src/facdrone/shells/lifecycle_projection.py",
+  "src/facdrone/shells/cppi/lifecycle_seams.py",
+  "src/facdrone/shells/wiring/lifecycle_root.py"
+ ],
+ "surface_path": "docs/experiments/deconvolution/e4-lifecycle/results/public-surface.json",
+ "definitions": "- Public API (one sentence): every name that code outside the seven regenerated files imports, reads as a module attribute, patches or overrides, with its signature and observable behaviour, including private names that tests import or patch.\n- Pure core: functions that take no engine, connection or session, open none, and execute no SQL; they compute identities, digests, labels, projections, evidence series and predicates from values.\n- Effect shell: functions that hold a connection or engine and perform reads or writes, build engines or stores, read files or the parameters, or drive the CLI; they call the pure core and contain no predicate logic beyond dispatch.\n- Level 1 observation: the return value (dataclasses by field, including a MonitorSummary and every record the runner emits, in emission order) or the exception type, message and cause type; the ordered dumps of signal_lifecycle_event, signal_monitor_reading and decision_evidence after each operation; the files under the sequence's project root; a CLI command's exit code and its output text verbatim. Level 2 observation: SQL statement text and parameters.\n- Write site: a static match of `execute|add|add_all|commit|flush|delete|merge(` or `insert|update|delete(` in the file text. Note: the `.add` rule also flags `set.add`.\n- Intra-set call edge: a distinct (caller function, callee function) pair, static, by name, with both functions inside the seven scope files. Module hop: a distinct (caller file, callee file) pair of such edges with different files.",
+ "targets": {
+  "files": "the seven scope files together",
+  "baseline_original": {
+   "lines": 1495,
+   "lines_canonical": 1495,
+   "ast_statements": 759,
+   "ast_statements_separated": 844,
+   "functions": 69,
+   "write_sites": 12,
+   "intra_set_call_edges": 89,
+   "module_hops": 12
+  },
+  "lines_canonical_max": 1345,
+  "functions_max": 55,
+  "intra_set_call_edges_max": 66,
+  "write_sites_max": 12,
+  "pure_core_share_min": 0.5,
+  "level1_divergences": 0,
+  "ast_statements": "reported as written, after canonical formatting and in separated form; no target",
+  "note": "Near edges of the predicted bands of the E4 plan (plan.md, T2 to T4): canonical lines at least 10% below 1,495, functions at least 20% below 69, intra-set call edges at least 25% below 89. T1 is zero Level 1 divergence on all 50 recorded sequences (317 operations) plus every seed test passing with the one baseline deselection."
+ },
+ "contract": "Declare every function of every scope file, including methods and nested functions, by qualname in \"structure\" as exactly one of \"pure\" or \"shell\", as \"<file>.py::<qualname>\" entries, e.g. \"lifecycle_store.py::LifecycleStore.standing\", \"lifecycle_seams.py::bind_lifecycle_monitor.monitored\", \"lifecycle_store.py::_bound.act\".\n- A declared pure function has no engine, connection or session parameter (names matching `^(engine|conn|connection|session|bind)$` or ending in `_engine`, `_conn`, `_connection`, `_session`) and makes no SQL execution call (`execute`, `begin`, `connect`, `commit`, `add`, `flush`, `merge`, `delete`); a static check verifies this for every declared pure function.\n- Every write site (static match of `execute|add|add_all|commit|flush|delete|merge(` or `insert|update|delete(`) must be inside a declared shell function (innermost enclosing def).\n- The declared pure core must hold at least 50% of the candidate's functions.\n- Write sites at most 12 (the original's count); intra-set call edges at most 66 (25% below the original's 89); physical lines after canonical formatting (ruff format 0.17.3, line length 100) at most 1,345 (10% below 1,495); functions at most 55 (20% below 69). Statements are reported, not targeted.\n- All seven files stay at their module paths; a file may become thin but may not be removed or renamed, because tests import and patch these module paths. Names that tests patch or override (kind \"patched\" in the surface: `_cited_baseline`, `_lifecycle_store`, `_pod_of`, `configured_pods`, `read_parameters` of lifecycle_group; `_consumed`, `baseline_view`, `live_evidence` of lifecycle_evidence; `study_baseline` and `project_root` of lifecycle_root; `LiveEvidence.for_window` of lifecycle_evidence; `LifecycleStore` of lifecycle_store) must remain module globals that the module's own functions look up by name at call time (no capture into closures, defaults, class attributes or import-time aliases in another module). The instance attributes tests set or read (`MonitorRunner._rules`, `_append`, `_evidence`, `_monitored`, `_engine`; `LifecycleStore._engine`, `standing`) must keep their names and roles.\n- Keep the statement text and parameters of every SQL statement unchanged; the acceptance arm records them (Level 2) and judges differences. Keep the order and fields of emitted records, the text of CLI output and of error messages, and the check order that decides which refusal is raised: they are Level 1 observations.\n- No file outside the seven scope files may change; no test, recorded corpus or apparatus file may be touched; such a candidate is void.",
+ "acceptance_command": "python run_e4.py <candidate-root> --round e4-t<k>   # run from docs/experiments/deconvolution/e4-lifecycle by the loop: the 12 seed test files (marker `not port_baseline and not live_broker`, one baseline deselection) in their pytest groups, then replay of the 50 recorded sequences / 317 operations against an embedded PostgreSQL (Level 1 divergence fails; Level 2 SQL pairs are collected and judged separately by a query differential). This scope has no codec harness. Exit 0 is acceptance.",
+ "feedback": {
+  "kind": "failed",
+  "first_divergence": "docs/experiments/deconvolution/e4-lifecycle/test_e4_replay.py (collection error in the root pytest group, -x, before any of the 12 seed test files ran; the replay of the 50 recorded sequences did not run): ImportError: cannot import name 'labeled_reason' from 'facdrone.shells.lifecycle_projection' (<candidate>/src/facdrone/shells/lifecycle_projection.py)",
+  "measure_gaps": {
+   "lines_canonical": {
+    "candidate": 1449,
+    "target_max": 1345,
+    "gap": 104
+   },
+   "functions": {
+    "candidate": 52,
+    "target_max": 55,
+    "gap": -3
+   },
+   "intra_set_call_edges": {
+    "candidate": 61,
+    "target_max": 66,
+    "gap": -5
+   },
+   "write_sites": {
+    "candidate": 12,
+    "target_max": 12,
+    "gap": 0
+   },
+   "pure_core_share": {
+    "candidate": 0.5,
+    "target_min": 0.5,
+    "gap": 0.0
+   },
+   "level1_divergences": {
+    "candidate": "not reached: the arm stopped before the replay",
+    "target": 0,
+    "gap": null
+   }
+  }
+ }
+}

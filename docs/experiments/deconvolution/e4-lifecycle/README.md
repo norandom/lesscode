@@ -199,3 +199,87 @@ subprocess timeout (deadline + 120 s), not part of `run_e4.py`'s argv; `run_e4.p
   rather than deselected by node, because a module that does not collect has no node.
 - `wiring/lifecycle_root.lifecycle_store(engine)` could be reached trivially by the driver but is kept as
   residue, as the owner's condition names it.
+
+## 6.2 Regeneration and acceptance (2026-11-06)
+
+Deconvolution-loop task 6.2 under the frozen [plan.md](plan.md) (sha256 `baf5ea1c…7520c`, fact
+`plan-frozen`; owner go 2026-11-06). Regenerator `regenerator/regen_turn.py` (`038cbad2…727ff`) at the fixed
+parameters `--max-tokens 128000 --effort medium --thinking-display summarized`, model `claude-opus-5-5` sent and
+returned, one fresh root per turn (`.runs/e4-lifecycle/cand-turn<k>`, copied and hash-verified by the program).
+Every command, probe, hash and verdict is in `results/receipt.json` (labels below); the turn texts under
+`regenerator/results/turns/e4-turn<k>/` (sidecars committed, `user.txt` and `response.json` not).
+
+**Result: accepted at turn 3 (T1 held, ≤ 3 turns).** The accepted candidate is `.runs/e4-lifecycle/cand-turn3`
+(seven-file hashes in note `e4-turn3-candidate`, re-hashed after the arm in fact `e4-t3-hash7-after-cand`; the
+frozen original unchanged, fact `e4-t3-hash7-after-frozen`).
+
+### Per turn
+
+| Turn | Receipt labels | stop_reason | usage in / out (thinking) | elapsed s | files | lines as written (canonical) | editscope | structure (pure share) | patchcheck | arm exit (s) | first divergence |
+| --- | --- | --- | ---: | ---: | ---: | ---: | --- | --- | --- | --- | --- |
+| 1 | `e4-turn1`, `editscope-e4-t1` | `max_tokens` | 36,347 / 128,000 (128,000) | 1,116.9 | 0 | not read | no file differs (information) | not read | not run | not run | none: no candidate (failed turn, counts) |
+| 2 | `e4-turn2`, `editscope-e4-t2`, `structure-e4-t2`, `measures4-e4-t2`, `pureshare-e4-t2`, `patchcheck-e4-t2`, `pycompile-e4-t2`, `e4-t2-arm` | `end_turn` | 36,347 / 95,292 (64,819) | 781.5 | 7 | 1,447 (1,449) | pass | pass (0.50) | pass | 1 (19.2) | `test_e4_replay.py` collection error: `ImportError: cannot import name 'labeled_reason' from 'facdrone.shells.lifecycle_projection'`; 0 seed tests ran, replay not run |
+| 3 | `e4-turn3`, `editscope-e4-t3`, `structure-e4-t3`, `measures4-e4-t3`, `pureshare-e4-t3`, `patchcheck-e4-t3`, `pycompile-e4-t3`, `e4-t3-arm` | `end_turn` | 36,805 / 102,681 (73,922) | 836.0 | 7 | 1,397 (1,405) | pass | pass (0.519) | pass | **0** (49.6) | none: 108 passed, 1 skipped, 1 deselected; research 1 passed; replay fresh 50/50, 317 operations, `level2_ops` 0 |
+
+Turn 1 spent the whole output budget thinking and returned no text block (plan 6.2 step 1: a `stop_reason`
+other than `end_turn` is a failed turn that counts; step 4: no feedback section, so `request-e4-turn2.json` is a
+byte-identical copy of turn 1's, fact `request-e4-turn2`). Turn 2's request was therefore turn 1's; turn 3's
+(`request-e4-turn3.json`, `7b5394c9…93804`) is turn 1's plus `feedback = {"kind": "failed", "first_divergence":
+<the node above as one text>, "measure_gaps": {lines_canonical 1449 vs ≤ 1345: +104; functions 52 vs ≤ 55: −3;
+intra_set_call_edges 61 vs ≤ 66: −5; write_sites 12 vs ≤ 12: 0; pure_core_share 0.5 vs ≥ 0.5: 0; level1 not
+reached}}` and nothing else (requirement 6.7). Arm deadlines came from receipted `adaptive.scaled(1200)` probes
+(notes `e4-t2-arm-deadline` factor 1.37 → 1,644 s; `e4-t3-arm-deadline` factor 1.26 → 1,512 s; guards
+`e4-t<k>-arm-guard`), neither reached.
+
+### Readings on the accepted candidate (T2 to T4 and S are information read on the accepted turn, not acceptance conditions)
+
+| Id | Bar | Candidate (turn 3) | Original | Reading |
+| --- | --- | ---: | ---: | --- |
+| T1 | acceptance within ≤ 3 turns | turn 3 | — | **held** |
+| T2 | canonical lines ≤ 1,345 | 1,405 | 1,495 | **failed** (6.0 % fewer; ≥ 1,346) |
+| T3 | functions ≤ 55 (falsifier ≥ 59) | 52 | 69 | **held** (in the band 49 to 55) |
+| T4 | intra-scope call edges ≤ 66 (falsifier ≥ 72) | 63 | 89 | **held** (in the band 58 to 66) |
+| S | write sites ≤ 12 in declared shells; pure share by functions ≥ 0.50; every function declared and every pure check passing; patched names and instance attributes | 11 sites, all in shells; 0.519; 52 of 52 declared, 0 failures; patchcheck pass | 12; — | **held** |
+| beside S | pure share by statements inside defs (no bar) | 0.40 | — | reported |
+| statements | as written / canonical / separated (no target) | 720 / 720 / 803 | 759 / 759 / 844 | reported |
+
+Module hops 10 (original 12). Level 2: no pair occurred on any turn that reached the replay, so the query
+differential was not run. Per-file lines of the accepted candidate (as written): runner 356, store 273, group
+271, evidence 206, projection 139, seams 95, root 57.
+
+### Patching sentinel check and apparatus added in 6.2
+
+| File | Lines | Receipt | Role |
+| --- | ---: | --- | --- |
+| `patchcheck.py` | 60 | facts `patchcheck-apparatus` (first version, 89 lines), `patchcheck-apparatus-2` (final); runs `patchcheck-frozen` (exit 1: my control misread typer's `SystemExit` as an exception; every tier had passed), `patchcheck-frozen-2` (exit 0), `patchcheck-e4-t2`, `patchcheck-e4-t3` (exit 0) | plan 6.2 step 2e: tier 1 (12 names bound, no local rebinding; 7 instance attributes) and tier 2 (11 sentinel lookups through store-free triggers) on each tree; `results/patchcheck-*.json` |
+| `pureshare4.py` | 15 | fact `pureshare4-apparatus`; runs `pureshare-e4-t2`, `-t3` | the plan names `pureshare.py`, whose file list is E3's `surface.SET`; the shim rebinds it to `surface4.SET` as `measures4.py` does |
+| counted in 6.2 | **75** | | running total 97 (6.1) + 75 = 172 of 900 |
+
+### Findings and deviations
+
+- `labeled_reason` of `lifecycle_projection` is not a name of `results/public-surface.json` (the deriver scanned
+  the specimen tree, where only the module itself calls it), but `e4_oracle.py` imports it at module level for
+  `op_standing_view`. Turn 2 kept every surface name and was still rejected at collection; the arm is the
+  authority under the plan, so the turn is a failed turn with that node as the divergence. Neither the surface nor
+  the oracle was edited (kill criterion 5); the gap is carried into 6.3 to 6.7 and the research entry.
+- Turn 1 exhausted 128,000 output tokens on thinking at effort `medium` (task 4 saw the same at `high` with
+  64,000); the preregistered parameters were kept and the turn counted.
+- The first launch of the `e4-t2` arm never executed (a PowerShell parse error in the launch command before
+  any guard, probe or command ran); the receipt holds one `e4-t2-arm` entry only.
+- Turn 1's unmodified root was edit-scope checked as information (`editscope-e4-t1`: 2,798 files compared,
+  none differ; `verdict` fail only because no scope file changed).
+- Nothing was committed; 6.3 to 6.7 are not started here.
+
+### Commands as executed (PowerShell 7; full argv, cwd and env in the receipt)
+
+```
+PY=D:\Source\lesscode\.runs\e2-facdrone\venv\Scripts\python.exe   D=D:\Source\lesscode\docs\experiments\deconvolution   E4=$D\e4-lifecycle   R=$E4\results\receipt.json
+EV=--env PYTHONDONTWRITEBYTECODE=1 --env PYTHONIOENCODING=utf-8 --env PYTHONWARNINGS=ignore
+$PY $D\receipt_atomic.py $R run patchcheck-frozen-2 --no-probe --cwd $E4 $EV --timeout 600 -- $PY patchcheck.py <frozen> --out results\patchcheck-frozen.json
+$PY $D\receipt_atomic.py $R run e4-turn<k> --no-probe --cwd $D\regenerator --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONIOENCODING=utf-8 -- $PY regen_turn.py run --request $E4\results\request-e4-turn<k>.json --cand D:\Source\lesscode\.runs\e4-lifecycle\cand-turn<k> --receipt $R --label e4-turn<k> --max-tokens 128000 --effort medium --thinking-display summarized
+$PY $D\receipt_atomic.py $R run editscope-e4-t<k> --no-probe --cwd $D\t51-integration $EV -- $PY editscope.py <frozen> <cand> --scope <the seven> --dirs <the 22 top-level directories> --mentions <turn>\result.json <turn>\response.json --out $E4\results\editscope-e4-t<k>.json
+$PY $D\receipt_atomic.py $R run measures4-e4-t<k> --no-probe --cwd $E4 $EV -- $PY measures4.py --root <cand> --structure results\structure-e4-t<k>.json --fmt-dir D:\Source\lesscode\.runs\e4-lifecycle\fmt-t<k> --label e4-t<k>
+$PY $D\receipt_atomic.py $R run pureshare-e4-t<k> --no-probe --cwd $E4 $EV -- $PY pureshare4.py <cand> --structure results\structure-e4-t<k>.json --out results\pureshare-e4-t<k>.json
+$PY $D\receipt_atomic.py $R run patchcheck-e4-t<k> --no-probe --cwd $E4 $EV -- $PY patchcheck.py <cand> --out results\patchcheck-e4-t<k>.json
+$PY $D\guard.py e4-t<k>-arm --receipt $R; <adaptive.scaled(1200) probe -> note e4-t<k>-arm-deadline>; $PY $D\receipt_atomic.py $R run e4-t<k>-arm --cwd $E4 --env OPENBLAS_NUM_THREADS=1 --env OMP_NUM_THREADS=1 --env MKL_NUM_THREADS=1 --env PYTHONWARNINGS=ignore --env PYTHONDONTWRITEBYTECODE=1 --env PYTHONIOENCODING=utf-8 --timeout <scaled+120> -- $PY run_e4.py <cand> --round e4-t<k> --deadline <scaled>
+```

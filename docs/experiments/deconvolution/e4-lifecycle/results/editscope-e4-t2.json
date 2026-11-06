@@ -1,0 +1,97 @@
+{
+ "original": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "candidate": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+ "dirs": [
+  ".agents",
+  ".claude",
+  ".codex",
+  ".dagger",
+  ".gates",
+  ".github",
+  ".import_linter_cache",
+  ".kiro",
+  ".mypy_cache",
+  ".ruff_cache",
+  ".sentrux",
+  "bin",
+  "conf",
+  "docs",
+  "migrations",
+  "packages",
+  "research",
+  "scripts",
+  "src",
+  "tests",
+  "tmp",
+  "wiki"
+ ],
+ "skip_dirs": [
+  ".git",
+  ".pytest_cache",
+  "__pycache__"
+ ],
+ "skip_suffix": [
+  ".pyc"
+ ],
+ "files_original": 2798,
+ "files_candidate": 2798,
+ "files_compared": 2798,
+ "only_in_original": [],
+ "only_in_candidate": [],
+ "differing": [
+  "src/facdrone/shells/cli/lifecycle_group.py",
+  "src/facdrone/shells/cppi/lifecycle_seams.py",
+  "src/facdrone/shells/lifecycle_evidence.py",
+  "src/facdrone/shells/lifecycle_monitor_runner.py",
+  "src/facdrone/shells/lifecycle_projection.py",
+  "src/facdrone/shells/lifecycle_store.py",
+  "src/facdrone/shells/wiring/lifecycle_root.py"
+ ],
+ "scope": [
+  "src/facdrone/shells/cli/lifecycle_group.py",
+  "src/facdrone/shells/cppi/lifecycle_seams.py",
+  "src/facdrone/shells/lifecycle_evidence.py",
+  "src/facdrone/shells/lifecycle_monitor_runner.py",
+  "src/facdrone/shells/lifecycle_projection.py",
+  "src/facdrone/shells/lifecycle_store.py",
+  "src/facdrone/shells/wiring/lifecycle_root.py"
+ ],
+ "differing_outside_scope": [],
+ "scope_unchanged": [],
+ "scope_missing": [],
+ "original_hashes": {
+  "src/facdrone/shells/cli/lifecycle_group.py": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+  "src/facdrone/shells/cppi/lifecycle_seams.py": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+  "src/facdrone/shells/lifecycle_evidence.py": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+  "src/facdrone/shells/lifecycle_monitor_runner.py": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+  "src/facdrone/shells/lifecycle_projection.py": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+  "src/facdrone/shells/lifecycle_store.py": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+  "src/facdrone/shells/wiring/lifecycle_root.py": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f"
+ },
+ "candidate_hashes": {
+  "src/facdrone/shells/cli/lifecycle_group.py": "a144d647202a3a8d0aa8dd5498593eeda7cff0f84036d1f7dd2b389f58501282",
+  "src/facdrone/shells/cppi/lifecycle_seams.py": "4e1286279d69b031b67b5dc68480807e831e1d599496643f1040945bb8f62540",
+  "src/facdrone/shells/lifecycle_evidence.py": "29768ce2378a3d83db7cc9d0f939b23490c07d024fcda199665da0b342d7beb1",
+  "src/facdrone/shells/lifecycle_monitor_runner.py": "6d4d56c8e1db52a5909be6674821644c77f522d0c9e358eb583adab9f3e58b1f",
+  "src/facdrone/shells/lifecycle_projection.py": "866302c33834530fe56622af4a85b554195c983c2b50e1bb8cd905b9f53d7f41",
+  "src/facdrone/shells/lifecycle_store.py": "3a92d96a9e9e7ac51afd8f4a3fb029e2d86bb0cb3a0dcc30cc6a24042ea5db25",
+  "src/facdrone/shells/wiring/lifecycle_root.py": "f3b0b0b718f2296cf264de33919f93cccfc704c75aaf6a3494a941d2c6d754a9"
+ },
+ "edit_scope": "pass",
+ "verdict": "pass",
+ "mentions": {
+  "files": [
+   "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\e4-turn2\\result.json",
+   "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns\\e4-turn2\\response.json"
+  ],
+  "outside_scope": [
+   "_observed_day.\\\\nlifecycle_projection.py",
+   "_observed_day.\\nlifecycle_projection.py",
+   "cli/app.py",
+   "remain.\\\\nlifecycle_store.py",
+   "remain.\\nlifecycle_store.py",
+   "unchanged.\\\\nlifecycle_evidence.py",
+   "unchanged.\\nlifecycle_evidence.py"
+  ]
+ }
+}

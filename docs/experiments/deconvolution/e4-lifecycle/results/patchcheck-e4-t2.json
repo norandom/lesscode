@@ -1,0 +1,92 @@
+{
+ "root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn2",
+ "modules": {
+  "lifecycle_group": "src\\facdrone\\shells\\cli\\lifecycle_group.py",
+  "lifecycle_evidence": "src\\facdrone\\shells\\lifecycle_evidence.py",
+  "lifecycle_root": "src\\facdrone\\shells\\wiring\\lifecycle_root.py",
+  "lifecycle_store": "src\\facdrone\\shells\\lifecycle_store.py",
+  "lifecycle_monitor_runner": "src\\facdrone\\shells\\lifecycle_monitor_runner.py"
+ },
+ "tier1": {
+  "lifecycle_group._cited_baseline": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_group._lifecycle_store": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_group._pod_of": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_group.configured_pods": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_group.read_parameters": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_store.LifecycleStore": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_evidence._consumed": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_evidence.baseline_view": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_evidence.live_evidence": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_evidence.LiveEvidence.for_window": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_root.project_root": {
+   "bound": true,
+   "local_rebinding": []
+  },
+  "lifecycle_root.study_baseline": {
+   "bound": true,
+   "local_rebinding": []
+  }
+ },
+ "instance_attributes": {
+  "MonitorRunner": {
+   "_rules": true,
+   "_append": true,
+   "_evidence": true,
+   "_monitored": true,
+   "_engine": true
+  },
+  "LifecycleStore": {
+   "_engine": true,
+   "standing": true
+  }
+ },
+ "cli_control": {
+  "exception": null,
+  "exit": "SystemExit(1)"
+ },
+ "tier2": {
+  "lifecycle_evidence._consumed": true,
+  "lifecycle_evidence.LiveEvidence.for_window": true,
+  "lifecycle_group._lifecycle_store": true,
+  "lifecycle_group.read_parameters": true,
+  "lifecycle_group._cited_baseline": true,
+  "lifecycle_group.configured_pods": true,
+  "lifecycle_group._pod_of": true,
+  "lifecycle_evidence.baseline_view": true,
+  "lifecycle_evidence.live_evidence": true,
+  "MonitorRunner._monitored": true,
+  "MonitorRunner._evidence": true
+ },
+ "failed": [],
+ "pass": true
+}

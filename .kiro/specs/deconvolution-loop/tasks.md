@@ -194,7 +194,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
     are hashed in the receipt, and the owner has answered the go question.
   - _Depends: 5.2_
   - _Requirements: 7.1, 8.4, 11.1, 11.6_
-- [ ] 6.2 Regeneration and acceptance
+- [x] 6.2 Regeneration and acceptance
   - Run the regenerator program from task 4 for at most four turns under
     the turn rule; after each turn run the edit-scope check, the structure
     check, the measures and the acceptance arm; arbitrate any Level 2 pair
@@ -487,3 +487,32 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   agent: NEEDS_FIXES (T1 gap, ceiling 0.55 → 0.517, untestable patching
   branch, brief vs plan disclosure, missing apparatus hashes) then
   APPROVED. Owner go for 6.2 to 6.7: asked 2026-11-06, see plan.md.
+- 6.2 (2026-11-06): E4 regeneration on the lifecycle scope with the task-4
+  program, fixed parameters (128k output, effort medium, thinking display
+  summarized), one candidate root per turn under `.runs/e4-lifecycle/`.
+  `patchcheck.py` (60 lines; a first 89-line version misread the CLI
+  control's SystemExit, fixed and re-registered before any candidate was
+  judged, both runs kept) passed on the frozen original first. Turn 1:
+  stop `max_tokens`, all 128,000 output tokens thinking, no candidate,
+  counted as a failed turn. Turn 2 (request byte-identical to turn 1):
+  `end_turn`, seven files, edit-scope, structure and patchcheck pass,
+  arm exit 1 at collection: the replay target could not import
+  `labeled_reason` from the projection module, a name the recorder uses
+  but the derived surface lacks because only the recorder, outside the
+  tree, imports it (apparatus finding; neither the oracle nor the surface
+  was edited, criterion 5). Turn 3 (turn 1 + feedback{failed, that
+  divergence, measure gaps} and nothing else, verified by prompt diff):
+  `end_turn`, 36,805 in / 102,681 out (73,922 thinking), 836 s; candidate
+  `cand-turn3` accepted: edit-scope pass over 2,798 files, structure pass
+  (52/52 declared, 11 write sites in shells, pure share 0.519), patchcheck
+  pass, arm exit 0 in 49.6 s (root 108 passed / 1 skipped / 1 deselected,
+  research 1 passed, replay fresh 50/50, 317 operations, level2_ops 0; no
+  query differential needed). Readings: T1 held (turn 3); T2 failed
+  (canonical 1,405 against ≤ 1,345; 6.0% below 1,495); T3 held (52
+  functions, band 49 to 55); T4 held (63 edges, band 58 to 66); S held.
+  Deadlines from receipted probes (1,644 s and 1,512 s), far from reached.
+  Budget 172 of 900 lines. Reviewed by an independent sonnet agent:
+  APPROVED (three low notes: first patchcheck version kept only by hash,
+  no negative control, README wording). Prompt and response texts of the
+  three turns stay on disk under `regenerator/results/turns/e4-turn*`;
+  sidecars committed.

@@ -1,0 +1,1 @@
+{"as_written": {"lines": 1447, "stmts": 730, "funcs": 52, "qualnames": 52, "writes": 12, "edges": 61, "module_hops": 9}, "canonical": {"lines": 1449, "stmts": 730}, "separated": 820, "structure_pass": true, "pure_share": 0.5}

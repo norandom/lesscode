@@ -1,0 +1,706 @@
+{
+ "root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3",
+ "files": {
+  "lifecycle_monitor_runner.py": {
+   "lines": 356,
+   "stmts": 187,
+   "funcs": 11,
+   "qualnames": 11,
+   "writes": 3
+  },
+  "lifecycle_store.py": {
+   "lines": 273,
+   "stmts": 126,
+   "funcs": 13,
+   "qualnames": 13,
+   "writes": 7
+  },
+  "lifecycle_group.py": {
+   "lines": 271,
+   "stmts": 157,
+   "funcs": 8,
+   "qualnames": 8,
+   "writes": 0
+  },
+  "lifecycle_evidence.py": {
+   "lines": 206,
+   "stmts": 111,
+   "funcs": 10,
+   "qualnames": 10,
+   "writes": 1
+  },
+  "lifecycle_projection.py": {
+   "lines": 139,
+   "stmts": 49,
+   "funcs": 3,
+   "qualnames": 3,
+   "writes": 0
+  },
+  "lifecycle_seams.py": {
+   "lines": 95,
+   "stmts": 50,
+   "funcs": 4,
+   "qualnames": 4,
+   "writes": 0
+  },
+  "lifecycle_root.py": {
+   "lines": 57,
+   "stmts": 40,
+   "funcs": 3,
+   "qualnames": 3,
+   "writes": 0
+  }
+ },
+ "total": {
+  "lines": 1397,
+  "stmts": 720,
+  "funcs": 52,
+  "qualnames": 52,
+  "writes": 11,
+  "edges": 63,
+  "module_hops": 10
+ },
+ "edges": [
+  [
+   "lifecycle_evidence.py",
+   "_consumed",
+   "lifecycle_evidence.py",
+   "_consumed_query"
+  ],
+  [
+   "lifecycle_evidence.py",
+   "_daily",
+   "lifecycle_evidence.py",
+   "_observed_day"
+  ],
+  [
+   "lifecycle_evidence.py",
+   "for_window",
+   "lifecycle_evidence.py",
+   "_daily"
+  ],
+  [
+   "lifecycle_evidence.py",
+   "for_window",
+   "lifecycle_store.py",
+   "readings"
+  ],
+  [
+   "lifecycle_evidence.py",
+   "live_evidence",
+   "lifecycle_evidence.py",
+   "for_window"
+  ],
+  [
+   "lifecycle_evidence.py",
+   "live_evidence",
+   "lifecycle_evidence.py",
+   "read_evidence"
+  ],
+  [
+   "lifecycle_evidence.py",
+   "read_evidence",
+   "lifecycle_evidence.py",
+   "_consumed"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_admit",
+   "lifecycle_store.py",
+   "bind_writers"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_enroll",
+   "lifecycle_store.py",
+   "bind_writers"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_readings",
+   "lifecycle_evidence.py",
+   "baseline_view"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_readings",
+   "lifecycle_evidence.py",
+   "live_evidence"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_readings",
+   "lifecycle_group.py",
+   "_cited_baseline"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_readings",
+   "lifecycle_group.py",
+   "_compare"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_readings",
+   "lifecycle_group.py",
+   "_pod_of"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_readings",
+   "lifecycle_monitor_runner.py",
+   "_rules_revision"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_readings",
+   "lifecycle_store.py",
+   "readings"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_retire",
+   "lifecycle_store.py",
+   "bind_writers"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_review",
+   "lifecycle_store.py",
+   "census_references"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_review",
+   "lifecycle_store.py",
+   "open_flags"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_review",
+   "lifecycle_store.py",
+   "overdue_flags"
+  ],
+  [
+   "lifecycle_group.py",
+   "lifecycle_review",
+   "lifecycle_store.py",
+   "standing"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "__init__",
+   "lifecycle_monitor_runner.py",
+   "_rules_revision"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "_append",
+   "lifecycle_monitor_runner.py",
+   "_reading_id"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "_cycle",
+   "lifecycle_monitor_runner.py",
+   "_append"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "_cycle",
+   "lifecycle_monitor_runner.py",
+   "_reading_id"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "_cycle",
+   "lifecycle_monitor_runner.py",
+   "_verdict"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "_verdict",
+   "lifecycle_monitor_runner.py",
+   "_flag_reason"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "run",
+   "lifecycle_monitor_runner.py",
+   "_cycle"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "run",
+   "lifecycle_monitor_runner.py",
+   "_plan"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "run",
+   "lifecycle_monitor_runner.py",
+   "_records"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "run",
+   "lifecycle_monitor_runner.py",
+   "_unavailable"
+  ],
+  [
+   "lifecycle_monitor_runner.py",
+   "run",
+   "lifecycle_seams.py",
+   "_monitored"
+  ],
+  [
+   "lifecycle_projection.py",
+   "labeled_reason",
+   "lifecycle_projection.py",
+   "monitor_label"
+  ],
+  [
+   "lifecycle_projection.py",
+   "signal_standing",
+   "lifecycle_projection.py",
+   "labeled_reason"
+  ],
+  [
+   "lifecycle_projection.py",
+   "signal_standing",
+   "lifecycle_projection.py",
+   "monitor_label"
+  ],
+  [
+   "lifecycle_root.py",
+   "pod_lifecycle_standing",
+   "lifecycle_monitor_runner.py",
+   "_rules_revision"
+  ],
+  [
+   "lifecycle_root.py",
+   "pod_lifecycle_standing",
+   "lifecycle_projection.py",
+   "signal_standing"
+  ],
+  [
+   "lifecycle_root.py",
+   "pod_lifecycle_standing",
+   "lifecycle_root.py",
+   "study_baseline"
+  ],
+  [
+   "lifecycle_root.py",
+   "pod_lifecycle_standing",
+   "lifecycle_store.py",
+   "open_flags"
+  ],
+  [
+   "lifecycle_root.py",
+   "pod_lifecycle_standing",
+   "lifecycle_store.py",
+   "readings"
+  ],
+  [
+   "lifecycle_root.py",
+   "pod_lifecycle_standing",
+   "lifecycle_store.py",
+   "standing"
+  ],
+  [
+   "lifecycle_root.py",
+   "study_baseline",
+   "lifecycle_store.py",
+   "census_references"
+  ],
+  [
+   "lifecycle_seams.py",
+   "_monitored",
+   "lifecycle_evidence.py",
+   "baseline_view"
+  ],
+  [
+   "lifecycle_seams.py",
+   "_per_window",
+   "lifecycle_evidence.py",
+   "for_window"
+  ],
+  [
+   "lifecycle_seams.py",
+   "bind_lifecycle",
+   "lifecycle_seams.py",
+   "bind_lifecycle_monitor"
+  ],
+  [
+   "lifecycle_seams.py",
+   "bind_lifecycle",
+   "lifecycle_store.py",
+   "open_flags"
+  ],
+  [
+   "lifecycle_seams.py",
+   "bind_lifecycle_monitor",
+   "lifecycle_evidence.py",
+   "read_evidence"
+  ],
+  [
+   "lifecycle_seams.py",
+   "bind_lifecycle_monitor",
+   "lifecycle_seams.py",
+   "_monitored"
+  ],
+  [
+   "lifecycle_seams.py",
+   "bind_lifecycle_monitor",
+   "lifecycle_seams.py",
+   "_per_window"
+  ],
+  [
+   "lifecycle_seams.py",
+   "bind_lifecycle_monitor",
+   "lifecycle_store.py",
+   "admitted"
+  ],
+  [
+   "lifecycle_seams.py",
+   "bind_lifecycle_monitor",
+   "lifecycle_store.py",
+   "bind_writers"
+  ],
+  [
+   "lifecycle_store.py",
+   "_write",
+   "lifecycle_store.py",
+   "_event_id"
+  ],
+  [
+   "lifecycle_store.py",
+   "admitted",
+   "lifecycle_store.py",
+   "_pairs"
+  ],
+  [
+   "lifecycle_store.py",
+   "admitted",
+   "lifecycle_store.py",
+   "standing"
+  ],
+  [
+   "lifecycle_store.py",
+   "bind_writers",
+   "lifecycle_store.py",
+   "transition"
+  ],
+  [
+   "lifecycle_store.py",
+   "census_references",
+   "lifecycle_store.py",
+   "events"
+  ],
+  [
+   "lifecycle_store.py",
+   "open_flags",
+   "lifecycle_store.py",
+   "_pairs"
+  ],
+  [
+   "lifecycle_store.py",
+   "open_flags",
+   "lifecycle_store.py",
+   "events"
+  ],
+  [
+   "lifecycle_store.py",
+   "overdue_flags",
+   "lifecycle_store.py",
+   "open_flags"
+  ],
+  [
+   "lifecycle_store.py",
+   "standing",
+   "lifecycle_store.py",
+   "events"
+  ],
+  [
+   "lifecycle_store.py",
+   "transition",
+   "lifecycle_store.py",
+   "_write"
+  ],
+  [
+   "lifecycle_store.py",
+   "transition",
+   "lifecycle_store.py",
+   "events"
+  ],
+  [
+   "lifecycle_store.py",
+   "transition",
+   "lifecycle_store.py",
+   "standing"
+  ]
+ ],
+ "write_sites": [
+  {
+   "file": "lifecycle_monitor_runner.py",
+   "line": 254,
+   "match": ".execute(",
+   "in": "lifecycle_monitor_runner.py::MonitorRunner._plan"
+  },
+  {
+   "file": "lifecycle_monitor_runner.py",
+   "line": 355,
+   "match": "insert(",
+   "in": "lifecycle_monitor_runner.py::MonitorRunner._append"
+  },
+  {
+   "file": "lifecycle_monitor_runner.py",
+   "line": 356,
+   "match": ".execute(",
+   "in": "lifecycle_monitor_runner.py::MonitorRunner._append"
+  },
+  {
+   "file": "lifecycle_store.py",
+   "line": 82,
+   "match": ".execute(",
+   "in": "lifecycle_store.py::LifecycleStore.events"
+  },
+  {
+   "file": "lifecycle_store.py",
+   "line": 118,
+   "match": ".execute(",
+   "in": "lifecycle_store.py::LifecycleStore._pairs"
+  },
+  {
+   "file": "lifecycle_store.py",
+   "line": 152,
+   "match": ".execute(",
+   "in": "lifecycle_store.py::LifecycleStore.readings"
+  },
+  {
+   "file": "lifecycle_store.py",
+   "line": 166,
+   "match": ".execute(",
+   "in": "lifecycle_store.py::LifecycleStore._write"
+  },
+  {
+   "file": "lifecycle_store.py",
+   "line": 166,
+   "match": "insert(",
+   "in": "lifecycle_store.py::LifecycleStore._write"
+  },
+  {
+   "file": "lifecycle_store.py",
+   "line": 169,
+   "match": ".execute(",
+   "in": "lifecycle_store.py::LifecycleStore._write"
+  },
+  {
+   "file": "lifecycle_store.py",
+   "line": 169,
+   "match": "insert(",
+   "in": "lifecycle_store.py::LifecycleStore._write"
+  },
+  {
+   "file": "lifecycle_evidence.py",
+   "line": 86,
+   "match": ".execute(",
+   "in": "lifecycle_evidence.py::_consumed"
+  }
+ ],
+ "structure": {
+  "pure": {
+   "lifecycle_monitor_runner.py::_unavailable": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_monitor_runner.py::_reading_id": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_monitor_runner.py::_rules_revision": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_monitor_runner.py::_flag_reason": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_monitor_runner.py::_verdict": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_monitor_runner.py::_records": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_store.py::_event_id": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_store.py::LifecycleStore.standing": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_store.py::LifecycleStore.census_references": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_store.py::LifecycleStore.admitted": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_store.py::LifecycleStore.open_flags": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_store.py::LifecycleStore.overdue_flags": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_evidence.py::_EntryReading.state": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_evidence.py::_DayReadings.entry": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_evidence.py::baseline_view": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_evidence.py::_consumed_query": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_evidence.py::_observed_day": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_evidence.py::_daily": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_evidence.py::LiveEvidence.for_window": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_projection.py::monitor_label": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_projection.py::labeled_reason": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_projection.py::signal_standing": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_seams.py::_monitored": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_seams.py::_per_window": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_group.py::_cited_baseline": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_group.py::_compare": {
+    "pass": true,
+    "why": []
+   },
+   "lifecycle_group.py::_pod_of": {
+    "pass": true,
+    "why": []
+   }
+  },
+  "write_sites": [
+   {
+    "file": "lifecycle_monitor_runner.py",
+    "line": 254,
+    "match": ".execute(",
+    "in": "lifecycle_monitor_runner.py::MonitorRunner._plan",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_monitor_runner.py",
+    "line": 355,
+    "match": "insert(",
+    "in": "lifecycle_monitor_runner.py::MonitorRunner._append",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_monitor_runner.py",
+    "line": 356,
+    "match": ".execute(",
+    "in": "lifecycle_monitor_runner.py::MonitorRunner._append",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_store.py",
+    "line": 82,
+    "match": ".execute(",
+    "in": "lifecycle_store.py::LifecycleStore.events",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_store.py",
+    "line": 118,
+    "match": ".execute(",
+    "in": "lifecycle_store.py::LifecycleStore._pairs",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_store.py",
+    "line": 152,
+    "match": ".execute(",
+    "in": "lifecycle_store.py::LifecycleStore.readings",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_store.py",
+    "line": 166,
+    "match": ".execute(",
+    "in": "lifecycle_store.py::LifecycleStore._write",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_store.py",
+    "line": 166,
+    "match": "insert(",
+    "in": "lifecycle_store.py::LifecycleStore._write",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_store.py",
+    "line": 169,
+    "match": ".execute(",
+    "in": "lifecycle_store.py::LifecycleStore._write",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_store.py",
+    "line": 169,
+    "match": "insert(",
+    "in": "lifecycle_store.py::LifecycleStore._write",
+    "pass": true
+   },
+   {
+    "file": "lifecycle_evidence.py",
+    "line": 86,
+    "match": ".execute(",
+    "in": "lifecycle_evidence.py::_consumed",
+    "pass": true
+   }
+  ],
+  "undeclared": [],
+  "declared_unknown": [],
+  "pure_share": 0.519,
+  "pass": true
+ }
+}

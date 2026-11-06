@@ -1,0 +1,1 @@
+{"root": "D:\\Source\\lesscode\\.runs\\e4-lifecycle\\cand-turn3", "stmts": {"pure": 222, "shell": 333, "undeclared": 0, "outside_defs": 165}, "stmts_in_defs": 555, "stmts_all": 720, "pure_share_by_stmts_in_defs": 0.4, "pure_share_by_stmts_all": 0.308, "pure_share_by_funcs": 0.519}

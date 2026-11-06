@@ -1,0 +1,128 @@
+{
+ "as_written": {
+  "total": {
+   "stmts": 720
+  }
+ },
+ "separated": {
+  "files": {
+   "lifecycle_monitor_runner.py": {
+    "stmts": 204,
+    "extra": {
+     "import": 0,
+     "from_import": 17,
+     "tuple_assign": 0,
+     "multi_target": 0,
+     "chained_compare": 0,
+     "del": 0,
+     "global_nonlocal": 0,
+     "with_items": 0
+    }
+   },
+   "lifecycle_store.py": {
+    "stmts": 147,
+    "extra": {
+     "import": 0,
+     "from_import": 21,
+     "tuple_assign": 0,
+     "multi_target": 0,
+     "chained_compare": 0,
+     "del": 0,
+     "global_nonlocal": 0,
+     "with_items": 0
+    }
+   },
+   "lifecycle_group.py": {
+    "stmts": 173,
+    "extra": {
+     "import": 0,
+     "from_import": 16,
+     "tuple_assign": 0,
+     "multi_target": 0,
+     "chained_compare": 0,
+     "del": 0,
+     "global_nonlocal": 0,
+     "with_items": 0
+    }
+   },
+   "lifecycle_evidence.py": {
+    "stmts": 124,
+    "extra": {
+     "import": 0,
+     "from_import": 10,
+     "tuple_assign": 0,
+     "multi_target": 0,
+     "chained_compare": 3,
+     "del": 0,
+     "global_nonlocal": 0,
+     "with_items": 0
+    }
+   },
+   "lifecycle_projection.py": {
+    "stmts": 54,
+    "extra": {
+     "import": 0,
+     "from_import": 4,
+     "tuple_assign": 1,
+     "multi_target": 0,
+     "chained_compare": 0,
+     "del": 0,
+     "global_nonlocal": 0,
+     "with_items": 0
+    }
+   },
+   "lifecycle_seams.py": {
+    "stmts": 58,
+    "extra": {
+     "import": 0,
+     "from_import": 7,
+     "tuple_assign": 1,
+     "multi_target": 0,
+     "chained_compare": 0,
+     "del": 0,
+     "global_nonlocal": 0,
+     "with_items": 0
+    }
+   },
+   "lifecycle_root.py": {
+    "stmts": 43,
+    "extra": {
+     "import": 0,
+     "from_import": 2,
+     "tuple_assign": 1,
+     "multi_target": 0,
+     "chained_compare": 0,
+     "del": 0,
+     "global_nonlocal": 0,
+     "with_items": 0
+    }
+   }
+  },
+  "total": {
+   "stmts": 803,
+   "extra": {
+    "import": 0,
+    "from_import": 77,
+    "tuple_assign": 3,
+    "multi_target": 0,
+    "chained_compare": 3,
+    "del": 0,
+    "global_nonlocal": 0,
+    "with_items": 0
+   }
+  }
+ },
+ "rule": {
+  "version": "1",
+  "text": "1. Every ast.stmt node counts 1, exactly as the frozen `stmts`; rules 2-8 only add extras to it.\n2. `import a, b, c` counts one statement per name (extra len(names) - 1).\n3. `from m import a, b` counts one statement per name (extra len(names) - 1); `from m import *` counts 1.\n4. An assignment with one target that is a tuple or list, and a tuple or list value of the same length, neither holding a\n   starred element, counts one statement per paired leaf, recursively (`[a, (b, c)] = 1, (2, 3)` counts 3).\n5. An assignment with several targets `a = b = v` counts len(targets); rule 4 is then not applied to its targets.\n6. A comparison with k comparators counts k (`0 < x < 1` adds 1 to its enclosing statement), wherever it occurs.\n7. `del a, b` counts len(targets); `global a, b` and `nonlocal a, b` count len(names).\n8. A `with` or `async with` statement with n items counts n (the nested form it replaces).\n9. Not unpacked (count only as rule 1): augmented and annotated assignments; a tuple target with a non-literal or starred\n   value (`a, b = f()`, `a, *b = ...`); boolean operators; conditional expressions; comprehensions; lambdas; walrus; for-loop\n   targets; multi-type `except`; tuple returns, yields and call arguments; decorators; semicolon-joined lines (already\n   separate ast.stmt nodes)."
+ },
+ "set": [
+  "src/facdrone/shells/lifecycle_monitor_runner.py",
+  "src/facdrone/shells/lifecycle_store.py",
+  "src/facdrone/shells/cli/lifecycle_group.py",
+  "src/facdrone/shells/lifecycle_evidence.py",
+  "src/facdrone/shells/lifecycle_projection.py",
+  "src/facdrone/shells/cppi/lifecycle_seams.py",
+  "src/facdrone/shells/wiring/lifecycle_root.py"
+ ]
+}

@@ -1,0 +1,106 @@
+{
+ "files": [
+  {
+   "path": "src/facdrone/shells/lifecycle_monitor_runner.py",
+   "bytes": 17819,
+   "sha256": "6d4d56c8e1db52a5909be6674821644c77f522d0c9e358eb583adab9f3e58b1f",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/lifecycle_store.py",
+   "bytes": 12656,
+   "sha256": "3a92d96a9e9e7ac51afd8f4a3fb029e2d86bb0cb3a0dcc30cc6a24042ea5db25",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/cli/lifecycle_group.py",
+   "bytes": 13903,
+   "sha256": "a144d647202a3a8d0aa8dd5498593eeda7cff0f84036d1f7dd2b389f58501282",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/lifecycle_evidence.py",
+   "bytes": 9972,
+   "sha256": "29768ce2378a3d83db7cc9d0f939b23490c07d024fcda199665da0b342d7beb1",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/lifecycle_projection.py",
+   "bytes": 6165,
+   "sha256": "866302c33834530fe56622af4a85b554195c983c2b50e1bb8cd905b9f53d7f41",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/cppi/lifecycle_seams.py",
+   "bytes": 4859,
+   "sha256": "4e1286279d69b031b67b5dc68480807e831e1d599496643f1040945bb8f62540",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/wiring/lifecycle_root.py",
+   "bytes": 2876,
+   "sha256": "f3b0b0b718f2296cf264de33919f93cccfc704c75aaf6a3494a941d2c6d754a9",
+   "crlf": true
+  }
+ ],
+ "structure": {
+  "pure": [
+   "lifecycle_monitor_runner.py::_unavailable",
+   "lifecycle_monitor_runner.py::_reading_id",
+   "lifecycle_monitor_runner.py::_rules_revision",
+   "lifecycle_monitor_runner.py::_flag_reason",
+   "lifecycle_monitor_runner.py::_verdicts",
+   "lifecycle_monitor_runner.py::_records",
+   "lifecycle_store.py::_event_row",
+   "lifecycle_store.py::bind_writers.writer",
+   "lifecycle_group.py::_compare",
+   "lifecycle_group.py::_pod_of",
+   "lifecycle_evidence.py::_EntryReading.state",
+   "lifecycle_evidence.py::_DayReadings.entry",
+   "lifecycle_evidence.py::baseline_view",
+   "lifecycle_evidence.py::_consumed_query",
+   "lifecycle_evidence.py::_observed_day",
+   "lifecycle_evidence.py::_daily",
+   "lifecycle_evidence.py::LiveEvidence.for_window",
+   "lifecycle_projection.py::monitor_label",
+   "lifecycle_projection.py::_baseline",
+   "lifecycle_projection.py::_reading",
+   "lifecycle_projection.py::_latest_and_not_run",
+   "lifecycle_projection.py::_flag",
+   "lifecycle_projection.py::signal_standing",
+   "lifecycle_seams.py::_monitored_signals",
+   "lifecycle_seams.py::_window_evidence",
+   "lifecycle_seams.py::bind_lifecycle_monitor"
+  ],
+  "shell": [
+   "lifecycle_monitor_runner.py::MonitorRunner.__init__",
+   "lifecycle_monitor_runner.py::MonitorRunner.run",
+   "lifecycle_monitor_runner.py::MonitorRunner._append",
+   "lifecycle_store.py::LifecycleStore.__init__",
+   "lifecycle_store.py::LifecycleStore.events",
+   "lifecycle_store.py::LifecycleStore.standing",
+   "lifecycle_store.py::LifecycleStore.census_references",
+   "lifecycle_store.py::LifecycleStore.admitted",
+   "lifecycle_store.py::LifecycleStore.open_flags",
+   "lifecycle_store.py::LifecycleStore.overdue_flags",
+   "lifecycle_store.py::LifecycleStore.readings",
+   "lifecycle_store.py::LifecycleStore.transition",
+   "lifecycle_store.py::bind_writers",
+   "lifecycle_group.py::lifecycle_retire",
+   "lifecycle_group.py::lifecycle_enroll",
+   "lifecycle_group.py::lifecycle_admit",
+   "lifecycle_group.py::lifecycle_readings",
+   "lifecycle_group.py::_cited_baseline",
+   "lifecycle_group.py::lifecycle_review",
+   "lifecycle_evidence.py::_consumed",
+   "lifecycle_evidence.py::read_evidence",
+   "lifecycle_evidence.py::live_evidence",
+   "lifecycle_seams.py::bind_lifecycle",
+   "lifecycle_root.py::lifecycle_store",
+   "lifecycle_root.py::study_baseline",
+   "lifecycle_root.py::pod_lifecycle_standing"
+  ]
+ },
+ "change_log": "lifecycle_monitor_runner.py: _plan, _recorded, _cycle, _finish, _judge, _emit and _row folded away. run now plans each target (same select text, filters and order_by on the run's own connect) and drives each window's transaction itself. The judgement is the pure _verdicts: same sequence construction, persistence calls and first-candidate rule, and it also computes the reading ids. The emitted records come from the pure _records: same events, messages, field order and emission order. _unavailable is pure and returns its record plus the summary entry. _reading_id now takes the MonitoredSignal rather than a _Cycle; the key is unchanged. _append keeps its name and signature (cycle, window, readings, not_run) and builds the rows inline with the identical insert ... on_conflict_do_nothing. These keep their names and runtime lookups: _rules, _append, _evidence, _monitored, _engine, _flag_in, _rules_revision and _flag_reason. The flag still commits inside the last window's transaction, or a lone transaction when no window is due. A TransitionRefused from the bound writer is still an emitted refusal. Other exceptions still mark the signal unavailable before any emission. _Plan is removed; _Cycle and _Outcome remain.\nlifecycle_store.py: _applied, _flag_id, _write, _refuse and _bound are inlined into their callers. _event_id is merged into the pure _event_row (same digest and row). transition keeps the same check order, refusal messages and now() call order: event_at first, then known_at per write. It also keeps the same queries: standing's events read, then a second events read only when the standing is flagged. Inserts are unchanged: the caller's connection when supplied, otherwise its own begin(). An IntegrityError in a caller's transaction still re-raises; one in its own transaction becomes a recorded refusal. Refusals are still written in their own transaction, and a duplicate one is suppressed. bind_writers builds the four writers with one nested factory; the writer parameter names are kept (signal, version, evidence, expected, reason; enroll's act).\ncli/lifecycle_group.py: _window is inlined into lifecycle_readings. _compare is now pure and returns (lines, exit code); the command echoes the same lines and exits with the same code. Every patched global (_cited_baseline, _lifecycle_store, _pod_of, configured_pods, read_parameters) is still looked up at call time. Output texts are unchanged.\nlifecycle_evidence.py: _lookback is inlined into LiveEvidence.for_window, still evaluated after _daily. Everything else is verbatim, including _consumed, _consumed_query and _observed_day.\nlifecycle_projection.py: labeled_reason is folded into _flag, _latest_basis into _latest_and_not_run, and _state into signal_standing; the outputs are identical.\ncppi/lifecycle_seams.py: the nested monitored, evidence and for_window closures are replaced by the pure module functions _monitored_signals and _window_evidence (the latter bound with functools.partial). readings_source is still called before read_evidence, per run.\nwiring/lifecycle_root.py: the nested standing helper is inlined into a loop; the call order is the same.\nDeliberately not preserved:\n(a) On a concurrent-write refusal outside a caller's transaction, the raised TransitionRefused no longer carries the IntegrityError as a suppressed __context__. The type, message and __cause__ (None) are unchanged.\n(b) In the seams, the ledger rows are now interpreted (admission_evidence) after store.admitted() is queried rather than before. This is observable only if a ledger row fails to parse.\n(c) The seams import baseline_view at each monitored() call rather than at bind time, so a patch made after binding now takes effect.\nPure/shell: bind_lifecycle_monitor is declared pure because it only composes closures and performs no read, write or engine construction itself; its lambdas run the I/O when invoked by the runner.",
+ "written_utc": "2026-11-06T10:41:48.098299+00:00"
+}

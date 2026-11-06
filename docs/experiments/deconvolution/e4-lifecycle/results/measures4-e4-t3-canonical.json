@@ -1,0 +1,111 @@
+{
+ "as_written": {
+  "files": {
+   "lifecycle_monitor_runner.py": {
+    "lines": 356,
+    "stmts": 187
+   },
+   "lifecycle_store.py": {
+    "lines": 273,
+    "stmts": 126
+   },
+   "lifecycle_group.py": {
+    "lines": 271,
+    "stmts": 157
+   },
+   "lifecycle_evidence.py": {
+    "lines": 206,
+    "stmts": 111
+   },
+   "lifecycle_projection.py": {
+    "lines": 139,
+    "stmts": 49
+   },
+   "lifecycle_seams.py": {
+    "lines": 95,
+    "stmts": 50
+   },
+   "lifecycle_root.py": {
+    "lines": 57,
+    "stmts": 40
+   }
+  },
+  "total": {
+   "lines": 1397,
+   "stmts": 720
+  }
+ },
+ "canonical": {
+  "files": {
+   "lifecycle_monitor_runner.py": {
+    "lines": 362,
+    "stmts": 187
+   },
+   "lifecycle_store.py": {
+    "lines": 271,
+    "stmts": 126
+   },
+   "lifecycle_group.py": {
+    "lines": 273,
+    "stmts": 157
+   },
+   "lifecycle_evidence.py": {
+    "lines": 206,
+    "stmts": 111
+   },
+   "lifecycle_projection.py": {
+    "lines": 139,
+    "stmts": 49
+   },
+   "lifecycle_seams.py": {
+    "lines": 97,
+    "stmts": 50
+   },
+   "lifecycle_root.py": {
+    "lines": 57,
+    "stmts": 40
+   }
+  },
+  "total": {
+   "lines": 1405,
+   "stmts": 720
+  }
+ },
+ "formatter": {
+  "name": "ruff format",
+  "version": "0.17.3",
+  "settings": {
+   "isolated": true,
+   "line-length": 100,
+   "target-version": "py313",
+   "other": "ruff defaults (double quotes, 4-space indent, magic trailing comma respected)"
+  },
+  "command": [
+   "C:\\Users\\mariu\\AppData\\Local\\Microsoft\\WinGet\\Packages\\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe\\uv.EXE",
+   "tool",
+   "run",
+   "--offline",
+   "--python",
+   "3.13",
+   "ruff==0.17.3",
+   "format",
+   "--isolated",
+   "--line-length",
+   "100",
+   "--target-version",
+   "py313",
+   "--no-cache",
+   "<the seven files>"
+  ],
+  "cwd": "<fmt-dir copy of the seven files>"
+ },
+ "set": [
+  "src/facdrone/shells/lifecycle_monitor_runner.py",
+  "src/facdrone/shells/lifecycle_store.py",
+  "src/facdrone/shells/cli/lifecycle_group.py",
+  "src/facdrone/shells/lifecycle_evidence.py",
+  "src/facdrone/shells/lifecycle_projection.py",
+  "src/facdrone/shells/cppi/lifecycle_seams.py",
+  "src/facdrone/shells/wiring/lifecycle_root.py"
+ ]
+}

@@ -1,0 +1,106 @@
+{
+ "files": [
+  {
+   "path": "src/facdrone/shells/lifecycle_monitor_runner.py",
+   "bytes": 16012,
+   "sha256": "cb1688a224db20f67133e47d04112519512a58e1effcd0dff5f57f19de7c3bbb",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/lifecycle_store.py",
+   "bytes": 11628,
+   "sha256": "d6dcd139002ed9994dc11c2f61fb44f3dc52fc0fa4f77089a6d19f57fc01cfd3",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/cli/lifecycle_group.py",
+   "bytes": 13658,
+   "sha256": "4fe3e970c16ef31cd9934e670684f72733716293f7f0412e9630d41f0cf010ae",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/lifecycle_evidence.py",
+   "bytes": 9601,
+   "sha256": "19e58a4f844b3aa091f22d24d237868fdaca8a5f49ba9fb8a67b94a3cab6620f",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/lifecycle_projection.py",
+   "bytes": 5776,
+   "sha256": "1af690c26886c8b171bb69777739d30f4428e3b3e21b70278c04b6db29f7bce8",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/cppi/lifecycle_seams.py",
+   "bytes": 4329,
+   "sha256": "61853af574f9493dcbcaddb86ffae465962049e9cab8771c1f922a5e2a3a89e2",
+   "crlf": true
+  },
+  {
+   "path": "src/facdrone/shells/wiring/lifecycle_root.py",
+   "bytes": 2853,
+   "sha256": "e68460407e965cf7c5a763d1892a404bcf8b0ee43a1689d49e0d8df3206a3fad",
+   "crlf": true
+  }
+ ],
+ "structure": {
+  "pure": [
+   "lifecycle_monitor_runner.py::_unavailable",
+   "lifecycle_monitor_runner.py::_reading_id",
+   "lifecycle_monitor_runner.py::_rules_revision",
+   "lifecycle_monitor_runner.py::_flag_reason",
+   "lifecycle_monitor_runner.py::_verdict",
+   "lifecycle_monitor_runner.py::_records",
+   "lifecycle_store.py::_event_id",
+   "lifecycle_store.py::LifecycleStore.standing",
+   "lifecycle_store.py::LifecycleStore.census_references",
+   "lifecycle_store.py::LifecycleStore.admitted",
+   "lifecycle_store.py::LifecycleStore.open_flags",
+   "lifecycle_store.py::LifecycleStore.overdue_flags",
+   "lifecycle_evidence.py::_EntryReading.state",
+   "lifecycle_evidence.py::_DayReadings.entry",
+   "lifecycle_evidence.py::baseline_view",
+   "lifecycle_evidence.py::_consumed_query",
+   "lifecycle_evidence.py::_observed_day",
+   "lifecycle_evidence.py::_daily",
+   "lifecycle_evidence.py::LiveEvidence.for_window",
+   "lifecycle_projection.py::monitor_label",
+   "lifecycle_projection.py::labeled_reason",
+   "lifecycle_projection.py::signal_standing",
+   "lifecycle_seams.py::_monitored",
+   "lifecycle_seams.py::_per_window",
+   "lifecycle_group.py::_cited_baseline",
+   "lifecycle_group.py::_compare",
+   "lifecycle_group.py::_pod_of"
+  ],
+  "shell": [
+   "lifecycle_monitor_runner.py::MonitorRunner.__init__",
+   "lifecycle_monitor_runner.py::MonitorRunner.run",
+   "lifecycle_monitor_runner.py::MonitorRunner._plan",
+   "lifecycle_monitor_runner.py::MonitorRunner._cycle",
+   "lifecycle_monitor_runner.py::MonitorRunner._append",
+   "lifecycle_store.py::LifecycleStore.__init__",
+   "lifecycle_store.py::LifecycleStore.events",
+   "lifecycle_store.py::LifecycleStore._pairs",
+   "lifecycle_store.py::LifecycleStore.readings",
+   "lifecycle_store.py::LifecycleStore._write",
+   "lifecycle_store.py::LifecycleStore.transition",
+   "lifecycle_store.py::bind_writers",
+   "lifecycle_evidence.py::_consumed",
+   "lifecycle_evidence.py::read_evidence",
+   "lifecycle_evidence.py::live_evidence",
+   "lifecycle_seams.py::bind_lifecycle_monitor",
+   "lifecycle_seams.py::bind_lifecycle",
+   "lifecycle_root.py::lifecycle_store",
+   "lifecycle_root.py::study_baseline",
+   "lifecycle_root.py::pod_lifecycle_standing",
+   "lifecycle_group.py::lifecycle_retire",
+   "lifecycle_group.py::lifecycle_enroll",
+   "lifecycle_group.py::lifecycle_admit",
+   "lifecycle_group.py::lifecycle_readings",
+   "lifecycle_group.py::lifecycle_review"
+  ]
+ },
+ "change_log": "Round fix: lifecycle_projection.labeled_reason (imported by the replay) is kept, as are every public (non-underscore) name of all seven modules and every surface name. lifecycle_monitor_runner: _emit became the pure _records (records emitted in the same order with the same fields); _judge's persistence logic became the pure _verdict; _finish/_judge flag write folded into _cycle, which still commits each window on its own and judges/flags inside the last window's transaction (an empty transaction when none is due); _recorded folded into _plan with the same SELECT; _row folded into _append with the same column order and insert ... on conflict do nothing; _unavailable now returns the emitted record (same event, message, field order) and run derives MonitorSummary from collected outcomes; _reading_id takes the target instead of the cycle. _append keeps its (cycle, window, readings, not_run) signature and the attributes _rules/_append/_evidence/_monitored/_engine keep their roles. lifecycle_store: _applied, _flag_id and _refuse folded (same SQL in the same order: standing, then events for the closed flag id, refusal check order unchanged, refusal written in its own transaction with IntegrityError suppressed, TransitionRefused raised from None); the duplicate distinct (signal, version) query is one _pairs helper with identical statement text; _bound/act replaced by lambdas in bind_writers that call store.transition at call time; standing remains the instance method transition and admitted call. lifecycle_evidence: _lookback inlined into LiveEvidence.for_window; _consumed, baseline_view, live_evidence, for_window still looked up at call time. lifecycle_projection: private helpers folded into signal_standing, evaluated in the original order. lifecycle_seams: nested monitored/evidence/for_window replaced by pure _monitored and _per_window plus lambdas; baseline_view is now imported at call time. lifecycle_root: nested standing inlined into the loop with the same call order. lifecycle_group: _window inlined into readings; _compare returns its lines and code and readings echoes them (same text); command docstrings and help text untouched. Docstrings and comments of private code shortened. Deliberately not preserved: removed private helpers not in the surface (_bound, _applied, _flag_id, _refuse, _emit, _finish, _judge, _recorded, _row, _lookback, _latest_basis, _baseline, _reading, _latest_and_not_run, _flag, _state, _window); a refusal now carries no suppressed __context__ in the concurrent-clash path (cause stays None).",
+ "written_utc": "2026-11-06T11:01:01.332281+00:00"
+}
