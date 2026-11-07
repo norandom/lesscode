@@ -1,0 +1,56 @@
+{
+ "attempt": 2,
+ "baselines": {
+  "app": 1705,
+  "e3_scope": 280,
+  "e4_scope": 358,
+  "ops": 854,
+  "seeds": 644
+ },
+ "c_app": 1193,
+ "c_app_python": 762,
+ "c_app_rust_with_hooks": 431,
+ "excluded_from_replacement": "run_arm census/deadline/coverage machinery (~180 canonical), regen_turn HTTP client (~262), solver controls, pure turn-input transformation subset (~240): frozen files remain, not claimed",
+ "method": "ruff==0.17.3 format --line-length 100 canonical copies; rustfmt'd Rust; hooks by git diff vs 103e1aa; ops/seeds retained frozen via import",
+ "python_app": {
+  "proto_core.py": 372,
+  "proto_replay_test.py": 19,
+  "scope_e3.py": 164,
+  "scope_e4.py": 207
+ },
+ "receipt": "s10-u5-measurement-2",
+ "rust_app": {
+  "src/admission.rs": 415
+ },
+ "rust_hooks": {
+  "Cargo.toml": 0,
+  "src/lib.rs": 1,
+  "src/main.rs": 15
+ },
+ "sensitivity": {
+  "like_for_like_b_app": 1465,
+  "like_for_like_saved": 272,
+  "note": "descoped claim does not replace the ~240 pure-turn baseline subset (regen_turn.py)"
+ },
+ "u5": {
+  "app_ceiling_1364": true,
+  "app_compression_ratio": 0.6997,
+  "app_saved": 512,
+  "app_saved_ge_200": true,
+  "c_seeds_equals_b": true,
+  "c_total": 2691,
+  "e3_scope_adapter": 164,
+  "e3_smaller": true,
+  "e3_with_replay_share": 173.5,
+  "e4_scope_adapter": 207,
+  "e4_smaller": true,
+  "e4_with_replay_share": 216.5,
+  "total_ceiling_3003": true
+ },
+ "u7_ledger": {
+  "attempt_1_charged_retained": 1808,
+  "ceiling": 1400,
+  "charged": 1193,
+  "within": true
+ }
+}

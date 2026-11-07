@@ -1,0 +1,34 @@
+{
+ "receipt": "s10-attempt2-runs-1",
+ "attempt": 2,
+ "date": "2026-11-07",
+ "driver_env": "venv .runs/e2-facdrone/venv (CPython 3.13.16), PYTHONDONTWRITEBYTECODE=1, serial runs (one heavy job at a time), native Windows PowerShell; Rust +1.98.1 --locked; descoped tree at commit abb71c3",
+ "frozen_identities": {
+  "e3_lf_body": "92a48f77f66f2c9d0d0ebaf6e9e4b37f747816d2831dd577b72e183b7bf07671",
+  "e4_lf_body": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+  "e4_bytes": 5479067
+ },
+ "runs": [
+  {"step": "e3-record-a", "cmd": "scope_e3.py record --out .runs/native-prototype/proto2-e3-a.json", "exit": 0, "seconds": 25.3, "outcome": {"sequences": 51, "operations": 290, "sha256_lf_body": "92a48f77f66f2c9d0d0ebaf6e9e4b37f747816d2831dd577b72e183b7bf07671"}},
+  {"step": "e3-record-b", "cmd": "scope_e3.py record --out .runs/native-prototype/proto2-e3-b.json", "exit": 0, "seconds": 23.9, "outcome": {"sequences": 51, "operations": 290, "sha256_lf_body": "92a48f77f66f2c9d0d0ebaf6e9e4b37f747816d2831dd577b72e183b7bf07671"}},
+  {"step": "e3-replay-e1b-golden", "cmd": "scope_e3.py replay --golden docs/experiments/deconvolution/e1b-facdrone-evidence-publication/results/golden-trace.json", "exit": 0, "seconds": 31.4, "outcome": "no divergence"},
+  {"step": "e3-replay-e1c-golden", "cmd": "scope_e3.py replay --golden docs/experiments/deconvolution/e1c-concolic-rung/results/golden-e1c.json", "exit": 0, "seconds": 10.6, "outcome": "no divergence"},
+  {"step": "e3-replay-e1c2-golden", "cmd": "scope_e3.py replay --golden docs/experiments/deconvolution/e1c2-concolic-rerun/results/golden-e1c2.json", "exit": 0, "seconds": 12.2, "outcome": "no divergence"},
+  {"step": "e4-record-a", "cmd": "scope_e4.py record --out .runs/native-prototype/proto2-e4-a.json", "exit": 0, "seconds": 19.1, "outcome": {"sequences": 50, "operations": 317, "sha256_lf_body": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584", "bytes": 5479067}},
+  {"step": "e4-record-b", "cmd": "scope_e4.py record --out .runs/native-prototype/proto2-e4-b.json", "exit": 0, "seconds": 19.2, "outcome": {"sequences": 50, "operations": 317, "sha256_lf_body": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584", "bytes": 5479067}},
+  {"step": "e4-replay-golden-a", "cmd": "scope_e4.py replay (default golden)", "exit": 0, "seconds": 17.4, "outcome": "no divergence"},
+  {"step": "e3-accept-cand", "cmd": "scope_e3.py accept .runs/e3-facdrone/cand --round 20", "exit": 0, "seconds": 462.5, "outcome": "verdict exit 0; fresh=True sequences=64/64 operations=311 level2_ops=0; accepted"},
+  {"step": "e4-accept-cand-turn3", "cmd": "scope_e4.py accept .runs/e4-lifecycle/cand-turn3 --round 20", "exit": 0, "seconds": 58.1, "outcome": "verdict exit 0; fresh=True sequences=50/50 operations=317 level2_ops=0; accepted"},
+  {"step": "controls-2", "cmd": "s10_controls2.py --with-pg", "exit": 0, "outcome": "9/9 fail closed (receipt s10-controls-2.json)"},
+  {"step": "measurement-2", "cmd": "s10_measure2.py", "exit": 0, "outcome": "c_app=1193 (py 762 + rs 431); receipt s10-u5-measurement-2.json"}
+ ],
+ "static_checks": {
+  "fmt": "cargo +1.98.1 fmt --check: clean",
+  "clippy": "clippy --locked --all-targets -D warnings: clean",
+  "nextest": "106/106 passed (descoped suite; pyjson/turncheck tests removed)",
+  "doc_tests": "cargo test --doc: ok (0 tests)",
+  "cargo_doc": "generated clean",
+  "admission_smoke": "lesscode-core admission on frozen s2-bindings.json: 21 total / 11 verified / 5 mismatch / 1 missing / 4 no_bound_sidecar, exit 1 fail-closed = R28 recorded result exactly"
+ },
+ "u6_note": "turn-level protocol evidence cited from attempt-1 receipts (R30 amd 2, nextest 23b9da3e), identified as such; descoped claim does not cover the pure-turn baseline subset (~240 canonical lines)"
+}

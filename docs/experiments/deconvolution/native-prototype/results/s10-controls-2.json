@@ -1,0 +1,52 @@
+{
+ "receipt": "s10-controls-2",
+ "attempt": 2,
+ "controls": [
+  {
+   "control": "accept-clean",
+   "fails_closed": true,
+   "detail": "exit 0 []"
+  },
+  {
+   "control": "stale-replay-refused",
+   "fails_closed": true,
+   "detail": "exit 1 ['replay not fresh or short of golden coverage']"
+  },
+  {
+   "control": "l2-without-query-evidence-refused",
+   "fails_closed": true,
+   "detail": "exit 1 ['3 L2 differences without query-differential evidence']"
+  },
+  {
+   "control": "l2-with-bound-evidence-admissible",
+   "fails_closed": true,
+   "detail": "exit 0 [] (bound file sql-divergences-e6-cand.json)"
+  },
+  {
+   "control": "invalid-arm-stays-invalid",
+   "fails_closed": true,
+   "detail": "exit 2 ['arm exit 2']"
+  },
+  {
+   "control": "missing-artifact-refused",
+   "fails_closed": true,
+   "detail": "admission exit 1: ['absent-control-artifact.json                                             missing']"
+  },
+  {
+   "control": "protected-edit-voids-record",
+   "fails_closed": true,
+   "detail": "record only from the unmodified copy; changed: ['src/facdrone/shells/decision_evidence_publication.py', 'src/facdrone/sh"
+  },
+  {
+   "control": "interrupted-arm-not-a-kill",
+   "fails_closed": true,
+   "detail": "exit 124 in 2s (infrastructure, no verdict)"
+  },
+  {
+   "control": "planted-l1-difference-detected",
+   "fails_closed": true,
+   "detail": "S01-store-full-cycle op 0 {\"op\":\"standing\",\"signal\":\"cot\",\"version\":1}: /planted_control_difference (present on one side"
+  }
+ ],
+ "all_fail_closed": true
+}
