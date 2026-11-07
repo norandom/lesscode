@@ -147,7 +147,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Requirements: 7.1_
 
 - [ ] 5. Probabilistic regenerator: single-turn base with two-tier reward
-  - [ ] 5.1 Language-parameterized turn contracts, endpoints, and admission-ready receipts
+  - [x] 5.1 Language-parameterized turn contracts, endpoints, and admission-ready receipts
     - Implement `TurnRequest` (with `language: str = "python"` driving prompt
       language labels and markdown code fences), `TurnResult`, `Endpoint`
       (`anthropic` streaming and `openai` JSON-schema HTTP with key redaction
