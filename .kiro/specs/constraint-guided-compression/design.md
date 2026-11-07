@@ -51,9 +51,15 @@ Per [prototype-first policy](../../steering/prototype-first.md) and [prototype-g
   - `dspy` (`dspy-ai >= 2.6`, lazy-imported inside `DspyRefineAdapter` only when `--backend dspy` is explicitly selected in an isolated research environment).
   - Existing `lesscode-core` binary (`admission`, `budgets`, `prepare`, `compare`) and `src/lesscode_baseline/recording.py`.
 
-### Deferred Target Languages (TODO — owner direction 2026-11-07)
+### Deferred Target Languages & Rust Ecosystem Foundation (TODO — owner direction 2026-11-07)
 
-This design implements the Python extractor only. Per the owner's dated language-scope disposition (requirements.md, Amendment 2, 2026-11-07), TypeScript extraction evaluation is deferred to a named later stage; other target languages remain explicit TODO items. **Extensibility constraint binding this design and its generated tasks:** every language-specific analysis step — surface symbol derivation, statement measures, canonical formatting, test-infrastructure detection — lives behind a per-language extractor seam. Today that seam is the function set `derive_surface` / `measure_written` / `measure_canonical` / `detect` operating on explicit file sets with the Python `ast` implementation; controllers, the reward ladder, the receipt protocol, and `regenerator.py` are language-agnostic and must stay so. Adding a target language is therefore an additive change (a new sibling extractor module plus its test suite), never a rewrite. The G0-era TypeScript fixtures (prototype-gate.md) are preserved as the first evaluation material for that stage, subject to revalidation under whichever mechanism is chosen then (they predate CodeQL's demotion to optional locator). Traceability row 7.1 reads "Python satisfied; TypeScript deferred" until that stage.
+This design implements the Python extractor only in Slice A. Per the owner's dated language-scope disposition (requirements.md, Amendment 2, 2026-11-07), TypeScript extraction evaluation is deferred to a named later stage; other target languages remain explicit TODO items.
+- **Extensibility constraint binding this design and its generated tasks:** every language-specific or domain-specific analysis step — syntax verification (`check_syntax`), surface symbol derivation (`derive_surface`, `verify_candidate_surface`), statement/effect measures (`measure_written` with a pluggable `EffectProfile`, `measure_canonical`, `check_edit_scope` with parameterized `source_extensions`/`ignore_dirs`), and test-infrastructure detection (`detect`) — lives behind the per-language extractor seam. Controllers, the reward ladder, the receipt/bindings protocol, and `regenerator.py` (`TurnRequest.language: str = "python"` driving prompt labels and markdown code fences) are language-agnostic and never import `ast` directly. Adding a target language is therefore an additive change (a new sibling extractor module plus its test suite), never a rewrite.
+- **Rust Ecosystem Reuse & Next-Stage Foundation**:
+  - **Now (Slice A)**: Keep Python AST extraction in CPython stdlib `ast` to preserve `native/complexity-budgets.json` and the `U5`/`U7` apparatus ceiling; use pinned `ruff == 0.17.3` (Rust binary via `uv tool run`) for canonical formatting (`ruff format`) and optional fast Tier-1 undefined-name (`F821`)/syntax (`E999`) checks (`ruff check`), alongside `lesscode-core admission` and `lesscode-core compare`.
+  - **Zero-new-dependency crates already locked in [`native/Cargo.lock`](../../../native/Cargo.lock)**: `ast-grep-core = 0.51.0` + `ast-grep-language = 0.51.0` (`tree-sitter-typescript = 0.23.2`, `tree-sitter-python = 0.25.0`, already powering `native/src/{scope,metrics}.rs`), `syn = 2.0.119` + `proc-macro2 = 1.0.107` (already powering `native/src/budgets.rs` for Rust AST), `ignore = 0.4.34` + `walkdir = 2.5.0` + `globset = 0.4.21` (`.gitignore`-aware tree walking), and `toml_edit = 0.25.17` + `shlex = 2.0.1` (`Cargo.toml` / `pyproject.toml` / `.config/nextest.toml` config parsing).
+  - **External Rust ecosystem candidates for Stage 2+ extractors**: `ruff_python_parser` + `ruff_python_ast` (1:1 CPython ASDL AST in pure Rust if Python unpacking moves to `lesscode-core`), `oxc_parser` + `oxc_semantic` (scope-aware TypeScript/JS symbol table and reference resolution for Contract-B `surface` and `patched` rebinding without a Node.js runtime), and `junit-parser` / JUnit XML for runner-agnostic `seed_group_pass_fraction` across `pytest`, `cargo-nextest`, and `vitest`.
+- The G0-era TypeScript fixtures (prototype-gate.md) are preserved as the first evaluation material for that stage, subject to revalidation under whichever mechanism is chosen then (they predate CodeQL's demotion to optional locator). Traceability row 7.1 reads "Python satisfied; TypeScript deferred" until that stage.
 
 ### Revalidation Triggers
 - Any change to Contract B surface derivation rules, separated-form statement rules (v1 rules 1–9), or `ruff == 0.17.3` canonical formatting flags.
@@ -347,6 +353,12 @@ class SurfaceVerification:
     kind_mismatches: list[str]          # ["module::name (expected function, got constant)", ...]
     local_rebindings: dict[str, list[str]]  # {"module::name": ["line 42", ...]}
 
+def check_syntax(
+    cand_root: Path,
+    scope_files: Sequence[str],
+    language: str = "python",
+) -> list[str]: ...
+
 def derive_surface(
     root: Path,
     scope_files: Sequence[str],
@@ -362,7 +374,7 @@ def verify_candidate_surface(
 ) -> SurfaceVerification: ...
 ```
 - **Preconditions**: `root` and `cand_root` are existing directory paths; all `scope_files` exist under `root`.
-- **Postconditions**: Returns deterministic JSON-serializable `SurfaceReport` matching the frozen `surface.py` + `s9_surface_contracts.py` schema; `verify_candidate_surface` never imports or executes candidate code (pure `ast.parse`).
+- **Postconditions**: Returns deterministic JSON-serializable `SurfaceReport` matching the frozen `surface.py` + `s9_surface_contracts.py` schema; `check_syntax` and `verify_candidate_surface` never import or execute candidate code (pure `ast.parse` behind the language extractor seam so `regenerator.py` never imports `ast`).
 - **Invariants**: Missing or dynamically constructed targets remain in `unresolved` and never authorize deletion (`Req 2.5`).
 
 ---
@@ -375,12 +387,12 @@ def verify_candidate_surface(
 | Requirements | 1.2, 1.5, 2.2, 2.6, 3.1, 3.4, 3.6, 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.7 |
 
 **Responsibilities & Constraints**
-- Parameterizes `scope_files: Sequence[str]` across five proven measurement operations without global `SET` mutation:
-  1. `measure_written(root, scope_files, structure=None)`: counts per-file and total `lines`, `stmts` (`ast.stmt`), `funcs`, `qualnames`, `writes` (matching `WRITE` regex), intra-scope call `edges`, `module_hops`, and (when `structure` is provided) validates that every `pure` function has zero forbidden parameter names (`BAD`: `engine|conn|connection|session|bind`) and zero SQL attribute calls (`SQL`), and every write site resides inside a declared `shell` function.
+- Parameterizes `scope_files: Sequence[str]` and separates the default SQLAlchemy/database `EffectProfile` constants (`WRITE`, `BAD`, `SQL`) from the AST walker across five proven measurement operations without global `SET` mutation:
+  1. `measure_written(root, scope_files, structure=None, effect_profile=DEFAULT_EFFECT_PROFILE)`: counts per-file and total `lines`, `stmts` (`ast.stmt`), `funcs`, `qualnames`, `writes` (matching `effect_profile.write_pattern`), intra-scope call `edges`, `module_hops`, and (when `structure` is provided) validates that every `pure` function has zero forbidden parameter names (`effect_profile.bad_param_pattern`) and zero forbidden effect calls (`effect_profile.sql_attr_pattern`), and every write site resides inside a declared `shell` function.
   2. `measure_pure_share(root, scope_files, structure)`: attributes every `ast.stmt` to its innermost enclosing `def` (`pure`, `shell`, `undeclared`, `outside_defs`) per `pureshare.py`.
   3. `measure_separated(root, scope_files)`: computes separated-form statement counts under Rule v1 (rules 1–9 from `measures3.py`, unpacking multi-name imports, paired tuple/list assignments, multi-target assignments, chained comparisons, `del`, `global`/`nonlocal`, and multi-item `with`).
   4. `measure_canonical(root, scope_files, fmt_dir)`: formats isolated copies of `scope_files` in `fmt_dir` using pinned `ruff == 0.17.3` (`--isolated --line-length 100 --target-version py313`) and returns canonical `lines` and `stmts` (`measures2.py`).
-  5. `check_edit_scope(original_root, candidate_root, scope_files, dirs=("src", "tests", "packages"), mentions_files=())`: verifies SHA-256 byte identity of all files outside `scope_files` (`editscope.py`).
+  5. `check_edit_scope(original_root, candidate_root, scope_files, dirs=("src", "tests", "packages"), mentions_files=(), source_extensions=(".py",), ignore_dirs=("__pycache__", ".pytest_cache", ".git", "node_modules", "target"))`: verifies SHA-256 byte identity of all files outside `scope_files` and scans `mentions_files` for out-of-scope source file token mentions (`editscope.py`).
 - Computes `compute_measure_gaps(measured, targets)` returning a dictionary of unmet target deltas (empty dict `{}` iff all preregistered targets pass).
 
 **Dependencies**
@@ -454,10 +466,10 @@ def main(argv: list[str] | None = None) -> int: ...
 | Requirements | 1.1, 1.2, 1.4, 1.5, 2.4, 3.2, 3.3, 3.4, 3.6, 4.1–4.7, 5.1–5.8, 6.4–6.7, 7.3–7.5, 7.8, 8.5 |
 
 **Responsibilities & Constraints**
-- Preserves all contracts of `regen_turn.py` (`TurnRequest`, `TurnResult`, `Endpoint`, `build_prompt`, `prepare_candidate`, `write_candidate`, `hash_set`, exit codes `0, 2, 3, 4, 5, 6`) plus the four [R26](../../../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md) amendments:
+- Preserves all contracts of `regen_turn.py` (`TurnRequest` with `language: str = "python"` driving prompt language labels and markdown code fences, `TurnResult`, `Endpoint`, `build_prompt`, `prepare_candidate`, `write_candidate`, `hash_set`, exit codes `0, 2, 3, 4, 5, 6`) plus the four [R26](../../../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md) amendments:
   1. Surface Contract B (`public-surface.json` includes recorder imports).
   2. Preregistered turn parameters (`max_tokens`, `effort`, `temperature`, `thinking_display`, `rollout_id`, `seed`).
-  3. Content hashes computed over exact UTF-8 LF bytes as stored on disk (`_save` writes `newline="\n"` and `.sha256` sidecars).
+  3. Content hashes computed over exact UTF-8 LF bytes as stored on disk (`_save` writes `newline="\n"` and `.sha256` sidecars, plus `receipt.json.sha256` and `bindings.json` for `lesscode-core admission`).
   4. Case-distinct receipt labels (`<label>-t<turn>-r<rollout>`, validated case-insensitively unique before execution).
 - Extends `Endpoint` to support both `"anthropic"` (streaming Messages API) and `"openai"` (OpenAI-compatible `v1/chat/completions` JSON-schema HTTP endpoint via stdlib `urllib.request`, enabling weaker, local, or open-weight models without extra SDK dependencies).
 - Implements the **DSPy v2.6+ `Refine` / `BestOfN` Probabilistic Iteration Contract**:
@@ -469,13 +481,13 @@ def main(argv: list[str] | None = None) -> int: ...
       - $0.00$: API/transport error or `stop_reason != "end_turn"` (e.g., `max_tokens` thinking exhaustion).
       - $0.10$: Response completed (`end_turn`), but JSON schema parse failed.
       - $0.20$: JSON valid, but `write_candidate` / `check_edit_scope` rejected an out-of-scope path (`ScopeError`).
-      - $0.30$: Scope paths valid, but `ast.parse` failed (`SyntaxError` in one or more returned files).
+      - $0.30$: Scope paths valid, but `surface.check_syntax` failed (`SyntaxError` in one or more returned files; delegated to `SurfaceDeriver` so `regenerator.py` never imports `ast`).
       - $0.40$: Syntax valid, but `verify_candidate_surface` failed (missing Contract-B symbol or locally rebound `patched` global).
       - $0.45$: Surface valid, but `measure_written` `structure.pass == False` (write site outside `shell`, forbidden DB param/call in `pure`, or undeclared function).
       - $0.49$: Structure valid, but static measure targets (`edges_max`, `funcs_max`, `stmts_max`) missed before runtime.
       - $0.50$: All Tier-1 static checks pass! Candidate is admitted to Tier 2.
     - **Tier 2 (`RuntimeOracleGate`, score $\in [0.50, 1.0]$)**:
-      - Invokes the supplied `runtime_evaluator` callback (wrapping `lesscode_baseline.recording` `probe`, `run_groups`, `replay_to_l2`, `verdict`, plus `measure_canonical` and `measure_separated`).
+      - Invokes the supplied `runtime_evaluator` callback (wrapping the frozen `lesscode_baseline.recording` functions `probe`, `run_groups`, `replay_engine`, `replay_to_l2`, and `verdict` to compute `seed_group_pass_fraction`, `sequence_pass_fraction`, and `first_divergence` without modifying `recording.py`, plus `measure_canonical` and `measure_separated`).
       - $0.50$: Runtime infrastructure timeout (`exit 124`) or invalid arm (`exit 2`).
       - $0.60 \dots 0.85$: Runtime arm failed (`verdict == 1`, seed test failure or Level 1 / unapproved Level 2 trace divergence); reward is the pinned formula $R = 0.60 + 0.25 \cdot (0.5\,g + 0.5\,s)$, where $g$ is the fraction of passing seed groups and $s$ the fraction of replayed sequences with no divergence prior to `first_divergence` (both $\in [0, 1]$, returned by `runtime_evaluator` in its result dict under keys `seed_group_pass_fraction` and `sequence_pass_fraction`; $R$ rounded half-up to two decimals; a missing key counts as $0$, never as pass — fail-closed). The formula, its weights, and both keys are Revalidation Triggers.
       - $0.90 \dots 0.99$: Runtime arm accepted (`verdict == 0`), but canonical line/statement targets (`compute_measure_gaps`) or scored mutation/differential checks have remaining gaps.
@@ -563,7 +575,7 @@ def verify_holdout_disjoint(train_scopes: set[str], eval_scopes: set[str]) -> No
 ```
 - **`runtime_evaluator` contract**: returns `(exit_code: int, first_divergence: str | None, results: dict)`; `exit_code` is the recording arm's verdict (`0` accepted, `1` kill/divergence, `2` invalid arm, `124` timeout); `results` carries `seed_group_pass_fraction` and `sequence_pass_fraction` (each $\in [0, 1]$, absent ⇒ counts `0`, fail-closed) plus any gap details consumed by `compute_measure_gaps`.
 - **Preconditions**: `base_label` is non-empty; `req.scope_files` match `frozen_root` hashes before writing; `train_scopes & eval_scopes == set()` when running optimizer compilation (`Req 7.5`).
-- **Postconditions**: Every rollout writes `system.txt`, `user.txt`, `response.json`, `result.json`, and `.sha256` sidecars under `results/turns/<label>/` and appends an atomic entry to `receipt_path`; `cand_root` is restored from `frozen_root` before each candidate write so failed rollouts never pollute subsequent turns.
+- **Postconditions**: Every rollout writes `system.txt`, `user.txt`, `response.json`, `result.json`, and `.sha256` sidecars under `results/turns/<label>/`, appends an atomic entry to `receipt_path` with `receipt.json.sha256` and `bindings.json` so `lesscode-core admission` verifies the run directly, and restores `cand_root` from `frozen_root` before each candidate write so failed rollouts never pollute subsequent turns.
 - **Invariants**: API keys are redacted in `repr()`, `str()`, and all serialized receipts (`Req 8.5`); `score == 1.0` is unreachable unless `tier == 2` and `runtime_evaluator` returns `verdict == 0` with empty `measure_gaps` (`Req 6.5`).
 
 ---
@@ -648,7 +660,7 @@ Fail-closed at every boundary while distinguishing **recoverable generation erro
 2. Deterministic transition replay of the frozen E3 and E4 turn artifacts through `SurfaceDeriver`, `ScopeMeasurer`, and `ProbabilisticRegenerator`: E4 Turn 1 (`max_tokens`) and Turn 2 (missing `labeled_reason` under Contract B) are caught in Tier 1 in $< 2\text{ s}$; Turn 3 passes Tier 1 and Tier 2 ($R = 1.0$).
 3. At least one **live non-deterministic or weaker-model run** recovers from a Tier-1 or Tier-2 failure to $R = 1.0$ within `max_turns <= 4` and `max_static_retries <= 3` (gate L26).
 4. `k = 2` consecutive no-progress outer turns halt as `exhausted` with the `BestOfN` highest-scoring trajectory retained.
-5. U5 apparatus accounting: the consolidated replaceable apparatus stays within the 20% reduction ceiling against the expanded baseline apparatus stratum `B_app` (gate L28).
+5. U5 & U7 apparatus accounting: the consolidated replaceable apparatus (`src/lesscode_baseline/{recording,surface,measures,regenerator}.py` plus `native/src/{admission,receipt}.rs`) stays within the 20% reduction ceiling against the expanded baseline apparatus stratum $B_{\text{app}}^{\text{expanded}} = 2,838$ canonical lines ($20\%$ ceiling $\le 2,270$ canonical lines; with `testinfra.py` at $1,081$ canonical lines relocated verbatim under `U7`, gate L29).
 6. `lesscode-core admission` verifies every emitted turn receipt and `.sha256` sidecar byte-exactly.
 
 If G1-R fails, the standard revise/stop path applies (`prototype-gate.md` L151–153): retain the failed attempt and its evidence; a new bounded proposal may change scope only with dated rationale.
