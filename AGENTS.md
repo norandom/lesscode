@@ -5,6 +5,8 @@ Kiro-style Spec-Driven Development on an agentic SDLC
 ## Project Memory
 Project memory keeps persistent guidance (steering, specs notes, component docs) so Codex honors your standards each run. Treat it as the long-lived source of truth for patterns, conventions, and decisions.
 
+- Task-group handovers live in `.kiro/task_N_handover.md` (owner rule, 2026-11-07): written when a task group finishes, before asking the user to clear context. Start the next task group from the latest handover file.
+
 - Use `.kiro/steering/` for project-wide policies: architecture principles, naming schemes, security constraints, tech stack decisions, api standards, etc.
 - Use local `AGENTS.md` files for feature or library context (e.g. `src/lib/payments/AGENTS.md`): describe domain assumptions, API contracts, or testing conventions specific to that folder. Codex auto-loads these when working in the matching path.
 - Specs notes stay with each spec (under `.kiro/specs/`) to guide specification-level workflows.
@@ -84,7 +86,7 @@ Use a fresh context for each independent implementer or reviewer, passing the ta
 - Human review required each phase; use `-y` only for intentional fast-track
 - Keep steering current and verify alignment with `$kiro-spec-status`
 - Follow the user's instructions precisely, and within that scope act autonomously: gather the necessary context and complete the requested work end-to-end in this run, asking questions only when essential information is missing or the instructions are critically ambiguous.
-- Owner rules, 2026-11-07: (1) implementation tasks run in the foreground — no subagents unless the user states otherwise; (2) on Windows, run commands through PowerShell, never cmd.exe; (3) Rust tests run with cargo-nextest and Python tests with pytest-xdist, per [docs/testing.md](docs/testing.md); (4) one commit per completed task on main, and commit outstanding changes before starting an implementation run or the next task; (5) native CI and cross-platform verification run through the repository's existing Dagger configuration (`.dagger/`, `dagger.json`, `.github/workflows/native-core.yml` per [docs/ci-validation.md](docs/ci-validation.md)); WSL is a Dagger CI/build environment only — never execute development-task code in WSL.
+- Owner rules, 2026-11-07: (1) implementation tasks run in the foreground — no subagents unless the user states otherwise; (2) on Windows, run commands through PowerShell, never cmd.exe; (3) Rust tests run with cargo-nextest and Python tests with pytest-xdist, per [docs/testing.md](docs/testing.md); (4) one commit per completed task on main, and commit outstanding changes before starting an implementation run or the next task; (5) native CI and cross-platform verification run through the repository's existing Dagger configuration (`.dagger/`, `dagger.json`, `.github/workflows/native-core.yml` per [docs/ci-validation.md](docs/ci-validation.md)); WSL is a Dagger CI/build environment only — never execute development-task code in WSL; (6) once a task group is finished, write `.kiro/task_N_handover.md` (incrementing N; what was done, evidence pointers, current state, next steps) and ask the user to clear the conversation context before the next task group.
 
 ## Steering Configuration
 - For spec and implementation work, load the core steering files below from `.kiro/steering/`. Reuse current context rather than rereading unchanged files.
