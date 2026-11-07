@@ -55,10 +55,31 @@ Per [prototype-first policy](../../steering/prototype-first.md) and [prototype-g
 
 This design implements the Python extractor only in Slice A. Per the owner's dated language-scope disposition (requirements.md, Amendment 2, 2026-11-07), TypeScript extraction evaluation is deferred to a named later stage; other target languages remain explicit TODO items.
 - **Extensibility constraint binding this design and its generated tasks:** every language-specific or domain-specific analysis step — syntax verification (`check_syntax`), surface symbol derivation (`derive_surface`, `verify_candidate_surface`), statement/effect measures (`measure_written` with a pluggable `EffectProfile`, `measure_canonical`, `check_edit_scope` with parameterized `source_extensions`/`ignore_dirs`), and test-infrastructure detection (`detect`) — lives behind the per-language extractor seam. Controllers, the reward ladder, the receipt/bindings protocol, and `regenerator.py` (`TurnRequest.language: str = "python"` driving prompt labels and markdown code fences) are language-agnostic and never import `ast` directly. Adding a target language is therefore an additive change (a new sibling extractor module plus its test suite), never a rewrite.
-- **Rust Ecosystem Reuse & Next-Stage Foundation**:
-  - **Now (Slice A)**: Keep Python AST extraction in CPython stdlib `ast` to preserve `native/complexity-budgets.json` and the `U5`/`U7` apparatus ceiling; use pinned `ruff == 0.17.3` (Rust binary via `uv tool run`) for canonical formatting (`ruff format`) and optional fast Tier-1 undefined-name (`F821`)/syntax (`E999`) checks (`ruff check`), alongside `lesscode-core admission` and `lesscode-core compare`.
-  - **Zero-new-dependency crates already locked in [`native/Cargo.lock`](../../../native/Cargo.lock)**: `ast-grep-core = 0.51.0` + `ast-grep-language = 0.51.0` (`tree-sitter-typescript = 0.23.2`, `tree-sitter-python = 0.25.0`, already powering `native/src/{scope,metrics}.rs`), `syn = 2.0.119` + `proc-macro2 = 1.0.107` (already powering `native/src/budgets.rs` for Rust AST), `ignore = 0.4.34` + `walkdir = 2.5.0` + `globset = 0.4.21` (`.gitignore`-aware tree walking), and `toml_edit = 0.25.17` + `shlex = 2.0.1` (`Cargo.toml` / `pyproject.toml` / `.config/nextest.toml` config parsing).
-  - **External Rust ecosystem candidates for Stage 2+ extractors**: `ruff_python_parser` + `ruff_python_ast` (1:1 CPython ASDL AST in pure Rust if Python unpacking moves to `lesscode-core`), `oxc_parser` + `oxc_semantic` (scope-aware TypeScript/JS symbol table and reference resolution for Contract-B `surface` and `patched` rebinding without a Node.js runtime), and `junit-parser` / JUnit XML for runner-agnostic `seed_group_pass_fraction` across `pytest`, `cargo-nextest`, and `vitest`.
+
+#### Language-Agnostic Seam Reference (Preventing Python/Domain Leaks Across Boundaries)
+
+| Seam / Component | Prototype Leak Addressed | Language-Agnostic Contract in `src/lesscode_baseline/` |
+|------------------|--------------------------|--------------------------------------------------------|
+| **1. `TurnRequest` & Prompt Builder** (`regenerator.py`, Task 5.1) | `regen_turn.py` hardcoded `"You rewrite a small set of Python files..."`, `<file>.py::<qualname>`, and `_fence(..., "python")`. | `TurnRequest` carries `language: str = "python"` (`Req 1.1`), driving the system-prompt language label, qualified-name examples, and markdown code-fence tag (`python`, `typescript`, `rust`). |
+| **2. Tier-1 Syntax Rung (`0.30`)** (`surface.py` $\leftarrow$ `regenerator.py`, Tasks 2.1 & 5.2) | Calling `ast.parse` directly inside `regenerator.py` couples the controller to Python's stdlib parser. | Syntax verification is delegated to `surface.check_syntax(cand_root, scope_files, language=req.language)` so `regenerator.py` never imports `ast`. |
+| **3. Edit-Scope & Mention Scanner** (`measures.py`, Task 3.3) | `editscope.py` hardcoded `PY_TOKEN = re.compile(r"[\w./\\-]*\w\.py\b")`, `SKIP_DIRS = {"__pycache__", ".pytest_cache", ".git"}`, and `SKIP_SUFFIX = {".pyc"}`. | `check_edit_scope` is parameterized by `source_extensions: Sequence[str] = (".py",)` and `ignore_dirs: Sequence[str] = ("__pycache__", ".pytest_cache", ".git", "node_modules", "target")`. |
+| **4. Pure/Shell Effect Patterns** (`measures.py`, Task 3.1) | `measures.py` baked SQLAlchemy/database regexes (`engine\|conn\|session\|bind`, `.execute\|.commit`, `SELECT\|INSERT`) directly into the AST walker. | Separates `EffectProfile` (`write_pattern`, `bad_param_pattern`, `sql_attr_pattern`) from the AST walker, using the SQLAlchemy/DB profile as `DEFAULT_EFFECT_PROFILE` while keeping `StructureContract` (`pure`, `shell`, `write_sites`, `undeclared`, `pure_share`) domain- and language-generic. |
+| **5. `TestInfraReport` Schema** (`testinfra.py`, Task 4.1) | `runner.entry_points_pytest11` and `fixtures.pytest_plugins` are pytest-specific field names, whereas `R32` already demonstrated clean `runner.name = "unknown"` and `0` seeds on Rust `mmhmem`. | Preserves the top-level report envelope (`runner`, `fixtures`, `external_store`, `scope_references`, `seeds`, `marker_expression`, `deselections`, `rule_version`) as the cross-language contract and scopes pytest-specific keys as optional runner subfields. |
+
+#### Rust Ecosystem Reference (Current Leverage, Zero-New-Dep Crates in `Cargo.lock`, and Stage 2+ Candidates)
+
+| Category / Crate | Status in Repository | Role & Empirical Trade-Off |
+|------------------|----------------------|----------------------------|
+| **CPython stdlib `ast` (`surface.py`, `measures.py`)** | Active in Slice A (Tasks 2–3) | Implements the 9-rule separated-form unpacker (`measures3.py`) and `monkeypatch`/`setattr` alias tracking (`patchcheck.py`) in ~250 written lines at $<0.2\text{ s}$ without consuming [`native/complexity-budgets.json`](../../../native/complexity-budgets.json) (`max_statements: 135/module`) or threatening the `U5`/`U7` apparatus ceiling. |
+| **`ruff == 0.17.3` CLI (Rust binary via `uv tool run`)** | Pinned in Slice A (Tasks 3.2 & 5.2) | Provides isolated canonical formatting (`ruff format`) and optional sub-50ms static undefined-name/syntax checks (`ruff check --select F821,E999 --isolated --output-format json`) before Tier-2 runtime spin-up. |
+| **`ast-grep-core` (`0.51.0`) + `ast-grep-language` (`0.51.0`, `tree-sitter-typescript` `0.23.2`, `tree-sitter-python` `0.25.0`)** | **Already locked in [`native/Cargo.lock`](../../../native/Cargo.lock)** (`native/src/{scope,metrics}.rs`) | Already computes TypeScript/TSX and Python statements, decisions, functions, exports, imports, symbol spans, and call-graph layers (`measure_typescript`, `measure_python`, `measure_call_layers`); directly reusable for Stage-2 TypeScript structural measures. |
+| **`syn` (`2.0.119`, `full` + `visit`) + `proc-macro2` (`1.0.107`, `span-locations`)** | **Already locked in [`native/Cargo.lock`](../../../native/Cargo.lock)** (`native/src/budgets.rs`) | Already powers `rust-syntax-units-v1`; provides a zero-extra-dependency foundation for a Rust specimen extractor (`pub fn`/`pub struct`/`pub trait` surface derivation, statement/decision counts, and `#[test]`/`#[cfg(test)]` discovery). |
+| **`ignore` (`0.4.34`), `walkdir` (`2.5.0`), `globset` (`0.4.21`), `sha2` (`0.11.0`)** | **Already locked in [`native/Cargo.lock`](../../../native/Cargo.lock)** (`native/src/{scope,admission}.rs`) | Provides `.gitignore`-aware repository walking and SHA-256 tree/sidecar snapshotting. |
+| **`toml_edit` (`0.25.17`) & `shlex` (`2.0.1`)** | **Already locked in [`native/Cargo.lock`](../../../native/Cargo.lock)** | Matches Python's `tomllib` + `shlex.split` for parsing `pyproject.toml`, `Cargo.toml`, and `.config/nextest.toml` if `testinfra` is promoted to Rust. |
+| **`ruff_python_parser` + `ruff_python_ast` (Astral)** | External candidate (Stage 2+ alternative to `tree-sitter-python`) | Pure Rust (zero C toolchain) with a 1:1 CPython ASDL `Stmt`/`Expr` hierarchy, avoiding CST-to-ASDL impedance if Python separated-form unpacking (`measures3.py` rules 1–9) ever moves into `lesscode-core`. |
+| **`oxc_parser` + `oxc_semantic` (Oxc)** | External candidate (Stage 2+ addition for TS/JS Contract B) | Pure Rust (MIT, zero C build, no Node.js runtime) providing a complete TypeScript/JS symbol table, scope tree, and read/write reference graph for Contract-B `surface` and `vi.spyOn`/`jest.spyOn` rebinding checks. |
+| **`junit-parser` / JUnit XML** | External candidate / protocol (Stage 2+ `RuntimeOracleGate`) | `pytest --junitxml`, `cargo nextest` JUnit, and `vitest`/`jest` JUnit all emit standard JUnit XML, making `seed_group_pass_fraction` in Task 5.3 runner-agnostic across Python, Rust, and TypeScript. |
+
 - The G0-era TypeScript fixtures (prototype-gate.md) are preserved as the first evaluation material for that stage, subject to revalidation under whichever mechanism is chosen then (they predate CodeQL's demotion to optional locator). Traceability row 7.1 reads "Python satisfied; TypeScript deferred" until that stage.
 
 ### Revalidation Triggers
@@ -403,10 +424,24 @@ def verify_candidate_surface(
 
 ##### Service Interface
 ```python
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
+from typing import Pattern, Sequence
 
-def measure_written(root: Path, scope_files: Sequence[str], structure: dict | None = None) -> dict: ...
+@dataclass(frozen=True)
+class EffectProfile:
+    write_pattern: Pattern[str]
+    bad_param_pattern: Pattern[str]
+    sql_attr_pattern: Pattern[str]
+
+DEFAULT_EFFECT_PROFILE: EffectProfile
+
+def measure_written(
+    root: Path,
+    scope_files: Sequence[str],
+    structure: dict | None = None,
+    effect_profile: EffectProfile = DEFAULT_EFFECT_PROFILE,
+) -> dict: ...
 def measure_pure_share(root: Path, scope_files: Sequence[str], structure: dict) -> dict: ...
 def measure_separated(root: Path, scope_files: Sequence[str]) -> dict: ...
 def measure_canonical(root: Path, scope_files: Sequence[str], fmt_dir: Path) -> dict | None: ...
@@ -416,6 +451,8 @@ def check_edit_scope(
     scope_files: Sequence[str],
     dirs: Sequence[str] = ("src", "tests", "packages"),
     mentions_files: Sequence[Path] = (),
+    source_extensions: Sequence[str] = (".py",),
+    ignore_dirs: Sequence[str] = ("__pycache__", ".pytest_cache", ".git", "node_modules", "target"),
 ) -> dict: ...
 def compute_measure_gaps(written: dict, canonical: dict | None, separated: dict, targets: dict) -> dict[str, dict]: ...
 def measure_all(root: Path, scope_files: Sequence[str], fmt_dir: Path | None = None) -> dict: ...
@@ -435,7 +472,7 @@ def measure_all(root: Path, scope_files: Sequence[str], fmt_dir: Path | None = N
 
 **Responsibilities & Constraints**
 - Relocated verbatim from `docs/experiments/deconvolution/testinfra/testinfra.py` (validated on Facdrone in task 2.2 and on Rust `mmhmem` in task 2.3 / [R32](../../../docs/research/2026-11-07/06-rust-specimen-testinfra-detection.md)).
-- Pure static analysis (`ast`, `tomllib`, `configparser`); never imports or executes specimen code; returns `runner.name = "unknown"` and `0` seeds cleanly on non-Python repositories (`R32`).
+- Pure static analysis (`ast`, `tomllib`, `configparser`); never imports or executes specimen code; preserves the top-level report envelope (`runner`, `fixtures`, `external_store`, `scope_references`, `seeds`, `marker_expression`, `deselections`, `rule_version`) as the cross-language schema (with pytest-specific keys scoped as runner subfields) and returns `runner.name = "unknown"` and `0` seeds cleanly on non-Python repositories (`R32`).
 
 **Contracts**: Service [x] / Batch [x]
 
