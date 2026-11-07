@@ -1,0 +1,84 @@
+# breadth.toml — capability / evidence map for the Lesscode .kiro workflow.
+#
+# Convention ported from ../QOpenBB/.kiro/breadth.toml (owner request, 2026-11-07).
+# Keep aligned with the owning spec criteria, actual test paths and reviewed
+# evidence; reconcile in the same commit as the owning spec. Planned checks are
+# NOT completed tests; status changes only with reviewed evidence.
+# Per-spec scope guards live in .kiro/specs/<spec>/breath.toml (mmhmem convention).
+
+[meta]
+updated = "2026-11-07"
+note = "Solution-first amendment + 2026-11-07 library/complexity audit supersede broad plans below: historical/deferred, not prerequisites. Current requirements replace N1-N10. No execution approved."
+
+[[capabilities]]
+id = "native-core-agnostic-contract"
+requirements = ["deconvolution-loop/requirements.md: reqs 3, 6, 10, 11", "deconvolution-native-core/requirements.md: 2, 3, 5"]
+planned_checks = ["receipt_replay_e4_byte_for_byte", "kill_criteria_groups_void_correctly", "accept_e4_zero_divergence", "accept_stale_result_file_rejected", "accept_reports_first_divergence", "round_void_on_outside_change", "round_cap_enforced", "turn_rule_failed_turn_e4", "residue_req10_2_form_e4", "budget_overrun_reported", "scope_hash_crlf_e4"]
+test_paths = ["native/tests/ (planned; names per .kiro/specs/deconvolution-native-core/gates.md)"]
+status = "deferred"
+evidence = ["docs/reports/deconvolution-loop-run-report.md section 7 (copy-as-is contract, proven on E3 and E4)", "docs/research/2026-11-04/02-e3-evidence-regeneration.md (R25)", "docs/research/2026-11-06/01-e4-lifecycle-regeneration.md (R26)", "docs/research/2026-11-07/01-solution-first-native-slice.md (R27: serde_json custom formatter replaces serde_jcs; std::fs replaces fs4)"]
+
+[[capabilities]]
+id = "native-core-record-replay"
+requirements = ["deconvolution-loop/requirements.md: reqs 2, 3", "deconvolution-native-core/requirements.md: 3"]
+planned_checks = ["record_replay_committed_pair", "held_out_74_zero_divergence"]
+test_paths = ["native/tests/ (planned)"]
+status = "deferred"
+evidence = ["R22 Q5 byte-identical recordings; R20 Rust in-process oracle (SQLite); R26 T1/T7 zero divergence on 50 + 74 sequences", "First slice (S10) uses Python subprocess + 6-line SQLAlchemy hook; rusqlite trace_v2 + session deferred for Rust scope; pgwire proxy deferred"]
+
+[[capabilities]]
+id = "native-core-surface-measures"
+requirements = ["deconvolution-loop/requirements.md: reqs 1, 4, 5", "deconvolution-native-core/requirements.md: 4"]
+planned_checks = ["surface_e4_matches_committed", "measure_e4_three_readings", "structural_contract_e4_pure_share"]
+test_paths = ["native/tests/ (planned)"]
+status = "deferred"
+evidence = ["R25 (62 surface names, 15 beyond hand list); R26 (37 names, 0 unresolved; recorder-imports gap = S9)", "R27 audit: AST walkers (ruff_python_parser / syn / oxc) replace YAML rule packs and external SCIP indexers for alias tracking and paired-leaf unpacking"]
+
+[[capabilities]]
+id = "native-core-mutation-scoring"
+requirements = ["deconvolution-loop/requirements.md: req 8", "deconvolution-native-core/requirements.md: 3, 6"]
+planned_checks = ["sensitivity_replay_e3_kill_rate", "mutant_restore_hash", "both_tree_composition_stated", "missing_tests_e4_snapshot"]
+test_paths = ["native/tests/ (planned)"]
+status = "deferred"
+evidence = ["R25 T4 0.643 failed vs 0.70 bar; R26 T5 0.679 candidate / 0.414 original (both trees, composition stated)", "spike S5 deferred: cargo-mutants 27.1.0 + StrykerJS 10.1.1 on native Windows; junit-parser replaces writer-only quick-junit"]
+
+[[capabilities]]
+id = "native-core-differential"
+requirements = ["deconvolution-loop/requirements.md: reqs 3.2, 9", "deconvolution-native-core/requirements.md: 3.4, 5.4"]
+planned_checks = ["query_differential_100_perturbed_states", "solver_gate1_paths_explored", "solver_gate2_driver_agreement", "solver_gate3_planted_mutant_found", "solver_gate4_concrete_replay", "solver_inconclusive_not_equivalent", "failed_control_voids_session", "failed_control_voids_differential_only"]
+test_paths = ["native/tests/ (planned)"]
+status = "deferred"
+evidence = ["R24 verifier controls; R25 one counterexample; R26 void under kill criterion 4 with counterexamples kept as evidence", "no TS/JS symbolic rung exists (declared, not promised); Kani 0.68.0 Linux/macOS CI only; sqlparser replaces pg_query on Windows MSVC"]
+
+[[capabilities]]
+id = "native-core-cli-release"
+requirements = ["deconvolution-native-core/requirements.md: 5, 6", "deconvolution-native-core/breath.toml [features.in] core"]
+planned_checks = ["exit-code contract tests per subcommand", "config/scope-descriptor schema validation on entry", "five-target release matrix + SHA256SUMS verifiable via `scope verify`"]
+test_paths = ["native/tests/cli.rs (existing, extended)", "CI: native runners windows-latest / ubuntu-latest / ubuntu-24.04-arm / macos-latest"]
+status = "deferred"
+evidence = ["native/lesscode-core 0.1.0 exists: Prepare/Compare, exit codes 0/1/2/3, symlink checks; deps pinned in native/Cargo.toml and Cargo.lock (toml_edit 0.25.17 already locked)", "spike S8 deferred; cargo-zigbuild and cargo-dist rejected 2026-11-07"]
+
+[[capabilities]]
+id = "kiro-workflow-e2e"
+requirements = ["deconvolution-native-core/verification.md", "deconvolution-native-core/gates.md", ".kiro/steering/prototype-first.md"]
+planned_checks = ["requirements_traceability", "spike_verdicts_complete", "design_evidence_coverage", "task_smoketest_coverage", "per-task kiro-review evidence", "final validation: full suite green on Windows + CI matrix + caps pass"]
+test_paths = ["CLI-driven runner (Python via uv.exe, QOpenBB runner.py pattern; evidence.json per step); no Playwright (owner 2026-11-07)"]
+status = "deferred"
+evidence = ["process ported from ../QOpenBB/verification/ and ../QOpenBB/.kiro/breadth.toml (2026-11-07)", "E4 process record: every task implemented by a subagent, independently reviewed, verified, selectively committed (run report section 2)"]
+
+[[capabilities]]
+id = "complexity-caps-enforcement"
+requirements = [".kiro/steering/complexity.md", ".kiro/complexity-budgets.json", "deconvolution-native-core/requirements.md: 4, 6"]
+planned_checks = ["executable syn+proc-macro2 checker over .kiro/complexity-budgets.json (foundation task before capped feature work): per-file/per-function caps + rebalanced spec-level budget <= 3,500 hand-written lines first release, <= 4,600 all languages, <= 12 subcommands; brownfield native/src/ baseline recorded; missing scope input fails, never skips"]
+test_paths = ["tools/quality/ or native/ checker (planned)"]
+status = "deferred"
+evidence = ["convention ported from ../QOpenBB/.kiro/steering/complexity.md + complexity-budgets.json (2026-11-07)", "R27 Amendment 2 (2026-11-07): measured 14 baseline apparatus files (2,222 written -> 3,963 canonical lines) and native/src/ (6,149 lines across 6 files); component ceilings rebalanced to 4,600"]
+
+[[capabilities]]
+id = "solution-first-slice"
+requirements = ["deconvolution-native-core/requirements.md:1-6"]
+planned_checks = ["U1", "U2", "U3", "U4", "U5", "U6", "U7"]
+test_paths = []
+status = "not-run"
+evidence = ["docs/research/2026-11-07/01-solution-first-native-slice.md (R27 Amendment 2: 3-stratum canonical baseline measured; not-run for S9/S2/S10 execution)"]
+gate = ".kiro/specs/deconvolution-native-core/prototype-gate.md"

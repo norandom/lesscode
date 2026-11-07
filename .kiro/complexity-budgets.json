@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "created": "2026-11-07",
+  "updated": "2026-11-07",
+  "metric": "physical lines + rust-syntax-units-v1 (syn + proc-macro2 span-locations, already in native/Cargo.lock, defined by the checker foundation task)",
+  "limits": {
+    "physical_per_file": 400,
+    "logical_per_file": 300,
+    "function_physical": 80,
+    "subcommands_max": 12
+  },
+  "spec_level_budgets": [
+    {
+      "spec": "deconvolution-native-core",
+      "scope": "later full suite: agnostic core + CLI + Python and Rust adapters (3,500) / all three languages (4,600)",
+      "hand_written_lines_max": 3500,
+      "all_three_languages_max": 4600,
+      "per_component_max": {
+        "agnostic_core": 750,
+        "driver_shims_total": 600,
+        "mutation_engine_readers": 450,
+        "receipts": 250,
+        "host_guard": 250,
+        "tree_hash_edit_scope": 250,
+        "surface_measures_code": 850,
+        "query_differential": 400,
+        "reports": 350,
+        "cli_config": 450
+      },
+      "note": "Rebalanced 2026-11-07 after auditing native/src/ (6,149 lines) and prototype components: reports raised 100->350 (covers residue, missing-tests, turn prompt, review-pack, budgets), surface_measures_code 500->850 (AST walkers replace infeasible YAML rules for alias tracking and paired-leaf unpacking), cli_config 350->450; offset by driver_shims 900->600, mutation_engine_readers 600->450, agnostic_core 900->750, host_guard 300->250 (windows-sys), tree_hash_edit_scope 300->250; pgwire proxy deferred out of core."
+    }
+  ],
+  "repositories": [
+    {
+      "id": "lesscode",
+      "repository": "local:lesscode",
+      "revision": "maintained-working-tree",
+      "root": ".",
+      "mode": "all",
+      "owners": [
+        {
+          "spec": "capability-compression-core",
+          "include": [
+            "native/src/**",
+            "native/tests/**",
+            "native/Cargo.toml",
+            "native/rust-toolchain.toml"
+          ],
+          "baseline_physical_lines": {
+            "native/src/compare.rs": 1667,
+            "native/src/scope.rs": 1598,
+            "native/src/metrics.rs": 1530,
+            "native/src/lib.rs": 618,
+            "native/src/model.rs": 511,
+            "native/src/main.rs": 225
+          }
+        },
+        {
+          "spec": "deconvolution-native-core",
+          "include": [
+            "native/** (new loop modules <= 400 physical lines each; exact paths fixed at design approval)"
+          ],
+          "note": "plan-only until solution_unlock (U1-U7) and normal phase approvals pass"
+        }
+      ],
+      "exclusions": [
+        {
+          "patterns": [
+            "native/target/**",
+            ".git/**",
+            "**/__pycache__/**",
+            "**/.pytest_cache/**",
+            "**/.ruff_cache/**",
+            "**/.venv/**",
+            "**/node_modules/**"
+          ],
+          "reason": "Build output, repository metadata and installed/cached dependencies",
+          "source": "cargo, Git, CPython, uv, pnpm"
+        },
+        {
+          "patterns": [
+            "docs/**",
+            "*.md",
+            ".agents/**",
+            ".kiro/**",
+            "artifacts/**",
+            ".runs/**"
+          ],
+          "reason": "Documentation, agent instructions, specification workflow and frozen experiment evidence",
+          "source": "Project memory and research records"
+        },
+        {
+          "patterns": [
+            "tests/**",
+            "**/tests/**",
+            "**/test_*.py",
+            "**/*_test.py",
+            "**/*.test.*",
+            "**/*.spec.*",
+            "native/tests/**"
+          ],
+          "reason": "Test sources and fixtures are outside production size caps",
+          "source": "cargo nextest / pytest"
+        },
+        {
+          "patterns": [
+            "**/uv.lock",
+            "**/Cargo.lock",
+            "**/pnpm-lock.yaml",
+            "**/package-lock.json"
+          ],
+          "reason": "Deterministic dependency lockfiles",
+          "source": "cargo / uv / pnpm lock resolution"
+        },
+        {
+          "patterns": [
+            "**/*.schema.json"
+          ],
+          "reason": "Generated artefact schemas; the generator (schemars-based) remains capped",
+          "source": "schemars 1.2.3 at the artefact boundary"
+        }
+      ]
+    }
+  ],
+  "exceptions": [],
+  "solution_first_amendment": {
+    "date": "2026-11-07",
+    "gate": ".kiro/specs/deconvolution-native-core/prototype-gate.md",
+    "status": "proposed-not-run",
+    "prototype_added_modified_canonical_lines_max": 600,
+    "attempts_max": 2,
+    "measured_baseline_canonical_lines": {
+      "formatter": "ruff==0.17.3 format --isolated --line-length 100 --target-version py313",
+      "total_14_files_as_written": 2222,
+      "total_14_files_canonical": 3963,
+      "e1b_oracle_py": { "as_written": 406, "canonical": 659, "norm_helpers": 145, "env_ops": 175, "seeds_gen": 174, "generic_runner": 159 },
+      "e4_oracle_py": { "as_written": 534, "canonical": 1258, "fixtures_helpers": 160, "env_ops": 472, "seeds_gen": 470, "generic_runner": 150 },
+      "arm_and_replays": { "as_written": 407, "canonical": 710 },
+      "shared_and_sentinel_checks": { "as_written": 356, "canonical": 611 },
+      "regen_turn_py": { "as_written": 337, "canonical": 502 }
+    },
+    "accounting": "3-stratum U5 accounting (B_app/C_app replaceable apparatus+wiring, B_ops/C_ops specimen domain ops, B_seeds/C_seeds immutable seed sequences): require C_app <= 0.80*B_app, B_app - C_app >= 200, C_total <= B_total - 200, C_seeds == B_seeds. For U7 (<=600 lines), charge all new/modified shared modules and adapter wiring in full; charge <=20-line registration hooks in pre-existing native/src/{lib,main}.rs by diff lines; verify verbatim-migrated op_*/SEEDS blocks by AST/diff parity.",
+    "production_inventory_status": "pending-concrete-paths-and-release-allocation",
+    "missing_or_placeholder_inventory": "fail-closed",
+    "checker_timing": "after unlock/approvals, before capped production work"
+  }
+}

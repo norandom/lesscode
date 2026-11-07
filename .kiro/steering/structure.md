@@ -1,5 +1,18 @@
 # Project Structure
 
+## Research records
+
+Owner instruction, 2026-11-02: organize narrative lab reports by date under
+`docs/research/YYYY-MM-DD/NN-topic.md`, indexed in `docs/research/README.md`.
+Use the entry template and COBESY's conclusion-first, falsifiable framing.
+Record hypothesis revisions, failed attempts, actual execution provenance and
+evidence limits. Cross-link each report with its Kiro spec; add the index entry
+in the same change. Preserve existing experiment artifacts at their stable paths.
+Backfilled records must say retrospective and must not invent execution dates.
+Date later amendments instead of overwriting earlier interpretations. Expand
+the tool in bounded, evidence-led stages; a successful setup or accepted backend
+does not establish modeling fidelity, compression or approval of all spec phases.
+
 The repository contains Kiro authoring workflows, specifications and the Python baseline package. Foundation, evidence, snapshots, bounded execution, measurement, comparison, reporting, integrated CLI, adverse paths and native cross-platform validation are implemented and independently reviewed (33 of 33 tasks). The final feature gate returned GO. The baseline spec's `validation.md`, `readiness.md` and `requirement-coverage.md` record evidence and limits; `docs/evidence/` retains compact durable audit summaries.
 
 - `.kiro/steering/`: project policy and roadmap.

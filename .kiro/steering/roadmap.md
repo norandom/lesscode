@@ -1,5 +1,31 @@
 # Roadmap
 
+## Current priority: demonstrate the solution first (2026-11-07)
+[Slice](../specs/deconvolution-native-core/slice-proposal.md) and
+[gate](../specs/deconvolution-native-core/prototype-gate.md) govern next work.
+Requirements unapproved; documentation amendment only. Provisional planning and
+authorized disposable prototypes precede unlock; production design/tasks/code do
+not. Broader native suite deferred. Existing core has recorded Windows/Linux/macOS
+GO in spec.json; older pending-platform statements below are superseded.
+Constraint-guided compression is historical, not an active prerequisite.
+
+## Proposed follow-up: constraint-guided compression
+
+Owner backend selection, 2026-11-02: use CodeQL for the first graph/query-driven
+research prototype on an eligible specimen. Reuse its database and language
+libraries; no separate graph database or mandatory Joern comparison initially.
+This selects a research backend without approving the remaining spec phases.
+
+Owner direction, 2026-11-01: the next proposed mechanism is an LLM acting as
+constraint modeler across connected code scopes, with solvers and executable
+checks challenging candidate representations and feeding counterexamples back
+into model revision. Discovery alone is insufficient. See the
+[follow-up brief](../specs/constraint-guided-compression/brief.md).
+This spec is initialized, not approved for implementation. The exclusions below
+still apply to the delivered core; this proposal does not silently reactivate
+retired solver or MCP layers. Marginal local deletions remain rejected evidence,
+not a demonstration of substantial compression.
+
 ## Active delivery scope
 
 Owner decision, 2026-11-01: drop layers first; extend only after demonstrated need.
@@ -53,6 +79,18 @@ not a default reduction target.
 
 ## Active specifications
 
+- `deconvolution-loop`: requirements, design and tasks approved 2026-11-04; research
+  tasks executed through E4 (R26); four R26 amendments proposed, NOT adopted (owner
+  ratification pending).
+- `deconvolution-native-core`: initialized 2026-11-06; on 2026-11-07 the arbitrated
+  fusion plan was drafted into [requirements](../specs/deconvolution-native-core/requirements.md)
+  (amendment 2026-11-07, generated, NOT approved) with [gates](../specs/deconvolution-native-core/gates.md),
+  [verification](../specs/deconvolution-native-core/verification.md),
+  [spikes](../specs/deconvolution-native-core/spikes.md) and the scope guard
+  [breath.toml](../specs/deconvolution-native-core/breath.toml); project-level
+  [breadth.toml](../breadth.toml), [complexity.md](complexity.md) and
+  [../complexity-budgets.json](../complexity-budgets.json) added. Plan-only until the
+  pre-kiro owner gate passes; no Rust code.
 - `capability-compression-core`: requirements, design and [tasks](../specs/capability-compression-core/tasks.md)
   approved through the explicit task-generation `-y` invocation. Independent task
   graph review passed: all 22 executable tasks in 7 groups are implemented and

@@ -8,6 +8,10 @@ branches. Keep the flow linear and simple. Use ordinary isolated directories
 for experiments when needed, and preserve unrelated working changes. The former
 Dagger PR was merged and its branch removed at the owner's request.
 
+Owner instruction, 2026-11-07: one commit per completed task on `main`. Commit
+outstanding changes before starting an implementation run or the next task, so
+each task begins from a clean, identifiable baseline and lands as its own commit.
+
 The next delivery priority is local installation and empirical codebase
 measurement, followed by useful behavior-preserving compression trials.
 Cross-platform CI verifies the tool's operability; it does not measure a
