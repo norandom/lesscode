@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import ast
 import re
+import shutil
+import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Sequence
@@ -230,13 +232,139 @@ def measure_pure_share(root: Path, scope_files: Sequence[str], structure: dict) 
 
 
 def measure_separated(root: Path, scope_files: Sequence[str]) -> dict:
-    """Compute separated-form statement counts under rule v1 (rules 1-9)."""
-    raise NotImplementedError("task 3.2")
+    """Separated-form statement counts under rule v1 (rules 1-9, frozen text).
+
+    Every ``ast.stmt`` counts 1 (rule 1); rules 2-8 add extras so that
+    ``separated - sum(extra) == written`` holds exactly. Rule 9 lists what is
+    deliberately not unpacked. Keyed per file (basename) with totals.
+    """
+    files = {
+        Path(rel).name: _separated(ast.parse((root / rel).read_text(encoding="utf-8")))
+        for rel in scope_files
+    }
+    return {
+        "measure_version": MEASURE_VERSION,
+        "files": files,
+        "total": {
+            "stmts": sum(v["stmts"] for v in files.values()),
+            "extra": {k: sum(v["extra"][k] for v in files.values()) for k in SEPARATED_KEYS},
+        },
+        "rule": SEPARATED_RULE,
+    }
+
+
+SEPARATED_KEYS = (
+    "import",
+    "from_import",
+    "tuple_assign",
+    "multi_target",
+    "chained_compare",
+    "del",
+    "global_nonlocal",
+    "with_items",
+)
+
+SEPARATED_RULE = {
+    "version": "1",
+    "text": (
+        "1. Every ast.stmt node counts 1, exactly as the frozen `stmts`; rules 2-8 only add extras to it.\n"
+        "2. `import a, b, c` counts one statement per name (extra len(names) - 1).\n"
+        "3. `from m import a, b` counts one statement per name (extra len(names) - 1); `from m import *` counts 1.\n"
+        "4. An assignment with one target that is a tuple or list, and a tuple or list value of the same length, "
+        "neither holding a starred element, counts one statement per paired leaf, recursively.\n"
+        "5. An assignment with several targets `a = b = v` counts len(targets); rule 4 is then not applied to its targets.\n"
+        "6. A comparison with k comparators counts k, wherever it occurs.\n"
+        "7. `del a, b` counts len(targets); `global a, b` and `nonlocal a, b` count len(names).\n"
+        "8. A `with`/`async with` statement with n items counts n.\n"
+        "9. Not unpacked (count only as rule 1): augmented and annotated assignments; a tuple target with a "
+        "non-literal or starred value; boolean operators; conditional expressions; comprehensions; lambdas; "
+        "walrus; for-loop targets; multi-type `except`; tuple returns, yields and call arguments; decorators; "
+        "semicolon-joined lines."
+    ),
+}
+
+
+def _leaves(target: ast.AST, value: ast.AST) -> int:  # rule 4
+    seq = (ast.Tuple, ast.List)
+    if (
+        isinstance(target, seq)
+        and isinstance(value, seq)
+        and len(target.elts) == len(value.elts)  # type: ignore[attr-defined]
+        and not any(isinstance(e, ast.Starred) for e in target.elts)  # type: ignore[attr-defined]
+        and not any(isinstance(e, ast.Starred) for e in value.elts)  # type: ignore[attr-defined]
+    ):
+        return sum(_leaves(a, b) for a, b in zip(target.elts, value.elts))  # type: ignore[attr-defined]
+    return 1
+
+
+def _separated(tree: ast.AST) -> dict:
+    extras: dict[str, int] = dict.fromkeys(SEPARATED_KEYS, 0)
+    base = 0
+    for node in ast.walk(tree):
+        base += isinstance(node, ast.stmt)
+        if isinstance(node, ast.Import):
+            extras["import"] += len(node.names) - 1
+        elif isinstance(node, ast.ImportFrom):
+            extras["from_import"] += len(node.names) - 1
+        elif isinstance(node, ast.Assign):
+            if len(node.targets) > 1:
+                extras["multi_target"] += len(node.targets) - 1
+            else:
+                extras["tuple_assign"] += _leaves(node.targets[0], node.value) - 1
+        elif isinstance(node, ast.Compare):
+            extras["chained_compare"] += len(node.comparators) - 1
+        elif isinstance(node, ast.Delete):
+            extras["del"] += len(node.targets) - 1
+        elif isinstance(node, (ast.Global, ast.Nonlocal)):
+            extras["global_nonlocal"] += len(node.names) - 1
+        elif isinstance(node, (ast.With, ast.AsyncWith)):
+            extras["with_items"] += len(node.items) - 1
+    return {"stmts": base + sum(extras.values()), "extra": extras}
+
+
+FMT = {
+    "name": "ruff format",
+    "version": "0.17.3",
+    "settings": {
+        "isolated": True,
+        "line-length": 100,
+        "target-version": "py313",
+        "other": "ruff defaults (double quotes, 4-space indent, magic trailing comma respected)",
+    },
+}
+RUFF = [shutil.which("uv") or "uv.exe", "tool", "run", "--offline", "--python", "3.13", f"ruff=={FMT['version']}"]
+RUFF_ARGS = ["format", "--isolated", "--line-length", "100", "--target-version", "py313", "--no-cache"]
 
 
 def measure_canonical(root: Path, scope_files: Sequence[str], fmt_dir: Path) -> dict | None:
-    """Format isolated copies with pinned ruff and return canonical counts (None if unavailable)."""
-    raise NotImplementedError("task 3.2")
+    """Format isolated copies with the pinned ruff and return canonical counts.
+
+    Returns ``None`` (never zeros) when the formatter is unavailable, fails,
+    or reports a version other than the pinned one (Req 6.3).
+    """
+    shutil.rmtree(fmt_dir, ignore_errors=True)
+    for rel in scope_files:
+        (fmt_dir / rel).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(root / rel, fmt_dir / rel)
+    try:
+        version = subprocess.run(
+            RUFF + ["--version"], capture_output=True, text=True, check=True
+        ).stdout.split()
+        if version[-1] != FMT["version"]:
+            return None
+        subprocess.run(
+            RUFF + RUFF_ARGS + list(scope_files), cwd=fmt_dir, check=True, capture_output=True
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    measured = measure_written(fmt_dir, scope_files)
+    return {
+        "formatter": dict(FMT),
+        "files": {
+            f: {k: v[k] for k in ("lines", "stmts")} for f, v in measured["files"].items()
+        },
+        "total": {k: measured["total"][k] for k in ("lines", "stmts")},
+    }
 
 
 def check_edit_scope(

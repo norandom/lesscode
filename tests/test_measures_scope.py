@@ -6,6 +6,7 @@ unavailability, edit scope, and measure gaps.
 """
 from __future__ import annotations
 
+import shutil
 import textwrap
 from pathlib import Path
 
@@ -157,3 +158,73 @@ class TestMeasurePureShare:
     def test_function_share(self, tree: Path) -> None:
         share = measures.measure_pure_share(tree, ("src/pkg/mod_a.py",), STRUCTURE)
         assert share["pure_share_by_funcs"] == 0.5
+
+
+RULE_CASES = [
+    ("import a, b, c\n", {"import": 2}, 3),  # rule 2
+    ("from m import x, y\n", {"from_import": 1}, 2),  # rule 3
+    ("from m import *\n", {}, 1),  # rule 3 star
+    ("[a, (b, c)] = 1, (2, 3)\n", {"tuple_assign": 2}, 3),  # rule 4 recursive pairing
+    ("a = b = v\n", {"multi_target": 1}, 2),  # rule 5
+    ("ok = 0 < x < 1\n", {"chained_compare": 1}, 2),  # rule 6
+    ("del a, b\n", {"del": 1}, 2),  # rule 7
+    ("global a, b\n", {"global_nonlocal": 1}, 2),  # rule 7
+    ("with open(p) as f, closing(f) as c:\n    pass\n", {"with_items": 1}, 3),  # rule 8: base 2 + extra 1
+    ("a, b = f()\n", {}, 1),  # rule 9: non-literal value not unpacked
+    ("a, *b = xs\n", {}, 1),  # rule 9: starred target not unpacked
+    ("x += 1\n", {}, 1),  # rule 9: augmented assignment
+]
+
+
+class TestMeasureSeparated:
+    @pytest.mark.parametrize(("text", "extra", "stmts"), RULE_CASES)
+    def test_rule_table(self, tmp_path: Path, text: str, extra: dict, stmts: int) -> None:
+        (tmp_path / "src").mkdir()
+        (tmp_path / "src" / "one.py").write_text(text, encoding="utf-8")
+        report = measures.measure_separated(tmp_path, ("src/one.py",))
+        file_report = report["files"]["one.py"]
+        for key in measures.SEPARATED_KEYS:
+            assert file_report["extra"][key] == extra.get(key, 0), key
+        assert file_report["stmts"] == stmts
+
+    def test_identity_against_written(self, tree: Path) -> None:
+        written = measures.measure_written(tree, SCOPE)
+        separated = measures.measure_separated(tree, SCOPE)
+        for name, file_report in separated["files"].items():
+            assert (
+                file_report["stmts"] - sum(file_report["extra"].values())
+                == written["files"][name]["stmts"]
+            )
+        assert separated["total"]["stmts"] == sum(
+            v["stmts"] for v in separated["files"].values()
+        )
+
+    def test_rule_version_recorded(self, tree: Path) -> None:
+        report = measures.measure_separated(tree, SCOPE)
+        assert report["rule"]["version"] == "1"
+
+
+class TestMeasureCanonical:
+    def test_unavailable_formatter_returns_none(self, tree: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        def boom(*args, **kwargs):
+            raise FileNotFoundError("uv not found")
+
+        monkeypatch.setattr(measures.subprocess, "run", boom)
+        assert measures.measure_canonical(tree, SCOPE, tree / "fmt") is None
+
+    def test_version_mismatch_returns_none(self, tree: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        class FakeProc:
+            stdout = "ruff 9.9.9\n"
+            returncode = 0
+
+        monkeypatch.setattr(measures.subprocess, "run", lambda *a, **k: FakeProc())
+        assert measures.measure_canonical(tree, SCOPE, tree / "fmt") is None
+
+    @pytest.mark.skipif(not shutil.which("uv"), reason="uv tool runner unavailable")
+    def test_real_formatter_pins_version(self, tree: Path, tmp_path: Path) -> None:
+        report = measures.measure_canonical(tree, SCOPE, tmp_path / "fmt")
+        assert report is not None
+        assert report["formatter"]["version"] == "0.17.3"
+        written = measures.measure_written(tree, SCOPE)
+        assert report["total"]["stmts"] == written["total"]["stmts"]  # formatting never changes stmts
+        assert report["total"]["lines"] >= written["total"]["lines"]  # blank-line normalization only adds

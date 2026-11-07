@@ -87,7 +87,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ScopeMeasurer_
     - _Depends: 1_
     - _Requirements: 2.2, 2.3, 3.1, 6.2_
-  - [ ] 3.2 Separated-form v1 and canonical reading
+  - [x] 3.2 Separated-form v1 and canonical reading
     - Implement `measure_separated` (the nine separated-form statement rules
       with the exact `separated - sum(extra) == written` identity) and
       `measure_canonical` (isolated formatting via pinned `ruff==0.17.3`) in
