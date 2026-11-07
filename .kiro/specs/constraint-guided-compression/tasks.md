@@ -62,7 +62,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: SurfaceDeriver_
     - _Depends: 2.1_
     - _Requirements: 2.5, 5.7_
-  - [ ] 2.3 Surface unit suite (offline)
+  - [x] 2.3 Surface unit suite (offline)
     - Create `tests/test_surface.py` covering Contract A vs Contract B
       (recorder-imported symbol case), `check_syntax`, the three
       candidate-verification violation classes, and the `patched` rebind modes.
