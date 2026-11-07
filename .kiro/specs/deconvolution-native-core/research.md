@@ -85,6 +85,16 @@ Design quality review against the Attempt-2 unlock record (`prototype-plan.md`
    `tests/test_recording.py` verifies post-relocation 3-stratum canonical line
    counts (`C_app <= 1,364`).
 
+Amendment (2026-11-07, same day): the first validation amendment stated
+production/test splits, logical-unit and longest-function ceilings for the
+five brownfield modules that had not been measured (the `metrics.rs` split
+was also wrong: it has two inline `#[cfg(test)]` modules). Those numbers were
+removed. `design.md` now freezes brownfield ceilings from the Task 1
+checker's first measured run over the unchanged baseline, with receipt and
+blob-hash provenance; only physical line totals (measured) remain in the
+design. The earlier "GO" for that amendment was an inline self-review, not an
+independent one.
+
 ## Amendment 2: library and complexity audit (2026-11-07)
 Empirical baseline audit (`ruff==0.17.3 format --line-length 100`) and inspection of
 `native/Cargo.lock` and `native/src/` revised the reuse map and complexity estimates:

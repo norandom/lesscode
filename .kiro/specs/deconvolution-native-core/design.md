@@ -158,11 +158,12 @@ modified.
 
 - Native crate `lesscode-core`: `Prepare`, `Compare` and `Admission`
   subcommands dispatch in `main.rs` (239 lines, L50–58, L216–220); existing
-  modules in `native/src/` are `scope.rs` (1,598 lines; 863 prod + 735
-  `#[cfg(test)]`), `metrics.rs` (1,530 lines; 814 prod + 716 `#[cfg(test)]`),
-  `model.rs` (511 lines; 331 prod + 180 `#[cfg(test)]`), `compare.rs` (1,667
-  lines; 805 prod + 862 `#[cfg(test)]`), `lib.rs` (619 lines; 585 prod + 34
-  `#[cfg(test)]`), and `admission.rs` (415 lines, self-contained since commit
+  modules in `native/src/` are `compare.rs` (1,667 total physical lines),
+  `scope.rs` (1,598), `metrics.rs` (1,530; two inline `#[cfg(test)]` modules),
+  `lib.rs` (619), `model.rs` (511), each carrying inline `#[cfg(test)]` code
+  whose production/test split, logical units and longest functions are not
+  yet measured (they are measured by the Task 1 checker, see §Production Size
+  Governance), and `admission.rs` (415 lines, self-contained since commit
   `abb71c3` with order-preserving `enum J`, `json.dumps(indent=1)` receipt
   writer, `serde_json` bindings parse, `sha2` direct hashing). The five
   pre-existing `capability-compression-core` modules (`lib.rs`, `compare.rs`,
@@ -866,8 +867,9 @@ Rust; `ruff==0.17.3 format --line-length 100` for Python):
   - `native/src/admission.rs` + `native/src/receipt.rs`: combined ≤ 425
     canonical lines (`admission.rs` ≤ 280, `receipt.rs` ≤ 150; split from the
     415-line Attempt-2 `admission.rs`).
-  - Registration hooks on `C_app`: `lib.rs` +2 lines (`pub mod admission; pub
-    mod receipt;`), `main.rs` +15 lines (`Admission` arm).
+  - Registration hooks on `C_app`: `lib.rs` +2 lines (the existing Attempt-2
+    `pub mod admission;` plus the new `pub mod receipt;`), `main.rs` +15 lines
+    (existing Attempt-2 `Admission` arm, unchanged).
   - `src/lesscode_baseline/recording.py`: 372 canonical lines (251 written
     lines, relocated verbatim from `proto_core.py`, net 0 new logic).
   - `scope_e3.py`: ≤ 168 canonical lines (164 baseline + ≤ 4 lines for `src`
@@ -895,19 +897,47 @@ Rust; `ruff==0.17.3 format --line-length 100` for Python):
 Default per-file production ceilings: `max_physical_lines = 400`,
 `max_logical_units = 300`, `max_fn_lines = 80` (measured on non-`#[cfg(test)]`
 code; `#[cfg(test)]` reported separately). Every file in `native/src/` is
-explicitly registered:
+explicitly registered.
 
-| File | Total / Prod / Test Lines | Owner Spec | Allocation in This Spec | Disposition |
-|------|---------------------------|------------|-------------------------|-------------|
-| `compare.rs` | 1,667 / 805 / 862 | `capability-compression-core` | 0 lines (untouched) | Pre-existing brownfield module (`prod_lines <= 805`, `logical_units <= 550`, `max_fn_lines <= 265`); frozen, zero edits permitted in this spec |
-| `scope.rs` | 1,598 / 863 / 735 | `capability-compression-core` | 0 lines (untouched) | Pre-existing brownfield module (`prod_lines <= 863`, `logical_units <= 600`, `max_fn_lines <= 265`); frozen, zero edits permitted in this spec |
-| `metrics.rs` | 1,530 / 814 / 716 | `capability-compression-core` | 0 lines (untouched) | Pre-existing brownfield module (`prod_lines <= 814`, `logical_units <= 600`, `max_fn_lines <= 230`); frozen, zero edits permitted in this spec |
-| `lib.rs` | 619 / 585 / 34 | `capability-compression-core` | ≤ +2 registration lines (`pub mod budgets; pub mod receipt;`) | Pre-existing brownfield entrypoint (`prod_lines <= 590`, `logical_units <= 420`, `max_fn_lines <= 310`); registration-only diff charging per U7 rule 2 |
-| `model.rs` | 511 / 331 / 180 | `capability-compression-core` | 0 lines (untouched) | Pre-existing brownfield data model (`prod_lines <= 335`, `logical_units <= 250`, `max_fn_lines <= 80`); frozen, zero edits permitted in this spec |
-| `main.rs` | 239 / 239 / 0 | `shared` | ≤ +25 lines (`Budgets` CLI arm) | None needed (within default 400-line / 300-unit / 80-fn limits) |
-| `admission.rs` | 415 → ≤ 280 after Task 2 | `deconvolution-native-core` | Split writer to `receipt.rs` | Task 1 transitional disposition (`max_physical_lines: 415`, pre-split self-contained admission from `abb71c3`); removed in Task 2 so default `400 / 300 / 80` limits apply with `disposition: null` |
-| `receipt.rs` | ≤ 150 (created in Task 2) | `deconvolution-native-core` | Split from `admission.rs` | None (`disposition: null`; within default `400 / 300 / 80` limits) |
-| `budgets.rs` | ≤ 260 (created in Task 1) | `deconvolution-native-core` | ≤ 260 lines | None (`disposition: null`; within default `400 / 300 / 80` limits) |
+**Measured-baseline freeze rule (amended 2026-11-07).** Production/test splits,
+logical units and longest-function lengths of the pre-existing files are not
+recorded in this design because they had not been measured; earlier
+estimates were removed. Their brownfield ceilings are established
+empirically, once, as follows:
+
+1. The baseline is the `native/src/` tree at the commit that starts Task 1
+   (identical to the design-approval commit for these files; recorded by git
+   blob hash in the Task 1 receipt).
+2. After the checker is implemented and its synthetic fixture tests pass, its
+   first run over that unchanged baseline measures `production_lines`,
+   `test_lines`, `logical_units` and `longest_fn_lines` for each pre-existing
+   file. Those measured values, exactly as reported, become the frozen
+   disposition ceilings in `complexity-budgets.json`, with the receipt and
+   blob hashes committed beside it as provenance.
+3. Measured freezing applies only to files that exist in the baseline and only
+   to that first run. Files this spec creates (`budgets.rs`, `receipt.rs`)
+   never receive a measured freeze and must meet the defaults. Registration
+   edits to `lib.rs` may raise its frozen `production_lines` and
+   `logical_units` ceilings only by the allocated registration lines below;
+   its `longest_fn_lines` ceiling stays unchanged.
+4. A pre-existing file that measures within all defaults gets
+   `disposition: null`. Any later loosening of a frozen ceiling is a
+   revalidation trigger requiring a dated amendment (6.6).
+5. If the checker's measurement disagrees with independent spot checks (for
+   example the physical line totals below, or a hand-counted longest function
+   in `main.rs`), the freeze is not recorded; the checker is fixed first.
+
+| File | Total physical lines (measured 2026-11-07) | Owner Spec | Allocation in This Spec | Disposition |
+|------|-------------------------------------------|------------|-------------------------|-------------|
+| `compare.rs` | 1,667 | `capability-compression-core` | 0 lines (untouched) | Brownfield; ceilings = Task 1 measured baseline; zero edits permitted in this spec |
+| `scope.rs` | 1,598 | `capability-compression-core` | 0 lines (untouched) | Brownfield; ceilings = Task 1 measured baseline; zero edits permitted in this spec |
+| `metrics.rs` | 1,530 (two inline `#[cfg(test)]` modules) | `capability-compression-core` | 0 lines (untouched) | Brownfield; ceilings = Task 1 measured baseline; zero edits permitted in this spec |
+| `lib.rs` | 619 | `capability-compression-core` | ≤ +2 registration lines (`pub mod budgets; pub mod receipt;`) | Brownfield entrypoint; ceilings = Task 1 measured baseline plus the allocated registration lines; registration-only diff charging per U7 rule 2 |
+| `model.rs` | 511 | `capability-compression-core` | 0 lines (untouched) | Ceilings = Task 1 measured baseline if any default is exceeded, else `disposition: null`; zero edits permitted in this spec |
+| `main.rs` | 239 | `capability-compression-core` (shared CLI entrypoint) | ≤ +25 lines (`Budgets` CLI arm) | Expected within defaults (`disposition: null`); if the Task 1 baseline exceeds a default, that measured value is frozen and the `Budgets` arm must not raise `longest_fn_lines` above 80 |
+| `admission.rs` | 415 (no `#[cfg(test)]`) | `deconvolution-native-core` | Split writer to `receipt.rs` | Task 1 transitional disposition = Task 1 measured baseline (exceeds the 400-line default); removed in Task 2 so defaults apply with `disposition: null` |
+| `receipt.rs` | — (created in Task 2, ≤ 150) | `deconvolution-native-core` | Split from `admission.rs` | None; must meet defaults |
+| `budgets.rs` | — (created in Task 1, ≤ 260) | `deconvolution-native-core` | ≤ 260 lines | None; must meet defaults (the checker measures itself) |
 
 ## Migration Strategy
 
@@ -921,10 +951,14 @@ graph LR
 1. **Task 1 — Budgets checker foundation**: promote `syn = "=2.0.119"` (`full`,
    `visit`) and `proc-macro2 = "=1.0.107"` (`span-locations`) in
    `native/Cargo.toml` with offline root-package linkage update in
-   `native/Cargo.lock`; implement `native/src/budgets.rs`, `Budgets` CLI arm in
-   `main.rs`, `native/complexity-budgets.json`, and `native/tests/budgets.rs`;
-   verify self-run over `native/src/` exits `0` before any other production
-   edit.
+   `native/Cargo.lock`; implement `native/src/budgets.rs` and
+   `native/tests/budgets.rs` (synthetic fixtures green first); run the checker
+   once over the unchanged pre-existing `native/src/` files and freeze the
+   measured brownfield ceilings into `native/complexity-budgets.json` per the
+   measured-baseline freeze rule (receipt and blob hashes committed as
+   provenance); add the `Budgets` CLI arm in `main.rs` and the `lib.rs`
+   registration; verify the self-run over `native/src/` exits `0` before any
+   other production edit.
 2. **Task 2 — Receipt split**: move `J`, `sha256_hex`, `write_json_str`,
    `write_value`, and `write_receipt` from `native/src/admission.rs` into
    `native/src/receipt.rs` (re-exporting them from `admission.rs`); remove the
