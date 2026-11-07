@@ -28,6 +28,11 @@ Deliverables (all charged to U7):
    specimen's pinned interpreter and the existing SQLAlchemy
    `before_cursor_execute` hook, with explicit per-scope adapters.
 
+Amendment 2 (2026-11-07, attempt 2; §9): deliverables 2 and 3 leave the slice —
+Python owns digest/canonical emission (the shared engine) and turn-level
+protocol validation returns to the unchanged frozen baseline; Rust keeps
+artifact admission only.
+
 Out: live model calls (frozen recorded turns only), candidate regeneration,
 adoption, new languages, proxy/indexers, new engines, five-target release work.
 
@@ -132,6 +137,12 @@ targets — `<= 2` attempts, strata ceilings, U1-U6 — are unchanged and never 
   into `C_ops`/`C_seeds`; wrapper glue charges U7.
 - Shared-core changes after E3 freeze fail U4; a second attempt requires a
   dated hypothesis revision, new preregistration and replay of both scopes.
+- Amendment 2 (2026-11-07): attempt 2 preregisters the descoped replacement
+  stratum (§9). The attempt-2 U7 ledger charges the §9 inventory only, at each
+  file's largest observed canonical size; ceiling 1,400 unchanged; attempt 2 of
+  2. The attempt-1 ledger (774 at S2, 1,808 at close) is retained as the
+  recorded failed first attempt; deleting attempt-1 Rust neither refunds nor
+  erases it.
 
 ## 6. Tools, locks, commands, host rules (frozen)
 
@@ -177,6 +188,78 @@ Research entries under `docs/research/` (dated, execution dates distinct from
 writing dates) with reciprocal index/spec links; `spec.json.solution_unlock`
 evidence fields updated per step; receipts for every command. Effort/attempt
 exhaustion or observations-defeat-usefulness → stop.
+
+## 9. Amendment 2 (2026-11-07, attempt 2): descoped replacement stratum
+
+Owner decision (2026-11-07, opencode chat, after R30 amendment 3 verdict
+*revise*): execute the bounded descope — drop the Rust digest module from the
+measured replacement stratum. Python owns digest/canonical emission (the shared
+engine emits the byte-identical recordings; `proto_core.py` `canon` /
+`write_golden` plus `verdict` already carry digests and acceptance); Rust keeps
+sidecar admission only (~305 canonical lines + registration hooks). This is a
+deliverable/accounting restructure, not a target change: every §4 ceiling and
+the U7 ceiling 1,400 stay frozen; nothing is lowered post hoc. Attempt-1
+results (U5/U7 FAIL at C_app 1,808) are retained as recorded failures (R30
+amendment 3).
+
+### Hypothesis revision (falsifiable; preregistered before execution)
+Attempt 1 kept a Rust byte-parity twin of the Python engine — `pyjson.rs`
+(478), `turncheck.rs` (214) + `bin/turncheck.rs` (26) plus shared hooks, ~740
+canonical lines whose purpose was to re-prove in Rust what the Python engine
+already emits. Attempt 2 removes that twin from the prototype tree and the
+claim. Revised hypothesis: the claimed replacement = shared Python engine
+(`proto_core` 372 + `scope_e3` 164 + `scope_e4` 207 + `proto_replay_test` 19 =
+762) + Rust sidecar admission (~305 + hooks), so C_app ≈ 1,072 satisfies every
+frozen §4 target: C_app ≤ 1,364; B_app − C_app ≈ 633 ≥ 200; C_total ≈ 2,570 ≤
+3,003; C_seeds = B_seeds; strictly smaller per-scope support (E3 173.5 < 280,
+E4 216.5 < 358). Falsified if any frozen target fails under the descoped
+inventory, or any replay/control diverges from the frozen identities.
+
+### Descoped inventory and deletions (preregistered)
+- Kept and charged: `native-prototype/{proto_core,scope_e3,scope_e4,proto_replay_test}.py`,
+  `native/src/admission.rs`, admission registration hooks (Cargo.toml / lib.rs /
+  main.rs as measured by diff after the deletions).
+- Deleted from the prototype: `native/src/pyjson.rs`, `native/src/turncheck.rs`,
+  `native/src/bin/turncheck.rs`, `native/tests/{pyjson_parity,turncheck}.rs`,
+  the `lesscode-turncheck` `[[bin]]` entry and their module registrations.
+  R28 (Rust digest parity) and R30 amendment 2 (turn checks, nextest 23b9da3e)
+  remain recorded evidence, re-derivable from the frozen attempt-1 tree
+  (commit `f6bb6e2`).
+- Deliverables 2 (Rust receipt/digest parity) and 3 (Rust turn core) leave the
+  slice. Turn-level protocol validation is served by the unchanged frozen
+  baseline (`regen_turn.py` subset); U6 cites the recorded attempt-1 turn
+  evidence as such, identified per the gate.
+
+### Attempt-2 replay obligations (both scopes, per §5)
+1. E3 double-record via the unchanged shared engine: two fresh recordings,
+   LF-body digest `92a48f77f66f2c9d0d0ebaf6e9e4b37f747816d2831dd577b72e183b7bf07671`;
+   the three frozen replay goldens (E1b, E1c, E1c-2) replay with zero divergence.
+2. E4 double-record: identical pair, LF-body digest
+   `0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584`
+   (5,479,067 bytes); `golden-a.json` replays with zero divergence.
+3. Candidate replays with the preregistered decisions of R30: E3 `cand`
+   ACCEPT, E4 `cand-turn3` ACCEPT (each level2_ops = 0, exit 0).
+4. Adverse controls: 9/9 fail closed, including missing-artifact via the kept
+   Rust admission CLI.
+5. U6: existing CLI contracts green; recorded turn evidence identified as
+   attempt-1 receipts; no new turn claims.
+6. Re-measurement receipt `results/s10-u5-measurement-2.json` under the frozen
+   ruff 0.17.3 / rustfmt method; U1–U7 re-assessed on attempt 2 alone, then
+   independent evidence review.
+
+### U7 attempt-2 ledger (preregistered)
+Charges the §9 inventory at each file's largest observed canonical size, plus
+any deletion-and-re-addition within attempt 2. Ceiling 1,400 unchanged; this is
+attempt 2 of 2. The attempt-1 ledger is retained in R30 / results as the failed
+first attempt.
+
+### Sensitivity (reporting only; no new pass criteria)
+The descoped claim no longer replaces the pure turn-input transformation
+subset (~240 canonical baseline lines inside B_app 1,705, `regen_turn.py`);
+report savings against frozen B_app (primary, §4) and like-for-like
+(B_app − 240 = 1,465; savings ≈ 393) alongside, both ≥ 200. The attempt-1
+exclusions (census/deadline/coverage machinery ~180, HTTP client ~262) stay
+excluded.
 
 [Gate](prototype-gate.md) · [Slice proposal](slice-proposal.md) ·
 [Spikes](spikes.md) · [R27](../../../docs/research/2026-11-07/01-solution-first-native-slice.md)
