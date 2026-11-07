@@ -242,3 +242,46 @@ LOCKED = already present in `native/Cargo.lock`.
 | Reports, regression | `tabled` 0.22.0, `comrak` 0.59.0, `insta` 1.49.0 | ~300-350 lines | no | Covers `residue` (req 10.2), `missing-tests` (req 8.7), `turn` (req 6.7), `review-pack`, `budgets` |
 | Arm results across languages | `pytest --junitxml`, Jest/Vitest JUnit, `cargo-nextest` 0.9.151 JUnit; **`junit-parser`** (or `quick-xml` + `serde`) | ~100 lines | no | Replaces `quick-junit` (which is a writer only and cannot parse XML) |
 | Artefact schemas | `schemars` 1.2.3, `jsonschema` 0.60.2 | ~100 lines | no | Validate frozen formats at boundaries |
+
+## Implementation verification record (2026-11-07, tasks 1.1–4.1)
+
+Production tasks executed in the foreground (2026-11-07 owner rules); one
+commit per task: 0c3073b (budgets checker), 62c2e63 (budgets.rs re-freeze at
+the owner-amended 330 plus the measured-history correction), 28a8650
+(brownfield freeze + `budgets` CLI arm), deac232 + 4fe74db (receipt.rs
+extraction and registration allowance), 1ab1569 (T2.2 parity/classification/
+R28 tests), f82d92f (recording.py relocation, rename 100%), d6a4b1f
+(tests/test_recording.py).
+
+Brownfield metrics frozen in `native/complexity-budgets.json` (receipt +
+blob-hash provenance; production/test split via `#[cfg(test)]`):
+`compare.rs` 805/230/253, `scope.rs` 863/300/265, `metrics.rs` 886/286/220,
+`model.rs` 331/73/24, `lib.rs` 587/180/302 (+2 registration-only allowance),
+`main.rs` 251/82/63 (Budgets arm +12 of the +25 allowance), `budgets.rs` 330,
+`admission.rs` 272/72/81 after the task-2.1 split (blob e7ea66c7),
+`receipt.rs` 150 under default ceilings. Post-split verification:
+`admission.rs` + `receipt.rs` = 422 production lines <= 430 (design A1),
+all three split-adjacent files governed with `disposition: null`; budgets
+self-run exit 0.
+
+Task 4.1 verification (2026-11-07, fresh evidence): fmt 0; clippy
+`-D warnings` 0; nextest 123/123; doc tests 0 failures; budgets gate exit 0;
+admission R28 smoke reproduces `21/11/5/1/4`, exit 1;
+`tests/test_recording.py` 19/19 under `-n 4 --dist loadfile` (920 s);
+standalone `s10_controls2.py --with-pg` exit 0 with `all_fail_closed: true`
+over exactly 9 controls; U1–U7 evidence artifacts re-verified present
+(R28–R31 research entries, gate/plan/proposal, attempt receipts); owner WIP
+(`src/lesscode_baseline/rules/evaluate.py`, `tests/test_rule_evaluation.py`)
+untouched throughout.
+
+Post-migration three-stratum canonical counts (ruff==0.17.3 `format
+--line-length 100`, rustfmt `--edition 2021`; hooks frozen at `lib.rs` +2 /
+`main.rs` +15): recording.py 372, scope_e3.py 166, scope_e4.py 207,
+proto_replay_test.py 19, admission.rs 272, receipt.rs 150 → `C_app` = 1,203
+<= 1,364, `B_app − C_app` = 502 >= 200, `C_total` = 2,701 <= 3,003,
+`e3_with_replay_share` = 175.5 < 280, `e4_with_replay_share` = 216.5 < 358.
+The Attempt-2 unlock receipt (`results/s10-u5-measurement-2.json`,
+`C_app` = 1,193) is point-in-time and remains authoritative for U5/U7; the
++10 delta to 1,203 is fully attributed: scope_e3 adapter rebind +2,
+admission→admission+receipt extraction +7 (415 → 422 production lines),
+lib.rs second registration line +1.
