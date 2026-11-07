@@ -71,3 +71,17 @@ shared engine is only proven if it reproduces frozen digests, not if it merely r
 - Expected-outcome status: (1) PASS E3, (2) PASS E4, (3) PASS both scopes (replay
   level). Candidate arms, adverse controls and measurement still pending; results
   amend here as they complete.
+
+## Amendment 2: turn checks and a recorded protocol fact (2026-11-07)
+Rust `turncheck` (dedicated `lesscode-turncheck` binary; `native/src/turncheck.rs`)
+validates the frozen, admission-verified E4 turns under the ratified contract: all
+checks pass (nextest 23b9da3e, 111/111; receipt `results/s10-turncheck.json`).
+- e4-turn1: failed-thinking-only confirmed (`stop_reason=max_tokens`, thinking-only
+  content); parameters preregistered; feedback correctly null.
+- e4-turn2: produced-candidate; **recorded fact**: its request carries `feedback:
+  null` — a thinking-only failure yields no candidate and therefore no feedback. The
+  preregistered expectation assumed feedback on every post-failure turn and was
+  corrected to match the recorded evidence (descriptor fix, not an evidence change).
+- e4-turn3: accepted; feedback present (turn 2's arm failure), prompt carries the
+  frozen contract head and acceptance command byte-for-byte.
+T4 turns remain excluded (inadmissible bytes, R28).

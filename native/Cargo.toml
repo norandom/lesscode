@@ -7,6 +7,10 @@ publish = false
 description = "Native foundation for capability-scoped code compression"
 license = "MIT"
 
+[[bin]]
+name = "lesscode-turncheck"
+path = "src/bin/turncheck.rs"
+
 [dependencies]
 ast-grep-core = "=0.51.0"
 ast-grep-language = { version = "=0.51.0", default-features = false, features = ["tree-sitter-python", "tree-sitter-typescript"] }

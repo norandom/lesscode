@@ -1,0 +1,8 @@
+{
+ "turns_root": "docs/experiments/deconvolution/regenerator/results/turns",
+ "turns": [
+  {"dir": "e4-turn1", "expected": "failed-thinking-only", "feedback_required": false, "request": "docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn1.json"},
+  {"dir": "e4-turn2", "expected": "failed-collection", "feedback_required": false, "request": "docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn2.json"},
+  {"dir": "e4-turn3", "expected": "accepted", "feedback_required": true, "request": "docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn3.json"}
+ ]
+}

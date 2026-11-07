@@ -1,0 +1,145 @@
+{
+ "receipt": "s10-turncheck-1",
+ "descriptor": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\native-prototype\\results\\s10-turns.json",
+ "turns": [
+  {
+   "turn": "e4-turn1",
+   "expected": "failed-thinking-only",
+   "checks": [
+    {
+     "check": "bytes-present",
+     "ok": true,
+     "note": "user.txt=true response.json=true"
+    },
+    {
+     "check": "preregistered-targets",
+     "ok": true,
+     "note": "targets present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn1.json"
+    },
+    {
+     "check": "preregistered-contract",
+     "ok": true,
+     "note": "contract present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn1.json"
+    },
+    {
+     "check": "preregistered-acceptance_command",
+     "ok": true,
+     "note": "acceptance_command present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn1.json"
+    },
+    {
+     "check": "permitted-feedback",
+     "ok": true,
+     "note": "feedback_required=false and feedback is null"
+    },
+    {
+     "check": "prompt-contract",
+     "ok": true,
+     "note": "user.txt carries the frozen prompt-contract"
+    },
+    {
+     "check": "prompt-acceptance-command",
+     "ok": true,
+     "note": "user.txt carries the frozen prompt-acceptance-command"
+    },
+    {
+     "check": "response-classification",
+     "ok": true,
+     "note": "expected thinking-only, recorded thinking-only"
+    }
+   ]
+  },
+  {
+   "turn": "e4-turn2",
+   "expected": "failed-collection",
+   "checks": [
+    {
+     "check": "bytes-present",
+     "ok": true,
+     "note": "user.txt=true response.json=true"
+    },
+    {
+     "check": "preregistered-targets",
+     "ok": true,
+     "note": "targets present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn2.json"
+    },
+    {
+     "check": "preregistered-contract",
+     "ok": true,
+     "note": "contract present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn2.json"
+    },
+    {
+     "check": "preregistered-acceptance_command",
+     "ok": true,
+     "note": "acceptance_command present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn2.json"
+    },
+    {
+     "check": "permitted-feedback",
+     "ok": true,
+     "note": "feedback_required=false and feedback is null"
+    },
+    {
+     "check": "prompt-contract",
+     "ok": true,
+     "note": "user.txt carries the frozen prompt-contract"
+    },
+    {
+     "check": "prompt-acceptance-command",
+     "ok": true,
+     "note": "user.txt carries the frozen prompt-acceptance-command"
+    },
+    {
+     "check": "response-classification",
+     "ok": true,
+     "note": "expected produced-candidate, recorded produced-candidate"
+    }
+   ]
+  },
+  {
+   "turn": "e4-turn3",
+   "expected": "accepted",
+   "checks": [
+    {
+     "check": "bytes-present",
+     "ok": true,
+     "note": "user.txt=true response.json=true"
+    },
+    {
+     "check": "preregistered-targets",
+     "ok": true,
+     "note": "targets present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn3.json"
+    },
+    {
+     "check": "preregistered-contract",
+     "ok": true,
+     "note": "contract present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn3.json"
+    },
+    {
+     "check": "preregistered-acceptance_command",
+     "ok": true,
+     "note": "acceptance_command present in docs/experiments/deconvolution/e4-lifecycle/results/request-e4-turn3.json"
+    },
+    {
+     "check": "permitted-feedback",
+     "ok": true,
+     "note": "feedback_required=true and feedback is present"
+    },
+    {
+     "check": "prompt-contract",
+     "ok": true,
+     "note": "user.txt carries the frozen prompt-contract"
+    },
+    {
+     "check": "prompt-acceptance-command",
+     "ok": true,
+     "note": "user.txt carries the frozen prompt-acceptance-command"
+    },
+    {
+     "check": "response-classification",
+     "ok": true,
+     "note": "expected produced-candidate, recorded produced-candidate"
+    }
+   ]
+  }
+ ],
+ "failed_checks": 0
+}
