@@ -1,14 +1,17 @@
 # Research log
 
-## Latest: S9 surface-contract comparison (2026-11-07)
-[R29](2026-11-07/03-s9-surface-contracts.md): tree+recorder contract B adds 1 name on E3
-(`_canonical`) and 3 on E4 (`labeled_reason`, `LiveEvidence`, `lifecycle_store.<module>`)
-— all resolvable, none unresolved in A; `labeled_reason` is exactly the E4 turn-2 failure.
-Favorable, cheap evidence for R26 amendment 1; ratification stays with the owner (OP-2).
-S2 evidence in [R28](2026-11-07/02-s2-artifact-admission-digest-parity.md) (admission
-receipts; Rust digest parity byte-identical on the frozen 5.6 MB traces; U7 raised to
-1,400 by owner decision). S10 proceeds under the amended budget once the contract is
-ratified.
+## Latest: S10 complete — reuse proven, usefulness targets failed (2026-11-07)
+[R30](2026-11-07/04-s10-shared-core.md): the shared S10 engine reproduced BOTH frozen
+recorders byte-identically (E3 `92a48f77…` = committed golden sidecar; E4
+`0b2e383d…` = golden-a LF-body, 5,479,067 bytes), replayed all goldens with zero
+divergence, accepted both frozen candidates exactly as preregistered, and passed 9/9
+adverse controls fail-closed. U5/U7 FAILED as frozen: C_app 1,808 vs ceiling 1,364
+(the Rust byte-parity core costs more than the duplicated Python it replaces);
+gate verdict **revise**, owner decision pending (bounded descope would pass at
+~1,072; or stop with the negative result). S9 evidence in
+[R29](2026-11-07/03-s9-surface-contracts.md) (contract B ratified); S2 in
+[R28](2026-11-07/02-s2-artifact-admission-digest-parity.md) (U7 ceiling raised to
+1,400 by owner mid-run).
 
 ## Proposal: solution-first native slice (2026-11-07)
 [R27](2026-11-07/01-solution-first-native-slice.md): owner-requested spec amendment,

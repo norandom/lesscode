@@ -85,3 +85,36 @@ checks pass (nextest 23b9da3e, 111/111; receipt `results/s10-turncheck.json`).
 - e4-turn3: accepted; feedback present (turn 2's arm failure), prompt carries the
   frozen contract head and acceptance command byte-for-byte.
 T4 turns remain excluded (inadmissible bytes, R28).
+
+## Amendment 3: candidate arms, controls, measurement and U1-U7 assessment (2026-11-07)
+- **Candidate arms (preregistered decisions, all correct)**: E3 `cand` ACCEPTED
+  (all seed groups pass: 1,534 tests, replay fresh 64/64 sequences / 311 operations,
+  level2_ops=0, exit 0). E4 `cand-turn3` ACCEPTED (verdict exit 0, fresh 50/50
+  sequences / 317 operations, level2_ops=0, `sql-divergences-e6-cand.json` bound as
+  query evidence). Rounds written as `sql-divergences-rounds10.json`.
+- **U4 freeze**: after the final shared-core changes (class-level listen, boot-rule
+  guard, verdict rules), E3 re-recorded twice more: `92a48f77…` both times — the
+  frozen final core serves both scopes unchanged (`.runs/native-prototype/proto-e3-c{1,2}.json`).
+- **U3 controls: 9/9 fail closed** (`results/s10-controls.json`): accept-clean;
+  stale-replay-refused; L2-without-query-evidence-refused (bound evidence admissible);
+  invalid-arm-stays-invalid; missing-artifact-refused (Rust admission CLI);
+  protected-edit-voids-record; interrupted-arm-not-a-kill (exit 124, infrastructure);
+  planted-L1-difference-detected (doctored golden flagged at the exact planted path).
+- **U5/U7 measurement FAILED as frozen** (`results/s10-u5-measurement.json`):
+  C_app = 1,808 canonical lines (Python 762: proto_core + adapters + replay target;
+  Rust 1,046: pyjson 463, admission 293, turncheck ~167, binary + hooks 23) against
+  ceiling 1,364; B_app − C_app = −103 (the replacement is larger than the 1,705
+  baseline); C_total 3,306 > 3,003; U7 1,808 > 1,400. Per-scope support IS smaller
+  (E3 173.5 < 280, E4 216.5 < 358) and C_seeds = B_seeds, but the frozen conjunction
+  fails. Cost driver: the Rust byte-parity core (1,046 lines) the slice specified.
+- **U1-U7**: U1 pass (plan frozen, inventories, sidecar-verified bytes); U2 pass
+  (double-record + replay + preregistered candidate decisions, both scopes); U3 pass
+  (9/9); U4 pass (final core frozen, re-proven on E3); U5 FAIL; U6 pass (existing
+  CLI contracts green, 111/111 nextest; honest differences retained); U7 FAIL.
+- **Gate verdict: revise.** The reuse hypothesis is mechanically demonstrated
+  (byte-identical recordings/replays on both scopes through one shared engine), but
+  the usefulness targets fail: preserving Python byte parity in Rust costs more than
+  the duplicated apparatus it replaces. A concrete bounded revision exists (drop the
+  Rust digest module from the measured stratum: C_app would be ~1,072 ≤ 1,364,
+  saving 633; or stop here with the negative result). Owner decision required;
+  evidence_review stays not-reviewed.

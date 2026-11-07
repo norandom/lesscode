@@ -7,22 +7,23 @@ and earlier interpretations, not as an active implementation queue.
 
 ## Current state
 
-Updated 2026-11-07 late morning: housekeeping committed and pushed (1d69021 spec+R27,
-084b739 handover, 049f6a1 owner rules/steering, 4835b62 spec status, 103e1aa MIT,
-f11179e frozen prototype plan). The owner approved prototype execution; S2 ran (R28):
-artifact admission receipts collected and Rust digest parity with the Python recorders
-proven on the frozen E4 traces. Attempt-1 U7 charge is 774 canonical lines; the owner
-raised the U7 ceiling from 600 to 1,400 on 2026-11-07 (all other targets unchanged),
-so S9 and S10 proceed under the amended budget. T4 regenerator turn bytes mismatch their
-committed sidecars and are inadmissible as bound; E4 turns verify.
+Updated 2026-11-07 midday: the owner-approved prototype ran to completion (S2, S9,
+S10 under the ratified contract B + R26 changes). One shared engine reproduced both
+frozen recorders byte-identically, replayed every golden with zero divergence,
+accepted both frozen candidates exactly as preregistered and passed 9/9 adverse
+controls fail-closed (R28-R30). Gate verdict: **revise** — U5/U7 failed as frozen
+(C_app 1,808 vs 1,364; the Rust byte-parity core costs more than the duplicated
+Python it replaces). Owner decision pending: bounded descope (drop the Rust digest
+module from the measured stratum, ~1,072, passes), another revision, or stop with
+the negative result. `solution_unlock.status = revise`, evidence review not-run.
 
 - Native-core phase: requirements-generated; requirements/design/tasks unapproved.
-- Key: spec.json.solution_unlock.prototype_execution_approved = true with the frozen
-  prototype-plan.md; status stays not-run until U1-U7 pass with evidence review.
+  The demonstrated slice may now seek normal production design approval ONLY after
+  the owner resolves the revise verdict and an independent evidence review passes.
 - Existing comparison core remains delivered with recorded Windows/Linux/macOS GO;
-  109/109 nextest green after adding pyjson/admission (run 76023a7d).
-- E3/E4 remain research evidence with their original limitations. Task 6.7 is
-  already committed as 380c629; it must not be treated as outstanding commit work.
+  111/111 nextest green after adding pyjson/admission/turncheck (runs 23b9da3e).
+- T4 regenerator turn bytes mismatch their committed sidecars (inadmissible as
+  bound); E4 turns verify. Task 6.7 is committed as 380c629.
 - Historical N1-N10/fusion drafts are preserved beside the active spec as
   *-fusion-2026-11-07 files. Their broad-suite prerequisites are superseded.
 

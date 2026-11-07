@@ -217,6 +217,20 @@ def run_groups(venv: Path, root: Path, groups: list, marks: str, env: dict, dead
     return 0
 
 
+def verdict(arm_exit: int, fresh: bool, level2_ops: int, query_evidence) -> tuple[int, list[str]]:
+    """Frozen acceptance refusal rules: the arm must pass; a stale or short replay is
+    incomplete; L2 differences without bound query-differential evidence refuse
+    acceptance rather than silently falling back to Level 1."""
+    reasons = [] if arm_exit == 0 else [f"arm exit {arm_exit}"]
+    if not fresh:
+        reasons.append("replay not fresh or short of golden coverage")
+    if level2_ops > 0 and not (query_evidence and Path(query_evidence).is_file()):
+        reasons.append(f"{level2_ops} L2 differences without query-differential evidence")
+    if not reasons:
+        return 0, []
+    return (2 if arm_exit == 2 else 1), reasons
+
+
 def arm_env(root: Path, here: Path, paths: list, extra: dict | None = None) -> dict:
     e = dict(os.environ, OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", MKL_NUM_THREADS="1",
              PYTHONWARNINGS="ignore", PYTHONDONTWRITEBYTECODE="1",

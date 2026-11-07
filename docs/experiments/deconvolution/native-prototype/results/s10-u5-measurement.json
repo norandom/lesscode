@@ -1,0 +1,52 @@
+{
+ "baselines": {
+  "app": 1705,
+  "e3_scope": 280,
+  "e4_scope": 358,
+  "ops": 854,
+  "seeds": 644
+ },
+ "c_app": 1808,
+ "c_app_python": 762,
+ "c_app_rust_with_hooks": 1046,
+ "excluded_from_replacement": "run_arm census/deadline/coverage machinery (~180 canonical), regen_turn HTTP client (~262), solver controls: frozen files remain, not claimed",
+ "method": "ruff==0.17.3 format --line-length 100 canonical copies; rustfmt'd Rust; registration hooks by diff; ops/seeds retained frozen via import",
+ "python_app": {
+  "proto_core.py": 372,
+  "proto_replay_test.py": 19,
+  "scope_e3.py": 164,
+  "scope_e4.py": 207
+ },
+ "receipt": "s10-u5-measurement-1",
+ "rust_app": {
+  "src/admission.rs": 305,
+  "src/bin/turncheck.rs": 26,
+  "src/pyjson.rs": 478,
+  "src/turncheck.rs": 214
+ },
+ "rust_hooks": {
+  "Cargo.toml": 4,
+  "src/lib.rs": 3,
+  "src/main.rs": 16
+ },
+ "u5": {
+  "app_ceiling_1364": false,
+  "app_compression_ratio": 1.0604,
+  "app_saved": -103,
+  "app_saved_ge_200": false,
+  "c_seeds_equals_b": true,
+  "c_total": 3306,
+  "e3_scope_adapter": 164,
+  "e3_smaller": true,
+  "e3_with_replay_share": 173.5,
+  "e4_scope_adapter": 207,
+  "e4_smaller": true,
+  "e4_with_replay_share": 216.5,
+  "total_ceiling_3003": false
+ },
+ "u7_ledger": {
+  "ceiling": 1400,
+  "charged": 1808,
+  "within": false
+ }
+}

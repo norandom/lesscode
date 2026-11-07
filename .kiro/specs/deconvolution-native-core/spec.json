@@ -1,7 +1,7 @@
 {
   "feature_name": "deconvolution-native-core",
   "created_at": "2026-11-06T19:30:00+01:00",
-  "updated_at": "2026-11-07T11:05:00+00:00",
+  "updated_at": "2026-11-07T11:15:00+00:00",
   "language": "en",
   "phase": "requirements-generated",
   "approvals": {
@@ -21,7 +21,7 @@
   "ready_for_implementation": false,
   "notes": "Owner-requested solution-first spec amendment 2026-11-07, updated with empirical baseline complexity audit (3,963 canonical lines across 14 files; 3-stratum U5 accounting; U7 brownfield entrypoint/verbatim-extraction rules) and Rust crate validation (existing Cargo.lock pins kept; serde_jcs/fs4/quick-junit/gix/pg_query dropped; syn/toml_edit/windows-sys/ruff_python_parser/rusqlite/oxc/junit-parser recorded). 2026-11-07: owner approved prototype execution; frozen plan in prototype-plan.md (S2/S9/S10 under U1-U7). S2 executed 2026-11-07 (R28): admission + digest parity proven; U7 overrun 774>600 recorded, S10 paused for owner revision, S9 allowed. No production design/tasks/code authorized.",
   "solution_unlock": {
-    "status": "not-run",
+    "status": "revise",
     "evidence_review": "not-reviewed",
     "gate": "prototype-gate.md",
     "proposal": "slice-proposal.md",
@@ -41,7 +41,8 @@
       "R28 (docs/research/2026-11-07/02-s2-artifact-admission-digest-parity.md): S2 artifact admission receipts s2-artifact-admission.json + s2-artifact-admission-rust.json (21 bindings: 11 verified, 5 mismatch, 1 missing, 4 unbound; E4 goldens+turns verified, T4 turns inadmissible)",
       "R28: Rust pyjson/admission parity proven (nextest 76023a7d 109/109; golden-a/held-out-a re-emitted byte-identically, declared LF-body digests reproduced)",
       "R29 (docs/research/2026-11-07/03-s9-surface-contracts.md): S9 comparison receipt s9-surface-contracts.json — B adds 1 name on E3 (_canonical) and 3 on E4 (labeled_reason, LiveEvidence, lifecycle_store.<module>), all resolvable; labeled_reason is the E4 turn-2 failure; no ratification implied",
-      "2026-11-07 owner ratification (opencode chat): S10 executes under contract B + the four R26 changes + R25 rules as written (see R29 amendment 1, handover OP-2)"
+      "2026-11-07 owner ratification (opencode chat): S10 executes under contract B + the four R26 changes + R25 rules as written (see R29 amendment 1, handover OP-2)",
+      "R30 (docs/research/2026-11-07/04-s10-shared-core.md): S10 complete. U1-U4/U6 pass (double-record byte-identical both scopes incl. frozen identities 92a48f77/0b2e383d; candidate arms accepted as preregistered; 9/9 adverse controls fail closed; final core frozen and re-proven). U5/U7 FAIL: C_app 1,808 > 1,364, saved -103, U7 1,808 > 1,400 (receipt results/s10-u5-measurement.json). Verdict revise; owner decision pending; evidence review not-reviewed"
     ],
     "frozen_identities": {}
   }

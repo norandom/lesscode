@@ -24,6 +24,7 @@ GOLDENS = (O.GOLDEN, e1c2_source.E.GOLDEN, e1c2_source.GOLDEN)
 ROUND_ENV = "E3_ROUND"
 SEL = json.loads(run_arm.SELECTION.read_text(encoding="utf-8"))
 PROTO_TEST = HERE / "proto_replay_test.py"
+QUERY_EVIDENCE = None  # recorded E3 rounds all have level2_ops=0 (R25); L2>0 without evidence refuses
 
 
 def meta_of(seqs: list) -> dict:
@@ -86,9 +87,10 @@ def accept(root: Path, rnd: str = "0", deadline: str | None = None) -> int:
     code = P.run_groups(VENV, root, groups, MARKS, env, None if deadline is None else time.monotonic() + float(deadline))
     rep = json.loads(l2.read_text(encoding="utf-8")) if l2.exists() else {}
     fresh = rep.get("written", 0) > t0 and rep.get("sequences") == 64
-    print(f"e3 accept: groups exit {code}; replay fresh={fresh} sequences={rep.get('sequences')} "
-          f"operations={rep.get('operations')} level2_ops={rep.get('level2_ops')}", flush=True)
-    return code if code else (0 if fresh else 1)
+    code, reasons = P.verdict(code, fresh, rep.get("level2_ops", 0), QUERY_EVIDENCE)
+    print(f"e3 accept: verdict exit {code}; fresh={fresh} sequences={rep.get('sequences')}/64 "
+          f"operations={rep.get('operations')} level2_ops={rep.get('level2_ops')}; {reasons or 'accepted'}", flush=True)
+    return code
 
 
 if __name__ == "__main__":
@@ -101,5 +103,5 @@ if __name__ == "__main__":
         print(d or "replay: no divergence")
         sys.exit(0 if d is None else 1)
     else:
-        opts = dict(zip(a[1::2], a[2::2]))
+        opts = dict(zip(a[2::2], a[3::2]))
         sys.exit(accept(Path(a[1]).resolve(), opts.get("--round", "0"), opts.get("--deadline")))
