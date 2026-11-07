@@ -326,3 +326,70 @@ class TestAdaptiveSchedule:
     def test_pass_needs_no_adaptation(self):
         prev = rg.RewardEvaluation(score=0.50, tier=1, passed_tier1=True, failure_kind=None, diagnostics={})
         assert rg.next_rollout_params(prev, attempt=0) == {}
+
+
+class TestTier2Runtime:
+    def test_infrastructure_timeout_is_never_a_kill(self):
+        reward = rg.evaluate_tier2_runtime(124, None, {})
+        assert (reward.score, reward.failure_kind) == (0.50, "runtime_infrastructure")
+        reward = rg.evaluate_tier2_runtime(2, None, {})
+        assert (reward.score, reward.failure_kind) == (0.50, "runtime_infrastructure")
+
+    def test_formula_on_synthetic_fractions(self):
+        cases = [
+            (1.0, 0.0, 0.73),   # 0.60 + 0.25*(0.5)
+            (0.8, 0.6, 0.78),   # 0.60 + 0.25*(0.7)
+            (1.0, 1.0, 0.85),
+            (0.0, 0.0, 0.60),
+            (0.5, 0.5, 0.73),   # 0.60+0.25*0.5 = 0.725 -> half-up 0.73
+        ]
+        for g, s, expected in cases:
+            reward = rg.evaluate_tier2_runtime(1, "seq::first", {
+                "seed_group_pass_fraction": g, "sequence_pass_fraction": s})
+            assert reward.score == expected, (g, s)
+            assert reward.tier == 2
+            assert reward.diagnostics["first_divergence"] == "seq::first"
+
+    def test_missing_fraction_key_scores_zero_fail_closed(self):
+        reward = rg.evaluate_tier2_runtime(1, None, {"sequence_pass_fraction": 1.0})
+        assert reward.score == 0.73  # 0.60 + 0.25*(0.5*0 + 0.5*1.0) = 0.725, half-up to 0.73
+
+    def test_accepted_with_gaps(self):
+        reward = rg.evaluate_tier2_runtime(0, None, {"measure_gaps": {"stmts_max": {}}})
+        assert (reward.score, reward.failure_kind) == (0.90, "gaps")
+
+    def test_accepted_with_scored_faults(self):
+        reward = rg.evaluate_tier2_runtime(0, None, {"surviving_faults": [{"line": 3}]})
+        assert (reward.score, reward.failure_kind) == (0.95, "scored_faults")
+
+    def test_full_acceptance(self):
+        reward = rg.evaluate_tier2_runtime(0, None, {})
+        assert reward.score == 1.00
+        assert reward.failure_kind is None
+
+    def test_unknown_exit_is_infrastructure_fail_closed(self):
+        reward = rg.evaluate_tier2_runtime(7, None, {})
+        assert (reward.score, reward.failure_kind) == (0.50, "runtime_infrastructure")
+
+
+class TestFeedbackBoundary:
+    def test_held_out_name_rejected_before_dispatch(self):
+        with pytest.raises(rg.FeedbackBoundaryError, match="held"):
+            rg.enforce_feedback_boundary(
+                {"kind": "failed", "first_divergence": "diff in seq HOLDOUT-7::op", "measure_gaps": {}},
+                held_out_names=("HOLDOUT-7", "HOLDOUT-12"),
+            )
+
+    def test_normal_divergence_passes(self):
+        rg.enforce_feedback_boundary(
+            {"kind": "failed", "first_divergence": "static:missing_surface:mod::f", "measure_gaps": {}},
+            held_out_names=("HOLDOUT-7",),
+        )
+
+    def test_accepted_scored_payload_checked_too(self):
+        with pytest.raises(rg.FeedbackBoundaryError):
+            rg.enforce_feedback_boundary(
+                {"kind": "accepted_scored", "first_divergence": None, "measure_gaps": {},
+                 "surviving_faults": [], "counterexamples": ["replay of HOLDOUT-12 differs"]},
+                held_out_names=("HOLDOUT-7", "HOLDOUT-12"),
+            )

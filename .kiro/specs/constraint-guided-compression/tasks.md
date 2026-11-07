@@ -178,7 +178,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator_
     - _Depends: 5.1, 2.2, 3.3_
     - _Requirements: 4.2_
-  - [ ] 5.3 Tier-2 runtime gate wrapping recording.py with pinned partial credit
+  - [x] 5.3 Tier-2 runtime gate wrapping recording.py with pinned partial credit
     - Implement `evaluate_tier2_runtime` in
       `src/lesscode_baseline/regenerator.py`, wrapping the frozen
       `src/lesscode_baseline/recording.py` functions (`probe`, `run_groups`,

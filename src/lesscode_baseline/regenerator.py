@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import dataclasses
 import datetime
+import decimal
 import hashlib
 import json
 import os
@@ -27,6 +28,7 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
+from typing import Sequence
 from urllib.parse import urlsplit
 
 __all__ = [
@@ -488,6 +490,60 @@ class ReceiptWriter:
 
 def _now() -> str:
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+
+def evaluate_tier2_runtime(
+    exit_code: int,
+    first_divergence: str | None,
+    results: dict,
+) -> RewardEvaluation:
+    """Tier-2 RuntimeOracleGate over the recording arm's three-part outcome.
+
+    ``exit_code`` is the arm verdict (0 accepted, 1 kill/divergence, 2 invalid
+    arm, 124 timeout). The 0.60-0.85 partial-credit band applies the pinned
+    formula ``R = 0.60 + 0.25 * (0.5*g + 0.5*s)`` (g = seed-group pass
+    fraction, s = sequence pass fraction before first divergence), rounded
+    half-up to two decimals; a missing fraction key counts as 0, never as a
+    pass. Infrastructure outcomes (2/124/unknown) stay ``runtime_infrastructure``
+    and are never classified as a kill or an equivalence pass (Req 5.4, 5.6).
+    """
+    if exit_code != 0 and exit_code != 1:
+        return RewardEvaluation(0.50, 2, True, "runtime_infrastructure",
+                                {"exit_code": exit_code, "first_divergence": first_divergence})
+    if exit_code == 1:
+        g = results.get("seed_group_pass_fraction", 0) or 0
+        s = results.get("sequence_pass_fraction", 0) or 0
+        gd = min(max(decimal.Decimal(str(g)), decimal.Decimal(0)), decimal.Decimal(1))
+        sd = min(max(decimal.Decimal(str(s)), decimal.Decimal(0)), decimal.Decimal(1))
+        step = decimal.Decimal("0.01")
+        raw = decimal.Decimal("0.60") + decimal.Decimal("0.25") * (
+            decimal.Decimal("0.5") * gd + decimal.Decimal("0.5") * sd
+        )
+        score = float(raw.quantize(step, rounding=decimal.ROUND_HALF_UP))
+        return RewardEvaluation(score, 2, True, "kill",
+                                {"first_divergence": first_divergence, "formula": {"g": g, "s": s}})
+    if results.get("measure_gaps"):
+        return RewardEvaluation(0.90, 2, True, "gaps", {"measure_gaps": results["measure_gaps"]})
+    if results.get("surviving_faults") or results.get("counterexamples"):
+        return RewardEvaluation(0.95, 2, True, "scored_faults",
+                                {"surviving_faults": results.get("surviving_faults", []),
+                                 "counterexamples": results.get("counterexamples", [])})
+    return RewardEvaluation(1.00, 2, True, None, {})
+
+
+def enforce_feedback_boundary(feedback: dict, held_out_names: Sequence[str]) -> None:
+    """Feedback carries divergence identities and measure gaps only — never held-out sequence names.
+
+    The whole payload is serialized and scanned for every held-out name before
+    the controller may dispatch the next rollout (Req 7.5 separation; audited
+    by ``ctrl_feedback_leak``).
+    """
+    blob = json.dumps(feedback, ensure_ascii=False)
+    for name in held_out_names:
+        if name and name in blob:
+            raise FeedbackBoundaryError(
+                f"feedback payload carries held-out sequence name {name!r}; refusing to dispatch"
+            )
 
 
 @dataclasses.dataclass
