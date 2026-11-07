@@ -1,0 +1,40 @@
+{
+ "commands": [
+  {
+   "label": "mmhmem-rust-scope",
+   "cmd": [
+    "D:\\Source\\lesscode\\.runs\\e2-facdrone\\venv\\Scripts\\python.exe",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\testinfra.py",
+    "D:\\Source\\lesscode\\.runs\\e1-mmhmem\\original",
+    "--scope",
+    "src/services/session_bus.rs",
+    "--out",
+    "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\testinfra\\results",
+    "--stem",
+    "mmhmem-testinfra"
+   ],
+   "cwd": null,
+   "env": {},
+   "start_utc": "2026-11-07T16:13:20.6185905+00:00",
+   "end_utc": "2026-11-07T16:13:22.9540657+00:00",
+   "seconds": 2.34,
+   "exit": 0,
+   "adaptive": null
+  }
+ ],
+ "facts": [
+  {
+   "key": "specimen-provenance",
+   "value": "Scan target is the E1 frozen isolated copy .runs/e1-mmhmem/original, created 2026-11-03 from D:\\Source\\mmhmem one commit after the frozen HEAD 8a9ce348b8927b60047f38a6e1bc6fd0e8f0f497 (drift recorded in e1-mmhmem-session-bus/plan.md amendment, 2026-11-03). Read-only static scan; the copy and D:\\Source\\mmhmem were not modified."
+  },
+  {
+   "key": "apparatus-identity",
+   "value": "testinfra.py unmodified from commit a461ee8 (task 2.2); sha256 1cbb55e2169c48ce0d9c137be781c4b41c98cca938552087d380bff9c0f9057c."
+  },
+  {
+   "key": "known-runner-inventory",
+   "value": "PowerShell Select-String over the copy: tests/ holds 22 integration .rs files; src/ holds 18 '#[cfg(test)]' inline modules; 128 '#[test]' functions in src/ plus tests/. CI .github/workflows/ci.yml invokes cargo test at lines 110 ('--test e2e_measurement'), 143 and 176; .config/nextest.toml configures cargo-nextest (E1 toolchain: rustc/cargo 1.98.1 MSVC, cargo-nextest 0.9.150). No root pytest config exists (no pyproject.toml, pytest.ini, setup.cfg or tox.ini at the root); ci/pyproject.toml is a uv packaging manifest without a pytest section; ci/uv.lock pins pytest >=8.0.2; nine ci/scripts/test_*.py files match pytest default file patterns; docker-compose.yml at the root describes the compose stack with /healthz readiness."
+  }
+ ],
+ "notes": []
+}

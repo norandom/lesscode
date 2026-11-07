@@ -1,0 +1,82 @@
+{
+ "deselections": null,
+ "external_store": {
+  "facts": [
+   {
+    "detail": "docker-compose.yml",
+    "file": "docker-compose.yml",
+    "kind": "file",
+    "line": 0
+   }
+  ],
+  "host_hazards": [],
+  "site_packages_followed": [],
+  "summary": {
+   "embedded_postgres": false,
+   "migrations": false,
+   "store_env": []
+  }
+ },
+ "files_scanned": 27,
+ "fixtures": {
+  "conftest": {},
+  "plugin_modules": {},
+  "pytest_plugins": {},
+  "scope_reaching_autouse_fixtures_not_counted": [],
+  "scope_reaching_fixtures": {}
+ },
+ "import_roots": [
+  ".",
+  "ci",
+  "ci/src",
+  "src"
+ ],
+ "marker_expression": {
+  "agrees_with_gates": {},
+  "declared": {},
+  "distinct_gate_expressions": [],
+  "excluded": {},
+  "gate_expressions": [],
+  "rule": "exclude a marker whose description declares it opt-in, or names a hardware, network, broker or port resource without saying the tests skip on their own; declaration order",
+  "signals": {},
+  "suggested": ""
+ },
+ "repo_root": "D:\\Source\\lesscode\\.runs\\e1-mmhmem\\original",
+ "runner": {
+  "configs": [],
+  "entry_points_pytest11": {},
+  "implied_plugins": [],
+  "name": "unknown",
+  "plugins": []
+ },
+ "scope": [
+  "src/services/session_bus.rs"
+ ],
+ "scope_modules": [],
+ "scope_references": {
+  "by_module": {},
+  "intra_scope": {},
+  "parse_errors": [],
+  "production_files": [],
+  "support_files": {},
+  "test_files": {},
+  "unresolved": {}
+ },
+ "seeds": {
+  "counts": {
+   "direct": 0,
+   "recommended": 0,
+   "via_fixture": 0,
+   "via_production": 0,
+   "via_support": 0
+  },
+  "direct": [],
+  "ignored_by_gates": [],
+  "recommended": [],
+  "rule": "direct references, plus test files importing a test-support module whose support-only import closure references the scope, plus test files requesting a conftest/plugin fixture whose body uses such an import; minus files the gate scripts --ignore. via_production is an upper bound only.",
+  "via_fixture": [],
+  "via_production": [],
+  "via_support": []
+ },
+ "test_files_total": 0
+}

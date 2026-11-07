@@ -102,7 +102,7 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   - _Boundary: TestInfraDetector_
   - _Depends: 1.2_
   - _Requirements: 12.2, 12.4, 3.1_
-- [ ]* 2.3 Detection on the Rust specimen's runner
+- [x] 2.3 Detection on the Rust specimen's runner
   - Optional follow-up outside the gate's Python scope: run detection on
     the Rust specimen and record what it finds against the known runner.
   - Done when a recorded comparison exists; no claim about Rust
@@ -648,3 +648,19 @@ apparatus file authored in 6.1, 6.4 and 6.5.
   qualifier, credit to the void differential, five wording points) then
   APPROVED. All tasks of the spec are done; the owner's next decision is
   recorded in the handover.
+- 2.3 (2026-11-07, owner go via opencode): detection run on the E1 frozen
+  mmhmem copy (`.runs/e1-mmhmem/original`, read only) with the unchanged 2.2
+  apparatus (`testinfra.py` from a461ee8, sha256 1cbb55e2…): exit 0,
+  `runner: unknown`, 0 test files, 0 seeds, 0 parse errors, empty marker
+  suggestion; known runner cargo test (ci.yml lines 110/143/176) with
+  cargo-nextest via `.config/nextest.toml` (E1 toolchain: nextest 0.9.150,
+  rustc/cargo 1.98.1 MSVC); corpus 22 `tests/*.rs` + 18 inline `#[cfg(test)]`
+  modules + 128 `#[test]`; the nested `ci/` uv sub-project (pytest ≥8.0.2 in
+  `uv.lock`, nine `ci/scripts/test_*.py`) is invisible to root-config
+  detection; one cross-language positive: the `docker-compose.yml`
+  external-store file fact. Comparison
+  `testinfra/results/mmhmem-rust-comparison.md`, receipt `receipt-2.3.json`,
+  log `logs/mmhmem-rust-scope.log`; research entry R32
+  `docs/research/2026-11-07/06-rust-specimen-testinfra-detection.md` with
+  index row. No claim about Rust regeneration (task text); with the optional
+  2.3 done, every task of the spec including it is closed.
