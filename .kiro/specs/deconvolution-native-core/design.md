@@ -4,7 +4,10 @@ Generated 2026-11-07 (design phase, foreground per owner rule 2026-11-07);
 amended 2026-11-07 after design validation review to resolve Attempt-2 descope
 contradictions, `RecordingCore` stdlib/specimen boundary and deferral mappings,
 `Receipt` `enum J` contract, and `Budgets` brownfield dispositions + offline
-`Cargo.lock` linkage.
+`Cargo.lock` linkage; consistency-repaired 2026-11-07 after grounded fusion
+review (receipt.rs public surface is exactly `J`/`sha256_hex`/`write_receipt`
+with private `write_json_str`/`write_value`; admission+receipt combined
+ceiling corrected 425→430; `render_json` never existed in `admission.rs`).
 Requirements approved by owner 2026-11-07 (opencode chat, "Approve & proceed").
 This design is generated, not approved: owner review is the next gate. It covers
 only the demonstrated Attempt-2 slice: `solution_unlock.status = proceed`,
@@ -501,8 +504,10 @@ pub enum J {
     Obj(Vec<(String, J)>),
 }
 pub fn sha256_hex(bytes: &[u8]) -> String;
-pub fn render_json(value: &J) -> String;
 pub fn write_receipt(path: &Path, value: &J) -> std::io::Result<()>;
+// private helpers moved verbatim from admission.rs, never re-exported:
+//   fn write_json_str(s: &str, out: &mut String)  — string escaper
+//   fn write_value(value: &J, depth: usize, out: &mut String)  — J renderer
 ```
 - Preconditions: `value` is a constructed `J` tree; `path` has a `.json`
   filename.
@@ -864,9 +869,9 @@ Ceilings are canonical maintained lines under the frozen method (`rustfmt` for
 Rust; `ruff==0.17.3 format --line-length 100` for Python):
 
 - **Deconvolution replacement apparatus stratum (`C_app`, ceiling ≤ 1,364)**:
-  - `native/src/admission.rs` + `native/src/receipt.rs`: combined ≤ 425
+  - `native/src/admission.rs` + `native/src/receipt.rs`: combined ≤ 430
     canonical lines (`admission.rs` ≤ 280, `receipt.rs` ≤ 150; split from the
-    415-line Attempt-2 `admission.rs`).
+    415-line Attempt-2 `admission.rs`; 280 + 150 = 430).
   - Registration hooks on `C_app`: `lib.rs` +2 lines (the existing Attempt-2
     `pub mod admission;` plus the new `pub mod receipt;`), `main.rs` +15 lines
     (existing Attempt-2 `Admission` arm, unchanged).

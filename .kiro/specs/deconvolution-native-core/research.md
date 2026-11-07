@@ -95,6 +95,30 @@ blob-hash provenance; only physical line totals (measured) remain in the
 design. The earlier "GO" for that amendment was an inline self-review, not an
 independent one.
 
+### Consistency repair (2026-11-07, after grounded fusion review)
+
+Owner approved the fusion consistency map ("approved, please make the changes
+before starting the implementation"). Applied: design amendments A1
+(admission+receipt combined ceiling 425 → 430, matching the operative per-file
+caps 280+150) and A2 (receipt.rs public surface is exactly `J`, `sha256_hex`,
+`write_receipt`; `write_json_str` (`&str` escaper) and `write_value` (`J`
+renderer) stay private; design's `render_json` never existed in `admission.rs`
+— grep-verified). Task repairs R1–R10: logical units = item declarations +
+`syn::Stmt` (control-flow counting removed); BudgetsReceipt fields per design
+schema incl. exit 3; `Obj(Vec<(String, J)>)`; re-export set restricted to
+`{J, sha256_hex, write_receipt}`; `--require-sidecar`/exit-2 deleted from T2.2
+(absent in design and code); required `--root` added to the T2.2 admission
+command; T3.1 phantom symbols (`sha256_lf`, `canon_bytes`, `run_dir`,
+`e3_Turn`, `e4_Turn`, `timeout=180`) replaced with the real contracts; T3.1
+import list corrected to the file's actual imports; T3.2 metric names aligned
+to `e3_with_replay_share`/`e4_with_replay_share`. Fusion provenance: panels
+ses_e49b29cfaffeBi1J2iTx0Dw7RY (mistral-large-latest) /
+ses_e49b29cf9ffe8xzvvJWuNnZftg (zai-glm-5-3#max), arbiter
+ses_e49b02b14ffeM8kqbO30QEyur (mistral-large-2512) with three coordinator
+overrides (inverted `--require-sidecar` fix, "no action" dispositions, model
+identities). The optional F9 future-language note was NOT applied (owner
+choice left open). No code or frozen evidence touched.
+
 ## Amendment 2: library and complexity audit (2026-11-07)
 Empirical baseline audit (`ruff==0.17.3 format --line-length 100`) and inspection of
 `native/Cargo.lock` and `native/src/` revised the reuse map and complexity estimates:
