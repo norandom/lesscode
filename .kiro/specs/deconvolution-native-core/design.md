@@ -887,8 +887,12 @@ Rust; `ruff==0.17.3 format --line-length 100` for Python):
     200).
 - **Size-governance checker stratum (6.3 / 6.4, accounted separately from
   `C_app`)**:
-  - `native/src/budgets.rs`: ≤ 260 canonical lines (≤ 300 logical units, ≤ 80
-    lines/fn).
+  - `native/src/budgets.rs`: ≤ 330 canonical lines (≤ 300 logical units, ≤ 80
+    lines/fn). Owner decision 2026-11-07 (opencode chat): the original ≤ 260
+    was an unmeasured estimate; the measured structural floor with the frozen
+    receipt schema and cfg(test)-aware visitor is 324 (rustfmt canonical), so
+    the ceiling is set to the measured value + 6, per the measured-freeze rule
+    (907ea90 precedent: unmeasured estimates yield to measured values).
   - `native/src/lib.rs`: +1 registration line (`pub mod budgets;`).
   - `native/src/main.rs`: ≤ +25 lines for the `Budgets` subcommand arm.
   - `native/Cargo.toml`: +2 dependency lines (`syn`, `proc-macro2`).
@@ -942,7 +946,7 @@ empirically, once, as follows:
 | `main.rs` | 239 | `capability-compression-core` (shared CLI entrypoint) | ≤ +25 lines (`Budgets` CLI arm) | Expected within defaults (`disposition: null`); if the Task 1 baseline exceeds a default, that measured value is frozen and the `Budgets` arm must not raise `longest_fn_lines` above 80 |
 | `admission.rs` | 415 (no `#[cfg(test)]`) | `deconvolution-native-core` | Split writer to `receipt.rs` | Task 1 transitional disposition = Task 1 measured baseline (exceeds the 400-line default); removed in Task 2 so defaults apply with `disposition: null` |
 | `receipt.rs` | — (created in Task 2, ≤ 150) | `deconvolution-native-core` | Split from `admission.rs` | None; must meet defaults |
-| `budgets.rs` | — (created in Task 1, ≤ 260) | `deconvolution-native-core` | ≤ 260 lines | None; must meet defaults (the checker measures itself) |
+| `budgets.rs` | — (created in Task 1, ≤ 330) | `deconvolution-native-core` | ≤ 330 lines | None; must meet defaults (the checker measures itself) |
 
 ## Migration Strategy
 

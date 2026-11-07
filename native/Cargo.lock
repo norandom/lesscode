@@ -380,9 +380,11 @@ dependencies = [
  "ast-grep-core",
  "ast-grep-language",
  "clap",
+ "proc-macro2",
  "serde",
  "serde_json",
  "sha2",
+ "syn 2.0.119",
 ]
 
 [[package]]

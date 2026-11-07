@@ -6,6 +6,7 @@ pub use ast_grep_core::AstGrep;
 pub use ast_grep_language::{Python, Tsx, TypeScript};
 
 pub mod admission;
+pub mod budgets;
 pub mod compare;
 pub mod metrics;
 pub mod model;
