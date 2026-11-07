@@ -1,0 +1,74 @@
+{
+ "files": [
+  {
+   "path": "admission.rs",
+   "max_physical_lines": 415,
+   "max_logical_units": 144,
+   "max_fn_lines": 81,
+   "owner": "capability-compression-core",
+   "allocation": "attempt-2 measured baseline (R31; results/s10-u5-measurement-2.json)",
+   "disposition": "keep-measured-ceiling; transitional: task 2 splits into admission <= 280 + receipt <= 150 combined <= 430; blob c10f6ab1b819949b1b5ec323fbdd45578b7bdb93"
+  },
+  {
+   "path": "budgets.rs",
+   "max_physical_lines": 330,
+   "owner": "deconvolution-native-core",
+   "allocation": "rust-syntax-units-v1 checker; owner-amended ceiling 2026-11-07 (research.md)",
+   "disposition": null
+  },
+  {
+   "path": "compare.rs",
+   "max_physical_lines": 805,
+   "max_logical_units": 230,
+   "max_fn_lines": 253,
+   "owner": "capability-compression-core",
+   "allocation": "brownfield baseline (cfg(test) separated)",
+   "disposition": "keep-measured-ceiling; brownfield freeze; blob d43192b09fed53994188eea6b963d1039c095059"
+  },
+  {
+   "path": "lib.rs",
+   "max_physical_lines": 587,
+   "max_logical_units": 179,
+   "max_fn_lines": 302,
+   "owner": "capability-compression-core",
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (task 2)",
+   "disposition": "keep-measured-ceiling; +2 registration-only allowance, zero domain logic (U7 rule 2); blob 5b5003445f2ea3b67dfea07dafe8ee9dd3aa2884"
+  },
+  {
+   "path": "main.rs",
+   "max_physical_lines": 251,
+   "max_logical_units": 82,
+   "max_fn_lines": 63,
+   "owner": "capability-compression-core",
+   "allocation": "Budgets subcommand arm complete (+12 of the +25 design allowance)",
+   "disposition": "keep-measured-ceiling; blob 4e41a2aeb11a9228629d2722fabb7f1227f21894"
+  },
+  {
+   "path": "metrics.rs",
+   "max_physical_lines": 886,
+   "max_logical_units": 286,
+   "max_fn_lines": 220,
+   "owner": "capability-compression-core",
+   "allocation": "brownfield baseline (cfg(test) separated)",
+   "disposition": "keep-measured-ceiling; brownfield freeze; blob f28cb0dacabe3191e8024a32f5d44c6cb1ae77a4"
+  },
+  {
+   "path": "model.rs",
+   "max_physical_lines": 331,
+   "max_logical_units": 73,
+   "max_fn_lines": 24,
+   "owner": "capability-compression-core",
+   "allocation": "brownfield baseline (cfg(test) separated)",
+   "disposition": "keep-measured-ceiling; brownfield freeze; blob 04a3fd67d33b2e67678c04990b4f16611d0acfc9"
+  },
+  {
+   "path": "scope.rs",
+   "max_physical_lines": 863,
+   "max_logical_units": 300,
+   "max_fn_lines": 265,
+   "owner": "capability-compression-core",
+   "allocation": "brownfield baseline (cfg(test) separated)",
+   "disposition": "keep-measured-ceiling; brownfield freeze; blob 295533fe3c89b27d8099d3072f1907224a762109"
+  }
+ ]
+}

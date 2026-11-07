@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use lesscode_core::{admission, compare::render_comparison, model::*};
+use lesscode_core::{admission, budgets, compare::render_comparison, model::*};
 use serde::de::DeserializeOwned;
 use std::{
     fs,
@@ -53,6 +53,15 @@ enum Command {
         root: PathBuf,
         #[arg(long)]
         bindings: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    /// Verify native size budgets; write a budgets receipt.
+    Budgets {
+        #[arg(long)]
+        config: PathBuf,
+        #[arg(long)]
+        root: PathBuf,
         #[arg(long)]
         out: PathBuf,
     },
@@ -218,6 +227,9 @@ fn run(args: Args) -> Result<u8, String> {
             bindings,
             out,
         } => admission::cli_run(&root, &bindings, &out).map_err(|e| e.to_string()),
+        Command::Budgets { config, root, out } => {
+            budgets::cli_run(&root, &config, &out).map_err(|e| e.to_string())
+        }
     }
 }
 fn main() -> ExitCode {
