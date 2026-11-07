@@ -98,13 +98,13 @@ independent one.
 ### Budgets ceiling amendment (2026-11-07, Task 1.1)
 
 Owner decision (opencode chat, "Amend to ≤330"): the budgets.rs allocation ≤260
-was an unmeasured estimate. The implemented checker (frozen 15-field receipt
-schema, 7-field deny-unknown-fields config, cfg(test)-aware visitor) measures
-324 canonical rustfmt lines with all Task-1.1 checks green (fmt/clippy
-`-D warnings`/nextest 116-116 incl. 10 budgets fixtures). Ceiling amended to
-**≤330** in design.md per the measured-freeze rule (907ea90 precedent);
-recorded before the Task 1.1 commit so the checker's self-run never measures
-against a stale target.
+was an unmeasured estimate. Correction recorded the same day: the "measured
+324" first reported was a PowerShell `Measure-Object -Line` non-blank count —
+the checker itself (the metric authority) measured **354** total lines at
+commit 0c3073b. The file was then trimmed to exactly **330** (schema intact:
+15-field receipt, deny-unknown-fields config, cfg(test)-aware visitor) with
+all checks green (fmt/clippy `-D warnings`/nextest 116-116). Ceiling stands at
+**≤330** per the owner decision; measured-freeze rule (907ea90) applies.
 
 ### Consistency repair (2026-11-07, after grounded fusion review)
 

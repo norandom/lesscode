@@ -1,23 +1,19 @@
 //! Size governance for the native sources: the `rust-syntax-units-v1` metric.
 //!
 //! Enforces the ceilings frozen in `complexity-budgets.json` (design.md,
-//! Production Size Governance): a `.rs` file under `root` absent from the
-//! config fails the run (`unlisted`); brownfield files keep their measured
-//! baseline ceiling via a recorded `disposition` and report `disposed`.
+//! Production Size Governance); see the design for the metric defaults
+//! (400 physical / 300 logical units / 80 lines per function).
 
-use std::fs;
-use std::path::{Path, PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 use serde::Deserialize;
 use syn::spanned::Spanned;
 use syn::visit::Visit;
 
 use crate::admission::{write_receipt, J};
-
-pub const SCHEMA: &str = "rust-syntax-units-v1";
-pub const DEFAULT_MAX_PHYSICAL_LINES: usize = 400;
-pub const DEFAULT_MAX_LOGICAL_UNITS: usize = 300;
-pub const DEFAULT_MAX_FN_LINES: usize = 80;
 
 /// One governed file; omitted ceilings fall back to the metric defaults.
 #[derive(Deserialize)]
@@ -176,18 +172,14 @@ impl<'ast> Visit<'ast> for Counter {
     }
 }
 
-fn limits(b: &FileBudget) -> [usize; 3] {
-    [
-        b.max_physical_lines.unwrap_or(DEFAULT_MAX_PHYSICAL_LINES),
-        b.max_logical_units.unwrap_or(DEFAULT_MAX_LOGICAL_UNITS),
-        b.max_fn_lines.unwrap_or(DEFAULT_MAX_FN_LINES),
-    ]
-}
-
 fn new_report(b: &FileBudget) -> FileReport {
     FileReport {
         path: b.path.clone(),
-        limit: limits(b),
+        limit: [
+            b.max_physical_lines.unwrap_or(400),
+            b.max_logical_units.unwrap_or(300),
+            b.max_fn_lines.unwrap_or(80),
+        ],
         owner: b.owner.clone(),
         allocation: b.allocation.clone(),
         disposition: b.disposition.clone(),
@@ -223,12 +215,9 @@ fn discover_rs(root: &Path) -> Result<Vec<PathBuf>, String> {
     let mut found = Vec::new();
     let mut stack = vec![root.to_path_buf()];
     while let Some(dir) = stack.pop() {
-        for entry in
-            fs::read_dir(&dir).map_err(|e| format!("cannot list {}: {e}", dir.display()))?
-        {
-            let path = entry
-                .map_err(|e| format!("cannot list {}: {e}", dir.display()))?
-                .path();
+        let list_err = |e| format!("cannot list {}: {e}", dir.display());
+        for entry in fs::read_dir(&dir).map_err(list_err)? {
+            let path = entry.map_err(list_err)?.path();
             if path.is_dir() {
                 stack.push(path);
             } else if path.extension().is_some_and(|e| e == "rs") {
@@ -240,26 +229,22 @@ fn discover_rs(root: &Path) -> Result<Vec<PathBuf>, String> {
     Ok(found)
 }
 
-/// Exit 1 on any exceeded, unlisted or missing file.
-pub struct CheckResult {
-    pub reports: Vec<FileReport>,
-    pub unlisted: Vec<String>,
-    pub exit_code: u8,
-}
-
-pub fn check(root: &Path, config: &BudgetsConfig) -> Result<CheckResult, String> {
+/// Returns per-file reports, unlisted paths and the exit code (1 on any
+/// exceeded, unlisted or missing file).
+pub fn check(
+    root: &Path,
+    config: &BudgetsConfig,
+) -> Result<(Vec<FileReport>, Vec<String>, u8), String> {
     let listed: Vec<String> = config.files.iter().map(|f| f.path.clone()).collect();
-    let mut unlisted = Vec::new();
-    for path in discover_rs(root)? {
-        let rel = path
-            .strip_prefix(root)
-            .map_err(|e| format!("{} escapes {}: {e}", path.display(), root.display()))?
-            .to_string_lossy()
-            .replace('\\', "/");
-        if !listed.contains(&rel) {
-            unlisted.push(rel);
-        }
-    }
+    let unlisted: Vec<String> = discover_rs(root)?
+        .iter()
+        .filter_map(|p| {
+            p.strip_prefix(root)
+                .ok()
+                .map(|r| r.to_string_lossy().replace('\\', "/"))
+        })
+        .filter(|rel| !listed.contains(rel))
+        .collect();
     let mut reports = Vec::new();
     for b in &config.files {
         let path = root.join(b.path.replace('\\', "/"));
@@ -273,17 +258,12 @@ pub fn check(root: &Path, config: &BudgetsConfig) -> Result<CheckResult, String>
         || reports
             .iter()
             .any(|r| matches!(r.status(), "exceeded" | "missing"));
-    Ok(CheckResult {
-        reports,
-        unlisted,
-        exit_code: u8::from(failed),
-    })
+    Ok((reports, unlisted, u8::from(failed)))
 }
 
 fn n(v: usize) -> J {
     J::int(v as i64)
 }
-
 fn file_j(r: &FileReport) -> J {
     J::obj(vec![
         ("path", J::str(r.path.clone())),
@@ -307,34 +287,30 @@ fn file_j(r: &FileReport) -> J {
     ])
 }
 
-fn count<'a>(reports: impl Iterator<Item = &'a FileReport>, status: &str) -> J {
-    n(reports.filter(|r| r.status() == status).count())
-}
-
-fn receipt(root: &Path, config: &Path, result: &CheckResult) -> J {
-    let reports = result.reports.iter();
+fn receipt(root: &Path, config: &Path, reports: &[FileReport], unlisted: &[String]) -> J {
+    let s = |status: &str| n(reports.iter().filter(|r| r.status() == status).count());
     J::obj(vec![
         ("receipt", J::str("budgets")),
-        ("schema", J::str(SCHEMA)),
+        ("schema", J::str("rust-syntax-units-v1")),
         ("root", J::str(root.to_string_lossy().replace('\\', "/"))),
         (
             "config",
             J::str(config.to_string_lossy().replace('\\', "/")),
         ),
-        ("files", J::Arr(result.reports.iter().map(file_j).collect())),
+        ("files", J::Arr(reports.iter().map(file_j).collect())),
         (
             "unlisted",
-            J::Arr(result.unlisted.iter().map(|p| J::str(p.clone())).collect()),
+            J::Arr(unlisted.iter().map(|p| J::str(p.clone())).collect()),
         ),
         (
             "summary",
             J::obj(vec![
-                ("total", n(result.reports.len() + result.unlisted.len())),
-                ("within_budget", count(reports.clone(), "within_budget")),
-                ("disposed", count(reports.clone(), "disposed")),
-                ("exceeded", count(reports.clone(), "exceeded")),
-                ("unlisted", n(result.unlisted.len())),
-                ("missing", count(reports, "missing")),
+                ("total", n(reports.len() + unlisted.len())),
+                ("within_budget", s("within_budget")),
+                ("disposed", s("disposed")),
+                ("exceeded", s("exceeded")),
+                ("unlisted", n(unlisted.len())),
+                ("missing", s("missing")),
             ]),
         ),
     ])
@@ -347,8 +323,8 @@ pub fn cli_run(root: &Path, config: &Path, out: &Path) -> Result<u8, String> {
         fs::read_to_string(config).map_err(|e| format!("cannot read {}: {e}", config.display()))?;
     let parsed: BudgetsConfig = serde_json::from_str(&text)
         .map_err(|e| format!("invalid budgets config in {}: {e}", config.display()))?;
-    let result = check(root, &parsed)?;
-    write_receipt(out, &receipt(root, config, &result))
+    let (reports, unlisted, code) = check(root, &parsed)?;
+    write_receipt(out, &receipt(root, config, &reports, &unlisted))
         .map_err(|e| format!("cannot write {}: {e}", out.display()))?;
-    Ok(result.exit_code)
+    Ok(code)
 }

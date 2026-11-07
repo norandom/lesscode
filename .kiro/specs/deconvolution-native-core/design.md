@@ -889,10 +889,12 @@ Rust; `ruff==0.17.3 format --line-length 100` for Python):
   `C_app`)**:
   - `native/src/budgets.rs`: ≤ 330 canonical lines (≤ 300 logical units, ≤ 80
     lines/fn). Owner decision 2026-11-07 (opencode chat): the original ≤ 260
-    was an unmeasured estimate; the measured structural floor with the frozen
-    receipt schema and cfg(test)-aware visitor is 324 (rustfmt canonical), so
-    the ceiling is set to the measured value + 6, per the measured-freeze rule
-    (907ea90 precedent: unmeasured estimates yield to measured values).
+    was an unmeasured estimate; the ceiling is set to 330. Measurement note:
+    the initially reported "measured floor 324" was a PowerShell non-blank
+    line count; the checker (the metric authority) measured 354 total lines,
+    and the file was trimmed to exactly 330 in the same task series (commit
+    history preserves both values). Per the measured-freeze rule (907ea90
+    precedent: unmeasured estimates yield to measured values).
   - `native/src/lib.rs`: +1 registration line (`pub mod budgets;`).
   - `native/src/main.rs`: ≤ +25 lines for the `Budgets` subcommand arm.
   - `native/Cargo.toml`: +2 dependency lines (`syn`, `proc-macro2`).
