@@ -2,12 +2,12 @@
  "files": [
   {
    "path": "admission.rs",
-   "max_physical_lines": 415,
-   "max_logical_units": 144,
+   "max_physical_lines": 272,
+   "max_logical_units": 72,
    "max_fn_lines": 81,
    "owner": "capability-compression-core",
-   "allocation": "attempt-2 measured baseline (R31; results/s10-u5-measurement-2.json)",
-   "disposition": "keep-measured-ceiling; transitional: task 2 splits into admission <= 280 + receipt <= 150 combined <= 430; blob c10f6ab1b819949b1b5ec323fbdd45578b7bdb93"
+   "allocation": "attempt-2 measured baseline (R31); task-2 split: receipt writer extracted to receipt.rs",
+   "disposition": "keep-measured-ceiling; task-2 split complete; blob e7ea66c7db4f4f16d9cbfabea1cc9a19ea130211"
   },
   {
    "path": "budgets.rs",
@@ -60,6 +60,13 @@
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob 04a3fd67d33b2e67678c04990b4f16611d0acfc9"
+  },
+  {
+   "path": "receipt.rs",
+   "max_physical_lines": 150,
+   "owner": "deconvolution-native-core",
+   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430",
+   "disposition": null
   },
   {
    "path": "scope.rs",

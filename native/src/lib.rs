@@ -10,6 +10,7 @@ pub mod budgets;
 pub mod compare;
 pub mod metrics;
 pub mod model;
+pub mod receipt;
 pub mod scope;
 
 use model::*;

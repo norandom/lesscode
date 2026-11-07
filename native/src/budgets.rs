@@ -13,7 +13,7 @@ use serde::Deserialize;
 use syn::spanned::Spanned;
 use syn::visit::Visit;
 
-use crate::admission::{write_receipt, J};
+use crate::receipt::{write_receipt, J};
 
 /// One governed file; omitted ceilings fall back to the metric defaults.
 #[derive(Deserialize)]
