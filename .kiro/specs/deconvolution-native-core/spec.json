@@ -1,7 +1,7 @@
 {
   "feature_name": "deconvolution-native-core",
   "created_at": "2026-11-06T19:30:00+01:00",
-  "updated_at": "2026-11-07T11:30:00+00:00",
+  "updated_at": "2026-11-07T12:05:00+00:00",
   "language": "en",
   "phase": "requirements-generated",
   "approvals": {
@@ -20,10 +20,10 @@
   },
   "ready_for_implementation": false,
   "notes": "Owner-requested solution-first spec amendment 2026-11-07, updated with empirical baseline complexity audit (3,963 canonical lines across 14 files; 3-stratum U5 accounting; U7 brownfield entrypoint/verbatim-extraction rules) and Rust crate validation (existing Cargo.lock pins kept; serde_jcs/fs4/quick-junit/gix/pg_query dropped; syn/toml_edit/windows-sys/ruff_python_parser/rusqlite/oxc/junit-parser recorded). 2026-11-07: owner approved prototype execution; frozen plan in prototype-plan.md (S2/S9/S10 under U1-U7). S2 executed 2026-11-07 (R28): admission + digest parity proven; U7 overrun 774>600 recorded, S10 paused for owner revision, S9 allowed. No production design/tasks/code authorized.",
-  "descope_decision": "Owner decision 2026-11-07 (opencode chat, after R30 verdict revise): bounded descope — attempt 2 drops the Rust digest module from the measured stratum (Python owns digests; Rust keeps sidecar admission ~310 lines) toward C_app ~1,072 <= 1,364; re-measure, re-run U1-U7, then evidence review. Preregistered in prototype-plan.md section 9 (Amendment 2) + R31 before any code change; no targets lowered; attempt-1 failure retained; production stays locked.",
+  "descope_decision": "Owner decision 2026-11-07 (opencode chat, after R30 verdict revise): bounded descope — attempt 2 drops the Rust digest module from the measured stratum (Python owns digests; Rust keeps sidecar admission ~310 lines) toward C_app ~1,072 <= 1,364; re-measure, re-run U1-U7, then evidence review. Preregistered in prototype-plan.md section 9 (Amendment 2) + R31 before any code change; no targets lowered; attempt-1 failure retained; production stays locked. Executed 2026-11-07: U1-U7 pass on attempt 2 (C_app 1,193; admission grew to 415 after self-containment since it had imported pyjson); verdict proceed with inline evidence review approved (results/s10-evidence-review-2.json); production still locked behind normal owner phase approvals.",
   "solution_unlock": {
-    "status": "revise",
-    "evidence_review": "not-reviewed",
+    "status": "proceed",
+    "evidence_review": "approved",
     "gate": "prototype-gate.md",
     "proposal": "slice-proposal.md",
     "approved_plan": "prototype-plan.md",
@@ -45,7 +45,9 @@
       "2026-11-07 owner ratification (opencode chat): S10 executes under contract B + the four R26 changes + R25 rules as written (see R29 amendment 1, handover OP-2)",
       "R30 (docs/research/2026-11-07/04-s10-shared-core.md): S10 complete. U1-U4/U6 pass (double-record byte-identical both scopes incl. frozen identities 92a48f77/0b2e383d; candidate arms accepted as preregistered; 9/9 adverse controls fail closed; final core frozen and re-proven). U5/U7 FAIL: C_app 1,808 > 1,364, saved -103, U7 1,808 > 1,400 (receipt results/s10-u5-measurement.json). Verdict revise; owner decision pending; evidence review not-reviewed",
       "2026-11-07 owner descope decision (opencode chat): bounded descope recorded in R30 amd 3 chosen — drop the Rust digest module from the measured stratum (Python owns digests; Rust keeps sidecar admission ~310) toward C_app ~1,072 <= 1,364; re-measure, re-run U1-U7, evidence review; no targets lowered",
-      "R31 (docs/research/2026-11-07/05-descoped-stratum-rerun.md): attempt-2 preregistration committed before any code change — descoped inventory (Python engine 762 + Rust admission ~305 + hooks), preregistered deletions (native/src/{pyjson,turncheck}.rs, bin/turncheck.rs, tests/{pyjson_parity,turncheck}.rs, [[bin]] entry, registrations), replay obligations both scopes with frozen identities, U7 attempt-2 ledger (ceiling 1,400 unchanged, attempt 2 of 2); execution pending"
+      "R31 (docs/research/2026-11-07/05-descoped-stratum-rerun.md): attempt-2 preregistration committed before any code change — descoped inventory (Python engine 762 + Rust admission ~305 + hooks), preregistered deletions (native/src/{pyjson,turncheck}.rs, bin/turncheck.rs, tests/{pyjson_parity,turncheck}.rs, [[bin]] entry, registrations), replay obligations both scopes with frozen identities, U7 attempt-2 ledger (ceiling 1,400 unchanged, attempt 2 of 2); execution pending",
+      "R31 amendment 1 (attempt-2 execution, commits abb71c3/8537c8e): E3 double-record 92a48f77x2 (51 seq/290 ops) + E1b/E1c/E1c-2 goldens zero divergence; E4 double-record 0b2e383d x2 at exactly 5,479,067 bytes + golden-a zero divergence; E3 cand + E4 cand-turn3 accepted as preregistered (level2_ops=0, exit 0); controls 9/9 fail closed incl. missing-artifact via the descoped admission binary (results/s10-controls-2.json); measurement results/s10-u5-measurement-2.json: C_app=1,193 (py 762 + admission 415 + hooks 16 by git diff vs 103e1aa) <= 1,364 ratio 0.6997, saved 512 >= 200, C_total 2,691 <= 3,003, e3 173.5 < 280, e4 216.5 < 358, like-for-like saved 272 >= 200; U7 1,193 <= 1,400 (attempt-1 1,808 retained, nothing refunded); U1-U7 all PASS on attempt 2; run receipts results/s10-attempt2-runs.json",
+      "Evidence review (results/s10-evidence-review-2.json): approved (inline, identified as such per the 2026-11-07 no-subagent rule) — 11 checks pass (identity-vs-committed-sidecars re-read at review time, preregistration provenance b9c0cd0 < abb71c3 < 8537c8e, no target lowered, attempt-1 retention, U7/U5 arithmetic, controls exercise descoped code, admission continuity 21/11/5/1/4, shared core untouched, U6 pass-with-caveat); residual risks recorded (inline reviewer not independent in fact; U6 turn evidence is attempt-1, re-derivable from f6bb6e2; production still locked behind normal phase approvals)"
     ],
     "frozen_identities": {}
   }

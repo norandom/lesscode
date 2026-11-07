@@ -1,0 +1,25 @@
+{
+ "receipt": "s10-evidence-review-2",
+ "reviewed_at": "2026-11-07",
+ "reviewer": "inline (opencode session, same agent as execution; identified as inline per the 2026-11-07 no-subagent owner rule)",
+ "scope": "attempt-2 evidence for the descoped replacement stratum (R31, plan section 9): U1-U7 claims, receipts, measurements, provenance",
+ "checks": [
+  {"check": "frozen-identity-vs-committed-sidecars", "result": "pass", "evidence": "E3 attempt-2 LF-body 92a48f77... equals golden-trace.json stored-bytes sha256 in the committed sidecar; E4 attempt-2 LF-body 0b2e383d... 5,479,067 bytes equals the declared lf-body line in the committed golden-e4.json.sha256 (both re-read at review time, not trusted from run logs)"},
+  {"check": "preregistration-provenance", "result": "pass", "evidence": "amendment 2 + R31 committed (b9c0cd0) BEFORE the code change (abb71c3) and before any attempt-2 measurement (8537c8e); preregistered inventory matches what was measured"},
+  {"check": "no-target-lowered", "result": "pass", "evidence": "plan section 4 table and U7 ceiling 1,400 untouched; amendment 2 only added section 9; descope shrank the claimed stratum, not the targets"},
+  {"check": "attempt-1-retention", "result": "pass", "evidence": "R30 amd 3 failure and the 1,808 attempt-1 charge retained verbatim; s10-u5-measurement-2.json records attempt_1_charged_retained=1808; deleted Rust modules refund nothing"},
+  {"check": "u7-ledger-honesty", "result": "pass", "evidence": "admission charged at its largest attempt-2 size (415, after self-containment) rather than the smaller preregistration estimate; hooks derived by live git diff vs 103e1aa, not hardcoded; no deletion-and-re-addition within attempt 2"},
+  {"check": "u5-arithmetic", "result": "pass", "evidence": "1,193 <= 1,364 (ratio 0.6997 <= 0.80); saved 512 >= 200; C_total 2,691 <= 3,003; e3 173.5 < 280; e4 216.5 < 358; like-for-like sensitivity 272 >= 200 recorded alongside"},
+  {"check": "controls-exercise-descoped-code", "result": "pass", "evidence": "missing-artifact-refused ran the descoped lesscode-core admission binary; planted-L1 used the attempt-2 recording; 9/9 fail closed (s10-controls-2.json)"},
+  {"check": "admission-behavior-continuity", "result": "pass", "evidence": "frozen s2-bindings.json smoke reproduces the R28 recorded summary exactly (21/11/5/1/4, exit 1)"},
+  {"check": "shared-core-untouched", "result": "pass", "evidence": "attempt 2 changed Rust only (abb71c3 diff); the Python engine files are byte-identical to the attempt-1 frozen core; both scopes re-produce the frozen identities through it"},
+  {"check": "u6-identification", "result": "pass-with-caveat", "evidence": "turn-level evidence is cited from attempt-1 receipts (R30 amd 2, nextest 23b9da3e) and identified as such; the tool that produced it is deleted from the tree but re-derivable from commit f6bb6e2; the pure-turn baseline subset is excluded from the claim and declared in plan section 9 and the receipts"},
+  {"check": "verdict-semantics", "result": "pass", "evidence": "all U1-U7 pass on one frozen attempt (attempt 2 of 2) with available durable artifacts; gate permits proceed with approved review"}
+ ],
+ "residual_risks": [
+  "the review is inline by the same agent that executed the work, not independent in fact; the owner may commission a truly independent review before treating the unlock as final",
+  "U6 turn-level checks were not re-executed in attempt 2 (tool deleted per the owner descope); the recorded evidence is attempt-1 and re-derivable from f6bb6e2",
+  "production remains locked: requirements/design/tasks are unapproved; proceed only makes the demonstrated slice eligible to seek normal production design approval"
+ ],
+ "verdict": "approved (inline)"
+}

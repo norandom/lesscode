@@ -1,20 +1,23 @@
 # Research log
 
-## Latest: owner descope decision — attempt 2 preregistered (2026-11-07)
-Owner decision after the R30 revise verdict: bounded descope — drop the Rust
-digest module from the measured stratum (Python owns digests; Rust keeps
-sidecar admission ~310) → C_app ≈ 1,072 ≤ 1,364, saving ≈ 633.
-[R31](2026-11-07/05-descoped-stratum-rerun.md) preregisters attempt 2 of 2
-(descoped inventory, deletions, replay obligations for both scopes, U7
-attempt-2 ledger; no targets lowered) before any code change; plan Amendment 2
-recorded in prototype-plan.md §9. Execution pending; evidence review after the
-U1–U7 re-run. Earlier: [R30](2026-11-07/04-s10-shared-core.md) proved the
-reuse mechanically (byte-identical E3 `92a48f77…` / E4 `0b2e383d…`
-double-records, zero-divergence replays, preregistered candidate acceptances,
-9/9 controls) while U5/U7 failed as frozen (C_app 1,808 vs 1,364); S9 in
+## Latest: attempt-2 descope passes the full gate — verdict proceed (2026-11-07)
+Owner descope decision executed as attempt 2 of 2, preregistered before any code
+change ([R31](2026-11-07/05-descoped-stratum-rerun.md), plan §9): the Rust digest
+twin left the prototype (Rust keeps self-contained sidecar admission), Python owns
+digests. Both scopes re-produce the frozen identities byte-identically (E3
+`92a48f77…` ×2 + three goldens zero divergence; E4 `0b2e383d…` ×2 at exactly
+5,479,067 bytes + golden-a zero divergence), both candidates accepted as
+preregistered (level2_ops=0), 9/9 controls fail closed, and every frozen target
+passes: **C_app = 1,193 ≤ 1,364 (ratio 0.6997), saved 512 ≥ 200, C_total 2,691 ≤
+3,003, per-scope smaller, U7 1,193 ≤ 1,400** (attempt-1's 1,808 retained; like-
+for-like sensitivity 272 ≥ 200). Evidence review approved inline with recorded
+residual risks (`results/s10-evidence-review-2.json`); **gate verdict proceed** —
+only the demonstrated slice may seek normal production design approval, which
+stays owner-gated. Attempt-1 history: [R30](2026-11-07/04-s10-shared-core.md)
+(reuse proven mechanically, U5/U7 failed as frozen, C_app 1,808); S9 in
 [R29](2026-11-07/03-s9-surface-contracts.md) (contract B ratified); S2 in
-[R28](2026-11-07/02-s2-artifact-admission-digest-parity.md) (U7 ceiling raised
-to 1,400 by owner mid-run).
+[R28](2026-11-07/02-s2-artifact-admission-digest-parity.md) (admission + Rust
+digest parity, U7 ceiling raised to 1,400 by owner mid-run).
 
 ## Proposal: solution-first native slice (2026-11-07)
 [R27](2026-11-07/01-solution-first-native-slice.md): owner-requested spec amendment,
@@ -100,7 +103,7 @@ remain separate; file modification times are not treated as execution evidence.
 
 | Discussion / record day | Record | Status |
 | --- | --- | --- |
-| 2026-11-07 | [31: Descoped replacement stratum — attempt 2](2026-11-07/05-descoped-stratum-rerun.md) | planned (attempt 2 of 2); owner descope decision after R30 revise: drop Rust digest module from measured stratum (Python owns digests; Rust keeps sidecar admission ~310) → C_app ≈ 1,072 vs ceiling 1,364, saving ≈ 633 (like-for-like ≈ 393, unclaimed ~240 turn subset); deletions preregistered (`pyjson.rs`, `turncheck.rs`, `bin/turncheck.rs`, parity/turn tests); replay obligations both scopes with frozen identities `92a48f77…`/`0b2e383d…`; U7 attempt-2 ledger ceiling 1,400 unchanged; no targets lowered |
+| 2026-11-07 | [31: Descoped replacement stratum — attempt 2](2026-11-07/05-descoped-stratum-rerun.md) | completed, **verdict proceed**: owner descope preregistered then executed (attempt 2 of 2) — Rust digest twin deleted, admission self-contained (415 canonical; it had imported pyjson); both scopes reproduce frozen identities (`92a48f77…`/`0b2e383d…` 5,479,067 bytes), candidates accepted as preregistered, 9/9 controls; C_app 1,193 ≤ 1,364 (0.6997), saved 512 (like-for-like 272), C_total 2,691 ≤ 3,003, U7 1,193 ≤ 1,400 (attempt-1 1,808 retained); U1-U7 pass; inline evidence review approved with residual risks; production still owner-gated |
 | 2026-11-07 | [30: S10 shared core](2026-11-07/04-s10-shared-core.md) | completed with verdict **revise**: shared engine reproduced both frozen recorders byte-identically (E3 `92a48f77…`, E4 `0b2e383d…` 5,479,067 bytes), zero-divergence replays, both candidates accepted as preregistered, 9/9 adverse controls fail-closed, U4 freeze re-proven; U5/U7 FAILED as frozen (C_app 1,808 > 1,364, saved −103, U7 1,808 > 1,400); cost driver the Rust byte-parity core (1,046); owner decision required (descope ~1,072 / stop) |
 | 2026-11-07 | [27: Solution-first native slice](2026-11-07/01-solution-first-native-slice.md) | planned (`solution_unlock=not-run`); spec amendment for U1-U7 before production expansion; Amendment 2 (2026-11-07): read-only canonical baseline audit (`2,222` written -> `3,963` canonical lines across 14 files; `e1b_oracle.py` 406->659, `e4_oracle.py` 534->1,258), 3-stratum `U5` accounting ($B_{\text{app}}, B_{\text{ops}}, B_{\text{seeds}}$), `U7` brownfield/verbatim-extraction rules, and Rust crate audit (`serde_jcs`, `fs4`, `quick-junit`, `gix`, `pg_query` dropped/replaced; `syn`, `toml_edit`, `windows-sys`, `ruff_python_parser`, `rusqlite`, `oxc`, `junit-parser` added) |
 | 2026-11-06 | [26: E4 lifecycle regeneration](2026-11-06/01-e4-lifecycle-regeneration.md) | second scope (seven lifecycle monitor files, 1,495 lines) with the recorded regenerator program; T1 held, accepted at turn 3 (turn 1 spent 128k tokens thinking, turn 2 failed on a surface gap: a name only the recorder imports); T2 failed (1,405 canonical lines against at most 1,345, 6.0% fewer); T3 held (52 functions for 69) and T4 held (63 edges for 89); T5 held (candidate 19/28 = 0.679 in the band 0.60 to 0.75; original 12/29 = 0.414 by its sample's composition, stated in advance; 0.70 unmet on both; M2 to M4 caught on both trees, M1 missed as predicted); T6 held on F1 and F3 from 128 review probes (26 disagreements, F1 to F6), 6.5 void under criterion 4 (the window solver control failed), compare and standing counterexamples kept as evidence (F7); T7 held, zero divergence on 74 held-out sequences (26 of them the acceptance seed sequences replayed again, 47 new; 1 generated sequence duplicates an acceptance one); S held (11 writes in shells, pure 0.519, patch check pass); residue corrected (`lifecycle_root.lifecycle_store` is reached, `bind_lifecycle` unreached and undeclared); missing-test report 28 entries; 771/900 lines; about $6.96 of model time (estimate); owner decision third scope, adopt or stop |
