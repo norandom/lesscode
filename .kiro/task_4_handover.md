@@ -36,9 +36,14 @@ not executed. Stopped per the owner's clear-&-resume rule.
 - 6.2 (live weaker-model run) is owner-go and not started. 7.1 (full verification: `pytest -n 4`, `cargo nextest`, `lesscode-core budgets`, records) pending.
 - Owner WIP (`rules/evaluate.py`, `tests/test_rule_evaluation.py`) untouched, uncommitted, never staged.
 
+## Owner decisions (2026-11-07, before context clear)
+
+- **Language strategy:** the Python modules are **step 1 / prototype stage** — proceed with the approved plan as written (controller in `regenerator.py` per design L148); a native (Rust) port of the loop remains a future stage behind its own gate, consistent with the design's Rust ecosystem table.
+- **Consequence for U5:** run the G1-R driver as designed and record the honest measurement (currently ≈3,783 vs ceiling 2,270 → expect the U5 item to FAIL with negatives retained, Req 7.8). Slice B stays locked until the owner resolves the stratum (slim / amend / accept) — do not weaken the check.
+
 ## Next steps
 
-1. Owner decision on the U5 finding above, then run/finish task 6.1 (driver draft already in the tree).
+1. Execute/finish task 6.1 with the drafted `g1r_spike.py` (uncommitted in the tree; review the draft first — clean-up edits applied but never run).
 2. 6.2 only on explicit owner go (spends model budget).
-3. 7.1 full-suite verification + spec/research record updates (`8.1–8.6`).
+3. 7.1 full-suite verification + spec/research record updates (`8.1–8.6`), including the U5 outcome and the step-1/prototype framing above.
 4. Clear context before the next task group (this handover is the resume point).
