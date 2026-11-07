@@ -112,9 +112,15 @@ Report physical, canonical and separated-form statements together; count
 shared code once on each side; tests/fixtures separate; relocated logic is not
 deletion. These are preregistered targets, not measured results.
 
-## 5. U7 effort budget and attempt rules (frozen)
+## 5. U7 effort budget and attempt rules (frozen; amended 2026-11-07)
 
-- `<= 600` added/modified maintained canonical lines of shared + adapter-wiring
+Amendment 2026-11-07 (owner decision after R28): the cumulative U7 ceiling is raised
+from `<= 600` to `<= 1,400` added/modified maintained canonical lines. Reason: S2
+proved byte-parity requires an order/token-preserving JSON model (774 charged lines
+against the 600 estimate, which assumed a thin `serde_json` formatter). All other
+targets — `<= 2` attempts, strata ceilings, U1-U6 — are unchanged and never lowered.
+
+- `<= 1,400` added/modified maintained canonical lines of shared + adapter-wiring
   code cumulatively across `<= 2` attempts; restarts consume attempts;
   deletions do not refund budget.
 - Charge new/modified shared Rust and Python runner/shim files in full at each

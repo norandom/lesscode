@@ -11,9 +11,9 @@ Updated 2026-11-07 late morning: housekeeping committed and pushed (1d69021 spec
 084b739 handover, 049f6a1 owner rules/steering, 4835b62 spec status, 103e1aa MIT,
 f11179e frozen prototype plan). The owner approved prototype execution; S2 ran (R28):
 artifact admission receipts collected and Rust digest parity with the Python recorders
-proven on the frozen E4 traces. Attempt-1 U7 charge is 774 canonical lines against the
-frozen 600, so S10 is paused for an owner revision decision (raise, descope, stop);
-S9 may proceed without new charged lines. T4 regenerator turn bytes mismatch their
+proven on the frozen E4 traces. Attempt-1 U7 charge is 774 canonical lines; the owner
+raised the U7 ceiling from 600 to 1,400 on 2026-11-07 (all other targets unchanged),
+so S9 and S10 proceed under the amended budget. T4 regenerator turn bytes mismatch their
 committed sidecars and are inadmissible as bound; E4 turns verify.
 
 - Native-core phase: requirements-generated; requirements/design/tasks unapproved.

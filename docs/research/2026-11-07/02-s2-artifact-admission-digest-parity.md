@@ -76,15 +76,22 @@ are reported separately per requirement 6.4 and are not charged to U7.
    "Python-compatible digest emission in Rust" S2 admission prerequisite.
 3. Stop after S9 evidence.
 
+## Amendment 1: U7 revision (owner decision, 2026-11-07)
+The owner raised the U7 cumulative ceiling from 600 to 1,400 canonical lines
+(attempt limit and all other U1-U6 targets unchanged), accepting the recorded
+reason: byte parity requires an order/token-preserving JSON model. S10 may
+proceed after S9 under the amended budget; the U7 ledger continues from 774.
+
 ## Limits and interpretation
 Parity is proven for the Python JSON shapes the apparatus uses (three writer modes and
 their escapes/floats), on the frozen E4 artifacts and generated fixtures; it is not a
 general JSON library claim. Known-scope evidence only.
 
 ## Tool/spec consequence and next gate
-S9 may proceed (existing apparatus, zero new charged lines). S10 implementation stays
-paused until the owner resolves the U7 revision; `spec.json.solution_unlock.status`
-remains `not-run` with U7 forecast failed on attempt 1 unless amended.
+S9 may proceed (existing apparatus, zero new charged lines). Amendment 2026-11-07:
+the owner raised the U7 ceiling to `<=1,400`; S10 proceeds under the amended budget
+with the ledger continuing from 774. `spec.json.solution_unlock.status` remains
+`not-run` until U1-U7 pass with independent evidence review.
 
 ## COBESY check
 Target behavior: agents surface budget overruns immediately with the ledger, instead of

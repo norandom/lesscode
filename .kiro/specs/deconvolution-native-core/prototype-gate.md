@@ -88,7 +88,7 @@ and derived ceilings before execution. Never lower targets post hoc.
 | U4 | E4 uses frozen shared core and descriptor semantics | Shared code frozen after E3; only declared E4 scope support changes; diffs/hashes |
 | U5 | Useful complete replacement | $C_{\text{app}} \le 0.80 \cdot B_{\text{app}}$, $B_{\text{app}} - C_{\text{app}} \ge 200$, $C_{\text{total}} \le B_{\text{total}} - 200$, each scope's support smaller, zero seed/observation loss; 3-stratum physical/separated-form reports |
 | U6 | Compatibility and truthful protection | Existing prepare/compare executable/arguments/results/exits checked; differences/residue faithfully reported; pure turn-input transformation checked for accepted and failed turns against frozen protocol examples, including exact permitted feedback and retained failed attempts |
-| U7 | Bounded effort and reproducible evidence | <=600 added/modified canonical maintained lines of shared + adapter-wiring code cumulatively, <=2 attempts; receipts and independent review |
+| U7 | Bounded effort and reproducible evidence | <=1,400 (amended 2026-11-07 from <=600 by owner decision after R28; all other targets unchanged) added/modified canonical maintained lines of shared + adapter-wiring code cumulatively, <=2 attempts; receipts and independent review |
 
 ## U7 effort-charging rules (fail-closed, no brownfield deadlock)
 1. **New and modified apparatus/wiring files charged in full**: Charge the union of all

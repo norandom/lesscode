@@ -7,8 +7,8 @@ sidecars; the six T4 turn files mismatch/missing (inadmissible as bound). Rust
 `pyjson`/`admission` modules reproduce the Python recorders' byte shapes exactly —
 5.6 MB golden and held-out traces re-emitted byte-identically (nextest 76023a7d, 109/109;
 independent PS + Rust collectors agree on all 21 bindings). U7 charged lines 774 > 600
-frozen before S10; owner revision requested (raise, descope, or stop). S9 may proceed
-(zero new charged lines); S10 paused pending the U7 decision.
+frozen before S10; owner raised the U7 ceiling to 1,400 (2026-11-07, all other targets
+unchanged). S9 next (zero new charged lines); S10 proceeds under the amended budget.
 
 ## Proposal: solution-first native slice (2026-11-07)
 [R27](2026-11-07/01-solution-first-native-slice.md): owner-requested spec amendment,
