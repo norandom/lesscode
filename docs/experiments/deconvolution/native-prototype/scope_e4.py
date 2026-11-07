@@ -14,9 +14,9 @@ E1B, E2, E4 = (DC / d for d in ("e1b-facdrone-evidence-publication", "e2-facdron
 RUNS = LESSCODE / ".runs/e4-lifecycle"
 VENV = LESSCODE / ".runs/e2-facdrone/venv/Scripts/python.exe"
 EXTRAS = LESSCODE / ".runs/e1b-facdrone/extras"
-sys.path[:0] = list(map(str, (E1B, E2, E4, HERE, EXTRAS)))
+sys.path[:0] = list(map(str, (E1B, E2, E4, HERE, EXTRAS, LESSCODE / "src")))
 import e4_oracle as O  # noqa: E402
-import proto_core as P  # noqa: E402
+import lesscode_baseline.recording as P  # noqa: E402
 
 MARKS = "not port_baseline and not live_broker"
 PACKAGES = ("research", "reporting", "dash", "kernel", "factor-kit", "factor-comm-term-structure", "factor-short-reversal")

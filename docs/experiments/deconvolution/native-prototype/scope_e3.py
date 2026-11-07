@@ -12,10 +12,10 @@ DC = HERE.parent
 LESSCODE = DC.parents[2]
 E1B, E1C, E1C2 = (DC / d for d in ("e1b-facdrone-evidence-publication", "e1c-concolic-rung", "e1c2-concolic-rerun"))
 E2, E3 = DC / "e2-facdrone-edge-census", DC / "e3-evidence-regeneration"
-sys.path[:0] = list(map(str, (E1B, E1C, E1C2, E2, HERE, LESSCODE / ".runs/e1b-facdrone/extras")))
+sys.path[:0] = list(map(str, (E1B, E1C, E1C2, E2, HERE, LESSCODE / ".runs/e1b-facdrone/extras", LESSCODE / "src")))
 import e1c2_source  # noqa: E402  (registers E1c/E1c-2 operations on the E1b Env, as test_e3_replay did)
 import e1b_oracle as O  # noqa: E402
-import proto_core as P  # noqa: E402
+import lesscode_baseline.recording as P  # noqa: E402
 import run_arm  # noqa: E402  (frozen selection map + R16 baseline + constants)
 import scope  # noqa: E402
 

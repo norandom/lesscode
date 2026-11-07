@@ -13,8 +13,9 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 DC = HERE.parent
 sys.path[:0] = [str(HERE), str(DC / "e1b-facdrone-evidence-publication"), str(DC / "e4-lifecycle"),
-                str(DC / "e2-facdrone-edge-census"), str(DC.parents[2] / ".runs/e1b-facdrone/extras")]
-import proto_core as P  # noqa: E402
+                str(DC / "e2-facdrone-edge-census"), str(DC.parents[2] / ".runs/e1b-facdrone/extras"),
+                str(DC.parents[2] / "src")]
+import lesscode_baseline.recording as P  # noqa: E402
 import scope_e3, scope_e4  # noqa: E402
 
 OUT = HERE / "results" / "s10-controls-2.json"
