@@ -96,3 +96,51 @@ interpretation separated.
 ## Evidence and results
 
 Execution begins 2026-11-07; amendments below with dated results.
+
+## Amendment 1: attempt-2 execution results (2026-11-07, both scopes)
+
+- Descope executed as preregistered (commit `abb71c3`): `admission.rs` self-contained
+  (it had imported `pyjson` — the R30 ~1,072 estimate assumed it stood alone);
+  `pyjson.rs`, `turncheck.rs`, `bin/turncheck.rs`, parity/turn tests and fixtures
+  deleted; `lib.rs`/`Cargo.toml` hooks removed. fmt/clippy/`cargo doc` green;
+  nextest 106/106; `cargo test --doc` ok. Admission smoke on the frozen
+  `s2-bindings.json` reproduces R28 exactly (21 total / 11 verified / 5 mismatch /
+  1 missing / 4 no_bound_sidecar, exit 1 fail-closed).
+- E3 double-record (`.runs/native-prototype/proto2-e3-{a,b}.json`): 51 sequences,
+  290 operations, LF-body `92a48f77f66f2c9d0d0ebaf6e9e4b37f747816d2831dd577b72e183b7bf07671`
+  on both runs = the committed `golden-trace.json` stored-bytes sidecar; the three
+  frozen replay goldens (E1b, E1c, E1c-2) replay with zero divergence.
+- E4 double-record (`.runs/native-prototype/proto2-e4-{a,b}.json`): 50 sequences,
+  317 operations, LF-body `0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584`
+  at exactly 5,479,067 bytes on both runs = the committed `golden-e4.json.sha256`
+  declared LF-body; `golden-a.json` replays with zero divergence.
+- Candidate arms reproduce the preregistered decisions: E3 `cand` ACCEPT
+  (fresh 64/64 sequences, 311 operations, level2_ops=0, exit 0, 462.5 s);
+  E4 `cand-turn3` ACCEPT (fresh 50/50, 317 operations, level2_ops=0, exit 0, 58.1 s).
+- Adverse controls 9/9 fail closed (`results/s10-controls-2.json`), including
+  missing-artifact via the descoped admission binary and planted-L1 detected on
+  the attempt-2 recording.
+- Measurement (`results/s10-u5-measurement-2.json`): C_app = **1,193** = Python 762
+  + Rust 431 (admission 415 + registration hooks 16 by live git diff vs `103e1aa`:
+  lib.rs 1, main.rs 15, Cargo.toml 0). **U5 PASS**: ratio 0.6997 ≤ 0.80,
+  1,193 ≤ 1,364; saved 512 ≥ 200; C_total 2,691 ≤ 3,003; E3 173.5 < 280;
+  E4 216.5 < 358; C_seeds = B_seeds. Like-for-like (B_app − 240 = 1,465):
+  saved 272 ≥ 200, recorded as sensitivity.
+- **U7 attempt-2 ledger**: 1,193 ≤ 1,400; attempt 2 of 2; the attempt-1 charge
+  (1,808) is retained in the receipt and nothing was refunded. The measured 1,193
+  replaces R30's ~1,072 estimate, which had not accounted for admission's pyjson
+  dependency (self-containment grew admission 305 → 415 canonical lines).
+- **U1–U7 re-assessment (attempt 2)**: U1 PASS (frozen boundary; sidecar-verified
+  bytes; admission re-proven on frozen bindings); U2 PASS (double-record + replay +
+  preregistered candidate decisions, both scopes); U3 PASS (9/9); U4 PASS (the
+  shared Python core is untouched by the descope — attempt 2 changed Rust only —
+  and both scopes re-produce the frozen identities through it); U5 PASS (above);
+  U6 PASS (existing CLI contracts green, 106/106 nextest; turn-level evidence
+  cited from attempt-1 receipts and identified as such; the pure-turn subset is
+  excluded from the claim and declared); U7 PASS (1,193 ≤ 1,400, receipts
+  committed, re-derivable).
+- Run receipts with exits/durations: `results/s10-attempt2-runs.json` (+ sidecar).
+  **Gate verdict: proceed**, subject to the evidence review recorded in
+  `results/s10-evidence-review-2.json` (inline, identified as such per the
+  2026-11-07 no-subagent rule).
+
