@@ -110,7 +110,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ScopeMeasurer_
     - _Depends: 3.1, 3.2_
     - _Requirements: 1.5, 2.6, 3.6, 6.1, 6.4_
-  - [ ] 3.4 Measures unit suite (offline)
+  - [x] 3.4 Measures unit suite (offline)
     - Create `tests/test_measures_scope.py` covering `measure_written`,
       `EffectProfile` structure validation, `measure_pure_share`, all nine
       separated-form rules with the base-plus-extra identity, canonical
