@@ -1,8 +1,224 @@
-# Handover: deconvolution research, state at 2026-11-06 evening
+# Handover: solution-first deconvolution work, 2026-11-07
 
-Written 2026-11-03 evening, updated 2026-11-04 after E3 and 2026-11-06 after
-E4, Europe/Berlin. Read this first, then the files it points to. Nothing is
-running.
+Updated 2026-11-07, Europe/Berlin. This file is the single handover and action list.
+The separate open-points list was consolidated here and removed on that date.
+The current sections below govern continuation; dated history follows for evidence
+and earlier interpretations, not as an active implementation queue.
+
+## Current state
+
+The owner requested the smaller native slice and a gate to demonstrate the
+solution before substantial coding. That specification amendment is written,
+reviewed and document-validated, but remains uncommitted. No prototype ran and
+no production code was added. Do not infer phase approval from this documentation.
+
+- Native-core phase: requirements-generated; requirements/design/tasks unapproved.
+- Key: spec.json.solution_unlock.status = not-run; evidence_review = not-reviewed.
+  Evidence and frozen identities are empty; prototype_execution_approved = false.
+- Existing comparison core remains delivered with recorded Windows/Linux/macOS GO.
+- E3/E4 remain research evidence with their original limitations. Task 6.7 is
+  already committed as 380c629; it must not be treated as outstanding commit work.
+- Historical N1-N10/fusion drafts are preserved beside the active spec as
+  *-fusion-2026-11-07 files. Their broad-suite prerequisites are superseded.
+
+## Read next
+
+1. [Current requirements](specs/deconvolution-native-core/requirements.md):
+   six sections, 35 acceptance criteria.
+2. [First slice](specs/deconvolution-native-core/slice-proposal.md):
+   reuse existing native library/CLI; small artifact/acceptance/turn core;
+   one Python subprocess recorder/replayer with existing store hook.
+3. [Solution-unlock gate](specs/deconvolution-native-core/prototype-gate.md)
+   and [machine-readable state](specs/deconvolution-native-core/spec.json).
+4. [Spikes](specs/deconvolution-native-core/spikes.md),
+   [gates](specs/deconvolution-native-core/gates.md),
+   [verification](specs/deconvolution-native-core/verification.md) and
+   [scope guard](specs/deconvolution-native-core/breath.toml).
+5. [R27 proposal](../docs/research/2026-11-07/01-solution-first-native-slice.md),
+   [research index](../docs/research/README.md) and
+   [R26 evidence](../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md).
+
+## Next authorized work and unlock conditions
+
+Prepare the bounded prototype plan and present it for owner approval before
+execution. Freeze exact scope/file inventories, source and artifact bytes/hashes
+(including `--artifact-root` bindings to untracked `.runs/` golden traces verified
+against committed `.sha256` sidecars), observations, normalization, protocol, tools,
+checks, 3-stratum baseline totals ($B_{\text{app}}, B_{\text{ops}}, B_{\text{seeds}}$)
+and budgets.
+
+S9 may compare both proposed surface contracts using existing apparatus under
+its own approved non-adopting plan, before recorder-import ratification.
+S10 must use a resolved, ratified frozen contract. S2 verifies local `.runs/`
+artifact bytes against committed `.sha256` sidecars and proves Python-compatible
+digest emission in Rust (`serde_json::ser::PrettyFormatter` + custom formatter
+preserving `-0.0`/`0.0` and `ensure_ascii`; `serde_jcs` and `fs4` dropped) before
+dependent evidence is admitted. This avoids requiring an unbuilt CLI or the result
+of S9 before S9 can collect evidence.
+
+The proposed S10 experiment uses E3, freezes shared implementation, then onboards
+E4 with scope support only. Empirical audit under `ruff==0.17.3 format --line-length 100`
+measured 2,222 as-written lines -> 3,963 canonical lines across the 14 baseline
+apparatus files (`e1b_oracle.py`: 406 -> 659; `e4_oracle.py`: 534 -> 1,258), of which
+1,498 canonical lines in the two oracles are irreducible domain `op_*` methods/fixtures
+(854) and transcribed `SEEDS`/generators (644). Accordingly:
+- `U5` evaluates three explicit strata ($B_{\text{app}}, B_{\text{ops}}, B_{\text{seeds}}$):
+  require $C_{\text{app}} \le 0.80 \cdot B_{\text{app}}$ AND $B_{\text{app}} - C_{\text{app}} \ge 200$
+  canonical lines on the replaceable apparatus/wiring stratum, $C_{\text{total}} \le B_{\text{total}} - 200$
+  canonical lines overall, $C_{\text{seeds}} = B_{\text{seeds}}$ (zero seed loss), and strictly
+  less scope-specific support on each scope.
+- `U7` limits prototype effort to `<= 600` added/modified maintained canonical lines of
+  shared + adapter-wiring code cumulatively across `<= 2` attempts. Pre-existing oversized
+  `native/src/{lib,main}.rs` files (618 and 225 lines) touched only by registration hooks
+  ($\le 20$ diff lines) charge diff lines (or stay untouched via a dedicated binary/submodule),
+  and verbatim-migrated `op_*`/`SEEDS` blocks verified by AST/diff parity count in
+  $C_{\text{ops}} / C_{\text{seeds}}$ (`U5`) while any wrapper edits charge to `U7`.
+Freeze and approve these targets before execution; they are not measured replacement results.
+
+U1-U7 require live double recording and original replay on both scopes, actual
+candidate replay with preregistered expected decisions, adverse controls, accepted
+and failed turn transformations, preserved compatibility, frozen second-scope
+shared code, useful whole-replacement savings and independent evidence review.
+A status flag alone never unlocks work. Missing/stale/failed evidence keeps the
+feature locked. Only proceed with approved evidence review permits the demonstrated
+slice to seek normal production design/task approvals. No -y waiver.
+
+## Current decisions and actions
+
+OP identifiers are retained so earlier discussions remain traceable.
+
+| ID | Disposition and next action |
+| --- | --- |
+| OP-1 | Proposed: reuse existing crate/pins in `native/Cargo.lock` (`ast-grep-core 0.51.0`, `serde 1.0.229`, `serde_json 1.0.154`, `sha2 0.11.0`, `clap 4.6.0`, plus locked transitive `ignore`, `walkdir`, `regex`, `toml_edit`, `syn`, `windows-sys`) and preserve `lesscode-core` prepare/compare, Python subprocess shim and pure turn program. Drop `serde_jcs`, `fs4`, `quick-junit` (replace with `junit-parser`), `gix`, `pg_query` and `postgresql_embedded`. Rust/mmhmem SQLite (`rusqlite` `trace_v2` + `session`) and TS/JS (`oxc`) are later; embedding/model transport deferred. |
+| OP-2 | Pending: ratify the four R26 changes (recorder imports in surface, preregistered turn parameters/thinking-only failure, raw-byte hashes, case-distinct receipt labels), plus R25 formatting and both-tree sensitivity rules. S9 evidence precedes its ratification; preserve historical protocols. |
+| OP-3 | Pending separate owner choice: third regeneration scope, E4 candidate adoption, E3b or prevention. None authorized. E3/E4 apparatus reuse is a different bounded proposal. Adoption requires addressing residue/seven differences using the missing-test report first. |
+| OP-4 | DONE: 380c629 contains task 6.7, residue, missing-test artifacts, receipt/logs, R26, index and spec research updates. |
+| OP-5 | Housekeeping: review/selectively commit current spec, steering, ledger/budget, R27 and handover changes; preserve unrelated edits. No commit/push performed by this consolidation. |
+| OP-6 | Carry E4 safeguards into follow-up: stdout plus stderr/termination evidence, interrupted runs never mutation kills, one job per launch with resume notes, clean launcher parent, E4-specific missing-test schema adapter. Detailed facts below. |
+| OP-7 | Carry E3 safeguards: E1c-2 solver launcher, PYTHONDONTWRITEBYTECODE=1, restore/hash verification, receipted host guard. Scratch memory guard is not delivered apparatus. Detailed facts below. |
+| OP-8 | Deferred: corrected edge census/automatic selection until a concrete unmet need. Preserve R21 rejection and proposed corrections. |
+| OP-9 | Production foundation after unlock and phase approvals: concrete ownership paths, release allocation, disposition of pre-existing >400-line files in `native/src/` (`compare.rs` 1,667, `scope.rs` 1,598, `metrics.rs` 1,530, `lib.rs` 618, `model.rs` 511), and `syn`+`proc-macro2` size checker (`rust-syntax-units-v1`). Component ceilings rebalanced to 4,600 (`reports` 350, `surface_measures_code` 850, `cli_config` 450). |
+| OP-10 | First-slice evidence plan: S9 surface delta, S2 digests/artifact sidecars, S10 reuse. S1-first/all-nine prerequisites superseded; other spikes deferred unless an approved boundary needs them. |
+| OP-11 | Not-run: artifact checks, live adapter integration and usefulness checks are distinct. Saved fixture replay alone cannot establish recording/acceptance behavior; missing `.runs/` artifact bytes are unavailable evidence even when `.sha256` sidecars exist. |
+| OP-12 | Deferred: full five-target release expansion. Preserve existing delivered CLI/API/platform contracts when shared code changes. |
+| OP-13 | Immediate gate: approve the frozen bounded plan, then satisfy U1-U7 before production design approval/tasks/code. Stop or revise on failed criteria or exhausted limits; retain failures. |
+
+## Guardrails and validation state
+
+Native Windows, plain user; WSL CI-only; no bare bash, elevation or symlink
+privilege assumptions. Preserve upstream specimens and frozen copies. Use isolated
+copies under .runs/, one heavy job at a time, serial deterministic attribution,
+numeric threads=1, adaptive deadlines and receipted host-load probes.
+Scope changes go through the scope guard and normal review. No third scope,
+candidate adoption, broad platform expansion or upstream protocol ratification is
+authorized merely by this handover.
+
+Spec amendment validation passed: JSON/TOML parsing, local links, numeric/EARS
+criteria, U1-U7, archives, locked approvals and absence of production design/tasks.
+Independent review corrections added candidate/turn demonstrations and separated
+S9 evidence gathering from S10 ratification. These are document checks, not
+prototype results. Keep the research index/spec links current when evidence changes.
+
+## Historical record
+
+The following dated narrative preserves earlier evidence and interpretations.
+Earlier statements about uncommitted task 6.7, native-core initialization,
+S1-first/full-suite sequencing and pending platform checks are superseded by
+the current state and action list above.
+
+Written 2026-11-03 evening, updated 2026-11-04 after E3, 2026-11-06 after
+E4 and 2026-11-06 late evening after the run report and the start of the
+native-core spec, Europe/Berlin. Read this first, then the files it points
+to. Nothing is running.
+
+## Historical: fusion plan before the solution-first amendment (2026-11-07)
+
+- **Fusion run.** OpenUltraCode strategy critique-revise-vote: panels
+  `ultracode-fusion-panel-a` and `ultracode-fusion-panel-b`, decider = the selected
+  model (`vibe-oidc/mistral-large-4`) as coordinator and final arbiter; three rounds
+  each (generation, cross-critique, revision+vote); real subagent dispatch throughout.
+  Diversity caveat: all roles ran on the same selected model (independent contexts,
+  same family). Arbitrated plan: pre-kiro owner gate -> requirements -> spikes S1-S9
+  before design approval -> design -> tasks -> per-task reviewed implementation ->
+  final validation; every loop gate maps 1:1 to a fixture-replay smoketest; one crate
+  (lib+bin) with 12 subcommands and the 0/1/2/3 exit-code decision table; five-target
+  native-runner release matrix (cargo-zigbuild rejected: no MSVC target; cargo-dist
+  rejected: too much generated CI surface); hand-written budget <= 3,500 lines first
+  release, <= 4,600 for three languages.
+- **Spec and process amendments (owner asked 2026-11-07; uncommitted).**
+  `deconvolution-native-core`: `requirements.md` amendment 2026-11-07 (N1-N10,
+  generated, NOT approved), new `gates.md`, `verification.md`, `spikes.md`,
+  `breath.toml` (scope guard: editing it is the only way to change scope); `spec.json`
+  phase now `requirements-generated`, requirements approved=false. Project level: new
+  `.kiro/breadth.toml` (capability/evidence map, QOpenBB convention), new
+  `.kiro/steering/complexity.md` + `.kiro/complexity-budgets.json` (complexity caps,
+  machine-enforced by a checker foundation task), this handover and the roadmap
+  updated. E2E verification of the .kiro workflow is CLI-driven (runner with
+  evidence.json per step, phase-gate checks, no browser/Playwright per owner).
+- **Still gated.** No Rust code, no third scope, no R26 amendment adoption until the
+  owner answers the brief's four open questions plus the recorder-imports ratification
+  (spike S9 informs it). Open item 4 stands: the 6.7 files are uncommitted — commit them
+  before the committed E3/E4 artefacts are used as regression fixtures.
+- **Open points** are consolidated in [current decisions and actions](#current-decisions-and-actions): owner gate
+  (OP-1 four questions, OP-2 R26 ratification, OP-3 loop next step), housekeeping
+  commits (OP-4 6.7 files, OP-5 the 2026-11-07 amendments incl. this file),
+  research open items (OP-6 to OP-8), native-core prerequisites blocked on the gate
+  (OP-9 checker, OP-10 spikes, OP-11 smoketests, OP-12 release flow).
+
+## Historical: run report and native-core proposal (2026-11-06)
+
+- **Run report and paper.** `docs/reports/deconvolution-loop-run-report.md`
+  (new: process as run with commit ids, E4 task by task, six regenerator
+  turns, prediction table after one of three scopes, apparatus findings,
+  prototype resume with a status per component, maturity assessment,
+  options) and `docs/reports/deconvolution-loop-applied.md` (updated for
+  two scopes). COBESY blueprint in `docs/reports/blueprints/`. Commit
+  f105aa5, pushed.
+- **Owner stance.** Not ready to decide on a Rust build. Wants Q&A to
+  understand the prototype first. Target shape: own CLIs, purpose-built
+  fuzzers, instrumentation, a library with a reusable core, cross-platform,
+  working on specimens in Python, TypeScript/JavaScript and Rust. Clear
+  specs first, so that effort and porting can be judged. Reuse the Rust
+  ecosystem; write little code. Do not start Rust code, a third scope or
+  the R26 spec amendments until the owner asks.
+- **New spec `.kiro/specs/deconvolution-native-core/` (initialized, no
+  phase approved).** `brief.md` (problem, desired outcome, reuse-first
+  approach, scope, boundaries, constraints, four open questions for the
+  owner), `research.md` (two web surveys of 2026-11-06), `spec.json`
+  (phase initialized), `requirements.md` (project description only).
+  Uncommitted until the owner asks.
+- **Instrumentation answer (research.md section 1).** A debugger library
+  (DAP via debugpy, CDP for Node, lldb-dap for Rust) can capture calls and
+  returns, but it adds 500 to 1,000 lines plus a serialiser per language,
+  is weak for Rust on native Windows, and cannot see SQL. It removes almost
+  none of the recorder's 534 lines, which are alphabet, fixtures and
+  normalisation; SQL capture is a 6-line hook. Recommended: the driver
+  observes the surface directly through one generic shim per language
+  (Python, Node subprocess or PyO3; Rust in-process), runtime hooks
+  (`sys.monitoring`, `module.registerHooks`) for internal calls, and
+  store-level SQL capture (Rust PostgreSQL wire proxy on `pgwire` codecs;
+  SQLite trace hook in all three languages). Debuggers stay out of the core.
+- **Reuse map (research.md section 2).** Every component has a maintained
+  crate or tool except the agnostic decision logic: receipt (serde_json,
+  fs4, tempfile), guard (sysinfo, process-wrap), hashing and diffs (ignore,
+  sha2, similar, diffy), surface and measures (ast-grep rule packs plus SCIP
+  indexes from scip-python, scip-typescript, rust-analyzer), mutation
+  (cargo-mutants, cosmic-ray, StrykerJS), sequence generation (proptest as a
+  library writing corpus JSON), solver (CrossHair subprocess; Kani Linux CI
+  only; nothing for TS/JS), model client (reqwest; no official Rust SDK),
+  query differential (postgresql_embedded, postgres, sqlparser), reports and
+  regression (tabled, insta against committed E3/E4 artefacts). mutmut,
+  cargo-fuzz, AFL and Kani are Unix-only; stack-graphs is archived.
+- **First spike when the owner wants one.** Is wire-level SQL capture
+  byte-identical across two recordings of the frozen E4 original on native
+  Windows (driver prepare thresholds, type lookups, pool resets)? A minimal
+  Rust passthrough proxy, the 50-sequence corpus recorded twice, compared
+  byte for byte and against the SQLAlchemy-hook record.
+- **Next, on the owner's word.** Answer the brief's four open questions in
+  Q&A (extend `native/lesscode-core` or add a workspace member; first
+  Rust-target specimen and store, mmhmem with SQLite being cheapest; PyO3 or
+  subprocess for Python; when the regenerator moves into the suite); then
+  `$kiro-spec-requirements deconvolution-native-core`.
 
 ## Where we are
 
@@ -219,7 +435,10 @@ divergence as the trust row), and the DSPy-style regenerator program the
 owner's model endpoint would run. Linked from the research index and the
 spec's research.md.
 
-## Open items after E4
+## Historical E4 follow-up details
+
+Current dispositions are in [current decisions and actions](#current-decisions-and-actions).
+The numbered items below preserve the original E4 follow-up record, not a second work queue.
 
 1. Owner decision: a third scope under the same protocol (to fill the
    remaining rows of the report's three-scope prediction, with the
@@ -247,7 +466,7 @@ spec's research.md.
    imports the same tree (keep the launcher's parent clean); the E3
    missing-test generator's input schema is E3-specific, `missing_tests4.py`
    adapts E4's files by import.
-4. 6.7 files to commit after review (6.1 to 6.6 are already committed):
+4. Historical commit checklist, completed by 380c629 (2026-11-07 correction):
    `e4-lifecycle/missing_tests4.py`, `e4-lifecycle/residue.md`,
    `e4-lifecycle/results/missing-tests-e4-inputs.json`,
    `results/missing-tests-e4.{md,json}`, `results/receipt.json` and the
