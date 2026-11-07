@@ -51,6 +51,40 @@ Synthesis outcomes:
 Design decisions recorded in `design.md`; production size allocation proposed
 there and to be frozen at task generation.
 
+### Design validation amendment (2026-11-07)
+
+Design quality review against the Attempt-2 unlock record (`prototype-plan.md`
+§9, `s10-u5-measurement-2.json`) and codebase (`admission.rs`, `proto_core.py`,
+`Cargo.lock`) resolved three critical issue clusters in `design.md`:
+1. **Attempt-2 descope and boundary alignment**: `turncheck.rs` (deleted in
+   Attempt 2 to satisfy `U5`/`U7`) stays explicitly deferred (Req 5.3 served by
+   unchanged frozen `regen_turn.py` + Attempt-1 receipt `s10-turncheck.json`);
+   `budgets.rs` is accounted in its own size-governance stratum (6.3/6.4)
+   separate from `C_app`; `recording.py` documents its top-level stdlib imports
+   (host-testable) vs lazy function-local specimen imports inside `attached` /
+   `detach` / `embedded_engine`.
+2. **Contract and deferral accuracy**: Req 5.4 (solver-control voiding) and Req
+   5.5's host load-probe/retry pieces (`adaptive.py`, `guard.py`,
+   `regen_turn.py`) are mapped as explicit deferrals served by unchanged frozen
+   baseline files rather than claimed inside `verdict()`/`probe()`; `receipt.rs`
+   keeps the insertion-ordered `enum J` writer moved verbatim from
+   `admission.rs` (avoiding `serde_json::Value`'s `BTreeMap` key sorting and
+   inapplicable float claims); `admission::verify` signature and R28 summary
+   counts (`21 total / 11 verified / 5 mismatch / 1 missing / 4
+   no_bound_sidecar`) match the implementation.
+3. **Task-1 build and checker readiness**: `complexity-budgets.json` registers
+   dispositions for all five pre-existing `capability-compression-core` modules
+   in `native/src/` (`compare.rs` 1,667, `scope.rs` 1,598, `metrics.rs` 1,530,
+   `lib.rs` 619, `model.rs` 511) plus a Task-1 transitional disposition on
+   `admission.rs` (415, removed in Task 2 after the `receipt.rs` split) and separates
+   `#[cfg(test)]` items from production counts; `Cargo.toml` promotes `syn =
+   "=2.0.119"` (`full`, `visit`) and `proc-macro2 = "=1.0.107"`
+   (`span-locations`) with an offline root-package linkage update in
+   `Cargo.lock`; `budgets` CLI includes `--out <file>`; `s10_measure.py` and
+   `s10_measure2.py` are documented as point-in-time attempt scripts while
+   `tests/test_recording.py` verifies post-relocation 3-stratum canonical line
+   counts (`C_app <= 1,364`).
+
 ## Amendment 2: library and complexity audit (2026-11-07)
 Empirical baseline audit (`ruff==0.17.3 format --line-length 100`) and inspection of
 `native/Cargo.lock` and `native/src/` revised the reuse map and complexity estimates:
