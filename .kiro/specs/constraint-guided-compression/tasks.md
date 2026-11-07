@@ -35,7 +35,7 @@ and start only on the owner's explicit answer. Frozen apparatus
   - _Requirements: 2.1_
 
 - [ ] 2. Surface derivation and candidate verification (Contract B)
-  - [ ] 2.1 (P) Contract-B surface derivation and syntax check behind the extractor seam
+  - [x] 2.1 (P) Contract-B surface derivation and syntax check behind the extractor seam
     - Implement `derive_surface` and `check_syntax` in
       `src/lesscode_baseline/surface.py` from explicit `scope_files` plus
       `recorder_files` (Contract B: symbols the recorder oracle imports are
