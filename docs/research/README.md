@@ -1,14 +1,14 @@
 # Research log
 
-## Latest: S2 artifact admission + Rust digest parity, U7 overrun (2026-11-07)
-[R28](2026-11-07/02-s2-artifact-admission-digest-parity.md): S2 executed under the approved
-bounded plan. All E4 goldens/held-out/smoke and E4 turn bytes verify against committed
-sidecars; the six T4 turn files mismatch/missing (inadmissible as bound). Rust
-`pyjson`/`admission` modules reproduce the Python recorders' byte shapes exactly —
-5.6 MB golden and held-out traces re-emitted byte-identically (nextest 76023a7d, 109/109;
-independent PS + Rust collectors agree on all 21 bindings). U7 charged lines 774 > 600
-frozen before S10; owner raised the U7 ceiling to 1,400 (2026-11-07, all other targets
-unchanged). S9 next (zero new charged lines); S10 proceeds under the amended budget.
+## Latest: S9 surface-contract comparison (2026-11-07)
+[R29](2026-11-07/03-s9-surface-contracts.md): tree+recorder contract B adds 1 name on E3
+(`_canonical`) and 3 on E4 (`labeled_reason`, `LiveEvidence`, `lifecycle_store.<module>`)
+— all resolvable, none unresolved in A; `labeled_reason` is exactly the E4 turn-2 failure.
+Favorable, cheap evidence for R26 amendment 1; ratification stays with the owner (OP-2).
+S2 evidence in [R28](2026-11-07/02-s2-artifact-admission-digest-parity.md) (admission
+receipts; Rust digest parity byte-identical on the frozen 5.6 MB traces; U7 raised to
+1,400 by owner decision). S10 proceeds under the amended budget once the contract is
+ratified.
 
 ## Proposal: solution-first native slice (2026-11-07)
 [R27](2026-11-07/01-solution-first-native-slice.md): owner-requested spec amendment,
