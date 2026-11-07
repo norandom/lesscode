@@ -228,3 +228,140 @@ class TestMeasureCanonical:
         written = measures.measure_written(tree, SCOPE)
         assert report["total"]["stmts"] == written["total"]["stmts"]  # formatting never changes stmts
         assert report["total"]["lines"] >= written["total"]["lines"]  # blank-line normalization only adds
+
+
+@pytest.fixture()
+def scope_trees(tmp_path: Path) -> tuple[Path, Path]:
+    original = tmp_path / "original"
+    candidate = tmp_path / "candidate"
+    for tree in (original, candidate):
+        (tree / "src").mkdir(parents=True)
+        (tree / "src" / "a.py").write_text("x = 1\n", encoding="utf-8")
+        (tree / "src" / "b.py").write_text("y = 2\n", encoding="utf-8")
+    (candidate / "src" / "a.py").write_text("x = 3\n", encoding="utf-8")
+    return original, candidate
+
+
+class TestCheckEditScope:
+    def test_scope_only_change_passes(self, scope_trees: tuple[Path, Path]) -> None:
+        original, candidate = scope_trees
+        report = measures.check_edit_scope(original, candidate, ("src/a.py",))
+        assert report["edit_scope"] == "pass"
+        assert report["verdict"] == "pass"
+        assert report["differing"] == ["src/a.py"]
+        assert report["differing_outside_scope"] == []
+
+    def test_outside_scope_change_fails(self, scope_trees: tuple[Path, Path]) -> None:
+        original, candidate = scope_trees
+        (candidate / "src" / "b.py").write_text("y = 3\n", encoding="utf-8")
+        report = measures.check_edit_scope(original, candidate, ("src/a.py",))
+        assert report["edit_scope"] == "fail"
+        assert report["differing_outside_scope"] == ["src/b.py"]
+
+    def test_added_file_fails(self, scope_trees: tuple[Path, Path]) -> None:
+        original, candidate = scope_trees
+        (candidate / "src" / "c.py").write_text("z = 9\n", encoding="utf-8")
+        report = measures.check_edit_scope(original, candidate, ("src/a.py",))
+        assert report["only_in_candidate"] == ["src/c.py"]
+        assert report["edit_scope"] == "fail"
+
+    def test_scope_file_unchanged_is_reported(self, scope_trees: tuple[Path, Path]) -> None:
+        original, candidate = scope_trees
+        (candidate / "src" / "a.py").write_text("x = 1\n", encoding="utf-8")
+        report = measures.check_edit_scope(original, candidate, ("src/a.py",))
+        assert report["scope_unchanged"] == ["src/a.py"]
+        assert report["verdict"] == "fail"  # nothing changed at all
+
+    def test_mentions_outside_scope(self, scope_trees: tuple[Path, Path], tmp_path: Path) -> None:
+        original, candidate = scope_trees
+        log = tmp_path / "change.log"
+        log.write_text("rewrote src/b.py and tools/helper.py today\n", encoding="utf-8")
+        report = measures.check_edit_scope(
+            original, candidate, ("src/a.py",), mentions_files=(log,)
+        )
+        assert report["mentions"]["outside_scope"] == ["src/b.py", "tools/helper.py"]
+
+    def test_mentions_in_scope_ignored(self, scope_trees: tuple[Path, Path], tmp_path: Path) -> None:
+        original, candidate = scope_trees
+        log = tmp_path / "change.log"
+        log.write_text("rewrote src/a.py\n", encoding="utf-8")
+        report = measures.check_edit_scope(
+            original, candidate, ("src/a.py",), mentions_files=(log,)
+        )
+        assert report["mentions"]["outside_scope"] == []
+
+    def test_source_extensions_parameterized(self, scope_trees: tuple[Path, Path], tmp_path: Path) -> None:
+        original, candidate = scope_trees
+        (original / "src" / "core.rs").write_text("fn main() {}\n", encoding="utf-8")
+        (candidate / "src" / "core.rs").write_text("fn main() { }\n", encoding="utf-8")
+        log = tmp_path / "change.log"
+        log.write_text("also touched src/other.rs\n", encoding="utf-8")
+        report = measures.check_edit_scope(
+            original,
+            candidate,
+            ("src/a.py", "src/core.rs"),
+            mentions_files=(log,),
+            source_extensions=(".py", ".rs"),
+        )
+        assert report["edit_scope"] == "pass"
+        assert report["mentions"]["outside_scope"] == ["src/other.rs"]
+
+    def test_ignore_dirs_skipped(self, scope_trees: tuple[Path, Path]) -> None:
+        original, candidate = scope_trees
+        for tree in (original, candidate):
+            (tree / "node_modules").mkdir()
+            (tree / "node_modules" / "junk.py").write_text("junk\n", encoding="utf-8")
+        (candidate / "node_modules" / "junk.py").write_text("changed junk\n", encoding="utf-8")
+        report = measures.check_edit_scope(original, candidate, ("src/a.py",))
+        assert report["edit_scope"] == "pass"  # node_modules differences are invisible
+
+
+class TestComputeMeasureGaps:
+    def _readings(self, tree: Path) -> tuple[dict, dict | None, dict]:
+        written = measures.measure_written(tree, SCOPE)
+        separated = measures.measure_separated(tree, SCOPE)
+        return written, None, separated
+
+    def test_all_targets_met(self, tree: Path) -> None:
+        written, canonical, separated = self._readings(tree)
+        targets = {
+            "written_stmts_max": written["total"]["stmts"] + 5,
+            "separated_stmts_max": separated["total"]["stmts"] + 5,
+            "edges_max": written["total"]["edges"] + 1,
+        }
+        assert measures.compute_measure_gaps(written, canonical, separated, targets) == {}
+
+    def test_exceeded_target_reported(self, tree: Path) -> None:
+        written, canonical, separated = self._readings(tree)
+        targets = {"written_stmts_max": written["total"]["stmts"] - 1}
+        gaps = measures.compute_measure_gaps(written, canonical, separated, targets)
+        assert gaps["written_stmts_max"]["excess"] == 1
+        assert gaps["written_stmts_max"]["actual"] == written["total"]["stmts"]
+
+    def test_canonical_unavailable_is_gap_never_zero(self, tree: Path) -> None:
+        written, _, separated = self._readings(tree)
+        gaps = measures.compute_measure_gaps(
+            written, None, separated, {"canonical_lines_max": 100}
+        )
+        assert gaps["canonical_lines_max"]["actual"] is None
+        assert gaps["canonical_lines_max"]["unavailable"] is True
+
+    def test_exact_meets_target(self, tree: Path) -> None:
+        written, canonical, separated = self._readings(tree)
+        targets = {"written_stmts_max": written["total"]["stmts"]}
+        assert measures.compute_measure_gaps(written, canonical, separated, targets) == {}
+
+
+class TestMeasureAll:
+    def test_composition(self, tree: Path, tmp_path: Path) -> None:
+        report = measures.measure_all(tree, SCOPE, fmt_dir=tmp_path / "fmt")
+        written = measures.measure_written(tree, SCOPE)
+        separated = measures.measure_separated(tree, SCOPE)
+        assert report["as_written"]["total"] == written["total"]
+        assert report["separated"]["total"] == separated["total"]
+        assert report["canonical"] is None or "total" in report["canonical"]
+        assert report["gaps"] == {}
+
+    def test_targets_flow_through(self, tree: Path, tmp_path: Path) -> None:
+        report = measures.measure_all(tree, SCOPE, fmt_dir=tmp_path / "fmt", targets={"edges_max": 0})
+        assert "edges_max" in report["gaps"]

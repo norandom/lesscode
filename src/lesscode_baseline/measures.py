@@ -9,6 +9,7 @@ explicit ``scope_files`` instead of a module-global ``SET``.
 from __future__ import annotations
 
 import ast
+import hashlib
 import re
 import shutil
 import subprocess
@@ -378,11 +379,165 @@ def check_edit_scope(
     raise NotImplementedError("task 3.3")
 
 
-def compute_measure_gaps(written: dict, canonical: dict | None, separated: dict, targets: dict) -> dict[str, dict]:
-    """Return unmet target deltas; empty dict iff all preregistered targets pass."""
-    raise NotImplementedError("task 3.3")
+def check_edit_scope(
+    original: Path,
+    candidate: Path,
+    scope_files: Sequence[str],
+    dirs: Sequence[str] = ("src", "tests", "packages"),
+    mentions_files: Sequence[Path] = (),
+    source_extensions: Sequence[str] = (".py",),
+    ignore_dirs: Sequence[str] = ("node_modules", "target"),
+) -> dict:
+    """Verify SHA-256 identity outside ``scope_files``; scan mentions for out-of-scope tokens.
+
+    Generalizes the frozen edit-scope checker: ``source_extensions`` selects
+    which file suffixes count as source tokens in ``mentions_files`` (so a
+    Rust or TypeScript scope needs no rewrite), and ``ignore_dirs`` adds
+    build/dependency trees the hash walk skips.
+    """
+    skip_dirs = {"__pycache__", ".pytest_cache", ".git"} | set(ignore_dirs)
+    skip_suffix = {".pyc"}
+
+    def digest(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def walk(root: Path) -> dict[str, str]:
+        out = {
+            p.name: digest(p)
+            for p in root.iterdir()
+            if p.is_file() and p.suffix not in skip_suffix
+        }
+        for d in dirs:
+            base = root / d
+            if not base.is_dir():
+                continue
+            for p in sorted(base.rglob("*")):
+                rel = p.relative_to(root)
+                if (
+                    p.is_file()
+                    and p.suffix not in skip_suffix
+                    and not skip_dirs & set(rel.parts)
+                ):
+                    out[rel.as_posix()] = digest(p)
+        return out
+
+    a, b = walk(original), walk(candidate)
+    scope = sorted(scope_files)
+    common = a.keys() & b.keys()
+    differing = sorted(k for k in common if a[k] != b[k])
+    only_original = sorted(a.keys() - b.keys())
+    only_candidate = sorted(b.keys() - a.keys())
+    outside = sorted(set(differing) - set(scope))
+    edit_scope = "pass" if not only_original and not only_candidate and not outside else "fail"
+    report: dict = {
+        "original": str(original),
+        "candidate": str(candidate),
+        "dirs": list(dirs),
+        "skip_dirs": sorted(skip_dirs),
+        "skip_suffix": sorted(skip_suffix),
+        "source_extensions": list(source_extensions),
+        "files_original": len(a),
+        "files_candidate": len(b),
+        "files_compared": len(common),
+        "only_in_original": only_original,
+        "only_in_candidate": only_candidate,
+        "differing": differing,
+        "scope": scope,
+        "differing_outside_scope": outside,
+        "scope_unchanged": sorted(set(scope) - set(differing)),
+        "scope_missing": sorted(set(scope) - common),
+        "original_hashes": {k: a.get(k) for k in scope},
+        "candidate_hashes": {k: b.get(k) for k in scope},
+        "edit_scope": edit_scope,
+        "verdict": "pass" if edit_scope == "pass" and differing == scope else "fail",
+    }
+    if mentions_files:
+        report["mentions"] = {
+            "files": [str(f) for f in mentions_files],
+            "outside_scope": _mention_outside(mentions_files, scope, source_extensions),
+        }
+    return report
 
 
-def measure_all(root: Path, scope_files: Sequence[str], fmt_dir: Path | None = None) -> dict:
+def _mention_outside(
+    mentions_files: Sequence[Path], scope: Sequence[str], source_extensions: Sequence[str]
+) -> list[str]:
+    token_re = re.compile(
+        r"[\w./\\-]*\w(?:"
+        + "|".join(re.escape(ext) for ext in source_extensions)
+        + r")\b"
+    )
+    allowed = {Path(s).name for s in scope} | set(scope)
+    found = {
+        token
+        for f in mentions_files
+        for token in token_re.findall(Path(f).read_text(encoding="utf-8", errors="replace"))
+    }
+    return sorted(t for t in found if t not in allowed and Path(t).name not in allowed)
+
+
+def compute_measure_gaps(
+    written: dict,
+    canonical: dict | None,
+    separated: dict,
+    targets: dict,
+) -> dict[str, dict]:
+    """Return unmet target deltas; empty dict iff every preregistered target passes.
+
+    ``*_max`` targets pass at exactly the target value. Canonical targets with
+    a ``None`` reading stay unmet and are marked unavailable — never zero
+    (Req 6.3).
+    """
+    totals = {
+        "written": written["total"],
+        "separated": separated["total"],
+        "canonical": None if canonical is None else canonical["total"],
+    }
+    gaps: dict[str, dict] = {}
+    for key, bound in targets.items():
+        if not key.endswith("_max"):
+            gaps[key] = {"target": bound, "error": "unknown target kind (only *_max supported)"}
+            continue
+        stem = key[: -len("_max")]
+        source = next((s for s in ("written", "separated", "canonical") if stem.startswith(f"{s}_")), None)
+        if source is not None:
+            metric = stem[len(source) + 1 :]
+        else:
+            source, metric = "written", stem  # bare metrics (stmts_max, edges_max, ...) read as written
+        if not source or not metric:
+            gaps[key] = {"target": bound, "error": "unknown target source"}
+            continue
+        totals_for_source = totals[source]
+        if totals_for_source is None or metric not in totals_for_source:
+            gaps[key] = {
+                "target": bound,
+                "actual": None,
+                "unavailable": True,
+            }
+            continue
+        actual = totals_for_source[metric]
+        if actual > bound:
+            gaps[key] = {"target": bound, "actual": actual, "excess": actual - bound}
+    return gaps
+
+
+def measure_all(
+    root: Path,
+    scope_files: Sequence[str],
+    fmt_dir: Path | None = None,
+    structure: dict | None = None,
+    targets: dict | None = None,
+) -> dict:
     """One call returning written, separated, canonical (None if unavailable), and gaps."""
-    raise NotImplementedError("task 3.3")
+    written = measure_written(root, scope_files, structure=structure)
+    separated = measure_separated(root, scope_files)
+    canonical = measure_canonical(root, scope_files, fmt_dir) if fmt_dir is not None else None
+    gaps = compute_measure_gaps(written, canonical, separated, targets or {})
+    return {
+        "measure_version": MEASURE_VERSION,
+        "root": str(root),
+        "as_written": written,
+        "separated": separated,
+        "canonical": canonical,
+        "gaps": gaps,
+    }

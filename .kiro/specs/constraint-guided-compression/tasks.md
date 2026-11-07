@@ -98,7 +98,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ScopeMeasurer_
     - _Depends: 3.1_
     - _Requirements: 6.2, 6.3_
-  - [ ] 3.3 Composition entry point, language-parameterized edit scope, and measure gaps
+  - [x] 3.3 Composition entry point, language-parameterized edit scope, and measure gaps
     - Implement `measure_all`, `check_edit_scope` (enforcing SHA-256 byte
       identity outside `scope_files` plus scanning `mentions_files` for
       out-of-scope source file tokens, parameterized by `source_extensions` and
