@@ -490,6 +490,90 @@ def _now() -> str:
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
+@dataclasses.dataclass
+class RewardEvaluation:
+    """Two-tier reward: tier 1 is static and offline, tier 2 wraps the runtime oracle."""
+
+    score: float
+    tier: int
+    passed_tier1: bool
+    failure_kind: str | None
+    diagnostics: dict
+
+    def as_receipt_value(self) -> dict:
+        return {"score": self.score, "tier": self.tier, "passed_tier1": self.passed_tier1,
+                "accepted": self.score >= 1.0, "failure_kind": self.failure_kind}
+
+
+_TIER1_FAILURE_SCORES = {"transport": 0.00, "stop_reason": 0.00, "invalid_json": 0.10, "out_of_scope": 0.20}
+
+
+def evaluate_tier1_static(
+    req: TurnRequest,
+    turn_outcome: dict,
+    cand_root: Path,
+    surface_report: dict,
+    static_targets: dict | None = None,
+) -> RewardEvaluation:
+    """The Tier-1 static ladder: score rungs 0.00-0.50, offline, zero runtime calls.
+
+    ``turn_outcome`` is ``{"ok": False, "kind": transport|stop_reason|invalid_json|out_of_scope, ...}``
+    for a failed call/parse/write, or ``{"ok": True, "result": TurnResult, "written": [...]}`` after a
+    successful candidate write. Syntax delegates to ``surface.check_syntax``, the surface rung to
+    ``surface.verify_candidate_surface``, the structure rung to ``measures.measure_written`` with the
+    candidate's declared structure, and the static-targets rung to ``measures.compute_measure_gaps``.
+    """
+    if not turn_outcome.get("ok"):
+        kind = turn_outcome.get("kind", "transport")
+        score = _TIER1_FAILURE_SCORES.get(kind, 0.00)
+        return RewardEvaluation(score=score, tier=1, passed_tier1=False, failure_kind=kind,
+                                diagnostics={"detail": turn_outcome.get("detail")})
+    from . import surface  # language seam: all AST knowledge stays behind surface/measures
+
+    errors = surface.check_syntax(cand_root, req.scope_files, language=req.language)
+    if errors:
+        return RewardEvaluation(0.30, 1, False, "syntax_error", {"errors": errors})
+    verification = surface.verify_candidate_surface(cand_root, surface_report)
+    if not verification["passed"]:
+        return RewardEvaluation(0.40, 1, False, "surface", {k: verification[k] for k in
+                                ("missing_symbols", "kind_mismatches", "local_rebindings")})
+    declared = (turn_outcome.get("result").structure if turn_outcome.get("result") is not None else None)
+    from . import measures
+
+    written = measures.measure_written(cand_root, req.scope_files, structure=declared)
+    if declared:
+        structure_block = written.get("structure", {})
+        if not structure_block.get("pass", True):
+            why = {k: v["why"] for k, v in structure_block.get("pure", {}).items() if not v["pass"]}
+            sites = [s for s in structure_block.get("write_sites", []) if not s["pass"]]
+            return RewardEvaluation(0.45, 1, False, "structure",
+                                    {"why": [w for ws in why.values() for w in ws], "write_sites": sites})
+    gaps = measures.compute_measure_gaps(written, None, {"total": {}}, static_targets or {})
+    if gaps:
+        return RewardEvaluation(0.49, 1, False, "static_targets", {"gaps": gaps})
+    return RewardEvaluation(0.50, 1, True, None, {})
+
+
+_TEMPERATURE_STEPS = (0.0, 0.2, 0.4)
+
+
+def next_rollout_params(prev: RewardEvaluation, attempt: int) -> dict:
+    """Adaptive schedule for the next inner rollout; empty when nothing needs adapting."""
+    if prev.passed_tier1 and prev.score >= 0.50:
+        return {}
+    params: dict = {}
+    if prev.score == 0.00:  # transport or thinking-budget stop: cheaper effort, concise output directive
+        params["effort"] = "medium"
+        params["directive"] = (
+            "Be concise: emit the JSON object directly, without extended internal monologue, within the budget."
+        )
+    if 0.10 <= prev.score <= 0.49:  # bounded temperature steps across static repair attempts
+        params["temperature"] = _TEMPERATURE_STEPS[min(attempt, len(_TEMPERATURE_STEPS) - 1)]
+    if prev.failure_kind == "surface" and prev.diagnostics.get("missing_symbols"):
+        params["inject_missing_symbols"] = sorted({name for _, name in prev.diagnostics["missing_symbols"]})
+    return params
+
+
 def cmd_prompt(a: argparse.Namespace) -> int:
     system, user = build_prompt(TurnRequest.load(Path(a.request)))
     out = Path(a.out)

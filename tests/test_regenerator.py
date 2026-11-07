@@ -205,3 +205,124 @@ class TestSaveSidecars:
         assert raw == b"line\nother\n"  # R26 amendment 3: bytes on disk == hashed text
         assert digest == rg.sha256_text("line\nother\n")
         assert (tmp_path / "note.txt.sha256").read_text(encoding="utf-8") == f"{digest}  note.txt\n"
+
+
+@pytest.fixture()
+def surface_report(frozen_tree: Path) -> dict:
+    from lesscode_baseline import surface
+
+    (frozen_tree / "src" / "user.py").write_text("from mod import f\n", encoding="utf-8")
+    return surface.derive_surface(frozen_tree, ["src/mod.py"])
+
+
+def _outcome(**kw) -> dict:
+    base = {"ok": True, "result": None, "written": []}
+    base.update(kw)
+    return base
+
+
+class TestTier1Ladder:
+    def _gate(self, frozen_tree: Path, request_path: Path, surface_report: dict, outcome: dict, cand: Path,
+              targets: dict | None = None) -> rg.RewardEvaluation:
+        req = rg.TurnRequest.load(request_path)
+        return rg.evaluate_tier1_static(
+            req, outcome, cand if cand else frozen_tree, surface_report, targets or {}
+        )
+
+    def test_transport_rung(self, frozen_tree, request_path, surface_report, tmp_path):
+        reward = self._gate(frozen_tree, request_path, surface_report,
+                            _outcome(ok=False, kind="transport", detail="boom"), None)
+        assert (reward.score, reward.tier, reward.failure_kind) == (0.00, 1, "transport")
+
+    def test_stop_reason_rung(self, frozen_tree, request_path, surface_report):
+        reward = self._gate(frozen_tree, request_path, surface_report,
+                            _outcome(ok=False, kind="stop_reason", detail="max_tokens"), None)
+        assert (reward.score, reward.failure_kind) == (0.00, "stop_reason")
+
+    def test_invalid_json_rung(self, frozen_tree, request_path, surface_report):
+        reward = self._gate(frozen_tree, request_path, surface_report,
+                            _outcome(ok=False, kind="invalid_json", detail="{"), None)
+        assert (reward.score, reward.failure_kind) == (0.10, "invalid_json")
+
+    def test_out_of_scope_rung(self, frozen_tree, request_path, surface_report):
+        reward = self._gate(frozen_tree, request_path, surface_report,
+                            _outcome(ok=False, kind="out_of_scope", detail="src/other.py"), None)
+        assert (reward.score, reward.failure_kind) == (0.20, "out_of_scope")
+
+    def test_syntax_rung_uses_check_syntax(self, frozen_tree, request_path, surface_report, tmp_path):
+        cand = tmp_path / "cand"
+        rg.prepare_candidate(frozen_tree, cand, ["src/mod.py"])
+        (cand / "src" / "mod.py").write_text("def f(:\n", encoding="utf-8")
+        reward = self._gate(frozen_tree, request_path, surface_report, _outcome(), cand)
+        assert (reward.score, reward.failure_kind) == (0.30, "syntax_error")
+        assert "src/mod.py:1:" in reward.diagnostics["errors"][0]
+
+    def test_surface_rung_reports_missing_symbol(self, frozen_tree, request_path, surface_report, tmp_path):
+        cand = tmp_path / "cand"
+        rg.prepare_candidate(frozen_tree, cand, ["src/mod.py"])
+        (cand / "src" / "mod.py").write_text("def g():\n    return 2\n", encoding="utf-8")
+        reward = self._gate(frozen_tree, request_path, surface_report, _outcome(), cand)
+        assert (reward.score, reward.failure_kind) == (0.40, "surface")
+        assert reward.diagnostics["missing_symbols"] == [("mod", "f")]
+
+    def test_structure_rung_reports_violation(self, frozen_tree, request_path, surface_report, tmp_path):
+        cand = tmp_path / "cand"
+        rg.prepare_candidate(frozen_tree, cand, ["src/mod.py"])
+        (cand / "src" / "mod.py").write_text("def f(session):\n    return 1\n", encoding="utf-8")
+        result = rg.TurnResult(files=[], structure={"pure": ["mod.py::f"], "shell": []}, change_log="", meta={})
+        reward = self._gate(frozen_tree, request_path, surface_report, _outcome(result=result), cand)
+        assert (reward.score, reward.failure_kind) == (0.45, "structure")
+        assert any("param session" in w for w in reward.diagnostics["why"])
+
+    def test_static_targets_rung(self, frozen_tree, request_path, surface_report, tmp_path):
+        cand = tmp_path / "cand"
+        rg.prepare_candidate(frozen_tree, cand, ["src/mod.py"])
+        (cand / "src" / "mod.py").write_text("def f():\n    return 1\n\n\ndef h():\n    return 2\n", encoding="utf-8")
+        reward = self._gate(frozen_tree, request_path, surface_report, _outcome(), cand,
+                            targets={"funcs_max": 1})
+        assert (reward.score, reward.failure_kind) == (0.49, "static_targets")
+        assert reward.diagnostics["gaps"]["funcs_max"]["excess"] == 1
+
+    def test_pass_rung(self, frozen_tree, request_path, surface_report, tmp_path):
+        cand = tmp_path / "cand"
+        rg.prepare_candidate(frozen_tree, cand, ["src/mod.py"])
+        (cand / "src" / "mod.py").write_text("def f():\n    return 1\n", encoding="utf-8")
+        result = rg.TurnResult(files=[], structure={"pure": ["mod.py::f"], "shell": []}, change_log="", meta={})
+        reward = self._gate(frozen_tree, request_path, surface_report, _outcome(result=result), cand,
+                            targets={"funcs_max": 5})
+        assert reward.score == 0.50
+        assert reward.passed_tier1 is True
+        assert reward.failure_kind is None
+
+    def test_ladder_is_fast_and_offline(self, frozen_tree, request_path, surface_report, tmp_path):
+        import time
+
+        cand = tmp_path / "cand"
+        rg.prepare_candidate(frozen_tree, cand, ["src/mod.py"])
+        t0 = time.perf_counter()
+        self._gate(frozen_tree, request_path, surface_report, _outcome(), cand)
+        assert time.perf_counter() - t0 < 2.0
+
+
+class TestAdaptiveSchedule:
+    def test_thinking_budget_recovery(self):
+        prev = rg.RewardEvaluation(score=0.00, tier=1, passed_tier1=False, failure_kind="stop_reason",
+                                   diagnostics={})
+        params = rg.next_rollout_params(prev, attempt=0)
+        assert params["effort"] == "medium"
+        assert "concise" in params["directive"].lower()
+
+    def test_temperature_steps_bounded(self):
+        prev = rg.RewardEvaluation(score=0.30, tier=1, passed_tier1=False, failure_kind="syntax_error",
+                                   diagnostics={})
+        assert [rg.next_rollout_params(prev, attempt=a)["temperature"] for a in (0, 1, 2, 3)] == [0.0, 0.2, 0.4, 0.4]
+
+    def test_missing_symbol_injection_hint(self):
+        prev = rg.RewardEvaluation(score=0.40, tier=1, passed_tier1=False, failure_kind="surface",
+                                   diagnostics={"missing_symbols": [("mod", "f")]})
+        params = rg.next_rollout_params(prev, attempt=1)
+        assert params["inject_missing_symbols"] == ["f"]
+
+    def test_pass_needs_no_adaptation(self):
+        prev = rg.RewardEvaluation(score=0.50, tier=1, passed_tier1=True, failure_kind=None, diagnostics={})
+        assert rg.next_rollout_params(prev, attempt=0) == {}

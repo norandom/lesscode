@@ -163,7 +163,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator_
     - _Depends: 2.2_
     - _Requirements: 1.1, 1.2, 3.2, 3.3, 7.3, 8.5_
-  - [ ] 5.2 Tier-1 static gate and adaptive schedule
+  - [x] 5.2 Tier-1 static gate and adaptive schedule
     - Implement `evaluate_tier1_static` (rungs `0.00` transport/stop, `0.10`
       JSON schema, `0.20` scope refusal, `0.30` syntax via
       `surface.check_syntax`, `0.40` Contract-B surface and `patched` rebinding
