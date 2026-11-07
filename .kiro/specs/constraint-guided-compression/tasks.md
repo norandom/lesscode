@@ -135,7 +135,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: TestInfraDetector_
     - _Depends: 1_
     - _Requirements: 1.3, 3.5, 7.6_
-  - [ ] 4.2 Detector unit suite (offline)
+  - [x] 4.2 Detector unit suite (offline)
     - Create `tests/test_testinfra_unit.py` covering config discovery across
       `pyproject.toml`, `pytest.ini`, and `setup.cfg`, fixture and plugin
       resolution, marker exclusion rules, store-fact and POSIX-hazard
