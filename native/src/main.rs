@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use lesscode_core::{compare::render_comparison, model::*};
+use lesscode_core::{admission, compare::render_comparison, model::*};
 use serde::de::DeserializeOwned;
 use std::{
     fs,
@@ -46,6 +46,15 @@ enum Command {
         out: PathBuf,
         #[arg(long)]
         artifact_root: Vec<PathBuf>,
+    },
+    /// Verify artifact bytes against sidecar digests; write an admission receipt.
+    Admission {
+        #[arg(long)]
+        root: PathBuf,
+        #[arg(long)]
+        bindings: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
     },
 }
 fn read_json<T: DeserializeOwned>(path: &Path) -> Result<T, String> {
@@ -204,6 +213,11 @@ fn run(args: Args) -> Result<u8, String> {
                 ComparisonStatus::Invalid | ComparisonStatus::BaselineIneligible => 3,
             })
         }
+        Command::Admission {
+            root,
+            bindings,
+            out,
+        } => admission::cli_run(&root, &bindings, &out).map_err(|e| e.to_string()),
     }
 }
 fn main() -> ExitCode {

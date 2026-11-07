@@ -1,0 +1,23 @@
+{
+"meta": {
+"alphabet": [
+"op_a",
+"op_b"
+],
+"counts": {
+"-0.0": -0.0,
+"n": 3
+}
+},
+"sequences": [
+{
+"name": "s1",
+"steps": [
+{
+"op": "op_a",
+"v": 1e-07
+}
+]
+}
+]
+}

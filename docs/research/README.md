@@ -1,13 +1,23 @@
 # Research log
 
-## Latest proposal: solution-first native slice (2026-11-07)
+## Latest: S2 artifact admission + Rust digest parity, U7 overrun (2026-11-07)
+[R28](2026-11-07/02-s2-artifact-admission-digest-parity.md): S2 executed under the approved
+bounded plan. All E4 goldens/held-out/smoke and E4 turn bytes verify against committed
+sidecars; the six T4 turn files mismatch/missing (inadmissible as bound). Rust
+`pyjson`/`admission` modules reproduce the Python recorders' byte shapes exactly —
+5.6 MB golden and held-out traces re-emitted byte-identically (nextest 76023a7d, 109/109;
+independent PS + Rust collectors agree on all 21 bindings). U7 charged lines 774 > 600
+frozen before S10; owner revision requested (raise, descope, or stop). S9 may proceed
+(zero new charged lines); S10 paused pending the U7 decision.
+
+## Proposal: solution-first native slice (2026-11-07)
 [R27](2026-11-07/01-solution-first-native-slice.md): owner-requested spec amendment,
 U1-U7 before production expansion, updated 2026-11-07 with empirical canonical baseline
 audit (`2,222` written -> `3,963` canonical lines across 14 files; 3-stratum `U5`
 accounting; `U7` brownfield/verbatim-extraction rules) and Rust library audit (`Cargo.lock`
 pins kept; `serde_jcs`, `fs4`, `quick-junit`, `gix`, `pg_query` dropped/replaced; `syn`,
 `toml_edit`, `windows-sys`, `ruff_python_parser`, `rusqlite`, `oxc`, `junit-parser` added).
-No prototype experiment run; `solution_unlock=not-run`.
+Prototype plan frozen and owner-approved 2026-11-07; execution started (see R28).
 Historical H8 evidence below remains unchanged.
 
 Current direction (2026-11-06): H7's static state models and family-duplication

@@ -7,15 +7,20 @@ and earlier interpretations, not as an active implementation queue.
 
 ## Current state
 
-The owner requested the smaller native slice and a gate to demonstrate the
-solution before substantial coding. That specification amendment is written,
-reviewed and document-validated, but remains uncommitted. No prototype ran and
-no production code was added. Do not infer phase approval from this documentation.
+Updated 2026-11-07 late morning: housekeeping committed and pushed (1d69021 spec+R27,
+084b739 handover, 049f6a1 owner rules/steering, 4835b62 spec status, 103e1aa MIT,
+f11179e frozen prototype plan). The owner approved prototype execution; S2 ran (R28):
+artifact admission receipts collected and Rust digest parity with the Python recorders
+proven on the frozen E4 traces. Attempt-1 U7 charge is 774 canonical lines against the
+frozen 600, so S10 is paused for an owner revision decision (raise, descope, stop);
+S9 may proceed without new charged lines. T4 regenerator turn bytes mismatch their
+committed sidecars and are inadmissible as bound; E4 turns verify.
 
 - Native-core phase: requirements-generated; requirements/design/tasks unapproved.
-- Key: spec.json.solution_unlock.status = not-run; evidence_review = not-reviewed.
-  Evidence and frozen identities are empty; prototype_execution_approved = false.
-- Existing comparison core remains delivered with recorded Windows/Linux/macOS GO.
+- Key: spec.json.solution_unlock.prototype_execution_approved = true with the frozen
+  prototype-plan.md; status stays not-run until U1-U7 pass with evidence review.
+- Existing comparison core remains delivered with recorded Windows/Linux/macOS GO;
+  109/109 nextest green after adding pyjson/admission (run 76023a7d).
 - E3/E4 remain research evidence with their original limitations. Task 6.7 is
   already committed as 380c629; it must not be treated as outstanding commit work.
 - Historical N1-N10/fusion drafts are preserved beside the active spec as

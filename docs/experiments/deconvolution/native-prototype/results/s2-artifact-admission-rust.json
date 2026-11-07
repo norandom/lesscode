@@ -1,0 +1,348 @@
+{
+ "receipt": "s2-artifact-admission-rust-1",
+ "purpose": "bind artifact bytes to sidecar digests (prototype-plan.md U1)",
+ "generated_unix": 1794043441,
+ "command": "lesscode-core admission --root D:\\Source\\lesscode --bindings D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\native-prototype\\s2-bindings.json --out D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\native-prototype\\results\\s2-artifact-admission-rust.json",
+ "hashing": "SHA256 over bytes as stored; declared LF-body hashes recorded separately",
+ "bindings": [
+  {
+   "artifact": ".runs/e4-lifecycle/golden-a.json",
+   "present": true,
+   "bytes": 5643360,
+   "sha256_stored": "62791b3269b843586300f394ce53c88193269ac0d509f0eb0443a5140c805bd3",
+   "sidecars": [
+    {
+     "sidecar": ".runs/e4-lifecycle/golden-a.json.sha256",
+     "present": true,
+     "expected_stored": "62791b3269b843586300f394ce53c88193269ac0d509f0eb0443a5140c805bd3",
+     "declared_lf_body": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+     "matches_stored": true
+    },
+    {
+     "sidecar": "docs/experiments/deconvolution/e4-lifecycle/results/golden-e4.json.sha256",
+     "present": true,
+     "expected_stored": "62791b3269b843586300f394ce53c88193269ac0d509f0eb0443a5140c805bd3",
+     "declared_lf_body": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": ".runs/e4-lifecycle/golden-b.json",
+   "present": true,
+   "bytes": 5643360,
+   "sha256_stored": "62791b3269b843586300f394ce53c88193269ac0d509f0eb0443a5140c805bd3",
+   "sidecars": [
+    {
+     "sidecar": ".runs/e4-lifecycle/golden-b.json.sha256",
+     "present": true,
+     "expected_stored": "62791b3269b843586300f394ce53c88193269ac0d509f0eb0443a5140c805bd3",
+     "declared_lf_body": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+     "matches_stored": true
+    },
+    {
+     "sidecar": "docs/experiments/deconvolution/e4-lifecycle/results/golden-e4.json.sha256",
+     "present": true,
+     "expected_stored": "62791b3269b843586300f394ce53c88193269ac0d509f0eb0443a5140c805bd3",
+     "declared_lf_body": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": ".runs/e4-lifecycle/held-out-a.json",
+   "present": true,
+   "bytes": 5633158,
+   "sha256_stored": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+   "sidecars": [
+    {
+     "sidecar": ".runs/e4-lifecycle/held-out-a.json.sha256",
+     "present": true,
+     "expected_stored": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "declared_lf_body": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "matches_stored": true
+    },
+    {
+     "sidecar": "docs/experiments/deconvolution/e4-lifecycle/results/held-out-e4.json.sha256",
+     "present": true,
+     "expected_stored": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "declared_lf_body": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": ".runs/e4-lifecycle/held-out-b.json",
+   "present": true,
+   "bytes": 5633158,
+   "sha256_stored": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+   "sidecars": [
+    {
+     "sidecar": ".runs/e4-lifecycle/held-out-b.json.sha256",
+     "present": true,
+     "expected_stored": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "declared_lf_body": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "matches_stored": true
+    },
+    {
+     "sidecar": "docs/experiments/deconvolution/e4-lifecycle/results/held-out-e4.json.sha256",
+     "present": true,
+     "expected_stored": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "declared_lf_body": "27a2cc9a9f3f063d87dc682af7a70565add20b05e39e728e6ab299f39578d8ed",
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": ".runs/e4-lifecycle/smoke.json",
+   "present": true,
+   "bytes": 2996882,
+   "sha256_stored": "fb7dc308b7874f756e08d08911bd4cf58be1ad213cbd8fb72eb97fae47ce1fa7",
+   "sidecars": [
+    {
+     "sidecar": ".runs/e4-lifecycle/smoke.json.sha256",
+     "present": true,
+     "expected_stored": "fb7dc308b7874f756e08d08911bd4cf58be1ad213cbd8fb72eb97fae47ce1fa7",
+     "declared_lf_body": "f6acb3a4f8af4752cdec51da0f58341df827603f44aa65305aae3b563d49cc5a",
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": ".runs/e4-lifecycle/e4-orig.sqlite",
+   "present": true,
+   "bytes": 434176,
+   "sha256_stored": "4c58b923bf4e6f1b745bd5605098b382defe0aa12f7b8137834ae9900c274d80",
+   "sidecars": [],
+   "status": "no_bound_sidecar"
+  },
+  {
+   "artifact": ".runs/e4-lifecycle/e4-cand.sqlite",
+   "present": true,
+   "bytes": 446464,
+   "sha256_stored": "2c7d95bd4d981bdf5c0708b21dd9908d5fca983161f23edd961317815e1a1b26",
+   "sidecars": [],
+   "status": "no_bound_sidecar"
+  },
+  {
+   "artifact": ".runs/e3-facdrone/t31.sqlite",
+   "present": true,
+   "bytes": 118784,
+   "sha256_stored": "46ecaa81be9617e0576ad027a23b9f8c3857b508da4afeeddeaf34d19721f763",
+   "sidecars": [],
+   "status": "no_bound_sidecar"
+  },
+  {
+   "artifact": ".runs/e3-facdrone/t4.sqlite",
+   "present": true,
+   "bytes": 131072,
+   "sha256_stored": "7a70462ceb2ec7b8a14090ab6177c268e32a315f29ce76915ecebcaf03dab762",
+   "sidecars": [],
+   "status": "no_bound_sidecar"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/response.json",
+   "present": true,
+   "bytes": 554483,
+   "sha256_stored": "20d42fec37dd7cd198dc366c6c03167a28356b6a81069a3eae8105995cb16cdc",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/response.json.sha256",
+     "present": true,
+     "expected_stored": "20d42fec37dd7cd198dc366c6c03167a28356b6a81069a3eae8105995cb16cdc",
+     "declared_lf_body": null,
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/user.txt",
+   "present": true,
+   "bytes": 90596,
+   "sha256_stored": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/user.txt.sha256",
+     "present": true,
+     "expected_stored": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9",
+     "declared_lf_body": null,
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn2/response.json",
+   "present": true,
+   "bytes": 369006,
+   "sha256_stored": "c78ba9d585e4dc67c7358ed55678fc88af7701cc17da2ac5343c6fbe40d843f3",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn2/response.json.sha256",
+     "present": true,
+     "expected_stored": "c78ba9d585e4dc67c7358ed55678fc88af7701cc17da2ac5343c6fbe40d843f3",
+     "declared_lf_body": null,
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn2/user.txt",
+   "present": true,
+   "bytes": 90596,
+   "sha256_stored": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn2/user.txt.sha256",
+     "present": true,
+     "expected_stored": "0ffacb8b20d2a33d0151635273e49c2d80aa3d31133210abcae345e95a2228c9",
+     "declared_lf_body": null,
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn3/response.json",
+   "present": true,
+   "bytes": 390896,
+   "sha256_stored": "354ddd67117f56aecbba268470bc398292efca6522002011a8a8e104e0488735",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn3/response.json.sha256",
+     "present": true,
+     "expected_stored": "354ddd67117f56aecbba268470bc398292efca6522002011a8a8e104e0488735",
+     "declared_lf_body": null,
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn3/user.txt",
+   "present": true,
+   "bytes": 91593,
+   "sha256_stored": "2e1da3904efe6902d3f9688e1e941af59d00a50065efe073a799a47779ba28dd",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn3/user.txt.sha256",
+     "present": true,
+     "expected_stored": "2e1da3904efe6902d3f9688e1e941af59d00a50065efe073a799a47779ba28dd",
+     "declared_lf_body": null,
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1/response.json",
+   "present": false,
+   "bytes": null,
+   "sha256_stored": null,
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1/response.json.sha256",
+     "present": false,
+     "expected_stored": null,
+     "declared_lf_body": null,
+     "matches_stored": null
+    }
+   ],
+   "status": "missing"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1/user.txt",
+   "present": true,
+   "bytes": 90044,
+   "sha256_stored": "ed7a021cba5ec5489ac76dfba72de3c6259e94a04d0e4fb7765ca477782afa70",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1/user.txt.sha256",
+     "present": true,
+     "expected_stored": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402",
+     "declared_lf_body": null,
+     "matches_stored": false
+    }
+   ],
+   "status": "mismatch"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1-retry/response.json",
+   "present": true,
+   "bytes": 283012,
+   "sha256_stored": "bcf01e3818fc0c0af598e129ff754efb3788a4643fe2fe7b76f1da3f62f0a368",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1-retry/response.json.sha256",
+     "present": true,
+     "expected_stored": "989ccff4442d089ed39c5fbc9a5dbb1f10db28e4d50c24cdca476f81e4092deb",
+     "declared_lf_body": null,
+     "matches_stored": false
+    }
+   ],
+   "status": "mismatch"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1-retry/user.txt",
+   "present": true,
+   "bytes": 90044,
+   "sha256_stored": "ed7a021cba5ec5489ac76dfba72de3c6259e94a04d0e4fb7765ca477782afa70",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1-retry/user.txt.sha256",
+     "present": true,
+     "expected_stored": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402",
+     "declared_lf_body": null,
+     "matches_stored": false
+    }
+   ],
+   "status": "mismatch"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn2/response.json",
+   "present": true,
+   "bytes": 323947,
+   "sha256_stored": "ea216ab06cfc8cbd0e8e63282bbca88997e4ea1886aaa0da779d87f518529cce",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn2/response.json.sha256",
+     "present": true,
+     "expected_stored": "05e7b990b6abc980dec3c6905bf516a1fe05b40f8d17d29042243eb9d73eef3c",
+     "declared_lf_body": null,
+     "matches_stored": false
+    }
+   ],
+   "status": "mismatch"
+  },
+  {
+   "artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn2/user.txt",
+   "present": true,
+   "bytes": 90044,
+   "sha256_stored": "ed7a021cba5ec5489ac76dfba72de3c6259e94a04d0e4fb7765ca477782afa70",
+   "sidecars": [
+    {
+     "sidecar": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn2/user.txt.sha256",
+     "present": true,
+     "expected_stored": "36257f4ac1045fd3ac7b0d63dcf43a25e26a98ea38017a6e7f841e832ef2e402",
+     "declared_lf_body": null,
+     "matches_stored": false
+    }
+   ],
+   "status": "mismatch"
+  }
+ ],
+ "summary": {
+  "total": 21,
+  "verified": 11,
+  "mismatch": 5,
+  "missing": 1,
+  "no_bound_sidecar": 4
+ }
+}

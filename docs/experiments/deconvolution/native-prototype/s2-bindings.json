@@ -1,0 +1,25 @@
+{
+ "bindings": [
+  {"artifact": ".runs/e4-lifecycle/golden-a.json", "sidecars": [".runs/e4-lifecycle/golden-a.json.sha256", "docs/experiments/deconvolution/e4-lifecycle/results/golden-e4.json.sha256"]},
+  {"artifact": ".runs/e4-lifecycle/golden-b.json", "sidecars": [".runs/e4-lifecycle/golden-b.json.sha256", "docs/experiments/deconvolution/e4-lifecycle/results/golden-e4.json.sha256"]},
+  {"artifact": ".runs/e4-lifecycle/held-out-a.json", "sidecars": [".runs/e4-lifecycle/held-out-a.json.sha256", "docs/experiments/deconvolution/e4-lifecycle/results/held-out-e4.json.sha256"]},
+  {"artifact": ".runs/e4-lifecycle/held-out-b.json", "sidecars": [".runs/e4-lifecycle/held-out-b.json.sha256", "docs/experiments/deconvolution/e4-lifecycle/results/held-out-e4.json.sha256"]},
+  {"artifact": ".runs/e4-lifecycle/smoke.json", "sidecars": [".runs/e4-lifecycle/smoke.json.sha256"]},
+  {"artifact": ".runs/e4-lifecycle/e4-orig.sqlite", "sidecars": []},
+  {"artifact": ".runs/e4-lifecycle/e4-cand.sqlite", "sidecars": []},
+  {"artifact": ".runs/e3-facdrone/t31.sqlite", "sidecars": []},
+  {"artifact": ".runs/e3-facdrone/t4.sqlite", "sidecars": []},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/response.json", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/response.json.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/user.txt", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/user.txt.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn2/response.json", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/e4-turn2/response.json.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn2/user.txt", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/e4-turn2/user.txt.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn3/response.json", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/e4-turn3/response.json.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/e4-turn3/user.txt", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/e4-turn3/user.txt.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1/response.json", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/t4-turn1/response.json.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1/user.txt", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/t4-turn1/user.txt.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1-retry/response.json", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/t4-turn1-retry/response.json.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn1-retry/user.txt", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/t4-turn1-retry/user.txt.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn2/response.json", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/t4-turn2/response.json.sha256"]},
+  {"artifact": "docs/experiments/deconvolution/regenerator/results/turns/t4-turn2/user.txt", "sidecars": ["docs/experiments/deconvolution/regenerator/results/turns/t4-turn2/user.txt.sha256"]}
+ ]
+}
