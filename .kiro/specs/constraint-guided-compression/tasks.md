@@ -72,7 +72,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Requirements: 7.1_
 
 - [ ] 3. Scope measures: three readings, structure, pure share, and edit scope
-  - [ ] 3.1 (P) As-written measures, pluggable EffectProfile structure check, and pure share
+  - [x] 3.1 (P) As-written measures, pluggable EffectProfile structure check, and pure share
     - Implement `measure_written` and statement-level `measure_pure_share` in
       `src/lesscode_baseline/measures.py`, separating the default
       SQLAlchemy/database `EffectProfile` constants (`WRITE`, `BAD`, `SQL`)
