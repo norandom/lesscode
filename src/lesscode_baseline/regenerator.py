@@ -546,6 +546,231 @@ def enforce_feedback_boundary(feedback: dict, held_out_names: Sequence[str]) -> 
             )
 
 
+def verify_holdout_disjoint(train_scopes: set[str], eval_scopes: set[str]) -> None:
+    """Training and held-out evaluation scopes must not intersect (Req 7.5)."""
+    if overlap := sorted(train_scopes & eval_scopes):
+        raise HoldoutOverlapError(f"optimizer training scope intersects held-out evaluation scope: {overlap}")
+
+
+@dataclasses.dataclass
+class RefineBudget:
+    """Bounded turn/rollout/retry budget; every field is preregistered in the receipt."""
+
+    max_turns: int = 4
+    max_static_retries: int = 3
+    n_rollouts_per_turn: int = 1
+    max_input_tokens_per_call: int = MAX_INPUT_TOKENS
+    max_total_tokens: int = 600_000
+    no_progress_limit: int = 2
+    threshold: float = 1.0
+
+
+@dataclasses.dataclass
+class RolloutRecord:
+    """One recorded rollout (BestOfN element); hashes and diagnostics come from the turn."""
+
+    label: str
+    turn: int
+    rollout_id: int
+    attempt: int
+    score: float
+    tier: int
+    failure_kind: str | None
+    hashes: dict
+    diagnostics: dict
+
+    def as_dict(self) -> dict:
+        return dataclasses.asdict(self)
+
+
+@dataclasses.dataclass
+class RefineOutcome:
+    """Validity, compression and adoption stay separate; adoption is never claimed (Req 6.7)."""
+
+    status: str  # "accepted" | "exhausted"
+    best: RolloutRecord
+    validity: bool
+    compression_met: bool
+    adopted: bool
+    unresolved_obligations: list[str]
+    rollout_history: list[dict]
+    usage: dict
+
+
+def run_refine_loop(
+    req: TurnRequest,
+    cand_root: Path,
+    frozen_root: Path,
+    receipt_path: Path,
+    base_label: str,
+    budget: RefineBudget,
+    runtime_evaluator=None,
+    call_fn=None,
+    held_out_names: Sequence[str] = (),
+    static_targets: dict | None = None,
+) -> RefineOutcome:
+    """Stdlib Refine/BestOfN controller: outer turns x BestOfN rollouts x inner static retries.
+
+    The first attempt of the run resumes an existing candidate tree by hash
+    identity (exit 4 on mismatch); every later attempt restores ``cand_root``
+    from ``frozen_root`` before the next candidate write. Static failures
+    never launch the runtime oracle; tier 2 runs only after a tier-1 pass.
+    Turn feedback is boundary-checked against ``held_out_names`` before the
+    next prompt is built. No-progress and token budgets stop on outer turns;
+    exhaustion retains the best trajectory.
+    """
+    surface_report = json.loads(req.path(req.surface_path).read_text(encoding="utf-8"))
+    writer = ReceiptWriter(receipt_path)
+    call = call_fn or _default_call_fn
+    history: list[dict] = []
+    best: RolloutRecord | None = None
+    usage_total = {"input_tokens": 0, "output_tokens": 0, "calls": 0}
+    no_progress = 0
+    resolved_obligations: set[str] = set()
+    status = "exhausted"
+    first_attempt = True
+    base_params = {"max_tokens": 64000, "effort": "high", "temperature": 0.0, "display": None}
+
+    for turn in range(1, budget.max_turns + 1):
+        turn_best: RolloutRecord | None = None
+        turn_feedback: dict | None = None
+        for rollout in range(1, budget.n_rollouts_per_turn + 1):
+            attempt_params = dict(base_params)
+            record: RolloutRecord | None = None
+            attempts: list[dict] = []
+            label = f"{base_label}-t{turn}-r{rollout}"
+            for attempt in range(1, budget.max_static_retries + 1):
+                if first_attempt:
+                    prepare_candidate(frozen_root, cand_root, req.scope_files)  # resume by hash identity
+                    first_attempt = False
+                else:
+                    shutil.rmtree(cand_root, ignore_errors=True)
+                    prepare_candidate(frozen_root, cand_root, req.scope_files)
+                working_req = dataclasses.replace(req, feedback=turn_feedback)
+                system, user = build_prompt(working_req)
+                text, meta = None, {}
+                try:
+                    text, meta = call(system, user, attempt_params)
+                    if meta.get("stop_reason") not in ("end_turn", "stop"):
+                        outcome = {"ok": False, "kind": "stop_reason", "detail": meta.get("stop_reason")}
+                    else:
+                        try:
+                            result = parse_result(text, meta)
+                            written = write_candidate(result, cand_root, req.scope_files)
+                        except ScopeError as e:
+                            outcome = {"ok": False, "kind": "out_of_scope", "detail": str(e)}
+                        except (ValueError, KeyError, TypeError, StopIteration) as e:
+                            outcome = {"ok": False, "kind": "invalid_json", "detail": str(e)}
+                        else:
+                            outcome = {"ok": True, "result": result, "written": written}
+                except Exception as e:  # transport failure before or during the call
+                    outcome = {"ok": False, "kind": "transport", "detail": f"{type(e).__name__}: {e}"}
+                usage = meta.get("usage") or {}
+                usage_total["input_tokens"] += int(usage.get("input_tokens", 0) or 0)
+                usage_total["output_tokens"] += int(usage.get("output_tokens", 0) or 0)
+                usage_total["calls"] += 1
+                reward = evaluate_tier1_static(req, outcome, cand_root, surface_report, static_targets)
+                if reward.passed_tier1 and reward.score >= 0.50 and runtime_evaluator is not None:
+                    exit_code, divergence, results = runtime_evaluator(cand_root, {})
+                    reward = evaluate_tier2_runtime(exit_code, divergence, results)
+                record = RolloutRecord(
+                    label=label, turn=turn, rollout_id=rollout, attempt=attempt,
+                    score=reward.score, tier=reward.tier, failure_kind=reward.failure_kind,
+                    hashes={k: v for k, v in meta.items() if k.endswith("_sha256")},
+                    diagnostics=reward.diagnostics,
+                )
+                attempts.append({
+                    "attempt": attempt, "preregistered_params": attempt_params,
+                    "reward": reward.as_receipt_value(), "diagnostics": reward.diagnostics,
+                    **{k: meta[k] for k in ("stop_reason", "usage") if k in meta},
+                })
+                history.append(record.as_dict())
+                if reward.score >= 0.50:
+                    break  # the static repair chain ends on the first tier-1 pass
+                turn_feedback = _static_feedback(reward)
+                adaptation = next_rollout_params(reward, attempt - 1)
+                if adaptation:
+                    attempt_params.update({k: v for k, v in adaptation.items() if k in base_params})
+                    if adaptation.get("inject_missing_symbols"):
+                        turn_feedback["first_divergence"] += " missing: " + ", ".join(adaptation["inject_missing_symbols"])
+            if attempts:
+                writer.add_note(f"{label}-turn", {"attempts": attempts})
+            if record is not None and (turn_best is None or record.score > turn_best.score):
+                turn_best = record
+        if turn_best is None:
+            continue
+        improved = best is None or turn_best.score > best.score
+        discharged = _discharged_obligations(turn_best, resolved_obligations)
+        no_progress = 0 if (improved or discharged) else no_progress + 1
+        if improved:
+            best = turn_best
+        resolved_obligations |= discharged
+        if best.score >= budget.threshold:
+            status = "accepted"
+            break
+        if no_progress >= budget.no_progress_limit:
+            break
+        if usage_total["input_tokens"] + usage_total["output_tokens"] >= budget.max_total_tokens:
+            break
+        if runtime_evaluator is not None:
+            turn_feedback = _turn_feedback_from(best)
+            if turn_feedback is not None:
+                enforce_feedback_boundary(turn_feedback, held_out_names)
+    if best is None:
+        raise RuntimeError("no rollout recorded; budget too small")
+    unresolved = sorted(o for o in _known_obligations(best) if o not in resolved_obligations)
+    return RefineOutcome(
+        status=status,
+        best=best,
+        validity=best.score >= budget.threshold,
+        compression_met=not static_targets,
+        adopted=False,
+        unresolved_obligations=unresolved,
+        rollout_history=history,
+        usage=usage_total,
+    )
+
+
+def _static_feedback(reward: RewardEvaluation) -> dict:
+    parts = [f"static:{reward.failure_kind}"]
+    detail = reward.diagnostics.get("detail")
+    if detail:
+        parts.append(str(detail))
+    parts.extend((reward.diagnostics.get("errors") or [])[:3])
+    return {"kind": "failed", "first_divergence": " ".join(parts)[:2000],
+            "measure_gaps": reward.diagnostics.get("gaps") or {}}
+
+
+def _turn_feedback_from(record: RolloutRecord) -> dict | None:
+    if record.failure_kind is None and not record.diagnostics:
+        return None
+    divergence = record.diagnostics.get("first_divergence") or record.failure_kind or record.label
+    return {"kind": "failed", "first_divergence": str(divergence)[:2000],
+            "measure_gaps": record.diagnostics.get("measure_gaps") or {}}
+
+
+def _known_obligations(record: RolloutRecord) -> set[str]:
+    obligations: set[str] = set()
+    if record.failure_kind:
+        obligations.add(record.failure_kind)
+    if record.diagnostics.get("first_divergence"):
+        obligations.add(str(record.diagnostics["first_divergence"]))
+    obligations.update(name for _, name in record.diagnostics.get("missing_symbols") or [])
+    obligations.update((record.diagnostics.get("gaps") or {}).keys())
+    return obligations
+
+
+def _discharged_obligations(record: RolloutRecord, resolved: set[str]) -> set[str]:
+    return {o for o in _known_obligations(record) - resolved if record.failure_kind != o}
+
+
+def _default_call_fn(system: str, user: str, params: dict) -> tuple[str, dict]:
+    ep = load_endpoint()
+    return call(ep, system, user, max_tokens=params.get("max_tokens", 64000),
+                effort=params.get("effort", "high"), temperature=params.get("temperature"),
+                display=params.get("display"))
+
+
 @dataclasses.dataclass
 class RewardEvaluation:
     """Two-tier reward: tier 1 is static and offline, tier 2 wraps the runtime oracle."""

@@ -196,7 +196,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator_
     - _Depends: 5.2_
     - _Requirements: 4.2, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 6.5_
-  - [ ] 5.4 Stdlib Refine/BestOfN controller: budgets, stops, and outcome separation
+  - [x] 5.4 Stdlib Refine/BestOfN controller: budgets, stops, and outcome separation
     - Implement `run_refine_loop` and `verify_holdout_disjoint` in
       `src/lesscode_baseline/regenerator.py`: outer turns, parameterized
       `n_rollouts_per_turn` (`1` default for Slice A; `>1` exercised by `G1-R`

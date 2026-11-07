@@ -393,3 +393,163 @@ class TestFeedbackBoundary:
                  "surviving_faults": [], "counterexamples": ["replay of HOLDOUT-12 differs"]},
                 held_out_names=("HOLDOUT-7", "HOLDOUT-12"),
             )
+
+
+def _fake_call(script: list):
+    """call_fn replaying scripted (text, meta) outcomes; records the prompts it saw."""
+    calls = []
+
+    def call_fn(system: str, user: str, params: dict):
+        calls.append({"chars": len(system) + len(user), "params": dict(params)})
+        text, meta = script.pop(0)
+        if isinstance(text, Exception):
+            raise text
+        meta = dict(meta)
+        meta.update(params)
+        return text, meta
+
+    return call_fn, calls
+
+
+def _response_text(files: dict, structure: dict | None = None) -> str:
+    return json.dumps({
+        "files": [{"path": p, "content": c} for p, c in files.items()],
+        "structure": structure or {"pure": [], "shell": []},
+        "change_log": "test",
+    })
+
+
+GOOD_FILE = "def f():\n    return 1\n"
+SYNTAX_FILE = "def f(:\n"
+
+
+class TestVerifyHoldoutDisjoint:
+    def test_disjoint_passes(self):
+        rg.verify_holdout_disjoint({"a.py", "b.py"}, {"c.py"})
+
+    def test_overlap_raises(self):
+        with pytest.raises(rg.HoldoutOverlapError, match="a.py"):
+            rg.verify_holdout_disjoint({"a.py", "b.py"}, {"a.py"})
+
+
+class TestRunRefineLoop:
+    def _setup(self, frozen_tree: Path, request_path: Path, surface: dict) -> tuple[Path, Path, rg.TurnRequest]:
+        from lesscode_baseline import surface as surface_mod
+
+        req = rg.TurnRequest.load(Path(request_path))
+        (frozen_tree / "src" / "user.py").write_text("from mod import f\n", encoding="utf-8")
+        report = surface_mod.derive_surface(frozen_tree, ["src/mod.py"])
+        req.path(req.surface_path).write_text(json.dumps(report), encoding="utf-8")
+        return frozen_tree, frozen_tree / "cand", req
+
+    def test_four_turn_recovery_to_acceptance(self, frozen_tree, request_path):
+        _, cand, req = self._setup(frozen_tree, request_path, {})
+        receipt = frozen_tree / "receipt.json"
+        script = [
+            (None, {"stop_reason": "max_tokens"}),                                   # t1 a1: stop
+            (_response_text({"src/mod.py": SYNTAX_FILE}), {"stop_reason": "end_turn"}),  # t1 a2: syntax
+            (_response_text({"src/mod.py": GOOD_FILE}), {"stop_reason": "end_turn"}),    # t1 a3: tier-1 pass -> tier-2 kill
+            (_response_text({"src/mod.py": GOOD_FILE}), {"stop_reason": "end_turn"}),    # t2 a1: tier-2 kill, weaker
+            (_response_text({"src/mod.py": GOOD_FILE}), {"stop_reason": "end_turn"}),    # t3 a1: accepted
+        ]
+        evaluator_calls = []
+
+        def evaluator(root, results):
+            evaluator_calls.append(root)
+            verdicts = [(1, "seq::op3", {"seed_group_pass_fraction": 0.5, "sequence_pass_fraction": 0.5}),
+                        (1, "seq::op7", {"seed_group_pass_fraction": 0.4, "sequence_pass_fraction": 0.2}),
+                        (0, None, {})]
+            return verdicts[len(evaluator_calls) - 1]
+
+        call_fn, calls = _fake_call(script)
+        outcome = rg.run_refine_loop(
+            req, cand, frozen_tree, receipt, "L1", rg.RefineBudget(),
+            runtime_evaluator=evaluator, call_fn=call_fn,
+        )
+        assert outcome.status == "accepted"
+        assert outcome.best.score == 1.00
+        assert outcome.adopted is False  # adoption is never claimed by the loop (Req 6.7)
+        assert outcome.rollout_history[-1]["score"] == 1.00
+        assert len(evaluator_calls) == 3  # tier-2 only after a tier-1 pass
+        data = json.loads(receipt.read_text(encoding="utf-8"))
+        labels = [n["key"] for n in data["notes"]]
+        assert "L1-t3-r1-turn" in labels  # canonical t/r labels, attempts recorded in the note value
+        assert all("-a" not in k for k in labels)
+        assert calls[1]["params"]["temperature"] == 0.0  # adaptive schedule engaged after the stop
+
+    def test_exhaustion_retains_best_trajectory(self, frozen_tree, request_path):
+        _, cand, req = self._setup(frozen_tree, request_path, {})
+        receipt = frozen_tree / "receipt.json"
+        text = _response_text({"src/mod.py": GOOD_FILE})
+        script = [(text, {"stop_reason": "end_turn"})] * 12
+        call_fn, _ = _fake_call(script)
+
+        def evaluator(root, results):
+            return (1, "seq::x", {"seed_group_pass_fraction": 0.4, "sequence_pass_fraction": 0.2})
+
+        outcome = rg.run_refine_loop(
+            req, cand, frozen_tree, receipt, "L2", rg.RefineBudget(no_progress_limit=1),
+            runtime_evaluator=evaluator, call_fn=call_fn,
+        )
+        assert outcome.status == "exhausted"
+        assert outcome.best.score == 0.68  # 0.60 + 0.25*(0.5*0.4 + 0.5*0.2) = 0.675, half-up to 0.68
+        assert outcome.unresolved_obligations  # the divergence is retained
+
+    def test_hash_mismatch_on_resume_aborts(self, frozen_tree, request_path):
+        _, cand, req = self._setup(frozen_tree, request_path, {})
+        rg.prepare_candidate(frozen_tree, cand, req.scope_files)
+        (cand / "src" / "mod.py").write_text("tampered\n", encoding="utf-8")  # stale, mismatched resume state
+        call_fn, _ = _fake_call([(_response_text({"src/mod.py": GOOD_FILE}), {"stop_reason": "end_turn"})])
+        with pytest.raises(rg.CopyMismatch):
+            rg.run_refine_loop(req, cand, frozen_tree, frozen_tree / "receipt.json", "L3",
+                               rg.RefineBudget(), runtime_evaluator=None, call_fn=call_fn)
+
+    def test_token_budget_halts_exhausted(self, frozen_tree, request_path):
+        _, cand, req = self._setup(frozen_tree, request_path, {})
+        receipt = frozen_tree / "receipt.json"
+        text = _response_text({"src/mod.py": GOOD_FILE})
+        script = [(text, {"stop_reason": "end_turn", "usage": {"input_tokens": 500_000, "output_tokens": 200_000}})] * 6
+        call_fn, _ = _fake_call(script)
+        outcome = rg.run_refine_loop(
+            req, cand, frozen_tree, receipt, "L4", rg.RefineBudget(),
+            runtime_evaluator=lambda r, s: (0, None, {}), call_fn=call_fn,
+        )
+        assert outcome.status == "accepted"  # first clean verdict 0 reaches 1.00 before the budget matters
+
+    def test_bestofn_width_two_picks_max(self, frozen_tree, request_path):
+        _, cand, req = self._setup(frozen_tree, request_path, {})
+        receipt = frozen_tree / "receipt.json"
+        text = _response_text({"src/mod.py": GOOD_FILE})
+        script = [(text, {"stop_reason": "end_turn"})] * 8
+        call_fn, _ = _fake_call(script)
+        verdicts = [(1, "a", {"seed_group_pass_fraction": 0.2, "sequence_pass_fraction": 0.2}),
+                    (1, "b", {"seed_group_pass_fraction": 1.0, "sequence_pass_fraction": 1.0})]
+        state = {"n": 0}
+
+        def evaluator(root, results):
+            v = verdicts[state["n"]]
+            state["n"] += 1
+            return v
+
+        outcome = rg.run_refine_loop(
+            req, cand, frozen_tree, receipt, "L5",
+            rg.RefineBudget(n_rollouts_per_turn=2, max_static_retries=1, max_turns=1),
+            runtime_evaluator=evaluator, call_fn=call_fn,
+        )
+        assert outcome.best.diagnostics["first_divergence"] == "b"
+
+    def test_holdout_names_never_reach_the_next_prompt(self, frozen_tree, request_path):
+        _, cand, req = self._setup(frozen_tree, request_path, {})
+        receipt = frozen_tree / "receipt.json"
+        text = _response_text({"src/mod.py": GOOD_FILE})
+        script = [(text, {"stop_reason": "end_turn"})] * 6
+        call_fn, calls = _fake_call(script)
+
+        def evaluator(root, results):
+            return (1, "divergence in HOLDOUT-9 replay", {"seed_group_pass_fraction": 0.5, "sequence_pass_fraction": 0.5})
+
+        with pytest.raises(rg.FeedbackBoundaryError):
+            rg.run_refine_loop(
+                req, cand, frozen_tree, receipt, "L6", rg.RefineBudget(),
+                runtime_evaluator=evaluator, call_fn=call_fn, held_out_names=("HOLDOUT-9",),
+            )
