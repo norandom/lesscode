@@ -150,3 +150,136 @@ class TestCheckSyntax:
             "import os\nraise SystemExit('must not execute')\n", encoding="utf-8"
         )
         assert surface.check_syntax(tree, SCOPE) == []
+
+
+@pytest.fixture()
+def report(tree: Path) -> dict:
+    (tree / "src" / "pkg" / "mod.py").write_text(
+        textwrap.dedent(
+            """\
+            def used_fn() -> int:
+                return 1
+
+            class Used:
+                pass
+
+            USED_CONST = 7
+
+            patched_target = 0
+
+            def unused_fn() -> int:
+                return 2
+            """
+        ),
+        encoding="utf-8",
+    )
+    return surface.derive_surface(tree, SCOPE)
+
+
+class TestVerifyCandidateSurface:
+    def _candidate(self, tree: Path, mod_text: str) -> Path:
+        (tree / "cand").mkdir(exist_ok=True)
+        (tree / "cand" / "src" / "pkg").mkdir(parents=True, exist_ok=True)
+        (tree / "cand" / "src" / "pkg" / "mod.py").write_text(mod_text, encoding="utf-8")
+        return tree / "cand"
+
+    def test_clean_candidate_passes(self, tree: Path, report: dict) -> None:
+        cand = self._candidate(
+            tree,
+            "def used_fn():\n    return 1\n\n\nclass Used:\n    pass\n\n\nUSED_CONST = 7\n\n\npatched_target = 0\n\n\ndef unused_fn():\n    return 2\n",
+        )
+        verification = surface.verify_candidate_surface(cand, report)
+        assert verification["passed"] is True
+        assert verification["missing_symbols"] == []
+        assert verification["kind_mismatches"] == []
+        assert verification["local_rebindings"] == []
+
+    def test_missing_symbol_reported(self, tree: Path, report: dict) -> None:
+        cand = self._candidate(
+            tree,
+            "class Used:\n    pass\n\n\nUSED_CONST = 7\n\n\npatched_target = 0\n\n\ndef unused_fn():\n    return 2\n",
+        )
+        verification = surface.verify_candidate_surface(cand, report)
+        assert verification["passed"] is False
+        assert verification["missing_symbols"] == [("pkg.mod", "used_fn")]
+        assert verification["kind_mismatches"] == []
+        assert verification["local_rebindings"] == []
+
+    def test_kind_mismatch_reported(self, tree: Path, report: dict) -> None:
+        cand = self._candidate(
+            tree,
+            "used_fn = 1\n\n\nclass Used:\n    pass\n\n\nUSED_CONST = 7\n\n\npatched_target = 0\n\n\ndef unused_fn():\n    return 2\n",
+        )
+        verification = surface.verify_candidate_surface(cand, report)
+        assert verification["passed"] is False
+        assert verification["kind_mismatches"] == [
+            {"module": "pkg.mod", "name": "used_fn", "expected": "function", "actual": "constant"}
+        ]
+
+    def test_local_rebinding_by_parameter(self, tree: Path, report: dict) -> None:
+        cand = self._candidate(
+            tree,
+            "def used_fn(patched_target=1):\n    return patched_target\n\n\nclass Used:\n    pass\n\n\nUSED_CONST = 7\n\n\npatched_target = 0\n\n\ndef unused_fn():\n    return 2\n",
+        )
+        verification = surface.verify_candidate_surface(cand, report)
+        assert verification["passed"] is False
+        assert verification["local_rebindings"][0]["name"] == "patched_target"
+        assert verification["local_rebindings"][0]["how"] == "parameter"
+
+    def test_local_rebinding_by_assignment(self, tree: Path, report: dict) -> None:
+        cand = self._candidate(
+            tree,
+            textwrap.dedent(
+                """\
+                def used_fn():
+                    patched_target = 5
+                    return patched_target
+
+                class Used:
+                    pass
+
+                USED_CONST = 7
+
+                patched_target = 0
+
+                def unused_fn():
+                    return 2
+                """
+            ),
+        )
+        verification = surface.verify_candidate_surface(cand, report)
+        assert verification["passed"] is False
+        assert verification["local_rebindings"][0]["how"] == "assignment"
+
+    def test_extra_patched_names_checked(self, tree: Path, report: dict) -> None:
+        cand = self._candidate(
+            tree,
+            textwrap.dedent(
+                """\
+                def used_fn(USED_CONST=3):
+                    return USED_CONST
+
+                class Used:
+                    pass
+
+                USED_CONST = 7
+
+                patched_target = 0
+
+                def unused_fn():
+                    return 2
+                """
+            ),
+        )
+        verification = surface.verify_candidate_surface(cand, report, extra_patched=("USED_CONST",))
+        assert verification["passed"] is False
+        assert verification["local_rebindings"][0]["name"] == "USED_CONST"
+
+    def test_violations_carry_locations(self, tree: Path, report: dict) -> None:
+        cand = self._candidate(
+            tree,
+            "def used_fn(patched_target=1):\n    return patched_target\n\n\nclass Used:\n    pass\n\n\nUSED_CONST = 7\n\n\npatched_target = 0\n\n\ndef unused_fn():\n    return 2\n",
+        )
+        verification = surface.verify_candidate_surface(cand, report)
+        assert verification["local_rebindings"][0]["line"] == 1
+        assert verification["local_rebindings"][0]["function"] == "used_fn"

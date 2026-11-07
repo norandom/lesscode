@@ -190,8 +190,93 @@ def verify_candidate_surface(
 ) -> dict:
     """Verify a candidate tree against the Contract-B surface report.
 
-    Reports missing symbols, kind mismatches, and local rebinding of
-    ``patched`` module globals; never imports or executes candidate code.
-    (Implemented by task 2.2.)
+    Checks every contract module's candidate file for missing symbols, kind
+    mismatches, and local rebinding of ``patched`` module globals (parameter
+    shadowing, local assignment, default-arg capture). Never imports or
+    executes candidate code; every violation carries its module, symbol, and
+    where possible its line and enclosing function.
     """
-    raise NotImplementedError("task 2.2")
+    verification: dict = {
+        "passed": True,
+        "missing_symbols": [],
+        "kind_mismatches": [],
+        "local_rebindings": [],
+    }
+    for module, info in surface_report.get("modules", {}).items():
+        rel = info["file"]
+        path = cand_root / rel
+        if not path.is_file():
+            verification["missing_symbols"].append((module, "<module>"))
+            continue
+        kinds = _kinds(cand_root, rel)
+        for name, entry in info.get("names", {}).items():
+            if name == "<module>":
+                continue  # module-import marker, not a definable symbol
+            expected = entry["kind"]
+            if name not in kinds:
+                if expected != "missing":
+                    verification["missing_symbols"].append((module, name))
+                continue
+            actual = kinds[name]
+            if actual != expected:
+                verification["kind_mismatches"].append(
+                    {"module": module, "name": name, "expected": expected, "actual": actual}
+                )
+        patched_names = {
+            name
+            for name, entry in info.get("names", {}).items()
+            if "patched" in entry.get("via", ())
+        }
+        patched_names.update(extra_patched)
+        if patched_names:
+            verification["local_rebindings"].extend(
+                _find_local_rebindings(path, patched_names)
+            )
+    verification["passed"] = not (
+        verification["missing_symbols"]
+        or verification["kind_mismatches"]
+        or verification["local_rebindings"]
+    )
+    return verification
+
+
+def _find_local_rebindings(path: Path, patched_names: set[str]) -> list[dict]:
+    """Find functions that shadow patched module globals locally (AST only)."""
+    findings: list[dict] = []
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        for arg in [*node.args.posonlyargs, *node.args.args, *node.args.kwonlyargs]:
+            if arg.arg in patched_names:
+                findings.append(
+                    {
+                        "name": arg.arg,
+                        "how": "parameter",
+                        "function": node.name,
+                        "line": node.lineno,
+                    }
+                )
+        defaults = [*node.args.defaults, *node.args.kw_defaults]
+        default_names = {
+            d.id for d in defaults if isinstance(d, ast.Name) and d.id in patched_names
+        }
+        for name in sorted(default_names):
+            findings.append(
+                {"name": name, "how": "default", "function": node.name, "line": node.lineno}
+            )
+        for stmt in ast.walk(node):
+            if isinstance(stmt, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+                targets = getattr(stmt, "targets", None) or [getattr(stmt, "target", None)]
+                for target in targets:
+                    bound = {t.id for t in ast.walk(target) if isinstance(t, ast.Name)}
+                    for name in sorted(bound & patched_names):
+                        findings.append(
+                            {
+                                "name": name,
+                                "how": "assignment",
+                                "function": node.name,
+                                "line": stmt.lineno,
+                            }
+                        )
+    return findings

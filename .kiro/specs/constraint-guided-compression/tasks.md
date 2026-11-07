@@ -50,7 +50,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: SurfaceDeriver_
     - _Depends: 1_
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.3, 7.1_
-  - [ ] 2.2 Candidate surface verification for Tier-1 rejection
+  - [x] 2.2 Candidate surface verification for Tier-1 rejection
     - Implement `verify_candidate_surface` in `src/lesscode_baseline/surface.py`
       to check a candidate tree against the surface report: missing symbols,
       kind mismatches, and local rebinding of `patched` module globals
@@ -289,3 +289,9 @@ and start only on the owner's explicit answer. Frozen apparatus
   `DspyRefineAdapter` `--backend dspy` and offline `MIPROv2` compilation):
   withheld pending `G1-R` outcome per `Req 7.10` and `prototype-gate.md`.
 - _Requirements: 7.1, 7.10_
+
+## Implementation Notes
+
+- Validation must run from `D:\Source\lesscode`: `C:\Users\mariu\Source` is a junction onto `D:\Source`, and the efficiency-baseline integrity layer refuses reparse-point traversal (67 apparent failures vanish when run from the D: root).
+- Pre-existing on this machine, unrelated to this spec: 6 Windows process/timeout tests fail deterministically from the D: root (`tests/test_process.py` x3-5, `test_adverse_evaluation.py::test_timeout_of_child_spawning_check_retains_diagnostics`, `test_checks.py::test_timeout_after_report_preserves_raw_but_cannot_pass`); that code was last touched at ac68307 (efficiency-baseline). Owner WIP suites may fail independently (mid-work).
+- Test venv: `.runs/e2-facdrone/venv` (pytest 9.0.3, xdist 3.8.0); direct module runs need `PYTHONPATH=src`.
