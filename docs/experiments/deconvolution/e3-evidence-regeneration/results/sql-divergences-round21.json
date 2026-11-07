@@ -1,0 +1,9 @@
+{
+ "written": 1794066889.4378722,
+ "root": "D:\\Source\\lesscode\\.runs\\e3-facdrone\\cand",
+ "golden": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\e1b-facdrone-evidence-publication\\results\\golden-trace.json",
+ "sequences": 64,
+ "operations": 311,
+ "level2_ops": 0,
+ "divergences": []
+}
