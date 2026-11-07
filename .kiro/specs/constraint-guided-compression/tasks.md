@@ -211,7 +211,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator_
     - _Depends: 5.3_
     - _Requirements: 1.4, 1.5, 3.4, 4.1, 4.3, 4.4, 4.5, 4.6, 4.7, 6.6, 6.7, 7.4, 7.11_
-  - [ ] 5.5 Regenerator unit suite (offline)
+  - [x] 5.5 Regenerator unit suite (offline)
     - Create `tests/test_regenerator.py` covering key redaction and payload
       formatting (`anthropic` and `openai`), `TurnRequest.language` prompt
       fences, the six adverse controls (five frozen plus `ctrl_feedback_leak`)

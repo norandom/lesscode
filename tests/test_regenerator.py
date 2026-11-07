@@ -17,10 +17,11 @@ from lesscode_baseline import regenerator as rg
 
 @pytest.fixture()
 def frozen_tree(tmp_path: Path) -> Path:
-    (tmp_path / "src").mkdir()
-    (tmp_path / "src" / "mod.py").write_text("def f():\n    return 1\n", encoding="utf-8")
-    (tmp_path / "public-surface.json").write_text('{"modules": {}}', encoding="utf-8")
-    return tmp_path
+    frozen = tmp_path / "frozen"
+    (frozen / "src").mkdir(parents=True)
+    (frozen / "src" / "mod.py").write_text("def f():\n    return 1\n", encoding="utf-8")
+    (frozen / "public-surface.json").write_text('{"modules": {}}', encoding="utf-8")
+    return frozen
 
 
 @pytest.fixture()
@@ -440,11 +441,12 @@ class TestRunRefineLoop:
         (frozen_tree / "src" / "user.py").write_text("from mod import f\n", encoding="utf-8")
         report = surface_mod.derive_surface(frozen_tree, ["src/mod.py"])
         req.path(req.surface_path).write_text(json.dumps(report), encoding="utf-8")
-        return frozen_tree, frozen_tree / "cand", req
+        work = frozen_tree.parent  # candidate trees and receipts live outside the frozen copy
+        return frozen_tree, work, req
 
     def test_four_turn_recovery_to_acceptance(self, frozen_tree, request_path):
-        _, cand, req = self._setup(frozen_tree, request_path, {})
-        receipt = frozen_tree / "receipt.json"
+        _, work, req = self._setup(frozen_tree, request_path, {})
+        cand, receipt = work / "cand", work / "receipt.json"
         script = [
             (None, {"stop_reason": "max_tokens"}),                                   # t1 a1: stop
             (_response_text({"src/mod.py": SYNTAX_FILE}), {"stop_reason": "end_turn"}),  # t1 a2: syntax
@@ -478,8 +480,8 @@ class TestRunRefineLoop:
         assert calls[1]["params"]["temperature"] == 0.0  # adaptive schedule engaged after the stop
 
     def test_exhaustion_retains_best_trajectory(self, frozen_tree, request_path):
-        _, cand, req = self._setup(frozen_tree, request_path, {})
-        receipt = frozen_tree / "receipt.json"
+        _, work, req = self._setup(frozen_tree, request_path, {})
+        cand, receipt = work / "cand", work / "receipt.json"
         text = _response_text({"src/mod.py": GOOD_FILE})
         script = [(text, {"stop_reason": "end_turn"})] * 12
         call_fn, _ = _fake_call(script)
@@ -496,17 +498,18 @@ class TestRunRefineLoop:
         assert outcome.unresolved_obligations  # the divergence is retained
 
     def test_hash_mismatch_on_resume_aborts(self, frozen_tree, request_path):
-        _, cand, req = self._setup(frozen_tree, request_path, {})
+        _, work, req = self._setup(frozen_tree, request_path, {})
+        cand = work / "cand"
         rg.prepare_candidate(frozen_tree, cand, req.scope_files)
         (cand / "src" / "mod.py").write_text("tampered\n", encoding="utf-8")  # stale, mismatched resume state
         call_fn, _ = _fake_call([(_response_text({"src/mod.py": GOOD_FILE}), {"stop_reason": "end_turn"})])
         with pytest.raises(rg.CopyMismatch):
-            rg.run_refine_loop(req, cand, frozen_tree, frozen_tree / "receipt.json", "L3",
+            rg.run_refine_loop(req, cand, frozen_tree, work / "receipt.json", "L3",
                                rg.RefineBudget(), runtime_evaluator=None, call_fn=call_fn)
 
     def test_token_budget_halts_exhausted(self, frozen_tree, request_path):
-        _, cand, req = self._setup(frozen_tree, request_path, {})
-        receipt = frozen_tree / "receipt.json"
+        _, work, req = self._setup(frozen_tree, request_path, {})
+        cand, receipt = work / "cand", work / "receipt.json"
         text = _response_text({"src/mod.py": GOOD_FILE})
         script = [(text, {"stop_reason": "end_turn", "usage": {"input_tokens": 500_000, "output_tokens": 200_000}})] * 6
         call_fn, _ = _fake_call(script)
@@ -517,8 +520,8 @@ class TestRunRefineLoop:
         assert outcome.status == "accepted"  # first clean verdict 0 reaches 1.00 before the budget matters
 
     def test_bestofn_width_two_picks_max(self, frozen_tree, request_path):
-        _, cand, req = self._setup(frozen_tree, request_path, {})
-        receipt = frozen_tree / "receipt.json"
+        _, work, req = self._setup(frozen_tree, request_path, {})
+        cand, receipt = work / "cand", work / "receipt.json"
         text = _response_text({"src/mod.py": GOOD_FILE})
         script = [(text, {"stop_reason": "end_turn"})] * 8
         call_fn, _ = _fake_call(script)
@@ -539,8 +542,8 @@ class TestRunRefineLoop:
         assert outcome.best.diagnostics["first_divergence"] == "b"
 
     def test_holdout_names_never_reach_the_next_prompt(self, frozen_tree, request_path):
-        _, cand, req = self._setup(frozen_tree, request_path, {})
-        receipt = frozen_tree / "receipt.json"
+        _, work, req = self._setup(frozen_tree, request_path, {})
+        cand, receipt = work / "cand", work / "receipt.json"
         text = _response_text({"src/mod.py": GOOD_FILE})
         script = [(text, {"stop_reason": "end_turn"})] * 6
         call_fn, calls = _fake_call(script)
@@ -553,3 +556,91 @@ class TestRunRefineLoop:
                 req, cand, frozen_tree, receipt, "L6", rg.RefineBudget(),
                 runtime_evaluator=evaluator, call_fn=call_fn, held_out_names=("HOLDOUT-9",),
             )
+
+
+CONTROLS = [
+    ("ctrl_max_tokens", [(None, {"stop_reason": "max_tokens"})], 0.00, "stop_reason"),
+    ("ctrl_out_of_scope", [(_response_text({"src/other.py": "x = 1\n"}), {"stop_reason": "end_turn"})], 0.20, "out_of_scope"),
+    ("ctrl_syntax_error", [(_response_text({"src/mod.py": SYNTAX_FILE}), {"stop_reason": "end_turn"})], 0.30, "syntax_error"),
+    ("ctrl_missing_surface_b", [(_response_text({"src/mod.py": "def g():\n    return 2\n"}), {"stop_reason": "end_turn"})], 0.40, "surface"),
+    ("ctrl_write_in_pure", [(_response_text({"src/mod.py": "def f(conn):\n    conn.execute('sel')\n    return 1\n"},
+                                            {"pure": ["mod.py::f"], "shell": []}), {"stop_reason": "end_turn"})], 0.45, "structure"),
+]
+
+
+class TestAdverseControls:
+    @pytest.mark.parametrize(("name", "script", "score", "kind"), CONTROLS, ids=[c[0] for c in CONTROLS])
+    def test_control_fails_closed_without_runtime(self, frozen_tree, request_path, tmp_path,
+                                                  name, script, score, kind):
+        _, _, req = TestRunRefineLoop()._setup(frozen_tree, request_path, {})
+        cand = tmp_path / name / "cand"
+        receipt = tmp_path / name / "receipt.json"
+        call_fn, _ = _fake_call(script * 4)
+        evaluator_calls = []
+
+        def evaluator(root, results):
+            evaluator_calls.append(root)
+            return (0, None, {})
+
+        outcome = rg.run_refine_loop(
+            req, cand, frozen_tree.parent / frozen_tree.name, receipt, name,
+            rg.RefineBudget(max_turns=1, max_static_retries=4),
+            runtime_evaluator=evaluator, call_fn=call_fn,
+        )
+        assert outcome.best.score == score, kind
+        assert outcome.best.failure_kind == kind
+        assert evaluator_calls == []  # Tier-1 controls never launch the runtime oracle
+
+    def test_ctrl_feedback_leak_rejected_before_dispatch(self):
+        payload = {"kind": "failed", "first_divergence": "div in HOLDOUT-3", "measure_gaps": {}}
+        with pytest.raises(rg.FeedbackBoundaryError):
+            rg.enforce_feedback_boundary(payload, held_out_names=("HOLDOUT-3",))
+
+
+class TestOpenaiEndpoint:
+    def test_payload_formatting_and_hash_fields(self, monkeypatch):
+        ep = rg.Endpoint("openai", "http://localhost:8080/v1", "local-model", "sk-local")
+        captured = {}
+
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return False
+
+            def read(self):
+                return json.dumps({
+                    "choices": [{"message": {"content": "{\"files\": [], \"structure\": {}, \"change_log\": \"\"}"},
+                                 "finish_reason": "stop"}],
+                    "usage": {"input_tokens": 10, "output_tokens": 5},
+                }).encode("utf-8")
+
+        def fake_urlopen(request, timeout=None):
+            captured["url"] = request.full_url
+            captured["headers"] = dict(request.header_items())
+            captured["body"] = json.loads(request.data.decode("utf-8"))
+            return FakeResponse()
+
+        monkeypatch.setattr(rg.urllib.request, "urlopen", fake_urlopen)
+        text, meta = rg.call(ep, "system text", "user text", max_tokens=512, effort="low")
+        assert captured["url"] == "http://localhost:8080/v1/chat/completions"
+        assert captured["headers"].get("Authorization") == "Bearer sk-local"
+        assert captured["body"]["model"] == "local-model"
+        assert captured["body"]["messages"][0]["role"] == "system"
+        assert captured["body"]["response_format"]["json_schema"]["schema"] == rg.SCHEMA
+        assert text.startswith("{\"files\"")
+        assert meta["stop_reason"] == "stop"
+        assert meta["system_sha256"] == rg.sha256_text("system text")
+        assert meta["user_sha256"] == rg.sha256_text("user text")
+        assert "sk-local" not in json.dumps(meta)
+
+    def test_transport_error_wrapped(self, monkeypatch):
+        ep = rg.Endpoint("openai", "http://localhost:8080/v1", "m", "k")
+
+        def boom(request, timeout=None):
+            raise rg.urllib.error.URLError("refused")
+
+        monkeypatch.setattr(rg.urllib.request, "urlopen", boom)
+        with pytest.raises(RuntimeError, match="transport"):
+            rg.call(ep, "s", "u")
