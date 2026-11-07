@@ -19,7 +19,7 @@ ladder, receipts, or regenerator. Tasks marked "owner go" spend model budget
 and start only on the owner's explicit answer. Frozen apparatus
 (`recording.py`, `native/src/*.rs`, frozen experiment drivers) is never edited.
 
-- [ ] 1. Foundation: create module skeletons and register package exports
+- [x] 1. Foundation: create module skeletons and register package exports
   - Create minimal stdlib-only skeletons for `surface.py`, `measures.py`,
     `testinfra.py`, and `regenerator.py` in `src/lesscode_baseline/`, and
     export all four modules from `src/lesscode_baseline/__init__.py` (`cli.py`
