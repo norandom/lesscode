@@ -376,3 +376,138 @@ fn output_links_and_reparse_ancestors_are_rejected_before_writes() {
         .or_else(|_| fs::remove_file(&alias))
         .unwrap();
 }
+
+#[test]
+fn budgets_subcommand_enforces_frozen_ceilings_through_the_binary() {
+    let pair = Pair::new();
+    let native = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let out = pair.root.join("budgets-receipt.json");
+    let result = cli(&[
+        "budgets".as_ref(),
+        "--config".as_ref(),
+        native.join("complexity-budgets.json").as_os_str(),
+        "--root".as_ref(),
+        native.join("src").as_os_str(),
+        "--out".as_ref(),
+        out.as_os_str(),
+    ]);
+    // The live native/src tree is within every frozen ceiling.
+    assert_eq!(result.status.code(), Some(0));
+    let receipt: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(&out).unwrap()).unwrap();
+    assert_eq!(receipt["receipt"], "budgets");
+    assert_eq!(receipt["schema"], "rust-syntax-units-v1");
+    assert_eq!(receipt["summary"]["exceeded"], 0);
+    assert_eq!(receipt["summary"]["unlisted"], 0);
+    assert_eq!(receipt["summary"]["missing"], 0);
+    assert!(receipt["unlisted"].as_array().unwrap().is_empty());
+
+    // An unlisted .rs file fails closed with exit code 1.
+    let viol_root = pair.root.join("viol");
+    fs::create_dir_all(&viol_root).unwrap();
+    fs::write(viol_root.join("lib.rs"), "fn main() {}\n").unwrap();
+    let empty_cfg = pair.root.join("empty-budgets.json");
+    fs::write(&empty_cfg, r#"{"files": []}"#).unwrap();
+    let viol_out = pair.root.join("viol-receipt.json");
+    let result = cli(&[
+        "budgets".as_ref(),
+        "--config".as_ref(),
+        empty_cfg.as_os_str(),
+        "--root".as_ref(),
+        viol_root.as_os_str(),
+        "--out".as_ref(),
+        viol_out.as_os_str(),
+    ]);
+    assert_eq!(result.status.code(), Some(1));
+    let receipt: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(&viol_out).unwrap()).unwrap();
+    assert_eq!(receipt["unlisted"][0], "lib.rs");
+    assert_eq!(receipt["summary"]["unlisted"], 1);
+
+    // An invalid config surfaces as exit code 3.
+    let bad_cfg = pair.root.join("bad-budgets.json");
+    fs::write(&bad_cfg, "{bad").unwrap();
+    let result = cli(&[
+        "budgets".as_ref(),
+        "--config".as_ref(),
+        bad_cfg.as_os_str(),
+        "--root".as_ref(),
+        viol_root.as_os_str(),
+        "--out".as_ref(),
+        pair.root.join("bad-receipt.json").as_os_str(),
+    ]);
+    assert_eq!(result.status.code(), Some(3));
+    assert!(String::from_utf8_lossy(&result.stderr).contains("bad-budgets.json"));
+}
+
+#[test]
+fn admission_subcommand_reports_binding_statuses_through_the_binary() {
+    let pair = Pair::new();
+    fs::write(pair.root.join("a.json"), b"[1]\n").unwrap();
+    let digest: String = Sha256::digest(b"[1]\n")
+        .iter()
+        .map(|b| format!("{b:02x}"))
+        .collect();
+    fs::write(
+        pair.root.join("a.json.sha256"),
+        format!("{digest}  a.json\n"),
+    )
+    .unwrap();
+    fs::write(pair.root.join("b.json"), b"[]\n").unwrap();
+    let bindings = pair.root.join("bindings.json");
+    fs::write(
+        &bindings,
+        br#"{"bindings": [{"artifact": "a.json", "sidecars": ["a.json.sha256"]}, {"artifact": "b.json"}]}"#,
+    )
+    .unwrap();
+    let run_admission = |bindings: &std::path::Path, out: &std::path::Path| {
+        cli(&[
+            "admission".as_ref(),
+            "--root".as_ref(),
+            pair.root.as_os_str(),
+            "--bindings".as_ref(),
+            bindings.as_os_str(),
+            "--out".as_ref(),
+            out.as_os_str(),
+        ])
+    };
+
+    // Verified plus unbound-only bindings pass under default admission.
+    let out = pair.root.join("adm-receipt.json");
+    let result = run_admission(&bindings, &out);
+    assert_eq!(result.status.code(), Some(0));
+    let receipt: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(&out).unwrap()).unwrap();
+    assert_eq!(receipt["summary"]["verified"], 1);
+    assert_eq!(receipt["summary"]["no_bound_sidecar"], 1);
+    assert!(fs::read_to_string(pair.root.join("adm-receipt.json.sha256")).is_ok());
+
+    // A mismatched sidecar digest fails closed with exit code 1.
+    let bad = pair.root.join("bindings-bad.json");
+    fs::write(
+        &bad,
+        br#"{"bindings": [{"artifact": "b.json", "sidecars": ["a.json.sha256"]}]}"#,
+    )
+    .unwrap();
+    let out_bad = pair.root.join("adm-bad.json");
+    let result = run_admission(&bad, &out_bad);
+    assert_eq!(result.status.code(), Some(1));
+    let receipt: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(&out_bad).unwrap()).unwrap();
+    assert_eq!(receipt["summary"]["mismatch"], 1);
+
+    // Unreadable bindings surface as exit code 3.
+    let result = run_admission(
+        &pair.root.join("ghost-bindings.json"),
+        &pair.root.join("adm-ghost.json"),
+    );
+    assert_eq!(result.status.code(), Some(3));
+    assert!(String::from_utf8_lossy(&result.stderr).contains("ghost-bindings.json"));
+
+    // No --require-sidecar mode exists: exit codes are 0/1/3 only.
+    let help = cli(&["admission".as_ref(), "--help".as_ref()]);
+    assert!(help.status.success());
+    let text = String::from_utf8(help.stdout).unwrap();
+    assert!(text.contains("--bindings"));
+    assert!(!text.to_lowercase().contains("require-sidecar"));
+}

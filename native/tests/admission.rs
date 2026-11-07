@@ -3,6 +3,7 @@
 //! no-bound-sidecar).
 
 use lesscode_core::admission::{self, parse_sidecar, sha256_hex, verify, Status};
+use lesscode_core::receipt::{write_receipt, J};
 use std::path::PathBuf;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -123,4 +124,188 @@ fn cli_admission_end_to_end() {
     assert_eq!(get("no_bound_sidecar"), 1);
     assert_eq!(get("mismatch"), 0);
     assert_eq!(get("missing"), 0);
+}
+
+#[test]
+fn receipt_parity_matches_python_json_dumps() {
+    let root = temp_root("parity");
+    let value = J::obj(vec![
+        ("zebra", J::int(1)),
+        ("alpha", J::str("a")),
+        ("empty_obj", J::obj(vec![])),
+        ("empty_arr", J::Arr(vec![])),
+        (
+            "nested",
+            J::obj(vec![
+                (
+                    "zz",
+                    J::Arr(vec![
+                        J::int(1),
+                        J::str("two"),
+                        J::Null,
+                        J::Bool(true),
+                        J::Bool(false),
+                    ]),
+                ),
+                (
+                    "aa",
+                    J::obj(vec![("deep", J::Arr(vec![J::Arr(vec![]), J::obj(vec![])]))]),
+                ),
+            ]),
+        ),
+    ]);
+    let out = root.join("fresh-dir").join("receipt.json");
+    write_receipt(&out, &value).expect("write receipt");
+    // Reference bytes: Python json.dumps(value, indent=1, ensure_ascii=True) + "\n".
+    // Insertion order is preserved on the non-alphabetical keys at every level.
+    assert_eq!(
+        std::fs::read_to_string(&out).unwrap(),
+        r#"{
+ "zebra": 1,
+ "alpha": "a",
+ "empty_obj": {},
+ "empty_arr": [],
+ "nested": {
+  "zz": [
+   1,
+   "two",
+   null,
+   true,
+   false
+  ],
+  "aa": {
+   "deep": [
+    [],
+    {}
+   ]
+  }
+ }
+}
+"#
+    );
+}
+
+#[test]
+fn receipt_ensure_ascii_escaping_matches_python() {
+    let root = temp_root("escapes");
+    let value = J::obj(vec![(
+        "escapes",
+        J::str("quote\" backslash\\ \u{8}\t\n\u{c}\r \u{1f} \u{7f} é \u{1F600}"),
+    )]);
+    let out = root.join("escapes.json");
+    write_receipt(&out, &value).expect("write receipt");
+    // Reference bytes: Python json.dumps(..., indent=1, ensure_ascii=True) + "\n":
+    // short escapes, lowercase \u00xx for control characters and DEL, \u00e9 for
+    // BMP, and the \ud83d\ude00 surrogate pair for U+1F600.
+    assert_eq!(
+        std::fs::read_to_string(&out).unwrap(),
+        "{\n \"escapes\": \"quote\\\" backslash\\\\ \\b\\t\\n\\f\\r \\u001f \\u007f \\u00e9 \\ud83d\\ude00\"\n}\n"
+    );
+}
+
+#[test]
+fn receipt_sha256_sidecar_companion() {
+    let root = temp_root("sidecar");
+    let value = J::obj(vec![("zebra", J::int(1)), ("alpha", J::Null)]);
+    let out = root.join("fresh-dir").join("receipt.json");
+    write_receipt(&out, &value).expect("write receipt");
+    let bytes = std::fs::read(&out).expect("receipt");
+    let sidecar = std::fs::read_to_string(root.join("fresh-dir").join("receipt.json.sha256"))
+        .expect("sidecar");
+    let parsed = parse_sidecar(&sidecar);
+    assert_eq!(parsed.stored.as_deref(), Some(sha256_hex(&bytes).as_str()));
+    assert!(parsed.declared_lf_body.is_none());
+    assert!(sidecar.ends_with("  receipt.json\n"));
+}
+
+#[test]
+fn admission_cli_exit_codes_fail_closed() {
+    let root = temp_root("exits");
+    std::fs::write(root.join("good.json"), b"{\"a\": 1}\n").expect("write");
+    let digest = sha256_hex(b"{\"a\": 1}\n");
+    std::fs::write(
+        root.join("good.json.sha256"),
+        format!("{digest}  good.json\n").as_bytes(),
+    )
+    .expect("write");
+    std::fs::write(root.join("stale.json"), b"[1]\n").expect("write");
+    std::fs::write(
+        root.join("stale.json.sha256"),
+        b"0000000000000000000000000000000000000000000000000000000000000000  stale.json\n",
+    )
+    .expect("write");
+    std::fs::write(root.join("unbound.json"), b"[]\n").expect("write");
+
+    let bindings = root.join("bindings-all.json");
+    std::fs::write(
+        &bindings,
+        br#"{"bindings": [
+            {"artifact": "good.json", "sidecars": ["good.json.sha256"]},
+            {"artifact": "stale.json", "sidecars": ["stale.json.sha256"]},
+            {"artifact": "absent.json", "sidecars": ["absent.json.sha256"]},
+            {"artifact": "unbound.json"}]}"#,
+    )
+    .expect("bindings");
+    let out = root.join("all-receipt.json");
+    // Mismatch and missing bindings fail closed with exit code 1.
+    assert_eq!(
+        admission::cli_run(&root, &bindings, &out).expect("cli run"),
+        1
+    );
+    let all: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&out).unwrap()).unwrap();
+    let get = |key: &str| all["summary"][key].as_i64().unwrap();
+    assert_eq!(get("total"), 4);
+    assert_eq!(get("verified"), 1);
+    assert_eq!(get("mismatch"), 1);
+    assert_eq!(get("missing"), 1);
+    assert_eq!(get("no_bound_sidecar"), 1);
+
+    // Verified plus unbound-only bindings pass under default admission: exit 0
+    // (admission has no --require-sidecar mode; exit codes are 0/1/3 only).
+    let ok = root.join("bindings-ok.json");
+    std::fs::write(
+        &ok,
+        br#"{"bindings": [
+            {"artifact": "good.json", "sidecars": ["good.json.sha256"]},
+            {"artifact": "unbound.json"}]}"#,
+    )
+    .expect("bindings");
+    let out_ok = root.join("ok-receipt.json");
+    assert_eq!(admission::cli_run(&root, &ok, &out_ok).expect("cli run"), 0);
+    let passed: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&out_ok).unwrap()).unwrap();
+    assert_eq!(passed["summary"]["verified"], 1);
+    assert_eq!(passed["summary"]["no_bound_sidecar"], 1);
+}
+
+#[test]
+fn historical_s2_bindings_drift_reproduces_counts() {
+    let repo = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("repo root")
+        .to_path_buf();
+    let bindings = repo.join("docs/experiments/deconvolution/native-prototype/s2-bindings.json");
+    let out = temp_root("s2-drift").join("s2-admission.json");
+    // R28 smoke through the single binary: historical drift in the frozen
+    // s2 bindings must reproduce the recorded counts and exit 1.
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_lesscode-core"))
+        .arg("admission")
+        .arg("--root")
+        .arg(&repo)
+        .arg("--bindings")
+        .arg(&bindings)
+        .arg("--out")
+        .arg(&out)
+        .output()
+        .expect("run lesscode-core admission");
+    assert_eq!(output.status.code(), Some(1));
+    let receipt: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&out).unwrap()).unwrap();
+    let get = |key: &str| receipt["summary"][key].as_i64().unwrap();
+    assert_eq!(get("total"), 21);
+    assert_eq!(get("verified"), 11);
+    assert_eq!(get("mismatch"), 5);
+    assert_eq!(get("missing"), 1);
+    assert_eq!(get("no_bound_sidecar"), 4);
 }
