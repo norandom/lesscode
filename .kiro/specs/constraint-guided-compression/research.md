@@ -1,5 +1,92 @@
 # Query-driven, multi-pass compression research
 
+## Design Discovery & Synthesis (2026-11-07, `$kiro-spec-design` phase — [R33](../../../docs/research/2026-11-07/07-dspy-probabilistic-turn-refinement-design.md))
+
+### Summary
+- **Feature**: `constraint-guided-compression`
+- **Discovery Scope**: Complex Integration / Extension (reconciling `constraint-guided-compression` with completed [`capability-compression-core`](../capability-compression-core/spec.json) and [`deconvolution-native-core`](../deconvolution-native-core/spec.json), promoting demonstrated [`deconvolution-loop`](../deconvolution-loop/design.md) detection/measurement modules into `src/lesscode_baseline/`, and adding DSPy-style probabilistic multi-turn refinement `H10` for weaker/non-deterministic models).
+- **Consulted Skills & Guidance**: `kiro-validate-design` (`rules/design-review.md`), `kiro-spec-design` (`rules/design-principles.md`, `rules/design-discovery-full.md`, `rules/design-discovery-light.md`, `rules/design-synthesis.md`, `rules/design-review-gate.md`), `.kiro/steering/{product,tech,structure,prototype-first,complexity,roadmap}.md`, `src/lesscode_baseline/AGENTS.md`, and `docs/symbolic-execution-tooling.md`.
+- **Key Findings**:
+  1. **H7 Withdrawal & H8/H9 Substrate Reuse**: Static CodeQL state-flow models and LLM-authored SMT equivalence proofs (`H7`) failed empirical controls (`R08`–`R18`) and were withdrawn in [`R19`](../../../docs/research/2026-11-03/01-dynamic-deconvolution-direction.md). The completed `lesscode-core` (`prepare`, `compare`, `admission`, `budgets`) and `lesscode_baseline.recording` (`C_app = 1,203 <= 1,364`, [`R31`](../../../docs/research/2026-11-07/05-descoped-stratum-rerun.md)) already provide the production scope, metric, admission, receipt, and trace-oracle substrate.
+  2. **Two-Tier Failure Anatomy in Multi-Turn Regeneration (`R26` / E4)**: In E4 (`R26`), Turn 1 failed on `stop_reason == "max_tokens"` (128k thinking tokens, 0 JSON output) and Turn 2 failed on a missing recorder-imported surface symbol (`labeled_reason`). Both failures are **statically detectable in $< 1\text{ s}$** without spinning up embedded PostgreSQL or running 70+ `pytest` seeds, motivating a two-tier reward/assertion gate.
+  3. **DSPy v2.6+ `Refine` & `BestOfN` Pattern**: Modern DSPy (`>= 2.6`) replaces deprecated `dspy.Assert`/`dspy.Suggest` with `dspy.BestOfN(module, N, reward_fn, threshold, fail_count)` and `dspy.Refine(module, N, reward_fn, threshold, fail_count)` where `reward_fn(args, pred) -> float` scores each rollout and `Refine` injects structured diagnostic feedback into subsequent attempts when `reward < threshold`. Implementing this exact `(module, N, reward_fn, threshold, fail_count)` contract stdlib-first in `src/lesscode_baseline/regenerator.py` (with an optional lazy-loaded `dspy` adapter) keeps `src/lesscode_baseline/` import-clean while supporting multi-turn recovery on weaker/non-deterministic models (`anthropic` and `openai`-compatible endpoints).
+
+### Research Log (2026-11-07)
+
+#### Topic 1: DSPy `Refine` / `BestOfN` vs. Legacy `Assert` / `Suggest`
+- **Context**: Owner requested adopting DSPy-style probabilistic prompt iterations so weaker models or non-deterministic responses recover via additional turns rather than failing a trial.
+- **Sources Consulted**: DSPy v2.6+ official documentation (`dspy.Refine`, `dspy.BestOfN`, `dspy.Signature`, `MIPROv2`), `docs/experiments/deconvolution/regenerator/regen_turn.py`, and [`R26`](../../../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md).
+- **Findings**:
+  - `dspy.BestOfN` executes up to `N` rollouts with distinct rollout IDs / temperature schedules and returns the first candidate meeting `reward >= threshold` (or highest reward overall).
+  - `dspy.Refine` extends `BestOfN` with an automatic feedback loop: failed rollouts produce structured critique/feedback injected into the next rollout's prompt.
+  - Separating the reward function into **Tier 1 (`StaticAssertionGate`: $R \in [0.0, 0.49]$)** and **Tier 2 (`RuntimeOracleGate`: $R \in [0.50, 1.0]$)** avoids running expensive database/test-suite replays on syntactically invalid, out-of-scope, surface-breaking, or write-leaking rollouts.
+- **Implications**: `src/lesscode_baseline/regenerator.py` implements `RefineController` and `BestOfNSelector` natively over `TurnRequest`/`TurnResult` using the two-tier `reward_fn`, plus a lazy `DspyRefineAdapter` when `dspy` is installed.
+
+#### Topic 2: Consolidating Demonstrated Loop Apparatus into `src/lesscode_baseline/`
+- **Context**: `surface.py` (60 lines), `s9_surface_contracts.py` (79 lines), `measures.py` (54 lines), `measures2.py` (46 lines), `measures3.py` (69 lines), `pureshare.py` (37 lines), `editscope.py` (65 lines), `testinfra.py` (626 lines), and `regen_turn.py` (337 lines) currently live scattered across `docs/experiments/deconvolution/`.
+- **Sources Consulted**: All 9 prototype files, `src/lesscode_baseline/recording.py`, `src/lesscode_baseline/AGENTS.md`, and [`R27`](../../../docs/research/2026-11-07/01-solution-first-native-slice.md)–[`R32`](../../../docs/research/2026-11-07/06-rust-specimen-testinfra-detection.md).
+- **Findings**:
+  - `surface.py` and `surface4.py` are identical except for the `SET` list; parameterizing `scope_files: Sequence[str]` and `recorder_files: Sequence[str] = ()` unifies Contract A and Contract B (`S9`/`R29`) in one ~90-line module (`src/lesscode_baseline/surface.py`) including Tier-1 static `patched`-global local-rebinding checks (`patchcheck.py` `rebound()`).
+  - `measures.py`, `measures2.py`, `measures3.py`, `pureshare.py`, and `editscope.py` all operate on `root: Path` + `scope_files: Sequence[str]` using Python's stdlib `ast`, `re`, `hashlib`, and `subprocess` (`ruff==0.17.3 format`). Unifying them into `src/lesscode_baseline/measures.py` (~190 lines) eliminates `sys.path` mutation hacks (`_m.SET = SET` in `measures4.py`/`pureshare4.py`).
+  - `testinfra.py` uses only Python stdlib (`ast`, `configparser`, `tomllib`, `fnmatch`, `shlex`) and relocates cleanly to `src/lesscode_baseline/testinfra.py`.
+
+### Architecture Pattern Evaluation
+
+| Option | Description | Strengths | Risks / Limitations | Notes |
+|---|---|---|---|---|
+| **1. H7 Static Graph + Authored SMT (2026-11-02 proposal)** | CodeQL dataflow $\to$ LLM state model $T(\dots)$ $\to$ Z3 equivalence check | Minimal runtime execution | Falsified in `G0c`/`G0d` and `R16`–`R18`; unmeasurable model fidelity | **Rejected / Withdrawn (`R19`)** |
+| **2. Mandatory Full-Stack DSPy + Rust Port** | Require `dspy-ai` at top-level import and port all Python AST/turn logic to Rust immediately | Single compiled binary | Breaches `U5`/`U7` apparatus budgets (`R30`: $C_{\text{app}} = 1,808 > 1,364$); adds heavy LLM SDK dependencies to baseline package | **Rejected (`R30`, `R31`)** |
+| **3. Two-Tier Probabilistic `Refine`/`BestOfN` over Consolidated Python + Native Core (Selected)** | Promote `surface`, `measures`, `testinfra`, and two-tier `regenerator` (`Refine`/`BestOfN` + optional `dspy` adapter) into `src/lesscode_baseline/`, backed by `recording.py` and `lesscode-core` | Zero new required dependencies; fast Tier-1 static recovery (<1 s); preserves `U5` savings and all `R25`–`R32` contracts | Multi-rollout recovery on weaker models requires bounded `G1-R` validation before claiming general efficacy | **Selected (`R33`)** |
+
+### Design Synthesis (`rules/design-synthesis.md`)
+
+1. **Generalization**:
+   - Parameterizing `scope_files` and `recorder_files` generalizes `surface.py`/`surface4.py`/`s9_surface_contracts.py` and `measures.py`/`measures4.py`/`pureshare4.py` across any Python scope without monkey-patching module-level `SET`.
+   - Modelling candidate evaluation as a composable two-tier reward function $R(\text{req}, \text{cand}) \to \text{RewardEvaluation}(\text{score} \in [0, 1], \text{tier}, \text{passed}, \text{feedback})$ unifies single-turn validation (`N=1`), inner static assertion backtracking (`Tier 1`), outer runtime counterexample refinement (`Tier 2`), and `dspy.Refine`/`dspy.BestOfN` rollouts behind a single interface.
+2. **Build vs. Adopt**:
+   - **Adopt from stdlib / locked stack**: Python `ast`, `tomllib`, `configparser`, `hashlib`, `urllib.request`; pinned `ruff==0.17.3` CLI for canonical formatting; `cosmic-ray 8.7.0` and `CrossHair` via `uv tool run`; `lesscode-core` (`syn`, `proc-macro2`, `ast-grep-core`, `sha2`, `clap`) for native budgets, admission, receipts, and scope comparison.
+   - **Adopt via optional adapter**: `dspy` (`dspy.Refine`, `dspy.BestOfN`, `dspy.Signature`, `MIPROv2`) lazy-loaded when `--backend dspy` is requested, while providing a 100% compatible stdlib `RefineController` default so tests and offline runs require zero external LLM frameworks.
+   - **Reject**: CodeQL/Joern as behavioral state engines (`R08`–`R09`), `serde_jcs` (`R27`), `pg_query` (`R27`), `mutmut` (POSIX `fork` only), KLEE (`symbolic-execution-tooling.md`).
+3. **Simplification**:
+   - Collapse 7 scattered experiment scripts (`surface.py`, `surface4.py`, `s9_surface_contracts.py`, `measures.py`, `measures2.py`, `measures3.py`, `pureshare.py`, `editscope.py`) into 2 cohesive product modules (`src/lesscode_baseline/surface.py` and `src/lesscode_baseline/measures.py`).
+   - Keep `recording.py` and `native/src/{admission,receipt,budgets}.rs` untouched (0 diff lines on `deconvolution-native-core` modules).
+
+### Design Decisions
+
+#### Decision 1: Two-Tier Programmatic Reward & Assertion Gate (`StaticAssertionGate` $\to$ `RuntimeOracleGate`)
+- **Context**: Weaker models and non-deterministic sampling frequently fail on output truncation (`stop_reason == "max_tokens"`), JSON formatting, out-of-scope paths, syntax errors, missing Contract-B surface symbols (`labeled_reason`), or placing DB writes inside `pure` functions. Running the full PostgreSQL + `pytest` acceptance arm (`recording.py`, ~60–180 s) on such candidates wastes budget and obscures fast-recoverable errors.
+- **Alternatives Considered**:
+  1. Single-tier runtime evaluation after every LLM call (the E4 `regen_turn.py` manual workflow).
+  2. Unchecked multi-sample temperature sweeps scored only by code length.
+- **Selected Approach**: Partition candidate evaluation into:
+  - **Tier 1 (`StaticAssertionGate`, $R \in [0.0, 0.49]$)**: Checks completion/JSON ($0.10$), `editscope` path confinement ($0.20$), Python `ast.parse` syntax ($0.30$), Contract-B `surface` + `patched`-global local-rebinding check ($0.40$), and `measures` `pure`/`shell` structural check + static edge/function/line budgets ($0.49$). Any Tier-1 failure triggers immediate inner `Refine` retry (`max_static_retries <= 3`) with parameter adaptation (e.g., capping thinking tokens on `max_tokens`, incrementing `rollout_id`/temperature on syntax/surface errors) and exact diagnostic feedback without running `recording.py`.
+  - **Tier 2 (`RuntimeOracleGate`, $R \in [0.50, 1.0]$)**: Runs `recording.py` (`probe`, `run_groups`, `verdict`) and canonical/separated-form `measures`. Partial seed/replay progress scores in $[0.50, 0.89]$; passing replay with measure gaps scores in $[0.90, 0.99]$; full acceptance (`verdict == 0`, `structure.pass == True`, all targets met) scores $1.0$.
+- **Rationale**: Directly prevents E4 Turn 1 and Turn 2 failure modes from consuming runtime oracle turns while remaining 100% deterministic and fail-closed.
+- **Trade-offs**: Adds ~120 lines of structured reward/retry logic in `regenerator.py`, offset by eliminating bespoke per-experiment retry wrappers.
+- **Follow-up**: Validate on frozen E3/E4 artifacts and adverse controls in spike `G1-R`.
+
+#### Decision 2: Dual-Endpoint (`anthropic` + `openai`) & Lazy `dspy` Adapter Architecture
+- **Context**: Weaker or open-weight models are commonly served via OpenAI-compatible HTTP endpoints (`v1/chat/completions` with `response_format={"type": "json_schema", ...}`), whereas `regen_turn.py` previously raised `NotImplementedError` for `style == "openai"`.
+- **Selected Approach**: Support both `anthropic` and `openai` styles in `regenerator.py` (using stdlib `urllib.request` for `openai` JSON-schema chat completions so no new SDK is required, while keeping the existing `anthropic` streaming client path and lazy `dspy.LM`/`dspy.Refine` bridge).
+- **Rationale**: Enables testing weaker/local models and OpenAI-compatible providers without expanding mandatory dependencies.
+
+### Risks & Mitigations
+- **Risk 1: Multi-turn retry loops masking oracle weakness or overfitting to weak tests** — *Mitigation*: Frozen acceptance checks (`recording.py`) and mutation sensitivity (`t4_arm`) are read-only and outside the regenerator's reach; `Req 7.5` strictly separates any DSPy prompt-optimization training scopes from held-out evaluation scopes.
+- **Risk 2: Unbounded token consumption across `Refine` retries** — *Mitigation*: Enforce hard preregistered budgets (`max_turns`, `max_static_retries`, `max_total_input_tokens`, `max_total_output_tokens`) and a deterministic `no_progress_limit` (`k = 2` outer turns without strict improvement in $\max(R)$ or a newly discharged obligation, `Req 4.5, 4.6`).
+- **Risk 3: Split spec ownership between `constraint-guided-compression`, `deconvolution-loop`, and `deconvolution-native-core`** — *Mitigation*: Explicit Boundary Commitments in `design.md`: `deconvolution-native-core` owns `native/src/{admission,receipt,budgets}.rs` and `src/lesscode_baseline/recording.py`; this spec owns `src/lesscode_baseline/{surface,measures,testinfra,regenerator}.py` and the `G1-R` probabilistic refinement gate.
+
+### References
+- [R33: H8/H9 + DSPy-style probabilistic turn refinement design](../../../docs/research/2026-11-07/07-dspy-probabilistic-turn-refinement-design.md)
+- [R32: TestInfraDetector on the Rust specimen](../../../docs/research/2026-11-07/06-rust-specimen-testinfra-detection.md)
+- [R31: Descoped replacement stratum — attempt 2](../../../docs/research/2026-11-07/05-descoped-stratum-rerun.md)
+- [R29: S9 surface contracts (Contract A vs Contract B)](../../../docs/research/2026-11-07/03-s9-surface-contracts.md)
+- [R26: E4 lifecycle regeneration](../../../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md)
+- [R25: E3 evidence regeneration](../../../docs/research/2026-11-04/02-e3-evidence-regeneration.md)
+- [R19: Dynamic deconvolution direction](../../../docs/research/2026-11-03/01-dynamic-deconvolution-direction.md)
+- [DSPy `Refine` and `BestOfN` documentation](https://dspy.ai/)
+
+---
+
 2026-11-03 direction amendment:
 [R19](../../../docs/research/2026-11-03/01-dynamic-deconvolution-direction.md)
 records the owner's review that static state models and family-duplication
