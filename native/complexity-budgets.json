@@ -28,11 +28,11 @@
   {
    "path": "lib.rs",
    "max_physical_lines": 587,
-   "max_logical_units": 179,
+   "max_logical_units": 180,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (task 2)",
-   "disposition": "keep-measured-ceiling; +2 registration-only allowance, zero domain logic (U7 rule 2); blob 5b5003445f2ea3b67dfea07dafe8ee9dd3aa2884"
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2)",
+   "disposition": "keep-measured-ceiling; +2 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
    "path": "main.rs",
