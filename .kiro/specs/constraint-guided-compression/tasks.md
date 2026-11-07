@@ -122,7 +122,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Requirements: 7.1_
 
 - [ ] 4. Test-infrastructure detection as a package module
-  - [ ] 4.1 (P) Versioned detector relocation and cross-language envelope
+  - [x] 4.1 (P) Versioned detector relocation and cross-language envelope
     - Relocate the demonstrated detector into `src/lesscode_baseline/testinfra.py`
       as a versioned module (the frozen experiment original stays untouched),
       preserving the cross-language top-level report envelope (`runner`,
