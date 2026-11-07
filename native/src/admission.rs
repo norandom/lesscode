@@ -2,12 +2,146 @@
 //! bytes to sidecar digests and emit receipts. Fail-closed: missing bytes or
 //! missing sidecars stay unavailable evidence, never zero, and a sidecar whose
 //! artifact bytes are absent verifies nothing.
+//!
+//! Attempt-2 descope (prototype-plan.md §9): self-contained. Python owns
+//! canonical digest emission; admission hashes bytes as stored (`sha2`),
+//! parses its bindings via `serde_json` (input, order irrelevant) and emits
+//! its fixed receipt schema in Python `json.dumps(indent=1)` form:
+//! ASCII-escaped strings, integers, booleans, null, arrays and
+//! insertion-ordered objects (no floats by construction).
 
-use crate::pyjson::{self, Fmt, J};
+use serde_json::Value;
+use sha2::{Digest, Sha256};
+use std::fmt::Write as _;
 use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
+
+/// Minimal order-preserving JSON value for the fixed receipt schema.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum J {
+    Null,
+    Bool(bool),
+    Int(i64),
+    Str(String),
+    Arr(Vec<J>),
+    Obj(Vec<(String, J)>),
+}
+
+impl J {
+    pub fn str(s: impl Into<String>) -> J {
+        J::Str(s.into())
+    }
+
+    pub fn int(n: i64) -> J {
+        J::Int(n)
+    }
+
+    pub fn obj(pairs: Vec<(&str, J)>) -> J {
+        J::Obj(pairs.into_iter().map(|(k, v)| (k.to_string(), v)).collect())
+    }
+}
+
+const HEX: &[u8; 16] = b"0123456789abcdef";
+
+/// Lowercase hex SHA-256 over the bytes as stored.
+pub fn sha256_hex(bytes: &[u8]) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(bytes);
+    let mut out = String::with_capacity(64);
+    for byte in hasher.finalize() {
+        out.push(HEX[(byte >> 4) as usize] as char);
+        out.push(HEX[(byte & 0x0f) as usize] as char);
+    }
+    out
+}
+
+fn indent(depth: usize, out: &mut String) {
+    for _ in 0..depth {
+        out.push(' ');
+    }
+}
+
+/// Python `json.dumps` string escaping (`ensure_ascii`): short escapes for
+/// `"`, `\`, \b, \t, \n, \f, \r; `\u00xx` (lowercase hex) for other control
+/// characters and DEL; `\uxxxx` (surrogate pairs above BMP) for non-ASCII.
+fn write_json_str(s: &str, out: &mut String) {
+    out.push('"');
+    for ch in s.chars() {
+        match ch {
+            '"' => out.push_str("\\\""),
+            '\\' => out.push_str("\\\\"),
+            '\u{8}' => out.push_str("\\b"),
+            '\t' => out.push_str("\\t"),
+            '\n' => out.push_str("\\n"),
+            '\u{c}' => out.push_str("\\f"),
+            '\r' => out.push_str("\\r"),
+            c if c.is_ascii_graphic() || c == ' ' => out.push(c),
+            c => {
+                let cp = c as u32;
+                if cp <= 0xFFFF {
+                    let _ = write!(out, "\\u{cp:04x}");
+                } else {
+                    let cp = cp - 0x10000;
+                    let hi = 0xD800 + (cp >> 10);
+                    let lo = 0xDC00 + (cp & 0x3FF);
+                    let _ = write!(out, "\\u{hi:04x}\\u{lo:04x}");
+                }
+            }
+        }
+    }
+    out.push('"');
+}
+
+/// Python `json.dumps(value, indent=1)`-compatible emission for the receipt
+/// domain: one space per nesting level, `": "` after keys, `",\n"` between
+/// items, empty containers inline, insertion order preserved.
+fn write_value(value: &J, depth: usize, out: &mut String) {
+    match value {
+        J::Null => out.push_str("null"),
+        J::Bool(true) => out.push_str("true"),
+        J::Bool(false) => out.push_str("false"),
+        J::Int(n) => out.push_str(&n.to_string()),
+        J::Str(s) => write_json_str(s, out),
+        J::Arr(items) => {
+            if items.is_empty() {
+                out.push_str("[]");
+                return;
+            }
+            out.push_str("[\n");
+            for (i, item) in items.iter().enumerate() {
+                if i > 0 {
+                    out.push_str(",\n");
+                }
+                indent(depth + 1, out);
+                write_value(item, depth + 1, out);
+            }
+            out.push('\n');
+            indent(depth, out);
+            out.push(']');
+        }
+        J::Obj(pairs) => {
+            if pairs.is_empty() {
+                out.push_str("{}");
+                return;
+            }
+            out.push_str("{\n");
+            for (i, (key, val)) in pairs.iter().enumerate() {
+                if i > 0 {
+                    out.push_str(",\n");
+                }
+                indent(depth + 1, out);
+                write_json_str(key, out);
+                out.push_str(": ");
+                write_value(val, depth + 1, out);
+            }
+            out.push('\n');
+            indent(depth, out);
+            out.push('}');
+        }
+    }
+}
 
 fn joined(root: &Path, rel: &str) -> PathBuf {
     root.join(rel.replace('/', std::path::MAIN_SEPARATOR_STR))
@@ -92,7 +226,7 @@ pub fn verify(root: &Path, artifact: &str, sidecars: &[String]) -> BindingReport
     }
     let bytes = fs::read(&path).unwrap_or_default();
     report.bytes = Some(bytes.len() as u64);
-    let actual = pyjson::sha256_hex(&bytes);
+    let actual = sha256_hex(&bytes);
     report.sha256_stored = Some(actual.clone());
     report.status = Status::NoBoundSidecar;
     for sc in sidecars {
@@ -215,14 +349,7 @@ pub fn status_name(status: Status) -> &'static str {
 /// format, digest over the bytes as stored).
 pub fn write_receipt(path: &Path, value: &J) -> io::Result<()> {
     let mut body = String::new();
-    pyjson::write(
-        value,
-        Fmt::Indent {
-            width: 1,
-            sort_keys: false,
-        },
-        &mut body,
-    );
+    write_value(value, 0, &mut body);
     body.push('\n');
     fs::create_dir_all(path.parent().unwrap_or(Path::new(".")))?;
     fs::write(path, body.as_bytes())?;
@@ -230,7 +357,7 @@ pub fn write_receipt(path: &Path, value: &J) -> io::Result<()> {
         .file_name()
         .map(|n| n.to_string_lossy().to_string())
         .unwrap_or_default();
-    let sidecar = format!("{}  {}\n", pyjson::sha256_hex(body.as_bytes()), name);
+    let sidecar = format!("{}  {}\n", sha256_hex(body.as_bytes()), name);
     fs::write(path.with_extension("json.sha256"), sidecar.as_bytes())?;
     Ok(())
 }
@@ -242,45 +369,28 @@ pub fn write_receipt(path: &Path, value: &J) -> io::Result<()> {
 pub fn cli_run(root: &Path, bindings: &Path, out: &Path) -> Result<u8, String> {
     let text = fs::read_to_string(bindings)
         .map_err(|e| format!("cannot read {}: {e}", bindings.display()))?;
-    let spec = pyjson::parse(&text)
+    let spec: Value = serde_json::from_str(&text)
         .map_err(|e| format!("invalid bindings {}: {e}", bindings.display()))?;
-    let J::Obj(pairs) = &spec else {
-        return Err("bindings file must contain an object".into());
-    };
-    let entry = pairs
-        .iter()
-        .find(|(k, _)| k == "bindings")
+    let items = spec
+        .get("bindings")
+        .and_then(Value::as_array)
         .ok_or("bindings file needs a \"bindings\" array")?;
-    let J::Arr(items) = &entry.1 else {
-        return Err("\"bindings\" must be an array".into());
-    };
     let mut reports = Vec::new();
     for item in items {
-        let J::Obj(fields) = item else {
-            return Err("each binding must be an object".into());
-        };
-        let artifact = fields
-            .iter()
-            .find(|(k, _)| k == "artifact")
-            .and_then(|(_, v)| match v {
-                J::Str(s) => Some(s.clone()),
-                _ => None,
-            })
-            .ok_or("each binding needs an \"artifact\" string")?;
-        let sidecars = fields
-            .iter()
-            .find(|(k, _)| k == "sidecars")
-            .and_then(|(_, v)| match v {
-                J::Arr(items) => Some(
-                    items
-                        .iter()
-                        .filter_map(|s| match s {
-                            J::Str(s) => Some(s.clone()),
-                            _ => None,
-                        })
-                        .collect::<Vec<_>>(),
-                ),
-                _ => None,
+        let artifact = item
+            .get("artifact")
+            .and_then(Value::as_str)
+            .ok_or("each binding needs an \"artifact\" string")?
+            .to_string();
+        let sidecars = item
+            .get("sidecars")
+            .and_then(Value::as_array)
+            .map(|entries| {
+                entries
+                    .iter()
+                    .filter_map(Value::as_str)
+                    .map(str::to_string)
+                    .collect::<Vec<_>>()
             })
             .unwrap_or_default();
         reports.push(verify(root, &artifact, &sidecars));

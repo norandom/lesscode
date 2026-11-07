@@ -9,9 +9,7 @@ pub mod admission;
 pub mod compare;
 pub mod metrics;
 pub mod model;
-pub mod pyjson;
 pub mod scope;
-pub mod turncheck;
 
 use model::*;
 use sha2::{Digest, Sha256};

@@ -2,8 +2,7 @@
 //! receipt writer, including the fail-closed classes (missing, mismatch,
 //! no-bound-sidecar).
 
-use lesscode_core::admission::{self, parse_sidecar, verify, Status};
-use lesscode_core::pyjson::{self, J};
+use lesscode_core::admission::{self, parse_sidecar, sha256_hex, verify, Status};
 use std::path::PathBuf;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -42,7 +41,7 @@ fn binding_states() {
         path
     };
     write("good.json", b"{\"a\": 1}\n");
-    let good_digest = pyjson::sha256_hex(b"{\"a\": 1}\n");
+    let good_digest = sha256_hex(b"{\"a\": 1}\n");
     write(
         "good.json.sha256",
         format!("{good_digest}  good.json\n").as_bytes(),
@@ -81,14 +80,17 @@ fn receipt_round_trip() {
     let text = std::str::from_utf8(&bytes).expect("utf8");
     // Receipt writer: indent=1, insertion order preserved ("receipt" stays first).
     assert!(text.starts_with("{\n \"receipt\": \"s2-artifact-admission-rust-1\""));
-    let reparsed = pyjson::parse(text).expect("receipt parses");
-    assert_eq!(reparsed, value, "receipt round-trips through the formatter");
+    let reparsed: serde_json::Value = serde_json::from_str(text).expect("receipt parses");
+    assert_eq!(reparsed["receipt"], "s2-artifact-admission-rust-1");
+    assert_eq!(reparsed["command"], "lesscode-core admission --root .");
+    assert_eq!(
+        reparsed["bindings"][0]["status"],
+        serde_json::json!("missing")
+    );
+    assert_eq!(reparsed["summary"]["total"], 1);
     let sidecar_text = std::fs::read_to_string(root.join("receipt.json.sha256")).expect("sidecar");
     let parsed = parse_sidecar(&sidecar_text);
-    assert_eq!(
-        parsed.stored.as_deref(),
-        Some(pyjson::sha256_hex(&bytes).as_str())
-    );
+    assert_eq!(parsed.stored.as_deref(), Some(sha256_hex(&bytes).as_str()));
     assert!(parsed.declared_lf_body.is_none());
 }
 
@@ -96,7 +98,7 @@ fn receipt_round_trip() {
 fn cli_admission_end_to_end() {
     let root = temp_root("cli");
     std::fs::write(root.join("a.json"), b"[1, 2]\n").expect("artifact");
-    let digest = pyjson::sha256_hex(b"[1, 2]\n");
+    let digest = sha256_hex(b"[1, 2]\n");
     std::fs::write(
         root.join("a.json.sha256"),
         format!("{digest}  a.json\n").as_bytes(),
@@ -114,28 +116,8 @@ fn cli_admission_end_to_end() {
     // b.json has bytes but no bound sidecar: not a failure, recorded unbound.
     assert_eq!(code, 0);
     let text = std::fs::read_to_string(&out).expect("receipt");
-    let value = pyjson::parse(&text).expect("receipt parses");
-    let J::Obj(pairs) = &value else {
-        panic!("object")
-    };
-    let summary = pairs
-        .iter()
-        .find(|(k, _)| k == "summary")
-        .and_then(|(_, v)| match v {
-            J::Obj(fields) => Some(fields.clone()),
-            _ => None,
-        })
-        .expect("summary");
-    let get = |key: &str| {
-        summary
-            .iter()
-            .find(|(k, _)| k == key)
-            .map(|(_, v)| match v {
-                J::Int(n) => n.parse::<i64>().unwrap(),
-                other => panic!("{key}: {other:?}"),
-            })
-            .unwrap()
-    };
+    let reparsed: serde_json::Value = serde_json::from_str(&text).expect("receipt parses");
+    let get = |key: &str| reparsed["summary"][key].as_i64().unwrap();
     assert_eq!(get("total"), 2);
     assert_eq!(get("verified"), 1);
     assert_eq!(get("no_bound_sidecar"), 1);
