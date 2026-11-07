@@ -1,5 +1,56 @@
 # Research notes: deconvolution-native-core
 
+## Design discovery (2026-11-07, production design phase)
+
+Owner approved requirements (opencode chat, "Approve & proceed") and selected
+handover option 1: production design via normal gates. Discovery type:
+extension (light) — productionizing a demonstrated prototype into existing
+systems.
+
+Consulted: kiro-spec-design skill rules (principles, discovery-light,
+synthesis, review-gate), design/research templates, steering
+(product/tech/structure), `src/lesscode_baseline/AGENTS.md`, spec files
+(requirements, slice-proposal, prototype-gate, prototype-plan,
+requirements-review), demonstrated code (`proto_core.py` full surface,
+`scope_e4.py` full, `admission.rs` CLI/verify surface, `turncheck.rs` at
+`f6bb6e2`: 207 lines + 72-line test, `main.rs` dispatch L50-51/L216-220,
+`Cargo.toml`), upstream deconvolution-loop requirements (3.2, 6.7, 8.7, 9.5,
+10.2), U1-U7 receipts.
+
+Integration findings:
+- `admission` is already a `lesscode-core` subcommand; its CLI contract is
+  the compatibility baseline (5.1), preserved unchanged.
+- `proto_core` importers: `scope_e3.py`, `scope_e4.py`, `s10_controls.py`,
+  `s10_controls2.py`; measure drivers name it in frozen `PY_APP` lists —
+  measure drivers stay untouched (frozen attempt evidence), so relocation
+  updates only adapters/controls imports and deletes `proto_core.py` without
+  a shim (no duplicated maintained lines, no pass-through layer).
+- `complexity-budgets.json` is referenced by the requirements review but
+  absent from the tree — it becomes a new committed artifact owned by this
+  spec at `native/complexity-budgets.json`.
+- `src/lesscode_baseline` is a flat module package with an evidence-contract
+  AGENTS.md; a single `recording.py` module fits without a package dir.
+- Adapter placement: specimen-bound wiring stays in the experiments tree next
+  to its frozen scopes; moving it into the product package would couple the
+  product to specimen paths (rejected alternative, recorded here).
+
+Synthesis outcomes:
+1. Generalization: descriptor→checks→LF receipt→exit-code is a shared
+   contract shape across `admission`/`turncheck` (not a framework); the
+   Python side generalizes the adapter interface (seeds/meta_of/record/
+   replay/accept) already satisfied by both scopes.
+2. Build vs adopt: adopt std fs locks, serde_json + custom ~40-line Formatter
+   (research rows 2026-11-06/07), syn+proc-macro2 already in `Cargo.lock`
+   for the checker (promote transitive to direct at locked versions); reject
+   debuggers/proxies (Amendment 1 finding); no new external dependencies.
+3. Simplification: one Python module, not a package; no shim on relocation;
+   frozen drivers untouched; budget checker ~260 lines instead of a generic
+   complexity platform; `receipt.rs` gives byte rules a single owner used by
+   two commands.
+
+Design decisions recorded in `design.md`; production size allocation proposed
+there and to be frozen at task generation.
+
 ## Amendment 2: library and complexity audit (2026-11-07)
 Empirical baseline audit (`ruff==0.17.3 format --line-length 100`) and inspection of
 `native/Cargo.lock` and `native/src/` revised the reuse map and complexity estimates:

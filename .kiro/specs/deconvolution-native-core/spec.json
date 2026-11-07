@@ -1,16 +1,16 @@
 {
   "feature_name": "deconvolution-native-core",
   "created_at": "2026-11-06T19:30:00+01:00",
-  "updated_at": "2026-11-07T12:05:00+00:00",
+  "updated_at": "2026-11-07T14:15:54+01:00",
   "language": "en",
-  "phase": "requirements-generated",
+  "phase": "design-generated",
   "approvals": {
     "requirements": {
       "generated": true,
-      "approved": false
+      "approved": true
     },
     "design": {
-      "generated": false,
+      "generated": true,
       "approved": false
     },
     "tasks": {
@@ -19,7 +19,7 @@
     }
   },
   "ready_for_implementation": false,
-  "notes": "Owner-requested solution-first spec amendment 2026-11-07, updated with empirical baseline complexity audit (3,963 canonical lines across 14 files; 3-stratum U5 accounting; U7 brownfield entrypoint/verbatim-extraction rules) and Rust crate validation (existing Cargo.lock pins kept; serde_jcs/fs4/quick-junit/gix/pg_query dropped; syn/toml_edit/windows-sys/ruff_python_parser/rusqlite/oxc/junit-parser recorded). 2026-11-07: owner approved prototype execution; frozen plan in prototype-plan.md (S2/S9/S10 under U1-U7). S2 executed 2026-11-07 (R28): admission + digest parity proven; U7 overrun 774>600 recorded, S10 paused for owner revision, S9 allowed. No production design/tasks/code authorized.",
+  "notes": "Owner-requested solution-first spec amendment 2026-11-07, updated with empirical baseline complexity audit (3,963 canonical lines across 14 files; 3-stratum U5 accounting; U7 brownfield entrypoint/verbatim-extraction rules) and Rust crate validation (existing Cargo.lock pins kept; serde_jcs/fs4/quick-junit/gix/pg_query dropped; syn/toml_edit/windows-sys/ruff_python_parser/rusqlite/oxc/junit-parser recorded). 2026-11-07: owner approved prototype execution; frozen plan in prototype-plan.md (S2/S9/S10 under U1-U7). S2 executed 2026-11-07 (R28): admission + digest parity proven; U7 overrun 774>600 recorded, S10 paused for owner revision, S9 allowed. No production design/tasks/code authorized. 2026-11-07: owner approved requirements (opencode chat, 'Approve & proceed') and selected production design phase (task_2_handover option 1); design generated in design.md with light-discovery research.md updates — design approval, tasks and code still locked.",
   "descope_decision": "Owner decision 2026-11-07 (opencode chat, after R30 verdict revise): bounded descope — attempt 2 drops the Rust digest module from the measured stratum (Python owns digests; Rust keeps sidecar admission ~310 lines) toward C_app ~1,072 <= 1,364; re-measure, re-run U1-U7, then evidence review. Preregistered in prototype-plan.md section 9 (Amendment 2) + R31 before any code change; no targets lowered; attempt-1 failure retained; production stays locked. Executed 2026-11-07: U1-U7 pass on attempt 2 (C_app 1,193; admission grew to 415 after self-containment since it had imported pyjson); verdict proceed with inline evidence review approved (results/s10-evidence-review-2.json); production still locked behind normal owner phase approvals.",
   "solution_unlock": {
     "status": "proceed",
