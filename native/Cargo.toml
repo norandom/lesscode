@@ -5,6 +5,7 @@ edition = "2021"
 rust-version = "1.98.1"
 publish = false
 description = "Native foundation for capability-scoped code compression"
+license = "MIT"
 
 [dependencies]
 ast-grep-core = "=0.51.0"

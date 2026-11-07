@@ -1,6 +1,6 @@
 # Third-party license inventory
 
-Generated from locked Cargo metadata; includes target-specific and optional locked records. Full license texts are retained in THIRD_PARTY_NOTICES.txt and licenses/. Project code has no new license grant in this unpublished package.
+Generated from locked Cargo metadata; includes target-specific and optional locked records. Full license texts are retained in THIRD_PARTY_NOTICES.txt and licenses/. Lesscode project code is licensed under the [MIT License](../LICENSE); third-party components retain their respective licenses.
 
 | Package | Version | SPDX expression |
 | --- | --- | --- |

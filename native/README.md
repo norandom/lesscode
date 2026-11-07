@@ -111,7 +111,7 @@ applicable copyright and permission notices with source/binary distributions;
 and license texts. MIT/Apache alternatives permit selecting one license;
 Apache-only, Unicode-3.0 and Zlib conditions also remain applicable where used.
 Keep notices unchanged, preserve attribution, and include relevant license texts
-when redistributing. This unpublished package adds no project license grant.
+when redistributing. Lesscode project code is licensed under the [MIT License](../LICENSE).
 
 Three crates omit their upstream MIT license text from their published archive.
 The missing texts are retained under `licenses/`, fetched from the exact source
