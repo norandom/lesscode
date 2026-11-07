@@ -7,19 +7,25 @@ and earlier interpretations, not as an active implementation queue.
 
 ## Current state
 
-Updated 2026-11-07 midday: the owner-approved prototype ran to completion (S2, S9,
-S10 under the ratified contract B + R26 changes). One shared engine reproduced both
-frozen recorders byte-identically, replayed every golden with zero divergence,
-accepted both frozen candidates exactly as preregistered and passed 9/9 adverse
-controls fail-closed (R28-R30). Gate verdict: **revise** — U5/U7 failed as frozen
-(C_app 1,808 vs 1,364; the Rust byte-parity core costs more than the duplicated
-Python it replaces). Owner decision pending: bounded descope (drop the Rust digest
-module from the measured stratum, ~1,072, passes), another revision, or stop with
-the negative result. `solution_unlock.status = revise`, evidence review not-run.
+Updated 2026-11-07 afternoon: the owner chose the bounded descope; attempt 2 of 2
+was preregistered (R31 + plan §9, commit b9c0cd0) and executed. The Rust digest
+twin (pyjson/turncheck + tests) left the prototype; Rust keeps a self-contained
+sidecar admission (415 canonical lines — it had silently imported pyjson, which
+the R30 ~1,072 estimate missed). Attempt 2 re-produced both frozen identities
+byte-identically (E3 `92a48f77…` ×2, three goldens zero divergence; E4
+`0b2e383d…` ×2 at exactly 5,479,067 bytes), accepted both candidates as
+preregistered, passed 9/9 controls, and every frozen target passes: C_app 1,193
+≤ 1,364 (0.6997), saved 512 ≥ 200, C_total 2,691 ≤ 3,003, U7 1,193 ≤ 1,400
+(attempt-1's 1,808 retained). U1–U7 all pass; inline evidence review approved
+with recorded residual risks (`results/s10-evidence-review-2.json`). Gate
+verdict: **proceed** — `solution_unlock.status = proceed`, `evidence_review =
+approved` (inline caveat recorded). Task-group handover: `.kiro/task_2_handover.md`.
 
 - Native-core phase: requirements-generated; requirements/design/tasks unapproved.
-  The demonstrated slice may now seek normal production design approval ONLY after
-  the owner resolves the revise verdict and an independent evidence review passes.
+  The revise verdict is resolved (descope executed, attempt 2 passed U1-U7 with an
+  approved inline evidence review); the demonstrated slice may now seek normal
+  production design approval through the standard owner phase gates. A truly
+  independent evidence review remains an owner option (residual risk recorded).
 - Existing comparison core remains delivered with recorded Windows/Linux/macOS GO;
   111/111 nextest green after adding pyjson/admission/turncheck (runs 23b9da3e).
 - T4 regenerator turn bytes mismatch their committed sidecars (inadmissible as
