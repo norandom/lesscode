@@ -1,0 +1,179 @@
+{
+ "receipt": "g1-r-spike-1",
+ "written_utc": "2026-11-07T19:47:36Z",
+ "deterministic": true,
+ "items": [
+  {
+   "item": "six tier-1 controls fail closed, zero runtime calls",
+   "pass": true,
+   "detail": {
+    "ctrl_max_tokens": {
+     "score": 0.0,
+     "expected": 0.0,
+     "runtime_calls": 0,
+     "pass": true
+    },
+    "ctrl_out_of_scope": {
+     "score": 0.2,
+     "expected": 0.2,
+     "runtime_calls": 0,
+     "pass": true
+    },
+    "ctrl_syntax_error": {
+     "score": 0.3,
+     "expected": 0.3,
+     "runtime_calls": 0,
+     "pass": true
+    },
+    "ctrl_missing_surface_b": {
+     "score": 0.4,
+     "expected": 0.4,
+     "runtime_calls": 0,
+     "pass": true
+    },
+    "ctrl_write_in_pure": {
+     "score": 0.45,
+     "expected": 0.45,
+     "runtime_calls": 0,
+     "pass": true
+    },
+    "ctrl_feedback_leak": {
+     "pass": true,
+     "error": "feedback payload carries held-out sequence name 'HOLDOUT-1'; refusing to dispatch"
+    }
+   }
+  },
+  {
+   "item": "E4 transition replay: t1/t2 tier-1 <2s, t3 accepted",
+   "pass": true,
+   "detail": {
+    "artifacts": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\regenerator\\results\\turns",
+    "contract_b_recorder_symbols": [
+     "<module>",
+     "<module>",
+     "<module>",
+     "LifecycleStore",
+     "LiveEvidence",
+     "MonitorRunner",
+     "MonitorSources",
+     "MonitoredSignal",
+     "TransitionRequest",
+     "_cited_baseline",
+     "_lifecycle_store",
+     "_pod_of",
+     "baseline_view",
+     "bind_lifecycle_monitor",
+     "bind_writers",
+     "configured_pods",
+     "labeled_reason",
+     "live_evidence",
+     "monitor_label",
+     "read_parameters",
+     "signal_standing"
+    ],
+    "turns": {
+     "t1_max_tokens": {
+      "score": 0.0,
+      "kind": "stop_reason",
+      "seconds": 0.001
+     },
+     "t2_missing_labeled_reason": {
+      "score": 0.4,
+      "kind": "surface",
+      "missing": [
+       [
+        "facdrone.shells.lifecycle_projection",
+        "labeled_reason"
+       ]
+      ],
+      "caught_labeled_reason": true,
+      "seconds": 0.032
+     },
+     "t3_acceptance": {
+      "tier1_score": 0.5,
+      "tier1_kind": null,
+      "tier2_replayed": 1.0,
+      "tier2_evidence": "R31 attempt-2 receipts, docs/research/2026-11-07/05-descoped-stratum-rerun.md",
+      "seconds": 0.061
+     }
+    }
+   }
+  },
+  {
+   "item": "k=2 no-progress exhaustion retains best",
+   "pass": true,
+   "detail": {
+    "status": "exhausted",
+    "best_score": 0.7,
+    "calls": 4,
+    "unresolved": [
+     "kill"
+    ]
+   }
+  },
+  {
+   "item": "U5 replaceable apparatus <= 2,270 canonical lines",
+   "pass": false,
+   "detail": {
+    "python": {
+     "recording.py": 372,
+     "surface.py": 281,
+     "measures.py": 558,
+     "regenerator.py": 1239
+    },
+    "python_total": 2450,
+    "frozen_rust_and_hooks_canonical": 1333,
+    "provenance": "admission.rs + receipt.rs + registration hooks, rustfmt counts frozen in R27/R31",
+    "total": 3783,
+    "ceiling": 2270,
+    "baseline_expanded": 2838,
+    "note": "testinfra.py (1,081 canonical) is accounted under U7 verbatim relocation, outside U5"
+   }
+  },
+  {
+   "item": "admission verifies receipts via bindings.json",
+   "pass": true,
+   "detail": {
+    "runs": [
+     {
+      "run": "ctrl_max_tokens",
+      "exit": 0,
+      "pass": true,
+      "tail": "receipt.json                                                             verified\n"
+     },
+     {
+      "run": "ctrl_missing_surface_b",
+      "exit": 0,
+      "pass": true,
+      "tail": "receipt.json                                                             verified\n"
+     },
+     {
+      "run": "ctrl_out_of_scope",
+      "exit": 0,
+      "pass": true,
+      "tail": "receipt.json                                                             verified\n"
+     },
+     {
+      "run": "ctrl_syntax_error",
+      "exit": 0,
+      "pass": true,
+      "tail": "receipt.json                                                             verified\n"
+     },
+     {
+      "run": "ctrl_write_in_pure",
+      "exit": 0,
+      "pass": true,
+      "tail": "receipt.json                                                             verified\n"
+     },
+     {
+      "run": "no_progress",
+      "exit": 0,
+      "pass": true,
+      "tail": "receipt.json                                                             verified\n"
+     }
+    ]
+   }
+  }
+ ],
+ "all_pass": false
+}

@@ -224,7 +224,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Requirements: 5.8, 7.5_
 
 - [ ] 6. G1-R bounded spike (Slice B gate; owner go for 6.2)
-  - [ ] 6.1 Deterministic G1-R verification driver
+  - [x] 6.1 Deterministic G1-R verification driver
     - Build `docs/experiments/deconvolution/probabilistic-refine/g1r_spike.py`
       discharging the deterministic `prototype-gate.md` checklist on frozen
       E3/E4 artifacts: all six Tier-1 controls fail closed without runtime
