@@ -40,7 +40,8 @@
     "evidence": [
       "R28 (docs/research/2026-11-07/02-s2-artifact-admission-digest-parity.md): S2 artifact admission receipts s2-artifact-admission.json + s2-artifact-admission-rust.json (21 bindings: 11 verified, 5 mismatch, 1 missing, 4 unbound; E4 goldens+turns verified, T4 turns inadmissible)",
       "R28: Rust pyjson/admission parity proven (nextest 76023a7d 109/109; golden-a/held-out-a re-emitted byte-identically, declared LF-body digests reproduced)",
-      "R29 (docs/research/2026-11-07/03-s9-surface-contracts.md): S9 comparison receipt s9-surface-contracts.json — B adds 1 name on E3 (_canonical) and 3 on E4 (labeled_reason, LiveEvidence, lifecycle_store.<module>), all resolvable; labeled_reason is the E4 turn-2 failure; no ratification implied"
+      "R29 (docs/research/2026-11-07/03-s9-surface-contracts.md): S9 comparison receipt s9-surface-contracts.json — B adds 1 name on E3 (_canonical) and 3 on E4 (labeled_reason, LiveEvidence, lifecycle_store.<module>), all resolvable; labeled_reason is the E4 turn-2 failure; no ratification implied",
+      "2026-11-07 owner ratification (opencode chat): S10 executes under contract B + the four R26 changes + R25 rules as written (see R29 amendment 1, handover OP-2)"
     ],
     "frozen_identities": {}
   }

@@ -33,6 +33,14 @@ recorder-derived items against the frozen contract A per module/name/kind. Froze
 specimen root `.runs/e2-facdrone/source` (untracked; bytes present locally); failure to
 read it fails closed.
 
+## Amendment 1: contract ratified for S10 (owner decision, 2026-11-07)
+The owner ratified contract B (tree + recorder imports) together with the four R26
+changes (surface includes recorder imports; turn parameters preregistered with
+thinking-only turns counted as failed; content hashes over bytes as stored;
+case-distinct receipt labels) and R25's formatting and both-tree sensitivity rules as
+written. S10 executes under this contract; historical protocols and recorded decisions
+stay unchanged. OP-2 moves from pending to ratified-for-S10.
+
 ## Limits and interpretation
 - Evidence covers the two frozen scopes only; it does not predict unseen scopes.
 - The `<module>` item for `lifecycle_store` reflects the recorder's whole-module import;
