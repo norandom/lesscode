@@ -118,6 +118,7 @@ The batch, in commit order (tasks.md Implementation Notes; `git log`):
 | 2026-11-06 | 6.5 differential | 20b2977 | void under criterion 4; evidence recorded |
 | 2026-11-06 | 6.6 held-out corpus | a44e79f | 74 sequences, zero divergence |
 | 2026-11-06 | 6.7 residue, R26, index, handover | 380c629 | 28-entry missing-test report; four amendments proposed |
+| 2026-11-07 | 2.3 detection on the Rust specimen | 6a4cf96 | `mmhmem-rust-comparison.md` (runner unknown vs cargo test; one store fact); R32 |
 
 ### The batch between the scopes: tasks 3.2, 4 and 5.1
 
