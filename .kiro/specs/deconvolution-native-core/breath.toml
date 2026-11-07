@@ -1,0 +1,25 @@
+[meta]
+spec = "deconvolution-native-core"
+updated = "2026-11-07"
+status = "requirements-generated-unapproved"
+unlock_key = "spec.json.solution_unlock"
+gate = "prototype-gate.md"
+[features.in]
+core = "Existing native library/CLI compatibility and Cargo.lock pins; artifact admission (--artifact-root + sidecar digests), Python-compatible receipt digests, acceptance, residue, pure turn logic."
+python_path = "Shared Python subprocess recording/replay and arm runner via existing SQLAlchemy hook."
+scope_support = "Bounded descriptors and explicit counted adapters across three strata (apparatus/wiring, domain ops, immutable seeds)."
+solution_gate = "U1-U7 before production with brownfield entrypoint and verbatim-migration rules; checklist now, syn-based enforcement later."
+[features.deferred]
+languages = "2026-11-07: Rust/mmhmem SQLite (rusqlite trace_v2 + session) next proposal; TS/JS (oxc) later; evidence required."
+proxy_indexers_engines = "2026-11-07: require demonstrated unmet need; AST walkers preferred over YAML rule packs and external SCIP indexers."
+model_transport = "2026-11-07: pure turn rule first; reqwest/sse-stream deferred."
+full_cli_release = "2026-11-07: twelve commands/five-target expansion deferred."
+workflow_platform = "2026-11-07: no general runner prerequisite."
+[features.out]
+automatic_selection_adoption = "Owner decisions outside tool."
+generic_rewrite_mcp = "Retired scope."
+equivalence = "Finite evidence is not proof."
+third_scope_now = "Separate owner decision required."
+silent_l2_fallback = "Missing query evidence blocks acceptance."
+flawed_crates = "2026-11-07: serde_jcs (breaks -0.0/ASCII digests), fs4 (in Rust 1.98 std), quick-junit (writer-only), gix (150+ crates), pg_query (MSVC C build), postgresql_embedded (duplicates specimen PG) rejected."
+unapproved_code = "Documentation amendment only."

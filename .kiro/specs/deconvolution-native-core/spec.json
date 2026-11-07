@@ -1,0 +1,41 @@
+{
+  "feature_name": "deconvolution-native-core",
+  "created_at": "2026-11-06T19:30:00+01:00",
+  "updated_at": "2026-11-07T08:23:00+00:00",
+  "language": "en",
+  "phase": "requirements-generated",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": false
+    },
+    "design": {
+      "generated": false,
+      "approved": false
+    },
+    "tasks": {
+      "generated": false,
+      "approved": false
+    }
+  },
+  "ready_for_implementation": false,
+  "notes": "Owner-requested solution-first spec amendment 2026-11-07, updated with empirical baseline complexity audit (3,963 canonical lines across 14 files; 3-stratum U5 accounting; U7 brownfield entrypoint/verbatim-extraction rules) and Rust crate validation (existing Cargo.lock pins kept; serde_jcs/fs4/quick-junit/gix/pg_query dropped; syn/toml_edit/windows-sys/ruff_python_parser/rusqlite/oxc/junit-parser recorded). Documentation only; no experiment/production code authorized.",
+  "solution_unlock": {
+    "status": "not-run",
+    "evidence_review": "not-reviewed",
+    "gate": "prototype-gate.md",
+    "proposal": "slice-proposal.md",
+    "mandatory_criteria": [
+      "U1",
+      "U2",
+      "U3",
+      "U4",
+      "U5",
+      "U6",
+      "U7"
+    ],
+    "evidence": [],
+    "frozen_identities": {},
+    "prototype_execution_approved": false
+  }
+}

@@ -1,0 +1,52 @@
+# breath.toml — scope guard ("feature map") for the deconvolution-native-core spec.
+#
+# Convention ported from ../mmhmem/.kiro/specs/cross-agent-memory-server/breath.toml
+# and ../QOpenBB/.kiro/breadth.toml (owner request, 2026-11-07).
+#
+# Rule: if a feature is not listed under [features.in], it is OUT of scope.
+# Editing this file is the only way to change scope. Every [features.out] entry
+# records what was rejected and why, so feature creep is a deliberate decision,
+# not an accident. The "breath" discipline: stay in scope, do not derail from the
+# objectives (run the loop natively, cross-platform, with little hand-written code).
+
+[meta]
+spec = "deconvolution-native-core"
+feature = "deconvolution loop as a native cross-platform Rust core library + CLI suite"
+updated = "2026-11-07"
+language = "en"
+source = "OpenUltraCode fusion run 2026-11-07 (critique-revise-vote; panels ultracode-fusion-panel-a/b; decider = selected model vibe-oidc/mistral-large-4); arbitrated plan drafted in requirements.md amendment 2026-11-07"
+
+[features.in]
+agnostic_core = "Reusable Rust library: acceptance rule, kill criteria (3 groups), kill-rate convention, void/stop rules, turn rule as a pure program over JSON artefacts, residue/protection statement, receipts (serde_json 1.0.154 + sha2 0.11.1 + fs4 1.1.0 + tempfile 3.27.0; 50-line receipt serialiser default) (loop reqs 3, 6, 10, 11)"
+tree_hash_edit_scope = "ignore 0.4.34 + sha2 + similar 3.2.1 + diffy 0.5.2; hashes over bytes as stored, core.autocrlf recorded; whole-tree edit-scope verify (reqs 6.4/6.5, 11.2)"
+host_guard = "sysinfo 0.40.1 + process-wrap 10.0.1 (Job Objects) + probe/scale/wait port (~182 lines): one heavy job at a time, wait-for-idle, memory floor, adaptive deadlines (never a fixed wall-clock cap), BLAS/numeric threads pinned to 1 (reqs 11.4/11.5, 12.3)"
+cli = "Extend native/lesscode-core as one crate: lib target + `lesscode` bin; 12 top-level subcommands (surface, record, replay, accept, measure, mutate, score, differential, residue, report, scope, host) with verbs/flags carrying gate coverage; exit codes 0/1/2/3 with the preregistered decision table; legacy Prepare/Compare kept as deprecated aliases (AC-4)"
+surface_measures = "ast-grep-core 0.51.1 (bump from pin 0.51.0) + one YAML rule pack per language + SCIP indexes (scip 0.10.0, scip-python 0.6.8, scip-typescript 0.6.1, rust-analyzer scip); pinned formatter CLIs (ruff 0.17.4, prettier 3.9.10, rustfmt) for canonical counts; three readings: as-written, canonical, separated-form (reqs 1, 4, 5)"
+record_replay = "Level 1: one generic JSON-lines driver shim per language (Python subprocess, Node subprocess, Rust in-process), est. 150-300 lines each written once. Level 2: store-level only — pgwire 0.42.1 wire proxy for PostgreSQL (TCP, works on Windows) or sqlite3_trace_v2; driver hooks as fallback. Byte-identical double recording or refuse (reqs 2, 3)"
+sequence_generation = "proptest 1.12.0 as a seeded library writing corpus JSON for all languages; new alphabet => new corpus version (reqs 2.6/2.7)"
+mutation_scoring = "cargo-mutants 27.1.0 (Rust), cosmic-ray 8.7.0 (Python, proven on Windows in E3/E4), StrykerJS 10.1.1 (TS/JS) behind engine readers; seeded sample with composition read first; both trees sampled; restore + hash verify between mutants; missing-test report (req 8)"
+differential = "Counterexample finder only: CrossHair 0.0.113 subprocess (Python), Kani 0.68.0 (Linux/macOS CI only), fast-check (TS/JS, symbolic gate declared unmet). Four verifier gates per pair; a failed control voids the differential step only; never report inconclusive as equivalent. Query differential: postgresql_embedded 0.22.0 + postgres 0.19.14 + sqlparser 0.63.0 (reqs 3.2, 9)"
+reports = "tabled 0.22.0 + comrak 0.59.0 + insta 1.49.0 (byte-for-byte regression against committed E3/E4 artefacts); quick-junit 0.8.0 for cross-language arm results; schemars 1.2.3 + jsonschema 0.60.2 artefact schemas (reqs 10, 11.2)"
+smoketest_suite = "Fixture-replay suite (cargo nextest + insta) mapping every loop gate 1:1 — see gates.md; pure fixture replay: no live store, no model endpoint, no heavy job; seconds-to-minutes total (AC-2, AC-3)"
+e2e_verification = "CLI-driven end-to-end verification of the .kiro workflow itself — see verification.md: phase-gate checks, per-task review evidence, receipt/hash verification, cross-OS matrix. No browser, no Playwright (owner, 2026-11-07)"
+complexity_caps = "Machine-enforced caps: ../../steering/complexity.md + ../../complexity-budgets.json; per-file/per-function caps plus spec-level budget <= 3,500 hand-written lines first release (Python+Rust), <= 4,600 all three languages; <= 12 subcommands (AC-5)"
+spikes = "S1-S9 preregistered spikes before design approval; S1 = wire-level L2 byte-determinism on native Windows (spikes.md; steering prototype-first.md)"
+scope_descriptors = "Per-scope alphabet, fixtures, clock, normalisations as declarative data (TOML descriptor + versioned JSON artefacts), never code (brief constraint)"
+cross_compile = "Five targets (x86_64-pc-windows-msvc, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, x86_64-apple-darwin, aarch64-apple-darwin) via native-runner `cargo build --release --locked --target` + SHA256SUMS, verifiable with `scope verify` (AC-4)"
+
+[features.out]
+scope_selection = "Rejected in R21 (edge census failed C2 and C5); unbuilt"
+generic_rewrite_engine = "Removed from active delivery (steering tech.md)"
+mcp_plugin_surfaces = "Removed from active delivery; no pre-built extension interfaces (tech.md)"
+l2_acceptance_condition = "Do-not-build per run report section 7 (turns harmless query rewrites into divergences)"
+automatic_adoption = "Adoption is an owner review decision; the loop never adopts a candidate itself"
+debugger_recording_core = "DAP/CDP/lldb-dap is attach-without-code fallback only (research.md section 1); debuggers stay out of the core"
+ts_js_symbolic_rung = "No such tool exists; fast-check differential with the symbolic gate declared unmet"
+native_coverage_fuzzing = "cargo-fuzz / AFL / mutmut are UNIX-only; Linux CI only"
+pyo3_embedding_now = "Deferred; JSON-lines subprocess shim first (open question 3, owner-gated)"
+third_scope = "Owner has not chosen it; handover open item 1 stays open"
+r26_amendment_adoption = "Handover rule: not until the owner asks; carried as ratification-pending, S9 informs the decision"
+playwright_browser_e2e = "Owner 2026-11-07: Playwright is not the tool here; the .kiro workflow is verified by the CLI-driven runner in verification.md"
+cargo_dist_zigbuild = "Rejected 2026-11-07: cargo-zigbuild cannot produce the MSVC target (zig targets windows-gnu); cargo-dist adds CI/installer surface; plain native-runner matrix chosen"
+workspace_member_now = "Extend native/lesscode-core as lib+bin for now (open question 1, owner confirmation pending)"
+rust_code_now = "Owner stance: no Rust code until the owner asks; this spec stays plan-only until the pre-kiro owner gate passes"
