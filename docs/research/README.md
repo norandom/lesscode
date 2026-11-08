@@ -1,6 +1,16 @@
 # Research log
 
-## Latest: G1-R discharged — live weaker-model recovery reaches R=1.0; U5 fails as measured (2026-11-08)
+## Latest: U5 disposition — Python stage-1 negative accepted; Rust re-measure gate before Slice B (2026-11-08)
+[R35](2026-11-08/02-u5-disposition.md) records the owner disposition for the
+failed whole-replacement apparatus ceiling: U5 stays failed on the Python
+stage-1 prototype (3,783 vs 2,270 canonical lines; frozen ceiling unchanged,
+`Req 7.8` negative retained). Slice B adoption remains withheld until a
+Rust-port re-measurement of U5 under the same accounting passes the frozen
+ceiling. The logged concise-output directive dispatch defect (emitted by
+`next_rollout_params` but never sent to the model) is fixed in
+`regenerator.py` with dated comments and a regression test.
+
+## Prior: G1-R discharged — live weaker-model recovery reaches R=1.0; U5 fails as measured (2026-11-08)
 [R34](2026-11-08/01-g1r-gate-and-live-recovery.md) executes the frozen G1-R
 checklist for the DSPy-style refinement slice: all deterministic items green
 (six Tier-1 controls fail closed with zero runtime, E4 replay sub-second,

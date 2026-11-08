@@ -11,6 +11,16 @@ Following the empirical falsification of static CodeQL state models and LLM-auth
 **Amendment 2, 2026-11-07 (language-scope disposition after the independent fusion design review):**
 The owner records a staged scope disposition for the bilingual language clauses (Boundary Context "Python and TypeScript source"; `Req 7.1` labeled bilingual cases): **this spec implements and evaluates Python only; TypeScript extraction evaluation is deferred to a named later stage**, and other target languages remain explicit TODO items. The G0-era TypeScript fixtures (oracle 12/13, prototype-gate.md) are preserved as the first evaluation material for that stage, subject to revalidation under the mechanism chosen then (they predate CodeQL's demotion to optional locator). `Req 7.1` is satisfied for Python and reads "partially satisfied / deferred (TypeScript)" until that stage. Extensibility requirement (owner, 2026-11-07): the design and its generated tasks must keep every language-specific analysis step behind a per-language extractor seam so that adding a target language (TypeScript first, then others) is an additive change, never a rewrite; recorded in design.md ("Deferred Target Languages") and binding on task generation.
 
+**Amendment 3, 2026-11-08 (U5 disposition, [R35](../../../docs/research/2026-11-08/02-u5-disposition.md)):**
+The owner records the U5 disposition for the whole-replacement apparatus
+ceiling ([prototype-gate.md](prototype-gate.md) frozen checklist): **U5 is
+accepted as failing on the Python stage-1 prototype substrate** (3,783 vs
+2,270 canonical lines; ceiling unchanged, `Req 7.8` negative retained). Python
+is the stage-1 prototype; Rust is the target substrate. Slice B production
+adoption (`Req 7.10`) remains withheld until a Rust-port re-measurement of U5
+under the same expanded-baseline accounting passes the frozen ceiling, or a
+further dated owner decision records a different disposition.
+
 Lesscode shall support a bounded research workflow in which an LLM models a
 complete code responsibility, proposes a smaller representation and revises it
 using queryable source evidence, counterexamples and executable checks. The goal

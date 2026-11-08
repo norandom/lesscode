@@ -287,7 +287,12 @@ and start only on the owner's explicit answer. Frozen apparatus
   material, subject to revalidation.
 - Slice B production adoption tasks (multi-rollout default adoption, optional
   `DspyRefineAdapter` `--backend dspy` and offline `MIPROv2` compilation):
-  withheld pending `G1-R` outcome per `Req 7.10` and `prototype-gate.md`.
+  withheld per `Req 7.10` and `prototype-gate.md`. G1-R executed 2026-11-08
+  ([R34](../../../docs/research/2026-11-08/01-g1r-gate-and-live-recovery.md));
+  owner U5 disposition 2026-11-08 ([R35](../../../docs/research/2026-11-08/02-u5-disposition.md)):
+  the Python stage-1 negative is accepted, and adoption additionally requires
+  the Rust-port U5 re-measurement gate (frozen 2,270-line ceiling) to pass
+  first.
 - _Requirements: 7.1, 7.10_
 
 ## Implementation Notes

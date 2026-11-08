@@ -1,5 +1,17 @@
 # Prototype feasibility gate
 
+## U5 disposition amendment, 2026-11-08 ([R35](../../../docs/research/2026-11-08/02-u5-disposition.md))
+
+Owner decision (2026-11-08): U5 is **accepted as failing on the Python stage-1
+prototype substrate** — 3,783 canonical lines vs the frozen ceiling 2,270
+(L29 below, unchanged; `Req 7.8` negative retained, no target weakened). No
+slimming pass and no ceiling amendment is authorized at this stage. Python
+remains the stage-1 prototype; Rust is the target substrate — re-measure on
+port, never assume transfer. Slice B production/adoption tasks stay withheld
+(`Req 7.10`) until a **Rust-port re-measurement of U5** under the same
+expanded-baseline accounting passes the frozen ceiling, or a further dated
+owner decision records a different disposition.
+
 ## G1-R outcome amendment, 2026-11-08 ([R34](../../../docs/research/2026-11-08/01-g1r-gate-and-live-recovery.md))
 
 Executed under tasks 6.1/6.2/7.1 (`constraint-guided-compression`, commits
