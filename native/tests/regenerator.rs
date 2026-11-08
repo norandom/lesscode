@@ -1120,6 +1120,49 @@ fn loop_bestofn_width_two_picks_max() {
 }
 
 #[test]
+fn loop_best_candidate_files_are_delivered() {
+    let work = scratch("loop-best-delivered");
+    let (req, frozen) = mini_request(&work);
+    let good_text = response_text(&[("src/mod.py", "def f(): return 1\n")], &[], &[]);
+    let bad_text = response_text(&[("src/mod.py", "def f(): return 2\n")], &[], &[]);
+    let mut scripted = Scripted::new(vec![
+        Ok((good_text, end_turn())),
+        Ok((bad_text, end_turn())),
+    ]);
+    let verdicts = vec![
+        (0, None, obj(&[])),
+        (
+            1,
+            Some("divergence".into()),
+            obj(&[
+                ("seed_group_pass_fraction", J::Float(0.0)),
+                ("sequence_pass_fraction", J::Float(0.0)),
+            ]),
+        ),
+    ];
+    let budget = RefineBudget {
+        n_rollouts_per_turn: 2,
+        max_static_retries: 1,
+        max_turns: 1,
+        ..RefineBudget::default()
+    };
+    let outcome = run_loop(
+        &req,
+        &frozen,
+        &work,
+        "best-delivered",
+        budget,
+        Some(&mut eval_verdicts(verdicts)),
+        &mut scripted,
+    )
+    .unwrap();
+    assert_eq!(outcome.status, "accepted");
+    let cand_root = work.join("cand");
+    let delivered = fs::read_to_string(cand_root.join("src/mod.py")).unwrap();
+    assert_eq!(delivered, "def f(): return 1\n");
+}
+
+#[test]
 fn loop_holdout_names_never_reach_the_next_prompt() {
     let work = scratch("loop-holdout");
     let (req, frozen) = mini_request(&work);

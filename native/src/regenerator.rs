@@ -2128,6 +2128,7 @@ pub fn run_refine_loop(
     let mut writer = ReceiptWriter::new(receipt_path)?;
     let mut history: Vec<J> = Vec::new();
     let mut best: Option<RolloutRecord> = None;
+    let mut best_files: Vec<(String, Option<Vec<u8>>)> = Vec::new();
     let (mut usage_in, mut usage_out, mut usage_calls) = (0i64, 0i64, 0i64);
     let mut no_progress: i64 = 0;
     let mut resolved: BTreeSet<String> = BTreeSet::new();
@@ -2137,6 +2138,7 @@ pub fn run_refine_loop(
     for turn in 1..=budget.max_turns {
         let mut turn_feedback: Option<J> = None; // reset every turn (Python parity)
         let mut turn_best: Option<RolloutRecord> = None;
+        let mut turn_best_files: Vec<(String, Option<Vec<u8>>)> = Vec::new();
         for rollout in 1..=budget.n_rollouts_per_turn {
             let mut attempt_params = AttemptParams::base();
             let mut record: Option<RolloutRecord> = None;
@@ -2316,6 +2318,11 @@ pub fn run_refine_loop(
                     .unwrap_or(true);
                 if improve {
                     turn_best = Some(rec);
+                    turn_best_files = req
+                        .scope_files
+                        .iter()
+                        .map(|f| (f.clone(), fs::read(cand_root.join(f)).ok()))
+                        .collect();
                 }
             }
         }
@@ -2334,6 +2341,7 @@ pub fn run_refine_loop(
         };
         if improved {
             best = Some(turn_best);
+            best_files = turn_best_files;
         }
         resolved.extend(discharged);
         let best_score = best.as_ref().expect("set above").score;
@@ -2358,6 +2366,17 @@ pub fn run_refine_loop(
     }
     let best =
         best.ok_or_else(|| RegenError::FailedTurn("no rollout recorded; budget too small".into()))?;
+    for (rel, data) in &best_files {
+        let path = cand_root.join(rel);
+        if let Some(bytes) = data {
+            if let Some(parent) = path.parent() {
+                let _ = fs::create_dir_all(parent);
+            }
+            let _ = fs::write(&path, bytes);
+        } else if path.exists() {
+            let _ = fs::remove_file(&path);
+        }
+    }
     let validity = best.score >= budget.threshold;
     let unresolved: Vec<String> = known_obligations(&best)
         .difference(&resolved)

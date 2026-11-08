@@ -639,6 +639,7 @@ def run_refine_loop(
     call = call_fn or _default_call_fn
     history: list[dict] = []
     best: RolloutRecord | None = None
+    best_files: dict[str, str] = {}
     usage_total = {"input_tokens": 0, "output_tokens": 0, "calls": 0}
     no_progress = 0
     resolved_obligations: set[str] = set()
@@ -648,6 +649,7 @@ def run_refine_loop(
 
     for turn in range(1, budget.max_turns + 1):
         turn_best: RolloutRecord | None = None
+        turn_best_files: dict[str, str] = {}
         turn_feedback: dict | None = None
         for rollout in range(1, budget.n_rollouts_per_turn + 1):
             attempt_params = dict(base_params)
@@ -722,6 +724,11 @@ def run_refine_loop(
                 writer.add_note(f"{label}-turn", {"attempts": attempts})
             if record is not None and (turn_best is None or record.score > turn_best.score):
                 turn_best = record
+                turn_best_files = {
+                    f: (cand_root / f).read_text(encoding="utf-8")
+                    for f in req.scope_files
+                    if (cand_root / f).is_file()
+                }
         if turn_best is None:
             continue
         improved = best is None or turn_best.score > best.score
@@ -729,6 +736,7 @@ def run_refine_loop(
         no_progress = 0 if (improved or discharged) else no_progress + 1
         if improved:
             best = turn_best
+            best_files = dict(turn_best_files)
         resolved_obligations |= discharged
         if best.score >= budget.threshold:
             status = "accepted"
@@ -743,6 +751,10 @@ def run_refine_loop(
                 enforce_feedback_boundary(turn_feedback, held_out_names)
     if best is None:
         raise RuntimeError("no rollout recorded; budget too small")
+    for f, content in best_files.items():
+        target = cand_root / f
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content, encoding="utf-8")
     unresolved = sorted(o for o in _known_obligations(best) if o not in resolved_obligations)
     return RefineOutcome(
         status=status,
