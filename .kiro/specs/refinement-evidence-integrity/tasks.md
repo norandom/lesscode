@@ -2,7 +2,7 @@
 
 ## Tasks
 
-- [ ] 1. Oracle process execution and verdict consistency in Rust
+- [x] 1. Oracle process execution and verdict consistency in Rust
   - Check process return code from `recording::call` in `RuntimeOracle::evaluate`; return infrastructure failure on non-zero exit code or timeout regardless of written verdict file.
   - Validate verdict payload: ensure `ok == true` is rejected as contradictory if `passed < total` or `failures` is non-empty.
   - Verify against positive control, process failure, timeout, and contradictory counts probes.

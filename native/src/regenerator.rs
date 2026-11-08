@@ -2022,6 +2022,13 @@ impl RuntimeOracle {
             &[],
             Some(deadline),
         );
+        if code != 0 && code != 1 {
+            return (
+                code,
+                Some(format!("oracle process failed or timed out (exit {code})")),
+                J::obj(vec![]),
+            );
+        }
         let payload = fs::read(&verdict_path)
             .ok()
             .and_then(|b| serde_json::from_slice::<serde_json::Value>(&b).ok());
@@ -2034,19 +2041,25 @@ impl RuntimeOracle {
                 J::obj(vec![]),
             );
         };
-        if payload.get("ok").and_then(|v| v.as_bool()).unwrap_or(false) {
-            return (0, None, J::obj(vec![]));
-        }
+        let ok = payload.get("ok").and_then(|v| v.as_bool()).unwrap_or(false);
         let failures = payload
             .get("failures")
             .cloned()
             .unwrap_or(serde_json::Value::Null);
+        let has_failures = match &failures {
+            serde_json::Value::Array(a) => !a.is_empty(),
+            serde_json::Value::Null => false,
+            _ => true,
+        };
         let total = payload
             .get("total")
             .and_then(|v| v.as_i64())
             .unwrap_or(0)
             .max(1);
         let passed = payload.get("passed").and_then(|v| v.as_i64()).unwrap_or(0);
+        if code == 0 && ok && !has_failures && passed >= total {
+            return (0, None, J::obj(vec![]));
+        }
         let field = |key: &str| -> String {
             failures
                 .get(0)

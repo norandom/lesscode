@@ -1510,7 +1510,7 @@ fn runtime_oracle_maps_verdict_files() {
         return;
     }
     let oracle = RuntimeOracle {
-        python: venv,
+        python: venv.clone(),
         script_rel: "oracle.py".into(),
         timeout_s: 60,
     };
@@ -1561,6 +1561,58 @@ json.dump({"ok": True, "passed": 6, "total": 6, "failures": []}, open("oracle-ve
     .unwrap();
     let (code, divergence, _) = oracle.evaluate(&cand);
     assert_eq!((code, divergence.is_none()), (0, true));
+
+    // exit 2 after writing ok verdict -> process failed, infrastructure error
+    let cand = work.join("exit2");
+    fs::create_dir_all(&cand).unwrap();
+    fs::write(
+        cand.join("oracle.py"),
+        r#"import json
+json.dump({"ok": True, "passed": 6, "total": 6, "failures": []}, open("oracle-verdict.json", "w"))
+raise SystemExit(2)
+"#,
+    )
+    .unwrap();
+    let (code, divergence, results) = oracle.evaluate(&cand);
+    assert_eq!(code, 2);
+    let reward = regenerator::evaluate_tier2_runtime(code, divergence.as_deref(), &results);
+    assert_eq!(reward.failure_kind.as_deref(), Some("runtime_infrastructure"));
+
+    // timeout after writing ok verdict -> process timeout, infrastructure error
+    let cand = work.join("timeout");
+    fs::create_dir_all(&cand).unwrap();
+    fs::write(
+        cand.join("oracle.py"),
+        r#"import json, time
+json.dump({"ok": True, "passed": 6, "total": 6, "failures": []}, open("oracle-verdict.json", "w"))
+time.sleep(5)
+"#,
+    )
+    .unwrap();
+    let timeout_oracle = RuntimeOracle {
+        python: venv.clone(),
+        script_rel: "oracle.py".into(),
+        timeout_s: 1,
+    };
+    let (code, divergence, results) = timeout_oracle.evaluate(&cand);
+    assert_ne!(code, 0);
+    assert_ne!(code, 1);
+    let reward = regenerator::evaluate_tier2_runtime(code, divergence.as_deref(), &results);
+    assert_eq!(reward.failure_kind.as_deref(), Some("runtime_infrastructure"));
+
+    // contradictory counts: ok=true but passed=0, total=1, failures present
+    let cand = work.join("contradictory");
+    fs::create_dir_all(&cand).unwrap();
+    fs::write(
+        cand.join("oracle.py"),
+        r#"import json
+json.dump({"ok": True, "passed": 0, "total": 1, "failures": [{"case": 1, "error": "mismatch"}]}, open("oracle-verdict.json", "w"))
+"#,
+    )
+    .unwrap();
+    let (code, divergence, results) = oracle.evaluate(&cand);
+    let reward = regenerator::evaluate_tier2_runtime(code, divergence.as_deref(), &results);
+    assert!(reward.score < 1.0);
 }
 
 // --- Admission verification of emitted receipts (done-when) ------------------------------------
