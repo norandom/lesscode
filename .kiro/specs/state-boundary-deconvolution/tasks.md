@@ -1,0 +1,78 @@
+# Implementation Plan: State Boundary Deconvolution
+
+## Implementation Tasks
+
+- [ ] 1. Foundation: state frame condition contracts and stream buffer monitoring
+  - [ ] 1.1 State frame condition declaration and static write-site analysis
+    - Implement `StateFrame` declaration parser and AST visitor in `src/lesscode_baseline/state_boundary/frame.py` to identify permitted global, instance, and environment write locations.
+    - Statically inspect candidates to verify that all write sites reside strictly within declared shell functions.
+    - Done when unauthorized write sites outside declared shell functions are detected and reported with line-anchored locations.
+    - _Boundary: FrameChecker_
+    - _Requirements: 1.1, 1.2, 1.5_
+  - [ ] 1.2 (P) Dynamic state observation and failure-side invariant evaluator
+    - Implement dynamic state snapshotting before and after execution in `src/lesscode_baseline/state_boundary/frame.py`.
+    - Evaluate post-condition state assertions on unhandled exceptions and controlled aborts, asserting that required failure-side state transitions (such as audit logs) are present.
+    - Done when omitted failure-side state mutations (such as E3 `AuditedAbsence`) are flagged as invariant violations and rejected.
+    - _Boundary: FrameChecker_
+    - _Requirements: 1.3, 1.4, 1.5_
+  - [ ] 1.3 (P) Output stream and buffer preservation monitor
+    - Implement stdout, stderr, and logging stream interception in `src/lesscode_baseline/state_boundary/stream_monitor.py` to capture emitted output bytes prior to abort points.
+    - Enforce relative effect ordering constraints matching the original execution contract.
+    - Done when dropped, un-flushed, or truncated intermediate output streams (such as E4 F3) are caught and reported as stream divergences.
+    - _Boundary: StreamMonitor_
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
+
+- [ ] 2. Core: pure core formal equivalence and adverse state mutation generator
+  - [ ] 2.1 Static purity verification for functional core
+    - Implement static purity verification in `src/lesscode_baseline/state_boundary/pure_verifier.py` to ensure core functions have 0 state writes, 0 global lookups, and 0 external I/O invocations.
+    - Done when any side-effect attempt or global state lookup inside a core function triggers a static purity rejection.
+    - _Boundary: PureVerifier_
+    - _Requirements: 2.1, 2.5_
+  - [ ] 2.2 (P) Bounded semantic equivalence checking and counterexample generation
+    - Implement bounded property-based exploration in `src/lesscode_baseline/state_boundary/pure_verifier.py` comparing candidate pure core functions against original un-deconvoluted functions over bounded input domains.
+    - Ensure both valid and out-of-domain input combinations are evaluated, automatically emitting minimal reproducible counterexamples upon output divergence.
+    - Done when input/output discrepancies between original and candidate pure logic produce a structured counterexample witness.
+    - _Boundary: PureVerifier_
+    - _Requirements: 2.2, 2.3, 2.4_
+  - [ ] 2.3 Targeted adverse state mutation injector
+    - Implement mutation generator in `src/lesscode_baseline/state_boundary/mutant_generator.py` targeting exception handlers (dropping failure state), output buffers (dropping flush), and error-evaluation order.
+    - Classify execution outcomes into behavioral mutant kills, compilation errors, timeouts, and equivalent mutations.
+    - Done when planted state-boundary mutants are generated and categorized with explicit target anchors.
+    - _Boundary: StateMutantHarness_
+    - _Requirements: 3.1, 3.4_
+
+- [ ] 3. Integration: mutation sensitivity gates, causal refinement bridge, and density defense
+  - [ ] 3.1 Adverse state mutation sensitivity gate
+    - Wire mutant evaluation into the verification gate, requiring candidate test batteries to kill 100% of non-equivalent planted mutants.
+    - Enforce mandatory kills for exception-side state mutations and buffer flushes before granting verification qualification.
+    - Done when any candidate whose test suite allows a non-equivalent adverse state mutant to survive is denied acceptance.
+    - _Boundary: StateMutantHarness_
+    - _Depends: 2.3_
+    - _Requirements: 3.2, 3.3, 3.5_
+  - [ ] 3.2 Refinement controller causal state obligation bridge
+    - Extend `lesscode-core::regenerator` and `src/lesscode_baseline/regenerator.py` to integrate state failure kinds (`StateFrameViolation`, `PureCoreDivergence`, `StreamDivergence`).
+    - Format failing state witnesses into structured diagnostic feedback for subsequent turn prompts, retaining unresolved obligations across turns.
+    - Done when a state violation discovered on turn 1 is injected into the turn 2 prompt and retained in `unresolved_obligations` until re-verified.
+    - _Boundary: ObligationBridge_
+    - _Depends: 1.2, 1.3, 2.2_
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
+  - [ ] 3.3 (P) Whole-responsibility density scorer and outcome gate
+    - Implement scope-wide measurement in `src/lesscode_baseline/state_boundary/density.py` and `native/src/state_contract.rs` measuring functions, call edges, write sites, AST statements, and canonical lines across the containing scope.
+    - Explicitly distinguish `structurally_consolidated` from `compression_met`, preventing function consolidation without net statement/line reduction from claiming compression.
+    - Done when candidate reports separate structural de-fragmentation from net compression, failing `compression_met` if statements merely compacted into denser functions.
+    - _Boundary: DensityGate_
+    - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
+
+- [ ] 4. Validation: prototype feasibility gate and qualification battery
+  - [ ] 4.1 Adversarial state-boundary unit and integration test suite
+    - Implement `tests/test_state_boundary.py` covering frame condition leaks, failure-side state omissions, truncated output streams, and surviving mutant rejections.
+    - Done when the test suite passes offline with 100% detection of simulated state-boundary defects.
+    - _Boundary: FrameChecker, StreamMonitor, StateMutantHarness_
+    - _Requirements: 1.2, 1.3, 3.3, 4.2_
+  - [ ] 4.2 End-to-end prototype feasibility gate execution
+    - Execute the feasibility gate against the Facdrone `lifecycle` scope and adverse controls (E3 `AuditedAbsence`, E4 F1/F3/F7) per `prototype-gate.md`.
+    - Verify that production apparatus line volume strictly complies with the R38 7,004 canonical line ceiling.
+    - Done when all adverse controls are killed, state post-conditions are verified, and the gate report is recorded with explicit line accounting.
+    - _Boundary: ObligationBridge, DensityGate_
+    - _Depends: 3.1, 3.2, 3.3, 4.1_
+    - _Requirements: 3.5, 5.5, 6.1, 6.2, 6.5_
