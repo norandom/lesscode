@@ -21,6 +21,21 @@ adoption (`Req 7.10`) remains withheld until a Rust-port re-measurement of U5
 under the same expanded-baseline accounting passes the frozen ceiling, or a
 further dated owner decision records a different disposition.
 
+**Amendment 4, 2026-11-08 (U5 ceiling amendment, [R38](../../../docs/research/2026-11-08/05-u5-ceiling-amendment.md)):**
+The owner records the disposition on the R37 negative by exercising
+preregistered option (a) of the R37 outcome rule: **the Rust-substrate U5
+ceiling is amended from 2,270 to 7,004 canonical lines** — exactly the
+measured R37 total on the R37 counted set, effective as a no-growth cap
+(growth beyond it, or any baseline change, requires a further dated owner
+decision). The 20% whole-replacement reduction claim is retired as
+falsified; the Python 3,783 and Rust 7,049/7,004 negatives stay on record
+(`Req 7.8`) and the R36/R37 gate records remain FAIL under the frozen 2,270
+— no retroactive pass. Slice B production adoption (`Req 7.10`) moves from
+withheld to **adoption planning unlocked**; production adoption execution
+still requires the `Req 7.9` production-design gate and `Req 7.11`
+revalidation of affected claims, and stays unscheduled until the owner
+requests an adoption plan.
+
 Lesscode shall support a bounded research workflow in which an LLM models a
 complete code responsibility, proposes a smaller representation and revises it
 using queryable source evidence, counterexamples and executable checks. The goal

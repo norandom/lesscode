@@ -1,6 +1,19 @@
 # Research log
 
-## Latest: R37 slim-pass gate FAIL as measured — levers exhausted, owner disposition open (2026-11-08)
+## Latest: R38 U5 ceiling amendment — owner chose amend (2026-11-08)
+[R38](2026-11-08/05-u5-ceiling-amendment.md) records the owner disposition on
+the R37 negative (option (a) of the preregistered outcome rule; instruction:
+"proceed with the amended ceiling"): **the Rust-substrate U5 ceiling is
+amended from 2,270 to 7,004 canonical lines** — the measured R37 total on the
+R37 counted set, effective as a **no-growth cap** (growth or baseline change
+needs a further dated decision). The 20% whole-replacement reduction claim is
+**retired as falsified**; the Python 3,783 and Rust 7,049/7,004 negatives
+stay on record (`Req 7.8`) and the R36/R37 gate records remain FAIL under
+the frozen 2,270. **Slice B adoption planning unlocked; production adoption
+execution still gated** by `Req 7.9`/`7.11` and unscheduled until the owner
+requests a plan. Task 10.1; no code, budget or frozen record changed.
+
+## Prior: R37 slim-pass gate FAIL as measured — levers exhausted, disposition resolved by R38 (2026-11-08)
 [R37](2026-11-08/04-rust-slim-pass-remeasure.md) executed under task 9.6
 (gate record
 [`rust-u5-gate-r37.json`](../experiments/deconvolution/probabilistic-refine/results/rust-u5-gate-r37.json)):
@@ -15,7 +28,9 @@ writer merges abandoned on semantic grounds under the byte-parity
 freezes): the bounded-consolidation hypothesis is falsified — the overage
 is port expression volume, not consolidation overhead. Negative retained,
 no ceiling or baseline change; Slice B stays withheld (`Req 7.10`); owner
-chooses amend (dated decision) or close. Task group 9 closed — handover at
+chooses amend (dated decision) or close — *resolved 2026-11-08 by
+[R38](2026-11-08/05-u5-ceiling-amendment.md): amend*. Task group 9 closed —
+handover at
 [.kiro/task_9_handover.md](../../.kiro/task_9_handover.md).
 
 ## Prior: Rust-apparatus slim pass preregistered — task group 9 opened (2026-11-08)

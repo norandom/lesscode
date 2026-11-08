@@ -361,7 +361,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Depends: 8.6_
     - _Requirements: 7.7, 7.8, 7.10, 8.1, 8.2, 8.3, 8.4, 8.6_
 
-- [ ] 9. Rust-apparatus slim pass, defect-7 split and U5 re-measurement (owner
+- [x] 9. Rust-apparatus slim pass, defect-7 split and U5 re-measurement (owner
   dispositions 2026-11-08; preregistered in `prototype-gate.md` R37 amendment
   and [R37](../../../docs/research/2026-11-08/04-rust-slim-pass-remeasure.md))
   - [x] 9.1 Preregistration, group-8 tick correction and pre-slim baseline receipt
@@ -445,6 +445,29 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Depends: 9.6_
     - _Requirements: 7.8, 7.10, 8.1, 8.2, 8.3, 8.6_
 
+- [x] 10. U5 ceiling amendment (owner disposition on the R37 negative,
+  2026-11-08; option (a) of the preregistered R37 outcome rule)
+  - [x] 10.1 Dated ceiling amendment and record rotation
+    - Record the owner decision ("proceed with the amended ceiling",
+      2026-11-08): amend the Rust-substrate U5 ceiling from 2,270 to the
+      measured R37 total **7,004** as a no-growth cap on the R37 counted set
+      (growth or baseline change requires a further dated decision); retire
+      the 20% whole-replacement reduction claim as falsified with the Python
+      3,783 and Rust 7,049/7,004 negatives retained and the R36/R37 gate
+      records unchanged FAIL; unlock Slice B adoption planning only
+      (production adoption execution still gated by `Req 7.9`/`7.11`). Write
+      [R38](../../../docs/research/2026-11-08/05-u5-ceiling-amendment.md),
+      rotate the research index, add the dated `prototype-gate.md` amendment
+      above R37 plus the inline dated note on the frozen checklist U5&U7
+      item, `requirements.md` Amendment 4, the `design.md` G1-R item-5 dated
+      note, update the Deferred Slice B condition, and tick the group-9
+      parent (group closed at `825e526`; tick discrepancy as fixed openly in
+      9.1 for group 8).
+    - Done when the dated decision is committed with reciprocal links across
+      the research entry, index and all four spec records, no frozen receipt
+      or gate record changed, and no code or budget ledger touched.
+    - _Requirements: 7.8, 7.9, 7.10, 8.1, 8.3, 8.4_
+
 ## Deferred (documented, not scheduled)
 
 - TypeScript extraction evaluation and further target languages (Rust, JS):
@@ -458,12 +481,16 @@ and start only on the owner's explicit answer. Frozen apparatus
   material, subject to revalidation.
 - Slice B production adoption tasks (multi-rollout default adoption, optional
   `DspyRefineAdapter` `--backend dspy` and offline `MIPROv2` compilation):
-  withheld per `Req 7.10` and `prototype-gate.md`. G1-R executed 2026-11-08
+  per `Req 7.10` and `prototype-gate.md`. G1-R executed 2026-11-08
   ([R34](../../../docs/research/2026-11-08/01-g1r-gate-and-live-recovery.md));
   owner U5 disposition 2026-11-08 ([R35](../../../docs/research/2026-11-08/02-u5-disposition.md)):
-  the Python stage-1 negative is accepted, and adoption additionally requires
-  the Rust-port U5 re-measurement gate (frozen 2,270-line ceiling) to pass
-  first.
+  the Python stage-1 negative is accepted. **Ceiling amended 2026-11-08
+  ([R38](../../../docs/research/2026-11-08/05-u5-ceiling-amendment.md))**:
+  the earlier frozen-2,270 pass condition is superseded — the Rust-substrate
+  U5 ceiling is 7,004 (no-growth cap, negatives retained), **adoption
+  planning is unlocked**, and production adoption execution remains gated by
+  `Req 7.9`/`7.11` and unscheduled until the owner requests an adoption
+  plan.
 - _Requirements: 7.1, 7.10_
 
 ## Implementation Notes

@@ -1,5 +1,23 @@
 # Prototype feasibility gate
 
+## U5 ceiling amendment (owner decision), 2026-11-08 ([R38](../../../docs/research/2026-11-08/05-u5-ceiling-amendment.md)): Rust-substrate ceiling 7,004 as a no-growth cap
+
+Owner disposition on the R37 negative — option (a) of the preregistered
+outcome rule (instruction, 2026-11-08: "proceed with the amended ceiling").
+**The Rust-substrate U5 ceiling is amended from 2,270 to 7,004 canonical
+lines**: exactly the R37 measured total on the R37 counted set, under the
+unchanged R37 canonical method, effective as a **no-growth cap** — future
+changes to the counted apparatus must keep the counted total ≤ 7,004; growth
+or any baseline change requires a further dated owner decision. The 20%
+whole-replacement reduction claim is **retired as falsified**; the Python
+3,783 and Rust 7,049/7,004 negatives are retained (`Req 7.8`) and the R36/R37
+gate records remain FAIL under the frozen 2,270 they were gated under — no
+retroactive pass. **Slice B adoption planning is unlocked; production
+adoption execution remains gated** by `Req 7.9` (production-design gate) and
+`Req 7.11` (revalidation), unscheduled until the owner requests a plan. U7
+verbatim-relocation accounting unchanged; phase approvals unchanged
+(`Req 8.3`).
+
 ## Rust-apparatus slim-pass outcome, 2026-11-08 ([R37](../../../docs/research/2026-11-08/04-rust-slim-pass-remeasure.md)): FAIL as measured — levers exhausted, owner disposition open
 
 Executed at head `9194909` (gate record
@@ -191,7 +209,7 @@ Following `R19`–`R32` and the owner's 2026-11-07 review, this spec's feasibili
         6. `ctrl_feedback_leak` (added by dated amendment, 2026-11-07, owner-approved via the independent fusion design-review gates): a feedback payload containing a held-out sequence name is rejected before dispatch (`Req 7.5`).
      - **Live / replay recovery check**: Verify that `Refine` transitions deterministically from `ctrl_max_tokens` (Turn 1) $\to$ `ctrl_missing_surface_b` (Turn 2, caught in Tier 1 without running PostgreSQL) $\to$ accepted Turn 3 ($R = 1.0$), and in at least one non-deterministic or weaker-model multi-turn run recovers from a Tier-1 or Tier-2 failure to reach $R = 1.0$ within `max_turns <= 4`, `max_static_retries <= 3`.
      - **Budget & no-progress stop**: Confirm that `k = 2` consecutive turns without strict improvement in $\max(R)$ or a newly discharged obligation halts with `status = "exhausted"` (`Req 4.5, 4.6`).
-     - **Whole-replacement apparatus target (`U5` & `U7` expanded baseline)**: Consolidated `src/lesscode_baseline/{recording,surface,measures,regenerator}.py` plus `native/src/{admission,receipt}.rs` must keep replaceable apparatus within the 20% reduction ceiling against the expanded baseline apparatus stratum $B_{\text{app}}^{\text{expanded}} = 2,838$ canonical lines ($20\%$ ceiling $\le 2,270$ canonical lines; composed of the R27/R31 baseline $B_{\text{app}} = 1,705$ plus the newly consolidated pre-consolidation baseline scripts: `surface.py` $117 +$ `surface4.py` $119 +$ `s9_surface_contracts.py` $117 = 353$, `measures.py` $129 +$ `measures4.py` $93 +$ `measures2.py` $99 +$ `measures3.py` $117 +$ `pureshare.py` $57 +$ `pureshare4.py` $23 = 518$, and the previously excluded `regen_turn.py` HTTP/driver portion $502 - 240 = 262$; while `testinfra.py` at $1,081$ canonical lines is relocated verbatim into `src/lesscode_baseline/testinfra.py` under `U7` verbatim-relocation accounting, and irreducible `op_*` / `SEEDS` strata remain excluded).
+     - **Whole-replacement apparatus target (`U5` & `U7` expanded baseline)**: Consolidated `src/lesscode_baseline/{recording,surface,measures,regenerator}.py` plus `native/src/{admission,receipt}.rs` must keep replaceable apparatus within the 20% reduction ceiling against the expanded baseline apparatus stratum $B_{\text{app}}^{\text{expanded}} = 2,838$ canonical lines ($20\%$ ceiling $\le 2,270$ canonical lines; composed of the R27/R31 baseline $B_{\text{app}} = 1,705$ plus the newly consolidated pre-consolidation baseline scripts: `surface.py` $117 +$ `surface4.py` $119 +$ `s9_surface_contracts.py` $117 = 353$, `measures.py` $129 +$ `measures4.py` $93 +$ `measures2.py` $99 +$ `measures3.py` $117 +$ `pureshare.py` $57 +$ `pureshare4.py` $23 = 518$, and the previously excluded `regen_turn.py` HTTP/driver portion $502 - 240 = 262$; while `testinfra.py` at $1,081$ canonical lines is relocated verbatim into `src/lesscode_baseline/testinfra.py` under `U7` verbatim-relocation accounting, and irreducible `op_*` / `SEEDS` strata remain excluded). — *Ceiling amended by dated owner decision 2026-11-08 ([R38](../../../docs/research/2026-11-08/05-u5-ceiling-amendment.md)): on the Rust target substrate the U5 ceiling is **7,004 canonical lines** (the R37 measured total on the R37 counted set, no-growth cap); the 20% reduction claim is retired as falsified with all negatives retained. The 2,270 value above stays as the recorded frozen-checklist figure the R34–R37 gates were judged under; the R36/R37 records remain FAIL.*
 
 ---
 
