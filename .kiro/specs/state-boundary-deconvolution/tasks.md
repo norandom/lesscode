@@ -23,7 +23,7 @@
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
 - [ ] 2. Core: pure core formal equivalence and adverse state mutation generator
-  - [ ] 2.1 Static purity verification for functional core
+  - [x] 2.1 Static purity verification for functional core
     - Implement static purity verification in `src/lesscode_baseline/state_boundary/pure_verifier.py` to ensure core functions have 0 state writes, 0 global lookups, and 0 external I/O invocations.
     - Done when any side-effect attempt or global state lookup inside a core function triggers a static purity rejection.
     - _Boundary: PureVerifier_

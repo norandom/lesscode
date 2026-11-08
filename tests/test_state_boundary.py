@@ -258,3 +258,66 @@ def test_stream_monitor_allows_commutative_sinks():
     assert divergences == []
 
 
+def test_pure_verifier_passes_pure_function():
+    from lesscode_baseline.state_boundary.pure_verifier import check_static_purity
+
+    code = """
+def pure_transform(data, factor):
+    res = []
+    for item in data:
+        if item > 0:
+            res.append(item * factor)
+    return sorted(res)
+"""
+    violations = check_static_purity(code, core_functions={"pure_transform"})
+    assert violations == []
+
+
+def test_pure_verifier_flags_state_mutation():
+    from lesscode_baseline.state_boundary.pure_verifier import (
+        PurityViolationType,
+        check_static_purity,
+    )
+
+    code = """
+def bad_core_function(self, x):
+    self.counter += 1
+    return x * 2
+"""
+    violations = check_static_purity(code, core_functions={"bad_core_function"})
+    assert len(violations) >= 1
+    assert any(v.violation_type == PurityViolationType.STATE_MUTATION for v in violations)
+
+
+def test_pure_verifier_flags_global_lookup():
+    from lesscode_baseline.state_boundary.pure_verifier import (
+        PurityViolationType,
+        check_static_purity,
+    )
+
+    code = """
+def bad_core_with_global(x):
+    return x + GLOBAL_MULTIPLIER
+"""
+    violations = check_static_purity(code, core_functions={"bad_core_with_global"})
+    assert len(violations) >= 1
+    assert any(v.violation_type == PurityViolationType.GLOBAL_LOOKUP for v in violations)
+
+
+def test_pure_verifier_flags_io_invocation():
+    from lesscode_baseline.state_boundary.pure_verifier import (
+        PurityViolationType,
+        check_static_purity,
+    )
+
+    code = """
+def bad_core_with_io(x):
+    print("processing", x)
+    return x + 1
+"""
+    violations = check_static_purity(code, core_functions={"bad_core_with_io"})
+    assert len(violations) >= 1
+    assert any(v.violation_type == PurityViolationType.IO_INVOCATION for v in violations)
+
+
+

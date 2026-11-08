@@ -6,6 +6,11 @@ from .frame import (
     check_static_frame,
     verify_dynamic_state,
 )
+from .pure_verifier import (
+    PurityViolation,
+    PurityViolationType,
+    check_static_purity,
+)
 from .stream_monitor import (
     StreamCapture,
     StreamContract,
@@ -21,6 +26,9 @@ __all__ = [
     "StateViolationType",
     "check_static_frame",
     "verify_dynamic_state",
+    "PurityViolation",
+    "PurityViolationType",
+    "check_static_purity",
     "StreamCapture",
     "StreamContract",
     "StreamDivergence",
