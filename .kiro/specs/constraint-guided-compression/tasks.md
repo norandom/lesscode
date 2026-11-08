@@ -421,7 +421,7 @@ and start only on the owner's explicit answer. Frozen apparatus
       are recorded, and no frozen file, digest or receipt changed.
     - _Depends: 9.4_
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.6, 5.5, 5.8, 6.1, 6.2, 6.3_
-  - [ ] 9.6 R37 U5 re-measurement gate
+  - [x] 9.6 R37 U5 re-measurement gate
     - Re-run the spike driver (`rust_u5_gate.py`, uncounted stratum) under
       the frozen R37 counted set and canonical method after the slim pass and
       defect-7 split; emit the gate record + `.sha256` with per-item G1-R

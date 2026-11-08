@@ -1,4 +1,10 @@
-# Rust-port U5 re-measurement gate driver (task 8.6, R36).
+# Rust-port U5 re-measurement gate driver (task 8.6, R36; re-run for R37).
+#
+# R37 amendments (task 9.6, slim-pass gate): the counted set extends to
+# jsonval.rs (defect-7 split / shared kernels, counted in full), the hook
+# enumeration is the unchanged net git-diff vs the pre-port base (now 38
+# added registration lines), and the record is written to a NEW file so the
+# R36 gate record is preserved (Req 8.4). Ceiling unchanged at 2,270.
 #
 # Consolidates the deterministic G1-R checklist re-discharge (items 1, 2, 3, 5)
 # through the Rust substrate (the lesscode-core crate, via its native test
@@ -53,7 +59,8 @@ sys.path.insert(0, str(REPO / "src"))
 from lesscode_baseline import measures  # noqa: E402
 
 PRE_PORT_COMMIT = "f2fe982"  # rust-port-base.json pre_port_commit (task 8.1)
-RS_NEW = ["src/surface.rs", "src/measures.rs", "src/recording.rs", "src/regenerator.rs"]
+RS_NEW = ["src/surface.rs", "src/measures.rs", "src/recording.rs", "src/regenerator.rs",
+          "src/jsonval.rs"]
 RS_BASE = ["src/admission.rs", "src/receipt.rs"]
 SHIM_REL = "native/shim/recording_shim.py"
 HOOK_FILES = ["native/src/lib.rs", "native/src/main.rs", "native/Cargo.toml"]
@@ -171,7 +178,7 @@ def item_u5(work: Path) -> dict:
             rs_counts[f"native/{rel}"] = canonical_rs(rel, tmp)
         shim_report = measures.measure_canonical(REPO, [SHIM_REL], tmp / "fmt")
     if shim_report is None:
-        return {"item": "U5 replaceable apparatus <= 2,270 canonical lines (Rust substrate, R36 set)",
+        return {"item": "U5 replaceable apparatus <= 2,270 canonical lines (Rust substrate, R37 set)",
                 "pass": False,
                 "detail": {"error": "pinned ruff unavailable; canonical reading must never be zero (Req 6.3)"}}
     hooks = measure_hooks()
@@ -182,7 +189,7 @@ def item_u5(work: Path) -> dict:
     frozen_hooks_total = sum(R31_FROZEN_HOOKS.values())
     total = new_total + base_total + shim_lines + frozen_hooks_total + hooks["total_added"]
     return {
-        "item": "U5 replaceable apparatus <= 2,270 canonical lines (Rust substrate, R36 set)",
+        "item": "U5 replaceable apparatus <= 2,270 canonical lines (Rust substrate, R37 set)",
         "pass": total <= U5_CEILING,
         "detail": {
             "rs_canonical": rs_counts,
@@ -194,7 +201,7 @@ def item_u5(work: Path) -> dict:
             "total": total, "ceiling": U5_CEILING, "baseline_expanded": B_APP_EXPANDED,
             "new_module_budget_preregistered": NEW_MODULE_BUDGET,
             "overage": total - U5_CEILING,
-            "verdict_note": "measured as-is; negative retained (Req 7.8); owner decides slim/amend",
+            "verdict_note": "measured as-is; negative retained (Req 7.8); owner decides amend/close (R37 slim levers exhausted)",
             "method": "R36 amendment (prototype-gate.md): rustfmt (toolchain 1.98.1, --edition 2021) "
                       "formatted copies, splitlines() counts; shim under the Python rule "
                       "(ruff==0.17.3 format --isolated --line-length 100 --target-version py313); "
@@ -223,16 +230,17 @@ def main() -> int:
                           capture_output=True, text=True).stdout.strip()
     RESULTS.mkdir(parents=True, exist_ok=True)
     record = {
-        "receipt": "rust-u5-gate-1",
-        "task": "8.6",
+        "receipt": "rust-u5-gate-r37-1",
+        "task": "9.6",
         "written_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "deterministic": True,
         "substrate": {"crate": "lesscode-core (native)", "toolchain": "1.98.1",
                       "head": head, "pre_port_commit": PRE_PORT_COMMIT},
         "checklist_note": "G1-R items 1, 2, 3 and 5 re-discharged through the Rust substrate; "
-                          "item 4 (U5) is this gate's own re-measurement under the R36 counted "
-                          "set; live weaker-model recovery is not re-run (R34 run B-2 stands on "
-                          "Python; no live transfer claimed).",
+                          "item 4 (U5) is this gate's own re-measurement under the R37 counted "
+                          "set (R36 set + jsonval.rs, hooks net vs pre-port); live weaker-model "
+                          "recovery is not re-run (R34 run B-2 stands on Python; no live "
+                          "transfer claimed).",
         "items": [],
     }
     with tempfile.TemporaryDirectory(prefix="rust-u5-gate-") as scratch:
@@ -250,10 +258,10 @@ def main() -> int:
                                         "error": f"{type(e).__name__}: {e}"})
     record["all_pass"] = all(item.get("pass") for item in record["items"])
     body = json.dumps(record, indent=1, sort_keys=True)
-    out = RESULTS / "rust-u5-gate.json"
+    out = RESULTS / "rust-u5-gate-r37.json"
     out.write_text(body, encoding="utf-8", newline="\n")
     Path(str(out) + ".sha256").write_text(
-        f"{hashlib.sha256(body.encode()).hexdigest()}  rust-u5-gate.json\n",
+        f"{hashlib.sha256(body.encode()).hexdigest()}  rust-u5-gate-r37.json\n",
         encoding="ascii", newline="\n")
     for item in record["items"]:
         print(f"[{'PASS' if item.get('pass') else 'FAIL'}] {item['item']}")
