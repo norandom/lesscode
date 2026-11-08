@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import ast
 import copy
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
 
@@ -221,3 +221,91 @@ def evaluate_mutant(
             outcome=MutationOutcome.KILLED,
             witness=f"Mutant '{mutant.mutant_id}' caused exception: {ex}",
         )
+
+
+@dataclass
+class MutationGateReport:
+    total_mutants: int
+    killed: int
+    survived: int
+    syntax_errors: int
+    timeouts: int
+    equivalent: int
+    mandatory_kills_met: bool
+    surviving_mutants: list[StateMutant] = field(default_factory=list)
+    results: list[MutationResult] = field(default_factory=list)
+
+    @property
+    def qualified(self) -> bool:
+        return self.survived == 0 and self.mandatory_kills_met and self.total_mutants > 0
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "total_mutants": self.total_mutants,
+            "killed": self.killed,
+            "survived": self.survived,
+            "syntax_errors": self.syntax_errors,
+            "timeouts": self.timeouts,
+            "equivalent": self.equivalent,
+            "mandatory_kills_met": self.mandatory_kills_met,
+            "qualified": self.qualified,
+            "surviving_mutants": [m.to_dict() for m in self.surviving_mutants],
+            "results": [r.to_dict() for r in self.results],
+        }
+
+
+def run_mutation_sensitivity_gate(
+    source_code: str,
+    test_runner: Callable[[str], tuple[bool, Optional[str]]],
+    target_file: str = "",
+    timeout_sec: float = 5.0,
+) -> MutationGateReport:
+    """Runs candidate test battery against planted state mutants, gating acceptance on 100% kill rate."""
+    mutants = generate_state_mutants(source_code, target_file=target_file)
+    results: list[MutationResult] = []
+    surviving: list[StateMutant] = []
+    killed_count = 0
+    survived_count = 0
+    syntax_count = 0
+    timeout_count = 0
+    equiv_count = 0
+
+    killed_kinds: set[StateMutationKind] = set()
+
+    for m in mutants:
+        res = evaluate_mutant(m, test_runner=test_runner, timeout_sec=timeout_sec)
+        results.append(res)
+        if res.outcome == MutationOutcome.KILLED:
+            killed_count += 1
+            killed_kinds.add(m.mutation_kind)
+        elif res.outcome == MutationOutcome.SURVIVED:
+            survived_count += 1
+            surviving.append(m)
+        elif res.outcome == MutationOutcome.SYNTAX_ERROR:
+            syntax_count += 1
+        elif res.outcome == MutationOutcome.TIMEOUT:
+            timeout_count += 1
+        elif res.outcome == MutationOutcome.EQUIVALENT:
+            equiv_count += 1
+
+    has_exception_mutant = any(m.mutation_kind == StateMutationKind.DROP_FAILURE_STATE for m in mutants)
+    has_buffer_mutant = any(m.mutation_kind == StateMutationKind.BUFFER_TRUNCATION for m in mutants)
+
+    mandatory_met = True
+    if has_exception_mutant and StateMutationKind.DROP_FAILURE_STATE not in killed_kinds:
+        mandatory_met = False
+    if has_buffer_mutant and StateMutationKind.BUFFER_TRUNCATION not in killed_kinds:
+        mandatory_met = False
+
+    return MutationGateReport(
+        total_mutants=len(mutants),
+        killed=killed_count,
+        survived=survived_count,
+        syntax_errors=syntax_count,
+        timeouts=timeout_count,
+        equivalent=equiv_count,
+        mandatory_kills_met=mandatory_met,
+        surviving_mutants=surviving,
+        results=results,
+    )
+

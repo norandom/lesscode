@@ -502,6 +502,57 @@ def test_evaluate_mutant_classifies_outcomes():
     assert res_err.outcome == MutationOutcome.SYNTAX_ERROR
 
 
+def test_mutation_gate_passes_when_all_mutants_killed():
+    from lesscode_baseline.state_boundary.mutant_generator import (
+        StateMutationKind,
+        run_mutation_sensitivity_gate,
+    )
+
+    code = """
+def run_action(self, item):
+    try:
+        sys.stdout.flush()
+        process(item)
+    except Exception:
+        self.audit_log.append("fail")
+        raise
+"""
+    # Test runner kills every mutant
+    report = run_mutation_sensitivity_gate(
+        code,
+        test_runner=lambda mutated: (False, "test_catches_all"),
+    )
+    assert report.total_mutants >= 2
+    assert report.survived == 0
+    assert report.mandatory_kills_met is True
+    assert report.qualified is True
+
+
+def test_mutation_gate_rejects_when_mutant_survives():
+    from lesscode_baseline.state_boundary.mutant_generator import (
+        run_mutation_sensitivity_gate,
+    )
+
+    code = """
+def run_action(self, item):
+    try:
+        sys.stdout.flush()
+        process(item)
+    except Exception:
+        self.audit_log.append("fail")
+        raise
+"""
+    # Test runner passes on mutants (weak test suite) -> mutants survive!
+    report = run_mutation_sensitivity_gate(
+        code,
+        test_runner=lambda mutated: (True, None),
+    )
+    assert report.survived > 0
+    assert report.qualified is False
+    assert len(report.surviving_mutants) > 0
+
+
+
 
 
 

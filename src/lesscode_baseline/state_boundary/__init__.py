@@ -7,12 +7,14 @@ from .frame import (
     verify_dynamic_state,
 )
 from .mutant_generator import (
+    MutationGateReport,
     MutationOutcome,
     MutationResult,
     StateMutant,
     StateMutationKind,
     evaluate_mutant,
     generate_state_mutants,
+    run_mutation_sensitivity_gate,
 )
 from .pure_verifier import (
     InputDomainBounds,
@@ -41,8 +43,10 @@ __all__ = [
     "MutationOutcome",
     "StateMutant",
     "MutationResult",
+    "MutationGateReport",
     "generate_state_mutants",
     "evaluate_mutant",
+    "run_mutation_sensitivity_gate",
     "PurityViolation",
     "PurityViolationType",
     "check_static_purity",

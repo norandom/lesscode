@@ -42,7 +42,7 @@
     - _Requirements: 3.1, 3.4_
 
 - [ ] 3. Integration: mutation sensitivity gates, causal refinement bridge, and density defense
-  - [ ] 3.1 Adverse state mutation sensitivity gate
+  - [x] 3.1 Adverse state mutation sensitivity gate
     - Wire mutant evaluation into the verification gate, requiring candidate test batteries to kill 100% of non-equivalent planted mutants.
     - Enforce mandatory kills for exception-side state mutations and buffer flushes before granting verification qualification.
     - Done when any candidate whose test suite allows a non-equivalent adverse state mutant to survive is denied acceptance.
