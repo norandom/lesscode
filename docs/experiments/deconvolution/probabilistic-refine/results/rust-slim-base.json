@@ -22,7 +22,7 @@
   "task93_jsonval_registration": 1
  },
  "method": "rustfmt (toolchain 1.98.1, --edition 2021) formatted copies, splitlines() counts; shim under ruff==0.17.3 format --isolated --line-length 100 --target-version py313; identical to the R27/R31/R34/R36 canonical method",
- "pre_slim_commit": "7a4d0c04e82a6dbf03639f6a8868d256f4108a14",
+ "pre_slim_commit": "f1571d689d796cbc5b480b0f03886ac44284a1e8",
  "pre_slim_total": 7004,
  "receipt": "rust-slim-base",
  "rust_app_live": {
