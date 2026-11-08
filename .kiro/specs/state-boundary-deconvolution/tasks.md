@@ -2,7 +2,7 @@
 
 ## Implementation Tasks
 
-- [ ] 1. Foundation: state frame condition contracts and stream buffer monitoring
+- [x] 1. Foundation: state frame condition contracts and stream buffer monitoring
   - [x] 1.1 State frame condition declaration and static write-site analysis
     - Implement `StateFrame` declaration parser and AST visitor in `src/lesscode_baseline/state_boundary/frame.py` to identify permitted global, instance, and environment write locations.
     - Statically inspect candidates to verify that all write sites reside strictly within declared shell functions.
@@ -15,7 +15,7 @@
     - Done when omitted failure-side state mutations (such as E3 `AuditedAbsence`) are flagged as invariant violations and rejected.
     - _Boundary: FrameChecker_
     - _Requirements: 1.3, 1.4, 1.5_
-  - [ ] 1.3 (P) Output stream and buffer preservation monitor
+  - [x] 1.3 (P) Output stream and buffer preservation monitor
     - Implement stdout, stderr, and logging stream interception in `src/lesscode_baseline/state_boundary/stream_monitor.py` to capture emitted output bytes prior to abort points.
     - Enforce relative effect ordering constraints matching the original execution contract.
     - Done when dropped, un-flushed, or truncated intermediate output streams (such as E4 F3) are caught and reported as stream divergences.
