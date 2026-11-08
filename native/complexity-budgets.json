@@ -26,12 +26,21 @@
    "disposition": "keep-measured-ceiling; brownfield freeze; blob d43192b09fed53994188eea6b963d1039c095059"
   },
   {
+   "path": "jsonval.rs",
+   "max_physical_lines": 128,
+   "max_logical_units": 36,
+   "max_fn_lines": 32,
+   "owner": "constraint-guided-compression",
+   "allocation": "Receipt-domain JSON value type extracted from receipt.rs in the defect-7 split (task 9.3, R37); shared kernels consolidated here in the task-9.4/9.5 slim pass (j_get/j_str accessors, serde bridge, ensure_ascii-optional escapes); measured at slim pass",
+   "disposition": null
+  },
+  {
    "path": "lib.rs",
    "max_physical_lines": 592,
-   "max_logical_units": 185,
+   "max_logical_units": 186,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split)",
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split) + pub mod state_contract (task 3.3)",
    "disposition": "keep-measured-ceiling; +5 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
@@ -42,6 +51,15 @@
    "owner": "capability-compression-core",
    "allocation": "Budgets subcommand arm complete (+12 of the +25 design allowance); Surface subcommand arm (+6, task 8.2); Regenerate subcommand arm (+8, task 8.5)",
    "disposition": "keep-measured-ceiling; blob 4e41a2aeb11a9228629d2722fabb7f1227f21894"
+  },
+  {
+   "path": "measures.rs",
+   "max_physical_lines": 1420,
+   "max_logical_units": 454,
+   "max_fn_lines": 160,
+   "owner": "constraint-guided-compression",
+   "allocation": "Tier-1 structural checks and canonical measure port (task 8.3, R36); task-9.4/9.5 slim: j_get delegates to jsonval; measured at slim pass",
+   "disposition": null
   },
   {
    "path": "metrics.rs",
@@ -62,30 +80,12 @@
    "disposition": "keep-measured-ceiling; brownfield freeze; blob 04a3fd67d33b2e67678c04990b4f16611d0acfc9"
   },
   {
-   "path": "measures.rs",
-   "max_physical_lines": 1420,
-   "max_logical_units": 454,
-   "max_fn_lines": 160,
-   "owner": "constraint-guided-compression",
-   "allocation": "Tier-1 structural checks and canonical measure port (task 8.3, R36); task-9.4/9.5 slim: j_get delegates to jsonval; measured at slim pass",
-   "disposition": null
-  },
-  {
    "path": "receipt.rs",
    "max_physical_lines": 122,
    "max_logical_units": 64,
    "max_fn_lines": 57,
    "owner": "deconvolution-native-core",
    "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); write_json_str pub(crate) for the recording golden writer (task 8.4); task-9.3 defect-7 split: J type + shared kernels extracted to jsonval.rs (R37), string escaping now delegates; measured at slim pass",
-   "disposition": null
-  },
-  {
-   "path": "jsonval.rs",
-   "max_physical_lines": 128,
-   "max_logical_units": 36,
-   "max_fn_lines": 32,
-   "owner": "constraint-guided-compression",
-   "allocation": "Receipt-domain JSON value type extracted from receipt.rs in the defect-7 split (task 9.3, R37); shared kernels consolidated here in the task-9.4/9.5 slim pass (j_get/j_str accessors, serde bridge, ensure_ascii-optional escapes); measured at slim pass",
    "disposition": null
   },
   {
@@ -99,11 +99,11 @@
   },
   {
    "path": "regenerator.rs",
-   "max_physical_lines": 2714,
-   "max_logical_units": 828,
-   "max_fn_lines": 280,
+   "max_physical_lines": 2783,
+   "max_logical_units": 862,
+   "max_fn_lines": 306,
    "owner": "constraint-guided-compression",
-   "allocation": "Two-tier refine controller port: TurnRequest/prompt builder, Tier-1 ladder, Tier-2 pinned formula, BestOfN refine control, ReceiptWriter with bindings, openai adapter on ureq (task 8.5, R36); task-9.4 slim: serde bridge, accessors and Python-parity escapes delegate to jsonval; measured at slim pass",
+   "allocation": "Two-tier refine controller port: TurnRequest/prompt builder, Tier-1 ladder, Tier-2 pinned formula, BestOfN refine control, ReceiptWriter with bindings, openai adapter on ureq (task 8.5, R36); task-9.4 slim: serde bridge, accessors and Python-parity escapes delegate to jsonval; measured at slim pass; task-12 R39 oracle repairs and task-3.2 state obligation bridge",
    "disposition": null
   },
   {
@@ -114,6 +114,15 @@
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob 295533fe3c89b27d8099d3072f1907224a762109"
+  },
+  {
+   "path": "state_contract.rs",
+   "max_physical_lines": 92,
+   "max_logical_units": 32,
+   "max_fn_lines": 56,
+   "owner": "state-boundary-deconvolution",
+   "allocation": "State contract and scope-wide density scoring structures (task 3.3)",
+   "disposition": null
   },
   {
    "path": "surface.rs",

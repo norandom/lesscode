@@ -63,13 +63,13 @@
     - _Boundary: DensityGate_
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 4. Validation: prototype feasibility gate and qualification battery
+- [x] 4. Validation: prototype feasibility gate and qualification battery
   - [x] 4.1 Adversarial state-boundary unit and integration test suite
     - Implement `tests/test_state_boundary.py` covering frame condition leaks, failure-side state omissions, truncated output streams, and surviving mutant rejections.
     - Done when the test suite passes offline with 100% detection of simulated state-boundary defects.
     - _Boundary: FrameChecker, StreamMonitor, StateMutantHarness_
     - _Requirements: 1.2, 1.3, 3.3, 4.2_
-  - [ ] 4.2 End-to-end prototype feasibility gate execution
+  - [x] 4.2 End-to-end prototype feasibility gate execution
     - Execute the feasibility gate against the Facdrone `lifecycle` scope and adverse controls (E3 `AuditedAbsence`, E4 F1/F3/F7) per `prototype-gate.md`.
     - Verify that production apparatus line volume strictly complies with the R38 7,004 canonical line ceiling.
     - Done when all adverse controls are killed, state post-conditions are verified, and the gate report is recorded with explicit line accounting.

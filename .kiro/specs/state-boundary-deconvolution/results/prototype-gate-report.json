@@ -1,0 +1,74 @@
+{
+  "adverse_controls": {
+    "E3_AuditedAbsence": {
+      "description": "Failure-side state post-condition verification (AuditedAbsence on abort)",
+      "pass": true,
+      "witness_detected": "Required failure state 'AuditedAbsence' was missing in 'audit_log' after exception: Serialization failed"
+    },
+    "E4_F1_Silent_None": {
+      "counterexample": {
+        "x": null
+      },
+      "description": "Bounded semantic equivalence checking with minimal counterexample (E4 F1 None acceptance)",
+      "pass": true
+    },
+    "E4_F3_Buffer_Drop": {
+      "description": "Output stream and buffer preservation monitor (E4 partial CLI stdout drop)",
+      "divergence": "Candidate dropped or failed to flush 31 bytes on sink 'stdout' prior to completion/abort",
+      "pass": true
+    },
+    "E4_F7_Error_Order": {
+      "description": "Adverse state mutation sensitivity gate killing error-ordering mutations (E4 F7)",
+      "killed": 1,
+      "mutants_evaluated": 1,
+      "pass": true,
+      "survived": 0
+    }
+  },
+  "apparatus_accounting": {
+    "added_hooks": 23,
+    "added_hooks_detail": {
+      "native/Cargo.toml": 2,
+      "native/src/lib.rs": 6,
+      "native/src/main.rs": 15
+    },
+    "ceiling": 7004,
+    "frozen_hooks_total": 16,
+    "overage_r37_set": 75,
+    "overage_with_state_contract": 169,
+    "pass_r37_set": false,
+    "pass_with_state_contract": false,
+    "r37_set_total": 7079,
+    "rs_counts": {
+      "src/admission.rs": 274,
+      "src/jsonval.rs": 130,
+      "src/measures.rs": 1422,
+      "src/receipt.rs": 124,
+      "src/recording.rs": 971,
+      "src/regenerator.rs": 2790,
+      "src/surface.rs": 1151
+    },
+    "shim_lines": 178,
+    "state_contract_lines": 94,
+    "total_with_state_contract": 7173
+  },
+  "density_defense": {
+    "call_edge_reduction_pct": 29.21,
+    "canonical_line_reduction_pct": 6.02,
+    "compression_met": false,
+    "density_trap_caught": true,
+    "description": "Whole-responsibility density scorer and outcome gate on Facdrone lifecycle",
+    "function_reduction_pct": 24.64,
+    "pass": true,
+    "pure_function_pct": 51.92,
+    "statement_reduction_pct": 1.67,
+    "structurally_consolidated": true
+  },
+  "disposition": "REVISE",
+  "disposition_note": "Verification techniques successfully killed 100% of adverse controls (E3 AuditedAbsence, E4 F1, F3, F7) and defended against the density trap. The apparatus volume (7,079 / 7,173 canonical lines) breaches the frozen 7,004 line ceiling by +75 (or +169) lines due to R39 correctness fixes and state obligation bridging. Per prototype-gate.md, gate outcome is REVISE pending dated owner decision.",
+  "elapsed_seconds": 6.513,
+  "gate": "prototype-feasibility-gate",
+  "head": "ca0fe44123da6c4b0d961ef035edd782f832d5b2",
+  "spec": "state-boundary-deconvolution",
+  "timestamp_utc": "2026-11-08T18:56:36Z"
+}
