@@ -398,7 +398,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: SharedRecorder admission/receipt seam_
     - _Depends: 9.1_
     - _Requirements: 2.6, 5.5, 6.1, 6.5_
-  - [ ] 9.4 `regenerator.rs` slim pass (largest lever, 2,798 lines)
+  - [x] 9.4 `regenerator.rs` slim pass (largest lever, 2,798 lines)
     - Consolidate the two-tier refine controller — shared kernels, removal of
       derivable structure — while the six Tier-1 controls still fail closed
       with zero runtime calls, the E4 three-turn replay reproduces the
@@ -411,7 +411,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator_
     - _Depends: 9.3_
     - _Requirements: 1.4, 3.6, 4.1, 4.3, 4.4, 4.5, 4.6, 5.8, 6.1, 6.5_
-  - [ ] 9.5 `surface`/`measures`/`recording` shared-structure slim pass
+  - [x] 9.5 `surface`/`measures`/`recording` shared-structure slim pass
     - Consolidate the derivable structure shared across `surface.rs` (1,154),
       `measures.rs` (1,428) and `recording.rs` (1,002) into honestly-counted
       shared modules, preserving frozen report envelope field names, Tier-1

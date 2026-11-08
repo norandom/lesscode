@@ -16,12 +16,15 @@
 //! class of divergence as the 8.2 surface report loader; semantics are
 //! order-insensitive).
 
+use crate::jsonval::{
+    from_serde as j_from_value, j_get, j_str, to_serde as j_to_value,
+    write_json_str_py as write_str_py,
+};
 use crate::measures::{self, Structure};
 use crate::receipt::{self, J};
 use crate::recording;
 use crate::surface;
 use std::collections::BTreeSet;
-use std::fmt::Write as _;
 use std::fs;
 use std::io::Read as _;
 use std::path::{Path, PathBuf};
@@ -90,20 +93,6 @@ impl RegenError {
 
 // --- JSON helpers ------------------------------------------------------------
 
-fn j_get<'a>(v: &'a J, key: &str) -> Option<&'a J> {
-    match v {
-        J::Obj(pairs) => pairs.iter().find(|(k, _)| k == key).map(|(_, v)| v),
-        _ => None,
-    }
-}
-
-fn j_str(v: &J) -> &str {
-    match v {
-        J::Str(s) => s,
-        _ => "",
-    }
-}
-
 /// Python truthiness for the receipt domain (missing key counts falsy).
 fn j_truthy(v: Option<&J>) -> bool {
     match v {
@@ -115,77 +104,6 @@ fn j_truthy(v: Option<&J>) -> bool {
         Some(J::Arr(a)) => !a.is_empty(),
         Some(J::Obj(o)) => !o.is_empty(),
     }
-}
-
-/// serde_json value to `J` (object keys arrive sorted; floats survive).
-fn j_from_value(value: &serde_json::Value) -> J {
-    match value {
-        serde_json::Value::Null => J::Null,
-        serde_json::Value::Bool(b) => J::Bool(*b),
-        serde_json::Value::Number(n) => match n.as_i64() {
-            Some(i) => J::Int(i),
-            None => J::Float(n.as_f64().unwrap_or(0.0)),
-        },
-        serde_json::Value::String(s) => J::str(s.clone()),
-        serde_json::Value::Array(items) => J::arr(items.iter().map(j_from_value).collect()),
-        serde_json::Value::Object(map) => J::Obj(
-            map.iter()
-                .map(|(k, v)| (k.clone(), j_from_value(v)))
-                .collect(),
-        ),
-    }
-}
-
-fn j_to_value(value: &J) -> serde_json::Value {
-    match value {
-        J::Null => serde_json::Value::Null,
-        J::Bool(b) => serde_json::Value::Bool(*b),
-        J::Int(n) => serde_json::Value::Number((*n).into()),
-        J::Float(x) => serde_json::Number::from_f64(*x)
-            .map(serde_json::Value::Number)
-            .unwrap_or(serde_json::Value::Null),
-        J::Str(s) => serde_json::Value::String(s.clone()),
-        J::Arr(items) => serde_json::Value::Array(items.iter().map(j_to_value).collect()),
-        J::Obj(pairs) => {
-            // serde_json maps are BTreeMaps; the HTTP body is not hashed.
-            let mut map = serde_json::Map::new();
-            for (k, v) in pairs {
-                map.insert(k.clone(), j_to_value(v));
-            }
-            serde_json::Value::Object(map)
-        }
-    }
-}
-
-/// JSON string with Python `json.dumps` escaping; `ascii` selects
-/// `ensure_ascii` (non-ASCII raw when false, `\uxxxx` otherwise).
-fn write_str_py(s: &str, out: &mut String, ascii: bool) {
-    out.push('"');
-    for ch in s.chars() {
-        match ch {
-            '"' => out.push_str("\\\""),
-            '\\' => out.push_str("\\\\"),
-            '\u{8}' => out.push_str("\\b"),
-            '\t' => out.push_str("\\t"),
-            '\n' => out.push_str("\\n"),
-            '\u{c}' => out.push_str("\\f"),
-            '\r' => out.push_str("\\r"),
-            c if c.is_ascii_graphic() || c == ' ' => out.push(c),
-            c if !ascii => out.push(c),
-            c => {
-                let cp = c as u32;
-                if cp <= 0xFFFF {
-                    let _ = write!(out, "\\u{cp:04x}");
-                } else {
-                    let cp = cp - 0x10000;
-                    let hi = 0xD800 + (cp >> 10);
-                    let lo = 0xDC00 + (cp & 0x3FF);
-                    let _ = write!(out, "\\u{hi:04x}\\u{lo:04x}");
-                }
-            }
-        }
-    }
-    out.push('"');
 }
 
 fn py_float(x: f64) -> String {

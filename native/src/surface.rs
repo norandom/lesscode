@@ -9,6 +9,7 @@
 //! stage-1 reference module; the parser differs, so syntax messages are
 //! line-anchored tree-sitter reports rather than CPython messages.
 
+use crate::jsonval::j_get;
 use crate::receipt::J;
 use std::collections::BTreeSet;
 use std::fs;
@@ -852,6 +853,9 @@ pub enum SurfaceCommand {
 /// BTreeMap), so verification findings iterate in sorted-key order when a
 /// report is loaded from a file; `derive_surface` output keeps insertion
 /// order. Verification semantics are order-insensitive.
+// Int-only by design: surface reports carry integer positions/counts; a
+// hypothetical float would read 0 rather than round-trip (deliberately not
+// the full-fidelity jsonval::from_serde kernel).
 fn value_to_j(value: &serde_json::Value) -> J {
     match value {
         serde_json::Value::Null => J::Null,
@@ -919,13 +923,6 @@ pub fn cli_run(cmd: SurfaceCommand) -> Result<u8, SurfaceError> {
 
 // ---------------------------------------------------------------------------
 // Candidate verification
-
-fn j_get<'a>(value: &'a J, key: &str) -> Option<&'a J> {
-    match value {
-        J::Obj(pairs) => pairs.iter().find(|(k, _)| k == key).map(|(_, v)| v),
-        _ => None,
-    }
-}
 
 fn j_str(value: &J) -> Option<&str> {
     match value {

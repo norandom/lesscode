@@ -63,47 +63,47 @@
   },
   {
    "path": "measures.rs",
-   "max_physical_lines": 1426,
-   "max_logical_units": 455,
+   "max_physical_lines": 1420,
+   "max_logical_units": 454,
    "max_fn_lines": 160,
    "owner": "constraint-guided-compression",
-   "allocation": "Tier-1 structural checks and canonical measure port (task 8.3, R36); measured at freeze",
+   "allocation": "Tier-1 structural checks and canonical measure port (task 8.3, R36); task-9.4/9.5 slim: j_get delegates to jsonval; measured at slim pass",
    "disposition": null
   },
   {
    "path": "receipt.rs",
-   "max_physical_lines": 147,
-   "max_logical_units": 84,
+   "max_physical_lines": 122,
+   "max_logical_units": 64,
    "max_fn_lines": 57,
    "owner": "deconvolution-native-core",
-   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); write_json_str pub(crate) for the recording golden writer, zero new lines (task 8.4); task-9.3 defect-7 split: J value type extracted to jsonval.rs (R37), retained module re-measured at split",
+   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); write_json_str pub(crate) for the recording golden writer (task 8.4); task-9.3 defect-7 split: J type + shared kernels extracted to jsonval.rs (R37), string escaping now delegates; measured at slim pass",
    "disposition": null
   },
   {
    "path": "jsonval.rs",
-   "max_physical_lines": 37,
-   "max_logical_units": 11,
-   "max_fn_lines": 3,
+   "max_physical_lines": 128,
+   "max_logical_units": 36,
+   "max_fn_lines": 32,
    "owner": "constraint-guided-compression",
-   "allocation": "Receipt-domain JSON value type extracted from receipt.rs in the defect-7 split (task 9.3, R37); counted module (R37 rule); measured at split",
+   "allocation": "Receipt-domain JSON value type extracted from receipt.rs in the defect-7 split (task 9.3, R37); shared kernels consolidated here in the task-9.4/9.5 slim pass (j_get/j_str accessors, serde bridge, ensure_ascii-optional escapes); measured at slim pass",
    "disposition": null
   },
   {
    "path": "recording.rs",
-   "max_physical_lines": 1000,
-   "max_logical_units": 343,
+   "max_physical_lines": 969,
+   "max_logical_units": 338,
    "max_fn_lines": 111,
    "owner": "constraint-guided-compression",
-   "allocation": "L1/L2 record/replay engine port: golden bytes, LF-body digests, diffing, deadline-killed arms, serial pytest groups (task 8.4, R36); measured at freeze with E3/E4 digest gates green; py_float_repr pub(crate) for the regenerator hash writer, zero new lines (task 8.5)",
+   "allocation": "L1/L2 record/replay engine port: golden bytes, LF-body digests, diffing, deadline-killed arms, serial pytest groups (task 8.4, R36); py_float_repr pub(crate) for the regenerator hash writer (task 8.5); task-9.4/9.5 slim: serde bridge + accessors delegate to jsonval; measured at slim pass",
    "disposition": null
   },
   {
    "path": "regenerator.rs",
-   "max_physical_lines": 2796,
-   "max_logical_units": 852,
+   "max_physical_lines": 2714,
+   "max_logical_units": 828,
    "max_fn_lines": 280,
    "owner": "constraint-guided-compression",
-   "allocation": "Two-tier refine controller port: TurnRequest/prompt builder, Tier-1 ladder, Tier-2 pinned formula, BestOfN refine control, ReceiptWriter with bindings, openai adapter on ureq (task 8.5, R36); measured at freeze with the six controls, E4 three-turn replay and admission gates green",
+   "allocation": "Two-tier refine controller port: TurnRequest/prompt builder, Tier-1 ladder, Tier-2 pinned formula, BestOfN refine control, ReceiptWriter with bindings, openai adapter on ureq (task 8.5, R36); task-9.4 slim: serde bridge, accessors and Python-parity escapes delegate to jsonval; measured at slim pass",
    "disposition": null
   },
   {
@@ -117,11 +117,11 @@
   },
   {
    "path": "surface.rs",
-   "max_physical_lines": 1152,
-   "max_logical_units": 399,
+   "max_physical_lines": 1149,
+   "max_logical_units": 398,
    "max_fn_lines": 207,
    "owner": "constraint-guided-compression",
-   "allocation": "Contract-B surface derivation port onto ast-grep tree-sitter-python (task 8.2, R36); measured at freeze",
+   "allocation": "Contract-B surface derivation port onto ast-grep tree-sitter-python (task 8.2, R36); task-9.4/9.5 slim: j_get delegates to jsonval (value_to_j stays local: int-only by design); measured at slim pass",
    "disposition": null
   }
  ]

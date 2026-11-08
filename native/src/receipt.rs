@@ -32,35 +32,10 @@ fn indent(depth: usize, out: &mut String) {
     }
 }
 
-/// Python `json.dumps` string escaping (`ensure_ascii`): short escapes for
-/// `"`, `\`, \b, \t, \n, \f, \r; `\u00xx` (lowercase hex) for other control
-/// characters and DEL; `\uxxxx` (surrogate pairs above BMP) for non-ASCII.
+/// Python `json.dumps` string escaping (`ensure_ascii`): shared kernel in
+/// `jsonval.rs` (`write_json_str_py`), pinned here to the ASCII mode.
 pub(crate) fn write_json_str(s: &str, out: &mut String) {
-    out.push('"');
-    for ch in s.chars() {
-        match ch {
-            '"' => out.push_str("\\\""),
-            '\\' => out.push_str("\\\\"),
-            '\u{8}' => out.push_str("\\b"),
-            '\t' => out.push_str("\\t"),
-            '\n' => out.push_str("\\n"),
-            '\u{c}' => out.push_str("\\f"),
-            '\r' => out.push_str("\\r"),
-            c if c.is_ascii_graphic() || c == ' ' => out.push(c),
-            c => {
-                let cp = c as u32;
-                if cp <= 0xFFFF {
-                    let _ = write!(out, "\\u{cp:04x}");
-                } else {
-                    let cp = cp - 0x10000;
-                    let hi = 0xD800 + (cp >> 10);
-                    let lo = 0xDC00 + (cp & 0x3FF);
-                    let _ = write!(out, "\\u{hi:04x}\\u{lo:04x}");
-                }
-            }
-        }
-    }
-    out.push('"');
+    crate::jsonval::write_json_str_py(s, out, true);
 }
 
 /// Python `json.dumps(value, indent=1)`-compatible emission for the receipt

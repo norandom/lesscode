@@ -20,10 +20,10 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[3]
 NATIVE = REPO / "native"
 OUT = HERE / "results" / "rust-slim-base.json"
-RS_APP = ["src/admission.rs", "src/receipt.rs", "src/surface.rs",
+RS_APP = ["src/admission.rs", "src/receipt.rs", "src/jsonval.rs", "src/surface.rs",
           "src/measures.rs", "src/recording.rs", "src/regenerator.rs"]
 SHIM = "shim/recording_shim.py"
-HOOKS_AT_BASELINE = {"r31_frozen": 16, "group8_enumerated": 21}
+HOOKS_AT_BASELINE = {"r31_frozen": 16, "group8_enumerated": 21, "task93_jsonval_registration": 1}
 RUSTFMT = ["rustup", "run", "1.98.1", "rustfmt", "--edition", "2021", "--emit", "stdout"]
 RUFF = [sys.executable, "-m", "ruff", "format", "--isolated", "--line-length", "100",
         "--target-version", "py313"]

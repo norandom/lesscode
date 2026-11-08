@@ -12,6 +12,7 @@
 //! behind this seam (tree-sitter-python, extractor `rust-tspython-v1`);
 //! candidate code is parsed, never executed.
 
+use crate::jsonval::j_get;
 use crate::receipt::{sha256_hex, J};
 use std::collections::BTreeSet;
 use std::fs;
@@ -1143,13 +1144,6 @@ fn mention_tokens(text: &str, source_extensions: &[String]) -> Vec<String> {
         }
     }
     out
-}
-
-fn j_get<'a>(v: &'a J, key: &str) -> Option<&'a J> {
-    match v {
-        J::Obj(pairs) => pairs.iter().find(|(k, _)| k == key).map(|(_, v)| v),
-        _ => None,
-    }
 }
 
 fn j_num(v: &J, key: &str) -> Option<i64> {

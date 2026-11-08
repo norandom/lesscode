@@ -12,6 +12,7 @@
 //! (`native/shim/recording_shim.py`) running in the pinned specimen venv;
 //! JSON files under a scratch dir are the interface.
 
+use crate::jsonval::{from_serde as value_to_j, j_get, j_str};
 use crate::receipt::{sha256_hex, J};
 use std::fmt::Write as _;
 use std::fs;
@@ -262,24 +263,6 @@ pub fn write_golden(out: &Path, meta: &J, seqs: &J) -> Result<(String, usize), R
 
 // --- shim interface --------------------------------------------------------
 
-fn value_to_j(value: &serde_json::Value) -> J {
-    match value {
-        serde_json::Value::Null => J::Null,
-        serde_json::Value::Bool(b) => J::Bool(*b),
-        serde_json::Value::Number(n) => match n.as_i64() {
-            Some(i) => J::Int(i),
-            None => J::Float(n.as_f64().unwrap_or(0.0)),
-        },
-        serde_json::Value::String(s) => J::Str(s.clone()),
-        serde_json::Value::Array(items) => J::Arr(items.iter().map(value_to_j).collect()),
-        serde_json::Value::Object(map) => J::Obj(
-            map.iter()
-                .map(|(k, v)| (k.clone(), value_to_j(v)))
-                .collect(),
-        ),
-    }
-}
-
 fn read_json(path: &Path) -> Result<J, RecordingError> {
     let text = fs::read_to_string(path)
         .map_err(|e| RecordingError(format!("cannot read {}: {e}", path.display())))?;
@@ -305,20 +288,6 @@ fn run_shim(plan: &ScopePlan, args: &[&str]) -> Result<(), RecordingError> {
         ));
     }
     Ok(())
-}
-
-fn j_get<'a>(v: &'a J, key: &str) -> Option<&'a J> {
-    match v {
-        J::Obj(pairs) => pairs.iter().find(|(k, _)| k == key).map(|(_, v)| v),
-        _ => None,
-    }
-}
-
-fn j_str(v: &J) -> &str {
-    match v {
-        J::Str(s) => s,
-        _ => "",
-    }
 }
 
 fn j_arr(v: &J) -> &[J] {
