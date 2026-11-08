@@ -162,3 +162,76 @@ def check_static_frame(source_code: str, frame: StateFrame, shell_functions: Set
     visitor = StaticWriteSiteVisitor(frame, shell_functions)
     visitor.visit(tree)
     return visitor.violations
+
+
+def verify_dynamic_state(
+    before_state: dict[str, Any],
+    after_state: dict[str, Any],
+    exit_error: Optional[Exception],
+    frame: StateFrame,
+) -> list[StateViolation]:
+    """Dynamically verifies state changes and post-condition invariants."""
+    violations: list[StateViolation] = []
+
+    # 1. Check for unauthorized mutations in unallowed locations
+    all_keys = set(before_state.keys()) | set(after_state.keys())
+    for key in all_keys:
+        val_before = before_state.get(key)
+        val_after = after_state.get(key)
+
+        # Check type conflict
+        if val_before is not None and val_after is not None:
+            if type(val_before) is not type(val_after):
+                violations.append(
+                    StateViolation(
+                        location=key,
+                        violation_type=StateViolationType.TYPE_CONFLICT,
+                        witness=f"Type of '{key}' changed from {type(val_before).__name__} to {type(val_after).__name__}",
+                    )
+                )
+
+        # Check unauthorized modification
+        if val_before != val_after and key not in frame.allowed_writes:
+            violations.append(
+                StateViolation(
+                    location=key,
+                    violation_type=StateViolationType.UNAUTHORIZED_WRITE,
+                    witness=f"State location '{key}' was modified without being in allowed_writes",
+                )
+            )
+
+    # 2. Check failure-side invariants if execution resulted in an exception/error
+    if exit_error is not None:
+        for invariant in frame.required_failure_invariants:
+            if ":" in invariant:
+                loc, expected = invariant.split(":", 1)
+                val_after = after_state.get(loc)
+                satisfied = False
+                if isinstance(val_after, list):
+                    satisfied = any(expected in str(item) for item in val_after)
+                elif isinstance(val_after, (str, dict)):
+                    satisfied = expected in str(val_after)
+                elif val_after is not None:
+                    satisfied = str(val_after) == expected
+
+                if not satisfied:
+                    violations.append(
+                        StateViolation(
+                            location=loc,
+                            violation_type=StateViolationType.MISSING_FAILURE_INVARIANT,
+                            witness=f"Required failure state '{expected}' was missing in '{loc}' after exception: {exit_error}",
+                        )
+                    )
+            else:
+                val_after = after_state.get(invariant)
+                if not val_after:
+                    violations.append(
+                        StateViolation(
+                            location=invariant,
+                            violation_type=StateViolationType.MISSING_FAILURE_INVARIANT,
+                            witness=f"Required failure invariant '{invariant}' was not truthy after exception: {exit_error}",
+                        )
+                    )
+
+    return violations
+

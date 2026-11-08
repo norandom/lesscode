@@ -9,7 +9,7 @@
     - Done when unauthorized write sites outside declared shell functions are detected and reported with line-anchored locations.
     - _Boundary: FrameChecker_
     - _Requirements: 1.1, 1.2, 1.5_
-  - [ ] 1.2 (P) Dynamic state observation and failure-side invariant evaluator
+  - [x] 1.2 (P) Dynamic state observation and failure-side invariant evaluator
     - Implement dynamic state snapshotting before and after execution in `src/lesscode_baseline/state_boundary/frame.py`.
     - Evaluate post-condition state assertions on unhandled exceptions and controlled aborts, asserting that required failure-side state transitions (such as audit logs) are present.
     - Done when omitted failure-side state mutations (such as E3 `AuditedAbsence`) are flagged as invariant violations and rejected.
