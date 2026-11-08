@@ -49,7 +49,7 @@
     - _Boundary: StateMutantHarness_
     - _Depends: 2.3_
     - _Requirements: 3.2, 3.3, 3.5_
-  - [ ] 3.2 Refinement controller causal state obligation bridge
+  - [x] 3.2 Refinement controller causal state obligation bridge
     - Extend `lesscode-core::regenerator` and `src/lesscode_baseline/regenerator.py` to integrate state failure kinds (`StateFrameViolation`, `PureCoreDivergence`, `StreamDivergence`).
     - Format failing state witnesses into structured diagnostic feedback for subsequent turn prompts, retaining unresolved obligations across turns.
     - Done when a state violation discovered on turn 1 is injected into the turn 2 prompt and retained in `unresolved_obligations` until re-verified.

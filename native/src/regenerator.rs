@@ -1740,7 +1740,15 @@ fn static_feedback(reward: &RewardEvaluation) -> J {
         "static:{}",
         reward.failure_kind.clone().unwrap_or_default()
     )];
-    for key in ["detail", "errors", "why", "write_sites"] {
+    for key in [
+        "detail",
+        "errors",
+        "why",
+        "write_sites",
+        "state_violations",
+        "pure_divergences",
+        "stream_divergences",
+    ] {
         if let Some(v) = j_get(&reward.diagnostics, key) {
             if j_truthy(Some(v)) {
                 let items: Vec<&J> = match v {
@@ -1771,6 +1779,19 @@ fn turn_feedback_from(record: &RolloutRecord) -> Option<J> {
     let divergence = j_get(&record.diagnostics, "first_divergence")
         .map(py_str)
         .filter(|s| !s.is_empty())
+        .or_else(|| {
+            for key in ["state_violations", "pure_divergences", "stream_divergences"] {
+                if let Some(J::Arr(items)) = j_get(&record.diagnostics, key) {
+                    if let Some(first) = items.first() {
+                        let s = py_str(first);
+                        if !s.is_empty() {
+                            return Some(format!("{}: {}", key, s));
+                        }
+                    }
+                }
+            }
+            None
+        })
         .or_else(|| record.failure_kind.clone())
         .unwrap_or_else(|| record.label.clone());
     Some(J::obj(vec![
@@ -1797,6 +1818,16 @@ fn known_obligations(record: &RolloutRecord) -> BTreeSet<String> {
         let d = py_str(divergence);
         if !d.is_empty() {
             obligations.insert(d);
+        }
+    }
+    for key in ["state_violations", "pure_divergences", "stream_divergences", "surviving_mutants"] {
+        if let Some(J::Arr(items)) = j_get(&record.diagnostics, key) {
+            for item in items {
+                let s = py_str(item);
+                if !s.is_empty() {
+                    obligations.insert(s);
+                }
+            }
         }
     }
     if let Some(J::Arr(missing)) = j_get(&record.diagnostics, "missing_symbols") {

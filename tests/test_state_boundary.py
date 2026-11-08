@@ -552,6 +552,46 @@ def run_action(self, item):
     assert len(report.surviving_mutants) > 0
 
 
+def test_obligation_bridge_injects_state_witness_and_retains_unresolved():
+    from lesscode_baseline.regenerator import (
+        RolloutRecord,
+        TurnRequest,
+        _known_obligations,
+        _turn_feedback_from,
+        build_prompt,
+    )
+
+    # 1. Turn 1 fails with StateFrameViolation
+    record_turn1 = RolloutRecord(
+        label="candidate_turn1",
+        turn=1,
+        rollout_id=1,
+        attempt=1,
+        score=0.40,
+        tier=1,
+        failure_kind="StateFrameViolation",
+        hashes={},
+        diagnostics={
+            "state_violations": [
+                "StateViolation:secret_unauthorized:unauthorized_write:write inside non-shell"
+            ],
+            "gaps": {"statements": -2},
+        },
+    )
+
+    # Obligations capture failure kind and specific state violation witness
+    obs = _known_obligations(record_turn1)
+    assert "StateFrameViolation" in obs
+    assert "StateViolation:secret_unauthorized:unauthorized_write:write inside non-shell" in obs
+
+    # Feedback extracts state violation into first_divergence
+    fb = _turn_feedback_from(record_turn1)
+    assert fb is not None
+    assert "state_violations" in fb["first_divergence"]
+    assert "secret_unauthorized" in fb["first_divergence"]
+
+
+
 
 
 

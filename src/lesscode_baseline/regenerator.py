@@ -782,7 +782,7 @@ def _static_feedback(reward: RewardEvaluation) -> dict:
     # detail/errors/why/write_sites carry the rung's own diagnostics so the
     # next rollout learns the concrete violation, not just the rung name
     # (structure-rung "why" entries added by G1-R live finding, 2026-11-08).
-    for key in ("detail", "errors", "why", "write_sites"):
+    for key in ("detail", "errors", "why", "write_sites", "state_violations", "pure_divergences", "stream_divergences"):
         v = reward.diagnostics.get(key)
         if v:
             parts.extend(str(x) for x in (v if isinstance(v, list) else [v])[:3])
@@ -793,7 +793,15 @@ def _static_feedback(reward: RewardEvaluation) -> dict:
 def _turn_feedback_from(record: RolloutRecord) -> dict | None:
     if record.failure_kind is None and not record.diagnostics:
         return None
-    divergence = record.diagnostics.get("first_divergence") or record.failure_kind or record.label
+    divergence = record.diagnostics.get("first_divergence")
+    if not divergence:
+        for k in ("state_violations", "pure_divergences", "stream_divergences"):
+            v = record.diagnostics.get(k)
+            if v:
+                divergence = f"{k}: {v[0] if isinstance(v, list) else v}"
+                break
+    if not divergence:
+        divergence = record.failure_kind or record.label
     return {"kind": "failed", "first_divergence": str(divergence)[:2000],
             "measure_gaps": record.diagnostics.get("measure_gaps") or {}}
 
@@ -804,6 +812,11 @@ def _known_obligations(record: RolloutRecord) -> set[str]:
         obligations.add(record.failure_kind)
     if record.diagnostics.get("first_divergence"):
         obligations.add(str(record.diagnostics["first_divergence"]))
+    for k in ("state_violations", "pure_divergences", "stream_divergences", "surviving_mutants"):
+        items = record.diagnostics.get(k)
+        if items:
+            for item in items:
+                obligations.add(str(item))
     obligations.update(name for _, name in record.diagnostics.get("missing_symbols") or [])
     obligations.update((record.diagnostics.get("gaps") or {}).keys())
     return obligations
