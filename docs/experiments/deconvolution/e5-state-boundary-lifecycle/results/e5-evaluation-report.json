@@ -1,0 +1,91 @@
+{
+  "trial": "E5: State-Boundary Deconvolution on Lifecycle Monitor Group",
+  "head": "338790290d02f14309a1d9587058a4cbb4804f68",
+  "timestamp_utc": "2026-11-08T21:15:15Z",
+  "elapsed_seconds": 11.33,
+  "adverse_controls": {
+    "E3_AuditedAbsence": {
+      "description": "Failure-side state post-condition verification (AuditedAbsence on abort)",
+      "pass": true,
+      "witness_detected": "Required failure state 'AuditedAbsence' was missing in 'audit_log' after exception: Serialization failed"
+    },
+    "E4_F3_Buffer_Drop": {
+      "description": "Output stream buffer preservation monitor (E4 partial CLI stdout drop)",
+      "pass": true,
+      "divergence": "Candidate dropped or failed to flush 31 bytes on sink 'stdout' prior to completion/abort"
+    },
+    "E4_F1_Silent_None": {
+      "description": "Bounded semantic equivalence checking with minimal counterexample (E4 F1 None acceptance)",
+      "pass": true,
+      "counterexample": {
+        "x": null
+      }
+    },
+    "E4_F7_Error_Order": {
+      "description": "Adverse state mutation sensitivity gate killing error-ordering mutations (E4 F7)",
+      "pass": true,
+      "killed": 1,
+      "survived": 0,
+      "mutants_evaluated": 1
+    }
+  },
+  "adverse_controls_qualified": true,
+  "apparatus_line_accounting": {
+    "rs_counts": {
+      "src/surface.rs": 1151,
+      "src/measures.rs": 1422,
+      "src/recording.rs": 971,
+      "src/regenerator.rs": 2790,
+      "src/jsonval.rs": 130,
+      "src/admission.rs": 274,
+      "src/receipt.rs": 124
+    },
+    "state_contract_lines": 94,
+    "shim_lines": 178,
+    "frozen_hooks_total": 16,
+    "added_hooks": 23,
+    "added_hooks_detail": {
+      "native/Cargo.toml": 2,
+      "native/src/lib.rs": 6,
+      "native/src/main.rs": 15
+    },
+    "r37_set_total": 7079,
+    "total_with_state_contract": 7173,
+    "ceiling": 7173,
+    "overage_r37_set": -94,
+    "overage_with_state_contract": 0,
+    "pass_r37_set": true,
+    "pass_with_state_contract": true
+  },
+  "apparatus_qualified": true,
+  "baseline_metrics": {
+    "function_count": 69,
+    "call_edge_count": 89,
+    "write_site_count": 12,
+    "ast_statements": 759,
+    "canonical_lines": 1495,
+    "pure_functions": 0,
+    "pure_function_pct": 0.0
+  },
+  "candidate_metrics": {
+    "function_count": 50,
+    "call_edge_count": 61,
+    "write_site_count": 11,
+    "ast_statements": 667,
+    "canonical_lines": 1124,
+    "pure_functions": 0,
+    "pure_function_pct": 0.0
+  },
+  "outcome": {
+    "function_reduction_pct": 27.54,
+    "call_edge_reduction_pct": 31.46,
+    "write_site_reduction_pct": 8.33,
+    "statement_reduction_pct": 12.12,
+    "canonical_line_reduction_pct": 24.82,
+    "pure_function_pct": 0.0,
+    "structurally_consolidated": true,
+    "compression_met": true,
+    "disposition_note": "Whole-responsibility compression met: statements -12.1%, lines -24.8%."
+  },
+  "disposition": "PASS"
+}

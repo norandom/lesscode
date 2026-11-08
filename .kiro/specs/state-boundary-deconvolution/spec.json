@@ -1,10 +1,11 @@
 {
   "feature_name": "state-boundary-deconvolution",
   "created_at": "2026-11-08T17:26:00Z",
-  "updated_at": "2026-11-08T19:56:00Z",
+  "updated_at": "2026-11-08T22:20:00Z",
   "language": "en",
   "phase": "completed",
   "prototype_gate_disposition": "PASS (R41 amended ceiling: 7,173)",
+  "trial_e5_disposition": "PASS (Density trap broken; lines -24.8%, stmts -12.1%, funcs -27.5%, edges -31.5%)",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -25,6 +26,8 @@
   "prototype_gate": "prototype-gate.md",
   "tasks": "tasks.md",
   "evidence": [
+    "docs/experiments/deconvolution/e5-state-boundary-lifecycle/results/e5-evaluation-report.json",
+    "docs/research/2026-11-08/09-e5-state-boundary-deconvolution-lifecycle.md",
     ".kiro/specs/state-boundary-deconvolution/results/prototype-gate-report.json",
     "docs/research/2026-11-08/08-state-boundary-ceiling-amendment.md",
     "docs/research/2026-11-08/07-structural-deconvolution-and-state-boundaries.md",

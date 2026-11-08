@@ -1,6 +1,22 @@
 # Research log
 
-## Latest: R41 state-boundary apparatus ceiling amendment — owner chose amend (2026-11-08)
+## Latest: R42 E5 state-boundary deconvolution trial — breaking the density trap on lifecycle (2026-11-08)
+
+[R42](2026-11-08/09-e5-state-boundary-deconvolution-lifecycle.md) records the empirical
+execution and successful qualification of **Experiment E5: State-Boundary Deconvolution Trial**
+on the Facdrone `lifecycle` monitor group (7 files, 1,495 baseline lines). The trial formally
+**broke the Density Trap** observed in E4 without oracle blindness:
+- **Canonical lines reduced by 24.8%** (1,124 lines vs $\le 1,196$ target / 1,495 baseline).
+- **AST statements reduced by 12.1%** (667 stmts vs $\le 683$ target / 759 baseline).
+- **Functions de-fragmented by 27.5%** (50 funcs vs $\le 55$ target / 69 baseline).
+- **Call edges de-fragmented by 31.5%** (61 edges vs $\le 66$ target / 89 baseline).
+- **100% kill rate on adverse controls** (E3 `AuditedAbsence`, E4 F1, F3, F7).
+- **0 counterexamples on bounded pure-core equivalence** over $[-10, 10]$ and edge cases.
+- **Rust apparatus volume held at 7,173 lines** (0 overage against R41 amended ceiling).
+- Replay oracle green across 50/50 sequences and 317 operations with 0 Level 2 divergences.
+- Unit suites fully passing: Rust 241/241, Python state-boundary 32/32, specimen 108/108.
+
+## Prior: R41 state-boundary apparatus ceiling amendment — owner chose amend (2026-11-08)
 
 [R41](2026-11-08/08-state-boundary-ceiling-amendment.md) records the owner disposition
 on the prototype feasibility gate overage (option (a) of the preregistered outcome rule;
