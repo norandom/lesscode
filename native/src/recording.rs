@@ -84,7 +84,7 @@ fn write_str_py(s: &str, out: &mut String) {
 /// Python `repr(x)` for a finite double: shortest round-trip digits with
 /// the CPython fixed/scientific switch (scientific when the decimal point
 /// sits before -3 or after 16) and two-digit exponents ("1e-05", "1e+16").
-fn py_float_repr(x: f64) -> String {
+pub(crate) fn py_float_repr(x: f64) -> String {
     if !x.is_finite() {
         return "NaN".into(); // unreachable on the frozen material
     }

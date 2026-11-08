@@ -1,5 +1,7 @@
 use clap::{Parser, Subcommand};
-use lesscode_core::{admission, budgets, compare::render_comparison, model::*, surface};
+use lesscode_core::{
+    admission, budgets, compare::render_comparison, model::*, regenerator, surface,
+};
 use serde::de::DeserializeOwned;
 use std::{
     fs,
@@ -69,6 +71,11 @@ enum Command {
     Surface {
         #[command(subcommand)]
         cmd: surface::SurfaceCommand,
+    },
+    /// Two-tier regenerator controller (task 8.5); exit codes 0/2/3/4/5/6.
+    Regenerate {
+        #[command(subcommand)]
+        cmd: regenerator::RegenerateCommand,
     },
 }
 fn read_json<T: DeserializeOwned>(path: &Path) -> Result<T, String> {
@@ -236,6 +243,7 @@ fn run(args: Args) -> Result<u8, String> {
             budgets::cli_run(&root, &config, &out).map_err(|e| e.to_string())
         }
         Command::Surface { cmd } => surface::cli_run(cmd).map_err(|e| e.to_string()),
+        Command::Regenerate { cmd } => regenerator::cli_run(cmd),
     }
 }
 fn main() -> ExitCode {

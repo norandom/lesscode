@@ -16,3 +16,5 @@ sha2 = "=0.11.0"
 clap = { version = "=4.6.0", features = ["derive"] }
 syn = { version = "=2.0.119", features = ["full", "visit"] }
 proc-macro2 = { version = "=1.0.107", features = ["span-locations"] }
+# openai-compatible HTTP adapter (task 8.5, R36 dependency decision)
+ureq = "=3.5.1"

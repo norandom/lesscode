@@ -13,6 +13,7 @@ pub mod metrics;
 pub mod model;
 pub mod receipt;
 pub mod recording;
+pub mod regenerator;
 pub mod scope;
 pub mod surface;
 

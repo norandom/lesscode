@@ -27,20 +27,20 @@
   },
   {
    "path": "lib.rs",
-   "max_physical_lines": 590,
-   "max_logical_units": 183,
+   "max_physical_lines": 591,
+   "max_logical_units": 184,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5)",
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic)",
    "disposition": "keep-measured-ceiling; +4 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
    "path": "main.rs",
-   "max_physical_lines": 257,
+   "max_physical_lines": 265,
    "max_logical_units": 82,
-   "max_fn_lines": 64,
+   "max_fn_lines": 65,
    "owner": "capability-compression-core",
-   "allocation": "Budgets subcommand arm complete (+12 of the +25 design allowance); Surface subcommand arm (+6, task 8.2)",
+   "allocation": "Budgets subcommand arm complete (+12 of the +25 design allowance); Surface subcommand arm (+6, task 8.2); Regenerate subcommand arm (+8, task 8.5)",
    "disposition": "keep-measured-ceiling; blob 4e41a2aeb11a9228629d2722fabb7f1227f21894"
   },
   {
@@ -85,7 +85,16 @@
    "max_logical_units": 343,
    "max_fn_lines": 111,
    "owner": "constraint-guided-compression",
-   "allocation": "L1/L2 record/replay engine port: golden bytes, LF-body digests, diffing, deadline-killed arms, serial pytest groups (task 8.4, R36); measured at freeze with E3/E4 digest gates green",
+   "allocation": "L1/L2 record/replay engine port: golden bytes, LF-body digests, diffing, deadline-killed arms, serial pytest groups (task 8.4, R36); measured at freeze with E3/E4 digest gates green; py_float_repr pub(crate) for the regenerator hash writer, zero new lines (task 8.5)",
+   "disposition": null
+  },
+  {
+   "path": "regenerator.rs",
+   "max_physical_lines": 2796,
+   "max_logical_units": 852,
+   "max_fn_lines": 280,
+   "owner": "constraint-guided-compression",
+   "allocation": "Two-tier refine controller port: TurnRequest/prompt builder, Tier-1 ladder, Tier-2 pinned formula, BestOfN refine control, ReceiptWriter with bindings, openai adapter on ureq (task 8.5, R36); measured at freeze with the six controls, E4 three-turn replay and admission gates green",
    "disposition": null
   },
   {
