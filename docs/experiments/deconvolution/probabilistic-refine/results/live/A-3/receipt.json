@@ -1,0 +1,200 @@
+{
+ "facts": [],
+ "notes": [
+  {
+   "time_utc": "2026-11-08T07:14:28.949318+00:00",
+   "key": "A-3-t1-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:14:29.674421+00:00",
+   "key": "A-3-t2-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:14:30.448852+00:00",
+   "key": "A-3-t3-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "bindings": [
+  {
+   "artifact": "receipt.json",
+   "sidecars": [
+    "receipt.json.sha256"
+   ]
+  }
+ ]
+}

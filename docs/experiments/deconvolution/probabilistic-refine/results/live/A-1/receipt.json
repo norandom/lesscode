@@ -1,0 +1,200 @@
+{
+ "facts": [],
+ "notes": [
+  {
+   "time_utc": "2026-11-08T07:10:41.130646+00:00",
+   "key": "A-1-t1-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:10:41.140491+00:00",
+   "key": "A-1-t2-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:10:41.149576+00:00",
+   "key": "A-1-t3-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "ModuleNotFoundError: No module named 'anthropic'"
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

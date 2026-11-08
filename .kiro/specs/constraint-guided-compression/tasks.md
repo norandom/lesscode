@@ -223,7 +223,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Depends: 5.4_
     - _Requirements: 5.8, 7.5_
 
-- [ ] 6. G1-R bounded spike (Slice B gate; owner go for 6.2)
+- [x] 6. G1-R bounded spike (Slice B gate; owner go for 6.2)
   - [x] 6.1 Deterministic G1-R verification driver
     - Build `docs/experiments/deconvolution/probabilistic-refine/g1r_spike.py`
       discharging the deterministic `prototype-gate.md` checklist on frozen
@@ -245,7 +245,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator, SurfaceDeriver, ScopeMeasurer_
     - _Depends: 2.3, 3.4, 4.2, 5.5_
     - _Requirements: 5.8, 7.2, 7.8, 7.9_
-  - [ ] 6.2 Live weaker-model recovery run (owner go)
+  - [x] 6.2 Live weaker-model recovery run (owner go)
     - Execute at least one live non-deterministic or weaker-model run that
       recovers from a Tier-1 or Tier-2 failure to full acceptance ($R = 1.0$)
       within the frozen turn (`max_turns <= 4`) and retry

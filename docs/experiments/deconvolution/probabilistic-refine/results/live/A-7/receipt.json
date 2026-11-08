@@ -1,0 +1,415 @@
+{
+ "facts": [],
+ "notes": [
+  {
+   "time_utc": "2026-11-08T07:20:44.125921+00:00",
+   "key": "A-7-t1-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1948,
+       "output_tokens": 552,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1988,
+       "output_tokens": 577,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1988,
+       "output_tokens": 477,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:21:03.324154+00:00",
+   "key": "A-7-t2-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1948,
+       "output_tokens": 549,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1988,
+       "output_tokens": 555,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1988,
+       "output_tokens": 557,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:21:22.978489+00:00",
+   "key": "A-7-t3-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1948,
+       "output_tokens": 568,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1988,
+       "output_tokens": 535,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.4,
+       "display": null
+      },
+      "reward": {
+       "score": 0.45,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "structure"
+      },
+      "diagnostics": {
+       "why": [
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined",
+        "not defined"
+       ],
+       "write_sites": []
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 1988,
+       "output_tokens": 548,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

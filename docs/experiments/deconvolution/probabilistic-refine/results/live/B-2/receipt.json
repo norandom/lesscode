@@ -1,0 +1,81 @@
+{
+ "facts": [],
+ "notes": [
+  {
+   "time_utc": "2026-11-08T07:25:40.424128+00:00",
+   "key": "B-2-t1-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.2,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "out_of_scope"
+      },
+      "diagnostics": {
+       "detail": "paths outside scope: ['src/user.py', 'oracle/check.py']"
+      },
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 2377,
+       "output_tokens": 1538,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "high",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 1.0,
+       "tier": 2,
+       "passed_tier1": true,
+       "accepted": true,
+       "failure_kind": null
+      },
+      "diagnostics": {},
+      "stop_reason": "end_turn",
+      "usage": {
+       "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+       },
+       "cache_creation_input_tokens": 0,
+       "cache_read_input_tokens": 0,
+       "inference_geo": "not_available",
+       "input_tokens": 2434,
+       "output_tokens": 771,
+       "output_tokens_details": null,
+       "server_tool_use": null,
+       "service_tier": "standard",
+       "speed": "standard"
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

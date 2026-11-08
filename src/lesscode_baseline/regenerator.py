@@ -132,7 +132,9 @@ Rules, all binding:
 3. Keep SQL statement text, parameters, check order and error messages unchanged unless the surface shows
    nothing observes them; the acceptance arm compares statement text and parameters.
 4. Obey the structural contract in the user message: declare every function of every scope file (changed
-   or not) as pure core or effect shell in "structure", using "<file>::{LANGUAGE_LABELS.get('python', 'python')}::<qualname>" entries.
+   or not) as pure core or effect shell in "structure", using "<basename>::<qualname>" keys such as
+   "example.py::function_name" or "example.py::Class.method" — the basename alone (for scope file
+   "src/example.py" the key is "example.py::function_name"), two colons, qualified function name.
 5. Meet the measure targets in the user message.
 6. If feedback from a previous round is present, treat it as the only information about that round.
 Answer with exactly one JSON object and nothing else: {{"files": [{{"path": "<scope path>", "content":
@@ -247,11 +249,16 @@ def build_prompt(req: TurnRequest) -> tuple[str, str]:
     return system, "\n\n".join(parts) + "\n"
 
 
-def request_kwargs(ep: Endpoint, system: str, user: str, max_tokens: int, effort: str,
+def request_kwargs(ep: Endpoint, system: str, user: str, max_tokens: int, effort: str | None,
                    temperature: float | None = None, display: str | None = None) -> dict:
+    # effort=None omits the knob entirely: weaker models reject output_config.effort
+    # (G1-R live finding, 2026-11-08); the json_schema output format always stays.
+    output_config: dict = {"format": {"type": "json_schema", "schema": SCHEMA}}
+    if effort is not None:
+        output_config["effort"] = effort
     kw = {"model": ep.model, "max_tokens": max_tokens, "system": system,
           "messages": [{"role": "user", "content": user}],
-          "output_config": {"effort": effort, "format": {"type": "json_schema", "schema": SCHEMA}}}
+          "output_config": output_config}
     if temperature is not None:
         kw["temperature"] = temperature
     if display:
@@ -312,6 +319,14 @@ def call(ep: Endpoint, system: str, user: str, max_tokens: int = 64000, effort: 
         client = anthropic.Anthropic(api_key=ep.api_key(), base_url=ep.base_url,
                                      timeout=anthropic.Timeout(3600.0, connect=30.0))
         kwargs = request_kwargs(ep, system, user, max_tokens, effort, temperature, display)
+        if "temperature" in kwargs:
+            # The Messages API rejects temperature alongside output_config (400
+            # 'Extra inputs are not permitted', G1-R live finding 2026-11-08):
+            # the preregistered temperature schedule is dispatchable only on
+            # openai-compatible endpoints. Drop it here so request_sha256
+            # hashes the request actually sent; the receipt's attempt params
+            # keep recording the preregistered value.
+            kwargs.pop("temperature")
         count = client.messages.count_tokens(
             model=kwargs["model"], system=system, messages=kwargs["messages"]
         ).input_tokens
@@ -733,10 +748,13 @@ def run_refine_loop(
 
 def _static_feedback(reward: RewardEvaluation) -> dict:
     parts = [f"static:{reward.failure_kind}"]
-    detail = reward.diagnostics.get("detail")
-    if detail:
-        parts.append(str(detail))
-    parts.extend((reward.diagnostics.get("errors") or [])[:3])
+    # detail/errors/why/write_sites carry the rung's own diagnostics so the
+    # next rollout learns the concrete violation, not just the rung name
+    # (structure-rung "why" entries added by G1-R live finding, 2026-11-08).
+    for key in ("detail", "errors", "why", "write_sites"):
+        v = reward.diagnostics.get(key)
+        if v:
+            parts.extend(str(x) for x in (v if isinstance(v, list) else [v])[:3])
     return {"kind": "failed", "first_divergence": " ".join(parts)[:2000],
             "measure_gaps": reward.diagnostics.get("gaps") or {}}
 

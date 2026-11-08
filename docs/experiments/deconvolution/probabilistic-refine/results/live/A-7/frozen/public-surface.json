@@ -1,0 +1,104 @@
+{
+ "extractor_version": "python-ast-v1",
+ "root": "D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-7\\frozen",
+ "scope_files": [
+  "src/cart.py"
+ ],
+ "recorder_files": [
+  "oracle/check.py"
+ ],
+ "files_scanned": 2,
+ "modules": {
+  "cart": {
+   "file": "src/cart.py",
+   "names": {
+    "cart_total": {
+     "kind": "function",
+     "tags": [
+      "prod",
+      "recorder"
+     ],
+     "via": [
+      "import"
+     ],
+     "importers": [
+      "src/user.py",
+      "oracle/check.py"
+     ]
+    },
+    "format_receipt": {
+     "kind": "function",
+     "tags": [
+      "prod",
+      "recorder"
+     ],
+     "via": [
+      "import"
+     ],
+     "importers": [
+      "src/user.py",
+      "oracle/check.py"
+     ]
+    },
+    "bulk_discount": {
+     "kind": "function",
+     "tags": [
+      "recorder"
+     ],
+     "via": [
+      "import"
+     ],
+     "importers": [
+      "oracle/check.py"
+     ]
+    },
+    "line_total": {
+     "kind": "function",
+     "tags": [
+      "recorder"
+     ],
+     "via": [
+      "import"
+     ],
+     "importers": [
+      "oracle/check.py"
+     ]
+    },
+    "save_receipt": {
+     "kind": "function",
+     "tags": [
+      "recorder"
+     ],
+     "via": [
+      "import"
+     ],
+     "importers": [
+      "oracle/check.py"
+     ]
+    },
+    "unit_price": {
+     "kind": "function",
+     "tags": [
+      "recorder"
+     ],
+     "via": [
+      "import"
+     ],
+     "importers": [
+      "oracle/check.py"
+     ]
+    }
+   },
+   "importers": {
+    "src/user.py": "prod",
+    "oracle/check.py": "recorder"
+   }
+  }
+ },
+ "unresolved": {
+  "cart": {}
+ },
+ "intra_set": {
+  "cart": {}
+ }
+}

@@ -1,0 +1,200 @@
+{
+ "facts": [],
+ "notes": [
+  {
+   "time_utc": "2026-11-08T07:16:00.114815+00:00",
+   "key": "A-5-t1-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sBUgfckTvVjkbsNnW'}"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sDWV75QRUot1SpD7H'}"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sFYG3NRRC8ahYJ8vS'}"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:16:01.657246+00:00",
+   "key": "A-5-t2-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sHpvze2zVuD5w2FAs'}"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sKuScvWPYx6zXKFxi'}"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sN4RmCm4zhbmysSXC'}"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:16:03.125618+00:00",
+   "key": "A-5-t3-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sQHd8EpZM7abFY7YE'}"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sSKfQ6uhuJQ8yhMpG'}"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sURQg4e98752M3zn8'}"
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

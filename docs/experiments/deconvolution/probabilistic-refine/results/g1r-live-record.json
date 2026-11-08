@@ -1,0 +1,539 @@
+{
+ "runs": [
+  {
+   "label": "A-1",
+   "task": "A",
+   "model": "claude-haiku-4-5",
+   "status": "exhausted",
+   "best_score": 0.0,
+   "best_failure_kind": "transport",
+   "criterion": {
+    "recorded_failure": true,
+    "first_failure": {
+     "label": "A-1-t1-r1",
+     "turn": 1,
+     "rollout_id": 1,
+     "attempt": 1,
+     "score": 0.0,
+     "tier": 1,
+     "failure_kind": "transport",
+     "hashes": {},
+     "diagnostics": {
+      "detail": "ModuleNotFoundError: No module named 'anthropic'"
+     }
+    },
+    "accepted": false,
+    "failure_then_acceptance": false,
+    "turns_used": 3,
+    "max_attempt_seen": 3
+   },
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "calls": 9
+   },
+   "elapsed_s": 0.0,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 6,
+    "total": 6,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-1\\receipt.json",
+   "written_utc": "2026-11-08T07:10:41Z"
+  },
+  {
+   "label": "A-2",
+   "task": "A",
+   "model": "claude-haiku-4-5",
+   "status": "exhausted",
+   "best_score": 0.0,
+   "best_failure_kind": "transport",
+   "criterion": {
+    "recorded_failure": true,
+    "first_failure": {
+     "label": "A-2-t1-r1",
+     "turn": 1,
+     "rollout_id": 1,
+     "attempt": 1,
+     "score": 0.0,
+     "tier": 1,
+     "failure_kind": "transport",
+     "hashes": {},
+     "diagnostics": {
+      "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+     }
+    },
+    "accepted": false,
+    "failure_then_acceptance": false,
+    "turns_used": 3,
+    "max_attempt_seen": 3
+   },
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "calls": 9
+   },
+   "elapsed_s": 3.8,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 6,
+    "total": 6,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-2\\receipt.json",
+   "written_utc": "2026-11-08T07:12:18Z"
+  },
+  {
+   "label": "A-3",
+   "task": "A",
+   "model": "claude-haiku-4-5",
+   "status": "exhausted",
+   "best_score": 0.0,
+   "best_failure_kind": "transport",
+   "criterion": {
+    "recorded_failure": true,
+    "first_failure": {
+     "label": "A-3-t1-r1",
+     "turn": 1,
+     "rollout_id": 1,
+     "attempt": 1,
+     "score": 0.0,
+     "tier": 1,
+     "failure_kind": "transport",
+     "hashes": {},
+     "diagnostics": {
+      "detail": "TypeError: Messages.stream() got an unexpected keyword argument 'temperature'"
+     }
+    },
+    "accepted": false,
+    "failure_then_acceptance": false,
+    "turns_used": 3,
+    "max_attempt_seen": 3
+   },
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "calls": 9
+   },
+   "elapsed_s": 4.2,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 6,
+    "total": 6,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-3\\receipt.json",
+   "written_utc": "2026-11-08T07:14:30Z"
+  },
+  {
+   "label": "A-4",
+   "task": "A",
+   "model": "claude-haiku-4-5",
+   "status": "exhausted",
+   "best_score": 0.0,
+   "best_failure_kind": "transport",
+   "criterion": {
+    "recorded_failure": true,
+    "first_failure": {
+     "label": "A-4-t1-r1",
+     "turn": 1,
+     "rollout_id": 1,
+     "attempt": 1,
+     "score": 0.0,
+     "tier": 1,
+     "failure_kind": "transport",
+     "hashes": {},
+     "diagnostics": {
+      "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3owAszTSoo7k1xR46j'}"
+     }
+    },
+    "accepted": false,
+    "failure_then_acceptance": false,
+    "turns_used": 3,
+    "max_attempt_seen": 3
+   },
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "calls": 9
+   },
+   "elapsed_s": 5.9,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 6,
+    "total": 6,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-4\\receipt.json",
+   "written_utc": "2026-11-08T07:15:19Z"
+  },
+  {
+   "label": "A-5",
+   "task": "A",
+   "model": "claude-haiku-4-5",
+   "status": "exhausted",
+   "best_score": 0.0,
+   "best_failure_kind": "transport",
+   "criterion": {
+    "recorded_failure": true,
+    "first_failure": {
+     "label": "A-5-t1-r1",
+     "turn": 1,
+     "rollout_id": 1,
+     "attempt": 1,
+     "score": 0.0,
+     "tier": 1,
+     "failure_kind": "transport",
+     "hashes": {},
+     "diagnostics": {
+      "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'This model does not support the effort parameter.'}, 'request_id': 'req_011Cgq3sBUgfckTvVjkbsNnW'}"
+     }
+    },
+    "accepted": false,
+    "failure_then_acceptance": false,
+    "turns_used": 3,
+    "max_attempt_seen": 3
+   },
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "calls": 9
+   },
+   "elapsed_s": 6.0,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 6,
+    "total": 6,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-5\\receipt.json",
+   "written_utc": "2026-11-08T07:16:03Z"
+  },
+  {
+   "label": "A-6",
+   "task": "A",
+   "model": "claude-haiku-4-5",
+   "status": "exhausted",
+   "best_score": 0.45,
+   "best_failure_kind": "structure",
+   "criterion": {
+    "recorded_failure": true,
+    "first_failure": {
+     "label": "A-6-t1-r1",
+     "turn": 1,
+     "rollout_id": 1,
+     "attempt": 1,
+     "score": 0.45,
+     "tier": 1,
+     "failure_kind": "structure",
+     "hashes": {
+      "system_sha256": "66b8d68dcbb193577c8640450744c0e756237e8033088a9c25ca12a14de61483",
+      "user_sha256": "42b45e63e3265a61388f839f6d0b55b08f4c01d57d9a350ca50359a583603a86",
+      "request_sha256": "95cac681b9af1154abc28c37a1ece27a5fa8c04e9dc30b7ef26d834c15553588",
+      "response_sha256": "2d9d871683d40f19c223af04330d138681242a1747eb3b45879f1f900dfde43f"
+     },
+     "diagnostics": {
+      "why": [
+       "not defined",
+       "not defined",
+       "not defined",
+       "not defined",
+       "not defined",
+       "not defined"
+      ],
+      "write_sites": []
+     }
+    },
+    "accepted": false,
+    "failure_then_acceptance": false,
+    "turns_used": 3,
+    "max_attempt_seen": 3
+   },
+   "usage": {
+    "input_tokens": 17412,
+    "output_tokens": 5146,
+    "calls": 9
+   },
+   "elapsed_s": 64.2,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 6,
+    "total": 6,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-6\\receipt.json",
+   "written_utc": "2026-11-08T07:18:37Z"
+  },
+  {
+   "label": "A-7",
+   "task": "A",
+   "model": "claude-haiku-4-5",
+   "status": "exhausted",
+   "best_score": 0.45,
+   "best_failure_kind": "structure",
+   "criterion": {
+    "recorded_failure": true,
+    "first_failure": {
+     "label": "A-7-t1-r1",
+     "turn": 1,
+     "rollout_id": 1,
+     "attempt": 1,
+     "score": 0.45,
+     "tier": 1,
+     "failure_kind": "structure",
+     "hashes": {
+      "system_sha256": "c9c37088fe5c94d58f7a2ef00b51182aaf75258650f9d70d46ce8fc3b5daba33",
+      "user_sha256": "df4df1f940feed34987847b0d2127bf975b74d174f87d581f39642b657dba882",
+      "request_sha256": "f510d56b55a49084faea87a54cadf85f8693ee452424ad595083aabcf369d9cb",
+      "response_sha256": "551a2959dcd583d0b2fdf6c4cd0dc3362c9bbb84aec49492e2b98caaf371ced3"
+     },
+     "diagnostics": {
+      "why": [
+       "not defined",
+       "not defined",
+       "not defined",
+       "not defined",
+       "not defined",
+       "not defined"
+      ],
+      "write_sites": []
+     }
+    },
+    "accepted": false,
+    "failure_then_acceptance": false,
+    "turns_used": 3,
+    "max_attempt_seen": 3
+   },
+   "usage": {
+    "input_tokens": 17772,
+    "output_tokens": 4918,
+    "calls": 9
+   },
+   "elapsed_s": 59.5,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 6,
+    "total": 6,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-7\\receipt.json",
+   "written_utc": "2026-11-08T07:21:22Z"
+  },
+  {
+   "label": "A-8",
+   "task": "A",
+   "model": "claude-haiku-4-5",
+   "status": "accepted",
+   "best_score": 1.0,
+   "best_failure_kind": null,
+   "criterion": {
+    "recorded_failure": false,
+    "first_failure": null,
+    "accepted": true,
+    "failure_then_acceptance": false,
+    "turns_used": 1,
+    "max_attempt_seen": 1
+   },
+   "usage": {
+    "input_tokens": 1969,
+    "output_tokens": 542,
+    "calls": 1
+   },
+   "elapsed_s": 7.9,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 6,
+    "total": 6,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-8\\receipt.json",
+   "written_utc": "2026-11-08T07:23:57Z"
+  },
+  {
+   "label": "B-1",
+   "task": "B",
+   "model": "claude-haiku-4-5",
+   "status": "accepted",
+   "best_score": 1.0,
+   "best_failure_kind": null,
+   "criterion": {
+    "recorded_failure": false,
+    "first_failure": null,
+    "accepted": true,
+    "failure_then_acceptance": false,
+    "turns_used": 1,
+    "max_attempt_seen": 1
+   },
+   "usage": {
+    "input_tokens": 2377,
+    "output_tokens": 843,
+    "calls": 1
+   },
+   "elapsed_s": 10.2,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 7,
+    "total": 7,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\B-1\\receipt.json",
+   "written_utc": "2026-11-08T07:24:37Z"
+  },
+  {
+   "label": "B-2",
+   "task": "B",
+   "model": "claude-haiku-4-5",
+   "status": "accepted",
+   "best_score": 1.0,
+   "best_failure_kind": null,
+   "criterion": {
+    "recorded_failure": true,
+    "first_failure": {
+     "label": "B-2-t1-r1",
+     "turn": 1,
+     "rollout_id": 1,
+     "attempt": 1,
+     "score": 0.2,
+     "tier": 1,
+     "failure_kind": "out_of_scope",
+     "hashes": {
+      "system_sha256": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+      "user_sha256": "ad305c6732a6a6786ed87981517d986a37a4734989c29d3a5e67fadb86c00333",
+      "request_sha256": "ac897390f32c829c64787d9cdc474d0db728dfd9d8776e9d4c3e414ba74230bd",
+      "response_sha256": "bfc8f5b4c0a1b689c6d3594cec1a326d81b2453bba7e418c85c74ddb41a389c2"
+     },
+     "diagnostics": {
+      "detail": "paths outside scope: ['src/user.py', 'oracle/check.py']"
+     }
+    },
+    "accepted": true,
+    "failure_then_acceptance": true,
+    "turns_used": 1,
+    "max_attempt_seen": 2
+   },
+   "usage": {
+    "input_tokens": 4811,
+    "output_tokens": 2309,
+    "calls": 2
+   },
+   "elapsed_s": 24.2,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 7,
+    "total": 7,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\B-2\\receipt.json",
+   "written_utc": "2026-11-08T07:25:40Z"
+  },
+  {
+   "label": "B-3",
+   "task": "B",
+   "model": "claude-haiku-4-5",
+   "status": "accepted",
+   "best_score": 1.0,
+   "best_failure_kind": null,
+   "criterion": {
+    "recorded_failure": false,
+    "first_failure": null,
+    "accepted": true,
+    "failure_then_acceptance": false,
+    "turns_used": 1,
+    "max_attempt_seen": 1
+   },
+   "usage": {
+    "input_tokens": 2377,
+    "output_tokens": 800,
+    "calls": 1
+   },
+   "elapsed_s": 10.2,
+   "oracle_self_test": {
+    "ok": true,
+    "passed": 7,
+    "total": 7,
+    "failures": []
+   },
+   "budget": {
+    "max_turns": 4,
+    "max_static_retries": 3,
+    "n_rollouts_per_turn": 1,
+    "no_progress_limit": 2,
+    "threshold": 1.0
+   },
+   "receipt": "docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\B-3\\receipt.json",
+   "written_utc": "2026-11-08T07:25:51Z"
+  }
+ ],
+ "criterion_met": true
+}

@@ -1,0 +1,200 @@
+{
+ "facts": [],
+ "notes": [
+  {
+   "time_utc": "2026-11-08T07:15:16.217801+00:00",
+   "key": "A-4-t1-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3owAszTSoo7k1xR46j'}"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3oymuXhZ7V3uapkdPV'}"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3p1qRKh38p5EdURtoY'}"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:15:17.662882+00:00",
+   "key": "A-4-t2-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3p3thPNqeofwrZqoAY'}"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3p63gnz3hZvYTXAtFv'}"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3p82VvdXeqiL5PqdVj'}"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "time_utc": "2026-11-08T07:15:19.140543+00:00",
+   "key": "A-4-t3-r1-turn",
+   "value": {
+    "attempts": [
+     {
+      "attempt": 1,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3pA5GVCRfdprdXwCYR'}"
+      }
+     },
+     {
+      "attempt": 2,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3pCBGsfmap1LoyB3TK'}"
+      }
+     },
+     {
+      "attempt": 3,
+      "preregistered_params": {
+       "max_tokens": 64000,
+       "effort": "medium",
+       "temperature": 0.0,
+       "display": null
+      },
+      "reward": {
+       "score": 0.0,
+       "tier": 1,
+       "passed_tier1": false,
+       "accepted": false,
+       "failure_kind": "transport"
+      },
+      "diagnostics": {
+       "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'temperature: Extra inputs are not permitted'}, 'request_id': 'req_011Cgq3pELkWVMnGZGtuYoac'}"
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

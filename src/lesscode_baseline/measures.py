@@ -154,9 +154,18 @@ def _check_structure(
 ) -> dict:
     bad_re = re.compile(effect_profile.bad_param_pattern)
     nodes = {f"{f}::{q}": n for f, defs in defmap.items() for q, n in defs}
+
+    def _norm_key(key: str) -> str:
+        # Declarations may qualify the file with its scope path ("src/cart.py::f");
+        # that names the same (file, qualname) pair as the frozen basename form
+        # ("cart.py::f"), so normalize before lookup (G1-R live finding, 2026-11-08).
+        head, sep, qual = key.rpartition("::")
+        return f"{Path(head).name}::{qual}" if sep else key
+
+    declared_pure = sorted({_norm_key(k) for k in structure.get("pure", [])})
+    shell = {_norm_key(k) for k in structure.get("shell", [])}
     pure: dict[str, dict] = {}
-    shell = set(structure.get("shell", []))
-    for key in structure.get("pure", []):
+    for key in declared_pure:
         node = nodes.get(key)
         args = node.args if node else None
         why = (
