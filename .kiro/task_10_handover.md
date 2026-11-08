@@ -57,14 +57,19 @@ touched; owner WIP left uncommitted by rule).
 1. **Owner doubt on implementation correctness (2026-11-08, verbatim:
    "I seriously doubt the implementation is correct")** — recorded per
    Req 8.4; NOT resolved. What is and is not verified:
-   - Last full-suite green evidence is from group 9 (`f1571d6`/
-     `9194909`/`1779944`): nextest 236/236 incl. E3/E4 frozen-digest
-     replays, `test_recording.py` 19/19 + `test_regenerator.py` 59/59,
-     budgets exit 0. Since then only docs changed (`825e526`, `479b082`),
-     so the binaries under test are identical — but **no full suite has
-     been re-run at `479b082` in this session** (owner redirected to
-     "just produce a handover" mid-battery; a pytest background run may
-     have been abandoned incomplete).
+   - **Python battery fresh-green at HEAD** (`a755712`, 2026-11-08):
+     full run `tests/test_recording.py` + `tests/test_regenerator.py`
+     → 77 passed, 1 failed in 461.71s; the sole failure
+     (`test_three_stratum_canonical_line_counts`) is the documented
+     env defect — `uv.exe` omitted from that run's PATH
+     (FileNotFoundError, not a code regression). Single-test re-run
+     with the uv winget dir on PATH → **1 passed in 0.68s**. Net: 78/78.
+   - Rust suite **not re-run at HEAD this session**: last green is
+     group 9 (`f1571d6`/`9194909`/`1779944`: nextest 236/236 incl.
+     E3/E4 frozen-digest replays, budgets exit 0). Since then only
+     docs changed (`825e526`, `479b082`, `a755712`), so the binaries
+     under test are byte-identical — but that is inference, not a
+     fresh run.
    - Fresh re-verification procedure, if wanted: clean-PATH full nextest
      (236 expected) + the two pytest suites; optionally re-run
      `rust_u5_gate.py`. **Caveat:** the driver unconditionally rewrites
