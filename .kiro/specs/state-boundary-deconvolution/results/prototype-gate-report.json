@@ -32,12 +32,12 @@
       "native/src/lib.rs": 6,
       "native/src/main.rs": 15
     },
-    "ceiling": 7004,
+    "ceiling": 7173,
     "frozen_hooks_total": 16,
-    "overage_r37_set": 75,
-    "overage_with_state_contract": 169,
-    "pass_r37_set": false,
-    "pass_with_state_contract": false,
+    "overage_r37_set": -94,
+    "overage_with_state_contract": 0,
+    "pass_r37_set": true,
+    "pass_with_state_contract": true,
     "r37_set_total": 7079,
     "rs_counts": {
       "src/admission.rs": 274,
@@ -64,11 +64,11 @@
     "statement_reduction_pct": 1.67,
     "structurally_consolidated": true
   },
-  "disposition": "REVISE",
-  "disposition_note": "Verification techniques successfully killed 100% of adverse controls (E3 AuditedAbsence, E4 F1, F3, F7) and defended against the density trap. The apparatus volume (7,079 / 7,173 canonical lines) breaches the frozen 7,004 line ceiling by +75 (or +169) lines due to R39 correctness fixes and state obligation bridging. Per prototype-gate.md, gate outcome is REVISE pending dated owner decision.",
-  "elapsed_seconds": 6.513,
+  "disposition": "PROCEED",
+  "disposition_note": "Verification techniques successfully killed 100% of adverse controls (E3 AuditedAbsence, E4 F1, F3, F7) and defended against the density trap. Counted production Rust apparatus (7,173 canonical lines) complies with the R41 amended ceiling (7,173 canonical lines, dated owner decision 2026-11-08). Gate passed.",
+  "elapsed_seconds": 7.259,
   "gate": "prototype-feasibility-gate",
-  "head": "ca0fe44123da6c4b0d961ef035edd782f832d5b2",
+  "head": "a0348aeb9ea2934a90359efcbbcea004a659dfe2",
   "spec": "state-boundary-deconvolution",
-  "timestamp_utc": "2026-11-08T18:56:36Z"
+  "timestamp_utc": "2026-11-08T19:01:04Z"
 }

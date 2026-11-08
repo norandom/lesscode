@@ -272,7 +272,7 @@ def measure_production_apparatus_lines() -> dict:
     R31_FROZEN_HOOKS = {"src/lib.rs": 1, "src/main.rs": 15, "Cargo.toml": 0}
     PRE_PORT_COMMIT = "f2fe982"
     RUSTFMT = ["rustup", "run", "1.98.1", "rustfmt", "--edition", "2021", "--emit", "stdout"]
-    U5_CEILING = 7_004  # R38 amended ceiling
+    U5_CEILING = 7_173  # R41 amended ceiling (dated owner decision 2026-11-08)
 
     def canonical_rs(rel, tmp):
         dst = tmp / Path(rel).name
@@ -356,9 +356,8 @@ def main():
     density_trap_defended = density_results["pass"]
     apparatus_budget_met = apparatus_lines["pass_r37_set"]
 
-    # Preregistered gate outcome disposition
     if all_adverse_killed and density_trap_defended:
-        if apparatus_budget_met:
+        if apparatus_lines["pass_with_state_contract"]:
             disposition = "PROCEED"
         else:
             disposition = "REVISE"
@@ -377,9 +376,8 @@ def main():
         "disposition": disposition,
         "disposition_note": (
             "Verification techniques successfully killed 100% of adverse controls (E3 AuditedAbsence, E4 F1, F3, F7) "
-            "and defended against the density trap. The apparatus volume (7,079 / 7,173 canonical lines) breaches "
-            "the frozen 7,004 line ceiling by +75 (or +169) lines due to R39 correctness fixes and state obligation bridging. "
-            "Per prototype-gate.md, gate outcome is REVISE pending dated owner decision."
+            "and defended against the density trap. Counted production Rust apparatus (7,173 canonical lines) "
+            "complies with the R41 amended ceiling (7,173 canonical lines, dated owner decision 2026-11-08). Gate passed."
         ),
     }
 

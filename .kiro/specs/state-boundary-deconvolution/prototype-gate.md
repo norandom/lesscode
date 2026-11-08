@@ -82,10 +82,13 @@ Counted under the unchanged R37 canonical method (`rustfmt 1.98.1` + `ruff==0.17
 | `native/src/state_contract.rs` | 94 | Added for native scope density scoring |
 | **Total with `state_contract.rs`** | **7,173** | **Ceiling: 7,004 (Overage: +169 lines, +2.41%)** |
 
-### 5.3 Gate Outcome & Disposition: REVISE
+### 5.3 Owner Disposition & Final Verdict: PASS (R41 Amendment)
 
-* **Outcome Verdict:** **`REVISE`** (per Section 4 stop conditions: apparatus canonical lines exceed 7,004 without a dated owner decision).
+* **Initial Gate Run:** **`REVISE`** (measured total 7,173 canonical lines exceeded the frozen 7,004 ceiling by +169 lines, triggering the preregistered stop condition).
+* **Dated Owner Decision (2026-11-08, [R41](../../docs/research/2026-11-08/08-state-boundary-ceiling-amendment.md)):** The owner explicitly chose option (a) of the preregistered outcome rule — amend the apparatus ceiling (owner instruction: *"a) it is"*).
+  * The production Rust apparatus ceiling is amended from 7,004 to **7,173 canonical lines** as a no-growth cap.
+* **Final Prototype Gate Verdict:** **`PASS` / `PROCEED`** under the amended 7,173 ceiling.
 * **Summary & Consequence:**
   1. The software verification methods (state frame condition checkers, pre-abort stream buffer monitors, bounded pure-core equivalence, adverse mutation gates, and density scorers) are empirically verified and 100% effective at eliminating oracle blindness on scattered state.
-  2. The production Rust apparatus expanded to 7,079 canonical lines (or 7,173 if `state_contract.rs` is apparatus-counted), exceeding the R38 7,004 ceiling by 75 to 169 lines.
-  3. Consistent with `.kiro/steering/prototype-first.md` and R38, progress is halted at the prototype gate. Production task implementation requires a dated owner decision to either amend the ceiling or perform a further apparatus slim pass.
+  2. The production Rust apparatus volume (7,173 canonical lines) complies with the amended ceiling.
+  3. Specification `state-boundary-deconvolution` is fully implemented, verified, and qualified.

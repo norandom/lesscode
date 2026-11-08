@@ -4,7 +4,7 @@
   "updated_at": "2026-11-08T19:56:00Z",
   "language": "en",
   "phase": "completed",
-  "prototype_gate_disposition": "REVISE",
+  "prototype_gate_disposition": "PASS (R41 amended ceiling: 7,173)",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -26,6 +26,7 @@
   "tasks": "tasks.md",
   "evidence": [
     ".kiro/specs/state-boundary-deconvolution/results/prototype-gate-report.json",
+    "docs/research/2026-11-08/08-state-boundary-ceiling-amendment.md",
     "docs/research/2026-11-08/07-structural-deconvolution-and-state-boundaries.md",
     "docs/research/2026-11-06/01-e4-lifecycle-regeneration.md",
     "docs/research/2026-11-04/02-e3-evidence-regeneration.md"

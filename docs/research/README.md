@@ -1,6 +1,18 @@
 # Research log
 
-## Latest: R40 structural consolidation without line reduction — the scattered state and density boundary (2026-11-08)
+## Latest: R41 state-boundary apparatus ceiling amendment — owner chose amend (2026-11-08)
+
+[R41](2026-11-08/08-state-boundary-ceiling-amendment.md) records the owner disposition
+on the prototype feasibility gate overage (option (a) of the preregistered outcome rule;
+instruction: *"a) it is"*): **the Rust-substrate apparatus ceiling is amended from 7,004 to
+7,173 canonical lines** — exactly the measured total on the extended counted set (7,079 on
+R37 counted set + 94 for `native/src/state_contract.rs`), effective as a **no-growth cap**.
+All 4 adverse controls (E3 `AuditedAbsence`, E4 F1 `Silent_None`, E4 F3 `Buffer_Drop`,
+E4 F7 `Error_Order`) achieved 100% kill rates, the Facdrone `lifecycle` density trap was
+defended, and the feasibility gate is marked **PASS** under the amended ceiling. Spec
+`state-boundary-deconvolution` fully qualified.
+
+## Prior: R40 structural consolidation without line reduction — the scattered state and density boundary (2026-11-08)
 
 [R40](2026-11-08/07-structural-deconvolution-and-state-boundaries.md) synthesizes
 the empirical results on structural consolidation across E1–E4, R11, R25, R26,
