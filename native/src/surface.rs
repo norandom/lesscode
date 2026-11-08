@@ -42,7 +42,7 @@ pub fn module_name(rel: &str) -> String {
     body.replace('/', ".")
 }
 
-fn line_starts(source: &str) -> Vec<usize> {
+pub(crate) fn line_starts(source: &str) -> Vec<usize> {
     let mut starts = vec![0];
     for (i, b) in source.bytes().enumerate() {
         if b == b'\n' {
@@ -52,7 +52,7 @@ fn line_starts(source: &str) -> Vec<usize> {
     starts
 }
 
-fn line_of(starts: &[usize], byte: usize) -> usize {
+pub(crate) fn line_of(starts: &[usize], byte: usize) -> usize {
     match starts.binary_search(&byte) {
         Ok(i) => i + 1,
         Err(i) => i,
@@ -557,7 +557,7 @@ impl UseContext<'_> {
     }
 }
 
-fn read_source(path: &Path) -> Result<String, SurfaceError> {
+pub(crate) fn read_source(path: &Path) -> Result<String, SurfaceError> {
     let bytes =
         fs::read(path).map_err(|e| SurfaceError(format!("cannot read {}: {e}", path.display())))?;
     String::from_utf8(bytes)

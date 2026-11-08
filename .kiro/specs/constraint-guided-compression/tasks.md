@@ -300,7 +300,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: SurfaceDeriver_
     - _Depends: 8.1_
     - _Requirements: 2.1, 2.2, 2.3, 5.8_
-  - [ ] 8.3 `native/src/measures.rs` — Tier-1 structural checks and canonical measure
+  - [x] 8.3 `native/src/measures.rs` — Tier-1 structural checks and canonical measure
     - Port `editscope` path confinement, pure/shell write-site checks with
       scope-path-qualified declaration normalization, and the canonical-line
       measure for Python specimen files via the pinned `ruff==0.17.3`

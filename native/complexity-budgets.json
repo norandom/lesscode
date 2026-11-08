@@ -27,12 +27,12 @@
   },
   {
    "path": "lib.rs",
-   "max_physical_lines": 588,
-   "max_logical_units": 181,
+   "max_physical_lines": 589,
+   "max_logical_units": 182,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2)",
-   "disposition": "keep-measured-ceiling; +3 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3; R36-enumerated registration hunks count toward U5)",
+   "disposition": "keep-measured-ceiling; +4 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
    "path": "main.rs",
@@ -60,6 +60,15 @@
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob 04a3fd67d33b2e67678c04990b4f16611d0acfc9"
+  },
+  {
+   "path": "measures.rs",
+   "max_physical_lines": 1426,
+   "max_logical_units": 455,
+   "max_fn_lines": 160,
+   "owner": "constraint-guided-compression",
+   "allocation": "Tier-1 structural checks and canonical measure port (task 8.3, R36); measured at freeze",
+   "disposition": null
   },
   {
    "path": "receipt.rs",
