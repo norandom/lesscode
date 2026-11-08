@@ -27,7 +27,7 @@
   - Verify low search threshold cannot manufacture validity, and absent measurements cannot manufacture compression.
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.5_
 
-- [ ] 5. End-to-end verification and regression suite execution
+- [x] 5. End-to-end verification and regression suite execution
   - Run full R39 adversarial probe battery in Rust (9 cases: 1 positive control + 8 expected-pass regressions).
   - Run full R39 probe battery in Python (5 cases: expected-pass regressions).
   - Verify existing native regenerator suite (45/45 pass) and Python regenerator suite (59/59 pass).
