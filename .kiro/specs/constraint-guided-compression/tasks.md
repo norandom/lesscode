@@ -364,7 +364,7 @@ and start only on the owner's explicit answer. Frozen apparatus
 - [ ] 9. Rust-apparatus slim pass, defect-7 split and U5 re-measurement (owner
   dispositions 2026-11-08; preregistered in `prototype-gate.md` R37 amendment
   and [R37](../../../docs/research/2026-11-08/04-rust-slim-pass-remeasure.md))
-  - [ ] 9.1 Preregistration, group-8 tick correction and pre-slim baseline receipt
+  - [x] 9.1 Preregistration, group-8 tick correction and pre-slim baseline receipt
     - Record the dated `prototype-gate.md` R37 amendment (owner dispositions:
       slim pass chosen with the ceiling unchanged at 2,270; defect 7 by split,
       R30 unchanged; 1,333 provenance investigation; counted set extended to
@@ -378,7 +378,7 @@ and start only on the owner's explicit answer. Frozen apparatus
       correction are committed before any slim code exists, and the baseline
       receipt records per-file canonical counts with exact commands.
     - _Requirements: 6.1, 6.2, 7.9, 8.1, 8.3_
-  - [ ] 9.2 `FROZEN_RUST_CANONICAL = 1,333` provenance investigation
+  - [x] 9.2 `FROZEN_RUST_CANONICAL = 1,333` provenance investigation
     - Trace the g1r constant to its origin: introduction commit, any receipt
       or record it cites, and its relation to live counts; record the finding
       (or the exhaustive-search evidence if no receipted source exists) as a

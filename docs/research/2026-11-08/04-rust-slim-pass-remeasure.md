@@ -123,3 +123,46 @@ Outcome rule visible first; a reader can replay every count from the receipt
 commands; disproof explicit (any freeze break fails the gate regardless of
 size); negative results safe to report; facts (R36 measurements) separated
 from interpretation (slim levers); no inflated claims.
+
+---
+
+## Amendment 1 (2026-11-08, ~14:55Z): `FROZEN_RUST_CANONICAL = 1,333` provenance investigation (task 9.2)
+
+Conclusion first: **the constant has no receipted derivation anywhere in the
+repository — it is an unreceipted aggregation error authored with the g1r
+spike, and every receipted reading of the set it names is materially
+smaller.** The R34/R36 verdicts are unaffected (all readings exceed the
+ceiling), and the live receipted counts of R36 (base receipt
+[`rust-port-base.json`](../../experiments/deconvolution/probabilistic-refine/results/rust-port-base.json),
+442; gate 452 after `receipt.rs` growth) remain the U5 accounting of record.
+
+Evidence trail:
+
+- **Origin**: authored in `g1r_spike.py` (`FROZEN_RUST_CANONICAL = 1_333`,
+  line 53, comment citing "R27/R31 records: admission.rs + receipt.rs +
+  registration hooks") and recorded in `g1r-record.json`
+  (`frozen_rust_and_hooks_canonical: 1333`, provenance string "rustfmt
+  counts frozen in R27/R31"), both introduced in commit `1878947`
+  (2026-11-07 20:48 +0100, task 6.1). No earlier occurrence exists in any
+  tracked file (`git log -S "FROZEN_RUST_CANONICAL"`).
+- **What the cited records actually receipt**: R27 records `native/src` at
+  6,149 physical lines across six files (no `admission.rs` yet); R28
+  receipts `admission.rs` 293 + hooks 18 (`lib.rs` +2, `main.rs` +16); R30
+  attempt-1 receipts Rust 1,046 (pyjson 463 + admission 293 + turncheck
+  ~167 + bin/hooks 23); R31 attempt-2 receipts Rust 431 (admission 415 —
+  pyjson merged in the descope, turncheck deleted — + hooks 16);
+  `native/complexity-budgets.json` freezes `admission.rs` ≤ 272 and
+  `receipt.rs` ≤ 176 physical lines. No documented combination equals 1,333;
+  the closest defensible readings are the live 442 (admission 274 +
+  receipt 152 + hooks 16 at `f2fe982`) and the R31-era 583 (admission 415 +
+  receipt 152 + hooks 16).
+- **Propagation**: `g1r_spike.py` / `g1r-record.json` (`1878947`) → R34
+  narrative ("plus 1,333 frozen Rust canonical lines") → index summaries;
+  flagged as an open question by R36 amendment 1; closed by this
+  investigation.
+
+Disposition: the g1r spike and its record are uncounted-stratum frozen
+artifacts and are **not modified**; the R36 live receipts stay the U5
+accounting of record. No verdict, ceiling or baseline changes (`Req 8.4`:
+correction appended, prior records preserved).
+
