@@ -287,7 +287,7 @@ and start only on the owner's explicit answer. Frozen apparatus
       before any port code exists, and the base receipt records per-file
       canonical counts with exact commands.
     - _Requirements: 6.1, 6.2, 7.9, 8.1_
-  - [ ] 8.2 `native/src/surface.rs` — Contract A/B derivation port
+  - [x] 8.2 `native/src/surface.rs` — Contract A/B derivation port
     - Port `derive_surface`, `check_syntax`, `verify_candidate_surface` behind
       the versioned extractor seam onto `ast-grep-core` tree-sitter-python
       (extractor version bumped and recorded); keep the report envelope field
@@ -322,7 +322,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: SharedRecorder_
     - _Depends: 8.1_
     - _Requirements: 2.6, 4.7, 5.5_
-  - [ ] 8.5 `native/src/regenerator.rs` — two-tier refine controller port
+  - [x] 8.5 `native/src/regenerator.rs` — two-tier refine controller port
     - Port `TurnRequest`, the Tier-1 static ladder (stop_reason, schema,
       editscope, syntax, Contract-B surface, pure/shell write-sites) with
       structured violation feedback and preregistered retry directives
@@ -337,7 +337,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator_
     - _Depends: 8.2, 8.3, 8.4_
     - _Requirements: 1.4, 4.1, 4.3, 4.4, 4.5, 4.6, 5.8, 3.6_
-  - [ ] 8.6 Deterministic re-discharge and U5 re-measurement
+  - [x] 8.6 Deterministic re-discharge and U5 re-measurement
     - Build the Rust-substrate spike driver over the same frozen E3/E4
       artifacts, re-discharging G1-R checklist items 1, 2, 3 and 5 through
       `lesscode-core` and measuring U5 under the preregistered counted set

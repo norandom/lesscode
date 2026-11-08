@@ -1,0 +1,235 @@
+{
+ "all_pass": false,
+ "checklist_note": "G1-R items 1, 2, 3 and 5 re-discharged through the Rust substrate; item 4 (U5) is this gate's own re-measurement under the R36 counted set; live weaker-model recovery is not re-run (R34 run B-2 stands on Python; no live transfer claimed).",
+ "deterministic": true,
+ "items": [
+  {
+   "channel": "cargo nextest (pinned toolchain 1.98.1) over the lesscode-core native suite",
+   "item": "six tier-1 controls fail closed, zero runtime calls (Rust substrate)",
+   "pass": true,
+   "tests": [
+    {
+     "exit": 0,
+     "filter": "controls_fail_closed_without_runtime",
+     "matched": [
+      {
+       "seconds": 0.163,
+       "status": "PASS",
+       "test": "controls_fail_closed_without_runtime"
+      }
+     ],
+     "pass": true,
+     "wall_seconds": 0.9
+    },
+    {
+     "exit": 0,
+     "filter": "control_feedback_leak_rejected_before_dispatch",
+     "matched": [
+      {
+       "seconds": 0.02,
+       "status": "PASS",
+       "test": "control_feedback_leak_rejected_before_dispatch"
+      }
+     ],
+     "pass": true,
+     "wall_seconds": 0.8
+    }
+   ]
+  },
+  {
+   "channel": "cargo nextest (pinned toolchain 1.98.1) over the lesscode-core native suite",
+   "item": "E4 transition replay: t1/t2 tier-1 at recorded scores, t3 accepted",
+   "pass": true,
+   "tests": [
+    {
+     "exit": 0,
+     "filter": "e4_three_turn_replay_reproduces_recorded_transitions",
+     "matched": [
+      {
+       "seconds": 29.639,
+       "status": "PASS",
+       "test": "e4_three_turn_replay_reproduces_recorded_transitions"
+      }
+     ],
+     "pass": true,
+     "wall_seconds": 30.7
+    }
+   ],
+   "tier2_replay_identities": [
+    {
+     "exit": 0,
+     "filter": "e3_double_record_reproduces_frozen_lf_body_digest",
+     "matched": [
+      {
+       "seconds": 41.684,
+       "status": "PASS",
+       "test": "e3_double_record_reproduces_frozen_lf_body_digest"
+      }
+     ],
+     "pass": true
+    },
+    {
+     "exit": 0,
+     "filter": "e4_double_record_reproduces_frozen_lf_body_digest",
+     "matched": [
+      {
+       "seconds": 30.257,
+       "status": "PASS",
+       "test": "e4_double_record_reproduces_frozen_lf_body_digest"
+      }
+     ],
+     "pass": true
+    },
+    {
+     "exit": 0,
+     "filter": "frozen_traces_replay_without_divergence",
+     "matched": [
+      {
+       "seconds": 32.847,
+       "status": "PASS",
+       "test": "frozen_traces_replay_without_divergence"
+      }
+     ],
+     "pass": true
+    }
+   ]
+  },
+  {
+   "channel": "cargo nextest (pinned toolchain 1.98.1) over the lesscode-core native suite",
+   "item": "k=2 no-progress exhaustion retains best (Rust substrate)",
+   "pass": true,
+   "tests": [
+    {
+     "exit": 0,
+     "filter": "loop_exhaustion_k2_halts_and_retains_best",
+     "matched": [
+      {
+       "seconds": 0.054,
+       "status": "PASS",
+       "test": "loop_exhaustion_k2_halts_and_retains_best"
+      }
+     ],
+     "pass": true,
+     "wall_seconds": 0.8
+    },
+    {
+     "exit": 0,
+     "filter": "loop_exhaustion_retains_best_trajectory",
+     "matched": [
+      {
+       "seconds": 0.049,
+       "status": "PASS",
+       "test": "loop_exhaustion_retains_best_trajectory"
+      }
+     ],
+     "pass": true,
+     "wall_seconds": 0.8
+    }
+   ]
+  },
+  {
+   "detail": {
+    "base_remeasured_total": 452,
+    "baseline_expanded": 2838,
+    "ceiling": 2270,
+    "commands": {
+     "hooks": "git diff f2fe982 HEAD -- native/src/lib.rs native/src/main.rs native/Cargo.toml",
+     "rustfmt": "rustup run 1.98.1 rustfmt --edition 2021 --emit stdout <file-copy>",
+     "shim": "lesscode_baseline.measures.measure_canonical -> uv tool run --offline --python 3.13 ruff==0.17.3 format --isolated --line-length 100 --target-version py313",
+     "tests": "rustup run 1.98.1 cargo nextest run --manifest-path native/Cargo.toml <test-name>"
+    },
+    "excluded": {
+     "drivers_and_tests": "this driver and the native/ Python test suites (g1r strata)",
+     "product_modules": "native scope.rs, metrics.rs, compare.rs, model.rs, budgets.rs (uncounted product, reuse boundary)",
+     "python_reference_modules": "src/lesscode_baseline/{recording,surface,measures,regenerator}.py (superseded stage-1 reference, R36)",
+     "testinfra": "outside U5 under U7 verbatim relocation"
+    },
+    "method": "R36 amendment (prototype-gate.md): rustfmt (toolchain 1.98.1, --edition 2021) formatted copies, splitlines() counts; shim under the Python rule (ruff==0.17.3 format --isolated --line-length 100 --target-version py313); hooks by enumerated git-diff hunks; drivers and tests uncounted (g1r convention)",
+    "new_module_budget_preregistered": 1828,
+    "new_modules_total": 6382,
+    "overage": 4779,
+    "r31_frozen_hooks": {
+     "Cargo.toml": 0,
+     "src/lib.rs": 1,
+     "src/main.rs": 15
+    },
+    "r31_frozen_hooks_total": 16,
+    "rs_canonical": {
+     "native/src/admission.rs": 274,
+     "native/src/measures.rs": 1428,
+     "native/src/receipt.rs": 178,
+     "native/src/recording.rs": 1002,
+     "native/src/regenerator.rs": 2798,
+     "native/src/surface.rs": 1154
+    },
+    "shim_canonical": {
+     "native/shim/recording_shim.py": 178
+    },
+    "task_group_hooks": {
+     "added_lines": {
+      "native/Cargo.toml": 2,
+      "native/src/lib.rs": 4,
+      "native/src/main.rs": 15
+     },
+     "base": "f2fe982",
+     "hunks": [
+      {
+       "file": "native/Cargo.toml",
+       "header": "@@ -16,3 +16,5 @@ sha2 = \"=0.11.0\""
+      },
+      {
+       "file": "native/src/lib.rs",
+       "header": "@@ -8,10 +8,14 @@ pub use ast_grep_language::{Python, Tsx, TypeScript};"
+      },
+      {
+       "file": "native/src/main.rs",
+       "header": "@@ -1,5 +1,7 @@"
+      },
+      {
+       "file": "native/src/main.rs",
+       "header": "@@ -65,6 +67,16 @@ enum Command {"
+      },
+      {
+       "file": "native/src/main.rs",
+       "header": "@@ -230,6 +242,8 @@ fn run(args: Args) -> Result<u8, String> {"
+      }
+     ],
+     "total_added": 21
+    },
+    "total": 7049,
+    "verdict_note": "measured as-is; negative retained (Req 7.8); owner decides slim/amend"
+   },
+   "item": "U5 replaceable apparatus <= 2,270 canonical lines (Rust substrate, R36 set)",
+   "pass": false
+  },
+  {
+   "channel": "cargo nextest (pinned toolchain 1.98.1) over the lesscode-core native suite",
+   "item": "lesscode-core admission verifies loop receipts via bindings.json",
+   "pass": true,
+   "tests": [
+    {
+     "exit": 0,
+     "filter": "loop_receipts_verify_under_admission",
+     "matched": [
+      {
+       "seconds": 0.049,
+       "status": "PASS",
+       "test": "loop_receipts_verify_under_admission"
+      }
+     ],
+     "pass": true,
+     "wall_seconds": 0.7
+    }
+   ]
+  }
+ ],
+ "receipt": "rust-u5-gate-1",
+ "substrate": {
+  "crate": "lesscode-core (native)",
+  "head": "bc9f34c417401d3662bf5848810a05759d9d83fd",
+  "pre_port_commit": "f2fe982",
+  "toolchain": "1.98.1"
+ },
+ "task": "8.6",
+ "written_utc": "2026-11-08T13:01:46Z"
+}

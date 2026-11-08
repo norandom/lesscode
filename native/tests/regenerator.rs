@@ -975,6 +975,50 @@ fn loop_exhaustion_retains_best_trajectory() {
 }
 
 #[test]
+fn loop_exhaustion_k2_halts_and_retains_best() {
+    // G1-R checklist item 3 protocol (task 8.6): k = 2 consecutive turns
+    // without strict improvement halts as exhausted with the best kept.
+    let work = scratch("loop-exhaust-k2");
+    let (req, frozen) = mini_request(&work);
+    let text = response_text(&[("src/mod.py", GOOD)], &[], &[]);
+    let mut scripted = Scripted::new(vec![Ok((text, end_turn())); 8]);
+    let verdict = (
+        1,
+        Some("seq::k2".into()),
+        obj(&[
+            ("seed_group_pass_fraction", J::Float(0.4)),
+            ("sequence_pass_fraction", J::Float(0.4)),
+        ]),
+    );
+    // The default budget is the preregistered k = 2 (no_progress_limit: 2).
+    let outcome = run_loop(
+        &req,
+        &frozen,
+        &work,
+        "K2",
+        RefineBudget::default(),
+        Some(&mut eval_verdicts(vec![verdict; 8])),
+        &mut scripted,
+    )
+    .unwrap();
+    assert_eq!(outcome.status, "exhausted");
+    assert_eq!(outcome.best.score, 0.70); // 0.60 + 0.25 * 0.4, exact-decimal
+    assert!(!outcome.unresolved_obligations.is_empty()); // kill divergence retained
+    let calls = match &outcome.usage {
+        J::Obj(pairs) => pairs
+            .iter()
+            .find(|(k, _)| k == "calls")
+            .map(|(_, v)| match v {
+                J::Int(n) => *n,
+                _ => -1,
+            })
+            .unwrap_or(-1),
+        _ => -1,
+    };
+    assert!(calls > 0 && calls <= 4, "calls = {calls}"); // turn 1 + 2 flat turns
+}
+
+#[test]
 fn loop_hash_mismatch_on_resume_aborts() {
     let work = scratch("loop-mismatch");
     let (req, frozen) = mini_request(&work);
