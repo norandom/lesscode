@@ -1,17 +1,26 @@
 # Research log
 
-## Latest: R39 confirms refinement correctness defects; corrective concept proposed (2026-11-08)
+## Latest: R40 structural consolidation without line reduction — the scattered state and density boundary (2026-11-08)
 
-[R39](2026-11-08/06-refinement-correctness.md) reproduces wrong-candidate
+[R40](2026-11-08/07-structural-deconvolution-and-state-boundaries.md) synthesizes
+the empirical results on structural consolidation across E1–E4, R11, R25, R26,
+and R34–R39: an LLM can de-fragment scattered responsibilities (−24.6% functions,
+−29.2% call edges, write sites confined to 11 shell functions, 51.9% pure core),
+but canonical lines dropped only 6.0% (missing the 10–20% target; density replaced
+fragmentation), while trace oracles missed exception-side state and partial buffer
+divergences. Proposes a new specification (`state-boundary-deconvolution`) using
+software verification techniques (frame conditions, bounded SMT pure-core equivalence,
+adverse mutant killing) to soundly govern state-boundary deconvolution.
+
+## Prior: R39 confirms refinement correctness defects; repaired and verified (2026-11-08)
+
+[R39](2026-11-08/06-refinement-correctness.md) reproduced wrong-candidate
 delivery, lost runtime feedback, erroneous obligation discharge, false oracle
 passes after failure/timeout, and unsupported validity/compression outcomes.
-Existing regenerator suites pass (Rust 45/45, Python 59/59), while new probes
-fail (Rust 8 failures plus one positive control pass, Python 5 failures).
-The [corrective requirements](../../.kiro/specs/refinement-evidence-integrity/requirements.md)
-and [adjusted concept](../../.kiro/specs/refinement-evidence-integrity/concept.md)
-propose independent verifier tests and bounded recovery. No production fix,
-phase approval or adoption is claimed; affected correctness interpretations
-require revalidation. Frozen R36/R37 receipts and R38 accounting are unchanged.
+Repaired and verified under specification
+[refinement-evidence-integrity](../../.kiro/specs/refinement-evidence-integrity/spec.json)
+(Task group 12; commit `37f21c4`, handover `f7c254f`). Adversarial probe battery
+passes (Rust 9/9, Python 5/5) with regenerator suites green (Rust 50/50, Python 59/59).
 
 ## Prior: R38 U5 ceiling amendment — owner chose amend (2026-11-08)
 [R38](2026-11-08/05-u5-ceiling-amendment.md) records the owner disposition on
