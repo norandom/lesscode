@@ -1,17 +1,17 @@
 {
   "feature_name": "refinement-evidence-integrity",
   "created_at": "2026-11-08T16:17:00Z",
-  "updated_at": "2026-11-08T16:17:00Z",
+  "updated_at": "2026-11-08T17:36:00Z",
   "language": "en",
-  "phase": "requirements-generated",
+  "phase": "implementation",
   "approvals": {
-    "requirements": { "generated": true, "approved": false },
-    "design": { "generated": false, "approved": false },
-    "tasks": { "generated": false, "approved": false }
+    "requirements": { "generated": true, "approved": true },
+    "design": { "generated": true, "approved": true },
+    "tasks": { "generated": true, "approved": true }
   },
-  "ready_for_implementation": false,
+  "ready_for_implementation": true,
   "corrects": "constraint-guided-compression",
   "evidence": ["docs/research/2026-11-08/06-refinement-correctness.md"],
   "concept_proposal": "concept.md",
-  "notes": "Owner requested diagnosis, a corrective spec and an adjusted compression/verification concept. R39 reproduces current defects; no fix or phase approval is claimed. concept.md is a proposal, not an approved technical design. Slice B adoption remains unscheduled."
+  "notes": "Tasks approved. Foreground implementation per owner rules (manual mode, one commit per task on main, tests via nextest and pytest-xdist, no subagents)."
 }
