@@ -1239,6 +1239,48 @@ fn loop_unresolved_obligation_retained_on_failure() {
 }
 
 #[test]
+fn loop_low_threshold_cannot_establish_validity() {
+    let work = scratch("loop-low-threshold");
+    let (req, frozen) = mini_request(&work);
+    let bad_text = response_text(&[("src/mod.py", "def f(): return 2\n")], &[], &[]);
+    let mut scripted = Scripted::new(vec![Ok((bad_text, end_turn()))]);
+    let budget = RefineBudget {
+        max_turns: 1,
+        max_static_retries: 1,
+        n_rollouts_per_turn: 1,
+        threshold: 0.5,
+        ..RefineBudget::default()
+    };
+    let outcome = run_loop(&req, &frozen, &work, "threshold", budget, None, &mut scripted).unwrap();
+    assert!(!outcome.validity);
+}
+
+#[test]
+fn loop_missing_targets_cannot_establish_compression() {
+    let work = scratch("loop-missing-compression");
+    let (req, frozen) = mini_request(&work);
+    let good_text = response_text(&[("src/mod.py", "def f(): return 1\n")], &[], &[]);
+    let mut scripted = Scripted::new(vec![Ok((good_text, end_turn()))]);
+    let budget = RefineBudget {
+        max_turns: 1,
+        max_static_retries: 1,
+        n_rollouts_per_turn: 1,
+        ..RefineBudget::default()
+    };
+    let outcome = run_loop(
+        &req,
+        &frozen,
+        &work,
+        "compression",
+        budget,
+        Some(&mut eval_verdicts(vec![(0, None, obj(&[]))])),
+        &mut scripted,
+    )
+    .unwrap();
+    assert!(!outcome.compression_met);
+}
+
+#[test]
 fn loop_holdout_names_never_reach_the_next_prompt() {
     let work = scratch("loop-holdout");
     let (req, frozen) = mini_request(&work);

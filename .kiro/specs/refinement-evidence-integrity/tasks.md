@@ -21,7 +21,7 @@
   - Verify feedback propagation and obligation retention across attempts.
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 5.3_
 
-- [ ] 4. Independent outcome decisions for validity and compression in Rust and Python
+- [x] 4. Independent outcome decisions for validity and compression in Rust and Python
   - Separate search stopping from behavioral validity: `validity` requires full behavioral pass, tier 2 verification, and zero unresolved obligations.
   - Fix `compression_met`: require explicit non-empty static targets and zero gaps; report false (unmeasured) when targets are absent.
   - Verify low search threshold cannot manufacture validity, and absent measurements cannot manufacture compression.

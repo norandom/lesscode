@@ -762,8 +762,14 @@ def run_refine_loop(
     return RefineOutcome(
         status=status,
         best=best,
-        validity=best.score >= budget.threshold,
-        compression_met=not static_targets,
+        validity=(
+            runtime_evaluator is not None
+            and best.tier == 2
+            and best.score >= 1.0
+            and best.failure_kind is None
+            and not unresolved
+        ),
+        compression_met=bool(static_targets) and not bool(best.diagnostics.get("gaps")),
         adopted=False,
         unresolved_obligations=unresolved,
         rollout_history=history,

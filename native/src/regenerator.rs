@@ -2376,16 +2376,23 @@ pub fn run_refine_loop(
             let _ = fs::remove_file(&path);
         }
     }
-    let validity = best.score >= budget.threshold;
     let unresolved: Vec<String> = all_obligations
         .difference(&resolved)
         .cloned()
         .collect();
+    let validity = runtime_evaluator.is_some()
+        && best.tier == 2
+        && best.score >= 1.0
+        && best.failure_kind.is_none()
+        && unresolved.is_empty();
+    let compression_met = static_targets
+        .map(|t| !t.is_empty() && best.tier >= 1 && !j_truthy(j_get(&best.diagnostics, "gaps")))
+        .unwrap_or(false);
     Ok(RefineOutcome {
         status: status.into(),
         best,
         validity,
-        compression_met: static_targets.is_none(),
+        compression_met,
         adopted: false, // adoption is never claimed by the loop (Req 6.7)
         unresolved_obligations: unresolved,
         rollout_history: history,
