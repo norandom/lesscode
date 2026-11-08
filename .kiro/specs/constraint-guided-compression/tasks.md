@@ -311,7 +311,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ScopeMeasurer_
     - _Depends: 8.2_
     - _Requirements: 2.4, 5.8, 6.2, 6.3_
-  - [ ] 8.4 `native/src/recording.rs` — L1/L2 record/replay driver
+  - [x] 8.4 `native/src/recording.rs` — L1/L2 record/replay driver
     - Port the shared recording engine semantics: declared normalization,
       golden body bytes and LF-body digests, deadline-killed subprocess arms
       and serial pytest groups, driven from Rust with the in-venv oracle

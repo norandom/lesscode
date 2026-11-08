@@ -64,7 +64,7 @@ fn indent(depth: usize, out: &mut String) {
 /// Python `json.dumps` string escaping (`ensure_ascii`): short escapes for
 /// `"`, `\`, \b, \t, \n, \f, \r; `\u00xx` (lowercase hex) for other control
 /// characters and DEL; `\uxxxx` (surrogate pairs above BMP) for non-ASCII.
-fn write_json_str(s: &str, out: &mut String) {
+pub(crate) fn write_json_str(s: &str, out: &mut String) {
     out.push('"');
     for ch in s.chars() {
         match ch {

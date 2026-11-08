@@ -27,11 +27,11 @@
   },
   {
    "path": "lib.rs",
-   "max_physical_lines": 589,
-   "max_logical_units": 182,
+   "max_physical_lines": 590,
+   "max_logical_units": 183,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3; R36-enumerated registration hunks count toward U5)",
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5)",
    "disposition": "keep-measured-ceiling; +4 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
@@ -76,7 +76,16 @@
    "max_logical_units": 84,
    "max_fn_lines": 57,
    "owner": "deconvolution-native-core",
-   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); measured at each freeze",
+   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); write_json_str pub(crate) for the recording golden writer, zero new lines (task 8.4); measured at each freeze",
+   "disposition": null
+  },
+  {
+   "path": "recording.rs",
+   "max_physical_lines": 1000,
+   "max_logical_units": 343,
+   "max_fn_lines": 111,
+   "owner": "constraint-guided-compression",
+   "allocation": "L1/L2 record/replay engine port: golden bytes, LF-body digests, diffing, deadline-killed arms, serial pytest groups (task 8.4, R36); measured at freeze with E3/E4 digest gates green",
    "disposition": null
   },
   {
