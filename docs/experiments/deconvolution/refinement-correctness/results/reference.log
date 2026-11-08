@@ -1,0 +1,50 @@
+bringing up nodes...
+bringing up nodes...
+
+FFFFF                                                                    [100%]
+================================== FAILURES ===================================
+_______________ test_runtime_counterexample_reaches_next_prompt _______________
+[gw0] win32 -- Python 3.13.16 D:\Source\lesscode\.runs\e2-facdrone\venv\Scripts\python.exe
+docs\experiments\deconvolution\refinement-correctness\test_reference.py:37: in test_runtime_counterexample_reaches_next_prompt
+    assert "R39_known_counterexample" in prompts[1]
+E   AssertionError: assert 'R39_known_counterexample' in '## Scope files (the only files that may change)\n\n### src/mod.py\n\n```python\ndef f():\n    return 1\n\n```\n\n## D...``\n\n## Structural contract\n\nc\n\n## Acceptance command (run by the loop, not by you)\n\n```\nfixture oracle\n```\n'
+_______________________ test_best_candidate_is_retained _______________________
+[gw0] win32 -- Python 3.13.16 D:\Source\lesscode\.runs\e2-facdrone\venv\Scripts\python.exe
+docs\experiments\deconvolution\refinement-correctness\test_reference.py:43: in test_best_candidate_is_retained
+    assert source == "def f():\n    return 1\n", outcome
+E   AssertionError: RefineOutcome(status='accepted', best=RolloutRecord(label='reference-t1-r1', turn=1, rollout_id=1, attempt=1, score=1.... 'R39_known_counterexample', 'formula': {'g': 0, 's': 0}}}], usage={'input_tokens': 0, 'output_tokens': 0, 'calls': 2})
+E   assert 'def f():\n    return 2\n' == 'def f():\n    return 1\n'
+E     
+E       def f():
+E     -     return 1
+E     ?            ^
+E     +     return 2
+E     ?            ^
+____________________ test_search_threshold_is_not_validity ____________________
+[gw0] win32 -- Python 3.13.16 D:\Source\lesscode\.runs\e2-facdrone\venv\Scripts\python.exe
+docs\experiments\deconvolution\refinement-correctness\test_reference.py:48: in test_search_threshold_is_not_validity
+    assert not outcome.validity, outcome
+E   AssertionError: RefineOutcome(status='accepted', best=RolloutRecord(label='reference-t1-r1', turn=1, rollout_id=1, attempt=1, score=0.... 1, 'failure_kind': None, 'hashes': {}, 'diagnostics': {}}], usage={'input_tokens': 0, 'output_tokens': 0, 'calls': 1})
+E   assert not True
+E    +  where True = RefineOutcome(status='accepted', best=RolloutRecord(label='reference-t1-r1', turn=1, rollout_id=1, attempt=1, score=0.... 1, 'failure_kind': None, 'hashes': {}, 'diagnostics': {}}], usage={'input_tokens': 0, 'output_tokens': 0, 'calls': 1}).validity
+________________ test_absent_measurements_are_not_compression _________________
+[gw0] win32 -- Python 3.13.16 D:\Source\lesscode\.runs\e2-facdrone\venv\Scripts\python.exe
+docs\experiments\deconvolution\refinement-correctness\test_reference.py:53: in test_absent_measurements_are_not_compression
+    assert not outcome.compression_met, outcome
+E   AssertionError: RefineOutcome(status='accepted', best=RolloutRecord(label='reference-t1-r1', turn=1, rollout_id=1, attempt=1, score=1.... 2, 'failure_kind': None, 'hashes': {}, 'diagnostics': {}}], usage={'input_tokens': 0, 'output_tokens': 0, 'calls': 1})
+E   assert not True
+E    +  where True = RefineOutcome(status='accepted', best=RolloutRecord(label='reference-t1-r1', turn=1, rollout_id=1, attempt=1, score=1.... 2, 'failure_kind': None, 'hashes': {}, 'diagnostics': {}}], usage={'input_tokens': 0, 'output_tokens': 0, 'calls': 1}).compression_met
+____________ test_still_failing_counterexample_remains_unresolved _____________
+[gw0] win32 -- Python 3.13.16 D:\Source\lesscode\.runs\e2-facdrone\venv\Scripts\python.exe
+docs\experiments\deconvolution\refinement-correctness\test_reference.py:58: in test_still_failing_counterexample_remains_unresolved
+    assert "R39_known_counterexample" in outcome.unresolved_obligations, outcome.unresolved_obligations
+E   AssertionError: ['kill']
+E   assert 'R39_known_counterexample' in ['kill']
+E    +  where ['kill'] = RefineOutcome(status='exhausted', best=RolloutRecord(label='reference-t1-r1', turn=1, rollout_id=1, attempt=1, score=0... 'R39_known_counterexample', 'formula': {'g': 0, 's': 0}}}], usage={'input_tokens': 0, 'output_tokens': 0, 'calls': 1}).unresolved_obligations
+=========================== short test summary info ===========================
+FAILED docs/experiments/deconvolution/refinement-correctness/test_reference.py::test_runtime_counterexample_reaches_next_prompt
+FAILED docs/experiments/deconvolution/refinement-correctness/test_reference.py::test_best_candidate_is_retained
+FAILED docs/experiments/deconvolution/refinement-correctness/test_reference.py::test_search_threshold_is_not_validity
+FAILED docs/experiments/deconvolution/refinement-correctness/test_reference.py::test_absent_measurements_are_not_compression
+FAILED docs/experiments/deconvolution/refinement-correctness/test_reference.py::test_still_failing_counterexample_remains_unresolved
+5 failed in 2.09s

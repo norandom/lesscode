@@ -1,5 +1,21 @@
 # Prototype feasibility gate
 
+## Correctness revalidation required, 2026-11-08 (R39)
+
+[R39](../../../docs/research/2026-11-08/06-refinement-correctness.md) establishes
+that selected passing metadata can accompany failing delivered files, feedback
+can be lost, a still-failing witness can be marked discharged, and incomplete
+runtime execution can become a pass. Existing G1-R tests remain evidence for
+their executed scope, including recorded-verdict classification; they do not
+establish correct end-to-end recovery or candidate delivery. Those broader
+interpretations are invalidated pending correction and revalidation (Req 7.11).
+
+Use the [corrective spec](../refinement-evidence-integrity/requirements.md) and
+[verification proposal](../refinement-evidence-integrity/verification.md).
+Preserve R36/R37 frozen FAIL records and all historical behavioral results.
+R38's 7,004 no-growth cap, U7 and phase approvals are unchanged. Slice B
+adoption remains unscheduled; this research does not authorize execution.
+
 ## U5 ceiling amendment (owner decision), 2026-11-08 ([R38](../../../docs/research/2026-11-08/05-u5-ceiling-amendment.md)): Rust-substrate ceiling 7,004 as a no-growth cap
 
 Owner disposition on the R37 negative — option (a) of the preregistered

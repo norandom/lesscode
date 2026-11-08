@@ -1,0 +1,51 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+────────────
+ Nextest run ID 1396bcc2-7cb8-4835-8236-6b31e0e25ca7 with nextest profile: default
+    Starting 45 tests across 1 binary
+        PASS [   0.027s] ( 1/45) lesscode-core::regenerator control_feedback_leak_rejected_before_dispatch
+        PASS [   0.038s] ( 2/45) lesscode-core::regenerator build_prompt_fences_labels_and_feedback
+        PASS [   0.062s] ( 3/45) lesscode-core::regenerator bound_artifacts_cover_saved_turn_files
+        PASS [   0.029s] ( 4/45) lesscode-core::regenerator endpoint_redacts_key_everywhere
+        PASS [   0.021s] ( 5/45) lesscode-core::regenerator feedback_boundary_rejects_held_out_names
+        PASS [   0.024s] ( 6/45) lesscode-core::regenerator holdout_disjoint_passes_and_overlaps_raise
+        PASS [   0.027s] ( 7/45) lesscode-core::regenerator load_endpoint_missing_keys_fail
+        PASS [   0.031s] ( 8/45) lesscode-core::regenerator load_endpoint_parses_env_file_with_comments
+        PASS [   0.066s] ( 9/45) lesscode-core::regenerator loop_bestofn_width_two_picks_max
+        PASS [   0.057s] (10/45) lesscode-core::regenerator loop_concise_directive_dispatched_on_transport_retry
+        PASS [   0.079s] (11/45) lesscode-core::regenerator loop_exhaustion_retains_best_trajectory
+        PASS [   0.081s] (12/45) lesscode-core::regenerator loop_exhaustion_k2_halts_and_retains_best
+        PASS [   0.268s] (13/45) lesscode-core::regenerator controls_fail_closed_without_runtime
+        PASS [   0.050s] (14/45) lesscode-core::regenerator loop_hash_mismatch_on_resume_aborts
+        PASS [   0.058s] (15/45) lesscode-core::regenerator loop_holdout_names_never_reach_the_next_prompt
+        PASS [   0.103s] (16/45) lesscode-core::regenerator loop_four_turn_recovery_to_acceptance
+        PASS [   0.057s] (17/45) lesscode-core::regenerator loop_huge_usage_accepted_before_token_budget
+        PASS [   0.027s] (18/45) lesscode-core::regenerator openai_adapter_payload_and_hash_fields
+        PASS [   0.029s] (19/45) lesscode-core::regenerator openai_adapter_transport_error_wrapped
+        PASS [   0.024s] (20/45) lesscode-core::regenerator openai_request_hash_pinned_against_python_reference
+        PASS [   0.091s] (21/45) lesscode-core::regenerator loop_receipts_verify_under_admission
+        PASS [   0.038s] (22/45) lesscode-core::regenerator prepare_candidate_copies_and_checks_hashes
+        PASS [   0.041s] (23/45) lesscode-core::regenerator receipt_fact_and_note_structure
+        PASS [   0.047s] (24/45) lesscode-core::regenerator receipt_labels_case_insensitively_unique
+        PASS [   0.040s] (25/45) lesscode-core::regenerator receipt_sidecars_and_bindings_for_admission
+        PASS [   0.027s] (26/45) lesscode-core::regenerator save_disk_bytes_equal_hashed_text
+        PASS [   0.041s] (27/45) lesscode-core::regenerator schedule_cheaper_effort_and_concise_directive_on_zero
+        PASS [   0.026s] (28/45) lesscode-core::regenerator schedule_injects_missing_symbols_on_surface_failure
+        PASS [   0.036s] (29/45) lesscode-core::regenerator schedule_pass_needs_no_adaptation
+        PASS [   0.043s] (30/45) lesscode-core::regenerator schedule_temperature_steps_bounded
+        PASS [   0.048s] (31/45) lesscode-core::regenerator tier1_failure_rungs_score_by_kind
+        PASS [   0.047s] (32/45) lesscode-core::regenerator tier1_ladder_is_fast_and_offline
+        PASS [   0.051s] (33/45) lesscode-core::regenerator tier1_static_targets_rung_and_pass_rung
+        PASS [   0.057s] (34/45) lesscode-core::regenerator tier1_structure_rung_reports_violation
+        PASS [   0.044s] (35/45) lesscode-core::regenerator tier1_surface_rung_reports_missing_symbol
+        PASS [   0.036s] (36/45) lesscode-core::regenerator tier1_syntax_rung_reports_line_anchored_errors
+        PASS [   0.026s] (37/45) lesscode-core::regenerator tier2_accepted_with_gaps_faults_and_full_acceptance
+        PASS [   0.030s] (38/45) lesscode-core::regenerator tier2_formula_on_synthetic_fractions
+        PASS [   0.033s] (39/45) lesscode-core::regenerator tier2_infrastructure_never_a_kill
+        PASS [   0.035s] (40/45) lesscode-core::regenerator tier2_missing_fraction_scores_zero_fail_closed
+        PASS [   0.035s] (41/45) lesscode-core::regenerator turn_request_language_defaults_and_roundtrips
+        PASS [   0.052s] (42/45) lesscode-core::regenerator write_candidate_records_hashes_and_crlf_convention
+        PASS [   0.049s] (43/45) lesscode-core::regenerator write_candidate_refuses_out_of_scope_before_writing
+        PASS [   0.460s] (44/45) lesscode-core::regenerator runtime_oracle_maps_verdict_files
+        PASS [  22.069s] (45/45) lesscode-core::regenerator e4_three_turn_replay_reproduces_recorded_transitions
+────────────
+     Summary [  22.098s] 45 tests run: 45 passed, 0 skipped

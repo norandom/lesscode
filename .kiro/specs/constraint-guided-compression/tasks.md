@@ -1,5 +1,12 @@
 # Implementation Plan: constraint-guided-compression (Slice A production + G1-R bounded spike)
 
+**Correctness follow-up, 2026-11-08:** completed historical task checkboxes do
+not discharge the newly reproduced [R39](../../../docs/research/2026-11-08/06-refinement-correctness.md)
+failures. [refinement-evidence-integrity](../refinement-evidence-integrity/requirements.md)
+contains corrective requirements and an adjusted concept, with all approvals
+pending. No corrective production tasks or Slice B adoption tasks are scheduled
+by this notice. Revalidate affected claims under Req 7.11 before dependent work.
+
 Scope note. Production tasks cover **Slice A** (the demonstrated apparatus:
 surface derivation, scope measures, test-infrastructure detection, and the
 stdlib single-turn/two-tier regenerator controller with `n_rollouts_per_turn=1`

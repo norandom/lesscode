@@ -1,5 +1,15 @@
 # Technical Design: Constraint-Guided Compression (H8/H9 Deconvolution Apparatus & H10 DSPy-Style Probabilistic Turn Refinement)
 
+**Dated correction notice, 2026-11-08:**
+[R39](../../../docs/research/2026-11-08/06-refinement-correctness.md) finds that
+the implemented refinement/oracle state transitions do not satisfy the intended
+contracts below. In particular, parity and replay tests did not prove feedback
+delivery, retention of selected candidate files or fail-closed process verdicts.
+The [corrective requirements](../refinement-evidence-integrity/requirements.md)
+and [concept proposal](../refinement-evidence-integrity/concept.md) require
+review before a technical design and production tasks. Prior prose and phase
+history are retained; no corrective approval is implied.
+
 **Status**: Generated (`2026-11-07`, `$kiro-spec-design` phase per [R33](../../../docs/research/2026-11-07/07-dspy-probabilistic-turn-refinement-design.md)), pending owner review (`approvals.design.approved = false`).
 Per [prototype-first policy](../../steering/prototype-first.md) and [prototype-gate.md](prototype-gate.md), this design partitions responsibilities into two explicit feasibility slices:
 - **Slice A — Demonstrated Detection, Measurement & Single-Turn Loop Apparatus (`status: proceed`)**: Consolidates the proven Python detection and measurement modules (`surface.py` Contract B from [R29](../../../docs/research/2026-11-07/03-s9-surface-contracts.md), 3-stratum canonical and separated-form AST/edge/write-site/pure-share `measures.py` from [R25](../../../docs/research/2026-11-04/02-e3-evidence-regeneration.md)–[R27](../../../docs/research/2026-11-07/01-solution-first-native-slice.md), `editscope` + `patchcheck` Tier-1 checks from [R26](../../../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md), `testinfra.py` from [R32](../../../docs/research/2026-11-07/06-rust-specimen-testinfra-detection.md), and the single-turn recorded `TurnRequest`/`Feedback` protocol) into `src/lesscode_baseline/`, wired to the completed [`src/lesscode_baseline/recording.py`](../../../src/lesscode_baseline/recording.py) and [`native/` (`lesscode-core`)](../../../native/src/lib.rs).

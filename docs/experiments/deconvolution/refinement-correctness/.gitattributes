@@ -1,0 +1,6 @@
+# Preserve the exact bytes named by R39 provenance, including native log CRLF.
+# Raw process output is evidence: do not normalize its whitespace either.
+results/** -text -whitespace
+probe.rs text eol=lf
+test_reference.py text eol=lf
+run.ps1 text eol=lf

@@ -1,0 +1,247 @@
+   Compiling r39-correctness v0.0.0 (D:\Source\lesscode\.runs\r39-verified)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.65s
+────────────
+ Nextest run ID b38cf96a-71bf-44ef-a098-381784ae77c7 with nextest profile: default
+    Starting 9 tests across 1 binary
+        FAIL [   0.060s] (1/9) r39-correctness::correctness accepted_best_matches_delivered_candidate
+  stdout ───
+
+    running 1 test
+    test accepted_best_matches_delivered_candidate ... FAILED
+
+    failures:
+
+    failures:
+        accepted_best_matches_delivered_candidate
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.02s
+
+  stderr ───
+
+    thread 'accepted_best_matches_delivered_candidate' (33200) panicked at D:\Source\lesscode\docs\experiments\deconvolution\refinement-correctness\probe.rs:82:5:
+    assertion `left == right` failed: reported best=best-t1-r1 score=1 validity=true but last rollout remains
+      left: "def f():\n    return 2\n"
+     right: "def f():\n    return 1\n"
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.063s] (2/9) r39-correctness::correctness low_search_threshold_cannot_establish_validity
+  stdout ───
+
+    running 1 test
+    test low_search_threshold_cannot_establish_validity ... FAILED
+
+    failures:
+
+    failures:
+        low_search_threshold_cannot_establish_validity
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.01s
+
+  stderr ───
+
+    thread 'low_search_threshold_cannot_establish_validity' (18552) panicked at D:\Source\lesscode\docs\experiments\deconvolution\refinement-correctness\probe.rs:87:5:
+    no runtime evaluator: status=accepted tier=1 score=0.5 validity=true
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.037s] (3/9) r39-correctness::correctness missing_measurement_cannot_establish_compression
+  stdout ───
+
+    running 1 test
+    test missing_measurement_cannot_establish_compression ... FAILED
+
+    failures:
+
+    failures:
+        missing_measurement_cannot_establish_compression
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.02s
+
+  stderr ───
+
+    thread 'missing_measurement_cannot_establish_compression' (32020) panicked at D:\Source\lesscode\docs\experiments\deconvolution\refinement-correctness\probe.rs:92:5:
+    targets and measurements absent, compression_met=true
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.052s] (4/9) r39-correctness::correctness next_turn_receives_runtime_counterexample
+  stdout ───
+
+    running 1 test
+    test next_turn_receives_runtime_counterexample ... FAILED
+
+    failures:
+
+    failures:
+        next_turn_receives_runtime_counterexample
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.02s
+
+  stderr ───
+
+    thread 'next_turn_receives_runtime_counterexample' (32208) panicked at D:\Source\lesscode\docs\experiments\deconvolution\refinement-correctness\probe.rs:76:5:
+    status=accepted; next prompt lacks runtime feedback: ## Scope files (the only files that may change)
+
+    ### src/mod.py
+
+    ```python
+    def f():
+        return 1
+
+    ```
+
+    ## Derived public surface (public-surface.json)
+
+    ```json
+    {
+     "extractor_version": "rust-tspython-v1",
+     "root": "D:\\Source\\lesscode\\.runs\\r39-verified\\cases\\feedback-15496\\frozen",
+     "scope_files": [
+      "src/mod.py"
+     ],
+     "recorder_files": [],
+     "files_scanned": 2,
+     "modules": {
+      "mod": {
+       "file": "src/mod.py",
+       "names": {
+        "f": {
+         "kind": "function",
+         "tags": [
+          "prod"
+         ],
+         "via": [
+          "import"
+         ],
+         "importers": [
+          "src/user.py"
+         ]
+        }
+       },
+       "importers": {
+        "src/user.py": "prod"
+       }
+      }
+     },
+     "unresolved": {
+      "mod": {}
+     },
+     "intra_set": {
+      "mod": {}
+     }
+    }
+    ```
+
+    ## Definitions
+
+    d
+
+    ## Measure targets
+
+    ```json
+    {}
+    ```
+
+    ## Structural contract
+
+    c
+
+    ## Acceptance command (run by the loop, not by you)
+
+    ```
+    frozen fixture oracle
+    ```
+
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.043s] (5/9) r39-correctness::correctness still_failing_counterexample_remains_unresolved
+  stdout ───
+
+    running 1 test
+    test still_failing_counterexample_remains_unresolved ... FAILED
+
+    failures:
+
+    failures:
+        still_failing_counterexample_remains_unresolved
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.02s
+
+  stderr ───
+
+    thread 'still_failing_counterexample_remains_unresolved' (27660) panicked at D:\Source\lesscode\docs\experiments\deconvolution\refinement-correctness\probe.rs:98:5:
+    failed witness was marked discharged: ["kill"]
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.241s] (6/9) r39-correctness::correctness failed_process_cannot_pass_from_success_file
+  stdout ───
+
+    running 1 test
+    test failed_process_cannot_pass_from_success_file ... FAILED
+
+    failures:
+
+    failures:
+        failed_process_cannot_pass_from_success_file
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.22s
+
+  stderr ───
+
+    thread 'failed_process_cannot_pass_from_success_file' (620) panicked at D:\Source\lesscode\docs\experiments\deconvolution\refinement-correctness\probe.rs:28:5:
+    assertion `left == right` failed: adapter_code=0; reward=RewardEvaluation { score: 1.0, tier: 2, passed_tier1: true, failure_kind: None, diagnostics: Obj([]) }
+      left: None
+     right: Some("runtime_infrastructure")
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.253s] (7/9) r39-correctness::correctness contradictory_counts_cannot_pass
+  stdout ───
+
+    running 1 test
+    test contradictory_counts_cannot_pass ... FAILED
+
+    failures:
+
+    failures:
+        contradictory_counts_cannot_pass
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.22s
+
+  stderr ───
+
+    thread 'contradictory_counts_cannot_pass' (26148) panicked at D:\Source\lesscode\docs\experiments\deconvolution\refinement-correctness\probe.rs:40:5:
+    adapter_code=0; reward=RewardEvaluation { score: 1.0, tier: 2, passed_tier1: true, failure_kind: None, diagnostics: Obj([]) }
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        PASS [   0.205s] (8/9) r39-correctness::correctness positive_completed_oracle_passes
+        FAIL [   1.412s] (9/9) r39-correctness::correctness timeout_cannot_pass_from_success_file
+  stdout ───
+
+    running 1 test
+    proto: deadline exceeded (infrastructure, not a verdict)
+    test timeout_cannot_pass_from_success_file ... FAILED
+
+    failures:
+
+    failures:
+        timeout_cannot_pass_from_success_file
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.38s
+
+  stderr ───
+
+    thread 'timeout_cannot_pass_from_success_file' (8724) panicked at D:\Source\lesscode\docs\experiments\deconvolution\refinement-correctness\probe.rs:34:5:
+    assertion `left == right` failed: adapter_code=0; reward=RewardEvaluation { score: 1.0, tier: 2, passed_tier1: true, failure_kind: None, diagnostics: Obj([]) }
+      left: None
+     right: Some("runtime_infrastructure")
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   1.571s] 9 tests run: 1 passed, 8 failed, 0 skipped
+        FAIL [   0.060s] (1/9) r39-correctness::correctness accepted_best_matches_delivered_candidate
+        FAIL [   0.063s] (2/9) r39-correctness::correctness low_search_threshold_cannot_establish_validity
+        FAIL [   0.037s] (3/9) r39-correctness::correctness missing_measurement_cannot_establish_compression
+        FAIL [   0.052s] (4/9) r39-correctness::correctness next_turn_receives_runtime_counterexample
+        FAIL [   0.043s] (5/9) r39-correctness::correctness still_failing_counterexample_remains_unresolved
+        FAIL [   0.241s] (6/9) r39-correctness::correctness failed_process_cannot_pass_from_success_file
+        FAIL [   0.253s] (7/9) r39-correctness::correctness contradictory_counts_cannot_pass
+        FAIL [   1.412s] (9/9) r39-correctness::correctness timeout_cannot_pass_from_success_file
+error: test run failed

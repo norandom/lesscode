@@ -1,0 +1,44 @@
+{
+  "report": "R39 exploratory correctness probes; red assertions are defects, not a passing feature gate",
+  "head": "a7557122295ea859fd0ea786677406b640423ae2",
+  "started_utc": "2026-11-08T16:13:16.8608761Z",
+  "finished_utc": "2026-11-08T16:13:24.7288819Z",
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "nextest": "cargo-nextest 0.9.150 (d225b1daf 2026-10-26)\r\nrelease: 0.9.150\r\ncommit-hash: d225b1daf362c1ca8e5e048132618c1a81c57a28\r\ncommit-date: 2026-10-26\r\nhost: x86_64-pc-windows-msvc",
+  "python": "Python 3.13.16",
+  "python_packages": "pytest=9.0.3, xdist=3.8.0",
+  "native": {
+    "started_utc": "2026-11-08T16:13:17.4058744Z",
+    "exit_code": 100,
+    "finished_utc": "2026-11-08T16:13:21.1935861Z"
+  },
+  "reference": {
+    "started_utc": "2026-11-08T16:13:21.1936616Z",
+    "exit_code": 1,
+    "finished_utc": "2026-11-08T16:13:24.7130553Z"
+  },
+  "source_and_probe_sha256": {
+    "native/src/regenerator.rs": "daac172fc760d79848b7d24ef7a5e28f7e4913675c156de9c23e3feb5d19266d",
+    "native/src/recording.rs": "c89bdce80afed9a2d522c8066826d3e04ea85c1fd0e1d919791819c051ee16e1",
+    "native/src/surface.rs": "91eea035f0a876db332e9e6df18586071928689d70e5ddb972d40b9c0ca30db8",
+    "native/src/measures.rs": "d0b45283729d88d9505ae156d41c7b78df1ccad98edba582f4e598a49033492e",
+    "native/src/receipt.rs": "07ca1ef876b5d0930edfba72ecc00430cfebe59be53166d380afc51c206927ae",
+    "native/src/jsonval.rs": "560823d5baaf922d1e39bf3c1eae13db992ae14e46a47d907c97f9be9a5e0497",
+    "native/Cargo.toml": "a209c8cfcc949186adc18bbec8e695afa17c2bd056655fa82606d17d49a2ef2d",
+    "native/Cargo.lock": "03e417b2f9d9488ae1b4aaa1f930348e903642f3d747ca25eac6ab7642c60bdc",
+    "src/lesscode_baseline/regenerator.py": "64f2fd1a9b2d781b3bc9bc309dbdc35c3bd0d973b9e6f2b53f77d49f3781cd6f",
+    "src/lesscode_baseline/surface.py": "a215ce9640cd554c4d747af2fc08c378837cb7ecc4647720daa3fe4e2ea0281f",
+    "src/lesscode_baseline/measures.py": "1a00beb951acca074506bdadddca5603964d59f4bdfa30185c4f13746a0fd7a1",
+    "docs/experiments/deconvolution/refinement-correctness/probe.rs": "13bea32b2870155a8456dbc213baf88754d58a780e1d148ef3f756f9494b970e",
+    "docs/experiments/deconvolution/refinement-correctness/test_reference.py": "5360832fc59218cecabba3d14024c738e1c31b14d655cdc316bfe69f3573973c",
+    "docs/experiments/deconvolution/refinement-correctness/run.ps1": "1163016aa5133c0564f2391d779d1f74b17102316be24c49a51edc32f0cdda60",
+    "docs/experiments/deconvolution/e3-evidence-regeneration/results/sql-divergences-round21.json": "381f77e6fe48fe408f2ff503fc267abc731f6ccfb3e781990e75d2dcc90e5561",
+    "docs/experiments/deconvolution/e4-lifecycle/results/sql-divergences-round21.json": "1976a224940737128ef25f982844364165e315943b92107b06a1312104f75d37",
+    "src/lesscode_baseline/rules/evaluate.py": "e77e7e9ea70a9899a4f1646c40ae72a16e954bf34c8e42cf9196bc85cec165eb",
+    "tests/test_rule_evaluation.py": "07a5a70b614c27137b9759c3c59f2a2178add9643540d278cc2b2a8e8bd9223c"
+  },
+  "changed_during_run": [],
+  "resolved_lock_sha256": "2ce1eb4385a024e69b3f292ed6fb17ec19a79c09d95a249f94d3522dcfba4b67",
+  "native_log_sha256": "11f14faa99e9d2c16906a1eb9f54fe49c1ecb380f755be6f7d15235b87b90f94",
+  "reference_log_sha256": "2738e05505b153ef8c185aa60b0881831b9c200e8392469c8b2588df5ac7f979"
+}

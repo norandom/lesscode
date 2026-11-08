@@ -1,0 +1,19 @@
+{
+  "checks": {
+    "all_recorded_source_probe_and_wip_hashes_unchanged": true,
+    "native_log_hash": true,
+    "reference_log_hash": true,
+    "probe_lock_hash": true,
+    "native_locked_packages_unchanged": true,
+    "approval_states_unchanged_false_for_correction": true,
+    "six_numeric_requirements": true,
+    "34_testable_ears_criteria": true,
+    "new_document_links_resolve": true,
+    "rust-u5-gate.json_sidecar": true,
+    "rust-u5-gate-r37.json_sidecar": true,
+    "production_modules_unchanged_from_head": true
+  },
+  "broken_links": [],
+  "all_pass": true,
+  "scope": "document/evidence integrity only; R39 behavior assertions remain failing"
+}

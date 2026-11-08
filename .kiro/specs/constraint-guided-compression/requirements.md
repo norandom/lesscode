@@ -1,5 +1,15 @@
 # Requirements Document
 
+## Correctness finding, 2026-11-08 (R39)
+
+[R39](../../../docs/research/2026-11-08/06-refinement-correctness.md) reproduces
+violations of the intended candidate/evidence, feedback, obligation and outcome
+contracts despite passing existing regenerator suites. The
+[corrective spec](../refinement-evidence-integrity/requirements.md) and
+[adjusted concept](../refinement-evidence-integrity/concept.md) are pending review.
+Requirements 4.2-4.6, 5.5-5.8, 6.3-6.7 and 7.11 govern the correction. This notice
+does not approve new phases, alter R38's cap or schedule Slice B adoption.
+
 ## Introduction
 
 **Amendment, 2026-11-07 ([R33](../../../docs/research/2026-11-07/07-dspy-probabilistic-turn-refinement-design.md)):**

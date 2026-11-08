@@ -1,6 +1,19 @@
 # Research log
 
-## Latest: R38 U5 ceiling amendment — owner chose amend (2026-11-08)
+## Latest: R39 confirms refinement correctness defects; corrective concept proposed (2026-11-08)
+
+[R39](2026-11-08/06-refinement-correctness.md) reproduces wrong-candidate
+delivery, lost runtime feedback, erroneous obligation discharge, false oracle
+passes after failure/timeout, and unsupported validity/compression outcomes.
+Existing regenerator suites pass (Rust 45/45, Python 59/59), while new probes
+fail (Rust 8 failures plus one positive control pass, Python 5 failures).
+The [corrective requirements](../../.kiro/specs/refinement-evidence-integrity/requirements.md)
+and [adjusted concept](../../.kiro/specs/refinement-evidence-integrity/concept.md)
+propose independent verifier tests and bounded recovery. No production fix,
+phase approval or adoption is claimed; affected correctness interpretations
+require revalidation. Frozen R36/R37 receipts and R38 accounting are unchanged.
+
+## Prior: R38 U5 ceiling amendment — owner chose amend (2026-11-08)
 [R38](2026-11-08/05-u5-ceiling-amendment.md) records the owner disposition on
 the R37 negative (option (a) of the preregistered outcome rule; instruction:
 "proceed with the amended ceiling"): **the Rust-substrate U5 ceiling is
