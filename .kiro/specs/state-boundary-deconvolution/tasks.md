@@ -22,7 +22,7 @@
     - _Boundary: StreamMonitor_
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 2. Core: pure core formal equivalence and adverse state mutation generator
+- [x] 2. Core: pure core formal equivalence and adverse state mutation generator
   - [x] 2.1 Static purity verification for functional core
     - Implement static purity verification in `src/lesscode_baseline/state_boundary/pure_verifier.py` to ensure core functions have 0 state writes, 0 global lookups, and 0 external I/O invocations.
     - Done when any side-effect attempt or global state lookup inside a core function triggers a static purity rejection.
@@ -34,7 +34,7 @@
     - Done when input/output discrepancies between original and candidate pure logic produce a structured counterexample witness.
     - _Boundary: PureVerifier_
     - _Requirements: 2.2, 2.3, 2.4_
-  - [ ] 2.3 Targeted adverse state mutation injector
+  - [x] 2.3 Targeted adverse state mutation injector
     - Implement mutation generator in `src/lesscode_baseline/state_boundary/mutant_generator.py` targeting exception handlers (dropping failure state), output buffers (dropping flush), and error-evaluation order.
     - Classify execution outcomes into behavioral mutant kills, compilation errors, timeouts, and equivalent mutations.
     - Done when planted state-boundary mutants are generated and categorized with explicit target anchors.

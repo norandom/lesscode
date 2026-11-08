@@ -422,6 +422,87 @@ def test_bounded_equivalence_minimizes_integer_counterexample():
     assert witness.candidate_output == 10
 
 
+def test_generate_state_mutants_targets_exception_and_flush():
+    from lesscode_baseline.state_boundary.mutant_generator import (
+        StateMutationKind,
+        generate_state_mutants,
+    )
+
+    code = """
+def run_job(self, task):
+    try:
+        sys.stdout.write("processing")
+        sys.stdout.flush()
+        execute_task(task)
+    except Exception as ex:
+        self.audit_log.append(f"failed:{ex}")
+        raise
+"""
+    mutants = generate_state_mutants(code, target_file="job.py")
+    assert len(mutants) >= 2
+    kinds = {m.mutation_kind for m in mutants}
+    assert StateMutationKind.DROP_FAILURE_STATE in kinds
+    assert StateMutationKind.BUFFER_TRUNCATION in kinds
+
+
+def test_generate_state_mutants_swaps_error_order():
+    from lesscode_baseline.state_boundary.mutant_generator import (
+        StateMutationKind,
+        generate_state_mutants,
+    )
+
+    code = """
+def validate_and_run(token, payload):
+    if not token:
+        raise ValueError("missing token")
+    if not payload:
+        raise ValueError("missing payload")
+    return True
+"""
+    mutants = generate_state_mutants(code, target_file="val.py")
+    assert any(m.mutation_kind == StateMutationKind.ERROR_ORDER_SWAP for m in mutants)
+
+
+def test_evaluate_mutant_classifies_outcomes():
+    from lesscode_baseline.state_boundary.mutant_generator import (
+        MutationOutcome,
+        StateMutant,
+        StateMutationKind,
+        evaluate_mutant,
+    )
+
+    mutant = StateMutant(
+        mutant_id="mut_001",
+        target_node="audit_log",
+        mutation_kind=StateMutationKind.DROP_FAILURE_STATE,
+        original_code="audit_log.append('err')",
+        mutated_code="pass",
+        line=10,
+    )
+
+    # 1. Test runner catches mutation -> KILLED
+    res_kill = evaluate_mutant(mutant, test_runner=lambda code: (False, "test_failure_audit"))
+    assert res_kill.outcome == MutationOutcome.KILLED
+    assert res_kill.killer_test == "test_failure_audit"
+
+    # 2. Test runner passes -> SURVIVED
+    res_surv = evaluate_mutant(mutant, test_runner=lambda code: (True, None))
+    assert res_surv.outcome == MutationOutcome.SURVIVED
+
+    # 3. Syntax error -> SYNTAX_ERROR
+    mut_syntax = StateMutant(
+        mutant_id="mut_bad",
+        target_node="bad",
+        mutation_kind=StateMutationKind.DROP_FAILURE_STATE,
+        original_code="x = 1",
+        mutated_code="def broken( :",
+        line=1,
+    )
+    res_err = evaluate_mutant(mut_syntax, test_runner=lambda code: (True, None))
+    assert res_err.outcome == MutationOutcome.SYNTAX_ERROR
+
+
+
 
 
 
