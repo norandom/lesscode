@@ -64,7 +64,7 @@
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
 - [ ] 4. Validation: prototype feasibility gate and qualification battery
-  - [ ] 4.1 Adversarial state-boundary unit and integration test suite
+  - [x] 4.1 Adversarial state-boundary unit and integration test suite
     - Implement `tests/test_state_boundary.py` covering frame condition leaks, failure-side state omissions, truncated output streams, and surviving mutant rejections.
     - Done when the test suite passes offline with 100% detection of simulated state-boundary defects.
     - _Boundary: FrameChecker, StreamMonitor, StateMutantHarness_
