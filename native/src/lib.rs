@@ -12,6 +12,7 @@ pub mod metrics;
 pub mod model;
 pub mod receipt;
 pub mod scope;
+pub mod surface;
 
 use model::*;
 use sha2::{Digest, Sha256};

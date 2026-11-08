@@ -27,20 +27,20 @@
   },
   {
    "path": "lib.rs",
-   "max_physical_lines": 587,
-   "max_logical_units": 180,
+   "max_physical_lines": 588,
+   "max_logical_units": 181,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2)",
-   "disposition": "keep-measured-ceiling; +2 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2)",
+   "disposition": "keep-measured-ceiling; +3 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
    "path": "main.rs",
-   "max_physical_lines": 251,
+   "max_physical_lines": 257,
    "max_logical_units": 82,
-   "max_fn_lines": 63,
+   "max_fn_lines": 64,
    "owner": "capability-compression-core",
-   "allocation": "Budgets subcommand arm complete (+12 of the +25 design allowance)",
+   "allocation": "Budgets subcommand arm complete (+12 of the +25 design allowance); Surface subcommand arm (+6, task 8.2)",
    "disposition": "keep-measured-ceiling; blob 4e41a2aeb11a9228629d2722fabb7f1227f21894"
   },
   {
@@ -63,9 +63,9 @@
   },
   {
    "path": "receipt.rs",
-   "max_physical_lines": 150,
+   "max_physical_lines": 162,
    "owner": "deconvolution-native-core",
-   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430",
+   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers for the surface seam (task 8.2)",
    "disposition": null
   },
   {
@@ -76,6 +76,15 @@
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob 295533fe3c89b27d8099d3072f1907224a762109"
+  },
+  {
+   "path": "surface.rs",
+   "max_physical_lines": 1152,
+   "max_logical_units": 399,
+   "max_fn_lines": 207,
+   "owner": "constraint-guided-compression",
+   "allocation": "Contract-B surface derivation port onto ast-grep tree-sitter-python (task 8.2, R36); measured at freeze",
+   "disposition": null
   }
  ]
 }

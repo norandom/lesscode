@@ -30,6 +30,10 @@ impl J {
     pub fn obj(pairs: Vec<(&str, J)>) -> J {
         J::Obj(pairs.into_iter().map(|(k, v)| (k.to_string(), v)).collect())
     }
+
+    pub fn arr(items: Vec<J>) -> J {
+        J::Arr(items)
+    }
 }
 
 const HEX: &[u8; 16] = b"0123456789abcdef";
@@ -134,6 +138,14 @@ fn write_value(value: &J, depth: usize, out: &mut String) {
 
 /// Writes the receipt with LF endings plus its `.sha256` sidecar (sha256sum
 /// format, digest over the bytes as stored).
+/// Render a value with the `json.dumps(value, indent=1)`-compatible writer
+/// (stdout use; receipts use `write_receipt`).
+pub fn dumps(value: &J) -> String {
+    let mut out = String::new();
+    write_value(value, 0, &mut out);
+    out
+}
+
 pub fn write_receipt(path: &Path, value: &J) -> io::Result<()> {
     let mut body = String::new();
     write_value(value, 0, &mut body);

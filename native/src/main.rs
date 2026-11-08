@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use lesscode_core::{admission, budgets, compare::render_comparison, model::*};
+use lesscode_core::{admission, budgets, compare::render_comparison, model::*, surface};
 use serde::de::DeserializeOwned;
 use std::{
     fs,
@@ -64,6 +64,11 @@ enum Command {
         root: PathBuf,
         #[arg(long)]
         out: PathBuf,
+    },
+    /// Contract-B surface derivation and candidate verification (task 8.2).
+    Surface {
+        #[command(subcommand)]
+        cmd: surface::SurfaceCommand,
     },
 }
 fn read_json<T: DeserializeOwned>(path: &Path) -> Result<T, String> {
@@ -230,6 +235,7 @@ fn run(args: Args) -> Result<u8, String> {
         Command::Budgets { config, root, out } => {
             budgets::cli_run(&root, &config, &out).map_err(|e| e.to_string())
         }
+        Command::Surface { cmd } => surface::cli_run(cmd).map_err(|e| e.to_string()),
     }
 }
 fn main() -> ExitCode {
