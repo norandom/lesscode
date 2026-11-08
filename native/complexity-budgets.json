@@ -27,12 +27,12 @@
   },
   {
    "path": "lib.rs",
-   "max_physical_lines": 591,
-   "max_logical_units": 184,
+   "max_physical_lines": 592,
+   "max_logical_units": 185,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic)",
-   "disposition": "keep-measured-ceiling; +4 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split)",
+   "disposition": "keep-measured-ceiling; +5 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
    "path": "main.rs",
@@ -72,11 +72,20 @@
   },
   {
    "path": "receipt.rs",
-   "max_physical_lines": 176,
+   "max_physical_lines": 147,
    "max_logical_units": 84,
    "max_fn_lines": 57,
    "owner": "deconvolution-native-core",
-   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); write_json_str pub(crate) for the recording golden writer, zero new lines (task 8.4); measured at each freeze",
+   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); write_json_str pub(crate) for the recording golden writer, zero new lines (task 8.4); task-9.3 defect-7 split: J value type extracted to jsonval.rs (R37), retained module re-measured at split",
+   "disposition": null
+  },
+  {
+   "path": "jsonval.rs",
+   "max_physical_lines": 37,
+   "max_logical_units": 11,
+   "max_fn_lines": 3,
+   "owner": "constraint-guided-compression",
+   "allocation": "Receipt-domain JSON value type extracted from receipt.rs in the defect-7 split (task 9.3, R37); counted module (R37 rule); measured at split",
    "disposition": null
   },
   {

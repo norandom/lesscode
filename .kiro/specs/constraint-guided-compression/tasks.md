@@ -387,7 +387,7 @@ and start only on the owner's explicit answer. Frozen apparatus
       links, appended to the R37 entry.
     - _Depends: 9.1_
     - _Requirements: 8.1, 8.2, 8.4_
-  - [ ] 9.3 Defect 7 resolution: split `receipt.rs` under the R30 ceiling
+  - [x] 9.3 Defect 7 resolution: split `receipt.rs` under the R30 ceiling
     - Split `receipt.rs` (measured 176/178 > 150) so the retained module is
       ≤ 150 canonical lines and every extracted module is honestly registered
       in `native/complexity-budgets.json` with measured ceilings and counted
