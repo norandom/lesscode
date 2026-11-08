@@ -1,4 +1,10 @@
 """State boundary verification package."""
+from .density import (
+    DeconvolutionOutcome,
+    ScopeMetrics,
+    evaluate_deconvolution_outcome,
+    measure_scope_source,
+)
 from .frame import (
     StateFrame,
     StateViolation,
@@ -39,6 +45,10 @@ __all__ = [
     "StateViolationType",
     "check_static_frame",
     "verify_dynamic_state",
+    "ScopeMetrics",
+    "DeconvolutionOutcome",
+    "measure_scope_source",
+    "evaluate_deconvolution_outcome",
     "StateMutationKind",
     "MutationOutcome",
     "StateMutant",

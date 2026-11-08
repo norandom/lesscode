@@ -591,6 +591,113 @@ def test_obligation_bridge_injects_state_witness_and_retains_unresolved():
     assert "secret_unauthorized" in fb["first_divergence"]
 
 
+def test_density_scorer_measures_functions_edges_writes_statements():
+    from lesscode_baseline.state_boundary.density import (
+        measure_scope_source,
+    )
+
+    code = """
+GLOBAL_V = 0
+
+def step_one(x):
+    return x * 2
+
+def step_two(y):
+    val = step_one(y)
+    return val + 1
+
+def shell_action(self, z):
+    self.log = step_two(z)
+    GLOBAL_V = 1
+"""
+    metrics = measure_scope_source(code, pure_functions={"step_one", "step_two"}, shell_functions={"shell_action"})
+    assert metrics.function_count == 3
+    assert metrics.pure_functions == 2
+    assert metrics.pure_function_pct == pytest.approx(66.67, rel=1e-2)
+    assert metrics.call_edge_count >= 2  # step_two calls step_one; shell_action calls step_two
+    assert metrics.write_site_count >= 2  # self.log and GLOBAL_V
+
+
+def test_density_gate_distinguishes_consolidation_from_compression():
+    """Simulates E4 Density Trap: function reduction (-40%) without statement reduction (-2%)."""
+    from lesscode_baseline.state_boundary.density import (
+        ScopeMetrics,
+        evaluate_deconvolution_outcome,
+    )
+
+    baseline = ScopeMetrics(
+        function_count=10,
+        call_edge_count=30,
+        write_site_count=12,
+        ast_statements=100,
+        canonical_lines=150,
+        pure_functions=2,
+    )
+
+    # Candidate consolidated 4 functions and 15 call edges, but only shaved 2 statements and 5 lines
+    candidate = ScopeMetrics(
+        function_count=6,
+        call_edge_count=15,
+        write_site_count=8,
+        ast_statements=98,
+        canonical_lines=145,
+        pure_functions=4,
+    )
+
+    outcome = evaluate_deconvolution_outcome(
+        baseline,
+        candidate,
+        min_statement_reduction_pct=20.0,
+        min_line_reduction_pct=20.0,
+    )
+
+    assert outcome.function_reduction_pct == 40.0
+    assert outcome.call_edge_reduction_pct == 50.0
+    assert outcome.statement_reduction_pct == 2.0
+    assert outcome.canonical_line_reduction_pct == pytest.approx(3.33, rel=1e-2)
+    assert outcome.structurally_consolidated is True
+    assert outcome.compression_met is False  # Density trap caught!
+    assert "Density trap" in outcome.disposition_note
+
+
+def test_density_gate_grants_compression_when_statements_and_lines_reduced():
+    from lesscode_baseline.state_boundary.density import (
+        ScopeMetrics,
+        evaluate_deconvolution_outcome,
+    )
+
+    baseline = ScopeMetrics(
+        function_count=10,
+        call_edge_count=30,
+        write_site_count=12,
+        ast_statements=100,
+        canonical_lines=150,
+        pure_functions=2,
+    )
+
+    candidate = ScopeMetrics(
+        function_count=6,
+        call_edge_count=15,
+        write_site_count=6,
+        ast_statements=70,
+        canonical_lines=100,
+        pure_functions=5,
+    )
+
+    outcome = evaluate_deconvolution_outcome(
+        baseline,
+        candidate,
+        min_statement_reduction_pct=20.0,
+        min_line_reduction_pct=20.0,
+    )
+
+    assert outcome.structurally_consolidated is True
+    assert outcome.statement_reduction_pct == 30.0
+    assert outcome.canonical_line_reduction_pct == pytest.approx(33.33, rel=1e-2)
+    assert outcome.compression_met is True
+
+
+
 
 
 

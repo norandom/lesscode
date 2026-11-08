@@ -41,7 +41,7 @@
     - _Boundary: StateMutantHarness_
     - _Requirements: 3.1, 3.4_
 
-- [ ] 3. Integration: mutation sensitivity gates, causal refinement bridge, and density defense
+- [x] 3. Integration: mutation sensitivity gates, causal refinement bridge, and density defense
   - [x] 3.1 Adverse state mutation sensitivity gate
     - Wire mutant evaluation into the verification gate, requiring candidate test batteries to kill 100% of non-equivalent planted mutants.
     - Enforce mandatory kills for exception-side state mutations and buffer flushes before granting verification qualification.
@@ -56,7 +56,7 @@
     - _Boundary: ObligationBridge_
     - _Depends: 1.2, 1.3, 2.2_
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
-  - [ ] 3.3 (P) Whole-responsibility density scorer and outcome gate
+  - [x] 3.3 (P) Whole-responsibility density scorer and outcome gate
     - Implement scope-wide measurement in `src/lesscode_baseline/state_boundary/density.py` and `native/src/state_contract.rs` measuring functions, call edges, write sites, AST statements, and canonical lines across the containing scope.
     - Explicitly distinguish `structurally_consolidated` from `compression_met`, preventing function consolidation without net statement/line reduction from claiming compression.
     - Done when candidate reports separate structural de-fragmentation from net compression, failing `compression_met` if statements merely compacted into denser functions.

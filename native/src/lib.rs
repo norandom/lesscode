@@ -16,8 +16,8 @@ pub mod receipt;
 pub mod recording;
 pub mod regenerator;
 pub mod scope;
+pub mod state_contract;
 pub mod surface;
-
 use model::*;
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
