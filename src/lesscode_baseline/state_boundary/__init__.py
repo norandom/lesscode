@@ -7,9 +7,12 @@ from .frame import (
     verify_dynamic_state,
 )
 from .pure_verifier import (
+    InputDomainBounds,
+    PureDivergenceWitness,
     PurityViolation,
     PurityViolationType,
     check_static_purity,
+    verify_bounded_equivalence,
 )
 from .stream_monitor import (
     StreamCapture,
@@ -29,6 +32,9 @@ __all__ = [
     "PurityViolation",
     "PurityViolationType",
     "check_static_purity",
+    "InputDomainBounds",
+    "PureDivergenceWitness",
+    "verify_bounded_equivalence",
     "StreamCapture",
     "StreamContract",
     "StreamDivergence",

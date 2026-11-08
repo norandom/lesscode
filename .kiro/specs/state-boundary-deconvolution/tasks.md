@@ -28,7 +28,7 @@
     - Done when any side-effect attempt or global state lookup inside a core function triggers a static purity rejection.
     - _Boundary: PureVerifier_
     - _Requirements: 2.1, 2.5_
-  - [ ] 2.2 (P) Bounded semantic equivalence checking and counterexample generation
+  - [x] 2.2 (P) Bounded semantic equivalence checking and counterexample generation
     - Implement bounded property-based exploration in `src/lesscode_baseline/state_boundary/pure_verifier.py` comparing candidate pure core functions against original un-deconvoluted functions over bounded input domains.
     - Ensure both valid and out-of-domain input combinations are evaluated, automatically emitting minimal reproducible counterexamples upon output divergence.
     - Done when input/output discrepancies between original and candidate pure logic produce a structured counterexample witness.

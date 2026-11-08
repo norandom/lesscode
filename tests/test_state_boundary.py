@@ -320,4 +320,108 @@ def bad_core_with_io(x):
     assert any(v.violation_type == PurityViolationType.IO_INVOCATION for v in violations)
 
 
+def test_bounded_equivalence_passes_on_equivalent_pure_core():
+    from lesscode_baseline.state_boundary.pure_verifier import (
+        InputDomainBounds,
+        verify_bounded_equivalence,
+    )
+
+    def orig(x: int, y: int) -> int:
+        if x < 0:
+            return 0
+        return x + y * 2
+
+    def candidate(x: int, y: int) -> int:
+        return 0 if x < 0 else x + 2 * y
+
+    bounds = InputDomainBounds(
+        ranges={"x": (-10, 10), "y": (-10, 10)},
+        edge_cases={"x": [0, -1, 1, -10, 10], "y": [0, -1, 1, -10, 10]},
+    )
+    witness = verify_bounded_equivalence(orig, candidate, domain_bounds=bounds)
+    assert witness is None
+
+
+def test_bounded_equivalence_finds_divergence_and_counterexample():
+    from lesscode_baseline.state_boundary.pure_verifier import (
+        InputDomainBounds,
+        verify_bounded_equivalence,
+    )
+
+    def orig(x: int) -> int:
+        # returns 42 when x == 0
+        if x == 0:
+            return 42
+        return x * 2
+
+    def candidate(x: int) -> int:
+        # bug: missed x == 0 special case
+        return x * 2
+
+    bounds = InputDomainBounds(
+        ranges={"x": (-5, 5)},
+        edge_cases={"x": [0, 1, -1]},
+    )
+    witness = verify_bounded_equivalence(orig, candidate, domain_bounds=bounds)
+    assert witness is not None
+    assert witness.inputs == {"x": 0}
+    assert witness.original_output == 42
+    assert witness.candidate_output == 0
+    assert "PureCoreDivergence" in witness.to_obligation_string()
+
+
+def test_bounded_equivalence_catches_exception_divergence_on_out_of_domain():
+    from lesscode_baseline.state_boundary.pure_verifier import (
+        InputDomainBounds,
+        verify_bounded_equivalence,
+    )
+
+    def orig(x: int) -> int:
+        if x < 0:
+            raise ValueError("negative not allowed")
+        return x * 2
+
+    def candidate(x: int) -> int:
+        if x < 0:
+            return 0  # silently returns 0 instead of raising ValueError
+        return x * 2
+
+    bounds = InputDomainBounds(
+        ranges={"x": (-5, 5)},
+        edge_cases={"x": [-1, 0, 1]},
+    )
+    witness = verify_bounded_equivalence(orig, candidate, domain_bounds=bounds)
+    assert witness is not None
+    assert witness.divergence_kind in ("exception_mismatch", "unhandled_exception")
+    assert witness.inputs["x"] < 0
+
+
+def test_bounded_equivalence_minimizes_integer_counterexample():
+    from lesscode_baseline.state_boundary.pure_verifier import (
+        InputDomainBounds,
+        verify_bounded_equivalence,
+    )
+
+    def orig(x: int) -> int:
+        if x >= 10:
+            return 999
+        return x
+
+    def candidate(x: int) -> int:
+        # candidate bug: never returns 999
+        return x
+
+    bounds = InputDomainBounds(
+        ranges={"x": (0, 100)},
+        edge_cases={"x": [100]},
+    )
+    witness = verify_bounded_equivalence(orig, candidate, domain_bounds=bounds)
+    assert witness is not None
+    assert witness.inputs == {"x": 10}
+    assert witness.original_output == 999
+    assert witness.candidate_output == 10
+
+
+
+
 

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import ast
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Optional, Set
 
@@ -234,3 +234,202 @@ def check_static_purity(
     visitor = StaticPurityVisitor(core_functions, allowed_builtins=allowed_builtins)
     visitor.visit(tree)
     return visitor.violations
+
+
+@dataclass
+class InputDomainBounds:
+    ranges: dict[str, tuple[int | float, int | float]] = field(default_factory=dict)
+    edge_cases: dict[str, list[Any]] = field(default_factory=dict)
+    custom_samples: list[dict[str, Any]] = field(default_factory=list)
+
+
+@dataclass
+class PureDivergenceWitness:
+    function_name: str
+    inputs: dict[str, Any]
+    original_output: Any
+    candidate_output: Any
+    divergence_kind: str  # "value_mismatch" | "exception_mismatch" | "unhandled_exception"
+    witness: str
+
+    def to_obligation_string(self) -> str:
+        return f"PureCoreDivergence:{self.function_name}:{self.inputs}:{self.divergence_kind}:{self.witness}"
+
+
+def _safe_call(fn: Any, kwargs: dict[str, Any]) -> tuple[Any, Optional[Exception]]:
+    try:
+        return fn(**kwargs), None
+    except Exception as ex:
+        return None, ex
+
+
+def _is_divergent(original_fn: Any, candidate_fn: Any, kw: dict[str, Any]) -> bool:
+    orig_res, orig_exc = _safe_call(original_fn, kw)
+    cand_res, cand_exc = _safe_call(candidate_fn, kw)
+    if (orig_exc is None) != (cand_exc is None):
+        return True
+    if orig_exc is not None and cand_exc is not None:
+        return type(orig_exc) is not type(cand_exc)
+    return orig_res != cand_res
+
+
+def _minimize_counterexample(
+    original_fn: Any,
+    candidate_fn: Any,
+    kw: dict[str, Any],
+) -> dict[str, Any]:
+    """Shrinks counterexample inputs to minimal reproducible bounds."""
+    minimized = dict(kw)
+    for p, val in kw.items():
+        if isinstance(val, int) and val != 0:
+            trial = dict(minimized, **{p: 0})
+            if _is_divergent(original_fn, candidate_fn, trial):
+                minimized[p] = 0
+                continue
+            low = 0 if val > 0 else val
+            high = val if val > 0 else 0
+            best = val
+            while abs(high - low) > 1:
+                mid = (low + high) // 2
+                trial = dict(minimized, **{p: mid})
+                if _is_divergent(original_fn, candidate_fn, trial):
+                    best = mid
+                    if val > 0:
+                        high = mid
+                    else:
+                        low = mid
+                else:
+                    if val > 0:
+                        low = mid
+                    else:
+                        high = mid
+            minimized[p] = best
+        elif isinstance(val, str) and len(val) > 1:
+            trial = dict(minimized, **{p: ""})
+            if _is_divergent(original_fn, candidate_fn, trial):
+                minimized[p] = ""
+                continue
+            for length in range(1, len(val)):
+                trial = dict(minimized, **{p: val[:length]})
+                if _is_divergent(original_fn, candidate_fn, trial):
+                    minimized[p] = val[:length]
+                    break
+        elif isinstance(val, list) and len(val) > 1:
+            trial = dict(minimized, **{p: []})
+            if _is_divergent(original_fn, candidate_fn, trial):
+                minimized[p] = []
+                continue
+            for length in range(1, len(val)):
+                trial = dict(minimized, **{p: val[:length]})
+                if _is_divergent(original_fn, candidate_fn, trial):
+                    minimized[p] = val[:length]
+                    break
+    return minimized
+
+
+def verify_bounded_equivalence(
+    original_fn: Any,
+    candidate_fn: Any,
+    domain_bounds: Optional[InputDomainBounds] = None,
+    sample_depth: int = 50,
+) -> Optional[PureDivergenceWitness]:
+    """Compares candidate pure logic against original function over bounded inputs, returning minimal divergence witness."""
+    import inspect
+    import itertools
+
+    if domain_bounds is None:
+        domain_bounds = InputDomainBounds()
+
+    sig = inspect.signature(original_fn)
+    param_names = list(sig.parameters.keys())
+    fn_name = getattr(candidate_fn, "__name__", getattr(original_fn, "__name__", "pure_core"))
+
+    input_candidates: list[dict[str, Any]] = []
+
+    # 1. Add custom samples
+    if domain_bounds.custom_samples:
+        input_candidates.extend(domain_bounds.custom_samples)
+
+    # 2. Add edge case combinations
+    edge_cases_by_param: dict[str, list[Any]] = {}
+    for p in param_names:
+        if p in domain_bounds.edge_cases:
+            edge_cases_by_param[p] = domain_bounds.edge_cases[p]
+        else:
+            edge_cases_by_param[p] = [0, 1, -1, "", None]
+
+    # Generate edge combinations
+    edge_keys = [p for p in param_names if p in edge_cases_by_param]
+    if edge_keys:
+        val_lists = [edge_cases_by_param[k] for k in edge_keys]
+        for combo in itertools.product(*val_lists):
+            kw = dict(zip(edge_keys, combo))
+            if kw not in input_candidates:
+                input_candidates.append(kw)
+
+    # 3. Add range-bounded samples
+    range_params = [p for p in param_names if p in domain_bounds.ranges]
+    if range_params:
+        for p in range_params:
+            low, high = domain_bounds.ranges[p]
+            step = max(1, int((high - low) / max(1, sample_depth)))
+            for v in range(int(low), int(high) + 1, step):
+                kw = {p: v}
+                for other in param_names:
+                    if other != p and other not in kw:
+                        kw[other] = edge_cases_by_param.get(other, [0])[0]
+                if kw not in input_candidates:
+                    input_candidates.append(kw)
+
+    # Evaluate each input candidate
+    for raw_kw in input_candidates:
+        if _is_divergent(original_fn, candidate_fn, raw_kw):
+            kw = _minimize_counterexample(original_fn, candidate_fn, raw_kw)
+            orig_res, orig_exc = _safe_call(original_fn, kw)
+            cand_res, cand_exc = _safe_call(candidate_fn, kw)
+
+            if orig_exc is None and cand_exc is not None:
+                return PureDivergenceWitness(
+                    function_name=fn_name,
+                    inputs=kw,
+                    original_output=orig_res,
+                    candidate_output=f"{type(cand_exc).__name__}: {cand_exc}",
+                    divergence_kind="unhandled_exception",
+                    witness=f"Candidate raised unexpected {type(cand_exc).__name__}: {cand_exc}",
+                )
+
+            if orig_exc is not None and cand_exc is None:
+                return PureDivergenceWitness(
+                    function_name=fn_name,
+                    inputs=kw,
+                    original_output=f"{type(orig_exc).__name__}: {orig_exc}",
+                    candidate_output=cand_res,
+                    divergence_kind="exception_mismatch",
+                    witness=f"Original raised {type(orig_exc).__name__} but candidate succeeded with {cand_res}",
+                )
+
+            if orig_exc is not None and cand_exc is not None:
+                if type(orig_exc) is not type(cand_exc):
+                    return PureDivergenceWitness(
+                        function_name=fn_name,
+                        inputs=kw,
+                        original_output=f"{type(orig_exc).__name__}: {orig_exc}",
+                        candidate_output=f"{type(cand_exc).__name__}: {cand_exc}",
+                        divergence_kind="exception_mismatch",
+                        witness=f"Exception type divergence: original raised {type(orig_exc).__name__}, candidate raised {type(cand_exc).__name__}",
+                    )
+
+            if orig_exc is None and cand_exc is None:
+                if orig_res != cand_res:
+                    return PureDivergenceWitness(
+                        function_name=fn_name,
+                        inputs=kw,
+                        original_output=orig_res,
+                        candidate_output=cand_res,
+                        divergence_kind="value_mismatch",
+                        witness=f"Output value divergence on {kw}: original returned {orig_res!r}, candidate returned {cand_res!r}",
+                    )
+
+    return None
+
+
