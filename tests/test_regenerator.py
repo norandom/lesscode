@@ -479,6 +479,38 @@ class TestRunRefineLoop:
         assert all("-a" not in k for k in labels)
         assert calls[1]["params"]["temperature"] == 0.0  # adaptive schedule engaged after the stop
 
+    def test_concise_directive_dispatched_on_transport_retry(self, frozen_tree, request_path):
+        """The score-0.00 concise-output directive must reach the model, not just the schedule."""
+        _, work, req = self._setup(frozen_tree, request_path, {})
+        cand, receipt = work / "cand", work / "receipt.json"
+        script = [
+            RuntimeError("transport down"),                                       # t1 a1: transport -> 0.00
+            (_response_text({"src/mod.py": GOOD_FILE}), {"stop_reason": "end_turn"}),  # t1 a2: recovered
+        ]
+        seen_users, seen_params = [], []
+
+        def call_fn(system, user, params):
+            seen_users.append(user)
+            seen_params.append(dict(params))
+            item = script.pop(0)
+            if isinstance(item[0], Exception):
+                raise item[0]
+            return item
+
+        outcome = rg.run_refine_loop(
+            req, cand, frozen_tree, receipt, "L5", rg.RefineBudget(),
+            runtime_evaluator=lambda r, s: (0, None, {}), call_fn=call_fn,
+        )
+        assert outcome.status == "accepted"
+        directive = seen_params[1]["directive"]
+        assert "directive" not in seen_params[0]
+        assert directive not in seen_users[0]                          # first attempt: no directive yet
+        assert directive in seen_users[1]                              # dispatched in the retry prompt
+        attempts = [a for n in json.loads(receipt.read_text(encoding="utf-8"))["notes"]
+                    for a in n["value"]["attempts"]]
+        assert "directive" not in attempts[0]["preregistered_params"]  # frozen per-attempt view (no aliasing)
+        assert attempts[1]["preregistered_params"]["directive"] == directive
+
     def test_exhaustion_retains_best_trajectory(self, frozen_tree, request_path):
         _, work, req = self._setup(frozen_tree, request_path, {})
         cand, receipt = work / "cand", work / "receipt.json"

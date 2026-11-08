@@ -663,6 +663,11 @@ def run_refine_loop(
                     prepare_candidate(frozen_root, cand_root, req.scope_files)
                 working_req = dataclasses.replace(req, feedback=turn_feedback)
                 system, user = build_prompt(working_req)
+                if attempt_params.get("directive"):
+                    # concise-output recovery reaches the model in the user prompt; API
+                    # adapters consume only base_params keys (dispatch fix, 2026-11-08:
+                    # this directive was previously filtered out and never sent)
+                    user += attempt_params["directive"] + "\n"
                 text, meta = None, {}
                 try:
                     text, meta = call(system, user, attempt_params)
@@ -695,7 +700,8 @@ def run_refine_loop(
                     diagnostics=reward.diagnostics,
                 )
                 attempts.append({
-                    "attempt": attempt, "preregistered_params": attempt_params,
+                    "attempt": attempt,
+                    "preregistered_params": dict(attempt_params),  # frozen per-attempt view; the dict is adapted below (fix, 2026-11-08)
                     "reward": reward.as_receipt_value(), "diagnostics": reward.diagnostics,
                     **{k: meta[k] for k in ("stop_reason", "usage") if k in meta},
                 })
@@ -706,6 +712,10 @@ def run_refine_loop(
                 adaptation = next_rollout_params(reward, attempt - 1)
                 if adaptation:
                     attempt_params.update({k: v for k, v in adaptation.items() if k in base_params})
+                    if adaptation.get("directive"):
+                        # keep the directive beside the API knobs so receipts show what
+                        # was dispatched in-prompt (dispatch fix, 2026-11-08)
+                        attempt_params["directive"] = adaptation["directive"]
                     if adaptation.get("inject_missing_symbols"):
                         turn_feedback["first_divergence"] += " missing: " + ", ".join(adaptation["inject_missing_symbols"])
             if attempts:
