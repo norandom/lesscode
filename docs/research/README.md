@@ -1,6 +1,21 @@
 # Research log
 
-## Latest: Rust-port U5 re-measurement preregistered — task group 8 opened (2026-11-08)
+## Latest: Rust-port U5 re-measurement FAIL as measured — owner disposition open (2026-11-08)
+[R36](2026-11-08/03-rust-port-u5-remeasure.md) executed under task 8.6
+(commit `7657969`; gate record
+[`rust-u5-gate.json`](../experiments/deconvolution/probabilistic-refine/results/rust-u5-gate.json)):
+G1-R items 1/2/3/5 re-discharged **PASS** through the Rust substrate (six
+Tier-1 controls zero-runtime; E4 three-turn replay at the recorded scores
+with frozen digests reproduced; k=2 exhaustion retains best; receipts
+admission-verified), and **U5 = 7,049 canonical lines vs the frozen 2,270
+ceiling — FAIL by 4,779** (new modules 6,382 + re-measured base 452 + shim
+178 + hooks 16 + 21). The smaller-replaceable-representation hypothesis is
+falsified on the target substrate (port ≈ 2.9× the Python stage-1 canonical);
+no target weakened, negative retained; Slice B stays withheld (`Req 7.10`);
+slim/amend returns to the owner. Task group 8 closed — handover at
+[.kiro/task_8_handover.md](../../.kiro/task_8_handover.md).
+
+## Prior: Rust-port U5 re-measurement preregistered — task group 8 opened (2026-11-08)
 [R36](2026-11-08/03-rust-port-u5-remeasure.md) freezes the re-measurement
 accounting before any port code exists: counted set = ported
 `native/src/{surface,measures,recording,regenerator}.rs` + re-measured

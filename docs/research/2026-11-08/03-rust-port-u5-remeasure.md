@@ -1,9 +1,11 @@
 # R36: Rust-port U5 re-measurement — preregistration (task group 8)
 
 - Report date/time and timezone: 2026-11-08, ~08:50Z (preregistration; no
-  execution yet)
-- Execution interval: not run — preregistration precedes all port code
-- Status: planned (preregistered; results amend below with dated entries)
+  execution yet); amendment 2 executed 2026-11-08 ~13:50Z
+- Execution interval: port built 2026-11-08 (commits `7bb9653`…`bc9f34c`);
+  gate measured 2026-11-08 at `7657969`
+- Status: executed — measured FAIL (7,049 vs 2,270 canonical lines); items
+  1/2/3/5 PASS; results in amendment 2 below
 - Spec: [constraint-guided-compression](../../../.kiro/specs/constraint-guided-compression/requirements.md)
   `Req 7.8`, `7.10`; gate frozen as the
   [Rust-port U5 re-measurement preregistration amendment](../../../.kiro/specs/constraint-guided-compression/prototype-gate.md);
@@ -92,10 +94,54 @@ apparatus-accounting defect (class: unreceipted frozen constant), not
 silently absorbed; the ceiling and baseline are unchanged. The unexplained
 1,333 is retained as an open provenance question for the owner.
 
-No other results yet. Port results will amend this entry with the per-file
-canonical receipt
-(`docs/experiments/deconvolution/probabilistic-refine/results/`), the gate
-record and the measured pass/fail.
+**Amendment 2 (2026-11-08, executed at `7657969`): U5 FAIL on the Rust
+substrate as measured — 7,049 canonical lines vs the unchanged 2,270
+ceiling.** Gate record:
+[`results/rust-u5-gate.json`](../../experiments/deconvolution/probabilistic-refine/results/rust-u5-gate.json)
+(+ `.sha256`, receipt `rust-u5-gate-1`, sha256 `84b7ccc2…4610`), driver
+`rust_u5_gate.py` (uncounted stratum), pre-port base `f2fe982`.
+
+- **Deterministic re-discharge through the Rust substrate (items 1, 2, 3, 5):
+  PASS.** Six Tier-1 controls fail closed with zero runtime calls
+  (`controls_fail_closed_without_runtime`,
+  `control_feedback_leak_rejected_before_dispatch`); the E4 three-turn replay
+  reproduces the recorded transitions (t1 stop_reason 0.00, t2 surface 0.40
+  missing `labeled_reason`, t3 Tier-1 0.50 + Tier-2 replayed 1.00, each
+  < 2 s), corroborated by the frozen E3/E4 LF-body digest reproduction and
+  zero-divergence trace replay through the Rust recording driver; k=2
+  no-progress exhaustion halts `exhausted` with the best trajectory retained
+  (new native test `loop_exhaustion_k2_halts_and_retains_best` covers the
+  exact k=2 protocol; the prior test used k=1); every emitted receipt
+  verifies under `lesscode-core admission` (exit 0). Live weaker-model
+  recovery was not re-run: R34 run B-2 stands on Python, no live transfer
+  claimed.
+- **U5 measured under the frozen counted set**: `surface.rs` 1,154 +
+  `measures.rs` 1,428 + `recording.rs` 1,002 + `regenerator.rs` 2,798 =
+  6,382 new-module canonical; `admission.rs` 274 + `receipt.rs` 178 = 452
+  base re-measured live; `recording_shim.py` 178 under the Python rule
+  (ruff==0.17.3); R31-frozen hooks 16; task-group-8 registration hooks 21
+  (`Cargo.toml` 2, `lib.rs` 4, `main.rs` 15; hunks enumerated in the record).
+  **Total 7,049 vs ceiling 2,270 → FAIL by 4,779.** The preregistered
+  new-module budget 1,828 was exceeded by 4,554 before base and hooks.
+- **Interpretation (falsification confirmed):** the working hypothesis — a
+  Rust consolidation materially smaller than the 2,450-line Python apparatus —
+  fails on the target substrate: the port is ≈2.9× the Python stage-1
+  canonical, larger in every component, not smaller. Per the frozen outcome
+  rule: no target weakened, negative retained, unknown is not pass; Slice B
+  production/adoption stays withheld (`Req 7.10`); the disposition (slim the
+  apparatus or amend the ceiling) returns to the owner as a dated decision.
+- **Validation at the measurement commit:** `cargo nextest` 236/236 (incl.
+  the new k=2 test), `cargo test --doc`, clippy, `cargo fmt --check`,
+  `lesscode-core budgets` exit 0; Python suites unchanged: pytest-xdist
+  `test_regenerator.py` 59/59, `test_recording.py` 18/19 (defect 7 unchanged:
+  `receipt.rs` 176 > 150). No frozen file or receipt changed; the only
+  tracked-file side effect is the machine-written `written` timestamp line in
+  the two `sql-divergences-round21.json` files (rewritten by the
+  acceptance-arm reruns; both were already owner-WIP-modified). One transient
+  intermediate run failed three acceptance arms with parent-process exit
+  0xE0434357 after their inner suites passed — traced to the harness PATH
+  deviation (venv Scripts omitted; defect #8 class), not code: the exact
+  validation PATH passes.
 
 ## Limits and interpretation
 

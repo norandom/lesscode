@@ -348,7 +348,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator_
     - _Depends: 8.5_
     - _Requirements: 5.8, 7.8, 7.9, 6.1, 6.4_
-  - [ ] 8.7 Verification, records and disposition hand-back
+  - [x] 8.7 Verification, records and disposition hand-back
     - Run `cargo nextest`, `cargo test --doc`, `lesscode-core budgets` with the
       new modules honestly registered in `native/complexity-budgets.json`, and
       the Python suites unchanged; write the R36 results amendment, spec

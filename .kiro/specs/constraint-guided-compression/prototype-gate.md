@@ -1,5 +1,24 @@
 # Prototype feasibility gate
 
+## Rust-port U5 re-measurement outcome, 2026-11-08 ([R36](../../../docs/research/2026-11-08/03-rust-port-u5-remeasure.md))
+
+Executed under task 8.6 (commit `7657969`; gate record
+[`rust-u5-gate.json`](../../../docs/experiments/deconvolution/probabilistic-refine/results/rust-u5-gate.json)
++ `.sha256`): the deterministic G1-R checklist re-discharged **through the
+Rust substrate — items 1, 2, 3 and 5 all PASS** (six Tier-1 controls fail
+closed with zero runtime; E4 three-turn replay at the recorded scores with
+the frozen E3/E4 digests and traces reproduced; k=2 exhaustion retains best;
+every receipt admission-verified), and **U5 fails as measured: 7,049
+canonical lines vs the unchanged 2,270 ceiling** (new modules 6,382; base
+re-measured 452; shim 178; hooks 16 + 21). The smaller-replaceable-
+representation hypothesis is falsified on the target substrate — the port is
+≈2.9× the Python stage-1 canonical, not smaller. Per the preregistered
+outcome rule no target is weakened and the negative is retained: Slice B
+production/adoption stays withheld (`Req 7.10`) and the disposition (slim the
+apparatus or amend the ceiling) returns to the owner as a dated decision.
+Validation at the measurement commit: nextest 236/236, doc tests, clippy,
+fmt, budgets exit 0, Python suites 77/78 (defect 7 unchanged).
+
 ## Rust-port U5 re-measurement preregistration, 2026-11-08 ([R36](../../../docs/research/2026-11-08/03-rust-port-u5-remeasure.md))
 
 Frozen before any port code is written (owner go on the task_7_handover next
