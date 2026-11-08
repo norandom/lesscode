@@ -63,9 +63,11 @@
   },
   {
    "path": "receipt.rs",
-   "max_physical_lines": 162,
+   "max_physical_lines": 176,
+   "max_logical_units": 84,
+   "max_fn_lines": 57,
    "owner": "deconvolution-native-core",
-   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers for the surface seam (task 8.2)",
+   "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); measured at each freeze",
    "disposition": null
   },
   {

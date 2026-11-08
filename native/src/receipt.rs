@@ -8,15 +8,20 @@ use std::io;
 use std::path::Path;
 
 /// Minimal order-preserving JSON value for the fixed receipt schema.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum J {
     Null,
     Bool(bool),
     Int(i64),
+    /// Finite floats only (shares/ratios); formatted like Python `json.dumps`.
+    Float(f64),
     Str(String),
     Arr(Vec<J>),
     Obj(Vec<(String, J)>),
 }
+
+// Eq holds by contract: `Float` carries finite rounded ratios only, never NaN.
+impl Eq for J {}
 
 impl J {
     pub fn str(s: impl Into<String>) -> J {
@@ -96,6 +101,15 @@ fn write_value(value: &J, depth: usize, out: &mut String) {
         J::Bool(true) => out.push_str("true"),
         J::Bool(false) => out.push_str("false"),
         J::Int(n) => out.push_str(&n.to_string()),
+        // Python `json.dumps` float repr: shortest round-trip, integral
+        // values keep one decimal ("1.0"); shares are rounded ratios only.
+        J::Float(x) if x.fract() == 0.0 && x.is_finite() => {
+            let _ = write!(out, "{x:.1}");
+        }
+        J::Float(x) if x.is_finite() => {
+            let _ = write!(out, "{x}");
+        }
+        J::Float(_) => out.push_str("null"),
         J::Str(s) => write_json_str(s, out),
         J::Arr(items) => {
             if items.is_empty() {

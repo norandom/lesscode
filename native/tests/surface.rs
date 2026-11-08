@@ -98,10 +98,16 @@ fn contract_a_kinds_and_tags() {
     assert_eq!(str_of(get(entry("used_fn"), "kind")), "function");
     assert_eq!(str_of(get(entry("Used"), "kind")), "class");
     assert_eq!(str_of(get(entry("USED_CONST"), "kind")), "constant");
-    assert_eq!(items(get(entry("used_fn"), "tags")), &[J::str("prod"), J::str("test")]);
+    assert_eq!(
+        items(get(entry("used_fn"), "tags")),
+        &[J::str("prod"), J::str("test")]
+    );
     assert_eq!(items(get(entry("used_fn"), "via")), &[J::str("import")]);
     assert_eq!(items(get(entry("Used"), "via")), &[J::str("attribute")]);
-    assert_eq!(items(get(entry("patched_target"), "via")), &[J::str("patched")]);
+    assert_eq!(
+        items(get(entry("patched_target"), "via")),
+        &[J::str("patched")]
+    );
 }
 
 #[test]
@@ -109,7 +115,7 @@ fn contract_a_files_scanned_and_importers() {
     let root = tree("a2");
     let report = derive(&root, &SCOPE, &[]);
     // __init__, mod, other (src) + test_mod (tests); tools/ is not a scan dir.
-    assert_eq!(matches!(get(&report, "files_scanned"), J::Int(n) if *n == 4), true);
+    assert!(matches!(get(&report, "files_scanned"), J::Int(n) if *n == 4));
     let importers = pairs(get(get(get(&report, "modules"), MOD), "importers"));
     let by_rel = |rel: &str| str_of(&importers.iter().find(|(r, _)| r == rel).expect(rel).1);
     assert_eq!(by_rel("src/pkg/other.py"), "prod");
@@ -121,7 +127,11 @@ fn unresolved_records_missing_attribute_reads() {
     let root = tree("a3");
     let report = derive(&root, &SCOPE, &[]);
     let unresolved = pairs(get(get(&report, "unresolved"), MOD));
-    let ghost = &unresolved.iter().find(|(n, _)| n == "ghost_attr").expect("ghost_attr").1;
+    let ghost = &unresolved
+        .iter()
+        .find(|(n, _)| n == "ghost_attr")
+        .expect("ghost_attr")
+        .1;
     assert_eq!(items(ghost), &[J::str("src/pkg/other.py")]);
 }
 
@@ -129,37 +139,58 @@ fn unresolved_records_missing_attribute_reads() {
 fn recorder_dir_not_scanned_by_default() {
     let root = tree("a4");
     let report = derive(&root, &SCOPE, &[]);
-    assert!(module_names(&report).iter().all(|(n, _)| n != "labeled_reason"));
+    assert!(module_names(&report)
+        .iter()
+        .all(|(n, _)| n != "labeled_reason"));
 }
 
 #[test]
 fn extractor_version_recorded() {
     let root = tree("a5");
     let report = derive(&root, &SCOPE, &[]);
-    assert_eq!(str_of(get(&report, "extractor_version")), surface::EXTRACTOR_VERSION);
+    assert_eq!(
+        str_of(get(&report, "extractor_version")),
+        surface::EXTRACTOR_VERSION
+    );
 }
 
 #[test]
 fn recorder_import_joins_contract() {
     let root = tree("b");
     let report = derive(&root, &SCOPE, &["tools/recorder.py"]);
-    let entry = &module_names(&report).iter().find(|(n, _)| n == "labeled_reason").expect("labeled_reason").1;
+    let entry = &module_names(&report)
+        .iter()
+        .find(|(n, _)| n == "labeled_reason")
+        .expect("labeled_reason")
+        .1;
     assert_eq!(str_of(get(entry, "kind")), "missing");
-    assert!(items(get(entry, "tags")).iter().any(|t| str_of(t) == "recorder"));
-    assert_eq!(items(get(entry, "importers")), &[J::str("tools/recorder.py")]);
+    assert!(items(get(entry, "tags"))
+        .iter()
+        .any(|t| str_of(t) == "recorder"));
+    assert_eq!(
+        items(get(entry, "importers")),
+        &[J::str("tools/recorder.py")]
+    );
 }
 
 #[test]
 fn recorder_files_listed() {
     let root = tree("b2");
     let report = derive(&root, &SCOPE, &["tools/recorder.py"]);
-    assert_eq!(items(get(&report, "recorder_files")), &[J::str("tools/recorder.py")]);
+    assert_eq!(
+        items(get(&report, "recorder_files")),
+        &[J::str("tools/recorder.py")]
+    );
 }
 
 #[test]
 fn intra_set_reads_among_scope_files() {
     let root = tree("b3");
-    fs::write(root.join("src/pkg/mod2.py"), "from pkg.mod import used_fn\n").unwrap();
+    fs::write(
+        root.join("src/pkg/mod2.py"),
+        "from pkg.mod import used_fn\n",
+    )
+    .unwrap();
     let scope = ["src/pkg/mod.py", "src/pkg/mod2.py"];
     let report = derive(&root, &scope, &[]);
     let intra = pairs(get(get(&report, "intra_set"), MOD));
@@ -213,7 +244,11 @@ fn check_syntax_missing_file_reported() {
 #[test]
 fn check_syntax_never_imports_candidate() {
     let root = tree("c6");
-    fs::write(root.join("src/pkg/mod.py"), "import os\nraise SystemExit('must not execute')\n").unwrap();
+    fs::write(
+        root.join("src/pkg/mod.py"),
+        "import os\nraise SystemExit('must not execute')\n",
+    )
+    .unwrap();
     assert!(surface::check_syntax(&root, &["src/pkg/mod.py".to_string()], "python").is_empty());
 }
 
@@ -304,7 +339,13 @@ fn verify_local_rebinding_by_assignment() {
         "def used_fn():\n    patched_target = 5\n    return patched_target\n\n\nclass Used:\n    pass\n\n\nUSED_CONST = 7\n\n\npatched_target = 0\n\n\ndef unused_fn():\n    return 2\n",
     );
     let verification = surface::verify_candidate_surface(&cand, &report, &[]);
-    assert_eq!(str_of(get(&items(get(&verification, "local_rebindings"))[0], "how")), "assignment");
+    assert_eq!(
+        str_of(get(
+            &items(get(&verification, "local_rebindings"))[0],
+            "how"
+        )),
+        "assignment"
+    );
 }
 
 #[test]
@@ -317,7 +358,13 @@ fn verify_extra_patched_names_checked() {
     );
     let verification =
         surface::verify_candidate_surface(&cand, &report, &["USED_CONST".to_string()]);
-    assert_eq!(str_of(get(&items(get(&verification, "local_rebindings"))[0], "name")), "USED_CONST");
+    assert_eq!(
+        str_of(get(
+            &items(get(&verification, "local_rebindings"))[0],
+            "name"
+        )),
+        "USED_CONST"
+    );
 }
 
 #[test]
@@ -330,6 +377,6 @@ fn verify_violations_carry_locations() {
     );
     let verification = surface::verify_candidate_surface(&cand, &report, &[]);
     let finding = &items(get(&verification, "local_rebindings"))[0];
-    assert_eq!(matches!(get(finding, "line"), J::Int(n) if *n == 1), true);
+    assert!(matches!(get(finding, "line"), J::Int(n) if *n == 1));
     assert_eq!(str_of(get(finding, "function")), "used_fn");
 }
