@@ -1,5 +1,21 @@
 # Prototype feasibility gate
 
+## G1-R outcome amendment, 2026-11-08 ([R34](../../../docs/research/2026-11-08/01-g1r-gate-and-live-recovery.md))
+
+Executed under tasks 6.1/6.2/7.1 (`constraint-guided-compression`, commits
+`1878947`, `9d9cf72`): every deterministic G1-R checklist item passed (six
+controls fail closed with zero runtime; E4 replay Tier-1 checks at
+0.001–0.06 s; `k=2` exhaustion retains best; all receipts admission-verified),
+and the live/replay recovery check is satisfied by weaker-model run `B-2`
+(`claude-haiku-4-5`: Tier-1 `out_of_scope` 0.20 → same-turn acceptance
+R=1.0, oracle 7/7, within `max_turns<=4` / `max_static_retries<=3`; 11 runs
+retained incl. negatives). **U5 fails as measured**: 3,783 canonical lines vs
+the frozen ceiling 2,270 (L29 below, unchanged). Per Req 7.8 the negative is
+retained without weakening targets; the U5 disposition (accept as Python
+stage-1 prototype with a Rust re-measure gate, slim, or amend) is an open
+owner decision, and Slice B production/adoption tasks remain withheld
+(Req 7.10). Phase approvals are unchanged by this amendment.
+
 ## DSPy-style probabilistic turn refinement & H8/H9 reconciliation amendment, 2026-11-07 ([R33](../../../docs/research/2026-11-07/07-dspy-probabilistic-turn-refinement-design.md))
 
 Following `R19`–`R32` and the owner's 2026-11-07 review, this spec's feasibility gate is partitioned into two explicit slices matching [design.md](design.md):

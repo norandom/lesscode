@@ -257,8 +257,8 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Depends: 6.1_
     - _Requirements: 7.9_
 
-- [ ] 7. Final verification and evidence records
-  - [ ] 7.1 Full-suite verification, self-trial checks, and record updates
+- [x] 7. Final verification and evidence records
+  - [x] 7.1 Full-suite verification, self-trial checks, and record updates
     - Run the four new offline suites (`tests/test_surface.py`,
       `tests/test_measures_scope.py`, `tests/test_testinfra_unit.py`,
       `tests/test_regenerator.py`) together with the existing package suites

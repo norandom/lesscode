@@ -1,0 +1,32 @@
+{
+ "receipt": "s2-artifact-admission-rust-1",
+ "purpose": "bind artifact bytes to sidecar digests (prototype-plan.md U1)",
+ "generated_unix": 1794124447,
+ "command": "lesscode-core admission --root D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-5 --bindings D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-5\\bindings.json --out D:\\Source\\lesscode\\docs\\experiments\\deconvolution\\probabilistic-refine\\results\\live\\A-5\\admission-7_1.json",
+ "hashing": "SHA256 over bytes as stored; declared LF-body hashes recorded separately",
+ "bindings": [
+  {
+   "artifact": "receipt.json",
+   "present": true,
+   "bytes": 5776,
+   "sha256_stored": "21c7b76964c56cf0c0ead72cee58501c9346e7d7731af6c5a78c6c7909115d24",
+   "sidecars": [
+    {
+     "sidecar": "receipt.json.sha256",
+     "present": true,
+     "expected_stored": "21c7b76964c56cf0c0ead72cee58501c9346e7d7731af6c5a78c6c7909115d24",
+     "declared_lf_body": null,
+     "matches_stored": true
+    }
+   ],
+   "status": "verified"
+  }
+ ],
+ "summary": {
+  "total": 1,
+  "verified": 1,
+  "mismatch": 0,
+  "missing": 0,
+  "no_bound_sidecar": 0
+ }
+}

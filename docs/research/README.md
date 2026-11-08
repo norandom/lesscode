@@ -1,6 +1,21 @@
 # Research log
 
-## Latest: constraint-guided-compression design reconciled with H8/H9 + DSPy-style probabilistic turn refinement (2026-11-07)
+## Latest: G1-R discharged — live weaker-model recovery reaches R=1.0; U5 fails as measured (2026-11-08)
+[R34](2026-11-08/01-g1r-gate-and-live-recovery.md) executes the frozen G1-R
+checklist for the DSPy-style refinement slice: all deterministic items green
+(six Tier-1 controls fail closed with zero runtime, E4 replay sub-second,
+k=2 exhaustion, every receipt admission-verified), and live run B-2 shows
+`claude-haiku-4-5` recovering from a Tier-1 out-of-scope failure to full
+acceptance R=1.0 inside the frozen budgets, with cost and negatives retained.
+The live run also surfaced and fixed five apparatus defects (temperature and
+effort dispatch, structure-grammar prompt bug, structure diagnostics, key
+normalization). U5 is recorded as failed (3,783 vs 2,270 canonical lines);
+owner disposition open, Slice B adoption still withheld. Python remains the
+stage-1 prototype substrate; Rust is the target. Verification: pytest -n 4
+(648 passed; only documented pre-existing failures), cargo nextest 123/123,
+lesscode-core budgets exit 0, full receipt/sidecar hash sweep.
+
+## Prior: constraint-guided-compression design reconciled with H8/H9 + DSPy-style probabilistic turn refinement (2026-11-07)
 Owner reviewed the feasibility audit of `constraint-guided-compression` and directed
 reconciling the spec with the completed detection/recording cores plus DSPy-style
 probabilistic multi-turn prompt refinement (`dspy.Refine`/`BestOfN` with two-tier
