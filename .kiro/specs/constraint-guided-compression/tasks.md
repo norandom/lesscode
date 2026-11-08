@@ -274,6 +274,93 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Depends: 6.1_
     - _Requirements: 7.7, 8.1, 8.2, 8.3, 8.4, 8.6_
 
+- [ ] 8. Rust-port U5 re-measurement gate (owner go 2026-11-08; preregistered
+  in `prototype-gate.md` R36 amendment and
+  [R36](../../../docs/research/2026-11-08/03-rust-port-u5-remeasure.md))
+  - [ ] 8.1 Preregistration and apparatus baseline receipt
+    - Record the dated `prototype-gate.md` amendment (counted set, canonical
+      method, hooks enumeration rule, reuse and behavioral boundaries, `ureq`
+      dependency decision), this task group, and the R36 entry shell; capture
+      the pre-port commit identity and the live canonical counts of
+      `admission.rs` + `receipt.rs` as the re-measurement base.
+    - Done when the amendment, tasks, research entry and index are committed
+      before any port code exists, and the base receipt records per-file
+      canonical counts with exact commands.
+    - _Requirements: 6.1, 6.2, 7.9, 8.1_
+  - [ ] 8.2 `native/src/surface.rs` — Contract A/B derivation port
+    - Port `derive_surface`, `check_syntax`, `verify_candidate_surface` behind
+      the versioned extractor seam onto `ast-grep-core` tree-sitter-python
+      (extractor version bumped and recorded); keep the report envelope field
+      names stable.
+    - Done when the derived report on the retained E4 material reproduces the
+      frozen `public-surface.json` symbols (including the recorder-imported
+      `labeled_reason`), `check_syntax` reports line-anchored errors without
+      executing candidate code, and candidate verification flags every
+      violation class with the offending symbol.
+    - _Boundary: SurfaceDeriver_
+    - _Depends: 8.1_
+    - _Requirements: 2.1, 2.2, 2.3, 5.8_
+  - [ ] 8.3 `native/src/measures.rs` — Tier-1 structural checks and canonical measure
+    - Port `editscope` path confinement, pure/shell write-site checks with
+      scope-path-qualified declaration normalization, and the canonical-line
+      measure for Python specimen files via the pinned `ruff==0.17.3`
+      subprocess (unavailable readings stay `None`, never 0).
+    - Done when the port reproduces the Python module's verdicts on the frozen
+      Tier-1 control set and E4 turn bodies, and canonical counts match the
+      Python-side readings for the same inputs.
+    - _Boundary: ScopeMeasurer_
+    - _Depends: 8.2_
+    - _Requirements: 2.4, 5.8, 6.2, 6.3_
+  - [ ] 8.4 `native/src/recording.rs` — L1/L2 record/replay driver
+    - Port the shared recording engine semantics: declared normalization,
+      golden body bytes and LF-body digests, deadline-killed subprocess arms
+      and serial pytest groups, driven from Rust with the in-venv oracle
+      instrumentation as an embedded counted Python shim.
+    - Done when double-records of the frozen E3/E4 scopes through the Rust
+      driver reproduce the frozen LF-body digests
+      (`92a48f77…`, `0b2e383d…`) and goldens replay with zero divergence.
+    - _Boundary: SharedRecorder_
+    - _Depends: 8.1_
+    - _Requirements: 2.6, 4.7, 5.5_
+  - [ ] 8.5 `native/src/regenerator.rs` — two-tier refine controller port
+    - Port `TurnRequest`, the Tier-1 static ladder (stop_reason, schema,
+      editscope, syntax, Contract-B surface, pure/shell write-sites) with
+      structured violation feedback and preregistered retry directives
+      (`next_rollout_params` semantics including the prompt-level
+      concise-output directive), Tier-2 via the Rust recording driver,
+      `BestOfN` tracking, `k=2` exhaustion, receipts via `receipt.rs` plus
+      `.sha256` and `bindings.json`, and the openai-compatible HTTP adapter on
+      pinned `ureq`; wire the `regenerate` subcommand preserving exit codes.
+    - Done when the six Tier-1 controls fail closed with zero runtime calls,
+      the E4 three-turn replay reproduces the recorded scores/transitions, and
+      every emitted receipt verifies under `lesscode-core admission`.
+    - _Boundary: ProbabilisticRegenerator_
+    - _Depends: 8.2, 8.3, 8.4_
+    - _Requirements: 1.4, 4.1, 4.3, 4.4, 4.5, 4.6, 5.8, 3.6_
+  - [ ] 8.6 Deterministic re-discharge and U5 re-measurement
+    - Build the Rust-substrate spike driver over the same frozen E3/E4
+      artifacts, re-discharging G1-R checklist items 1, 2, 3 and 5 through
+      `lesscode-core` and measuring U5 under the preregistered counted set
+      (per-file canonical counts, hooks hunks, exact commands in the receipt).
+    - Done when the gate record carries every checklist item pass/fail and the
+      measured U5 total against the unchanged 2,270 ceiling, negatives
+      retained as measured.
+    - _Boundary: ProbabilisticRegenerator_
+    - _Depends: 8.5_
+    - _Requirements: 5.8, 7.8, 7.9, 6.1, 6.4_
+  - [ ] 8.7 Verification, records and disposition hand-back
+    - Run `cargo nextest`, `cargo test --doc`, `lesscode-core budgets` with the
+      new modules honestly registered in `native/complexity-budgets.json`, and
+      the Python suites unchanged; write the R36 results amendment, spec
+      reciprocal links, research index update, and `.kiro/task_8_handover.md`
+      returning the measured outcome to the owner (pass → Slice B adoption
+      planning unlocked; fail → slim/amend options, no weakening).
+    - Done when all suites are green or their failures are documented
+      non-regressions, no frozen file or receipt changed (hash check), and the
+      records keep planned, executed and measured states distinct.
+    - _Depends: 8.6_
+    - _Requirements: 7.7, 7.8, 7.10, 8.1, 8.2, 8.3, 8.4, 8.6_
+
 ## Deferred (documented, not scheduled)
 
 - TypeScript extraction evaluation and further target languages (Rust, JS):

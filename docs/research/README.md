@@ -1,6 +1,18 @@
 # Research log
 
-## Latest: U5 disposition — Python stage-1 negative accepted; Rust re-measure gate before Slice B (2026-11-08)
+## Latest: Rust-port U5 re-measurement preregistered — task group 8 opened (2026-11-08)
+[R36](2026-11-08/03-rust-port-u5-remeasure.md) freezes the re-measurement
+accounting before any port code exists: counted set = ported
+`native/src/{surface,measures,recording,regenerator}.rs` + re-measured
+`admission.rs`/`receipt.rs` + enumerated apparatus hooks; unchanged
+rustfmt/ruff canonical method, unchanged 2,270 ceiling against
+$B_{\text{app}}^{\text{expanded}} = 2{,}838$; Python modules stay as
+superseded stage-1 reference; deterministic G1-R checklist items 1/2/3/5 must
+re-discharge through the Rust substrate; pinned `ureq` recorded as a Req 3.6
+dependency decision; pass unlocks Slice B adoption planning, fail returns to
+the owner with slim/amend options.
+
+## Prior: U5 disposition — Python stage-1 negative accepted; Rust re-measure gate before Slice B (2026-11-08)
 [R35](2026-11-08/02-u5-disposition.md) records the owner disposition for the
 failed whole-replacement apparatus ceiling: U5 stays failed on the Python
 stage-1 prototype (3,783 vs 2,270 canonical lines; frozen ceiling unchanged,

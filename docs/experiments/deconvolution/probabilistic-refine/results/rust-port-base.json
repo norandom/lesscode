@@ -1,0 +1,28 @@
+{
+ "budget_note": "new-module budget before hook growth ~= 1828",
+ "frozen_reference": {
+  "baseline_expanded": 2838,
+  "g1r_frozen_rust_canonical": 1333,
+  "python_app_canonical_r34": {
+   "measures.py": 558,
+   "recording.py": 372,
+   "regenerator.py": 1239,
+   "surface.py": 281
+  },
+  "u5_ceiling": 2270
+ },
+ "method": "rustfmt (toolchain 1.98.1, --edition 2021) formatted copies, splitlines() counts; identical to the R27/R31/R34 canonical method",
+ "pre_port_commit": "f2fe9824cc073a2707fda490e055e879e516bbe5",
+ "r31_frozen_hooks": {
+  "Cargo.toml": 0,
+  "src/lib.rs": 1,
+  "src/main.rs": 15
+ },
+ "receipt": "rust-port-base",
+ "rust_app_live": {
+  "src/admission.rs": 274,
+  "src/receipt.rs": 152
+ },
+ "rust_app_live_total": 426,
+ "task": "8.1"
+}

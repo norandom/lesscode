@@ -1,5 +1,69 @@
 # Prototype feasibility gate
 
+## Rust-port U5 re-measurement preregistration, 2026-11-08 ([R36](../../../docs/research/2026-11-08/03-rust-port-u5-remeasure.md))
+
+Frozen before any port code is written (owner go on the task_7_handover next
+step; disposition R35 above). This gate re-measures U5 on the Rust target
+substrate under the same expanded-baseline accounting:
+
+- **Counted replaceable apparatus (Rust substrate)**: `native/src/{surface,
+  measures,recording,regenerator}.rs` (the ported modules, full canonical
+  lines) plus `native/src/{admission,receipt}.rs` re-measured live, plus
+  apparatus registration hooks = the R31-frozen 16 hook lines plus the lines
+  this task group adds to `native/src/{lib,main}.rs` / `native/Cargo.toml`
+  (enumerated hunks in the receipt; product-only changes between R31 and now
+  are excluded — they are not apparatus). The Python modules
+  `src/lesscode_baseline/{recording,surface,measures,regenerator}.py` remain
+  in-tree as the stage-1 reference implementation and are excluded as
+  superseded, symmetric to the g1r recording-era-Python exclusion. Baseline
+  $B_{\text{app}}^{\text{expanded}} = 2,838$ and ceiling $\le 2,270$ canonical
+  lines are unchanged; `testinfra.py` stays outside U5 under U7 verbatim
+  relocation.
+- **Pre-port base (dated correction, 2026-11-08, before any port code)**: the
+  g1r `FROZEN_RUST_CANONICAL = 1,333` constant cites "R27/R31 records" but no
+  per-file receipt decomposes it; the live receipted count of
+  `admission.rs` + `receipt.rs` is 426 canonical (rustfmt method) plus the
+  R31-frozen 16 hook lines = 442 (`results/rust-port-base.json`), and R31's
+  own receipt recorded 431 before `receipt.rs` existed. The R34 verdict is
+  unchanged under every reading (2,450 + 442/583/1,333 all exceed 2,270); the
+  re-measurement uses the live receipted counts per the method above, and the
+  new-module budget is accordingly $2{,}270 - 442 = 1{,}828$ canonical lines,
+  replacing the earlier $\approx 937$ estimate recorded before the base
+  receipt existed. Recorded openly as an apparatus-accounting defect note in
+  R36; no ceiling or baseline changes.
+- **Canonical method (unchanged)**: Rust files rustfmt-formatted, counted by
+  `splitlines()`; embedded Python shim code counted under the Python rule
+  (`ruff==0.17.3 format --isolated --line-length 100 --target-version py313`);
+  hooks by enumerated git-diff hunks. Receipt retains per-file counts and the
+  exact commands.
+- **Reuse boundary**: pre-existing product modules (`scope`, `metrics`,
+  `compare`, `model`, `budgets` and their lines) are uncounted product, exactly
+  as the Python substrate's use of `lesscode-core` bindings was uncounted; the
+  port may call them. New shared code written for the apparatus counts in full
+  wherever it lives (Req 6.1). Experiment drivers and tests stay uncounted per
+  the g1r convention (separate strata).
+- **Behavioral boundary (a port, not a sketch)**: the deterministic G1-R
+  checklist items 1, 2, 3 and 5 must re-discharge **through the Rust
+  substrate** on the same frozen artifacts (six Tier-1 controls fail closed
+  with zero runtime invocations; the E4 three-turn replay caught/accepted at
+  the recorded scores; `k=2` exhaustion retains best; every emitted receipt
+  admission-verified via `bindings.json`), with Tier-2 replay reproducing the
+  frozen identities. Live weaker-model recovery is not re-run by this gate: it
+  remains demonstrated on the Python substrate (R34 run B-2), and no live
+  transfer is claimed; if U5 passes, live runs on the Rust substrate belong to
+  Slice B adoption planning.
+- **Dependency decision (Req 3.6)**: the port adds pinned `ureq` for the
+  openai-compatible HTTP adapter, because the replaced baseline scope includes
+  the `regen_turn.py` HTTP/driver portion (262 canonical lines in
+  $B_{\text{app}}^{\text{expanded}}$); omitting the adapter would silently
+  narrow the claim. Pin exact version, `--locked`, record in the receipt.
+- **Outcome rule**: report the measured total as pass/fail without weakening.
+  Fail returns to the owner (slim or amend options); pass unlocks Slice B
+  adoption planning only. Preregistered expectation: the four Rust modules
+  must fit within the receipted new-module budget of $2{,}270 - 442 =
+  1{,}828$ canonical lines (pre-port base receipt); both outcomes are
+  credible and neither is assumed (R35: unknown is not pass).
+
 ## U5 disposition amendment, 2026-11-08 ([R35](../../../docs/research/2026-11-08/02-u5-disposition.md))
 
 Owner decision (2026-11-08): U5 is **accepted as failing on the Python stage-1
