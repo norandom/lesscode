@@ -3,7 +3,7 @@
 ## Implementation Tasks
 
 - [ ] 1. Foundation: state frame condition contracts and stream buffer monitoring
-  - [ ] 1.1 State frame condition declaration and static write-site analysis
+  - [x] 1.1 State frame condition declaration and static write-site analysis
     - Implement `StateFrame` declaration parser and AST visitor in `src/lesscode_baseline/state_boundary/frame.py` to identify permitted global, instance, and environment write locations.
     - Statically inspect candidates to verify that all write sites reside strictly within declared shell functions.
     - Done when unauthorized write sites outside declared shell functions are detected and reported with line-anchored locations.
