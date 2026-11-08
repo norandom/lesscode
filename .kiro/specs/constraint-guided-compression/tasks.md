@@ -432,7 +432,7 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Boundary: ProbabilisticRegenerator_
     - _Depends: 9.4, 9.5_
     - _Requirements: 5.8, 6.1, 6.4, 7.8, 7.9_
-  - [ ] 9.7 Verification, records and disposition hand-back
+  - [x] 9.7 Verification, records and disposition hand-back
     - Run `cargo nextest`, `cargo test --doc`, clippy, `cargo fmt --check`,
       `lesscode-core budgets` and the unchanged Python suites; write the R37
       results amendment, spec reciprocal links, research index update and

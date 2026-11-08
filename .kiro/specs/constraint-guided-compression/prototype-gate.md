@@ -1,5 +1,21 @@
 # Prototype feasibility gate
 
+## Rust-apparatus slim-pass outcome, 2026-11-08 ([R37](../../../docs/research/2026-11-08/04-rust-slim-pass-remeasure.md)): FAIL as measured — levers exhausted, owner disposition open
+
+Executed at head `9194909` (gate record
+[`rust-u5-gate-r37.json`](../../../docs/experiments/deconvolution/probabilistic-refine/results/rust-u5-gate-r37.json)):
+G1-R items 1/2/3/5 re-discharged **PASS** through the slimmed substrate
+(controls zero-runtime, E4 replay at recorded scores, `k=2` retention,
+admission-verified receipts), and U5 = **7,004 vs the unchanged 2,270 —
+FAIL by 4,734**. Slim levers executed: defect-7 split (receipt 178 → 124
++ jsonval 130), shared kernels (`j_get` ×4, serde bridge ×3, escape ×3 →
+`jsonval.rs`; regenerator −82, recording −31); writer merge and
+`truncate_chars` unifications abandoned-and-recorded (semantic differences
+under byte-parity freezes). Net −45 of 7,049: the bounded-consolidation
+hypothesis is falsified — the overage is port expression volume, not
+consolidation overhead. Negative retained (`Req 7.8`); Slice B withheld
+(`Req 7.10`); owner chooses amend (dated ceiling decision) or close.
+
 ## Rust-apparatus slim-pass and U5 re-measurement preregistration, 2026-11-08 ([R37](../../../docs/research/2026-11-08/04-rust-slim-pass-remeasure.md))
 
 Owner disposition on the R36 measured FAIL (slim, not amend; defect 7 by

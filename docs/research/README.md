@@ -1,6 +1,24 @@
 # Research log
 
-## Latest: Rust-apparatus slim pass preregistered — task group 9 opened (2026-11-08)
+## Latest: R37 slim-pass gate FAIL as measured — levers exhausted, owner disposition open (2026-11-08)
+[R37](2026-11-08/04-rust-slim-pass-remeasure.md) executed under task 9.6
+(gate record
+[`rust-u5-gate-r37.json`](../experiments/deconvolution/probabilistic-refine/results/rust-u5-gate-r37.json)):
+G1-R items 1/2/3/5 **PASS** through the slimmed substrate (six Tier-1
+controls zero-runtime, E4 three-turn replay at the recorded scores with
+frozen digests, `k=2` exhaustion retains best, receipts
+admission-verified), and **U5 = 7,004 canonical lines vs the unchanged
+2,270 ceiling — FAIL by 4,734**. The preregistered levers delivered −45
+net of 7,049 (defect-7 split: receipt 178 → 124 + jsonval 130; shared
+kernels `j_get`/serde-bridge/escape consolidated into `jsonval.rs`;
+writer merges abandoned on semantic grounds under the byte-parity
+freezes): the bounded-consolidation hypothesis is falsified — the overage
+is port expression volume, not consolidation overhead. Negative retained,
+no ceiling or baseline change; Slice B stays withheld (`Req 7.10`); owner
+chooses amend (dated decision) or close. Task group 9 closed — handover at
+[.kiro/task_9_handover.md](../../.kiro/task_9_handover.md).
+
+## Prior: Rust-apparatus slim pass preregistered — task group 9 opened (2026-11-08)
 [R37](2026-11-08/04-rust-slim-pass-remeasure.md) freezes the slim-pass
 accounting before any slim code exists, recording the owner dispositions on
 the R36 negative: slim the Rust apparatus (`regenerator.rs` 2,798 the

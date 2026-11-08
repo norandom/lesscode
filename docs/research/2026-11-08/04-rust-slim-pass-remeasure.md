@@ -166,3 +166,54 @@ artifacts and are **not modified**; the R36 live receipts stay the U5
 accounting of record. No verdict, ceiling or baseline changes (`Req 8.4`:
 correction appended, prior records preserved).
 
+---
+
+## Amendment 2 (2026-11-08, ~15:55Z): R37 gate executed — slim levers exhausted, U5 FAIL as measured (tasks 9.4–9.6)
+
+Outcome first: items 1/2/3/5 **PASS** through the slimmed Rust substrate —
+six Tier-1 controls fail closed with zero runtime, the E4 three-turn
+replay at the recorded scores with the frozen digests, `k=2` exhaustion
+retains best, all loop receipts admission-verified — and **U5 = 7,004
+canonical lines vs the unchanged 2,270 ceiling — FAIL by 4,734** (gate
+record
+[`rust-u5-gate-r37.json`](../../experiments/deconvolution/probabilistic-refine/results/rust-u5-gate-r37.json),
+head `9194909`): new modules 6,390 (regenerator 2,716 + measures 1,422 +
+surface 1,151 + recording 971 + jsonval 130) + base 398 (admission 274 +
+receipt 124) + shim 178 + hooks 38 (R31-frozen 16 + 22 net registration
+lines enumerated vs `f2fe982`).
+
+Slim levers executed (all output-preserving; validation green after each):
+
+- 9.3 split: `receipt.rs` 178 → 124 + `jsonval.rs` 130 (defect 7 closed:
+  receipt ≤ 150, combined 413 ≤ 430, `test_recording.py` 19/19).
+- 9.4/9.5 shared-kernel wave: `j_get` ×4, serde bridge ×3,
+  ensure_ascii-optional escape ×3 consolidated into `jsonval.rs`;
+  regenerator −82, recording −31, surface −3, measures −6 canonical lines.
+- Abandoned-and-recorded: the `indent1_dumps` ↔ `receipt::write_value`
+  merge (float-repr rules and ascii mode differ; prompt byte-parity
+  freeze), `truncate_chars` unification (chars-vs-byte-index semantics
+  differ between the two copies), surface `value_to_j` unification
+  (int-only by design; full-fidelity kernel would change hypothetical
+  float readings).
+- Examined-no-lever: `run_refine_loop`/`cmd_run` orchestration,
+  `ReceiptWriter`, the Endpoint/adapter layer, the `Dec` fixed-point
+  kernel, `py_str`/`py_repr` — single implementations with no
+  derivable-structure duplication.
+
+Net measured effect of the full preregistered lever set: 7,049 → 7,004
+(−45, −0.6%). **The bounded-consolidation hypothesis is falsified on the
+target substrate**: the overage is the expression volume of the ported
+apparatus itself, not consolidation overhead. Per the preregistered
+outcome rule the negative is retained without weakening (`Req 7.8`),
+Slice B stays withheld (`Req 7.10`), and the disposition returns to the
+owner: amend the 2,270 ceiling by dated decision, or close Slice B.
+
+Validation evidence (all at `f1571d6`/`9194909`): nextest 236/236
+(including the frozen E3/E4 digest replay through the slimmed modules —
+byte-parity held), `cargo test --doc` ok, clippy clean, `cargo fmt
+--check` clean, `lesscode-core budgets` exit 0 (ledger re-measured:
+jsonval 128, receipt 122, recording 969, regenerator 2,714, measures
+1,420, surface 1,149 physical), Python suites 78/78 (`test_recording.py`
+19/19, `test_regenerator.py` 59/59). No frozen file, digest or receipt
+changed.
+
