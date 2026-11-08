@@ -1816,12 +1816,11 @@ fn known_obligations(record: &RolloutRecord) -> BTreeSet<String> {
     obligations
 }
 
-fn discharged_obligations(record: &RolloutRecord, resolved: &BTreeSet<String>) -> BTreeSet<String> {
+fn discharged_obligations(record: &RolloutRecord, _resolved: &BTreeSet<String>) -> BTreeSet<String> {
+    if record.score < 1.0 {
+        return BTreeSet::new();
+    }
     known_obligations(record)
-        .difference(resolved)
-        .filter(|o| record.failure_kind.as_deref() != Some(o.as_str()))
-        .cloned()
-        .collect()
 }
 
 // --- Adaptive schedule -------------------------------------------------------------
@@ -2132,11 +2131,12 @@ pub fn run_refine_loop(
     let (mut usage_in, mut usage_out, mut usage_calls) = (0i64, 0i64, 0i64);
     let mut no_progress: i64 = 0;
     let mut resolved: BTreeSet<String> = BTreeSet::new();
+    let mut all_obligations: BTreeSet<String> = BTreeSet::new();
+    let mut turn_feedback: Option<J> = None;
     let mut status = "exhausted";
     let mut first_attempt = true;
     let targets: &[(String, i64)] = static_targets.unwrap_or(&[]);
     for turn in 1..=budget.max_turns {
-        let mut turn_feedback: Option<J> = None; // reset every turn (Python parity)
         let mut turn_best: Option<RolloutRecord> = None;
         let mut turn_best_files: Vec<(String, Option<Vec<u8>>)> = Vec::new();
         for rollout in 1..=budget.n_rollouts_per_turn {
@@ -2275,6 +2275,7 @@ pub fn run_refine_loop(
                 }
                 attempts.push(J::obj(attempt_note));
                 history.push(rec.as_dict());
+                all_obligations.extend(known_obligations(&rec));
                 record = Some(rec);
                 if reward.score >= 0.50 {
                     break; // the static repair chain ends on the first tier-1 pass
@@ -2356,11 +2357,9 @@ pub fn run_refine_loop(
             break;
         }
         if runtime_evaluator.is_some() {
-            // Boundary audit of the best trajectory's feedback. The Python
-            // controller also reassigns turn_feedback here, but the next
-            // turn resets it to None — the audit is the observable effect.
             if let Some(fb) = best.as_ref().and_then(turn_feedback_from) {
                 enforce_feedback_boundary(&fb, held_out_names)?;
+                turn_feedback = Some(fb);
             }
         }
     }
@@ -2378,7 +2377,7 @@ pub fn run_refine_loop(
         }
     }
     let validity = best.score >= budget.threshold;
-    let unresolved: Vec<String> = known_obligations(&best)
+    let unresolved: Vec<String> = all_obligations
         .difference(&resolved)
         .cloned()
         .collect();

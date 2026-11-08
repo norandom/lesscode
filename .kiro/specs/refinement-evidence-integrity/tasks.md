@@ -14,7 +14,7 @@
   - Verify that multi-rollout turns deliver the passing candidate rather than later failing candidate files on disk.
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 4.6, 5.2_
 
-- [ ] 3. Turn feedback propagation and obligation tracking in Rust and Python
+- [x] 3. Turn feedback propagation and obligation tracking in Rust and Python
   - Scope `turn_feedback` across turns in `run_refine_loop` and populate it from `best` at turn completion; enforce feedback boundary.
   - Ensure prompt on subsequent turns receives applicable runtime counterexamples.
   - Correct `discharged_obligations` to never discharge obligations exhibited by a failing candidate. Retain active unresolved obligations.

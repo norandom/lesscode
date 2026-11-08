@@ -1163,6 +1163,82 @@ fn loop_best_candidate_files_are_delivered() {
 }
 
 #[test]
+fn loop_feedback_reaches_next_turn_prompt() {
+    let work = scratch("loop-feedback-propagation");
+    let (req, frozen) = mini_request(&work);
+    let bad_text = response_text(&[("src/mod.py", "def f(): return 2\n")], &[], &[]);
+    let good_text = response_text(&[("src/mod.py", "def f(): return 1\n")], &[], &[]);
+    let mut scripted = Scripted::new(vec![
+        Ok((bad_text, end_turn())),
+        Ok((good_text, end_turn())),
+    ]);
+    let verdicts = vec![
+        (
+            1,
+            Some("R39_known_counterexample".into()),
+            obj(&[
+                ("seed_group_pass_fraction", J::Float(0.0)),
+                ("sequence_pass_fraction", J::Float(0.0)),
+            ]),
+        ),
+        (0, None, obj(&[])),
+    ];
+    let budget = RefineBudget {
+        max_turns: 2,
+        max_static_retries: 1,
+        n_rollouts_per_turn: 1,
+        ..RefineBudget::default()
+    };
+    let outcome = run_loop(
+        &req,
+        &frozen,
+        &work,
+        "feedback-prop",
+        budget,
+        Some(&mut eval_verdicts(verdicts)),
+        &mut scripted,
+    )
+    .unwrap();
+    assert_eq!(outcome.status, "accepted");
+    assert!(scripted.seen[1].0.contains("R39_known_counterexample"));
+}
+
+#[test]
+fn loop_unresolved_obligation_retained_on_failure() {
+    let work = scratch("loop-obligation-retained");
+    let (req, frozen) = mini_request(&work);
+    let bad_text = response_text(&[("src/mod.py", "def f(): return 2\n")], &[], &[]);
+    let mut scripted = Scripted::new(vec![Ok((bad_text, end_turn()))]);
+    let verdicts = vec![(
+        1,
+        Some("R39_known_counterexample".into()),
+        obj(&[
+            ("seed_group_pass_fraction", J::Float(0.0)),
+            ("sequence_pass_fraction", J::Float(0.0)),
+        ]),
+    )];
+    let budget = RefineBudget {
+        max_turns: 1,
+        max_static_retries: 1,
+        n_rollouts_per_turn: 1,
+        ..RefineBudget::default()
+    };
+    let outcome = run_loop(
+        &req,
+        &frozen,
+        &work,
+        "obligation-retain",
+        budget,
+        Some(&mut eval_verdicts(verdicts)),
+        &mut scripted,
+    )
+    .unwrap();
+    assert!(outcome
+        .unresolved_obligations
+        .contains(&"R39_known_counterexample".to_string()));
+}
+
+#[test]
 fn loop_holdout_names_never_reach_the_next_prompt() {
     let work = scratch("loop-holdout");
     let (req, frozen) = mini_request(&work);

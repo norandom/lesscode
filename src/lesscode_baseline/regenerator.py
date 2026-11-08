@@ -643,6 +643,8 @@ def run_refine_loop(
     usage_total = {"input_tokens": 0, "output_tokens": 0, "calls": 0}
     no_progress = 0
     resolved_obligations: set[str] = set()
+    all_obligations: set[str] = set()
+    turn_feedback: dict | None = None
     status = "exhausted"
     first_attempt = True
     base_params = {"max_tokens": 64000, "effort": "high", "temperature": 0.0, "display": None}
@@ -650,7 +652,6 @@ def run_refine_loop(
     for turn in range(1, budget.max_turns + 1):
         turn_best: RolloutRecord | None = None
         turn_best_files: dict[str, str] = {}
-        turn_feedback: dict | None = None
         for rollout in range(1, budget.n_rollouts_per_turn + 1):
             attempt_params = dict(base_params)
             record: RolloutRecord | None = None
@@ -722,13 +723,15 @@ def run_refine_loop(
                         turn_feedback["first_divergence"] += " missing: " + ", ".join(adaptation["inject_missing_symbols"])
             if attempts:
                 writer.add_note(f"{label}-turn", {"attempts": attempts})
-            if record is not None and (turn_best is None or record.score > turn_best.score):
-                turn_best = record
-                turn_best_files = {
-                    f: (cand_root / f).read_text(encoding="utf-8")
-                    for f in req.scope_files
-                    if (cand_root / f).is_file()
-                }
+            if record is not None:
+                all_obligations.update(_known_obligations(record))
+                if turn_best is None or record.score > turn_best.score:
+                    turn_best = record
+                    turn_best_files = {
+                        f: (cand_root / f).read_text(encoding="utf-8")
+                        for f in req.scope_files
+                        if (cand_root / f).is_file()
+                    }
         if turn_best is None:
             continue
         improved = best is None or turn_best.score > best.score
@@ -755,7 +758,7 @@ def run_refine_loop(
         target = cand_root / f
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8")
-    unresolved = sorted(o for o in _known_obligations(best) if o not in resolved_obligations)
+    unresolved = sorted(o for o in all_obligations if o not in resolved_obligations)
     return RefineOutcome(
         status=status,
         best=best,
@@ -801,7 +804,9 @@ def _known_obligations(record: RolloutRecord) -> set[str]:
 
 
 def _discharged_obligations(record: RolloutRecord, resolved: set[str]) -> set[str]:
-    return {o for o in _known_obligations(record) - resolved if record.failure_kind != o}
+    if record.score < 1.0:
+        return set()
+    return set(_known_obligations(record))
 
 
 def _default_call_fn(system: str, user: str, params: dict) -> tuple[str, dict]:
