@@ -1,6 +1,19 @@
 # Research log
 
-## Latest: Rust-port U5 re-measurement FAIL as measured — owner disposition open (2026-11-08)
+## Latest: Rust-apparatus slim pass preregistered — task group 9 opened (2026-11-08)
+[R37](2026-11-08/04-rust-slim-pass-remeasure.md) freezes the slim-pass
+accounting before any slim code exists, recording the owner dispositions on
+the R36 negative: slim the Rust apparatus (`regenerator.rs` 2,798 the
+largest lever; shared derivable structure across `surface`/`measures`/
+`recording`), split `receipt.rs` for defect 7 without amending R30, and
+investigate the g1r `FROZEN_RUST_CANONICAL = 1,333` provenance. The counted
+set extends to every new module the split/slim adds (`Req 6.1`); the
+canonical method, behavioral freezes and the unchanged 2,270 ceiling carry
+over from R36; PASS requires the counted total ≤ 2,270 with budgets exit 0
+(at least −4,779 of 7,049, −68%); fail returns to the owner with
+amend/close options.
+
+## Prior: Rust-port U5 re-measurement FAIL as measured — owner disposition open (2026-11-08)
 [R36](2026-11-08/03-rust-port-u5-remeasure.md) executed under task 8.6
 (commit `7657969`; gate record
 [`rust-u5-gate.json`](../experiments/deconvolution/probabilistic-refine/results/rust-u5-gate.json)):

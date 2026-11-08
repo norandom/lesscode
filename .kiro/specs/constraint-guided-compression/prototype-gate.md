@@ -1,5 +1,43 @@
 # Prototype feasibility gate
 
+## Rust-apparatus slim-pass and U5 re-measurement preregistration, 2026-11-08 ([R37](../../../docs/research/2026-11-08/04-rust-slim-pass-remeasure.md))
+
+Owner disposition on the R36 measured FAIL (slim, not amend; defect 7 by
+split; 1,333 provenance investigated). This gate re-measures U5 after a
+bounded, behavior-preserving slim pass of the Rust apparatus, under the same
+accounting:
+
+- **Counted set (R36 set, extended)**: the six apparatus modules
+  `native/src/{surface,measures,recording,regenerator,admission,receipt}.rs`
+  + shim + enumerated hooks, **plus every module the split/slim adds**
+  (shared kernels included), counted in full wherever it lives (`Req 6.1`).
+  Product modules stay uncounted product; Python stage-1 modules stay
+  excluded as superseded; drivers/tests stay uncounted strata. Relocating
+  apparatus code into an uncounted stratum is not a lever.
+- **Canonical method (unchanged)**: rustfmt (toolchain 1.98.1) formatted
+  copies, `splitlines()`; shim under pinned `ruff==0.17.3 format --isolated
+  --line-length 100 --target-version py313`; hooks by enumerated git-diff
+  hunks counted net (additions and removals).
+- **Defect-7 split rule**: the retained `receipt.rs` measures ≤ 150 canonical
+  lines (R30 ceiling unchanged); extracted modules are honestly registered
+  in `native/complexity-budgets.json` with measured ceilings and counted in
+  U5; `test_recording.py` 19/19 without an R30 amendment.
+- **Slim levers (bounded, preregistered)**: `regenerator.rs` consolidation;
+  shared derivable structure across `surface`/`measures`/`recording` into
+  counted shared kernels; the receipt split. A lever that cannot preserve a
+  frozen behavior is abandoned and recorded, not forced. No unbounded
+  iteration; no ceiling or baseline change.
+- **Behavioral boundary (unchanged from R36)**: six Tier-1 controls fail
+  closed with zero runtime; E4 three-turn replay at the recorded scores;
+  frozen E3/E4 digests reproduced; `k=2` exhaustion retains best; receipts
+  admission-verified; prompt byte-parity + `request_sha256` unchanged;
+  envelope field names and exit codes stable; live recovery not re-run.
+- **Outcome rule**: measured total ≤ 2,270 with every freeze green and
+  `lesscode-core budgets` exit 0 → PASS unlocks Slice B adoption planning
+  only; otherwise the negative is retained and the owner chooses
+  amend/close. Preregistered arithmetic: at least −4,779 of 7,049 (−68%);
+  neither outcome assumed.
+
 ## Rust-port U5 re-measurement outcome, 2026-11-08 ([R36](../../../docs/research/2026-11-08/03-rust-port-u5-remeasure.md))
 
 Executed under task 8.6 (commit `7657969`; gate record

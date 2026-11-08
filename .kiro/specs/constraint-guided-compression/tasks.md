@@ -274,10 +274,10 @@ and start only on the owner's explicit answer. Frozen apparatus
     - _Depends: 6.1_
     - _Requirements: 7.7, 8.1, 8.2, 8.3, 8.4, 8.6_
 
-- [ ] 8. Rust-port U5 re-measurement gate (owner go 2026-11-08; preregistered
+- [x] 8. Rust-port U5 re-measurement gate (owner go 2026-11-08; preregistered
   in `prototype-gate.md` R36 amendment and
   [R36](../../../docs/research/2026-11-08/03-rust-port-u5-remeasure.md))
-  - [ ] 8.1 Preregistration and apparatus baseline receipt
+  - [x] 8.1 Preregistration and apparatus baseline receipt
     - Record the dated `prototype-gate.md` amendment (counted set, canonical
       method, hooks enumeration rule, reuse and behavioral boundaries, `ureq`
       dependency decision), this task group, and the R36 entry shell; capture
@@ -360,6 +360,90 @@ and start only on the owner's explicit answer. Frozen apparatus
       records keep planned, executed and measured states distinct.
     - _Depends: 8.6_
     - _Requirements: 7.7, 7.8, 7.10, 8.1, 8.2, 8.3, 8.4, 8.6_
+
+- [ ] 9. Rust-apparatus slim pass, defect-7 split and U5 re-measurement (owner
+  dispositions 2026-11-08; preregistered in `prototype-gate.md` R37 amendment
+  and [R37](../../../docs/research/2026-11-08/04-rust-slim-pass-remeasure.md))
+  - [ ] 9.1 Preregistration, group-8 tick correction and pre-slim baseline receipt
+    - Record the dated `prototype-gate.md` R37 amendment (owner dispositions:
+      slim pass chosen with the ceiling unchanged at 2,270; defect 7 by split,
+      R30 unchanged; 1,333 provenance investigation; counted set extended to
+      every new module the split/slim adds; bounded slim levers and stop
+      conditions; R36 behavioral freezes carried over), this task group, the
+      R37 entry shell and index rotation; correct the group-8 tick
+      discrepancy (tasks 8 and 8.1 → [x]; evidence commits
+      `0667548`/`67b94c4`); capture the live pre-slim canonical counts of the
+      six apparatus modules plus shim as the baseline receipt.
+    - Done when the amendment, tasks, research entry, index and tick
+      correction are committed before any slim code exists, and the baseline
+      receipt records per-file canonical counts with exact commands.
+    - _Requirements: 6.1, 6.2, 7.9, 8.1, 8.3_
+  - [ ] 9.2 `FROZEN_RUST_CANONICAL = 1,333` provenance investigation
+    - Trace the g1r constant to its origin: introduction commit, any receipt
+      or record it cites, and its relation to live counts; record the finding
+      (or the exhaustive-search evidence if no receipted source exists) as a
+      dated amendment without rewriting R36.
+    - Done when the provenance question has a documented answer with evidence
+      links, appended to the R37 entry.
+    - _Depends: 9.1_
+    - _Requirements: 8.1, 8.2, 8.4_
+  - [ ] 9.3 Defect 7 resolution: split `receipt.rs` under the R30 ceiling
+    - Split `receipt.rs` (measured 176/178 > 150) so the retained module is
+      ≤ 150 canonical lines and every extracted module is honestly registered
+      in `native/complexity-budgets.json` with measured ceilings and counted
+      in the R37 gate.
+    - Done when `test_recording.py` is 19/19 (three-stratum control green)
+      without amending R30, `lesscode-core budgets` exits 0, and admission
+      verification still passes on all emitted receipts.
+    - _Boundary: SharedRecorder admission/receipt seam_
+    - _Depends: 9.1_
+    - _Requirements: 2.6, 5.5, 6.1, 6.5_
+  - [ ] 9.4 `regenerator.rs` slim pass (largest lever, 2,798 lines)
+    - Consolidate the two-tier refine controller — shared kernels, removal of
+      derivable structure — while the six Tier-1 controls still fail closed
+      with zero runtime calls, the E4 three-turn replay reproduces the
+      recorded scores/transitions, prompt byte-parity and `request_sha256`
+      digests are unchanged, and every emitted receipt verifies.
+    - Done when the full native suite is green, the module's measured
+      canonical count is recorded, and no frozen file, digest or receipt
+      changed; levers that cannot preserve a frozen behavior are abandoned
+      and recorded, not forced.
+    - _Boundary: ProbabilisticRegenerator_
+    - _Depends: 9.3_
+    - _Requirements: 1.4, 3.6, 4.1, 4.3, 4.4, 4.5, 4.6, 5.8, 6.1, 6.5_
+  - [ ] 9.5 `surface`/`measures`/`recording` shared-structure slim pass
+    - Consolidate the derivable structure shared across `surface.rs` (1,154),
+      `measures.rs` (1,428) and `recording.rs` (1,002) into honestly-counted
+      shared modules, preserving frozen report envelope field names, Tier-1
+      verdicts on the frozen control set, canonical-count parity with
+      Python-side readings, and the frozen E3/E4 LF-body digest replay.
+    - Done when the full native suite is green, per-module measured counts
+      are recorded, and no frozen file, digest or receipt changed.
+    - _Depends: 9.4_
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.6, 5.5, 5.8, 6.1, 6.2, 6.3_
+  - [ ] 9.6 R37 U5 re-measurement gate
+    - Re-run the spike driver (`rust_u5_gate.py`, uncounted stratum) under
+      the frozen R37 counted set and canonical method after the slim pass and
+      defect-7 split; emit the gate record + `.sha256` with per-item G1-R
+      pass/fail and the measured total against the unchanged 2,270 ceiling,
+      hooks enumerated net.
+    - Done when the gate record is committed with exact commands, negatives
+      retained as measured, and no ceiling or baseline change.
+    - _Boundary: ProbabilisticRegenerator_
+    - _Depends: 9.4, 9.5_
+    - _Requirements: 5.8, 6.1, 6.4, 7.8, 7.9_
+  - [ ] 9.7 Verification, records and disposition hand-back
+    - Run `cargo nextest`, `cargo test --doc`, clippy, `cargo fmt --check`,
+      `lesscode-core budgets` and the unchanged Python suites; write the R37
+      results amendment, spec reciprocal links, research index update and
+      `.kiro/task_9_handover.md` returning the measured outcome (pass →
+      Slice B adoption planning unlocked; fail → amend/close options, no
+      weakening).
+    - Done when all suites are green or their failures are documented
+      non-regressions, no frozen file or receipt changed (hash check), and
+      the records keep planned, executed and measured states distinct.
+    - _Depends: 9.6_
+    - _Requirements: 7.8, 7.10, 8.1, 8.2, 8.3, 8.6_
 
 ## Deferred (documented, not scheduled)
 

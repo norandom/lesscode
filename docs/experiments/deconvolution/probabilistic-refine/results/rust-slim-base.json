@@ -1,0 +1,40 @@
+{
+ "budget_note": "required reduction to pass = 4779 of 7049 canonical lines; ceiling and baseline unchanged (R37)",
+ "frozen_reference": {
+  "r36_gate_commit": "7657969",
+  "r36_measured_total": 7049,
+  "r36_per_module": {
+   "admission.rs": 274,
+   "hooks_group8": 21,
+   "hooks_r31": 16,
+   "measures.rs": 1428,
+   "receipt.rs": 178,
+   "recording.rs": 1002,
+   "regenerator.rs": 2798,
+   "shim": 178,
+   "surface.rs": 1154
+  },
+  "u5_ceiling": 2270
+ },
+ "hooks_at_baseline": {
+  "group8_enumerated": 21,
+  "r31_frozen": 16
+ },
+ "method": "rustfmt (toolchain 1.98.1, --edition 2021) formatted copies, splitlines() counts; shim under ruff==0.17.3 format --isolated --line-length 100 --target-version py313; identical to the R27/R31/R34/R36 canonical method",
+ "pre_slim_commit": "67b94c4d6d571de28abcb903d7e30989faf0eba7",
+ "pre_slim_total": 7049,
+ "receipt": "rust-slim-base",
+ "rust_app_live": {
+  "src/admission.rs": 274,
+  "src/measures.rs": 1428,
+  "src/receipt.rs": 178,
+  "src/recording.rs": 1002,
+  "src/regenerator.rs": 2798,
+  "src/surface.rs": 1154
+ },
+ "rust_app_live_total": 6834,
+ "shim_ruff_live": {
+  "shim/recording_shim.py": 178
+ },
+ "task": "9.1"
+}
