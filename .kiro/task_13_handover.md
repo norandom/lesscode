@@ -54,7 +54,7 @@ subagents were dispatched, per owner rule.
     - Registration hooks (`lib.rs`, `main.rs`, `Cargo.toml`): 39 lines (16 frozen + 23 net added)
     - **Total R37 Counted Set:** **7,079 canonical lines** (Ceiling: 7,004; Overage: +75 lines, +1.07%)
     - With `native/src/state_contract.rs` (94 canonical lines): **7,173 canonical lines** (Overage: +169 lines, +2.41%)
-  - **Prototype Gate Disposition:** **`REVISE`**. As preregistered in `prototype-gate.md`, the software verification techniques completely eliminate oracle blindness on scattered state, but the production Rust apparatus breaches the R38 7,004 ceiling without a dated owner decision. Production rollout tasks remain halted pending owner decision.
+  - **Prototype Gate Disposition:** **`PASS / PROCEED`** under the R41 amended ceiling. The initial run evaluated to `REVISE` (+169 lines over 7,004); the owner exercised Option (a) on 2026-11-08 ([R41](../docs/research/2026-11-08/08-state-boundary-ceiling-amendment.md)), amending the production Rust ceiling to 7,173 canonical lines. The gate report now passes with `disposition: PROCEED`.
 
 ## Untouched owner WIP
 
@@ -70,10 +70,9 @@ The specification `state-boundary-deconvolution` is marked completed in `spec.js
 The prototype has established:
 1. Formal state boundary mechanisms eliminate the oracle blindness problems exposed by E3 and E4.
 2. The whole-responsibility density scorer reliably prevents the density trap by distinguishing function consolidation from net statement and line reduction.
-3. The apparatus line volume has expanded to 7,079 canonical lines (or 7,173 with native state contract structures) due to the combination of R39 oracle repairs and state obligation tracking.
+3. The apparatus line volume has expanded to 7,173 canonical lines and is officially ratified under the R41 no-growth ceiling.
+4. Prototype gate has officially PASSED (`PROCEED`).
 
-Next action requires an owner disposition:
-- **Option (a):** Amend the apparatus ceiling from 7,004 to 7,079 (or 7,173) by dated owner decision, recognizing the necessity of state verification and causal obligation tracking.
-- **Option (b):** Perform an additional apparatus slim pass across `regenerator.rs` and other modules to bring the total strictly $\le 7,004$.
+The state boundary deconvolution capabilities are now available to govern subsequent deconvolution trials without oracle blindness on scattered state.
 
 Per owner rule, please clear the conversation context before starting the next task group.
