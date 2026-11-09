@@ -25,6 +25,7 @@ pub mod state_contract;
 pub mod state_frame;
 pub mod stream_monitor;
 pub mod surface;
+pub mod token_guard;
 use model::*;
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};

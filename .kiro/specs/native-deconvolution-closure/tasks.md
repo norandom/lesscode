@@ -113,9 +113,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 6: Token Guard & Refinement Feedback Integration
+### Task 6: Token Guard & Refinement Feedback Integration [x]
 - **Requirements:** REQ-NAT-6.1, REQ-NAT-6.2
 - **Dependencies:** Task 1, Task 2, Task 3
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test token_guard` (3/3 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget).
 - **Owned Files:**
   - `native/src/token_guard.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/regenerator.rs` (integrate token guard and causal witness feedback)
