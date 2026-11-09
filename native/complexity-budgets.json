@@ -1,6 +1,15 @@
 {
  "files": [
   {
+   "path": "adapter_traits.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "native-deconvolution-closure",
+   "allocation": "Normative adapter traits and carrier contracts (task 1, REQ-NAT-1.1/3.1/5.1/6.3)",
+   "disposition": null
+  },
+  {
    "path": "admission.rs",
    "max_physical_lines": 272,
    "max_logical_units": 72,
@@ -36,11 +45,11 @@
   },
   {
    "path": "lib.rs",
-   "max_physical_lines": 592,
-   "max_logical_units": 186,
+   "max_physical_lines": 593,
+   "max_logical_units": 187,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split) + pub mod state_contract (task 3.3)",
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split) + pub mod state_contract (task 3.3) + pub mod adapter_traits (task 1)",
    "disposition": "keep-measured-ceiling; +5 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {

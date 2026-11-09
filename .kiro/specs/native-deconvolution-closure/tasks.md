@@ -6,9 +6,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 1: Common Adapter Traits & Wire Contracts
+### Task 1: Common Adapter Traits & Wire Contracts [x]
 - **Requirements:** REQ-NAT-1.1, REQ-NAT-3.1, REQ-NAT-5.1, REQ-NAT-6.3
 - **Dependencies:** None (foundation module)
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test adapter_contract` (4/4 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget).
 - **Owned Files:**
   - `native/src/adapter_traits.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/lib.rs` (registration only, $+1$ line)
