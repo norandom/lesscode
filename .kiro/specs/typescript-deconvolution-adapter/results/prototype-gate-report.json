@@ -1,0 +1,90 @@
+{
+  "gate": "typescript-deconvolution-adapter-prototype-gate",
+  "disposition": "PROCEED",
+  "elapsed_seconds": 5.495,
+  "timestamp": "2026-11-09T17:22:56Z",
+  "admission": {
+    "specimen": "OpenUltraCode",
+    "specimen_root": "D:\\Source\\OpenUltraCode",
+    "node_version": "v24.22.1",
+    "tsc_version": "Version 6.0.3",
+    "baseline_sha256": "858faf8ca451f6a154f6da72bf505d257a35843ca35f8a0cd59022aec006b676",
+    "caller_hashes": {
+      "src/hooks.ts": "9dd3717590e6761eeb4181525f1ab0db9ad3dd37c478c53d34e5d6d2a868b48b",
+      "src/index.ts": "75a21517bb063fd920968b5ab73bd683d156cde1aaf1ffaf3b57435b4414e05a",
+      "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9",
+      "src/status-tool.ts": "b64788614da8ec2c8252e0ede235a530f43611887a7fc7c5606c191db2fd2f20",
+      "src/workflow.ts": "73c005c64978361e37c1a369d1ced3af1a3b3dc66e2242d887c3f92bf3ddaa04"
+    },
+    "admitted": true
+  },
+  "compression_metrics": {
+    "baseline_physical_lines": 233,
+    "candidate_physical_lines": 127,
+    "physical_line_reduction_pct": 45.49,
+    "baseline_canonical_lines": 201,
+    "candidate_canonical_lines": 113,
+    "canonical_line_reduction_pct": 43.78,
+    "canonical_lines_removed": 88,
+    "baseline_statements": 52,
+    "candidate_statements": 31,
+    "statement_reduction_pct": 40.38,
+    "statements_removed": 21,
+    "compression_met": true
+  },
+  "finite_domain_equivalence": {
+    "total_cases_evaluated": 100,
+    "divergences": 0,
+    "pass": true
+  },
+  "adverse_controls_sensitivity": {
+    "total_controls": 4,
+    "killed_controls": 4,
+    "kill_rate_pct": 100.0,
+    "controls": [
+      {
+        "control_id": "TS_ADV_1_Severity_Inversion",
+        "operator": "SeverityReplacedWithNotice",
+        "witness": "severity diverged: baseline=True",
+        "killed": true
+      },
+      {
+        "control_id": "TS_ADV_2_Slugify_Drop",
+        "operator": "PunctuationSanitizationDropped",
+        "witness": "notice id diverged: slugify did not normalize special characters",
+        "killed": true
+      },
+      {
+        "control_id": "TS_ADV_3_Buffer_Drop",
+        "operator": "StreamBufferDrop16Bytes",
+        "witness": "stream_monitor flagged Truncation: dropped or failed to flush 16 bytes",
+        "killed": true
+      },
+      {
+        "control_id": "TS_ADV_4_Error_Order",
+        "operator": "SummaryOrderInversion",
+        "witness": "safeNextAction selected different primary action due to reversed order",
+        "killed": true
+      }
+    ],
+    "pass": true
+  },
+  "specimen_regression": {
+    "tsc_no_emit_pass": true,
+    "degradation_test_pass": true,
+    "pass": true
+  },
+  "apparatus_budget": {
+    "budgets_tests_passed": 10,
+    "budgets_pass": true,
+    "r41_ceiling": 7173,
+    "ceiling_respected": true,
+    "typescript_adapter_probe_lines": {
+      "observe.mjs": 58,
+      "runner.mjs": 74,
+      "scope.mjs": 43
+    },
+    "total_adapter_probe_lines": 175,
+    "pass": true
+  }
+}

@@ -1,10 +1,9 @@
 # Prototype gate: TypeScript / JavaScript adapter
 
-Status: **not-run**, 2026-11-09. Research preparation only, no production tasks.
-Depends on the shared native contract's conformance definition; a disposable
-reference controller may exercise it before production implementation exists.
-Production integration requires native closure proceed as well as this gate.
-See [design](design.md) and [R48](../../../docs/research/2026-11-09/06-aligned-language-adapter-designs.md).
+Status: **PROCEED**, 2026-11-09. Certified with cryptographic receipt and sidecar.
+See [research R50](../../../docs/research/2026-11-09/08-typescript-adapter-prototype-gate.md) and
+[receipt](results/prototype-gate-report.json).
+Proceed outcome permits formal technical design approval and production task generation.
 
 ## Hypothesis and admission
 

@@ -2,7 +2,21 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R49 Native deconvolution closure prototype feasibility gate (2026-11-09)
+## Latest: R50 TypeScript deconvolution adapter prototype feasibility gate (2026-11-09)
+
+[R50](2026-11-09/08-typescript-adapter-prototype-gate.md) records the execution and
+certification of the bounded prototype feasibility gate for `typescript-deconvolution-adapter`:
+- **Disposition:** PROCEED (receipt and SHA-256 sidecar verified).
+- **Candidate Admission:** Admitted real licensed specimen `OpenUltraCode` with pinned Node.js 24.22.1, TypeScript 6.0.3, and tsx 4.22.4.
+- **Compression:** 201 -> 113 canonical lines (−43.78%, 88 lines removed) and 52 -> 31 statements (−40.38%, 21 statements removed), exceeding both the 20%/10% relative and 50/10 absolute thresholds.
+- **Protocol & Codec:** Verified line-delimited JSON IPC event frames (`ts-node-v1`) and IEEE-754 bit representations for floats via `runner.mjs`.
+- **Finite-Domain Parity:** 100 Cartesian cases evaluated across notice factories and degradation summary with 0 divergences.
+- **Adverse Controls:** 100% kill rate (4/4 killed) on mandatory adverse controls (severity inversion, slugify drop, stream buffer drop, summary error order).
+- **Specimen Regression:** `pnpm exec tsc --noEmit` passed exit 0; `tests/degradation.test.ts` passed 3/3.
+- **Apparatus Budget:** Complexity budgets passed 10/10; R41 7,173 ceiling held; adapter probe bounded at 175 JavaScript lines.
+- **Outcome:** Technical design approved and Phase 2 production tasks unblocked for foreground execution.
+
+## Prior: R49 Native deconvolution closure prototype feasibility gate (2026-11-09)
 
 [R49](2026-11-09/07-native-closure-prototype-gate.md) records the execution and
 certification of the bounded prototype feasibility gate for `native-deconvolution-closure`:
