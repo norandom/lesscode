@@ -11,5 +11,13 @@ dist/
 
 # Local evaluation artifacts and disposable copies
 runs/
-.runs/
+.runs/*
+!.runs/e4-lifecycle/
+!.runs/e3-facdrone/
+.runs/e4-lifecycle/*
+!.runs/e4-lifecycle/*.json
+!.runs/e4-lifecycle/*.sha256
+!.runs/e4-lifecycle/*.sqlite
+.runs/e3-facdrone/*
+!.runs/e3-facdrone/*.sqlite
 .workspaces/
