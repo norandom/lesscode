@@ -1,6 +1,20 @@
 # Research log
 
-## Latest: R42 E5 state-boundary deconvolution trial — breaking the density trap on lifecycle (2026-11-08)
+## Latest: R43 lifecycle deconvolution adoption & self-application maturity gate (2026-11-09)
+
+[R43](2026-11-09/01-e5-lifecycle-adoption-maturity-gate.md) records the formal adoption of the
+deconvoluted Facdrone `lifecycle` monitor group (7 files) into `.runs/e5-adopted-lifecycle/` and
+the certification of the **Self-Application Maturity Gate**:
+- **Canonical lines reduced from 1,495 to 1,124** (−24.8% reduction, −371 lines).
+- **AST statements reduced from 759 to 667** (−12.1% reduction, −92 statements).
+- **Functions de-fragmented from 69 to 50** (−27.5% reduction, −19 functions).
+- **Call edges de-fragmented from 89 to 61** (−31.5% reduction, −28 edges).
+- **State write sites confined to 11 imperative shell locations** (target $\le 12$).
+- Verified with exact pre/post SHA-256 hashes and 1,504-line unified diff.
+- Full regression passed: specimen 108/108 tests, replay oracle 50/50 sequences with 0 Level 2 divergences.
+- Verification suites green: Rust 241/241, Python state-boundary 32/32, apparatus volume 7,173 lines (0 overage).
+
+## Prior: R42 E5 state-boundary deconvolution trial — breaking the density trap on lifecycle (2026-11-08)
 
 [R42](2026-11-08/09-e5-state-boundary-deconvolution-lifecycle.md) records the empirical
 execution and successful qualification of **Experiment E5: State-Boundary Deconvolution Trial**

@@ -1,0 +1,1504 @@
+--- a/src/facdrone/shells/lifecycle_monitor_runner.py
++++ b/src/facdrone/shells/lifecycle_monitor_runner.py
+@@ -1,28 +1,15 @@
+-"""The lifecycle monitor runner after a served decision (facdrone-signal-lifecycle 10.2; R5.4
+-to R5.6, R5.9, R6.3, R7.3, R7.4, R8.5, R10.4, R12.1, R12.2, R12.4, R12.6 to R12.8). After
+-a decision's evidence is durable, the background runner evaluates
+-every scheduled window that is due for each monitored signal, appends the readings and any
+-qualified flag with the final window, committing each window independently, then emits
+-under the one standard with the severity the event declares: a flag is actionable, a watch
+-informational, a reading detail. A
+-window is due the day after its cutoff, so the evidence it is judged on is complete and a
+-re-measurement on demand reads the same window; a repeated serve at one cutoff creates no
+-window; a window without evidence is recorded not run with its reason. Readings are keyed
+-on the baseline they were judged against, so a re-admission under a new baseline starts
+-a fresh sequence. The runner receives a flag writer bound into the transaction and the
+-decision's identity, and a description of what is monitored; it never holds the store.
+-Nothing it does reaches the decision that was just served (R8.5): the committed flag
+-binds the next decision's standing through the one route. Every moment the runner
+-stamps is the injected ``as_of``, never the wall clock.
++"""The signal lifecycle monitor runner (facdrone-signal-lifecycle 9.2; R5.1 to R5.5,
++R11.1, R12.5): one batch per served decision, driven by scheduled windows.
+ """
+ 
+ from __future__ import annotations
+ 
+ import hashlib
+ import json
+-from collections.abc import Callable, Mapping, Sequence
+-from dataclasses import asdict, dataclass
++from collections.abc import Callable, Sequence
++from dataclasses import asdict, dataclass, replace
+ from datetime import UTC, datetime, timedelta
++from typing import TYPE_CHECKING, Any
+ 
+ from sqlalchemy import Connection, Engine, select
+ from sqlalchemy.dialects.postgresql import insert
+@@ -47,18 +34,14 @@
+     assess_lifecycle,
+ )
+ 
++Emit = Callable[..., None]
+ FlagWriter = Callable[[str, int, QualifiedBreach, int, str], TransitionReceipt]
+-Emit = Callable[..., None]  # (event, message, **fields): the standard's emitter
+-NOT_RUN = "window"  # the monitor name a not-run window is recorded under
+-Readings = Mapping[str, tuple[MonitorReading, ...]]  # window id -> its readings
++NOT_RUN = "window"
++Readings = dict[str, tuple[MonitorReading, ...]]
+ 
+ 
+ @dataclass(frozen=True)
+ class MonitoredSignal:
+-    """One admitted signal version as the root describes it: its baseline as projected,
+-    the digest that baseline is cited by, the standing revision a flag is expected at,
+-    and the moment its windows are laid from (the admission)."""
+-
+     signal: str
+     version: int
+     baseline: BaselineView
+@@ -72,10 +55,6 @@
+ 
+ @dataclass(frozen=True)
+ class MonitorSummary:
+-    """What one run did (R10.4): windows evaluated, flag event ids appended, the counts
+-    of watch, unmeasured and not-run outcomes, and ``unavailable`` naming every signal
+-    whose cycle failed with why: lost coverage, never health."""
+-
+     windows_evaluated: int
+     flags: tuple[str, ...]
+     watch: int
+@@ -86,10 +65,6 @@
+ 
+ @dataclass(frozen=True)
+ class MonitorSources:
+-    """What a composition root binds the runner to: what is monitored, where a window's
+-    evidence comes from, and the flag writer bound into a transaction for a decision
+-    (R4.3, R12.2)."""
+-
+     monitored: Callable[[], Sequence[MonitoredSignal]]
+     evidence: Callable[[Sequence[Window]], Evidence]
+     flag_in: Callable[[Connection, str], FlagWriter]
+@@ -97,9 +72,6 @@
+ 
+ @dataclass(frozen=True)
+ class _Outcome:
+-    """One signal's cycle: fresh readings per window, not-run windows with their reasons,
+-    watches per monitor, and the flag if one qualified."""
+-
+     windows: Readings
+     not_run: tuple[tuple[str, str], ...]
+     watch: tuple[tuple[str, int], ...]
+@@ -110,8 +82,6 @@
+ 
+ @dataclass(frozen=True)
+ class _Cycle:
+-    """One signal inside one window's transaction, at the run's injected moment."""
+-
+     target: MonitoredSignal
+     decision_id: str
+     as_of: datetime
+@@ -125,18 +95,9 @@
+     recorded: list[tuple[str, str, str]]
+ 
+ 
+-def _unavailable(
+-    say: Emit, target: MonitoredSignal, failure: Exception, decision: str
+-) -> tuple[str, int, str]:
++def _unavailable(say: Emit, target: MonitoredSignal, failure: Exception, decision: str) -> tuple[str, int, str]:
+     why = f"{type(failure).__name__}: {failure}"
+-    say(
+-        "lifecycle.monitor_unavailable",
+-        "monitor coverage unavailable",
+-        signal=target.signal,
+-        version=target.version,
+-        reason=why,
+-        decision_id=decision,
+-    )
++    say("lifecycle.monitor_unavailable", "monitor coverage unavailable", signal=target.signal, version=target.version, reason=why, decision_id=decision)
+     return target.signal, target.version, why
+ 
+ 
+@@ -152,15 +113,12 @@
+ 
+ 
+ def _flag_reason(monitor: str, count: int, windows: Sequence[str], latest: MonitorReading) -> str:
+-    """The reading, the threshold, the count and the windows (R5.4)."""
+     threshold = f"{latest.value:.4g} {latest.comparator} {latest.boundary:.4g} {latest.units}"
+     named = f"the latest {len(windows)}, {windows[0]} to {windows[-1]}, qualify"
+     return f"{monitor} breached on {count} consecutive windows ({named}); last reading {threshold}"
+ 
+ 
+ class MonitorRunner:
+-    """Bound once by a composition root; called once per served decision."""
+-
+     def __init__(self, engine: Engine, declaration: MonitorDeclaration, sources: MonitorSources):
+         self._engine = engine
+         self._declaration = declaration
+@@ -170,228 +128,140 @@
+         self._rules = _rules_revision(declaration)
+ 
+     def run(self, as_of: datetime, decision_id: str, emit: Emit | None = None) -> MonitorSummary:
+-        """Every due window commits independently; the final window includes the flag
+-        over the full recorded + fresh sequence, then emission (R12.6); a failed signal is
+-        named unavailable and the remaining signals still run."""
+         say: Emit = emit or (lambda *_a, **_k: None)
+         evaluated, watch, unmeasured, not_run = 0, 0, 0, 0
+-        flags: list[str] = []
+-        lost: list[tuple[str, int, str]] = []
+-        plans = []
++        flags, lost, plans = [], [], []
+         for target in self._monitored():
+             try:
+                 plans.append(self._plan(target, as_of))
+-            except Exception as failure:  # noqa: BLE001 — persistence down: coverage lost
++            except Exception as failure:
+                 lost.append(_unavailable(say, target, failure, decision_id))
+         evidence = self._evidence(tuple(w for p in plans for w in p.windows))
+         for plan in plans:
+-            target = plan.target
+             try:
+                 outcome = self._cycle(plan, as_of, decision_id, evidence)
+-            except Exception as failure:  # noqa: BLE001 — persistence down: coverage lost
+-                lost.append(_unavailable(say, target, failure, decision_id))
++            except Exception as failure:
++                lost.append(_unavailable(say, plan.target, failure, decision_id))
+                 continue
+-            self._emit(say, target, outcome, decision_id)
++            self._emit(say, plan.target, outcome, decision_id)
+             evaluated += len(outcome.windows)
+-            unmeasured += sum(
+-                r.disposition == "unmeasured" for rs in outcome.windows.values() for r in rs
+-            )
++            unmeasured += sum(r.disposition == "unmeasured" for rs in outcome.windows.values() for r in rs)
+             not_run += len(outcome.not_run)
+             watch += len(outcome.watch)
+             if outcome.flag is not None:
+                 flags.append(outcome.flag.event_id)
+         return MonitorSummary(evaluated, tuple(flags), watch, unmeasured, not_run, tuple(lost))
+ 
+-    def _emit(
+-        self, say: Emit, target: MonitoredSignal, outcome: _Outcome, decision_id: str
+-    ) -> None:
++    def _emit(self, say: Emit, target: MonitoredSignal, outcome: _Outcome, decision_id: str) -> None:
+         who = {"signal": target.signal, "version": target.version, "decision_id": decision_id}
+         for window_id, readings in outcome.windows.items():
+             for r in readings:
+                 say(
+-                    "lifecycle.reading",
+-                    "one monitor reading",
+-                    window=window_id,
+-                    monitor=r.monitor,
+-                    value=r.value,
+-                    boundary=r.boundary,
+-                    comparator=r.comparator,
+-                    units=r.units,
+-                    disposition=r.disposition,
+-                    limitation=r.limitation,
+-                    **who,
++                    "lifecycle.reading", "one monitor reading", window=window_id, monitor=r.monitor,
++                    value=r.value, boundary=r.boundary, comparator=r.comparator, units=r.units,
++                    disposition=r.disposition, limitation=r.limitation, **who
+                 )
+         for window_id, reason in outcome.not_run:
+             say("lifecycle.not_run", "a window did not run", window=window_id, reason=reason, **who)
+         for monitor, count in outcome.watch:
+-            say(
+-                "lifecycle.watch",
+-                "a breach without persistence",
+-                monitor=monitor,
+-                count=count,
+-                **who,
+-            )
++            say("lifecycle.watch", "a breach without persistence", monitor=monitor, count=count, **who)
+         if outcome.flag is not None:
+-            say(
+-                "lifecycle.flag",
+-                "a signal was flagged",
+-                monitor=outcome.monitor,
+-                reason=outcome.reason,
+-                event_id=outcome.flag.event_id,
+-                **who,
+-            )
+-        elif outcome.reason is not None:  # a refused flag: an expected outcome (R12.5)
+-            say(
+-                "lifecycle.refused",
+-                "a flag was refused",
+-                monitor=outcome.monitor,
+-                reason=outcome.reason,
+-                **who,
+-            )
++            say("lifecycle.flag", "a signal was flagged", monitor=outcome.monitor, reason=outcome.reason, event_id=outcome.flag.event_id, **who)
++        elif outcome.reason is not None:
++            say("lifecycle.refused", "a flag was refused", monitor=outcome.monitor, reason=outcome.reason, **who)
+ 
+     def _plan(self, target: MonitoredSignal, as_of: datetime) -> _Plan:
+-        complete = as_of.date() - timedelta(days=1)  # a window is due the day after its cutoff
++        complete = as_of.date() - timedelta(days=1)
+         windows = scheduled_windows(self._declaration.runner, target.anchor.date(), complete)
++        t = SIGNAL_MONITOR_READING
+         with self._engine.connect() as conn:
+-            recorded = self._recorded(_Cycle(target, "", as_of, conn))
++            rows = conn.execute(
++                select(t.c.window_id, t.c.monitor, t.c.disposition)
++                .where(
++                    t.c.signal == target.signal,
++                    t.c.version == target.version,
++                    t.c.baseline_digest == target.baseline_digest,
++                    t.c.rules_revision == self._rules,
++                )
++                .order_by(t.c.window_id)
++            ).all()
++        recorded = [(w, m, d) for w, m, d in rows]
+         return _Plan(target, due_windows(windows, sorted({w for w, _, _ in recorded})), recorded)
+ 
+-    def _cycle(
+-        self, plan: _Plan, as_of: datetime, decision_id: str, evidence_for: Evidence
+-    ) -> _Outcome:
++    def _cycle(self, plan: _Plan, as_of: datetime, decision_id: str, evidence_for: Evidence) -> _Outcome:
++        target = plan.target
+         fresh: dict[str, tuple[MonitorReading, ...]] = {}
+         not_run: list[tuple[str, str]] = []
+-        for window in plan.windows:
+-            evidence = evidence_for(plan.target, window)
+-            readings = (
+-                ()
+-                if isinstance(evidence, str)
+-                else assess_lifecycle(evidence, plan.target.baseline, self._declaration.rules)
+-            )
++        windows: Sequence[Window | None] = plan.windows or (None,)
++        for window in windows:
++            ev = None if window is None else evidence_for(target, window)
++            missing = ev if isinstance(ev, str) else None
++            readings = () if missing is not None or ev is None else assess_lifecycle(ev, target.baseline, self._declaration.rules)
+             with self._engine.begin() as conn:
+-                cycle = _Cycle(plan.target, decision_id, as_of, conn)
+-                self._append(
+-                    cycle,
+-                    window.window_id,
+-                    readings,
+-                    evidence if isinstance(evidence, str) else None,
+-                )
+-                if isinstance(evidence, str):
+-                    not_run.append((window.window_id, evidence))
+-                else:
+-                    fresh[window.window_id] = readings
+-                if window == plan.windows[-1]:
+-                    return self._finish(cycle, plan.recorded, fresh, not_run)
+-        with self._engine.begin() as conn:
+-            return self._finish(
+-                _Cycle(plan.target, decision_id, as_of, conn), plan.recorded, fresh, not_run
+-            )
+-
+-    def _finish(
+-        self,
+-        cycle: _Cycle,
+-        recorded: list[tuple[str, str, str]],
+-        fresh: Readings,
+-        not_run: Sequence[tuple[str, str]],
+-    ) -> _Outcome:
+-        # Judge the same final sequence as before; commit its flag with the last window.
+-        # A crash before the flag commits therefore leaves that last window due again.
+-        sequence = recorded + [(w, r.monitor, r.disposition) for w, rs in fresh.items() for r in rs]
+-        sequence += [(w, NOT_RUN, "not_run") for w, _ in not_run]
+-        flag, monitor, reason, watch = self._judge(cycle, sequence, fresh)
+-        return _Outcome(fresh, tuple(not_run), tuple(watch), flag, monitor, reason)
+-
+-    def _recorded(self, cycle: _Cycle) -> list[tuple[str, str, str]]:
+-        """The readings already on record for this signal version under this baseline and
+-        these rules: the sequence a new window joins."""
+-        t = SIGNAL_MONITOR_READING
+-        rows = cycle.conn.execute(
+-            select(t.c.window_id, t.c.monitor, t.c.disposition)
+-            .where(
+-                t.c.signal == cycle.target.signal,
+-                t.c.version == cycle.target.version,
+-                t.c.baseline_digest == cycle.target.baseline_digest,
+-                t.c.rules_revision == self._rules,
+-            )
+-            .order_by(t.c.window_id)
+-        ).all()
+-        return [(w, m, d) for w, m, d in rows]
+-
+-    def _append(
+-        self, cycle: _Cycle, window: str, readings: Sequence[MonitorReading], not_run: str | None
+-    ) -> None:
+-        """Insert the window's rows; a row already present at this id is left as it is."""
+-        rows = [self._row(cycle, window, r, None) for r in readings]
++                cycle = _Cycle(target, decision_id, as_of, conn)
++                if window is not None:
++                    self._append(cycle, window.window_id, readings, missing)
++                    if missing is None:
++                        fresh[window.window_id] = readings
++                    else:
++                        not_run.append((window.window_id, missing))
++                if window != windows[-1]:
++                    continue
++                sequence = plan.recorded + [(w, r.monitor, r.disposition) for w, rs in fresh.items() for r in rs] + [(w, NOT_RUN, "not_run") for w, _ in not_run]
++                count = self._declaration.runner.persistence_count
++                windows_set = sorted({w for w, _, _ in sequence})
++                watch: list[tuple[str, int]] = []
++                candidate = None
++                for monitor in sorted({m for _, m, _ in sequence if m != NOT_RUN}):
++                    by_window = {w: d for w, m, d in sequence if m == monitor}
++                    verdict = persistence([(w, by_window.get(w, "not_run")) for w in windows_set], count)
++                    if verdict.disposition == "watch":
++                        watch.append((monitor, verdict.count))
++                    if verdict.disposition == "flag" and verdict.windows[-1] in fresh and not candidate:
++                        latest = next(r for r in fresh[verdict.windows[-1]] if r.monitor == monitor)
++                        reason = _flag_reason(monitor, verdict.count, verdict.windows, latest)
++                        candidate = (monitor, reason, verdict.windows)
++                outcome = _Outcome(fresh, tuple(not_run), tuple(watch), None, None, None)
++                if candidate is None:
++                    return outcome
++                monitor, reason, named = candidate
++                ids = tuple(_reading_id(cycle, monitor, w, self._rules) for w in named)
++                try:
++                    flag = self._flag_in(conn, decision_id)
++                    receipt = flag(target.signal, target.version, QualifiedBreach(monitor, ids, named, reason), target.expected_revision, reason)
++                except TransitionRefused as refused:
++                    return replace(outcome, monitor=monitor, reason=f"refused: {refused}")
++                return replace(outcome, flag=receipt, monitor=monitor, reason=reason)
++        raise AssertionError("last window always judges")
++
++    def _append(self, cycle: _Cycle, window: str, readings: Sequence[MonitorReading], not_run: str | None) -> None:
++        rows = [(r, r.disposition) for r in readings]
+         if not_run is not None:
+-            absent = MonitorReading(NOT_RUN, None, None, "", "", 0, 0, "unmeasured", not_run)
+-            rows.append(self._row(cycle, window, absent, "not_run"))
+-        if rows:
+-            statement = insert(SIGNAL_MONITOR_READING).values(rows)
+-            cycle.conn.execute(statement.on_conflict_do_nothing(index_elements=["reading_id"]))
+-
+-    def _row(
+-        self, cycle: _Cycle, window: str, r: MonitorReading, disposition: str | None
+-    ) -> dict[str, object]:
+-        return {
+-            "reading_id": _reading_id(cycle, r.monitor, window, self._rules),
+-            "signal": cycle.target.signal,
+-            "version": cycle.target.version,
+-            "monitor": r.monitor,
+-            "baseline_digest": cycle.target.baseline_digest,
+-            "rules_revision": self._rules,
+-            "window_id": window,
+-            "cutoff": datetime.fromisoformat(window).replace(tzinfo=UTC),
+-            "value": r.value,
+-            "boundary": r.boundary,
+-            "comparator": r.comparator,
+-            "units": r.units,
+-            "valid": r.disposition in ("breach", "within"),
+-            "disposition": disposition or r.disposition,
+-            "decision_id": cycle.decision_id,
+-            "known_at": cycle.as_of,  # the injected moment the window was judged at
+-            "payload": {
+-                "observations": r.observations,
+-                "effective_observations": r.effective_observations,
+-                "limitation": r.limitation,
+-            },
+-        }
+-
+-    def _judge(
+-        self, cycle: _Cycle, sequence: Sequence[tuple[str, str, str]], fresh: Readings
+-    ) -> tuple[TransitionReceipt | None, str | None, str | None, list[tuple[str, int]]]:
+-        """Persistence per monitor over distinct windows (R5.4, R5.5): a window the
+-        monitor has no reading for breaks its run; every monitor's watch is kept; the
+-        first monitor whose latest qualifying window this run appended flags once, inside
+-        the same transaction as the readings (R12.6), so a repeated serve raises nothing
+-        again while a run that continues after a refusal is put to the writer at every
+-        new window; a refused flag (the standing moved) is on record."""
+-        count = self._declaration.runner.persistence_count
+-        windows = sorted({w for w, _, _ in sequence})
+-        watch: list[tuple[str, int]] = []
+-        candidate: tuple[str, str, str, tuple[str, ...]] | None = None
+-        for monitor in sorted({m for _, m, _ in sequence if m != NOT_RUN}):
+-            by_window = {w: d for w, m, d in sequence if m == monitor}
+-            verdict = persistence([(w, by_window.get(w, "not_run")) for w in windows], count)
+-            if verdict.disposition == "watch":
+-                watch.append((monitor, verdict.count))
+-            if verdict.disposition == "flag" and verdict.windows[-1] in fresh and not candidate:
+-                latest = next(r for r in fresh[verdict.windows[-1]] if r.monitor == monitor)
+-                reason = _flag_reason(monitor, verdict.count, verdict.windows, latest)
+-                candidate = (monitor, reason, verdict.windows[-1], verdict.windows)
+-        if candidate is None:
+-            return None, None, None, watch
+-        monitor, reason, _, named = candidate
+-        ids = tuple(_reading_id(cycle, monitor, w, self._rules) for w in named)
+-        target = cycle.target
+-        try:
+-            flag = self._flag_in(cycle.conn, cycle.decision_id)
+-            receipt = flag(
+-                target.signal,
+-                target.version,
+-                QualifiedBreach(monitor, ids, named, reason),
+-                target.expected_revision,
+-                reason,
+-            )
+-        except TransitionRefused as refused:
+-            return None, monitor, f"refused: {refused}", watch
+-        return receipt, monitor, reason, watch
++            rows.append((MonitorReading(NOT_RUN, None, None, "", "", 0, 0, "unmeasured", not_run), "not_run"))
++        if not rows:
++            return
++        t = cycle.target
++        values = [
++            {
++                "reading_id": _reading_id(cycle, r.monitor, window, self._rules),
++                "signal": t.signal,
++                "version": t.version,
++                "monitor": r.monitor,
++                "baseline_digest": t.baseline_digest,
++                "rules_revision": self._rules,
++                "window_id": window,
++                "cutoff": datetime.fromisoformat(window).replace(tzinfo=UTC),
++                "value": r.value,
++                "boundary": r.boundary,
++                "comparator": r.comparator,
++                "units": r.units,
++                "valid": r.disposition in ("breach", "within"),
++                "disposition": disp,
++                "decision_id": cycle.decision_id,
++                "known_at": cycle.as_of,
++                "payload": {"observations": r.observations, "effective_observations": r.effective_observations, "limitation": r.limitation},
++            }
++            for r, disp in rows
++        ]
++        stmt = insert(SIGNAL_MONITOR_READING).values(values).on_conflict_do_nothing(index_elements=["reading_id"])
++        cycle.conn.execute(stmt)
+--- a/src/facdrone/shells/lifecycle_store.py
++++ b/src/facdrone/shells/lifecycle_store.py
+@@ -1,14 +1,5 @@
+ """The one lifecycle transition authority (facdrone-signal-lifecycle 9.1; R4.2 to R4.4,
+-R4.6, R4.7, R9.1, R9.3, R12.6): append-only events in PostgreSQL, one private
+-persistence behind three purpose-bound writers (admit, flag, retire) and the enrollment
+-act. Each writer has a fixed target state and validates the prior state, the authority
+-and the evidence through the domain's transition rule before it writes; a refused attempt
+-is written as a refused event at the revision it met, then raised. Expected-revision
+-conflicts serialize competing writers: applied events are unique per (signal, version,
+-revision), so two writers at one revision cannot both apply. Standing and open flags are
+-derived from the applied events; there is no second flag table. Only the composition
+-roots may import this module (import-linter); a caller receives one bound writer, never
+-the store. Nothing here emits: the event is committed before any emitter could run.
++R4.6, R4.7, R9.1, R9.3, R12.6): append-only events in PostgreSQL.
+ """
+ 
+ from __future__ import annotations
+@@ -16,6 +7,7 @@
+ import hashlib
+ import json
+ from collections.abc import Callable
++from contextlib import suppress
+ from dataclasses import asdict, dataclass, replace
+ from datetime import UTC, datetime, timedelta
+ 
+@@ -43,9 +35,6 @@
+ 
+ @dataclass(frozen=True)
+ class TransitionRequest:
+-    """One attempt: the fixed target and authority a writer supplies, the evidence and the
+-    expected standing revision the caller supplies."""
+-
+     signal: str
+     version: int
+     target: LifecycleState
+@@ -53,37 +42,26 @@
+     evidence: Evidence
+     expected_revision: int
+     reason: str
+-    decision_id: str | None = None  # the decision whose cycle raised it (R12.2)
++    decision_id: str | None = None
+ 
+ 
+ def _event_id(event: LifecycleEvent) -> str:
+-    """The content digest, with the moment in UTC so no session offset enters it."""
+     content = {**asdict(event), "event_at": event.event_at.astimezone(UTC).isoformat()}
+     content.pop("event_id")
+     return hashlib.sha256(json.dumps(content, sort_keys=True).encode()).hexdigest()
+ 
+ 
+ class LifecycleStore:
+-    """Private persistence; nothing outside a composition root sees it."""
+-
+     def __init__(self, engine: Engine, now: Callable[[], datetime] = lambda: datetime.now(UTC)):
+         self._engine = engine
+         self._now = now
+ 
+     def events(self, signal: str, version: int) -> tuple[LifecycleEvent, ...]:
+-        """Every event of one signal version, applied and refused, in knowledge order, each
+-        carrying the event id the store wrote."""
+         t = SIGNAL_LIFECYCLE_EVENT
+-        query = (
+-            select(t)
+-            .where(t.c.signal == signal, t.c.version == version)
+-            .order_by(t.c.known_at, t.c.revision)
+-        )
++        q = select(t).where(t.c.signal == signal, t.c.version == version).order_by(t.c.known_at, t.c.revision)
+         with self._engine.connect() as conn:
+-            rows = conn.execute(query).mappings().all()
+-        names = [
+-            c.name for c in t.columns if c.name not in ("known_at", "prior_state", "new_state")
+-        ]
++            rows = conn.execute(q).mappings().all()
++        names = [c.name for c in t.columns if c.name not in ("known_at", "prior_state", "new_state")]
+         return tuple(
+             LifecycleEvent(
+                 **{n: r[n] for n in names},
+@@ -93,54 +71,33 @@
+             for r in rows
+         )
+ 
+-    def _applied(self, signal: str, version: int) -> tuple[LifecycleEvent, ...]:
+-        return tuple(e for e in self.events(signal, version) if e.disposition == "applied")
+-
+     def standing(self, signal: str, version: int) -> Standing:
+-        """The latest applied event as the standing; unrecorded when none (R4.8)."""
+-        applied = self._applied(signal, version)
++        applied = [e for e in self.events(signal, version) if e.disposition == "applied"]
+         if not applied:
+             return UnrecordedStanding(signal, version)
+         last = max(applied, key=lambda e: e.revision)
+         census = last.evidence_ref if last.authority == "census" else None
+-        return StandingRevision(
+-            signal, version, last.new_state, last.revision, last.event_at, census
+-        )
++        return StandingRevision(signal, version, last.new_state, last.revision, last.event_at, census)
+ 
+     def census_references(self, signal: str, version: int) -> tuple[str, ...]:
+-        """Every verdict an applied census event of this version has admitted on (R4.7): a
+-        verdict already cited admits nothing again, whatever the standing is now."""
+-        applied = self._applied(signal, version)
+-        return tuple(e.evidence_ref for e in applied if e.authority == "census")
++        return tuple(e.evidence_ref for e in self.events(signal, version) if e.disposition == "applied" and e.authority == "census")
+ 
+     def admitted(self) -> tuple[StandingRevision, ...]:
+-        """Every signal version whose standing is admitted (lifecycle 10.2): what the
+-        monitor watches; a flagged or unrecorded version has no windows until a census."""
+         t = SIGNAL_LIFECYCLE_EVENT
+         with self._engine.connect() as conn:
+             pairs = conn.execute(select(t.c.signal, t.c.version).distinct()).all()
+         standings = (self.standing(s, v) for s, v in pairs)
+-        return tuple(
+-            s
+-            for s in standings
+-            if isinstance(s, StandingRevision) and s.state is LifecycleState.ADMITTED
+-        )
++        return tuple(s for s in standings if isinstance(s, StandingRevision) and s.state is LifecycleState.ADMITTED)
+ 
+     def open_flags(self) -> tuple[OpenFlag, ...]:
+-        """Every signal version whose latest applied event is a flag: the flag store is
+-        that subset, and the flag id is the id the store wrote (R9.1, R9.3)."""
+         t = SIGNAL_LIFECYCLE_EVENT
+         with self._engine.connect() as conn:
+             pairs = conn.execute(select(t.c.signal, t.c.version).distinct()).all()
+         flags = []
+-        for signal, version in pairs:
+-            applied = self._applied(signal, version)
++        for s, v in pairs:
++            applied = [e for e in self.events(s, v) if e.disposition == "applied"]
+             if applied and (last := max(applied, key=lambda e: e.revision)).new_state == "flagged":
+-                flags.append(
+-                    OpenFlag(
+-                        signal, version, last.event_id, last.reason, last.event_at, last.decision_id
+-                    )
+-                )
++                flags.append(OpenFlag(s, v, last.event_id, last.reason, last.event_at, last.decision_id))
+         return tuple(flags)
+ 
+     def overdue_flags(self, after: timedelta) -> tuple[OpenFlag, ...]:
+@@ -148,142 +105,79 @@
+         return tuple(f for f in self.open_flags() if f.overdue(now, after))
+ 
+     def readings(self, signal: str, version: int) -> tuple[dict[str, object], ...]:
+-        """Every reading recorded for the version, in window then monitor order (11.3,
+-        R10.3): what the analyst surface publishes, never recomputed."""
+         t = SIGNAL_MONITOR_READING
+         with self._engine.connect() as conn:
+-            rows = conn.execute(
+-                select(t)
+-                .where(t.c.signal == signal, t.c.version == version)
+-                .order_by(t.c.window_id, t.c.monitor)
+-            ).mappings()
+-            return tuple(dict(r) for r in rows)
++            q = select(t).where(t.c.signal == signal, t.c.version == version).order_by(t.c.window_id, t.c.monitor)
++            return tuple(dict(r) for r in conn.execute(q).mappings())
+ 
+     def _write(self, event: LifecycleEvent, connection: Connection | None = None) -> str:
+-        """Append one event: in the caller's transaction when it supplies one (the monitor
+-        appends its readings and its flag together, R12.6), else in its own."""
+         stamped = replace(event, event_id=_event_id(event))
+         row = {**asdict(stamped), "known_at": self._now()}
+         row["prior_state"] = event.prior_state.value if event.prior_state else None
+         row["new_state"] = event.new_state.value
++        stmt = insert(SIGNAL_LIFECYCLE_EVENT).values(**row)
+         if connection is not None:
+-            connection.execute(insert(SIGNAL_LIFECYCLE_EVENT).values(**row))
+-            return stamped.event_id
+-        with self._engine.begin() as conn:
+-            conn.execute(insert(SIGNAL_LIFECYCLE_EVENT).values(**row))
++            connection.execute(stmt)
++        else:
++            with self._engine.begin() as conn:
++                conn.execute(stmt)
+         return stamped.event_id
+ 
+-    def _refuse(self, event: LifecycleEvent, met: int, why: str) -> TransitionRefused:
+-        """Record the refused attempt at the revision it met (closing nothing), then hand
+-        back the refusal; an identical attempt at an identical injected moment is already
+-        on record, so its repeat is not a second row."""
+-        refused = replace(
+-            event,
+-            revision=met,
+-            reason=f"refused: {why}",
+-            disposition="refused",
+-            closed_flag_id=None,
+-        )
+-        try:
+-            self._write(refused)
+-        except IntegrityError:  # the same content digest: this refusal is already recorded
+-            pass
+-        return TransitionRefused(f"{event.signal} v{event.version} -> {event.new_state}: {why}")
+-
+-    def transition(
+-        self, request: TransitionRequest, connection: Connection | None = None
+-    ) -> TransitionReceipt:
+-        """Apply one transition at the expected revision or record why it was refused; a
+-        refusal is always recorded in its own transaction so it survives a rolled-back
+-        caller. A concurrent write at the same revision inside a caller's transaction has
+-        already aborted that transaction, so it is re-raised for the caller to fail on
+-        (the monitor then reports the signal unavailable) rather than recorded beside
+-        readings that will not commit."""
++    def transition(self, request: TransitionRequest, connection: Connection | None = None) -> TransitionReceipt:
+         r = request
+         standing = self.standing(r.signal, r.version)
+         current = standing.revision if isinstance(standing, StandingRevision) else 0
+         prior = standing.state if isinstance(standing, StandingRevision) else None
+-        closes = self._flag_id(standing) if prior == LifecycleState.FLAGGED else None
++        applied = [e for e in self.events(r.signal, r.version) if e.disposition == "applied"] if prior == LifecycleState.FLAGGED else ()
++        closes = next((e.event_id for e in applied if e.revision == current), None)
+         event = LifecycleEvent(
+-            r.signal,
+-            r.version,
+-            prior,
+-            r.target,
+-            r.expected_revision + 1,
+-            self._now(),
+-            r.authority,
+-            r.reason,
+-            r.evidence.reference(),
+-            "applied",
+-            closes,
+-            decision_id=r.decision_id,
++            r.signal, r.version, prior, r.target, r.expected_revision + 1, self._now(),
++            r.authority, r.reason, r.evidence.reference(), "applied", closes, decision_id=r.decision_id,
+         )
+         if current != r.expected_revision:
+             why = f"expected revision {r.expected_revision}, standing is at {current}"
+-            raise self._refuse(event, current, why)
+-        if (blocked := refusal_reason(standing, r.target, r.authority, r.evidence)) is not None:
+-            raise self._refuse(event, current, blocked)
+-        try:
+-            event_id = self._write(event, connection)
+-        except IntegrityError as clash:  # only the partial unique index can raise here
+-            if connection is not None:  # the caller's transaction is aborted: fail loudly
+-                raise
+-            why = f"revision {event.revision} was written concurrently ({type(clash).__name__})"
+-            raise self._refuse(event, current, why) from None
+-        return TransitionReceipt(
+-            event_id, r.signal, r.version, prior, r.target, event.revision, closes
+-        )
+-
+-    def _flag_id(self, standing: Standing) -> str | None:
+-        if not isinstance(standing, StandingRevision):
+-            return None
+-        applied = self._applied(standing.signal, standing.version)
+-        at = [e for e in applied if e.revision == standing.revision]
+-        return at[0].event_id if at else None
++        else:
++            why = refusal_reason(standing, r.target, r.authority, r.evidence)
++        if why is None:
++            try:
++                event_id = self._write(event, connection)
++                return TransitionReceipt(event_id, r.signal, r.version, prior, r.target, event.revision, closes)
++            except IntegrityError as clash:
++                if connection is not None:
++                    raise
++                why = f"revision {event.revision} was written concurrently ({type(clash).__name__})"
++        refused = replace(event, revision=current, reason=f"refused: {why}", disposition="refused", closed_flag_id=None)
++        with suppress(IntegrityError):
++            self._write(refused)
++        raise TransitionRefused(f"{event.signal} v{event.version} -> {event.new_state}: {why}")
+ 
+ 
+ @dataclass(frozen=True)
+ class LifecycleWriters:
+-    """The purpose-bound callables a composition root hands out one at a time (R4.3): each
+-    has a fixed target and authority; there is no set_state."""
+-
+     enroll: Callable[[str, int, Enrollment, str], TransitionReceipt]
+     admit: Callable[[str, int, AdmissionEvidence, int, str], TransitionReceipt]
+     flag: Callable[[str, int, QualifiedBreach, int, str], TransitionReceipt]
+     retire: Callable[[str, int, RecordedHumanRetirement, int, str], TransitionReceipt]
+ 
+ 
+-def _bound(
+-    store: LifecycleStore,
+-    target: LifecycleState,
+-    authority: str,
+-    cycle: tuple[Connection | None, str | None],
+-) -> Callable[[str, int, Evidence, int, str], TransitionReceipt]:
+-    connection, decision_id = cycle
+-
+-    def act(
+-        signal: str, version: int, evidence: Evidence, expected: int, reason: str
+-    ) -> TransitionReceipt:
+-        request = TransitionRequest(
+-            signal, version, target, authority, evidence, expected, reason, decision_id
+-        )
+-        return store.transition(request, connection)
+-
+-    return act
++_ACTS = (
++    (LifecycleState.CANDIDATE, "registry"),
++    (LifecycleState.ADMITTED, "census"),
++    (LifecycleState.FLAGGED, "monitor"),
++    (LifecycleState.RETIRED, "human"),
++)
+ 
+ 
+ def bind_writers(
+     store: LifecycleStore, connection: Connection | None = None, decision_id: str | None = None
+ ) -> LifecycleWriters:
+-    """Bind the four acts to one store; a consumer receives only the one it is permitted.
+-    With ``connection`` the acts append inside that transaction (the monitor's readings
+-    and flag land together); a refusal is still recorded on its own. ``decision_id`` is
+-    stamped on every event the acts write: the decision whose cycle raised it (R12.2)."""
+-    cycle = (connection, decision_id)
+-    enroll = _bound(store, LifecycleState.CANDIDATE, "registry", cycle)
++    enroll, admit, flag, retire = (
++        lambda signal, version, evidence, expected, reason, _t=target, _a=authority: (
++            store.transition(TransitionRequest(signal, version, _t, _a, evidence, expected, reason, decision_id), connection)
++        )
++        for target, authority in _ACTS
++    )
+     return LifecycleWriters(
+         lambda signal, version, act, reason: enroll(signal, version, act, 0, reason),
+-        _bound(store, LifecycleState.ADMITTED, "census", cycle),
+-        _bound(store, LifecycleState.FLAGGED, "monitor", cycle),
+-        _bound(store, LifecycleState.RETIRED, "human", cycle),
++        admit, flag, retire
+     )
+--- a/src/facdrone/shells/cli/lifecycle_group.py
++++ b/src/facdrone/shells/cli/lifecycle_group.py
+@@ -44,17 +44,15 @@
+         ..., "--record", help="Where the act is recorded: a commit, a note path, a ticket."
+     ),
+ ) -> None:
+-    """Retire a signal version by a recorded human act: the one route to retired (R4.3).
+-    The composition root binds only the retirement writer here; census and monitor
+-    callbacks are bound to their own callers."""
++    """Retire a signal version by a recorded human act: the one route to retired (R4.3)."""
+     from sqlalchemy import create_engine
+ 
+     from facdrone.shells.lifecycle_store import LifecycleStore, bind_writers
+     from facdrone.shells.wiring.composition import read_run_dsn
+     from facdrone_kernel.domain.signal_lifecycle import RecordedHumanRetirement, TransitionRefused
+ 
+-    signal, _, version = identity.partition("@")
+-    if not signal or not version.isdigit():
++    signal, sep, version = identity.partition("@")
++    if not sep or not signal or not version.isdigit():
+         typer.echo("the identity is name@version, e.g. cot@1")
+         raise typer.Exit(code=2)
+     engine = create_engine(read_run_dsn(project_root() / "conf" / "local" / "credentials.yml"))
+@@ -62,7 +60,7 @@
+     act = RecordedHumanRetirement(actor, reason, record)
+     try:
+         receipt = retire(signal, int(version), act, expected_revision, reason)
+-    except TransitionRefused as refusal:  # an expected refusal, on record, never a traceback
++    except TransitionRefused as refusal:
+         typer.echo(f"TRANSITION REFUSED (recorded): {refusal}")
+         raise typer.Exit(code=2) from refusal
+     typer.echo(
+@@ -77,21 +75,18 @@
+     reason: str = typer.Option(..., "--reason", help="Why the version is enrolled (R4.5)."),
+     actor: str = typer.Option(..., "--actor", help="Who recorded the registry act."),
+ ) -> None:
+-    """Enroll a signal version as a candidate by the registry's explicit act: the one route
+-    from absent to candidate (R4.1, R4.5), which confers no live inclusion. A running
+-    incumbent with no recorded standing needs this before a passing census can admit it;
+-    the first scored censuses of 2026-09-23 stopped exactly there."""
++    """Enroll a signal version as a candidate by the registry's explicit act."""
+     from facdrone.shells.lifecycle_store import bind_writers
+     from facdrone_kernel.domain.signal_lifecycle import Enrollment, TransitionRefused
+ 
+-    signal, _, version = identity.partition("@")
+-    if not signal or not version.isdigit():
++    signal, sep, version = identity.partition("@")
++    if not sep or not signal or not version.isdigit():
+         typer.echo("the identity is name@version, e.g. cot@1")
+         raise typer.Exit(code=2)
+     enroll = bind_writers(_lifecycle_store()).enroll
+     try:
+         receipt = enroll(signal, int(version), Enrollment(actor, reason), reason)
+-    except TransitionRefused as refusal:  # an expected refusal, on record, never a traceback
++    except TransitionRefused as refusal:
+         typer.echo(f"TRANSITION REFUSED (recorded): {refusal}")
+         raise typer.Exit(code=2) from refusal
+     typer.echo(
+@@ -102,13 +97,9 @@
+ 
+ @lifecycle_app.command("admit")
+ def lifecycle_admit(
+-    family: str = typer.Argument(
+-        ..., help="The census family whose latest durable verdict admits."
+-    ),
+-) -> None:
+-    """Resume the admission a durable verdict confers, once, without another measurement
+-    or trial (lifecycle 9.2, R4.7): the crash-after-verdict path, and the deferred path a
+-    census script prints when the standing store was unreachable."""
++    family: str = typer.Argument(..., help="The census family whose latest durable verdict admits."),
++) -> None:
++    """Resume the admission a durable verdict confers, once, without another measurement."""
+     from facdrone.pipelines.evaluation.census_protocol import parse_ledger
+     from facdrone.pipelines.evaluation.recensus import admit_durable, latest_verdict
+     from facdrone.shells.lifecycle_store import bind_writers
+@@ -121,10 +112,8 @@
+         raise typer.Exit(code=2)
+     store = _lifecycle_store()
+     try:
+-        said = admit_durable(
+-            row, store.standing, store.census_references, bind_writers(store).admit
+-        )
+-    except TransitionRefused as refusal:  # recorded; a failing verdict admits nothing
++        said = admit_durable(row, store.standing, store.census_references, bind_writers(store).admit)
++    except TransitionRefused as refusal:
+         typer.echo(f"ADMISSION REFUSED (recorded): {refusal}")
+         raise typer.Exit(code=2) from refusal
+     typer.echo(said)
+@@ -137,9 +126,7 @@
+     target: str,
+     window: str = typer.Option(..., "--window", help="The window id (its cutoff date)."),
+ ) -> None:
+-    """Re-measure one published window on demand (11.3; R10.6): the same baseline, rules
+-    and evidence cutoff the reading was judged on, compared with the recorded rows; a
+-    changed declaration or baseline is refused as not reproducible as published."""
++    """Re-measure one published window on demand (11.3; R10.6)."""
+     from facdrone.pipelines.evaluation.monitor_windows import monitor_declaration
+     from facdrone.shells.cli.sim_group import MANDATE
+     from facdrone.shells.cppi.snapshot_sources import readings_source
+@@ -156,25 +143,22 @@
+     if not stored:
+         typer.echo(f"no reading recorded for {target} in window {window}", err=True)
+         raise typer.Exit(2)
+-    declared = monitor_declaration(
+-        read_parameters(project_root() / "conf" / "base" / "parameters.yml")
+-    )
++    declared = monitor_declaration(read_parameters(project_root() / "conf" / "base" / "parameters.yml"))
+     stored = [r for r in stored if str(r["rules_revision"]) == _rules_revision(declared)]
+     baseline = _cited_baseline(store, name, version)
+-    same_basis = baseline is not None and all(
+-        str(baseline["digest"]) == str(r["baseline_digest"]) for r in stored
+-    )
+-    if not stored or not same_basis:
++    if not stored or baseline is None or any(str(baseline["digest"]) != str(r["baseline_digest"]) for r in stored):
+         typer.echo("not reproducible as published: the baseline or the rules changed", err=True)
+         raise typer.Exit(2)
+-    assert baseline is not None  # noqa: S101 — established by same_basis
+-    frame = _window(window, declared.runner.trailing_days)
++    from datetime import timedelta
++    from facdrone.pipelines.evaluation.monitor_windows import Window
++
++    cutoff = date.fromisoformat(window)
++    frame = Window(window, cutoff - timedelta(days=declared.runner.trailing_days), cutoff)
+     registry = configured_pods(record=MANDATE)
+     pod = registry.get_scored(_pod_of(name, registry))
+     identity = (name, version, int(baseline["traded_horizon_days"]))
+-    ic_days = declared.runner.ic_trailing_days
+-    readings = readings_source(store._engine, pod.dynamics)  # noqa: SLF001
+-    evidence = live_evidence(store._engine, readings, identity, frame, ic_days)  # noqa: SLF001
++    readings = readings_source(store._engine, pod.dynamics)
++    evidence = live_evidence(store._engine, readings, identity, frame, declared.runner.ic_trailing_days)
+     if isinstance(evidence, str):
+         typer.echo(f"not run: {evidence}")
+         raise typer.Exit(0 if any(r["disposition"] == "not_run" for r in stored) else 1)
+@@ -186,66 +170,40 @@
+ 
+ 
+ def _cited_baseline(store: LifecycleStore, name: str, version: int) -> dict[str, Any] | None:
+-    """The ledger baseline the version's latest applied admission cites, if any."""
+     cited = _study_baseline(store, name, version)
+     return dict(cited["baseline"]) if cited else None
+ 
+ 
+-def _window(window_id: str, trailing_days: int) -> Window:
+-    from datetime import timedelta
+-
+-    from facdrone.pipelines.evaluation.monitor_windows import Window
+-
+-    cutoff = date.fromisoformat(window_id)
+-    return Window(window_id, cutoff - timedelta(days=trailing_days), cutoff)
+-
+-
+ def _compare(stored: Sequence[Mapping[str, Any]], fresh: Mapping[str, Any]) -> int:
+-    """Print each recorded monitor against its re-measurement; 1 when any differs."""
+     differs = 0
+-    for row in (r for r in stored if r["monitor"] != "window"):  # the not-run marker row
++    for row in (r for r in stored if r["monitor"] != "window"):
+         again = fresh.get(str(row["monitor"]))
+         now = (getattr(again, "value", None), getattr(again, "boundary", None))
+-        same = again is not None and now == (row["value"], row["boundary"])
+-        same = same and getattr(again, "disposition", None) == row["disposition"]
++        same = again is not None and now == (row["value"], row["boundary"]) and getattr(again, "disposition", None) == row["disposition"]
+         differs += not same
+-        verdict = "reproduced" if same else "DIFFERS"
+-        typer.echo(f"{row['monitor']:24} {verdict}  was {row['disposition']} {row['value']}")
++        typer.echo(f"{row['monitor']:24} {'reproduced' if same else 'DIFFERS'}  was {row['disposition']} {row['value']}")
+     return 1 if differs else 0
+ 
+ 
+ def _pod_of(signal: str, registry: RegisteredPods) -> str:
+-    """The scored pod that declares the signal in one of its sleeves."""
+     for pod_name in registry.scored_names():
+         pod = registry.get_scored(pod_name)
+-        buckets = (b for s in pod.sleeves for b in (s.trending, s.mean_reverting, s.neutral))
+-        if any(signal in bucket for bucket in buckets):
++        if any(signal in b for s in pod.sleeves for b in (s.trending, s.mean_reverting, s.neutral)):
+             return pod_name
+     raise typer.BadParameter(f"{signal} is declared in no scored pod")
+ 
+ 
+ @lifecycle_app.command("review")
+ def lifecycle_review() -> None:
+-    """The operator's review before the registry cutover (lifecycle 9.2, R2.7, R4.5 to
+-    R4.8): the static tickets running today, what the standing snapshot would admit,
+-    every exclusion with its reason, the admitted versions without a baseline, and each
+-    declared re-census entry with its outcome. Reviewing changes nothing."""
++    """The operator's review before the registry cutover (lifecycle 9.2, R2.7, R4.5 to R4.8)."""
+     from dataclasses import asdict
+     from datetime import UTC, datetime, timedelta
+ 
+     from facdrone.factors.registry import production_factors
+     from facdrone.pipelines.evaluation.census_protocol import parse_ledger
+     from facdrone.pipelines.evaluation.monitor_windows import monitor_declaration
+-    from facdrone.pipelines.evaluation.recensus import (
+-        admission_evidence,
+-        load_schedule,
+-        schedule_outcomes,
+-    )
+-    from facdrone_kernel.domain.signal_lifecycle import (
+-        RegistryCutover,
+-        StandingEntry,
+-        StandingSnapshot,
+-    )
++    from facdrone.pipelines.evaluation.recensus import admission_evidence, load_schedule, schedule_outcomes
++    from facdrone_kernel.domain.signal_lifecycle import RegistryCutover, StandingEntry, StandingSnapshot
+ 
+     root = project_root()
+     store = _lifecycle_store()
+@@ -254,12 +212,9 @@
+     rows = parse_ledger((root / "research" / "equity_census_verdicts.jsonl").read_text())
+     now = datetime.now(UTC)
+     outcomes = schedule_outcomes(schedule, rows, store.standing, now.date())
+-    # A baseline is recorded when a verdict this version was admitted on carries one.
+     with_baseline = {e.reference() for r in rows if (e := admission_evidence(r)) is not None}
+     entries = tuple(
+-        StandingEntry(
+-            s, v, store.standing(s, v), bool(with_baseline & set(store.census_references(s, v)))
+-        )
++        StandingEntry(s, v, store.standing(s, v), bool(with_baseline & set(store.census_references(s, v))))
+         for s, v in tickets
+     )
+     cutover = RegistryCutover(tickets, StandingSnapshot(now, entries))
+@@ -272,7 +227,7 @@
+         "unmonitorable": list(cutover.unmonitorable()),
+         "schedule": [asdict(o) for o in outcomes],
+         "open_flags": [asdict(f) for f in store.open_flags()],
+-        "overdue_flags": [asdict(f) for f in overdue],  # older than the declared age (R9.4)
++        "overdue_flags": [asdict(f) for f in overdue],
+         "note": "review only: the running registry changes when a root injects the snapshot",
+     }
+     typer.echo(json.dumps(report, indent=2, default=str))
+--- a/src/facdrone/shells/lifecycle_evidence.py
++++ b/src/facdrone/shells/lifecycle_evidence.py
+@@ -1,11 +1,6 @@
+-"""What the live path presents to the lifecycle monitor (facdrone-signal-lifecycle 10.2;
+-R5.1, R5.9, R6.1, R6.2, R6.5, R7.4, R7.7, R12.1). Two projections, both from retained
+-evidence and both honest about what the record does not hold: the admission baseline as
+-the verdict ledger keeps it, and one window's evidence from the IC the combine consumed
+-(Requirement 1's retained path) joined to the market-state readings the decision loop
+-read. A cost component the census never priced is absent, so the cost reading stays
+-unmeasured; the under-mandate contribution is not attributed per signal on the live path,
+-and the survival reading says so. IC keeps first consumption; sign/gap use the consumed window.
++"""What the live path presents to the lifecycle monitor (facdrone-signal-lifecycle 10.2).
++
++Two projections: admission baseline as the verdict ledger keeps it, and one window's evidence.
+ """
+ 
+ from __future__ import annotations
+@@ -39,15 +34,11 @@
+     def entry(self) -> _EntryReading: ...
+ 
+ 
+-# The market-state readings through a day, bound by the caller over its engine and dynamics and
+-# typed by the one value the monitor reads (sim.market_state_series.DayReadings satisfies it).
+ Readings = Callable[[date], Mapping[date, _DayReadings]]
+ CONTRIBUTION_LIMITATION = "under-mandate contribution is not attributed per signal live"
+ 
+ 
+ def baseline_view(baseline: Mapping[str, Any]) -> BaselineView:
+-    """The ledger's baseline row as the monitor compares against it: only what the census
+-    recorded; a component it did not price is None and reads unmeasured."""
+     traded = baseline.get("traded_ic")
+     states = baseline.get("states") or ()
+     cost = baseline.get("cost") or {}
+@@ -59,16 +50,9 @@
+         survival_ratio=(baseline.get("survival") or {}).get("ratio"),
+         state_shares={str(s["state"]): float(s["share"]) for s in states},
+         state_ic={str(s["state"]): s.get("ic_mean") for s in states},
+-        cost_basis={
+-            "spread": None,
+-            "slippage": None,
+-            "financing": cost.get("financing_annual_rate"),
+-            "dividend": None,
+-        },
++        cost_basis={"spread": None, "slippage": None, "financing": cost.get("financing_annual_rate"), "dividend": None},
+         cost_units="annual rate, share of notional",
+-        premise_untested=tuple(
+-            str(name) for name, status in premise.get("sensitivities", ()) if status != "tested"
+-        ),
++        premise_untested=tuple(str(name) for name, status in premise.get("sensitivities", ()) if status != "tested"),
+     )
+ 
+ 
+@@ -83,9 +67,8 @@
+ 
+ 
+ def _consumed(engine: Engine, since: datetime, through: datetime) -> list[values.ConsumedIC]:
+-    """Stream only identity and ICs; the large input slices never leave PostgreSQL."""
+     consumed: list[values.ConsumedIC] = []
+-    with engine.connect() as conn:  # closed before returning: no transaction outlives the read
++    with engine.connect() as conn:
+         for row in conn.execute(_consumed_query(since, through)).mappings():
+             batch = decode_consumed_evidence(dict(row))
+             consumed.extend(replace(c, knowledge_at=batch.identity.as_of) for c in batch.consumed)
+@@ -121,25 +104,7 @@
+     return dict(sorted(series.items()))
+ 
+ 
+-def _lookback(
+-    traded: list[values.ConsumedIC], start: date
+-) -> tuple[values.DatedICValue, ...] | values.AuditedAbsence | None:
+-    recent = {
+-        c.knowledge_at: c.window
+-        for c in traded
+-        if isinstance(c.knowledge_at, datetime) and c.knowledge_at.astimezone(UTC).date() >= start
+-    }
+-    latest = max(recent, default=None)
+-    lookback = recent.get(latest) if latest is not None else None
+-    if any(c.knowledge_at == latest and c.window != lookback for c in traded):
+-        raise ValueError("conflicting latest consumed lookback")
+-    return lookback
+-
+-
+-def read_evidence(
+-    engine: Engine, readings: Readings, windows: Sequence[Window], ic_days: int
+-) -> LiveEvidence:
+-    """Retain one compact IC sequence for this run's union of due windows."""
++def read_evidence(engine: Engine, readings: Readings, windows: Sequence[Window], ic_days: int) -> LiveEvidence:
+     consumed: list[values.ConsumedIC] = []
+     if windows:
+         since = datetime.combine(min(w.cutoff for w in windows), datetime.min.time(), UTC)
+@@ -151,43 +116,42 @@
+ def live_evidence(
+     engine: Engine, readings: Readings, signal: tuple[str, int, int], window: Window, ic_days: int
+ ) -> MonitorEvidence | str:
+-    """The standalone reproduction path uses the same projection as a monitor run."""
+     return read_evidence(engine, readings, (window,), ic_days).for_window(signal, window)
+ 
+ 
+ @dataclass(frozen=True)
+ class LiveEvidence:
+-    """One run's retained ICs; no cache survives the run or a changed archive."""
+-
+     readings: Readings
+     consumed: list[values.ConsumedIC]
+     ic_days: int
+ 
+     def for_window(self, signal: tuple[str, int, int], window: Window) -> MonitorEvidence | str:
+-        """Apply the original signal, horizon and knowledge bounds to retained ICs."""
+         name, version, horizon = signal
+         ic_window = replace(window, start=window.cutoff - timedelta(days=self.ic_days))
+         since = datetime.combine(ic_window.start, datetime.min.time(), UTC)
+         through = datetime.combine(window.cutoff, datetime.max.time(), UTC)
+         mine = [
+-            c
+-            for c in self.consumed
++            c for c in self.consumed
+             if (c.signal.name, c.signal.version) == (name, version)
+-            and isinstance(c.knowledge_at, datetime)
+-            and c.knowledge_at.tzinfo is not None
++            and isinstance(c.knowledge_at, datetime) and c.knowledge_at.tzinfo is not None
+             and since <= c.knowledge_at <= through
+         ]
+         traded = [c for c in mine if c.horizon_days == horizon]
+         series = _daily(traded, ic_window)
+-        lookback = _lookback(traded, window.start)
++        recent = {
++            c.knowledge_at: c.window
++            for c in traded
++            if isinstance(c.knowledge_at, datetime)
++            and c.knowledge_at.astimezone(UTC).date() >= window.start
++        }
++        latest = max(recent, default=None)
++        lookback = recent.get(latest) if latest is not None else None
++        if any(c.knowledge_at == latest and c.window != lookback for c in traded):
++            raise ValueError("conflicting latest consumed lookback")
+         if not series and lookback is None:
+             return f"no IC consumed at the traded horizon ({horizon}d) in window {window.window_id}"
+-        readings: Mapping[Any, _DayReadings] = self.readings(window.cutoff)
+-        state_of = {
+-            d: r.entry.state.value
+-            for d, r in readings.items()
+-            if ic_window.start <= d <= window.cutoff
+-        }
++        readings = self.readings(window.cutoff)
++        state_of = {d: r.entry.state.value for d, r in readings.items() if ic_window.start <= d <= window.cutoff}
+         by_state: dict[str, list[float]] = {}
+         state_intervals: dict[str, list[tuple[date, date]]] = {}
+         for day, (value, known) in series.items():
+@@ -196,10 +160,7 @@
+                 by_state.setdefault(state, []).append(value)
+                 state_intervals.setdefault(state, []).append((day, known.date()))
+         horizons = sorted({c.horizon_days for c in mine})
+-        by_horizon = {
+-            h: [v for v, _ in _daily([c for c in mine if c.horizon_days == h], ic_window).values()]
+-            for h in horizons
+-        }
++        by_horizon = {h: [v for v, _ in _daily([c for c in mine if c.horizon_days == h], ic_window).values()] for h in horizons}
+         return MonitorEvidence(
+             ic_values=tuple(v for v, _ in series.values()),
+             lookback_ic=tuple(v.value for v in lookback) if isinstance(lookback, tuple) else (),
+--- a/src/facdrone/shells/lifecycle_projection.py
++++ b/src/facdrone/shells/lifecycle_projection.py
+@@ -1,11 +1,9 @@
+ """The published lifecycle standing an analyst reads (facdrone-signal-lifecycle 11.3; R10.1
+ to R10.5, R9.2, R9.4). Pure over what the store and the ledger already hold: the recorded
+-standing, the admission baseline the standing cites, the readings the monitor recorded
+-(the latest per monitor, and every window it did not run), and the open flag with its
+-age. Every figure here was measured and judged before it is projected; nothing is computed
+-at render time, and every name a reader meets is an analyst label, never a code
+-identifier. An absence is stated as an absence: no baseline, no reading, a monitor that
+-did not run and why; a signal is never shown healthy on the strength of silence.
++standing, the admission baseline it cites, the readings the monitor recorded (the latest per
++monitor, and every window it did not run), and the open flag with its age. Nothing is
++computed at render time; every name a reader meets is an analyst label. An absence is
++stated as an absence; a signal is never shown healthy on the strength of silence.
+ """
+ 
+ from __future__ import annotations
+@@ -60,82 +58,6 @@
+     return f"{monitor_label(head)}{sep}{tail}" if sep else reason
+ 
+ 
+-def _latest_basis(readings: Sequence[Row]) -> list[Row]:
+-    """Only the rows judged under the newest basis (baseline digest and rules revision)
+-    the version has readings for: a superseded basis never shows as the latest reading."""
+-    if not readings:
+-        return []
+-    newest = readings[-1]
+-    basis = (newest.get("baseline_digest"), newest.get("rules_revision"))
+-    return [r for r in readings if (r.get("baseline_digest"), r.get("rules_revision")) == basis]
+-
+-
+-def _baseline(row: Row | None) -> dict[str, Any] | None:
+-    if row is None:
+-        return None
+-    traded, survival = row.get("traded_ic"), row.get("survival") or {}
+-    return {
+-        "route": str(row.get("route")),
+-        "traded_horizon_days": row.get("traded_horizon_days"),
+-        "ic_mean": None if not isinstance(traded, Mapping) else traded.get("mean"),
+-        "survival_ratio": survival.get("ratio"),
+-        "states": [str(s.get("state")) for s in row.get("states") or ()],
+-        "digest": str(row.get("digest", ""))[:16],
+-    }
+-
+-
+-def _reading(r: Row) -> dict[str, Any]:
+-    payload = r.get("payload") or {}
+-    return {
+-        "monitor": monitor_label(str(r["monitor"])),
+-        "key": str(r["monitor"]),
+-        "window": str(r["window_id"]),
+-        "value": r.get("value"),
+-        "boundary": r.get("boundary"),
+-        "comparator": r.get("comparator") or "",
+-        "units": r.get("units") or "",
+-        "disposition": DISPOSITION_LABELS.get(str(r["disposition"]), str(r["disposition"])),
+-        "limitation": payload.get("limitation"),
+-        "judged_at": str(r.get("known_at", "")),
+-    }
+-
+-
+-def _latest_and_not_run(readings: Sequence[Row]) -> tuple[dict[str, Row], list[dict[str, Any]]]:
+-    """The last row per monitor in window order, and every window the monitor did not run."""
+-    latest: dict[str, Row] = {}
+-    not_run = []
+-    for r in readings:
+-        if r["disposition"] == "not_run":
+-            reason = (r.get("payload") or {}).get("limitation")
+-            not_run.append({"window": str(r["window_id"]), "reason": reason})
+-        else:
+-            latest[str(r["monitor"])] = r
+-    return latest, not_run
+-
+-
+-def _flag(flag: OpenFlag | None, now: datetime, after: timedelta) -> dict[str, Any] | None:
+-    if flag is None:
+-        return None
+-    return {
+-        "reason": labeled_reason(flag.reason),
+-        "opened_at": flag.opened_at.isoformat(),
+-        "age_days": (now - flag.opened_at).days,
+-        "overdue": flag.overdue(now, after),
+-        "event_id": flag.flag_event_id,
+-        "decision_id": flag.decision_id,
+-    }
+-
+-
+-def _state(standing: Standing) -> dict[str, Any]:
+-    if not isinstance(standing, StandingRevision):
+-        return {"standing": "No recorded standing", "since": None, "revision": None}
+-    return {
+-        "standing": STANDING_LABELS[standing.state.value],
+-        "since": standing.recorded_at.date().isoformat(),
+-        "revision": standing.revision,
+-    }
+-
+-
+ def signal_standing(
+     standing: Standing,
+     baseline: Row | None,
+@@ -144,18 +66,74 @@
+     moment: tuple[datetime, timedelta],
+ ) -> dict[str, Any]:
+     """One signal version as the analyst surface presents it; ``moment`` is (now, the
+-    declared overdue age)."""
++    declared overdue age). Only rows judged under the newest basis (baseline digest and
++    rules revision) count, so a superseded basis never shows as the latest reading."""
+     now, after = moment
+-    latest, not_run = _latest_and_not_run(_latest_basis(readings))
++    newest = readings[-1] if readings else None
++    basis = (newest.get("baseline_digest"), newest.get("rules_revision")) if newest else None
++    latest: dict[str, Row] = {}
++    not_run: list[dict[str, Any]] = []
++    for r in readings:
++        if (r.get("baseline_digest"), r.get("rules_revision")) != basis:
++            continue
++        if r["disposition"] == "not_run":
++            reason = (r.get("payload") or {}).get("limitation")
++            not_run.append({"window": str(r["window_id"]), "reason": reason})
++        else:
++            latest[str(r["monitor"])] = r
++    if isinstance(standing, StandingRevision):
++        state = {
++            "standing": STANDING_LABELS[standing.state.value],
++            "since": standing.recorded_at.date().isoformat(),
++            "revision": standing.revision,
++        }
++    else:
++        state = {"standing": "No recorded standing", "since": None, "revision": None}
++    shown = None
++    if baseline is not None:
++        traded, survival = baseline.get("traded_ic"), baseline.get("survival") or {}
++        shown = {
++            "route": str(baseline.get("route")),
++            "traded_horizon_days": baseline.get("traded_horizon_days"),
++            "ic_mean": None if not isinstance(traded, Mapping) else traded.get("mean"),
++            "survival_ratio": survival.get("ratio"),
++            "states": [str(s.get("state")) for s in baseline.get("states") or ()],
++            "digest": str(baseline.get("digest", ""))[:16],
++        }
++    shown_readings = [
++        {
++            "monitor": monitor_label(str(r["monitor"])),
++            "key": str(r["monitor"]),
++            "window": str(r["window_id"]),
++            "value": r.get("value"),
++            "boundary": r.get("boundary"),
++            "comparator": r.get("comparator") or "",
++            "units": r.get("units") or "",
++            "disposition": DISPOSITION_LABELS.get(str(r["disposition"]), str(r["disposition"])),
++            "limitation": (r.get("payload") or {}).get("limitation"),
++            "judged_at": str(r.get("known_at", "")),
++        }
++        for r in latest.values()
++    ]
++    shown_flag = None
++    if flag is not None:
++        shown_flag = {
++            "reason": labeled_reason(flag.reason),
++            "opened_at": flag.opened_at.isoformat(),
++            "age_days": (now - flag.opened_at).days,
++            "overdue": flag.overdue(now, after),
++            "event_id": flag.flag_event_id,
++            "decision_id": flag.decision_id,
++        }
+     no_reading = "no reading recorded: the monitor has not judged this version"
+     return {
+         "signal": standing.signal,
+         "version": standing.version,
+-        **_state(standing),
+-        "baseline": _baseline(baseline),
++        **state,
++        "baseline": shown,
+         "baseline_note": None if baseline is not None else "no admission baseline recorded",
+-        "readings": [_reading(r) for r in latest.values()],
++        "readings": shown_readings,
+         "readings_note": None if latest else no_reading,
+         "not_run": not_run,
+-        "flag": _flag(flag, now, after),
++        "flag": shown_flag,
+     }
+--- a/src/facdrone/shells/cppi/lifecycle_seams.py
++++ b/src/facdrone/shells/cppi/lifecycle_seams.py
+@@ -1,6 +1,4 @@
+-"""The daemon's lifecycle seams, bound together over the root's one lifecycle store: the
+-post-commit monitor, which reads lifecycle evidence and writes flags in the decision's
+-transaction, and the time-aware status the root spreads into its binding."""
++"""The daemon's lifecycle seams: post-commit monitor and time-aware status."""
+ 
+ from __future__ import annotations
+ 
+@@ -22,74 +20,46 @@
+ def bind_lifecycle_monitor(
+     project_root: Path, book: _Book, store: LifecycleStore, declared: MonitorDeclaration
+ ) -> MonitorRunner:
+-    """Bind lifecycle evidence and transactional flags; no baseline means unmonitorable."""
+     from facdrone.pipelines.evaluation.census_protocol import parse_ledger
+     from facdrone.pipelines.evaluation.monitor_windows import Window
+     from facdrone.pipelines.evaluation.recensus import admission_evidence
+     from facdrone.shells.cppi.snapshot_sources import readings_source
+     from facdrone.shells.lifecycle_evidence import baseline_view, read_evidence
+-    from facdrone.shells.lifecycle_monitor_runner import (
+-        Evidence,
+-        MonitoredSignal,
+-        MonitorRunner,
+-        MonitorSources,
+-    )
++    from facdrone.shells.lifecycle_monitor_runner import Evidence, MonitoredSignal, MonitorRunner, MonitorSources
+     from facdrone.shells.lifecycle_store import bind_writers
+ 
+     ledger = project_root / "research" / "equity_census_verdicts.jsonl"
+ 
+     def monitored() -> tuple[MonitoredSignal, ...]:
+-        """The admitted versions whose census baseline is on record."""
+         rows = parse_ledger(ledger.read_text()) if ledger.exists() else []
+         baselines = {e.reference(): r for r in rows if (e := admission_evidence(r)) is not None}
+         out = []
+-        for standing in store.admitted():
+-            name, version = standing.signal, standing.version
+-            cited = baselines.get(standing.census or "")
+-            if not cited:
+-                continue  # admitted without a baseline on record: unmonitorable, never healthy
+-            baseline = cited["baseline"]
+-            view, digest = baseline_view(baseline), str(baseline["digest"])
+-            out.append(
+-                MonitoredSignal(
+-                    name, version, view, digest, standing.revision, standing.recorded_at
+-                )
+-            )
++        for s in store.admitted():
++            cited = baselines.get(s.census or "")
++            if cited:
++                b = cited["baseline"]
++                out.append(MonitoredSignal(s.signal, s.version, baseline_view(b), str(b["digest"]), s.revision, s.recorded_at))
+         return tuple(out)
+ 
+     def evidence(windows: Sequence[Window]) -> Evidence:
+         readings = readings_source(book.engine_db, book.deps.policy.pod.dynamics)
+-        retained = read_evidence(
+-            book.engine_db, readings, windows, declared.runner.ic_trailing_days
+-        )
++        retained = read_evidence(book.engine_db, readings, windows, declared.runner.ic_trailing_days)
++        return lambda target, window: retained.for_window((target.signal, target.version, target.baseline.traded_horizon_days), window)
+ 
+-        def for_window(target: MonitoredSignal, window: Window) -> MonitorEvidence | str:
+-            identity = (target.signal, target.version, target.baseline.traded_horizon_days)
+-            return retained.for_window(identity, window)
+-
+-        return for_window
+-
+-    sources = MonitorSources(
+-        monitored, evidence, lambda conn, decision: bind_writers(store, conn, decision).flag
+-    )
++    sources = MonitorSources(monitored, evidence, lambda conn, decision: bind_writers(store, conn, decision).flag)
+     return MonitorRunner(book.engine_db, declared, sources)
+ 
+ 
+ class LifecycleSeams(TypedDict):
+-    """The daemon's two lifecycle seams, bound together over one store."""
+-
+     monitor: MonitorRunner
+     lifecycle: Callable[[datetime], list[dict[str, object]]]
+ 
+ 
+ def bind_lifecycle(project_root: Path, book: _Book, store: LifecycleStore) -> LifecycleSeams:
+-    """Bind post-commit monitoring and time-aware status to the same lifecycle store."""
+     from facdrone.pipelines.evaluation.monitor_windows import monitor_declaration
+     from facdrone.shells.wiring.composition import read_parameters
+ 
+-    declared = monitor_declaration(
+-        read_parameters(project_root / "conf" / "base" / "parameters.yml")
+-    )
++    declared = monitor_declaration(read_parameters(project_root / "conf" / "base" / "parameters.yml"))
+     after = timedelta(days=declared.runner.overdue_days)
+     return LifecycleSeams(
+         monitor=bind_lifecycle_monitor(project_root, book, store, declared),
+--- a/src/facdrone/shells/wiring/lifecycle_root.py
++++ b/src/facdrone/shells/wiring/lifecycle_root.py
+@@ -9,14 +9,11 @@
+ 
+ if TYPE_CHECKING:
+     from sqlalchemy import Engine
+-
+     from facdrone.shells.lifecycle_store import LifecycleStore
+ 
+ 
+ def lifecycle_store(engine: Engine | None = None) -> LifecycleStore:
+-    """The shared store binding; a root holding the run database's engine passes it in."""
+     from sqlalchemy import create_engine
+-
+     from facdrone.shells.lifecycle_store import LifecycleStore
+     from facdrone.shells.wiring.composition import read_run_dsn
+ 
+@@ -37,7 +34,6 @@
+ def pod_lifecycle_standing(
+     store: LifecycleStore, parameters: dict[str, Any], members: set[str], now: datetime
+ ) -> list[tuple[str, int, dict[str, Any]]]:
+-    """Each registered signal version in ``members`` as the analyst surface presents it."""
+     from facdrone.factors.registry import production_factors
+     from facdrone.pipelines.evaluation.monitor_windows import monitor_declaration
+     from facdrone.shells.lifecycle_monitor_runner import _rules_revision
+@@ -48,11 +44,16 @@
+     moment = (now, timedelta(days=declared.runner.overdue_days))
+     flags = {(f.signal, f.version): f for f in store.open_flags()}
+ 
+-    def standing(name: str, version: int) -> dict[str, Any]:
+-        cited = study_baseline(store, name, version)
+-        readings = [r for r in store.readings(name, version) if r["rules_revision"] == revision]
+-        baseline, flag = cited["baseline"] if cited else None, flags.get((name, version))
+-        return signal_standing(store.standing(name, version), baseline, readings, flag, moment)
+-
+     signals = [f.metadata for f in production_factors().factors() if f.metadata.name in members]
+-    return [(m.name, m.version, standing(m.name, m.version)) for m in signals]
++    out = []
++    for m in signals:
++        cited = study_baseline(store, m.name, m.version)
++        readings = [r for r in store.readings(m.name, m.version) if r["rules_revision"] == revision]
++        out.append((m.name, m.version, signal_standing(
++            store.standing(m.name, m.version),
++            cited["baseline"] if cited else None,
++            readings,
++            flags.get((m.name, m.version)),
++            moment,
++        )))
++    return out

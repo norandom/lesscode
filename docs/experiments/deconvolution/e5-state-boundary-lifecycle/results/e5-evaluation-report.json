@@ -1,8 +1,8 @@
 {
   "trial": "E5: State-Boundary Deconvolution on Lifecycle Monitor Group",
-  "head": "338790290d02f14309a1d9587058a4cbb4804f68",
-  "timestamp_utc": "2026-11-08T21:15:15Z",
-  "elapsed_seconds": 11.33,
+  "head": "68aaa9970ce709fcd442b6284edc2ed777e89535",
+  "timestamp_utc": "2026-11-09T09:54:13Z",
+  "elapsed_seconds": 3.82,
   "adverse_controls": {
     "E3_AuditedAbsence": {
       "description": "Failure-side state post-condition verification (AuditedAbsence on abort)",

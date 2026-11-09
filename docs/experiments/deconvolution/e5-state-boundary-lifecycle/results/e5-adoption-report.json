@@ -1,0 +1,163 @@
+{
+  "gate": "Self-Application Maturity Gate & Capability Adoption",
+  "specimen": "Facdrone (Signal Lifecycle Monitor Group)",
+  "head": "68aaa9970ce709fcd442b6284edc2ed777e89535",
+  "timestamp_utc": "2026-11-09T09:54:34Z",
+  "status": "ADOPTED_AND_VERIFIED",
+  "summary": {
+    "baseline_canonical_lines": 1495,
+    "adopted_canonical_lines": 1124,
+    "line_reduction_pct": 24.82,
+    "baseline_ast_statements": 759,
+    "adopted_ast_statements": 667,
+    "statement_reduction_pct": 12.12,
+    "baseline_functions": 69,
+    "adopted_functions": 50,
+    "function_reduction_pct": 27.54,
+    "baseline_call_edges": 89,
+    "adopted_call_edges": 61,
+    "call_edge_reduction_pct": 31.46,
+    "baseline_write_sites": 12,
+    "adopted_write_sites": 11
+  },
+  "files": {
+    "src/facdrone/shells/lifecycle_monitor_runner.py": {
+      "baseline_sha256": "fdd35e1c42caabe83c5fcb8136924355a707f9a684fc828a84a454674657b2f5",
+      "adopted_sha256": "29576946b92de7e54699753f2066fa9322b89dc42c4027b12baec541fb03b5ce",
+      "baseline_metrics": {
+        "lines": 397,
+        "stmts": 189,
+        "funcs": 14,
+        "qualnames": 14,
+        "writes": 3
+      },
+      "adopted_metrics": {
+        "lines": 267,
+        "stmts": 172,
+        "funcs": 10,
+        "qualnames": 10,
+        "writes": 3
+      }
+    },
+    "src/facdrone/shells/lifecycle_store.py": {
+      "baseline_sha256": "35d9f27a7727c49cb49086254c2513b897a89621f3787ef69c6d65c09f38d974",
+      "adopted_sha256": "7c581a5402643e8700b2996dbea686de13357855c61620fe44d7c91e2599add7",
+      "baseline_metrics": {
+        "lines": 289,
+        "stmts": 142,
+        "funcs": 17,
+        "qualnames": 17,
+        "writes": 8
+      },
+      "adopted_metrics": {
+        "lines": 183,
+        "stmts": 111,
+        "funcs": 12,
+        "qualnames": 12,
+        "writes": 7
+      }
+    },
+    "src/facdrone/shells/cli/lifecycle_group.py": {
+      "baseline_sha256": "03bfef33c14209407d8fcbac9911ce0f3cb51601a68c64cc1e96a7d607d8b6cb",
+      "adopted_sha256": "a15acf8ff5ec07d6e7141320df0c93d0b02351d969f06ab46e8d30946ad17ea2",
+      "baseline_metrics": {
+        "lines": 278,
+        "stmts": 158,
+        "funcs": 9,
+        "qualnames": 9,
+        "writes": 0
+      },
+      "adopted_metrics": {
+        "lines": 233,
+        "stmts": 147,
+        "funcs": 8,
+        "qualnames": 8,
+        "writes": 0
+      }
+    },
+    "src/facdrone/shells/lifecycle_evidence.py": {
+      "baseline_sha256": "5ae9a370f74516249ca5663b6e9907069d97da8ba04ec0af23d28fda884fe354",
+      "adopted_sha256": "98f9fb1b83fd7a1c56b5f40b11ca24e88e13cb95549a435b946a4db763ab8a31",
+      "baseline_metrics": {
+        "lines": 215,
+        "stmts": 114,
+        "funcs": 11,
+        "qualnames": 11,
+        "writes": 1
+      },
+      "adopted_metrics": {
+        "lines": 176,
+        "stmts": 105,
+        "funcs": 10,
+        "qualnames": 10,
+        "writes": 1
+      }
+    },
+    "src/facdrone/shells/lifecycle_projection.py": {
+      "baseline_sha256": "adb6075c061d48058a56b69655d0486bc6ea1f6a98e927774e0c3e596d94cea7",
+      "adopted_sha256": "4eac76fa9b31d9f3953e0a1de8a79b49139ba64451dd67dafae6fd23973615d4",
+      "baseline_metrics": {
+        "lines": 161,
+        "stmts": 61,
+        "funcs": 9,
+        "qualnames": 9,
+        "writes": 0
+      },
+      "adopted_metrics": {
+        "lines": 139,
+        "stmts": 49,
+        "funcs": 3,
+        "qualnames": 3,
+        "writes": 0
+      }
+    },
+    "src/facdrone/shells/cppi/lifecycle_seams.py": {
+      "baseline_sha256": "10e5605f51589f89f5a9fbe83c7c3e5838e9a5baea696733244e93ff5ac0bf41",
+      "adopted_sha256": "3229473ce614aed1b226383d80a2327bf84d1ba21ef196558b3481b57b893ff0",
+      "baseline_metrics": {
+        "lines": 97,
+        "stmts": 56,
+        "funcs": 5,
+        "qualnames": 5,
+        "writes": 0
+      },
+      "adopted_metrics": {
+        "lines": 67,
+        "stmts": 46,
+        "funcs": 4,
+        "qualnames": 4,
+        "writes": 0
+      }
+    },
+    "src/facdrone/shells/wiring/lifecycle_root.py": {
+      "baseline_sha256": "ffe5ac0b1ead257e781b65683d28160c2d3ad3232e47e008c1b36bfec6304f7f",
+      "adopted_sha256": "a3dd251b71e141fe6a7573d915a188020ec223261d1c8be716ce0ed66a4e41b4",
+      "baseline_metrics": {
+        "lines": 58,
+        "stmts": 39,
+        "funcs": 4,
+        "qualnames": 4,
+        "writes": 0
+      },
+      "adopted_metrics": {
+        "lines": 59,
+        "stmts": 37,
+        "funcs": 3,
+        "qualnames": 3,
+        "writes": 0
+      }
+    }
+  },
+  "verification_evidence": {
+    "specimen_unit_tests": "108 passed, 1 skipped, 1 deselected (run_e5 exit 0)",
+    "specimen_research_tests": "1 passed (packages/facdrone-research exit 0)",
+    "replay_oracle": "50/50 sequences, 317/317 operations, 0 Level 2 divergences",
+    "adverse_controls_kill_rate": "100% (4/4 controls killed)",
+    "pure_core_counterexamples": 0,
+    "rust_substrate_tests": "241/241 passed (cargo nextest)",
+    "state_boundary_tests": "32/32 passed (pytest -n auto)",
+    "counted_rust_apparatus_lines": 7173,
+    "r41_ceiling": 7173,
+    "apparatus_overage": 0
+  }
+}
