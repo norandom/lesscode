@@ -10,6 +10,24 @@
    "disposition": null
   },
   {
+   "path": "adapters/java/analysis.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "java-deconvolution-unification",
+   "allocation": "Java static effect and frame analyzer (task 1, REQ-JAVA-1.1..1.4)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/java/mod.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "java-deconvolution-unification",
+   "allocation": "Java adapter module root and profile dispatch (task 1)",
+   "disposition": null
+  },
+  {
    "path": "adapters/mod.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
