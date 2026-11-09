@@ -1,0 +1,71 @@
+# Implementation Plan: Native Deconvolution Closure
+
+## Implementation Tasks
+
+- [ ] 1. Foundation: native state frame analysis and density engine
+  - [ ] 1.1 Native state frame condition and static write-site analysis
+    - Implement `StateFrameChecker` in `native/src/state_frame.rs` using `ast-grep` (`tree-sitter-python`) to identify permitted instance attributes, globals, and storage write locations.
+    - Statically inspect candidates to verify that all write sites reside strictly within declared shell functions.
+    - Done when unauthorized write sites outside declared shell functions are detected and reported with line-anchored locations.
+    - _Boundary: StateFrameChecker_
+    - _Requirements: 1.1, 1.2, 1.4, 1.5_
+  - [ ] 1.2 Dynamic post-condition invariant evaluation
+    - Implement failure-side post-condition assertions on post-execution state objects in `native/src/state_frame.rs`.
+    - Validate that expected error-path transitions (such as audit log entries) are present post-abort.
+    - Done when omitted failure-side state mutations (such as E3 `AuditedAbsence`) are flagged as invariant violations and rejected.
+    - _Boundary: StateFrameChecker_
+    - _Requirements: 1.3, 1.5_
+  - [ ] 1.3 (P) Native density engine and structural consolidation metrics
+    - Implement `DensityEngine` in `native/src/density.rs` integrating `native/src/state_contract.rs`.
+    - Compute AST statements, canonical lines, function count, call edges, and write sites via `ast-grep`.
+    - Done when candidate scopes with <10% statement reduction fail `compression_met` and are flagged as subject to the Density Trap.
+    - _Boundary: DensityEngine_
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
+
+- [ ] 2. Core: pure core formal verifier, stream monitor, and adverse mutation engine
+  - [ ] 2.1 Static purity verification and bounded domain equivalence
+    - Implement `PureVerifier` in `native/src/pure_verifier.rs` statically auditing functions for 0 write sites, 0 global lookups, and 0 external I/O.
+    - Evaluate bounded domain equivalence across $[-10, 10]$, IEEE-754 floats, NaNs, and empty collections.
+    - Done when input/output discrepancies between original and candidate pure logic produce a structured `PureDivergenceWitness`.
+    - _Boundary: PureVerifier_
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
+  - [ ] 2.2 (P) Output stream buffer preservation monitor
+    - Implement `StreamMonitor` in `native/src/stream_monitor.rs` to intercept pre-abort stdout/stderr buffers and check relative effect ordering.
+    - Allow order variation solely for explicitly declared commutative sinks.
+    - Done when dropped, un-flushed, or truncated intermediate output streams (such as E4 F3) trigger a stream divergence violation.
+    - _Boundary: StreamMonitor_
+    - _Requirements: 4.1, 4.2_
+  - [ ] 2.3 Native adverse state mutation generator and kill-rate gate
+    - Implement `MutantGenerator` in `native/src/mutant_generator.rs` synthesizing AST mutants targeting failure cleanup, output buffers, and state write sites.
+    - Enforce a mandatory 100% kill rate of all non-equivalent planted mutants before granting qualification.
+    - Done when any candidate whose test suite allows an adverse state mutant to survive is denied qualification with the surviving mutant identified.
+    - _Boundary: MutantGenerator_
+    - _Requirements: 4.3, 4.4, 4.5_
+
+- [ ] 3. Execution & Integration: specimen runner, token guard, and refine loop
+  - [ ] 3.1 Native specimen runner and recording shim elimination
+    - Implement `SpecimenRunner` in `native/src/specimen_runner.rs` driving specimen sequence execution and database lifecycle via standard I/O pipes.
+    - Rewire `native/src/recording.rs` to use `specimen_runner`, retiring and removing `native/shim/recording_shim.py`.
+    - Done when frozen E3 and E4 double-record gates reproduce byte-exact LF-body digests (`FROZEN_E3_LF_BODY`, `FROZEN_E4_LF_BODY`) without `recording_shim.py`.
+    - _Boundary: SpecimenRunner, RecordingCore_
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
+  - [ ] 3.2 (P) Native token guard and streaming model parser
+    - Implement `TokenGuard` in `native/src/token_guard.rs` with token estimation and streaming response parsing on `ureq::Body`.
+    - Integrate token guards and causal state failure prompt injection into `native/src/regenerator.rs`.
+    - Done when prompts exceeding 120,000 tokens trigger `EXIT_INPUT_TOO_LARGE` and state failure witnesses appear in refine prompts.
+    - _Boundary: TokenGuard, Regenerator_
+    - _Requirements: 6.1, 6.2_
+
+- [ ] 4. Verification, budget governance, and feasibility certification
+  - [ ] 4.1 Native budget registration and complexity checker verification
+    - Register all 7 new modules in `native/complexity-budgets.json`.
+    - Run `cargo test --manifest-path native/Cargo.toml --test budgets` to verify all files $\le 400$ physical lines and $\le 300$ logical units.
+    - Done when the native budget test passes with 0 failures and all new files verified within complexity caps.
+    - _Boundary: BudgetsChecker_
+    - _Requirements: 6.3_
+  - [ ] 4.2 End-to-end feasibility gate and parity verification
+    - Execute native integration test suites (`native/tests/state_boundary.rs`, `native/tests/specimen_runner.rs`) via `cargo nextest`.
+    - Verify complete functional parity with the Python reference across Facdrone E5/E6 specimens.
+    - Done when 100% of native tests pass exit 0 under Windows PowerShell with zero regressions.
+    - _Boundary: VerificationSuite_
+    - _Requirements: 6.4, 6.5_
