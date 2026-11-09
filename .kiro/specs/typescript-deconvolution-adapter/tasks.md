@@ -115,9 +115,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 6: Full System Verification, Budget Audit & GO Disposition [ ]
+### Task 6: Full System Verification, Budget Audit & GO Disposition [x]
 - **Requirements:** REQ-TS-5.3, REQ-TS-5.4, REQ-TS-5.5
 - **Dependencies:** Tasks 1–5
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml` (290/290 passed), `cargo test --manifest-path native/Cargo.toml --test budgets` (10/10 passed), CLI budget audit (28 files evaluated, 0 exceeded, 0 unlisted, 0 missing), and `pytest -n auto tests/test_state_boundary.py` (32/32 passed). Feature Integration Validation report certified with **GO** disposition.
 - **Owned Files:**
   - `.kiro/specs/typescript-deconvolution-adapter/validation-report.md`
   - `.kiro/specs/typescript-deconvolution-adapter/spec.json`
