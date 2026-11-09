@@ -94,9 +94,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 5: End-to-End Specimen Integration & Adverse Sensitivity Verification [ ]
+### Task 5: End-to-End Specimen Integration & Adverse Sensitivity Verification [x]
 - **Requirements:** REQ-JAVA-2.1, REQ-JAVA-3.2, REQ-JAVA-4.4, REQ-JAVA-5.4
 - **Dependencies:** Task 4
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test java_e2e` (4/4 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets --config native/complexity-budgets.json --root native/src --out ...` (clean, exit code 0).
 - **Owned Files:**
   - `native/tests/java_e2e.rs` (end-to-end specimen verification)
   - `native/complexity-budgets.json`
