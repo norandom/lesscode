@@ -74,9 +74,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 4: Java Runtime Adapter Supervisor & IPC Protocol [ ]
+### Task 4: Java Runtime Adapter Supervisor & IPC Protocol [x]
 - **Requirements:** REQ-JAVA-2.1 through REQ-JAVA-2.4, REQ-JAVA-4.1 through REQ-JAVA-4.4
 - **Dependencies:** Tasks 1, 2, 3
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test java_adapter` (6/6 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets --config native/complexity-budgets.json --root native/src --out ...` (clean, exit code 0).
 - **Owned Files:**
   - `native/src/adapters/java/mod.rs` (implement 4 adapter traits)
   - `native/complexity-budgets.json` (register `mod.rs`)
