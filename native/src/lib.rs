@@ -14,6 +14,7 @@ pub mod jsonval;
 pub mod measures;
 pub mod metrics;
 pub mod model;
+pub mod pure_verifier;
 pub mod receipt;
 pub mod recording;
 pub mod regenerator;

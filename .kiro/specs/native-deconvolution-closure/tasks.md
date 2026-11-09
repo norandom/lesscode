@@ -48,9 +48,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 3: Pure Core Bounded Domain Scheduler & Witness Engine
+### Task 3: Pure Core Bounded Domain Scheduler & Witness Engine [x]
 - **Requirements:** REQ-NAT-3.1 through REQ-NAT-3.5
 - **Dependencies:** Task 1
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test pure_verifier` (4/4 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget).
 - **Owned Files:**
   - `native/src/pure_verifier.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/lib.rs` (registration only, $+1$ line)
