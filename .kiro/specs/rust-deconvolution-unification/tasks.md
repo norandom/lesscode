@@ -114,9 +114,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 6: Full System Verification, Budget Audit & GO Disposition [ ]
+### Task 6: Full System Verification, Budget Audit & GO Disposition [x]
 - **Requirements:** REQ-RUST-5.3, REQ-RUST-5.4, REQ-RUST-5.5
 - **Dependencies:** Tasks 1–5
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml` (338/338 tests passed), `pytest tests/test_state_boundary.py` (32/32 tests passed), complexity budgets audit (36 files evaluated: 29 clean, 7 disposed, 0 exceeded, 0 unlisted), apparatus ceiling adhered, and validation report certified GO.
 - **Owned Files:**
   - `.kiro/specs/rust-deconvolution-unification/validation-report.md`
   - `.kiro/specs/rust-deconvolution-unification/spec.json`
