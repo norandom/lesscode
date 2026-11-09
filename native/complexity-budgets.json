@@ -28,6 +28,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/typescript/metrics.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "typescript-deconvolution-adapter",
+   "allocation": "TypeScript scope metrics and density evaluation (task 3, REQ-TS-5.1..5.2)",
+   "disposition": null
+  },
+  {
    "path": "adapters/typescript/mod.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

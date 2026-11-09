@@ -53,9 +53,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 3: TypeScript Scope Metrics & Density Scorer [ ]
+### Task 3: TypeScript Scope Metrics & Density Scorer [x]
 - **Requirements:** REQ-TS-5.1, REQ-TS-5.2
 - **Dependencies:** Task 1
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test typescript_metrics` (4/4 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget, exit code 0).
 - **Owned Files:**
   - `native/src/adapters/typescript/metrics.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/complexity-budgets.json` (register `metrics.rs`)
