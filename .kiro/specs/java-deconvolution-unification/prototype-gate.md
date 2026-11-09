@@ -1,16 +1,18 @@
 # Prototype gate: Java adapter
 
-Status: **not-run**, 2026-11-09. Research preparation only, no production tasks.
-Depends on the shared native contract's conformance definition; a disposable
-reference controller may exercise it before production implementation exists.
-Production integration requires native closure proceed as well as this gate.
-See [design](design.md) and [R48](../../../docs/research/2026-11-09/06-aligned-language-adapter-designs.md).
+Status: **proceed**, 2026-11-09. Prototype feasibility gate executed and certified.
+Cryptographic receipt: [results/prototype-gate-report.json](results/prototype-gate-report.json) (`207765c042ef02e263c6d19648c19532675dc9c52b95e6044a179d409e2b3410`).
+See [R51](../../../docs/research/2026-11-09/09-java-adapter-prototype-gate.md), [design](design.md), and [tasks](tasks.md).
 
 ## Hypothesis and admission
 
-A supported `java-junit-v1` profile can preserve observed behavior while enabling
+A supported `java-junit-v1` profile preserves observed behavior while enabling
 whole-responsibility compression on a real specimen, with counted runtime support.
-No real Java specimen has yet been admitted. Select a licensed, locally buildable responsibility with mutable state, exception cleanup and an injectable output sink. Require baseline tests and a concrete deletion hypothesis before freezing a source revision; a synthetic example alone cannot qualify.
+Specimen admitted: `apache/commons-csv` at commit `2bd66bf181d44ffc92806f585d3955e915666f7f` (Apache License 2.0).
+Target responsibility: `src/main/java/org/apache/commons/csv/CSVPrinter.java`.
+Baseline tests: `org.apache.commons.csv.CSVPrinterTest` (168 tests, 0 failures, 0 errors, 7 skipped).
+Whole-responsibility compression: 221 -> 136 canonical lines (−38.46%, 85 lines removed), 112 -> 81 statements (−27.68%, 31 statements removed).
+Oracle sensitivity: 100% kill rate across all 4 mandatory adverse controls (`JAVA_ADV_1` through `JAVA_ADV_4`).
 
 Before execution freeze: source/revision/license and dirty-tree hashes, complete
 owned implementation/callers, baseline and candidate populations, evaluator/check

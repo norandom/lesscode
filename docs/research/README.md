@@ -2,7 +2,21 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R50 TypeScript deconvolution adapter prototype feasibility gate (2026-11-09)
+## Latest: R51 Java deconvolution adapter prototype feasibility gate (2026-11-09)
+
+[R51](2026-11-09/09-java-adapter-prototype-gate.md) records the execution and
+certification of the bounded prototype feasibility gate for `java-deconvolution-unification`:
+- **Disposition:** PROCEED (receipt and SHA-256 sidecar verified: `207765c042ef02e263c6d19648c19532675dc9c52b95e6044a179d409e2b3410`).
+- **Candidate Admission:** Admitted real licensed specimen `apache/commons-csv` at commit `2bd66bf181d44ffc92806f585d3955e915666f7f` (Apache License 2.0) with Microsoft OpenJDK 21.0.12.1 LTS, Apache Maven 3.9.9, and JUnit 5.
+- **Compression:** 221 -> 136 canonical lines (−38.46%, 85 lines removed) and 112 -> 81 statements (−27.68%, 31 statements removed), substantially exceeding both the 20%/10% relative and 50/10 absolute thresholds.
+- **Protocol & Codec:** Verified line-delimited JSON IPC event frames (`java-junit-v1`) and buffered stream flushing via `ProbeMain.java`.
+- **Finite-Domain Parity:** 100 Cartesian cases evaluated across 5 CSV formats and 10 field data structures with 0 divergences.
+- **Adverse Controls:** 100% kill rate (4/4 killed) on mandatory adverse controls (state mutation omission, lock cleanup omission, delimiter sequencing inversion, dropped stream flush).
+- **Specimen Regression:** Full Maven surefire execution of `CSVPrinterTest` passed with 168 tests run, 0 failures, 0 errors, 7 skipped.
+- **Apparatus Budget:** Complexity budgets passed 10/10; R41 7,173 ceiling held; adapter probe bounded at 212 canonical Java lines.
+- **Outcome:** Technical design approved and Phase 2 production tasks unblocked for foreground execution.
+
+## Prior: R50 TypeScript deconvolution adapter prototype feasibility gate (2026-11-09)
 
 [R50](2026-11-09/08-typescript-adapter-prototype-gate.md) records the execution and
 certification of the bounded prototype feasibility gate for `typescript-deconvolution-adapter`:

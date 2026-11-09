@@ -1,0 +1,113 @@
+{
+  "gate": "prototype-feasibility-gate",
+  "profile": "java-junit-v1",
+  "disposition": "PROCEED",
+  "timestamp": "2026-11-09T18:57:15+0100",
+  "duration_seconds": 23.84,
+  "admission": {
+    "specimen_repo": "apache/commons-csv",
+    "specimen_root": "C:\\Users\\mariu\\Source\\commons-csv",
+    "specimen_commit": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+    "specimen_license": "Apache License 2.0",
+    "target_file": "src\\main\\java\\org\\apache\\commons\\csv\\CSVPrinter.java",
+    "java_version": "openjdk version \"21.0.12.1\" 2026-08-18 LTS",
+    "javac_version": "javac 21.0.12.1",
+    "maven_version": "Apache Maven 3.9.9",
+    "junit_engine": "JUnit Jupiter 5.12.2 / JUnit Platform 1.14.4",
+    "status": "admitted"
+  },
+  "compression": {
+    "baseline": {
+      "physical_lines": 599,
+      "canonical_lines": 221,
+      "statements": 112,
+      "sha256": "15bfb5104d3630f7f6e471a0519ccf8266756105f7346a0c8692f990d22060a4"
+    },
+    "candidate": {
+      "physical_lines": 174,
+      "canonical_lines": 136,
+      "statements": 81,
+      "sha256": "215dece779a91fa8dd2982ef0a156119d397aa8b31a96d18caa2ca51f2705f48"
+    },
+    "reduction": {
+      "canonical_lines_removed": 85,
+      "canonical_lines_pct": 38.46,
+      "statements_removed": 31,
+      "statements_pct": 27.68
+    },
+    "thresholds": {
+      "min_canonical_lines_pct": 20.0,
+      "min_canonical_lines_removed": 50,
+      "min_statements_pct": 10.0,
+      "min_statements_removed": 10
+    },
+    "gate_passed": true
+  },
+  "equivalence": {
+    "protocol_version": 1,
+    "profile_id": "java-junit-v1",
+    "total_cases_evaluated": 100,
+    "candidate_cases_completed": 100,
+    "divergences_count": 0,
+    "divergences": [],
+    "protocol_conformance": true,
+    "zero_divergence_passed": true
+  },
+  "adverse_controls": {
+    "total_controls": 4,
+    "killed_controls": 4,
+    "kill_rate_pct": 100.0,
+    "controls": [
+      {
+        "control_id": "JAVA_ADV_1",
+        "name": "State Mutation Omission (newRecord flag)",
+        "status": "killed",
+        "killed": true,
+        "witness": "case case-f0-c0-p0: expected 'simple,value\r\n', got 'simplevalue\r\n'"
+      },
+      {
+        "control_id": "JAVA_ADV_2",
+        "name": "Lock Cleanup Omission",
+        "status": "killed_at_compile_time",
+        "killed": true,
+        "witness": "D:\\BuildArtifacts\\lesscode\\java-junit-v1\\mutants\\JAVA_ADV_2\\CSVPrinter.java:79: error: illegal start of expression\n    private void printRaw(final Object value) throws IOException {\n    ^\n1 error"
+      },
+      {
+        "control_id": "JAVA_ADV_3",
+        "name": "Delimiter Sequencing Inversion",
+        "status": "killed",
+        "killed": true,
+        "witness": "case case-f0-c0-p0: expected 'simple,value\r\n', got 'simplevalue\r\n'"
+      },
+      {
+        "control_id": "JAVA_ADV_4",
+        "name": "Dropped Stream Flush in Close",
+        "status": "killed",
+        "killed": true,
+        "witness": "case case-f0-c0-p0: expected 'simple,value\r\n', got ''"
+      }
+    ],
+    "oracle_sensitivity_passed": true
+  },
+  "regression": {
+    "test_command": "mvn.cmd test -Dtest=CSVPrinterTest",
+    "exit_code": 0,
+    "tests_run": 168,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 7,
+    "build_success": true
+  },
+  "apparatus": {
+    "budgets_tests_passed": 10,
+    "budgets_pass": true,
+    "r41_ceiling": 7173,
+    "ceiling_respected": true,
+    "java_adapter_probe_lines": {
+      "candidate_CSVPrinter.java": 136,
+      "ProbeMain.java": 76
+    },
+    "total_adapter_probe_lines": 212,
+    "budget_passed": true
+  }
+}
