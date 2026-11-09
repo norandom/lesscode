@@ -74,9 +74,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 4: Rust Runtime Adapter Supervisor & IPC Protocol [ ]
+### Task 4: Rust Runtime Adapter Supervisor & IPC Protocol [x]
 - **Requirements:** REQ-RUST-2.1 through REQ-RUST-2.4, REQ-RUST-4.1 through REQ-RUST-4.4
 - **Dependencies:** Tasks 1, 2, 3
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test rust_adapter` (6/6 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets --config native/complexity-budgets.json --root native/src --out ...` (clean, exit code 0).
 - **Owned Files:**
   - `native/src/adapters/rust/mod.rs` (implement 4 adapter traits)
   - `native/complexity-budgets.json` (register `mod.rs`)
