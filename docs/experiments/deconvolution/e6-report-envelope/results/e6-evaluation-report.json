@@ -1,0 +1,82 @@
+{
+  "trial": "E6: State-Boundary Deconvolution Generalization Trial on Report Envelope & Snapshot Store",
+  "head": "5273a708c05a8a8071106126d1ee43625593e3a8",
+  "timestamp_utc": "2026-11-09T10:51:53Z",
+  "elapsed_seconds": 0.92,
+  "adverse_controls": {
+    "E6_C1_MissingFailureState": {
+      "description": "Failure-side state post-condition verification (AuditedAbsence on transaction abort)",
+      "pass": true,
+      "witness_detected": "Required failure state 'AuditedAbsence' was missing in 'audit_log' after exception: Transaction abort"
+    },
+    "E6_C2_BufferTruncation": {
+      "description": "Stream buffer preservation monitor detecting dropped diagnostic logs on abort",
+      "pass": true,
+      "divergence": "Candidate dropped or failed to flush 82 bytes on sink 'stderr' prior to completion/abort"
+    },
+    "E6_C3_OutOfDomainPurity": {
+      "description": "Bounded pure-core equivalence checker catching unsound negative/None fallback",
+      "pass": true,
+      "counterexample": {
+        "x": null
+      }
+    },
+    "E6_C4_ErrorOrderInversion": {
+      "description": "Adverse state mutation sensitivity gate killing inverted error checking (E6-C4)",
+      "pass": true,
+      "killed": 1,
+      "survived": 0,
+      "mutants_evaluated": 1
+    }
+  },
+  "all_controls_pass": true,
+  "rust_apparatus": {
+    "rs_counts": {
+      "src/surface.rs": 1151,
+      "src/measures.rs": 1422,
+      "src/recording.rs": 971,
+      "src/regenerator.rs": 2790,
+      "src/jsonval.rs": 130,
+      "src/admission.rs": 274,
+      "src/receipt.rs": 124
+    },
+    "state_contract_lines": 94,
+    "shim_lines": 178,
+    "frozen_hooks_total": 16,
+    "added_hooks": 23,
+    "added_hooks_detail": {
+      "native/Cargo.toml": 2,
+      "native/src/lib.rs": 6,
+      "native/src/main.rs": 15
+    },
+    "r37_set_total": 7079,
+    "total_with_state_contract": 7173,
+    "ceiling": 7173,
+    "overage_r37_set": -94,
+    "overage_with_state_contract": 0,
+    "pass_r37_set": true,
+    "pass_with_state_contract": true
+  },
+  "baseline_metrics": {
+    "function_count": 102,
+    "call_edge_count": 145,
+    "write_site_count": 4,
+    "ast_statements": 925,
+    "canonical_lines": 1938,
+    "pure_functions": 0,
+    "pure_function_pct": 0.0
+  },
+  "candidate_metrics": null,
+  "outcome": {
+    "function_reduction_pct": 0.0,
+    "call_edge_reduction_pct": 0.0,
+    "write_site_reduction_pct": 0.0,
+    "statement_reduction_pct": 0.0,
+    "canonical_line_reduction_pct": 0.0,
+    "pure_function_pct": 0.0,
+    "structurally_consolidated": false,
+    "compression_met": false,
+    "disposition_note": ""
+  },
+  "disposition": "PASS"
+}

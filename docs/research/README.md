@@ -1,6 +1,23 @@
 # Research log
 
-## Latest: R43 lifecycle deconvolution adoption & self-application maturity gate (2026-11-09)
+## Latest: R44 E6 state-boundary deconvolution generalization trial setup (2026-11-09)
+
+[R44](2026-11-09/02-e6-generalization-trial-setup.md) records the preregistration and baseline
+census for **Experiment E6: State-Boundary Deconvolution Generalization Trial** on an unseen
+Facdrone subsystem (**Report Envelope & Snapshot Store**, 6 files, 1,938 canonical lines):
+- Scope: 6 files across `facdrone-reporting` and `facdrone-kernel` (`reporting_request.py`,
+  `reporting_request_store.py`, `snapshot_store.py`, `evidence_validation.py`,
+  `composition_errors.py`, `canonical.py`).
+- Baseline metrics: **1,938 canonical lines**, **925 AST statements**, **102 functions**,
+  **145 intra-scope call edges**, and **4 write sites** (confined to `reporting_request_store.py`).
+- Preregistered target bars: $\le 1,550$ canonical lines ($\ge 20\%$ reduction), $\le 832$ statements
+  ($\ge 10\%$ reduction; Density Trap defense), $\le 81$ functions, $\le 108$ call edges.
+- Adverse controls battery qualified: 4/4 passed (missing failure state, buffer truncation,
+  out-of-domain purity, error order inversion).
+- Rust substrate apparatus volume held at 7,173 canonical lines (0 overage against R41 ceiling).
+- Acceptance test battery verified passing across reporting and root suites.
+
+## Prior: R43 lifecycle deconvolution adoption & self-application maturity gate (2026-11-09)
 
 [R43](2026-11-09/01-e5-lifecycle-adoption-maturity-gate.md) records the formal adoption of the
 deconvoluted Facdrone `lifecycle` monitor group (7 files) into `.runs/e5-adopted-lifecycle/` and
