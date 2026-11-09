@@ -1,99 +1,71 @@
-# Handover: solution-first deconvolution work, 2026-11-07
+# Handover: State-Boundary Deconvolution Completion & Dual-Specimen Maturity Certification, 2026-11-09
 
-Updated 2026-11-07, Europe/Berlin. This file is the single handover and action list.
+Updated 2026-11-09, Europe/Berlin. This file is the single handover and action list.
 The separate open-points list was consolidated here and removed on that date.
 The current sections below govern continuation; dated history follows for evidence
 and earlier interpretations, not as an active implementation queue.
 
 ## Current state
 
-Updated 2026-11-07 afternoon: the owner chose the bounded descope; attempt 2 of 2
-was preregistered (R31 + plan §9, commit b9c0cd0) and executed. The Rust digest
-twin (pyjson/turncheck + tests) left the prototype; Rust keeps a self-contained
-sidecar admission (415 canonical lines — it had silently imported pyjson, which
-the R30 ~1,072 estimate missed). Attempt 2 re-produced both frozen identities
-byte-identically (E3 `92a48f77…` ×2, three goldens zero divergence; E4
-`0b2e383d…` ×2 at exactly 5,479,067 bytes), accepted both candidates as
-preregistered, passed 9/9 controls, and every frozen target passes: C_app 1,193
-≤ 1,364 (0.6997), saved 512 ≥ 200, C_total 2,691 ≤ 3,003, U7 1,193 ≤ 1,400
-(attempt-1's 1,808 retained). U1–U7 all pass; inline evidence review approved
-with recorded residual risks (`results/s10-evidence-review-2.json`). Gate
-verdict: **proceed** — `solution_unlock.status = proceed`, `evidence_review =
-approved` (inline caveat recorded). Task-group handover: `.kiro/task_2_handover.md`.
+Updated 2026-11-09 afternoon: The **`state-boundary-deconvolution`** specification has
+completed all phases, trials, maturity gates, synthesis documentation, and integration validation.
+The feature is formally certified with a **GO** decision and marked `completed` in `spec.json`:
 
-- Native-core phase: requirements-generated; requirements/design/tasks unapproved.
-  The revise verdict is resolved (descope executed, attempt 2 passed U1-U7 with an
-  approved inline evidence review); the demonstrated slice may now seek normal
-  production design approval through the standard owner phase gates. A truly
-  independent evidence review remains an owner option (residual risk recorded).
-- Existing comparison core remains delivered with recorded Windows/Linux/macOS GO;
-  111/111 nextest green after adding pyjson/admission/turncheck (runs 23b9da3e).
-- T4 regenerator turn bytes mismatch their committed sidecars (inadmissible as
-  bound); E4 turns verify. Task 6.7 is committed as 380c629.
-- Historical N1-N10/fusion drafts are preserved beside the active spec as
-  *-fusion-2026-11-07 files. Their broad-suite prerequisites are superseded.
+1. **Dual-Specimen Empirical Replication & Maturity Gate Certification:**
+   - **Specimen 1: Lifecycle Monitors (E5, 7 files, `.runs/e5-adopted-lifecycle/`):**
+     Canonical lines −24.82% (1,495 -> 1,124), AST statements −12.12% (759 -> 667),
+     functions −27.54% (69 -> 50), call edges −31.46% (89 -> 61), 11 write sites.
+     50/50 sequences replayed with 0 Level 2 divergences (`sql-divergences-round3.json`).
+     Self-application maturity gate certified in R42/R43.
+   - **Specimen 2: Report Envelope & Snapshot Store (E6, 6 files, `.runs/e6-adopted-report-envelope/`):**
+     Canonical lines −23.01% (1,938 -> 1,492), AST statements −10.49% (925 -> 828),
+     functions −38.24% (102 -> 63), call edges −30.34% (145 -> 101), 4 write sites.
+     100% kill rate across 4 adverse mutation controls, 0 pure-core bounded counterexamples,
+     46/46 acceptance tests passing. Generalization maturity gate certified in R44/R45/R46.
+   - **Combined Total (13 files):** 3,433 baseline lines compressed to 2,616 adopted lines (−23.80%),
+     net statement reduction −11.20% (1,684 -> 1,495), breaking the Density Trap without Oracle Blindness.
+
+2. **Substrate Volume & Mechanical Verification:**
+   - Counted Rust substrate line volume strictly adheres to the R41 amended ceiling of **7,173 canonical lines** (0 overage).
+   - Rust substrate tests (`cargo nextest`): **241 passed** (0 skipped, 2 slow) in 101s.
+   - State boundary unit tests (`pytest -n auto`): **32 passed** in 1.5s.
+   - Cleanliness audits: 0 TBD/TODO/FIXME matches, 0 hardcoded secrets, clean CLI runtime liveness (`lesscode_baseline.regenerator --help` exit 0).
+
+3. **Documentation & Milestones:**
+   - Formal research logs [R45](../docs/research/2026-11-09/03-e6-generalization-trial-qualification.md) and [R46](../docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md) formatted under the 7-section `$cobesy` research template.
+   - Comprehensive milestone synthesis report published at [`docs/reports/state-boundary-deconvolution-report.md`](../docs/reports/state-boundary-deconvolution-report.md).
+   - Feature integration validation report published at [`specs/state-boundary-deconvolution/validation-report.md`](specs/state-boundary-deconvolution/validation-report.md) with GO decision.
+   - All task groups 1 through 19 completed and committed to `main` (latest: commit `1f666c1`).
+   - All 4 preserved owner WIP files (`sql-divergences-round21.json` ×2, `rules/evaluate.py`, `tests/test_rule_evaluation.py`) remain untouched and unstaged.
 
 ## Read next
 
-1. [Current requirements](specs/deconvolution-native-core/requirements.md):
-   six sections, 35 acceptance criteria.
-2. [First slice](specs/deconvolution-native-core/slice-proposal.md):
-   reuse existing native library/CLI; small artifact/acceptance/turn core;
-   one Python subprocess recorder/replayer with existing store hook.
-3. [Solution-unlock gate](specs/deconvolution-native-core/prototype-gate.md)
-   and [machine-readable state](specs/deconvolution-native-core/spec.json).
-4. [Spikes](specs/deconvolution-native-core/spikes.md),
-   [gates](specs/deconvolution-native-core/gates.md),
-   [verification](specs/deconvolution-native-core/verification.md) and
-   [scope guard](specs/deconvolution-native-core/breath.toml).
-5. [R27 proposal](../docs/research/2026-11-07/01-solution-first-native-slice.md),
-   [research index](../docs/research/README.md) and
-   [R26 evidence](../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md).
+1. [Milestone synthesis report](../docs/reports/state-boundary-deconvolution-report.md):
+   Cross-subsystem empirical replication, Density Trap defense, and COBESY framework.
+2. [Feature integration validation report](specs/state-boundary-deconvolution/validation-report.md):
+   Full mechanical, integration, boundary, and requirement coverage audit with GO verdict.
+3. [R46 adoption maturity log](../docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md) and
+   [R45 generalization qualification log](../docs/research/2026-11-09/03-e6-generalization-trial-qualification.md).
+4. [R43 lifecycle adoption maturity log](../docs/research/2026-11-09/01-e5-lifecycle-adoption-maturity-gate.md) and
+   [R42 E5 trial log](../docs/research/2026-11-08/09-e5-state-boundary-deconvolution-lifecycle.md).
+5. [Task 19 handover](task_19_handover.md) and [Task 18 handover](task_18_handover.md).
+6. [Updated roadmap](steering/roadmap.md) and [state-boundary spec state](specs/state-boundary-deconvolution/spec.json).
 
-## Next authorized work and unlock conditions
+## Next authorized work and candidate directions
 
-Prepare the bounded prototype plan and present it for owner approval before
-execution. Freeze exact scope/file inventories, source and artifact bytes/hashes
-(including `--artifact-root` bindings to untracked `.runs/` golden traces verified
-against committed `.sha256` sidecars), observations, normalization, protocol, tools,
-checks, 3-stratum baseline totals ($B_{\text{app}}, B_{\text{ops}}, B_{\text{seeds}}$)
-and budgets.
+With `state-boundary-deconvolution` finished and closed, the following candidate directions are available:
 
-S9 may compare both proposed surface contracts using existing apparatus under
-its own approved non-adopting plan, before recorder-import ratification.
-S10 must use a resolved, ratified frozen contract. S2 verifies local `.runs/`
-artifact bytes against committed `.sha256` sidecars and proves Python-compatible
-digest emission in Rust (`serde_json::ser::PrettyFormatter` + custom formatter
-preserving `-0.0`/`0.0` and `ensure_ascii`; `serde_jcs` and `fs4` dropped) before
-dependent evidence is admitted. This avoids requiring an unbuilt CLI or the result
-of S9 before S9 can collect evidence.
-
-The proposed S10 experiment uses E3, freezes shared implementation, then onboards
-E4 with scope support only. Empirical audit under `ruff==0.17.3 format --line-length 100`
-measured 2,222 as-written lines -> 3,963 canonical lines across the 14 baseline
-apparatus files (`e1b_oracle.py`: 406 -> 659; `e4_oracle.py`: 534 -> 1,258), of which
-1,498 canonical lines in the two oracles are irreducible domain `op_*` methods/fixtures
-(854) and transcribed `SEEDS`/generators (644). Accordingly:
-- `U5` evaluates three explicit strata ($B_{\text{app}}, B_{\text{ops}}, B_{\text{seeds}}$):
-  require $C_{\text{app}} \le 0.80 \cdot B_{\text{app}}$ AND $B_{\text{app}} - C_{\text{app}} \ge 200$
-  canonical lines on the replaceable apparatus/wiring stratum, $C_{\text{total}} \le B_{\text{total}} - 200$
-  canonical lines overall, $C_{\text{seeds}} = B_{\text{seeds}}$ (zero seed loss), and strictly
-  less scope-specific support on each scope.
-- `U7` limits prototype effort to `<= 600` added/modified maintained canonical lines of
-  shared + adapter-wiring code cumulatively across `<= 2` attempts. Pre-existing oversized
-  `native/src/{lib,main}.rs` files (618 and 225 lines) touched only by registration hooks
-  ($\le 20$ diff lines) charge diff lines (or stay untouched via a dedicated binary/submodule),
-  and verbatim-migrated `op_*`/`SEEDS` blocks verified by AST/diff parity count in
-  $C_{\text{ops}} / C_{\text{seeds}}$ (`U5`) while any wrapper edits charge to `U7`.
-Freeze and approve these targets before execution; they are not measured replacement results.
-
-U1-U7 require live double recording and original replay on both scopes, actual
-candidate replay with preregistered expected decisions, adverse controls, accepted
-and failed turn transformations, preserved compatibility, frozen second-scope
-shared code, useful whole-replacement savings and independent evidence review.
-A status flag alone never unlocks work. Missing/stale/failed evidence keeps the
-feature locked. Only proceed with approved evidence review permits the demonstrated
-slice to seek normal production design/task approvals. No -y waiver.
+1. **Native Rust Substrate Migration (`lesscode-core` / `native/src/state_contract.rs`):**
+   Port the verified Python prototype components (`StateFrame`, `StreamMonitor`, `PureVerifier`, `MutantGenerator`)
+   directly into the native Rust substrate within the R41 apparatus ceiling ($\le 7,173$ canonical lines).
+2. **Broadened Specimen Self-Application (Facdrone Subsystems):**
+   Expand the deconvolution engine to remaining Facdrone subsystems (e.g. `facdrone-orchestration`, `facdrone-worker`)
+   to test multi-subsystem cross-boundary coordination.
+3. **CI & Cross-Platform Verification (Dagger):**
+   Execute the native Dagger CI validation pipeline (`.dagger/`, `dagger.json`) per `docs/ci-validation.md`
+   to verify cross-platform determinism across Windows, Linux, and macOS.
+4. **New Capability Discovery (`$kiro-discovery`):**
+   Launch a fresh discovery phase to define the next product milestone on the roadmap.
 
 ## Current decisions and actions
 
@@ -103,17 +75,23 @@ OP identifiers are retained so earlier discussions remain traceable.
 | --- | --- |
 | OP-1 | Proposed: reuse existing crate/pins in `native/Cargo.lock` (`ast-grep-core 0.51.0`, `serde 1.0.229`, `serde_json 1.0.154`, `sha2 0.11.0`, `clap 4.6.0`, plus locked transitive `ignore`, `walkdir`, `regex`, `toml_edit`, `syn`, `windows-sys`) and preserve `lesscode-core` prepare/compare, Python subprocess shim and pure turn program. Drop `serde_jcs`, `fs4`, `quick-junit` (replace with `junit-parser`), `gix`, `pg_query` and `postgresql_embedded`. Rust/mmhmem SQLite (`rusqlite` `trace_v2` + `session`) and TS/JS (`oxc`) are later; embedding/model transport deferred. |
 | OP-2 | RATIFIED for S10, 2026-11-07 (owner, opencode chat): surface = tree + recorder imports (contract B; S9/R29 evidence: +1 E3 name, +3 E4 names incl. labeled_reason) plus the other three R26 changes (preregistered turn parameters with thinking-only turns counted failed; raw-byte hashes; case-distinct receipt labels) and R25 formatting/both-tree sensitivity rules. Historical protocols preserved; general ratification beyond this prototype still owner business. |
-| OP-3 | Pending separate owner choice: third regeneration scope, E4 candidate adoption, E3b or prevention. None authorized. E3/E4 apparatus reuse is a different bounded proposal. Adoption requires addressing residue/seven differences using the missing-test report first. |
+| OP-3 | RESOLVED: E5 trial executed on lifecycle monitor group (R42), broke Density Trap, and adopted into `.runs/e5-adopted-lifecycle/` (R43). E6 generalization trial executed on report-envelope group (R45) and adopted into `.runs/e6-adopted-report-envelope/` (R46). |
 | OP-4 | DONE: 380c629 contains task 6.7, residue, missing-test artifacts, receipt/logs, R26, index and spec research updates. |
-| OP-5 | Housekeeping: review/selectively commit current spec, steering, ledger/budget, R27 and handover changes; preserve unrelated edits. No commit/push performed by this consolidation. |
+| OP-5 | DONE: Housekeeping and spec updates committed across task groups 1 through 19. |
 | OP-6 | Carry E4 safeguards into follow-up: stdout plus stderr/termination evidence, interrupted runs never mutation kills, one job per launch with resume notes, clean launcher parent, E4-specific missing-test schema adapter. Detailed facts below. |
 | OP-7 | Carry E3 safeguards: E1c-2 solver launcher, PYTHONDONTWRITEBYTECODE=1, restore/hash verification, receipted host guard. Scratch memory guard is not delivered apparatus. Detailed facts below. |
 | OP-8 | Deferred: corrected edge census/automatic selection until a concrete unmet need. Preserve R21 rejection and proposed corrections. |
-| OP-9 | Production foundation after unlock and phase approvals: concrete ownership paths, release allocation, disposition of pre-existing >400-line files in `native/src/` (`compare.rs` 1,667, `scope.rs` 1,598, `metrics.rs` 1,530, `lib.rs` 618, `model.rs` 511), and `syn`+`proc-macro2` size checker (`rust-syntax-units-v1`). Component ceilings rebalanced to 4,600 (`reports` 350, `surface_measures_code` 850, `cli_config` 450). |
-| OP-10 | First-slice evidence plan: S9 surface delta, S2 digests/artifact sidecars, S10 reuse. S1-first/all-nine prerequisites superseded; other spikes deferred unless an approved boundary needs them. |
-| OP-11 | Not-run: artifact checks, live adapter integration and usefulness checks are distinct. Saved fixture replay alone cannot establish recording/acceptance behavior; missing `.runs/` artifact bytes are unavailable evidence even when `.sha256` sidecars exist. |
+| OP-9 | Production foundation: `state_contract.rs` (92 lines) integrated; component ceilings rebalanced; Rust substrate capped at 7,173 canonical lines (R41). |
+| OP-10 | First-slice evidence plan: S9 surface delta, S2 digests/artifact sidecars, S10 reuse complete. |
+| OP-11 | Not-run: artifact checks, live adapter integration and usefulness checks are distinct. |
 | OP-12 | Deferred: full five-target release expansion. Preserve existing delivered CLI/API/platform contracts when shared code changes. |
-| OP-13 | Immediate gate: approve the frozen bounded plan, then satisfy U1-U7 before production design approval/tasks/code. Stop or revise on failed criteria or exhausted limits; retain failures. |
+| OP-13 | RESOLVED: S10 gate passed on attempt 2 (C_app 1,193 <= 1,364, U1-U7 PASS). |
+| OP-14 | RESOLVED: Prototype feasibility gate passed under amended Rust substrate ceiling of 7,173 canonical lines (R41). |
+| OP-15 | RESOLVED: E5 Lifecycle Trial passed (-24.8% lines, -12.1% stmts, 0 replay divergences; R42, R43). |
+| OP-16 | RESOLVED: E6 Generalization Trial passed (-23.01% lines, -10.49% stmts, 4/4 adverse mutants killed; R44, R45, R46). |
+| OP-17 | RESOLVED: Milestone synthesis report published in `docs/reports/state-boundary-deconvolution-report.md`. |
+| OP-18 | RESOLVED: Feature integration validation executed with GO verdict in `specs/state-boundary-deconvolution/validation-report.md`. |
+| OP-19 | ACTIVE: Maintain the 4 preserved owner WIP files (`sql-divergences-round21.json` x2, `rules/evaluate.py`, `tests/test_rule_evaluation.py`) strictly unstaged and untouched. |
 
 ## Guardrails and validation state
 
