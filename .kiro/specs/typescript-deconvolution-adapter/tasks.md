@@ -6,9 +6,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 1: TypeScript AST & Effect Analyzer [ ]
+### Task 1: TypeScript AST & Effect Analyzer [x]
 - **Requirements:** REQ-TS-1.1, REQ-TS-1.2, REQ-TS-1.3, REQ-TS-1.4
 - **Dependencies:** None (builds on `native/src/adapter_traits.rs`)
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test typescript_analysis` (4/4 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget, exit code 0).
 - **Owned Files:**
   - `native/src/adapters/typescript/analysis.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/adapters/typescript/mod.rs` (new module root)
