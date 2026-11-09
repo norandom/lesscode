@@ -53,7 +53,7 @@ describes the earlier capture time, superseded by the hosted audit.
 `.github/workflows/native-core.yml` verifies native core correctness across operating systems and CPU architectures:
 - **Linux x86_64**: Verified through containerized Dagger execution (`rust:1.98.1-bookworm`).
 - **Linux aarch64 (ARM64)**: Verified through native GitHub-hosted `ubuntu-24.04-arm` runners.
-- **macOS aarch64 (Apple Silicon)**: Verified natively on Apple Silicon M1 through GitHub-hosted `macos-14` runners.
+- **macOS aarch64 (Apple Silicon)**: Verified natively on Apple Silicon through GitHub-hosted `macos-15` runners.
 - **macOS x86_64 (Intel)**: Verified natively on Intel through GitHub-hosted `macos-15-intel` runners.
 - **Windows x86_64**: Verified natively through GitHub-hosted `windows-2025` runners.
 
