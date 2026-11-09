@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 use lesscode_core::{
-    admission, budgets, compare::render_comparison, model::*, regenerator, surface,
+    admission, budgets, cli_deconvolute, compare::render_comparison, model::*, regenerator, surface,
 };
 use serde::de::DeserializeOwned;
 use std::{
@@ -76,6 +76,11 @@ enum Command {
     Regenerate {
         #[command(subcommand)]
         cmd: regenerator::RegenerateCommand,
+    },
+    /// Deconvolution commands: analyze, mutate, density.
+    Deconvolute {
+        #[command(subcommand)]
+        cmd: cli_deconvolute::DeconvoluteCommand,
     },
 }
 fn read_json<T: DeserializeOwned>(path: &Path) -> Result<T, String> {
@@ -231,16 +236,11 @@ fn run(args: Args) -> Result<u8, String> {
                 ComparisonStatus::Invalid | ComparisonStatus::BaselineIneligible => 3,
             })
         }
-        Command::Admission {
-            root,
-            bindings,
-            out,
-        } => admission::cli_run(&root, &bindings, &out).map_err(|e| e.to_string()),
-        Command::Budgets { config, root, out } => {
-            budgets::cli_run(&root, &config, &out).map_err(|e| e.to_string())
-        }
+        Command::Admission { root, bindings, out } => admission::cli_run(&root, &bindings, &out).map_err(|e| e.to_string()),
+        Command::Budgets { config, root, out } => budgets::cli_run(&root, &config, &out).map_err(|e| e.to_string()),
         Command::Surface { cmd } => surface::cli_run(cmd).map_err(|e| e.to_string()),
         Command::Regenerate { cmd } => regenerator::cli_run(cmd),
+        Command::Deconvolute { cmd } => cli_deconvolute::run(cmd),
     }
 }
 fn main() -> ExitCode {

@@ -70,9 +70,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 4: Deconvolution CLI Porcelain Commands (`analyze`, `mutate`, `density`) [ ]
+### Task 4: Deconvolution CLI Porcelain Commands (`analyze`, `mutate`, `density`) [x]
 - **Requirements:** REQ-1.4, REQ-2.1, REQ-2.2, REQ-2.3, REQ-2.4, REQ-2.5, REQ-6.1, REQ-6.3
 - **Dependencies:** Task 2, Task 3
+- **Status:** Completed. Verified with `cargo test --manifest-path native/Cargo.toml --target-dir D:\BuildArtifacts\lesscode-cargo-test --test cli_deconvolute` (6/6 passed) and `cargo test --manifest-path native/Cargo.toml --target-dir D:\BuildArtifacts\lesscode-cargo-test --test budgets` (10/10 passed).
 - **Owned Files:**
   - `native/src/cli_deconvolute.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/main.rs` (add `Deconvolute` variant to `Command`)

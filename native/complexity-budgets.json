@@ -143,6 +143,15 @@
    "disposition": null
   },
   {
+   "path": "cli_deconvolute.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "dogfood-self-application",
+   "allocation": "Deconvolution CLI subcommands for analyze, mutate, and density (task 4)",
+   "disposition": null
+  },
+  {
    "path": "compare.rs",
    "max_physical_lines": 805,
    "max_logical_units": 230,
