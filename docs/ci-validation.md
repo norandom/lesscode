@@ -48,21 +48,18 @@ that confirmed evidence export and nonzero enforcement; see the
 [local receipt](evidence/dagger-native-e35bc02.json). Its pending-Actions label
 describes the earlier capture time, superseded by the hosted audit.
 
-## Retained Python baseline
+## Multi-Platform and Multi-Architecture CI Matrix
 
-`.github/workflows/baseline-platforms.yml` runs on GitHub-hosted
-`ubuntu-24.04`, `windows-2025` and `macos-15-intel`. Each job explicitly installs
-CPython 3.12.10 through uv 0.13.5 and Node 24.22.1, then performs the locked
-Lizard 1.17.31 / jscpd 4.0.5 setup and genuine analyzer probe. No Python Store
-alias, shell launcher for npm, analysis service or LLM account is used.
-Both bootstrap and clean installation create environments with explicit
-`uv venv --managed-python --python 3.12.10`. The workflow deliberately omits
-`UV_PYTHON_PREFERENCE`: uv 0.13.5 rejects that preference when combined with
-`--managed-python`. Subsequent commands select the recorded environment's
-absolute Python path.
-Analyzer setup also uses uv to create a fresh tool environment and install its
-hash-locked Python packages. Interpreter bindings retain the venv invocation
-path, fingerprint the resolved binary and `pyvenv.cfg`, and reject changed
+`.github/workflows/native-core.yml` verifies native core correctness across operating systems and CPU architectures:
+- **Linux x86_64**: Verified through containerized Dagger execution (`rust:1.98.1-bookworm`).
+- **Linux aarch64 (ARM64)**: Verified through native GitHub-hosted `ubuntu-24.04-arm` runners.
+- **macOS aarch64 (Apple Silicon)**: Verified natively on Apple Silicon M1 through GitHub-hosted `macos-14` runners.
+- **macOS x86_64 (Intel)**: Verified natively on Intel through GitHub-hosted `macos-15-intel` runners.
+- **Windows x86_64**: Verified natively through GitHub-hosted `windows-2025` runners.
+
+## Historical Python baseline (Archived)
+
+The Python prototype (`lesscode-baseline`) and its corresponding `.github/workflows/baseline-platforms.yml` workflow were retired and archived at commit `fd0b5b9`. The historical evidence and reports remain preserved in `evidence/`.
 runtime targets or environment configuration during integrity verification.
 
 `tools/ci_validate.py` retains commands, working directories, exit outcomes,
