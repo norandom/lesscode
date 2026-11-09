@@ -1,5 +1,7 @@
 # Research log
 
+> **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
+
 ## Latest: R46 Report envelope adoption & generalization maturity gate certification (2026-11-09)
 
 [R46](2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md) records the formal adoption of the

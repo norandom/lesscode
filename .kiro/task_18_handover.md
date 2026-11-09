@@ -29,10 +29,11 @@ All execution, measurement, diff generation, and verification ran in the foregro
      - Rust line accounting: 7,173 canonical lines (0 overage against R41 ceiling).
      - Outcome: `structurally_consolidated=True, compression_met=True`.
 
-4. **Dual-Specimen Replication & Research Synthesis:**
+4. **Dual-Specimen Replication & COBESY Documentation:**
    - Certified the **Dual-Specimen Self-Application Maturity Gate**, confirming that State-Boundary Deconvolution breaks the Density Trap systematically across differing application domains (lifecycle event loop vs report persistence & cryptographic serialization).
-   - Authored formal research log [R46](../docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md).
-   - Updated [`docs/research/README.md`](../docs/research/README.md) indexing R46 as Latest.
+   - Formatted research logs [R45](../docs/research/2026-11-09/03-e6-generalization-trial-qualification.md) and [R46](../docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md) in strict accordance with the 7-section `$cobesy` research report template.
+   - Authored the comprehensive milestone synthesis report at [`docs/reports/state-boundary-deconvolution-report.md`](../docs/reports/state-boundary-deconvolution-report.md).
+   - Updated [`docs/research/README.md`](../docs/research/README.md) indexing R46 and linking the synthesis report.
    - Updated [`.kiro/specs/state-boundary-deconvolution/spec.json`](state-boundary-deconvolution/spec.json).
 
 ---

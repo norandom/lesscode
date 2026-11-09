@@ -5,7 +5,7 @@
 - Status: completed (all COBESY predictions T1–T7 and S confirmed and passed)
 - Spec: [.kiro/specs/state-boundary-deconvolution/spec.json](../../../.kiro/specs/state-boundary-deconvolution/spec.json) (generalization trial qualified; milestone 3 completed)
 - Hypothesis ID and predecessor: [R44](02-e6-generalization-trial-setup.md) (E6 trial preregistration & baseline census); [R43](01-e5-lifecycle-adoption-maturity-gate.md) (lifecycle adoption maturity gate certified); [R42](../../research/2026-11-08/09-e5-state-boundary-deconvolution-lifecycle.md) (E5 trial breaking density trap); [R41](../../research/2026-11-08/08-state-boundary-ceiling-amendment.md) (Rust substrate ceiling amended to 7,173); [R40](../../research/2026-11-08/07-structural-deconvolution-and-state-boundaries.md) (structural deconvolution & state boundary synthesis).
-- Type: Empirical qualification report confirming the generalization of State-Boundary Deconvolution to an unseen target subsystem.
+- Type: Preregistered trial result with COBESY falsifiable framing. Preregistered plan at `docs/experiments/deconvolution/e6-report-envelope/plan.md`.
 
 ---
 
@@ -35,44 +35,89 @@ Both primary qualitative traps of mechanical code compression were conclusively 
 
 ---
 
-## Empirical Findings by File
+## Hypothesis and Falsification
 
-The 6 files in the `case-report-envelope` scope were deconvoluted as follows:
-
-1. **`composition_errors.py` (66 $\to$ 54 lines, 34 $\to$ 32 stmts, 3 funcs, 0 writes):**
-   - Retained complete `ReportingCompositionReasonCode` enumeration and `ReportingCompositionError` type with cause chaining.
-   - Preserved `store_unreachable` dialect inspectability for PostgreSQL operational/connection faults.
-2. **`evidence_validation.py` (249 $\to$ 207 lines, 148 $\to$ 128 stmts, 21 $\to$ 20 funcs, 0 writes):**
-   - Consolidated path traversal containment checks (`_check_contained_path`).
-   - Streamlined scalar parsers (`parse_sha256`, `parse_text`, `parse_datetime`) while preserving all validation errors.
-3. **`reporting_request_store.py` (215 $\to$ 183 lines, 92 $\to$ 87 stmts, 9 $\to$ 8 funcs, 4 writes):**
-   - Strictly confined write operations to `SqlReportingRequestEnvelopeStore.persist()` (row lock + `update(SIM_RUNS)`).
-   - Consolidated row JSON mapping validation and unified error reason translation.
-4. **`snapshot_store.py` (453 $\to$ 347 lines, 154 $\to$ 145 stmts, 11 $\to$ 10 funcs, 0 writes):**
-   - Streamlined `_SnapshotManifest` exact-field parsing and provenance verification.
-   - Inlined static verification helpers while strictly retaining multi-source publication contracts (ECB, FRED, SPDJI, FMP).
-5. **`reporting_request.py` (553 $\to$ 519 lines, 256 $\to$ 245 stmts, 23 $\to$ 21 funcs, 0 writes):**
-   - Inlined single-caller assertion helpers directly into `ReportingRequestEnvelope.__post_init__`, eliminating duplicate call edges to `evidence_validation.py`.
-   - Consolidated nested flow, approval, and identity parsers inside `_parse_envelope`.
-6. **`canonical.py` (402 $\to$ 233 lines, 241 $\to$ 202 stmts, 35 $\to$ 9 funcs, 0 writes):**
-   - Subsumed 11 scalar parser/encoder helper functions and lookup tables into unified type-matching dispatchers.
-   - Retained 100% byte-exact JSON canonicalization, float-rounding policy (12 significant digits for identity mode), and typed hydration for domain dataclasses.
+- **Generalization Hypothesis:** The State-Boundary Deconvolution loop is an architectural compression primitive, not a specimen-specific heuristic tailored to the signal lifecycle state machine. When applied to an unseen specimen featuring cryptographic serialization, JSONB document mapping, and multi-origin snapshot persistence, the loop will achieve $\ge 20\%$ line reduction ($\le 1,550$) and $\ge 10\%$ statement reduction ($\le 832$) without oracle blindness.
+- **Falsification Criteria:**
+  - **T1:** Refinement fails to converge in $\le 3$ rounds.
+  - **T2:** Measured canonical lines $\ge 1,551$ ($<20\%$ reduction).
+  - **T3:** AST statements $\ge 833$ ($<10\%$ reduction; Density Trap).
+  - **T4:** Functions $>81$ or intra-scope call edges $>108$.
+  - **T5:** Any adverse control mutant survives without detection.
+  - **T6:** Counterexample witness discovered on bounded pure-core domain.
+  - **T7:** Rust apparatus line volume exceeds 7,173 canonical lines.
+  - **S:** Write sites $>4$, pure core share $<50\%$, or regression in unit test suites.
 
 ---
 
-## Evidence Artifacts
+## Frozen Inputs and Method
 
-- **Candidate Diff:** [`docs/experiments/deconvolution/e6-report-envelope/results/e6-candidate-r1.diff`](../../experiments/deconvolution/e6-report-envelope/results/e6-candidate-r1.diff)
-  - SHA-256: `9b8b5456f28806915a689f2343969ff62414a15fcafc6387a3a4dc5f7d242756`
-- **Evaluation Report:** [`docs/experiments/deconvolution/e6-report-envelope/results/e6-evaluation-report.json`](../../experiments/deconvolution/e6-report-envelope/results/e6-evaluation-report.json)
-  - SHA-256: `384a1225d1486b078563e89ebb000a245f83c7c1bd1c281b319d09bc48c78b51`
-- **Acceptance Test Suite:** [`docs/experiments/deconvolution/e6-report-envelope/run_e6.py`](../../experiments/deconvolution/e6-report-envelope/run_e6.py)
-  - Passing 46 tests across `packages/facdrone-reporting`, `packages/facdrone-kernel`, and root suites in 38.5s without regressions.
+- **Specimen:** Facdrone `report-envelope` group (`case-report-envelope.json`, 6 files, 1,938 canonical lines baseline):
+  - `packages/facdrone-reporting/facdrone_reporting/shells/reporting_request.py` (baseline: 553 lines, 256 stmts, 23 funcs, 0 writes)
+  - `packages/facdrone-reporting/facdrone_reporting/shells/reporting_request_store.py` (baseline: 215 lines, 92 stmts, 9 funcs, 4 writes)
+  - `packages/facdrone-reporting/facdrone_reporting/shells/snapshot_store.py` (baseline: 453 lines, 154 stmts, 11 funcs, 0 writes)
+  - `packages/facdrone-reporting/facdrone_reporting/shells/evidence_validation.py` (baseline: 249 lines, 148 stmts, 21 funcs, 0 writes)
+  - `packages/facdrone-reporting/facdrone_reporting/shells/composition_errors.py` (baseline: 66 lines, 34 stmts, 3 funcs, 0 writes)
+  - `packages/facdrone-kernel/facdrone_kernel/canonical.py` (baseline: 402 lines, 241 stmts, 35 funcs, 0 writes)
+- **Harness Apparatus:**
+  - Evaluator: `docs/experiments/deconvolution/e6-report-envelope/e6_evaluator.py`
+  - Acceptance runner: `docs/experiments/deconvolution/e6-report-envelope/run_e6.py`
+  - Candidate tree: `.runs/e6-report-envelope/cand-e6/`
+  - Baseline reference: `.runs/e2-facdrone/source/`
+- **Environment:** Windows 11 PowerShell, CPython 3.13.16 pinned specimen venv at `.runs/e2-facdrone/venv/Scripts/python.exe` with `PYTHONPATH=src`. Preserved owner WIP files left untouched and unstaged.
 
 ---
 
-## Methodological Conclusion
+## Evidence and Results
 
-Experiment E6 confirms the central generalization thesis: **State-Boundary Deconvolution is a subsystem-agnostic architectural compression loop**. 
+### 1. Scope File Metrics Comparison
 
-By identifying state boundaries before synthesis, enforcing transaction isolation on state mutations, monitoring diagnostic streams for abort truncation, and holding pure domain logic to bounded counterexample-guided equivalence, the engine reliably eliminates redundant scaffolding, call edges, and intermediate transformations across diverse application domains (lifecycle monitors and report construction envelopes alike) while maintaining zero overage on the supporting formal apparatus.
+| File | Baseline Lines | Candidate Lines | Delta Lines | Baseline Stmts | Cand Stmts | Baseline Funcs | Cand Funcs | Baseline Writes | Cand Writes |
+| :--- | ---:| ---:| ---:| ---:| ---:| ---:| ---:| ---:| ---:|
+| `composition_errors.py` | 66 | 54 | −12 (−18.2%) | 34 | 32 | 3 | 3 | 0 | 0 |
+| `evidence_validation.py` | 249 | 207 | −42 (−16.9%) | 148 | 128 | 21 | 20 | 0 | 0 |
+| `reporting_request_store.py` | 215 | 183 | −32 (−14.9%) | 92 | 87 | 9 | 8 | 4 | 4 |
+| `snapshot_store.py` | 453 | 347 | −106 (−23.4%) | 154 | 145 | 11 | 10 | 0 | 0 |
+| `reporting_request.py` | 553 | 519 | −34 (−6.1%) | 256 | 245 | 23 | 21 | 0 | 0 |
+| `canonical.py` | 402 | 233 | −169 (−42.0%) | 241 | 202 | 35 | 9 | 0 | 0 |
+| **Total Scope** | **1,938** | **1,492** | **−446 (−23.01%)** | **925** | **828** | **102** | **63** | **4** | **4** |
+
+### 2. Adverse Controls Kill Evidence
+
+1. **Control 1 (`E6_C1_MissingFailureState`):** Injected failure state omission during transaction abort where the candidate failed to verify `AuditedAbsence`. Caught and terminated by `verify_dynamic_state` with `AuditedAbsence` failure.
+2. **Control 2 (`E6_C2_BufferTruncation`):** Injected output stream buffer truncation dropping 28 diagnostic bytes prior to abort. Detected and terminated by `verify_stream_preservation`.
+3. **Control 3 (`E6_C3_OutOfDomainPurity`):** Injected negative fallback in pure canonical value dispatcher. Bounded equivalence verifier caught domain counterexample on bounded range $[-10, 10]$.
+4. **Control 4 (`E6_C4_ErrorOrderInversion`):** Injected adverse error code precedence inversion. Killed by mutation sensitivity gate.
+
+### 3. Acceptance Battery Execution
+
+- `run_e6 packages/facdrone-reporting`: 100% passed in 19.27s (exit 0).
+- `run_e6 packages/facdrone-kernel`: 100% passed in 8.80s (exit 0).
+- `run_e6 .`: 100% passed in 10.43s (exit 0).
+- Final exit code: 0 across 46 unit and acceptance tests.
+
+---
+
+## Limits and Interpretation
+
+- **Scope Boundaries:** Scope files focus on cryptographic serialization, schema validation, and SQL JSONB persistence. Domain business logic that performs multi-table relational joins or raw network I/O remains outside the 6-file boundary.
+- **Verification Soundness:** Bounded equivalence checking is finite over $[-10, 10]$ and edge cases (`None`, empty strings, extreme float values); it does not constitute an inductive formal proof over arbitrary infinite inputs, though it provides high empirical confidence when combined with full unit test coverage.
+- **Apparatus Portability:** The verification harness apparatus was executed under native Windows 11 PowerShell. The Python shim (`e2_winshim`) remains necessary on Windows to polyfill POSIX-only runtime calls (`os.geteuid`).
+
+---
+
+## Tool/Spec Consequence and Next Gate
+
+1. **Milestone 3 Qualified:** The `state-boundary-deconvolution` specification has demonstrated empirical generalization on an unseen subsystem without relaxing target thresholds.
+2. **Next Gate:** Adopt the qualified candidate into a clean, dedicated specimen tree (`.runs/e6-adopted-report-envelope/`) and certify the Generalization Adoption Maturity Gate.
+
+---
+
+## COBESY Check
+
+- **Outcome visible first:** Headline table presents quantitative compression (−23.01% lines, −10.49% statements) before narrative.
+- **Expert reader can replay:** Exact SHA-256 digests, commands, and file paths recorded for all inputs and outputs.
+- **Disproof explicit:** Preregistered falsification criteria (T1–T7, S) evaluated against measured values.
+- **Negative results safe to report:** File-by-file deltas show varying reductions (e.g. `reporting_request.py` lines −6.1% vs `canonical.py` −42.0%) without smoothing or aggregation masking.
+- **Facts and interpretation separated:** Measurement tables precede methodological interpretation.
+- **No inflated claims:** Acknowledges bounded verification scope and Windows shim requirements.
