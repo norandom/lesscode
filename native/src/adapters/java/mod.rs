@@ -5,6 +5,7 @@
 //! - `native/src/adapter_traits.rs`
 
 pub mod analysis;
+pub mod metrics;
 pub mod mutation;
 
 pub use analysis::JavaEffectAnalyzer;
