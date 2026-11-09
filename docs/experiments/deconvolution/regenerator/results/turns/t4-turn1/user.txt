@@ -1,0 +1,2595 @@
+## Scope files (the only files that may change)
+
+### src/facdrone/shells/decision_evidence_publication.py
+
+```python
+"""Freeze one invocation, then bind the execution identity at its publishing shell."""
+
+from __future__ import annotations
+
+import base64
+import hashlib
+import json
+import re
+import zlib
+from collections.abc import Callable, Mapping, Sequence
+from dataclasses import dataclass, replace
+from datetime import datetime
+from math import isfinite
+from typing import TYPE_CHECKING, Literal, cast
+
+from pydantic import TypeAdapter
+
+from facdrone.engine.trace import StageTrace
+from facdrone.shells.decision_evidence_store import (
+    DecisionEvidenceBatch,
+    SealedEvidence,
+    decode_decision_evidence,
+    seal_decision_evidence,
+)
+from facdrone_kernel.domain.decision_evidence import (
+    AuditedAbsence,
+    ConsumedIC,
+    ConsumedInput,
+    DecisionEvidenceIdentity,
+    EvidenceVersions,
+    InputSlice,
+    RouteEvidence,
+    SignalVersion,
+    SliceReference,
+)
+from facdrone_kernel.domain.mandate import Currency
+
+if TYPE_CHECKING:
+    from facdrone.shells.policy_trace import ConsumedCapture
+
+
+@dataclass(frozen=True)
+class _Captured:
+    """Transient frozen values on the existing payload seam, never a stored schema."""
+
+    stages: tuple[StageTrace, ...]
+    consumed: tuple[ConsumedIC, ...]
+    inputs: tuple[ConsumedInput, ...]
+    routes: tuple[tuple[str, RouteEvidence], ...]
+    signals: tuple[SignalVersion, ...]
+    rule_signals: tuple[tuple[str, tuple[SignalVersion, ...]], ...]
+    absences: tuple[AuditedAbsence, ...]
+
+
+_CAPTURE = TypeAdapter(_Captured)
+
+
+@dataclass(frozen=True)
+class EvidenceBinding:
+    """Execution identity and slice namespace for version-2 publication."""
+
+    scope: Literal["live", "simulation"]
+    execution_id: str
+    namespace: str
+    code: str
+    configuration: str
+
+    def __post_init__(self) -> None:
+        if not self.namespace.strip():
+            raise ValueError("run-slice namespace must not be empty")
+
+
+@dataclass(frozen=True)
+class BoundEvidence:
+    """One decision payload bound to its execution: the payload without its transient
+    capture, and each route's batch sealed once for the store."""
+
+    details: dict[str, object]
+    batches: tuple[SealedEvidence, ...] | None  # None: the policy captured nothing
+    slices: tuple[InputSlice, ...] = ()
+
+
+def money_evidence_payload(payload: dict[str, object]) -> dict[str, object]:
+    """One currency per decision row; pre-currency rows are EUR, without mutation.
+
+    Untagged nested ledger money inherits the row's currency. NewTypes themselves
+    erase at runtime, so the explicit declarations are the values we can compare.
+    """
+    currency = Currency(str(payload.get("currency", "EUR")))
+    ledger = payload.get("risk_ledger")
+    if isinstance(ledger, Mapping) and ledger.get("currency", currency) != currency:
+        raise ValueError("decision evidence and risk ledger declare mixed currency")
+    return {**payload, "currency": currency.value}
+
+
+def _valid_slice_scalar(value: object) -> bool:
+    valid = type(value) in (str, bool, int, float, type(None))
+    return valid and (not isinstance(value, float) or isfinite(value))
+
+
+def slice_bytes(value: InputSlice) -> bytes:
+    """The one canonical encoding of an input slice; its SHA-256 is the slice's identity."""
+    if (
+        not isinstance(value.columns, tuple)
+        or not isinstance(value.rows, tuple)
+        or any(type(c) is not str for c in value.columns)
+        or len(set(value.columns)) != len(value.columns)
+    ):
+        raise ValueError("invalid input-slice columns")
+    for row in value.rows:
+        if (
+            not isinstance(row, tuple)
+            or len(row) != len(value.columns)
+            or any(not _valid_slice_scalar(v) for v in row)
+        ):
+            raise ValueError("invalid input-slice row or scalar")
+    return _canonical(value)
+
+
+def _canonical(value: InputSlice) -> bytes:
+    return json.dumps(
+        {"columns": value.columns, "rows": value.rows},
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    ).encode()
+
+
+CONSUMED_URI = "consumed:"
+RUN_SLICE_URI = "run-slice:"
+
+
+def parse_run_slice(reference: SliceReference) -> tuple[str, str]:
+    """Decode the opaque namespace and verify the URI commits to the stated digest."""
+    namespace, separator, slice_id = reference.uri.removeprefix(RUN_SLICE_URI).rpartition("/")
+    if (
+        not reference.uri.startswith(RUN_SLICE_URI)
+        or not separator
+        or not namespace.strip()
+        or slice_id != reference.sha256
+        or re.fullmatch("[0-9a-f]{64}", slice_id) is None
+    ):
+        raise ValueError(f"invalid run-slice namespace or digest: {reference.uri}")
+    return namespace, slice_id
+
+
+def slice_identity(value: InputSlice) -> str:
+    return hashlib.sha256(slice_bytes(value)).hexdigest()
+
+
+def deduplicated_inputs(inputs: Sequence[ConsumedInput]) -> tuple[ConsumedInput, ...]:
+    """Each distinct slice travels once per decision; every later consumer of the same
+    slice references it by digest. Every factor reads the same point-in-time history, so
+    without this one decision day carried each symbol's history once per factor."""
+    digests: dict[int, str] = {}
+    seen: set[str] = set()
+    out: list[ConsumedInput] = []
+    for item in inputs:
+        if not isinstance(item.value, InputSlice):
+            out.append(item)
+            continue
+        digest = digests.get(id(item.value))
+        if digest is None:
+            digest = hashlib.sha256(_canonical(item.value)).hexdigest()
+            digests[id(item.value)] = digest
+        if digest in seen:
+            out.append(replace(item, value=SliceReference(f"{CONSUMED_URI}{digest}", digest)))
+        else:
+            seen.add(digest)
+            out.append(item)
+    return tuple(out)
+
+
+def resolved_inputs(inputs: Sequence[ConsumedInput]) -> tuple[ConsumedInput, ...]:
+    """The inverse of :func:`deduplicated_inputs` for a reader that wants every value in place."""
+    slices = {
+        hashlib.sha256(_canonical(item.value)).hexdigest(): item.value
+        for item in inputs
+        if isinstance(item.value, InputSlice)
+    }
+    return tuple(
+        replace(item, value=slices[item.value.sha256])
+        if isinstance(item.value, SliceReference)
+        and item.value.uri == f"{CONSUMED_URI}{item.value.sha256}"
+        and item.value.sha256 in slices
+        else item
+        for item in inputs
+    )
+
+
+def capture_payload(capture: ConsumedCapture | None) -> str | None:
+    if capture is None:
+        return None
+    routes: tuple[tuple[str, RouteEvidence], ...] = (
+        ("scored", capture.route(capture.minimum_assets)),
+        *((f"rule_book:{name}", route) for name, route in capture.rules.items()),
+    )
+    frozen = _Captured(
+        capture.traces(),
+        tuple(capture.consumed),
+        deduplicated_inputs(capture.inputs),
+        routes,
+        capture.versions,
+        tuple(capture.rule_versions.items()),
+        (
+            *capture.absences,
+            *(
+                AuditedAbsence(
+                    f"guard:{name}", f"guard failed open {count} time(s) during this invocation"
+                )
+                for name, count in capture.fail_open_counts().items()
+            ),
+        ),
+    )
+    return base64.b64encode(zlib.compress(_CAPTURE.dump_json(frozen), level=1)).decode("ascii")
+
+
+def bind_evidence(
+    payload: dict[str, object],
+    *,
+    scope: Literal["live", "simulation"],
+    execution_id: str,
+    code: str,
+    configuration: str,
+) -> dict[str, object]:
+    bound = seal_evidence(
+        payload, scope=scope, execution_id=execution_id, code=code, configuration=configuration
+    )
+    if bound.batches is None:
+        return bound.details
+    return bound.details | {
+        "consumed_evidence": [json.loads(sealed.canonical) for sealed in bound.batches]
+    }
+
+
+def seal_evidence(
+    payload: Mapping[str, object],
+    *,
+    scope: Literal["live", "simulation"],
+    execution_id: str,
+    code: str,
+    configuration: str,
+) -> BoundEvidence:
+    """Bind each route's batch and seal it once: the publisher appends these exact texts."""
+    bound, captured = _captured_payload(payload)
+    if captured is None:
+        return BoundEvidence(bound, None)
+    identity = DecisionEvidenceIdentity(
+        scope,
+        execution_id,
+        "",
+        datetime.fromisoformat(str(payload["as_of"])),
+        EvidenceVersions(
+            code,
+            configuration,
+            captured.signals,
+            AuditedAbsence("source_manifest_digest", "no complete qualified manifest was consumed"),
+        ),
+    )
+    return BoundEvidence(bound, _seal_captured(captured, identity))
+
+
+def _captured_payload(payload: Mapping[str, object]) -> tuple[dict[str, object], _Captured | None]:
+    raw = payload.get("consumed_capture")
+    bound = {key: value for key, value in payload.items() if key != "consumed_capture"}
+    if raw is None:
+        bound["consumed_evidence_absence"] = {
+            "field": "consumed_evidence",
+            "reason": "policy did not provide consumed capture",
+        }
+        return bound, None
+    captured = _CAPTURE.validate_json(
+        zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=True
+    )
+    return bound, captured
+
+
+def _seal_captured(
+    captured: _Captured, identity: DecisionEvidenceIdentity
+) -> tuple[SealedEvidence, ...]:
+    as_of, execution_id = identity.as_of, identity.execution_id
+    batches = []
+    for route_name, route in captured.routes:
+        signals = (
+            captured.signals
+            if route.kind == "scored"
+            else dict(captured.rule_signals)[route_name.removeprefix("rule_book:")]
+        )
+        route_identity = replace(
+            identity,
+            step_id=f"{as_of.isoformat()}:{route_name}",
+            versions=replace(identity.versions, signals=signals),
+        )
+        batch = DecisionEvidenceBatch(
+            route_identity,
+            # The policy evaluates a PIT view that can precede this decision (futures).
+            # Bind both stage identity fields here; consumed-input times stay untouched.
+            tuple(replace(stage, run_id=execution_id, as_of=as_of) for stage in captured.stages),
+            captured.consumed if route.kind == "scored" else (),
+            captured.inputs,
+            route,
+            captured.absences,
+        )
+        batches.append(seal_decision_evidence(batch))
+    return tuple(batches)
+
+
+def seal_evidence_with_run_slices(
+    payload: Mapping[str, object], binding: EvidenceBinding
+) -> BoundEvidence:
+    """Seal references once; retain distinct full slices for the transactional writer."""
+    details, captured = _captured_payload(payload)
+    if captured is None:
+        return BoundEvidence(details, None)
+    inputs, slices = _run_slice_inputs(captured.inputs, binding.namespace)
+    identity = DecisionEvidenceIdentity(
+        binding.scope,
+        binding.execution_id,
+        "",
+        datetime.fromisoformat(str(payload["as_of"])),
+        EvidenceVersions(
+            binding.code,
+            binding.configuration,
+            captured.signals,
+            AuditedAbsence("source_manifest_digest", "no complete qualified manifest was consumed"),
+        ),
+    )
+    batches = _seal_captured(replace(captured, inputs=inputs), identity)
+    return BoundEvidence(details, tuple(replace(b, schema_version=2) for b in batches), slices)
+
+
+def _run_slice_inputs(
+    inputs: Sequence[ConsumedInput],
+    namespace: str,
+) -> tuple[tuple[ConsumedInput, ...], tuple[InputSlice, ...]]:
+    slices = {
+        slice_identity(item.value): item.value
+        for item in inputs
+        if isinstance(item.value, InputSlice)
+    }
+    converted = []
+    for item in inputs:
+        value = item.value
+        if isinstance(value, InputSlice):
+            digest = slice_identity(value)
+        elif isinstance(value, SliceReference) and value.uri.startswith(CONSUMED_URI):
+            digest = value.sha256
+            if value.uri != f"{CONSUMED_URI}{digest}" or digest not in slices:
+                raise ValueError("consumed reference has no captured slice")
+        else:
+            converted.append(item)
+            continue
+        converted.append(
+            replace(item, value=SliceReference(f"{RUN_SLICE_URI}{namespace}/{digest}", digest))
+        )
+    return tuple(converted), tuple(slices.values())
+
+
+def bind_evidence_with_run_slices(
+    payload: dict[str, object], binding: EvidenceBinding
+) -> dict[str, object]:
+    bound = seal_evidence_with_run_slices(payload, binding)
+    return bound.details if bound.batches is None else bound.details | {"_bound_evidence": bound}
+
+
+def bound_payload(payload: Mapping[str, object]) -> BoundEvidence | None:
+    """The in-process envelope used by the run-slice binder, never a stored field."""
+    bound = payload.get("_bound_evidence")
+    if bound is not None and not isinstance(bound, BoundEvidence):
+        raise ValueError("invalid bound evidence envelope")
+    return bound
+
+
+def compact_capture(
+    payload: dict[str, object], retain: Callable[[InputSlice], SliceReference]
+) -> dict[str, object]:
+    """Retain each input slice once before publication duplicates it across routes."""
+    raw = payload.get("consumed_capture")
+    if raw is None:
+        return dict(payload)
+    captured = _CAPTURE.validate_json(
+        zlib.decompress(base64.b64decode(str(raw), validate=True)), strict=True
+    )
+    retained: dict[str, SliceReference] = {}
+    inputs: list[ConsumedInput] = []
+    for item in captured.inputs:
+        if isinstance(item.value, InputSlice):
+            reference = retain(item.value)
+            retained[reference.sha256] = reference
+            inputs.append(replace(item, value=reference))
+        elif (
+            isinstance(item.value, SliceReference)
+            and item.value.uri == f"{CONSUMED_URI}{item.value.sha256}"
+            and item.value.sha256 in retained
+        ):
+            inputs.append(replace(item, value=retained[item.value.sha256]))
+        else:
+            inputs.append(item)
+    compact = replace(captured, inputs=tuple(inputs))
+    return payload | {
+        "consumed_capture": base64.b64encode(zlib.compress(_CAPTURE.dump_json(compact), 1)).decode()
+    }
+
+
+def payload_batches(payload: Mapping[str, object]) -> tuple[DecisionEvidenceBatch, ...]:
+    bound = bound_payload(payload)
+    if bound is not None:
+        return tuple(sealed.batch for sealed in bound.batches or ())
+    raw = payload.get("consumed_evidence", [])
+    if not isinstance(raw, list):
+        raise ValueError("consumed evidence must contain a list of complete batches")
+    return tuple(decode_decision_evidence(batch) for batch in raw)
+
+
+_REF_KEYS = ("scope", "execution_id", "step_id")
+
+
+def stored_bound_payload(bound: BoundEvidence) -> dict[str, object]:
+    """What :func:`stored_evidence_payload` makes of the bound payload, without its dicts."""
+    if bound.batches is None:
+        return dict(bound.details)
+    return bound.details | {
+        "consumed_evidence_refs": [
+            {key: getattr(sealed.batch.identity, key) for key in _REF_KEYS}
+            for sealed in bound.batches
+        ]
+    }
+
+
+def stored_evidence_payload(payload: Mapping[str, object]) -> dict[str, object]:
+    """Event references after the caller validated and appended its complete batches."""
+    stored = dict(payload)
+    bound = bound_payload(stored)
+    if bound is not None:
+        del stored["_bound_evidence"]
+        return stored | stored_bound_payload(bound)
+    if "consumed_evidence" in stored:
+        batches = cast(list[dict[str, dict[str, object]]], stored.pop("consumed_evidence"))
+        stored["consumed_evidence_refs"] = [
+            {key: batch["identity"][key] for key in _REF_KEYS} for batch in batches
+        ]
+    return stored
+
+```
+
+### src/facdrone/shells/decision_evidence_store.py
+
+```python
+"""Typed consumed evidence; transaction ownership stays with the caller."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+from collections.abc import Iterator, Sequence
+from dataclasses import asdict, dataclass, fields, is_dataclass
+from datetime import UTC, date, datetime
+from typing import ClassVar, Literal
+
+from pydantic import ConfigDict, TypeAdapter
+from sqlalchemy import JSON, Connection, Text, bindparam, cast, select
+from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.engine import RowMapping
+
+from facdrone.engine.trace import StageTrace
+from facdrone.schema import DECISION_EVIDENCE
+from facdrone_kernel.domain import decision_evidence as values
+
+
+@dataclass(frozen=True)
+class DecisionEvidenceBatch:
+    __pydantic_config__: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
+    identity: values.DecisionEvidenceIdentity
+    stages: tuple[StageTrace, ...]
+    consumed: tuple[values.ConsumedIC, ...]
+    inputs: tuple[values.ConsumedInput, ...]
+    route: values.RouteEvidence
+    absences: tuple[values.AuditedAbsence, ...]
+
+
+@dataclass(frozen=True)
+class ConsumedEvidence:
+    """The monitor's projection, sharing the full batch's identity and IC types."""
+
+    __pydantic_config__: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
+    identity: values.DecisionEvidenceIdentity
+    consumed: tuple[values.ConsumedIC, ...]
+
+
+@dataclass(frozen=True)
+class SealedEvidence:
+    """A batch validated once, with the texts its row is made of.
+
+    ``canonical`` is the compact sorted JSON whose SHA-256 is the row's ``content_digest``;
+    ``stored`` is the same document in the separators the ``payload`` column has always
+    retained (psycopg's default ``json.dumps`` of the parsed canonical text).
+    """
+
+    batch: DecisionEvidenceBatch
+    canonical: str
+    stored: str
+    digest: str
+    schema_version: Literal[1, 2] = 1
+
+
+@dataclass(frozen=True)
+class EvidenceReceipt:
+    identity: values.DecisionEvidenceIdentity
+    digest: str
+    outcome: Literal["inserted", "existing"]
+
+
+class EvidenceConflictError(ValueError):
+    """Same identity with different content; publication records the refusal."""
+
+
+_BATCH = TypeAdapter(DecisionEvidenceBatch)
+_CONSUMED = TypeAdapter(ConsumedEvidence)
+_KEYS = ("scope", "execution_id", "step_id")
+
+
+def _json(batch: DecisionEvidenceBatch) -> str:
+    return _dump(asdict(batch), batch.identity.as_of, (",", ":"))
+
+
+def _dump(tree: object, cutoff: datetime, separators: tuple[str, str]) -> str:
+    if cutoff.utcoffset() is None:
+        raise ValueError("evidence cutoff must be timezone-aware")
+
+    def timestamp(value: object) -> str:
+        if isinstance(value, datetime):
+            if value.utcoffset() is None or value > cutoff:
+                raise ValueError("naive or future evidence timestamp")
+            return value.astimezone(UTC).isoformat()
+        if isinstance(value, date) and value <= cutoff.date():
+            return value.isoformat()
+        raise ValueError("unsupported or future evidence value")
+
+    return json.dumps(
+        tree, sort_keys=True, separators=separators, default=timestamp, allow_nan=False
+    )
+
+
+def _records(value: object) -> Iterator[object]:
+    if isinstance(value, values.InputSlice):
+        yield value  # validated rows hold scalars only: no record lives below a slice
+    elif is_dataclass(value) and not isinstance(value, type):
+        yield value
+        for field in fields(value):
+            yield from _records(getattr(value, field.name))
+    elif isinstance(value, tuple):
+        for child in value:
+            yield from _records(child)
+
+
+def _aligned(names: tuple[str, ...], *vectors: Sequence[object]) -> None:
+    if len(set(names)) != len(names) or any(len(vector) != len(names) for vector in vectors):
+        raise ValueError("duplicate names or misaligned evidence vectors")
+
+
+def _check_record(record: object) -> None:
+    if isinstance(record, values.CombineEstimate):
+        _aligned(
+            record.signals,
+            record.expected_returns,
+            record.dispersions,
+            record.solved_weights,
+            record.unified_weights,
+            record.legacy_weights,
+            record.final_weights,
+            record.blend_shares,
+            record.runtime_multipliers,
+            *((record.confidences,) if record.confidences else ()),
+        )
+        _aligned(record.assets)
+    elif isinstance(record, values.ScoreTransform):
+        _check_transform(record)
+    elif isinstance(record, values.InputSlice):
+        _aligned(record.columns, *record.rows)
+    elif isinstance(record, (values.SliceReference, values.SignalVersion)):
+        _check_source_identity(record)
+    elif isinstance(record, values.ConsumedIC):
+        _check_ic(record)
+    if isinstance(record, (values.ConsumedInput, values.DatedICValue)):
+        _check_input(record)
+
+
+def _check_source_identity(record: values.SliceReference | values.SignalVersion) -> None:
+    if isinstance(record, values.SliceReference):
+        if not record.uri.strip() or re.fullmatch("[0-9a-f]{64}", record.sha256) is None:
+            raise ValueError("slice reference requires location and SHA-256")
+    elif not record.name.strip() or isinstance(record.version, int) and record.version < 1:
+        raise ValueError("invalid signal identity")
+
+
+def _check_transform(record: values.ScoreTransform) -> None:
+    _aligned(record.symbols, record.raw, record.transformed)
+    if isinstance(record.fitted_symbols, tuple) and not set(record.fitted_symbols) <= set(
+        record.symbols
+    ):
+        raise ValueError("fitted symbols outside transformed universe")
+
+
+def _check_ic(record: values.ConsumedIC) -> None:
+    if record.horizon_days < 1 or any(
+        item.signal != record.signal.name
+        for item in (record.lifetime_reliability, record.applied_reliability)
+    ):
+        raise ValueError("invalid consumed IC identity or horizon")
+    if isinstance(record.estimates, tuple) and any(
+        record.signal.name not in group.signals for group in record.estimates
+    ):
+        raise ValueError("consumed signal absent from its combine estimate")
+    if isinstance(record.knowledge_at, datetime):
+        for window in (record.window, record.conditioned_window):
+            if isinstance(window, tuple) and any(
+                isinstance(item.available_at, datetime) and item.available_at > record.knowledge_at
+                for item in window
+            ):
+                raise ValueError("IC window became available after its knowledge time")
+
+
+def _check_input(record: values.ConsumedInput | values.DatedICValue) -> None:
+    observed, available = record.observed_at, record.available_at
+    if isinstance(available, datetime) and isinstance(observed, date):
+        if (isinstance(observed, datetime) and observed > available) or (
+            observed.date() if isinstance(observed, datetime) else observed
+        ) > available.date():
+            raise ValueError("observation follows its stated availability")
+    if isinstance(record, values.ConsumedInput) and not (
+        record.source.strip() and record.key.strip()
+    ):
+        raise ValueError("consumed input requires source and key")
+
+
+def _validate(batch: DecisionEvidenceBatch) -> DecisionEvidenceBatch:
+    checked = _BATCH.validate_json(_json(batch), strict=True)
+    _validate_records(checked)
+    if any(
+        stage.as_of != checked.identity.as_of or stage.run_id != checked.identity.execution_id
+        for stage in checked.stages
+    ):
+        raise ValueError("stage timestamp or execution differs from decision")
+    if isinstance(checked.route, values.ScoredRouteEvidence):
+        route = checked.route
+        if route.minimum_assets < 0 or not set(route.selected) <= set(route.offered):
+            raise ValueError("invalid selected membership or minimum-assets boundary")
+    return checked
+
+
+def _validate_records(checked: DecisionEvidenceBatch | ConsumedEvidence) -> None:
+    identity = checked.identity
+    if not all(
+        s.strip()
+        for s in (
+            identity.execution_id,
+            identity.step_id,
+            identity.versions.code,
+            identity.versions.configuration,
+        )
+    ):
+        raise ValueError("evidence requires execution, step and version identities")
+    _aligned(tuple(signal.name for signal in identity.versions.signals))
+    for record in _records(checked):
+        _check_record(record)
+        if isinstance(record, values.SignalVersion) and record not in identity.versions.signals:
+            raise ValueError("signal version absent from decision identity")
+
+
+def seal_decision_evidence(batch: DecisionEvidenceBatch) -> SealedEvidence:
+    """Validate once and serialize once; every later step reuses these exact texts."""
+    checked = _validate(batch)
+    tree = asdict(checked)
+    canonical = _dump(tree, checked.identity.as_of, (",", ":"))
+    stored = _dump(tree, checked.identity.as_of, (", ", ": "))
+    return SealedEvidence(
+        checked, canonical, stored, hashlib.sha256(canonical.encode()).hexdigest()
+    )
+
+
+def encode_decision_evidence(batch: DecisionEvidenceBatch) -> dict[str, object]:
+    payload: dict[str, object] = json.loads(seal_decision_evidence(batch).canonical)
+    return payload
+
+
+def decode_decision_evidence(payload: object) -> DecisionEvidenceBatch:
+    return _validate(_BATCH.validate_json(json.dumps(payload, allow_nan=False), strict=True))
+
+
+def decode_consumed_evidence(payload: object) -> ConsumedEvidence:
+    """Validate only the server-projected fields, with the full codec's IC semantics."""
+    checked = _CONSUMED.validate_json(json.dumps(payload, allow_nan=False), strict=True)
+    canonical = _dump(asdict(checked), checked.identity.as_of, (",", ":"))
+    checked = _CONSUMED.validate_json(canonical, strict=True)
+    _validate_records(checked)
+    return checked
+
+
+def append_decision_evidence(
+    connection: Connection, batch: DecisionEvidenceBatch
+) -> EvidenceReceipt:
+    return append_sealed_evidence(connection, seal_decision_evidence(batch))
+
+
+def append_sealed_evidence(connection: Connection, sealed: SealedEvidence) -> EvidenceReceipt:
+    """Insert the sealed text as it is: no re-validation, no re-serialization."""
+    identity = sealed.batch.identity
+    key = {name: getattr(identity, name) for name in _KEYS}
+    inserted = connection.execute(
+        insert(DECISION_EVIDENCE)
+        .values(
+            **key,
+            schema_version=sealed.schema_version,
+            knowledge_at=identity.as_of,
+            content_digest=sealed.digest,
+            payload=cast(bindparam("payload", sealed.stored, type_=Text), JSON),
+        )
+        .on_conflict_do_nothing(index_elements=_KEYS)
+        .returning(DECISION_EVIDENCE.c.content_digest)
+    ).scalar_one_or_none()
+    retained = connection.execute(
+        select(DECISION_EVIDENCE.c.content_digest).filter_by(**key)
+    ).scalar_one()
+    if retained != sealed.digest:
+        raise EvidenceConflictError(f"different evidence already persisted for {key}")
+    return EvidenceReceipt(identity, sealed.digest, "inserted" if inserted else "existing")
+
+
+def _read(row: RowMapping) -> DecisionEvidenceBatch:
+    batch = decode_decision_evidence(row["payload"])
+    if (
+        row["schema_version"] not in (1, 2)
+        or row["knowledge_at"] != batch.identity.as_of
+        or hashlib.sha256(_json(batch).encode()).hexdigest() != row["content_digest"]
+        or any(getattr(batch.identity, key) != row[key] for key in _KEYS)
+    ):
+        raise ValueError("invalid retained evidence schema, identity, timestamp or digest")
+    return batch
+
+
+def read_decision_evidence(
+    connection: Connection,
+    scope: Literal["live", "simulation"],
+    execution_id: str,
+    through: datetime,
+) -> tuple[DecisionEvidenceBatch, ...] | values.AuditedAbsence:
+    if through.utcoffset() is None:
+        raise ValueError("knowledge cutoff must be timezone-aware")
+    rows = connection.execute(
+        select(DECISION_EVIDENCE)
+        .where(
+            DECISION_EVIDENCE.c.scope == scope,
+            DECISION_EVIDENCE.c.execution_id == execution_id,
+            DECISION_EVIDENCE.c.knowledge_at <= through,
+        )
+        .order_by(DECISION_EVIDENCE.c.step_id)
+    ).mappings()
+    return tuple(_read(row) for row in rows) or values.AuditedAbsence(
+        execution_id, "no retained evidence at this cutoff"
+    )
+
+```
+
+### src/facdrone/shells/decision_evidence_reader.py
+
+```python
+"""Resolve retained input references above the stores, within one read session."""
+
+from __future__ import annotations
+
+from dataclasses import replace
+from datetime import datetime
+
+from sqlalchemy import Connection
+
+from facdrone.shells.decision_evidence_publication import (
+    CONSUMED_URI,
+    RUN_SLICE_URI,
+    parse_run_slice,
+    resolved_inputs,
+)
+from facdrone.shells.decision_evidence_store import (
+    DecisionEvidenceBatch,
+    EvidenceConflictError,
+    read_decision_evidence,
+)
+from facdrone.shells.decision_input_slice_store import Scope
+from facdrone.shells.decision_input_slice_store import SliceResolver as SliceResolver
+from facdrone_kernel.domain.decision_evidence import (
+    AuditedAbsence,
+    ConsumedInput,
+    DecisionEvidenceIdentity,
+    SliceReference,
+)
+
+
+class EvidenceResolutionError(EvidenceConflictError):
+    """A retained batch cannot be explained with every consumed input intact."""
+
+
+def _failure(
+    identity: DecisionEvidenceIdentity, item: ConsumedInput, namespace: str, error: ValueError
+) -> EvidenceResolutionError:
+    reference = item.value
+    assert isinstance(reference, SliceReference)  # noqa: S101 — only references need resolution
+    return EvidenceResolutionError(
+        f"cannot resolve scope={identity.scope} execution_id={identity.execution_id} "
+        f"namespace={namespace} key={item.source}/{item.key} slice_id={reference.sha256}: {error}"
+    )
+
+
+def _resolve_input(
+    connection: Connection,
+    identity: DecisionEvidenceIdentity,
+    item: ConsumedInput,
+    resolver: SliceResolver,
+) -> ConsumedInput:
+    reference = item.value
+    if not isinstance(reference, SliceReference) or not reference.uri.startswith(RUN_SLICE_URI):
+        return item
+    namespace = reference.uri.removeprefix(RUN_SLICE_URI).rpartition("/")[0]
+    try:
+        namespace, slice_id = parse_run_slice(reference)
+        value = resolver.resolve(connection, identity.scope, namespace, slice_id)
+    except ValueError as error:
+        raise _failure(identity, item, namespace, error) from error
+    return replace(item, value=value)
+
+
+def _has_run_slices(batch: DecisionEvidenceBatch) -> bool:
+    return any(
+        isinstance(item.value, SliceReference) and item.value.uri.startswith(RUN_SLICE_URI)
+        for item in batch.inputs
+    )
+
+
+def _resolve_batch(
+    connection: Connection, batch: DecisionEvidenceBatch, resolver: SliceResolver
+) -> DecisionEvidenceBatch:
+    if not _has_run_slices(batch):
+        return batch
+    inputs = resolved_inputs(
+        tuple(_resolve_input(connection, batch.identity, item, resolver) for item in batch.inputs)
+    )
+    for item in inputs:
+        if isinstance(item.value, SliceReference) and item.value.uri.startswith(CONSUMED_URI):
+            raise _failure(
+                batch.identity, item, "<in-batch>", ValueError("unresolved consumed reference")
+            )
+    return replace(batch, inputs=inputs)
+
+
+def read_resolved_evidence(
+    connection: Connection,
+    scope: Scope,
+    execution_id: str,
+    through: datetime,
+    resolver: SliceResolver,
+) -> tuple[DecisionEvidenceBatch, ...] | AuditedAbsence:
+    """Stored reads verify batch digests; slice reads verify every link before returning.
+
+    Legacy batches have no run-slice references and pass through unchanged. The caller
+    owns the resolver's session so consecutive decisions can share verified ancestors.
+    """
+    batches = read_decision_evidence(connection, scope, execution_id, through)
+    if isinstance(batches, AuditedAbsence) or not any(_has_run_slices(batch) for batch in batches):
+        return batches
+    return tuple(_resolve_batch(connection, batch, resolver) for batch in batches)
+
+```
+
+### src/facdrone/shells/decision_input_slice_store.py
+
+```python
+"""Append-only run slices; the caller owns the connection and transaction."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from typing import Literal, TypeAlias
+
+from pydantic import TypeAdapter
+from sqlalchemy import Connection, select
+from sqlalchemy.dialects.postgresql import insert
+
+from facdrone.schema import DECISION_INPUT_SLICE
+from facdrone.shells.decision_evidence_publication import slice_bytes
+from facdrone.shells.decision_evidence_publication import slice_identity as slice_identity
+from facdrone.shells.decision_evidence_store import EvidenceConflictError
+from facdrone_kernel.domain.decision_evidence import InputScalar, InputSlice
+
+Scope: TypeAlias = Literal["live", "simulation"]
+_Key: TypeAlias = tuple[Scope, str, str]
+
+
+@dataclass(frozen=True)
+class SliceRow:
+    scope: Scope
+    execution_id: str
+    slice_id: str
+    base_id: str | None
+    base_rows: int
+    columns: tuple[str, ...]
+    rows: tuple[tuple[InputScalar, ...], ...]
+    knowledge_at: datetime
+
+
+@dataclass(frozen=True)
+class SliceReceipt:
+    scope: Scope
+    execution_id: str
+    slice_id: str
+    digest: str
+    outcome: Literal["inserted", "existing"]
+
+
+class SliceConflictError(EvidenceConflictError):
+    """The retained storage representation differs at the same run-local identity."""
+
+
+class SliceResolutionError(ValueError):
+    """A requested slice cannot be reconstructed and verified in full."""
+
+
+_ROW = TypeAdapter(SliceRow)
+_KEYS = ("scope", "execution_id", "slice_id")
+
+
+def full_row(
+    scope: Scope, execution_id: str, value: InputSlice, knowledge_at: datetime
+) -> SliceRow:
+    return SliceRow(
+        scope, execution_id, slice_identity(value), None, 0, value.columns, value.rows, knowledge_at
+    )
+
+
+def delta_row(
+    scope: Scope, execution_id: str, base: InputSlice, value: InputSlice, knowledge_at: datetime
+) -> SliceRow:
+    count = len(base.rows)
+    if base.columns != value.columns or count >= len(value.rows) or base.rows != value.rows[:count]:
+        raise ValueError("a delta requires equal columns and a strict row prefix")
+    # Python equality conflates signed zero, numeric types and booleans. The prefix
+    # must also have identical bytes, or reconstruction could never match slice_id.
+    base_id = slice_identity(base)
+    if base_id != slice_identity(InputSlice(value.columns, value.rows[:count])):
+        raise ValueError("a delta requires a canonically identical prefix")
+    return SliceRow(
+        scope,
+        execution_id,
+        slice_identity(value),
+        base_id,
+        count,
+        value.columns,
+        value.rows[count:],
+        knowledge_at,
+    )
+
+
+def _row_digest(row: SliceRow) -> str:
+    if row.knowledge_at.utcoffset() is None:
+        raise ValueError("slice knowledge_at must be timezone-aware")
+    if row.base_rows < 0 or row.base_id is None and row.base_rows != 0:
+        raise ValueError("invalid base_rows")
+    slice_bytes(InputSlice(row.columns, row.rows))
+    stored = {name: getattr(row, name) for name in ("base_id", "base_rows", "columns", "rows")}
+    canonical = json.dumps(stored, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    return hashlib.sha256(canonical.encode()).hexdigest()
+
+
+def append_slice(connection: Connection, row: SliceRow) -> SliceReceipt:
+    """First storage representation wins; retries retain its original knowledge time."""
+    digest = _row_digest(row)
+    key = {name: getattr(row, name) for name in _KEYS}
+    inserted = connection.execute(
+        insert(DECISION_INPUT_SLICE)
+        .values(**asdict(row), row_digest=digest)
+        .on_conflict_do_nothing(index_elements=_KEYS)
+        .returning(DECISION_INPUT_SLICE.c.row_digest)
+    ).scalar_one_or_none()
+    retained = connection.execute(
+        select(DECISION_INPUT_SLICE.c.row_digest).filter_by(**key)
+    ).scalar_one()
+    if retained != digest:
+        raise SliceConflictError(f"different input slice already persisted for {key}")
+    return SliceReceipt(
+        row.scope, row.execution_id, row.slice_id, digest, "inserted" if inserted else "existing"
+    )
+
+
+def _load(connection: Connection, key: _Key) -> SliceRow:
+    stored = (
+        connection.execute(
+            select(DECISION_INPUT_SLICE).filter_by(**dict(zip(_KEYS, key, strict=True)))
+        )
+        .mappings()
+        .one_or_none()
+    )
+    if stored is None:
+        raise ValueError(f"missing link {key[2]}")
+    row = _ROW.validate_python(dict(stored))
+    if _row_digest(row) != stored["row_digest"]:
+        raise ValueError(f"row digest mismatch for {key[2]}")
+    return row
+
+
+def _walk(
+    connection: Connection, key: _Key, max_links: int, cached: dict[str, InputSlice]
+) -> list[SliceRow]:
+    if max_links < 0:
+        raise ValueError("max_links must be nonnegative")
+    pending: list[SliceRow] = []
+    seen: set[str] = set()
+    current = key[2]
+    while current not in cached:
+        if current in seen or len(pending) > max_links:
+            raise ValueError("slice chain is cyclic or exceeds max_links")
+        seen.add(current)
+        row = _load(connection, (key[0], key[1], current))
+        pending.append(row)
+        if row.base_id is None:
+            break
+        current = row.base_id
+    return pending
+
+
+def _rebuild(row: SliceRow, base: InputSlice | None) -> InputSlice:
+    rows = row.rows
+    if base is not None:
+        if base.columns != row.columns:
+            raise ValueError("base columns differ")
+        if len(base.rows) < row.base_rows:
+            raise ValueError("base is shorter than base_rows")
+        rows = base.rows[: row.base_rows] + rows
+    value = InputSlice(row.columns, rows)
+    if slice_identity(value) != row.slice_id:
+        raise ValueError(f"slice digest mismatch for {row.slice_id}")
+    return value
+
+
+def _refusal(key: _Key, error: ValueError) -> SliceResolutionError:
+    return SliceResolutionError(
+        f"cannot resolve scope={key[0]} execution_id={key[1]} slice_id={key[2]}: {error}"
+    )
+
+
+def _resolve(
+    connection: Connection,
+    key: _Key,
+    max_links: int,
+    cached: dict[str, InputSlice],
+    lengths: dict[str, int],
+) -> InputSlice:
+    try:
+        pending = _walk(connection, key, max_links, cached)
+        for row in reversed(pending):
+            depth = 0 if row.base_id is None else lengths[row.base_id] + 1
+            if depth > max_links:
+                raise ValueError("slice chain exceeds max_links")
+            base = None if row.base_id is None else cached[row.base_id]
+            value = _rebuild(row, base)
+            cached[row.slice_id] = value
+            lengths[row.slice_id] = depth
+        return cached[key[2]]
+    except ValueError as error:
+        raise _refusal(key, error) from error
+
+
+def resolve_slice(
+    connection: Connection, scope: Scope, execution_id: str, slice_id: str, *, max_links: int = 64
+) -> InputSlice:
+    """Verify every stored row and reconstructed identity; max_links counts base edges."""
+    return _resolve(connection, (scope, execution_id, slice_id), max_links, {}, {})
+
+
+def chain_length(connection: Connection, scope: Scope, execution_id: str, slice_id: str) -> int:
+    """Count base edges (full = 0), verifying stored rows with the same 64-link bound."""
+    key = (scope, execution_id, slice_id)
+    try:
+        return len(_walk(connection, key, 64, {})) - 1
+    except ValueError as error:
+        raise _refusal(key, error) from error
+
+
+class SliceResolver:
+    """Read-session cache, independent of connections, keyed by (scope, namespace).
+
+    Cache only verified immutable slices and their depths, including shared bases.
+    Discard the resolver when its read session ends (in particular after a rollback).
+    """
+
+    def __init__(self) -> None:
+        self._namespace: tuple[Scope, str] | None = None
+        self._slices: dict[str, InputSlice] = {}
+        self._lengths: dict[str, int] = {}
+
+    def resolve(
+        self, connection: Connection, scope: Scope, namespace: str, slice_id: str
+    ) -> InputSlice:
+        key = (scope, namespace)
+        if key != self._namespace:
+            self._slices.clear()
+            self._lengths.clear()
+            self._namespace = key
+        return _resolve(connection, (scope, namespace, slice_id), 64, self._slices, self._lengths)
+
+    def depth(self, connection: Connection, scope: Scope, namespace: str, slice_id: str) -> int:
+        """The verified chain length, reusing this session's resolved ancestors."""
+        self.resolve(connection, scope, namespace, slice_id)
+        return self._lengths[slice_id]
+
+```
+
+### src/facdrone/shells/decision_slice_publisher.py
+
+```python
+"""Transactional run-slice publication; capture and decision code choose no storage form."""
+
+from __future__ import annotations
+
+from collections.abc import Sequence
+from dataclasses import dataclass, field
+from datetime import datetime
+
+from sqlalchemy import Connection, select
+
+from facdrone.schema import DECISION_INPUT_SLICE
+from facdrone.shells.decision_evidence_publication import (
+    RUN_SLICE_URI,
+    BoundEvidence,
+    parse_run_slice,
+)
+from facdrone.shells.decision_evidence_store import DecisionEvidenceBatch, SealedEvidence
+from facdrone.shells.decision_input_slice_store import (
+    Scope,
+    SliceConflictError,
+    SliceReceipt,
+    SliceResolutionError,
+    SliceRow,
+    _load,
+    append_slice,
+    delta_row,
+    full_row,
+    slice_identity,
+)
+from facdrone.shells.decision_input_slice_store import SliceResolver as SliceResolver
+from facdrone_kernel.domain.decision_evidence import InputSlice, SliceReference
+
+# consumed-input-compaction-amendment.md: at most 20 links, at most 1/2 the full rows.
+MAX_DELTA_LINKS = 20
+DELTA_ROW_NUMERATOR = 1
+DELTA_ROW_DENOMINATOR = 2
+
+
+@dataclass
+class SliceLedger:
+    """Writer-owned run history. Discard transaction-local changes after rollback."""
+
+    last: dict[tuple[str, str], tuple[str, int]] = field(default_factory=dict)
+    namespace: tuple[Scope, str] | None = None
+
+
+def referenced_slices(
+    sealed: Sequence[SealedEvidence | DecisionEvidenceBatch],
+    namespace: str,
+) -> dict[str, tuple[str, str]]:
+    """First consumer owns each slice's ledger key; URI and digest must agree."""
+    referenced: dict[str, tuple[str, str]] = {}
+    for evidence in sealed:
+        batch = evidence.batch if isinstance(evidence, SealedEvidence) else evidence
+        for item in batch.inputs:
+            value = item.value
+            if not isinstance(value, SliceReference) or not value.uri.startswith(RUN_SLICE_URI):
+                continue
+            slice_id = _referenced_id(value, namespace, batch.identity.execution_id)
+            referenced.setdefault(slice_id, (item.source, item.key))
+    return referenced
+
+
+def _referenced_id(reference: SliceReference, namespace: str, execution_id: str) -> str:
+    try:
+        owner, slice_id = parse_run_slice(reference)
+        if owner != namespace:
+            raise ValueError(f"namespace {owner!r} differs from writer {namespace!r}")
+    except ValueError as error:
+        raise SliceConflictError(
+            f"invalid run slice for {execution_id}: {reference.sha256}: {error}"
+        ) from error
+    return slice_id
+
+
+@dataclass
+class SlicePublication:
+    connection: Connection
+    scope: Scope
+    namespace: str
+    knowledge_at: datetime
+    resolver: SliceResolver
+
+    def row(self, value: InputSlice, previous: tuple[str, int] | None) -> tuple[SliceRow, int]:
+        full = full_row(self.scope, self.namespace, value, self.knowledge_at)
+        if previous is None or previous[1] >= MAX_DELTA_LINKS:
+            return full, 0
+        try:
+            base = self.resolver.resolve(self.connection, self.scope, self.namespace, previous[0])
+            delta = delta_row(self.scope, self.namespace, base, value, self.knowledge_at)
+        except (SliceResolutionError, ValueError):
+            return full, 0
+        if len(delta.rows) * DELTA_ROW_DENOMINATOR > len(value.rows) * DELTA_ROW_NUMERATOR:
+            return full, 0
+        return delta, previous[1] + 1
+
+    def retained(self, value: InputSlice) -> tuple[SliceRow, int] | None:
+        """Re-append the original representation, verifying it against captured content."""
+        identity = slice_identity(value)
+        stored = self.connection.execute(
+            select(DECISION_INPUT_SLICE.c.base_id).filter_by(
+                scope=self.scope, execution_id=self.namespace, slice_id=identity
+            )
+        ).one_or_none()
+        if stored is None:
+            return None
+        try:
+            _load(self.connection, (self.scope, self.namespace, identity))
+            depth = self.resolver.depth(self.connection, self.scope, self.namespace, identity)
+            if stored.base_id is None:
+                row = full_row(self.scope, self.namespace, value, self.knowledge_at)
+            else:
+                base = self.resolver.resolve(
+                    self.connection, self.scope, self.namespace, stored.base_id
+                )
+                row = delta_row(self.scope, self.namespace, base, value, self.knowledge_at)
+        except ValueError as error:
+            raise SliceConflictError(
+                f"invalid retained slice for {self.namespace}: {identity}"
+            ) from error
+        return row, depth
+
+
+def publish_slices(
+    publication: SlicePublication,
+    bound: BoundEvidence,
+    ledger: SliceLedger,
+) -> tuple[SliceReceipt, ...]:
+    """Slices precede batches in the caller's transaction. Restart means a fresh ledger."""
+    referenced = referenced_slices(bound.batches or (), publication.namespace)
+    namespace = (publication.scope, publication.namespace)
+    if ledger.namespace is not None and ledger.namespace != namespace:
+        ledger.last.clear()
+    ledger.namespace = namespace
+    receipts = []
+    for value in bound.slices:
+        identity = slice_identity(value)
+        if identity not in referenced:
+            raise SliceConflictError(f"unreferenced slice for {publication.namespace}: {identity}")
+        key = referenced[identity]
+        row, depth = publication.retained(value) or publication.row(value, ledger.last.get(key))
+        receipt = append_slice(publication.connection, row)
+        ledger.last[key] = (receipt.slice_id, depth)
+        receipts.append(receipt)
+    return tuple(receipts)
+
+
+def require_referenced_slices(
+    conn: Connection,
+    scope: Scope,
+    namespace: str,
+    sealed: Sequence[SealedEvidence | DecisionEvidenceBatch],
+    receipts: Sequence[SliceReceipt],
+) -> None:
+    referenced = referenced_slices(sealed, namespace)
+    available = {r.slice_id for r in receipts if (r.scope, r.execution_id) == (scope, namespace)}
+    missing = referenced.keys() - available
+    if missing:
+        available.update(
+            conn.execute(
+                select(DECISION_INPUT_SLICE.c.slice_id).where(
+                    DECISION_INPUT_SLICE.c.scope == scope,
+                    DECISION_INPUT_SLICE.c.execution_id == namespace,
+                    DECISION_INPUT_SLICE.c.slice_id.in_(missing),
+                )
+            ).scalars()
+        )
+    if absent := referenced.keys() - available:
+        executions = sorted(
+            {
+                (e.batch if isinstance(e, SealedEvidence) else e).identity.execution_id
+                for e in sealed
+            }
+        )
+        raise SliceConflictError(
+            f"missing run slice for {scope}/{namespace} executions={executions}: "
+            f"{', '.join(sorted(absent))}"
+        )
+
+```
+
+## Derived public surface (public-surface.json)
+
+```json
+{
+ "files_scanned": 1754,
+ "intra_set": {
+  "facdrone.shells.decision_evidence_publication": {
+   "BoundEvidence": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "CONSUMED_URI": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "RUN_SLICE_URI": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "parse_run_slice": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "resolved_inputs": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "slice_bytes": [
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ],
+   "slice_identity": [
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ]
+  },
+  "facdrone.shells.decision_evidence_reader": {},
+  "facdrone.shells.decision_evidence_store": {
+   "DecisionEvidenceBatch": [
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "EvidenceConflictError": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_input_slice_store.py"
+   ],
+   "SealedEvidence": [
+    "src/facdrone/shells/decision_evidence_publication.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "decode_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_publication.py"
+   ],
+   "read_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_reader.py"
+   ],
+   "seal_decision_evidence": [
+    "src/facdrone/shells/decision_evidence_publication.py"
+   ]
+  },
+  "facdrone.shells.decision_input_slice_store": {
+   "Scope": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceConflictError": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceReceipt": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceResolutionError": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceResolver": [
+    "src/facdrone/shells/decision_evidence_reader.py",
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "SliceRow": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "_load": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "append_slice": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "delta_row": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "full_row": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ],
+   "slice_identity": [
+    "src/facdrone/shells/decision_slice_publisher.py"
+   ]
+  },
+  "facdrone.shells.decision_slice_publisher": {}
+ },
+ "modules": {
+  "facdrone.shells.decision_evidence_publication": {
+   "file": "src/facdrone/shells/decision_evidence_publication.py",
+   "importers": {
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py": "prod",
+    "packages/facdrone-research/tests/test_study_arm_evidence.py": "test",
+    "packages/facdrone-research/tests/test_study_attribution_routes.py": "test",
+    "packages/facdrone-research/tests/test_study_slice_evidence.py": "test",
+    "packages/facdrone-research/tests/test_weight_study.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/decision_moments.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/evidence_reader.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/run_slices.py": "test",
+    "src/facdrone/shells/cppi/decision_record.py": "prod",
+    "src/facdrone/shells/cppi/stage_projection.py": "prod",
+    "src/facdrone/shells/cppi/state_repository.py": "prod",
+    "src/facdrone/shells/decision_evidence_payload.py": "prod",
+    "src/facdrone/shells/wiring/run_evidence_store.py": "prod",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/contracts/test_evidence_single_pass.py": "test",
+    "tests/contracts/test_sim_consumed_publication.py": "test",
+    "tests/unit/test_decision_evidence_reader.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test",
+    "tests/unit/test_decision_input_slice_store.py": "test",
+    "tests/unit/test_decision_slice_publisher_db.py": "test",
+    "tests/unit/test_live_slice_namespace_db.py": "test",
+    "tests/unit/test_run_slice_namespace.py": "test",
+    "tests/unit/test_run_slice_sealing.py": "test",
+    "tests/unit/test_run_slice_writers_db.py": "test",
+    "tests/unit/test_stage_projection.py": "test",
+    "tests/unit/test_thin_shadow.py": "test",
+    "tests/unit/test_transient_capture_codec.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "packages/facdrone-research/tests/test_study_attribution_routes.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "packages/facdrone-testing/facdrone_testing/core/evidence_reader.py",
+      "packages/facdrone-testing/facdrone_testing/core/run_slices.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_sealing.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "BoundEvidence": {
+     "importers": [
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_writers_db.py",
+      "tests/unit/test_thin_shadow.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "CONSUMED_URI": {
+     "importers": [
+      "packages/facdrone-research/tests/test_study_slice_evidence.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "EvidenceBinding": {
+     "importers": [
+      "src/facdrone/shells/cppi/decision_record.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py",
+      "tests/unit/test_stage_projection.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "RUN_SLICE_URI": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "tests/unit/test_decision_slice_publisher_db.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    },
+    "_CAPTURE": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "packages/facdrone-testing/facdrone_testing/core/evidence_reader.py",
+      "packages/facdrone-testing/facdrone_testing/core/run_slices.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_run_slice_sealing.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "_Captured": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "packages/facdrone-testing/facdrone_testing/core/run_slices.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "bind_evidence": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/contracts/test_sim_consumed_publication.py",
+      "tests/unit/test_run_slice_writers_db.py",
+      "tests/unit/test_stage_projection.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "bind_evidence_with_run_slices": {
+     "importers": [
+      "src/facdrone/shells/cppi/decision_record.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py",
+      "tests/unit/test_stage_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "bound_payload": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "capture_payload": {
+     "importers": [
+      "src/facdrone/shells/decision_evidence_payload.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "compact_capture": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_attribution_routes.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "deduplicated_inputs": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/run_slices.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "money_evidence_payload": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/decision_evidence_payload.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "parse_run_slice": {
+     "importers": [
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "payload_batches": {
+     "importers": [
+      "src/facdrone/shells/cppi/stage_projection.py",
+      "src/facdrone/shells/cppi/state_repository.py",
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_attribution_routes.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "packages/facdrone-research/tests/test_weight_study.py",
+      "tests/contracts/test_sim_consumed_publication.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "resolved_inputs": {
+     "importers": [
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "tests/unit/test_decision_evidence_reader_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "seal_evidence": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    },
+    "seal_evidence_with_run_slices": {
+     "importers": [
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "slice_bytes": {
+     "importers": [
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "tests/unit/test_decision_input_slice_store.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "slice_identity": {
+     "importers": [
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "stored_bound_payload": {
+     "importers": [
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/contracts/test_evidence_single_pass.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "stored_evidence_payload": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_thin_shadow.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.decision_evidence_reader": {
+   "file": "src/facdrone/shells/decision_evidence_reader.py",
+   "importers": {
+    "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py": "prod",
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "packages/facdrone-research/tests/lifecycle_loop_daemon.py": "test",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/unit/test_cppi_decision_record_commit.py": "test",
+    "tests/unit/test_decision_evidence_reader.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "EvidenceResolutionError": {
+     "importers": [
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "SliceResolver": {
+     "importers": [
+      "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py",
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_cppi_decision_record_commit.py"
+     ],
+     "kind": "reexport:facdrone.shells.decision_input_slice_store",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "read_decision_evidence": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py"
+     ],
+     "kind": "reexport:facdrone.shells.decision_evidence_store",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "read_resolved_evidence": {
+     "importers": [
+      "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_cppi_decision_record_commit.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.decision_evidence_store": {
+   "file": "src/facdrone/shells/decision_evidence_store.py",
+   "importers": {
+    "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py": "prod",
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_evidence.py": "test",
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py": "prod",
+    "packages/facdrone-research/tests/lifecycle_loop_daemon.py": "test",
+    "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py": "test",
+    "packages/facdrone-research/tests/test_study_slice_evidence.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/decision_moments.py": "test",
+    "packages/facdrone-testing/facdrone_testing/core/evidence.py": "test",
+    "src/facdrone/shells/cppi/decision_record.py": "prod",
+    "src/facdrone/shells/cppi/stage_projection.py": "prod",
+    "src/facdrone/shells/cppi/state_repository.py": "prod",
+    "src/facdrone/shells/lifecycle_evidence.py": "prod",
+    "src/facdrone/shells/wiring/run_evidence_store.py": "prod",
+    "tests/contracts/test_consumed_inputs.py": "test",
+    "tests/contracts/test_consumed_publication.py": "test",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/contracts/test_evidence_single_pass.py": "test",
+    "tests/contracts/test_sim_consumed_publication.py": "test",
+    "tests/unit/test_decision_evidence_reader.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test",
+    "tests/unit/test_decision_evidence_store.py": "test",
+    "tests/unit/test_decision_slice_publisher_db.py": "test",
+    "tests/unit/test_lifecycle_evidence.py": "test",
+    "tests/unit/test_lifecycle_evidence_intervals.py": "test",
+    "tests/unit/test_lifecycle_evidence_projection.py": "test",
+    "tests/unit/test_run_slice_policy.py": "test",
+    "tests/unit/test_run_slice_sealing.py": "test",
+    "tests/unit/test_run_slice_writers_db.py": "test",
+    "tests/unit/test_sim_evidence_moment.py": "test",
+    "tests/unit/test_transient_capture_codec.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_lifecycle_evidence_projection.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "DecisionEvidenceBatch": {
+     "importers": [
+      "src/facdrone/shells/cppi/stage_projection.py",
+      "packages/facdrone-research/facdrone_research/commands/study_arm_evidence.py",
+      "packages/facdrone-research/tests/lifecycle_loop_daemon.py",
+      "packages/facdrone-research/tests/test_lifecycle_full_loop_db.py",
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "packages/facdrone-testing/facdrone_testing/core/evidence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_evidence_store.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "EvidenceConflictError": {
+     "importers": [
+      "src/facdrone/shells/cppi/decision_record.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/contracts/test_consumed_publication.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_store.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "EvidenceReceipt": {
+     "importers": [
+      "tests/contracts/test_consumed_publication.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SealedEvidence": {
+     "importers": [
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "_BATCH": {
+     "importers": [
+      "tests/contracts/test_evidence_single_pass.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "_read": {
+     "importers": [
+      "tests/unit/test_run_slice_policy.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "append_decision_evidence": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_evidence.py",
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_sim_consumed_publication.py",
+      "tests/unit/test_decision_evidence_store.py",
+      "tests/unit/test_lifecycle_evidence.py",
+      "tests/unit/test_lifecycle_evidence_intervals.py",
+      "tests/unit/test_lifecycle_evidence_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "append_sealed_evidence": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "decode_consumed_evidence": {
+     "importers": [
+      "src/facdrone/shells/lifecycle_evidence.py",
+      "tests/unit/test_lifecycle_evidence_projection.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "decode_decision_evidence": {
+     "importers": [
+      "tests/contracts/test_consumed_inputs.py",
+      "tests/unit/test_decision_evidence_store.py",
+      "tests/unit/test_lifecycle_evidence_projection.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "encode_decision_evidence": {
+     "importers": [
+      "packages/facdrone-reporting/facdrone_reporting/commands/paper_diagnosis.py",
+      "packages/facdrone-research/tests/test_study_slice_evidence.py",
+      "packages/facdrone-testing/facdrone_testing/core/decision_moments.py",
+      "tests/contracts/test_consumed_inputs.py",
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_store.py",
+      "tests/unit/test_lifecycle_evidence_projection.py",
+      "tests/unit/test_sim_evidence_moment.py",
+      "tests/unit/test_transient_capture_codec.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "read_decision_evidence": {
+     "importers": [
+      "tests/contracts/test_consumed_publication.py",
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/contracts/test_sim_consumed_publication.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_evidence_store.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "seal_decision_evidence": {
+     "importers": [
+      "tests/contracts/test_evidence_single_pass.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_policy.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.decision_input_slice_store": {
+   "file": "src/facdrone/shells/decision_input_slice_store.py",
+   "importers": {
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/unit/test_decision_evidence_reader.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test",
+    "tests/unit/test_decision_input_slice_store.py": "test",
+    "tests/unit/test_decision_slice_publisher_db.py": "test",
+    "tests/unit/test_live_slice_namespace_db.py": "test",
+    "tests/unit/test_run_slice_namespace.py": "test",
+    "tests/unit/test_run_slice_policy.py": "test",
+    "tests/unit/test_run_slice_sealing.py": "test",
+    "tests/unit/test_run_slice_writers_db.py": "test"
+   },
+   "names": {
+    "<module>": {
+     "importers": [
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py"
+     ],
+     "kind": "module",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "module"
+     ]
+    },
+    "Scope": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py"
+     ],
+     "kind": "constant",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute"
+     ]
+    },
+    "SliceConflictError": {
+     "importers": [
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SliceReceipt": {
+     "importers": [
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SliceResolutionError": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_run_slice_policy.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "SliceResolver": {
+     "importers": [
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_policy.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    },
+    "SliceRow": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_input_slice_store.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "attribute",
+      "import"
+     ]
+    },
+    "_load": {
+     "importers": [
+      "tests/unit/test_decision_evidence_reader.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "patched"
+     ]
+    },
+    "append_slice": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "chain_length": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "delta_row": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_run_slice_sealing.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "full_row": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_sealing.py",
+      "tests/unit/test_run_slice_writers_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    },
+    "resolve_slice": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "slice_identity": {
+     "importers": [
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_input_slice_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_policy.py",
+      "tests/unit/test_run_slice_sealing.py"
+     ],
+     "kind": "reexport:facdrone.shells.decision_evidence_publication",
+     "tags": [
+      "test"
+     ],
+     "via": [
+      "import",
+      "attribute"
+     ]
+    }
+   }
+  },
+  "facdrone.shells.decision_slice_publisher": {
+   "file": "src/facdrone/shells/decision_slice_publisher.py",
+   "importers": {
+    "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py": "test",
+    "src/facdrone/shells/cppi/state_repository.py": "prod",
+    "src/facdrone/shells/wiring/run_evidence_store.py": "prod",
+    "tests/contracts/test_evidence_compaction_equivalence.py": "test",
+    "tests/unit/test_decision_evidence_reader_db.py": "test",
+    "tests/unit/test_decision_slice_publisher_db.py": "test",
+    "tests/unit/test_live_slice_namespace_db.py": "test",
+    "tests/unit/test_run_slice_namespace.py": "test",
+    "tests/unit/test_run_slice_policy.py": "test"
+   },
+   "names": {
+    "SliceLedger": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SlicePublication": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/contracts/test_evidence_compaction_equivalence.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py",
+      "tests/unit/test_run_slice_policy.py"
+     ],
+     "kind": "class",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "SliceResolver": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py"
+     ],
+     "kind": "reexport:facdrone.shells.decision_input_slice_store",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "publish_slices": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "packages/facdrone-reporting/tests/test_paper_diagnosis_reader_db.py",
+      "tests/unit/test_decision_evidence_reader_db.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_live_slice_namespace_db.py",
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "referenced_slices": {
+     "importers": [
+      "src/facdrone/shells/wiring/run_evidence_store.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod"
+     ],
+     "via": [
+      "import"
+     ]
+    },
+    "require_referenced_slices": {
+     "importers": [
+      "src/facdrone/shells/cppi/state_repository.py",
+      "src/facdrone/shells/wiring/run_evidence_store.py",
+      "tests/unit/test_decision_slice_publisher_db.py",
+      "tests/unit/test_run_slice_namespace.py"
+     ],
+     "kind": "function",
+     "tags": [
+      "prod",
+      "test"
+     ],
+     "via": [
+      "import"
+     ]
+    }
+   }
+  }
+ },
+ "root": "D:\\Source\\lesscode\\.runs\\e2-facdrone\\source",
+ "unresolved": {
+  "facdrone.shells.decision_evidence_publication": {
+   "row": [
+    "tests/contracts/test_evidence_compaction_equivalence.py"
+   ]
+  },
+  "facdrone.shells.decision_evidence_reader": {},
+  "facdrone.shells.decision_evidence_store": {},
+  "facdrone.shells.decision_input_slice_store": {},
+  "facdrone.shells.decision_slice_publisher": {}
+ }
+}
+```
+
+## Definitions
+
+- Public API (one sentence): every name that code outside the regenerated files imports from them, with its signature and observable behaviour, including private names that tests import.
+- Pure core: functions that take no engine, connection or session, open none, and execute no SQL; they compute payloads, digests, codecs, bindings and predicates from values.
+- Effect shell: functions that hold a connection or engine and perform reads or writes; they call the pure core and contain no predicate logic beyond dispatch.
+- Level 1 observation: return value or exception type and message, ordered table dumps after each operation, files written. Level 2 observation: SQL statement text and parameters.
+- Write site: a static match of `execute|add|add_all|commit|flush|delete|merge(` or `insert|update|delete(` in the file text. Note: the `.add` rule also flags `set.add`.
+- Intra-set call edge: a distinct (caller function, callee function) pair, static, by name, with both functions inside the five scope files.
+
+## Measure targets
+
+```json
+{
+ "files": "the five scope files together",
+ "baseline_original": {
+  "lines": 1274,
+  "ast_statements": 660,
+  "functions": 67,
+  "write_sites": 13,
+  "intra_set_call_edges": 84
+ },
+ "lines_max": 1083,
+ "ast_statements_max": 561,
+ "functions_max": 67,
+ "write_sites_max": 13,
+ "intra_set_call_edges_max": 67,
+ "pure_core_share_min": 0.5,
+ "level1_divergences": 0,
+ "note": "T2 and T3 of the E3 plan; T1 is zero Level 1 divergence on all 64 recorded sequences plus identical codec-harness output plus every seed test passing"
+}
+```
+
+## Structural contract
+
+Declare every function (including methods, by qualname) of every scope file in "structure" as exactly one of "pure" or "shell", as "<file>.py::<qualname>" entries, e.g. "decision_evidence_store.py::_read" or "decision_evidence_publication.py::EvidenceBinding.__post_init__".
+- A declared pure function has no engine, connection or session parameter and makes no SQL execution call (`execute`, `add`, `add_all`, `commit`, `flush`, `delete`, `merge`); a static check verifies this for every declared pure function.
+- Every write site (static match of `execute|add|add_all|commit|flush|delete|merge(` or `insert|update|delete(`) must be inside a declared shell function.
+- The declared pure core must hold at least 50% of the candidate's functions.
+- Write sites at most 13; intra-set call edges at most 67 (20% below the original's 84); AST statements at most 561 (15% below 660); physical lines at most 1,083 (15% below 1,274); functions at most 67.
+- Names that tests patch or override (kind "patch" in the surface) must remain module globals that the module's own functions look up by name at call time (no capture into closures, defaults or class attributes).
+- No file outside the five scope files may change; no test, recorded corpus or apparatus file may be touched; such a candidate is void.
+- Keep the statement text and parameters of every SQL statement unchanged; the acceptance arm records them (Level 2) and judges differences.
+
+## Acceptance command (run by the loop, not by you)
+
+```
+python run_e3.py <candidate-root> --round N   # run from docs/experiments/deconvolution/e3-evidence-regeneration by the loop: 191 seed test files with the baseline deselections, the R16 codec harness, then replay of 64 recorded sequences (Level 1 divergence fails; Level 2 SQL pairs are collected and judged separately). Exit 0 is acceptance.
+```
