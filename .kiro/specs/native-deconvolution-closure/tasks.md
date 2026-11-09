@@ -134,9 +134,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 7: Full System Verification, Budget Audit & Handover
+### Task 7: Full System Verification, Budget Audit & Handover [x]
 - **Requirements:** REQ-NAT-6.3 through REQ-NAT-6.5
 - **Dependencies:** Tasks 1–6
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml` (270/270 passed across 18 binaries), `cargo test --manifest-path native/Cargo.toml --test budgets` (10/10 passed), and `pytest -n auto tests/test_state_boundary.py` (32/32 passed). Feature Integration Validation disposition: GO.
 - **Owned Files:**
   - `.kiro/specs/native-deconvolution-closure/validation-report.md`
   - `.kiro/specs/native-deconvolution-closure/spec.json`
