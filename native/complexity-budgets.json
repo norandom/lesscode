@@ -55,6 +55,24 @@
    "disposition": null
   },
   {
+   "path": "adapters/rust/analysis.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "rust-deconvolution-unification",
+   "allocation": "Rust static effect and frame analyzer (task 1, REQ-RUST-1.1..1.4)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/rust/mod.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "rust-deconvolution-unification",
+   "allocation": "Rust adapter module root and profile dispatch (task 1)",
+   "disposition": null
+  },
+  {
    "path": "adapters/typescript/analysis.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

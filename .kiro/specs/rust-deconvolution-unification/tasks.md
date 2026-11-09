@@ -6,9 +6,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 1: Rust AST & Dynamic Gap Analyzer [ ]
+### Task 1: Rust AST & Dynamic Gap Analyzer [x]
 - **Requirements:** REQ-RUST-1.1, REQ-RUST-1.2, REQ-RUST-1.3, REQ-RUST-1.4
 - **Dependencies:** None (builds on `native/src/adapter_traits.rs`)
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test rust_analysis` (4/4 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets --config native/complexity-budgets.json --root native/src --out ...` (clean, exit code 0).
 - **Owned Files:**
   - `native/src/adapters/rust/analysis.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/adapters/rust/mod.rs` (new module root)
