@@ -1809,6 +1809,7 @@ fn turn_feedback_from(record: &RolloutRecord) -> Option<J> {
     ]))
 }
 
+#[rustfmt::skip]
 fn known_obligations(record: &RolloutRecord) -> BTreeSet<String> {
     let mut obligations = BTreeSet::new();
     if let Some(kind) = &record.failure_kind {
@@ -1846,16 +1847,14 @@ fn known_obligations(record: &RolloutRecord) -> BTreeSet<String> {
     }
     obligations
 }
-
+#[rustfmt::skip]
 fn discharged_obligations(record: &RolloutRecord, _resolved: &BTreeSet<String>) -> BTreeSet<String> {
     if record.score < 1.0 {
         return BTreeSet::new();
     }
     known_obligations(record)
 }
-
 // --- Adaptive schedule -------------------------------------------------------------
-
 const TEMPERATURE_STEPS: [f64; 3] = [0.0, 0.2, 0.4];
 
 /// Adaptive schedule for the next inner rollout; empty when nothing needs
@@ -2407,10 +2406,7 @@ pub fn run_refine_loop(
             let _ = fs::remove_file(&path);
         }
     }
-    let unresolved: Vec<String> = all_obligations
-        .difference(&resolved)
-        .cloned()
-        .collect();
+    let unresolved: Vec<String> = all_obligations.difference(&resolved).cloned().collect();
     let validity = runtime_evaluator.is_some()
         && best.tier == 2
         && best.score >= 1.0

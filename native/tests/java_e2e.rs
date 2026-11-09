@@ -4,19 +4,23 @@
 //! - REQ-JAVA-2.1, REQ-JAVA-3.2, REQ-JAVA-4.4, REQ-JAVA-5.4
 //! - `.kiro/specs/java-deconvolution-unification/tasks.md` Task 5
 
-use std::path::Path;
 use lesscode_core::adapter_traits::*;
 use lesscode_core::adapters::java::metrics::*;
 use lesscode_core::adapters::java::mutation::JavaMutantGenerator;
 use lesscode_core::adapters::java::JavaAdapter;
+use std::path::Path;
 
 #[test]
 fn specimen_candidate_meets_useful_compression_thresholds() {
-    let specimen_path = Path::new("C:/Users/mariu/Source/commons-csv/src/main/java/org/apache/commons/csv/CSVPrinter.java");
+    let specimen_path = Path::new(
+        "C:/Users/mariu/Source/commons-csv/src/main/java/org/apache/commons/csv/CSVPrinter.java",
+    );
     let candidate_path = Path::new("adapters/java/candidate_CSVPrinter.java");
 
     if !specimen_path.exists() || !candidate_path.exists() {
-        eprintln!("commons-csv specimen not found at {specimen_path:?}; skipping disk metrics test");
+        eprintln!(
+            "commons-csv specimen not found at {specimen_path:?}; skipping disk metrics test"
+        );
         return;
     }
 

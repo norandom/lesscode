@@ -13,10 +13,7 @@ fn run_cli(args: &[&str], envs: &[(&str, &str)]) -> std::process::Output {
 
 #[test]
 fn pre_push_skips_when_env_flag_set() {
-    let output = run_cli(
-        &["deconvolute", "pre-push"],
-        &[("LESSCODE_SKIP_HOOK", "1")],
-    );
+    let output = run_cli(&["deconvolute", "pre-push"], &[("LESSCODE_SKIP_HOOK", "1")]);
     assert_eq!(output.status.code(), Some(0));
     let stdout = String::from_utf8_lossy(&output.stdout);
     assert!(stdout.contains("Hook skipped via LESSCODE_SKIP_HOOK=1"));
@@ -26,12 +23,7 @@ fn pre_push_skips_when_env_flag_set() {
 fn pre_push_skips_on_branch_deletion() {
     let stdin_lines = "refs/heads/refactor/old 0000000000000000000000000000000000000000 refs/heads/refactor/old 1111111111111111111111111111111111111111\n";
     let output = run_cli(
-        &[
-            "deconvolute",
-            "pre-push",
-            "--stdin-lines",
-            stdin_lines,
-        ],
+        &["deconvolute", "pre-push", "--stdin-lines", stdin_lines],
         &[],
     );
     assert_eq!(output.status.code(), Some(0));
@@ -92,7 +84,10 @@ fn pre_push_rejects_violated_budgets() {
 
     assert_eq!(output.status.code(), Some(3));
     let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("Complexity budgets violated") || stderr.contains("Complexity budget ceilings exceeded"));
+    assert!(
+        stderr.contains("Complexity budgets violated")
+            || stderr.contains("Complexity budget ceilings exceeded")
+    );
 }
 
 #[test]
@@ -153,7 +148,8 @@ fn refactor_branch_detection_triggers_refactoring_path() {
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let cfg = manifest_dir.join("complexity-budgets.json");
     let src = manifest_dir.join("src");
-    let stdin_lines = "refs/heads/refactor/deconvolute-cache 1122 refs/heads/refactor/deconvolute-cache 3344\n";
+    let stdin_lines =
+        "refs/heads/refactor/deconvolute-cache 1122 refs/heads/refactor/deconvolute-cache 3344\n";
 
     let output = run_cli(
         &[

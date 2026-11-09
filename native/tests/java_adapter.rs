@@ -109,14 +109,12 @@ fn adapter_adverse_mutant_generator_integration() {
 
     let req = MutationRequest {
         target_path: file_path.to_str().unwrap().into(),
-        controls: vec![
-            MutationSpec {
-                id: "JAVA_ADV_1".into(),
-                location: "Target.java:1".into(),
-                kind: MutationKind::MissingFailureState,
-                description: "State mutation omission".into(),
-            },
-        ],
+        controls: vec![MutationSpec {
+            id: "JAVA_ADV_1".into(),
+            location: "Target.java:1".into(),
+            kind: MutationKind::MissingFailureState,
+            description: "State mutation omission".into(),
+        }],
     };
 
     let batch = adapter.generate(&req);

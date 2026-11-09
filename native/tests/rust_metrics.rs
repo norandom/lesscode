@@ -4,9 +4,9 @@
 //! - REQ-RUST-5.1, REQ-RUST-5.2
 //! - `.kiro/specs/rust-deconvolution-unification/tasks.md` Task 3
 
-use std::path::Path;
 use lesscode_core::adapters::rust::metrics::*;
 use lesscode_core::density::ScopeMetrics;
+use std::path::Path;
 
 #[test]
 fn counts_canonical_and_physical_lines() {

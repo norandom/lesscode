@@ -19,10 +19,7 @@ impl NativeMutantGenerator {
     }
 
     /// Evaluates adverse mutation controls against a verification function.
-    pub fn evaluate_controls<F>(
-        controls: &[MutationSpec],
-        mut evaluate_mutant: F,
-    ) -> MutationBatch
+    pub fn evaluate_controls<F>(controls: &[MutationSpec], mut evaluate_mutant: F) -> MutationBatch
     where
         F: FnMut(&MutationSpec) -> Result<Option<String>, String>,
     {
@@ -112,10 +109,9 @@ impl AdverseMutantGenerator for NativeMutantGenerator {
                 "Candidate dropped bytes on sink '{}'",
                 spec.location
             ))),
-            MutationKind::SilentNone => Ok(Some(format!(
-                "Silent None detected at '{}'",
-                spec.location
-            ))),
+            MutationKind::SilentNone => {
+                Ok(Some(format!("Silent None detected at '{}'", spec.location)))
+            }
             MutationKind::InvertedErrorOrder => Ok(Some(format!(
                 "Relative ordering between sinks inverted at '{}'",
                 spec.location

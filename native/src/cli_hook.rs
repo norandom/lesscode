@@ -109,10 +109,10 @@ fn locate_budgets(config: Option<&Path>, root: Option<&Path>) -> Option<(PathBuf
 }
 
 fn check_budgets_gate(config_path: &Path, root_path: &Path) -> Result<(), String> {
-    let bytes = fs::read(config_path)
-        .map_err(|e| format!("Cannot read {}: {e}", config_path.display()))?;
-    let config: BudgetsConfig = serde_json::from_slice(&bytes)
-        .map_err(|e| format!("Invalid budgets config: {e}"))?;
+    let bytes =
+        fs::read(config_path).map_err(|e| format!("Cannot read {}: {e}", config_path.display()))?;
+    let config: BudgetsConfig =
+        serde_json::from_slice(&bytes).map_err(|e| format!("Invalid budgets config: {e}"))?;
 
     let (reports, unlisted, exit_code) = budgets::check(root_path, &config)?;
     if exit_code != 0 {
@@ -120,7 +120,10 @@ fn check_budgets_gate(config_path: &Path, root_path: &Path) -> Result<(), String
         for un in unlisted {
             eprintln!("  - unlisted file: {un}");
         }
-        for rep in reports.iter().filter(|r| r.status() == "exceeded" || r.status() == "missing") {
+        for rep in reports
+            .iter()
+            .filter(|r| r.status() == "exceeded" || r.status() == "missing")
+        {
             eprintln!("  - {}: status={}", rep.path, rep.status());
         }
         return Err("Complexity budget ceilings exceeded".into());
@@ -150,7 +153,10 @@ fn check_refactor_cleanliness() -> Result<(), String> {
 
 fn check_ref_target(r: &PushRef, args: &PrePushArgs) -> Result<(), String> {
     if is_branch_deletion(&r.local_ref, &r.local_sha) {
-        println!("[lesscode-hook] Branch deletion detected ({}); skipping.", r.local_ref);
+        println!(
+            "[lesscode-hook] Branch deletion detected ({}); skipping.",
+            r.local_ref
+        );
         return Ok(());
     }
 
@@ -188,7 +194,9 @@ pub fn run_pre_push(args: PrePushArgs) -> Result<u8, String> {
 
     let refs = parse_ref_lines(&input);
     if refs.is_empty() {
-        println!("[lesscode-hook] No refs provided on stdin; running standalone budget verification.");
+        println!(
+            "[lesscode-hook] No refs provided on stdin; running standalone budget verification."
+        );
         if !args.skip_budgets {
             if let Some((cfg, src)) = locate_budgets(args.config.as_deref(), args.root.as_deref()) {
                 check_budgets_gate(&cfg, &src)?;

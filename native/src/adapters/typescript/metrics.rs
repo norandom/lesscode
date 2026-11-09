@@ -80,7 +80,11 @@ pub fn extract_scope_metrics(source: &str) -> ScopeMetrics {
         write_site_count,
         ast_statements,
         canonical_lines,
-        pure_functions: if write_site_count == 0 { function_count } else { 0 },
+        pure_functions: if write_site_count == 0 {
+            function_count
+        } else {
+            0
+        },
     }
 }
 
@@ -93,8 +97,12 @@ pub fn evaluate_typescript_compression(
 ) -> DensityEvaluationReport {
     let mut report = evaluate_density_gate(baseline, candidate, 10.0, 20.0);
 
-    let abs_lines_removed = baseline.canonical_lines.saturating_sub(candidate.canonical_lines);
-    let abs_stmts_removed = baseline.ast_statements.saturating_sub(candidate.ast_statements);
+    let abs_lines_removed = baseline
+        .canonical_lines
+        .saturating_sub(candidate.canonical_lines);
+    let abs_stmts_removed = baseline
+        .ast_statements
+        .saturating_sub(candidate.ast_statements);
 
     let absolute_target_met = abs_lines_removed >= 50 && abs_stmts_removed >= 10;
     if !absolute_target_met {

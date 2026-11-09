@@ -47,7 +47,9 @@ fn truncated_stream_catches_dropped_bytes() {
     let divergences = verify_stream_preservation(&baseline, &candidate, &contract);
     assert_eq!(divergences.len(), 1);
     assert_eq!(divergences[0].kind, StreamDivergenceKind::Truncated);
-    assert!(divergences[0].witness.contains("dropped or failed to flush 7 bytes"));
+    assert!(divergences[0]
+        .witness
+        .contains("dropped or failed to flush 7 bytes"));
 }
 
 #[test]
@@ -63,7 +65,9 @@ fn missing_stream_catches_empty_sink() {
     let divergences = verify_stream_preservation(&baseline, &candidate, &contract);
     assert_eq!(divergences.len(), 1);
     assert_eq!(divergences[0].kind, StreamDivergenceKind::Missing);
-    assert!(divergences[0].witness.contains("omitted output on sink 'stderr'"));
+    assert!(divergences[0]
+        .witness
+        .contains("omitted output on sink 'stderr'"));
 }
 
 #[test]
@@ -98,7 +102,9 @@ fn order_mismatch_catches_inverted_sinks() {
     let divergences = verify_stream_preservation(&baseline, &candidate, &contract);
     assert_eq!(divergences.len(), 1);
     assert_eq!(divergences[0].kind, StreamDivergenceKind::OrderMismatch);
-    assert!(divergences[0].witness.contains("Relative ordering between sinks was inverted"));
+    assert!(divergences[0]
+        .witness
+        .contains("Relative ordering between sinks was inverted"));
 }
 
 #[test]

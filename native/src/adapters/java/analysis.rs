@@ -4,9 +4,7 @@
 //! - REQ-JAVA-1.1, REQ-JAVA-1.2, REQ-JAVA-1.3, REQ-JAVA-1.4
 //! - `.kiro/specs/java-deconvolution-unification/design.md`
 
-use crate::adapter_traits::{
-    AnalysisRequest, AnalysisResult, CoverageGap, StateFrameAnalyzer,
-};
+use crate::adapter_traits::{AnalysisRequest, AnalysisResult, CoverageGap, StateFrameAnalyzer};
 
 /// Static effect and frame analyzer for Java classes and methods.
 pub struct JavaEffectAnalyzer;
@@ -83,20 +81,19 @@ impl JavaEffectAnalyzer {
         line_num: usize,
         write_sites: &mut Vec<String>,
     ) {
-        if trimmed.contains(" = ")
+        let is_mutation = (trimmed.contains(" = ")
             && !trimmed.starts_with("final ")
-            && !trimmed.contains("static final ")
-        {
-            write_sites.push(format!("{path}:{line_num}"));
-        } else if trimmed.contains("++")
+            && !trimmed.contains("static final "))
+            || trimmed.contains("++")
             || trimmed.contains("--")
             || trimmed.contains("+=")
             || trimmed.contains("-=")
             || trimmed.contains(".append(")
             || trimmed.contains(".put(")
             || trimmed.contains(".add(")
-            || trimmed.contains(".set(")
-        {
+            || trimmed.contains(".set(");
+
+        if is_mutation {
             write_sites.push(format!("{path}:{line_num}"));
         }
     }

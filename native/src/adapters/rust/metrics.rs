@@ -80,9 +80,7 @@ pub fn count_ast_statements(source: &str) -> usize {
         }
 
         let is_terminal = line.ends_with(';');
-        let excluded = line.contains("return ")
-            || line.contains("use ")
-            || line.contains("mod ");
+        let excluded = line.contains("return ") || line.contains("use ") || line.contains("mod ");
 
         if is_terminal && !excluded {
             count += 1;
@@ -140,8 +138,12 @@ pub fn evaluate_rust_compression(
 ) -> DensityEvaluationReport {
     let mut report = evaluate_density_gate(baseline, candidate, 10.0, 20.0);
 
-    let abs_lines_removed = baseline.canonical_lines.saturating_sub(candidate.canonical_lines);
-    let abs_stmts_removed = baseline.ast_statements.saturating_sub(candidate.ast_statements);
+    let abs_lines_removed = baseline
+        .canonical_lines
+        .saturating_sub(candidate.canonical_lines);
+    let abs_stmts_removed = baseline
+        .ast_statements
+        .saturating_sub(candidate.ast_statements);
 
     let absolute_target_met = abs_lines_removed >= 50 && abs_stmts_removed >= 10;
     if !absolute_target_met {

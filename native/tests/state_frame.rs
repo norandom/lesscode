@@ -14,7 +14,10 @@ use lesscode_core::state_frame::*;
 fn dynamic_state_verification_clean_transition() {
     let mut before = BTreeMap::new();
     before.insert("store_count".into(), TaggedValue::Int64(10));
-    before.insert("read_only_config".into(), TaggedValue::String("locked".into()));
+    before.insert(
+        "read_only_config".into(),
+        TaggedValue::String("locked".into()),
+    );
 
     let mut after = before.clone();
     after.insert("store_count".into(), TaggedValue::Int64(11));
@@ -78,7 +81,9 @@ fn dynamic_state_verification_catches_missing_failure_invariant() {
     // Now satisfy it
     after.insert(
         "audit_log".into(),
-        TaggedValue::Array(vec![TaggedValue::String("Error: AuditedAbsence recorded".into())]),
+        TaggedValue::Array(vec![TaggedValue::String(
+            "Error: AuditedAbsence recorded".into(),
+        )]),
     );
     let violations_clean = NativeStateFrameAnalyzer::verify_dynamic_state(
         &before,

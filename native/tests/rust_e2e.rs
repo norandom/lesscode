@@ -4,11 +4,11 @@
 //! - REQ-RUST-2.1, REQ-RUST-3.2, REQ-RUST-4.4, REQ-RUST-5.4
 //! - `.kiro/specs/rust-deconvolution-unification/tasks.md` Task 5
 
-use std::path::Path;
 use lesscode_core::adapter_traits::*;
 use lesscode_core::adapters::rust::metrics::*;
 use lesscode_core::adapters::rust::mutation::RustMutantGenerator;
 use lesscode_core::adapters::rust::RustAdapter;
+use std::path::Path;
 
 #[test]
 fn specimen_candidate_meets_useful_compression_thresholds() {

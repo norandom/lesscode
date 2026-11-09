@@ -40,7 +40,10 @@ public class DynamicDanger {
 }
 "#;
     let (_write_sites, gaps) = analyzer.scan_source("DynamicDanger.java", source);
-    assert!(gaps.len() >= 4, "should detect reflection, classloader, native, and thread");
+    assert!(
+        gaps.len() >= 4,
+        "should detect reflection, classloader, native, and thread"
+    );
     assert!(gaps.iter().any(|g| g.reason.contains("reflection")));
     assert!(gaps.iter().any(|g| g.reason.contains("class loading")));
     assert!(gaps.iter().any(|g| g.reason.contains("Native JNI")));
@@ -86,7 +89,11 @@ fn analyzer_flags_unauthorized_write_sites() {
     let temp_dir = std::env::temp_dir().join("java_test_scope");
     std::fs::create_dir_all(&temp_dir).unwrap();
     let file_path = temp_dir.join("Stateful.java");
-    std::fs::write(&file_path, "public class Stateful { int x = 10; void mutate() { x += 5; } }").unwrap();
+    std::fs::write(
+        &file_path,
+        "public class Stateful { int x = 10; void mutate() { x += 5; } }",
+    )
+    .unwrap();
 
     let req = AnalysisRequest {
         scope_name: "stateful".into(),

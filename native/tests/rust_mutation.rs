@@ -102,8 +102,14 @@ fn generates_batch_with_denominator_accounting() {
     assert_eq!(batch.denominator, 2);
     assert_eq!(batch.killed_count, 1);
     assert!(!batch.all_killed);
-    assert!(matches!(batch.results[0].outcome, MutantOutcome::Killed { .. }));
-    assert!(matches!(batch.results[1].outcome, MutantOutcome::Invalid { .. }));
+    assert!(matches!(
+        batch.results[0].outcome,
+        MutantOutcome::Killed { .. }
+    ));
+    assert!(matches!(
+        batch.results[1].outcome,
+        MutantOutcome::Invalid { .. }
+    ));
 
     let _ = std::fs::remove_dir_all(&temp_dir);
 }

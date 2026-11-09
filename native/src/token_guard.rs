@@ -57,7 +57,7 @@ impl TokenGuard {
         }
         // Conservative upper bound: ~3.5 chars per token for code/JSON
         let char_count = text.chars().count();
-        ((char_count + 3) / 4) as i64
+        char_count.div_ceil(4) as i64
     }
 
     /// Checks whether request prompt complies with the input token ceiling.
@@ -67,7 +67,10 @@ impl TokenGuard {
             Err(TokenLimitExceeded {
                 counted_tokens: counted,
                 max_tokens: self.max_input_tokens,
-                reason: format!("Prompt exceeds maximum token ceiling of {}", self.max_input_tokens),
+                reason: format!(
+                    "Prompt exceeds maximum token ceiling of {}",
+                    self.max_input_tokens
+                ),
             })
         } else {
             Ok(counted)
@@ -137,9 +140,9 @@ impl CausalFeedbackBridge {
             .iter()
             .map(|v| {
                 J::obj(vec![
-                    ("type".into(), J::str("state_violation")),
-                    ("location".into(), J::str(&v.location)),
-                    ("witness".into(), J::str(&v.witness)),
+                    ("type", J::str("state_violation")),
+                    ("location", J::str(&v.location)),
+                    ("witness", J::str(&v.witness)),
                 ])
             })
             .collect();
@@ -151,9 +154,9 @@ impl CausalFeedbackBridge {
             .iter()
             .map(|d| {
                 J::obj(vec![
-                    ("type".into(), J::str("stream_divergence")),
-                    ("sink".into(), J::str(&d.sink)),
-                    ("witness".into(), J::str(&d.witness)),
+                    ("type", J::str("stream_divergence")),
+                    ("sink", J::str(&d.sink)),
+                    ("witness", J::str(&d.witness)),
                 ])
             })
             .collect();
@@ -162,8 +165,8 @@ impl CausalFeedbackBridge {
 
     pub fn format_pure_counterexample(witness: &str) -> J {
         J::obj(vec![
-            ("type".into(), J::str("pure_core_divergence")),
-            ("witness".into(), J::str(witness)),
+            ("type", J::str("pure_core_divergence")),
+            ("witness", J::str(witness)),
         ])
     }
 }

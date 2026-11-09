@@ -4,11 +4,11 @@
 //! - REQ-TS-2.1, REQ-TS-3.2, REQ-TS-4.4, REQ-TS-5.4
 //! - `.kiro/specs/typescript-deconvolution-adapter/tasks.md` Task 5
 
-use std::path::Path;
 use lesscode_core::adapter_traits::*;
 use lesscode_core::adapters::typescript::metrics::*;
 use lesscode_core::adapters::typescript::mutation::TypeScriptMutantGenerator;
 use lesscode_core::adapters::typescript::TypeScriptAdapter;
+use std::path::Path;
 
 #[test]
 fn specimen_candidate_meets_useful_compression_thresholds() {

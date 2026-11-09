@@ -106,7 +106,7 @@ pub fn dangerous() {
     let receipt: serde_json::Value =
         serde_json::from_str(&fs::read_to_string(&out).unwrap()).unwrap();
     assert_eq!(receipt["passed"], false);
-    assert!(receipt["gaps"].as_array().unwrap().len() >= 1);
+    assert!(!receipt["gaps"].as_array().unwrap().is_empty());
 
     let _ = fs::remove_dir_all(&dir);
 }

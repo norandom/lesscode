@@ -96,8 +96,8 @@ pub struct DensityReceipt {
 }
 
 fn emit_json<T: Serialize>(value: &T, out: Option<&Path>) -> Result<(), String> {
-    let json_bytes = serde_json::to_vec_pretty(value)
-        .map_err(|e| format!("Serialization error: {e}"))?;
+    let json_bytes =
+        serde_json::to_vec_pretty(value).map_err(|e| format!("Serialization error: {e}"))?;
     if let Some(path) = out {
         if let Some(parent) = path.parent() {
             let _ = fs::create_dir_all(parent);
@@ -163,9 +163,15 @@ fn run_analyze(
     let path_str = source_path.to_string_lossy().to_string();
 
     let (write_sites, gaps) = match lang {
-        "rust" => RustAdapter::new().analyzer.scan_source(&path_str, &source_text),
-        "java" => JavaAdapter::new().analyzer.scan_source(&path_str, &source_text),
-        "typescript" => TypeScriptAdapter::new().analyzer.scan_source(&path_str, &source_text),
+        "rust" => RustAdapter::new()
+            .analyzer
+            .scan_source(&path_str, &source_text),
+        "java" => JavaAdapter::new()
+            .analyzer
+            .scan_source(&path_str, &source_text),
+        "typescript" => TypeScriptAdapter::new()
+            .analyzer
+            .scan_source(&path_str, &source_text),
         "python" => (Vec::new(), Vec::new()),
         _ => unreachable!(),
     };
@@ -205,9 +211,15 @@ fn run_analyze(
 
 fn mutation_specs(loc: &str) -> [MutationSpec; 4] {
     [
-        (MutationKind::MissingFailureState, "Missing failure invariant"),
+        (
+            MutationKind::MissingFailureState,
+            "Missing failure invariant",
+        ),
         (MutationKind::InvertedCondition, "Inverted condition"),
-        (MutationKind::InvertedErrorOrder, "Inverted error precedence"),
+        (
+            MutationKind::InvertedErrorOrder,
+            "Inverted error precedence",
+        ),
         (MutationKind::SilentNone, "Silent dropped state/env"),
     ]
     .map(|(kind, desc)| MutationSpec {
@@ -250,10 +262,15 @@ fn generate_mutants(lang: &str, src: &str, specs: &[MutationSpec]) -> Vec<(Mutat
     mutants
 }
 
-fn write_mutants(out_dir: &Path, ext: &str, mutants: &[(MutationKind, String)]) -> Result<(), String> {
+fn write_mutants(
+    out_dir: &Path,
+    ext: &str,
+    mutants: &[(MutationKind, String)],
+) -> Result<(), String> {
     for (idx, (kind, src)) in mutants.iter().enumerate() {
         let path = out_dir.join(format!("mutant_{idx}_{kind:?}.{ext}"));
-        fs::write(&path, src).map_err(|e| format!("Cannot write mutant {}: {e}", path.display()))?;
+        fs::write(&path, src)
+            .map_err(|e| format!("Cannot write mutant {}: {e}", path.display()))?;
     }
     Ok(())
 }

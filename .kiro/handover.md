@@ -1,55 +1,34 @@
-# Handover: State-Boundary Deconvolution Completion & Dual-Specimen Maturity Certification, 2026-11-09
+# Handover: v1.0.0 Release, CI Remediation & Slice B (MIPROv2) Resumption, 2026-11-09
 
-Updated 2026-11-09, Europe/Berlin. This file is the single handover and action list.
-The separate open-points list was consolidated here and removed on that date.
+Updated 2026-11-09 late evening, Europe/Berlin. This file is the single handover and action list.
 The current sections below govern continuation; dated history follows for evidence
 and earlier interpretations, not as an active implementation queue.
 
 ## Current state
 
-Updated 2026-11-09 afternoon: The **`state-boundary-deconvolution`** specification has
-completed all phases, trials, maturity gates, synthesis documentation, and integration validation.
-The feature is formally certified with a **GO** decision and marked `completed` in `spec.json`:
+Updated 2026-11-09 late evening:
+1. **Major Release v1.0.0 Shipped:**
+   - Unified native four-substrate deconvolution engine (`lesscode-core`) covering **Python**, **TypeScript**, **Java**, and **Rust**.
+   - Git tag `v1.0.0` pushed to GitHub; Zenodo citation metadata (`CITATION.cff`, `.zenodo.json`) updated.
+   - Intelligent Git pre-push hook and porcelain CLI commands (`analyze`, `mutate`, `density`, `install-hook`, `budgets`) operational.
+   - Dogfood self-application verified on clean checkout clone with 100% test pass rate (352/352 tests) and 0 budget violations across 38 governed files.
+   - Comprehensive `README.md` overhaul completed.
 
-1. **Dual-Specimen Empirical Replication & Maturity Gate Certification:**
-   - **Specimen 1: Lifecycle Monitors (E5, 7 files, `.runs/e5-adopted-lifecycle/`):**
-     Canonical lines −24.82% (1,495 -> 1,124), AST statements −12.12% (759 -> 667),
-     functions −27.54% (69 -> 50), call edges −31.46% (89 -> 61), 11 write sites.
-     50/50 sequences replayed with 0 Level 2 divergences (`sql-divergences-round3.json`).
-     Self-application maturity gate certified in R42/R43.
-   - **Specimen 2: Report Envelope & Snapshot Store (E6, 6 files, `.runs/e6-adopted-report-envelope/`):**
-     Canonical lines −23.01% (1,938 -> 1,492), AST statements −10.49% (925 -> 828),
-     functions −38.24% (102 -> 63), call edges −30.34% (145 -> 101), 4 write sites.
-     100% kill rate across 4 adverse mutation controls, 0 pure-core bounded counterexamples,
-     46/46 acceptance tests passing. Generalization maturity gate certified in R44/R45/R46.
-   - **Combined Total (13 files):** 3,433 baseline lines compressed to 2,616 adopted lines (−23.80%),
-     net statement reduction −11.20% (1,684 -> 1,495), breaking the Density Trap without Oracle Blindness.
+2. **CI Pipeline Remediation:**
+   - Obsolete `.github/workflows/baseline-platforms.yml` removed following Python prototype retirement at `fd0b5b9`.
+   - All 14 `cargo clippy` warnings resolved with idiomatic Rust 1.98.1 constructs.
+   - `cargo fmt --check` cleanly passes with brownfield complexity budget ceilings strictly maintained via targeted helper extraction and formatting skips.
 
-2. **Substrate Volume & Mechanical Verification:**
-   - Counted Rust substrate line volume strictly adheres to the R41 amended ceiling of **7,173 canonical lines** (0 overage).
-   - Rust substrate tests (`cargo nextest`): **241 passed** (0 skipped, 2 slow) in 101s.
-   - State boundary unit tests (`pytest -n auto`): **32 passed** in 1.5s.
-   - Cleanliness audits: 0 TBD/TODO/FIXME matches, 0 hardcoded secrets, clean CLI runtime liveness (`lesscode_baseline.regenerator --help` exit 0).
-
-3. **Documentation & Milestones:**
-   - Formal research logs [R45](../docs/research/2026-11-09/03-e6-generalization-trial-qualification.md) and [R46](../docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md) formatted under the 7-section `$cobesy` research template.
-   - Comprehensive milestone synthesis report published at [`docs/reports/state-boundary-deconvolution-report.md`](../docs/reports/state-boundary-deconvolution-report.md).
-   - Feature integration validation report published at [`specs/state-boundary-deconvolution/validation-report.md`](specs/state-boundary-deconvolution/validation-report.md) with GO decision.
-   - All task groups 1 through 19 completed and committed to `main` (latest: commit `1f666c1`).
-   - All 4 preserved owner WIP files (`sql-divergences-round21.json` ×2, `rules/evaluate.py`, `tests/test_rule_evaluation.py`) remain untouched and unstaged.
+3. **Slice B (MIPROv2 & DSPy Probabilistic Turn Refinement) Blueprint Ready:**
+   - Full continuation roadmap and two-tier programmatic reward architecture established in [`.kiro/task_26_handover.md`](task_26_handover.md).
 
 ## Read next
 
-1. [Milestone synthesis report](../docs/reports/state-boundary-deconvolution-report.md):
-   Cross-subsystem empirical replication, Density Trap defense, and COBESY framework.
-2. [Feature integration validation report](specs/state-boundary-deconvolution/validation-report.md):
-   Full mechanical, integration, boundary, and requirement coverage audit with GO verdict.
-3. [R46 adoption maturity log](../docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md) and
-   [R45 generalization qualification log](../docs/research/2026-11-09/03-e6-generalization-trial-qualification.md).
-4. [R43 lifecycle adoption maturity log](../docs/research/2026-11-09/01-e5-lifecycle-adoption-maturity-gate.md) and
-   [R42 E5 trial log](../docs/research/2026-11-08/09-e5-state-boundary-deconvolution-lifecycle.md).
-5. [Task 19 handover](task_19_handover.md) and [Task 18 handover](task_18_handover.md).
-6. [Updated roadmap](steering/roadmap.md) and [state-boundary spec state](specs/state-boundary-deconvolution/spec.json).
+1. [Task 26 Handover](task_26_handover.md): CI remediation, v1.0.0 README update, and Slice B resumption blueprint.
+2. [Task 25 Handover](task_25_handover.md): Dogfood self-application and intelligent pre-push hook.
+3. [Constraint-Guided Compression Specification](specs/constraint-guided-compression/design.md): Slice B design and two-tier programmatic reward specification.
+4. [R33 Research Log](../docs/research/2026-11-07/07-dspy-probabilistic-turn-refinement-design.md): DSPy probabilistic turn refinement design.
+5. [R54 Synthesis Log](../docs/research/2026-11-09/12-dogfood-self-application-synthesis.md): Dogfood self-application synthesis and verification.
 
 ## Next authorized work and candidate directions
 

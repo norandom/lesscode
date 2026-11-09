@@ -61,7 +61,11 @@ fn analyzer_flags_unauthorized_write_sites() {
     let temp_dir = std::env::temp_dir().join(format!("rust-analysis-test-{}", std::process::id()));
     std::fs::create_dir_all(&temp_dir).unwrap();
     let file_path = temp_dir.join("state.rs");
-    std::fs::write(&file_path, "pub fn mutate() { let mut v = vec![]; v.push(1); }").unwrap();
+    std::fs::write(
+        &file_path,
+        "pub fn mutate() { let mut v = vec![]; v.push(1); }",
+    )
+    .unwrap();
 
     let request = AnalysisRequest {
         scope_name: "test".into(),

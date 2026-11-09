@@ -4,9 +4,9 @@
 //! - REQ-JAVA-5.1, REQ-JAVA-5.2
 //! - `.kiro/specs/java-deconvolution-unification/tasks.md` Task 3
 
-use std::path::Path;
 use lesscode_core::adapters::java::metrics::*;
 use lesscode_core::density::ScopeMetrics;
+use std::path::Path;
 
 #[test]
 fn counts_canonical_and_physical_lines() {
@@ -122,7 +122,9 @@ fn rejects_marginal_reduction_under_50_lines() {
 
 #[test]
 fn measures_commons_csv_specimen_reduction() {
-    let baseline_path = Path::new("C:/Users/mariu/Source/commons-csv/src/main/java/org/apache/commons/csv/CSVPrinter.java");
+    let baseline_path = Path::new(
+        "C:/Users/mariu/Source/commons-csv/src/main/java/org/apache/commons/csv/CSVPrinter.java",
+    );
     let candidate_path = Path::new("native/adapters/java/candidate_CSVPrinter.java");
 
     if baseline_path.exists() && candidate_path.exists() {

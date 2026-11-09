@@ -44,10 +44,7 @@ fn cartesian_domain_generation() {
 fn pure_equivalence_verified_on_identical_logic() {
     let domain = DomainSpec {
         param_names: vec!["val".into()],
-        finite_values: vec![(
-            "val".into(),
-            (-5..=5).map(TaggedValue::Int64).collect(),
-        )],
+        finite_values: vec![("val".into(), (-5..=5).map(TaggedValue::Int64).collect())],
         sample_limit: None,
     };
 
@@ -67,7 +64,10 @@ fn pure_equivalence_verified_on_identical_logic() {
 
     let result = NativePureCoreVerifier::verify_equivalence(&domain, baseline, candidate);
     match result {
-        VerificationResult::Verified { evidence, domain: d } => {
+        VerificationResult::Verified {
+            evidence,
+            domain: d,
+        } => {
             assert!(evidence.contains("11 exhaustive"));
             assert!(d.contains("val"));
         }

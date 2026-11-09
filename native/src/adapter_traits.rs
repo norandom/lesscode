@@ -44,7 +44,7 @@ impl TaggedValue {
     }
 
     pub fn is_nan(&self) -> bool {
-        self.as_f64().map_or(false, |f| f.is_nan())
+        self.as_f64().is_some_and(|f| f.is_nan())
     }
 }
 

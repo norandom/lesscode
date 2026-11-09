@@ -44,7 +44,11 @@ impl NativeStateFrameAnalyzer {
         frame: &FrameSpec,
     ) -> Vec<StateViolation> {
         let mut violations = Vec::new();
-        let allowed: BTreeSet<&str> = frame.allowed_write_sites.iter().map(String::as_str).collect();
+        let allowed: BTreeSet<&str> = frame
+            .allowed_write_sites
+            .iter()
+            .map(String::as_str)
+            .collect();
 
         // 1. Check unauthorized mutations & type conflicts
         let mut all_keys: BTreeSet<&str> = before.keys().map(String::as_str).collect();
@@ -77,41 +81,50 @@ impl NativeStateFrameAnalyzer {
 
         // 2. Check failure-side invariants if an error occurred
         if let Some(err_msg) = exit_error {
-            for inv in &frame.failure_invariants {
-                if let Some((loc, expected)) = inv.split_once(':') {
-                    let satisfied = after.get(loc).map_or(false, |val| match val {
-                        TaggedValue::Array(items) => items.iter().any(|it| match it {
-                            TaggedValue::String(s) => s.contains(expected),
-                            _ => false,
-                        }),
+            Self::check_failure_invariants(frame, after, err_msg, &mut violations);
+        }
+
+        violations
+    }
+
+    fn check_failure_invariants(
+        frame: &FrameSpec,
+        after: &BTreeMap<String, TaggedValue>,
+        err_msg: &str,
+        violations: &mut Vec<StateViolation>,
+    ) {
+        for inv in &frame.failure_invariants {
+            if let Some((loc, expected)) = inv.split_once(':') {
+                let satisfied = after.get(loc).is_some_and(|val| match val {
+                    TaggedValue::Array(items) => items.iter().any(|it| match it {
                         TaggedValue::String(s) => s.contains(expected),
                         _ => false,
-                    });
+                    }),
+                    TaggedValue::String(s) => s.contains(expected),
+                    _ => false,
+                });
 
-                    if !satisfied {
-                        violations.push(StateViolation {
-                            location: loc.to_string(),
-                            kind: ViolationKind::MissingFailureInvariant,
-                            witness: format!(
-                                "Required failure state '{expected}' was missing in '{loc}' after exception: {err_msg}"
-                            ),
-                            line: None,
-                        });
-                    }
-                } else if after.get(inv).map_or(true, |v| v == &TaggedValue::Null) {
+                if !satisfied {
                     violations.push(StateViolation {
-                        location: inv.clone(),
+                        location: loc.to_string(),
                         kind: ViolationKind::MissingFailureInvariant,
                         witness: format!(
-                            "Required failure invariant '{inv}' was not truthy after exception: {err_msg}"
+                            "Required failure state '{expected}' was missing in '{loc}' after exception: {err_msg}"
                         ),
                         line: None,
                     });
                 }
+            } else if after.get(inv).is_none_or(|v| v == &TaggedValue::Null) {
+                violations.push(StateViolation {
+                    location: inv.clone(),
+                    kind: ViolationKind::MissingFailureInvariant,
+                    witness: format!(
+                        "Required failure invariant '{inv}' was not truthy after exception: {err_msg}"
+                    ),
+                    line: None,
+                });
             }
         }
-
-        violations
     }
 }
 

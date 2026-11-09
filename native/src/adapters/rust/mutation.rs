@@ -67,11 +67,13 @@ impl RustMutantGenerator {
             }
             MutationKind::BoundaryOffByOne => {
                 if source.contains("Duration::from_millis(50)") {
-                    Ok(source.replacen(
-                        "Duration::from_millis(50)",
-                        "Duration::from_millis(51)",
-                        1,
-                    ))
+                    Ok(
+                        source.replacen(
+                            "Duration::from_millis(50)",
+                            "Duration::from_millis(51)",
+                            1,
+                        ),
+                    )
                 } else if source.contains("level2_ops > 0") {
                     Ok(source.replacen("level2_ops > 0", "level2_ops > 1", 1))
                 } else {

@@ -37,9 +37,7 @@ impl NativePureCoreVerifier {
     }
 
     /// Generates Cartesian product of finite domain values.
-    pub fn generate_cartesian_cases(
-        domain: &DomainSpec,
-    ) -> Vec<BTreeMap<String, TaggedValue>> {
+    pub fn generate_cartesian_cases(domain: &DomainSpec) -> Vec<BTreeMap<String, TaggedValue>> {
         if domain.param_names.is_empty() || domain.finite_values.is_empty() {
             return Vec::new();
         }
@@ -142,13 +140,19 @@ impl PureCoreVerifier for NativePureCoreVerifier {
         // Check if candidate entrypoint simulates divergence
         if request.entrypoint_candidate.contains("divergent") {
             return VerificationResult::Divergent {
-                witness: format!("Candidate '{}' diverged on case 0", request.entrypoint_candidate),
+                witness: format!(
+                    "Candidate '{}' diverged on case 0",
+                    request.entrypoint_candidate
+                ),
             };
         }
 
         if request.entrypoint_candidate.contains("failure") {
             return VerificationResult::ExecutionFailed {
-                failure: format!("Candidate '{}' failed execution", request.entrypoint_candidate),
+                failure: format!(
+                    "Candidate '{}' failed execution",
+                    request.entrypoint_candidate
+                ),
             };
         }
 

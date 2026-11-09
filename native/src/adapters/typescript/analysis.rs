@@ -4,9 +4,7 @@
 //! - REQ-TS-1.1, REQ-TS-1.2, REQ-TS-1.3, REQ-TS-1.4
 //! - `.kiro/specs/typescript-deconvolution-adapter/design.md`
 
-use crate::adapter_traits::{
-    AnalysisRequest, AnalysisResult, CoverageGap, StateFrameAnalyzer,
-};
+use crate::adapter_traits::{AnalysisRequest, AnalysisResult, CoverageGap, StateFrameAnalyzer};
 
 /// Static effect and frame analyzer for TypeScript / JavaScript ASTs.
 pub struct TypeScriptEffectAnalyzer;
@@ -76,16 +74,15 @@ impl TypeScriptEffectAnalyzer {
         line_num: usize,
         write_sites: &mut Vec<String>,
     ) {
-        if trimmed.contains(" = ")
+        let is_mutation = (trimmed.contains(" = ")
             && !trimmed.starts_with("const ")
             && !trimmed.starts_with("let ")
-            && !trimmed.starts_with("readonly ")
-        {
-            write_sites.push(format!("{path}:{line_num}"));
-        } else if trimmed.contains(".push(")
+            && !trimmed.starts_with("readonly "))
+            || trimmed.contains(".push(")
             || trimmed.contains(".splice(")
-            || trimmed.contains("delete ")
-        {
+            || trimmed.contains("delete ");
+
+        if is_mutation {
             write_sites.push(format!("{path}:{line_num}"));
         }
     }

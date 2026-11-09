@@ -83,6 +83,7 @@ enum Command {
         cmd: cli_deconvolute::DeconvoluteCommand,
     },
 }
+#[rustfmt::skip]
 fn read_json<T: DeserializeOwned>(path: &Path) -> Result<T, String> {
     serde_json::from_slice(&fs::read(path).map_err(|e| format!("cannot read {}: {e}", path.display()))?)
         .map_err(|e| format!("invalid JSON in {}: {e}", path.display()))
@@ -100,6 +101,7 @@ fn linked(metadata: &fs::Metadata) -> bool {
 }
 // Walk before canonicalization so links/junctions cannot hide behind their targets.
 // Missing suffixes are resolved against the canonical existing ancestor.
+#[rustfmt::skip]
 fn checked_path(path: &Path) -> Result<PathBuf, String> {
     let absolute = if path.is_absolute() {
         path.to_path_buf()
@@ -183,6 +185,7 @@ fn create_parent(out: &Path) -> Result<(), String> {
     fs::create_dir_all(out.parent().ok_or("output needs a parent directory")?)
         .map_err(|e| format!("cannot create output parent: {e}"))
 }
+#[rustfmt::skip]
 fn run(args: Args) -> Result<u8, String> {
     match args.command {
         Command::Prepare {

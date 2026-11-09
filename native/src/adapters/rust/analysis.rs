@@ -4,9 +4,7 @@
 //! - REQ-RUST-1.1, REQ-RUST-1.2, REQ-RUST-1.3, REQ-RUST-1.4
 //! - `.kiro/specs/rust-deconvolution-unification/design.md`
 
-use crate::adapter_traits::{
-    AnalysisRequest, AnalysisResult, CoverageGap, StateFrameAnalyzer,
-};
+use crate::adapter_traits::{AnalysisRequest, AnalysisResult, CoverageGap, StateFrameAnalyzer};
 
 /// Static effect and frame analyzer for Rust modules and functions.
 pub struct RustEffectAnalyzer;
@@ -43,7 +41,10 @@ impl RustEffectAnalyzer {
         line_num: usize,
         gaps: &mut Vec<CoverageGap>,
     ) {
-        if trimmed.starts_with("unsafe ") || trimmed.contains("unsafe {") || trimmed.contains("unsafe fn ") {
+        if trimmed.starts_with("unsafe ")
+            || trimmed.contains("unsafe {")
+            || trimmed.contains("unsafe fn ")
+        {
             gaps.push(CoverageGap {
                 reason: "Unsafe code blocks/functions are unsupported in rust-nextest-v1".into(),
                 location: Some(format!("{path}:{line_num}")),
@@ -67,7 +68,8 @@ impl RustEffectAnalyzer {
                 location: Some(format!("{path}:{line_num}")),
             });
         }
-        if trimmed.contains("RefCell<") || trimmed.contains("Mutex<") || trimmed.contains("RwLock<") {
+        if trimmed.contains("RefCell<") || trimmed.contains("Mutex<") || trimmed.contains("RwLock<")
+        {
             gaps.push(CoverageGap {
                 reason: "Interior mutability requires explicit state roots".into(),
                 location: Some(format!("{path}:{line_num}")),
@@ -82,7 +84,9 @@ impl RustEffectAnalyzer {
         line_num: usize,
         write_sites: &mut Vec<String>,
     ) {
-        if (trimmed.contains(" = ") && !trimmed.starts_with("let ") && !trimmed.starts_with("const "))
+        if (trimmed.contains(" = ")
+            && !trimmed.starts_with("let ")
+            && !trimmed.starts_with("const "))
             || trimmed.contains(" += ")
             || trimmed.contains(" -= ")
             || trimmed.contains(" *= ")

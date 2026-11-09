@@ -1251,7 +1251,16 @@ fn loop_low_threshold_cannot_establish_validity() {
         threshold: 0.5,
         ..RefineBudget::default()
     };
-    let outcome = run_loop(&req, &frozen, &work, "threshold", budget, None, &mut scripted).unwrap();
+    let outcome = run_loop(
+        &req,
+        &frozen,
+        &work,
+        "threshold",
+        budget,
+        None,
+        &mut scripted,
+    )
+    .unwrap();
     assert!(!outcome.validity);
 }
 
@@ -1737,7 +1746,10 @@ raise SystemExit(2)
     let (code, divergence, results) = oracle.evaluate(&cand);
     assert_eq!(code, 2);
     let reward = regenerator::evaluate_tier2_runtime(code, divergence.as_deref(), &results);
-    assert_eq!(reward.failure_kind.as_deref(), Some("runtime_infrastructure"));
+    assert_eq!(
+        reward.failure_kind.as_deref(),
+        Some("runtime_infrastructure")
+    );
 
     // timeout after writing ok verdict -> process timeout, infrastructure error
     let cand = work.join("timeout");
@@ -1759,7 +1771,10 @@ time.sleep(5)
     assert_ne!(code, 0);
     assert_ne!(code, 1);
     let reward = regenerator::evaluate_tier2_runtime(code, divergence.as_deref(), &results);
-    assert_eq!(reward.failure_kind.as_deref(), Some("runtime_infrastructure"));
+    assert_eq!(
+        reward.failure_kind.as_deref(),
+        Some("runtime_infrastructure")
+    );
 
     // contradictory counts: ok=true but passed=0, total=1, failures present
     let cand = work.join("contradictory");

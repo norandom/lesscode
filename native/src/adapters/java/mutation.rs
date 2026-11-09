@@ -73,11 +73,7 @@ impl JavaMutantGenerator {
             }
             MutationKind::BoundaryOffByOne => {
                 if source.contains("i < comment.length()") {
-                    Ok(source.replacen(
-                        "i < comment.length()",
-                        "i <= comment.length()",
-                        1,
-                    ))
+                    Ok(source.replacen("i < comment.length()", "i <= comment.length()", 1))
                 } else if source.contains("rowCount + 1") {
                     Ok(source.replacen("rowCount + 1", "rowCount", 1))
                 } else {

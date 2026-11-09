@@ -19,7 +19,13 @@ fn adapter_pure_verifier_handles_finite_domains() {
     let domain = DomainSpec {
         param_names: vec!["cap".into(), "reason".into()],
         finite_values: vec![
-            ("cap".into(), vec![TaggedValue::String("docker".into()), TaggedValue::String("git".into())]),
+            (
+                "cap".into(),
+                vec![
+                    TaggedValue::String("docker".into()),
+                    TaggedValue::String("git".into()),
+                ],
+            ),
             ("reason".into(), vec![TaggedValue::String("missing".into())]),
         ],
         sample_limit: None,

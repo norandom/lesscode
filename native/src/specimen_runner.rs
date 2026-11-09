@@ -61,7 +61,8 @@ fn spawn_process(request: &RunRequest) -> Result<std::process::Child, String> {
     cmd.stdout(Stdio::piped());
     cmd.stderr(Stdio::piped());
 
-    cmd.spawn().map_err(|e| format!("Failed to spawn process: {e}"))
+    cmd.spawn()
+        .map_err(|e| format!("Failed to spawn process: {e}"))
 }
 
 fn collect_output(
