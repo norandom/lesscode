@@ -1,9 +1,9 @@
 {
   "feature_name": "dogfood-self-application",
   "created_at": "2026-11-09T20:28:00+01:00",
-  "updated_at": "2026-11-09T20:39:00+01:00",
+  "updated_at": "2026-11-09T21:14:00+01:00",
   "language": "en",
-  "phase": "tasks-approved",
+  "phase": "completed",
   "approvals": {
     "requirements": {
       "generated": true,

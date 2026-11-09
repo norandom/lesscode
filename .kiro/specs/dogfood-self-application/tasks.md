@@ -145,9 +145,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 7: End-to-End Dogfooding Validation & Verification on Isolated Copy [ ]
+### Task 7: End-to-End Dogfooding Validation & Verification on Isolated Copy [x]
 - **Requirements:** REQ-1.1..1.4, REQ-2.1..2.5, REQ-3.1..3.4, REQ-4.1..4.3, REQ-5.1..5.4, REQ-6.1..6.3, REQ-7.1..7.5
 - **Dependencies:** Tasks 1, 2, 3, 4, 5, 6
+- **Status:** Completed. Verified end-to-end on clean clone `..\lesscode-dogfood-copy`: full nextest suite passed 352/352 tests (100%), complexity budgets verified clean across 38 files (0 exceeded, 0 unlisted, 0 missing), pre-push hook installed and verified (6/6 tests passed), and validation report recorded in `validation-report.md`.
 - **Owned Files:**
   - `.kiro/specs/dogfood-self-application/validation-report.md`
   - `.kiro/specs/dogfood-self-application/spec.json`
