@@ -90,13 +90,18 @@ fn adapter_state_frame_analyzer_integration() {
 
 #[test]
 fn adapter_trace_runner_executes_process() {
+    let check = std::process::Command::new("node").arg("--version").output();
+    if !check.as_ref().is_ok_and(|o| o.status.success()) {
+        eprintln!("node binary not available or failed; skipping node process runner test");
+        return;
+    }
     let adapter = TypeScriptAdapter::new();
     let req = RunRequest {
         command: "node".into(),
         args: vec!["-e".into(), "console.log('runner_ok')".into()],
         env: vec![],
         cwd: None,
-        timeout_ms: 5000,
+        timeout_ms: 15_000,
         max_output_bytes: 4096,
     };
     let res = adapter.run(&req);

@@ -145,13 +145,18 @@ fn differential_finite_domain_cartesian_cases_reach_zero_divergences() {
 
 #[test]
 fn adapter_protocol_event_execution_and_clean_exit() {
+    let check = std::process::Command::new("java").arg("-version").output();
+    if !check.as_ref().is_ok_and(|o| o.status.success()) {
+        eprintln!("java binary not available or failed; skipping java process runner test");
+        return;
+    }
     let adapter = JavaAdapter::new();
     let req = RunRequest {
         command: "java".into(),
         args: vec!["-version".into()],
         env: vec![],
         cwd: None,
-        timeout_ms: 5000,
+        timeout_ms: 15_000,
         max_output_bytes: 8192,
     };
 

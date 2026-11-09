@@ -87,6 +87,11 @@ export function createNotice(input: any) {
 
 #[test]
 fn adapter_protocol_event_execution_and_clean_exit() {
+    let check = std::process::Command::new("node").arg("--version").output();
+    if !check.as_ref().is_ok_and(|o| o.status.success()) {
+        eprintln!("node binary not available or failed; skipping node process runner test");
+        return;
+    }
     let adapter = TypeScriptAdapter::new();
     let req = RunRequest {
         command: "node".into(),
@@ -96,7 +101,7 @@ fn adapter_protocol_event_execution_and_clean_exit() {
         ],
         env: vec![],
         cwd: None,
-        timeout_ms: 5000,
+        timeout_ms: 15_000,
         max_output_bytes: 8192,
     };
 

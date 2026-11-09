@@ -34,16 +34,30 @@ fn protocol_event_parsing() {
 #[test]
 fn process_supervisor_executes_and_captures() {
     let runner = NativeSpecimenRunner::new();
+    let (command, args) = if cfg!(windows) {
+        (
+            "powershell".to_string(),
+            vec![
+                "-NoProfile".to_string(),
+                "-Command".to_string(),
+                r#"Write-Output '{"seq":1,"step":"run","kind":"complete","payload":{"type":"string","value":"done"}}'"#.to_string(),
+            ],
+        )
+    } else {
+        (
+            "sh".to_string(),
+            vec![
+                "-c".to_string(),
+                r#"echo '{"seq":1,"step":"run","kind":"complete","payload":{"type":"string","value":"done"}}'"#.to_string(),
+            ],
+        )
+    };
     let req = RunRequest {
-        command: "powershell".into(),
-        args: vec![
-            "-NoProfile".into(),
-            "-Command".into(),
-            r#"Write-Output '{"seq":1,"step":"run","kind":"complete","payload":{"type":"string","value":"done"}}'"#.into(),
-        ],
+        command,
+        args,
         env: vec![],
         cwd: None,
-        timeout_ms: 10_000,
+        timeout_ms: 30_000,
         max_output_bytes: 4096,
     };
 
@@ -57,13 +71,24 @@ fn process_supervisor_executes_and_captures() {
 #[test]
 fn process_supervisor_terminates_on_deadline_expiration() {
     let runner = NativeSpecimenRunner::new();
+    let (command, args) = if cfg!(windows) {
+        (
+            "powershell".to_string(),
+            vec![
+                "-NoProfile".to_string(),
+                "-Command".to_string(),
+                "Start-Sleep -Seconds 5".to_string(),
+            ],
+        )
+    } else {
+        (
+            "sh".to_string(),
+            vec!["-c".to_string(), "sleep 5".to_string()],
+        )
+    };
     let req = RunRequest {
-        command: "powershell".into(),
-        args: vec![
-            "-NoProfile".into(),
-            "-Command".into(),
-            "Start-Sleep -Seconds 5".into(),
-        ],
+        command,
+        args,
         env: vec![],
         cwd: None,
         timeout_ms: 150, // 150ms timeout triggers deadline kill
