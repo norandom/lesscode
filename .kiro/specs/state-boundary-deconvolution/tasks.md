@@ -76,3 +76,18 @@
     - _Boundary: ObligationBridge, DensityGate_
     - _Depends: 3.1, 3.2, 3.3, 4.1_
     - _Requirements: 3.5, 5.5, 6.1, 6.2, 6.5_
+
+---
+
+## Implementation Notes
+
+Specification implementation completed, qualified, adopted, and validated on 2026-11-09:
+- **Tasks 1.1–1.3 (Foundation):** State frame conditions, dynamic invariants, and stream monitoring implemented in `src/lesscode_baseline/state_boundary/{frame.py, stream_monitor.py}`.
+- **Tasks 2.1–2.3 (Core):** Static purity checking, bounded property equivalence over $[-10, 10]$, and targeted adverse state mutations implemented in `pure_verifier.py` and `mutant_generator.py`.
+- **Tasks 3.1–3.3 (Integration):** Adverse sensitivity gate, causal state obligation tracking across turns, and whole-responsibility density scoring implemented in `density.py` and `native/src/state_contract.rs`.
+- **Tasks 4.1–4.2 (Validation):** 32-test adversarial unit suite in `tests/test_state_boundary.py` and prototype feasibility gate passed under amended Rust apparatus ceiling of 7,173 canonical lines (R41).
+- **Trial & Adoption Milestones:**
+  - Experiment E5 (Lifecycle): Line count −24.8%, statements −12.1%, functions −27.5%, call edges −31.5%, 11 write sites, 50/50 sequences replayed with 0 Level 2 divergences. Formally adopted into `.runs/e5-adopted-lifecycle/` (R42, R43).
+  - Experiment E6 (Report Envelope Generalization): Line count −23.01%, statements −10.49%, functions −38.24%, call edges −30.34%, 4 write sites, 4/4 adverse mutants killed. Formally adopted into `.runs/e6-adopted-report-envelope/` (R44, R45, R46).
+- **Milestone Synthesis Report:** Published in [`docs/reports/state-boundary-deconvolution-report.md`](../../reports/state-boundary-deconvolution-report.md) following the COBESY research structure.
+- **Feature Integration Validation:** Mechanical suite (241 nextest, 32 pytest, E5/E6 acceptance suites) green, 0 TODO/secrets, clean runtime liveness, and final verdict signed off as **GO** in [`validation-report.md`](validation-report.md).
