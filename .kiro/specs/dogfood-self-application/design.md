@@ -92,11 +92,12 @@ graph TD
 native/
 ├── src/
 │   ├── main.rs                   # CLI entry point, checked_path normalization, command dispatch
-│   ├── cli_deconvolute.rs        # NEW: Deconvolution CLI subcommands (analyze, mutate, density)
+│   ├── cli_deconvolute.rs        # Deconvolution CLI subcommands (analyze, mutate, density, pre-push, install-hook)
+│   ├── cli_hook.rs               # NEW: Git pre-push hook logic and hook installer
 │   └── adapters/
 │       └── rust/
 │           └── mod.rs            # Runtime adapter supervisor with isolated target-dir
-├── complexity-budgets.json       # Budget registry update for cli_deconvolute.rs
+├── complexity-budgets.json       # Budget registry update for cli_deconvolute.rs & cli_hook.rs
 docs/
 └── experiments/
     └── deconvolution/
@@ -106,20 +107,23 @@ docs/
 .agents/
 └── skills/
     └── deconvolute/
-        └── SKILL.md              # UPDATED: Documents CLI porcelain and clone-branch-review flow
+        └── SKILL.md              # UPDATED: Documents CLI porcelain, pre-push hook, and clone-branch-review flow
 ```
 
 ### Modified Files
 1. `native/src/main.rs`:
    - Normalizes parent directory components (`..`) in `checked_path` by popping valid ancestors while preventing traversal escape.
    - Adds `Deconvolute` subcommand variant delegating to `cli_deconvolute::run`.
-2. `native/src/cli_deconvolute.rs` (NEW):
-   - Implements `DeconvoluteCommand` with `Analyze`, `Mutate`, and `Density` subcommands.
+2. `native/src/cli_deconvolute.rs`:
+   - Implements `DeconvoluteCommand` with `Analyze`, `Mutate`, `Density`, `PrePush`, and `InstallHook` subcommands.
    - Encapsulates argument validation, adapter dispatch, and JSON receipt formatting.
-3. `native/src/adapters/rust/mod.rs`:
+3. `native/src/cli_hook.rs` (NEW):
+   - Implements `run_pre_push` and `run_install_hook`.
+   - Inspects push refs from stdin, detects branch deletions and `LESSCODE_SKIP_HOOK`, verifies complexity budgets, enforces refactor branch state-boundary cleanliness, and writes Git pre-push hook script.
+4. `native/src/adapters/rust/mod.rs`:
    - Configures `CARGO_TARGET_DIR` on child processes to prevent lock collisions during specimen testing.
-4. `native/complexity-budgets.json`:
-   - Registers `cli_deconvolute.rs` with standard budget limits ($\le 400$ lines, $\le 300$ units, $\le 80$ lines/fn).
+5. `native/complexity-budgets.json`:
+   - Registers `cli_deconvolute.rs` and `cli_hook.rs` with standard budget limits ($\le 400$ lines, $\le 300$ units, $\le 80$ lines/fn).
 5. `docs/experiments/deconvolution/regenerator/results/turns/**`:
    - Tracks 11 previously uncommitted test fixture files referenced by `native-prototype/s2-bindings.json`.
 6. `.agents/skills/deconvolute/SKILL.md`:
@@ -180,6 +184,7 @@ sequenceDiagram
 | **4: Test Fixture Integrity** | Commit missing fixtures so clean clones pass 338/338 tests | `docs/experiments/.../turns/` | Git tracking, `admission.rs` | Flow step 1 |
 | **5: Build Concurrency Isolation** | Dedicated specimen `CARGO_TARGET_DIR` | `adapters/rust/mod.rs` | Process environment isolation | Flow step 7 |
 | **6: Agent Skill Ergonomics** | Document CLI porcelain & clone-branch-review flow | `deconvolute/SKILL.md` | Skill documentation & JSON receipts | Flow steps 1-10 |
+| **7: Pre-Push Hook Size Governance** | Intelligent CLI pre-push hook for refactor branches | `cli_hook.rs`, `cli_deconvolute.rs` | `DeconvoluteCommand::{PrePush, InstallHook}` | Push gate before remote |
 
 ---
 

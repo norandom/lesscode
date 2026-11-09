@@ -106,6 +106,19 @@ lesscode-core deconvolute density --lang <rust|java|typescript|python> --baselin
 - **Output:** JSON receipt evaluating physical line delta, canonical line delta/percentage, and AST statement delta/percentage.
 - **Decision:** Emits `pass` if thresholds ($\ge 20\%$ and $\ge 50$ lines, $\ge 10\%$ and $\ge 10$ statements) are met, or `marginal`/`fail` otherwise.
 
+### Intelligent Git Pre-Push Hook (`pre-push` & `install-hook`)
+Interprets push refs, verifies complexity ceilings before remote push, and gates candidate refactoring branches:
+```powershell
+# Install the pre-push hook into .git/hooks:
+lesscode-core deconvolute install-hook [--git-dir .git] [--force]
+
+# Execute pre-push validation directly:
+lesscode-core deconvolute pre-push [--ref <ref>] [--sha <sha>]
+```
+- **Automatic Bypasses:** Deletions of remote branches and `LESSCODE_SKIP_HOOK=1` exit 0 immediately.
+- **Complexity Budgets:** Intercepts regressions in `complexity-budgets.json` before code reaches the remote.
+- **Refactoring Branches (`refactor/*`, `deconvolute/*`):** Automatically treated as major refactorings, checking AST state-boundary cleanliness and test oracle kill discipline.
+
 ### General & Budget Commands
 ```powershell
 # Verify codebase complexity ceilings:
@@ -175,6 +188,7 @@ Commit the verified deconvolution and push to a dedicated candidate branch:
 git checkout -b refactor/deconvolute-<component>
 git add .
 git commit -m "refactor(deconvolute): isolate pure computational core in <component>"
+# When installed, the intelligent pre-push hook gates the push automatically:
 git push origin refactor/deconvolute-<component>
 ```
 

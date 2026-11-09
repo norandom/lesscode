@@ -117,18 +117,47 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 6: End-to-End Dogfooding Validation & Verification on Isolated Copy [ ]
-- **Requirements:** REQ-1.1..1.4, REQ-2.1..2.5, REQ-3.1..3.4, REQ-4.1..4.3, REQ-5.1..5.4, REQ-6.1..6.3
-- **Dependencies:** Tasks 1, 2, 3, 4, 5
+### Task 6: CLI Pre-Push Hook and Hook Installer (`pre-push`, `install-hook`) [x]
+- **Requirements:** REQ-7.1, REQ-7.2, REQ-7.3, REQ-7.4, REQ-7.5
+- **Dependencies:** Task 4, Task 5
+- **Status:** Completed. Implemented `native/src/cli_hook.rs` (245 lines, within budget), wired `PrePush` and `InstallHook` in `native/src/cli_deconvolute.rs`, registered in `complexity-budgets.json`, documented in `SKILL.md`, and verified with `cargo test --test cli_hook` (6/6 passed) and `cargo test --test budgets` (10/10 passed).
+- **Owned Files:**
+  - `native/src/cli_hook.rs` (new: $\le 400$ physical lines, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/cli_deconvolute.rs` (add `PrePush` and `InstallHook` subcommands)
+  - `native/complexity-budgets.json` (register `cli_hook.rs`)
+  - `native/tests/cli_hook.rs` (new integration test suite)
+  - `.agents/skills/deconvolute/SKILL.md` (document hook usage and install command)
+- **Implementation:**
+  1. Create `native/src/cli_hook.rs`:
+     - `run_pre_push`: inspects stdin lines or arguments (`local_ref`, `local_sha`, `remote_ref`, `remote_sha`).
+     - Bypasses check if deleting a branch (`local_sha == 00000000...` or `(delete)`) or if `LESSCODE_SKIP_HOOK=1` is set.
+     - Performs complexity budget verification (`complexity-budgets.json`) against native source root; rejects push with code 1 if violated.
+     - If pushing a refactoring branch (`refactor/*`, `deconvolute/*`), checks AST state boundaries on modified files and verifies zero forbidden dynamic gaps.
+     - `run_install_hook`: writes `.git/hooks/pre-push` script invoking `lesscode-core deconvolute pre-push "$@"`.
+  2. Wire `PrePush` and `InstallHook` in `native/src/cli_deconvolute.rs`.
+  3. Register `cli_hook.rs` in `native/complexity-budgets.json`.
+  4. Add integration tests in `native/tests/cli_hook.rs`.
+  5. Update `SKILL.md` with hook instructions.
+- **Verification:**
+  - `cargo test --manifest-path native/Cargo.toml --test cli_hook`
+  - `cargo test --manifest-path native/Cargo.toml --test budgets`
+- **Rollback:** Delete `cli_hook.rs`, `cli_hook.rs` test, and revert `cli_deconvolute.rs`, `complexity-budgets.json`, and `SKILL.md`.
+
+---
+
+### Task 7: End-to-End Dogfooding Validation & Verification on Isolated Copy [ ]
+- **Requirements:** REQ-1.1..1.4, REQ-2.1..2.5, REQ-3.1..3.4, REQ-4.1..4.3, REQ-5.1..5.4, REQ-6.1..6.3, REQ-7.1..7.5
+- **Dependencies:** Tasks 1, 2, 3, 4, 5, 6
 - **Owned Files:**
   - `.kiro/specs/dogfood-self-application/validation-report.md`
   - `.kiro/specs/dogfood-self-application/spec.json`
 - **Implementation:**
   1. Run the new `lesscode-core deconvolute` commands against the dogfood copy (`..\lesscode-dogfood-copy`).
-  2. Run the entire native test suite (`cargo nextest run --manifest-path native/Cargo.toml`) and verify 100% pass rate.
-  3. Run native complexity budget validation (`cargo test --manifest-path native/Cargo.toml --test budgets`).
-  4. Write `validation-report.md` recording all evidence, receipts, and final disposition.
-  5. Update `spec.json` to complete.
+  2. Verify pre-push hook behavior (`pre-push`, `install-hook`).
+  3. Run the entire native test suite (`cargo nextest run --manifest-path native/Cargo.toml`) and verify 100% pass rate.
+  4. Run native complexity budget validation (`cargo test --manifest-path native/Cargo.toml --test budgets`).
+  5. Write `validation-report.md` recording all evidence, receipts, and final disposition.
+  6. Update `spec.json` to complete.
 - **Verification:**
   - `cargo nextest run --manifest-path native/Cargo.toml`
   - `cargo test --manifest-path native/Cargo.toml --test budgets`

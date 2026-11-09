@@ -14,6 +14,9 @@ use crate::adapters::java::JavaAdapter;
 use crate::adapters::rust::RustAdapter;
 use crate::adapters::typescript::TypeScriptAdapter;
 
+#[path = "cli_hook.rs"]
+pub mod cli_hook;
+
 #[derive(Subcommand, Debug, Clone)]
 pub enum DeconvoluteCommand {
     /// Static AST effect scanning and dynamic gap validation.
@@ -49,6 +52,10 @@ pub enum DeconvoluteCommand {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+    /// Intelligent Git pre-push hook for size governance and refactoring discipline.
+    PrePush(cli_hook::PrePushArgs),
+    /// Install standard Git pre-push hook script in .git/hooks.
+    InstallHook(cli_hook::InstallHookArgs),
 }
 
 #[derive(Serialize)]
@@ -140,6 +147,8 @@ pub fn run(cmd: DeconvoluteCommand) -> Result<u8, String> {
             candidate,
             out,
         } => run_density(&lang, &baseline, &candidate, out.as_deref()),
+        DeconvoluteCommand::PrePush(args) => cli_hook::run_pre_push(args),
+        DeconvoluteCommand::InstallHook(args) => cli_hook::run_install_hook(args),
     }
 }
 
@@ -194,6 +203,61 @@ fn run_analyze(
     Ok(if passed { 0 } else { 1 })
 }
 
+fn mutation_specs(loc: &str) -> [MutationSpec; 4] {
+    [
+        (MutationKind::MissingFailureState, "Missing failure invariant"),
+        (MutationKind::InvertedCondition, "Inverted condition"),
+        (MutationKind::InvertedErrorOrder, "Inverted error precedence"),
+        (MutationKind::SilentNone, "Silent dropped state/env"),
+    ]
+    .map(|(kind, desc)| MutationSpec {
+        id: format!("{kind:?}"),
+        kind,
+        location: loc.to_string(),
+        description: desc.into(),
+    })
+}
+
+fn generate_mutants(lang: &str, src: &str, specs: &[MutationSpec]) -> Vec<(MutationKind, String)> {
+    let mut mutants = Vec::new();
+    match lang {
+        "rust" => {
+            let gen = crate::adapters::rust::RustMutantGenerator::new();
+            for s in specs {
+                if let Ok(m) = gen.apply_mutation(src, s) {
+                    mutants.push((s.kind.clone(), m));
+                }
+            }
+        }
+        "java" => {
+            let gen = crate::adapters::java::JavaMutantGenerator::new();
+            for s in specs {
+                if let Ok(m) = gen.apply_mutation(src, s) {
+                    mutants.push((s.kind.clone(), m));
+                }
+            }
+        }
+        "typescript" => {
+            let gen = crate::adapters::typescript::mutation::TypeScriptMutantGenerator::new();
+            for s in specs {
+                if let Ok(m) = gen.apply_mutation(src, s) {
+                    mutants.push((s.kind.clone(), m));
+                }
+            }
+        }
+        _ => {}
+    }
+    mutants
+}
+
+fn write_mutants(out_dir: &Path, ext: &str, mutants: &[(MutationKind, String)]) -> Result<(), String> {
+    for (idx, (kind, src)) in mutants.iter().enumerate() {
+        let path = out_dir.join(format!("mutant_{idx}_{kind:?}.{ext}"));
+        fs::write(&path, src).map_err(|e| format!("Cannot write mutant {}: {e}", path.display()))?;
+    }
+    Ok(())
+}
+
 fn run_mutate(
     lang: &str,
     source_path: &Path,
@@ -205,33 +269,9 @@ fn run_mutate(
     fs::create_dir_all(out_dir)
         .map_err(|e| format!("Cannot create out-dir {}: {e}", out_dir.display()))?;
 
-    let specs = [
-        MutationSpec {
-            id: "mut-1".into(),
-            kind: MutationKind::MissingFailureState,
-            location: source_path.to_string_lossy().to_string(),
-            description: "Missing failure invariant".into(),
-        },
-        MutationSpec {
-            id: "mut-2".into(),
-            kind: MutationKind::InvertedCondition,
-            location: source_path.to_string_lossy().to_string(),
-            description: "Inverted condition".into(),
-        },
-        MutationSpec {
-            id: "mut-3".into(),
-            kind: MutationKind::InvertedErrorOrder,
-            location: source_path.to_string_lossy().to_string(),
-            description: "Inverted error precedence".into(),
-        },
-        MutationSpec {
-            id: "mut-4".into(),
-            kind: MutationKind::SilentNone,
-            location: source_path.to_string_lossy().to_string(),
-            description: "Silent dropped state/env".into(),
-        },
-    ];
-
+    let path_str = source_path.to_string_lossy().to_string();
+    let specs = mutation_specs(&path_str);
+    let mutants = generate_mutants(lang, &source_text, &specs);
     let ext = match lang {
         "rust" => "rs",
         "java" => "java",
@@ -239,54 +279,39 @@ fn run_mutate(
         "python" => "py",
         _ => unreachable!(),
     };
-
-    let mut mutants = Vec::new();
-    match lang {
-        "rust" => {
-            let gen = crate::adapters::rust::RustMutantGenerator::new();
-            for spec in &specs {
-                if let Ok(mutated) = gen.apply_mutation(&source_text, spec) {
-                    mutants.push((spec.kind.clone(), mutated));
-                }
-            }
-        }
-        "java" => {
-            let gen = crate::adapters::java::JavaMutantGenerator::new();
-            for spec in &specs {
-                if let Ok(mutated) = gen.apply_mutation(&source_text, spec) {
-                    mutants.push((spec.kind.clone(), mutated));
-                }
-            }
-        }
-        "typescript" => {
-            let gen = crate::adapters::typescript::mutation::TypeScriptMutantGenerator::new();
-            for spec in &specs {
-                if let Ok(mutated) = gen.apply_mutation(&source_text, spec) {
-                    mutants.push((spec.kind.clone(), mutated));
-                }
-            }
-        }
-        "python" => {}
-        _ => unreachable!(),
-    }
-
-    for (idx, (kind, mutant_source)) in mutants.iter().enumerate() {
-        let filename = format!("mutant_{idx}_{kind:?}.{ext}");
-        let mutant_path = out_dir.join(filename);
-        fs::write(&mutant_path, mutant_source)
-            .map_err(|e| format!("Cannot write mutant {}: {e}", mutant_path.display()))?;
-    }
+    write_mutants(out_dir, ext, &mutants)?;
 
     let receipt = MutationReceipt {
         receipt: "deconvolution-mutation-v1",
         lang: lang.into(),
-        source: source_path.to_string_lossy().to_string(),
+        source: path_str,
         out_dir: out_dir.to_string_lossy().to_string(),
         mutants_generated: mutants.len(),
         passed: !mutants.is_empty(),
     };
     emit_json(&receipt, out)?;
     Ok(0)
+}
+
+fn count_metrics(lang: &str, text: &str) -> (usize, usize) {
+    match lang {
+        "rust" => (
+            crate::adapters::rust::metrics::count_canonical_lines(text),
+            crate::adapters::rust::metrics::count_ast_statements(text),
+        ),
+        "java" => (
+            crate::adapters::java::metrics::count_canonical_lines(text),
+            crate::adapters::java::metrics::count_ast_statements(text),
+        ),
+        "typescript" => (
+            crate::adapters::typescript::metrics::count_canonical_lines(text),
+            crate::adapters::typescript::metrics::count_ast_statements(text),
+        ),
+        _ => (
+            crate::density::count_canonical_lines(text),
+            crate::density::count_canonical_lines(text),
+        ),
+    }
 }
 
 fn run_density(
@@ -299,45 +324,8 @@ fn run_density(
     let base_text = read_text(baseline_path)?;
     let cand_text = read_text(candidate_path)?;
 
-    let (base_lines, cand_lines) = match lang {
-        "rust" => (
-            crate::adapters::rust::metrics::count_canonical_lines(&base_text),
-            crate::adapters::rust::metrics::count_canonical_lines(&cand_text),
-        ),
-        "java" => (
-            crate::adapters::java::metrics::count_canonical_lines(&base_text),
-            crate::adapters::java::metrics::count_canonical_lines(&cand_text),
-        ),
-        "typescript" => (
-            crate::adapters::typescript::metrics::count_canonical_lines(&base_text),
-            crate::adapters::typescript::metrics::count_canonical_lines(&cand_text),
-        ),
-        "python" => (
-            crate::density::count_canonical_lines(&base_text),
-            crate::density::count_canonical_lines(&cand_text),
-        ),
-        _ => unreachable!(),
-    };
-
-    let (base_stmts, cand_stmts) = match lang {
-        "rust" => (
-            crate::adapters::rust::metrics::count_ast_statements(&base_text),
-            crate::adapters::rust::metrics::count_ast_statements(&cand_text),
-        ),
-        "java" => (
-            crate::adapters::java::metrics::count_ast_statements(&base_text),
-            crate::adapters::java::metrics::count_ast_statements(&cand_text),
-        ),
-        "typescript" => (
-            crate::adapters::typescript::metrics::count_ast_statements(&base_text),
-            crate::adapters::typescript::metrics::count_ast_statements(&cand_text),
-        ),
-        "python" => (
-            crate::density::count_canonical_lines(&base_text),
-            crate::density::count_canonical_lines(&cand_text),
-        ),
-        _ => unreachable!(),
-    };
+    let (base_lines, base_stmts) = count_metrics(lang, &base_text);
+    let (cand_lines, cand_stmts) = count_metrics(lang, &cand_text);
 
     let delta_lines = base_lines.saturating_sub(cand_lines);
     let line_reduction_pct = if base_lines > 0 {

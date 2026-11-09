@@ -152,6 +152,15 @@
    "disposition": null
   },
   {
+   "path": "cli_hook.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "dogfood-self-application",
+   "allocation": "Intelligent Git pre-push hook and hook installer (task 6, REQ-7.1..7.5)",
+   "disposition": null
+  },
+  {
    "path": "compare.rs",
    "max_physical_lines": 805,
    "max_logical_units": 230,

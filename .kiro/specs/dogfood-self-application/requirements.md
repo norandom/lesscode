@@ -73,3 +73,13 @@ This specification defines the functional requirements and acceptance criteria f
 1. When any deconvolution CLI command completes successfully, the CLI shall write a machine-readable JSON receipt containing schema version, timestamp, inputs, and structured metrics.
 2. The Agent Skill documentation in `.agents/skills/deconvolute/SKILL.md` shall accurately document all available CLI subcommands, arguments, binary location discovery, and exit code semantics.
 3. If a deconvolution candidate fails the mechanical density gate or adverse mutation threshold, the CLI receipt shall explicitly detail which specific threshold was violated.
+
+### Requirement 7: CLI-Driven Git Pre-Push Hook for Size Governance and Refactoring Discipline
+**Objective:** As a developer or autonomous agent pushing candidate branches, I want an intelligently designed Git pre-push hook powered by the CLI, so that accidental regressions in complexity budgets or incomplete deconvolution refactorings are intercepted before reaching the remote repository.
+
+#### Acceptance Criteria
+1. When invoked via `git push` or directly as `lesscode-core deconvolute pre-push`, the CLI hook shall inspect the incoming ref lines from standard input or CLI arguments.
+2. If the push is a branch deletion (`local_sha == 0000000000000000000000000000000000000000` or `(delete)`), or if `LESSCODE_SKIP_HOOK=1` is set, the CLI hook shall exit 0 immediately without performing blocking validations.
+3. The CLI hook shall verify codebase complexity budgets against `complexity-budgets.json`; if any physical line, logical unit, or function length ceiling is exceeded, the hook shall emit actionable diagnostics and exit 1 (blocking the push).
+4. When pushing candidate refactoring or deconvolution branches (e.g. `refactor/*`, `deconvolute/*`), the CLI hook shall treat the branch as a major refactoring, verifying AST state-boundary cleanliness and test oracle kill discipline.
+5. The CLI shall provide a `lesscode-core deconvolute install-hook [--git-dir <path>]` command that writes a standard, portable Git `pre-push` hook executable in the target repository's `.git/hooks/` directory.

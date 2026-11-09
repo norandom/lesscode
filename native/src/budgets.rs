@@ -52,14 +52,14 @@ pub struct FileReport {
 }
 
 impl FileReport {
-    fn exceeded(&self) -> bool {
+    pub fn exceeded(&self) -> bool {
         self.present
             && (self.production_lines > self.limit[0]
                 || self.logical_units > self.limit[1]
                 || self.longest_fn_lines > self.limit[2])
     }
 
-    fn status(&self) -> &'static str {
+    pub fn status(&self) -> &'static str {
         if !self.present {
             "missing"
         } else if self.exceeded() {
