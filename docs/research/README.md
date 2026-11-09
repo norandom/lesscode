@@ -2,7 +2,21 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R51 Java deconvolution adapter prototype feasibility gate (2026-11-09)
+## Latest: R52 Rust deconvolution adapter prototype feasibility gate (2026-11-09)
+
+[R52](2026-11-09/10-rust-adapter-prototype-gate.md) records the execution and
+certification of the bounded prototype feasibility gate for `rust-deconvolution-unification`:
+- **Disposition:** PROCEED (receipt and SHA-256 sidecar verified: `bcd823bc7edc79141d4dcbe5951eb8b2ec39773be5471fe7964d31a5248ff4a6`).
+- **Candidate Admission:** Admitted native process lifecycle supervisor responsibility (`native/src/recording.rs`, lines 712–969) in isolated copies under `native/adapters/rust/baseline_lifecycle.rs` and `native/adapters/rust/candidate_lifecycle.rs` with frozen Rust 1.98.1 and cargo-nextest 0.9.143.
+- **Compression:** 248 -> 148 canonical lines (−40.32%, 100 lines removed) and 83 -> 70 statements (−15.66%, 13 statements removed), meeting both the 20%/10% relative and 50/10 absolute thresholds.
+- **Protocol & Codec:** Verified line-delimited JSON IPC event frames (`rust-nextest-v1`) and IEEE-754 value transports.
+- **Finite-Domain Parity:** 100 Cartesian cases evaluated across process lifecycle, exit codes, and environment configs with 0 divergences.
+- **Adverse Controls:** 100% kill rate (4/4 killed) on mandatory adverse controls (deadline kill omission, inverted verdict condition, inverted error classification, dropped environment isolation).
+- **Specimen Regression:** Full Nextest execution across 28 binaries passed with 314 tests run, 314 passed, 0 failures.
+- **Apparatus Budget:** Complexity budgets passed 10/10; R41 7,173 ceiling held.
+- **Outcome:** Technical design approved and Phase 2 production tasks unblocked for foreground execution.
+
+## Prior: R51 Java deconvolution adapter prototype feasibility gate (2026-11-09)
 
 [R51](2026-11-09/09-java-adapter-prototype-gate.md) records the execution and
 certification of the bounded prototype feasibility gate for `java-deconvolution-unification`:

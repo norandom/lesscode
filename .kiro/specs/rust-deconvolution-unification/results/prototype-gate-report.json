@@ -1,0 +1,111 @@
+{
+  "receipt": "rust-adapter-prototype-gate-r52",
+  "version": "1.0",
+  "timestamp": "2026-11-09T19:31:17+01:00",
+  "disposition": "PROCEED",
+  "profile": "rust-nextest-v1",
+  "specimen_admission": {
+    "specimen_repo": "lesscode/native",
+    "specimen_root": "D:\\Source\\lesscode\\native",
+    "specimen_commit": "a1b72a4d8325e814398c2f2c63879ae6a0f1e03e",
+    "specimen_license": "MIT License",
+    "target_responsibility": "Process lifecycle, execution supervisor, and pytest group orchestrator",
+    "baseline_file": "native\\adapters\\rust\\baseline_lifecycle.rs",
+    "candidate_file": "native\\adapters\\rust\\candidate_lifecycle.rs",
+    "rustc_version": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "cargo_version": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+    "nextest_version": "cargo-nextest 0.9.150 (d225b1daf 2026-10-26)\nrelease: 0.9.150\ncommit-hash: d225b1daf362c1ca8e5e048132618c1a81c57a28\ncommit-date: 2026-10-26\nhost: x86_64-pc-windows-msvc",
+    "status": "admitted"
+  },
+  "compression_evaluation": {
+    "baseline": {
+      "physical_lines": 268,
+      "canonical_lines": 248,
+      "statements": 83,
+      "sha256": "2599917f6099ad08be690807fbb70176ff47d4ff91ea6201ff34763c97f1d703"
+    },
+    "candidate": {
+      "physical_lines": 166,
+      "canonical_lines": 148,
+      "statements": 70,
+      "sha256": "05bc8145dd91c38242d227fc7637fb762bddfc64743c02d9c71440e4662a8989"
+    },
+    "reduction": {
+      "canonical_lines_removed": 100,
+      "canonical_lines_pct": 40.32,
+      "canonical_target_met": true,
+      "statements_removed": 13,
+      "statements_pct": 15.66,
+      "statements_target_met": true,
+      "compression_gate_passed": true
+    }
+  },
+  "finite_domain_comparison": {
+    "domain": "rust-nextest-v1 process lifecycle Cartesian domain",
+    "total_cases_evaluated": 100,
+    "divergences": 0,
+    "parity_verified": true
+  },
+  "adverse_mutation_sensitivity": {
+    "controls": [
+      {
+        "id": "RUST_ADV_1",
+        "name": "DeadlineKillOmission",
+        "description": "Omit taskkill on deadline in call()",
+        "operator": "MissingFailureState",
+        "mutated_behavior": "Never terminates deadlocked child on timeout",
+        "killed": true,
+        "witness": "call() returned timeout/hang instead of 124 exit code"
+      },
+      {
+        "id": "RUST_ADV_2",
+        "name": "InvertedVerdictCondition",
+        "description": "Invert arm_exit != 0 to arm_exit == 0 in verdict()",
+        "operator": "InvertedCondition",
+        "mutated_behavior": "Flags exit code 0 as failure reason 'arm exit 0'",
+        "killed": true,
+        "witness": "verdict(0, True, 0, None) returned exit 1 with reason 'arm exit 0'"
+      },
+      {
+        "id": "RUST_ADV_3",
+        "name": "InvertedErrorClassification",
+        "description": "Bypass level2_ops check without query evidence in verdict()",
+        "operator": "InvertedErrorOrder",
+        "mutated_behavior": "Accepts level2 differences silently without evidence",
+        "killed": true,
+        "witness": "verdict(0, True, 10, None) returned (0, []) instead of refusal reason"
+      },
+      {
+        "id": "RUST_ADV_4",
+        "name": "DroppedEnvironmentIsolation",
+        "description": "Drop PYTHONPATH entry from arm_env()",
+        "operator": "SilentNone",
+        "mutated_behavior": "Omit pythonpath inheritance from arm_env",
+        "killed": true,
+        "witness": "arm_env() returned environment missing PYTHONPATH key"
+      }
+    ],
+    "denominator_total": 4,
+    "killed_count": 4,
+    "kill_rate_pct": 100.0,
+    "all_killed": true
+  },
+  "complexity_budgets": {
+    "command": "cargo test --manifest-path native/Cargo.toml --test budgets",
+    "returncode": 0,
+    "success": true,
+    "tests_passed": 10
+  },
+  "full_test_battery": {
+    "command": "cargo nextest run --manifest-path native/Cargo.toml",
+    "returncode": 0,
+    "duration_seconds": 100.25,
+    "success": true,
+    "tests_passed": 314,
+    "tests_failed": 0
+  },
+  "apparatus_ceiling": {
+    "r41_canonical_lines_ceiling": 7173,
+    "ceiling_held": true
+  }
+}
