@@ -25,6 +25,7 @@ To expand automated code deconvolution and structural consolidation to the Java 
   - Dynamic bytecode modification or non-standard JVM agents outside the test runner.
 
 ## 4. Constraints
+- **Status: DEFERRED (finding F-5, 2026-11-09 fusion review).** Java is not an authorized target language (owner decision 2026-11-03 in `.kiro/steering/product.md`: Python, TypeScript, JavaScript, Rust). Proceeding requires an owner amendment of `product.md` plus a repository-level dependency decision for `tree-sitter-java` (which conflicts with `native-deconvolution-closure`'s zero-new-crates boundary on the shared `native/Cargo.lock`). No design or task work before that decision.
 - Requires formal owner scope amendment in `.kiro/steering/product.md`.
 - Prototype feasibility gate required on a real Java specimen before production tasks.
 - Must respect the 400-line per-file complexity ceiling.

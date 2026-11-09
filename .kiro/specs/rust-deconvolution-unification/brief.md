@@ -21,6 +21,7 @@ To achieve complete self-application maturity and eliminate structural complexit
 - **Out of Scope:**
   - Unbounded formal verification of unsafe Rust or external C FFI.
   - Modifying the existing Python, TypeScript, or Java adapters.
+  - Self-application to files inside the frozen `native/src` budget registry (`deconvolution-native-core` dispositions); target external Rust specimens or obtain an explicit budget amendment first (finding F-8, 2026-11-09 fusion review).
 
 ## 4. Constraints
 - Must respect the 400-line per-file complexity ceiling.

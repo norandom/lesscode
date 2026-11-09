@@ -101,6 +101,6 @@ This specification establishes requirements to transfer all remaining Python app
 #### Acceptance Criteria
 1. When refining candidate code through LLM interfaces, the native regenerator shall enforce token input limits and process streaming responses directly within `native/src/regenerator.rs`.
 2. When state boundary violations or equivalence counterexamples occur, the native regenerator shall format and inject causal feedback witnesses into subsequent refine prompts.
-3. When any new or modified module is added to `native/src/`, the native budgets checker (`cargo test --test budgets`) shall enforce that every production file satisfies physical line ($\le 400$) and logical syntax unit ($\le 300$) caps.
+3. When any new or modified module is added to `native/src/`, the native budgets checker (`cargo test --test budgets`) shall enforce that every new or modified production file satisfies its registered ceiling in `native/complexity-budgets.json` (default $\le 400$ physical lines and $\le 300$ logical syntax units); pre-existing legacy files remain under their frozen ceilings and are not re-capped (finding F-1, 2026-11-09 fusion review).
 4. When proposed additions exceed the existing substrate ceiling, the workflow shall require an approved prototype gate and explicit budget amendment before production task generation.
 5. The native suite shall maintain 100% test pass rates under `cargo-nextest` on Windows without requiring WSL or cmd.exe.

@@ -60,6 +60,17 @@ This specification delivers complete native closure of the deconvolution apparat
 - Any breach of the per-file 400 physical line / 300 syntax unit budget.
 - Any change in the exit code contracts of `lesscode-core` (0, 2, 3, 4, 5, 6).
 
+### Language-Adapter Trait Seam (unblocks typescript/java/rust adapters — finding F-4)
+
+To provide the unified contract that `typescript-deconvolution-adapter`, `java-deconvolution-unification`, and `rust-deconvolution-unification` build upon (per `docs/architecture/multi-language-deconvolution.md`), this design shall define four Rust traits (in `native/src/state_contract.rs` or a new `native/src/adapter_traits.rs` within budget):
+
+- `StateFrameAnalyzer`: extract mutable frame conditions and verify write sites for a given language AST.
+- `PureCoreVerifier`: static purity audit plus bounded-domain equivalence with minimal counterexample witnesses.
+- `AdverseMutantGenerator`: synthesize language-targeted mutants and enforce the 100% kill-rate gate.
+- `SpecimenTraceRunner`: drive specimen execution over stdio IPC, capture pre-abort streams, and produce execution digests.
+
+The concrete structs below (`StateFrameChecker`, `DensityEngine`, `PureVerifier`, `StreamMonitor`, `MutantGenerator`, `SpecimenRunner`, `TokenGuard`) are the Python-specimen implementations of these traits.
+
 ---
 
 ## Architecture
@@ -105,7 +116,7 @@ flowchart TD
 |---|---|---|---|
 | **Native AST Parser** | `ast-grep-core 0.51.0` / `tree-sitter-python` | Python AST parsing, write-site extraction, mutation injection | Already locked in `Cargo.lock` |
 | **Syntax Metrics** | `syn 2.0.119` / `proc-macro2 1.0.107` | Production budget verification (`budgets.rs`) | Governs line/unit caps |
-| **Serialization** | `serde_json 1.0.154` / `jsonval.rs` | Python float and string-escaping parity | Canonical receipt format |
+| **Serialization** | `serde_json 1.0.154` / `jsonval.rs` | Python float and string-escaping parity | Canonical receipt format; byte parity vs Python `json.dumps` (`-0.0`, NaN, non-ASCII escaping) must be proven by `native/tests/json_parity_test.rs` before any `FROZEN_*` digest reliance (finding F-3; see R27 `serde_jcs` rejection) |
 | **Cryptographic Hash** | `sha2 0.11.0` | SHA-256 sidecars and LF-body digests | Exact byte integrity |
 | **HTTP & Streaming** | `ureq 3.5.1` | Model API requests and streaming token consumption | Pinned HTTP client |
 | **Test Runner** | `cargo-nextest 0.9.150` | Parallel native test execution on Windows | Strict exit 0 policy |

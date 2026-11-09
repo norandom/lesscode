@@ -102,3 +102,10 @@
    **Mitigation:** Establish a bounded Prototype Gate per `prototype-first.md` before executing production tasks, with exact allocations registered in `complexity-budgets.json`.
 3. **Risk:** Windows execution differences in stream capture.  
    **Mitigation:** Normalize CRLF/LF line endings and use cross-platform process pipes in `specimen_runner.rs`.
+
+### Topic 5: R27 applicability to the `state_boundary` port (finding F-7, added 2026-11-09 fusion review)
+
+- **Context:** `constraint-guided-compression/design.md` (determination item 3) rejected porting Python AST `surface.py`/`measures.py` to Rust per R27 (>600 statements of budget, zero accuracy/latency gain).
+- **Open question:** whether R27's reasoning extends to the `state_boundary/` modules (`frame.py`, `density.py`, `pure_verifier.py`, `stream_monitor.py`, `mutant_generator.py`). This analysis is required before production task approval.
+- **Alternatives to evaluate:** `ruff_python_parser`/`ruff_python_ast` (R27 reuse map: exact Python `ast` node parity without C builds) vs `ast-grep`/`tree-sitter-python` for the Python AST work; byte-parity testing of `serde_json`/`jsonval.rs` vs Python `json.dumps` via `native/tests/json_parity_test.rs` (R27 dropped `serde_jcs` over `-0.0`/RFC 8785 parity — finding F-3).
+- **Decision rule:** if the port cannot demonstrate digest parity plus a complexity-budget win, shrink the port scope or keep the Python verification engine in its accepted test/research-support role (`state-boundary-deconvolution/design.md`).

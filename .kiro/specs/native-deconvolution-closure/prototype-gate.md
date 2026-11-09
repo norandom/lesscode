@@ -44,4 +44,4 @@ Status: **Provisional proposal and research feasibility gate**, 2026-11-09. Gove
 2. **Native State Verification Proof:** Verification logs showing native `state_frame`, `pure_verifier`, `stream_monitor`, and `mutant_generator` executing against E5/E6 candidates with 100% mutant kill rate and 0 divergences.
 3. **Complexity Budget Compliance:** Clean execution of `cargo test --test budgets` verifying all new modules against `complexity-budgets.json`.
 
-If the native apparatus fails digest parity, leaks state, or breaches complexity caps, the gate verdict is **`revise`** or **`stop`**. No production implementation tasks may be generated without passing this gate.
+If the native apparatus fails digest parity, leaks state, or breaches complexity caps, the gate verdict is **`revise`** or **`stop`**. No production implementation tasks may be approved or executed without passing this gate. Provisional, unapproved task drafts (`tasks.approved = false`, `ready_for_implementation = false`) may be generated for planning purposes only (finding F-2, 2026-11-09 fusion review).

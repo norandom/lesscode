@@ -25,7 +25,7 @@ Create a unified, self-contained native Rust closure in `native/` that ports the
 3. **Regenerator Streaming & Token Guard Closure:**
    - Port token budget validation and streaming client capabilities directly into `native/src/regenerator.rs` (or submodule) to achieve full native refine loop independence.
 4. **Substrate Budget Governance:**
-   - Account for all new modules under `.kiro/complexity-budgets.json`, respecting per-file caps ($\le 400$ physical lines, $\le 300$ syntax units) and establishing a bounded prototype gate per `prototype-first.md`.
+   - Account for all new modules under `native/complexity-budgets.json` (the authoritative path read by `native/tests/budgets.rs`; finding F-9), respecting per-file caps ($\le 400$ physical lines, $\le 300$ syntax units) and establishing a bounded prototype gate per `prototype-first.md`.
 
 ## 3. Scope & Boundaries
 
