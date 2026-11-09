@@ -35,3 +35,6 @@ Exercise the native `lesscode-core` tooling and deconvolution workflow on an iso
 
 ## 4. User Workflow Direction
 Developers and agents will run deconvolution on a clean git clone/worktree, generate the pure kernel and compressed imperative shell, verify all tests and adverse controls, and push a dedicated branch (`refactor/deconvolute-...`). The branch is then reviewed and validated like a major refactoring prior to merging into main.
+
+## 5. Formal Synthesis Report
+The complete findings, commit references, and COBESY verification for this milestone are published in [`docs/research/2026-11-09/12-dogfood-self-application-synthesis.md`](../../../docs/research/2026-11-09/12-dogfood-self-application-synthesis.md) (R54).
