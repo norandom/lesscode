@@ -14,6 +14,7 @@ The retained Python evaluator guides below remain usable reference workflows.
 
 | Goal | Guide |
 | --- | --- |
+| Inspect the unified 4-language state-boundary deconvolution architecture | [Multi-language deconvolution architecture and extension guide](multi-language-deconvolution.md) |
 | Inspect the first CodeQL query prototype and its failed callback check | [CG-G0: extraction, frozen oracle and replay](experiments/constraint-modeler/README.md) |
 | Review the proposed graph-driven, multi-pass constraint-modeling research | [Research blueprint and staged experiments](../.kiro/specs/constraint-guided-compression/research.md) |
 | Inspect real paired replacements, including a marginal Facdrone result | [mvibe: 23 lines removed](experiments/proxy-routing-trial/README.md) and [Facdrone CSV: rejected](experiments/facdrone-csv-trial/README.md) |
