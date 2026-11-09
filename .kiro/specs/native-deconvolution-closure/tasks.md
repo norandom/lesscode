@@ -92,9 +92,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 5: Counted Specimen Runner & Child Process Supervisor
+### Task 5: Counted Specimen Runner & Child Process Supervisor [x]
 - **Requirements:** REQ-NAT-5.1 through REQ-NAT-5.5
 - **Dependencies:** Task 1, Task 4
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test specimen_runner` (4/4 passed), `cargo test --manifest-path native/Cargo.toml --test recording -- digest` (2/2 golden LF-body digests reproduced), and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget).
 - **Owned Files:**
   - `native/src/specimen_runner.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/lib.rs` (registration only, $+1$ line)

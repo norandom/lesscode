@@ -20,6 +20,7 @@ pub mod receipt;
 pub mod recording;
 pub mod regenerator;
 pub mod scope;
+pub mod specimen_runner;
 pub mod state_contract;
 pub mod state_frame;
 pub mod stream_monitor;
