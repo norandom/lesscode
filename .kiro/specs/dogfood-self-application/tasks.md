@@ -97,9 +97,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 5: Agent Skill Ergonomics & Clean-Clone Branch Workflow Documentation [ ]
+### Task 5: Agent Skill Ergonomics & Clean-Clone Branch Workflow Documentation [x]
 - **Requirements:** REQ-1.1, REQ-1.2, REQ-1.3, REQ-6.1, REQ-6.2, REQ-6.3
 - **Dependencies:** Task 4
+- **Status:** Completed. Updated `.agents/skills/deconvolute/SKILL.md` with binary location discovery, CLI porcelain commands (`analyze`, `mutate`, `density`), and the clean-clone branch-based refactoring workflow.
 - **Owned Files:**
   - `.agents/skills/deconvolute/SKILL.md`
 - **Implementation:**

@@ -43,10 +43,10 @@ Deconvolute bloated, coupled, or highly stateful implementations by cleanly sepa
 
 ### Phase 3: Native State-Frame & Gap Analysis
 Run native AST analysis to verify that the candidate does not leak side effects or rely on unanalyzable dynamic features:
-- Python: flag `eval`, `exec`, `globals()`, unmonitored threading.
-- TypeScript: flag `eval`, `Function()`, prototype mutations, dynamic `require`.
-- Java: flag `Class.forName`, custom `ClassLoader`, `native`, unmonitored threads.
-- Rust: flag `unsafe`, `dyn`, raw pointer dereference, unmonitored threads, hidden `Cell`/`Mutex`.
+- **Python:** flag `eval`, `exec`, `globals()`, unmonitored threading.
+- **TypeScript:** flag `eval`, `Function()`, prototype mutations, dynamic `require`.
+- **Java:** flag `Class.forName`, custom `ClassLoader`, `native`, unmonitored threads.
+- **Rust:** flag `unsafe`, `dyn`, raw pointer dereference, unmonitored threads, hidden `Cell`/`Mutex`.
 
 ### Phase 4: Equivalence Verification Over Finite Domains
 1. Define a bounded parameter domain `DomainSpec` covering representative inputs, empty values, zeros, extremes, and boundaries.
@@ -69,25 +69,127 @@ Evaluate structural reduction using `lesscode-core`:
 
 ---
 
-## 3. Native CLI Commands
+## 3. Native CLI Porcelain Commands
 
-Execute verification directly using the compiled native binary:
+The native `lesscode-core` binary exposes first-class deconvolution commands across all supported runtimes:
 
+### Binary Discovery
+Locate the compiled binary in standard build locations:
+- `$env:CARGO_TARGET_DIR/debug/lesscode-core.exe` (when custom target dir is configured)
+- `native/target/debug/lesscode-core.exe` (or `target/debug/lesscode-core.exe`)
+- Alternatively, invoke via Cargo: `cargo run --manifest-path native/Cargo.toml -- deconvolute <subcommand>`
+
+### `analyze` Subcommand
+Scans source code for dynamic gaps, AST syntax patterns, and write sites against an optional frame specification:
 ```powershell
-# Verify complexity budgets:
+lesscode-core deconvolute analyze --lang <rust|java|typescript|python> --source <path-to-source> [--frame-spec <path-to-spec>] [--out <receipt.json>]
+```
+- **Inputs:** Target source file and language identifier (`rust`, `java`, `typescript`, `python`).
+- **Optional Frame Spec:** JSON file specifying permitted write sites and forbidden dynamic forms.
+- **Output:** Emits structured JSON detailing dynamic gaps, write sites count, and conformance status.
+
+### `mutate` Subcommand
+Generates mandatory adverse mutants to stress-test candidate test oracle sensitivity:
+```powershell
+lesscode-core deconvolute mutate --lang <rust|java|typescript|python> --source <path-to-source> --out-dir <output-dir> [--out <receipt.json>]
+```
+- **Inputs:** Target source file and target output directory.
+- **Output:** Writes individual mutant source files (`mutant_1_...`, `mutant_2_...`) and outputs a JSON receipt summarizing generated mutations.
+- **Verification Rule:** Every generated mutant must be executed against the candidate test suite; candidate is accepted only if $K / N = 1.0$ (100% killed).
+
+### `density` Subcommand
+Computes canonical and AST statement reductions between baseline and candidate implementations:
+```powershell
+lesscode-core deconvolute density --lang <rust|java|typescript|python> --baseline <baseline-file> --candidate <candidate-file> [--out <receipt.json>]
+```
+- **Inputs:** Path to baseline source and path to deconvoluted candidate source.
+- **Output:** JSON receipt evaluating physical line delta, canonical line delta/percentage, and AST statement delta/percentage.
+- **Decision:** Emits `pass` if thresholds ($\ge 20\%$ and $\ge 50$ lines, $\ge 10\%$ and $\ge 10$ statements) are met, or `marginal`/`fail` otherwise.
+
+### General & Budget Commands
+```powershell
+# Verify codebase complexity ceilings:
 lesscode-core budgets --config native/complexity-budgets.json --root native/src --out target/budgets.json
 
 # Compare baseline and candidate trees under a frozen manifest:
-lesscode-core compare --frozen frozen.json --baseline path/to/base --candidate path/to/cand --evidence path/to/evidence --out target/comparison-out.json
-
-# Run Rust adapter test suite:
-cargo nextest run --manifest-path native/Cargo.toml
+lesscode-core compare --frozen frozen.json --baseline <base> --candidate <cand> --evidence <evidence> --out target/comparison-out.json
 ```
 
 ---
 
-## 4. Governance & Constraints
+## 4. Standardized Developer Dogfooding & Branch Review Workflow
 
-- Never invent fake equivalence: passing tests do not establish equivalence without adverse controls and bounded domain coverage.
-- Preserve public interfaces: public caller contracts, exceptions, and observable behavior must remain intact.
-- Keep the apparatus lean: new adapters must conform to the $\le 400$ line, $\le 300$ unit, $\le 80$ lines/fn complexity budget.
+To prevent workspace corruption and guarantee reproducible refactorings, deconvolution follows a clean-clone, branch-based workflow:
+
+```
+┌─────────────────────────────────┐
+│ Clean Working Clone (External)  │
+│ `git clone . ../specimen-copy`  │
+└────────────────┬────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────┐
+│ Deconvolution Execution         │
+│ 1. `deconvolute analyze`        │
+│ 2. Extract Core / Shell         │
+│ 3. `deconvolute mutate` (K/N=1) │
+│ 4. `deconvolute density` (Pass) │
+└────────────────┬────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────┐
+│ Candidate Refactoring Branch    │
+│ `git checkout -b refactor/...`  │
+│ `git push origin refactor/...`  │
+└────────────────┬────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────┐
+│ Major Refactoring Review        │
+│ - Full CI / nextest run         │
+│ - Zero adverse surviving mutants│
+│ - Mechanical density audit      │
+└─────────────────────────────────┘
+```
+
+### 1. Work on a Clean Isolated Clone
+Never perform destructive mutations or experimental deconvolution in the active host repository:
+```powershell
+git clone . ..\lesscode-dogfood-copy
+cd ..\lesscode-dogfood-copy
+```
+
+### 2. Execute Deconvolution & Verification
+1. Run `analyze` on the targeted module to verify write sites and AST gaps.
+2. Refactor into pure core and imperative shell.
+3. Run `mutate` and verify that the test suite kills 100% of generated adverse mutants.
+4. Run `density` to ensure structural simplification exceeds the mechanical thresholds.
+5. Run the full specimen test suite using an isolated target directory:
+   ```powershell
+   cargo nextest run --target-dir target/isolated-specimen
+   ```
+
+### 3. Push Candidate Refactoring Branch
+Commit the verified deconvolution and push to a dedicated candidate branch:
+```powershell
+git checkout -b refactor/deconvolute-<component>
+git add .
+git commit -m "refactor(deconvolute): isolate pure computational core in <component>"
+git push origin refactor/deconvolute-<component>
+```
+
+### 4. Treat as a Major Refactoring
+Candidate deconvolution branches must pass full team / CI review:
+- Full test suite passes across all platforms.
+- Adverse mutation receipts show $K/N = 1.0$ kill rate.
+- Density receipt proves non-marginal complexity reduction.
+- All complexity budgets ($\le 400$ physical lines, $\le 300$ syntax units, $\le 80$ lines/fn) are met.
+
+---
+
+## 5. Governance & Constraints
+
+- **Never invent fake equivalence:** passing existing tests does not establish equivalence without adverse controls and bounded domain coverage.
+- **Preserve public interfaces:** public caller contracts, exceptions, and observable behavior must remain intact.
+- **Maintain complexity ceilings:** new adapters and commands must conform to the $\le 400$ physical lines, $\le 300$ syntax units, $\le 80$ lines per function complexity budget.
+- **Fail-safe path validation:** tools must validate paths safely without rejecting legitimate sibling specimen directories.
