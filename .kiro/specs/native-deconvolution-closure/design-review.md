@@ -1,3 +1,6 @@
+> Superseded on 2026-11-09 by [review-amendment.md](review-amendment.md).
+> The PASS below records the earlier review only; it does not approve the revised
+> requirements/design or certify prototype feasibility.
 # Design Review: Native Deconvolution Closure
 
 **Date:** 2026-11-09  
@@ -23,3 +26,14 @@
 ## 3. Prototype-First Compliance
 - Governed by [`.kiro/specs/native-deconvolution-closure/prototype-gate.md`](prototype-gate.md).
 - Sets explicit falsification criteria: frozen LF-body digest parity (`FROZEN_E3_LF_BODY`, `FROZEN_E4_LF_BODY`), 100% adverse mutant kill rate, and zero budget overage under `cargo test --test budgets`.
+
+## Current inline alignment review — 2026-11-09
+
+The revised design and adapter-contract.md are suitable for bounded prototype
+preparation, not production approval. Native requirements 1.1-6.5 retain their
+mapping; TypeScript/Java/Rust consume the same source-bound request records, four
+outcomes, traces, mutation denominator, codec rules and apparatus accounting.
+Producer owns policy and registration; consumers own language semantics/hooks.
+No independent agent review or runtime validation was performed.
+Open blockers remain native parity, effect/codec fidelity and measured total
+budget/usefulness. The earlier PASS above does not override these blockers.

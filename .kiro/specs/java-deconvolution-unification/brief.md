@@ -1,31 +1,25 @@
-# Specification Brief: Java Deconvolution Unification
+# Brief: Java Deconvolution Adapter
 
-## 1. Problem Statement
-Java represents a massive ecosystem of enterprise software frequently plagued by bloated design patterns, redundant intermediate wrapper classes, and scattered mutable state. Currently, Java is excluded from Lesscode's active target languages in `.kiro/steering/product.md`.
+Amended 2026-11-09. Qualify a bounded Java adapter over the shared native
+contracts, preserving language semantics through actual runtime execution.
+The owner has added Java to authorized scope; the former scope deferral is resolved. Dependency selection remains open.
 
-To expand automated code deconvolution and structural consolidation to the Java ecosystem, Java must be formally admitted as a target language, integrated into `lesscode-core`'s parser stack, and brought to full deconvolution parity.
+## Boundary candidates
 
-## 2. Proposed Approach
-1. **Scope Amendment:** Formally amend `.kiro/steering/product.md` to add Java to authorized target languages.
-2. **Crate Integration:** Enable `tree-sitter-java` on `ast-grep-language` in `native/Cargo.toml`.
-3. **Java State-Boundary Analyzer:** Deterministic detection of field mutation (`this.field = val`, `static` modifications), leveraging Java's static type system and access modifiers (`final`, `@Immutable`).
-4. **Java Pure Core Verifier:** Static purity auditing of static methods and pure helper classes, with bounded equivalence checks across Java primitive and object domains.
-5. **Java Adverse Mutation Engine:** AST mutant injection targeting `catch` blocks, `PrintStream` buffer flushes, and state assignment sites.
-6. **JVM Specimen Runner:** Execution driver using standard Maven/Gradle and JUnit test runners.
+Analysis and runtime observation of state effects; finite-domain comparison;
+targeted adverse controls; whole-replacement accounting. Initial runtime:
+one pinned JDK, one specimen-native Maven or Gradle build and JUnit version. Specimen: one real Java responsibility selected and frozen before prototype execution.
 
-## 3. Scope & Boundaries
-- **In Scope:**
-  - `tree-sitter-java` integration into `lesscode-core`.
-  - Java state-boundary, purity, and density metrics.
-  - Java adverse mutation testing with 100% kill-rate enforcement.
-  - JVM specimen test execution runner.
-  - Bounded prototype trial on a representative Java real-code specimen.
-- **Out of Scope:**
-  - Unbounded formal proofs across arbitrary JVM bytecode.
-  - Dynamic bytecode modification or non-standard JVM agents outside the test runner.
+Reuse candidate: Evaluate tree-sitter-java against required resolved semantics; scope authorization does not approve dependencies or a JVM instrumentation agent. Syntax discovery does not establish purity.
+Unsupported effects return unverified; harness failures never count as behavioral
+success or mutation kills.
 
-## 4. Constraints
-- **Status: DEFERRED (finding F-5, 2026-11-09 fusion review).** Java is not an authorized target language (owner decision 2026-11-03 in `.kiro/steering/product.md`: Python, TypeScript, JavaScript, Rust). Proceeding requires an owner amendment of `product.md` plus a repository-level dependency decision for `tree-sitter-java` (which conflicts with `native-deconvolution-closure`'s zero-new-crates boundary on the shared `native/Cargo.lock`). No design or task work before that decision.
-- Requires formal owner scope amendment in `.kiro/steering/product.md`.
-- Prototype feasibility gate required on a real Java specimen before production tasks.
-- Must respect the 400-line per-file complexity ceiling.
+## Constraints and next phase
+
+Depend on native closure's qualified common contract, not another adapter.
+The [provisional design](design.md) and [prototype gate](prototype-gate.md) are generated following the owner request. No production task plan exists or is authorized.
+Respect R41 whole-apparatus accounting, applicable measured registry ceilings and
+new-file/function defaults. Count maintained runtime adapters wherever stored.
+
+
+See [requirements](requirements.md) and [review amendment](review-amendment.md).

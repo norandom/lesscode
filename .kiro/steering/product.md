@@ -1,5 +1,15 @@
 # Lesscode / Deconvolute
 
+## Target-language scope amendment — 2026-11-09
+
+The owner confirmed Java was recently added. Authorized targets are Python,
+TypeScript, JavaScript, Java and Rust. This supersedes earlier language exclusions
+in product/technology guidance, including Java pilot exclusions. It authorizes
+specification work; dependency selection, prototype evidence and normal phase
+approvals remain required. Language adapters depend on the shared qualified
+native contract, not on completion of another language.
+
+
 ## Repository workflow and empirical priority
 
 Owner instruction, 2026-11-01: use only `main`. Commit and push directly to

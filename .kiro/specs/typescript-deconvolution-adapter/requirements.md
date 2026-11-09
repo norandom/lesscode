@@ -1,37 +1,61 @@
-# Requirements Document: TypeScript Deconvolution Adapter
+# Requirements: TypeScript and JavaScript Deconvolution Adapter
 
-## Introduction
+Amended 2026-11-09. Requirements approved for design by the subsequent owner request; design/tasks not approved.
+See [review amendment](review-amendment.md).
 
-Define the requirements for extending the state-boundary deconvolution engine to full dynamic parity on TypeScript and JavaScript codebases.
-Building upon the unified traits established in `native-deconvolution-closure`, this specification delivers native AST write-site detection, bounded pure-core equivalence, adverse mutation testing, and dynamic specimen execution for TypeScript.
+## Scope and adjacent expectations
 
-## Boundary Context
+Qualify a declared TypeScript and JavaScript subset against the common native closure contract.
+The core owns outcome semantics, comparator and refinement policy; this adapter
+owns language analysis, runtime observation and targeted mutation operators.
+Dependencies are the qualified common contract and this adapter's own real-code
+prototype, not completion of another language adapter. Full-language parity is
+not implied by one passing subset.
 
-- **In scope:**
-  - TypeScript state frame extraction and write-site detection (`tree-sitter-typescript`).
-  - Static purity verification and bounded domain property checking for TypeScript functions.
-  - TypeScript adverse mutant synthesis targeting promise/exception rejection and buffer flushes.
-  - Node.js / Bun specimen runner executing Vitest/Jest test suites over standard IPC.
-- **Out of scope:**
-  - Changes to the Python or Rust language adapters.
-  - Modifications to the core refine loop or comparator algorithms.
+The language is within authorized product scope.
+Out of scope: universal proofs, changing other adapters or weakening goldens/checks.
 
-## Requirements
+### Requirement 1: State and effect coverage
+1. When analyzing a declared scope, the adapter shall report mutable locations, source-anchored write sites, permitted shells and unresolved effect assumptions.
+2. When checking a candidate, the adapter shall compare observed mutations against a frame frozen independently of that candidate.
+3. If an effect cannot be resolved or observed under the supported profile, the adapter shall return unverified and withhold qualification.
+4. When reporting purity, the adapter shall distinguish local computation from externally observable writes and require supported callees and runtime observations.
 
-### Requirement 1: TypeScript State Frame and Write-Site Analysis
-1. When TypeScript source is analyzed, the TypeScript adapter shall extract mutable frame conditions identifying instance properties, module-level variables, and global storage writes.
-2. When a TypeScript candidate is evaluated, the TypeScript adapter shall verify that all write sites reside strictly within declared imperative shell functions.
-3. If an unauthorized property mutation or undeclared state leak is detected, the TypeScript adapter shall emit a line-anchored state violation receipt.
+### Requirement 2: Bounded semantic comparison
+1. When comparing baseline and candidate, the adapter shall execute both in the pinned target runtime over a frozen finite DomainSpec with exact inputs and Cartesian coverage.
+2. If return values, exception/error contracts or observed termination differ, the adapter shall emit a reproducible witness with the stated shrinking guarantee.
+3. If enumeration or semantic coverage is incomplete, the adapter shall report unverified; if execution infrastructure fails, it shall report execution-failed.
+4. When bounded comparison succeeds, the adapter shall limit the claim to the enumerated domain and report sampled conformance separately.
 
-### Requirement 2: TypeScript Pure Core Verification
-1. When functions are designated as pure, the TypeScript adapter shall statically confirm zero property writes, zero external method invocations, and zero ambient I/O calls.
-2. When evaluating pure candidate functions against baseline logic, the TypeScript adapter shall verify bounded domain equivalence across numbers, strings, arrays, and schema edge cases.
-3. If output divergence occurs, the TypeScript adapter shall emit a minimal reproducible counterexample witness.
+### Requirement 3: Mutation sensitivity
+1. When generating adverse controls, the adapter shall bind each supported operator to source identity, location and an independently expected behavioral fault.
+2. When qualifying the oracle, the adapter shall kill every preregistered valid non-equivalent mandatory control and report the complete denominator.
+3. If a control survives, is invalid, unexercised, times out without an attributable behavioral witness or fails infrastructure, the adapter shall withhold qualification; equivalent exclusions require recorded evidence.
 
-### Requirement 3: TypeScript Adverse Mutation Testing
-1. When adverse mutation testing is conducted, the TypeScript adapter shall inject targeted mutants into promise rejections, catch blocks, and stream/buffer flushes.
-2. When candidate test suites execute against adverse mutants, the TypeScript adapter shall require a 100% kill rate before granting qualification.
+### Requirement 4: Runtime observation and isolation
+1. When recording or replaying, the adapter shall implement the versioned common protocol with explicit state, stream, error and completion events.
+2. When capturing output, the adapter shall separate protocol traffic from specimen output and instrument required internal writes/flushes rather than infer them from test-runner stdout.
+3. If execution exceeds frozen limits, crashes or emits incomplete/malformed evidence, the runner shall terminate owned processes, clean owned resources and return a non-qualifying outcome.
+4. When running candidates, the runner shall isolate them from frozen evaluators and bind evidence to source, tests, runtime, feature/configuration and adapter identities.
 
-### Requirement 4: Node.js Specimen Execution Runner
-1. When recording or replaying execution sequences, the TypeScript runner shall drive Node.js / Bun processes over standard I/O pipes.
-2. The TypeScript runner shall capture pre-abort console and stream outputs, enforcing buffer preservation and digest parity.
+### Requirement 5: Qualification and compatibility
+1. When measuring a trial, the adapter shall preserve preregistered canonical/statement metric definitions and count the complete replacement, including helpers, configuration, instrumentation and changed callers.
+2. When qualifying compression, the adapter shall meet at least 20% canonical-line and 10% statement reduction, with a preregistered absolute useful-reduction target.
+3. When production task generation is requested, the workflow shall require this language's real-code prototype to proceed, common-contract conformance, whole-apparatus accounting and normal phase approvals.
+4. When validating delivery, the workflow shall preserve existing adapters, CLI and comparator contracts and use the repository's pinned testing and Dagger/native CI workflow.
+5. When evidence changes, the workflow shall revalidate affected contracts and shall not inherit another language's qualification.
+
+## Required design decisions
+
+The [provisional design](design.md) records the following decisions and admission blockers:
+- Runtime profile: Node.js and one specimen-native test runner; Bun and other runners require separate qualification.
+- Effect boundaries: aliases, closures, computed properties, getters/setters, proxies, asynchronous rejection and unresolved callees.
+- Value codec/comparison: numbers including NaN/infinity/signed zero, undefined/null, strings, arrays and object identity/shape.
+- Adverse operators: property/closure mutation, promise rejection, catch cleanup and stream flush.
+- Reuse candidates: Existing ast-grep/tree-sitter; compare Oxc scope/symbol analysis before adding custom machinery.
+- Real-code target: one real TypeScript/JavaScript responsibility selected and frozen before prototype execution.
+- Exact hook ownership, protocol mapping, subprocess/resource limits, dependency
+  decision, metric fixtures, absolute reduction target and full counted inventory.
+
+These are open design/prototype inputs, not claims of implemented capability.
+Use the contradictions/disposition table required by the design workflow.

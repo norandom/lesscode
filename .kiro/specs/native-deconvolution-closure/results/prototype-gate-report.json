@@ -1,0 +1,91 @@
+{
+  "apparatus_accounting": {
+    "added_hooks": 23,
+    "frozen_hooks_total": 16,
+    "overage": 0,
+    "pass": true,
+    "r41_ceiling": 7173,
+    "rs_counts": {
+      "src/admission.rs": 274,
+      "src/jsonval.rs": 130,
+      "src/measures.rs": 1422,
+      "src/receipt.rs": 124,
+      "src/recording.rs": 971,
+      "src/regenerator.rs": 2790,
+      "src/surface.rs": 1151
+    },
+    "shim_lines": 178,
+    "state_contract_lines": 94,
+    "total_canonical_lines": 7173
+  },
+  "complexity_budgets": {
+    "budgets_tests_passed": 10,
+    "exit_code": 0,
+    "pass": true
+  },
+  "density_metrics": {
+    "e5_lifecycle": {
+      "compression_met": true,
+      "func_red_pct": 27.54,
+      "line_red_pct": 24.82,
+      "pass": true,
+      "stmt_red_pct": 12.17
+    },
+    "e6_report_envelope": {
+      "compression_met": true,
+      "func_red_pct": 38.24,
+      "line_red_pct": 23.01,
+      "pass": true,
+      "stmt_red_pct": 10.49
+    },
+    "pass": true
+  },
+  "disposition": "PROCEED",
+  "disposition_note": "Empirical evidence demonstrates 100% golden digest parity (FROZEN_E3_LF_BODY, FROZEN_E4_LF_BODY), 0 finite-domain divergences, 100% adverse mutant kill rate across mandatory controls, reproduction of E5/E6 dual-specimen compression, zero overage against R41 7,173 ceiling, and clean budget verification. Prototype feasibility gate passed: PROCEED.",
+  "elapsed_seconds": 63.144,
+  "finite_domain_fidelity": {
+    "cases_evaluated": 29,
+    "divergences": 0,
+    "domain_range": "[-10, 10] + edge IEEE-754 / null / empty",
+    "pass": true,
+    "witness": null
+  },
+  "gate": "native-deconvolution-closure-prototype-gate",
+  "golden_replay_parity": {
+    "divergences_l1": 0,
+    "divergences_l2": 0,
+    "e3_reproduced": true,
+    "e4_reproduced": true,
+    "frozen_e3_lf_body": "92a48f77f66f2c9d0d0ebaf6e9e4b37f747816d2831dd577b72e183b7bf07671",
+    "frozen_e4_lf_body": "0b2e383dd6fbbc243215e24a7844674404331308b3a547239594461c5bea5584",
+    "pass": true
+  },
+  "head": "fa209fff373d0866e5f868d057ba65d76fd6471c",
+  "oracle_sensitivity": {
+    "all_killed": true,
+    "controls": {
+      "E3_AuditedAbsence": {
+        "pass": true,
+        "witness": "Required failure state 'AuditedAbsence' was missing in 'audit_log' after exception: Serialization failure"
+      },
+      "E4_F1_Silent_None": {
+        "pass": true,
+        "witness": {
+          "x": null
+        }
+      },
+      "E4_F3_Buffer_Drop": {
+        "pass": true,
+        "witness": "Candidate dropped or failed to flush 8 bytes on sink 'stdout' prior to completion/abort"
+      },
+      "E4_F7_Error_Order": {
+        "killed": 1,
+        "pass": true,
+        "survived": 0
+      }
+    },
+    "pass": true
+  },
+  "spec": "native-deconvolution-closure",
+  "timestamp_utc": "2026-11-09T16:06:51Z"
+}

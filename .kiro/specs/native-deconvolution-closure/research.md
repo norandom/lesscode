@@ -1,3 +1,25 @@
+## Amendment — 2026-11-09 cross-spec review
+
+The earlier findings below are retained as historical proposals, not current
+technical conclusions. The revised design supersedes the claims that native IPC
+eliminates Python runtime instrumentation, that a small Rust bounded evaluator
+reproduces arbitrary Python semantics, that a heuristic preserves provider token
+counting, and that a port executes "100x faster". No such measurements were made.
+The zero-new-crates restriction and unconditional shim retirement are withdrawn;
+reuse alternatives must be evaluated before selecting a bounded implementation.
+R27 applicability remains open pending whole-replacement measurement.
+
+[Revised design](design.md), [gate](prototype-gate.md), and
+[R47](../../../docs/research/2026-11-09/05-deconvolution-spec-review-amendment.md)
+record the current contracts, falsifiers and evidence limits. Skills consulted:
+kiro-spec-requirements, kiro-spec-design, kiro-validate-design and unified-memory;
+review performed inline under the owner's foreground rule.
+Synthesis: one common evidence contract, runtime-specific execution adapters;
+reuse existing parser/comparator/receipt capabilities; do not build interpreters
+or a generic framework. Candidate libraries remain unselected pending compatibility,
+license, coverage and whole-maintenance-cost evidence.
+
+## Historical proposal (superseded where noted above)
 # Research & Design Decisions: Native Deconvolution Closure
 
 ---
@@ -109,3 +131,15 @@
 - **Open question:** whether R27's reasoning extends to the `state_boundary/` modules (`frame.py`, `density.py`, `pure_verifier.py`, `stream_monitor.py`, `mutant_generator.py`). This analysis is required before production task approval.
 - **Alternatives to evaluate:** `ruff_python_parser`/`ruff_python_ast` (R27 reuse map: exact Python `ast` node parity without C builds) vs `ast-grep`/`tree-sitter-python` for the Python AST work; byte-parity testing of `serde_json`/`jsonval.rs` vs Python `json.dumps` via `native/tests/json_parity_test.rs` (R27 dropped `serde_jcs` over `-0.0`/RFC 8785 parity — finding F-3).
 - **Decision rule:** if the port cannot demonstrate digest parity plus a complexity-budget win, shrink the port scope or keep the Python verification engine in its accepted test/research-support role (`state-boundary-deconvolution/design.md`).
+
+## Aligned design generation — 2026-11-09
+
+The owner's follow-up requests designs from the revised requirements. The common
+[adapter contract](adapter-contract.md) now supplies concrete shared fields,
+outcomes, event ordering, bounds, codec tags and accounting. All three language
+designs consume it; native ownership includes common fixtures and registration.
+Actual Cargo enables Python/TypeScript grammars and syn; Java integration remains
+a dependency decision. Nextest/JUnit results are separate from behavioral probes.
+See [R48](../../../docs/research/2026-11-09/06-aligned-language-adapter-designs.md).
+Requirements approval now reflects the owner request; all designs remain
+provisional and gates not-run. No production tasks or runtime results were created.

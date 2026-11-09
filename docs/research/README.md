@@ -2,7 +2,34 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R46 Report envelope adoption & generalization maturity gate certification (2026-11-09)
+## Latest: R49 Native deconvolution closure prototype feasibility gate (2026-11-09)
+
+[R49](2026-11-09/07-native-closure-prototype-gate.md) records the execution and
+certification of the bounded prototype feasibility gate for `native-deconvolution-closure`:
+- **Disposition:** PROCEED (receipt and SHA-256 sidecar verified).
+- **Parity:** Exact match on frozen E3/E4 replay digests with 0 Level 1 / Level 2 divergences.
+- **Fidelity:** 0 counterexamples across bounded Cartesian domain `[-10, 10]` + edge cases.
+- **Adverse Controls:** 100% kill rate across mandatory controls (E3 AuditedAbsence, E4 F1, F3, F7).
+- **Compression:** Reproduced E5 Lifecycle (−24.82% lines, −12.17% stmts) and E6 Report Envelope (−23.01% lines, −10.49% stmts).
+- **Apparatus Accounting:** 7,173 canonical lines held (0 overage against R41 ceiling); 10/10 budget tests passed.
+- **Outcome:** Technical design and foreground TDD implementation tasks formally unblocked and approved.
+
+## Prior: R48 aligned provisional adapter designs (2026-11-09)
+
+[R48](2026-11-09/06-aligned-language-adapter-designs.md) records the shared native
+contract and TypeScript/Java/Rust provisional designs, per-language research and
+bounded prototype gates. Requirements approved by the owner's design request;
+designs unapproved, gates not-run, production tasks absent.
+
+## Prior: R47 specification review and hypothesis amendment (2026-11-09)
+
+[R47](2026-11-09/05-deconvolution-spec-review-amendment.md) revises native closure
+and the TypeScript/Java/Rust requirements after cross-spec review. Java is an
+authorized target; runtime adapters remain counted; bounded claims and unknown
+outcomes are explicit; native production planning awaits prototype evidence.
+Documentation review only: no new experiment or runtime qualification.
+
+## Prior: R46 Report envelope adoption & generalization maturity gate certification (2026-11-09)
 
 [R46](2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md) records the formal adoption of the
 deconvoluted **Report Envelope & Snapshot Store** group (6 files) into `.runs/e6-adopted-report-envelope/`

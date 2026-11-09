@@ -1,28 +1,25 @@
-# Specification Brief: Rust Deconvolution Unification
+# Brief: Rust Deconvolution Adapter
 
-## 1. Problem Statement
-While Lesscode's native apparatus is implemented in Rust and self-governed via `syn`/`proc-macro2` syntax unit budgets, automated code deconvolution (state-boundary isolation, pure-core extraction, adverse mutation gates, and dynamic execution tracing) currently operates only against external Python specimens.
+Amended 2026-11-09. Qualify a bounded Rust adapter over the shared native
+contracts, preserving language semantics through actual runtime execution.
 
-To achieve complete self-application maturity and eliminate structural complexity within Rust codebases, Rust must be brought to full deconvolution parity.
 
-## 2. Proposed Approach
-1. **Rust State-Boundary Analyzer:** Detection of `mut` variable bindings, `&mut` borrows, and mutable interior pointers (`RefCell`, `Mutex`, `RwLock`) via `syn`.
-2. **Rust Pure Core Verifier:** Static purity auditing of functions (no `mut` arguments, no static/global accesses, no I/O calls), with bounded domain equivalence verification across Rust primitive and composite types.
-3. **Rust Adverse Mutation Engine:** Expression-level and statement-level mutation operators targeting error-handling matches (`Err(_)`, `None`), buffer flushes, and state assignment expressions.
-4. **Rust Specimen Runner:** Execution driver using `cargo-nextest` with process isolation and JSON test event streaming.
+## Boundary candidates
 
-## 3. Scope & Boundaries
-- **In Scope:**
-  - Rust AST state-boundary analysis via `syn`.
-  - Rust pure core static purity and bounded domain checking.
-  - Rust adverse mutation generation and kill-rate gating.
-  - `cargo-nextest` dynamic specimen execution runner.
-  - Bounded self-application trial on Lesscode's own native modules.
-- **Out of Scope:**
-  - Unbounded formal verification of unsafe Rust or external C FFI.
-  - Modifying the existing Python, TypeScript, or Java adapters.
-  - Self-application to files inside the frozen `native/src` budget registry (`deconvolution-native-core` dispositions); target external Rust specimens or obtain an explicit budget amendment first (finding F-8, 2026-11-09 fusion review).
+Analysis and runtime observation of state effects; finite-domain comparison;
+targeted adverse controls; whole-replacement accounting. Initial runtime:
+pinned Rust toolchain and cargo-nextest, including relevant build features and target. Specimen: an isolated copy of one complete Lesscode native responsibility, with the evaluator and expected outcomes frozen outside the candidate.
 
-## 4. Constraints
-- Must respect the 400-line per-file complexity ceiling.
-- Must pass a bounded prototype gate before production task approval.
+Reuse candidate: Reuse syn/proc-macro2 for syntax; semantic resolution or instrumentation must be separately demonstrated. Syntax discovery does not establish purity.
+Unsupported effects return unverified; harness failures never count as behavioral
+success or mutation kills.
+
+## Constraints and next phase
+
+Depend on native closure's qualified common contract, not another adapter.
+The [provisional design](design.md) and [prototype gate](prototype-gate.md) are generated following the owner request. No production task plan exists or is authorized.
+Respect R41 whole-apparatus accounting, applicable measured registry ceilings and
+new-file/function defaults. Count maintained runtime adapters wherever stored.
+Self-application uses an isolated candidate and frozen external evaluator. Registry membership does not prohibit reductions; exceeding a registered ceiling or changing accounting requires an explicit amendment. No adoption into native/src occurs during prototype qualification.
+
+See [requirements](requirements.md) and [review amendment](review-amendment.md).

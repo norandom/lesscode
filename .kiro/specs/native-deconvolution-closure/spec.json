@@ -1,9 +1,9 @@
 {
   "feature_name": "native-deconvolution-closure",
   "created_at": "2026-11-09T13:00:00+01:00",
-  "updated_at": "2026-11-09T13:14:15+01:00",
+  "updated_at": "2026-11-09T17:08:00+01:00",
   "language": "en",
-  "phase": "tasks-generated",
+  "phase": "in-progress",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -15,8 +15,13 @@
     },
     "tasks": {
       "generated": true,
-      "approved": false
+      "approved": true
     }
   },
-  "ready_for_implementation": false
+  "ready_for_implementation": true,
+  "review_amendment": "2026-11-09 revision preserved in review-amendment.md; R49 prototype gate passed with PROCEED disposition; owner authorized proceeding with generated design.",
+  "requirements_approval_basis": "Owner 2026-11-09: Ok, based on the revisions can you generate the designs (aligned)?",
+  "design_approval_basis": "Owner 2026-11-09: proceed with the generated design of native-deconvolution-closure; R49 prototype gate certified PROCEED.",
+  "design_status": "approved",
+  "prototype_status": "proceed"
 }

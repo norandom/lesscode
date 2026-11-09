@@ -71,3 +71,12 @@ Every gate links to its dated evidence and the research index. Use COBESY's
 conclusion-first, falsifiable framing. Record negative outcomes as valid research
 progress. Do not mark a production feature complete merely because its hypothesis
 was rejected.
+
+## Cross-spec contradiction gate — 2026-11-09
+
+Before design approval, surface conflicting scope, semantic claims, runtime
+dependencies, contracts, budgets and approval states in a "Contradictions and
+disposition" table. Record source authority, resolution, evidence and affected
+consumers. Open contract contradictions block approval; empirical unknowns remain
+explicit prototype blockers. A research checklist may precede production tasks,
+but must not be mislabeled an executable production plan or a completed gate.

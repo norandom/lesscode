@@ -1,349 +1,273 @@
 # Technical Design: Native Deconvolution Closure
 
+Status: **provisional revised design, 2026-11-09; not approved for production**.
+The [prototype gate](prototype-gate.md) is not run. This replaces the former
+self-contained-interpreter and unconditional shim-removal assumptions.
+[Review amendment](review-amendment.md) records disposition and evidence.
+
 ## Overview
 
-This specification delivers complete native closure of the deconvolution apparatus by transferring all auxiliary Python components into the compiled Rust substrate (`lesscode-core` / `lesscode_core` in `native/`).
+Move orchestration and reusable verification decisions into Rust while executing
+specimen semantics in their pinned runtime. Compare the complete replacement
+before selecting ports. Historical E5/E6 results motivate this experiment but do
+not establish native-port fidelity or cross-language parity.
 
-**Purpose:** Consolidate the entire state-boundary verification, structural consolidation audit, adverse mutation testing, specimen recording, and refinement refiner loop into self-contained, high-performance native Rust modules, eliminating runtime reliance on Python shims and external Python verification scripts.  
-**Users:** Maintainers, verification engineers, and automated refiner agents operating the Lesscode pipeline.  
-**Impact:** Replaces ~1,600 lines of disparate Python apparatus (`src/lesscode_baseline/state_boundary/`, `native/shim/recording_shim.py`, and Python regenerator extensions) with a unified, modular Rust architecture strictly governed by the 400-line per-file complexity budget.
+### Goals / Non-Goals
 
-### Goals
-- Transfer state frame analysis, AST density metrics, pure-core equivalence, stream monitoring, and adverse mutation gates to native Rust.
-- Eliminate `native/shim/recording_shim.py` by transitioning to an inline native IPC runner protocol in `native/src/specimen_runner.rs`.
-- Port token budgeting and streaming model response parsing natively in `native/src/token_guard.rs` and `native/src/regenerator.rs`.
-- Preserve 100% byte-exact digest parity with existing frozen goldens (`FROZEN_E3_LF_BODY`, `FROZEN_E4_LF_BODY`).
-- Guarantee strict compliance with `complexity-budgets.json` ($\le 400$ physical lines, $\le 300$ logical syntax units per file).
-
-### Non-Goals
-- Changing target specimen application logic or modifying baseline test suites.
-- Relaxing verification rigor, reducing mutant sensitivity, or expanding equivalence tolerance.
-- Adding heavy external C bindings or PyO3 dependencies that compromise cross-platform CI portability.
-- Modifying the 4 preserved owner WIP files.
-
----
+Qualify native state/density analysis, bounded runtime comparison, adverse
+controls, recording and model transport with preserved observable behavior.
+No new interpreter, universal purity proof, automatic proof from syntax alone,
+speed target, blanket rewrite or unconditional retirement of Python adapters.
 
 ## Boundary Commitments
 
-### This Spec Owns
-- Native Rust implementations of:
-  - State frame conditions and boundary violation detection (`state_frame.rs`).
-  - AST statement density and structural consolidation metrics (`density.rs`).
-  - Static purity verification and bounded domain property checking (`pure_verifier.rs`).
-  - Pre-abort stream buffer preservation and effect ordering (`stream_monitor.rs`).
-  - Adverse state mutant AST synthesis and kill-rate accounting (`mutant_generator.rs`).
-  - Native specimen runner protocol replacing `recording_shim.py` (`specimen_runner.rs`).
-  - Token length budgeting and streaming response parsing (`token_guard.rs`).
-- Module registration in `native/src/lib.rs` and budget allocation in `native/complexity-budgets.json`.
+### This spec owns
+- Versioned common evidence/adapter contracts and their Python implementation.
+- Rust orchestration and comparison, bounded domain scheduling and witness handling.
+- Explicit runtime instrumentation, transport lifecycle and whole-replacement inventory.
+- Compatibility with current recording, receipt, regenerator and metric contracts.
 
 ### Out of Boundary
-- Upstream specimen business logic and unit test fixtures.
-- Modifying the frozen historical research logs (`R01`–`R46`).
-- Preserved owner WIP files:
-  - `docs/experiments/deconvolution/e3-evidence-regeneration/results/sql-divergences-round21.json`
-  - `docs/experiments/deconvolution/e4-lifecycle/results/sql-divergences-round21.json`
-  - `src/lesscode_baseline/rules/evaluate.py`
-  - `tests/test_rule_evaluation.py`
+- TypeScript/Java/Rust adapter implementations; they consume the versioned contract.
+- Upstream business changes, altered goldens or weakened acceptance checks.
+- Owner WIP: `docs/experiments/deconvolution/e3-evidence-regeneration/results/sql-divergences-round21.json`,
+  `docs/experiments/deconvolution/e4-lifecycle/results/sql-divergences-round21.json`,
+  `src/lesscode_baseline/rules/evaluate.py`, `tests/test_rule_evaluation.py`.
 
 ### Allowed Dependencies
-- Rust toolchain: `rust-version = "1.98.1"` (--locked).
-- Existing locked crates in `native/Cargo.lock`:
-  - `ast-grep-core = 0.51.0`, `ast-grep-language = 0.51.0` (with `tree-sitter-python`).
-  - `syn = 2.0.119`, `proc-macro2 = 1.0.107`.
-  - `serde = 1.0.229`, `serde_json = 1.0.154`.
-  - `sha2 = 0.11.0`, `clap = 4.6.0`, `ureq = 3.5.1`.
-- Standard library: `std::process::Command`, `std::io::Read`, `std::fs`, `std::path::Path`.
-- Zero new external crates added to `native/Cargo.lock`.
+Reuse exact existing lockfile versions and pinned project runtimes.
+Evaluate Ruff AST crates, Oxc and JUnit readers as alternatives from R27; none
+is selected or added by this amendment. New dependencies need a repository-level
+version/license/platform and integration-cost decision. Java scope admission is
+not approval of a particular parser dependency. No global zero-new-crates policy
+may silently override a separately approved adapter decision.
 
 ### Revalidation Triggers
-- Any change to `FROZEN_E3_LF_BODY` or `FROZEN_E4_LF_BODY` golden body hashes.
-- Any breach of the per-file 400 physical line / 300 syntax unit budget.
-- Any change in the exit code contracts of `lesscode-core` (0, 2, 3, 4, 5, 6).
+Changed runtime/parser, effect profile, wire schema, source/check hashes, domain,
+normalization, metric definition, dependency lock or accounting population
+invalidates the affected evidence. Re-run affected prototypes and cross-language
+contract fixtures before downstream task approval.
 
-### Language-Adapter Trait Seam (unblocks typescript/java/rust adapters — finding F-4)
+## Contradictions and disposition
 
-To provide the unified contract that `typescript-deconvolution-adapter`, `java-deconvolution-unification`, and `rust-deconvolution-unification` build upon (per `docs/architecture/multi-language-deconvolution.md`), this design shall define four Rust traits (in `native/src/state_contract.rs` or a new `native/src/adapter_traits.rs` within budget):
+| ID | Conflicting claims / evidence | Resolution | Status / gate |
+|---|---|---|---|
+| C1 | Native self-containment versus Python specimen execution and SQLAlchemy hooks (`native/shim/recording_shim.py`) | Native controller plus explicitly maintained runtime adapter; count both | Resolved scope; runtime parity unproven |
+| C2 | Syntax scan and samples described as mathematical equivalence versus callable-based Python verifier | Explicit supported profile; four outcomes; exhaustive finite domains distinguished from sampling | Resolved contract; fidelity prototype required |
+| C3 | Per-file caps treated as sufficient versus R41 7,173 total no-growth ceiling | Both checks mandatory; unchanged canonical method and full added-code inventory | Budget fit open; blocks production |
+| C4 | Approved design/tasks versus not-run prototype | Design approval reset; old task plan superseded by research checklist | Resolved sequencing; proceed evidence absent |
+| C5 | All files capped at 400 versus legacy measured exceptions | Existing registry ceilings remain authoritative; new files/functions use 400/300/80 defaults | Resolved; per-task verification |
+| C6 | Token heuristic versus existing provider count endpoint | Preserve provider count; estimates cannot authorize a request | Resolved contract |
+| C7 | Trait names without signatures or task ownership | Common contract owned here; explicit schema/conformance work before adapters | Provisional contract; integration spike required |
+| C8 | Java excluded / prerequisite to Rust versus owner admission on 2026-11-09 | Java authorized; adapters are sibling consumers | Resolved in steering and roadmap |
 
-- `StateFrameAnalyzer`: extract mutable frame conditions and verify write sites for a given language AST.
-- `PureCoreVerifier`: static purity audit plus bounded-domain equivalence with minimal counterexample witnesses.
-- `AdverseMutantGenerator`: synthesize language-targeted mutants and enforce the 100% kill-rate gate.
-- `SpecimenTraceRunner`: drive specimen execution over stdio IPC, capture pre-abort streams, and produce execution digests.
+Authority and evidence for the table: the owner's 2026-11-09 amendment request
+and Java clarification govern C1/C8 scope; the current Python shim and verifier
+govern C1/C2 feasibility; [R41](../../../docs/research/2026-11-08/08-state-boundary-ceiling-amendment.md)
+and [budget registry](../../../native/complexity-budgets.json) govern C3/C5;
+[prototype-first](../../steering/prototype-first.md) governs C4;
+[provider guard](../../../src/lesscode_baseline/regenerator.py) governs C6.
+C7 is a new provisional contract, not observed implementation. Requirements
+1.1-1.5 and 3.1-3.5 are affected by C2; 5.1-5.5 by C1/C7; 6.1 by C6;
+6.3-6.5 by C3-C5. All adapter consumers must revalidate schema/profile conformance
+after C1/C2/C7 changes; C8 changes planning only. Current documentary resolution
+is not runtime evidence for any row.
 
-The concrete structs below (`StateFrameChecker`, `DensityEngine`, `PureVerifier`, `StreamMonitor`, `MutantGenerator`, `SpecimenRunner`, `TokenGuard`) are the Python-specimen implementations of these traits.
-
----
+No unresolved contradiction may be relabeled an assumption to gain approval.
+Open empirical risks stay visible and block the dependent phase. Design review
+must compare requirements, this table, predecessor decisions and consumer specs.
 
 ## Architecture
 
-### Architecture Pattern & Boundary Map
-
-The native closure architecture decomposes verification and execution into six cohesive, loosely coupled Rust modules under `native/src/`, layered cleanly over the existing core AST and recording primitives:
-
 ```mermaid
 flowchart TD
-    subgraph CLI and Controller
-        Regenerator[native regenerator.rs]
-        TokenGuard[native token guard.rs]
-    end
-
-    subgraph State Boundary Engine
-        StateFrame[native state frame.rs]
-        Density[native density.rs]
-        PureVerifier[native pure verifier.rs]
-        StreamMonitor[native stream monitor.rs]
-        MutantGen[native mutant generator.rs]
-    end
-
-    subgraph Execution Substrate
-        Recording[native recording.rs]
-        SpecimenRunner[native specimen runner.rs]
-    end
-
-    Regenerator --> TokenGuard
-    Regenerator --> StateFrame
-    Regenerator --> PureVerifier
-    Regenerator --> StreamMonitor
-    Regenerator --> MutantGen
-    Regenerator --> Density
-
-    Recording --> SpecimenRunner
-    MutantGen --> SpecimenRunner
+  Controller[Rust refinement controller] --> Contracts[Versioned evidence contracts]
+  Controller --> Analysis[Scope and effect analysis]
+  Controller --> Runner[Bounded specimen process supervisor]
+  Runner --> Adapter[Counted target-runtime adapter]
+  Adapter --> Specimen[Pinned specimen runtime and dependencies]
+  Adapter --> Events[State SQL stream and completion events]
+  Events --> Compare[Existing canonical comparator and receipts]
+  Compare --> Controller
 ```
 
-### Technology Stack
-
-| Layer | Choice / Version | Role in Feature | Notes |
-|---|---|---|---|
-| **Native AST Parser** | `ast-grep-core 0.51.0` / `tree-sitter-python` | Python AST parsing, write-site extraction, mutation injection | Already locked in `Cargo.lock` |
-| **Syntax Metrics** | `syn 2.0.119` / `proc-macro2 1.0.107` | Production budget verification (`budgets.rs`) | Governs line/unit caps |
-| **Serialization** | `serde_json 1.0.154` / `jsonval.rs` | Python float and string-escaping parity | Canonical receipt format; byte parity vs Python `json.dumps` (`-0.0`, NaN, non-ASCII escaping) must be proven by `native/tests/json_parity_test.rs` before any `FROZEN_*` digest reliance (finding F-3; see R27 `serde_jcs` rejection) |
-| **Cryptographic Hash** | `sha2 0.11.0` | SHA-256 sidecars and LF-body digests | Exact byte integrity |
-| **HTTP & Streaming** | `ureq 3.5.1` | Model API requests and streaming token consumption | Pinned HTTP client |
-| **Test Runner** | `cargo-nextest 0.9.150` | Parallel native test execution on Windows | Strict exit 0 policy |
-
----
+Dependencies flow from controller to analysis/runner to common contracts.
+Language adapters do not own comparator acceptance rules. The runtime adapter
+imports and invokes specimen functions, attaches SQL/state/stream hooks and
+applies frozen reset/seed/cleanup semantics. Rust coordinates these actions;
+pipes alone supply neither runtime execution nor instrumentation.
 
 ## File Structure Plan
 
-### New Files
-- `native/src/state_frame.rs` ($\le 350$ lines): Frame condition extraction, static write-site checking, and state post-condition verification.
-- `native/src/density.rs` ($\le 300$ lines): AST statement density and structural consolidation metrics integrating `state_contract.rs`.
-- `native/src/pure_verifier.rs` ($\le 350$ lines): Static purity checking and bounded domain equivalence evaluation over $[-10, 10]$ and edge schemas.
-- `native/src/stream_monitor.rs` ($\le 300$ lines): Stdout/stderr buffer interception, pre-abort byte comparison, and effect ordering.
-- `native/src/mutant_generator.rs` ($\le 350$ lines): Adverse state mutant AST injection and test kill-rate evaluation.
-- `native/src/specimen_runner.rs` ($\le 300$ lines): Direct native specimen execution protocol replacing `recording_shim.py`.
-- `native/src/token_guard.rs` ($\le 200$ lines): Token budgeting and streaming model response parsing.
-- `native/tests/state_boundary.rs`: Native test suite verifying state frame violations, pure equivalence, stream preservation, and adverse mutant kills.
-- `native/tests/specimen_runner.rs`: Native test suite verifying specimen IPC and golden digest reproduction.
+These are provisional ownership locations, not approved allocations.
+Reuse existing modules before creating duplicates.
 
-### Modified Files
-- `native/src/lib.rs`: Expose new modules (`pub mod state_frame; pub mod density; ...`).
-- `native/src/recording.rs`: Route sequence execution to `specimen_runner` instead of external `recording_shim.py`.
-- `native/src/regenerator.rs`: Integrate `token_guard` and state failure kinds into refine loop.
-- `native/complexity-budgets.json`: Register budgets for all 7 new modules.
+| Path | Responsibility / change |
+|---|---|
+| `native/src/adapter_traits.rs` | Common profile, result, domain, event and adapter interfaces |
+| `native/src/adapters/mod.rs` | Core-owned internal profile registry and narrow language module registration |
+| `native/src/state_contract.rs` | Existing outcome metrics; compatible evidence integration |
+| `native/src/state_frame.rs` | Resolved effect-profile analysis and trace/frame comparison |
+| `native/src/density.rs` | Thin integration with existing measures; create only if needed |
+| `native/src/pure_verifier.rs` | Domain scheduler and witness handling, no Python interpreter |
+| `native/src/stream_monitor.rs` | Ordered runtime-event and emitted-byte comparison |
+| `native/src/mutant_generator.rs` | Supported AST operators and explicit mutant dispositions |
+| `native/src/specimen_runner.rs` | Deadlines, bounded transport, child/resource cleanup |
+| `native/shim/recording_shim.py` | Retained counted adapter; evolve only after prototype parity |
+| `native/src/token_guard.rs` | Provider counting and bounded stateful stream decoding |
+| `native/src/recording.rs`, `native/src/regenerator.rs` | Integrate runner/results while retaining contracts |
+| `native/src/lib.rs`, `native/complexity-budgets.json` | Registration and measured budgets |
+| `native/tests/adapter_contract.rs`, `native/tests/state_boundary.rs` | Independent expected outcomes and contract conformance |
+| `native/tests/specimen_runner.rs`, `native/tests/json_parity_test.rs` | Abort/protocol and byte-parity checks |
 
-### Retired / Removed
-- `native/shim/recording_shim.py`: Retired and removed from counted apparatus.
-
----
-
-## Requirements Traceability
-
-| Requirement ID | Summary | Components | Interfaces |
-|---|---|---|---|
-| **1.1** | Declare mutable state frame conditions | `StateFrameChecker` | `StateFrameChecker::extract_frame()` |
-| **1.2** | Observe undeclared state mutations | `StateFrameChecker` | `StateFrameChecker::verify_write_sites()` |
-| **1.3** | Failure-side post-condition invariants | `StateFrameChecker` | `StateFrameChecker::verify_post_conditions()` |
-| **1.4** | Incompatible state structure/type violation | `StateFrameChecker` | `StateFrameChecker::validate_type_invariants()` |
-| **1.5** | Distinguish read vs. write vs. leak | `StateFrameChecker` | `StateFrameChecker::classify_access()` |
-| **2.1** | Scope-wide metrics calculation | `DensityEngine` | `DensityEngine::calculate_scope_metrics()` |
-| **2.2** | Dual line and statement reduction thresholds | `DensityEngine` | `DensityEngine::evaluate_outcome()` |
-| **2.3** | Density Trap detection and rejection | `DensityEngine` | `DeconvolutionOutcome::compression_met` |
-| **2.4** | Output structured deconvolution outcome | `DensityEngine` | `DeconvolutionOutcome` serde serialization |
-| **2.5** | Self-contained native computation without Python | `DensityEngine` | Pure Rust ast-grep implementation |
-| **3.1** | Static pure core verification (0 writes, 0 I/O) | `PureVerifier` | `PureVerifier::verify_static_purity()` |
-| **3.2** | Bounded domain equivalence on valid/invalid inputs | `PureVerifier` | `PureVerifier::verify_bounded_equivalence()` |
-| **3.3** | Minimal counterexample generation | `PureVerifier` | `PureDivergenceWitness` format |
-| **3.4** | Unbounded domain fallback to dynamic traces | `PureVerifier` | `PureVerifier::fallback_dynamic()` |
-| **3.5** | Prohibit claiming equivalence from happy-path traces | `PureVerifier` | `PureVerifier::require_exhaustive()` |
-| **4.1** | Compare emitted streams prior to abort | `StreamMonitor` | `StreamMonitor::compare_pre_abort_bytes()` |
-| **4.2** | Reject dropped, buffered, or truncated streams | `StreamMonitor` | `StreamMonitor::assert_stream_equality()` |
-| **4.3** | Inject targeted adverse state mutants | `MutantGenerator` | `MutantGenerator::inject_mutants()` |
-| **4.4** | Require 100% adverse mutant kill rate | `MutantGenerator` | `MutantGenerator::verify_kill_rate()` |
-| **4.5** | Identify surviving untested boundary mutants | `MutantGenerator` | `MutantGenerator::report_survivors()` |
-| **5.1** | Direct native sequence execution and digests | `SpecimenRunner` | `SpecimenRunner::run_sequence()` |
-| **5.2** | Database lifecycle and checkpoint management | `SpecimenRunner` | `SpecimenRunner::manage_database()` |
-| **5.3** | Divergence reporting and replay abort | `SpecimenRunner` | `SpecimenRunner::report_divergence()` |
-| **5.4** | Exact byte parity with frozen LF-body digests | `SpecimenRunner` | `RecordingCore::verify_frozen_digests()` |
-| **5.5** | Intermediate unmonitored file elimination | `SpecimenRunner` | Direct standard I/O pipe IPC |
-| **6.1** | Native token budgeting and streaming refiner | `TokenGuard` | `TokenGuard::count_tokens()`, `TokenGuard::stream_response()` |
-| **6.2** | Causal state failure prompt injection | `Regenerator` | `Regenerator::inject_state_feedback()` |
-| **6.3** | Per-file physical and logical unit ceilings | `BudgetsChecker` | `cargo test --test budgets` |
-| **6.4** | Prototype gate and budget amendment governance | `PrototypeGate` | `native-deconvolution-closure/prototype-gate.md` |
-| **6.5** | 100% pass on Windows `cargo-nextest` | Native Test Suite | Windows PowerShell nextest execution |
-
----
+Do not delete reference verification modules until all callers are inventoried
+and replacement equivalence is evidenced. Retained reference/test support and
+production adapters are reported in separate strata; moving logic changes no total.
 
 ## Components and Interfaces
 
-### 1. `StateFrameChecker` (`native/src/state_frame.rs`)
-* **Intent:** Extract frame conditions and verify mutable write boundaries (Req 1.1–1.5).
+The producer-owned [adapter contract v1](adapter-contract.md) is normative for
+all four language profiles. It specifies request/result fields, tagged values,
+limits, events, regression/mutant dispositions and accounting. The signatures below
+are its concise overview. Producer and consumers change together; duplicate policy
+in an adapter is prohibited. A separate internal profile registry avoids silently
+changing the legacy public Language enum and serialized compare contracts.
+
+
+### Common contracts
+
+The first prototype freezes schema v1. All requests bind protocol version,
+language/profile ID, baseline/candidate/check hashes, operation, declared domain,
+runtime/adapter versions, timeout and output bounds. Unknown schema/profile fails
+closed. The existing external CLI remains compatible; internal outcomes map to
+documented existing failure codes rather than introducing unreviewed exit codes.
 
 ```rust
-use serde::{Deserialize, Serialize};
-
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct FrameCondition {
-    pub allowed_writes: Vec<String>,
-    pub required_failure_invariants: Vec<String>,
+enum VerificationResult {
+    Verified { evidence: EvidenceRef, domain: DomainId },
+    Divergent { witness: WitnessRef },
+    Unverified { reason: CoverageGap },
+    ExecutionFailed { failure: ExecutionFailure },
 }
-
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub enum StateViolationType {
-    UnauthorizedWrite,
-    MissingFailureInvariant,
-    TypeMutationConflict,
+trait StateFrameAnalyzer {
+    fn analyze(&self, request: &AnalysisRequest) -> AnalysisResult;
 }
-
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct StateViolation {
-    pub location: String,
-    pub violation_type: StateViolationType,
-    pub witness: String,
+trait PureCoreVerifier {
+    fn compare(&self, request: &ComparisonRequest) -> VerificationResult;
 }
-
-pub struct StateFrameChecker;
-impl StateFrameChecker {
-    pub fn extract_frame(python_source: &str) -> Result<FrameCondition, String>;
-    pub fn verify_write_sites(python_source: &str, frame: &FrameCondition) -> Result<(), StateViolation>;
-    pub fn verify_post_state(post_state: &serde_json::Value, frame: &FrameCondition, is_error: bool) -> Result<(), StateViolation>;
+trait AdverseMutantGenerator {
+    fn generate(&self, request: &MutationRequest) -> MutationBatch;
+}
+trait SpecimenTraceRunner {
+    fn run(&self, request: &RunRequest) -> RunResult;
 }
 ```
 
-### 2. `DensityEngine` (`native/src/density.rs`)
-* **Intent:** Compute AST statement density and evaluate whole-responsibility compression against the Density Trap (Req 2.1–2.5).
+Named records are wire-contract concepts, not implemented types.
+AnalysisRequest contains source scope, frozen FrameSpec and EffectProfile.
+AnalysisResult contains source-anchored writes, resolved assumptions and gaps.
+ComparisonRequest contains runtime entrypoints and DomainSpec.
+MutationRequest contains the frozen valid-control inventory and source scope;
+MutationBatch contains source-bound mutants plus generation failures.
+RunRequest binds operation, isolated workspace and limits; RunResult contains
+ordered events, artifacts and explicit completion/failure disposition.
+EvidenceRef and WitnessRef identify hashed immutable evidence; DomainId binds the
+domain manifest. CoverageGap and ExecutionFailure carry reason/step and evidence.
 
-```rust
-use crate::state_contract::{DeconvolutionOutcome, ScopeMetrics};
+### Frame and semantic contracts
 
-pub struct DensityEngine;
-impl DensityEngine {
-    pub fn measure_scope(source_files: &[(String, String)]) -> Result<ScopeMetrics, String>;
-    pub fn evaluate_compression(
-        baseline: &ScopeMetrics,
-        candidate: &ScopeMetrics,
-        min_stmt_target: f64,
-        min_line_target: f64,
-    ) -> DeconvolutionOutcome;
-}
-```
+FrameSpec is frozen from baseline plus declared allowed effects, never inferred
+from the candidate as authorization. Compare pre/post state and ordered events,
+including failure invariants. Resolve aliases/callees through the admitted
+EffectProfile; unknown effects return Unverified.
 
-### 3. `PureVerifier` (`native/src/pure_verifier.rs`)
-* **Intent:** Statically audit function purity and check bounded property equivalence (Req 3.1–3.5).
+DomainSpec records each parameter's finite values, Cartesian combinations,
+constraints, exact case count and execution limit. Use tagged values for large
+integers, IEEE float bits (NaN/infinities/signed zero), bytes and ordered structures;
+ordinary JSON null must not stand for NaN. Freeze equality and exception-type/
+message rules per observable contract. A deadline is not proof of nontermination.
+Only complete enumeration can return Verified for the named domain. Sampling is
+reported separately and cannot substitute for exhaustive qualification.
 
-```rust
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct PureDivergenceWitness {
-    pub function_name: String,
-    pub input_value: serde_json::Value,
-    pub baseline_result: Result<serde_json::Value, String>,
-    pub candidate_result: Result<serde_json::Value, String>,
-}
+### Runtime protocol and observation
 
-pub struct PureVerifier;
-impl PureVerifier {
-    pub fn verify_static_purity(func_source: &str) -> bool;
-    pub fn verify_bounded_domain(
-        baseline_code: &str,
-        candidate_code: &str,
-        func_name: &str,
-    ) -> Result<(), PureDivergenceWitness>;
-}
-```
+Use versioned line-delimited JSON control/events on reserved protocol stdout;
+the adapter captures application stdout/stderr separately and transports raw bytes
+as tagged byte payloads. Adapter diagnostics go to a separately drained stderr.
+Each event has request ID, step, monotonic sequence, kind and typed payload.
+Kinds include state/SQL observations, write, flush, log, abort and completion.
+Required internal buffer observations need runtime hooks; OS pipe capture alone
+cannot certify them. Concurrent streams use declared partial-order rules;
+normalization is frozen, never added to hide differences.
 
-### 4. `StreamMonitor` & `MutantGenerator` (`native/src/stream_monitor.rs`, `native/src/mutant_generator.rs`)
-* **Intent:** Enforce output buffer preservation and execute adverse mutation testing (Req 4.1–4.5).
+Require matching completion record, child exit disposition and declared event
+coverage. Bound message and aggregate size; concurrently drain pipes. Timeout,
+malformed frames, truncated UTF-8/JSON, missing completion and unsupported hooks
+prevent qualification. Terminate only owned child process trees, clean owned DB
+resources and retain failure evidence. Isolate candidates from frozen checks;
+hash checks before/after. Working/output paths resolve under the repository and
+`D:/BuildArtifacts/lesscode/` respectively, never a drive root.
+A separate process/hash check is not an adversarial sandbox.
 
-```rust
-pub struct StreamMonitor;
-impl StreamMonitor {
-    pub fn compare_pre_abort_bytes(expected: &[u8], actual: &[u8]) -> Result<(), String>;
-}
+### Mutation, model and metric contracts
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct StateMutant {
-    pub mutant_id: String,
-    pub target_file: String,
-    pub mutation_kind: String,
-    pub mutated_source: String,
-}
+Mutation statuses: killed-with-witness, survived, equivalent-with-evidence,
+invalid, not-exercised, timeout and infrastructure-failure. Frozen mandatory
+controls cannot disappear from the denominator after a failure. All valid
+non-equivalent mandatory controls must be killed; empty/incomplete inventories
+cannot pass.
 
-pub struct MutantGenerator;
-impl MutantGenerator {
-    pub fn generate_state_mutants(source: &str, file_name: &str) -> Vec<StateMutant>;
-    pub fn evaluate_kill_rate(total_mutants: usize, killed_mutants: usize) -> Result<f64, String>;
-}
-```
+TokenGuard sends the same model/system/messages to provider counting as generation;
+a counting failure prevents generation. Preserve 120,000 input-token guard and
+existing cumulative limits. Streaming decoding retains state across arbitrary
+byte chunks, handles split Unicode/events, records usage/stop reason and rejects
+missing termination or provider errors. Partial text is never accepted as complete.
 
-### 5. `SpecimenRunner` (`native/src/specimen_runner.rs`)
-* **Intent:** Direct native specimen sequence execution and recording bridge, retiring `recording_shim.py` (Req 5.1–5.5).
+Density reuses canonical and separated-form definitions from existing measures,
+not raw CST node counts. Maintain distinct validity/structure/compression results.
+Use `jsonval.rs`/existing receipt kernels for golden bytes; test signed zero,
+non-ASCII, order and non-finite handling. Do not substitute RFC 8785 normalization.
 
-```rust
-use std::path::Path;
+## Requirements Traceability
 
-pub struct SpecimenRunner;
-impl SpecimenRunner {
-    pub fn run_record_native(
-        python_venv: &Path,
-        scope: &str,
-        scratch_dir: &Path,
-    ) -> Result<serde_json::Value, String>;
+| Criteria | Components and evidence |
+|---|---|
+| 1.1, 1.2, 1.3, 1.4, 1.5 | StateFrameAnalyzer, frozen FrameSpec, runtime observations, adverse aliases/failure state |
+| 2.1, 2.2, 2.3, 2.4, 2.5 | Density integration, existing measures/state_contract, metric parity fixtures |
+| 3.1, 3.2, 3.3, 3.4, 3.5 | PureCoreVerifier, DomainSpec, tagged values and four result states |
+| 4.1, 4.2, 4.3, 4.4, 4.5 | StreamMonitor, MutantGenerator, complete control inventory |
+| 5.1, 5.2, 5.3, 5.4, 5.5 | SpecimenTraceRunner/adapter, lifecycle, protocol and frozen digest tests |
+| 6.1, 6.2, 6.3, 6.4, 6.5 | TokenGuard, regenerator feedback, prototype gate, budget and existing CI |
 
-    pub fn run_replay_native(
-        python_venv: &Path,
-        scope: &str,
-        goldens: &[std::path::PathBuf],
-        scratch_dir: &Path,
-    ) -> Result<serde_json::Value, String>;
-}
-```
+## Testing Strategy and Migration
 
-### 6. `TokenGuard` (`native/src/token_guard.rs`)
-* **Intent:** Model token budgeting and streaming response parser (Req 6.1–6.5).
+Freeze independent expected outcomes for alias mutation, hidden callee effects,
+multi-parameter domain divergence, unsupported constructs, non-finite values,
+failure cleanup, buffer truncation and reordered events. Compare against reference
+outputs where appropriate; reference agreement alone is insufficient.
+Exercise crash, timeout/descendants, oversized/malformed messages, forged/missing
+completion, changed check hashes and partial model responses.
+Double-record and replay frozen E3/E4, then exercise E5/E6 boundary controls and
+scope measurements using matched source/evaluator identities.
+Keep old recording available until paired parity passes; rollback is selecting
+the recorded old adapter/version, never rewriting goldens.
 
-```rust
-pub const MAX_INPUT_TOKENS: i64 = 120_000;
+Use `cargo +1.98.1 nextest run --locked --manifest-path native/Cargo.toml --test budgets`
+for task-local budgets, the full pinned nextest/pytest-xdist commands in
+[testing](../../../docs/testing.md), and existing
+[Dagger/native CI](../../../docs/ci-validation.md) before delivery claims.
+Doctests remain separate. No benchmark or new platform framework is required.
 
-pub struct TokenGuard;
-impl TokenGuard {
-    pub fn estimate_tokens(text: &str) -> i64;
-    pub fn validate_budget(prompt: &str) -> Result<i64, String>;
-    pub fn parse_streaming_chunk(chunk_bytes: &[u8]) -> Result<Option<String>, String>;
-}
-```
+## Build versus adopt and unresolved feasibility
 
----
+R27's [reuse map](../constraint-guided-compression/design.md#rust-ecosystem-reference-current-leverage-zero-new-dep-crates-in-cargolock-and-stage-2-candidates)
+is mandatory input: compare existing ast-grep with Ruff AST for Python parity;
+Oxc is a downstream TypeScript candidate; syn is syntax infrastructure, not an
+effect oracle; JUnit supplies test results, not semantic traces. Retain CPython
+execution rather than building an interpreter. Do not adopt serde_jcs for frozen
+Python JSON bytes. Research decisions and unmeasured alternatives stay in
+[research.md](research.md).
 
-## Testing Strategy
-
-### Unit Tests
-- `tests/test_state_frame.rs`:
-  - Verify detection of unauthorized attribute and global assignments.
-  - Verify rejection when expected failure invariants (`AuditedAbsence`) are missing.
-- `tests/test_density.rs`:
-  - Assert that micro-function consolidation with <10% statement reduction fails `compression_met`.
-  - Assert that $\ge 20\%$ line reduction and $\ge 10\%$ statement reduction passes `compression_met`.
-- `tests/test_pure_verifier.rs`:
-  - Assert that pure functions with hidden print/logging or global writes fail purity checks.
-  - Assert that bounded equivalence discovers boundary discrepancies and outputs minimal witnesses.
-- `tests/test_token_guard.rs`:
-  - Verify token counting accuracy and budget overflow handling.
-
-### Integration Tests
-- `tests/test_specimen_runner.rs`:
-  - Replay frozen E3 and E4 golden traces natively and verify 0 Level 1 / Level 2 divergence.
-  - Verify exact byte-for-byte LF-body digest match against `FROZEN_E3_LF_BODY` and `FROZEN_E4_LF_BODY`.
-- `tests/test_native_mutant_generator.rs`:
-  - Inject planted adverse mutants into E5/E6 specimen candidates and assert 100% kill rate.
-- `cargo test --test budgets`:
-  - Verify that every maintained file in `native/src/` satisfies physical line ($\le 400$) and logical unit ($\le 300$) caps.
+Open blockers: runtime-hook completeness, metric/domain fidelity and net
+apparatus fit under R41. No library choice or line allocation is certified by
+this document. The bounded prototype must resolve these before production planning.

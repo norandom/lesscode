@@ -1,3 +1,6 @@
+> Superseded on 2026-11-09 by [review-amendment.md](review-amendment.md).
+> The PASS below records the earlier review only; it does not approve the revised
+> requirements/design or certify prototype feasibility.
 # Requirements Review
 
 **Date:** 2026-11-09  

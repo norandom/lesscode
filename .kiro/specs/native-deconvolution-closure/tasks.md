@@ -1,71 +1,145 @@
-# Implementation Plan: Native Deconvolution Closure
+# Implementation Tasks: Native Deconvolution Closure
 
-## Implementation Tasks
+Status: **approved for foreground implementation**, 2026-11-09.
+Governed by [prototype-first](../../steering/prototype-first.md), [R49](../../../docs/research/2026-11-09/07-native-closure-prototype-gate.md), and [adapter-contract.md](adapter-contract.md).
+Owner rules in effect: foreground TDD execution only (no subagents), Windows PowerShell only, one commit per completed task on `main`, R41 line ceiling $\le 7,173$, and the 4 preserved owner WIP files remain strictly untouched.
 
-- [ ] 1. Foundation: native state frame analysis and density engine
-  - [ ] 1.1 Native state frame condition and static write-site analysis
-    - Implement `StateFrameChecker` in `native/src/state_frame.rs` using `ast-grep` (`tree-sitter-python`) to identify permitted instance attributes, globals, and storage write locations.
-    - Statically inspect candidates to verify that all write sites reside strictly within declared shell functions.
-    - Done when unauthorized write sites outside declared shell functions are detected and reported with line-anchored locations.
-    - _Boundary: StateFrameChecker_
-    - _Requirements: 1.1, 1.2, 1.4, 1.5_
-  - [ ] 1.2 Dynamic post-condition invariant evaluation
-    - Implement failure-side post-condition assertions on post-execution state objects in `native/src/state_frame.rs`.
-    - Validate that expected error-path transitions (such as audit log entries) are present post-abort.
-    - Done when omitted failure-side state mutations (such as E3 `AuditedAbsence`) are flagged as invariant violations and rejected.
-    - _Boundary: StateFrameChecker_
-    - _Requirements: 1.3, 1.5_
-  - [ ] 1.3 (P) Native density engine and structural consolidation metrics
-    - Implement `DensityEngine` in `native/src/density.rs` integrating `native/src/state_contract.rs`.
-    - Compute AST statements, canonical lines, function count, call edges, and write sites via `ast-grep`.
-    - Done when candidate scopes with <10% statement reduction fail `compression_met` and are flagged as subject to the Density Trap.
-    - _Boundary: DensityEngine_
-    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
+---
 
-- [ ] 2. Core: pure core formal verifier, stream monitor, and adverse mutation engine
-  - [ ] 2.1 Static purity verification and bounded domain equivalence
-    - Implement `PureVerifier` in `native/src/pure_verifier.rs` statically auditing functions for 0 write sites, 0 global lookups, and 0 external I/O.
-    - Evaluate bounded domain equivalence across $[-10, 10]$, IEEE-754 floats, NaNs, and empty collections.
-    - Done when input/output discrepancies between original and candidate pure logic produce a structured `PureDivergenceWitness`.
-    - _Boundary: PureVerifier_
-    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
-  - [ ] 2.2 (P) Output stream buffer preservation monitor
-    - Implement `StreamMonitor` in `native/src/stream_monitor.rs` to intercept pre-abort stdout/stderr buffers and check relative effect ordering.
-    - Allow order variation solely for explicitly declared commutative sinks.
-    - Done when dropped, un-flushed, or truncated intermediate output streams (such as E4 F3) trigger a stream divergence violation.
-    - _Boundary: StreamMonitor_
-    - _Requirements: 4.1, 4.2_
-  - [ ] 2.3 Native adverse state mutation generator and kill-rate gate
-    - Implement `MutantGenerator` in `native/src/mutant_generator.rs` synthesizing AST mutants targeting failure cleanup, output buffers, and state write sites.
-    - Enforce a mandatory 100% kill rate of all non-equivalent planted mutants before granting qualification.
-    - Done when any candidate whose test suite allows an adverse state mutant to survive is denied qualification with the surviving mutant identified.
-    - _Boundary: MutantGenerator_
-    - _Requirements: 4.3, 4.4, 4.5_
+### Task 1: Common Adapter Traits & Wire Contracts
+- **Requirements:** REQ-NAT-1.1, REQ-NAT-3.1, REQ-NAT-5.1, REQ-NAT-6.3
+- **Dependencies:** None (foundation module)
+- **Owned Files:**
+  - `native/src/adapter_traits.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/lib.rs` (registration only, $+1$ line)
+  - `native/complexity-budgets.json` (register `adapter_traits.rs`)
+  - `native/tests/adapter_contract.rs` (new test suite)
+- **Implementation:**
+  1. Define core result enums: `VerificationResult` (Verified, Divergent, Unverified, ExecutionFailed), `TaggedValue` (Int64, UInt64, FloatBits, Bytes, String, Bool, Null, Array, Object), `CoverageGap`, `ExecutionFailure`.
+  2. Define four core traits per normative contract: `StateFrameAnalyzer`, `PureCoreVerifier`, `AdverseMutantGenerator`, `SpecimenTraceRunner`.
+  3. Define request/response carrier types: `AnalysisRequest`, `AnalysisResult`, `ComparisonRequest`, `DomainSpec`, `MutationRequest`, `MutationBatch`, `RunRequest`, `RunResult`.
+  4. Register module in `lib.rs` and `complexity-budgets.json`.
+- **Verification:**
+  - `cargo nextest run --manifest-path native/Cargo.toml --test adapter_contract`
+  - `cargo test --manifest-path native/Cargo.toml --test budgets`
+- **Rollback:** Revert `native/src/adapter_traits.rs`, remove `pub mod adapter_traits;` from `lib.rs`, revert `complexity-budgets.json`.
 
-- [ ] 3. Execution & Integration: specimen runner, token guard, and refine loop
-  - [ ] 3.1 Native specimen runner and recording shim elimination
-    - Implement `SpecimenRunner` in `native/src/specimen_runner.rs` driving specimen sequence execution and database lifecycle via standard I/O pipes.
-    - Rewire `native/src/recording.rs` to use `specimen_runner`, retiring and removing `native/shim/recording_shim.py`.
-    - Done when frozen E3 and E4 double-record gates reproduce byte-exact LF-body digests (`FROZEN_E3_LF_BODY`, `FROZEN_E4_LF_BODY`) without `recording_shim.py`.
-    - _Boundary: SpecimenRunner, RecordingCore_
-    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
-  - [ ] 3.2 (P) Native token guard and streaming model parser
-    - Implement `TokenGuard` in `native/src/token_guard.rs` with token estimation and streaming response parsing on `ureq::Body`.
-    - Integrate token guards and causal state failure prompt injection into `native/src/regenerator.rs`.
-    - Done when prompts exceeding 120,000 tokens trigger `EXIT_INPUT_TOO_LARGE` and state failure witnesses appear in refine prompts.
-    - _Boundary: TokenGuard, Regenerator_
-    - _Requirements: 6.1, 6.2_
+---
 
-- [ ] 4. Verification, budget governance, and feasibility certification
-  - [ ] 4.1 Native budget registration and complexity checker verification
-    - Register all 7 new modules in `native/complexity-budgets.json`.
-    - Run `cargo test --manifest-path native/Cargo.toml --test budgets` to verify all files $\le 400$ physical lines and $\le 300$ logical units.
-    - Done when the native budget test passes with 0 failures and all new files verified within complexity caps.
-    - _Boundary: BudgetsChecker_
-    - _Requirements: 6.3_
-  - [ ] 4.2 End-to-end feasibility gate and parity verification
-    - Execute native integration test suites (`native/tests/state_boundary.rs`, `native/tests/specimen_runner.rs`) via `cargo nextest`.
-    - Verify complete functional parity with the Python reference across Facdrone E5/E6 specimens.
-    - Done when 100% of native tests pass exit 0 under Windows PowerShell with zero regressions.
-    - _Boundary: VerificationSuite_
-    - _Requirements: 6.4, 6.5_
+### Task 2: Native State Frame Analyzer & Density Engine
+- **Requirements:** REQ-NAT-1.1 through REQ-NAT-1.5, REQ-NAT-2.1 through REQ-NAT-2.5
+- **Dependencies:** Task 1
+- **Owned Files:**
+  - `native/src/state_frame.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/density.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/lib.rs` (registration only, $+2$ lines)
+  - `native/complexity-budgets.json` (register `state_frame.rs`, `density.rs`)
+  - `native/tests/state_frame.rs` (new test suite)
+- **Implementation:**
+  1. Implement `StateFrameAnalyzer` in `state_frame.rs`: parse declared scope write sites, resolve effect profiles, evaluate frame specifications against baseline/candidate state dictionaries.
+  2. Implement source-anchored violation reporting for unauthorized state writes, global mutations, and broken failure invariants.
+  3. Implement `density.rs`: integrate with existing `measures.rs` to compute physical lines, canonical lines, AST statements, functions, call edges, write sites, and verify the $\ge 20\%$ line / $\ge 10\%$ statement reduction thresholds.
+- **Verification:**
+  - `cargo nextest run --manifest-path native/Cargo.toml --test state_frame`
+  - `cargo test --manifest-path native/Cargo.toml --test budgets`
+- **Rollback:** Revert `state_frame.rs`, `density.rs`, remove from `lib.rs`, revert `complexity-budgets.json`.
+
+---
+
+### Task 3: Pure Core Bounded Domain Scheduler & Witness Engine
+- **Requirements:** REQ-NAT-3.1 through REQ-NAT-3.5
+- **Dependencies:** Task 1
+- **Owned Files:**
+  - `native/src/pure_verifier.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/lib.rs` (registration only, $+1$ line)
+  - `native/complexity-budgets.json` (register `pure_verifier.rs`)
+  - `native/tests/pure_verifier.rs` (new test suite)
+- **Implementation:**
+  1. Implement `PureCoreVerifier` in `pure_verifier.rs`: schedule Cartesian product of parameter domains across `DomainSpec`.
+  2. Implement special tagged value comparisons (exact IEEE-754 bit parity, NaN, signed zeros, large ints, byte arrays).
+  3. Implement minimal counterexample shrinking and witness generation when candidate diverges from baseline.
+  4. Ensure incomplete domains or unsupported types return `Unverified`, and harness failures return `ExecutionFailed` (never false `Verified`).
+- **Verification:**
+  - `cargo nextest run --manifest-path native/Cargo.toml --test pure_verifier`
+  - `cargo test --manifest-path native/Cargo.toml --test budgets`
+- **Rollback:** Revert `pure_verifier.rs`, remove from `lib.rs`, revert `complexity-budgets.json`.
+
+---
+
+### Task 4: Ordered Stream Monitor & Adverse Mutant Generator
+- **Requirements:** REQ-NAT-4.1 through REQ-NAT-4.5
+- **Dependencies:** Task 1
+- **Owned Files:**
+  - `native/src/stream_monitor.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/mutant_generator.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/lib.rs` (registration only, $+2$ lines)
+  - `native/complexity-budgets.json` (register `stream_monitor.rs`, `mutant_generator.rs`)
+  - `native/tests/stream_monitor.rs` (new test suite)
+  - `native/tests/mutant_generator.rs` (new test suite)
+- **Implementation:**
+  1. Implement `stream_monitor.rs`: record monotonic sequence, step, kind (write, flush, log, abort, complete), and verify pre-abort byte preservation and stream ordering against baseline.
+  2. Reject truncated, out-of-order, or dropped bytes with source-anchored witness.
+  3. Implement `mutant_generator.rs`: apply AST mutation operators to target state structures, track mutation status (killed, survived, invalid, timeout), and verify complete denominator accounting without dropped controls.
+- **Verification:**
+  - `cargo nextest run --manifest-path native/Cargo.toml --test stream_monitor`
+  - `cargo nextest run --manifest-path native/Cargo.toml --test mutant_generator`
+  - `cargo test --manifest-path native/Cargo.toml --test budgets`
+- **Rollback:** Revert new modules, remove from `lib.rs`, revert `complexity-budgets.json`.
+
+---
+
+### Task 5: Counted Specimen Runner & Child Process Supervisor
+- **Requirements:** REQ-NAT-5.1 through REQ-NAT-5.5
+- **Dependencies:** Task 1, Task 4
+- **Owned Files:**
+  - `native/src/specimen_runner.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/lib.rs` (registration only, $+1$ line)
+  - `native/complexity-budgets.json` (register `specimen_runner.rs`)
+  - `native/tests/specimen_runner.rs` (new test suite)
+- **Implementation:**
+  1. Implement `SpecimenTraceRunner` in `specimen_runner.rs`: spawn target specimen runtime (e.g., Python subprocess) with line-delimited JSON IPC on reserved stream descriptors.
+  2. Manage isolated workspace, deadline monitoring with process-tree termination, and resource cleanup.
+  3. Ensure byte-identical frozen LF-body digest reproduction and integration with existing `recording.rs` without modifying golden files.
+- **Verification:**
+  - `cargo nextest run --manifest-path native/Cargo.toml --test specimen_runner`
+  - `cargo nextest run --manifest-path native/Cargo.toml --test recording`
+  - `cargo test --manifest-path native/Cargo.toml --test budgets`
+- **Rollback:** Revert `specimen_runner.rs`, remove from `lib.rs`, revert `complexity-budgets.json`.
+
+---
+
+### Task 6: Token Guard & Refinement Feedback Integration
+- **Requirements:** REQ-NAT-6.1, REQ-NAT-6.2
+- **Dependencies:** Task 1, Task 2, Task 3
+- **Owned Files:**
+  - `native/src/token_guard.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
+  - `native/src/regenerator.rs` (integrate token guard and causal witness feedback)
+  - `native/src/lib.rs` (registration only, $+1$ line)
+  - `native/complexity-budgets.json` (register `token_guard.rs`)
+  - `native/tests/token_guard.rs` (new test suite)
+- **Implementation:**
+  1. Implement `TokenGuard`: provider input counting, strict 120,000 token limit enforcement, streaming chunk decoder with UTF-8 boundary management.
+  2. Connect causal failure witnesses from `state_frame`, `pure_verifier`, and `stream_monitor` into `regenerator.rs` refine prompt generation.
+- **Verification:**
+  - `cargo nextest run --manifest-path native/Cargo.toml --test token_guard`
+  - `cargo nextest run --manifest-path native/Cargo.toml --test regenerator`
+  - `cargo test --manifest-path native/Cargo.toml --test budgets`
+- **Rollback:** Revert `token_guard.rs`, revert changes to `regenerator.rs`, remove from `lib.rs`, revert `complexity-budgets.json`.
+
+---
+
+### Task 7: Full System Verification, Budget Audit & Handover
+- **Requirements:** REQ-NAT-6.3 through REQ-NAT-6.5
+- **Dependencies:** Tasks 1–6
+- **Owned Files:**
+  - `.kiro/specs/native-deconvolution-closure/validation-report.md`
+  - `.kiro/specs/native-deconvolution-closure/spec.json`
+  - `.kiro/task_20_handover.md`
+- **Implementation:**
+  1. Run full native test battery: `cargo nextest run --manifest-path native/Cargo.toml`.
+  2. Run budget checker: `cargo test --manifest-path native/Cargo.toml --test budgets`.
+  3. Verify apparatus canonical lines under unchanged R37 method against R41 ceiling ($\le 7,173$).
+  4. Run Python acceptance suites (`pytest -n auto tests/test_state_boundary.py`, `run_e5.py`, `run_e6.py`).
+  5. Author validation report, update `spec.json`, and write `.kiro/task_20_handover.md`.
+- **Verification:**
+  - All test commands exit 0; 0 budget overages; 0 git diff on preserved WIP files.

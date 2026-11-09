@@ -1,16 +1,16 @@
 {
   "feature_name": "java-deconvolution-unification",
   "created_at": "2026-11-09T13:15:00+01:00",
-  "updated_at": "2026-11-09T13:15:00+01:00",
+  "updated_at": "2026-11-09T16:43:39.5919836+01:00",
   "language": "en",
-  "phase": "requirements-generated",
+  "phase": "design-generated",
   "approvals": {
     "requirements": {
       "generated": true,
-      "approved": false
+      "approved": true
     },
     "design": {
-      "generated": false,
+      "generated": true,
       "approved": false
     },
     "tasks": {
@@ -18,5 +18,9 @@
       "approved": false
     }
   },
-  "ready_for_implementation": false
+  "ready_for_implementation": false,
+  "review_amendment": "2026-11-09 revision preserved in review-amendment.md; subsequent owner request authorizes design generation. No production approval.",
+  "requirements_approval_basis": "Owner 2026-11-09: Ok, based on the revisions can you generate the designs (aligned)?",
+  "design_status": "provisional-aligned",
+  "prototype_status": "not-run"
 }

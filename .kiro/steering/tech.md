@@ -1,5 +1,16 @@
 # Technology Direction
 
+## Current adapter boundary — 2026-11-09
+
+Java is authorized alongside Python, TypeScript/JavaScript and Rust, superseding
+the earlier Java pilot exclusion below. The native controller executes specimen
+semantics through explicitly counted target-runtime adapters. Runtime necessity
+is not apparatus failure; moving adapters into strings is not compression.
+New parsers/runtime instrumentation require a repository-level dependency decision
+and a bounded real-code prototype. No blanket zero-new-crates rule precludes
+evaluating the earlier R27 reuse candidates. Existing lockfiles remain unchanged.
+
+
 Owner clarification, 2026-11-02: keep Lesscode and coding-agent runtime work on
 native Windows. WSL is for deployment testing and CI, not a replacement development
 runtime. Cairn may be deployed there as an HTTP test service; Windows clients use

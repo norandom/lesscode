@@ -1,47 +1,68 @@
-# Prototype Feasibility Gate: Native Deconvolution Closure
+# Prototype gate: Native Deconvolution Closure
 
-Status: **Provisional proposal and research feasibility gate**, 2026-11-09. Governed by [`.kiro/steering/prototype-first.md`](../../steering/prototype-first.md). Real-code behavior, LF-body digest parity, and adverse mutation evidence are required before production task generation or execution.
+Status: **completed (PROCEED)**, executed 2026-11-09. Governed by [prototype-first](../../steering/prototype-first.md).
+See [R49](../../../docs/research/2026-11-09/07-native-closure-prototype-gate.md) and receipt at [`results/prototype-gate-report.json`](results/prototype-gate-report.json).
 
----
+## Hypothesis and scope
 
-## 1. Context & Hypothesis Under Test
+A Rust controller with an explicitly counted Python runtime adapter can preserve
+the accepted observation contracts while reducing maintained apparatus.
+Python execution is retained. Shim deletion is optional and receives no credit
+unless its responsibilities actually disappear from the complete replacement.
 
-* **Predecessors:** E3–E6 ([R25](../../docs/research/2026-11-04/02-e3-evidence-regeneration.md), [R26](../../docs/research/2026-11-06/01-e4-lifecycle-regeneration.md), [R40](../../docs/research/2026-11-08/07-structural-deconvolution-and-state-boundaries.md), [R41](../../docs/research/2026-11-08/08-state-boundary-ceiling-amendment.md), [R43](../../docs/research/2026-11-09/01-e5-lifecycle-adoption-maturity-gate.md), [R46](../../docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md)).
-* **Core Hypothesis:** Transferring the remaining Python apparatus (`state_boundary/`, `recording_shim.py`, and regenerator streaming/token guards) into compiled Rust in `native/src/` produces a self-contained native deconvolution core that eliminates external runtime shim dependencies while strictly maintaining 100% adverse mutant sensitivity, 0 replay divergence, and byte-exact golden digest parity.
-* **Concrete Removal & Transfer Plan:**
-  1. Retire `native/shim/recording_shim.py` (178 lines freed from counted apparatus).
-  2. Implement native state-boundary analysis, bounded pure verification, stream monitoring, and adverse mutant injection in modular Rust files under `native/src/`.
-  3. Enforce that every new Rust file complies with the 400-line physical / 300-unit logical complexity ceiling.
+Use frozen E3/E4 recording inputs and E5/E6 real responsibilities. Before any run,
+freeze exact source/check/adapter hashes, full golden hashes (no prefixes), runtime
+and dependency versions, commands, finite DomainSpecs, mandatory mutant inventory,
+normalization and output/deadline bounds. Historical results are baseline evidence,
+not a pass for the new mechanism.
 
----
+## Bounded research procedure
 
-## 2. Frozen Specimen Inputs & Scope
+At most two attempts; at most two working days of prototype effort per attempt.
+Freeze per-command deadlines and case/message/output limits before execution;
+changing them requires a dated amendment, not a silent retry.
+Use disposable paths under D:/BuildArtifacts/lesscode/native-closure-prototype,
+with commands launched from the repository. Preserve specimen baselines and WIP.
 
-* **Primary Specimen Scope:** Facdrone `lifecycle` (E5) and `report-envelope` (E6) adopted baselines and frozen golden sequences.
-* **Frozen Verification Targets:**
-  1. *Frozen Double-Record Digests:* `FROZEN_E3_LF_BODY` (`92a48f77...`) and `FROZEN_E4_LF_BODY` (`0b2e383d...`).
-  2. *Adverse State Mutants:* Exception-side mutants, buffer flush mutants, and state write-site mutants (must achieve 100% kill rate).
-  3. *Pure Core Equivalence:* 0 counterexamples over bounded domains ($[-10, 10]$, floats, empty collections) across all extracted pure functions.
-  4. *AST Statement Density:* Enforce $\ge 10\%$ AST statement reduction and $\ge 20\%$ line reduction on candidate scopes.
+1. Inventory all original and replacement apparatus, adapters, embedded code,
+   generators, configuration and changed callers. Report production, reference
+   tests, specimen operations/seeds and experiment support separately.
+2. Freeze schema/profile v1 and execute one representative real operation plus
+   failure cleanup, state/SQL hooks, write/flush/abort and process cleanup.
+3. Execute bounded pure comparison in the pinned specimen runtime; challenge
+   aliases, unsupported callees, multiple parameters and special numeric values.
+4. Double-record/replay E3/E4 and run E5/E6 adverse controls and metric parity.
+5. Measure the whole replacement and review independently expected outcomes inline
+   unless the owner explicitly authorizes a separate reviewer agent.
 
----
+## Acceptance and stop conditions
 
-## 3. Preregistered Feasibility Targets & Stop Conditions
-
-| Metric | Target Bar | Falsifier / Stop Condition |
+| Evidence | Proceed bar | Failure disposition |
 |---|---|---|
-| **Golden Digest Parity** | 100% byte-exact match on `FROZEN_E3_LF_BODY` and `FROZEN_E4_LF_BODY` | Any divergence in golden body bytes or LF-body SHA-256 |
-| **Pure Core Equivalence** | 0 divergences on bounded integer, float, and edge schema inputs | Discrepancy on any bounded domain input without minimal counterexample |
-| **Adverse Mutant Kill Rate** | 100% (all planted adverse mutants killed) | Any planted adverse state mutant survives |
-| **Stream Buffer Preservation** | Byte-exact partial output captured prior to aborts | Dropped, truncated, or reordered stream bytes |
-| **Per-File Complexity Ceilings** | $\le 400$ physical lines, $\le 300$ logical units, $\le 80$ lines/fn | Any new production file breaches complexity caps |
+| Golden/replay parity | Full frozen LF-body hashes identical; zero Level 1/2 divergence | revise/stop |
+| Finite-domain fidelity | All declared Cartesian cases completed; no divergences; unsupported cases explicitly unverified | incomplete cannot pass |
+| Oracle sensitivity | Every frozen valid non-equivalent mandatory control killed with attributable witness | survivors, invalid/unexercised controls or infrastructure failures block |
+| Stream/resource behavior | Required runtime events and bytes preserved; timeout/crash cleanup demonstrated | missing hooks/cleanup block |
+| Metrics | Frozen canonical/separated definitions reproduced; E5/E6 20% lines and 10% statements reproduced on their fixed candidate/baseline pairs | incomparable metrics block |
+| Apparatus usefulness | At least 20% and 200 canonical lines removed across the frozen migrated responsibility, counting retained adapters and support; complete maintained replacement does not grow | revise/stop, never count relocation |
+| R41 total | At most 7,173 canonical lines under the unchanged R37 method, expanded to include every added apparatus path | explicit owner ceiling amendment needed; no automatic pass |
+| File/function budgets | Registered ceilings; new Rust defaults 400 physical / 300 syntax units / 80 per function; legacy exceptions retained | revise/stop |
 
----
+Physical and canonical lines are reported separately. Do not subtract Python
+reference-test deletion from production growth or exclude new files because they
+were absent from the old enumerated set. An amended R41 ceiling would not waive
+the separate usefulness bar; changing that hypothesis requires dated review.
 
-## 4. Required Evidence for "Proceed"
+## Evidence and decision
 
-1. **Native Replay Parity:** Proof that the native specimen execution engine replays frozen sequences and matches golden digests without `recording_shim.py`.
-2. **Native State Verification Proof:** Verification logs showing native `state_frame`, `pure_verifier`, `stream_monitor`, and `mutant_generator` executing against E5/E6 candidates with 100% mutant kill rate and 0 divergences.
-3. **Complexity Budget Compliance:** Clean execution of `cargo test --test budgets` verifying all new modules against `complexity-budgets.json`.
-
-If the native apparatus fails digest parity, leaks state, or breaches complexity caps, the gate verdict is **`revise`** or **`stop`**. No production implementation tasks may be approved or executed without passing this gate. Provisional, unapproved task drafts (`tasks.approved = false`, `ready_for_implementation = false`) may be generated for planning purposes only (finding F-2, 2026-11-09 fusion review).
+The bounded prototype feasibility gate was executed on 2026-11-09 via `run_gate.py` with results verified and certified:
+- **Receipt:** [`results/prototype-gate-report.json`](results/prototype-gate-report.json) (SHA-256 sidecar verified).
+- **Disposition:** **PROCEED**.
+- **Golden/Replay Parity:** E3 and E4 frozen LF-body digests reproduced exactly; 0 Level 1 / Level 2 divergences.
+- **Finite-Domain Fidelity:** 29 Cartesian cases evaluated across `[-10, 10]` + IEEE-754 / null / empty edge values; 0 divergences.
+- **Oracle Sensitivity:** 100% kill rate on mandatory adverse controls (E3 AuditedAbsence, E4 F1, F3, F7).
+- **Metrics Parity:** E5 Lifecycle (−24.82% lines, −12.17% statements) and E6 Report Envelope (−23.01% lines, −10.49% statements) reproduced.
+- **Apparatus Volume:** 7,173 canonical lines held (0 overage against R41 ceiling); 10/10 complexity budget tests passed.
+- **Decision:** Production task implementation for `native-deconvolution-closure` is formally unblocked. Proceed to foreground TDD execution per `tasks.md`.
+Allowed decisions: proceed, revise, stop, not-run. No design approval, production
+task generation or task execution until proceed plus ordinary phase review.
