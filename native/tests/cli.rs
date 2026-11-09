@@ -511,3 +511,25 @@ fn admission_subcommand_reports_binding_statuses_through_the_binary() {
     assert!(text.contains("--bindings"));
     assert!(!text.to_lowercase().contains("require-sidecar"));
 }
+
+#[test]
+fn relative_parent_paths_resolve_cleanly_when_valid_and_reject_root_escapes() {
+    let pair = Pair::new();
+    let manifest = pair.root.join("manifest.json");
+    write_json(&manifest, &pair.manifest());
+    let sibling = pair.root.join("sibling");
+    fs::create_dir_all(&sibling).unwrap();
+
+    let rel_out = sibling.join("..").join("out-sibling.json");
+    let result = cli(&[
+        "prepare".as_ref(),
+        "--manifest".as_ref(),
+        manifest.as_os_str(),
+        "--baseline".as_ref(),
+        pair.baseline.as_os_str(),
+        "--out".as_ref(),
+        rel_out.as_os_str(),
+    ]);
+    assert_eq!(result.status.code(), Some(0));
+    assert!(pair.root.join("out-sibling.json").exists());
+}

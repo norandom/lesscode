@@ -6,9 +6,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 1: Repository Test Fixture Integrity & Clean-Clone Reproducibility [ ]
+### Task 1: Repository Test Fixture Integrity & Clean-Clone Reproducibility [x]
 - **Requirements:** REQ-4.1, REQ-4.2, REQ-4.3
 - **Dependencies:** None
+- **Status:** Completed in commit `4a79d57`. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test admission historical_s2_bindings_drift_reproduces_counts` (PASS) and verified in clean clone `..\lesscode-dogfood-copy` (PASS).
 - **Owned Files:**
   - `docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/response.json`
   - `docs/experiments/deconvolution/regenerator/results/turns/e4-turn1/user.txt`

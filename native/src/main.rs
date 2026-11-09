@@ -79,8 +79,8 @@ enum Command {
     },
 }
 fn read_json<T: DeserializeOwned>(path: &Path) -> Result<T, String> {
-    let bytes = fs::read(path).map_err(|e| format!("cannot read {}: {e}", path.display()))?;
-    serde_json::from_slice(&bytes).map_err(|e| format!("invalid JSON in {}: {e}", path.display()))
+    serde_json::from_slice(&fs::read(path).map_err(|e| format!("cannot read {}: {e}", path.display()))?)
+        .map_err(|e| format!("invalid JSON in {}: {e}", path.display()))
 }
 fn linked(metadata: &fs::Metadata) -> bool {
     #[cfg(windows)]
@@ -99,15 +99,16 @@ fn checked_path(path: &Path) -> Result<PathBuf, String> {
     let absolute = if path.is_absolute() {
         path.to_path_buf()
     } else {
-        std::env::current_dir()
-            .map_err(|e| e.to_string())?
-            .join(path)
+        std::env::current_dir().map_err(|e| e.to_string())?.join(path)
     };
     let mut resolved = PathBuf::new();
+    let mut missing = false;
     for part in absolute.components() {
         match part {
             Component::ParentDir => {
-                return Err(format!("path traversal is not allowed: {}", path.display()))
+                if missing || !resolved.pop() {
+                    return Err(format!("path traversal is not allowed: {}", path.display()));
+                }
             }
             Component::Normal(name)
                 if name == ".."
@@ -128,15 +129,11 @@ fn checked_path(path: &Path) -> Result<PathBuf, String> {
         match fs::symlink_metadata(&resolved) {
             Ok(metadata) => {
                 if linked(&metadata) {
-                    return Err(format!(
-                        "symlink/reparse point is not allowed: {}",
-                        resolved.display()
-                    ));
+                    return Err(format!("symlink/reparse point is not allowed: {}", resolved.display()));
                 }
-                resolved = fs::canonicalize(&resolved)
-                    .map_err(|e| format!("{}: {e}", resolved.display()))?;
+                resolved = fs::canonicalize(&resolved).map_err(|e| format!("{}: {e}", resolved.display()))?;
             }
-            Err(e) if e.kind() == std::io::ErrorKind::NotFound => {}
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => missing = true,
             Err(e) => return Err(format!("{}: {e}", resolved.display())),
         }
     }
@@ -169,12 +166,12 @@ fn fresh_output(out: &Path, roots: &[&Path]) -> Result<PathBuf, String> {
     }
 }
 fn write_new(path: &Path, bytes: &[u8]) -> Result<(), String> {
-    let mut file = fs::OpenOptions::new()
+    fs::OpenOptions::new()
         .write(true)
         .create_new(true)
         .open(path)
-        .map_err(|e| format!("cannot create {}: {e}", path.display()))?;
-    file.write_all(bytes)
+        .map_err(|e| format!("cannot create {}: {e}", path.display()))?
+        .write_all(bytes)
         .map_err(|e| format!("cannot write {}: {e}", path.display()))
 }
 fn create_parent(out: &Path) -> Result<(), String> {
