@@ -79,8 +79,8 @@ not a default reduction target.
 
 ## Active specifications
 
-- `native-deconvolution-closure`: requirements approved for design; provisional design and shared adapter contract generated; prototype not-run, no production tasks.
-- `typescript-deconvolution-adapter`: requirements approved; aligned provisional design/research/prototype gate generated; bounded Node profile not yet qualified.
+- `native-deconvolution-closure`: requirements, design, tasks, prototype gate (R49), foreground TDD implementation (7 tasks), and validation completed with GO decision on 2026-11-09; substrate closure certified across 270 native tests.
+- `typescript-deconvolution-adapter`: requirements approved; aligned provisional design/research/prototype gate generated; Stage 2 prototype feasibility gate pending.
 - `java-deconvolution-unification`: Java authorized; requirements approved; aligned provisional design/research/gate generated; specimen/dependency admission pending.
 - `rust-deconvolution-unification`: requirements approved; aligned provisional design/research/gate generated; isolated recording-lifecycle responsibility is a screening candidate; no Java dependency.
 - `state-boundary-deconvolution`: requirements, design, tasks, prototype gate, dual-specimen trials (E5, E6), capability adoption, COBESY synthesis report, and integration validation completed with GO decision on 2026-11-09. All 11 tasks implemented and certified.
