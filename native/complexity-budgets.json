@@ -37,6 +37,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/typescript/mutation.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "typescript-deconvolution-adapter",
+   "allocation": "TypeScript adverse mutation operators and generator (task 2, REQ-TS-3.1..3.3)",
+   "disposition": null
+  },
+  {
    "path": "admission.rs",
    "max_physical_lines": 272,
    "max_logical_units": 72,

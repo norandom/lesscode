@@ -5,3 +5,4 @@
 //! - `.kiro/specs/native-deconvolution-closure/adapter-contract.md`
 
 pub mod analysis;
+pub mod mutation;
