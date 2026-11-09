@@ -95,9 +95,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 5: End-to-End Specimen Integration & Adverse Sensitivity Verification [ ]
+### Task 5: End-to-End Specimen Integration & Adverse Sensitivity Verification [x]
 - **Requirements:** REQ-TS-2.1, REQ-TS-3.2, REQ-TS-4.4, REQ-TS-5.4
 - **Dependencies:** Task 4
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test typescript_e2e` (3/3 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget, exit code 0).
 - **Owned Files:**
   - `native/tests/typescript_e2e.rs` (end-to-end specimen verification)
   - `native/complexity-budgets.json`
