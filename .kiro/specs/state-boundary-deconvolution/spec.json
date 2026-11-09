@@ -1,9 +1,10 @@
 {
   "feature_name": "state-boundary-deconvolution",
   "created_at": "2026-11-08T17:26:00Z",
-  "updated_at": "2026-11-08T22:20:00Z",
+  "updated_at": "2026-11-09T12:36:00Z",
   "language": "en",
   "phase": "completed",
+  "validation_disposition": "GO",
   "prototype_gate_disposition": "PASS (R41 amended ceiling: 7,173)",
   "trial_e5_disposition": "PASS (Density trap broken; lines -24.8%, stmts -12.1%, funcs -27.5%, edges -31.5%)",
   "maturity_gate_disposition": "PASS (Capability adopted into .runs/e5-adopted-lifecycle; 50/50 sequences replayed; 0 divergences)",
@@ -29,6 +30,8 @@
   "prototype_gate": "prototype-gate.md",
   "tasks": "tasks.md",
   "evidence": [
+    ".kiro/specs/state-boundary-deconvolution/validation-report.md",
+    "docs/reports/state-boundary-deconvolution-report.md",
     "docs/experiments/deconvolution/e6-report-envelope/results/e6-adoption-report.json",
     "docs/experiments/deconvolution/e6-report-envelope/results/e6-adopted-report-envelope.diff",
     "docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md",
