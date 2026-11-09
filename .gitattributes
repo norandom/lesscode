@@ -3,3 +3,7 @@ tests/fixtures/python/** text eol=lf
 # Notice filenames identify exact upstream distribution bytes, including CRLF.
 tools/notices/*.txt -text
 tools/*.sh text eol=lf
+# Exact byte identity for admission turn fixtures and lifecycle runs
+docs/experiments/deconvolution/regenerator/results/turns/** -text
+.runs/e4-lifecycle/** -text
+.runs/e3-facdrone/** -text
