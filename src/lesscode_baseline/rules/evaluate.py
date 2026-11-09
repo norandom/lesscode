@@ -3,7 +3,98 @@
 from decimal import Decimal, localcontext
 
 from lesscode_baseline.contracts import ContractError
-from .contracts import EntityTreatment, NumericRule, PolicyFinding, RuleSelection
+from .contracts import (CheckRule, EntityTreatment, EvidenceBundle, NumericRule,
+                        Policy, PolicyFinding, ReviewRecord, ReviewRule, RuleSelection,
+                        policy_hash, validate_reviews)
+
+def evaluate_check(rule: CheckRule, evidence: EvidenceBundle) -> tuple[PolicyFinding, ...]:
+    """Interpret exactly one declared candidate check from admitted evidence.
+
+    This finding never replaces the original baseline decision: every other
+    behavior check and the baseline counterpart remain governed by that gate.
+    Artifact hashes are attached later by the assessment coordinator.
+    """
+    rule = CheckRule.from_dict(rule.to_dict())
+    evidence = EvidenceBundle.from_dict(evidence.to_dict())
+    check = next((item for item in evidence.report.candidate.checks
+                  if item.check_id == rule.check_id), None)
+    if check is None:
+        status, reason = "insufficient", f"Declared candidate check {rule.check_id!r} is missing"
+    else:
+        status = {"passed": "satisfied", "failed": "violation"}.get(check.status, "insufficient")
+        reason = (f"Declared candidate check {check.check_id!r}: {check.status}; kind={check.kind}; "
+                  f"required={check.required}; source={check.source_hash}; plan={check.plan_hash}; "
+                  f"diagnostic_artifact={check.diagnostic_artifact!r}")
+    reason += "; original upstream outcome and all other declared checks remain authoritative"
+    return (_nonnumeric_finding(rule, "check:" + rule.check_id, "check", status, reason),)
+
+
+def evaluate_review(rule: ReviewRule, evidence: EvidenceBundle, policy: Policy,
+                    reviews: tuple[ReviewRecord, ...] = ()) -> tuple[PolicyFinding, ...]:
+    """Interpret contextual producer claims without authenticating independence.
+
+    Binding mismatches are missing applicable evidence, not malformed inputs.
+    Classify them before the stricter consistency assertion. Duplicate claims
+    for a criterion/scope are invalid even when one has a stale source hash.
+    """
+    rule = ReviewRule.from_dict(rule.to_dict())
+    policy = Policy.from_dict(policy.to_dict())
+    evidence = EvidenceBundle.from_dict(evidence.to_dict())
+    if rule not in policy.rules:
+        raise ContractError("$review.rule: differs from applicable policy rule")
+    records = tuple(ReviewRecord.from_dict(record.to_dict()) for record in reviews)
+    identities = [(record.criterion_id, record.scope) for record in records]
+    if len(set(identities)) != len(identities):
+        return (_nonnumeric_finding(rule, "review:" + rule.criterion_id, "review", "invalid",
+                "Duplicate or conflicting criterion/scope review records; no record selected"),)
+
+    expected_policy = policy_hash(policy)
+    expected_source = evidence.candidate_inventory.source_hash
+    relevant = tuple(record for record in records if record.rule_id == rule.rule_id or
+                     (record.criterion_id == rule.criterion_id and record.scope == rule.scope))
+    bound, mismatches = [], set()
+    for record in relevant:
+        differences = [field for field, expected in (
+            ("policy_hash", expected_policy), ("candidate_source_hash", expected_source),
+            ("rule_id", rule.rule_id), ("criterion_id", rule.criterion_id), ("scope", rule.scope))
+            if getattr(record, field) != expected]
+        if differences:
+            mismatches.update(differences)
+        else:
+            bound.append(record)
+    if not bound:
+        reason = ("Review binding mismatch: " + ", ".join(sorted(mismatches)) if mismatches
+                  else "Required contextual review is missing; structural counters cannot supply it")
+        return (_nonnumeric_finding(rule, "review:" + rule.criterion_id, "review", "insufficient", reason),)
+
+    record, = bound
+    trust = record.trust_status(rule.trust_requirement)
+    reason = (f"Contextual review criterion={record.criterion_id!r}; outcome={record.outcome}; "
+              f"reviewer={record.reviewer_id!r}; provenance={record.provenance}; "
+              f"policy={record.policy_hash}; source={record.candidate_source_hash}; "
+              f"rationale={record.rationale}; trust={rule.trust_requirement}:{trust}. "
+              "Producer claim only; reviewer identity and independence are not authenticated; "
+              "code spans do not establish semantic accuracy.")
+    try:
+        validate_reviews((record,), evidence, policy)
+    except ContractError as error:
+        # All identity and duplicate checks above succeeded. The remaining
+        # consistency assertion validates supporting spans, not verdict meaning.
+        status = "invalid"
+        reason += f" Invalid supporting review span: {error}"
+    else:
+        status = ("violation" if record.outcome == "concern" else
+                  "satisfied" if record.outcome == "satisfied" and trust == "supported" else
+                  "insufficient")
+    if mismatches:
+        reason += " Additional mismatched records: " + ", ".join(sorted(mismatches))
+    return (_nonnumeric_finding(rule, "review:" + rule.criterion_id, "review", status,
+                               reason, record.locations),)
+
+
+def _nonnumeric_finding(rule, identity, basis, status, reason, locations=()):
+    return PolicyFinding(rule.rule_id, rule.scope, identity, basis, rule.enforcement,
+                         status, basis, None, None, rule, locations, (), reason, ())
 
 def evaluate_numeric(rule: NumericRule, selection: RuleSelection,
                      treatments: tuple[EntityTreatment, ...] = ()) -> tuple[PolicyFinding, ...]:

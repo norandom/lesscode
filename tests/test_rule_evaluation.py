@@ -9,6 +9,9 @@ from lesscode_baseline.rules.contracts import (
     NumericRule, PolicyFinding, RuleSelection, Selector,
 )
 from lesscode_baseline.rules.evaluate import evaluate_numeric
+from lesscode_baseline.rules.evaluate import evaluate_check, evaluate_review
+from lesscode_baseline.rules import contracts as c
+from tests import test_rule_contracts as fixtures
 from tests.test_rule_contracts import numeric
 
 
@@ -217,6 +220,159 @@ class NumericEvaluationTests(unittest.TestCase):
             selection([], [entity(56)]), (treatment("new"),))
         self.assertEqual(finding.status, "violation")
         self.assertIn("unavailable", finding.reason)
+
+
+class CheckReviewEvaluationTests(unittest.TestCase):
+    def setUp(self):
+        self.evidence = c.EvidenceBundle.from_dict(fixtures.bundle())
+        self.check_rule = c.CheckRule.from_dict(fixtures.check())
+        self.policy = c.Policy.from_dict(fixtures.review_policy())
+        self.review_rule = self.policy.rules[0]
+        self.record = c.ReviewRecord.from_dict(fixtures.review_record())
+
+    def checks(self, checks):
+        return replace(self.evidence, report=replace(self.evidence.report,
+            candidate=replace(self.evidence.report.candidate, checks=checks)))
+
+    def check(self, evidence=None, rule=None):
+        finding, = evaluate_check(rule or self.check_rule, evidence or self.evidence)
+        self.assertEqual(c.PolicyFinding.from_dict(finding.to_dict()), finding)
+        return finding
+
+    def review(self, records=None, rule=None, policy=None):
+        finding, = evaluate_review(rule or self.review_rule, self.evidence,
+            policy or self.policy, (self.record,) if records is None else records)
+        self.assertEqual(c.PolicyFinding.from_dict(finding.to_dict()), finding)
+        return finding
+
+    def test_exact_check_statuses_and_diagnostics(self):
+        original, = self.evidence.report.candidate.checks
+        for observed, expected in (("passed", "satisfied"), ("failed", "violation"),
+                ("skipped", "insufficient"), ("missing", "insufficient"), ("error", "insufficient")):
+            with self.subTest(observed=observed):
+                finding = self.check(self.checks((replace(original, status=observed),)))
+                self.assertEqual((finding.status, finding.disposition), (expected, "check"))
+                self.assertIn(observed, finding.reason)
+                self.assertIn(original.check_id, finding.reason)
+                self.assertIn(original.diagnostic_artifact, finding.reason)
+
+    def test_absent_check_cannot_use_baseline_or_similar_id(self):
+        original, = self.evidence.report.candidate.checks
+        for checks in ((), (replace(original, check_id=original.check_id + ".extra"),)):
+            self.assertEqual(self.check(self.checks(checks)).status, "insufficient")
+
+    def test_check_source_and_plan_tampering_fail_closed(self):
+        original, = self.evidence.report.candidate.checks
+        for field in ("source_hash", "plan_hash"):
+            with self.subTest(field=field), self.assertRaises(ContractError):
+                self.check(self.checks((replace(original, **{field: "e" * 64}),)))
+
+    def test_duplicate_check_is_invalid_input(self):
+        original, = self.evidence.report.candidate.checks
+        with self.assertRaises(ContractError):
+            self.check(self.checks((original, original)))
+
+    def test_selection_preserves_other_failed_checks_and_upstream_rejection(self):
+        original, = self.evidence.report.candidate.checks
+        rejected = self.checks((original, replace(original, check_id="test.behavior", status="failed")))
+        rejected = replace(rejected, report=replace(rejected.report, decision="rejected",
+            reasons=("candidate test.behavior: failed",)))
+        self.assertEqual(self.check(rejected).status, "satisfied")
+        self.assertEqual(rejected.report.decision, "rejected")
+        self.assertEqual(rejected.report.reasons, ("candidate test.behavior: failed",))
+        self.assertEqual(rejected.report.candidate.checks[1].status, "failed")
+
+    def test_bound_review_outcomes_and_provenance_are_distinct(self):
+        for outcome, expected in (("satisfied", "satisfied"), ("concern", "violation"),
+                                  ("unresolved", "insufficient")):
+            with self.subTest(outcome=outcome):
+                finding = self.review((replace(self.record, outcome=outcome),))
+                self.assertEqual((finding.status, finding.disposition), (expected, "review"))
+                self.assertEqual(finding.locations, self.record.locations)
+                for text in (outcome, self.record.reviewer_id, self.record.rationale,
+                             "producer_supplied", "not authenticated"):
+                    self.assertIn(text, finding.reason)
+                self.assertEqual(finding.expected, self.review_rule)
+
+    def test_lower_ccn_cannot_supply_missing_semantic_review(self):
+        numeric_finding, = evaluate_numeric(rule(), selection([entity(56, "baseline")], [entity(54)]), (treatment(),))
+        self.assertEqual(numeric_finding.disposition, "improved_residual_debt")
+        self.assertEqual(numeric_finding.status, "satisfied")
+        required = replace(self.review_rule, enforcement="blocking")
+        finding = self.review((), rule=required, policy=replace(self.policy, rules=(required,)))
+        self.assertEqual((finding.status, finding.enforcement), ("insufficient", "blocking"))
+
+    def test_well_formed_review_mismatches_are_insufficient(self):
+        changes = ({"policy_hash": "e" * 64}, {"candidate_source_hash": "e" * 64},
+            {"rule_id": "other"}, {"criterion_id": "other"},
+            {"scope": replace(self.record.scope, exclude=("other/**",))})
+        for change in changes:
+            with self.subTest(change=change):
+                finding = self.review((replace(self.record, **change),))
+                self.assertEqual(finding.status, "insufficient")
+                self.assertIn("mismatch", finding.reason)
+
+    def test_duplicate_or_conflicting_reviews_are_invalid_even_with_wrong_source(self):
+        for record in (self.record, replace(self.record, outcome="concern"),
+                       replace(self.record, candidate_source_hash="e" * 64)):
+            finding = self.review((self.record, record))
+            self.assertEqual(finding.status, "invalid")
+            self.assertIn("duplicate", finding.reason.lower())
+
+    def test_external_independence_is_unverified_for_local_claims(self):
+        external = replace(self.review_rule, trust_requirement="external_independence")
+        policy = replace(self.policy, rules=(external,))
+        record = replace(self.record, policy_hash=c.policy_hash(policy), reviewer_id="independent-auditor")
+        finding = self.review((record,), rule=external, policy=policy)
+        self.assertEqual(finding.status, "insufficient")
+        self.assertIn("unverified", finding.reason)
+
+    def test_review_concern_is_retained_when_independence_unverified(self):
+        external = replace(self.review_rule, trust_requirement="external_independence")
+        policy = replace(self.policy, rules=(external,))
+        record = replace(self.record, policy_hash=c.policy_hash(policy), outcome="concern")
+        finding = self.review((record,), rule=external, policy=policy)
+        self.assertEqual(finding.status, "violation")
+        self.assertIn("unverified", finding.reason)
+
+    def test_outside_inventory_or_scope_review_span_is_invalid(self):
+        for path in ("missing.py", "vendor/hidden.py"):
+            finding = self.review((replace(self.record, locations=(SourceSpan(path, 1, 2),)),))
+            self.assertEqual(finding.status, "invalid")
+            self.assertIn("span", finding.reason)
+
+    def test_review_cannot_be_evaluated_under_different_policy_rule(self):
+        with self.assertRaises(ContractError):
+            self.review(rule=replace(self.review_rule, criterion_text="Different criterion"))
+
+    def test_unrelated_review_does_not_satisfy_required_criterion(self):
+        unrelated = replace(self.record, rule_id="other", criterion_id="other")
+        self.assertEqual(self.review((unrelated,)).status, "insufficient")
+
+    def test_advisory_unavailable_check_and_review_remain_disclosed(self):
+        self.assertEqual((self.check(self.checks(()), replace(self.check_rule, enforcement="advisory")).status,
+                          self.review(()).enforcement), ("insufficient", "advisory"))
+
+    def test_review_replay_is_independent_of_record_order(self):
+        conflict = replace(self.record, outcome="concern")
+        self.assertEqual(self.review((self.record, conflict)), self.review((conflict, self.record)))
+
+    def test_duplicate_unmatched_claims_are_still_invalid_review_input(self):
+        unrelated = replace(self.record, rule_id="other", criterion_id="other")
+        self.assertEqual(self.review((self.record, unrelated, unrelated)).status, "invalid")
+
+    def test_spans_outside_policy_target_are_invalid_even_within_rule(self):
+        policy = replace(self.policy, target_scope=replace(self.policy.target_scope,
+            include=("different/**",)))
+        record = replace(self.record, policy_hash=c.policy_hash(policy))
+        self.assertEqual(self.review((record,), policy=policy).status, "invalid")
+
+    def test_malformed_provenance_and_spans_fail_closed(self):
+        for record in (replace(self.record, provenance="independent"),
+                       replace(self.record, reviewer_id=""),
+                       replace(self.record, locations=(SourceSpan("src/main.py", 0, 1),))):
+            with self.subTest(record=record), self.assertRaises(ContractError):
+                self.review((record,))
 
 
 if __name__ == "__main__":
