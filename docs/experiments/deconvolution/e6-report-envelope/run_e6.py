@@ -20,6 +20,11 @@ TEST_SUITES = [
         "tests/test_record_simulation_request.py",
         "tests/test_export_on_request.py",
         "tests/test_factor_basket_request.py",
+        "tests/test_canonical_hydration.py",
+    ]),
+    ("packages/facdrone-kernel", [
+        "tests/test_canonical.py",
+        "tests/test_canonical_serialization.py",
     ]),
     (".", [
         "tests/unit/test_cli_sim.py",

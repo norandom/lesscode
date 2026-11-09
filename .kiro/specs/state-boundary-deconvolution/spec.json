@@ -7,6 +7,7 @@
   "prototype_gate_disposition": "PASS (R41 amended ceiling: 7,173)",
   "trial_e5_disposition": "PASS (Density trap broken; lines -24.8%, stmts -12.1%, funcs -27.5%, edges -31.5%)",
   "maturity_gate_disposition": "PASS (Capability adopted into .runs/e5-adopted-lifecycle; 50/50 sequences replayed; 0 divergences)",
+  "trial_e6_generalization_disposition": "PASS (Report-envelope group qualified; lines -23.01%, stmts -10.49%, funcs -38.24%, edges -30.34%, 4/4 adverse mutants killed)",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -27,6 +28,10 @@
   "prototype_gate": "prototype-gate.md",
   "tasks": "tasks.md",
   "evidence": [
+    "docs/experiments/deconvolution/e6-report-envelope/results/e6-evaluation-report.json",
+    "docs/experiments/deconvolution/e6-report-envelope/results/e6-candidate-r1.diff",
+    "docs/research/2026-11-09/03-e6-generalization-trial-qualification.md",
+    "docs/research/2026-11-09/02-e6-generalization-trial-setup.md",
     "docs/experiments/deconvolution/e5-state-boundary-lifecycle/results/e5-adoption-report.json",
     "docs/experiments/deconvolution/e5-state-boundary-lifecycle/results/e5-adopted-lifecycle.diff",
     "docs/research/2026-11-09/01-e5-lifecycle-adoption-maturity-gate.md",

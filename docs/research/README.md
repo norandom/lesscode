@@ -1,6 +1,23 @@
 # Research log
 
-## Latest: R44 E6 state-boundary deconvolution generalization trial setup (2026-11-09)
+## Latest: R45 E6 generalization trial qualification — report envelope certified (2026-11-09)
+
+[R45](2026-11-09/03-e6-generalization-trial-qualification.md) records the empirical qualification
+of **Experiment E6: State-Boundary Deconvolution Generalization Trial** on an unseen
+Facdrone subsystem (**Report Envelope & Snapshot Store**, 6 files, 1,938 baseline lines):
+- **Canonical lines reduced from 1,938 to 1,492** (−23.01% reduction vs $\ge 20\%$ target).
+- **AST statements reduced from 925 to 828** (−10.49% reduction vs $\ge 10\%$ target; Density Trap defeated).
+- **Functions de-fragmented from 102 to 63** (−38.24% reduction vs $\ge 20\%$ target).
+- **Call edges de-fragmented from 145 to 101** (−30.34% reduction vs $\ge 25\%$ target).
+- **Write sites confined strictly to 4 imperative shell locations** in `reporting_request_store.py`.
+- **Pure module share held at 5/6 (83.3%)** (target $\ge 50\%$).
+- **Adverse mutation sensitivity:** 4/4 adverse controls killed (100% kill rate, E6-C1 to E6-C4).
+- **Pure-core bounded equivalence:** 0 counterexamples across bounded domain $[-10, 10]$ and edge cases.
+- **Rust apparatus stability:** 7,173 canonical lines held (0 overage against R41 ceiling).
+- **Acceptance test battery:** 46/46 passed with zero regressions across `facdrone-reporting`, `facdrone-kernel`, and root suites.
+- Certified as a generalizable, subsystem-agnostic architectural compression loop.
+
+## Prior: R44 E6 state-boundary deconvolution generalization trial setup (2026-11-09)
 
 [R44](2026-11-09/02-e6-generalization-trial-setup.md) records the preregistration and baseline
 census for **Experiment E6: State-Boundary Deconvolution Generalization Trial** on an unseen
