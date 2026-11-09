@@ -114,9 +114,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 6: Full System Verification, Budget Audit & GO Disposition [ ]
+### Task 6: Full System Verification, Budget Audit & GO Disposition [x]
 - **Requirements:** REQ-JAVA-5.3, REQ-JAVA-5.4, REQ-JAVA-5.5
 - **Dependencies:** Tasks 1–5
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml` (314/314 passed across 28 binaries in 105.67s), `pytest -n auto tests/test_state_boundary.py` (32/32 passed in 1.53s), `cargo test --test budgets` (10/10 passed), and CLI budget audit clean. Validation report authored certifying GO disposition.
 - **Owned Files:**
   - `.kiro/specs/java-deconvolution-unification/validation-report.md`
   - `.kiro/specs/java-deconvolution-unification/spec.json`
