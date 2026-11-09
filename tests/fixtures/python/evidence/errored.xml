@@ -1,6 +1,0 @@
-<testsuite name="independent" tests="4">
-  <testcase name="clamp.below"><error message="cannot complete"/></testcase>
-  <testcase name="clamp.inside"><error message="cannot complete"/></testcase>
-  <testcase name="clamp.above"><error message="cannot complete"/></testcase>
-  <testcase name="clamp.bounds"><error message="cannot complete"/></testcase>
-</testsuite>

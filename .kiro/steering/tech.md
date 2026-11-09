@@ -2,10 +2,10 @@
 
 ## Current adapter boundary — 2026-11-09
 
-Java is authorized alongside Python, TypeScript/JavaScript and Rust, superseding
-the earlier Java pilot exclusion below. The native controller executes specimen
-semantics through explicitly counted target-runtime adapters. Runtime necessity
-is not apparatus failure; moving adapters into strings is not compression.
+The native Rust substrate (`lesscode-core`) is the sole production and reference engine, superseding the historical Python baseline (`src/lesscode_baseline/`), which is formally retired per owner instruction (2026-11-09) and preserved at commit `fd0b5b9` (indexed in `docs/archive/preserved-python-baseline.md`).
+
+The native controller executes specimen semantics through explicitly counted target-runtime adapters across Python (`pytest-v1`), TypeScript (`ts-node-v1`), Java (`java-junit-v1`), and Rust (`rust-nextest-v1`).
+Runtime necessity is not apparatus failure; moving adapters into strings is not compression.
 New parsers/runtime instrumentation require a repository-level dependency decision
 and a bounded real-code prototype. No blanket zero-new-crates rule precludes
 evaluating the earlier R27 reuse candidates. Existing lockfiles remain unchanged.
@@ -25,7 +25,7 @@ Do not silently replace an analyzer or change metric definitions after a trial.
 
 Current direction (2026-11-01): a native compiled capability-compression core with a skill, targeting Python and TypeScript source. Rust is selected in the approved capability-compression-core design; see `docs/reports/native-compression-direction.md`. Use one library/CLI package and the ast-grep/tree-sitter substrate. Do not port the Python evaluator wholesale. MCP, generic rewrite engines and solver integration are removed from active delivery; do not pre-build extension interfaces. Java is outside this pilot.
 
-The completed Python baseline remains the research/reference implementation. Reuse selected contracts and frozen adverse fixtures; preserve existing CLI compatibility. Target-project runtimes and tests remain necessary. Hardware/performance benchmarking and byte/gzip benefit metrics are excluded; execution bounds and platform correctness remain relevant.
+The historical Python baseline is retired from the active tree and permanently preserved in Git history at commit `fd0b5b9` (see `docs/archive/preserved-python-baseline.md`). Python remains supported as an external target-project specimen runtime (for executing target Python test suites), alongside Node.js, Java, and Rust. Target-project runtimes and tests remain necessary. Hardware/performance benchmarking and byte/gzip benefit metrics are excluded; execution bounds and platform correctness remain relevant.
 
 Use uv/uvx for Python development commands and setup. On Windows invoke uv.exe/uvx.exe directly to avoid local PowerShell function wrappers. Select the pinned interpreter explicitly; never invoke or install Windows Store Python. Existing evaluator subprocesses use recorded, absolute pinned runtime bindings. For the current validation environment: uv.exe run --no-project --no-python-downloads --python .venv-task11/Scripts/python.exe python -m unittest discover -q, with PYTHONPATH set to resolved src. Save multiline Python as a script instead of piping it through a shell wrapper.
 

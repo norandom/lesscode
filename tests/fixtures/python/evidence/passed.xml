@@ -1,6 +1,0 @@
-<testsuite name="independent" tests="4">
-  <testcase name="clamp.below"></testcase>
-  <testcase name="clamp.inside"></testcase>
-  <testcase name="clamp.above"></testcase>
-  <testcase name="clamp.bounds"></testcase>
-</testsuite>

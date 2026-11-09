@@ -1,3 +1,0 @@
-# Retain exact upstream bytes, including on Windows checkouts.
-boltons_mathutils/source/mathutils.py -text
-boltons_mathutils/LICENSE -text

@@ -22,9 +22,8 @@ The repository contains Kiro authoring workflows, specifications and the Python 
 Approved baseline implementation locations are detailed in its design File Structure Plan:
 
 - `skills/deconvolute/`: planned optional product skill, distinct from Kiro authoring skills; not yet implemented.
-- `src/lesscode_baseline/`: local CLI, typed contracts, snapshots, bounded execution, measurements, decisions, reporting and experiment aggregation.
-- `src/lesscode_baseline/rules/`: historical policy implementation. The task list marks 9/25 tasks complete; remaining work is retired from active delivery. Preserve uncommitted work and do not treat unchecked tasks as reviewed completion.
-- `src/lesscode_baseline/AGENTS.md`: package-scoped guidance for idiomatic code, role-revealing names, justified abstractions and preserved evidence contracts; instruction guidance rather than an automatic rule engine.
+- `src/lesscode_baseline/`: historical Python baseline package, formally retired on 2026-11-09 in favor of the native Rust substrate (`native/`). All files preserved in Git history at commit `fd0b5b9` (indexed in `docs/archive/preserved-python-baseline.md`).
+- `native/`: unified compiled native library and CLI (`lesscode-core`), hosting the multi-language deconvolution controller and target-runtime adapters across Python, TypeScript, Java, and Rust.
 - `tests/fixtures/`: synthetic and adversarial behavior fixtures.
 - `benchmarks/`: licensed corpus manifests and fixed evaluator definitions.
 
