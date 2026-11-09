@@ -303,8 +303,9 @@ fn specimen_plan(scope: &str, work: &Path) -> Option<ScopePlan> {
     let venv = repo.join(".runs/e2-facdrone/venv/Scripts/python.exe");
     let shim = repo.join("native/shim/recording_shim.py");
     let probe_golden = repo.join(".runs/native-prototype/proto2-e3-a.json");
-    if !(venv.is_file() && shim.is_file() && probe_golden.is_file()) {
-        eprintln!("skipping: pinned specimen venv or frozen proto2 recordings absent");
+    let baseline_pkg = repo.join("src/lesscode_baseline/recording.py");
+    if !(venv.is_file() && shim.is_file() && probe_golden.is_file() && baseline_pkg.is_file()) {
+        eprintln!("skipping: pinned specimen venv, Python baseline package, or frozen proto2 recordings absent");
         return None;
     }
     Some(ScopePlan {
