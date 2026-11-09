@@ -5,5 +5,7 @@
 //! - `native/src/adapter_traits.rs`
 
 pub mod analysis;
+pub mod mutation;
 
 pub use analysis::JavaEffectAnalyzer;
+pub use mutation::JavaMutantGenerator;

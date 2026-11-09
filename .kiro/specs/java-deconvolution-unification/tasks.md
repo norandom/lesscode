@@ -28,9 +28,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 2: Java Adverse Mutation Operators [ ]
+### Task 2: Java Adverse Mutation Operators [x]
 - **Requirements:** REQ-JAVA-3.1, REQ-JAVA-3.2, REQ-JAVA-3.3
 - **Dependencies:** Task 1
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test java_mutation` (5/5 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets --config native/complexity-budgets.json --root native/src --out ...` (clean, exit code 0).
 - **Owned Files:**
   - `native/src/adapters/java/mutation.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/complexity-budgets.json` (register `mutation.rs`)
