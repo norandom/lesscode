@@ -5,5 +5,7 @@
 //! - `native/src/adapter_traits.rs`
 
 pub mod analysis;
+pub mod mutation;
 
 pub use analysis::RustEffectAnalyzer;
+pub use mutation::RustMutantGenerator;
