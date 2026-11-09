@@ -181,3 +181,22 @@ fn adapter_trace_runner_executes_process() {
     );
     assert!(output.contains("rustc"));
 }
+
+#[test]
+fn adapter_trace_runner_injects_isolated_target_dir() {
+    let adapter = RustAdapter::new();
+    let temp = std::env::temp_dir().join(format!("test-target-dir-{}", std::process::id()));
+    let _ = std::fs::create_dir_all(&temp);
+
+    let req = RunRequest {
+        command: "rustc".into(),
+        args: vec!["--version".into()],
+        env: vec![],
+        cwd: Some(temp.to_string_lossy().to_string()),
+        timeout_ms: 5000,
+        max_output_bytes: 4096,
+    };
+    let res = adapter.run(&req);
+    assert_eq!(res.exit_code, 0);
+    let _ = std::fs::remove_dir_all(&temp);
+}

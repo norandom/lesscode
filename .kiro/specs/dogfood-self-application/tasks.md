@@ -34,9 +34,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 2: Cross-Workspace Path Resolution Normalization [ ]
+### Task 2: Cross-Workspace Path Resolution Normalization [x]
 - **Requirements:** REQ-3.1, REQ-3.2, REQ-3.3, REQ-3.4
 - **Dependencies:** Task 1
+- **Status:** Completed in commit `a75389b`. Verified with `cargo test --manifest-path native/Cargo.toml --test cli` (8/8 passed) and `cargo test --manifest-path native/Cargo.toml --test budgets` (clean, 0 overage).
 - **Owned Files:**
   - `native/src/main.rs` (update `checked_path`)
   - `native/tests/cli.rs` (add test for relative parent paths)
@@ -52,9 +53,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 3: Specimen Test Execution Isolation & Build Concurrency [ ]
+### Task 3: Specimen Test Execution Isolation & Build Concurrency [x]
 - **Requirements:** REQ-5.1, REQ-5.2, REQ-5.3, REQ-5.4
 - **Dependencies:** Task 1
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test rust_adapter` (7/7 passed).
 - **Owned Files:**
   - `native/src/adapters/rust/mod.rs`
   - `native/tests/rust_adapter.rs`

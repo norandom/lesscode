@@ -85,6 +85,17 @@ impl PureCoreVerifier for RustAdapter {
 
 impl SpecimenTraceRunner for RustAdapter {
     fn run(&self, request: &RunRequest) -> RunResult {
-        self.runner.run(request)
+        let mut isolated_request = request.clone();
+        if !isolated_request.env.iter().any(|(k, _)| k == "CARGO_TARGET_DIR") {
+            let target_dir = if let Some(ref cwd) = isolated_request.cwd {
+                std::path::Path::new(cwd).join("target").join("isolated-specimen")
+            } else {
+                std::env::temp_dir().join(format!("lc-cargo-target-{}", std::process::id()))
+            };
+            isolated_request
+                .env
+                .push(("CARGO_TARGET_DIR".into(), target_dir.to_string_lossy().to_string()));
+        }
+        self.runner.run(&isolated_request)
     }
 }
