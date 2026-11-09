@@ -27,9 +27,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 2: Native State Frame Analyzer & Density Engine
+### Task 2: Native State Frame Analyzer & Density Engine [x]
 - **Requirements:** REQ-NAT-1.1 through REQ-NAT-1.5, REQ-NAT-2.1 through REQ-NAT-2.5
 - **Dependencies:** Task 1
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test state_frame` (5/5 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget).
 - **Owned Files:**
   - `native/src/state_frame.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/density.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)

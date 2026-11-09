@@ -35,6 +35,15 @@
    "disposition": "keep-measured-ceiling; brownfield freeze; blob d43192b09fed53994188eea6b963d1039c095059"
   },
   {
+   "path": "density.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "native-deconvolution-closure",
+   "allocation": "Whole-scope density scorer and outcome gate (task 2, REQ-NAT-2.1..2.5)",
+   "disposition": null
+  },
+  {
    "path": "jsonval.rs",
    "max_physical_lines": 128,
    "max_logical_units": 36,
@@ -45,11 +54,11 @@
   },
   {
    "path": "lib.rs",
-   "max_physical_lines": 593,
-   "max_logical_units": 187,
+   "max_physical_lines": 595,
+   "max_logical_units": 189,
    "max_fn_lines": 302,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split) + pub mod state_contract (task 3.3) + pub mod adapter_traits (task 1)",
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split) + pub mod state_contract (task 3.3) + pub mod adapter_traits (task 1) + pub mod density (task 2) + pub mod state_frame (task 2)",
    "disposition": "keep-measured-ceiling; +5 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
@@ -131,6 +140,15 @@
    "max_fn_lines": 56,
    "owner": "state-boundary-deconvolution",
    "allocation": "State contract and scope-wide density scoring structures (task 3.3)",
+   "disposition": null
+  },
+  {
+   "path": "state_frame.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "native-deconvolution-closure",
+   "allocation": "State frame analyzer and dynamic boundary checks (task 2, REQ-NAT-1.1..1.5)",
    "disposition": null
   },
   {
