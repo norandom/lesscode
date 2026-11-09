@@ -69,9 +69,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 4: Ordered Stream Monitor & Adverse Mutant Generator
+### Task 4: Ordered Stream Monitor & Adverse Mutant Generator [x]
 - **Requirements:** REQ-NAT-4.1 through REQ-NAT-4.5
 - **Dependencies:** Task 1
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test stream_monitor --test mutant_generator` (9/9 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget).
 - **Owned Files:**
   - `native/src/stream_monitor.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
   - `native/src/mutant_generator.rs` (new: $\le 400$ physical, $\le 300$ units, $\le 80$ fn lines)
