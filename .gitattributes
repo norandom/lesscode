@@ -4,6 +4,6 @@ tests/fixtures/python/** text eol=lf
 tools/notices/*.txt -text
 tools/*.sh text eol=lf
 # Exact byte identity for admission turn fixtures and lifecycle runs
-docs/experiments/deconvolution/regenerator/results/turns/** -text
-.runs/e4-lifecycle/** -text
-.runs/e3-facdrone/** -text
+docs/experiments/deconvolution/regenerator/results/turns/** text eol=lf
+.runs/e4-lifecycle/** text eol=lf
+.runs/e3-facdrone/** text eol=lf
