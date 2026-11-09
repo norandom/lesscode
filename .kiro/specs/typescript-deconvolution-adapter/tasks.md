@@ -75,9 +75,10 @@ Owner rules in effect: foreground TDD execution only (no subagents), Windows Pow
 
 ---
 
-### Task 4: TypeScript Runtime Adapter Supervisor & IPC Protocol [ ]
+### Task 4: TypeScript Runtime Adapter Supervisor & IPC Protocol [x]
 - **Requirements:** REQ-TS-2.1 through REQ-TS-2.4, REQ-TS-4.1 through REQ-TS-4.4
 - **Dependencies:** Tasks 1, 2, 3
+- **Status:** Completed. Verified with `cargo nextest run --manifest-path native/Cargo.toml --test typescript_adapter` (5/5 passed) and `cargo run --manifest-path native/Cargo.toml -- budgets` (within budget, exit code 0).
 - **Owned Files:**
   - `native/src/adapters/typescript/mod.rs` (implement 4 adapter traits)
   - `native/complexity-budgets.json` (register `mod.rs`)
