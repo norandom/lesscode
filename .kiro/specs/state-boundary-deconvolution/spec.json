@@ -8,6 +8,7 @@
   "trial_e5_disposition": "PASS (Density trap broken; lines -24.8%, stmts -12.1%, funcs -27.5%, edges -31.5%)",
   "maturity_gate_disposition": "PASS (Capability adopted into .runs/e5-adopted-lifecycle; 50/50 sequences replayed; 0 divergences)",
   "trial_e6_generalization_disposition": "PASS (Report-envelope group qualified; lines -23.01%, stmts -10.49%, funcs -38.24%, edges -30.34%, 4/4 adverse mutants killed)",
+  "trial_e6_adoption_disposition": "PASS (Adopted into .runs/e6-adopted-report-envelope; 46/46 tests pass; dual-specimen maturity gate certified)",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -28,6 +29,9 @@
   "prototype_gate": "prototype-gate.md",
   "tasks": "tasks.md",
   "evidence": [
+    "docs/experiments/deconvolution/e6-report-envelope/results/e6-adoption-report.json",
+    "docs/experiments/deconvolution/e6-report-envelope/results/e6-adopted-report-envelope.diff",
+    "docs/research/2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md",
     "docs/experiments/deconvolution/e6-report-envelope/results/e6-evaluation-report.json",
     "docs/experiments/deconvolution/e6-report-envelope/results/e6-candidate-r1.diff",
     "docs/research/2026-11-09/03-e6-generalization-trial-qualification.md",

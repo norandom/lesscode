@@ -1,6 +1,23 @@
 # Research log
 
-## Latest: R45 E6 generalization trial qualification — report envelope certified (2026-11-09)
+## Latest: R46 Report envelope adoption & generalization maturity gate certification (2026-11-09)
+
+[R46](2026-11-09/04-e6-report-envelope-adoption-maturity-gate.md) records the formal adoption of the
+deconvoluted **Report Envelope & Snapshot Store** group (6 files) into `.runs/e6-adopted-report-envelope/`
+and certifies the dual-specimen **Generalization Adoption Maturity Gate**:
+- **Dual-Specimen Replication:** Confirmed cross-subsystem deconvolution across two distinct Facdrone
+  domains: Signal Lifecycle Monitors (E5, 7 files, −24.82% lines, −12.12% statements) and Report Envelope
+  & Snapshot Store (E6, 6 files, −23.01% lines, −10.49% statements).
+- **Combined Impact:** 13 files, 3,433 baseline lines compressed to 2,616 adopted lines (−23.80%),
+  with 11.20% statement reduction, 33.92% function reduction, and 30.93% call edge reduction.
+- **State Confinement:** 15 total write sites confined strictly to designated imperative shells (11 in
+  lifecycle store, 4 in reporting request store).
+- **Behavioral Soundness:** 100% adverse mutant kill rate, 0 bounded pure-core counterexamples, 0 replay
+  divergences, and 100% test pass on all unit and acceptance suites.
+- **Rust Apparatus Volume:** Counted Rust substrate held at 7,173 canonical lines (0 overage against R41 ceiling).
+- Full adoption artifacts verified: `e6-adopted-report-envelope.diff` and `e6-adoption-report.json`.
+
+## Prior: R45 E6 generalization trial qualification — report envelope certified (2026-11-09)
 
 [R45](2026-11-09/03-e6-generalization-trial-qualification.md) records the empirical qualification
 of **Experiment E6: State-Boundary Deconvolution Generalization Trial** on an unseen

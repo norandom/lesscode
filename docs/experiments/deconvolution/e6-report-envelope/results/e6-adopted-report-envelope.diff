@@ -1,0 +1,1755 @@
+--- a/packages/facdrone-reporting/facdrone_reporting/shells/reporting_request.py
++++ b/packages/facdrone-reporting/facdrone_reporting/shells/reporting_request.py
+@@ -58,97 +58,14 @@
+     config_sha256: str
+ 
+     def __post_init__(self) -> None:
+-        for value, name in (
++        for val, name in (
+             (self.source_id, "source_id"),
+             (self.schema_version, "schema_version"),
+             (self.methodology_version, "methodology_version"),
+             (self.calculation_version, "calculation_version"),
+         ):
+-            require_text(value, name)
++            require_text(val, name)
+         require_sha256(self.config_sha256, "config_sha256")
+-
+-
+-def _require_texts(request: ReportingRequestEnvelope) -> None:
+-    for value, name in (
+-        (request.run_id, "run_id"),
+-        (request.label, "label"),
+-        (request.anchor_timestamp_source_id, "anchor_timestamp_source_id"),
+-        (request.external_flow_policy_id, "external_flow_policy_id"),
+-        (request.external_flow_policy_version, "external_flow_policy_version"),
+-        (request.reporting_timezone, "reporting_timezone"),
+-    ):
+-        require_text(value, name)
+-    try:
+-        validate_run_id(request.run_id)
+-    except ArtifactSecurityError as error:
+-        raise ValueError("run_id is unsafe for a run directory") from error
+-    if request.model_note is not None:
+-        require_text(request.model_note, "model_note")
+-
+-
+-def _require_timeline(request: ReportingRequestEnvelope) -> None:
+-    """Aware timestamps, ordered anchor <= snapshot_as_of <= retrieved_at."""
+-    for timestamp, timestamp_name in (
+-        (request.snapshot_as_of, "snapshot_as_of"),
+-        (request.retrieved_at, "retrieved_at"),
+-        (request.pre_window_anchor_ts, "pre_window_anchor_ts"),
+-    ):
+-        require_aware(timestamp, timestamp_name)
+-    if as_utc(request.snapshot_as_of) > as_utc(request.retrieved_at):
+-        raise ValueError("snapshot_as_of cannot follow retrieved_at")
+-    if as_utc(request.pre_window_anchor_ts) > as_utc(request.snapshot_as_of):
+-        raise ValueError("pre-window anchor cannot follow snapshot_as_of")
+-
+-
+-def _require_external_flows(request: ReportingRequestEnvelope) -> None:
+-    """An immutable, unique, canonically ordered flow set that never follows the snapshot."""
+-    flows = request.external_flows
+-    if not isinstance(flows, tuple):
+-        raise TypeError("external_flows must be an immutable tuple")
+-    flow_ids = tuple(item.source_record_id for item in flows)
+-    if len(flow_ids) != len(set(flow_ids)):
+-        raise ValueError("external flow source record ids must be unique")
+-    flow_keys = tuple((as_utc(item.ts), item.source_record_id) for item in flows)
+-    if flow_keys != tuple(sorted(flow_keys)):
+-        raise ValueError("external flows must be in canonical timestamp/id order")
+-    if any(as_utc(item.ts) > as_utc(request.snapshot_as_of) for item in flows):
+-        raise ValueError("external flow evidence cannot follow snapshot_as_of")
+-
+-
+-def _require_config(request: ReportingRequestEnvelope) -> None:
+-    """The configuration and its identity are the right contracts and agree."""
+-    config, identity = request.reporting_config, request.config_identity
+-    if not isinstance(identity, ReportingConfigIdentity):
+-        raise TypeError("config_identity has the wrong contract")
+-    if not isinstance(config, ReportingConfig):
+-        raise TypeError("reporting_config has the wrong contract")
+-    if (
+-        identity.schema_version != config.schema_version
+-        or identity.methodology_version != config.methodology_version
+-        or identity.calculation_version != config.calculation_version
+-    ):
+-        raise ValueError("reporting configuration identity fields do not match content")
+-    if identity.config_sha256 != reporting_config_digest(config):
+-        raise ValueError("reporting configuration digest does not match content")
+-
+-
+-def _require_factor_baskets(request: ReportingRequestEnvelope) -> None:
+-    """Requested baskets are an immutable, unique subset of the approved registry."""
+-    baskets = request.factor_baskets
+-    if not isinstance(baskets, tuple):
+-        raise TypeError("factor_baskets must be an immutable tuple")
+-    if len(baskets) != len(set(baskets)):
+-        raise ValueError("requested factor baskets must be unique")
+-    if not baskets:
+-        return
+-    registry = request.reporting_config.factor_registry
+-    approved = {item.basket_id for item in registry.baskets} if registry is not None else set()
+-    unapproved = sorted(set(baskets) - approved)
+-    if unapproved:
+-        raise ValueError(
+-            f"requested factor baskets {unapproved} are not in the approved "
+-            "registry; a run may only request a basket the operator approved"
+-        )
+ 
+ 
+ @dataclass(frozen=True, slots=True)
+@@ -170,19 +87,50 @@
+     degraded_sample_approval: DegradedSampleApproval | None
+     config_identity: ReportingConfigIdentity
+     reporting_config: ReportingConfig
+-    # Which approved factor baskets THIS run requested. Recorded rather than
+-    # inferred: the approved registry says which baskets MAY be estimated, the
+-    # request says which ones were, and a rebuild must not silently acquire a
+-    # basket the original run never asked for. Empty means none requested, which
+-    # leaves the factor section unreleased.
+     factor_baskets: tuple[str, ...] = ()
+ 
+     def __post_init__(self) -> None:
+         if self.schema_version != REPORTING_REQUEST_ENVELOPE_SCHEMA_VERSION:
+             raise ValueError("reporting request envelope schema version is unsupported")
+-        _require_texts(self)
+-        _require_timeline(self)
+-        _require_external_flows(self)
++        for val, name in (
++            (self.run_id, "run_id"),
++            (self.label, "label"),
++            (self.anchor_timestamp_source_id, "anchor_timestamp_source_id"),
++            (self.external_flow_policy_id, "external_flow_policy_id"),
++            (self.external_flow_policy_version, "external_flow_policy_version"),
++            (self.reporting_timezone, "reporting_timezone"),
++        ):
++            require_text(val, name)
++        try:
++            validate_run_id(self.run_id)
++        except ArtifactSecurityError as error:
++            raise ValueError("run_id is unsafe for a run directory") from error
++        if self.model_note is not None:
++            require_text(self.model_note, "model_note")
++
++        for ts, name in (
++            (self.snapshot_as_of, "snapshot_as_of"),
++            (self.retrieved_at, "retrieved_at"),
++            (self.pre_window_anchor_ts, "pre_window_anchor_ts"),
++        ):
++            require_aware(ts, name)
++        if as_utc(self.snapshot_as_of) > as_utc(self.retrieved_at):
++            raise ValueError("snapshot_as_of cannot follow retrieved_at")
++        if as_utc(self.pre_window_anchor_ts) > as_utc(self.snapshot_as_of):
++            raise ValueError("pre-window anchor cannot follow snapshot_as_of")
++
++        flows = self.external_flows
++        if not isinstance(flows, tuple):
++            raise TypeError("external_flows must be an immutable tuple")
++        flow_ids = tuple(item.source_record_id for item in flows)
++        if len(flow_ids) != len(set(flow_ids)):
++            raise ValueError("external flow source record ids must be unique")
++        flow_keys = tuple((as_utc(item.ts), item.source_record_id) for item in flows)
++        if flow_keys != tuple(sorted(flow_keys)):
++            raise ValueError("external flows must be in canonical timestamp/id order")
++        if any(as_utc(item.ts) > as_utc(self.snapshot_as_of) for item in flows):
++            raise ValueError("external flow evidence cannot follow snapshot_as_of")
++
+         try:
+             ZoneInfo(self.reporting_timezone)
+         except ZoneInfoNotFoundError as error:
+@@ -190,8 +138,35 @@
+         approval = self.degraded_sample_approval
+         if approval is not None and as_utc(approval.approved_at) > as_utc(self.retrieved_at):
+             raise ValueError("degraded sample approval cannot follow retrieval")
+-        _require_config(self)
+-        _require_factor_baskets(self)
++
++        config, identity = self.reporting_config, self.config_identity
++        if not isinstance(identity, ReportingConfigIdentity):
++            raise TypeError("config_identity has the wrong contract")
++        if not isinstance(config, ReportingConfig):
++            raise TypeError("reporting_config has the wrong contract")
++        if (
++            identity.schema_version != config.schema_version
++            or identity.methodology_version != config.methodology_version
++            or identity.calculation_version != config.calculation_version
++        ):
++            raise ValueError("reporting configuration identity fields do not match content")
++        if identity.config_sha256 != reporting_config_digest(config):
++            raise ValueError("reporting configuration digest does not match content")
++
++        baskets = self.factor_baskets
++        if not isinstance(baskets, tuple):
++            raise TypeError("factor_baskets must be an immutable tuple")
++        if len(baskets) != len(set(baskets)):
++            raise ValueError("requested factor baskets must be unique")
++        if baskets:
++            registry = self.reporting_config.factor_registry
++            approved = {item.basket_id for item in registry.baskets} if registry is not None else set()
++            unapproved = sorted(set(baskets) - approved)
++            if unapproved:
++                raise ValueError(
++                    f"requested factor baskets {unapproved} are not in the approved "
++                    "registry; a run may only request a basket the operator approved"
++                )
+ 
+     def to_report_build_request(self) -> ReportBuildRequest:
+         """Project the persisted envelope without filling or changing any input."""
+@@ -213,7 +188,6 @@
+ 
+     def canonical_payload(self) -> dict[str, CanonicalValue]:
+         """Return the complete canonical envelope payload, including explicit nulls."""
+-        config_payload = reporting_config_payload(self.reporting_config)
+         value: dict[str, object] = {
+             "schema_version": self.schema_version,
+             "run_id": self.run_id,
+@@ -229,34 +203,18 @@
+             "reporting_timezone": self.reporting_timezone,
+             "degraded_sample_approval": self.degraded_sample_approval,
+             "config_identity": self.config_identity,
+-            "reporting_config": config_payload,
++            "reporting_config": reporting_config_payload(self.reporting_config),
+         }
+-        # Emitted only when a basket was requested. An empty request is the state
+-        # every envelope written before this field existed is in, so omitting it
+-        # keeps those documents byte-identical on re-serialization and preserves
+-        # their stored envelope digests.
+         if self.factor_baskets:
+             value["factor_baskets"] = self.factor_baskets
+         return dict(as_canonical_mapping(value))
+ 
+ 
+-# Optional methodology blocks whose ABSENCE must not alter configuration
+-# identity. Paths may be nested; a new optional field anywhere in the model would
+-# otherwise emit an explicit null and change the digest of every configuration that
+-# does not use it — invalidating the identity of every envelope already persisted.
+-#
+-# ``stability`` is deliberately not listed: it already ships inside persisted envelope
+-# digests as an explicit null, and removing it now would invalidate every bundle
+-# published since it landed. That is the exact test for adding an entry here — a block
+-# belongs only if it has never appeared in a persisted digest.
+ _ABSENT_AS_UNDECLARED = (
+     ("factor_registry",),
+     ("holdings",),
+     ("common_sample", "degraded_approval"),
+     ("stability", "ssr_fallback_windows"),
+-    # Withdrawn 2026-08-23 with the offline HTML report. Envelopes frozen before
+-    # then carry ``offline_assets: true`` and keep their digests; configurations
+-    # written after omit it, and its absence must not re-date their identity.
+     ("publication", "offline_assets"),
+     ("run_profile",),
+ )
+@@ -291,7 +249,7 @@
+     """Authenticate one immutable request for JSONB or compatibility-file storage."""
+     canonical_payload = envelope.canonical_payload()
+     payload = _reporting_request_jsonb_value(canonical_payload)
+-    if not isinstance(payload, dict):  # pragma: no cover - envelope is always an object
++    if not isinstance(payload, dict):
+         raise TypeError("reporting request envelope must encode to a JSON object")
+     digest = hashlib.sha256(canonical_json_bytes(canonical_payload)).hexdigest()
+     return {
+@@ -358,7 +316,9 @@
+     if isinstance(value, Mapping):
+         if _REPORTING_REQUEST_DECIMAL_TAG in value:
+             return _tagged_decimal(value)
+-        return _canonical_object(value)
++        if any(not isinstance(key, str) for key in value):
++            raise TypeError("reporting request objects require text keys")
++        return {cast(str, key): _reporting_request_canonical_value(item) for key, item in value.items()}
+     if isinstance(value, list):
+         return [_reporting_request_canonical_value(item) for item in value]
+     if isinstance(value, float):
+@@ -381,13 +341,6 @@
+     return decimal
+ 
+ 
+-def _canonical_object(value: Mapping[object, object]) -> dict[str, object]:
+-    """A JSON object with text keys, each value decoded in turn."""
+-    if any(not isinstance(key, str) for key in value):
+-        raise TypeError("reporting request objects require text keys")
+-    return {cast(str, key): _reporting_request_canonical_value(item) for key, item in value.items()}
+-
+-
+ def _fail_invalid_reporting_request(
+     expected_run_id: str,
+     *evidence_ids: str,
+@@ -398,15 +351,6 @@
+         detail,
+         (expected_run_id, *evidence_ids),
+     )
+-
+-
+-def _parse_factor_baskets(value: object) -> tuple[str, ...]:
+-    """Read the requested baskets; absent means none were requested."""
+-    if value is None:
+-        return ()
+-    if not isinstance(value, (list, tuple)):
+-        raise ValueError("factor_baskets must be a sequence of basket ids")
+-    return tuple(parse_text(item, "factor_baskets") for item in value)
+ 
+ 
+ def _parse_envelope(raw: Mapping[str, object]) -> ReportingRequestEnvelope:
+@@ -427,27 +371,55 @@
+         "config_identity",
+         "reporting_config",
+     )
+-    # ``factor_baskets`` is the one optional key: envelopes written before it
+-    # existed omit it and must still satisfy the exact-field contract, while any
+-    # OTHER unknown key stays a refusal.
+     if "factor_baskets" in raw:
+         fields = (*fields, "factor_baskets")
+     try:
+         require_exact_fields(raw, fields, "reporting request envelope")
+         flow_values = require_list(raw["external_flows"], "external_flows")
+-        flows = tuple(_parse_external_flow(item) for item in flow_values)
++        flows = []
++        for item in flow_values:
++            raw_flow = require_mapping(item, "external_flow")
++            require_exact_fields(raw_flow, ("source_record_id", "ts", "amount_eur", "timing", "provenance_id"), "external_flow")
++            flows.append(
++                ExternalFlowEvidence(
++                    source_record_id=parse_text(raw_flow["source_record_id"], "source_record_id"),
++                    ts=parse_datetime(raw_flow["ts"], "ts"),
++                    amount_eur=parse_decimal(raw_flow["amount_eur"], "amount_eur"),
++                    timing=FlowTiming(parse_text(raw_flow["timing"], "timing")),
++                    provenance_id=parse_text(raw_flow["provenance_id"], "provenance_id"),
++                )
++            )
+         approval_raw = raw["degraded_sample_approval"]
+-        approval = (
+-            None
+-            if approval_raw is None
+-            else _parse_degraded_approval(require_mapping(approval_raw, "degraded_sample_approval"))
+-        )
++        if approval_raw is None:
++            approval = None
++        else:
++            raw_app = require_mapping(approval_raw, "degraded_sample_approval")
++            require_exact_fields(raw_app, ("approval_id", "approved_by", "approved_at", "rationale", "minimum_coverage_ratio"), "degraded_sample_approval")
++            approval = DegradedSampleApproval(
++                approval_id=parse_text(raw_app["approval_id"], "approval_id"),
++                approved_by=parse_text(raw_app["approved_by"], "approved_by"),
++                approved_at=parse_datetime(raw_app["approved_at"], "approved_at"),
++                rationale=parse_text(raw_app["rationale"], "rationale"),
++                minimum_coverage_ratio=parse_decimal(raw_app["minimum_coverage_ratio"], "minimum_coverage_ratio"),
++            )
+         config_raw = require_mapping(raw["reporting_config"], "reporting_config")
+-        config_values = cast(Mapping[str, object], decimals_to_floats(config_raw))
+-        config = parse_reporting_config(config_values)
+-        identity = _parse_config_identity(
+-            require_mapping(raw["config_identity"], "config_identity")
+-        )
++        config = parse_reporting_config(cast(Mapping[str, object], decimals_to_floats(config_raw)))
++        raw_ident = require_mapping(raw["config_identity"], "config_identity")
++        require_exact_fields(raw_ident, ("source_id", "schema_version", "methodology_version", "calculation_version", "config_sha256"), "config_identity")
++        identity = ReportingConfigIdentity(
++            source_id=parse_text(raw_ident["source_id"], "source_id"),
++            schema_version=parse_text(raw_ident["schema_version"], "schema_version"),
++            methodology_version=parse_text(raw_ident["methodology_version"], "methodology_version"),
++            calculation_version=parse_text(raw_ident["calculation_version"], "calculation_version"),
++            config_sha256=parse_sha256(raw_ident["config_sha256"], "config_sha256"),
++        )
++        baskets_raw = raw.get("factor_baskets")
++        if baskets_raw is None:
++            baskets: tuple[str, ...] = ()
++        elif isinstance(baskets_raw, (list, tuple)):
++            baskets = tuple(parse_text(b, "factor_baskets") for b in baskets_raw)
++        else:
++            raise ValueError("factor_baskets must be a sequence of basket ids")
+         return ReportingRequestEnvelope(
+             schema_version=parse_text(raw["schema_version"], "schema_version"),
+             run_id=parse_text(raw["run_id"], "run_id"),
+@@ -467,12 +439,12 @@
+             external_flow_policy_version=parse_text(
+                 raw["external_flow_policy_version"], "external_flow_policy_version"
+             ),
+-            external_flows=flows,
++            external_flows=tuple(flows),
+             reporting_timezone=parse_text(raw["reporting_timezone"], "reporting_timezone"),
+             degraded_sample_approval=approval,
+             config_identity=identity,
+             reporting_config=config,
+-            factor_baskets=_parse_factor_baskets(raw.get("factor_baskets")),
++            factor_baskets=baskets,
+         )
+     except ReportingCompositionError:
+         raise
+@@ -482,63 +454,6 @@
+             "reporting request envelope failed its immutable contract",
+             (f"{_REPORTING_REQUEST_DOCUMENT_EVIDENCE_ID}.envelope",),
+         )
+-
+-
+-def _parse_external_flow(value: object) -> ExternalFlowEvidence:
+-    raw = require_mapping(value, "external_flow")
+-    require_exact_fields(
+-        raw,
+-        ("source_record_id", "ts", "amount_eur", "timing", "provenance_id"),
+-        "external_flow",
+-    )
+-    return ExternalFlowEvidence(
+-        source_record_id=parse_text(raw["source_record_id"], "source_record_id"),
+-        ts=parse_datetime(raw["ts"], "ts"),
+-        amount_eur=parse_decimal(raw["amount_eur"], "amount_eur"),
+-        timing=FlowTiming(parse_text(raw["timing"], "timing")),
+-        provenance_id=parse_text(raw["provenance_id"], "provenance_id"),
+-    )
+-
+-
+-def _parse_degraded_approval(raw: Mapping[str, object]) -> DegradedSampleApproval:
+-    require_exact_fields(
+-        raw,
+-        (
+-            "approval_id",
+-            "approved_by",
+-            "approved_at",
+-            "rationale",
+-            "minimum_coverage_ratio",
+-        ),
+-        "degraded_sample_approval",
+-    )
+-    return DegradedSampleApproval(
+-        approval_id=parse_text(raw["approval_id"], "approval_id"),
+-        approved_by=parse_text(raw["approved_by"], "approved_by"),
+-        approved_at=parse_datetime(raw["approved_at"], "approved_at"),
+-        rationale=parse_text(raw["rationale"], "rationale"),
+-        minimum_coverage_ratio=parse_decimal(
+-            raw["minimum_coverage_ratio"], "minimum_coverage_ratio"
+-        ),
+-    )
+-
+-
+-def _parse_config_identity(raw: Mapping[str, object]) -> ReportingConfigIdentity:
+-    fields = (
+-        "source_id",
+-        "schema_version",
+-        "methodology_version",
+-        "calculation_version",
+-        "config_sha256",
+-    )
+-    require_exact_fields(raw, fields, "config_identity")
+-    return ReportingConfigIdentity(
+-        source_id=parse_text(raw["source_id"], "source_id"),
+-        schema_version=parse_text(raw["schema_version"], "schema_version"),
+-        methodology_version=parse_text(raw["methodology_version"], "methodology_version"),
+-        calculation_version=parse_text(raw["calculation_version"], "calculation_version"),
+-        config_sha256=parse_sha256(raw["config_sha256"], "config_sha256"),
+-    )
+ 
+ 
+ __all__ = [
+--- a/packages/facdrone-reporting/facdrone_reporting/shells/reporting_request_store.py
++++ b/packages/facdrone-reporting/facdrone_reporting/shells/reporting_request_store.py
+@@ -2,7 +2,6 @@
+ 
+ from __future__ import annotations
+ 
+-from collections.abc import Mapping
+ from dataclasses import dataclass
+ from pathlib import Path
+ 
+@@ -82,33 +81,28 @@
+         self._engine = engine
+ 
+     def load(self, run_id: str) -> ReportingRequestEnvelope | None:
+-        database_id = database_run_id(run_id)
+-        statement = select(SIM_RUNS.c.reporting_request).where(SIM_RUNS.c.run_id == database_id)
++        db_id = database_run_id(run_id)
++        stmt = select(SIM_RUNS.c.reporting_request).where(SIM_RUNS.c.run_id == db_id)
+         try:
+-            with self._engine.connect() as connection:
+-                row = connection.execute(statement).first()
+-        except SQLAlchemyError as error:
++            with self._engine.connect() as conn:
++                row = conn.execute(stmt).first()
++        except SQLAlchemyError as err:
+             fail(
+-                _read_reason(error, ReportingCompositionReasonCode.MISSING_ENVELOPE_EVIDENCE),
++                _reason(err, ReportingCompositionReasonCode.MISSING_ENVELOPE_EVIDENCE),
+                 "sim_runs.reporting_request could not be read",
+                 ("sim_runs.reporting_request", run_id),
+             )
+         if row is None or row[0] is None:
+             return None
+-        raw = _sql_reporting_request_mapping(row[0], run_id)
+-        return _parse_sql_reporting_request(raw, run_id)
++        return _parse_row(row[0], run_id)
+ 
+     def persist(self, envelope: ReportingRequestEnvelope) -> ReportingRequestEnvelope:
+-        document = reporting_request_document(envelope)
+-        database_id = database_run_id(envelope.run_id)
+-        statement = (
+-            select(SIM_RUNS.c.reporting_request)
+-            .where(SIM_RUNS.c.run_id == database_id)
+-            .with_for_update()
+-        )
++        doc = reporting_request_document(envelope)
++        db_id = database_run_id(envelope.run_id)
++        stmt = select(SIM_RUNS.c.reporting_request).where(SIM_RUNS.c.run_id == db_id).with_for_update()
+         try:
+-            with self._engine.begin() as connection:
+-                row = connection.execute(statement).first()
++            with self._engine.begin() as conn:
++                row = conn.execute(stmt).first()
+                 if row is None:
+                     fail(
+                         ReportingCompositionReasonCode.MISSING_ENVELOPE_EVIDENCE,
+@@ -117,23 +111,22 @@
+                     )
+                 existing = row[0]
+                 if existing is None:
+-                    connection.execute(
++                    conn.execute(
+                         update(SIM_RUNS)
+-                        .where(SIM_RUNS.c.run_id == database_id)
+-                        .values(reporting_request=document)
++                        .where(SIM_RUNS.c.run_id == db_id)
++                        .values(reporting_request=doc)
+                     )
+                     return envelope
+         except ReportingCompositionError:
+             raise
+-        except SQLAlchemyError as error:
++        except SQLAlchemyError as err:
+             fail(
+-                _read_reason(error, ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE),
++                _reason(err, ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE),
+                 "sim_runs.reporting_request could not be persisted",
+                 ("sim_runs.reporting_request", envelope.run_id),
+             )
+-        raw = _sql_reporting_request_mapping(existing, envelope.run_id)
+-        stored = _parse_sql_reporting_request(raw, envelope.run_id)
+-        if reporting_request_document(stored) != document:
++        stored = _parse_row(existing, envelope.run_id)
++        if reporting_request_document(stored) != doc:
+             fail(
+                 ReportingCompositionReasonCode.ENVELOPE_EVIDENCE_CONFLICT,
+                 "an immutable SQL reporting request already differs",
+@@ -142,69 +135,44 @@
+         return stored
+ 
+ 
+-def _sql_reporting_request_mapping(value: object, run_id: str) -> Mapping[str, object]:
++def _parse_row(value: object, run_id: str) -> ReportingRequestEnvelope:
+     try:
+-        return require_mapping(value, "sim_runs.reporting_request")
++        raw = require_mapping(value, "sim_runs.reporting_request")
+     except (TypeError, ValueError):
+         fail(
+             ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE,
+             "sim_runs.reporting_request is not a JSON object",
+             ("sim_runs.reporting_request", run_id),
+         )
+-
+-
+-def _parse_sql_reporting_request(
+-    raw: Mapping[str, object],
+-    run_id: str,
+-) -> ReportingRequestEnvelope:
+     try:
+         return parse_reporting_request_document(raw, expected_run_id=run_id)
+-    except ReportingCompositionError as error:
+-        fail(error.reason_code, error.detail, ("sim_runs.reporting_request", *error.evidence_ids))
++    except ReportingCompositionError as err:
++        fail(err.reason_code, err.detail, ("sim_runs.reporting_request", *err.evidence_ids))
+ 
+ 
+ def _validated_run_directory(run_directory: Path, run_id: str) -> Path:
+     if not isinstance(run_directory, Path):
+-        fail(
+-            ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE,
+-            "run_directory must be a pathlib.Path",
+-            (run_id,),
+-        )
++        fail(ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE, "run_directory must be a pathlib.Path", (run_id,))
+     if not run_directory.is_absolute():
+-        fail(
+-            ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE,
+-            "run_directory must be absolute",
+-            (run_id,),
+-        )
++        fail(ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE, "run_directory must be absolute", (run_id,))
+     try:
+         validate_run_id(run_id)
+     except ArtifactSecurityError:
+-        fail(
+-            ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE,
+-            "run_id is unsafe for a run directory",
+-            (run_id,),
+-        )
+-    directory = require_real_directory(
++        fail(ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE, "run_id is unsafe for a run directory", (run_id,))
++    d = require_real_directory(
+         run_directory,
+         root=run_directory.parent,
+         missing_code=ReportingCompositionReasonCode.MISSING_ENVELOPE_EVIDENCE,
+         invalid_code=ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE,
+         evidence_ids=(run_id,),
+     )
+-    if directory.name != run_id:
+-        fail(
+-            ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE,
+-            "run directory basename differs from run_id",
+-            (run_id, directory.name),
+-        )
+-    return directory
++    if d.name != run_id:
++        fail(ReportingCompositionReasonCode.INVALID_ENVELOPE_EVIDENCE, "run directory basename differs from run_id", (run_id, d.name))
++    return d
+ 
+ 
+-def _read_reason(
+-    error: SQLAlchemyError, otherwise: ReportingCompositionReasonCode
+-) -> ReportingCompositionReasonCode:
+-    unavailable = ReportingCompositionReasonCode.STORE_UNAVAILABLE
+-    return unavailable if store_unreachable(error) else otherwise
++def _reason(err: SQLAlchemyError, fallback: ReportingCompositionReasonCode) -> ReportingCompositionReasonCode:
++    return ReportingCompositionReasonCode.STORE_UNAVAILABLE if store_unreachable(err) else fallback
+ 
+ 
+ __all__ = [
+--- a/packages/facdrone-reporting/facdrone_reporting/shells/snapshot_store.py
++++ b/packages/facdrone-reporting/facdrone_reporting/shells/snapshot_store.py
+@@ -87,38 +87,18 @@
+     entitlement_required: bool
+ 
+ 
+-# A series may have more than one approved origin, but each origin is a SEPARATE contract
+-# matched on the exact (source, source_version) pair. Widening this to a per-series list is
+-# not a relaxation: an FMP payload can never be accepted under the licensed source version,
+-# and the licensed route keeps its entitlement requirement regardless of what else is listed.
+ _SNAPSHOT_CONTRACTS: dict[str, tuple[_SnapshotContract, ...]] = {
+     "EST.B.EU000A2QQF08.CI": (
+-        _SnapshotContract(
+-            ECB_PROVIDER_ID,
+-            ECB_SDMX_CSV_SOURCE_VERSION,
+-            ("available", "final"),
+-            False,
+-        ),
++        _SnapshotContract(ECB_PROVIDER_ID, ECB_SDMX_CSV_SOURCE_VERSION, ("available", "final"), False),
+     ),
+-    # Free and published like the ECB series; FRED grants no entitlement identity.
+     SOFR_INDEX_SERIES_ID: (
+-        _SnapshotContract(
+-            FRED_PROVIDER_ID, FRED_OBSERVATIONS_CSV_SOURCE_VERSION, ("final",), False
+-        ),
++        _SnapshotContract(FRED_PROVIDER_ID, FRED_OBSERVATIONS_CSV_SOURCE_VERSION, ("final",), False),
+     ),
+     ECB_USD_PER_EUR_SERIES_ID: (
+-        _SnapshotContract(
+-            ECB_PROVIDER_ID,
+-            ECB_SDMX_CSV_SOURCE_VERSION,
+-            ("available", "final"),
+-            False,
+-        ),
++        _SnapshotContract(ECB_PROVIDER_ID, ECB_SDMX_CSV_SOURCE_VERSION, ("available", "final"), False),
+     ),
+     SP500_TOTAL_RETURN_SERIES_ID: (
+         _SnapshotContract(SPDJI_PROVIDER_ID, SPTR_SOURCE_VERSION, ("final",), True),
+-        # The redistributed route. No entitlement is demanded because FMP grants none; what
+-        # stands in its place is the benchmark attestation, which the provider adapter
+-        # requires and carries into the provenance of every derived number.
+         _SnapshotContract(FMP_PROVIDER_ID, ATTESTED_SPTR_SOURCE_VERSION, ("final",), False),
+     ),
+ }
+@@ -195,7 +175,8 @@
+                 (request.request_id, request_key),
+             )
+         manifest = _parse_snapshot_manifest(manifest_bytes, request.request_id)
+-        self._validate_manifest(manifest, request, contracts)
++        contract = _matched_contract(manifest, request, contracts)
++        _require_publication(manifest, request, contract)
+         payload_path = request_directory / manifest.payload_path
+         payload = read_regular_bytes(
+             payload_path,
+@@ -220,8 +201,7 @@
+                 ReportingCompositionReasonCode.INVALID_SOURCE_LOCATIONS,
+                 "project_root must be a real directory",
+             )
+-        relative = PurePosixPath(self.locations.snapshot_root)
+-        candidate = project_root.joinpath(*relative.parts)
++        candidate = project_root.joinpath(*PurePosixPath(self.locations.snapshot_root).parts)
+         return require_real_directory(
+             candidate,
+             root=project_root,
+@@ -229,15 +209,6 @@
+             invalid_code=ReportingCompositionReasonCode.INVALID_SOURCE_LOCATIONS,
+             evidence_ids=(self.locations.snapshot_root,),
+         )
+-
+-    @staticmethod
+-    def _validate_manifest(
+-        manifest: _SnapshotManifest,
+-        request: IndexRequest,
+-        contracts: tuple[_SnapshotContract, ...],
+-    ) -> None:
+-        contract = _matched_contract(manifest, request, contracts)
+-        _require_publication(manifest, request, contract)
+ 
+ 
+ def _snapshot_from_manifest(payload: bytes, manifest: _SnapshotManifest) -> RawIndexSnapshot:
+@@ -273,9 +244,6 @@
+         mismatches.append("request_id")
+     if manifest.series_id != request.series_id:
+         mismatches.append("series_id")
+-    # The origin must match one contract COMPLETELY. Matching source from one approved
+-    # origin and source_version from another would let a redistributed payload be read
+-    # under the licensed publisher's terms, so the pair is selected as a unit.
+     contract = next(
+         (
+             item
+@@ -285,15 +253,14 @@
+         None,
+     )
+     if contract is None:
+-        mismatches.append("source")
+-        mismatches.append("source_version")
++        mismatches.extend(("source", "source_version"))
+     if mismatches:
+         fail(
+             ReportingCompositionReasonCode.SNAPSHOT_IDENTITY_MISMATCH,
+             "snapshot manifest identity differs from the exact approved request",
+             (request.request_id, manifest.snapshot_id, *mismatches),
+         )
+-    assert contract is not None  # noqa: S101 — narrowed by the fail above, which is NoReturn
++    assert contract is not None
+     return contract
+ 
+ 
+@@ -302,112 +269,41 @@
+ ) -> None:
+     """The manifest publishes an approved, timely CSV under the contract's terms."""
+     invalid = ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE
+-    _require(
+-        manifest.response_status == 200,
+-        invalid,
+-        "snapshot manifest response status is not successful",
+-        manifest.snapshot_id,
+-        str(manifest.response_status),
+-    )
+-    _require(
+-        manifest.status.strip().lower() in contract.statuses,
+-        invalid,
+-        "snapshot publication status is not approved",
+-        manifest.snapshot_id,
+-        manifest.status,
+-    )
+-    _require(
+-        "csv" in manifest.content_type.strip().lower(),
+-        invalid,
+-        "snapshot content type is not an approved CSV media type",
+-        manifest.snapshot_id,
+-        manifest.content_type,
+-    )
+-    _require(
+-        as_utc(manifest.published_at) <= as_utc(manifest.available_at),
+-        invalid,
+-        "snapshot publication follows declared availability",
+-        manifest.snapshot_id,
+-    )
+-    _require(
+-        as_utc(manifest.available_at) <= as_utc(manifest.retrieved_at),
+-        invalid,
+-        "snapshot availability follows retrieval",
+-        manifest.snapshot_id,
+-    )
+-    _require(
+-        as_utc(manifest.retrieved_at) <= as_utc(request.snapshot_as_of),
+-        invalid,
+-        "snapshot was retrieved after the request as-of cutoff",
+-        manifest.snapshot_id,
+-        request.request_id,
+-    )
+-    _require(
+-        not contract.entitlement_required or manifest.entitlement_id is not None,
+-        ReportingCompositionReasonCode.SNAPSHOT_ENTITLEMENT_REQUIRED,
+-        "licensed SPTR snapshot evidence requires an entitlement identity",
+-        manifest.snapshot_id,
+-        request.request_id,
+-    )
+-
+-
+-def _require(
+-    condition: bool, code: ReportingCompositionReasonCode, detail: str, *evidence_ids: str
+-) -> None:
+-    """Refuse the snapshot with ``code`` unless ``condition`` holds."""
++    _req(manifest.response_status == 200, invalid, "snapshot manifest response status is not successful", manifest.snapshot_id, str(manifest.response_status))
++    _req(manifest.status.strip().lower() in contract.statuses, invalid, "snapshot publication status is not approved", manifest.snapshot_id, manifest.status)
++    _req("csv" in manifest.content_type.strip().lower(), invalid, "snapshot content type is not an approved CSV media type", manifest.snapshot_id, manifest.content_type)
++    _req(as_utc(manifest.published_at) <= as_utc(manifest.available_at), invalid, "snapshot publication follows declared availability", manifest.snapshot_id)
++    _req(as_utc(manifest.available_at) <= as_utc(manifest.retrieved_at), invalid, "snapshot availability follows retrieval", manifest.snapshot_id)
++    _req(as_utc(manifest.retrieved_at) <= as_utc(request.snapshot_as_of), invalid, "snapshot was retrieved after the request as-of cutoff", manifest.snapshot_id, request.request_id)
++    _req(not contract.entitlement_required or manifest.entitlement_id is not None, ReportingCompositionReasonCode.SNAPSHOT_ENTITLEMENT_REQUIRED, "licensed SPTR snapshot evidence requires an entitlement identity", manifest.snapshot_id, request.request_id)
++
++
++def _req(condition: bool, code: ReportingCompositionReasonCode, detail: str, *evidence_ids: str) -> None:
+     if not condition:
+         fail(code, detail, evidence_ids)
+ 
+ 
+ def _require_snapshot_request(request: IndexRequest) -> tuple[_SnapshotContract, ...]:
+-    """The request carries the frozen contract, asks for no fallback and names a registered
+-    series; returns that series' contracts."""
+     if not isinstance(request, IndexRequest):
+-        fail(
+-            ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE,
+-            "snapshot request has the wrong contract",
+-        )
++        fail(ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE, "snapshot request has the wrong contract")
+     if request.allow_fallback or request.fallback_approval_id is not None:
+-        fail(
+-            ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE,
+-            "the immutable snapshot store does not permit fallback requests",
+-            (request.request_id,),
+-        )
++        fail(ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE, "the immutable snapshot store does not permit fallback requests", (request.request_id,))
+     contracts = _SNAPSHOT_CONTRACTS.get(request.series_id)
+     if contracts is None:
+-        fail(
+-            ReportingCompositionReasonCode.SNAPSHOT_IDENTITY_MISMATCH,
+-            "snapshot request is outside the approved reporting series registry",
+-            (request.request_id, request.series_id),
+-        )
++        fail(ReportingCompositionReasonCode.SNAPSHOT_IDENTITY_MISMATCH, "snapshot request is outside the approved reporting series registry", (request.request_id, request.series_id))
+     return contracts
+ 
+ 
+-def _require_payload_integrity(
+-    payload: bytes, manifest: _SnapshotManifest, request_id: str
+-) -> None:
+-    """The raw bytes match the manifest's length and content hash."""
++def _require_payload_integrity(payload: bytes, manifest: _SnapshotManifest, request_id: str) -> None:
+     if not payload or len(payload) != manifest.content_length:
+-        fail(
+-            ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE,
+-            "snapshot raw-byte length differs from its manifest",
+-            (request_id, manifest.snapshot_id),
+-        )
++        fail(ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE, "snapshot raw-byte length differs from its manifest", (request_id, manifest.snapshot_id))
+     actual_sha256 = hashlib.sha256(payload).hexdigest()
+     if actual_sha256 != manifest.content_sha256:
+-        fail(
+-            ReportingCompositionReasonCode.SNAPSHOT_CONTENT_HASH_MISMATCH,
+-            "snapshot raw bytes do not match the declared content hash",
+-            (manifest.snapshot_id, manifest.content_sha256, actual_sha256),
+-        )
++        fail(ReportingCompositionReasonCode.SNAPSHOT_CONTENT_HASH_MISMATCH, "snapshot raw bytes do not match the declared content hash", (manifest.snapshot_id, manifest.content_sha256, actual_sha256))
+ 
+ 
+ def _parse_snapshot_manifest(content: bytes, request_id: str) -> _SnapshotManifest:
+-    raw = decode_canonical_json(
+-        content,
+-        reason_code=ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE,
+-        evidence_ids=(request_id,),
+-    )
++    raw = decode_canonical_json(content, reason_code=ReportingCompositionReasonCode.INVALID_SNAPSHOT_EVIDENCE, evidence_ids=(request_id,))
+     try:
+         require_exact_fields(raw, _SNAPSHOT_MANIFEST_FIELDS, "snapshot manifest")
+         schema_version = parse_text(raw["schema_version"], "schema_version")
+@@ -417,8 +313,6 @@
+         validate_artifact_filename(payload_path)
+         if PurePosixPath(payload_path).suffix.lower() != ".csv":
+             raise ValueError("snapshot payload must be a CSV basename")
+-        content_length = parse_positive_int(raw["content_length"], "content_length")
+-        response_status = parse_positive_int(raw["response_status"], "response_status")
+         return _SnapshotManifest(
+             schema_version=schema_version,
+             request_id=parse_text(raw["request_id"], "request_id"),
+@@ -429,9 +323,9 @@
+             request_uri=parse_text(raw["request_uri"], "request_uri"),
+             payload_path=payload_path,
+             content_type=parse_text(raw["content_type"], "content_type"),
+-            content_length=content_length,
++            content_length=parse_positive_int(raw["content_length"], "content_length"),
+             content_sha256=parse_sha256(raw["content_sha256"], "content_sha256"),
+-            response_status=response_status,
++            response_status=parse_positive_int(raw["response_status"], "response_status"),
+             status=parse_text(raw["status"], "status"),
+             published_at=parse_datetime(raw["published_at"], "published_at"),
+             available_at=parse_datetime(raw["available_at"], "available_at"),
+--- a/packages/facdrone-reporting/facdrone_reporting/shells/evidence_validation.py
++++ b/packages/facdrone-reporting/facdrone_reporting/shells/evidence_validation.py
+@@ -1,5 +1,4 @@
+ """Shared validation primitives for immutable reporting evidence adapters."""
+-
+ from __future__ import annotations
+ 
+ import json
+@@ -10,10 +9,7 @@
+ from typing import cast
+ 
+ from facdrone_kernel.canonical import as_canonical_mapping, canonical_json_bytes
+-from facdrone_reporting.library.artifact_security import (
+-    ArtifactSecurityError,
+-    validate_persisted_text,
+-)
++from facdrone_reporting.library.artifact_security import ArtifactSecurityError, validate_persisted_text
+ from facdrone_reporting.shells.composition_errors import ReportingCompositionReasonCode, fail
+ 
+ 
+@@ -25,24 +21,48 @@
+ ) -> dict[str, object]:
+     """Decode canonical UTF-8 JSON while rejecting lossy or ambiguous input."""
+     try:
+-        text = content.decode("utf-8")
+         parsed = json.loads(
+-            text,
++            content.decode("utf-8"),
+             parse_float=Decimal,
+-            parse_constant=_raise_json_constant,
++            parse_constant=lambda c: (_ for _ in ()).throw(ValueError(f"non-finite JSON constant: {c}")),
+             object_pairs_hook=_reject_duplicate_pairs,
+         )
+         raw = require_mapping(parsed, "document")
+         canonical = canonical_json_bytes(dict(as_canonical_mapping(raw)))
+     except (UnicodeDecodeError, json.JSONDecodeError, TypeError, ValueError) as error:
+-        fail(
+-            reason_code,
+-            "evidence document is not canonical UTF-8 JSON",
+-            (*evidence_ids, type(error).__name__),
+-        )
++        fail(reason_code, "evidence document is not canonical UTF-8 JSON", (*evidence_ids, type(error).__name__))
+     if canonical != content:
+         fail(reason_code, "evidence document bytes are not in canonical JSON form", evidence_ids)
+     return dict(raw)
++
++
++def _check_contained_path(
++    path: Path,
++    root: Path,
++    missing_code: ReportingCompositionReasonCode,
++    invalid_code: ReportingCompositionReasonCode,
++    evidence_ids: tuple[str, ...],
++) -> Path:
++    if not path.exists():
++        fail(missing_code, "required evidence path is missing", evidence_ids)
++    if path.is_symlink():
++        fail(invalid_code, "evidence path must not be a symbolic link", evidence_ids)
++    try:
++        resolved_root, resolved = root.resolve(strict=True), path.resolve(strict=True)
++    except OSError as err:
++        fail(invalid_code, "evidence path cannot be resolved safely", (*evidence_ids, type(err).__name__))
++    if not resolved.is_relative_to(resolved_root):
++        fail(invalid_code, "evidence path escapes its approved root", evidence_ids)
++    try:
++        relative = path.absolute().relative_to(root.absolute())
++    except ValueError:
++        fail(invalid_code, "evidence path is outside its approved root", evidence_ids)
++    current = root
++    for part in relative.parts:
++        current = current / part
++        if current.is_symlink():
++            fail(invalid_code, "evidence path contains a symbolic link", evidence_ids)
++    return resolved
+ 
+ 
+ def require_real_directory(
+@@ -53,23 +73,9 @@
+     invalid_code: ReportingCompositionReasonCode,
+     evidence_ids: tuple[str, ...],
+ ) -> Path:
+-    """Resolve a real directory confined to its approved root."""
+-    if not path.exists():
+-        fail(missing_code, "required evidence directory is missing", evidence_ids)
+-    if path.is_symlink() or not path.is_dir():
++    resolved = _check_contained_path(path, root, missing_code, invalid_code, evidence_ids)
++    if not resolved.is_dir():
+         fail(invalid_code, "evidence directory must be a real directory", evidence_ids)
+-    try:
+-        resolved_root = root.resolve(strict=True)
+-        resolved = path.resolve(strict=True)
+-    except OSError as error:
+-        fail(
+-            invalid_code,
+-            "evidence directory cannot be resolved safely",
+-            (*evidence_ids, type(error).__name__),
+-        )
+-    if not resolved.is_relative_to(resolved_root):
+-        fail(invalid_code, "evidence directory escapes its approved root", evidence_ids)
+-    _reject_symlink_components(resolved_root, path, invalid_code, evidence_ids)
+     return resolved
+ 
+ 
+@@ -81,41 +87,23 @@
+     invalid_code: ReportingCompositionReasonCode,
+     evidence_ids: tuple[str, ...],
+ ) -> bytes:
+-    """Read a regular file confined to its approved root."""
+-    if not path.exists():
+-        fail(missing_code, "required evidence file is missing", evidence_ids)
+-    if path.is_symlink() or not path.is_file():
++    resolved = _check_contained_path(path, root, missing_code, invalid_code, evidence_ids)
++    if not resolved.is_file():
+         fail(invalid_code, "evidence file must be a real regular file", evidence_ids)
+     try:
+-        resolved_root = root.resolve(strict=True)
+-        resolved = path.resolve(strict=True)
+-    except OSError as error:
+-        fail(
+-            invalid_code,
+-            "evidence file cannot be resolved safely",
+-            (*evidence_ids, type(error).__name__),
+-        )
+-    if not resolved.is_relative_to(resolved_root):
+-        fail(invalid_code, "evidence file escapes its approved root", evidence_ids)
+-    _reject_symlink_components(resolved_root, path, invalid_code, evidence_ids)
+-    try:
+         return resolved.read_bytes()
+-    except OSError as error:
+-        fail(invalid_code, "evidence file could not be read", (*evidence_ids, type(error).__name__))
++    except OSError as err:
++        fail(invalid_code, "evidence file could not be read", (*evidence_ids, type(err).__name__))
+ 
+ 
+ def require_exact_fields(raw: Mapping[str, object], required: tuple[str, ...], name: str) -> None:
+-    """Require an exact immutable document field inventory."""
+-    actual = set(raw)
+-    expected = set(required)
++    actual, expected = set(raw), set(required)
+     if actual != expected:
+-        missing = sorted(expected - actual)
+-        extra = sorted(actual - expected)
+-        raise ValueError(f"{name} fields differ; missing={missing}, extra={extra}")
++        raise ValueError(f"{name} fields differ; missing={sorted(expected - actual)}, extra={sorted(actual - expected)}")
+ 
+ 
+ def require_mapping(value: object, name: str) -> Mapping[str, object]:
+-    if not isinstance(value, Mapping) or any(not isinstance(key, str) for key in value):
++    if not isinstance(value, Mapping) or any(not isinstance(k, str) for k in value):
+         raise TypeError(f"{name} must be an object with text keys")
+     return cast(Mapping[str, object], value)
+ 
+@@ -134,9 +122,7 @@
+ 
+ 
+ def parse_optional_text(value: object, name: str) -> str | None:
+-    if value is None:
+-        return None
+-    return parse_text(value, name)
++    return None if value is None else parse_text(value, name)
+ 
+ 
+ def parse_datetime(value: object, name: str) -> datetime:
+@@ -144,16 +130,14 @@
+         raise TypeError(f"{name} must be an ISO-8601 string")
+     try:
+         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+-    except ValueError as error:
+-        raise ValueError(f"{name} is not an ISO-8601 datetime") from error
++    except ValueError as err:
++        raise ValueError(f"{name} is not an ISO-8601 datetime") from err
+     require_aware(parsed, name)
+     return parsed
+ 
+ 
+ def parse_optional_datetime(value: object, name: str) -> datetime | None:
+-    if value is None:
+-        return None
+-    return parse_datetime(value, name)
++    return None if value is None else parse_datetime(value, name)
+ 
+ 
+ def parse_decimal(value: object, name: str) -> Decimal:
+@@ -161,8 +145,8 @@
+         raise TypeError(f"{name} must be a canonical JSON number")
+     try:
+         parsed = Decimal(value)
+-    except InvalidOperation as error:
+-        raise ValueError(f"{name} is not a decimal") from error
++    except InvalidOperation as err:
++        raise ValueError(f"{name} is not a decimal") from err
+     if not parsed.is_finite():
+         raise ValueError(f"{name} must be finite")
+     return parsed
+@@ -182,13 +166,12 @@
+ 
+ 
+ def decimals_to_floats(value: object) -> object:
+-    """Project exact JSON decimals into Pydantic's configuration input shape."""
+     if isinstance(value, Decimal):
+         return float(value)
+     if isinstance(value, dict):
+-        return {key: decimals_to_floats(item) for key, item in value.items()}
++        return {k: decimals_to_floats(v) for k, v in value.items()}
+     if isinstance(value, list):
+-        return [decimals_to_floats(item) for item in value]
++        return [decimals_to_floats(x) for x in value]
+     return value
+ 
+ 
+@@ -197,8 +180,8 @@
+         raise ValueError(f"{name} must be non-empty text")
+     try:
+         validate_persisted_text(value, field_name=name)
+-    except ArtifactSecurityError as error:
+-        raise ValueError(f"{name} contains unsafe text") from error
++    except ArtifactSecurityError as err:
++        raise ValueError(f"{name} contains unsafe text") from err
+ 
+ 
+ def require_aware(value: datetime, name: str) -> None:
+@@ -207,11 +190,7 @@
+ 
+ 
+ def require_sha256(value: str, name: str) -> None:
+-    if (
+-        not isinstance(value, str)
+-        or len(value) != 64
+-        or any(character not in "0123456789abcdef" for character in value)
+-    ):
++    if not isinstance(value, str) or len(value) != 64 or any(c not in "0123456789abcdef" for c in value):
+         raise ValueError(f"{name} must be a lowercase SHA-256 digest")
+ 
+ 
+@@ -221,29 +200,8 @@
+ 
+ def _reject_duplicate_pairs(pairs: list[tuple[str, object]]) -> dict[str, object]:
+     result: dict[str, object] = {}
+-    for key, value in pairs:
+-        if key in result:
++    for k, v in pairs:
++        if k in result:
+             raise ValueError("JSON object contains a duplicate key")
+-        result[key] = value
++        result[k] = v
+     return result
+-
+-
+-def _raise_json_constant(value: str) -> None:
+-    raise ValueError(f"non-finite JSON constant is forbidden: {value}")
+-
+-
+-def _reject_symlink_components(
+-    root: Path,
+-    path: Path,
+-    reason_code: ReportingCompositionReasonCode,
+-    evidence_ids: tuple[str, ...],
+-) -> None:
+-    try:
+-        relative = path.absolute().relative_to(root.absolute())
+-    except ValueError:
+-        fail(reason_code, "evidence path is outside its approved root", evidence_ids)
+-    current = root
+-    for part in relative.parts:
+-        current = current / part
+-        if current.is_symlink():
+-            fail(reason_code, "evidence path contains a symbolic link", evidence_ids)
+--- a/packages/facdrone-reporting/facdrone_reporting/shells/composition_errors.py
++++ b/packages/facdrone-reporting/facdrone_reporting/shells/composition_errors.py
+@@ -1,17 +1,13 @@
+ """Stable failures shared by immutable reporting composition adapters."""
+-
+ from __future__ import annotations
+ 
+ from enum import StrEnum
+ from typing import NoReturn
+-
+-from sqlalchemy.exc import DBAPIError, InterfaceError, OperationalError, SQLAlchemyError
+-from sqlalchemy.exc import TimeoutError as PoolTimeout
++from sqlalchemy.exc import DBAPIError, InterfaceError, OperationalError, SQLAlchemyError, TimeoutError as PoolTimeout
+ 
+ 
+ class ReportingCompositionReasonCode(StrEnum):
+     """Stable operational failures at the immutable composition boundary."""
+-
+     INVALID_SOURCE_LOCATIONS = "REPORTING_SOURCE_LOCATIONS_INVALID"
+     MISSING_ENVELOPE_EVIDENCE = "REPORTING_ENVELOPE_EVIDENCE_MISSING"
+     INVALID_ENVELOPE_EVIDENCE = "REPORTING_ENVELOPE_EVIDENCE_INVALID"
+@@ -21,12 +17,11 @@
+     SNAPSHOT_IDENTITY_MISMATCH = "REPORTING_SNAPSHOT_IDENTITY_MISMATCH"
+     SNAPSHOT_CONTENT_HASH_MISMATCH = "REPORTING_SNAPSHOT_CONTENT_HASH_MISMATCH"
+     SNAPSHOT_ENTITLEMENT_REQUIRED = "REPORTING_SNAPSHOT_ENTITLEMENT_REQUIRED"
+-    STORE_UNAVAILABLE = "REPORTING_STORE_UNAVAILABLE"  # the store, not the evidence (R7.4)
++    STORE_UNAVAILABLE = "REPORTING_STORE_UNAVAILABLE"
+ 
+ 
+ class ReportingCompositionError(RuntimeError):
+     """A machine-identifiable failure to compose immutable report evidence."""
+-
+     def __init__(
+         self,
+         reason_code: ReportingCompositionReasonCode,
+@@ -49,18 +44,11 @@
+     raise ReportingCompositionError(reason_code, detail, evidence_ids)
+ 
+ 
+-__all__ = [
+-    "ReportingCompositionError",
+-    "ReportingCompositionReasonCode",
+-    "store_unreachable",
+-    "fail",
+-]
++def store_unreachable(error: SQLAlchemyError) -> bool:
++    """A store read failed on connectivity, timeout or exhausted pool."""
++    return isinstance(error, (OperationalError, InterfaceError, PoolTimeout)) or (
++        isinstance(error, DBAPIError) and error.connection_invalidated
++    )
+ 
+ 
+-def store_unreachable(error: SQLAlchemyError) -> bool:
+-    """A store read failed on connectivity, a timeout or an exhausted pool rather than on
+-    what the store holds: the readers name the store instead of reporting the run's
+-    evidence missing, which sent operators to repair a run while the database was down
+-    (facdrone-serving-io-hardening R7.4)."""
+-    unreachable = isinstance(error, OperationalError | InterfaceError | PoolTimeout)
+-    return unreachable or (isinstance(error, DBAPIError) and error.connection_invalidated)
++__all__ = ["ReportingCompositionError", "ReportingCompositionReasonCode", "store_unreachable", "fail"]
+--- a/packages/facdrone-kernel/facdrone_kernel/canonical.py
++++ b/packages/facdrone-kernel/facdrone_kernel/canonical.py
+@@ -5,15 +5,14 @@
+ import json
+ import types
+ import typing
+-from collections.abc import Callable, Mapping, Sequence
++from collections.abc import Mapping, Sequence
+ from dataclasses import MISSING, fields, is_dataclass
+ from datetime import UTC, date, datetime
+ from decimal import Decimal
+ from enum import Enum
+-from typing import Any, TypeAlias, TypeVar, cast
++from typing import TypeAlias, TypeVar, cast
+ 
+ T = TypeVar("T")
+-
+ 
+ CanonicalScalar: TypeAlias = None | bool | int | Decimal | str
+ CanonicalValue: TypeAlias = (
+@@ -27,162 +26,16 @@
+ 
+ 
+ def as_canonical_json_value(value: object) -> CanonicalValue:
+-    """Adapt already-parsed JSON into the canonical container shape.
+-
+-    ``json.loads`` decodes arrays as ``list``, but a canonical value's only
+-    sequence is ``tuple`` — so re-encoding parsed JSON needs this normalization
+-    first. Scalars pass through untouched: this converts containers, it does not
+-    canonicalize domain objects (``_canonicalize`` owns that), so the numeric
+-    tokens of a canonical round trip are preserved exactly.
+-    """
+-
++    """Adapt already-parsed JSON into the canonical container shape."""
+     if isinstance(value, dict):
+-        keys = list(value)
+-        if not all(isinstance(key, str) for key in keys):
++        if not all(isinstance(k, str) for k in value):
+             raise TypeError("canonical JSON objects require string keys")
+-        return {cast(str, key): as_canonical_json_value(value[key]) for key in keys}
++        return {k: as_canonical_json_value(v) for k, v in value.items()}
+     if isinstance(value, (list, tuple)):
+         return tuple(as_canonical_json_value(item) for item in value)
+     if value is None or isinstance(value, (bool, int, Decimal, str)):
+         return value
+     raise TypeError(f"unsupported parsed JSON value: {type(value).__name__}")
+-
+-
+-def _canonical_enum(value: Enum, _identity_only: bool) -> CanonicalValue:
+-    enum_value = value.value
+-    if not isinstance(enum_value, str):
+-        raise TypeError("reporting enums must have string values")
+-    return enum_value
+-
+-
+-def _canonical_float(value: float, identity_only: bool) -> CanonicalValue:
+-    if not _float_is_finite(value):
+-        raise ValueError("canonical JSON cannot contain non-finite floats")
+-    if identity_only:
+-        # The identity digest binds the report's MEANING, not the last ulp of a BLAS
+-        # reduction: twelve significant digits sit far above any runner-dependent
+-        # rounding and far below any change a metric can make (cppi-server-and-clients
+-        # 1.5 follow-up; the artifact bytes keep full precision).
+-        return Decimal(f"{value:.12g}")
+-    return Decimal(repr(value))
+-
+-
+-def _canonical_decimal(value: Decimal, _identity_only: bool) -> CanonicalValue:
+-    if not value.is_finite():
+-        raise ValueError("canonical JSON cannot contain non-finite decimals")
+-    return value
+-
+-
+-def _canonical_datetime(value: datetime, _identity_only: bool) -> CanonicalValue:
+-    if value.tzinfo is None or value.utcoffset() is None:
+-        raise ValueError("canonical datetimes must be timezone-aware")
+-    normalized = value.astimezone(UTC)
+-    return normalized.isoformat(timespec="microseconds").replace("+00:00", "Z")
+-
+-
+-def _canonical_dataclass(value: object, identity_only: bool) -> CanonicalValue:
+-    result: dict[str, CanonicalValue] = {}
+-    for item in fields(value):  # type: ignore[arg-type]
+-        if identity_only and item.metadata.get("identity") is False:
+-            continue
+-        result[item.name] = _canonicalize(getattr(value, item.name), identity_only=identity_only)
+-    return result
+-
+-
+-def _canonical_mapping(value: Mapping[object, object], identity_only: bool) -> CanonicalValue:
+-    result: dict[str, CanonicalValue] = {}
+-    for key in sorted(value):  # type: ignore[type-var]
+-        if not isinstance(key, str):
+-            raise TypeError("canonical JSON object keys must be strings")
+-        result[key] = _canonicalize(value[key], identity_only=identity_only)
+-    return result
+-
+-
+-def _canonical_sequence(value: Sequence[object], identity_only: bool) -> CanonicalValue:
+-    return tuple(_canonicalize(item, identity_only=identity_only) for item in value)
+-
+-
+-def _reject(message: str) -> Callable[[object, bool], CanonicalValue]:
+-    def refuse(_value: object, _identity_only: bool) -> CanonicalValue:
+-        raise TypeError(message)
+-
+-    return refuse
+-
+-
+-def _is_dataclass_instance(value: object) -> bool:
+-    return is_dataclass(value) and not isinstance(value, type)
+-
+-
+-# (matches, canonical) in precedence order: bool before int, Enum before int (IntEnum),
+-# datetime before date, dataclass before Mapping and Sequence, the refusals before Sequence.
+-_CANONICAL_RULES: tuple[
+-    tuple[Callable[[object], bool], Callable[[Any, bool], CanonicalValue]], ...
+-] = (
+-    (lambda v: v is None or isinstance(v, (bool, str)), lambda v, _identity: v),
+-    (lambda v: isinstance(v, Enum), _canonical_enum),
+-    (lambda v: isinstance(v, int), lambda v, _identity: v),
+-    (lambda v: isinstance(v, float), _canonical_float),
+-    (lambda v: isinstance(v, Decimal), _canonical_decimal),
+-    (lambda v: isinstance(v, datetime), _canonical_datetime),
+-    (lambda v: isinstance(v, date), lambda v, _identity: v.isoformat()),
+-    (_is_dataclass_instance, _canonical_dataclass),
+-    (lambda v: isinstance(v, Mapping), _canonical_mapping),
+-    (lambda v: isinstance(v, (set, frozenset)), _reject("unordered collections are not canonical")),
+-    (
+-        lambda v: isinstance(v, (bytes, bytearray, memoryview)),
+-        _reject("binary values are not canonical JSON"),
+-    ),
+-    (lambda v: isinstance(v, Sequence), _canonical_sequence),
+-)
+-
+-
+-def _canonicalize(value: object, *, identity_only: bool) -> CanonicalValue:
+-    for matches, canonical in _CANONICAL_RULES:
+-        if matches(value):
+-            return canonical(value, identity_only)
+-    raise TypeError(f"unsupported canonical JSON value: {type(value).__name__}")
+-
+-
+-def _json_text(value: str) -> str:
+-    return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+-
+-
+-def _encode(value: CanonicalValue) -> str:
+-    if value is None:
+-        return "null"
+-    if isinstance(value, tuple):
+-        return "[" + ",".join(_encode(item) for item in value) + "]"
+-    if isinstance(value, dict):
+-        entries = (_json_text(key) + ":" + _encode(value[key]) for key in sorted(value))
+-        return "{" + ",".join(entries) + "}"
+-    for scalar_type, encode in _SCALAR_ENCODERS:
+-        if isinstance(value, scalar_type):
+-            return encode(value)
+-    raise TypeError(f"unsupported canonical value: {type(value).__name__}")
+-
+-
+-def _decimal_token(value: Decimal) -> str:
+-    if not value.is_finite():
+-        raise ValueError("canonical JSON cannot contain non-finite decimals")
+-    if value.is_zero():
+-        return "0"
+-    token = format(value, "f")
+-    if "." in token:
+-        token = token.rstrip("0").rstrip(".")
+-    return token
+-
+-
+-# (type, encoder) in precedence order: bool before int.
+-_SCALAR_ENCODERS: tuple[tuple[type, Callable[[Any], str]], ...] = (
+-    (bool, lambda v: "true" if v else "false"),
+-    (int, str),
+-    (Decimal, _decimal_token),
+-    (str, _json_text),
+-)
+-
+-
+-def _float_is_finite(value: float) -> bool:
+-    return value == value and value not in {float("inf"), float("-inf")}
+ 
+ 
+ def as_canonical_mapping(value: object) -> Mapping[str, CanonicalValue]:
+@@ -193,7 +46,73 @@
+     return cast(Mapping[str, CanonicalValue], canonical)
+ 
+ 
+-# ── the typed inverse ────────────────────────────────────────────────────────
++def _canonicalize(value: object, *, identity_only: bool) -> CanonicalValue:
++    if value is None or isinstance(value, (bool, str)):
++        return value
++    if isinstance(value, Enum):
++        if not isinstance(value.value, str):
++            raise TypeError("reporting enums must have string values")
++        return value.value
++    if isinstance(value, int):
++        return value
++    if isinstance(value, float):
++        if value != value or value in {float("inf"), float("-inf")}:
++            raise ValueError("canonical JSON cannot contain non-finite floats")
++        return Decimal(f"{value:.12g}") if identity_only else Decimal(repr(value))
++    if isinstance(value, Decimal):
++        if not value.is_finite():
++            raise ValueError("canonical JSON cannot contain non-finite decimals")
++        return value
++    if isinstance(value, datetime):
++        if value.tzinfo is None or value.utcoffset() is None:
++            raise ValueError("canonical datetimes must be timezone-aware")
++        return value.astimezone(UTC).isoformat(timespec="microseconds").replace("+00:00", "Z")
++    if isinstance(value, date):
++        return value.isoformat()
++    if is_dataclass(value) and not isinstance(value, type):
++        result: dict[str, CanonicalValue] = {}
++        for item in fields(value):
++            if identity_only and item.metadata.get("identity") is False:
++                continue
++            result[item.name] = _canonicalize(getattr(value, item.name), identity_only=identity_only)
++        return result
++    if isinstance(value, Mapping):
++        result = {}
++        for key in sorted(value):
++            if not isinstance(key, str):
++                raise TypeError("canonical JSON object keys must be strings")
++            result[key] = _canonicalize(value[key], identity_only=identity_only)
++        return result
++    if isinstance(value, (set, frozenset)):
++        raise TypeError("unordered collections are not canonical")
++    if isinstance(value, (bytes, bytearray, memoryview)):
++        raise TypeError("binary values are not canonical JSON")
++    if isinstance(value, Sequence):
++        return tuple(_canonicalize(item, identity_only=identity_only) for item in value)
++    raise TypeError(f"unsupported canonical JSON value: {type(value).__name__}")
++
++
++def _encode(value: CanonicalValue) -> str:
++    if value is None:
++        return "null"
++    if isinstance(value, bool):
++        return "true" if value else "false"
++    if isinstance(value, int):
++        return str(value)
++    if isinstance(value, str):
++        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
++    if isinstance(value, Decimal):
++        if not value.is_finite():
++            raise ValueError("canonical JSON cannot contain non-finite decimals")
++        if value.is_zero():
++            return "0"
++        token = format(value, "f")
++        return token.rstrip("0").rstrip(".") if "." in token else token
++    if isinstance(value, tuple):
++        return "[" + ",".join(_encode(item) for item in value) + "]"
++    if isinstance(value, dict):
++        return "{" + ",".join(json.dumps(k, ensure_ascii=False, separators=(",", ":")) + ":" + _encode(value[k]) for k in sorted(value)) + "}"
++    raise TypeError(f"unsupported canonical value: {type(value).__name__}")
+ 
+ 
+ class CanonicalParseError(ValueError):
+@@ -201,202 +120,114 @@
+ 
+ 
+ def hydrate_canonical(cls: type[T], value: object) -> T:
+-    """Parse one decoded canonical document into the dataclass it encodes.
+-
+-    The exact inverse of ``_canonicalize`` for the reporting models: fields
+-    hydrate by their declared annotations (nested dataclasses, tuples, string
+-    enums, dates, datetimes, Decimals, unions with ``None``), every record's
+-    own ``__post_init__`` validation runs on the way up, and anything that
+-    does not fit refuses with the field path that carried it. ``json.loads``
+-    output is accepted directly — numeric tokens may arrive as ``int`` or
+-    ``float`` and hydrate into the declared numeric type.
+-    """
+-
++    """Parse one decoded canonical document into the dataclass it encodes."""
+     if not (is_dataclass(cls) and isinstance(cls, type)):
+         raise CanonicalParseError(f"{cls!r} is not a dataclass type")
+-    hydrated = _hydrate(cls, value, cls.__name__)
+-    return cast(T, hydrated)
++    return cast(T, _hydrate(cls, value, cls.__name__))
+ 
+ 
+ def _hydrate(annotation: object, value: object, path: str) -> object:
+-    """Dispatch by annotation SHAPE; scalars hydrate in their own dispatcher."""
+     origin = typing.get_origin(annotation)
+     if origin in {typing.Union, types.UnionType}:
+-        return _hydrate_union(annotation, value, path)
++        members = [item for item in typing.get_args(annotation) if item is not type(None)]
++        if value is None:
++            if len(members) == len(typing.get_args(annotation)):
++                raise CanonicalParseError(f"{path}: null is not permitted here")
++            return None
++        if len(members) == 1:
++            return _hydrate(members[0], value, path)
++        member = _union_member(members, value)
++        if member is None:
++            raise CanonicalParseError(f"{path}: {type(value).__name__} fits none of the union members {members!r}")
++        return value if member is bool else _hydrate(member, value, path)
+     if annotation is None or annotation is type(None):
+         if value is not None:
+             raise CanonicalParseError(f"{path}: expected null, got {type(value).__name__}")
+         return None
+     if origin is tuple:
+-        return _hydrate_tuple(annotation, value, path)
++        if not isinstance(value, (list, tuple)):
++            raise CanonicalParseError(f"{path}: expected an array")
++        args = typing.get_args(annotation)
++        if len(args) == 2 and args[1] is Ellipsis:
++            return tuple(_hydrate(args[0], item, f"{path}[{i}]") for i, item in enumerate(value))
++        if len(args) != len(value):
++            raise CanonicalParseError(f"{path}: expected {len(args)} elements, got {len(value)}")
++        return tuple(_hydrate(arg, item, f"{path}[{i}]") for i, (arg, item) in enumerate(zip(args, value, strict=True)))
+     if is_dataclass(annotation) and isinstance(annotation, type):
+-        return _hydrate_dataclass(annotation, value, path)
++        if not isinstance(value, Mapping):
++            raise CanonicalParseError(f"{path}: expected an object")
++        hints = typing.get_type_hints(annotation)
++        kwargs: dict[str, object] = {}
++        for item in fields(annotation):
++            if not item.init:
++                continue
++            if item.name in value:
++                kwargs[item.name] = _hydrate(hints[item.name], value[item.name], f"{path}.{item.name}")
++            elif item.default is not MISSING or item.default_factory is not MISSING:
++                continue
++            else:
++                raise CanonicalParseError(f"{path}.{item.name}: required field is absent")
++        try:
++            return annotation(**kwargs)
++        except (TypeError, ValueError) as err:
++            raise CanonicalParseError(f"{path}: {err}") from err
+     return _hydrate_scalar(annotation, value, path)
++
++
++def _union_member(members: list[object], value: object) -> object | None:
++    for m in members:
++        if m is bool and isinstance(value, bool):
++            return bool
++        if m in {int, float, Decimal} and isinstance(value, (int, float, Decimal)) and not isinstance(value, bool):
++            return m
++    if isinstance(value, str):
++        for m in members:
++            if m is str or m in {datetime, date} or (isinstance(m, type) and issubclass(m, Enum)):
++                return m
++    return None
+ 
+ 
+ def _hydrate_scalar(annotation: object, value: object, path: str) -> object:
+     if isinstance(annotation, type) and issubclass(annotation, Enum):
+-        return _parse_enum(annotation, value, path)
+-    parser = _SCALAR_PARSERS.get(annotation)
+-    if parser is None:
+-        raise CanonicalParseError(f"{path}: unsupported annotation {annotation!r}")
+-    return parser(value, path)
+-
+-
+-def _parse_enum(annotation: type[Enum], value: object, path: str) -> Enum:
+-    if not isinstance(value, str):
+-        raise CanonicalParseError(f"{path}: expected an enum string")
+-    try:
+-        return annotation(value)
+-    except ValueError as error:
+-        raise CanonicalParseError(f"{path}: {error}") from error
+-
+-
+-def _parse_bool(value: object, path: str) -> bool:
+-    if not isinstance(value, bool):
+-        raise CanonicalParseError(f"{path}: expected a boolean")
+-    return value
+-
+-
+-def _parse_text(value: object, path: str) -> str:
+-    if not isinstance(value, str):
+-        raise CanonicalParseError(f"{path}: expected a string")
+-    return value
+-
+-
+-def _parse_int(value: object, path: str) -> int:
+-    if isinstance(value, bool) or not isinstance(value, int):
+-        raise CanonicalParseError(f"{path}: expected an integer")
+-    return value
+-
+-
+-def _parse_float(value: object, path: str) -> float:
+-    return float(_require_number(value, path))
+-
+-
+-def _parse_decimal(value: object, path: str) -> Decimal:
+-    number = _require_number(value, path)
+-    return number if isinstance(number, Decimal) else Decimal(str(number))
+-
+-
+-def _hydrate_union(annotation: object, value: object, path: str) -> object:
+-    members = [item for item in typing.get_args(annotation) if item is not type(None)]
+-    if value is None:
+-        if len(members) == len(typing.get_args(annotation)):
+-            raise CanonicalParseError(f"{path}: null is not permitted here")
+-        return None
+-    if len(members) == 1:
+-        return _hydrate(members[0], value, path)
+-    # The model's only multi-type unions mix disjoint runtime shapes
+-    # (``Decimal | bool | None``), so the decoded value picks its member.
+-    member = _numeric_member(members, value)
+-    if member is None:
+-        member = _textual_member(members, value)
+-    if member is None:
+-        raise CanonicalParseError(
+-            f"{path}: {type(value).__name__} fits none of the union members {members!r}"
+-        )
+-    return value if member is bool else _hydrate(member, value, path)
+-
+-
+-def _numeric_member(members: list[object], value: object) -> object | None:
+-    """The bool member for a bool, else the first numeric member for a non-bool number."""
+-    for member in members:
+-        if member is bool and isinstance(value, bool):
+-            return bool
+-        if member in {int, float, Decimal} and isinstance(value, (int, float, Decimal)):
+-            if not isinstance(value, bool):
+-                return member
+-    return None
+-
+-
+-def _textual_member(members: list[object], value: object) -> object | None:
+-    """The first member a string can hydrate into: str, a date, a datetime or an enum."""
+-    if not isinstance(value, str):
+-        return None
+-    for member in members:
+-        if member is str or member in {datetime, date}:
+-            return member
+-        if isinstance(member, type) and issubclass(member, Enum):
+-            return member
+-    return None
+-
+-
+-def _hydrate_tuple(annotation: object, value: object, path: str) -> tuple[object, ...]:
+-    if not isinstance(value, (list, tuple)):
+-        raise CanonicalParseError(f"{path}: expected an array")
+-    arguments = typing.get_args(annotation)
+-    if len(arguments) == 2 and arguments[1] is Ellipsis:
+-        item_annotation = arguments[0]
+-        return tuple(
+-            _hydrate(item_annotation, item, f"{path}[{index}]") for index, item in enumerate(value)
+-        )
+-    if len(arguments) != len(value):
+-        raise CanonicalParseError(f"{path}: expected {len(arguments)} elements, got {len(value)}")
+-    return tuple(
+-        _hydrate(item_annotation, item, f"{path}[{index}]")
+-        for index, (item_annotation, item) in enumerate(zip(arguments, value, strict=True))
+-    )
+-
+-
+-def _hydrate_dataclass(annotation: type, value: object, path: str) -> object:
+-    if not isinstance(value, Mapping):
+-        raise CanonicalParseError(f"{path}: expected an object")
+-    hints = typing.get_type_hints(annotation)
+-    arguments: dict[str, object] = {}
+-    for item in fields(annotation):
+-        if not item.init:
+-            continue
+-        if item.name in value:
+-            arguments[item.name] = _hydrate(
+-                hints[item.name], value[item.name], f"{path}.{item.name}"
+-            )
+-        elif item.default is not MISSING or item.default_factory is not MISSING:
+-            continue
+-        else:
+-            raise CanonicalParseError(f"{path}.{item.name}: required field is absent")
+-    try:
+-        return annotation(**arguments)
+-    except (TypeError, ValueError) as error:
+-        raise CanonicalParseError(f"{path}: {error}") from error
+-
+-
+-def _require_number(value: object, path: str) -> int | float | Decimal:
+-    """A decoded numeric token: ``json.loads`` gives int/float; a caller that
+-    decodes with ``parse_float=Decimal`` keeps the canonical digits exactly."""
+-
+-    if isinstance(value, bool) or not isinstance(value, (int, float, Decimal)):
+-        raise CanonicalParseError(f"{path}: expected a number")
+-    return value
+-
+-
+-def _parse_moment(value: object, path: str) -> datetime:
+-    if not isinstance(value, str):
+-        raise CanonicalParseError(f"{path}: expected an ISO datetime string")
+-    try:
+-        moment = datetime.fromisoformat(value)
+-    except ValueError as error:
+-        raise CanonicalParseError(f"{path}: {error}") from error
+-    if moment.tzinfo is None:
+-        raise CanonicalParseError(f"{path}: canonical datetimes are timezone-aware")
+-    return moment.astimezone(UTC)
+-
+-
+-def _parse_day(value: object, path: str) -> date:
+-    if not isinstance(value, str):
+-        raise CanonicalParseError(f"{path}: expected an ISO date string")
+-    try:
+-        return date.fromisoformat(value)
+-    except ValueError as error:
+-        raise CanonicalParseError(f"{path}: {error}") from error
+-
+-
+-_SCALAR_PARSERS: dict[object, Callable[[object, str], object]] = {
+-    bool: _parse_bool,
+-    str: _parse_text,
+-    int: _parse_int,
+-    float: _parse_float,
+-    Decimal: _parse_decimal,
+-    datetime: _parse_moment,
+-    date: _parse_day,
+-}
++        if not isinstance(value, str):
++            raise CanonicalParseError(f"{path}: expected an enum string")
++        try:
++            return annotation(value)
++        except ValueError as err:
++            raise CanonicalParseError(f"{path}: {err}") from err
++    if annotation is bool:
++        if not isinstance(value, bool):
++            raise CanonicalParseError(f"{path}: expected a boolean")
++        return value
++    if annotation is str:
++        if not isinstance(value, str):
++            raise CanonicalParseError(f"{path}: expected a string")
++        return value
++    if annotation is int:
++        if isinstance(value, bool) or not isinstance(value, int):
++            raise CanonicalParseError(f"{path}: expected an integer")
++        return value
++    if annotation in {float, Decimal}:
++        if isinstance(value, bool) or not isinstance(value, (int, float, Decimal)):
++            raise CanonicalParseError(f"{path}: expected a number")
++        if annotation is float:
++            return float(value)
++        return value if isinstance(value, Decimal) else Decimal(str(value))
++    if annotation is datetime:
++        if not isinstance(value, str):
++            raise CanonicalParseError(f"{path}: expected an ISO datetime string")
++        try:
++            moment = datetime.fromisoformat(value)
++        except ValueError as err:
++            raise CanonicalParseError(f"{path}: {err}") from err
++        if moment.tzinfo is None:
++            raise CanonicalParseError(f"{path}: canonical datetimes are timezone-aware")
++        return moment.astimezone(UTC)
++    if annotation is date:
++        if not isinstance(value, str):
++            raise CanonicalParseError(f"{path}: expected an ISO date string")
++        try:
++            return date.fromisoformat(value)
++        except ValueError as err:
++            raise CanonicalParseError(f"{path}: {err}") from err
++    raise CanonicalParseError(f"{path}: unsupported annotation {annotation!r}")

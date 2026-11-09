@@ -1,8 +1,8 @@
 {
   "trial": "E6: State-Boundary Deconvolution Generalization Trial on Report Envelope & Snapshot Store",
-  "head": "09ac9d92da11328b02b73e9a37e1c9e229e789c5",
-  "timestamp_utc": "2026-11-09T11:09:22Z",
-  "elapsed_seconds": 0.93,
+  "head": "f619117ca22fd7a0d83b188bf7795460be32c415",
+  "timestamp_utc": "2026-11-09T11:16:06Z",
+  "elapsed_seconds": 0.98,
   "adverse_controls": {
     "E6_C1_MissingFailureState": {
       "description": "Failure-side state post-condition verification (AuditedAbsence on transaction abort)",
