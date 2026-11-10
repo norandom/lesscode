@@ -37,7 +37,7 @@ PACKS = REPO / "native" / "packs"
 FIXTURES = REPO / "native" / "tests" / "fixtures" / "driver"
 EXAMPLES = {"rust": ["python", "java"], "python": ["rust", "java"], "typescript": ["rust", "python"],
             "java": ["rust", "python"]}
-LIST_USD_PER_MTOK = {"claude-opus-5-5": (4.0, 20.0)}  # vendor model table, cached 2026-10-06 (R66 Amendment 3)
+LIST_USD_PER_MTOK = {"claude-opus-5-5": (4.0, 20.0), "mistral-large-4": (0.7, 2.1)}  # vendor model table, cached 2026-10-06 (R66 Amendment 3)
 USD_PER_MTOK = (15.0, 75.0)  # for a model not listed above: the conservative assumption of R66
 RESERVE_USD = 0.25  # held back before each call; the gate's authoring calls cost about 0.18
 MAX_REPAIRS = 2
@@ -180,7 +180,7 @@ def one_run(args, cfg: dict, guide: str, language: str, run: int, budget: Budget
     for n in range(1, MAX_REPAIRS + 2):
         if not budget.reserve():
             return finish("not_run_budget" if n == 1 else "stopped_budget")
-        url, headers, body = a.build_request(cfg, guide, message, MAX_OUTPUT_TOKENS, history)
+        url, headers, body = a.build_request(cfg, guide, message, args.max_output_tokens, history)
         save(f"attempt{n}-request.json", {"url": url, "body": body})
         if args.dry_run:
             budget.settle({"utc": utc_now(), "scope": f"pack:{language}", "out_dir": f"{language}/run{run}",
@@ -197,6 +197,8 @@ def one_run(args, cfg: dict, guide: str, language: str, run: int, budget: Budget
             try:
                 result = a.extract(cfg[a.STYLE], sent[-1]["body"])
                 reply = result.pop("text")
+                if isinstance(reply, list):  # content parts (reasoning and text): keep the text parts
+                    reply = "".join(part.get("text", "") for part in reply if isinstance(part, dict) and part.get("type") == "text")
                 row.update(result)
             except (ValueError, KeyError, IndexError, TypeError, AttributeError) as exc:
                 row["error"] = f"unreadable response envelope: {type(exc).__name__}"
@@ -257,6 +259,7 @@ def main() -> int:
     parser.add_argument("--runs", type=int, default=5)
     parser.add_argument("--cap-usd", type=float, default=20.0)
     parser.add_argument("--workers", type=int, default=4)
+    parser.add_argument("--max-output-tokens", type=int, default=MAX_OUTPUT_TOKENS)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--endpoint-env", type=Path)
     args = parser.parse_args()
@@ -281,7 +284,7 @@ def main() -> int:
         "receipt": "slice-b-pack-authoring-baseline-v1", "preregistration": "R66", "dry_run": args.dry_run,
         "requested_model": cfg[a.NAME], "guide_sha256": a.sha(guide_bytes),
         "shipped_packs_sha256": {p.stem: a.sha(p.read_bytes()) for p in sorted(PACKS.glob("*.json"))},
-        "runs_per_language": args.runs, "max_repairs": MAX_REPAIRS, "usd_per_mtok_list": LIST_USD_PER_MTOK, "usd_per_mtok_otherwise": USD_PER_MTOK,
+        "runs_per_language": args.runs, "max_output_tokens": args.max_output_tokens, "max_repairs": MAX_REPAIRS, "usd_per_mtok_list": LIST_USD_PER_MTOK, "usd_per_mtok_otherwise": USD_PER_MTOK,
         "spent_before_usd": round(spent, 2), "spent_after_usd": round(budget.spent, 2),
         "cap_usd": args.cap_usd, "wall_seconds": round(time.monotonic() - started, 1),
         "languages": summarise(records),

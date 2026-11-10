@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R70 Slice B guide optimisation preregistered, not run; optimiser is the `dsrust` MIPROv2 (2026-11-10)
+## Latest: R71 Guide optimisation on Opus: admission fixed for all four languages, Rust still differs from the hand pack, not adopted (2026-11-10)
+
+[R71](2026-11-10/17-slice-b-guide-optimisation-opus.md) runs R70 on `claude-opus-5-5` with the copied GEPA engine.
+- **Final judgement, five fresh trials per language:** first replies admitted 5 of 5 for Rust, Java, Python and TypeScript (Rust was 0 of 5 under guide version 3). Java, Python and TypeScript give the shipped pack's mutants in every trial.
+- **Not adopted:** the Rust packs are admitted and consistent with each other, but differ from the shipped pack in the same four points every time (the empty statement, how `?` is rewritten, aborting macros, `match` guards), so the preregistered rule fails for Rust.
+- **Barrier:** eight proposals were discarded, all for length.
+- **Cost:** 6.49 USD; the estimate printed before the run was too low, and the budget stop interrupted the final judgement, which was completed in a second invocation. The tool now holds that budget back.
+- **For the owner:** decide the four Rust points on their merits.
+
+## Prior: R70 Slice B guide optimisation preregistered, not run; optimiser is the `dsrust` MIPROv2 (2026-11-10)
 
 [R70](2026-11-10/16-slice-b-guide-optimisation-preregistration.md) fixes metric, split, verification and acceptance for optimising the pack guide.
 - **Optimiser:** by the owner's direction a Rust port of DSPy (`dsrust`, alpha) supplies `MIPROv2`, in a separate research package; no Python. Its parameters and soundness on this task are not yet checked.

@@ -1,0 +1,43 @@
+{
+  "receipt": "slice-b-guide-judgement-v1",
+  "preregistration": "R70",
+  "dry_run": false,
+  "model": "claude-opus-5-5",
+  "judged": {
+    "guide": "50993f9325a8",
+    "characters": 8139,
+    "not_run": 0,
+    "languages": {
+      "java": {
+        "trials": 2,
+        "admitted": 2,
+        "same_as_shipped": 2,
+        "distinct_behaviours": 1,
+        "mean_output_tokens": 1627
+      },
+      "python": {
+        "trials": 3,
+        "admitted": 3,
+        "same_as_shipped": 3,
+        "distinct_behaviours": 1,
+        "mean_output_tokens": 2123
+      },
+      "rust": {
+        "trials": 1,
+        "admitted": 1,
+        "same_as_shipped": 0,
+        "distinct_behaviours": 1,
+        "mean_output_tokens": 2350
+      },
+      "typescript": {
+        "trials": 4,
+        "admitted": 4,
+        "same_as_shipped": 4,
+        "distinct_behaviours": 1,
+        "mean_output_tokens": 1749
+      }
+    }
+  },
+  "calls": 10,
+  "spent_usd": 0.54
+}

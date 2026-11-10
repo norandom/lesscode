@@ -152,7 +152,12 @@ impl Authoring {
                     String::new(),
                     failed(format!("no reply: {e}")),
                     (0, 0),
-                    "error".to_owned(),
+                    if e.starts_with("not run") {
+                        "not_run"
+                    } else {
+                        "error"
+                    }
+                    .to_owned(),
                 ),
                 Ok(reply) if reply.stop_reason == "refusal" => (
                     reply.text,

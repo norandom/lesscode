@@ -74,6 +74,12 @@ struct Args {
     /// Use a scripted stand-in instead of the endpoint; no call is made.
     #[arg(long)]
     dry_run: bool,
+    /// Skip optimisation and judge this guide file with fresh calls.
+    #[arg(long)]
+    judge_only: Option<PathBuf>,
+    /// With --judge-only: the languages to call, one entry per call; default --final-runs of each.
+    #[arg(long, value_delimiter = ',')]
+    judge_list: Vec<String>,
     /// The repository root.
     #[arg(long, default_value = concat!(env!("CARGO_MANIFEST_DIR"), "/../.."))]
     repo: PathBuf,
@@ -106,7 +112,12 @@ fn repeated(languages: &[String], runs: usize) -> Vec<String> {
 /// Quality, stability and cost of one guide over the trials recorded for it.
 fn profile(trials: &[Trial], guide: &str) -> Value {
     let mut per_language: BTreeMap<&str, Vec<&Trial>> = BTreeMap::new();
-    for trial in trials.iter().filter(|t| t.guide == guide) {
+    let ran = |t: &&Trial| t.record["stop_reason"] != "not_run";
+    let not_run = trials
+        .iter()
+        .filter(|t| t.guide == guide && !ran(t))
+        .count();
+    for trial in trials.iter().filter(|t| t.guide == guide).filter(ran) {
         per_language.entry(&trial.language).or_default().push(trial);
     }
     let languages: BTreeMap<&str, Value> = per_language
@@ -122,7 +133,7 @@ fn profile(trials: &[Trial], guide: &str) -> Value {
             (*language, value)
         })
         .collect();
-    json!({"guide": guide_id(guide), "characters": guide.chars().count(), "languages": languages})
+    json!({"guide": guide_id(guide), "characters": guide.chars().count(), "not_run": not_run, "languages": languages})
 }
 
 fn run(args: Args) -> Result<(), String> {
@@ -199,10 +210,49 @@ fn run(args: Args) -> Result<(), String> {
     let train = repeated(&args.train, args.train_runs);
     let val = repeated(&args.train, args.val_runs);
     let everything: Vec<String> = args.train.iter().chain(&args.held_out).cloned().collect();
+    if let Some(path) = &args.judge_only {
+        let guide = read(path)?;
+        rules
+            .check(&guide)
+            .map_err(|e| format!("the guide fails the rules: {e}"))?;
+        let list = if args.judge_list.is_empty() {
+            repeated(&everything, args.final_runs)
+        } else {
+            args.judge_list.clone()
+        };
+        let judge = Authoring::new(metered.clone(), languages.clone(), train, val, rules);
+        let trials = judge.run("final", &guide, &list);
+        let lines: Vec<String> = trials
+            .iter()
+            .map(|t| {
+                let mut record = t.record.clone();
+                record["reply"] = json!(t.reply);
+                record.to_string()
+            })
+            .collect();
+        std::fs::write(args.out_dir.join("trials.jsonl"), lines.join("\n") + "\n")
+            .map_err(|e| e.to_string())?;
+        let (spent, calls) = metered.spent();
+        let summary = json!({
+            "receipt": "slice-b-guide-judgement-v1", "preregistration": "R70", "dry_run": args.dry_run, "model": name,
+            "judged": profile(&trials, &guide), "calls": calls, "spent_usd": (spent * 100.0).round() / 100.0,
+        });
+        let text = serde_json::to_string_pretty(&summary).map_err(|e| e.to_string())?;
+        std::fs::write(args.out_dir.join("summary.json"), text + "\n")
+            .map_err(|e| e.to_string())?;
+        println!("{}", summary["judged"]);
+        return Ok(());
+    }
+    // Measured on the first run (R71): about 4,100 input and 2,300 output
+    // tokens per authoring call, 5,500 and 5,300 per reflection.
     let final_calls = everything.len() * args.final_runs;
-    let reflections = args.max_metric_calls / (2 * args.minibatch).max(1) + 1;
-    let expected = (args.max_metric_calls + final_calls) as f64 * cost(price, 3_500, 2_000)
-        + reflections as f64 * cost(price, 9_000, 3_000);
+    let reflections = args.max_metric_calls / (2 * args.minibatch).max(1) + 3;
+    let final_reserve = final_calls as f64 * cost(price, 4_100, 2_600);
+    let expected = args.max_metric_calls as f64 * cost(price, 4_100, 2_300)
+        + final_reserve
+        + reflections as f64 * cost(price, 5_500, 5_300);
+    // The final judgement must not be starved by the optimisation.
+    metered.set_limit((args.max_usd - final_reserve).max(0.0));
     println!(
         "model {name}; at most {} authoring calls for optimisation, {final_calls} for the final judgement, about {reflections} reflections",
         args.max_metric_calls
@@ -284,6 +334,7 @@ fn run(args: Args) -> Result<(), String> {
     }
 
     let improved = guides[chosen] != baseline;
+    metered.set_limit(args.max_usd);
     let judge = Authoring::new(
         metered.clone(),
         languages.clone(),
@@ -347,6 +398,7 @@ fn run(args: Args) -> Result<(), String> {
                 && needed > 0
         })
     };
+    let complete = judgement.as_ref().is_some_and(|j| j["not_run"] == 0);
     let adopted = judgement
         .as_ref()
         .is_some_and(|j| passes(j, &args.train) && passes(j, &args.held_out));
@@ -362,7 +414,7 @@ fn run(args: Args) -> Result<(), String> {
         "discarded_proposals": *rejected.lock().unwrap(),
         "frontier": frontier,
         "chosen_candidate": chosen, "chosen_guide": guide_id(guides[chosen]), "improved_on_baseline": improved,
-        "final_judgement": judgement, "adopted": adopted,
+        "final_judgement": judgement, "final_judgement_complete": complete, "adopted": adopted && complete,
         "calls": calls, "spent_usd": (spent * 100.0).round() / 100.0, "recorded_before_usd": (before * 100.0).round() / 100.0,
     });
     let text = serde_json::to_string_pretty(&summary).map_err(|e| e.to_string())?;
@@ -376,12 +428,14 @@ fn run(args: Args) -> Result<(), String> {
         } else {
             "the baseline: no improvement found"
         },
-        if adopted {
-            "passed"
-        } else if improved {
-            "not passed"
-        } else {
+        if !improved {
             "not run"
+        } else if !complete {
+            "incomplete: the budget stopped it"
+        } else if adopted {
+            "passed"
+        } else {
+            "not passed"
         }
     );
     Ok(())

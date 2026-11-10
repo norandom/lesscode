@@ -85,15 +85,26 @@ impl Live {
         } else {
             let choice = &data["choices"][0];
             Ok(Reply {
-                text: choice["message"]["content"]
-                    .as_str()
-                    .unwrap_or("")
-                    .to_owned(),
+                text: text_of(&choice["message"]["content"]),
                 stop_reason: choice["finish_reason"].as_str().unwrap_or("").to_owned(),
                 input_tokens: count(&data["usage"]["prompt_tokens"]),
                 output_tokens: count(&data["usage"]["completion_tokens"]),
             })
         }
+    }
+}
+
+/// A reply's text: a string, or the text parts of a list of content parts
+/// (a model that reasons returns its reasoning as separate parts).
+fn text_of(content: &Value) -> String {
+    match content {
+        Value::String(text) => text.clone(),
+        Value::Array(parts) => parts
+            .iter()
+            .filter(|part| part["type"] == "text")
+            .filter_map(|part| part["text"].as_str())
+            .collect(),
+        _ => String::new(),
     }
 }
 
@@ -167,6 +178,7 @@ impl Model for Scripted {
 pub fn list_price(model: &str) -> Option<(f64, f64)> {
     match model {
         "claude-opus-5-5" => Some((4.0, 20.0)),
+        "mistral-large-4" => Some((0.7, 2.1)),
         "scripted" => Some((0.0, 0.0)),
         _ => None,
     }
@@ -214,7 +226,7 @@ pub fn recorded_spend(root: &Path, fallback: (f64, f64)) -> f64 {
 pub struct Metered {
     pub model: Box<dyn Model>,
     pub price: (f64, f64),
-    pub max_usd: f64,
+    limit: Mutex<f64>,
     pub project_room_usd: f64,
     pub reserve_usd: f64,
     pub ledger: PathBuf,
@@ -233,12 +245,17 @@ impl Metered {
         Metered {
             model,
             price,
-            max_usd,
+            limit: Mutex::new(max_usd),
             project_room_usd,
             reserve_usd,
             ledger,
             state: Mutex::new((0.0, 0.0, 0)),
         }
+    }
+
+    /// The most this run may spend from now on.
+    pub fn set_limit(&self, usd: f64) {
+        *self.limit.lock().unwrap() = usd;
     }
 
     pub fn spent(&self) -> (f64, u64) {
@@ -258,7 +275,7 @@ impl Metered {
         {
             let mut state = self.state.lock().unwrap();
             let committed = state.0 + state.1 + self.reserve_usd;
-            if committed > self.max_usd || committed > self.project_room_usd {
+            if committed > *self.limit.lock().unwrap() || committed > self.project_room_usd {
                 return Err("not run: the budget would be passed".into());
             }
             state.1 += self.reserve_usd;
