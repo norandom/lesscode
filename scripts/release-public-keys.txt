@@ -1,0 +1,8 @@
+# Ed25519 public keys that sign Lesscode releases (zipsign 0.2.2 format).
+# One key per line as 64 hex characters. '#' starts a comment.
+#
+# The release workflow refuses to publish unless the key it signs with is
+# listed here. scripts/setup-release-signing.ps1 adds the owner's key.
+# To verify a download, see docs/release-signing.md.
+#
+# Intentionally empty until the owner generates the release key.

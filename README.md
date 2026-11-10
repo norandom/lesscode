@@ -82,6 +82,11 @@ also download an archive and its `.sha256` file by hand from the
 [releases page](https://github.com/norandom/lesscode/releases/latest); each
 archive contains the binary, the license and the third-party notices.
 
+The install scripts check the SHA-256 digest of the download. From the release
+after 1.0.1 on, archives are also signed with the project's Ed25519 key and
+carry a GitHub provenance attestation; [release signing](docs/release-signing.md)
+shows how to verify them. Release 1.0.1 itself is not signed.
+
 ### Build from source
 
 Use Rust 1.98.1 and a C compiler. [native/README.md](native/README.md) lists

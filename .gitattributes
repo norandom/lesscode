@@ -9,3 +9,4 @@ docs/experiments/deconvolution/regenerator/results/turns/** text eol=lf
 .runs/e3-facdrone/** text eol=lf
 # Release installer runs under POSIX sh on Linux and macOS.
 scripts/*.sh text eol=lf
+scripts/release-public-keys.txt text eol=lf
