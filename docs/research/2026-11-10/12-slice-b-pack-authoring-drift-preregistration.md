@@ -114,6 +114,23 @@ None. Nothing was run.
   binary at the commit recorded with the run.
 - Still open before the first call: the hash of `pack-guide-v3.md` in this entry, and the owner's go.
 
+## Amendment 2, 2026-11-10 (before any call; the owner gave the go: "absolutly")
+
+- Guide: `docs/experiments/annotation-driver/pack-guide-v3.md`, SHA-256
+  `dc49e14bb0d62d1560724b828e54e1c7d216ca5bd47cb37580b618b4c7d02bbb`. It is version 2 with the title changed
+  and two table rows added, for `test_attribute_kinds` and `operators.branch_condition.negation_swaps`.
+- Runner: `docs/experiments/annotation-driver/slice-b/author_baseline.py`. Examples shown are the shipped
+  packs under `native/packs/` (which now carry the two new keys), per the mapping fixed above. Admission is
+  `deconvolute admit-pack` with control replay on every gate scope of the language (two for TypeScript); a
+  pack counts as admitted only if it is admitted on all of them. Mutants are listed by the research example
+  `native/examples/pack_mutants.rs`.
+- Stop rule made operational: 0.25 USD is held back before each call; no call is made when recorded spend
+  plus held-back amounts would pass 20 USD at the assumed price. Runs that cannot start are reported as not
+  run.
+- Scope of this run: the current endpoint only. The Mistral arm waits for the owner's endpoint configuration
+  and its own cap.
+- A reply cut off at the output limit counts as not admitted and may be repaired.
+
 ## COBESY check
 
 Outcome first: a protocol, nothing run, and one correction of an earlier claim about what the baseline needs.
