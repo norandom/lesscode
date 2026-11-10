@@ -1,0 +1,40 @@
+{
+ "admitted": true,
+ "checks": [
+  {
+   "name": "json",
+   "pass": true,
+   "detail": "one JSON object"
+  },
+  {
+   "name": "size",
+   "pass": true,
+   "detail": "31 lines (at most 40), 1540 characters (at most 2500)"
+  },
+  {
+   "name": "shape",
+   "pass": true,
+   "detail": "required keys present with the right types"
+  },
+  {
+   "name": "kinds_valid",
+   "pass": true,
+   "detail": "19 node kinds, all valid for rust"
+  },
+  {
+   "name": "templates",
+   "pass": true,
+   "detail": "3 templates, placeholders only {text}, {noop}, {child0}"
+  },
+  {
+   "name": "controls",
+   "pass": true,
+   "detail": "19 of 19 controls behaved as expected"
+  },
+  {
+   "name": "seed_mutants",
+   "pass": true,
+   "detail": "3 seeds: changed 2, no_operator 1"
+  }
+ ]
+}

@@ -501,6 +501,37 @@ must be zero in every counted batch or the batch is rerun.
   (version 1), scopes and controls. The two guides are drafts until the
   development calls on Rust and Python are done.
 
+## Amendment 12, 2026-11-10 (after the attempt 2 development calls, before any counted call or batch)
+
+Development calls on Rust and Python only (four calls, not counted):
+
+| What | Result |
+| --- | --- |
+| Annotation guide version 2, Rust | 29 annotations, 18 valid (62%); 8 of the 11 rejections were `return ...;` anchors that included the semicolon |
+| Annotation guide version 2, Python | 64 annotations, 59 valid (92%) |
+| Pack guide version 2, Python pack from the Rust pack | admitted on the first reply |
+| Pack guide version 2, Rust pack from the Python pack | admitted on the first reply |
+
+The guide already says to leave the terminator off, and in attempt 1 the
+model mostly did; whether it does varies from call to call. The fix is
+therefore in the validator, not in the wording: **an anchor that names a
+whole statement, terminator included, is accepted as the site that
+statement wraps**, when the statement wraps exactly one node. This is the
+mirror of the completion rule of 10a and uses only the pack's
+`statement_wrappers`. With it, the same development annotations are 26 of
+29 valid on Rust (90%) and unchanged on Python. Controls: 98 of 98; engine
+checks pass with unchanged site and mutant counts.
+
+Frozen for the counted runs (SHA-256):
+
+- `guide-v2.md` `d32113204c3f6239a59575f0e5626d420332ac034a1bea69e6df7627d57ab6b2`
+- `pack-guide-v2.md` `46ea8bcdd6286fd9e928c41960a7d1da1c8d4eb6bccbe98294e27ac867269949`
+- `validator.py` `66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a` (supersedes R63)
+- `run_controls.py` `b31b3d3cb9334ab17f34da1c8977f71cb28e9d381be9b83abbbdeb6ca577dbd2`, `run_engine_checks.py` `6509720ca17ba2446246b2424c15a42b4d388d7138a5d696844c14df7b4110d0`
+
+No further change to guides, packs, validator or engine is made before the
+gate decision.
+
 ## Result of attempt 1, 2026-11-10
 
 Outcome `revise`; full tables and limits in R61. No design approval and no

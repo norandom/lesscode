@@ -193,6 +193,12 @@ def match_anchor(table: dict, root: SgNode, start: int, end: int, anchor: str) -
 
 def site_check(table: dict, node: SgNode, kind: str) -> tuple[str, SgNode | None]:
     """Rules 3 and 4 and the test-region rule for one node: (reason, allowed node)."""
+    # An anchor that includes the statement terminator names the whole statement;
+    # what the statement wraps is the site (gate Amendment 12).
+    if node.kind() in table.get("statement_wrappers", ()):
+        inner = [c for c in node.children() if c.is_named() and c.kind() not in table["comment_kinds"]]
+        if len(inner) == 1:
+            node = inner[0]
     chain = _chain(node)
     hidden = set(table["comment_kinds"]) | set(table["string_kinds"])
     if any(n.kind() in hidden for n in [*chain, *_ancestors(chain[0])]):

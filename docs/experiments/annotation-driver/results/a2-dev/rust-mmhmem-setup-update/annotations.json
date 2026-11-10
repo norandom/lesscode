@@ -1,0 +1,234 @@
+[
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 62,
+  "end_line": 62,
+  "kind": "branch_condition",
+  "anchor": "setup.bootstrap.is_some()",
+  "reason": "Removing this check would accept --bootstrap for update instead of rejecting it."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 63,
+  "end_line": 63,
+  "kind": "failure_state",
+  "anchor": "return Err(\"--bootstrap\".to_owned());",
+  "reason": "Callers would no longer see --bootstrap reported as an unknown argument."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 83,
+  "end_line": 83,
+  "kind": "branch_condition",
+  "anchor": "mode != Mode::NoTerminal",
+  "reason": "Inverting this condition would refuse runs that have a terminal and let runs without one go on."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 101,
+  "end_line": 101,
+  "kind": "failure_state",
+  "anchor": "return 1;",
+  "reason": "A missing home directory would no longer end the run with exit 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 103,
+  "end_line": 103,
+  "kind": "state_write",
+  "anchor": "deps.restart.command = Command::Update",
+  "reason": "The restarted program would be started with a different command instead of update --restarted."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 165,
+  "end_line": 167,
+  "kind": "error_order",
+  "anchor": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\n    }",
+  "reason": "Checking for a missing record first would make a restarted run report not set up instead of finishing the update."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 168,
+  "end_line": 168,
+  "kind": "branch_condition",
+  "anchor": "flow.record().is_none()",
+  "reason": "Without this check an uninstalled system would proceed with the update instead of being told to run setup."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 170,
+  "end_line": 170,
+  "kind": "failure_state",
+  "anchor": "return EXIT_NOT_SET_UP;",
+  "reason": "A system that is not set up would exit with a different code."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 173,
+  "end_line": 173,
+  "kind": "state_write",
+  "anchor": "flow.set_newest(lookup())",
+  "reason": "The flow would not know the newest release, so the update decision would change."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 175,
+  "end_line": 175,
+  "kind": "branch_condition",
+  "anchor": "*flow.newest() == Newest::Unknown",
+  "reason": "An unknown newest release would be reported as up to date with exit 0 instead of exit 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 177,
+  "end_line": 177,
+  "kind": "failure_state",
+  "anchor": "return 1;",
+  "reason": "A failed lookup of the newest release would no longer exit with 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 188,
+  "end_line": 188,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+  "reason": "Inverting this would update when the user declines and cancel when the user accepts."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 190,
+  "end_line": 190,
+  "kind": "failure_state",
+  "anchor": "return EXIT_CANCELLED;",
+  "reason": "Declining the update would exit with a different code."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 192,
+  "end_line": 195,
+  "kind": "error_order",
+  "anchor": "if let Some(note) = flow.update_refusal() {\n        p.say(note);\n        return 1;\n    }",
+  "reason": "Moving this refusal check could start the download before a missing trusted key is refused."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 194,
+  "end_line": 194,
+  "kind": "failure_state",
+  "anchor": "return 1;",
+  "reason": "A refused update, such as one with no trusted key, would no longer exit with 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 222,
+  "end_line": 223,
+  "kind": "branch_condition",
+  "anchor": "note == text::UPDATE_FAILED\n                && let Some(reason) = flow.last_note()",
+  "reason": "The detailed reason for a failed update would be printed or hidden differently."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 228,
+  "end_line": 228,
+  "kind": "failure_state",
+  "anchor": "1",
+  "reason": "A failed verified update would return a different exit code."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 230,
+  "end_line": 230,
+  "kind": "failure_state",
+  "anchor": "Next::Agents | Next::Progress => 1",
+  "reason": "Unexpected next steps would no longer be reported as a failure with exit 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 243,
+  "end_line": 243,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+  "reason": "The bootstrap update would be applied or cancelled against the user's answer."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 245,
+  "end_line": 245,
+  "kind": "failure_state",
+  "anchor": "return Some(EXIT_CANCELLED);",
+  "reason": "Declining the bootstrap update would return a different exit code."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 247,
+  "end_line": 247,
+  "kind": "state_write",
+  "anchor": "flow.plan_recorded()",
+  "reason": "Without this call the recorded choices would not be planned before finishing."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 257,
+  "end_line": 257,
+  "kind": "branch_condition",
+  "anchor": "view.groups.is_empty() && view.problems.is_empty()",
+  "reason": "Changing this would skip the confirmation when changes exist, or ask for it when there are none."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 260,
+  "end_line": 260,
+  "kind": "branch_condition",
+  "anchor": "kept.is_some()",
+  "reason": "The updated line would be shown or hidden incorrectly."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 265,
+  "end_line": 265,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_APPLY)",
+  "reason": "The changes would be applied when the user declines them."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 267,
+  "end_line": 267,
+  "kind": "failure_state",
+  "anchor": "return EXIT_CANCELLED;",
+  "reason": "Declining the changes would exit with a different code."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 271,
+  "end_line": 271,
+  "kind": "state_write",
+  "anchor": "flow.apply_update()",
+  "reason": "The update would never actually be applied."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 286,
+  "end_line": 286,
+  "kind": "branch_condition",
+  "anchor": "!view.problems.is_empty()",
+  "reason": "The problems heading would be shown when there are no problems, or hidden when there are some."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 303,
+  "end_line": 303,
+  "kind": "branch_condition",
+  "anchor": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())",
+  "reason": "The DONE line would appear after a failure or when steps are still left for the user."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 293,
+  "end_line": 307,
+  "kind": "pure_shell_boundary",
+  "anchor": "fn result_lines(flow: &Flow) -> Vec<String> {\n    let mut lines: Vec<String> = flow\n        .progress()\n        .map(|p| p.all_lines())\n        .unwrap_or_default()\n        .into_iter()\n        .filter(|l| l != text::CHECKING)\n        .collect();\n    let blank = lines.iter().take_while(|l| l.is_empty()).count();\n    lines.drain(..blank);\n    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\n        lines.push(text::update::DONE.to_owned());\n    }\n    lines\n}",
+  "reason": "This function only computes the result lines from the flow's state and has no side effects."
+ }
+]

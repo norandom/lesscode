@@ -1,0 +1,2 @@
+{"utc": "2026-11-10T15:49:56+00:00", "scope": "pack:python", "out_dir": "python-from-rust", "model": "claude-opus-5-5", "input_tokens": 2560, "output_tokens": 1542, "attempts": 1, "exit_code": 0}
+{"utc": "2026-11-10T15:50:11+00:00", "scope": "pack:rust", "out_dir": "rust-from-python", "model": "claude-opus-5-5", "input_tokens": 2455, "output_tokens": 2299, "attempts": 1, "exit_code": 0}

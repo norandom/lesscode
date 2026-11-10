@@ -1,11 +1,11 @@
 {
  "receipt": "annotation-driver-validator-controls-v0",
- "controls": 95,
+ "controls": 98,
  "failed": 0,
  "passed": true,
  "inputs_sha256": {
-  "validator.py": "05422d6e42352d4ace3bd33830ac9a0933c4172c653979a1a3564a28a73645df",
-  "run_controls.py": "ace514ce472f7e58123c7f12b823c061db93266d0d63f69045fbb1aef0be65db",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_controls.py": "b31b3d3cb9334ab17f34da1c8977f71cb28e9d381be9b83abbbdeb6ca577dbd2",
   "controls.json": "3cc3c563ccbf375c9d77ade62c1c29a7288704dbfebbce9e2d9ca40ed492fce0",
   "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
   "tables/java.json": "5367d13bc4d2b6ddc44d189d215844093514b2749d4d679edf9be716c74447e3",
@@ -174,6 +174,28 @@
    ],
    "got": [
     "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "control": "anchor_with_terminator:failure_state@63",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "control": "anchor_with_terminator:state_write@103",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
    ],
    "pass": true
   },
@@ -938,6 +960,17 @@
    ],
    "got": [
     "ok+anchor_completed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "anchor_with_terminator:state_write@56",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
    ],
    "pass": true
   },

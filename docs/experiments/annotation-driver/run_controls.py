@@ -58,8 +58,16 @@ def terminator_cases(scope: v.Scope, spec: dict) -> list[tuple[str, list[dict], 
     terminator = v.load_table(scope.language).get("statement_terminator") or ""
     if not terminator:
         return []
-    return [(f"anchor_completed:{s['kind']}@{s['start_line']}", [{**s, "anchor": s["anchor"][: -len(terminator)]}],
-             [f"ok{COMPLETED}"]) for s in spec["seeds"] if s["anchor"].endswith(terminator)]
+    completed = [(f"anchor_completed:{s['kind']}@{s['start_line']}", [{**s, "anchor": s["anchor"][: -len(terminator)]}],
+                  [f"ok{COMPLETED}"]) for s in spec["seeds"] if s["anchor"].endswith(terminator)]
+    # The opposite slip: a single-line seed anchor with the terminator added names the
+    # whole statement and is accepted as the site it wraps (gate Amendment 12).
+    lines = {s["file"]: scope.source(s["file"]).splitlines() for s in spec["seeds"]}
+    with_terminator = [(f"anchor_with_terminator:{s['kind']}@{s['start_line']}", [{**s, "anchor": s["anchor"] + terminator}], ["ok"])
+                       for s in spec["seeds"]
+                       if s["start_line"] == s["end_line"] and not s["anchor"].endswith(terminator)
+                       and lines[s["file"]][s["start_line"] - 1].strip() == s["anchor"] + terminator]
+    return completed + with_terminator
 
 
 def outcome(decision: dict) -> str:
