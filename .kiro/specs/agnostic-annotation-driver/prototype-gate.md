@@ -1,6 +1,6 @@
 # Prototype gate: agnostic annotation-guided driver
 
-Status: **not-run**, 2026-11-10. Research preparation only. No production
+Status: **not-run**, 2026-11-10 (scopes admitted, see Amendment 1; nothing else executed). Research preparation only. No production
 tasks exist or are authorized. Execution needs the owner's go, because it
 selects external scopes and spends model tokens. See the [brief](brief.md) and
 [R56](../../../docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md).
@@ -129,9 +129,46 @@ prototype scripts and retained results under
 file in that directory. Nothing is adopted into `native/src` during the gate,
 and the released commands are not changed.
 
+## Amendment 1, 2026-11-10 (pre-run; after scope screening, [R57](../../../docs/research/2026-11-10/03-annotation-driver-scope-admission.md))
+
+Made before any model call and before any arm A, C or D run.
+
+**1a. Admitted scopes** (owner go "proceed", 2026-11-10; isolated clones under
+`D:\BuildArtifacts\lesscode\annotation-driver\scopes`, baselines healthy):
+
+| Language | Role | Scope | Canonical lines | Baseline tests |
+| --- | --- | --- | --- | --- |
+| Rust | development | `mmhmem` `src/setup/check.rs` @ `f32596f` | 212 | 28 passed (lib `setup::check` and `tests/setup_check.rs`) |
+| Python | development | `mvibe` `mvibe_proxy/ratelimit.py` @ `b56d0e3` | 478 | 230 passed (`tests/test_ratelimit.py`) |
+| TypeScript | held-out | `OpenUltraCode` `src/state.ts` @ `37a4e55` | 188 | 8 passed (`tests/state.test.ts`) |
+| Java | held-out | `commons-csv` `Lexer.java` @ `2bd66bf` | 319 | 37 passed (`LexerTest`, Maven in a container) |
+
+**1b. Correction of the control expectation.** Arm B was expected to produce
+no mutants on these scopes. Measured: 0 on the Rust, Python and Java scopes
+and 1 on the TypeScript scope. The yield row therefore reads: arm A lands at
+least 4 mutants covering at least 3 kinds on each scope **and lands more than
+arm B on that scope**. Nothing else in that row changes.
+
+**1c. Arm D, proposed by the agent, pending the owner's confirmation.** Not
+part of the gate until confirmed; recorded here so it cannot be added after
+results are known.
+
+| Arm | What it does | Role |
+| --- | --- | --- |
+| D1 | Rules as data: the generic operators are written once as declarative syntax-tree rewrite rules (ast-grep rule files, one small pack per language) and applied at every matching site in the scope. No model at run time. | Tests whether a deterministic, data-only driver is already agnostic enough |
+| D2 | The rule packs for the two held-out languages are written by the model, offline, from the frozen guide and the two development packs, and admitted only if they pass the validator controls and fixture checks. No model at run time. | Tests the model as an offline rule author instead of a per-scope annotator |
+
+Arm D uses the same scopes, validator, oracle, review and targets as arm A.
+Decision rule if confirmed: when D1 or D2 meets the gated rows on the same
+languages as arm A, the recommendation is the D form, with per-scope
+annotation kept only as an optional ranking of sites. The reason is the
+second priority: a driver with no inference at run time has no run-time
+inference drift, and the remaining model output is a small, reviewable,
+hash-pinned artifact. If arm D fails where arm A passes, arm A stands.
+
 ## Evidence record
 
-No result exists yet. Execution begins with a dated research entry that
+Screening and admission are recorded in R57. No arm A, C or D result exists yet. Execution begins with a dated research entry that
 freezes the inputs, and ends with one that reports each row above, the raw
 annotations, validator decisions, mutants, test logs and the review labels.
 A validator control validates the checker, not the mechanism.

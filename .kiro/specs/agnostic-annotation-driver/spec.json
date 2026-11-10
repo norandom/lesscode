@@ -1,7 +1,7 @@
 {
   "feature_name": "agnostic-annotation-driver",
   "created_at": "2026-11-10T10:30:00+01:00",
-  "updated_at": "2026-11-10T10:30:00+01:00",
+  "updated_at": "2026-11-10T11:20:00+01:00",
   "language": "en",
   "phase": "initialized",
   "approvals": {
@@ -28,7 +28,8 @@
   ],
   "evidence": [
     "docs/research/2026-11-10/01-released-binary-adopter-dogfood.md",
-    "docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md"
+    "docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md",
+    "docs/research/2026-11-10/03-annotation-driver-scope-admission.md"
   ],
-  "notes": "2026-11-10: owner set priorities (agnostic driver first, inference-drift hardening second) and approved a new spec with mutation as the first annotation consumer. Brief and prototype gate written for review; gate not run. No requirements, design or tasks generated. Gate execution needs the owner's go (external scopes, model spend)."
+  "notes": "2026-11-10: owner set priorities (agnostic driver first, inference-drift hardening second) and approved a new spec with mutation as the first annotation consumer. Brief and prototype gate written for review; gate not run. No requirements, design or tasks generated. Owner go (proceed) 2026-11-10: gate checklist step 1 scope screening done (R57, gate Amendment 1: four scopes admitted, control expectation corrected). Arm D (rules as data, model as offline rule author) proposed and pending owner confirmation. No model call made."
 }

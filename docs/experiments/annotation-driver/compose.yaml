@@ -1,0 +1,35 @@
+# Linux-side tools for the agnostic-annotation-driver prototype gate.
+# Scopes are isolated clones under SCOPES_DIR (never the upstream checkouts).
+#
+#   $env:SCOPES_DIR = 'D:\BuildArtifacts\lesscode\annotation-driver\scopes'
+#   docker compose -f docs/experiments/annotation-driver/compose.yaml run --rm java-tests
+#
+# JAVA_TEST selects the surefire test class (default LexerTest).
+name: lesscode-annotation-driver
+
+services:
+  java-tests:
+    image: maven:3.9-eclipse-temurin-21
+    working_dir: /scope
+    volumes:
+      - ${SCOPES_DIR:?set SCOPES_DIR to the isolated scopes directory}/commons-csv:/scope
+      - maven-repo:/root/.m2
+    # Only compile and run the selected test class; the project's reporting
+    # and license-audit plugins are not part of the behavioral baseline.
+    command:
+      - mvn
+      - -B
+      - -q
+      - -Drat.skip=true
+      - -Dcheckstyle.skip=true
+      - -Dspotbugs.skip=true
+      - -Dpmd.skip=true
+      - -Djapicmp.skip=true
+      - -Djacoco.skip=true
+      - -Danimal.sniffer.skip=true
+      - -Dsurefire.failIfNoSpecifiedTests=false
+      - -Dtest=${JAVA_TEST:-LexerTest}
+      - test
+
+volumes:
+  maven-repo:

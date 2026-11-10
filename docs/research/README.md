@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R56 Direction: agnostic annotation-guided driver, gate before design (2026-11-10)
+## Latest: R57 Scopes admitted for the annotation-driver gate (2026-11-10)
+
+[R57](2026-11-10/03-annotation-driver-scope-admission.md) completes checklist
+step 1 of the gate. Setup only; no model call, no hypothesis test.
+- **Admitted scopes, baselines healthy in isolated clones:** Rust `mmhmem` `src/setup/check.rs` (212 lines, 28 tests) and Python `mvibe` `mvibe_proxy/ratelimit.py` (478 lines, 230 tests) for guide development; TypeScript `OpenUltraCode` `src/state.ts` (188 lines, 8 tests) and Java `commons-csv` `Lexer.java` (319 lines, 37 tests) held out.
+- **Control:** the fixed operators yield 0, 0, 1 and 0 mutants on these scopes. The gate expected 0 everywhere; Amendment 1 corrects the yield row before any run.
+- **Proposed, pending the owner:** arm D, the generic operators as declarative syntax-tree rules with no model at run time, and rule packs for the held-out languages written by the model offline and admitted by checks.
+- **Next:** owner confirmation of arm D, then the validator and its controls.
+
+## Prior: R56 Direction: agnostic annotation-guided driver, gate before design (2026-11-10)
 
 [R56](2026-11-10/02-agnostic-annotation-driver-direction.md) records the owner's
 priorities after R55 and the plan that follows. Nothing has been run.
