@@ -368,6 +368,29 @@ pack-authoring call. It makes Amendment 3b's D2 precise.
 - **Counting.** Authoring calls count toward the 20 USD cap. The two
   development trials are not counted runs.
 
+## Amendment 7, 2026-11-10 (before any TypeScript or Java pack call): pack guide frozen as version 1
+
+Leave-one-out trials on the development languages, as Amendment 6 allows:
+
+| Guide | Trial | Result |
+| --- | --- | --- |
+| version 0 | Python pack from the Rust pack | admitted on the first attempt |
+| version 0 | Rust pack from the Python pack | no pack: the endpoint refused both attempts (`stop_reason: refusal`, category `cyber`) and returned no text |
+| version 1 | Rust pack from the Python pack | admitted on the first attempt |
+| version 1 | Python pack from the Rust pack | admitted on the first attempt |
+
+Version 1 differs from version 0 only by an opening paragraph that says what
+the work is: mutation testing of a project's own test suite, in isolated
+copies that are discarded. That is a true description added for clarity; it
+hides nothing and no wording was removed. The refusal is recorded as a
+property of the endpoint: a request about rewriting code to remove failure
+handling can be declined when its purpose is not stated. A refusal is a
+failed authoring attempt, never a pack.
+
+Frozen for the TypeScript and Java calls: `pack-guide-v1.md`, SHA-256
+`6fd47bf4246dc90089b58b13a73a86a539ef1e108898c98c3809c1de9343abc4`. If the endpoint refuses a held-out language with this guide, that is
+a D2 failure for the language; the guide is not reworded again.
+
 ## Evidence record
 
 Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58, the engine checks in the R59 addition.
