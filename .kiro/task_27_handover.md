@@ -24,6 +24,24 @@ Written 2026-11-10, Europe/Berlin. Start the next task group from this file.
    [R55](../docs/research/2026-11-10/01-released-binary-adopter-dogfood.md);
    R54 and the research index carry dated amendments.
 
+6. **Release published.** Tag `v1.0.1` on `eda13bb`; release workflow run
+   42773584139 built and published all five archives. The Windows installer
+   was run against the published release and installed 1.0.1.
+7. **CI speed-up.** `tools/install_nextest.sh` installs the prebuilt, pinned
+   and digest-checked cargo-nextest 0.9.143 on the Actions runners and in the
+   Dagger container (commit `eda13bb`). Native jobs dropped to 83 to 274 s.
+   No cache was added, by owner decision; sccache with a self-hosted backend
+   was discussed as an option for Gitea runners only.
+8. **Release signing, ported from mmhmem** (commit `6886c8e`). zipsign 0.2.2,
+   archives signed in place, `SHA256SUMS` plus `SHA256SUMS.sig`, provenance
+   attestation, publish job in the approval-gated `release` environment.
+   Scripts: `scripts/sign-release-assets.ps1`, `scripts/publish-release.ps1`,
+   `scripts/setup-release-signing.ps1`; key list
+   `scripts/release-public-keys.txt` (empty). Tested locally with a throwaway
+   key on the 1.0.1 archives: sign, verify, wrong-context rejection, and
+   extraction all behaved; both refusal paths (no key, unlisted key) fire.
+   The publish job itself has not run yet; its first run is the next tag.
+
 ## 2. Findings that change earlier claims
 
 - `deconvolute analyze --lang python` is a stub: empty receipt, `"passed": true`.
@@ -50,7 +68,8 @@ reward function.
 
 ## 4. Current state
 
-- Branch `main`. See `git log` for the commits after `f5e39a9`.
+- Branch `main` at `6886c8e` (plus the handover commit), CI green on all five jobs (run 42774694344). Build-only release run 42774694964 green.
+- `v1.0.1` published, unsigned. The signing key does not exist yet; the owner must run `scripts\setup-release-signing.ps1` and commit the key list before the next tag.
 - The pre-push hook is not installed in this checkout (removed after the test,
   because `lesscode-core` is not on this workstation's `PATH`).
 - Many experiment directories linked from `docs/README.md` exist only as
@@ -60,6 +79,7 @@ reward function.
 
 ## 5. Next steps
 
+0. Owner: set up the signing key (section 1, item 8), then cut 1.0.2 as the first signed release and check that the `publish` job, the attestation step and both installers work against it.
 1. Owner decision on the three non-working porcelain paths: implement, make
    them fail loudly, or remove them. Minimum fix either way: Python `analyze`
    must not report `passed: true`, and `mutate` must not exit 0 with no mutants.

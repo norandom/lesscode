@@ -1,10 +1,37 @@
-# Handover: v1.0.0 Release, CI Remediation & Slice B (MIPROv2) Resumption, 2026-11-09
+# Handover: v1.0.1 Released, Signing Pending Owner Setup, R55 Findings Open, 2026-11-10
 
-Updated 2026-11-09 late evening, Europe/Berlin. This file is the single handover and action list.
+Updated 2026-11-10 morning, Europe/Berlin. This file is the single handover and action list.
 The current sections below govern continuation; dated history follows for evidence
 and earlier interpretations, not as an active implementation queue.
 
 ## Current state
+
+Updated 2026-11-10 (details and evidence in [task 27 handover](task_27_handover.md)):
+
+1. **v1.0.1 is published** with prebuilt binaries for five targets (Linux
+   x86_64 and aarch64, Windows x86_64, macOS Intel and Apple Silicon), tag on
+   `eda13bb`: https://github.com/norandom/lesscode/releases/tag/v1.0.1.
+   It is unsigned. `v1.0.0` was left untouched and has no GitHub release.
+2. **`main` is at `6886c8e` or later, CI green.** Since the tag: release
+   signing was added (not yet used by any release).
+3. **Next release is blocked until the owner sets up the signing key.** Run
+   `powershell -ExecutionPolicy Bypass -File scripts\setup-release-signing.ps1`,
+   back up `~\lesscode-release-key\release.key`, commit
+   `scripts/release-public-keys.txt`, then bump the version and tag. The publish
+   job waits for approval of the `release` environment. See
+   [docs/release-signing.md](../docs/release-signing.md).
+4. **R55 narrows the claims in the 2026-11-09 list below.** The porcelain
+   `analyze` has no Python implementation (returns `passed: true`), `mutate`
+   only works on the experiment specimens, and the pre-push hook enforces
+   budgets only. Owner decision open: implement, fail loudly, or remove. This
+   affects the Slice B reward gate, which planned to use `deconvolute analyze`.
+5. **CI is faster.** nextest is installed as a prebuilt digest-checked binary
+   (`tools/install_nextest.sh`), also inside the Dagger container. Jobs take
+   about 1.5 to 4 minutes instead of 6 to 16. No build cache was added.
+6. **Not done:** installers tested on Linux and macOS (only Windows was run
+   against the published release); the pre-push hook is not installed in this
+   checkout; about 200 untracked experiment files linked from `docs/README.md`
+   are still untracked.
 
 Updated 2026-11-09 late evening:
 1. **Major Release v1.0.0 Shipped:**
