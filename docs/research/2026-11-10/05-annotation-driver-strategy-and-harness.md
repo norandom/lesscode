@@ -138,7 +138,7 @@ Sites that can yield a mutant with these packs:
 | --- | --- | --- | --- | --- |
 | Rust | 33 | 16 | branch 11, failure 2, order 2, write 1 | 17 failure sites (16 `return`, 1 `Err(`) |
 | Python | 200 | 161 | write 110, branch 40, failure 6, order 5 | 38 `return`, 1 chained assignment |
-| TypeScript | 50 | 29 | branch 16, failure 9, write 3, and 1 see note | 20 `return`, 2 writes that are not statements |
+| TypeScript | 50 | 28 | branch 16, failure 9, write 3 | 20 `return`, 2 writes that are not statements |
 | Java | 157 | 115 | branch 51, write 50, order 11, failure 3 | 40 `return`, 2 writes in `for` headers |
 
 Note: the engine's Rust count is 33, not 38, because five `if let`

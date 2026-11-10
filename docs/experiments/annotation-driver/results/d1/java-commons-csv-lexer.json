@@ -1,0 +1,1582 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "java-commons-csv-lexer",
+ "language": "java",
+ "sites_from": "all_sites",
+ "revision": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+ "expected_revision": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+ "pack_sha256": "9a7f65c126ba84c0a6c447913539bfc75035ceddc74122a15d4764b30d55746f",
+ "code_sha256": {
+  "engine.py": "c584e0c119be4766a8bd02341c0bd6f7675de8babd7c334d816a65c0dc862bbd",
+  "harness.py": "125e3d10b318264488859b61d9ae03f60125afa4f680c154ec345c6c854cd593",
+  "validator.py": "afa504eaf246240c7c1ed2b5920c8162c410181317c01acfe9e47829c7c3a046",
+  "run_arm.py": "0fb08f528aeb9b8e39caf544c067ba2c30c9e8bb4fd7f9779fcb62bc489fb28e",
+  "scopes.json": "b63e3a5e454b11425526d76d9f6e0b8b93293a57850cc2f902b0289a6b89b113"
+ },
+ "limit": null,
+ "eligible_sites": 157,
+ "sites": 40,
+ "mutants_run": 40,
+ "counts_by_class": {
+  "killed": 17,
+  "survived": 14,
+  "invalid": 4,
+  "timeout": 5
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 9,
+   "survived": 3,
+   "invalid": 1
+  },
+  "error_order": {
+   "survived": 8,
+   "killed": 3
+  },
+  "failure_state": {
+   "killed": 2,
+   "timeout": 1
+  },
+  "state_write": {
+   "invalid": 3,
+   "timeout": 4,
+   "killed": 3,
+   "survived": 3
+  }
+ },
+ "sites_without_operator": [],
+ "annotation_decisions": null,
+ "annotations_skipped": [],
+ "wall_seconds": 1875.1,
+ "scope_files_sha256": {
+  "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+ },
+ "void": null,
+ "baseline_before": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "docker",
+     "compose",
+     "-f",
+     "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+     "run",
+     "--rm",
+     "java-tests"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 26.21,
+    "log": "baseline-before-test.log"
+   }
+  ]
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 162,
+    "start_column": 16,
+    "end_line": 162,
+    "end_column": 51,
+    "text": "delimiterBuf[i] != delimiter[i + 1]"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 26.14,
+   "log": "m001-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 26.14,
+     "log": "m001-test.log"
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 279,
+    "start_column": 8,
+    "end_line": 283,
+    "end_column": 9,
+    "text": "if (isEndOfFile(lastChar) || !isLastTokenDelimiter && isEndOfFile(c)) {\r\n            token.type = Token.Type.EOF;\r\n            // don't set token.isReady here because no content\r\n            return token;\r\n        }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 26.39,
+   "log": "m002-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 26.39,
+     "log": "m002-test.log"
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 397,
+    "start_column": 28,
+    "end_line": 398,
+    "end_column": 84,
+    "text": "throw new CSVException(\"Invalid character between encapsulated token and delimiter at line: %,d, position: %,d\",\r\n                                    getCurrentLineNumber(), getCharacterPosition());"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 26.99,
+   "log": "m003-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 26.99,
+     "log": "m003-test.log"
+    }
+   ]
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 63,
+    "start_column": 8,
+    "end_line": 63,
+    "end_column": 48,
+    "text": "this.lenientEof = format.getLenientEof()"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "invalid_output",
+   "exit_code": 1,
+   "seconds": 8.75,
+   "log": "m004-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 8.75,
+     "log": "m004-test.log"
+    }
+   ]
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 279,
+    "start_column": 12,
+    "end_line": 279,
+    "end_column": 76,
+    "text": "isEndOfFile(lastChar) || !isLastTokenDelimiter && isEndOfFile(c)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 29.13,
+   "log": "m005-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 29.13,
+     "log": "m005-test.log"
+    }
+   ]
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 450,
+    "start_column": 12,
+    "end_line": 453,
+    "end_column": 13,
+    "text": "if (isDelimiter(cur)) {\r\n                token.type = Token.Type.TOKEN;\r\n                break;\r\n            }"
+   },
+   "operator": "swap_next",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 27.0,
+   "log": "m006-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 27.0,
+     "log": "m006-test.log"
+    }
+   ]
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 411,
+    "start_column": 16,
+    "end_line": 411,
+    "end_column": 122,
+    "text": "throw new CSVException(\"(startline %,d) EOF reached before encapsulated token finished\", startLineNumber);"
+   },
+   "operator": "drop:throw_statement",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": null,
+   "seconds": 180.31,
+   "log": "m007-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": null,
+     "timed_out": true,
+     "seconds": 180.31,
+     "log": "m007-test.log"
+    }
+   ]
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 406,
+    "start_column": 20,
+    "end_line": 406,
+    "end_column": 47,
+    "text": "token.type = Token.Type.EOF"
+   },
+   "operator": "drop_statement",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": null,
+   "seconds": 180.31,
+   "log": "m008-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": null,
+     "timed_out": true,
+     "seconds": 180.31,
+     "log": "m008-test.log"
+    }
+   ]
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 395,
+    "start_column": 35,
+    "end_line": 395,
+    "end_column": 68,
+    "text": "!Character.isWhitespace((char) c)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 26.79,
+   "log": "m009-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 26.79,
+     "log": "m009-test.log"
+    }
+   ]
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 380,
+    "start_column": 24,
+    "end_line": 383,
+    "end_column": 25,
+    "text": "if (isDelimiter(c)) {\r\n                            token.type = Token.Type.TOKEN;\r\n                            return token;\r\n                        }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 27.3,
+   "log": "m010-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 27.3,
+     "log": "m010-test.log"
+    }
+   ]
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 528,
+    "start_column": 12,
+    "end_line": 528,
+    "end_column": 75,
+    "text": "throw new CSVException(\"EOF while processing escape sequence\");"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 27.41,
+   "log": "m011-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 27.41,
+     "log": "m011-test.log"
+    }
+   ]
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 58,
+    "start_column": 8,
+    "end_line": 58,
+    "end_column": 65,
+    "text": "this.escape = nullToDisabled(format.getEscapeCharacter())"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "invalid_output",
+   "exit_code": 1,
+   "seconds": 8.09,
+   "log": "m012-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 8.09,
+     "log": "m012-test.log"
+    }
+   ]
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 338,
+    "start_column": 15,
+    "end_line": 338,
+    "end_column": 24,
+    "text": "c == null"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 26.12,
+   "log": "m013-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 26.12,
+     "log": "m013-test.log"
+    }
+   ]
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 302,
+    "start_column": 12,
+    "end_line": 311,
+    "end_column": 13,
+    "text": "if (ignoreSurroundingSpaces) {\r\n                while (Character.isWhitespace((char) c) && !eol) {\r\n                    if (isDelimiter(c)) {\r\n                        delimiter = true;\r\n                        break;\r\n                    }\r\n                    c = reader.read();\r\n                    eol = readEndOfLine(c);\r\n                }\r\n            }"
+   },
+   "operator": "swap_next",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 25.9,
+   "log": "m014-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 25.9,
+     "log": "m014-test.log"
+    }
+   ]
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 379,
+    "start_column": 24,
+    "end_line": 379,
+    "end_column": 41,
+    "text": "c = reader.read()"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 31.48,
+   "log": "m015-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 31.48,
+     "log": "m015-test.log"
+    }
+   ]
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 490,
+    "start_column": 23,
+    "end_line": 490,
+    "end_column": 42,
+    "text": "cur == Constants.CR"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 27.0,
+   "log": "m016-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 27.0,
+     "log": "m016-test.log"
+    }
+   ]
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 152,
+    "start_column": 8,
+    "end_line": 154,
+    "end_column": 9,
+    "text": "if (ch != delimiter[0]) {\r\n            return false;\r\n        }"
+   },
+   "operator": "swap_next",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 29.18,
+   "log": "m017-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 29.18,
+     "log": "m017-test.log"
+    }
+   ]
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 326,
+    "start_column": 16,
+    "end_line": 326,
+    "end_column": 43,
+    "text": "token.type = Token.Type.EOF"
+   },
+   "operator": "drop_statement",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": null,
+   "seconds": 180.36,
+   "log": "m018-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": null,
+     "timed_out": true,
+     "seconds": 180.36,
+     "log": "m018-test.log"
+    }
+   ]
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "true",
+    "start_line": 378,
+    "start_column": 27,
+    "end_line": 378,
+    "end_column": 31,
+    "text": "true"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "invalid_output",
+   "exit_code": 1,
+   "seconds": 9.46,
+   "log": "m019-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 9.46,
+     "log": "m019-test.log"
+    }
+   ]
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 441,
+    "start_column": 12,
+    "end_line": 444,
+    "end_column": 13,
+    "text": "if (readEndOfLine(cur)) {\r\n                token.type = Token.Type.EORECORD;\r\n                break;\r\n            }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 27.54,
+   "log": "m020-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 27.54,
+     "log": "m020-test.log"
+    }
+   ]
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 269,
+    "start_column": 16,
+    "end_line": 269,
+    "end_column": 38,
+    "text": "eol = readEndOfLine(c)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 26.92,
+   "log": "m021-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 26.92,
+     "log": "m021-test.log"
+    }
+   ]
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 487,
+    "start_column": 12,
+    "end_line": 487,
+    "end_column": 28,
+    "text": "firstEol == null"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 26.13,
+   "log": "m022-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 26.13,
+     "log": "m022-test.log"
+    }
+   ]
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 389,
+    "start_column": 24,
+    "end_line": 392,
+    "end_column": 25,
+    "text": "if (readEndOfLine(c)) {\r\n                            token.type = Token.Type.EORECORD;\r\n                            return token;\r\n                        }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 27.69,
+   "log": "m023-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 27.69,
+     "log": "m023-test.log"
+    }
+   ]
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 319,
+    "start_column": 16,
+    "end_line": 319,
+    "end_column": 48,
+    "text": "token.type = Token.Type.EORECORD"
+   },
+   "operator": "drop_statement",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": null,
+   "seconds": 180.26,
+   "log": "m024-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": null,
+     "timed_out": true,
+     "seconds": 180.26,
+     "log": "m024-test.log"
+    }
+   ]
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 482,
+    "start_column": 16,
+    "end_line": 482,
+    "end_column": 32,
+    "text": "firstEol == null"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 27.57,
+   "log": "m025-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 27.57,
+     "log": "m025-test.log"
+    }
+   ]
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 384,
+    "start_column": 24,
+    "end_line": 388,
+    "end_column": 25,
+    "text": "if (isEndOfFile(c)) {\r\n                            token.type = Token.Type.EOF;\r\n                            token.isReady = true; // There is data at EOF\r\n                            return token;\r\n                        }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 27.57,
+   "log": "m026-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 27.57,
+     "log": "m026-test.log"
+    }
+   ]
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 308,
+    "start_column": 20,
+    "end_line": 308,
+    "end_column": 37,
+    "text": "c = reader.read()"
+   },
+   "operator": "drop_statement",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": null,
+   "seconds": 180.28,
+   "log": "m027-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": null,
+     "timed_out": true,
+     "seconds": 180.28,
+     "log": "m027-test.log"
+    }
+   ]
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 313,
+    "start_column": 16,
+    "end_line": 313,
+    "end_column": 43,
+    "text": "delimiter || isDelimiter(c)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 28.63,
+   "log": "m028-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 28.63,
+     "log": "m028-test.log"
+    }
+   ]
+  },
+  {
+   "number": 29,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 445,
+    "start_column": 12,
+    "end_line": 449,
+    "end_column": 13,
+    "text": "if (isEndOfFile(cur)) {\r\n                token.type = Token.Type.EOF;\r\n                token.isReady = true; // There is data at EOF\r\n                break;\r\n            }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 28.11,
+   "log": "m029-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 28.11,
+     "log": "m029-test.log"
+    }
+   ]
+  },
+  {
+   "number": 30,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 56,
+    "start_column": 8,
+    "end_line": 56,
+    "end_column": 28,
+    "text": "this.reader = reader"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "invalid_output",
+   "exit_code": 1,
+   "seconds": 8.4,
+   "log": "m030-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 8.4,
+     "log": "m030-test.log"
+    }
+   ]
+  },
+  {
+   "number": 31,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 218,
+    "start_column": 24,
+    "end_line": 218,
+    "end_column": 44,
+    "text": "i < delimiter.length"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 27.04,
+   "log": "m031-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 27.04,
+     "log": "m031-test.log"
+    }
+   ]
+  },
+  {
+   "number": 32,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 264,
+    "start_column": 8,
+    "end_line": 277,
+    "end_column": 9,
+    "text": "if (ignoreEmptyLines) {\r\n            while (eol && isStartOfLine(lastChar)) {\r\n                // Go on char ahead ...\r\n                lastChar = c;\r\n                c = reader.read();\r\n                eol = readEndOfLine(c);\r\n                // reached the end of the file without any content (empty line at the end)\r\n                if (isEndOfFile(c)) {\r\n                    token.type = Token.Type.EOF;\r\n                    // don't set token.isReady here because no content\r\n                    return token;\r\n                }\r\n            }\r\n        }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 26.82,
+   "log": "m032-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 26.82,
+     "log": "m032-test.log"
+    }
+   ]
+  },
+  {
+   "number": 33,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 87,
+    "start_column": 16,
+    "end_line": 87,
+    "end_column": 38,
+    "text": "token.isEscaped = true"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 27.69,
+   "log": "m033-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 27.69,
+     "log": "m033-test.log"
+    }
+   ]
+  },
+  {
+   "number": 34,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 548,
+    "start_column": 12,
+    "end_line": 548,
+    "end_column": 37,
+    "text": "length != buffer.length()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 27.87,
+   "log": "m034-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 27.87,
+     "log": "m034-test.log"
+    }
+   ]
+  },
+  {
+   "number": 35,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 478,
+    "start_column": 8,
+    "end_line": 485,
+    "end_column": 9,
+    "text": "if (cur == Constants.CR && reader.peek() == Constants.LF) {\r\n            // note: does not change ch outside of this method!\r\n            cur = reader.read();\r\n            // Save the EOL state\r\n            if (firstEol == null) {\r\n                this.firstEol = Constants.CRLF;\r\n            }\r\n        }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 27.17,
+   "log": "m035-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 27.17,
+     "log": "m035-test.log"
+    }
+   ]
+  },
+  {
+   "number": 36,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 386,
+    "start_column": 28,
+    "end_line": 386,
+    "end_column": 48,
+    "text": "token.isReady = true"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 29.01,
+   "log": "m036-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 29.01,
+     "log": "m036-test.log"
+    }
+   ]
+  },
+  {
+   "number": 37,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "method_invocation",
+    "start_line": 304,
+    "start_column": 24,
+    "end_line": 304,
+    "end_column": 38,
+    "text": "isDelimiter(c)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 30.62,
+   "log": "m037-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 30.62,
+     "log": "m037-test.log"
+    }
+   ]
+  },
+  {
+   "number": 38,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 272,
+    "start_column": 20,
+    "end_line": 272,
+    "end_column": 47,
+    "text": "token.type = Token.Type.EOF"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 29.97,
+   "log": "m038-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 29.97,
+     "log": "m038-test.log"
+    }
+   ]
+  },
+  {
+   "number": 39,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 297,
+    "start_column": 15,
+    "end_line": 297,
+    "end_column": 47,
+    "text": "token.type == Token.Type.INVALID"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 29.08,
+   "log": "m039-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 29.08,
+     "log": "m039-test.log"
+    }
+   ]
+  },
+  {
+   "number": 40,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 151,
+    "start_column": 8,
+    "end_line": 151,
+    "end_column": 36,
+    "text": "isLastTokenDelimiter = false"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 29.34,
+   "log": "m040-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "run",
+      "--rm",
+      "java-tests"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 29.34,
+     "log": "m040-test.log"
+    }
+   ]
+  }
+ ],
+ "baseline_after": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "docker",
+     "compose",
+     "-f",
+     "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+     "run",
+     "--rm",
+     "java-tests"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 27.68,
+    "log": "baseline-after-test.log"
+   }
+  ]
+ },
+ "restored": true
+}

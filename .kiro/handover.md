@@ -40,8 +40,12 @@ Updated 2026-11-10 (details and evidence in [task 27 handover](task_27_handover.
    (R59, gate Amendment 3, governs): non-horizontal arms B and C removed; one
    engine plus a data pack per language; arms D1, D2, A differ only in site
    selection; Rust scope replaced by `src/setup/ui/update.rs`. Owner rule:
-   agent decides strategy; clear implementation goes to Opus xhigh. Next:
-   engine and harness, then D1, guide v0, freeze, first model calls.
+   agent decides strategy; clear implementation goes to Opus xhigh. D1 done (R60):
+   Rust and Python pass; TypeScript misses kind coverage, Java misses
+   meaningfulness on provisional labels. Guide v1 frozen after four
+   development calls (R59 additions). Next: counted arm A (twice per scope)
+   and D2 packs, then the gate decision. Do not manage the Podman machine
+   (owner); only run containers.
 5. **CI is faster.** nextest is installed as a prebuilt digest-checked binary
    (`tools/install_nextest.sh`), also inside the Dagger container. Jobs take
    about 1.5 to 4 minutes instead of 6 to 16. No build cache was added.

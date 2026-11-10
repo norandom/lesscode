@@ -320,7 +320,7 @@ building and checking the engine; none comes from a mutation result.
   TypeScript is not a clean held-out result. D2, whose pack the model writes
   without seeing the scope, remains the agnosticism test.
 - **4e. Sites that can yield a mutant**, with these packs: Rust 16 of 33
-  eligible, Python 161 of 200, TypeScript 29 of 50, Java 115 of 157. Most of
+  eligible, Python 161 of 200, TypeScript 28 of 50, Java 115 of 157. Most of
   the rest are `return` statements labelled as failure sites.
 
 ## Amendment 5, 2026-11-10 (operational; during D1, before any Java result)

@@ -2,7 +2,17 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R59 Annotation-driver strategy consolidated before any run (2026-11-10, running)
+## Latest: R60 Arm D1 results: two languages pass, two miss one row each (2026-11-10)
+
+[R60](2026-11-10/06-annotation-driver-d1-results.md) reports the first measured
+arm: generic operators at every eligible site, no model, hand-written packs.
+- **Counts (run / killed / survived / timeout / invalid):** Rust 16 / 11 / 5 / 0 / 0; Python 40 / 35 / 5 / 0 / 0; TypeScript 28 / 11 / 6 / 1 / 10; Java 40 / 17 / 14 / 5 / 4. Baselines passed before and after; every scope restored byte for byte.
+- **Gated rows:** Rust and Python meet yield and meaningfulness (94% and 98%). TypeScript misses yield: mutants landed in 2 kinds, not 3, because 10 of 28 failed the type check. Java misses meaningfulness on provisional labels: 24 of 36 landed (67%, target 70%).
+- **Survivor review (30, by the mechanism's designer, provisional):** 21 real test gaps, 5 equivalent, 4 undetermined. Among the gaps, three safety checks in the TypeScript scope can be removed with all tests passing.
+- **Also recorded in R59 additions:** engine, harness and checks; guide version 0 reached 53% valid annotations on Rust, version 1 (two added sentences) 81% and 98% on Python, and is frozen. About 38k input and 18k output tokens spent on four development calls.
+- **Next:** counted arm A runs and model-written packs (D2), then the gate decision.
+
+## Prior: R59 Annotation-driver strategy consolidated before any run (2026-11-10)
 
 [R59](2026-11-10/05-annotation-driver-strategy-and-harness.md) records gate
 Amendment 3, made before any mutation run or model call.
