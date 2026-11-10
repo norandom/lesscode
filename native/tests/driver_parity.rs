@@ -433,6 +433,7 @@ fn hand_written_controls_admit_the_shipped_pack_only() {
                 receipt.to_string().contains("operators_differ"),
                 "{receipt}"
             );
+            assert!(receipt.to_string().contains("expected operators"));
         }
         sets += 1;
     }

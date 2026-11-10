@@ -8,7 +8,10 @@
    Amendment 5; blueprint in `.kiro/task_26_handover.md`). The owner's second priority, explicitly not to be
    forgotten. Started 2026-11-10: the pack-authoring baseline ran on the current endpoint
    ([R68](../../docs/research/2026-11-10/14-slice-b-pack-authoring-drift-baseline.md)): admission 20 of 20, but Rust
-   packs differ between runs unnoticed. Next: stronger admission controls, the Python operator pairs, rerun. Dated next step (2026-11-10, at the approval of the driver design): the preregistration of a drift baseline for pack authoring is driver task 2.4 and is due with the handover of driver task group 2. Five authoring runs per language for four languages with the frozen pack guide, current endpoint first, Mistral second; measures are admission rate, repair attempts and identity of the mutants. Running it needs the owner's go.
+   packs differ between runs unnoticed. Rerun with stronger controls
+   ([R69](../../docs/research/2026-11-10/15-slice-b-baseline-rerun-stronger-admission.md)): Rust 0 of 5 on the first
+   reply, repair works twice in five, Java differs in 3 of 5. Next, by the owner's direction: a preregistered,
+   bounded `MIPROv2` optimisation of the pack guide. Dated next step (2026-11-10, at the approval of the driver design): the preregistration of a drift baseline for pack authoring is driver task 2.4 and is due with the handover of driver task group 2. Five authoring runs per language for four languages with the frozen pack guide, current endpoint first, Mistral second; measures are admission rate, repair attempts and identity of the mutants. Running it needs the owner's go.
    Preregistered 2026-11-10 as [R66](../../docs/research/2026-11-10/12-slice-b-pack-authoring-drift-preregistration.md); start condition: driver task group 3 done, guide amendment hashed, owner's go.
    It must have a dated next step before `agnostic-annotation-driver` is reported complete
    (that spec's Requirement 9.6). What it inherits from the driver work:

@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R68 Slice B baseline: packs always admitted, Rust packs differ between runs and admission misses it (2026-11-10)
+## Latest: R69 Slice B rerun: stronger admission stops every first Rust pack; repair works twice in five; Java differs too (2026-11-10)
+
+[R69](2026-11-10/15-slice-b-baseline-rerun-stronger-admission.md) reruns the baseline of R68 with the hand-written Rust controls and the extended Python pack.
+- **Rust:** 0 of 5 first replies admitted; 2 admitted after two repairs, 2 still rejected, 1 repair request refused by the endpoint. The repair feedback did not name the expected operator; that defect is fixed.
+- **Java:** admitted 5 of 5, but 3 of 5 packs lack the operator for `throw` and so differ from the shipped pack. An example pack in the request had changed, so this is not sampling alone.
+- **Python and TypeScript:** 5 of 5 admitted and identical to the shipped pack's mutants.
+- **Consequence:** checks alone do not harden authoring. Next: a preregistered, bounded `MIPROv2` optimisation of the pack guide, as the owner directed.
+- **Cost:** 1.62 USD at the list price; 5.89 of 20 USD recorded.
+
+## Prior: R68 Slice B baseline: packs always admitted, Rust packs differ between runs and admission misses it (2026-11-10)
 
 [R68](2026-11-10/14-slice-b-pack-authoring-drift-baseline.md) runs the protocol of R66 on the current endpoint (20 conversations, `claude-opus-5-5`).
 - **Admission:** 20 of 20 first replies admitted; no refusal, no repair needed, so the repair path is still untested.

@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "rust",
+  "pack_sha256": "219424f8cba647019f1385ae3a22e4b795e7a6ef538f8468cb8d2eedf6952f2a",
+  "admitted": true,
+  "checks": [
+    {
+      "name": "json",
+      "pass": true,
+      "ran": true,
+      "detail": "one JSON object"
+    },
+    {
+      "name": "size",
+      "pass": true,
+      "ran": true,
+      "detail": "33 lines (at most 40), 1866 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": true,
+      "ran": true,
+      "detail": "required keys present with the right types"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": true,
+      "ran": true,
+      "detail": "22 node kinds, all valid for rust"
+    },
+    {
+      "name": "templates",
+      "pass": true,
+      "ran": true,
+      "detail": "4 templates, placeholders only {text}, {noop}, {child0}"
+    },
+    {
+      "name": "controls",
+      "pass": true,
+      "ran": true,
+      "detail": "5 of 5 controls behaved as expected"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": true,
+      "ran": true,
+      "detail": "3 seeds: changed 2, no_operator 1"
+    }
+  ]
+}

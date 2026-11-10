@@ -1,0 +1,57 @@
+{
+ "language": "rust",
+ "run": 5,
+ "examples": [
+  "python",
+  "java"
+ ],
+ "started_utc": "2026-11-10T19:46:40+00:00",
+ "requested_model": "claude-opus-5-5",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-10T19:46:40+00:00",
+   "input_tokens": 3370,
+   "output_tokens": 2198,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "admitted": false,
+   "feedback": [
+    "- controls: 3 of 5 controls behaved as expected; failing: error_constructor_call_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; code_under_an_inner_test_attribute_is_a_test_region expected [\"test_region\"] got [\"ok\"]",
+    "- seed_mutants: 3 seeds: no_operator 1, no_site 1, operators_differ 1"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-10T19:47:00+00:00",
+   "input_tokens": 4248,
+   "output_tokens": 1552,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "admitted": false,
+   "feedback": [
+    "- seed_mutants: 3 seeds: changed 1, no_operator 1, operators_differ 1"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 3,
+   "started_utc": "2026-11-10T19:47:15+00:00",
+   "input_tokens": 5066,
+   "output_tokens": 964,
+   "stop_reason": "refusal",
+   "returned_model": "claude-opus-5-5",
+   "admitted": false,
+   "feedback": null,
+   "error": null
+  }
+ ],
+ "outcome": "refusal",
+ "first_reply_admitted": false,
+ "admitted": false,
+ "repairs": 0,
+ "pack_sha256": null,
+ "mutants": null,
+ "finished_utc": "2026-11-10T19:47:27+00:00"
+}
