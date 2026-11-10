@@ -2,12 +2,12 @@
 
 ## Work queue, owner order of 2026-11-10 (do not drop the second item)
 
-1. **Agnostic driver** (`agnostic-annotation-driver`): requirements approved 2026-11-10; design next, starting
-   with a sizing spike for the Rust port (mutation and analysis, single runtime).
+1. **Agnostic driver** (`agnostic-annotation-driver`): requirements and design approved 2026-11-10; tasks
+   generated and awaiting approval.
 2. **Slice B: hardening against LLM inference drift** (`constraint-guided-compression`, requirements
    Amendment 5; blueprint in `.kiro/task_26_handover.md`). The owner's second priority, explicitly not to be
-   forgotten. It is not started. It begins when the driver's design is approved, or earlier if the owner says
-   so, and it must have a dated next step before `agnostic-annotation-driver` is reported complete
+   forgotten. It is not started. Dated next step (2026-11-10, at the approval of the driver design): the preregistration of a drift baseline for pack authoring is driver task 2.4 and is due with the handover of driver task group 2. Five authoring runs per language for four languages with the frozen pack guide, current endpoint first, Mistral second; measures are admission rate, repair attempts and identity of the mutants. Running it needs the owner's go.
+   It must have a dated next step before `agnostic-annotation-driver` is reported complete
    (that spec's Requirement 9.6). What it inherits from the driver work:
    - The artefacts to harden are now small and checkable: the language pack a model writes once, admitted by
      deterministic checks, and the optional annotation layer.

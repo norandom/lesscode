@@ -1,6 +1,6 @@
 # Design: agnostic driver in `lesscode-core`
 
-Generated 2026-11-10 for the owner's approval. Not approved. No production tasks exist.
+Generated 2026-11-10. **Approved by the owner on 2026-11-10** ("approved"), which also approves the two grammar features. The fixture question at the end was not answered and stays open.
 Basis: [requirements](requirements.md) (approved 2026-11-10), the [prototype gate](prototype-gate.md)
 (`proceed`), the sizing spike [R65](../../../docs/research/2026-11-10/11-annotation-driver-rust-sizing-spike.md)
 and the [feasibility report](../../../docs/reports/agnostic-driver-feasibility.md).
@@ -336,7 +336,7 @@ out-of-memory builds as errors. It does not make Rust faster.
 
 ## Slice B next step (Requirement 9.6)
 
-To be dated when this design is approved, and copied into the roadmap and into constraint-guided-compression:
+Dated 2026-11-10 at approval and copied into the roadmap and into constraint-guided-compression. The preregistration is task 2.4 of this spec, due with the handover of task group 2:
 
 - First step: a preregistered drift baseline for pack authoring. Have the model write the pack for each of
   the four languages five times with the frozen pack guide, on the current endpoint and then on the Mistral
