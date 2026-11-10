@@ -54,6 +54,10 @@ pub struct RunConfig {
     /// Exit codes of the test command that mean the tests could not be loaded.
     #[serde(default)]
     pub invalid_exit_codes: Vec<i32>,
+    /// Exit codes that mean a time limit inside the command was reached, for
+    /// commands whose work cannot be killed from outside (a container).
+    #[serde(default)]
+    pub timeout_exit_codes: Vec<i32>,
     /// Output fragments that mean the mutant did not compile or load.
     #[serde(default)]
     pub invalid_output_patterns: Vec<String>,
@@ -124,7 +128,7 @@ impl RunConfig {
     /// A stable text of everything that decides an outcome, for the store.
     pub fn identity(&self) -> String {
         format!(
-            "{:?}|{:?}|{:?}|{:?}|{}|{}|{}|{:?}|{:?}|{:?}|{:?}",
+            "{:?}|{:?}|{:?}|{:?}|{}|{}|{}|{:?}|{:?}|{:?}|{:?}|{:?}",
             self.setup,
             self.build,
             self.test,
@@ -135,7 +139,8 @@ impl RunConfig {
             self.invalid_exit_codes,
             self.invalid_output_patterns,
             self.error_output_patterns,
-            self.runner_evidence_patterns
+            self.runner_evidence_patterns,
+            self.timeout_exit_codes
         )
     }
 }

@@ -158,6 +158,14 @@ fn time_limits_invalid_mutants_and_errors_are_told_apart() {
     assert_eq!(code, Some(0));
     assert_eq!(classes(&receipt)["2:negate"], "invalid");
 
+    let contained = project.config(
+        &["--missing-exit", "137"],
+        json!({"timeout_exit_codes": [137]}),
+    );
+    let (code, receipt, _) = project.run(&contained, "contained", &[]);
+    assert_eq!(code, Some(0));
+    assert_eq!(classes(&receipt)["2:negate"], "timeout");
+
     // A failing exit without the runner's own output is not a kill.
     let silent = project.config(
         &[],

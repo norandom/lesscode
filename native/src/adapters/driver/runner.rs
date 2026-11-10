@@ -109,6 +109,15 @@ pub fn classify(
         if contains_any(&finished.output, &config.error_output_patterns) {
             return (ERROR, Some(format!("resource failure during {name}")));
         }
+        let inner_limit = finished
+            .exit_code
+            .is_some_and(|code| config.timeout_exit_codes.contains(&code));
+        if inner_limit {
+            return (
+                TIMEOUT,
+                Some(format!("{name} reached the command's own time limit")),
+            );
+        }
         if finished.timed_out {
             return (TIMEOUT, Some(format!("{name} reached its time limit")));
         }
