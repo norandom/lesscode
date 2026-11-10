@@ -90,21 +90,16 @@ pub struct Pack {
     pub language: String,
     pub comment_kinds: Vec<String>,
     pub string_kinds: Vec<String>,
-    #[serde(default)]
     pub unwrap_kinds: Vec<String>,
-    #[serde(default)]
     pub test_attribute_markers: Vec<String>,
     /// Node kinds that can carry a test marker in front of an item.
     #[serde(default)]
     pub test_attribute_kinds: Vec<String>,
     pub kinds: BTreeMap<Kind, Rule>,
-    #[serde(default)]
-    pub noop_statement: Option<String>,
-    #[serde(default)]
+    pub noop_statement: String,
     pub statement_wrappers: Vec<String>,
     #[serde(default)]
     pub statement_terminator: Option<String>,
-    #[serde(default)]
     pub operators: Operators,
     /// SHA-256 of the pack text; set on loading, never read from the pack.
     #[serde(skip)]
@@ -179,6 +174,8 @@ mod tests {
     use super::*;
 
     const SMALL: &str = r#"{"language": "x", "comment_kinds": ["c"], "string_kinds": [],
+        "unwrap_kinds": [], "test_attribute_markers": [], "noop_statement": ";",
+        "statement_wrappers": [], "operators": {},
         "kinds": {"branch_condition": {"nodes": ["n"], "requires_next_sibling": true}}}"#;
 
     #[test]

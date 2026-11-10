@@ -10,6 +10,24 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/admission.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Pack admission checks (task 2.1, REQ 1.3..1.5)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/cli.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Driver command handlers and receipt output (task 2.3, REQ 1.5/1.6)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/mod.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

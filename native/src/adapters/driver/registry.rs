@@ -11,6 +11,11 @@ const SHIPPED: &[&str] = &[
     include_str!("../../../packs/typescript.json"),
 ];
 
+/// The text of every shipped pack.
+pub fn shipped_texts() -> &'static [&'static str] {
+    SHIPPED
+}
+
 /// Every shipped pack, parsed once per process.
 pub fn shipped() -> Result<&'static [Pack], PackError> {
     static PACKS: OnceLock<Result<Vec<Pack>, PackError>> = OnceLock::new();

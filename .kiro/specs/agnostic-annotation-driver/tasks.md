@@ -41,20 +41,22 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - _Requirements: 8.2, 8.3_
 
 - [ ] 2. Pack admission and the `admit-pack` command
-- [ ] 2.1 Implement admission on the typed pack
+- [x] 2.1 Implement admission on the typed pack
   - Size limits, typed shape, every node kind accepted by the grammar, placeholders limited to the three
     allowed names; results cached by pack hash; failed checks named as in the prototype (`size`, `shape`,
     `kinds_valid`, `templates`).
   - Done when the four shipped packs and the two model-written packs of attempt 2 are admitted and four
     deliberately wrong packs are rejected for the recorded reasons.
   - _Requirements: 1.3, 1.4, 1.5_
-- [ ] 2.2 Add control replay to admission
+- [x] 2.2 Add control replay to admission
   - With a control file and a source root, each control must behave as recorded and each control site with an
     operator must yield a parseable change. Depends on the site rules of 3.1 for the replay itself; the
     command accepts the options and reports "controls not checked" until 3.1 lands.
+  - State after group 2: the options are accepted and a pack checked with them is not admitted (fail closed,
+    exit 1, check `controls` reported as not run). The replay itself is part of task 3.2.
   - _Depends: 3.1_
   - _Requirements: 1.3, 9.3_
-- [ ] 2.3 Add `deconvolute admit-pack`
+- [x] 2.3 Add `deconvolute admit-pack`
   - New handler file `cli_driver.rs`; exit 0 admitted, 1 rejected, 3 bad input; nothing written on failure.
   - Done when CLI tests cover the three exit codes and an embedded-pack test admits every shipped pack
     against the crate's grammars.

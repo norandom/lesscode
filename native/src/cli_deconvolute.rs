@@ -10,6 +10,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use crate::adapter_traits::{CoverageGap, FrameSpec, MutationKind, MutationSpec};
+use crate::adapters::driver::cli::{self as driver_cli, emit_json};
 use crate::adapters::java::JavaAdapter;
 use crate::adapters::rust::RustAdapter;
 use crate::adapters::typescript::TypeScriptAdapter;
@@ -52,6 +53,8 @@ pub enum DeconvoluteCommand {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+    /// Check a language pack before it is used.
+    AdmitPack(driver_cli::AdmitPackArgs),
     /// Git pre-push hook; enforces complexity budgets only.
     PrePush(cli_hook::PrePushArgs),
     /// Install standard Git pre-push hook script in .git/hooks.
@@ -93,22 +96,6 @@ pub struct DensityReceipt {
     pub stmt_reduction_pct: f64,
     pub passed: bool,
     pub verdict: &'static str,
-}
-
-fn emit_json<T: Serialize>(value: &T, out: Option<&Path>) -> Result<(), String> {
-    let json_bytes =
-        serde_json::to_vec_pretty(value).map_err(|e| format!("Serialization error: {e}"))?;
-    if let Some(path) = out {
-        if let Some(parent) = path.parent() {
-            let _ = fs::create_dir_all(parent);
-        }
-        fs::write(path, &json_bytes)
-            .map_err(|e| format!("Cannot write output {}: {e}", path.display()))?;
-    } else {
-        let text = String::from_utf8_lossy(&json_bytes);
-        println!("{text}");
-    }
-    Ok(())
 }
 
 fn read_text(path: &Path) -> Result<String, String> {
@@ -153,6 +140,7 @@ pub fn run(cmd: DeconvoluteCommand) -> Result<u8, String> {
             candidate,
             out,
         } => run_density(&lang, &baseline, &candidate, out.as_deref()),
+        DeconvoluteCommand::AdmitPack(args) => driver_cli::run_admit_pack(args),
         DeconvoluteCommand::PrePush(args) => cli_hook::run_pre_push(args),
         DeconvoluteCommand::InstallHook(args) => cli_hook::run_install_hook(args),
     }

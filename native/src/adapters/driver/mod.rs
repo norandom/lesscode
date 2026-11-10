@@ -4,6 +4,8 @@
 //! this module tree names a language or a project; that knowledge is in the
 //! packs under `native/packs/`, listed once in `registry.rs`.
 
+pub mod admission;
+pub mod cli;
 pub mod pack;
 pub mod registry;
 pub mod source;
@@ -20,4 +22,25 @@ pub enum Kind {
     ErrorOrder,
     StateWrite,
     PureShellBoundary,
+}
+
+impl Kind {
+    pub const ALL: [Kind; 5] = [
+        Kind::BranchCondition,
+        Kind::FailureState,
+        Kind::ErrorOrder,
+        Kind::StateWrite,
+        Kind::PureShellBoundary,
+    ];
+
+    /// The name used in packs, annotations and receipts.
+    pub fn name(self) -> &'static str {
+        match self {
+            Kind::BranchCondition => "branch_condition",
+            Kind::FailureState => "failure_state",
+            Kind::ErrorOrder => "error_order",
+            Kind::StateWrite => "state_write",
+            Kind::PureShellBoundary => "pure_shell_boundary",
+        }
+    }
 }
