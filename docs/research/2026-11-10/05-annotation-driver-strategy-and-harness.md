@@ -217,6 +217,45 @@ scope on all four scopes, D2 for the two held-out languages) follow. Every
 call, including development calls, counts toward the 20 USD cap and is
 recorded in the ledger.
 
+## Addition 3, 2026-11-10 (about 12:10 to 12:25 local): development calls and guide version 1
+
+Four development calls were made, two per guide version, on the Rust and
+Python scopes only. They are not counted runs. No annotation from them was
+turned into a mutant.
+
+| Guide | Scope | Annotations | Valid | Valid with an operator | Tokens in / out |
+| --- | --- | --- | --- | --- | --- |
+| version 0 | Rust | 30 | 16 (53%) | 13 | 6,589 / 2,752 |
+| version 0 | Python | 51 | 47 (92%) | 43 | 12,156 / 5,168 |
+| version 1 | Rust | 27 | 22 (81%) | 13 | 6,670 / 2,762 |
+| version 1 | Python | 55 | 54 (98%) | 50 | 12,237 / 7,226 |
+
+Version 0 failed the 80% validity target on Rust. Ten of its 14 rejections
+were `return` statements whose anchor included the trailing semicolon, which
+is not part of the expression node, and two were the patterns of `match`
+arms marked as conditions. Version 1 adds two sentences to the anchor rules:
+never include a trailing statement terminator, and do not mark the patterns
+of a match or switch arm as a condition. Nothing else changed. The revision
+used the Rust and Python scopes only.
+
+Frozen guide for the counted runs: `guide-v1.md`, SHA-256
+`0f2fb1bfbb151fd69ceec361c37c4a02f6fbb1dba612d219918a29924d04af04`.
+
+Remaining version 1 rejections on Rust: an `if let` marked as `error_order`
+whose following statement is not a check, a match arm, a tail expression
+marked as a failure, and one anchor that is not a whole node. Rust is at 81%,
+one annotation above the target, so a counted run may fall below it.
+
+In both versions only 13 valid Rust annotations have an operator: most of
+what the model marks as failure sites are `return` statements, for which
+version 0 of the operators has nothing.
+
+Spend so far: 37,652 input and 17,908 output tokens over four calls. At an
+assumed upper bound of 15 USD per million input tokens and 75 USD per million
+output tokens that is at most 1.91 USD; the actual price of the configured
+model was not looked up. Raw replies, parsed annotations and call records are
+kept under [results/a-dev](../../experiments/annotation-driver/results/a-dev/).
+
 ## COBESY check
 
 Outcome first: decisions, no mechanism result. Replay: counts, revisions,
