@@ -167,6 +167,19 @@ workstation's `PATH`.
   through the installer scripts, and run the analyzers on one external
   repository per language.
 
+## Amendment, 2026-11-10: owner direction on mutation
+
+The owner directs that the specimen-bound mutation operators be addressed in
+the Slice B hardening against inference drift: adverse-mutant generation for
+arbitrary code becomes an LLM-driver task (driver explores and proposes,
+`MIPROv2` compiles the prompt, deterministic checks and the real test oracle
+decide). Recorded as
+[requirements Amendment 5](../../../.kiro/specs/constraint-guided-compression/requirements.md)
+of `constraint-guided-compression`, with a deferred item in its task list. No
+design or tasks are approved by this; a prototype gate comes first. The Python
+`analyze` stub and the hook's refactor-branch check are not covered by that
+direction and remain open.
+
 ## Amendment, 2026-11-10 (later the same day): published archive on Linux
 
 Part of the next gate was run after `v1.0.1` was published (tag on `eda13bb`),

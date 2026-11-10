@@ -498,7 +498,17 @@ and start only on the owner's explicit answer. Frozen apparatus
   planning is unlocked**, and production adoption execution remains gated by
   `Req 7.9`/`7.11` and unscheduled until the owner requests an adoption
   plan.
-- _Requirements: 7.1, 7.10_
+- Language-agnostic adverse-mutant generation as an LLM-driver task
+  (`requirements.md` Amendment 5, 2026-11-10,
+  [R55](../../../docs/research/2026-11-10/01-released-binary-adopter-dogfood.md)):
+  the fixed operators are specimen-bound, so `Req 5.8` holds on the specimens
+  only. Direction recorded, no design or tasks approved. Next step is a
+  bounded prototype gate: driver-proposed mutants on held-out scopes,
+  accepted only by deterministic parse, located-difference and exercised
+  checks, classified by the real test oracle, with the fixed operators as the
+  frozen control set and `MIPROv2` compilation on separate scopes. Belongs
+  with the Slice B adoption plan above.
+- _Requirements: 5.8, 7.1, 7.4, 7.5, 7.9, 7.10_
 
 ## Implementation Notes
 

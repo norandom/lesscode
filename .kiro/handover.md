@@ -25,6 +25,10 @@ Updated 2026-11-10 (details and evidence in [task 27 handover](task_27_handover.
    only works on the experiment specimens, and the pre-push hook enforces
    budgets only. Owner decision open: implement, fail loudly, or remove. This
    affects the Slice B reward gate, which planned to use `deconvolute analyze`.
+   Mutation is decided (2026-11-10): it goes into Slice B as an LLM-driver
+   task, recorded as `constraint-guided-compression` requirements Amendment 5;
+   a prototype gate comes before any design or tasks. Python `analyze` and
+   the hook check are still open.
 5. **CI is faster.** nextest is installed as a prebuilt digest-checked binary
    (`tools/install_nextest.sh`), also inside the Dagger container. Jobs take
    about 1.5 to 4 minutes instead of 6 to 16. No build cache was added.

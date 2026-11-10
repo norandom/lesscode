@@ -1,7 +1,7 @@
 {
   "feature_name": "constraint-guided-compression",
   "created_at": "2026-11-01T19:10:44.5862924Z",
-  "updated_at": "2026-11-07T19:55:00+01:00",
+  "updated_at": "2026-11-10T09:45:00+01:00",
   "language": "en",
   "phase": "tasks-generated",
   "approvals": {
@@ -34,7 +34,8 @@
       "docs/research/2026-11-07/03-s9-surface-contracts.md",
       "docs/research/2026-11-07/05-descoped-stratum-rerun.md",
       "docs/research/2026-11-07/06-rust-specimen-testinfra-detection.md",
-      "docs/research/2026-11-07/07-dspy-probabilistic-turn-refinement-design.md"
+      "docs/research/2026-11-07/07-dspy-probabilistic-turn-refinement-design.md",
+      "docs/research/2026-11-10/01-released-binary-adopter-dogfood.md"
     ]
   },
   "notes": "2026-11-07: independent fusion design review (ultrathink-fusion, verdict approve-with-fixes, F1-F12) followed by the amendment pass in the same date: requirements Amendment 2 (language-scope disposition — Python now, TypeScript deferred, language extractor seam binding design and tasks), design.md corrections (19/19 figure, complete G1-R checklist, real traceability interfaces incl. measure_all(), evaluator-package boundary + __init__ wiring, pinned Tier-2 formula + feedback content boundary, exits 3/6, rollout nesting), prototype-gate.md dated amendment adding ctrl_feedback_leak. Owner approved the design for Slice A task generation; Slice B production claims remain gated by G1-R per Req 7.10."

@@ -46,6 +46,47 @@ still requires the `Req 7.9` production-design gate and `Req 7.11`
 revalidation of affected claims, and stays unscheduled until the owner
 requests an adoption plan.
 
+**Amendment 5, 2026-11-10 (adverse-mutant generation as an LLM-driver task, [R55](../../../docs/research/2026-11-10/01-released-binary-adopter-dogfood.md)):**
+R55 found that the released mutation operators
+(`native/src/adapters/{rust,java,typescript}/mutation.rs`) replace fixed
+substrings taken from the experiment specimens (for example `arm_exit != 0`,
+`"PYTHONPATH"`, `return 124;`). They produced no mutants for 36 of 38 Rust files
+in `native/src` and for 40 of 40 Python files tried, and there is no Python
+generator. `Req 5.8` (a meaningful behavioral mutation as an adverse control)
+is therefore met on those specimens only; the mechanism is not agnostic to the
+code or the language. The earlier specimen results stand as recorded.
+
+The owner directs that this gap be handled inside the Slice B hardening
+against inference drift, not by adding more hand-written operators: producing
+adverse mutants for an arbitrary scope is treated as an LLM-driver task of the
+same kind as regeneration, where the driver explores the scope and proposes
+mutants, and its prompt is compiled offline (`MIPROv2`). The following
+conditions are proposed for the design and remain open to review:
+
+- The model proposes; it never decides. A proposed mutant counts only if
+  deterministic checks show that it parses, differs from the source at a
+  located site inside the edit scope, and was exercised, with a healthy
+  baseline established in the same isolated copy (compare
+  [refinement-evidence-integrity](../refinement-evidence-integrity/requirements.md)
+  on adverse controls). Killed, survived and invalid are assigned by the real
+  test oracle.
+- No mutants, or a mutant that did not land, is an incomplete or failed
+  result. It is never reported as a pass, and the command does not exit 0.
+- The existing fixed operators stay as a frozen control set. They give a
+  model-independent reference against which drift between models, versions
+  and temperatures can be measured.
+- Scopes used to compile the prompt are kept apart from the held-out scopes
+  on which generation is evaluated (`Req 7.5`); rollout hashes, model identity
+  and sampling settings are retained (`Req 7.4`).
+- The apparatus ceiling (R41, 7,173 canonical lines) and the complexity
+  budgets continue to apply.
+
+This amendment records a direction. It does not approve a design or tasks,
+does not schedule Slice B adoption, and requires a bounded real-code prototype
+gate (`Req 7.9`, `7.10`, [prototype-first](../../steering/prototype-first.md))
+before production tasks are generated. Until then the porcelain `mutate`
+command stays specimen-bound and is documented as such.
+
 Lesscode shall support a bounded research workflow in which an LLM models a
 complete code responsibility, proposes a smaller representation and revises it
 using queryable source evidence, counterexamples and executable checks. The goal
