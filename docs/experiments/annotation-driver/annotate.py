@@ -92,18 +92,20 @@ def user_message(scope: v.Scope) -> str:
     return intro + "\n\n" + "\n\n".join(blocks)
 
 
-def build_request(cfg: dict, guide: str, user: str, max_tokens: int) -> tuple[str, dict, dict]:
+def build_request(cfg: dict, guide: str, user: str, max_tokens: int,
+                  history: list[dict] | tuple = ()) -> tuple[str, dict, dict]:
+    """URL, headers and body; ``history`` holds earlier turns ({"role", "content"}) placed before ``user``."""
     base, model, key = cfg[BASE].removesuffix("/"), cfg[NAME], cfg[KEY]
+    turns = [*history, {"role": "user", "content": user}]
     if cfg[STYLE] == "anthropic":
         url = base + ("/messages" if base.endswith("/v1") else "/v1/messages")
         headers = {"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"}
-        body = {"model": model, "max_tokens": max_tokens, "system": guide,
-                "messages": [{"role": "user", "content": user}]}
+        body = {"model": model, "max_tokens": max_tokens, "system": guide, "messages": turns}
     else:
         url = base + "/chat/completions"
         headers = {"Authorization": f"Bearer {key}", "content-type": "application/json"}
         body = {"model": model, "max_tokens": max_tokens,
-                "messages": [{"role": "system", "content": guide}, {"role": "user", "content": user}]}
+                "messages": [{"role": "system", "content": guide}, *turns]}
     return url, headers, body
 
 

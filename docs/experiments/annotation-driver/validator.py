@@ -6,13 +6,16 @@ Two responsibilities, both model-free:
   of a frozen scope (annotation contract version 0, five rules);
 * ``classify_mutant`` says whether a mutated file is a real, parseable change.
 
-Everything language-specific comes from ``tables/<language>.json``. This file
-contains no language names beyond what it reads from the scope manifest.
+Everything language-specific comes from ``tables/<language>.json``, or from
+the directory named by the environment variable ``AD_TABLES_DIR`` when it is
+set and non-empty. This file contains no language names beyond what it reads
+from the scope manifest.
 """
 
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,8 +25,14 @@ HERE = Path(__file__).parent
 KINDS = ("failure_state", "branch_condition", "error_order", "state_write", "pure_shell_boundary")
 
 
+def tables_dir() -> Path:
+    """The pack directory: ``AD_TABLES_DIR`` when set and non-empty, else ``tables/`` next to this file."""
+    override = os.environ.get("AD_TABLES_DIR")
+    return Path(override) if override else HERE / "tables"
+
+
 def load_table(language: str) -> dict:
-    return json.loads((HERE / "tables" / f"{language}.json").read_text(encoding="utf-8"))
+    return json.loads((tables_dir() / f"{language}.json").read_text(encoding="utf-8"))
 
 
 @dataclass(frozen=True)

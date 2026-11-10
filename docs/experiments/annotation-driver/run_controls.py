@@ -5,6 +5,10 @@ that every one is rejected for the expected reason, that the seeds themselves
 are accepted, and that no-op or unparseable mutants are classified invalid.
 
     uv run python run_controls.py --scopes-dir D:\BuildArtifacts\lesscode\annotation-driver\scopes --out RECEIPT.json
+        [--scope NAME ...]
+
+``--scope`` (repeatable) runs the controls of only the named scopes. The packs
+are read where ``validator.load_table`` reads them (``AD_TABLES_DIR`` when set).
 
 Exit code 0 only if every control behaves as expected.
 """
@@ -96,10 +100,17 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scopes-dir", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--scope", action="append", metavar="NAME",
+                        help="run only this scope's controls; repeatable")
     args = parser.parse_args()
 
     scopes = v.load_scopes(args.scopes_dir)
     controls = json.loads((HERE / "controls.json").read_text(encoding="utf-8"))["scopes"]
+    if args.scope:
+        unknown = sorted(set(args.scope) - set(controls))
+        if unknown:
+            parser.error(f"no controls for scope: {', '.join(unknown)}")
+        controls = {name: spec for name, spec in controls.items() if name in args.scope}
     results, failures = [], 0
     for name, spec in controls.items():
         scope = scopes[name]
