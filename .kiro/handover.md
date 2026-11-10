@@ -1,39 +1,43 @@
-# Handover: Agnostic Driver Gate Attempt 1 Is `revise`; Owner Decisions Pending, 2026-11-10
+# Handover: driver built through task group 6 and run on the gate scopes; Slice B measured on two models, 2026-11-10
 
-Updated 2026-11-10, about 13:30 Europe/Berlin. This file is the single handover and action list.
-The current sections below govern continuation; dated history follows for evidence
-and earlier interpretations, not as an active implementation queue.
+Updated 2026-11-10, about 23:30 Europe/Berlin, at the end of an unattended evening session. This file is the
+single handover and action list. The current sections below govern continuation; dated history follows for
+evidence and earlier interpretations, not as an active implementation queue.
 
 ## Current state
 
-Updated 2026-11-10. Start with the [task 28 handover](task_28_handover.md); it
-has the result table, the open decisions, the owner's rules and the commands.
+Start with the [task 32 handover](task_32_handover.md) and the
+[overnight plan](overnight-plan-2026-11-10.md), which lists the open tasks and the owner's decisions.
 
 1. **Top priority: the agnostic driver** (spec
-   [agnostic-annotation-driver](specs/agnostic-annotation-driver/brief.md)).
-   **Gate attempt 2 (R64): the rules-as-data form meets every mechanism row
-   on all four languages, with model-written packs for the held-out ones.
-   Open: the apparatus ceiling (owner decision). Next: requirements, then a
-   design for approval.** History: attempt 1 ran earlier today; outcome revise
-   ([R61](../docs/research/2026-11-10/07-annotation-driver-gate-result.md)).
-   One engine with a data pack per language meets every gated row on Rust,
-   Python and Java in at least one arm and fails on TypeScript in every arm.
-   Packs written by the model for TypeScript and Java were admitted and are
-   equivalent to hand-written ones. Nothing in `native/` changed.
-2. **Owner decided (2026-11-10 evening):** the apparatus is ported to Rust,
-   one runtime; breaking codebases must be avoided. Feasibility report:
-   [docs/reports/agnostic-driver-feasibility.md](../docs/reports/agnostic-driver-feasibility.md).
-   Owner approved: mutation and analysis ported together; requirements
-   approved. **Sizing spike done (R65): exact parity with the prototype,
-   core 898 canonical lines against 753 removable.** Owner decided: the driver
-   stays outside the cap's counted set, governed by per-file budgets. Design
-   was approved 2026-11-10; tasks approved; task groups 1 to 6 are done (foundation, admission, engine with parity R67, `analyze`/`mutate` through the driver, working copies, batch runner and `deconvolute run`), see `.kiro/task_32_handover.md`; groups 7 (remove the old adapters) and 8 (full batches, platforms) need the owner. Slice B ran this evening: R68 to R72. Slice B is preregistered (R66) and starts after group 3 on the owner's go. Slice B has its dated step (driver task 2.4, preregistration due with task group 2). Open: may the five scope files be fixtures.
-3. **Second priority, not to be forgotten (owner, 2026-11-10): Slice B,**
-   hardening against LLM inference drift, in `constraint-guided-compression`
-   (requirements Amendment 5). Not started. It starts when the driver's
-   design is approved, and needs a dated next step before the driver spec is
-   reported complete. Baseline and inherited artefacts: roadmap, "Work queue".
-4. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
+   [agnostic-annotation-driver](specs/agnostic-annotation-driver/tasks.md); requirements, design and tasks
+   approved 2026-11-10). Task groups 1 to 6 and tasks 8.1 and 8.2 are done; main is green on five platforms.
+   - `lesscode-core deconvolute analyze | mutate | run | admit-pack` work through the driver for Rust,
+     Python, TypeScript and Java ([docs/driver.md](../docs/driver.md)).
+   - The engine reproduces the prototype's sites and mutants exactly
+     ([R67](../docs/research/2026-11-10/13-native-driver-engine-parity.md)), and `deconvolute run` gives
+     every one of 556 mutants on the five gate scopes the class the prototype gave
+     ([R73](../docs/research/2026-11-10/19-native-driver-batches-on-gate-scopes.md)). No source tree was
+     changed by any run.
+   - Not done, and waiting for the owner: task group 7 (delete the six old adapter files, restate the
+     specimen results, README and adoption guide) and task 8.3 (final validation). No release contains the
+     driver.
+2. **Second priority: Slice B,** hardening against LLM inference drift (`constraint-guided-compression`).
+   Started and measured this evening; entries R66 and R68 to R74.
+   - Baseline on `claude-opus-5-5`: every pack admitted at first, but Rust packs differed between runs
+     unnoticed (R68); with hand-written Rust controls no first Rust reply is admitted (R69).
+   - Optimising the guide with a GEPA engine copied from `dsrust` (tool `tools/guide-optimizer/`, R70): on
+     Opus every first reply is then admitted for all four languages and three languages match the shipped
+     packs; Rust still differs from the hand pack in four fixed points, so the guide is not adopted (R71).
+   - `mistral-large-4`: 5 of 20 first replies admitted, mostly failing on node kinds that do not exist
+     (R72); optimisation finds no improvement (R74).
+   - Open for the owner: the four Rust points of R71; whether to give the author the grammar's node kinds;
+     a `MIPROv2` comparison; the annotation layer, which is untouched.
+   - Model spend recorded at list prices: about 15.2 of 20 USD.
+3. **Rules that held this session:** no deletion of the old adapters, no release, no change to what the
+   shipped packs make the driver do except the two Python operator pairs the owner approved, no management
+   of the Podman machine, containers removed after each batch, keys never printed or committed (`.env` is
+   git-ignored; the Mistral key was pasted into the chat and is in that transcript).4. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
    release: archives carry zipsign signatures, `SHA256SUMS.sig` and a
    provenance attestation, all verified after publication. It contains the
    fail-loudly fixes (item 5). The owner holds the signing key and approves
