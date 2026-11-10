@@ -5,6 +5,7 @@
 //! - `.kiro/specs/typescript-deconvolution-adapter/design.md`
 //! - `.kiro/specs/java-deconvolution-unification/design.md`
 
+pub mod driver;
 pub mod java;
 pub mod rust;
 pub mod typescript;

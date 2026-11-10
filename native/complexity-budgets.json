@@ -10,6 +10,33 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/mod.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Agnostic driver module root and site kinds (task 1.2, REQ 1.1)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/pack.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Typed language pack and loading (task 1.2, REQ 1.1/1.2/1.6)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/registry.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Packs shipped in the binary (task 1.2, REQ 1.2/1.6)",
+   "disposition": null
+  },
+  {
    "path": "adapters/java/analysis.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

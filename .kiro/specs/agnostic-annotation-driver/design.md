@@ -350,6 +350,18 @@ Dated 2026-11-10 at approval and copied into the roadmap and into constraint-gui
 R55 to R65 in `docs/research/2026-11-10/`; the prototype and the spike under
 `docs/experiments/annotation-driver/`.
 
+## Amendments
+
+### Amendment 1, 2026-11-10 (task group 1): module location
+
+The driver lives at `native/src/adapters/driver/`, not `native/src/driver/`. Reason: `lib.rs` stands exactly at
+its measured ceiling for syntax units (196 of 196), so registering a new top-level module there would need a
+ceiling amendment for a file that belongs to the capped set. `adapters/mod.rs` registers it instead, beside
+the language adapters it replaces. For the same reason the command handlers of task 2.3 and group 4 go to
+`adapters/driver/cli.rs` instead of a top-level `cli_driver.rs`. A sixth small file, `registry.rs`, holds the
+list of shipped packs so that no other driver file names a language. Packs carry their grammar name in a
+`language` key, as the prototype's packs already did.
+
 ## Contradictions and disposition
 
 | # | Contradiction | Source authority | Disposition |

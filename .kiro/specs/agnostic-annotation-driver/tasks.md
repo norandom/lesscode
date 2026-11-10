@@ -23,7 +23,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     `THIRD_PARTY_NOTICES.txt`.
   - Done when the crate builds with `--locked` on the local machine and the existing suite passes unchanged.
   - _Requirements: 8.1, 8.4_
-- [ ] 1.2 Add the four packs and the typed pack
+- [x] 1.2 Add the four packs and the typed pack
   - Copy the four version 1 packs to `native/packs/`; move the attribute marker of the test-region rule into
     the pack as `test_attribute_kinds`.
   - `driver/pack.rs`: typed pack, embedded lookup by language, loading from a directory; an unknown language

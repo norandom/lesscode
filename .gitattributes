@@ -12,3 +12,5 @@ scripts/*.sh text eol=lf
 scripts/release-public-keys.txt text eol=lf
 # Prototype inputs are frozen by hash in the research log; keep their bytes stable.
 docs/experiments/annotation-driver/** text eol=lf
+# Shipped language packs are embedded and identified by hash; keep their bytes stable.
+native/packs/*.json text eol=lf
