@@ -90,6 +90,15 @@ container of the Java run was left.
 - Group 7 (removing the old adapters) now has what it was waiting for: the driver reproduces the prototype
   on real projects.
 
+## Addition, 2026-11-10: platforms, binary size and build time (task 8.2)
+
+- The existing CI matrix (Linux x86_64 through Dagger, Linux aarch64, Windows, macOS on Intel and on Apple
+  silicon) is green with the driver and its tests at commit `2682b64`.
+- Size of the Windows binary, release profile, built on this machine: 10,992,128 bytes at the tag `v1.0.2`
+  and 13,256,704 bytes at `2682b64`, an increase of 2.26 MB (21%) for the driver and the two added
+  grammars. The sizing spike (R65) had measured 1.5 MB for the grammars alone.
+- Clean release build on this machine: 54 seconds at `v1.0.2`, 55 seconds at `2682b64`.
+
 ## COBESY check
 
 Outcome first: 554 of 556, with the two exceptions named and their likely cause marked as untested. Replay:

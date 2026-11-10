@@ -175,7 +175,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - The five gate scopes through `deconvolute run`; classes compared with the attempt 2 receipts; every
     difference explained. Linux-only runs use containers; the Podman machine is not managed by the agent.
   - _Requirements: 9.1, 9.2, 9.4_
-- [ ] 8.2 Verify the five platforms
+- [x] 8.2 Verify the five platforms
   - The existing CI matrix through the Dagger configuration is green with the driver; binary size and build
     time recorded against R65.
   - _Requirements: 8.5, 8.6_
