@@ -1,6 +1,6 @@
 # Implementation Plan: agnostic driver in `lesscode-core`
 
-Generated 2026-11-10 for the owner's approval. Not approved; no task may start before approval.
+Generated 2026-11-10. **Approved by the owner on 2026-11-10.** The fixture question is unanswered; task 3.4 uses the path-by-environment default until the owner allows the files in.
 Basis: [requirements](requirements.md) and [design](design.md), both approved 2026-11-10; gate `proceed`;
 sizing spike [R65](../../../docs/research/2026-11-10/11-annotation-driver-rust-sizing-spike.md).
 
