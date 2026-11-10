@@ -1,0 +1,41 @@
+{
+ "language": "rust",
+ "run": 4,
+ "examples": [
+  "python",
+  "java"
+ ],
+ "started_utc": "2026-11-10T19:33:37+00:00",
+ "requested_model": "claude-opus-5-5",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-10T19:33:37+00:00",
+   "input_tokens": 3322,
+   "output_tokens": 2478,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": true,
+ "admitted": true,
+ "repairs": 0,
+ "pack_sha256": "0b87c74de4d4d65a8685290823e5d9a91a6c7a8a282c4afd69ea7a8d92bacb98",
+ "mutants": {
+  "identical": false,
+  "scopes": {
+   "rust-mmhmem-setup-update": {
+    "identical": false,
+    "shipped": 64,
+    "written": 62,
+    "only_shipped": 2,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-10T19:34:03+00:00"
+}

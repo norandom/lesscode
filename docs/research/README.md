@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R67 Native engine reproduces the prototype; 38 of 594 mutants dropped on purpose as repeats (2026-11-10)
+## Latest: R68 Slice B baseline: packs always admitted, Rust packs differ between runs and admission misses it (2026-11-10)
+
+[R68](2026-11-10/14-slice-b-pack-authoring-drift-baseline.md) runs the protocol of R66 on the current endpoint (20 conversations, `claude-opus-5-5`).
+- **Admission:** 20 of 20 first replies admitted; no refusal, no repair needed, so the repair path is still untested.
+- **Same behaviour:** Java and TypeScript packs give exactly the shipped pack's mutants in all five runs. Python packs agree with each other in all five runs but give one mutant more than the shipped pack, because the model adds two operator pairs the hand pack lacks. Rust packs fall into four behaviours in five runs, none equal to the shipped pack.
+- **Consequence, as preregistered:** the admission checks are too weak; strengthen the controls before any `MIPROv2` work, decide the Python pairs on their merits, then rerun.
+- **Cost:** about 1.04 USD at the list price; 3.91 USD under the conservative assumption used for the cap.
+
+## Prior: R67 Native engine reproduces the prototype; 38 of 594 mutants dropped on purpose as repeats (2026-11-10)
 
 [R67](2026-11-10/13-native-driver-engine-parity.md) closes task group 3 of `agnostic-annotation-driver`.
 - **Parity:** the engine in `lesscode-core` gives exactly the prototype's sites and, under the gate packs, exactly its mutants (by hash) on the five gate scopes; 98 of 98 controls give the recorded outcome. The scope files are now test fixtures and the test needs no Python.

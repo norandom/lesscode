@@ -1,0 +1,85 @@
+{
+ "receipt": "slice-b-pack-authoring-baseline-v1",
+ "preregistration": "R66",
+ "dry_run": false,
+ "requested_model": "claude-opus-5-5",
+ "guide_sha256": "dc49e14bb0d62d1560724b828e54e1c7d216ca5bd47cb37580b618b4c7d02bbb",
+ "shipped_packs_sha256": {
+  "java": "49cdfe990cbbf84c240f0d6b8ee202467dec2554b29c4a539f94dcdffa031912",
+  "python": "37017eb6cf331291006dbd0d06a9fa84a7d68a14331fa2e54ef6f68f82a53d79",
+  "rust": "7bf2b9d19257a4a76937a168be7ee413c5c0a1c67e2d622e6859b5b29cdfb88a",
+  "typescript": "9c69253b610a0c29d39a31aa7b2c068cf429bf223f259e2244a8cbbab015ff80"
+ },
+ "runs_per_language": 5,
+ "max_repairs": 2,
+ "usd_per_mtok_assumed": [
+  15.0,
+  75.0
+ ],
+ "spent_before_usd_assumed": 12.1,
+ "spent_after_usd_assumed": 16.01,
+ "cap_usd": 20.0,
+ "wall_seconds": 104.2,
+ "languages": {
+  "java": {
+   "runs": 5,
+   "outcomes": {
+    "admitted": 5
+   },
+   "first_reply_admitted": 5,
+   "admitted": 5,
+   "repair_replies": 0,
+   "same_mutants": 5,
+   "distinct_admitted_packs": 3,
+   "failed_checks_first_reply": [],
+   "input_tokens": 17075,
+   "output_tokens": 9234,
+   "usd_assumed": 0.95
+  },
+  "python": {
+   "runs": 5,
+   "outcomes": {
+    "admitted": 5
+   },
+   "first_reply_admitted": 5,
+   "admitted": 5,
+   "repair_replies": 0,
+   "same_mutants": 0,
+   "distinct_admitted_packs": 2,
+   "failed_checks_first_reply": [],
+   "input_tokens": 17295,
+   "output_tokens": 8898,
+   "usd_assumed": 0.93
+  },
+  "rust": {
+   "runs": 5,
+   "outcomes": {
+    "admitted": 5
+   },
+   "first_reply_admitted": 5,
+   "admitted": 5,
+   "repair_replies": 0,
+   "same_mutants": 0,
+   "distinct_admitted_packs": 5,
+   "failed_checks_first_reply": [],
+   "input_tokens": 16610,
+   "output_tokens": 12859,
+   "usd_assumed": 1.21
+  },
+  "typescript": {
+   "runs": 5,
+   "outcomes": {
+    "admitted": 5
+   },
+   "first_reply_admitted": 5,
+   "admitted": 5,
+   "repair_replies": 0,
+   "same_mutants": 5,
+   "distinct_admitted_packs": 3,
+   "failed_checks_first_reply": [],
+   "input_tokens": 17085,
+   "output_tokens": 7614,
+   "usd_assumed": 0.83
+  }
+ }
+}
