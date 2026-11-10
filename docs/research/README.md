@@ -2,7 +2,14 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R66 Slice B preregistered: drift baseline for pack authoring, not run (2026-11-10)
+## Latest: R67 Native engine reproduces the prototype; 38 of 594 mutants dropped on purpose as repeats (2026-11-10)
+
+[R67](2026-11-10/13-native-driver-engine-parity.md) closes task group 3 of `agnostic-annotation-driver`.
+- **Parity:** the engine in `lesscode-core` gives exactly the prototype's sites and, under the gate packs, exactly its mutants (by hash) on the five gate scopes; 98 of 98 controls give the recorded outcome. The scope files are now test fixtures and the test needs no Python.
+- **Intended difference:** with the shipped packs a swap of a condition's own equality operator is dropped when the site is also negated: 38 of 594 mutants (2, 3, 3, 11 and 19 per scope). Gate kill rates included these repeats.
+- **Consequence for Slice B:** the engine-dependent start condition of R66 is met; the pack guide must mention the two new pack keys before the baseline runs.
+
+## Prior: R66 Slice B preregistered: drift baseline for pack authoring, not run (2026-11-10)
 
 [R66](2026-11-10/12-slice-b-pack-authoring-drift-preregistration.md) fixes the protocol of the first Slice B
 step before any call is made.

@@ -1,0 +1,2017 @@
+{
+ "reference": "annotation-driver-prototype-reference-v1",
+ "scope": "rust-mmhmem-setup-update",
+ "language": "rust",
+ "repository": "mmhmem",
+ "revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
+ "files": [
+  "src/setup/ui/update.rs"
+ ],
+ "test_paths": [
+  "tests/"
+ ],
+ "prototype_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_controls.py": "b31b3d3cb9334ab17f34da1c8977f71cb28e9d381be9b83abbbdeb6ca577dbd2",
+  "controls.json": "3cc3c563ccbf375c9d77ade62c1c29a7288704dbfebbce9e2d9ca40ed492fce0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "tables/rust.json": "d2d3dc291c90a36a5d2c3df2ca97940a32221e02ae2d422c0ce7afdd37233dd1"
+ },
+ "scope_files_sha256": {
+  "src/setup/ui/update.rs": "804522e68de5d5059369418ab8190baf718eaed06c821ac007ab03661878381e"
+ },
+ "controls_spec": {
+  "file": "src/setup/ui/update.rs",
+  "real_change": [
+   "mode != Mode::NoTerminal",
+   "mode == Mode::NoTerminal"
+  ],
+  "comment_text": "// control comment"
+ },
+ "sites": [
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "try_expression",
+   "start_line": 61,
+   "start_column": 20,
+   "end_line": 61,
+   "end_column": 43,
+   "text": "SetupArgs::parse(args)?"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "call_expression",
+   "start_line": 62,
+   "start_column": 11,
+   "end_line": 62,
+   "end_column": 36,
+   "text": "setup.bootstrap.is_some()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 63,
+   "start_column": 12,
+   "end_line": 63,
+   "end_column": 48,
+   "text": "return Err(\"--bootstrap\".to_owned())"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "call_expression",
+   "start_line": 63,
+   "start_column": 19,
+   "end_line": 63,
+   "end_column": 48,
+   "text": "Err(\"--bootstrap\".to_owned())"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 83,
+   "start_column": 7,
+   "end_line": 83,
+   "end_column": 31,
+   "text": "mode != Mode::NoTerminal"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 84,
+   "start_column": 8,
+   "end_line": 84,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 93,
+   "start_column": 8,
+   "end_line": 93,
+   "end_column": 19,
+   "text": "return code"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 97,
+   "start_column": 8,
+   "end_line": 97,
+   "end_column": 19,
+   "text": "return code"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 101,
+   "start_column": 8,
+   "end_line": 101,
+   "end_column": 16,
+   "text": "return 1"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "assignment_expression",
+   "start_line": 103,
+   "start_column": 4,
+   "end_line": 103,
+   "end_column": 42,
+   "text": "deps.restart.command = Command::Update"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 137,
+   "start_column": 12,
+   "end_line": 137,
+   "end_column": 45,
+   "text": "self.start(&format!(\"{prompt} \"))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 141,
+   "start_column": 20,
+   "end_line": 141,
+   "end_column": 32,
+   "text": "self.say(\"\")"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 142,
+   "start_column": 20,
+   "end_line": 142,
+   "end_column": 32,
+   "text": "return false"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 147,
+   "start_column": 36,
+   "end_line": 147,
+   "end_column": 47,
+   "text": "return true"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 148,
+   "start_column": 30,
+   "end_line": 148,
+   "end_column": 42,
+   "text": "return false"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "error_order",
+   "node_kind": "if_expression",
+   "start_line": 165,
+   "start_column": 4,
+   "end_line": 167,
+   "end_column": 5,
+   "text": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\r\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\r\n    }"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 166,
+   "start_column": 8,
+   "end_line": 166,
+   "end_column": 83,
+   "text": "return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "call_expression",
+   "start_line": 168,
+   "start_column": 7,
+   "end_line": 168,
+   "end_column": 30,
+   "text": "flow.record().is_none()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 169,
+   "start_column": 8,
+   "end_line": 169,
+   "end_column": 39,
+   "text": "p.say(text::update::NOT_SET_UP)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 170,
+   "start_column": 8,
+   "end_line": 170,
+   "end_column": 30,
+   "text": "return EXIT_NOT_SET_UP"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 172,
+   "start_column": 4,
+   "end_line": 172,
+   "end_column": 40,
+   "text": "p.say(text::update::CHECKING_NEWEST)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 173,
+   "start_column": 4,
+   "end_line": 173,
+   "end_column": 29,
+   "text": "flow.set_newest(lookup())"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 175,
+   "start_column": 7,
+   "end_line": 175,
+   "end_column": 40,
+   "text": "*flow.newest() == Newest::Unknown"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 176,
+   "start_column": 8,
+   "end_line": 176,
+   "end_column": 43,
+   "text": "p.say(text::update::NEWEST_UNKNOWN)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 177,
+   "start_column": 8,
+   "end_line": 177,
+   "end_column": 16,
+   "text": "return 1"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 180,
+   "start_column": 8,
+   "end_line": 180,
+   "end_column": 60,
+   "text": "p.say(&text::update::up_to_date(installed.as_str()))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 181,
+   "start_column": 8,
+   "end_line": 181,
+   "end_column": 16,
+   "text": "return 0"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 183,
+   "start_column": 4,
+   "end_line": 186,
+   "end_column": 6,
+   "text": "p.say(&text::update::available(\r\n        installed.as_str(),\r\n        newest.as_str(),\r\n    ))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 187,
+   "start_column": 4,
+   "end_line": 187,
+   "end_column": 38,
+   "text": "p.say(text::update::KEEPS_CHOICES)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "error_order",
+   "node_kind": "if_expression",
+   "start_line": 188,
+   "start_column": 4,
+   "end_line": 191,
+   "end_column": 5,
+   "text": "if !p.yes(text::update::PROMPT_UPDATE) {\r\n        p.say(text::update::NOTHING_CHANGED);\r\n        return EXIT_CANCELLED;\r\n    }"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "unary_expression",
+   "start_line": 188,
+   "start_column": 7,
+   "end_line": 188,
+   "end_column": 42,
+   "text": "!p.yes(text::update::PROMPT_UPDATE)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 189,
+   "start_column": 8,
+   "end_line": 189,
+   "end_column": 44,
+   "text": "p.say(text::update::NOTHING_CHANGED)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 190,
+   "start_column": 8,
+   "end_line": 190,
+   "end_column": 29,
+   "text": "return EXIT_CANCELLED"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 193,
+   "start_column": 8,
+   "end_line": 193,
+   "end_column": 19,
+   "text": "p.say(note)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 194,
+   "start_column": 8,
+   "end_line": 194,
+   "end_column": 16,
+   "text": "return 1"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 200,
+   "start_column": 4,
+   "end_line": 200,
+   "end_column": 56,
+   "text": "p.start(&text::update::downloading(newest.as_str()))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 203,
+   "start_column": 12,
+   "end_line": 203,
+   "end_column": 29,
+   "text": "reporter.finish()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 204,
+   "start_column": 12,
+   "end_line": 204,
+   "end_column": 58,
+   "text": "p.say(&format!(\" {}\", text::update::VERIFIED))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 210,
+   "start_column": 12,
+   "end_line": 210,
+   "end_column": 29,
+   "text": "reporter.finish()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 211,
+   "start_column": 12,
+   "end_line": 211,
+   "end_column": 58,
+   "text": "p.say(&format!(\" {}\", text::update::VERIFIED))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 220,
+   "start_column": 12,
+   "end_line": 220,
+   "end_column": 29,
+   "text": "reporter.finish()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 221,
+   "start_column": 12,
+   "end_line": 221,
+   "end_column": 21,
+   "text": "p.say(\"\")"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 225,
+   "start_column": 16,
+   "end_line": 225,
+   "end_column": 29,
+   "text": "p.say(reason)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 227,
+   "start_column": 12,
+   "end_line": 227,
+   "end_column": 23,
+   "text": "p.say(note)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "try_expression",
+   "start_line": 238,
+   "start_column": 30,
+   "end_line": 238,
+   "end_column": 53,
+   "text": "flow.bootstrap_offer()?"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 241,
+   "start_column": 4,
+   "end_line": 241,
+   "end_column": 17,
+   "text": "p.say(&offer)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 242,
+   "start_column": 4,
+   "end_line": 242,
+   "end_column": 38,
+   "text": "p.say(text::update::KEEPS_CHOICES)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "unary_expression",
+   "start_line": 243,
+   "start_column": 7,
+   "end_line": 243,
+   "end_column": 42,
+   "text": "!p.yes(text::update::PROMPT_UPDATE)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 244,
+   "start_column": 8,
+   "end_line": 244,
+   "end_column": 44,
+   "text": "p.say(text::update::NOTHING_CHANGED)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 245,
+   "start_column": 8,
+   "end_line": 245,
+   "end_column": 35,
+   "text": "return Some(EXIT_CANCELLED)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 247,
+   "start_column": 4,
+   "end_line": 247,
+   "end_column": 24,
+   "text": "flow.plan_recorded()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 257,
+   "start_column": 7,
+   "end_line": 257,
+   "end_column": 57,
+   "text": "view.groups.is_empty() && view.problems.is_empty()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 258,
+   "start_column": 8,
+   "end_line": 258,
+   "end_column": 51,
+   "text": "p.say(&text::update::updated_checking(tag))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "call_expression",
+   "start_line": 260,
+   "start_column": 11,
+   "end_line": 260,
+   "end_column": 25,
+   "text": "kept.is_some()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 261,
+   "start_column": 12,
+   "end_line": 261,
+   "end_column": 46,
+   "text": "p.say(&text::update::updated(tag))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 263,
+   "start_column": 8,
+   "end_line": 263,
+   "end_column": 43,
+   "text": "p.say(text::update::CHANGES_NEEDED)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 264,
+   "start_column": 8,
+   "end_line": 264,
+   "end_column": 25,
+   "text": "changes(p, &view)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "unary_expression",
+   "start_line": 265,
+   "start_column": 11,
+   "end_line": 265,
+   "end_column": 45,
+   "text": "!p.yes(text::update::PROMPT_APPLY)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 266,
+   "start_column": 12,
+   "end_line": 266,
+   "end_column": 64,
+   "text": "p.say(kept.unwrap_or(text::update::NOTHING_CHANGED))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 267,
+   "start_column": 12,
+   "end_line": 267,
+   "end_column": 33,
+   "text": "return EXIT_CANCELLED"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 269,
+   "start_column": 8,
+   "end_line": 269,
+   "end_column": 43,
+   "text": "p.say(text::update::MAKING_CHANGES)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 271,
+   "start_column": 4,
+   "end_line": 271,
+   "end_column": 23,
+   "text": "flow.apply_update()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 273,
+   "start_column": 8,
+   "end_line": 273,
+   "end_column": 20,
+   "text": "p.say(&line)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 281,
+   "start_column": 8,
+   "end_line": 281,
+   "end_column": 26,
+   "text": "p.say(&group.file)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 283,
+   "start_column": 12,
+   "end_line": 283,
+   "end_column": 63,
+   "text": "p.say(&format!(\"  {} {}\", item.mark, item.summary))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "unary_expression",
+   "start_line": 286,
+   "start_column": 7,
+   "end_line": 286,
+   "end_column": 32,
+   "text": "!view.problems.is_empty()"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 287,
+   "start_column": 8,
+   "end_line": 287,
+   "end_column": 36,
+   "text": "p.say(text::REVIEW_PROBLEMS)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 288,
+   "start_column": 8,
+   "end_line": 288,
+   "end_column": 51,
+   "text": "view.problems.iter().for_each(|l| p.say(l))"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 302,
+   "start_column": 4,
+   "end_line": 302,
+   "end_column": 24,
+   "text": "lines.drain(..blank)"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 303,
+   "start_column": 7,
+   "end_line": 303,
+   "end_column": 88,
+   "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 304,
+   "start_column": 8,
+   "end_line": 304,
+   "end_column": 49,
+   "text": "lines.push(text::update::DONE.to_owned())"
+  }
+ ],
+ "mutants": [
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "try_expression",
+    "start_line": 61,
+    "start_column": 20,
+    "end_line": 61,
+    "end_column": 43,
+    "text": "SetupArgs::parse(args)?"
+   },
+   "operator": "rewrite:try_expression",
+   "sha256": "26886d8d6a26babcd7e9921e22941090b88d0c1bad0da9b0e5b1a5f44b218bfa"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 62,
+    "start_column": 11,
+    "end_line": 62,
+    "end_column": 36,
+    "text": "setup.bootstrap.is_some()"
+   },
+   "operator": "negate",
+   "sha256": "25b21350867c5ec2c5b603f2677d63c60b1d3727296dfdd951540c51f5653a4d"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 83,
+    "start_column": 7,
+    "end_line": 83,
+    "end_column": 31,
+    "text": "mode != Mode::NoTerminal"
+   },
+   "operator": "negate",
+   "sha256": "eba4705e40f9e1a2a102f3ffa4903c53106526dbf6008c73e85db06ce3898afd"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 83,
+    "start_column": 7,
+    "end_line": 83,
+    "end_column": 31,
+    "text": "mode != Mode::NoTerminal"
+   },
+   "operator": "swap:!=->==@83:12",
+   "sha256": "a2ae633838b0d3250bf892e094f95c65f63a8aade0827c07b7bf483c809bade0"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 101,
+    "start_column": 8,
+    "end_line": 101,
+    "end_column": 16,
+    "text": "return 1"
+   },
+   "operator": "literal:1->0",
+   "sha256": "28daf2ffce2a919e58b2decb7ab276b72203a9faf6aa4f90ce7b5e8aad3c8ef9"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 103,
+    "start_column": 4,
+    "end_line": 103,
+    "end_column": 42,
+    "text": "deps.restart.command = Command::Update"
+   },
+   "operator": "drop_statement",
+   "sha256": "5f7554031f3399d77380da03d7f7152187075bb6783f49f573f52ea24ef89ae9"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 137,
+    "start_column": 12,
+    "end_line": 137,
+    "end_column": 45,
+    "text": "self.start(&format!(\"{prompt} \"))"
+   },
+   "operator": "drop_statement",
+   "sha256": "d397b8807f89063379c336a9184c2a561518e02a2e6f1da315ab918e8703e1c2"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 141,
+    "start_column": 20,
+    "end_line": 141,
+    "end_column": 32,
+    "text": "self.say(\"\")"
+   },
+   "operator": "drop_statement",
+   "sha256": "66ebe32fa2a0e13d243a2de617a93518799027c6afbe34eed3ba6ea9058bf1ed"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 142,
+    "start_column": 20,
+    "end_line": 142,
+    "end_column": 32,
+    "text": "return false"
+   },
+   "operator": "literal:false->true",
+   "sha256": "41802db6488a912960d787ef76bc763e05c690f2ce5ed665c4a85e6e8ace5793"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 147,
+    "start_column": 36,
+    "end_line": 147,
+    "end_column": 47,
+    "text": "return true"
+   },
+   "operator": "literal:true->false",
+   "sha256": "e2148fb92f9393bd591f8403dac0148e6186b09ce8435c979c4cee71c6da645d"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 148,
+    "start_column": 30,
+    "end_line": 148,
+    "end_column": 42,
+    "text": "return false"
+   },
+   "operator": "literal:false->true",
+   "sha256": "473d50a6d697bf61c4ca33e05d20818695d53b084aad5c3b9ab48744d6c3b175"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "error_order",
+    "node_kind": "if_expression",
+    "start_line": 165,
+    "start_column": 4,
+    "end_line": 167,
+    "end_column": 5,
+    "text": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\r\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\r\n    }"
+   },
+   "operator": "swap_next",
+   "sha256": "f0aad583b0fcffb203924f49c2c3d06adc6b432324ac9665f9436a5b38cbcdae"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 168,
+    "start_column": 7,
+    "end_line": 168,
+    "end_column": 30,
+    "text": "flow.record().is_none()"
+   },
+   "operator": "negate",
+   "sha256": "0cb4401f08e4d0af1d2961160b8657274f05279397a52467a9132244ba5d3ed7"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 169,
+    "start_column": 8,
+    "end_line": 169,
+    "end_column": 39,
+    "text": "p.say(text::update::NOT_SET_UP)"
+   },
+   "operator": "drop_statement",
+   "sha256": "dfbce8c5344e030b478fded40e54f526635e29fe5125be15edc73c829c980540"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 172,
+    "start_column": 4,
+    "end_line": 172,
+    "end_column": 40,
+    "text": "p.say(text::update::CHECKING_NEWEST)"
+   },
+   "operator": "drop_statement",
+   "sha256": "a25c27b31023ceb26a6f3ed26845f98c9bce54647e46797ba0c3029e9616f36f"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 173,
+    "start_column": 4,
+    "end_line": 173,
+    "end_column": 29,
+    "text": "flow.set_newest(lookup())"
+   },
+   "operator": "drop_statement",
+   "sha256": "d79bc24b81619a98c50b61a169679d6046df7646d73e5487cc91b6accdd30cde"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 175,
+    "start_column": 7,
+    "end_line": 175,
+    "end_column": 40,
+    "text": "*flow.newest() == Newest::Unknown"
+   },
+   "operator": "negate",
+   "sha256": "65b4160956cd2511a7c243927a58070ec229f9b40db68452d1bceaaf2952542d"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 175,
+    "start_column": 7,
+    "end_line": 175,
+    "end_column": 40,
+    "text": "*flow.newest() == Newest::Unknown"
+   },
+   "operator": "swap:==->!=@175:22",
+   "sha256": "19aa8f0d7e93f1a8e7b51bfe437d5b0457035f5615b5189329bb3ebf9d79902d"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 176,
+    "start_column": 8,
+    "end_line": 176,
+    "end_column": 43,
+    "text": "p.say(text::update::NEWEST_UNKNOWN)"
+   },
+   "operator": "drop_statement",
+   "sha256": "f244532a9f6ab8b33c58cde4b937e870ed0f711404e98c3f364a56ab9613f51b"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 177,
+    "start_column": 8,
+    "end_line": 177,
+    "end_column": 16,
+    "text": "return 1"
+   },
+   "operator": "literal:1->0",
+   "sha256": "420575c189c909a95941def0fd15aa8c91bc3ac1346f81e3e5522c6cd4dbef9f"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 180,
+    "start_column": 8,
+    "end_line": 180,
+    "end_column": 60,
+    "text": "p.say(&text::update::up_to_date(installed.as_str()))"
+   },
+   "operator": "drop_statement",
+   "sha256": "e279b6a92a501001c81cc0a863acefb0f014cfadfa378bdb75aedb663757174f"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 181,
+    "start_column": 8,
+    "end_line": 181,
+    "end_column": 16,
+    "text": "return 0"
+   },
+   "operator": "literal:0->1",
+   "sha256": "6633ec21a5b5eb9d83b6250bab74f1e18f77a94b99a817e9d77fd1c38bf39aad"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 183,
+    "start_column": 4,
+    "end_line": 186,
+    "end_column": 6,
+    "text": "p.say(&text::update::available(\r\n        installed.as_str(),\r\n        newest.as_str(),\r\n    ))"
+   },
+   "operator": "drop_statement",
+   "sha256": "58ade951466db91cb83baccf04d408a105e6deac8f79ca96799ea0274adfbb08"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 187,
+    "start_column": 4,
+    "end_line": 187,
+    "end_column": 38,
+    "text": "p.say(text::update::KEEPS_CHOICES)"
+   },
+   "operator": "drop_statement",
+   "sha256": "fe1d1caa4a58a4297ae30744a059b7e4923f194d98665906c977c0ec8b6b3a33"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "error_order",
+    "node_kind": "if_expression",
+    "start_line": 188,
+    "start_column": 4,
+    "end_line": 191,
+    "end_column": 5,
+    "text": "if !p.yes(text::update::PROMPT_UPDATE) {\r\n        p.say(text::update::NOTHING_CHANGED);\r\n        return EXIT_CANCELLED;\r\n    }"
+   },
+   "operator": "swap_next",
+   "sha256": "4cc0df16898692a95d59fbcc634cb4f4714644d347ca95184242ee280fd4b290"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 188,
+    "start_column": 7,
+    "end_line": 188,
+    "end_column": 42,
+    "text": "!p.yes(text::update::PROMPT_UPDATE)"
+   },
+   "operator": "negate",
+   "sha256": "5a2d778d11cdbb9979a76a8d3c6b8a0a73e2ecc6d9f9052200c6cd270dd557bf"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 189,
+    "start_column": 8,
+    "end_line": 189,
+    "end_column": 44,
+    "text": "p.say(text::update::NOTHING_CHANGED)"
+   },
+   "operator": "drop_statement",
+   "sha256": "5374d1273d105af0edfdbbe61fc64d2f81142ac55f032e3904ae1b8b93d2f3e8"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 193,
+    "start_column": 8,
+    "end_line": 193,
+    "end_column": 19,
+    "text": "p.say(note)"
+   },
+   "operator": "drop_statement",
+   "sha256": "39b718bb5f4da7d91e52d8011aac839dc1faf7da6f34967de23b59521055f757"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 194,
+    "start_column": 8,
+    "end_line": 194,
+    "end_column": 16,
+    "text": "return 1"
+   },
+   "operator": "literal:1->0",
+   "sha256": "22a9c390664611be7d02cba5f35d6d1eba8532fe30db29c07498c80218ef2966"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 200,
+    "start_column": 4,
+    "end_line": 200,
+    "end_column": 56,
+    "text": "p.start(&text::update::downloading(newest.as_str()))"
+   },
+   "operator": "drop_statement",
+   "sha256": "5de3f895142a568c4bdbd026984c74d104bc031c75e98afe66efcb4115684247"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 203,
+    "start_column": 12,
+    "end_line": 203,
+    "end_column": 29,
+    "text": "reporter.finish()"
+   },
+   "operator": "drop_statement",
+   "sha256": "06618c814423163dc8354e0aa92f291b5334972456115637a906bdd1e747c0ee"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 204,
+    "start_column": 12,
+    "end_line": 204,
+    "end_column": 58,
+    "text": "p.say(&format!(\" {}\", text::update::VERIFIED))"
+   },
+   "operator": "drop_statement",
+   "sha256": "2877d69e5a62c9a812b8b43e620220f7e9c9acc5fac5d18add49dbc4b421134a"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 210,
+    "start_column": 12,
+    "end_line": 210,
+    "end_column": 29,
+    "text": "reporter.finish()"
+   },
+   "operator": "drop_statement",
+   "sha256": "9a18ca45f4c6f552e6dd89088f859731a6e397eb07087a2983488b9ad8ff3014"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 211,
+    "start_column": 12,
+    "end_line": 211,
+    "end_column": 58,
+    "text": "p.say(&format!(\" {}\", text::update::VERIFIED))"
+   },
+   "operator": "drop_statement",
+   "sha256": "67973e933f56b6274ab3062974326c7d0fbdaebc45d074349f30931f7ce2f32c"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 220,
+    "start_column": 12,
+    "end_line": 220,
+    "end_column": 29,
+    "text": "reporter.finish()"
+   },
+   "operator": "drop_statement",
+   "sha256": "b26e8f3321b7cbd483e8702fa7e1162a52d53c615caa1cc519afdb4f1c6ea848"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 221,
+    "start_column": 12,
+    "end_line": 221,
+    "end_column": 21,
+    "text": "p.say(\"\")"
+   },
+   "operator": "drop_statement",
+   "sha256": "3dfbee85fbba52916439c9e0ddc89c6dd2ebda215dbac4365385f51e9ff89ec6"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 225,
+    "start_column": 16,
+    "end_line": 225,
+    "end_column": 29,
+    "text": "p.say(reason)"
+   },
+   "operator": "drop_statement",
+   "sha256": "5e869d211b02dbb36a9d459ccd9711d373ab09b2aaef5d3bbc1ebdb0b46bed44"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 227,
+    "start_column": 12,
+    "end_line": 227,
+    "end_column": 23,
+    "text": "p.say(note)"
+   },
+   "operator": "drop_statement",
+   "sha256": "1b77907f2ffc1f17006c4992fa6571e5824add41a8cc829736eec77452755806"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "try_expression",
+    "start_line": 238,
+    "start_column": 30,
+    "end_line": 238,
+    "end_column": 53,
+    "text": "flow.bootstrap_offer()?"
+   },
+   "operator": "rewrite:try_expression",
+   "sha256": "3b1a28d6103e5961976bf5a1b411df78d213d9d99e314d1c63c2636586b59092"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 241,
+    "start_column": 4,
+    "end_line": 241,
+    "end_column": 17,
+    "text": "p.say(&offer)"
+   },
+   "operator": "drop_statement",
+   "sha256": "6cabff4eba8f911b10295b46c71e014047bfc28e5f3b20a041c8ddf5bfdfdacd"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 242,
+    "start_column": 4,
+    "end_line": 242,
+    "end_column": 38,
+    "text": "p.say(text::update::KEEPS_CHOICES)"
+   },
+   "operator": "drop_statement",
+   "sha256": "50ee01c4823da63e455eddcdac93931f8d744b87d8ad3ed155dd40d672d4c28a"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 243,
+    "start_column": 7,
+    "end_line": 243,
+    "end_column": 42,
+    "text": "!p.yes(text::update::PROMPT_UPDATE)"
+   },
+   "operator": "negate",
+   "sha256": "c686c9ecbcb7926030325edd58e422b632e7d6ea427e265f8f72815b3da59630"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 244,
+    "start_column": 8,
+    "end_line": 244,
+    "end_column": 44,
+    "text": "p.say(text::update::NOTHING_CHANGED)"
+   },
+   "operator": "drop_statement",
+   "sha256": "57d70e730c67ac624542b299ce4fc9680ca6cd14bc8ef5875d19a28a85bb20d9"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 247,
+    "start_column": 4,
+    "end_line": 247,
+    "end_column": 24,
+    "text": "flow.plan_recorded()"
+   },
+   "operator": "drop_statement",
+   "sha256": "c557b45f1c60085858f61a4919fdca9ef5732190eb348ee35c05c3bfacc14187"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 257,
+    "start_column": 7,
+    "end_line": 257,
+    "end_column": 57,
+    "text": "view.groups.is_empty() && view.problems.is_empty()"
+   },
+   "operator": "negate",
+   "sha256": "055dcb9f4e23d490492c9bfd55241c3f82e2022f069be2c63fb368d524ae786c"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 257,
+    "start_column": 7,
+    "end_line": 257,
+    "end_column": 57,
+    "text": "view.groups.is_empty() && view.problems.is_empty()"
+   },
+   "operator": "swap:&&->||@257:30",
+   "sha256": "93574baad356f426e2481aab362f3acc8f127b7744ed353be51ca6a6ce61cc7b"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 258,
+    "start_column": 8,
+    "end_line": 258,
+    "end_column": 51,
+    "text": "p.say(&text::update::updated_checking(tag))"
+   },
+   "operator": "drop_statement",
+   "sha256": "a9306c7d57b599a44c874ab5219db8e53e6eea889ec0bf1573931209fe8b8344"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 260,
+    "start_column": 11,
+    "end_line": 260,
+    "end_column": 25,
+    "text": "kept.is_some()"
+   },
+   "operator": "negate",
+   "sha256": "8360c6fa7e67bdb55fe27fd7293b171a78120574a557a2b876138c6733ab562f"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 261,
+    "start_column": 12,
+    "end_line": 261,
+    "end_column": 46,
+    "text": "p.say(&text::update::updated(tag))"
+   },
+   "operator": "drop_statement",
+   "sha256": "f37d46d0f083891d5881a7bf6fb2ce34683b46be7c07b48ff9a32daab414f377"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 263,
+    "start_column": 8,
+    "end_line": 263,
+    "end_column": 43,
+    "text": "p.say(text::update::CHANGES_NEEDED)"
+   },
+   "operator": "drop_statement",
+   "sha256": "e54bd2892bb7a24b9591ada277c84a2ade96eabadb6b3c5a5631000b07d67f20"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 264,
+    "start_column": 8,
+    "end_line": 264,
+    "end_column": 25,
+    "text": "changes(p, &view)"
+   },
+   "operator": "drop_statement",
+   "sha256": "ad2d4f6ac644cd54ce2b443eb54529035004c150be1be575948b580ce66fad93"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 265,
+    "start_column": 11,
+    "end_line": 265,
+    "end_column": 45,
+    "text": "!p.yes(text::update::PROMPT_APPLY)"
+   },
+   "operator": "negate",
+   "sha256": "8a483748b16597eaa72a956575d3e20c9202bcd5f59ec61246d4dea066f5e967"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 266,
+    "start_column": 12,
+    "end_line": 266,
+    "end_column": 64,
+    "text": "p.say(kept.unwrap_or(text::update::NOTHING_CHANGED))"
+   },
+   "operator": "drop_statement",
+   "sha256": "ba495884b0542f83f5e6de6320aa4ecab2f46860193d5e400c9a4a92c92a98ef"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 269,
+    "start_column": 8,
+    "end_line": 269,
+    "end_column": 43,
+    "text": "p.say(text::update::MAKING_CHANGES)"
+   },
+   "operator": "drop_statement",
+   "sha256": "0caf8c2e809f78b1c4561ae43c1ebb4f340450960983babf7451e3e47a1abbb7"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 271,
+    "start_column": 4,
+    "end_line": 271,
+    "end_column": 23,
+    "text": "flow.apply_update()"
+   },
+   "operator": "drop_statement",
+   "sha256": "248b35ac8b2d020594157375fec0e2562f50bb037c924f68c3860c78f1ef7470"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 273,
+    "start_column": 8,
+    "end_line": 273,
+    "end_column": 20,
+    "text": "p.say(&line)"
+   },
+   "operator": "drop_statement",
+   "sha256": "ab722de86b5157cda0a58a28c858df6ff179512d89e8fd881451a47dbc014dff"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 281,
+    "start_column": 8,
+    "end_line": 281,
+    "end_column": 26,
+    "text": "p.say(&group.file)"
+   },
+   "operator": "drop_statement",
+   "sha256": "13cbefa902f1435db5ff3fb2376a50b25598c26e57210a1765a83c969cfdc32c"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 283,
+    "start_column": 12,
+    "end_line": 283,
+    "end_column": 63,
+    "text": "p.say(&format!(\"  {} {}\", item.mark, item.summary))"
+   },
+   "operator": "drop_statement",
+   "sha256": "2fed12d7046147b688b2f0c16b774e0bc69748440d7f0bb8f8cb6c9c752f48ac"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 286,
+    "start_column": 7,
+    "end_line": 286,
+    "end_column": 32,
+    "text": "!view.problems.is_empty()"
+   },
+   "operator": "negate",
+   "sha256": "ab17e6beb419cc5c020878898c9510d446f6787a3534698fd0bdcd650648563d"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 287,
+    "start_column": 8,
+    "end_line": 287,
+    "end_column": 36,
+    "text": "p.say(text::REVIEW_PROBLEMS)"
+   },
+   "operator": "drop_statement",
+   "sha256": "52803379d1cea90d812199582ab7a684d4af164b4d0898be26004776215bcf85"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 288,
+    "start_column": 8,
+    "end_line": 288,
+    "end_column": 51,
+    "text": "view.problems.iter().for_each(|l| p.say(l))"
+   },
+   "operator": "drop_statement",
+   "sha256": "309db6dc7fcc63bdd8e02651e6f85ba51bb10090a5cc12b22d27f0aba09c86c5"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 302,
+    "start_column": 4,
+    "end_line": 302,
+    "end_column": 24,
+    "text": "lines.drain(..blank)"
+   },
+   "operator": "drop_statement",
+   "sha256": "0eec74eef12f701e4b5ae5a6571388df4309b70d0e38c2d4a3c2896d212db610"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "negate",
+   "sha256": "257fc952e8c9264d7f8c6cd1cbf0139203ebdb69b5fe55e367952730772e839d"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "swap:==->!=@303:24",
+   "sha256": "3c55d540aad1499a1976a2de6bc3ddae8864029528ac980c99211568c464917b"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "swap:&&->||@303:29",
+   "sha256": "cd436279f1ee464f2f06bb61f8ab11a1be8ef4332d7abe9d714cff724d9c5620"
+  },
+  {
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 304,
+    "start_column": 8,
+    "end_line": 304,
+    "end_column": 49,
+    "text": "lines.push(text::update::DONE.to_owned())"
+   },
+   "operator": "drop_statement",
+   "sha256": "3547518d0bbfb6bcdf50be9295b73430fefa1bf5e52044b0d8af284726b07c45"
+  }
+ ],
+ "controls": [
+  {
+   "label": "seed:branch_condition@83",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "seed:failure_state@63",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 63,
+     "end_line": 63,
+     "kind": "failure_state",
+     "anchor": "return Err(\"--bootstrap\".to_owned())",
+     "reason": "rejects an option the update command does not take"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "seed:state_write@103",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 103,
+     "end_line": 103,
+     "kind": "state_write",
+     "anchor": "deps.restart.command = Command::Update",
+     "reason": "a restart must resume the update"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "wrong_line",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 86,
+     "end_line": 86,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "altered_anchor",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode::NoTerminal x",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "partial_anchor",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "punctuation_anchor",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "{",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "in_comment",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 196,
+     "end_line": 196,
+     "kind": "branch_condition",
+     "anchor": "// One progress line (bytes, percent, speed, time left) while the",
+     "reason": "control: a comment"
+    }
+   ],
+   "expected": [
+    "in_comment_or_string"
+   ],
+   "got": [
+    "in_comment_or_string"
+   ]
+  },
+  {
+   "label": "test_file",
+   "annotations": [
+    {
+     "file": "tests/setup_update_spike.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "test_file"
+   ],
+   "got": [
+    "test_file"
+   ]
+  },
+  {
+   "label": "outside_scope",
+   "annotations": [
+    {
+     "file": "src/setup/mod.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "outside_scope"
+   ],
+   "got": [
+    "outside_scope"
+   ]
+  },
+  {
+   "label": "kind_mismatch",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "failure_state",
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "kind_mismatch"
+   ],
+   "got": [
+    "kind_mismatch"
+   ]
+  },
+  {
+   "label": "duplicate",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    },
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "ok",
+    "duplicate"
+   ],
+   "got": [
+    "ok",
+    "duplicate"
+   ]
+  },
+  {
+   "label": "malformed_no_kind",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 83,
+     "end_line": 83,
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ]
+  },
+  {
+   "label": "malformed_lines",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 84,
+     "end_line": 83,
+     "kind": "branch_condition",
+     "anchor": "mode != Mode::NoTerminal",
+     "reason": "only a missing terminal refuses the update"
+    }
+   ],
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ]
+  },
+  {
+   "label": "anchor_with_terminator:failure_state@63",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 63,
+     "end_line": 63,
+     "kind": "failure_state",
+     "anchor": "return Err(\"--bootstrap\".to_owned());",
+     "reason": "rejects an option the update command does not take"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "anchor_with_terminator:state_write@103",
+   "annotations": [
+    {
+     "file": "src/setup/ui/update.rs",
+     "start_line": 103,
+     "end_line": 103,
+     "kind": "state_write",
+     "anchor": "deps.restart.command = Command::Update;",
+     "reason": "a restart must resume the update"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  }
+ ],
+ "mutant_controls": [
+  {
+   "label": "identical",
+   "sha256": "83aa22a0ad171a8551eefdca7fd4f7a60a8aa72d5193c1714e46e8abe2320cfc",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "whitespace_only",
+   "sha256": "37dc6264784caf719ebaeb4a4b53f64f3c3a84fcc7f6b91ff169fc01ce3ec400",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "comment_only",
+   "sha256": "91d24f589b593926fb94991c26251613ccbfa9bbc7cf05e4d169dfe4a1095799",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "real_change",
+   "sha256": "2b05b55eb2edaf2c43843de2501338bebbec11cdc50c9bd647bfa353a974209d",
+   "expected": "changed",
+   "got": "changed"
+  },
+  {
+   "label": "unparseable",
+   "sha256": "38c1e6da8bc7c3c90df8fe335d9a7ff658260ea5207e47da0f65640f16202c27",
+   "expected": "parse_error",
+   "got": "parse_error"
+  }
+ ]
+}

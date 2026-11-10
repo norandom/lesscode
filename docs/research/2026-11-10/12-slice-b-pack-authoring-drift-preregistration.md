@@ -103,6 +103,17 @@ None. Nothing was run.
 - Results go into a new dated entry that links back to this one; any change to this protocol before the run
   is a dated amendment below.
 
+## Amendment 1, 2026-11-10 (before any call; after task group 3 of the driver, R67)
+
+- The engine-dependent start condition is met: the native engine reproduces the prototype's mutants.
+- The pack format gained a second key after the gate, `negation_swaps` (token pairs whose swap repeats the
+  negation of a condition). `pack-guide-v3.md` must therefore add one sentence each for `test_attribute_kinds`
+  and `negation_swaps`. A pack without `negation_swaps` yields more mutants than the shipped pack, which
+  would fail H2 for a reason that is not drift.
+- H2 is made precise: "the mutants of the shipped pack" are those of the shipped pack as embedded in the
+  binary at the commit recorded with the run.
+- Still open before the first call: the hash of `pack-guide-v3.md` in this entry, and the owner's go.
+
 ## COBESY check
 
 Outcome first: a protocol, nothing run, and one correction of an earlier claim about what the baseline needs.

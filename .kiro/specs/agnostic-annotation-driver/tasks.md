@@ -70,7 +70,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Done when the entry exists, is indexed, and the group 2 handover names it.
   - _Requirements: 9.6_
 
-- [ ] 3. Engine: sites, annotations and operators
+- [x] 3. Engine: sites, annotations and operators
 - [x] 3.1 Port the site rules and eligible sites
   - `driver/sites.rs`: the rules of the gate as amended (2c, 10a, 12), same order and de-duplication.
   - Done when the driver lists exactly the retained prototype sites for the five scopes.
@@ -86,7 +86,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Done when mutants equal the retained receipts by site, operator and text hash for the five scopes, with
     the dropped duplicates listed and explained in a research entry (an intended difference under 9.2).
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.7, 9.1, 9.2_
-- [ ] 3.4 Add the parity tests and the name scan
+- [x] 3.4 Add the parity tests and the name scan
   - Integration tests over the retained receipts and controls, needing no Python. The five scope files are added as
     fixtures at their gate commits (owner decision 2026-11-10), each with its origin, commit and licence noted,
     with line endings pinned; a missing reference is reported as "not run", never as passed.

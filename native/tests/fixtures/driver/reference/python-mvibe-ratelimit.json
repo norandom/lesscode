@@ -1,0 +1,5241 @@
+{
+ "reference": "annotation-driver-prototype-reference-v1",
+ "scope": "python-mvibe-ratelimit",
+ "language": "python",
+ "repository": "mvibe",
+ "revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c",
+ "files": [
+  "mvibe_proxy/ratelimit.py"
+ ],
+ "test_paths": [
+  "tests/"
+ ],
+ "prototype_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_controls.py": "b31b3d3cb9334ab17f34da1c8977f71cb28e9d381be9b83abbbdeb6ca577dbd2",
+  "controls.json": "3cc3c563ccbf375c9d77ade62c1c29a7288704dbfebbce9e2d9ca40ed492fce0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "tables/python.json": "ebcdba056290add19156f2d516345fa99e7cf70dd5432ffe097b5e8c72ab9a7a"
+ },
+ "scope_files_sha256": {
+  "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+ },
+ "controls_spec": {
+  "file": "mvibe_proxy/ratelimit.py",
+  "real_change": [
+   "self._held += 1",
+   "self._held += 2"
+  ],
+  "comment_text": "# control comment"
+ },
+ "sites": [
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 43,
+   "start_column": 0,
+   "end_line": 60,
+   "end_column": 1,
+   "text": "__all__ = [\r\n    'DEFAULT_BACKOFF_CAP_S',\r\n    'DEFAULT_MAX_QUEUE',\r\n    'DEFAULT_MAX_WAIT_S',\r\n    'ENV_BACKOFF_CAP_S',\r\n    'ENV_MAX_QUEUE',\r\n    'ENV_MAX_WAIT_S',\r\n    'ENV_MODEL_RPS',\r\n    'ENV_RPS',\r\n    'MODELS_KEY',\r\n    'GateRecord',\r\n    'RateLimitConfig',\r\n    'RateLimitConfigError',\r\n    'RateLimitSignal',\r\n    'UpstreamGate',\r\n    'classify',\r\n    'parse_retry_after',\r\n]"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 64,
+   "start_column": 0,
+   "end_line": 64,
+   "end_column": 32,
+   "text": "ENV_RPS = 'MVIBE_RATE_LIMIT_RPS'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 65,
+   "start_column": 0,
+   "end_line": 65,
+   "end_column": 44,
+   "text": "ENV_MODEL_RPS = 'MVIBE_RATE_LIMIT_MODEL_RPS'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 66,
+   "start_column": 0,
+   "end_line": 66,
+   "end_column": 46,
+   "text": "ENV_MAX_WAIT_S = 'MVIBE_RATE_LIMIT_MAX_WAIT_S'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 67,
+   "start_column": 0,
+   "end_line": 67,
+   "end_column": 44,
+   "text": "ENV_MAX_QUEUE = 'MVIBE_RATE_LIMIT_MAX_QUEUE'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 68,
+   "start_column": 0,
+   "end_line": 68,
+   "end_column": 52,
+   "text": "ENV_BACKOFF_CAP_S = 'MVIBE_RATE_LIMIT_BACKOFF_CAP_S'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 70,
+   "start_column": 0,
+   "end_line": 70,
+   "end_column": 26,
+   "text": "DEFAULT_MAX_WAIT_S = 120.0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 71,
+   "start_column": 0,
+   "end_line": 71,
+   "end_column": 22,
+   "text": "DEFAULT_MAX_QUEUE = 64"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 72,
+   "start_column": 0,
+   "end_line": 72,
+   "end_column": 28,
+   "text": "DEFAULT_BACKOFF_CAP_S = 30.0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 75,
+   "start_column": 0,
+   "end_line": 75,
+   "end_column": 21,
+   "text": "MODELS_KEY = 'models'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 84,
+   "start_column": 4,
+   "end_line": 84,
+   "end_column": 22,
+   "text": "raw = env.get(key)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "boolean_operator",
+   "start_line": 85,
+   "start_column": 7,
+   "end_line": 85,
+   "end_column": 37,
+   "text": "raw is None or not raw.strip()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 86,
+   "start_column": 8,
+   "end_line": 86,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 87,
+   "start_column": 4,
+   "end_line": 87,
+   "end_column": 22,
+   "text": "return raw.strip()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 93,
+   "start_column": 8,
+   "end_line": 93,
+   "end_column": 27,
+   "text": "value = float(text)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 95,
+   "start_column": 8,
+   "end_line": 95,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "boolean_operator",
+   "start_line": 96,
+   "start_column": 7,
+   "end_line": 96,
+   "end_column": 45,
+   "text": "not math.isfinite(value) or value <= 0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 97,
+   "start_column": 8,
+   "end_line": 97,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 98,
+   "start_column": 4,
+   "end_line": 98,
+   "end_column": 16,
+   "text": "return value"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 103,
+   "start_column": 4,
+   "end_line": 103,
+   "end_column": 29,
+   "text": "text = _setting(env, key)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 104,
+   "start_column": 7,
+   "end_line": 104,
+   "end_column": 19,
+   "text": "text is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 105,
+   "start_column": 8,
+   "end_line": 105,
+   "end_column": 22,
+   "text": "return default"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 106,
+   "start_column": 4,
+   "end_line": 106,
+   "end_column": 34,
+   "text": "value = _positive_number(text)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 107,
+   "start_column": 7,
+   "end_line": 107,
+   "end_column": 20,
+   "text": "value is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "raise_statement",
+   "start_line": 108,
+   "start_column": 8,
+   "end_line": 108,
+   "end_column": 70,
+   "text": "raise RateLimitConfigError(f'{key} must be a positive number')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 109,
+   "start_column": 4,
+   "end_line": 109,
+   "end_column": 16,
+   "text": "return value"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 113,
+   "start_column": 4,
+   "end_line": 113,
+   "end_column": 29,
+   "text": "text = _setting(env, key)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 114,
+   "start_column": 7,
+   "end_line": 114,
+   "end_column": 19,
+   "text": "text is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 115,
+   "start_column": 8,
+   "end_line": 115,
+   "end_column": 22,
+   "text": "return default"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 117,
+   "start_column": 8,
+   "end_line": 117,
+   "end_column": 25,
+   "text": "value = int(text)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "raise_statement",
+   "start_line": 119,
+   "start_column": 8,
+   "end_line": 119,
+   "end_column": 81,
+   "text": "raise RateLimitConfigError(f'{key} must be a positive integer') from None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 120,
+   "start_column": 7,
+   "end_line": 120,
+   "end_column": 17,
+   "text": "value <= 0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "raise_statement",
+   "start_line": 121,
+   "start_column": 8,
+   "end_line": 121,
+   "end_column": 71,
+   "text": "raise RateLimitConfigError(f'{key} must be a positive integer')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 122,
+   "start_column": 4,
+   "end_line": 122,
+   "end_column": 16,
+   "text": "return value"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 127,
+   "start_column": 4,
+   "end_line": 127,
+   "end_column": 39,
+   "text": "text = _setting(env, ENV_MODEL_RPS)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 128,
+   "start_column": 7,
+   "end_line": 128,
+   "end_column": 19,
+   "text": "text is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 129,
+   "start_column": 8,
+   "end_line": 129,
+   "end_column": 35,
+   "text": "return MappingProxyType({})"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 130,
+   "start_column": 4,
+   "end_line": 130,
+   "end_column": 32,
+   "text": "rates: dict[str, float] = {}"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 132,
+   "start_column": 8,
+   "end_line": 132,
+   "end_column": 57,
+   "text": "name, separator, rate_text = entry.partition('=')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 133,
+   "start_column": 8,
+   "end_line": 133,
+   "end_column": 27,
+   "text": "name = name.strip()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 134,
+   "start_column": 8,
+   "end_line": 134,
+   "end_column": 50,
+   "text": "rate = _positive_number(rate_text.strip())"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "error_order",
+   "node_kind": "if_statement",
+   "start_line": 135,
+   "start_column": 8,
+   "end_line": 138,
+   "end_column": 72,
+   "text": "if not separator or not name or rate is None:\r\n            raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\r\n                'comma-separated list of model=rps with a positive rps')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "boolean_operator",
+   "start_line": 135,
+   "start_column": 11,
+   "end_line": 135,
+   "end_column": 52,
+   "text": "not separator or not name or rate is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "raise_statement",
+   "start_line": 136,
+   "start_column": 12,
+   "end_line": 138,
+   "end_column": 72,
+   "text": "raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\r\n                'comma-separated list of model=rps with a positive rps')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 139,
+   "start_column": 11,
+   "end_line": 139,
+   "end_column": 24,
+   "text": "name in rates"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "raise_statement",
+   "start_line": 140,
+   "start_column": 12,
+   "end_line": 141,
+   "end_column": 82,
+   "text": "raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} repeats a model named earlier')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 142,
+   "start_column": 8,
+   "end_line": 142,
+   "end_column": 26,
+   "text": "rates[name] = rate"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 143,
+   "start_column": 4,
+   "end_line": 143,
+   "end_column": 34,
+   "text": "return MappingProxyType(rates)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 150,
+   "start_column": 4,
+   "end_line": 150,
+   "end_column": 36,
+   "text": "default_rps: float | None = None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 151,
+   "start_column": 4,
+   "end_line": 152,
+   "end_column": 53,
+   "text": "model_rps: Mapping[str, float] = field(\r\n        default_factory=lambda: MappingProxyType({}))"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 153,
+   "start_column": 4,
+   "end_line": 153,
+   "end_column": 42,
+   "text": "max_wait_s: float = DEFAULT_MAX_WAIT_S"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 154,
+   "start_column": 4,
+   "end_line": 154,
+   "end_column": 38,
+   "text": "max_queue: int = DEFAULT_MAX_QUEUE"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 155,
+   "start_column": 4,
+   "end_line": 155,
+   "end_column": 48,
+   "text": "backoff_cap_s: float = DEFAULT_BACKOFF_CAP_S"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 160,
+   "start_column": 11,
+   "end_line": 160,
+   "end_column": 22,
+   "text": "env is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 161,
+   "start_column": 12,
+   "end_line": 161,
+   "end_column": 28,
+   "text": "env = os.environ"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 162,
+   "start_column": 8,
+   "end_line": 170,
+   "end_column": 9,
+   "text": "return cls(\r\n            default_rps=_positive_number_setting(env, ENV_RPS, None),\r\n            model_rps=_model_rps_setting(env),\r\n            max_wait_s=_positive_number_setting(\r\n                env, ENV_MAX_WAIT_S, DEFAULT_MAX_WAIT_S),\r\n            max_queue=_positive_int_setting(env, ENV_MAX_QUEUE, DEFAULT_MAX_QUEUE),\r\n            backoff_cap_s=_positive_number_setting(\r\n                env, ENV_BACKOFF_CAP_S, DEFAULT_BACKOFF_CAP_S),\r\n        )"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 178,
+   "start_column": 11,
+   "end_line": 178,
+   "end_column": 28,
+   "text": "key == MODELS_KEY"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 179,
+   "start_column": 12,
+   "end_line": 179,
+   "end_column": 23,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 180,
+   "start_column": 8,
+   "end_line": 180,
+   "end_column": 56,
+   "text": "return self.model_rps.get(key, self.default_rps)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 185,
+   "start_column": 0,
+   "end_line": 185,
+   "end_column": 24,
+   "text": "_RATE_LIMIT_STATUS = 429"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 186,
+   "start_column": 0,
+   "end_line": 186,
+   "end_column": 28,
+   "text": "_RETRY_AFTER = 'retry-after'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 187,
+   "start_column": 0,
+   "end_line": 187,
+   "end_column": 33,
+   "text": "_SNAPSHOT_PREFIX = 'x-ratelimit-'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 188,
+   "start_column": 0,
+   "end_line": 188,
+   "end_column": 26,
+   "text": "_SNAPSHOT_VALUE_CHARS = 64"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 191,
+   "start_column": 0,
+   "end_line": 191,
+   "end_column": 51,
+   "text": "_DELAY_SECONDS = re.compile('[0-9]+(?:[.][0-9]+)?')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 203,
+   "start_column": 4,
+   "end_line": 203,
+   "end_column": 17,
+   "text": "wait_s: float"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 204,
+   "start_column": 4,
+   "end_line": 204,
+   "end_column": 29,
+   "text": "retry_after_present: bool"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 205,
+   "start_column": 4,
+   "end_line": 206,
+   "end_column": 53,
+   "text": "headers: Mapping[str, str] = field(\r\n        default_factory=lambda: MappingProxyType({}))"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 221,
+   "start_column": 7,
+   "end_line": 221,
+   "end_column": 20,
+   "text": "value is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 222,
+   "start_column": 8,
+   "end_line": 222,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 223,
+   "start_column": 4,
+   "end_line": 223,
+   "end_column": 24,
+   "text": "text = value.strip()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "error_order",
+   "node_kind": "if_statement",
+   "start_line": 224,
+   "start_column": 4,
+   "end_line": 225,
+   "end_column": 19,
+   "text": "if not text:\r\n        return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "not_operator",
+   "start_line": 224,
+   "start_column": 7,
+   "end_line": 224,
+   "end_column": 15,
+   "text": "not text"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 225,
+   "start_column": 8,
+   "end_line": 225,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "call",
+   "start_line": 226,
+   "start_column": 7,
+   "end_line": 226,
+   "end_column": 37,
+   "text": "_DELAY_SECONDS.fullmatch(text)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 227,
+   "start_column": 8,
+   "end_line": 227,
+   "end_column": 27,
+   "text": "delay = float(text)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 228,
+   "start_column": 8,
+   "end_line": 228,
+   "end_column": 54,
+   "text": "return delay if math.isfinite(delay) else None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 230,
+   "start_column": 8,
+   "end_line": 230,
+   "end_column": 54,
+   "text": "when = email.utils.parsedate_to_datetime(text)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 232,
+   "start_column": 8,
+   "end_line": 232,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 233,
+   "start_column": 7,
+   "end_line": 233,
+   "end_column": 26,
+   "text": "when.tzinfo is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 234,
+   "start_column": 8,
+   "end_line": 234,
+   "end_column": 39,
+   "text": "when = when.replace(tzinfo=UTC)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 235,
+   "start_column": 4,
+   "end_line": 235,
+   "end_column": 34,
+   "text": "delay = when.timestamp() - now"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "not_operator",
+   "start_line": 236,
+   "start_column": 7,
+   "end_line": 236,
+   "end_column": 31,
+   "text": "not math.isfinite(delay)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 237,
+   "start_column": 8,
+   "end_line": 237,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 238,
+   "start_column": 4,
+   "end_line": 238,
+   "end_column": 38,
+   "text": "return delay if delay > 0 else 0.0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "error_order",
+   "node_kind": "if_statement",
+   "start_line": 256,
+   "start_column": 4,
+   "end_line": 257,
+   "end_column": 70,
+   "text": "if not (fallback_wait_s > 0 and cap_s > 0):\r\n        raise ValueError('fallback_wait_s and cap_s must be positive')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "not_operator",
+   "start_line": 256,
+   "start_column": 7,
+   "end_line": 256,
+   "end_column": 46,
+   "text": "not (fallback_wait_s > 0 and cap_s > 0)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "raise_statement",
+   "start_line": 257,
+   "start_column": 8,
+   "end_line": 257,
+   "end_column": 70,
+   "text": "raise ValueError('fallback_wait_s and cap_s must be positive')"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 258,
+   "start_column": 7,
+   "end_line": 258,
+   "end_column": 35,
+   "text": "status != _RATE_LIMIT_STATUS"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 259,
+   "start_column": 8,
+   "end_line": 259,
+   "end_column": 19,
+   "text": "return None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 260,
+   "start_column": 4,
+   "end_line": 260,
+   "end_column": 34,
+   "text": "retry_after: str | None = None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 261,
+   "start_column": 4,
+   "end_line": 261,
+   "end_column": 33,
+   "text": "snapshot: dict[str, str] = {}"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 263,
+   "start_column": 8,
+   "end_line": 263,
+   "end_column": 30,
+   "text": "lowered = name.lower()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 264,
+   "start_column": 11,
+   "end_line": 264,
+   "end_column": 34,
+   "text": "lowered == _RETRY_AFTER"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 265,
+   "start_column": 12,
+   "end_line": 265,
+   "end_column": 31,
+   "text": "retry_after = value"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "call",
+   "start_line": 266,
+   "start_column": 13,
+   "end_line": 266,
+   "end_column": 49,
+   "text": "lowered.startswith(_SNAPSHOT_PREFIX)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 267,
+   "start_column": 12,
+   "end_line": 267,
+   "end_column": 61,
+   "text": "snapshot[lowered] = value[:_SNAPSHOT_VALUE_CHARS]"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 268,
+   "start_column": 4,
+   "end_line": 268,
+   "end_column": 48,
+   "text": "parsed = parse_retry_after(retry_after, now)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 269,
+   "start_column": 7,
+   "end_line": 269,
+   "end_column": 21,
+   "text": "parsed is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 270,
+   "start_column": 8,
+   "end_line": 272,
+   "end_column": 66,
+   "text": "return RateLimitSignal(wait_s=float(min(fallback_wait_s, cap_s)),\r\n                               retry_after_present=False,\r\n                               headers=MappingProxyType(snapshot))"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 273,
+   "start_column": 4,
+   "end_line": 274,
+   "end_column": 62,
+   "text": "return RateLimitSignal(wait_s=parsed, retry_after_present=True,\r\n                           headers=MappingProxyType(snapshot))"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 279,
+   "start_column": 0,
+   "end_line": 279,
+   "end_column": 26,
+   "text": "_JSON = 'application/json'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 280,
+   "start_column": 0,
+   "end_line": 280,
+   "end_column": 30,
+   "text": "_CONTENT_TYPE = 'content-type'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 281,
+   "start_column": 0,
+   "end_line": 281,
+   "end_column": 76,
+   "text": "_EXHAUSTED_MESSAGE = 'Upstream rate limit persisted; retry after {} seconds'"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 283,
+   "start_column": 0,
+   "end_line": 283,
+   "end_column": 33,
+   "text": "_REJECTION_BODY_LIMIT = 64 * 1024"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 286,
+   "start_column": 0,
+   "end_line": 286,
+   "end_column": 19,
+   "text": "_MAX_DOUBLINGS = 64"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 299,
+   "start_column": 4,
+   "end_line": 299,
+   "end_column": 26,
+   "text": "next_slot: float = 0.0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 300,
+   "start_column": 4,
+   "end_line": 300,
+   "end_column": 27,
+   "text": "hold_until: float = 0.0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 301,
+   "start_column": 4,
+   "end_line": 301,
+   "end_column": 71,
+   "text": "waiters: deque[asyncio.Future[None]] = field(default_factory=deque)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 305,
+   "start_column": 8,
+   "end_line": 305,
+   "end_column": 51,
+   "text": "return max(self.next_slot, self.hold_until)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 317,
+   "start_column": 4,
+   "end_line": 317,
+   "end_column": 15,
+   "text": "body: bytes"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 318,
+   "start_column": 4,
+   "end_line": 318,
+   "end_column": 30,
+   "text": "headers: Mapping[str, str]"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 327,
+   "start_column": 4,
+   "end_line": 327,
+   "end_column": 22,
+   "text": "body = bytearray()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "augmented_assignment",
+   "start_line": 331,
+   "start_column": 16,
+   "end_line": 331,
+   "end_column": 65,
+   "text": "body += chunk[:_REJECTION_BODY_LIMIT - len(body)]"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 332,
+   "start_column": 19,
+   "end_line": 332,
+   "end_column": 53,
+   "text": "len(body) >= _REJECTION_BODY_LIMIT"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "await",
+   "start_line": 335,
+   "start_column": 8,
+   "end_line": 335,
+   "end_column": 31,
+   "text": "await response.aclose()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 336,
+   "start_column": 4,
+   "end_line": 336,
+   "end_column": 32,
+   "text": "headers: dict[str, str] = {}"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 338,
+   "start_column": 8,
+   "end_line": 338,
+   "end_column": 30,
+   "text": "lowered = name.lower()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "boolean_operator",
+   "start_line": 339,
+   "start_column": 11,
+   "end_line": 339,
+   "end_column": 75,
+   "text": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 340,
+   "start_column": 12,
+   "end_line": 340,
+   "end_column": 36,
+   "text": "headers[lowered] = value"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "boolean_operator",
+   "start_line": 341,
+   "start_column": 7,
+   "end_line": 341,
+   "end_column": 56,
+   "text": "signal.retry_after_present and signal.wait_s >= 1"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 342,
+   "start_column": 8,
+   "end_line": 342,
+   "end_column": 62,
+   "text": "headers[_RETRY_AFTER] = response.headers[_RETRY_AFTER]"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 343,
+   "start_column": 4,
+   "end_line": 343,
+   "end_column": 61,
+   "text": "return _Rejection(bytes(body), MappingProxyType(headers))"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 356,
+   "start_column": 4,
+   "end_line": 356,
+   "end_column": 27,
+   "text": "record.exhausted = True"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 357,
+   "start_column": 4,
+   "end_line": 357,
+   "end_column": 48,
+   "text": "retry_after = str(max(1, math.ceil(wait_s)))"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 358,
+   "start_column": 7,
+   "end_line": 358,
+   "end_column": 28,
+   "text": "rejection is not None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 359,
+   "start_column": 8,
+   "end_line": 359,
+   "end_column": 41,
+   "text": "headers = dict(rejection.headers)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "call",
+   "start_line": 360,
+   "start_column": 8,
+   "end_line": 360,
+   "end_column": 53,
+   "text": "headers.setdefault(_RETRY_AFTER, retry_after)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 361,
+   "start_column": 8,
+   "end_line": 361,
+   "end_column": 91,
+   "text": "return httpx2.Response(_RATE_LIMIT_STATUS, content=rejection.body, headers=headers)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 362,
+   "start_column": 4,
+   "end_line": 363,
+   "end_column": 74,
+   "text": "body = {'error': {'message': _EXHAUSTED_MESSAGE.format(retry_after),\r\n                      'type': 'rate_limit_error', 'code': 'rate_limited'}}"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 364,
+   "start_column": 4,
+   "end_line": 366,
+   "end_column": 67,
+   "text": "return httpx2.Response(\r\n        _RATE_LIMIT_STATUS, content=json.dumps(body).encode(),\r\n        headers={'content-type': _JSON, _RETRY_AFTER: retry_after})"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 405,
+   "start_column": 8,
+   "end_line": 405,
+   "end_column": 29,
+   "text": "self._config = config"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 406,
+   "start_column": 8,
+   "end_line": 406,
+   "end_column": 27,
+   "text": "self._clock = clock"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 407,
+   "start_column": 8,
+   "end_line": 407,
+   "end_column": 37,
+   "text": "self._wall_clock = wall_clock"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 408,
+   "start_column": 8,
+   "end_line": 408,
+   "end_column": 27,
+   "text": "self._sleep = sleep"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 409,
+   "start_column": 8,
+   "end_line": 409,
+   "end_column": 29,
+   "text": "self._random = random"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 410,
+   "start_column": 8,
+   "end_line": 410,
+   "end_column": 25,
+   "text": "self._warn = warn"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 411,
+   "start_column": 8,
+   "end_line": 411,
+   "end_column": 45,
+   "text": "self._keys: dict[str, _KeyState] = {}"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 412,
+   "start_column": 8,
+   "end_line": 412,
+   "end_column": 22,
+   "text": "self._held = 0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 417,
+   "start_column": 8,
+   "end_line": 417,
+   "end_column": 25,
+   "text": "return self._held"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 421,
+   "start_column": 8,
+   "end_line": 421,
+   "end_column": 28,
+   "text": "return self._clock()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 445,
+   "start_column": 11,
+   "end_line": 445,
+   "end_column": 47,
+   "text": "self._held >= self._config.max_queue"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 446,
+   "start_column": 12,
+   "end_line": 446,
+   "end_column": 31,
+   "text": "now = self._clock()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 447,
+   "start_column": 12,
+   "end_line": 447,
+   "end_column": 39,
+   "text": "state = self._keys.get(key)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 448,
+   "start_column": 12,
+   "end_line": 448,
+   "end_column": 65,
+   "text": "ready_at = now if state is None else state.ready_at()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 449,
+   "start_column": 12,
+   "end_line": 449,
+   "end_column": 79,
+   "text": "return _exhausted(record, max(ready_at - now, self._interval(key)))"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 450,
+   "start_column": 8,
+   "end_line": 450,
+   "end_column": 32,
+   "text": "state = self._state(key)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 451,
+   "start_column": 8,
+   "end_line": 451,
+   "end_column": 81,
+   "text": "waiter: asyncio.Future[None] = asyncio.get_running_loop().create_future()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "call",
+   "start_line": 452,
+   "start_column": 8,
+   "end_line": 452,
+   "end_column": 36,
+   "text": "state.waiters.append(waiter)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "augmented_assignment",
+   "start_line": 453,
+   "start_column": 8,
+   "end_line": 453,
+   "end_column": 23,
+   "text": "self._held += 1"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 455,
+   "start_column": 12,
+   "end_line": 457,
+   "end_column": 51,
+   "text": "return await self._serve(key, state, waiter, attempt,\r\n                                     deadline=arrived + self._config.max_wait_s,\r\n                                     record=record)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "augmented_assignment",
+   "start_line": 459,
+   "start_column": 12,
+   "end_line": 459,
+   "end_column": 27,
+   "text": "self._held -= 1"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "call",
+   "start_line": 460,
+   "start_column": 12,
+   "end_line": 460,
+   "end_column": 38,
+   "text": "self._leave(state, waiter)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 470,
+   "start_column": 8,
+   "end_line": 470,
+   "end_column": 35,
+   "text": "waited_from = self._clock()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 471,
+   "start_column": 11,
+   "end_line": 471,
+   "end_column": 41,
+   "text": "state.waiters[0] is not waiter"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "await",
+   "start_line": 472,
+   "start_column": 12,
+   "end_line": 472,
+   "end_column": 24,
+   "text": "await waiter"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 473,
+   "start_column": 8,
+   "end_line": 473,
+   "end_column": 38,
+   "text": "interval = self._interval(key)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 474,
+   "start_column": 8,
+   "end_line": 474,
+   "end_column": 52,
+   "text": "shortest = interval if interval > 0 else 1.0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 475,
+   "start_column": 8,
+   "end_line": 475,
+   "end_column": 43,
+   "text": "rejection: _Rejection | None = None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 476,
+   "start_column": 8,
+   "end_line": 476,
+   "end_column": 22,
+   "text": "rejections = 0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "true",
+   "start_line": 477,
+   "start_column": 14,
+   "end_line": 477,
+   "end_column": 18,
+   "text": "True"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 478,
+   "start_column": 12,
+   "end_line": 478,
+   "end_column": 64,
+   "text": "on_time = await self._wait_for_slot(state, deadline)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 479,
+   "start_column": 12,
+   "end_line": 479,
+   "end_column": 31,
+   "text": "now = self._clock()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "augmented_assignment",
+   "start_line": 480,
+   "start_column": 12,
+   "end_line": 480,
+   "end_column": 58,
+   "text": "record.queued_ms += (now - waited_from) * 1000"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "error_order",
+   "node_kind": "if_statement",
+   "start_line": 481,
+   "start_column": 12,
+   "end_line": 482,
+   "end_column": 91,
+   "text": "if not on_time:\r\n                return _exhausted(record, max(state.ready_at() - now, interval), rejection)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "not_operator",
+   "start_line": 481,
+   "start_column": 15,
+   "end_line": 481,
+   "end_column": 26,
+   "text": "not on_time"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 482,
+   "start_column": 16,
+   "end_line": 482,
+   "end_column": 91,
+   "text": "return _exhausted(record, max(state.ready_at() - now, interval), rejection)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 483,
+   "start_column": 15,
+   "end_line": 483,
+   "end_column": 27,
+   "text": "interval > 0"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 484,
+   "start_column": 16,
+   "end_line": 484,
+   "end_column": 48,
+   "text": "state.next_slot = now + interval"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 486,
+   "start_column": 12,
+   "end_line": 486,
+   "end_column": 38,
+   "text": "response = await attempt()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 487,
+   "start_column": 12,
+   "end_line": 490,
+   "end_column": 73,
+   "text": "signal = classify(\r\n                response.status_code, response.headers,\r\n                fallback_wait_s=shortest * 2.0 ** min(rejections, _MAX_DOUBLINGS),\r\n                cap_s=self._config.backoff_cap_s, now=self._wall_clock())"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 491,
+   "start_column": 15,
+   "end_line": 491,
+   "end_column": 29,
+   "text": "signal is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 492,
+   "start_column": 16,
+   "end_line": 492,
+   "end_column": 31,
+   "text": "return response"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 493,
+   "start_column": 12,
+   "end_line": 493,
+   "end_column": 63,
+   "text": "rejection = await _read_rejection(response, signal)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "augmented_assignment",
+   "start_line": 494,
+   "start_column": 12,
+   "end_line": 494,
+   "end_column": 27,
+   "text": "rejections += 1"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "augmented_assignment",
+   "start_line": 495,
+   "start_column": 12,
+   "end_line": 495,
+   "end_column": 34,
+   "text": "record.rejections += 1"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "call",
+   "start_line": 496,
+   "start_column": 12,
+   "end_line": 496,
+   "end_column": 49,
+   "text": "record.headers.update(signal.headers)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "call",
+   "start_line": 497,
+   "start_column": 12,
+   "end_line": 497,
+   "end_column": 52,
+   "text": "self._hold(key, state, signal, shortest)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 498,
+   "start_column": 12,
+   "end_line": 498,
+   "end_column": 39,
+   "text": "waited_from = self._clock()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "attribute",
+   "start_line": 510,
+   "start_column": 11,
+   "end_line": 510,
+   "end_column": 37,
+   "text": "signal.retry_after_present"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 511,
+   "start_column": 12,
+   "end_line": 511,
+   "end_column": 47,
+   "text": "wait = max(signal.wait_s, shortest)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 513,
+   "start_column": 12,
+   "end_line": 513,
+   "end_column": 61,
+   "text": "jittered = signal.wait_s * (0.5 + self._random())"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 514,
+   "start_column": 12,
+   "end_line": 514,
+   "end_column": 75,
+   "text": "wait = min(max(jittered, shortest), self._config.backoff_cap_s)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 515,
+   "start_column": 8,
+   "end_line": 515,
+   "end_column": 49,
+   "text": "wait = min(wait, self._config.max_wait_s)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 516,
+   "start_column": 8,
+   "end_line": 516,
+   "end_column": 41,
+   "text": "hold_until = self._clock() + wait"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 517,
+   "start_column": 11,
+   "end_line": 517,
+   "end_column": 40,
+   "text": "hold_until > state.hold_until"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 518,
+   "start_column": 12,
+   "end_line": 518,
+   "end_column": 41,
+   "text": "state.hold_until = hold_until"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 519,
+   "start_column": 15,
+   "end_line": 519,
+   "end_column": 37,
+   "text": "self._warn is not None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "call",
+   "start_line": 520,
+   "start_column": 16,
+   "end_line": 520,
+   "end_column": 37,
+   "text": "self._warn(key, wait)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 531,
+   "start_column": 11,
+   "end_line": 531,
+   "end_column": 35,
+   "text": "self._clock() > deadline"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 532,
+   "start_column": 12,
+   "end_line": 532,
+   "end_column": 24,
+   "text": "return False"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "true",
+   "start_line": 533,
+   "start_column": 14,
+   "end_line": 533,
+   "end_column": 18,
+   "text": "True"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 534,
+   "start_column": 12,
+   "end_line": 534,
+   "end_column": 31,
+   "text": "now = self._clock()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 535,
+   "start_column": 12,
+   "end_line": 535,
+   "end_column": 39,
+   "text": "ready_at = state.ready_at()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "error_order",
+   "node_kind": "if_statement",
+   "start_line": 536,
+   "start_column": 12,
+   "end_line": 537,
+   "end_column": 27,
+   "text": "if now >= ready_at:\r\n                return True"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 536,
+   "start_column": 15,
+   "end_line": 536,
+   "end_column": 30,
+   "text": "now >= ready_at"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 537,
+   "start_column": 16,
+   "end_line": 537,
+   "end_column": 27,
+   "text": "return True"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 538,
+   "start_column": 15,
+   "end_line": 538,
+   "end_column": 34,
+   "text": "ready_at > deadline"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 539,
+   "start_column": 16,
+   "end_line": 539,
+   "end_column": 28,
+   "text": "return False"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "await",
+   "start_line": 540,
+   "start_column": 12,
+   "end_line": 540,
+   "end_column": 45,
+   "text": "await self._sleep(ready_at - now)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 544,
+   "start_column": 8,
+   "end_line": 544,
+   "end_column": 41,
+   "text": "rate = self._config.rate_for(key)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 545,
+   "start_column": 8,
+   "end_line": 545,
+   "end_column": 48,
+   "text": "return 0.0 if rate is None else 1 / rate"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 554,
+   "start_column": 8,
+   "end_line": 554,
+   "end_column": 35,
+   "text": "state = self._keys.get(key)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "comparison_operator",
+   "start_line": 555,
+   "start_column": 11,
+   "end_line": 555,
+   "end_column": 24,
+   "text": "state is None"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 556,
+   "start_column": 12,
+   "end_line": 556,
+   "end_column": 31,
+   "text": "now = self._clock()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 560,
+   "start_column": 12,
+   "end_line": 560,
+   "end_column": 49,
+   "text": "state = self._keys[key] = _KeyState()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 560,
+   "start_column": 20,
+   "end_line": 560,
+   "end_column": 49,
+   "text": "self._keys[key] = _KeyState()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 561,
+   "start_column": 8,
+   "end_line": 561,
+   "end_column": 20,
+   "text": "return state"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "assignment",
+   "start_line": 569,
+   "start_column": 8,
+   "end_line": 569,
+   "end_column": 45,
+   "text": "was_head = state.waiters[0] is waiter"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "call",
+   "start_line": 570,
+   "start_column": 8,
+   "end_line": 570,
+   "end_column": 36,
+   "text": "state.waiters.remove(waiter)"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "branch_condition",
+   "node_kind": "boolean_operator",
+   "start_line": 571,
+   "start_column": 11,
+   "end_line": 571,
+   "end_column": 69,
+   "text": "was_head and state.waiters and not state.waiters[0].done()"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "state_write",
+   "node_kind": "call",
+   "start_line": 572,
+   "start_column": 12,
+   "end_line": 572,
+   "end_column": 45,
+   "text": "state.waiters[0].set_result(None)"
+  }
+ ],
+ "mutants": [
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 43,
+    "start_column": 0,
+    "end_line": 60,
+    "end_column": 1,
+    "text": "__all__ = [\r\n    'DEFAULT_BACKOFF_CAP_S',\r\n    'DEFAULT_MAX_QUEUE',\r\n    'DEFAULT_MAX_WAIT_S',\r\n    'ENV_BACKOFF_CAP_S',\r\n    'ENV_MAX_QUEUE',\r\n    'ENV_MAX_WAIT_S',\r\n    'ENV_MODEL_RPS',\r\n    'ENV_RPS',\r\n    'MODELS_KEY',\r\n    'GateRecord',\r\n    'RateLimitConfig',\r\n    'RateLimitConfigError',\r\n    'RateLimitSignal',\r\n    'UpstreamGate',\r\n    'classify',\r\n    'parse_retry_after',\r\n]"
+   },
+   "operator": "drop_statement",
+   "sha256": "1762e8f202858b34b71fb2752f5510bc17c8c020d2d1581a0c11dc251c99986f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 64,
+    "start_column": 0,
+    "end_line": 64,
+    "end_column": 32,
+    "text": "ENV_RPS = 'MVIBE_RATE_LIMIT_RPS'"
+   },
+   "operator": "drop_statement",
+   "sha256": "a3859860018ddbd91a45a6c8a8d6318e7d21e2f37450c04bdcfbb23f9d992f86"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 65,
+    "start_column": 0,
+    "end_line": 65,
+    "end_column": 44,
+    "text": "ENV_MODEL_RPS = 'MVIBE_RATE_LIMIT_MODEL_RPS'"
+   },
+   "operator": "drop_statement",
+   "sha256": "806225246eae74208b95a6b9ffedfb3c51503bdecf69916a04f6a32766a7bb43"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 66,
+    "start_column": 0,
+    "end_line": 66,
+    "end_column": 46,
+    "text": "ENV_MAX_WAIT_S = 'MVIBE_RATE_LIMIT_MAX_WAIT_S'"
+   },
+   "operator": "drop_statement",
+   "sha256": "bd49214e837090199936834228f883318819a3be1bd3c2e195a2a3a573d0ea37"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 67,
+    "start_column": 0,
+    "end_line": 67,
+    "end_column": 44,
+    "text": "ENV_MAX_QUEUE = 'MVIBE_RATE_LIMIT_MAX_QUEUE'"
+   },
+   "operator": "drop_statement",
+   "sha256": "9b493c3ae722aae31a26589d55cd421bb558109c7fe7d4745525de14fe134310"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 68,
+    "start_column": 0,
+    "end_line": 68,
+    "end_column": 52,
+    "text": "ENV_BACKOFF_CAP_S = 'MVIBE_RATE_LIMIT_BACKOFF_CAP_S'"
+   },
+   "operator": "drop_statement",
+   "sha256": "967e050dd6b609a50d124b99f15808a66f0453a765e657d0200036035a4dfbb9"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 70,
+    "start_column": 0,
+    "end_line": 70,
+    "end_column": 26,
+    "text": "DEFAULT_MAX_WAIT_S = 120.0"
+   },
+   "operator": "drop_statement",
+   "sha256": "4eb3b42a293fcf8c82cf95c8f5cdddcfdd39a31a940110539f481194c4a14e98"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 71,
+    "start_column": 0,
+    "end_line": 71,
+    "end_column": 22,
+    "text": "DEFAULT_MAX_QUEUE = 64"
+   },
+   "operator": "drop_statement",
+   "sha256": "a2e18420f22307effcdd3fddf57c4b252c10657a4c19b82068640b6761b2ca06"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 72,
+    "start_column": 0,
+    "end_line": 72,
+    "end_column": 28,
+    "text": "DEFAULT_BACKOFF_CAP_S = 30.0"
+   },
+   "operator": "drop_statement",
+   "sha256": "3c64da85b26bb232afc75bc8dc54cad4557cef503acb0bfddd7bcb09fe550b9d"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 75,
+    "start_column": 0,
+    "end_line": 75,
+    "end_column": 21,
+    "text": "MODELS_KEY = 'models'"
+   },
+   "operator": "drop_statement",
+   "sha256": "aedfc55ea6d1fabf411050ce93fab5f33063259e3f2bcff9481902f2dea9ff7d"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 84,
+    "start_column": 4,
+    "end_line": 84,
+    "end_column": 22,
+    "text": "raw = env.get(key)"
+   },
+   "operator": "drop_statement",
+   "sha256": "ec05b9ec60d0c7ab71b9c5ad628c4b59da899cfd625e0b948aa61153b30d7737"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 85,
+    "start_column": 7,
+    "end_line": 85,
+    "end_column": 37,
+    "text": "raw is None or not raw.strip()"
+   },
+   "operator": "negate",
+   "sha256": "848fbe3a494871e47fa11402bb69f81555d4e0d9744875769d25220fc1a98994"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 85,
+    "start_column": 7,
+    "end_line": 85,
+    "end_column": 37,
+    "text": "raw is None or not raw.strip()"
+   },
+   "operator": "swap:or->and@85:19",
+   "sha256": "688d394f0dcb6196894022d3b8cba78309618993cdc0ae60cd60fa90e391347b"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 93,
+    "start_column": 8,
+    "end_line": 93,
+    "end_column": 27,
+    "text": "value = float(text)"
+   },
+   "operator": "drop_statement",
+   "sha256": "c010f7ce37000938f9105b3461122d95d1175d1208ef78e0796ef69069282a1b"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 96,
+    "start_column": 7,
+    "end_line": 96,
+    "end_column": 45,
+    "text": "not math.isfinite(value) or value <= 0"
+   },
+   "operator": "negate",
+   "sha256": "0d0387f40cddf9fd5b558bb0eb9f2c8327d6c190b30be189eb2ce5a99e1e0984"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 96,
+    "start_column": 7,
+    "end_line": 96,
+    "end_column": 45,
+    "text": "not math.isfinite(value) or value <= 0"
+   },
+   "operator": "swap:or->and@96:32",
+   "sha256": "76097e6e800ee9d88f43f6cda61625e1c0c3b1ceafbb600b60ab853a4bc6c72d"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 96,
+    "start_column": 7,
+    "end_line": 96,
+    "end_column": 45,
+    "text": "not math.isfinite(value) or value <= 0"
+   },
+   "operator": "swap:<=-><@96:41",
+   "sha256": "97c76c72223cdff4fb5f30e1bfcd6389e9046c4166746133295db3d88a7609dc"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 103,
+    "start_column": 4,
+    "end_line": 103,
+    "end_column": 29,
+    "text": "text = _setting(env, key)"
+   },
+   "operator": "drop_statement",
+   "sha256": "1fee2976d9f72a2719b00e963315dede77dd105afa33d5ac1f44c5fc7343d52f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 104,
+    "start_column": 7,
+    "end_line": 104,
+    "end_column": 19,
+    "text": "text is None"
+   },
+   "operator": "negate",
+   "sha256": "f95ca27f7d4a360f2859612138fb7c56a8b37384a501a99dfeac34b858fc6129"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 106,
+    "start_column": 4,
+    "end_line": 106,
+    "end_column": 34,
+    "text": "value = _positive_number(text)"
+   },
+   "operator": "drop_statement",
+   "sha256": "9c90184afe807306d0bf90bdf8520a81addddea97b95ab7955dfdff23bfca631"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 107,
+    "start_column": 7,
+    "end_line": 107,
+    "end_column": 20,
+    "text": "value is None"
+   },
+   "operator": "negate",
+   "sha256": "cc47f420ecb0ff57acf16089a0c08daad6f9208c868e26f291deafe3a686dbab"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 108,
+    "start_column": 8,
+    "end_line": 108,
+    "end_column": 70,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive number')"
+   },
+   "operator": "drop:raise_statement",
+   "sha256": "baa85be845340acbfd1e18ede9b4a54491915ef7692631ea9c40cb0118f22c0e"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 113,
+    "start_column": 4,
+    "end_line": 113,
+    "end_column": 29,
+    "text": "text = _setting(env, key)"
+   },
+   "operator": "drop_statement",
+   "sha256": "7313f8138aebb7db0551c61cc1e893e1a16745873e7879a9cfe35dee8abed985"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 114,
+    "start_column": 7,
+    "end_line": 114,
+    "end_column": 19,
+    "text": "text is None"
+   },
+   "operator": "negate",
+   "sha256": "b16e690e0996b408657f48281f9fc5d64a1f35fe372c941df477c2b907e389c0"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 117,
+    "start_column": 8,
+    "end_line": 117,
+    "end_column": 25,
+    "text": "value = int(text)"
+   },
+   "operator": "drop_statement",
+   "sha256": "296f5f4d0629209eb322efa34e1d3b3af8eb4e22130695f0dbc799d98d195c8f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 119,
+    "start_column": 8,
+    "end_line": 119,
+    "end_column": 81,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive integer') from None"
+   },
+   "operator": "drop:raise_statement",
+   "sha256": "116aa9d459a57494d6d883af87029dc20162972059eea6a74c09ed3f3666187e"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 120,
+    "start_column": 7,
+    "end_line": 120,
+    "end_column": 17,
+    "text": "value <= 0"
+   },
+   "operator": "negate",
+   "sha256": "1cfa76def10e746c022949bdb2125750654656cd68b9cdc06d6aab30cb453c30"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 120,
+    "start_column": 7,
+    "end_line": 120,
+    "end_column": 17,
+    "text": "value <= 0"
+   },
+   "operator": "swap:<=-><@120:13",
+   "sha256": "69973d448fb0bab02cdea0d40ab0f839a57901d20c9f6d43d3459c165c8b6525"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 121,
+    "start_column": 8,
+    "end_line": 121,
+    "end_column": 71,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive integer')"
+   },
+   "operator": "drop:raise_statement",
+   "sha256": "30795cf9c81c403510cef7910688aa36aabab5954a5c737dea46e85d95340f1b"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 127,
+    "start_column": 4,
+    "end_line": 127,
+    "end_column": 39,
+    "text": "text = _setting(env, ENV_MODEL_RPS)"
+   },
+   "operator": "drop_statement",
+   "sha256": "3d555ac4533c56b9ca758e4cd3cf6a87a2185c9e6687f85409f1c208230603e0"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 128,
+    "start_column": 7,
+    "end_line": 128,
+    "end_column": 19,
+    "text": "text is None"
+   },
+   "operator": "negate",
+   "sha256": "6ebebc7113f464856e3275191d9b1f6951864f14da5b7ff4df9a4cdc162bca18"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 130,
+    "start_column": 4,
+    "end_line": 130,
+    "end_column": 32,
+    "text": "rates: dict[str, float] = {}"
+   },
+   "operator": "drop_statement",
+   "sha256": "0eeb5b2d6c5229dd20c653d2a97004909580a959f7115d7305001270ace59af9"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 132,
+    "start_column": 8,
+    "end_line": 132,
+    "end_column": 57,
+    "text": "name, separator, rate_text = entry.partition('=')"
+   },
+   "operator": "drop_statement",
+   "sha256": "14d732ca00cf4d8101e8769a02af0fa8dba95adaa00d773c3ccfad48791e1d73"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 133,
+    "start_column": 8,
+    "end_line": 133,
+    "end_column": 27,
+    "text": "name = name.strip()"
+   },
+   "operator": "drop_statement",
+   "sha256": "bdb39ef255e06aceb0bdeee01efb293c96f8009bb5f940d6c8969bad0d659308"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 134,
+    "start_column": 8,
+    "end_line": 134,
+    "end_column": 50,
+    "text": "rate = _positive_number(rate_text.strip())"
+   },
+   "operator": "drop_statement",
+   "sha256": "624a377c8d5f315050d74772141f11ace221e5681cca2b4f6f6cfbdc3bc787d6"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 135,
+    "start_column": 8,
+    "end_line": 138,
+    "end_column": 72,
+    "text": "if not separator or not name or rate is None:\r\n            raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\r\n                'comma-separated list of model=rps with a positive rps')"
+   },
+   "operator": "swap_next",
+   "sha256": "f286ec41d2be8504d1bc855ae0c2e807dbe382d1a5723454d911c11fb4373eb0"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 135,
+    "start_column": 11,
+    "end_line": 135,
+    "end_column": 52,
+    "text": "not separator or not name or rate is None"
+   },
+   "operator": "negate",
+   "sha256": "753d9173e16c9ab69042ebb863c3675ec6bdfd37f58d46da494d3fb5def800f6"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 135,
+    "start_column": 11,
+    "end_line": 135,
+    "end_column": 52,
+    "text": "not separator or not name or rate is None"
+   },
+   "operator": "swap:or->and@135:25",
+   "sha256": "1da4bb39763a751b16d955c6db9bf131191dddfd8194a53e088cdfb6eb2aa6b6"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 135,
+    "start_column": 11,
+    "end_line": 135,
+    "end_column": 52,
+    "text": "not separator or not name or rate is None"
+   },
+   "operator": "swap:or->and@135:37",
+   "sha256": "a24ce448b4e0d837456ad79008fa98fc8fcbaaa083ce65cd026bbcf9d6d95521"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 136,
+    "start_column": 12,
+    "end_line": 138,
+    "end_column": 72,
+    "text": "raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\r\n                'comma-separated list of model=rps with a positive rps')"
+   },
+   "operator": "drop:raise_statement",
+   "sha256": "b3760f858bd98212d076f3c30c141ff4e95627a34778c2ded2437465a18351a1"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 139,
+    "start_column": 11,
+    "end_line": 139,
+    "end_column": 24,
+    "text": "name in rates"
+   },
+   "operator": "negate",
+   "sha256": "4a0160b007f577b95c6a9839c8b7024a2ee3a4d7add23da21a59f344502c519c"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 140,
+    "start_column": 12,
+    "end_line": 141,
+    "end_column": 82,
+    "text": "raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} repeats a model named earlier')"
+   },
+   "operator": "drop:raise_statement",
+   "sha256": "9e3886a7a3b676bcee740c2a0923f8bed70aafe68e9eff78e5b5172251e1d2e5"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 142,
+    "start_column": 8,
+    "end_line": 142,
+    "end_column": 26,
+    "text": "rates[name] = rate"
+   },
+   "operator": "drop_statement",
+   "sha256": "bbbfd0047560851471c85f349c274406104d4ce7af696f8037e96c7ddbb3d0c9"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 150,
+    "start_column": 4,
+    "end_line": 150,
+    "end_column": 36,
+    "text": "default_rps: float | None = None"
+   },
+   "operator": "drop_statement",
+   "sha256": "542d6c5d4f35bd56817536cc7edf388cc8fbb1adc183dd8390dfb6d99794ae89"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 151,
+    "start_column": 4,
+    "end_line": 152,
+    "end_column": 53,
+    "text": "model_rps: Mapping[str, float] = field(\r\n        default_factory=lambda: MappingProxyType({}))"
+   },
+   "operator": "drop_statement",
+   "sha256": "d72ad8e9dfb0b1c84539b5b4e9e85bf9abd83ad1d4be0248c675e74386cbbd2b"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 153,
+    "start_column": 4,
+    "end_line": 153,
+    "end_column": 42,
+    "text": "max_wait_s: float = DEFAULT_MAX_WAIT_S"
+   },
+   "operator": "drop_statement",
+   "sha256": "129c92b0a0ea140a2fc805106b02e2d0104cf59632436c9aa9a44f3650813b70"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 154,
+    "start_column": 4,
+    "end_line": 154,
+    "end_column": 38,
+    "text": "max_queue: int = DEFAULT_MAX_QUEUE"
+   },
+   "operator": "drop_statement",
+   "sha256": "3a10e5f8e813fbd70d49ee5fa5d1bb2d17f1ba469354ab68ff6cc568982fe1de"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 155,
+    "start_column": 4,
+    "end_line": 155,
+    "end_column": 48,
+    "text": "backoff_cap_s: float = DEFAULT_BACKOFF_CAP_S"
+   },
+   "operator": "drop_statement",
+   "sha256": "95984956ab1a304f009abe0aa63ce4b3608eb2bac9a45ecdc7195732bfd94776"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 160,
+    "start_column": 11,
+    "end_line": 160,
+    "end_column": 22,
+    "text": "env is None"
+   },
+   "operator": "negate",
+   "sha256": "1f1ab9726a0dce20fbebc6eb9a1d7b9dddafe8b563e637012d9dec7675d9d3b7"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 161,
+    "start_column": 12,
+    "end_line": 161,
+    "end_column": 28,
+    "text": "env = os.environ"
+   },
+   "operator": "drop_statement",
+   "sha256": "4ee5c7fa55738f606d656bbaa4251ed50a7a36b9bb203570689ecc597c1adcac"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 178,
+    "start_column": 11,
+    "end_line": 178,
+    "end_column": 28,
+    "text": "key == MODELS_KEY"
+   },
+   "operator": "negate",
+   "sha256": "ee4b099f0264042ebdb93099f49af4270bf6e3a5af220acc60ed8306bcff9f02"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 178,
+    "start_column": 11,
+    "end_line": 178,
+    "end_column": 28,
+    "text": "key == MODELS_KEY"
+   },
+   "operator": "swap:==->!=@178:15",
+   "sha256": "b6151fc274ae5a6937b5451424428ceed60eceff029bbe4b0e951e461ca0784f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 185,
+    "start_column": 0,
+    "end_line": 185,
+    "end_column": 24,
+    "text": "_RATE_LIMIT_STATUS = 429"
+   },
+   "operator": "drop_statement",
+   "sha256": "d3c1abc9eddb94f2504c341a6fb8a359909d1c91f13cf3a9a0fc23562f03e218"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 186,
+    "start_column": 0,
+    "end_line": 186,
+    "end_column": 28,
+    "text": "_RETRY_AFTER = 'retry-after'"
+   },
+   "operator": "drop_statement",
+   "sha256": "342af8c76de5d1a5097c01ecf10bd73458b6487b32cb748a2d05a359f363011f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 187,
+    "start_column": 0,
+    "end_line": 187,
+    "end_column": 33,
+    "text": "_SNAPSHOT_PREFIX = 'x-ratelimit-'"
+   },
+   "operator": "drop_statement",
+   "sha256": "b2f2720eb9a186aa14eeb911ffaa8725318dd8406969fcef858dc8fced9f2a87"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 188,
+    "start_column": 0,
+    "end_line": 188,
+    "end_column": 26,
+    "text": "_SNAPSHOT_VALUE_CHARS = 64"
+   },
+   "operator": "drop_statement",
+   "sha256": "a7acba2a1352ee32646f314b08e4a4b34e1bee8c4e92a66c2dea2b568589222f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 191,
+    "start_column": 0,
+    "end_line": 191,
+    "end_column": 51,
+    "text": "_DELAY_SECONDS = re.compile('[0-9]+(?:[.][0-9]+)?')"
+   },
+   "operator": "drop_statement",
+   "sha256": "54f4ce0c4411d950f5c2911cb3124dd78c58118545b5188ca4837a13ad384230"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 203,
+    "start_column": 4,
+    "end_line": 203,
+    "end_column": 17,
+    "text": "wait_s: float"
+   },
+   "operator": "drop_statement",
+   "sha256": "0092d443866636fe743424a9f95ed84e842189d8aa9bdc25f0e5287efd9835b8"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 204,
+    "start_column": 4,
+    "end_line": 204,
+    "end_column": 29,
+    "text": "retry_after_present: bool"
+   },
+   "operator": "drop_statement",
+   "sha256": "609834ffffd4da4ce4a89ca6bee3054bd69b6ce3e9d8c7d3ad26d218e0a4c5ab"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 205,
+    "start_column": 4,
+    "end_line": 206,
+    "end_column": 53,
+    "text": "headers: Mapping[str, str] = field(\r\n        default_factory=lambda: MappingProxyType({}))"
+   },
+   "operator": "drop_statement",
+   "sha256": "28fad05c43a1292f518b1177d863ee562750fac2c06a34dba2fdb8b2f9e45b02"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 221,
+    "start_column": 7,
+    "end_line": 221,
+    "end_column": 20,
+    "text": "value is None"
+   },
+   "operator": "negate",
+   "sha256": "210008facc7d66f1cbcccad397b1fdca35ce9b336b7a57dafe0399590eeeae90"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 223,
+    "start_column": 4,
+    "end_line": 223,
+    "end_column": 24,
+    "text": "text = value.strip()"
+   },
+   "operator": "drop_statement",
+   "sha256": "34b86d5dff52bd021051d9ddc7592f80985a6d1c925534c0cc68b60bd9675c01"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 224,
+    "start_column": 4,
+    "end_line": 225,
+    "end_column": 19,
+    "text": "if not text:\r\n        return None"
+   },
+   "operator": "swap_next",
+   "sha256": "c92be22ed352a5d2349fe657f2f61c2b030d9797cf36e49ff31e174cf84b8364"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 224,
+    "start_column": 7,
+    "end_line": 224,
+    "end_column": 15,
+    "text": "not text"
+   },
+   "operator": "negate",
+   "sha256": "7a93591ba51716c2607f99b52e77f5ce948fdd0dbd9e1908dc3c43b3a8805936"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "call",
+    "start_line": 226,
+    "start_column": 7,
+    "end_line": 226,
+    "end_column": 37,
+    "text": "_DELAY_SECONDS.fullmatch(text)"
+   },
+   "operator": "negate",
+   "sha256": "bd8cd521cfcf3cf56deb02f93a72a5a306e96026e821e432be912c382b559879"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 227,
+    "start_column": 8,
+    "end_line": 227,
+    "end_column": 27,
+    "text": "delay = float(text)"
+   },
+   "operator": "drop_statement",
+   "sha256": "dd7f0d43be1c7a38df14d9faf0c6e9eff7fd7acf7a1b6fe900821155cb15056e"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 230,
+    "start_column": 8,
+    "end_line": 230,
+    "end_column": 54,
+    "text": "when = email.utils.parsedate_to_datetime(text)"
+   },
+   "operator": "drop_statement",
+   "sha256": "0c7b40268fb7f3bff50d3afd550288c4c699ff823fd4d0b045cd4f5690917a7f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 233,
+    "start_column": 7,
+    "end_line": 233,
+    "end_column": 26,
+    "text": "when.tzinfo is None"
+   },
+   "operator": "negate",
+   "sha256": "2536ac3a3b4beae68fbf94debe3c2df5e2bd758966d621834bb43cebddaf807c"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 234,
+    "start_column": 8,
+    "end_line": 234,
+    "end_column": 39,
+    "text": "when = when.replace(tzinfo=UTC)"
+   },
+   "operator": "drop_statement",
+   "sha256": "50eef403f6b02d8738cc490bbdfc68ce5192443ecb1eb9a9bd4ca9010473f3d0"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 235,
+    "start_column": 4,
+    "end_line": 235,
+    "end_column": 34,
+    "text": "delay = when.timestamp() - now"
+   },
+   "operator": "drop_statement",
+   "sha256": "65c448d1e523d66f334ab87fac9da078dad8d15757fc3c10ad382b66233ec0c7"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 236,
+    "start_column": 7,
+    "end_line": 236,
+    "end_column": 31,
+    "text": "not math.isfinite(delay)"
+   },
+   "operator": "negate",
+   "sha256": "330e1f3ca1e7f7e8cff277e0f6dcf38b89ec2124fe6c8ad7f504084350b8b340"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 256,
+    "start_column": 4,
+    "end_line": 257,
+    "end_column": 70,
+    "text": "if not (fallback_wait_s > 0 and cap_s > 0):\r\n        raise ValueError('fallback_wait_s and cap_s must be positive')"
+   },
+   "operator": "swap_next",
+   "sha256": "58000e4400cddd3e4f365f98088eacc7fefc95a17f452fb1c692270380d5abc4"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 256,
+    "start_column": 7,
+    "end_line": 256,
+    "end_column": 46,
+    "text": "not (fallback_wait_s > 0 and cap_s > 0)"
+   },
+   "operator": "negate",
+   "sha256": "9cd634f77eb1c96135c8bcf797633ce71d4519dbe0832fb267862c4ff3da2aa2"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 256,
+    "start_column": 7,
+    "end_line": 256,
+    "end_column": 46,
+    "text": "not (fallback_wait_s > 0 and cap_s > 0)"
+   },
+   "operator": "swap:>->>=@256:28",
+   "sha256": "d864247bac289df237f0fe0ecd6847e04484946cf2c6312fea21093a1b525fb1"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 256,
+    "start_column": 7,
+    "end_line": 256,
+    "end_column": 46,
+    "text": "not (fallback_wait_s > 0 and cap_s > 0)"
+   },
+   "operator": "swap:and->or@256:32",
+   "sha256": "3c400d7e7d0906b9944c44948765e51d5c24365fc416d04b1bd29410724bf757"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 257,
+    "start_column": 8,
+    "end_line": 257,
+    "end_column": 70,
+    "text": "raise ValueError('fallback_wait_s and cap_s must be positive')"
+   },
+   "operator": "drop:raise_statement",
+   "sha256": "c6406d92db94b0b560870d7a4ac50bee88daf051e30fcc03e9c21287f7bb37f1"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 258,
+    "start_column": 7,
+    "end_line": 258,
+    "end_column": 35,
+    "text": "status != _RATE_LIMIT_STATUS"
+   },
+   "operator": "negate",
+   "sha256": "50a3fb9a917d173b2227a08153b3bec980372471c3b37a998a0c34c561b5ed99"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 258,
+    "start_column": 7,
+    "end_line": 258,
+    "end_column": 35,
+    "text": "status != _RATE_LIMIT_STATUS"
+   },
+   "operator": "swap:!=->==@258:14",
+   "sha256": "7f02b4bc8498d0dc17518eaa153c658bbaa2071359b59ed7bd9a490501ef593d"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 260,
+    "start_column": 4,
+    "end_line": 260,
+    "end_column": 34,
+    "text": "retry_after: str | None = None"
+   },
+   "operator": "drop_statement",
+   "sha256": "db22c25dbf4eec926590daedd426893a51ef3d489143188dd9740682bc393207"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 261,
+    "start_column": 4,
+    "end_line": 261,
+    "end_column": 33,
+    "text": "snapshot: dict[str, str] = {}"
+   },
+   "operator": "drop_statement",
+   "sha256": "f15fa8ccde0f5bc11895c61780d9d2a72f5b33a9217db48b8a411d1191f3b9c1"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 263,
+    "start_column": 8,
+    "end_line": 263,
+    "end_column": 30,
+    "text": "lowered = name.lower()"
+   },
+   "operator": "drop_statement",
+   "sha256": "ddfdeb2ec4767ad68c43e24e43c64870dbe8f322a571f007e7cc64be3c555b7e"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 264,
+    "start_column": 11,
+    "end_line": 264,
+    "end_column": 34,
+    "text": "lowered == _RETRY_AFTER"
+   },
+   "operator": "negate",
+   "sha256": "8052bbe788ad34f6323d99cf63b5d64c6ce83d11f06125b67eb181cea45efed5"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 264,
+    "start_column": 11,
+    "end_line": 264,
+    "end_column": 34,
+    "text": "lowered == _RETRY_AFTER"
+   },
+   "operator": "swap:==->!=@264:19",
+   "sha256": "581adb7004d089960fa795ea8b8e5c21f0d1c6226df24adb0f62b8c8d3c7b531"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 265,
+    "start_column": 12,
+    "end_line": 265,
+    "end_column": 31,
+    "text": "retry_after = value"
+   },
+   "operator": "drop_statement",
+   "sha256": "ec478e5de8e11e0a5ad7da6b108612d1d119f33154a4c524f9b23f71b4ce83eb"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "call",
+    "start_line": 266,
+    "start_column": 13,
+    "end_line": 266,
+    "end_column": 49,
+    "text": "lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "negate",
+   "sha256": "027620d9ea6b37f267891e4e74127971c5273d3b67184132346ee6f5c6978cc9"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 267,
+    "start_column": 12,
+    "end_line": 267,
+    "end_column": 61,
+    "text": "snapshot[lowered] = value[:_SNAPSHOT_VALUE_CHARS]"
+   },
+   "operator": "drop_statement",
+   "sha256": "7c846e596b43c100c3d9b2f491eb530e7ef6ee398bddda3816369fcfe5397674"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 268,
+    "start_column": 4,
+    "end_line": 268,
+    "end_column": 48,
+    "text": "parsed = parse_retry_after(retry_after, now)"
+   },
+   "operator": "drop_statement",
+   "sha256": "175d15924b50d7852e801b8a6fa81d850e2ec77692dcf3c2b17afd8ce7c5c96b"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 269,
+    "start_column": 7,
+    "end_line": 269,
+    "end_column": 21,
+    "text": "parsed is None"
+   },
+   "operator": "negate",
+   "sha256": "e8d70cc594037d394bdb8f8bd2a6c56926d17eea7ff99069442c7963f2ee90f8"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 279,
+    "start_column": 0,
+    "end_line": 279,
+    "end_column": 26,
+    "text": "_JSON = 'application/json'"
+   },
+   "operator": "drop_statement",
+   "sha256": "739c5b7fc87eb5ff780dfd120c738dc2feca4d90ed5c6d47bf2d28fe5cf73c1a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 280,
+    "start_column": 0,
+    "end_line": 280,
+    "end_column": 30,
+    "text": "_CONTENT_TYPE = 'content-type'"
+   },
+   "operator": "drop_statement",
+   "sha256": "436de7aa4ab0bdf3895bc807d429300f2933d02dc35b6297a61234e34d09457f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 281,
+    "start_column": 0,
+    "end_line": 281,
+    "end_column": 76,
+    "text": "_EXHAUSTED_MESSAGE = 'Upstream rate limit persisted; retry after {} seconds'"
+   },
+   "operator": "drop_statement",
+   "sha256": "a44fda32aca21e04d57d671b974c42d4f11e1dac88e4bb7686254bb3a7af3e01"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 283,
+    "start_column": 0,
+    "end_line": 283,
+    "end_column": 33,
+    "text": "_REJECTION_BODY_LIMIT = 64 * 1024"
+   },
+   "operator": "drop_statement",
+   "sha256": "730fcb0fdc8269e8a55858ee0c53cc0f4d9d7f24334c06b42707fbf0eab19742"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 286,
+    "start_column": 0,
+    "end_line": 286,
+    "end_column": 19,
+    "text": "_MAX_DOUBLINGS = 64"
+   },
+   "operator": "drop_statement",
+   "sha256": "5b22ca3ae4573a172b0bbfd0513e121390faf6d4eaf21952cfefabe3817a88ab"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 299,
+    "start_column": 4,
+    "end_line": 299,
+    "end_column": 26,
+    "text": "next_slot: float = 0.0"
+   },
+   "operator": "drop_statement",
+   "sha256": "05963cbc21c8685ce8dd5bd13c1b1c6f469acdb435f4e266c834062f9e646da3"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 300,
+    "start_column": 4,
+    "end_line": 300,
+    "end_column": 27,
+    "text": "hold_until: float = 0.0"
+   },
+   "operator": "drop_statement",
+   "sha256": "04bdd20bf0f24cb58b29561dcf0d0e7d42c2cf0cfb460afe80e3dcc0608c06cf"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 301,
+    "start_column": 4,
+    "end_line": 301,
+    "end_column": 71,
+    "text": "waiters: deque[asyncio.Future[None]] = field(default_factory=deque)"
+   },
+   "operator": "drop_statement",
+   "sha256": "ad28e8fd77ef9e60948e2365e7e840552bc9a3389c28d6285ab25613656d1b22"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 317,
+    "start_column": 4,
+    "end_line": 317,
+    "end_column": 15,
+    "text": "body: bytes"
+   },
+   "operator": "drop_statement",
+   "sha256": "6041bb234b9e39918fb35a4ba72923ab4a6781a8d9231624b7ac20ad22b1bdf3"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 318,
+    "start_column": 4,
+    "end_line": 318,
+    "end_column": 30,
+    "text": "headers: Mapping[str, str]"
+   },
+   "operator": "drop_statement",
+   "sha256": "5154f41000a80775ac02501ce55e07d180c0baf21e5944d1c9d40e5517378653"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 327,
+    "start_column": 4,
+    "end_line": 327,
+    "end_column": 22,
+    "text": "body = bytearray()"
+   },
+   "operator": "drop_statement",
+   "sha256": "9a84bea83aff35adbd60d69a705e6dde390bebd1e1463c35f941d80dabdccdc7"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 331,
+    "start_column": 16,
+    "end_line": 331,
+    "end_column": 65,
+    "text": "body += chunk[:_REJECTION_BODY_LIMIT - len(body)]"
+   },
+   "operator": "drop_statement",
+   "sha256": "db1ee8b8a5c34250ec9a9ff8949aa20ac859a293af5fa733e389e1b3ba71d6ad"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 332,
+    "start_column": 19,
+    "end_line": 332,
+    "end_column": 53,
+    "text": "len(body) >= _REJECTION_BODY_LIMIT"
+   },
+   "operator": "negate",
+   "sha256": "e1f68f40f35a10a8f8358c297ff02072fcc4a287fab38ce4c633b83ab3bcced6"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 332,
+    "start_column": 19,
+    "end_line": 332,
+    "end_column": 53,
+    "text": "len(body) >= _REJECTION_BODY_LIMIT"
+   },
+   "operator": "swap:>=->>@332:29",
+   "sha256": "e06edf3de6d5e73283d5cb2940270b3fe66ff09b44db806a600ad27c1edcc778"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "await",
+    "start_line": 335,
+    "start_column": 8,
+    "end_line": 335,
+    "end_column": 31,
+    "text": "await response.aclose()"
+   },
+   "operator": "drop_statement",
+   "sha256": "6fe4c178d4ab754ec21e97a59db450b1ae1168d4da383b7e635f9cc0727a1f46"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 336,
+    "start_column": 4,
+    "end_line": 336,
+    "end_column": 32,
+    "text": "headers: dict[str, str] = {}"
+   },
+   "operator": "drop_statement",
+   "sha256": "00b4ffbcd76c3a50fb8ae1edc24e9738ec66e242116314be50401ea92dec2afe"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 338,
+    "start_column": 8,
+    "end_line": 338,
+    "end_column": 30,
+    "text": "lowered = name.lower()"
+   },
+   "operator": "drop_statement",
+   "sha256": "b54e1089eb58d6e2231970d6280cee518a6e24e86cc3458b34e9f0c0a3b2b62d"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 339,
+    "start_column": 11,
+    "end_line": 339,
+    "end_column": 75,
+    "text": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "negate",
+   "sha256": "a9683e1a839ec9856d7799b052c59d6205c0669068d31e56c9bb4363937cf817"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 339,
+    "start_column": 11,
+    "end_line": 339,
+    "end_column": 75,
+    "text": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "swap:==->!=@339:19",
+   "sha256": "845f7957f5aa07c058e7ecf5003bb768a12194c6adbc5b57328cbb6f6c2c6cbd"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 339,
+    "start_column": 11,
+    "end_line": 339,
+    "end_column": 75,
+    "text": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "swap:or->and@339:36",
+   "sha256": "e1b5a40317bcdbb9b6642b29bbd5a204af62929255ade6d96111ea93d1ddd588"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 340,
+    "start_column": 12,
+    "end_line": 340,
+    "end_column": 36,
+    "text": "headers[lowered] = value"
+   },
+   "operator": "drop_statement",
+   "sha256": "207c9f36eb3fe4386897bdba5eb5071044f98c58202afb6352f45d64c0b3637f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 341,
+    "start_column": 7,
+    "end_line": 341,
+    "end_column": 56,
+    "text": "signal.retry_after_present and signal.wait_s >= 1"
+   },
+   "operator": "negate",
+   "sha256": "1d593b11f6589161fa551b268d27a78bf1fe7d80501191b85ab2269ebc04cc8a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 341,
+    "start_column": 7,
+    "end_line": 341,
+    "end_column": 56,
+    "text": "signal.retry_after_present and signal.wait_s >= 1"
+   },
+   "operator": "swap:and->or@341:34",
+   "sha256": "436b08aa871dc8d93b26ff8805308295e54d08727c9fe4b414d4182e6857bb72"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 341,
+    "start_column": 7,
+    "end_line": 341,
+    "end_column": 56,
+    "text": "signal.retry_after_present and signal.wait_s >= 1"
+   },
+   "operator": "swap:>=->>@341:52",
+   "sha256": "d5b55f0b089e2c5d23595066b43b126042775855f1fea9ec724cca102ddd8455"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 342,
+    "start_column": 8,
+    "end_line": 342,
+    "end_column": 62,
+    "text": "headers[_RETRY_AFTER] = response.headers[_RETRY_AFTER]"
+   },
+   "operator": "drop_statement",
+   "sha256": "1b1232b68f074eb9435b793986826e71421b77f0fa338793d2cfc0e55b27e04d"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 356,
+    "start_column": 4,
+    "end_line": 356,
+    "end_column": 27,
+    "text": "record.exhausted = True"
+   },
+   "operator": "drop_statement",
+   "sha256": "6cc578fb7e00c3c52fc8966098c1aed50183a6a101533358a9778b9a5524ad14"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 357,
+    "start_column": 4,
+    "end_line": 357,
+    "end_column": 48,
+    "text": "retry_after = str(max(1, math.ceil(wait_s)))"
+   },
+   "operator": "drop_statement",
+   "sha256": "3073053ca5c71b0d930513e13d2a4640353b383479263939037e577cf6a5cf5c"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 358,
+    "start_column": 7,
+    "end_line": 358,
+    "end_column": 28,
+    "text": "rejection is not None"
+   },
+   "operator": "negate",
+   "sha256": "e88f37808df0d2eef0f757d622095fcbf120882f10331f93b10b746121370104"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 359,
+    "start_column": 8,
+    "end_line": 359,
+    "end_column": 41,
+    "text": "headers = dict(rejection.headers)"
+   },
+   "operator": "drop_statement",
+   "sha256": "81fe12cd8b43d7d38f5587de8e65bc3a9ef807dc73351dd4a99d37b4ce1c3870"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 360,
+    "start_column": 8,
+    "end_line": 360,
+    "end_column": 53,
+    "text": "headers.setdefault(_RETRY_AFTER, retry_after)"
+   },
+   "operator": "drop_statement",
+   "sha256": "c759af29def44a5f74e22f852382ca5ccf912d87b398e07a6a773b99f6d72cc6"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 362,
+    "start_column": 4,
+    "end_line": 363,
+    "end_column": 74,
+    "text": "body = {'error': {'message': _EXHAUSTED_MESSAGE.format(retry_after),\r\n                      'type': 'rate_limit_error', 'code': 'rate_limited'}}"
+   },
+   "operator": "drop_statement",
+   "sha256": "dd598303cc5083f333c164607a17cbd1bd68046eaa140bd33b322d1a186da792"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 405,
+    "start_column": 8,
+    "end_line": 405,
+    "end_column": 29,
+    "text": "self._config = config"
+   },
+   "operator": "drop_statement",
+   "sha256": "9aecb5d9dd734e22028e0d764552922e70d74d572ace2ec17a2aa237b6e0a587"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 406,
+    "start_column": 8,
+    "end_line": 406,
+    "end_column": 27,
+    "text": "self._clock = clock"
+   },
+   "operator": "drop_statement",
+   "sha256": "3700d3da2688b0678e05afb75e40da0ab3034d45f6d3be8050109ae0e15cbf4b"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 407,
+    "start_column": 8,
+    "end_line": 407,
+    "end_column": 37,
+    "text": "self._wall_clock = wall_clock"
+   },
+   "operator": "drop_statement",
+   "sha256": "593b04258ad6689a566464a919126522c6beb5c73678c16d84246ca3a6cf6d28"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 408,
+    "start_column": 8,
+    "end_line": 408,
+    "end_column": 27,
+    "text": "self._sleep = sleep"
+   },
+   "operator": "drop_statement",
+   "sha256": "9f6b573726d74e9045445701ac5bbc4e7733ee78cb4eb2341455f6ddfd06fd81"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 409,
+    "start_column": 8,
+    "end_line": 409,
+    "end_column": 29,
+    "text": "self._random = random"
+   },
+   "operator": "drop_statement",
+   "sha256": "774c903f8d14ba04a4181e32084dc4e28f16adeddde3d1ddf5e54198c14694ac"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 410,
+    "start_column": 8,
+    "end_line": 410,
+    "end_column": 25,
+    "text": "self._warn = warn"
+   },
+   "operator": "drop_statement",
+   "sha256": "13a9409c827f474e21d65aa4a452642b9d7563da6172d77cf615ade7d14610ab"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 411,
+    "start_column": 8,
+    "end_line": 411,
+    "end_column": 45,
+    "text": "self._keys: dict[str, _KeyState] = {}"
+   },
+   "operator": "drop_statement",
+   "sha256": "aa0693d8e635f7224610b0b90c68570671e56b6627966c717d4c0ff289a54a42"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 412,
+    "start_column": 8,
+    "end_line": 412,
+    "end_column": 22,
+    "text": "self._held = 0"
+   },
+   "operator": "drop_statement",
+   "sha256": "9c2ecb718f749d0750ebbad4e8b2d169799feba9b49c25ecb11d96ebde1c6563"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 445,
+    "start_column": 11,
+    "end_line": 445,
+    "end_column": 47,
+    "text": "self._held >= self._config.max_queue"
+   },
+   "operator": "negate",
+   "sha256": "577dd8871baf1bb1e09174a6e9cdeaf00e9b15dce41e0d0638028be45e47a513"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 445,
+    "start_column": 11,
+    "end_line": 445,
+    "end_column": 47,
+    "text": "self._held >= self._config.max_queue"
+   },
+   "operator": "swap:>=->>@445:22",
+   "sha256": "0f0a428f6435d4cd9fe840d9e61c2a139c87ccd4b006e03787e79a06323da370"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 446,
+    "start_column": 12,
+    "end_line": 446,
+    "end_column": 31,
+    "text": "now = self._clock()"
+   },
+   "operator": "drop_statement",
+   "sha256": "9dfc8aae9e02460a7e3b12ace31671352f2a57de38033723676a21789643f2d8"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 447,
+    "start_column": 12,
+    "end_line": 447,
+    "end_column": 39,
+    "text": "state = self._keys.get(key)"
+   },
+   "operator": "drop_statement",
+   "sha256": "058d2c2a29560b8d3624c797fb0dc424fc6d875b78220115da462bb8327a7ea1"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 448,
+    "start_column": 12,
+    "end_line": 448,
+    "end_column": 65,
+    "text": "ready_at = now if state is None else state.ready_at()"
+   },
+   "operator": "drop_statement",
+   "sha256": "5631e2587e5d0d084d6cb34d50c46d57dee23bfc7c4a96402c2f9ac8ded51365"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 450,
+    "start_column": 8,
+    "end_line": 450,
+    "end_column": 32,
+    "text": "state = self._state(key)"
+   },
+   "operator": "drop_statement",
+   "sha256": "96f97a5bde71c052dee4d88c7d757d2045a2562f92a6956dde2bbaceea0de9b5"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 451,
+    "start_column": 8,
+    "end_line": 451,
+    "end_column": 81,
+    "text": "waiter: asyncio.Future[None] = asyncio.get_running_loop().create_future()"
+   },
+   "operator": "drop_statement",
+   "sha256": "126c272895be71869223f55219abb048776e4632db473acdd455665d207ed2dc"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 452,
+    "start_column": 8,
+    "end_line": 452,
+    "end_column": 36,
+    "text": "state.waiters.append(waiter)"
+   },
+   "operator": "drop_statement",
+   "sha256": "cce9d811ae804d45c2331bf4cd50dfdb49693cf86bb9e0fe9d014e818f32384a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 453,
+    "start_column": 8,
+    "end_line": 453,
+    "end_column": 23,
+    "text": "self._held += 1"
+   },
+   "operator": "drop_statement",
+   "sha256": "1d0a179a8ec369fc16a7623e0b3db2e969efa0c1fd5d4a71acf145cfa941e39c"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 459,
+    "start_column": 12,
+    "end_line": 459,
+    "end_column": 27,
+    "text": "self._held -= 1"
+   },
+   "operator": "drop_statement",
+   "sha256": "603d3b6090b2ef1fa7d3251b29c0632a3dc09797bb9bcc1c8eb5a868d3f327a7"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 460,
+    "start_column": 12,
+    "end_line": 460,
+    "end_column": 38,
+    "text": "self._leave(state, waiter)"
+   },
+   "operator": "drop_statement",
+   "sha256": "8db5bef0076d29993f359b5a576616e6b6e9b0827bbf08ba4031ac1537f4a13f"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 470,
+    "start_column": 8,
+    "end_line": 470,
+    "end_column": 35,
+    "text": "waited_from = self._clock()"
+   },
+   "operator": "drop_statement",
+   "sha256": "a6bb9517f28800ccbd647cdd256c3eb68d224d0b08eeb2a034b4b1aa94aa828e"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 471,
+    "start_column": 11,
+    "end_line": 471,
+    "end_column": 41,
+    "text": "state.waiters[0] is not waiter"
+   },
+   "operator": "negate",
+   "sha256": "32e210862c8412040334cccf3a386b76f6eb0915d2ac0efe28c840bd6c7c54bd"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "await",
+    "start_line": 472,
+    "start_column": 12,
+    "end_line": 472,
+    "end_column": 24,
+    "text": "await waiter"
+   },
+   "operator": "drop_statement",
+   "sha256": "e46fe89b0f0bbe60b9ba564ef7897e0f2f50b7bea61bbaa7975215f8170c320b"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 473,
+    "start_column": 8,
+    "end_line": 473,
+    "end_column": 38,
+    "text": "interval = self._interval(key)"
+   },
+   "operator": "drop_statement",
+   "sha256": "aede166569ed2dc1a9be5eaa41d19a712464ce0b22162082ef382e00e241afcf"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 474,
+    "start_column": 8,
+    "end_line": 474,
+    "end_column": 52,
+    "text": "shortest = interval if interval > 0 else 1.0"
+   },
+   "operator": "drop_statement",
+   "sha256": "45b0cdb6f1c93b31242025ee4ba7ae8807b01f28e76d57b62d3254a143e782c2"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 475,
+    "start_column": 8,
+    "end_line": 475,
+    "end_column": 43,
+    "text": "rejection: _Rejection | None = None"
+   },
+   "operator": "drop_statement",
+   "sha256": "f9f09aa417ee1772e1fdddf0c8e10f24507cfa4288aa0baedd6ec7e6d94964f3"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 476,
+    "start_column": 8,
+    "end_line": 476,
+    "end_column": 22,
+    "text": "rejections = 0"
+   },
+   "operator": "drop_statement",
+   "sha256": "d6ff797078ce431d1c634a8f60bfca0b069910d134bb583d98368719be1ee2ba"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "true",
+    "start_line": 477,
+    "start_column": 14,
+    "end_line": 477,
+    "end_column": 18,
+    "text": "True"
+   },
+   "operator": "negate",
+   "sha256": "1b62a6eafa8975177ee34ed58d05814a13a06abf04eb852c5e17efbfdb1e2b6d"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 478,
+    "start_column": 12,
+    "end_line": 478,
+    "end_column": 64,
+    "text": "on_time = await self._wait_for_slot(state, deadline)"
+   },
+   "operator": "drop_statement",
+   "sha256": "1c4583c5f4dcde4a5d11480cab0908f550026b15ec6dacbf6fd9cf41583cc314"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 479,
+    "start_column": 12,
+    "end_line": 479,
+    "end_column": 31,
+    "text": "now = self._clock()"
+   },
+   "operator": "drop_statement",
+   "sha256": "b7b6352d22021c4925306ad903028190cf2107e06df5e489743a778ef3587455"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 480,
+    "start_column": 12,
+    "end_line": 480,
+    "end_column": 58,
+    "text": "record.queued_ms += (now - waited_from) * 1000"
+   },
+   "operator": "drop_statement",
+   "sha256": "2c62c6631b51da4409e9a0f3335d9a72834dda8330874039936584c67dbf7689"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 481,
+    "start_column": 12,
+    "end_line": 482,
+    "end_column": 91,
+    "text": "if not on_time:\r\n                return _exhausted(record, max(state.ready_at() - now, interval), rejection)"
+   },
+   "operator": "swap_next",
+   "sha256": "c20fd06a90d19b107e7e55d6c104577965297b7ebe7de8de332718943b4c6577"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 481,
+    "start_column": 15,
+    "end_line": 481,
+    "end_column": 26,
+    "text": "not on_time"
+   },
+   "operator": "negate",
+   "sha256": "695adf78cec544442a70accb46861838112f06bb9fbae64cf76188266181382e"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 483,
+    "start_column": 15,
+    "end_line": 483,
+    "end_column": 27,
+    "text": "interval > 0"
+   },
+   "operator": "negate",
+   "sha256": "c517a05440d93a131e8261e02b6487538c11dd966d747854106e1fe06ff06714"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 483,
+    "start_column": 15,
+    "end_line": 483,
+    "end_column": 27,
+    "text": "interval > 0"
+   },
+   "operator": "swap:>->>=@483:24",
+   "sha256": "e21d06677c317f18c2f1b756748cf6bbebf306213c1269985dbedf5ac5111efe"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 484,
+    "start_column": 16,
+    "end_line": 484,
+    "end_column": 48,
+    "text": "state.next_slot = now + interval"
+   },
+   "operator": "drop_statement",
+   "sha256": "be5bc751f517382f1ed7945a7b49fc1d4f0236149f806f24f3b37d9d8472cd4a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 486,
+    "start_column": 12,
+    "end_line": 486,
+    "end_column": 38,
+    "text": "response = await attempt()"
+   },
+   "operator": "drop_statement",
+   "sha256": "0e5c88121120463629caf65b29cc6d46777eb7bf30e400d9fced951c29b15648"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 487,
+    "start_column": 12,
+    "end_line": 490,
+    "end_column": 73,
+    "text": "signal = classify(\r\n                response.status_code, response.headers,\r\n                fallback_wait_s=shortest * 2.0 ** min(rejections, _MAX_DOUBLINGS),\r\n                cap_s=self._config.backoff_cap_s, now=self._wall_clock())"
+   },
+   "operator": "drop_statement",
+   "sha256": "86b9bcbf817b325c7243a76d6f254057fe1b89429ec88029f5ab14612b61a4ef"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 491,
+    "start_column": 15,
+    "end_line": 491,
+    "end_column": 29,
+    "text": "signal is None"
+   },
+   "operator": "negate",
+   "sha256": "874e4d4259f414a82eae9d6c552e32965e097b49181a7178ebef8abaf3b46b9a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 493,
+    "start_column": 12,
+    "end_line": 493,
+    "end_column": 63,
+    "text": "rejection = await _read_rejection(response, signal)"
+   },
+   "operator": "drop_statement",
+   "sha256": "dbf95c6acad2aa9175052633e6e8dc4b45fc549962fc1b753816e489428a7901"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 494,
+    "start_column": 12,
+    "end_line": 494,
+    "end_column": 27,
+    "text": "rejections += 1"
+   },
+   "operator": "drop_statement",
+   "sha256": "8c0fdf5551149ca234c6affad6718c23d20b7a922e53fc50936f79e9cc401c96"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 495,
+    "start_column": 12,
+    "end_line": 495,
+    "end_column": 34,
+    "text": "record.rejections += 1"
+   },
+   "operator": "drop_statement",
+   "sha256": "7a3a8975dfda534b8bbd4d1f639714d5152663bac4d7d94c5dce5f0116c87916"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 496,
+    "start_column": 12,
+    "end_line": 496,
+    "end_column": 49,
+    "text": "record.headers.update(signal.headers)"
+   },
+   "operator": "drop_statement",
+   "sha256": "f469b4fb54590094995cbed09510a94e678e96b36d8d15ff842e903090d4e3f1"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 497,
+    "start_column": 12,
+    "end_line": 497,
+    "end_column": 52,
+    "text": "self._hold(key, state, signal, shortest)"
+   },
+   "operator": "drop_statement",
+   "sha256": "88d36cfe137c9e7bf8424f9c071c654eb18f6cc366fb83570412541035cf7250"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 498,
+    "start_column": 12,
+    "end_line": 498,
+    "end_column": 39,
+    "text": "waited_from = self._clock()"
+   },
+   "operator": "drop_statement",
+   "sha256": "8aca0fd78bf4354e1301bc06ad316c42e8d897513cc4ee0af5c4b2a44e29ec39"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "attribute",
+    "start_line": 510,
+    "start_column": 11,
+    "end_line": 510,
+    "end_column": 37,
+    "text": "signal.retry_after_present"
+   },
+   "operator": "negate",
+   "sha256": "4af9f5b37d62778e56804472b96d68be01392478673b7e6794e3706aae7d23c3"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 511,
+    "start_column": 12,
+    "end_line": 511,
+    "end_column": 47,
+    "text": "wait = max(signal.wait_s, shortest)"
+   },
+   "operator": "drop_statement",
+   "sha256": "a953b97725fbf1a0dba1f2929154309324242209d23700f60db619004946943c"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 513,
+    "start_column": 12,
+    "end_line": 513,
+    "end_column": 61,
+    "text": "jittered = signal.wait_s * (0.5 + self._random())"
+   },
+   "operator": "drop_statement",
+   "sha256": "6822d90627627377d56a1165e43eaf7349b469d003900be9847aa02a2de37693"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 514,
+    "start_column": 12,
+    "end_line": 514,
+    "end_column": 75,
+    "text": "wait = min(max(jittered, shortest), self._config.backoff_cap_s)"
+   },
+   "operator": "drop_statement",
+   "sha256": "53d9e77c4c4f6fd14fa2991a32925bb17e3c1ab8ddc3448cc555b65c44f9790d"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 515,
+    "start_column": 8,
+    "end_line": 515,
+    "end_column": 49,
+    "text": "wait = min(wait, self._config.max_wait_s)"
+   },
+   "operator": "drop_statement",
+   "sha256": "dd5e4247cab8ae34c8845bded5b01647a2d0bb2a2c958177735c4ddc47302396"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 516,
+    "start_column": 8,
+    "end_line": 516,
+    "end_column": 41,
+    "text": "hold_until = self._clock() + wait"
+   },
+   "operator": "drop_statement",
+   "sha256": "aef683d637b4f9dd12f0c9c6a01115080ca5ebd91c5e03c2aab0439b3fe413a1"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 517,
+    "start_column": 11,
+    "end_line": 517,
+    "end_column": 40,
+    "text": "hold_until > state.hold_until"
+   },
+   "operator": "negate",
+   "sha256": "5a24f29510547106a0d1abf0d15d5b183ad26cf5dd116683ca936cbdb50ea8dd"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 517,
+    "start_column": 11,
+    "end_line": 517,
+    "end_column": 40,
+    "text": "hold_until > state.hold_until"
+   },
+   "operator": "swap:>->>=@517:22",
+   "sha256": "7e5472305651bdb8d94b30c4c5d5369d9a1b9137cad136a8e8096507cfb19681"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 518,
+    "start_column": 12,
+    "end_line": 518,
+    "end_column": 41,
+    "text": "state.hold_until = hold_until"
+   },
+   "operator": "drop_statement",
+   "sha256": "4dee752f9acde4c4a701b01122cd9b3055bf9a4aea45fe36c29a57e45f4cb839"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 519,
+    "start_column": 15,
+    "end_line": 519,
+    "end_column": 37,
+    "text": "self._warn is not None"
+   },
+   "operator": "negate",
+   "sha256": "dcf8b6dfb9923cb3f1871676d817b12307679c7383bfb7a069607050cc28718e"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 520,
+    "start_column": 16,
+    "end_line": 520,
+    "end_column": 37,
+    "text": "self._warn(key, wait)"
+   },
+   "operator": "drop_statement",
+   "sha256": "3dad6d51b2c92b823876c6e9b6fa4842bfe5fcfbb7a062dd168e7f1b8b08d2e6"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 531,
+    "start_column": 11,
+    "end_line": 531,
+    "end_column": 35,
+    "text": "self._clock() > deadline"
+   },
+   "operator": "negate",
+   "sha256": "46eea7c6bf20a7a83a2c255051653aa2506c3bc7f11ac45c52a92a3d7313eb6e"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 531,
+    "start_column": 11,
+    "end_line": 531,
+    "end_column": 35,
+    "text": "self._clock() > deadline"
+   },
+   "operator": "swap:>->>=@531:25",
+   "sha256": "1d9e6f0e8ec2eee3be3b4a585c4c258ccd237fc0895827c0564f7862f0749771"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "return_statement",
+    "start_line": 532,
+    "start_column": 12,
+    "end_line": 532,
+    "end_column": 24,
+    "text": "return False"
+   },
+   "operator": "literal:False->True",
+   "sha256": "136139a94ba6b423e9aaab0ef0d258a0d12baa406931c8e02d8cafd9096f38e1"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "true",
+    "start_line": 533,
+    "start_column": 14,
+    "end_line": 533,
+    "end_column": 18,
+    "text": "True"
+   },
+   "operator": "negate",
+   "sha256": "416ee43faaffd310ee09baa8298e51b64f218f409ecf09e79649f7b45e630a7c"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 534,
+    "start_column": 12,
+    "end_line": 534,
+    "end_column": 31,
+    "text": "now = self._clock()"
+   },
+   "operator": "drop_statement",
+   "sha256": "d585b6d0d15e034d4a8a02d450f6043a99d0bc539d0d08b6fc6826b3f4f1ca05"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 535,
+    "start_column": 12,
+    "end_line": 535,
+    "end_column": 39,
+    "text": "ready_at = state.ready_at()"
+   },
+   "operator": "drop_statement",
+   "sha256": "e9d3273fb0b0ab85ac04bd8634edc63408f413155183e8ffc9645cf409d97b8c"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 536,
+    "start_column": 12,
+    "end_line": 537,
+    "end_column": 27,
+    "text": "if now >= ready_at:\r\n                return True"
+   },
+   "operator": "swap_next",
+   "sha256": "8674387481ea5fe3ebf10dc26f1602a0202e1d65345a47beeb0fa6e4736bd6d5"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 536,
+    "start_column": 15,
+    "end_line": 536,
+    "end_column": 30,
+    "text": "now >= ready_at"
+   },
+   "operator": "negate",
+   "sha256": "ae3463857b7889e24b32bbfa819b8cb3bf9e25845cce578d6e06cbd9b24b5b92"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 536,
+    "start_column": 15,
+    "end_line": 536,
+    "end_column": 30,
+    "text": "now >= ready_at"
+   },
+   "operator": "swap:>=->>@536:19",
+   "sha256": "4b83b553fbb743a5ffca126c4224476fcd6bcfc5f85ca231d082907a05fa84ac"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "return_statement",
+    "start_line": 537,
+    "start_column": 16,
+    "end_line": 537,
+    "end_column": 27,
+    "text": "return True"
+   },
+   "operator": "literal:True->False",
+   "sha256": "43951d7500fdf1c21f23c5a8c82fec1c77db2de8dba47b3dfe1fd319146f816a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 538,
+    "start_column": 15,
+    "end_line": 538,
+    "end_column": 34,
+    "text": "ready_at > deadline"
+   },
+   "operator": "negate",
+   "sha256": "d188f4f3e6741a2c51b0b152cc451e6c6efbfaeef59398937087afd4b72764de"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 538,
+    "start_column": 15,
+    "end_line": 538,
+    "end_column": 34,
+    "text": "ready_at > deadline"
+   },
+   "operator": "swap:>->>=@538:24",
+   "sha256": "f3a39398f58f7a349d9d06e7ea7c00d84b96eae3d37c1a1fe7ff1b682c0bca73"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "return_statement",
+    "start_line": 539,
+    "start_column": 16,
+    "end_line": 539,
+    "end_column": 28,
+    "text": "return False"
+   },
+   "operator": "literal:False->True",
+   "sha256": "739b4ad83ddd869de73b04b36ebd69df67cb7243eb50223f2b23abb341083c16"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "await",
+    "start_line": 540,
+    "start_column": 12,
+    "end_line": 540,
+    "end_column": 45,
+    "text": "await self._sleep(ready_at - now)"
+   },
+   "operator": "drop_statement",
+   "sha256": "fe2838ed6e8c2efdc9e7caf5c088c6718593eb55f0e54779cb2c024dc81ddd5a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 544,
+    "start_column": 8,
+    "end_line": 544,
+    "end_column": 41,
+    "text": "rate = self._config.rate_for(key)"
+   },
+   "operator": "drop_statement",
+   "sha256": "242704e388caff76cce013c0fdf3dd97a82d0ca621c045514b2762b5dd0a5ab2"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 554,
+    "start_column": 8,
+    "end_line": 554,
+    "end_column": 35,
+    "text": "state = self._keys.get(key)"
+   },
+   "operator": "drop_statement",
+   "sha256": "96cf679da2e8f11d562ad6926ed7194c3209e8130ea9fdbd3978120cadafde7a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 555,
+    "start_column": 11,
+    "end_line": 555,
+    "end_column": 24,
+    "text": "state is None"
+   },
+   "operator": "negate",
+   "sha256": "ba62db6cb3b3bca397a98396b3f712c88e5cd1494161ff0135136655aca73e41"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 556,
+    "start_column": 12,
+    "end_line": 556,
+    "end_column": 31,
+    "text": "now = self._clock()"
+   },
+   "operator": "drop_statement",
+   "sha256": "203b85e92cc18e58f7540ec9a99771ad377195c3ef4ce503eedd747249a11364"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 560,
+    "start_column": 12,
+    "end_line": 560,
+    "end_column": 49,
+    "text": "state = self._keys[key] = _KeyState()"
+   },
+   "operator": "drop_statement",
+   "sha256": "782bacbae6395a6dc98a80898a78322eb43c68d3e100cf8d4bd4012b13d95746"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 569,
+    "start_column": 8,
+    "end_line": 569,
+    "end_column": 45,
+    "text": "was_head = state.waiters[0] is waiter"
+   },
+   "operator": "drop_statement",
+   "sha256": "1d39460708f8b8e4ce257f052b17eb7e792375fc19b51d9dfa2ea833ca006445"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 570,
+    "start_column": 8,
+    "end_line": 570,
+    "end_column": 36,
+    "text": "state.waiters.remove(waiter)"
+   },
+   "operator": "drop_statement",
+   "sha256": "f86ee5a5db9245ac2e2503d52d92b28ed9bac1913417888e84a6fcdc1432aec7"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 571,
+    "start_column": 11,
+    "end_line": 571,
+    "end_column": 69,
+    "text": "was_head and state.waiters and not state.waiters[0].done()"
+   },
+   "operator": "negate",
+   "sha256": "fe01962c6f08ad415a40991f7d317242c5f1cff31fcad3c7129c19c1c6fe7be8"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 571,
+    "start_column": 11,
+    "end_line": 571,
+    "end_column": 69,
+    "text": "was_head and state.waiters and not state.waiters[0].done()"
+   },
+   "operator": "swap:and->or@571:20",
+   "sha256": "dcd0b1d7c7f23fcfb93390db244fb8c7441886e9cb08cec4f45f4fb6c110ef8a"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 571,
+    "start_column": 11,
+    "end_line": 571,
+    "end_column": 69,
+    "text": "was_head and state.waiters and not state.waiters[0].done()"
+   },
+   "operator": "swap:and->or@571:38",
+   "sha256": "ae75c83cdd822d5909fc4ff224d3ec48ca970e14dcc9a2de9782ed5ceb0aaedf"
+  },
+  {
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 572,
+    "start_column": 12,
+    "end_line": 572,
+    "end_column": 45,
+    "text": "state.waiters[0].set_result(None)"
+   },
+   "operator": "drop_statement",
+   "sha256": "f9d40873ccd0ce5245e71ff20c1eeda1d065bd76280887f0f1d9d0692b8e92a8"
+  }
+ ],
+ "controls": [
+  {
+   "label": "seed:branch_condition@85",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "seed:failure_state@108",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 108,
+     "end_line": 108,
+     "kind": "failure_state",
+     "anchor": "raise RateLimitConfigError(f'{key} must be a positive number')",
+     "reason": "rejects an invalid rate"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "seed:state_write@453",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 453,
+     "end_line": 453,
+     "kind": "state_write",
+     "anchor": "self._held += 1",
+     "reason": "counts a held request"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "wrong_line",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 88,
+     "end_line": 88,
+     "kind": "branch_condition",
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "altered_anchor",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "raw is None or not raw.strip() x",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "partial_anchor",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "raw is None or ",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "punctuation_anchor",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "(",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "in_comment",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 62,
+     "end_line": 62,
+     "kind": "branch_condition",
+     "anchor": "# --- config (Requirements 3.1, 3.2, 3.3, 3.4, 3.6) ---------------------------",
+     "reason": "control: a comment"
+    }
+   ],
+   "expected": [
+    "in_comment_or_string"
+   ],
+   "got": [
+    "in_comment_or_string"
+   ]
+  },
+  {
+   "label": "test_file",
+   "annotations": [
+    {
+     "file": "tests/test_ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "test_file"
+   ],
+   "got": [
+    "test_file"
+   ]
+  },
+  {
+   "label": "outside_scope",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/compat.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "outside_scope"
+   ],
+   "got": [
+    "outside_scope"
+   ]
+  },
+  {
+   "label": "kind_mismatch",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "failure_state",
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "kind_mismatch"
+   ],
+   "got": [
+    "kind_mismatch"
+   ]
+  },
+  {
+   "label": "duplicate",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    },
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "ok",
+    "duplicate"
+   ],
+   "got": [
+    "ok",
+    "duplicate"
+   ]
+  },
+  {
+   "label": "malformed_no_kind",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 85,
+     "end_line": 85,
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ]
+  },
+  {
+   "label": "malformed_lines",
+   "annotations": [
+    {
+     "file": "mvibe_proxy/ratelimit.py",
+     "start_line": 86,
+     "end_line": 85,
+     "kind": "branch_condition",
+     "anchor": "raw is None or not raw.strip()",
+     "reason": "treats an unset or blank setting as absent"
+    }
+   ],
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ]
+  }
+ ],
+ "mutant_controls": [
+  {
+   "label": "identical",
+   "sha256": "110547166ed5b2b53383e4ba5123fca312c1e9d2938ee30be41de44ff2490ab3",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "whitespace_only",
+   "sha256": "0bfc581d28d24fd0afef476adef903485fd29574139d935f97471b37a98183bd",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "comment_only",
+   "sha256": "dc022db20194a7b227b97e799c8dc660c9dcd7f3afae6629699726ca958eda8c",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "real_change",
+   "sha256": "f2a019de905f7fdbbcf82f6ef338127f30120ed9fed21a41253a25c73cb141fd",
+   "expected": "changed",
+   "got": "changed"
+  },
+  {
+   "label": "unparseable",
+   "sha256": "0381a8a7ffdbeffc902e3021731c6ded587ac922da42594f6fd9e66a54e9cef8",
+   "expected": "parse_error",
+   "got": "parse_error"
+  }
+ ]
+}

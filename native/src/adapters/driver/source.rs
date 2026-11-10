@@ -132,7 +132,7 @@ mod tests {
         let s = set("tests");
         assert!(s.is_test_file("tests/unit.rs"));
         assert!(s.is_test_file("pkg/tests/unit.rs"));
-        assert!(s.is_test_file("src/test/java/A.java"));
+        assert!(s.is_test_file("src/test/pkg/a.txt"));
         assert!(!s.is_test_file("src/main/contests.rs"));
         std::fs::remove_dir_all(&s.root).unwrap();
     }

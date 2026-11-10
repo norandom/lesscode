@@ -14,3 +14,6 @@ scripts/release-public-keys.txt text eol=lf
 docs/experiments/annotation-driver/** text eol=lf
 # Shipped language packs are embedded and identified by hash; keep their bytes stable.
 native/packs/*.json text eol=lf
+# Parity fixtures of the agnostic driver: mutant hashes depend on the exact bytes (CRLF as at the gate).
+native/tests/fixtures/driver/scopes/** -text
+native/tests/fixtures/driver/reference/*.json text eol=lf

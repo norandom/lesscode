@@ -1,0 +1,2081 @@
+{
+ "reference": "annotation-driver-prototype-reference-v1",
+ "scope": "typescript-openultracode-state",
+ "language": "typescript",
+ "repository": "OpenUltraCode",
+ "revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "files": [
+  "src/state.ts"
+ ],
+ "test_paths": [
+  "tests/"
+ ],
+ "prototype_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_controls.py": "b31b3d3cb9334ab17f34da1c8977f71cb28e9d381be9b83abbbdeb6ca577dbd2",
+  "controls.json": "3cc3c563ccbf375c9d77ade62c1c29a7288704dbfebbce9e2d9ca40ed492fce0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "tables/typescript.json": "bc65de93b20564ec4f2b2d9b14da5e0ebe53d7e95b2215ce14ec6c532fb6dd6b"
+ },
+ "scope_files_sha256": {
+  "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+ },
+ "controls_spec": {
+  "file": "src/state.ts",
+  "real_change": [
+   "error.code === \"ENOENT\"",
+   "error.code !== \"ENOENT\""
+  ],
+  "comment_text": "// control comment"
+ },
+ "sites": [
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "augmented_assignment_expression",
+   "start_line": 27,
+   "start_column": 55,
+   "end_line": 27,
+   "end_column": 177,
+   "text": "(globalThis as Record<symbol, unknown>)[Symbol.for(\"open-ultracode.state-queues\")] ??= new Map<string, Promise<unknown>>()"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 44,
+   "start_column": 6,
+   "end_line": 44,
+   "end_column": 77,
+   "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "assignment_expression",
+   "start_line": 48,
+   "start_column": 8,
+   "end_line": 48,
+   "end_column": 69,
+   "text": "raw = await retryTransient(() => readFile(statePath, \"utf8\"))"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 50,
+   "start_column": 12,
+   "end_line": 50,
+   "end_column": 57,
+   "text": "isNodeError(error) && error.code === \"ENOENT\""
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 51,
+   "start_column": 10,
+   "end_line": 51,
+   "end_column": 55,
+   "text": "return { state: undefined, degradations: [] }"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 54,
+   "start_column": 8,
+   "end_line": 54,
+   "end_column": 19,
+   "text": "throw error"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "assignment_expression",
+   "start_line": 59,
+   "start_column": 8,
+   "end_line": 59,
+   "end_column": 32,
+   "text": "parsed = JSON.parse(raw)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 61,
+   "start_column": 8,
+   "end_line": 61,
+   "end_column": 35,
+   "text": "return backupCorrupt(error)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "unary_expression",
+   "start_line": 63,
+   "start_column": 10,
+   "end_line": 63,
+   "end_column": 43,
+   "text": "!isPersistedWorkflowState(parsed)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 64,
+   "start_column": 8,
+   "end_line": 64,
+   "end_column": 87,
+   "text": "return backupCorrupt(new Error(\"state file did not match the expected schema\"))"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 67,
+   "start_column": 6,
+   "end_line": 67,
+   "end_column": 54,
+   "text": "return { state: parsed.state, degradations: [] }"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 74,
+   "start_column": 12,
+   "end_line": 74,
+   "end_column": 31,
+   "text": "state === undefined"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 74,
+   "start_column": 33,
+   "end_line": 74,
+   "end_column": 49,
+   "text": "return undefined"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 76,
+   "start_column": 12,
+   "end_line": 76,
+   "end_column": 33,
+   "text": "changed === undefined"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 76,
+   "start_column": 35,
+   "end_line": 76,
+   "end_column": 47,
+   "text": "return state"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 77,
+   "start_column": 8,
+   "end_line": 77,
+   "end_column": 35,
+   "text": "await store.update(changed)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 78,
+   "start_column": 8,
+   "end_line": 78,
+   "end_column": 22,
+   "text": "return changed"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 80,
+   "start_column": 6,
+   "end_line": 80,
+   "end_column": 41,
+   "text": "mutationQueues.set(statePath, next)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 82,
+   "start_column": 12,
+   "end_line": 82,
+   "end_column": 50,
+   "text": "mutationQueues.get(statePath) === next"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "call_expression",
+   "start_line": 82,
+   "start_column": 52,
+   "end_line": 82,
+   "end_column": 84,
+   "text": "mutationQueues.delete(statePath)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 84,
+   "start_column": 6,
+   "end_line": 84,
+   "end_column": 17,
+   "text": "return next"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 88,
+   "start_column": 6,
+   "end_line": 88,
+   "end_column": 77,
+   "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 89,
+   "start_column": 6,
+   "end_line": 89,
+   "end_column": 58,
+   "text": "await mkdir(dirname(statePath), { recursive: true })"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 90,
+   "start_column": 6,
+   "end_line": 90,
+   "end_column": 77,
+   "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 96,
+   "start_column": 6,
+   "end_line": 96,
+   "end_column": 86,
+   "text": "await writeStateAtomically(statePath, `${JSON.stringify(persisted, null, 2)}\\n`)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 100,
+   "start_column": 6,
+   "end_line": 100,
+   "end_column": 77,
+   "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 101,
+   "start_column": 6,
+   "end_line": 101,
+   "end_column": 42,
+   "text": "await rm(statePath, { force: true })"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 106,
+   "start_column": 4,
+   "end_line": 106,
+   "end_column": 39,
+   "text": "await backupCorruptState(statePath)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 107,
+   "start_column": 4,
+   "end_line": 107,
+   "end_column": 80,
+   "text": "return { state: undefined, degradations: [createCorruptStateNotice(error)] }"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 110,
+   "start_column": 2,
+   "end_line": 110,
+   "end_column": 14,
+   "text": "return store"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "augmented_assignment_expression",
+   "start_line": 120,
+   "start_column": 26,
+   "end_line": 120,
+   "end_column": 38,
+   "text": "attempt += 1"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 122,
+   "start_column": 6,
+   "end_line": 122,
+   "end_column": 30,
+   "text": "return await operation()"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 124,
+   "start_column": 10,
+   "end_line": 124,
+   "end_column": 120,
+   "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 124,
+   "start_column": 122,
+   "end_line": 124,
+   "end_column": 133,
+   "text": "throw error"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 125,
+   "start_column": 6,
+   "end_line": 125,
+   "end_column": 70,
+   "text": "await new Promise((resolve) => setTimeout(resolve, 5 * attempt))"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 136,
+   "start_column": 4,
+   "end_line": 136,
+   "end_column": 76,
+   "text": "await writeFile(stagingPath, contents, { encoding: \"utf8\", flag: \"wx\" })"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 137,
+   "start_column": 4,
+   "end_line": 137,
+   "end_column": 62,
+   "text": "await retryTransient(() => rename(stagingPath, statePath))"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 139,
+   "start_column": 4,
+   "end_line": 139,
+   "end_column": 64,
+   "text": "await rm(stagingDirectory, { force: true, recursive: true })"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "unary_expression",
+   "start_line": 144,
+   "start_column": 6,
+   "end_line": 144,
+   "end_column": 48,
+   "text": "!isSafeProjectRelativePath(stateDirectory)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 145,
+   "start_column": 4,
+   "end_line": 145,
+   "end_column": 120,
+   "text": "throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 151,
+   "start_column": 6,
+   "end_line": 151,
+   "end_column": 66,
+   "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 152,
+   "start_column": 4,
+   "end_line": 152,
+   "end_column": 75,
+   "text": "throw new Error(\"state.directory must resolve inside the project root\")"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 155,
+   "start_column": 2,
+   "end_line": 155,
+   "end_column": 18,
+   "text": "return statePath"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 159,
+   "start_column": 6,
+   "end_line": 159,
+   "end_column": 73,
+   "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 160,
+   "start_column": 4,
+   "end_line": 160,
+   "end_column": 16,
+   "text": "return false"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 163,
+   "start_column": 2,
+   "end_line": 163,
+   "end_column": 41,
+   "text": "return !value.split(\"/\").includes(\"..\")"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "unary_expression",
+   "start_line": 163,
+   "start_column": 9,
+   "end_line": 163,
+   "end_column": 41,
+   "text": "!value.split(\"/\").includes(\"..\")"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "assignment_expression",
+   "start_line": 170,
+   "start_column": 4,
+   "end_line": 170,
+   "end_column": 39,
+   "text": "current = resolve(current, segment)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "call_expression",
+   "start_line": 174,
+   "start_column": 10,
+   "end_line": 174,
+   "end_column": 32,
+   "text": "stats.isSymbolicLink()"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 175,
+   "start_column": 8,
+   "end_line": 175,
+   "end_column": 68,
+   "text": "throw new Error(\"state.directory must not contain symlinks\")"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 178,
+   "start_column": 10,
+   "end_line": 178,
+   "end_column": 55,
+   "text": "isNodeError(error) && error.code === \"ENOENT\""
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 179,
+   "start_column": 8,
+   "end_line": 179,
+   "end_column": 14,
+   "text": "return"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 182,
+   "start_column": 6,
+   "end_line": 182,
+   "end_column": 17,
+   "text": "throw error"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "call_expression",
+   "start_line": 188,
+   "start_column": 8,
+   "end_line": 188,
+   "end_column": 30,
+   "text": "stats.isSymbolicLink()"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 189,
+   "start_column": 6,
+   "end_line": 189,
+   "end_column": 66,
+   "text": "throw new Error(\"state.directory must not contain symlinks\")"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 192,
+   "start_column": 8,
+   "end_line": 192,
+   "end_column": 54,
+   "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 193,
+   "start_column": 6,
+   "end_line": 193,
+   "end_column": 17,
+   "text": "throw error"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "state_write",
+   "node_kind": "await_expression",
+   "start_line": 200,
+   "start_column": 4,
+   "end_line": 200,
+   "end_column": 69,
+   "text": "await retryTransient(() => rename(statePath, `${statePath}.bak`))"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 202,
+   "start_column": 8,
+   "end_line": 202,
+   "end_column": 54,
+   "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "throw_statement",
+   "start_line": 203,
+   "start_column": 6,
+   "end_line": 203,
+   "end_column": 17,
+   "text": "throw error"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 209,
+   "start_column": 17,
+   "end_line": 209,
+   "end_column": 39,
+   "text": "error instanceof Error"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 211,
+   "start_column": 2,
+   "end_line": 219,
+   "end_column": 3,
+   "text": "return {\r\n    id: \"workflow-state-corrupt\",\r\n    capability: \"workflow state persistence\",\r\n    severity: \"warning\",\r\n    reason,\r\n    userVisibleMessage: \"The OpenUltraCode workflow state file was corrupt and has been ignored for safety.\",\r\n    safeNextAction: \"Continue with a new workflow state; inspect workflow-state.json.bak if prior context is needed.\",\r\n    occurredAt: new Date().toISOString()\r\n  }"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 223,
+   "start_column": 6,
+   "end_line": 223,
+   "end_column": 90,
+   "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 224,
+   "start_column": 4,
+   "end_line": 224,
+   "end_column": 16,
+   "text": "return false"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 229,
+   "start_column": 2,
+   "end_line": 229,
+   "end_column": 122,
+   "text": "return isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 229,
+   "start_column": 9,
+   "end_line": 229,
+   "end_column": 122,
+   "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 233,
+   "start_column": 2,
+   "end_line": 233,
+   "end_column": 77,
+   "text": "return typeof value === \"object\" && value !== null && !Array.isArray(value)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 233,
+   "start_column": 9,
+   "end_line": 233,
+   "end_column": 77,
+   "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 237,
+   "start_column": 2,
+   "end_line": 237,
+   "end_column": 50,
+   "text": "return error instanceof Error && \"code\" in error"
+  },
+  {
+   "file": "src/state.ts",
+   "kind": "branch_condition",
+   "node_kind": "binary_expression",
+   "start_line": 237,
+   "start_column": 9,
+   "end_line": 237,
+   "end_column": 50,
+   "text": "error instanceof Error && \"code\" in error"
+  }
+ ],
+ "mutants": [
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 44,
+    "start_column": 6,
+    "end_line": 44,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "sha256": "00e32932bf2a165d492b8ab1d7b950f84219b94c18ee53eff432edfb6bb54fb5"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 48,
+    "start_column": 8,
+    "end_line": 48,
+    "end_column": 69,
+    "text": "raw = await retryTransient(() => readFile(statePath, \"utf8\"))"
+   },
+   "operator": "drop_statement",
+   "sha256": "2721c4dbe27f31cb5e5fd6f355aa8561b56790438e9279fce87aade3ae9b7c33"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "negate",
+   "sha256": "91f2cd301bbc3f9c0e8c1d1fdd88dacef1695814964d5662bdb14240e1166acc"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:&&->||@50:31",
+   "sha256": "39a3f2ee66213076023d79a7a28d61b0f54e27999956592fdd43b3cc5992f1c1"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:===->!==@50:45",
+   "sha256": "5b24a9eed054f04148b0df33f1c2a0265c3108791094f1331699b542018908ca"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 54,
+    "start_column": 8,
+    "end_line": 54,
+    "end_column": 19,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "470c4642cc4210c1fdb45fe079396b299ee9deabfeef84e596e1483ae90e112d"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 59,
+    "start_column": 8,
+    "end_line": 59,
+    "end_column": 32,
+    "text": "parsed = JSON.parse(raw)"
+   },
+   "operator": "drop_statement",
+   "sha256": "ea18df3c0a8b34b13d577cb5a961510245cfadf4e9c2f7d29c9afe6656d98ae2"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 63,
+    "start_column": 10,
+    "end_line": 63,
+    "end_column": 43,
+    "text": "!isPersistedWorkflowState(parsed)"
+   },
+   "operator": "negate",
+   "sha256": "4b533c6c392b564a68a7351de705f5898a9b66a6b7d4d3520379e16584618e92"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 74,
+    "start_column": 12,
+    "end_line": 74,
+    "end_column": 31,
+    "text": "state === undefined"
+   },
+   "operator": "negate",
+   "sha256": "3cccb0d913657adcbc65f5860f17f0f28500c22ea826de7920db374116003e10"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 74,
+    "start_column": 12,
+    "end_line": 74,
+    "end_column": 31,
+    "text": "state === undefined"
+   },
+   "operator": "swap:===->!==@74:18",
+   "sha256": "a808cd6d503a29a2dc39a1a92b3f715b9206d7c276741f4e06a74161d773ebf9"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 76,
+    "start_column": 12,
+    "end_line": 76,
+    "end_column": 33,
+    "text": "changed === undefined"
+   },
+   "operator": "negate",
+   "sha256": "7d5857b310979afe2a33be96e9c2e800b410064b8cd65da924a6809dd5cdd13c"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 76,
+    "start_column": 12,
+    "end_line": 76,
+    "end_column": 33,
+    "text": "changed === undefined"
+   },
+   "operator": "swap:===->!==@76:20",
+   "sha256": "509ad28d28ec9d093a4fabe11d66705fd1dc1e380f51ddb3a428f689805786f7"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 77,
+    "start_column": 8,
+    "end_line": 77,
+    "end_column": 35,
+    "text": "await store.update(changed)"
+   },
+   "operator": "drop_statement",
+   "sha256": "cbe0be1df68995e1cec6a8b2f62710b4efd2b9e75463b436aa136e18190f721f"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 80,
+    "start_column": 6,
+    "end_line": 80,
+    "end_column": 41,
+    "text": "mutationQueues.set(statePath, next)"
+   },
+   "operator": "drop_statement",
+   "sha256": "82fa0dcce81c9e46f96847866bb015af1065248b95881b2fab798ba96da1c19f"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 12,
+    "end_line": 82,
+    "end_column": 50,
+    "text": "mutationQueues.get(statePath) === next"
+   },
+   "operator": "negate",
+   "sha256": "279bc89b920fbf6608530ae7418805b24b11d0ffb312a5b9623130ecc3458493"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 12,
+    "end_line": 82,
+    "end_column": 50,
+    "text": "mutationQueues.get(statePath) === next"
+   },
+   "operator": "swap:===->!==@82:42",
+   "sha256": "0733d517abe4ac9020ac5e78cd7acba318dc2e8d231d96d45a2a7d9ab81963b9"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 82,
+    "start_column": 52,
+    "end_line": 82,
+    "end_column": 84,
+    "text": "mutationQueues.delete(statePath)"
+   },
+   "operator": "drop_statement",
+   "sha256": "de7adc1dadc2f73bfc0049ad580c10c7c0672f8f20f54b86678b347c2dc928ed"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 88,
+    "start_column": 6,
+    "end_line": 88,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "sha256": "53fc96f14cb26cc7a35ab59951f10a94d6a904e5173a6d725348a6c283c384eb"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 89,
+    "start_column": 6,
+    "end_line": 89,
+    "end_column": 58,
+    "text": "await mkdir(dirname(statePath), { recursive: true })"
+   },
+   "operator": "drop_statement",
+   "sha256": "a23ab7bd3173bb0cbe0cebf02ecaf9f27093231bf02c2239e20297fecc762256"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 90,
+    "start_column": 6,
+    "end_line": 90,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "sha256": "011469e9084da417b57d1c801d803b5d00f3c88de53f0d2389e6f4a947570426"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 96,
+    "start_column": 6,
+    "end_line": 96,
+    "end_column": 86,
+    "text": "await writeStateAtomically(statePath, `${JSON.stringify(persisted, null, 2)}\\n`)"
+   },
+   "operator": "drop_statement",
+   "sha256": "c7f6bb350e8a1ba2c7a461333951777b9cdc8d7ee0a10fd0e5e5fabf9ef44bce"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 100,
+    "start_column": 6,
+    "end_line": 100,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "sha256": "b9a7b93ee80cd9c9d2ee702025dcd1a29b2b78772d63c0fbfed004932533100d"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 101,
+    "start_column": 6,
+    "end_line": 101,
+    "end_column": 42,
+    "text": "await rm(statePath, { force: true })"
+   },
+   "operator": "drop_statement",
+   "sha256": "2bf44a3f2b4f8e9eb4d19b163c433b416575a50ba0ec81f386d7fee864c3bfed"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 106,
+    "start_column": 4,
+    "end_line": 106,
+    "end_column": 39,
+    "text": "await backupCorruptState(statePath)"
+   },
+   "operator": "drop_statement",
+   "sha256": "5b889a9b99cfd1d7a449f16d9c5b7bcf0a4d1e708f59d0c71fc63885d4a7e070"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "negate",
+   "sha256": "4ff9d661e2c1d3d202ee3a48108f9a6ef899dc95b9da32a7d069ac0cb25a0c3e"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "swap:>=->>@124:18",
+   "sha256": "c0b624f39c9a3df413a4d14f542310753391c91be5bf68fbc560fe4475673214"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "swap:||->&&@124:30",
+   "sha256": "12267c4b5c6ff2a3a9e2f53a2ba5482acf4bdf58228591eba74207ebe36c9f03"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 124,
+    "start_column": 122,
+    "end_line": 124,
+    "end_column": 133,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "6b546a5277dc34ed2715f41d664f184cad2bf085bb24bf9910284cd64bad82a9"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 125,
+    "start_column": 6,
+    "end_line": 125,
+    "end_column": 70,
+    "text": "await new Promise((resolve) => setTimeout(resolve, 5 * attempt))"
+   },
+   "operator": "drop_statement",
+   "sha256": "88f087e009ea705a4684f8506a58cd4a4a688ac80ed1e83136c788d1d40eee1c"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 136,
+    "start_column": 4,
+    "end_line": 136,
+    "end_column": 76,
+    "text": "await writeFile(stagingPath, contents, { encoding: \"utf8\", flag: \"wx\" })"
+   },
+   "operator": "drop_statement",
+   "sha256": "e7a2e77cc69663c85e6dfb5689b743bd862a5474953a11800718ae7051e4005f"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 137,
+    "start_column": 4,
+    "end_line": 137,
+    "end_column": 62,
+    "text": "await retryTransient(() => rename(stagingPath, statePath))"
+   },
+   "operator": "drop_statement",
+   "sha256": "6db56daad28d63aca76e3fc66a7096888e3814d7ec6dca2fbf342d9d62b53291"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 139,
+    "start_column": 4,
+    "end_line": 139,
+    "end_column": 64,
+    "text": "await rm(stagingDirectory, { force: true, recursive: true })"
+   },
+   "operator": "drop_statement",
+   "sha256": "a023a62b01228a3dde39cea106185a174f83fd04f35c78da48cd7b79b3c53a1a"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 144,
+    "start_column": 6,
+    "end_line": 144,
+    "end_column": 48,
+    "text": "!isSafeProjectRelativePath(stateDirectory)"
+   },
+   "operator": "negate",
+   "sha256": "b2f40e01667b01f7a6abcb75ba500ca707f95ebc4bc81eadc8b2e5ed6764d776"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 145,
+    "start_column": 4,
+    "end_line": 145,
+    "end_column": 120,
+    "text": "throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "8ffe665c9c0c62e65c56d3cf517c3a92dcbd7ce8f7fbaa5e4a86ec91cb5b8a0d"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "negate",
+   "sha256": "4297f34a65720a99d308e7f1f44910b14a0bf73eb57813d0cabb626509673cf2"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "swap:!==->===@151:16",
+   "sha256": "23ab0a96d234b9bcd4e7b153cf9f4abc9f8e5182977beecba3f85b9568333468"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "swap:&&->||@151:25",
+   "sha256": "d52ca20fb5e3038add255c73b6216ff0f5d51059809f0db72726c3cceae3bca9"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 152,
+    "start_column": 4,
+    "end_line": 152,
+    "end_column": 75,
+    "text": "throw new Error(\"state.directory must resolve inside the project root\")"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "140d1e9335405e6a0444da22719963e40bc3a5046254389096ae5216b614f615"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "negate",
+   "sha256": "be2e552ad21cc172d249c690365d3f5c216617114275f51458c486f45146a88e"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "swap:===->!==@159:19",
+   "sha256": "d8cecb2b779323b1fdb82fea55c738923e29e9f9f2604dc20662b89e3b7a41f6"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "swap:||->&&@159:25",
+   "sha256": "e0e86ef0946596f8c3fbe66924dd4583227081ed77b0f41eafbbcdf7841c28f6"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "return_statement",
+    "start_line": 160,
+    "start_column": 4,
+    "end_line": 160,
+    "end_column": 16,
+    "text": "return false"
+   },
+   "operator": "literal:false->true",
+   "sha256": "d0fad01da51f630a44214a56d62c6c151651bac1de0ca1a31a5583f789476cc1"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 163,
+    "start_column": 9,
+    "end_line": 163,
+    "end_column": 41,
+    "text": "!value.split(\"/\").includes(\"..\")"
+   },
+   "operator": "negate",
+   "sha256": "e9161aa8943c1e06f25f8f297a42822e0c9863264849cb2a0fc8ed2fd37facdf"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 170,
+    "start_column": 4,
+    "end_line": 170,
+    "end_column": 39,
+    "text": "current = resolve(current, segment)"
+   },
+   "operator": "drop_statement",
+   "sha256": "aaf5b8e089242ec8df82612f7131b6df4cb0bd18b726eeef760e52f80806c571"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 174,
+    "start_column": 10,
+    "end_line": 174,
+    "end_column": 32,
+    "text": "stats.isSymbolicLink()"
+   },
+   "operator": "negate",
+   "sha256": "c8f096d8ee987f489cdb1b0c5f819a2b928f009068e37fdf0f777686e9bb8c98"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 175,
+    "start_column": 8,
+    "end_line": 175,
+    "end_column": 68,
+    "text": "throw new Error(\"state.directory must not contain symlinks\")"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "f42168de6b3d21c5cdbdcf5bee594497a18ae5d2b694bbc99ece75870474838e"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "negate",
+   "sha256": "d862b3256067744c01d5a4b7663b37670723ba044695287049d4a7f33ca54fd2"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:&&->||@178:29",
+   "sha256": "c51d3b8703a91777f9ba97665d80f5105d83901c44907120c17f821014a7c7ed"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:===->!==@178:43",
+   "sha256": "721f9a5d65be97992cfb08c97a97908fb8026d6bd8339c4587373a9f0dea80ee"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 182,
+    "start_column": 6,
+    "end_line": 182,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "486efbf8d99133c888fd60d4aeb67dc881ed696bcd71efc50b9216fb8dad0058"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 188,
+    "start_column": 8,
+    "end_line": 188,
+    "end_column": 30,
+    "text": "stats.isSymbolicLink()"
+   },
+   "operator": "negate",
+   "sha256": "a517d9550f38619015c9c6958ab7dfccc30a00d365c46a90485d6333b2641df2"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 189,
+    "start_column": 6,
+    "end_line": 189,
+    "end_column": 66,
+    "text": "throw new Error(\"state.directory must not contain symlinks\")"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "8bb6748472e40f8a4eb65f61c1436d1762ab6a746ea388f55af3407e9548e3b8"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "negate",
+   "sha256": "258ab539078de45dc28836798b89070a31dfdf701fdb06752c82ce214ba7f57d"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:||->&&@192:28",
+   "sha256": "016f733fee606cd94a6046b0aee9e49fb137647a999affc8fbfdf38e60d4de88"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:!==->===@192:42",
+   "sha256": "623eab1f86295f68f7b2f15f8d525e4a856f093fbad4cfd6e89bd7fa0e6832b1"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 193,
+    "start_column": 6,
+    "end_line": 193,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "44b0dd93ee807727fec7f454e3129c039834b287c07655d55c2297741ea39e80"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 200,
+    "start_column": 4,
+    "end_line": 200,
+    "end_column": 69,
+    "text": "await retryTransient(() => rename(statePath, `${statePath}.bak`))"
+   },
+   "operator": "drop_statement",
+   "sha256": "519f1ef1335b627ebf377d2e38078347715342d1dab42cd5daa5d9dd9efff062"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "negate",
+   "sha256": "2026ca68fc3863a8426d3ef354cacbc1875f560024ad067663983e92cf10c50c"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:||->&&@202:28",
+   "sha256": "1f23761c4d340ccfd2aa5fa183c6264b352079b074d9958cc5b6b0a9b00fb9e4"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:!==->===@202:42",
+   "sha256": "581cb27a1f86475c4a5e94e566d8d5fcdee050447e348871eddbf76459a015f9"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 203,
+    "start_column": 6,
+    "end_line": 203,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "sha256": "be9019a032f5e3647cfa0e65286629a276ca340f40d990ce79bc31ae45ffde40"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 209,
+    "start_column": 17,
+    "end_line": 209,
+    "end_column": 39,
+    "text": "error instanceof Error"
+   },
+   "operator": "negate",
+   "sha256": "b89bd46bcd3a3061c2674137a3c6ec3c176565293aefb7ff5a9094dc3f6a8d2c"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "negate",
+   "sha256": "91b1d8339968906d7d6c08a9d48c17612bddfc7660e323643f592f6e717274bb"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "swap:||->&&@223:23",
+   "sha256": "8a9df7095c7d39df0a87d93ca25645db349266004958c600447d7ec9908f821d"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "swap:!==->===@223:46",
+   "sha256": "575a90e03460c541aa019871b0fedfbe02e7c9c5c8c46132ab1faad6e308742b"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "return_statement",
+    "start_line": 224,
+    "start_column": 4,
+    "end_line": 224,
+    "end_column": 16,
+    "text": "return false"
+   },
+   "operator": "literal:false->true",
+   "sha256": "b9a70219b6ebb2ee0828bf05e49f115f80c59cf9a70205860db295a87d81e5dc"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "negate",
+   "sha256": "b7cecaafef26a5f59818f9c2e3c8fa1891fba8ba9b88d85530938e9c326bd2a8"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "swap:&&->||@229:25",
+   "sha256": "30d0467749ab0f02dbc480f76cdea67ff834d2257c5237edd62647f90f0e4a12"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "swap:===->!==@229:48",
+   "sha256": "441e69d4bc0bae87e2d2a8c7839ceb6abee118b35c336c13c571381f7a8b0ccb"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "negate",
+   "sha256": "11bcb5ad027c01ffb7d1bae9ed7124bff07f1ee2ce626eee93e8d411086dfddf"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "swap:===->!==@233:22",
+   "sha256": "774819da4df46a65d0998b8a93ab665670fbcb47edac44a6f1a7d79389e02ac1"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "swap:&&->||@233:35",
+   "sha256": "197d6e9f8992a735c16af69104a1d709722eeca249936c550b5d64e6ea2612ab"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 237,
+    "start_column": 9,
+    "end_line": 237,
+    "end_column": 50,
+    "text": "error instanceof Error && \"code\" in error"
+   },
+   "operator": "negate",
+   "sha256": "6ef5bedc3aa40a5b962e1d3a078b7d0500b28f82c8ff4090ff1349ca1ca0105b"
+  },
+  {
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 237,
+    "start_column": 9,
+    "end_line": 237,
+    "end_column": 50,
+    "text": "error instanceof Error && \"code\" in error"
+   },
+   "operator": "swap:&&->||@237:32",
+   "sha256": "705aac9402e4330593c7e02f3bf87eb8e73dd50a0b0308f09ea1c0b3838044f7"
+  }
+ ],
+ "controls": [
+  {
+   "label": "seed:branch_condition@50",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "seed:failure_state@54",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 54,
+     "end_line": 54,
+     "kind": "failure_state",
+     "anchor": "throw error",
+     "reason": "any other read error propagates"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "seed:state_write@59",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 59,
+     "end_line": 59,
+     "kind": "state_write",
+     "anchor": "parsed = JSON.parse(raw)",
+     "reason": "holds the parsed state"
+    }
+   ],
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ]
+  },
+  {
+   "label": "wrong_line",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 53,
+     "end_line": 53,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "altered_anchor",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\" x",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "partial_anchor",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && ",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "punctuation_anchor",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "{",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ]
+  },
+  {
+   "label": "in_comment",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 26,
+     "end_line": 26,
+     "kind": "branch_condition",
+     "anchor": "// One queue per state file and process: every plugin instance and tool shares it.",
+     "reason": "control: a comment"
+    }
+   ],
+   "expected": [
+    "in_comment_or_string"
+   ],
+   "got": [
+    "in_comment_or_string"
+   ]
+  },
+  {
+   "label": "test_file",
+   "annotations": [
+    {
+     "file": "tests/state.test.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "test_file"
+   ],
+   "got": [
+    "test_file"
+   ]
+  },
+  {
+   "label": "outside_scope",
+   "annotations": [
+    {
+     "file": "src/config.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "outside_scope"
+   ],
+   "got": [
+    "outside_scope"
+   ]
+  },
+  {
+   "label": "kind_mismatch",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "failure_state",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "kind_mismatch"
+   ],
+   "got": [
+    "kind_mismatch"
+   ]
+  },
+  {
+   "label": "duplicate",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    },
+    {
+     "file": "src/state.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "ok",
+    "duplicate"
+   ],
+   "got": [
+    "ok",
+    "duplicate"
+   ]
+  },
+  {
+   "label": "malformed_no_kind",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 50,
+     "end_line": 50,
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ]
+  },
+  {
+   "label": "malformed_lines",
+   "annotations": [
+    {
+     "file": "src/state.ts",
+     "start_line": 51,
+     "end_line": 50,
+     "kind": "branch_condition",
+     "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+     "reason": "a missing state file is not an error"
+    }
+   ],
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ]
+  }
+ ],
+ "mutant_controls": [
+  {
+   "label": "identical",
+   "sha256": "805a3dc41933bffa1a278027f4e2ba5979388551e3671097e23082678afefe35",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "whitespace_only",
+   "sha256": "aaf50a1fb85bba6b09ed902a16d3a32e5f1f113d5f0cf673a87597faa5e96144",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "comment_only",
+   "sha256": "f86c41452ad134f641e6f19f6ff03be2d9a974beeb5ed4731685a13e76c22266",
+   "expected": "no_op",
+   "got": "no_op"
+  },
+  {
+   "label": "real_change",
+   "sha256": "86ec32df9ee5921dc039bf8f23f7de3b28cabd0c690ae7d463222e0a623d8b16",
+   "expected": "changed",
+   "got": "changed"
+  },
+  {
+   "label": "unparseable",
+   "sha256": "b29b86803cec6f3aacaa951b2831433c19d78b12596312f2e0fd822e6decda8d",
+   "expected": "parse_error",
+   "got": "parse_error"
+  }
+ ]
+}
