@@ -27,6 +27,13 @@ is pinned to v8.4.1's commit. Only native source, tests and the check script ent
 the container; local environments, experiments and build outputs are filtered.
 See Dagger's [directory filtering](https://docs.dagger.io/reference/api/directory/).
 
+Both the Actions runners and the Dagger container install nextest with
+`tools/install_nextest.sh`, which downloads the 0.9.143 release binary for the
+platform and verifies it against a SHA-256 digest pinned in the script. Compiling
+nextest from source took between two and twelve minutes per job and was most
+of each run. Updating nextest means changing the version and the digests
+together; the script header shows how to list them. No build cache is used.
+
 Checks cover formatting, Clippy with warnings denied, nextest with four workers,
 doctests, build and CLI help. Every command retains a log and exit code.
 `evidence` exports these even when a check fails; `check` enforces the aggregate

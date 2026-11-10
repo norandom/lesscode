@@ -65,7 +65,7 @@ jobs:
           printf '%s\n' "$status" > "$RUNNER_TEMP/native-core-evidence/toolchain.exit-code"
           exit "$status"
       - name: Install pinned native test runner
-        run: cargo +1.98.1 install --locked cargo-nextest --version 0.9.143
+        run: bash tools/install_nextest.sh
       - name: Check native correctness with locked dependencies
         id: checks
         run: bash tools/check_native.sh "$RUNNER_TEMP/native-core-evidence"

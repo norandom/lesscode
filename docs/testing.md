@@ -12,6 +12,10 @@ cargo +1.98.1 nextest run --locked --manifest-path native/Cargo.toml --test-thre
 cargo +1.98.1 test --locked --manifest-path native/Cargo.toml --doc
 ```
 
+CI installs the same nextest version as a prebuilt, digest-checked binary with
+`bash tools/install_nextest.sh` instead of compiling it; you can use that locally
+too.
+
 Nextest runs tests in separate processes. Its worker count is independent of
 Cargo build jobs. Keep the separate doctest command: nextest does not replace
 that coverage. The native CI uses these commands and retains their output.

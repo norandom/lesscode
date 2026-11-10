@@ -15,14 +15,15 @@ type LesscodeCi struct{}
 // Use Check to enforce the recorded result.
 func (m *LesscodeCi) Evidence(
 	// +defaultPath="/"
-	// +ignore=["**", "!native/**", "!tools/check_native.sh", "native/target/**"]
+	// +ignore=["**", "!native/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "native/target/**"]
 	source *dagger.Directory,
 	revision string,
 ) *dagger.Directory {
 	return dag.Container().
 		From("rust:1.98.1-bookworm").
 		WithExec([]string{"rustup", "component", "add", "rustfmt", "clippy"}).
-		WithExec([]string{"cargo", "install", "--locked", "cargo-nextest", "--version", "0.9.143"}).
+		WithFile("/workspace/tools/install_nextest.sh", source.File("tools/install_nextest.sh")).
+		WithExec([]string{"bash", "/workspace/tools/install_nextest.sh"}).
 		WithMountedCache("/usr/local/cargo/registry", dag.CacheVolume("lesscode-cargo-registry-1.98.1")).
 		WithDirectory("/workspace/native", source.Directory("native")).
 		WithFile("/workspace/tools/check_native.sh", source.File("tools/check_native.sh")).
@@ -37,7 +38,7 @@ func (m *LesscodeCi) Evidence(
 func (m *LesscodeCi) Check(
 	ctx context.Context,
 	// +defaultPath="/"
-	// +ignore=["**", "!native/**", "!tools/check_native.sh", "native/target/**"]
+	// +ignore=["**", "!native/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "native/target/**"]
 	source *dagger.Directory,
 	revision string,
 ) (string, error) {
