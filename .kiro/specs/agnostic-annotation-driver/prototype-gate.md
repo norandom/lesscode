@@ -573,6 +573,21 @@ run needs a new dated owner decision.
   port the kind check and one operator, count the lines); the cap is decided
   with that measurement. Requirements are in [requirements.md](requirements.md).
 
+## Sizing spike, 2026-11-10 ([R65](../../../docs/research/2026-11-10/11-annotation-driver-rust-sizing-spike.md))
+
+A Rust port of the model-free core, in an isolated package on the crate's
+pinned parser, reproduces the prototype exactly on the five scopes (sites,
+mutants by hash, 98 controls, pack admission, classification). Measured:
+core 898 canonical lines, pack admission 413 as ported, against 753
+canonical lines of adapters it makes removable; two grammar crates added.
+
+Correction to "Result of attempt 2" and to the owner-decision note above:
+the statement that the apparatus is at its cap and that the port needs the
+cap raised or an equal removal was not checked against the cap's counted
+set. That set (R41) lists fixed files and contains neither the adapters
+nor the deconvolution command code. Whether the driver enters the counted
+set is the open owner decision; the batch runner is still unsized.
+
 ## Result of attempt 1, 2026-11-10
 
 Outcome `revise`; full tables and limits in R61. No design approval and no

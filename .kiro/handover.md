@@ -23,9 +23,11 @@ has the result table, the open decisions, the owner's rules and the commands.
 2. **Owner decided (2026-11-10 evening):** the apparatus is ported to Rust,
    one runtime; breaking codebases must be avoided. Feasibility report:
    [docs/reports/agnostic-driver-feasibility.md](../docs/reports/agnostic-driver-feasibility.md).
-   Owner approved: mutation and analysis ported together; sizing spike as
-   the first design step; cap decided after it. **Requirements are
-   generated (nine areas) and await the owner's approval;** then design.
+   Owner approved: mutation and analysis ported together; requirements
+   approved. **Sizing spike done (R65): exact parity with the prototype,
+   core 898 canonical lines against 753 removable.** Waiting for the owner:
+   whether the driver counts toward the 7,173-line cap (its counted set
+   does not contain the adapters). Design continues with the batch runner.
 3. **Second priority, not to be forgotten (owner, 2026-11-10): Slice B,**
    hardening against LLM inference drift, in `constraint-guided-compression`
    (requirements Amendment 5). Not started. It starts when the driver's

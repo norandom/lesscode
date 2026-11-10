@@ -2,7 +2,17 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R64 Annotation-driver gate, attempt 2: mechanism rows met for the rules-as-data form (2026-11-10)
+## Latest: R65 Rust sizing spike for the driver: exact parity, measured size (2026-11-10)
+
+[R65](2026-11-10/11-annotation-driver-rust-sizing-spike.md) is the first step of the
+design phase for `agnostic-annotation-driver`.
+- **Parity:** a Rust port of the model-free core on the crate's pinned parser (0.51.0) gives exactly the prototype's sites and mutants on all five scopes, the same outcome on 98 controls, and the same pack admission and classification results. No grammar difference; no pack changed.
+- **Size:** core 898 canonical lines (1,035 physical), pack admission 413 as ported; the adapters it makes removable are 753 canonical lines. Two grammar crates are added (MIT); the binary grows by about 1.5 MB.
+- **Corrections:** the earlier estimate (750 to 1,000) omitted pack admission; and the earlier statement that the port must fit under the 7,173-line cap was unchecked: the cap's counted set (R41) contains neither the adapters nor the deconvolution command code.
+- **Open:** how the driver is accounted against the cap (owner), and the batch runner, which was not ported or sized.
+- **Queue:** Slice B (drift hardening) stays second and starts when the driver's design is approved.
+
+## Prior: R64 Annotation-driver gate, attempt 2: mechanism rows met for the rules-as-data form (2026-11-10)
 
 [R64](2026-11-10/10-annotation-driver-gate-attempt2.md) reports the second and last
 gate attempt.

@@ -194,8 +194,23 @@ that R55 found missing; since 1.0.2 that command only reports that it is not imp
 runner code or may add to the count, and it uses physical lines where the cap counts canonical lines of a
 defined set. It needs a measurement before it carries a decision.
 
-### Speed
+Amendment, 2026-11-10 (after the sizing spike,
+[R65](../research/2026-11-10/11-annotation-driver-rust-sizing-spike.md)). The spike replaced the estimate
+with a measurement and corrected two things in this section.
 
+- Size. A faithful Rust port of the engine and validator is 1,035 physical lines, 898 canonical, at the top
+  of the estimated range. The estimate had left out pack admission, which is another 413 canonical lines as
+  ported. The removable adapter files are 753 canonical lines. On a whole-crate view the core is a net of 145
+  canonical lines more.
+- The cap. This section assumed the port must fit under the 7,173-line cap by removing as much as it adds.
+  The cap's counted set (R41) is a fixed list of files that contains neither the adapters nor the
+  deconvolution command code, so removing the adapters does not lower the counted figure. Whether the driver
+  counts toward the cap is the owner's decision; under the way the cap has been applied so far, the adapters
+  were outside it.
+- The grammar risk did not materialise: with the crate's own parser version the port reproduces the
+  prototype's sites and mutants exactly on all five scopes.
+
+### Speed
 After the batching was changed (R62), a full pass takes about 90 seconds for 199 Python mutants, 70 and 94
 seconds for the two TypeScript files and under 12 minutes for 189 Java mutants, with six workers. Rust is the
 exception. Each mutant needs a rebuild of the crate under test, about 12 to 21 seconds, and four concurrent
