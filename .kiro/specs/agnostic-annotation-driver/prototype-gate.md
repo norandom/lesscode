@@ -335,6 +335,39 @@ limit is `timeout`, neither killed nor survived. The clone was restored from
 its commit and its file hash matches R57. D1 for Rust, Python and TypeScript
 had already finished and is not affected.
 
+## Amendment 6, 2026-11-10 (before any D2 call): how model-written packs are made and admitted
+
+Fixed while the counted arm A mutation batches were running and before any
+pack-authoring call. It makes Amendment 3b's D2 precise.
+
+- **Input to the model.** A pack authoring guide (`pack-guide-v0.md`,
+  SHA-256 `2a6eab36fb8a4ebbb20c7369e832bef22306648feccbacf15a9fdde7990abe44` at the time of
+  writing) as the system message; the example packs and the name of the
+  target language as the user message. The model is not given the grammar's
+  node kinds, the scope, or the hand-written pack of the target language.
+- **Developing the guide without the held-out languages.** The guide may be
+  revised only from leave-one-out trials on the development languages: the
+  model writes the Python pack from the Rust pack alone, and the Rust pack
+  from the Python pack alone, and each is checked as below against its own
+  scope. The guide is then frozen by hash before any TypeScript or Java
+  call.
+- **Admission, all deterministic.** A model-written pack is admitted only if
+  it is one JSON object of at most 40 lines and 2,500 characters with the
+  expected fields, every node kind it names exists in the grammar, its
+  templates use only the known placeholders, the scope's hand-made controls
+  all behave as expected with it, and every control seed that has an
+  operator yields a real change.
+- **One repair.** If the first pack is not admitted, the model gets the list
+  of failed checks (names of invalid kinds, labels of failing controls; no
+  source text) and one more attempt. A pack not admitted after that is a D2
+  failure for the language.
+- **D2 run.** For TypeScript and Java the examples are the Rust and Python
+  packs. An admitted pack is run exactly like D1 (same seed and cap) and
+  judged by the same rows. Agreement with the hand-written pack is reported
+  as the share of eligible sites the two packs have in common.
+- **Counting.** Authoring calls count toward the 20 USD cap. The two
+  development trials are not counted runs.
+
 ## Evidence record
 
 Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58, the engine checks in the R59 addition.
