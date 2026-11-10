@@ -37,6 +37,24 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/source.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Read-only source access and text conventions (task 1.3, REQ 2.6)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/tree.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Parsing and syntax-tree helpers (task 1.3, REQ 2.5)",
+   "disposition": null
+  },
+  {
    "path": "adapters/java/analysis.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

@@ -17,7 +17,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
 
 ## Tasks
 
-- [ ] 1. Foundation: grammars, packs and the read-only helpers
+- [x] 1. Foundation: grammars, packs and the read-only helpers
 - [x] 1.1 Switch on the Rust and Java grammar features and record the dependencies
   - Add the two features of the pinned parser crate; update the lock file, `LICENSES.md` and
     `THIRD_PARTY_NOTICES.txt`.
@@ -30,13 +30,13 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     is a distinct "not supported" result.
   - Done when unit tests load all four embedded packs and reject an unknown language and a mistyped pack.
   - _Requirements: 1.1, 1.2, 1.6_
-- [ ] 1.3 (P) Add the tree and source helpers
+- [x] 1.3 (P) Add the tree and source helpers
   - `driver/tree.rs` (parse without panicking, wrapper chains, child and token helpers) and
     `driver/source.rs` (file reading that keeps line endings, the test-path rule).
   - Done when unit tests cover CRLF input, non-ASCII columns and a file that does not parse.
   - _Boundary: driver/tree.rs, driver/source.rs_
   - _Requirements: 2.5, 2.6_
-- [ ] 1.4 Register the driver files in the complexity budgets
+- [x] 1.4 Register the driver files in the complexity budgets
   - Add each new file to `native/complexity-budgets.json` at the default ceilings; the budgets test passes.
   - _Requirements: 8.2, 8.3_
 

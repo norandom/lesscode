@@ -6,6 +6,8 @@
 
 pub mod pack;
 pub mod registry;
+pub mod source;
+pub mod tree;
 
 use serde::{Deserialize, Serialize};
 
