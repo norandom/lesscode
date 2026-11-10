@@ -79,6 +79,7 @@ not a default reduction target.
 
 ## Active specifications
 
+- `agnostic-annotation-driver`: initialized 2026-11-10 as the owner's top priority (R56); brief and prototype gate written, gate not-run, no requirements, design or tasks. R55 narrowed the dogfood claims below: the porcelain mutation operators are specimen-bound and the hook enforces budgets only.
 - `dogfood-self-application`: requirements, design, tasks, and full clean-clone dogfooding validation completed with GO decision on 2026-11-09; verified across 352 native tests (100% pass), CRLF byte preservation in `.gitattributes`, deconvolution porcelain CLI, and intelligent Git pre-push hook integration (R54).
 - `rust-deconvolution-unification`: requirements, design, tasks, prototype gate (R52), foreground TDD implementation (6 tasks), and validation completed with GO decision on 2026-11-09; adapter verified across 338 native tests (24 Rust adapter tests) and native lifecycle supervisor candidate (−40.32% lines, −15.66% statements, 100% adverse sensitivity).
 - `java-deconvolution-unification`: requirements, design, tasks, prototype gate (R51), foreground TDD implementation (6 tasks), and validation completed with GO decision on 2026-11-09; adapter verified across 314 native tests (24 Java adapter tests) and real specimen `apache/commons-csv` `CSVPrinter.java` candidate (−38.46% lines, −27.68% statements, 100% adverse sensitivity).

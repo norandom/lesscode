@@ -81,6 +81,16 @@ conditions are proposed for the design and remain open to review:
 - The apparatus ceiling (R41, 7,173 canonical lines) and the complexity
   budgets continue to apply.
 
+Priority and placement, added 2026-11-10 after the owner's follow-up
+([R56](../../../docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md)):
+the agnostic driver is the top priority and hardening against inference drift
+is second. The driver, with its annotation contract, guide and prototype
+gate, is specified in
+[agnostic-annotation-driver](../agnostic-annotation-driver/brief.md). This spec
+keeps the drift work (`MIPROv2`, `GEPA` if needed, multi-turn control) and takes
+its baseline from that gate; the conditions above remain the proposed
+constraints for both.
+
 This amendment records a direction. It does not approve a design or tasks,
 does not schedule Slice B adoption, and requires a bounded real-code prototype
 gate (`Req 7.9`, `7.10`, [prototype-first](../../steering/prototype-first.md))

@@ -29,6 +29,10 @@ Updated 2026-11-10 (details and evidence in [task 27 handover](task_27_handover.
    task, recorded as `constraint-guided-compression` requirements Amendment 5;
    a prototype gate comes before any design or tasks. Python `analyze` and
    the hook check are still open.
+   **Top priority (owner, 2026-11-10): the agnostic driver.** New spec
+   [agnostic-annotation-driver](specs/agnostic-annotation-driver/brief.md)
+   with a prototype gate (not-run), R56. Inference-drift hardening is second
+   and stays in Slice B. Next step: owner go to screen scopes and run the gate.
 5. **CI is faster.** nextest is installed as a prebuilt digest-checked binary
    (`tools/install_nextest.sh`), also inside the Dagger container. Jobs take
    about 1.5 to 4 minutes instead of 6 to 16. No build cache was added.

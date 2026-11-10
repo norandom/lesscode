@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R55 The released binary used as an adopter would use it (2026-11-10)
+## Latest: R56 Direction: agnostic annotation-guided driver, gate before design (2026-11-10)
+
+[R56](2026-11-10/02-agnostic-annotation-driver-direction.md) records the owner's
+priorities after R55 and the plan that follows. Nothing has been run.
+- **Priorities:** (1) a driver that is agnostic to code and language, so the process applies horizontally; (2) hardening against LLM inference drift. Both rest on an annotation-guidance process, later optimised with bounded and verified `MIPROv2` (`GEPA` if needed). Opus endpoint now, Mistral later.
+- **Hypothesis H-AD1:** the model returns located annotations from a fixed taxonomy and writes no code; a deterministic validator and generic operators produce mutants; real tests classify them; one frozen guide works on languages it was not developed on.
+- **Spec:** new [`agnostic-annotation-driver`](../../.kiro/specs/agnostic-annotation-driver/brief.md) at phase `initialized`, with a [prototype gate](../../.kiro/specs/agnostic-annotation-driver/prototype-gate.md) (status not-run): three arms (annotation-guided, fixed operators as control, an existing mutation tool per language), four scopes outside the specimens, guide developed on Rust and Python and frozen for TypeScript and Java, targets fixed before execution, stop in favour of existing tools as a valid outcome.
+- **Next gate:** the owner's go to screen scopes and run it.
+
+## Prior: R55 The released binary used as an adopter would use it (2026-11-10)
 
 [R55](2026-11-10/01-released-binary-adopter-dogfood.md) runs the 1.0.1 binary's
 documented commands against this repository from the outside:

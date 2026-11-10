@@ -1,0 +1,34 @@
+{
+  "feature_name": "agnostic-annotation-driver",
+  "created_at": "2026-11-10T10:30:00+01:00",
+  "updated_at": "2026-11-10T10:30:00+01:00",
+  "language": "en",
+  "phase": "initialized",
+  "approvals": {
+    "requirements": {
+      "generated": false,
+      "approved": false
+    },
+    "design": {
+      "generated": false,
+      "approved": false
+    },
+    "tasks": {
+      "generated": false,
+      "approved": false
+    }
+  },
+  "ready_for_implementation": false,
+  "prototype_gate": "prototype-gate.md",
+  "prototype_status": "not-run",
+  "related": [
+    "constraint-guided-compression",
+    "refinement-evidence-integrity",
+    "native-deconvolution-closure"
+  ],
+  "evidence": [
+    "docs/research/2026-11-10/01-released-binary-adopter-dogfood.md",
+    "docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md"
+  ],
+  "notes": "2026-11-10: owner set priorities (agnostic driver first, inference-drift hardening second) and approved a new spec with mutation as the first annotation consumer. Brief and prototype gate written for review; gate not run. No requirements, design or tasks generated. Gate execution needs the owner's go (external scopes, model spend)."
+}
