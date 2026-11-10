@@ -90,6 +90,16 @@ container of the Java run was left.
 - Group 7 (removing the old adapters) now has what it was waiting for: the driver reproduces the prototype
   on real projects.
 
+## Addition, 2026-11-10, about 22:45 to 23:00: the Java explanation tested, 556 of 556
+
+The explanation given above for the two Java differences was tested. The driver now hands a step's scaled
+time limit to a command that asks for it (`{limit_s}` in an argument, commit `643de44`), and the Java
+configuration passes it to the inner `timeout` (`java-scaled-config.json`). The whole Java scope was run
+again in fresh copies: 170 of 170 mutants have the prototype's class (108 killed, 35 survived, 15 invalid,
+12 timeouts; limits of 59 to 62 seconds from baselines of about 12 seconds). With that, every one of the 556
+mutants that both sides ran has the same class. The first Java receipt with its fixed limit is kept beside
+the second.
+
 ## Addition, 2026-11-10: platforms, binary size and build time (task 8.2)
 
 - The existing CI matrix (Linux x86_64 through Dagger, Linux aarch64, Windows, macOS on Intel and on Apple

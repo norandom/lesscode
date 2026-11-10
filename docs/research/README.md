@@ -5,7 +5,7 @@
 ## Latest: R73 Native driver runs the five gate scopes end to end; 554 of 556 mutants classed as by the prototype (2026-11-10)
 
 [R73](2026-11-10/19-native-driver-batches-on-gate-scopes.md) is task 8.1 of `agnostic-annotation-driver`.
-- **Result:** `deconvolute run` on the gate's Python, TypeScript (two files), Rust and Java scopes with the projects' own tests: every mutant both sides ran has the same class, except two Java mutants that are timeouts under this run's tighter limit. Mutants only the prototype has are the 38 dropped repeats.
+- **Result:** `deconvolute run` on the gate's Python, TypeScript (two files), Rust and Java scopes with the projects' own tests: every mutant both sides ran has the same class (556 of 556). A first Java run with a fixed time limit had two timeouts the prototype did not; with the limit scaled from the baseline they agree. Mutants only the prototype has are the 38 dropped repeats.
 - **Safety:** no scope file changed; no container left behind.
 - **Speed:** Python 118 s and TypeScript about 100 s with six copies; Java 814 s with four containers; Rust about 23 minutes, serial.
 - **Open:** final validation and the removal of the old adapters (task groups 7 and 8.3) need the owner.
