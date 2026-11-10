@@ -73,8 +73,10 @@ Generated from locked Cargo metadata; includes target-specific and optional lock
 | toml_edit | 0.25.17+spec-1.1.0 | MIT OR Apache-2.0 |
 | toml_parser | 1.1.5+spec-1.1.0 | MIT OR Apache-2.0 |
 | tree-sitter | 0.27.1 | MIT |
+| tree-sitter-java | 0.23.5 | MIT |
 | tree-sitter-language | 0.1.9 | MIT |
 | tree-sitter-python | 0.25.0 | MIT |
+| tree-sitter-rust | 0.24.2 | MIT |
 | tree-sitter-typescript | 0.23.2 | MIT |
 | typenum | 1.20.1 | MIT OR Apache-2.0 |
 | unicode-ident | 1.0.27 | (MIT OR Apache-2.0) AND Unicode-3.0 |

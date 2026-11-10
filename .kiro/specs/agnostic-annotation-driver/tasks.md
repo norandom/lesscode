@@ -18,7 +18,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
 ## Tasks
 
 - [ ] 1. Foundation: grammars, packs and the read-only helpers
-- [ ] 1.1 Switch on the Rust and Java grammar features and record the dependencies
+- [x] 1.1 Switch on the Rust and Java grammar features and record the dependencies
   - Add the two features of the pinned parser crate; update the lock file, `LICENSES.md` and
     `THIRD_PARTY_NOTICES.txt`.
   - Done when the crate builds with `--locked` on the local machine and the existing suite passes unchanged.
