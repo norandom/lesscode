@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R65 Rust sizing spike for the driver: exact parity, measured size (2026-11-10)
+## Latest: R66 Slice B preregistered: drift baseline for pack authoring, not run (2026-11-10)
+
+[R66](2026-11-10/12-slice-b-pack-authoring-drift-preregistration.md) fixes the protocol of the first Slice B
+step before any call is made.
+- **Protocol:** 5 authoring runs per language for four languages on the current endpoint, then on Mistral; frozen guide; admission by `deconvolute admit-pack`; at most two repairs.
+- **Claims:** at least 4 of 5 first replies admitted, at least 4 of 5 admitted packs reproduce the shipped pack's mutants, every rejected pack admitted after at most two repairs. Each failure has a named consequence.
+- **Start condition:** driver task group 3 (the mutant comparison needs the native engine), the amended guide hashed, and the owner's go.
+- **Cost:** about 3.60 USD for the first replies at the assumed price; the worst case with repairs does not fit the remaining cap, so the run stops at the cap.
+
+## Prior: R65 Rust sizing spike for the driver: exact parity, measured size (2026-11-10)
 
 [R65](2026-11-10/11-annotation-driver-rust-sizing-spike.md) is the first step of the
 design phase for `agnostic-annotation-driver`.

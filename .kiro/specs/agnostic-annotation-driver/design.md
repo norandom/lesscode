@@ -342,6 +342,8 @@ Dated 2026-11-10 at approval and copied into the roadmap and into constraint-gui
   the four languages five times with the frozen pack guide, on the current endpoint and then on the Mistral
   endpoint; record the admission rate, the number of repair attempts and whether the admitted packs yield the
   same mutants. This uses `admit-pack` and needs the driver's first task group only.
+  Correction, 2026-11-10 ([R66](../../../docs/research/2026-11-10/12-slice-b-pack-authoring-drift-preregistration.md)): the admission rate needs task group 2, but comparing
+  mutants needs the native engine of task group 3, so the baseline starts after group 3.
 - It is the smallest experiment that exercises the repair path, which the gate never did, and that compares
   two models, which is the owner's stated plan.
 

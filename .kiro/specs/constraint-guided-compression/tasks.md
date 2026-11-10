@@ -514,6 +514,7 @@ and start only on the owner's explicit answer. Frozen apparatus
   the artefacts to harden, the run-to-run agreement baseline, the refusal behaviour, the correction to the
   task 26 reward gate) is listed in `.kiro/steering/roadmap.md` under "Work queue".
   Dated next step (2026-11-10, at the approval of the driver design): the preregistration of a drift baseline for pack authoring is driver task 2.4 and is due with the handover of driver task group 2. Five authoring runs per language for four languages with the frozen pack guide, current endpoint first, Mistral second; measures are admission rate, repair attempts and identity of the mutants. Running it needs the owner's go.
+  Preregistered 2026-11-10 as [R66](../../../docs/research/2026-11-10/12-slice-b-pack-authoring-drift-preregistration.md); start condition: driver task group 3 done, guide amendment hashed, owner's go.
 - _Requirements: 5.8, 7.1, 7.4, 7.5, 7.9, 7.10_
 
 ## Implementation Notes

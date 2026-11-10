@@ -40,7 +40,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Add each new file to `native/complexity-budgets.json` at the default ceilings; the budgets test passes.
   - _Requirements: 8.2, 8.3_
 
-- [ ] 2. Pack admission and the `admit-pack` command
+- [x] 2. Pack admission and the `admit-pack` command
 - [x] 2.1 Implement admission on the typed pack
   - Size limits, typed shape, every node kind accepted by the grammar, placeholders limited to the three
     allowed names; results cached by pack hash; failed checks named as in the prototype (`size`, `shape`,
@@ -61,7 +61,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Done when CLI tests cover the three exit codes and an embedded-pack test admits every shipped pack
     against the crate's grammars.
   - _Requirements: 1.5, 1.6, 8.4_
-- [ ] 2.4 Preregister the Slice B drift baseline
+- [x] 2.4 Preregister the Slice B drift baseline
   - Write the preregistration entry for pack-authoring drift (five authoring runs per language for four
     languages with the frozen pack guide, current endpoint first, Mistral second; measures: admission rate,
     repair attempts, identity of the mutants from admitted packs; cost bound inside the 20 USD cap) in
