@@ -37,7 +37,8 @@ PACKS = REPO / "native" / "packs"
 FIXTURES = REPO / "native" / "tests" / "fixtures" / "driver"
 EXAMPLES = {"rust": ["python", "java"], "python": ["rust", "java"], "typescript": ["rust", "python"],
             "java": ["rust", "python"]}
-USD_PER_MTOK = (15.0, 75.0)  # assumed, not verified against a price list (R66)
+LIST_USD_PER_MTOK = {"claude-opus-5-5": (4.0, 20.0)}  # vendor model table, cached 2026-10-06 (R66 Amendment 3)
+USD_PER_MTOK = (15.0, 75.0)  # for a model not listed above: the conservative assumption of R66
 RESERVE_USD = 0.25  # held back before each call; the gate's authoring calls cost about 0.18
 MAX_REPAIRS = 2
 MAX_OUTPUT_TOKENS = 4000
@@ -48,8 +49,9 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
-def cost(tokens_in, tokens_out) -> float:
-    return ((tokens_in or 0) * USD_PER_MTOK[0] + (tokens_out or 0) * USD_PER_MTOK[1]) / 1e6
+def cost(tokens_in, tokens_out, model=None) -> float:
+    rate_in, rate_out = LIST_USD_PER_MTOK.get(model, USD_PER_MTOK)
+    return ((tokens_in or 0) * rate_in + (tokens_out or 0) * rate_out) / 1e6
 
 
 def spent_before(results: Path) -> float:
@@ -58,7 +60,7 @@ def spent_before(results: Path) -> float:
         for line in ledger.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 row = json.loads(line)
-                total += cost(row.get("input_tokens"), row.get("output_tokens"))
+                total += cost(row.get("input_tokens"), row.get("output_tokens"), row.get("model"))
     return total
 
 
@@ -77,7 +79,7 @@ class Budget:
     def settle(self, row: dict) -> None:
         with self.lock:
             self.reserved -= RESERVE_USD
-            self.spent += cost(row.get("input_tokens"), row.get("output_tokens"))
+            self.spent += cost(row.get("input_tokens"), row.get("output_tokens"), row.get("model"))
             with self.ledger.open("a", encoding="utf-8", newline="\n") as fh:
                 fh.write(json.dumps(row) + "\n")
 
@@ -103,11 +105,14 @@ def write_controls(ref: dict, directory: Path) -> Path:
 def admit(args, language: str, pack: Path, refs: list[dict], controls: dict, out: Path, tag: str) -> tuple[bool, list[str]]:
     """Admission on every scope of the language: (admitted on all, feedback lines without duplicates)."""
     admitted, feedback = True, []
-    for ref in refs:
-        receipt = out / f"{tag}-admission-{ref['scope']}.json"
+    sets = [(ref["scope"], controls[ref["scope"]], FIXTURES / "scopes" / ref["repository"]) for ref in refs]
+    for extra in sorted((FIXTURES / "controls").glob("*/controls.json")):  # hand-written sets (R66 Amendment 3)
+        if json.loads(extra.read_text(encoding="utf-8")).get("language") == language:
+            sets.append((f"controls-{extra.parent.name}", extra, extra.parent))
+    for name, control_file, root in sets:
+        receipt = out / f"{tag}-admission-{name}.json"
         proc = subprocess.run([str(args.bin), "deconvolute", "admit-pack", "--pack", str(pack), "--lang", language,
-                               "--controls", str(controls[ref["scope"]]), "--source-root",
-                               str(FIXTURES / "scopes" / ref["repository"]), "--out", str(receipt)],
+                               "--controls", str(control_file), "--source-root", str(root), "--out", str(receipt)],
                               capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
         if proc.returncode != 0 or not receipt.is_file():
             admitted = False
@@ -236,7 +241,8 @@ def summarise(records: list[dict]) -> dict:
             "distinct_admitted_packs": len({r["pack_sha256"] for r in admitted}),
             "failed_checks_first_reply": sorted({line.split(":")[0].lstrip("- ") for r in rows if r["attempts"]
                                                  for line in (r["attempts"][0]["feedback"] or [])}),
-            "input_tokens": tokens_in, "output_tokens": tokens_out, "usd_assumed": round(cost(tokens_in, tokens_out), 2),
+            "input_tokens": tokens_in, "output_tokens": tokens_out,
+            "usd": round(cost(tokens_in, tokens_out, rows[0]["requested_model"]), 2),
         }
     return summary
 
@@ -275,14 +281,14 @@ def main() -> int:
         "receipt": "slice-b-pack-authoring-baseline-v1", "preregistration": "R66", "dry_run": args.dry_run,
         "requested_model": cfg[a.NAME], "guide_sha256": a.sha(guide_bytes),
         "shipped_packs_sha256": {p.stem: a.sha(p.read_bytes()) for p in sorted(PACKS.glob("*.json"))},
-        "runs_per_language": args.runs, "max_repairs": MAX_REPAIRS, "usd_per_mtok_assumed": USD_PER_MTOK,
-        "spent_before_usd_assumed": round(spent, 2), "spent_after_usd_assumed": round(budget.spent, 2),
+        "runs_per_language": args.runs, "max_repairs": MAX_REPAIRS, "usd_per_mtok_list": LIST_USD_PER_MTOK, "usd_per_mtok_otherwise": USD_PER_MTOK,
+        "spent_before_usd": round(spent, 2), "spent_after_usd": round(budget.spent, 2),
         "cap_usd": args.cap_usd, "wall_seconds": round(time.monotonic() - started, 1),
         "languages": summarise(records),
     }
     (args.out_dir / "summary.json").write_text(json.dumps(summary, indent=1) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps(summary["languages"], indent=1))
-    print(f"spent before {summary['spent_before_usd_assumed']} USD, after {summary['spent_after_usd_assumed']} USD "
+    print(f"spent before {summary['spent_before_usd']} USD, after {summary['spent_after_usd']} USD "
           f"(assumed price), cap {args.cap_usd}")
     return 0
 

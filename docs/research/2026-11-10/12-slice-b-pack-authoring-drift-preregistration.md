@@ -131,6 +131,31 @@ None. Nothing was run.
   and its own cap.
 - A reply cut off at the output limit counts as not admitted and may be repaired.
 
+## Amendment 3, 2026-11-10 (after the first run R68, before the rerun; owner: "approved")
+
+The owner approved the two consequences proposed in R68. Changes before the rerun, nothing else:
+
+- Shipped Python pack: the operator pairs `in`/`not in` and `is`/`is not` are adopted (token swaps, negation
+  pairs, and the yes-or-no tokens of returned expressions). The five Python packs of R68 then give exactly
+  the shipped pack's mutants on the gate scope (checked for runs 1 and 3: 197 and 197, identical).
+- Rust admission controls: a hand-written control set, `native/tests/fixtures/driver/controls/rust/`, with
+  five cases on a small sample file: the `?` operator is a failure site and offers the rewrite; an `Err(`
+  call is a failure site; a macro that builds a value is not; an aborting macro is; code under an inner test
+  attribute is a test region. Control cases may now name the operators a site must offer. All five Rust
+  packs of R68 are rejected by this set; the shipped pack is admitted.
+- The runner adds every hand-written control set of the language to admission. Guide, examples mapping,
+  thresholds, repair limit and model are unchanged. Results go to `results/slice-b/opus-rerun1/`.
+- Not controlled, on purpose: `{}` against `;` as the statement that does nothing (both are no-ops, so the
+  hash comparison overstates that difference), and `match` guards as conditions (an addition by the model
+  that may be right; undecided).
+- Cap accounting now uses the vendor's list price for the model (4 and 20 USD per million tokens for
+  `claude-opus-5-5`); a model without a listed price keeps the conservative assumption. Recorded spend is
+  4.27 USD under list prices. The cap stays 20 USD.
+- Owner direction, 2026-11-10: "keep in mind that we also hardened against inference drift, mipro makes
+  sense". The rule "prompt optimisation only if packs still differ" is therefore dropped. After the rerun,
+  bounded `MIPROv2` optimisation of the pack guide is the next Slice B step in either case, with admission
+  and run-to-run agreement as the metric; it gets its own preregistration.
+
 ## COBESY check
 
 Outcome first: a protocol, nothing run, and one correction of an earlier claim about what the baseline needs.

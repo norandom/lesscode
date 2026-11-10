@@ -75,19 +75,15 @@ fn references() -> Vec<Reference> {
     paths.iter().map(load).collect()
 }
 
-/// The shipped pack as the gate had it: without the pairs that suppress a
-/// swap saying the same as the negation.
+/// The pack the gate used, in the native format: the shipped pack as it was
+/// before anything was added to it after the gate.
 fn gate_pack(language: &str) -> Pack {
-    let text = shipped_texts()
-        .iter()
-        .find(|t| serde_json::from_str::<Value>(t).unwrap()["language"] == language)
-        .unwrap();
-    let mut value: Value = serde_json::from_str(text).unwrap();
-    let branch = value["operators"]["branch_condition"]
-        .as_object_mut()
-        .unwrap();
-    assert!(branch.remove("negation_swaps").is_some());
-    Pack::parse(&value.to_string()).unwrap()
+    let path = fixtures()
+        .join("gate-packs")
+        .join(format!("{language}.json"));
+    let text =
+        fs::read_to_string(&path).unwrap_or_else(|e| panic!("not run: {}: {e}", path.display()));
+    Pack::parse(&text).unwrap()
 }
 
 /// Site, operator and hash of every mutant, as the reference lists them.
@@ -137,49 +133,63 @@ fn mutants_equal_the_prototype_under_the_gate_packs() {
     }
 }
 
-/// Requirement 3.4 is the one intended difference from the prototype: with
-/// the shipped packs, a swap of a condition's own equality operator is left
-/// out because the negation at the same site says the same.
+/// The shipped packs differ from the gate packs in two intended ways: a swap
+/// of a condition's own operator that repeats the negation is left out
+/// (Requirement 3.4), and operator pairs added after the gate give new swaps.
 #[test]
-fn shipped_packs_drop_only_swaps_that_repeat_the_negation() {
-    let mut dropped_per_scope = Vec::new();
+fn shipped_packs_differ_from_the_gate_only_as_intended() {
+    let mut per_scope = Vec::new();
     for reference in references() {
-        let pack = embedded(reference.data["language"].as_str().unwrap()).unwrap();
+        let language = reference.data["language"].as_str().unwrap();
+        let (pack, gate) = (embedded(language).unwrap(), gate_pack(language));
         let found = native_mutants(&reference, pack);
         let expected = reference.data["mutants"].as_array().unwrap();
-        let pairs = &pack.operators.branch_condition.negation_swaps;
-        let mut kept = found.iter().peekable();
-        let mut dropped = 0;
-        for want in expected {
-            if kept.peek() == Some(&want) {
-                kept.next();
-                continue;
-            }
-            let operator = want["operator"].as_str().unwrap();
-            let repeats = pairs.iter().any(|(a, b)| {
+        let ops = &pack.operators.branch_condition;
+        let swap_of = |mutant: &Value, pairs: &[(String, String)]| {
+            let operator = mutant["operator"].as_str().unwrap();
+            pairs.iter().any(|(a, b)| {
                 operator.starts_with(&format!("swap:{a}->{b}@"))
                     || operator.starts_with(&format!("swap:{b}->{a}@"))
-            });
-            assert!(
-                repeats,
-                "{}: unexpected difference at {want}",
-                reference.name
-            );
+            })
+        };
+        let gate_swaps = &gate.operators.branch_condition.token_swaps;
+        let new_pairs: Vec<_> = ops
+            .token_swaps
+            .iter()
+            .filter(|pair| !gate_swaps.contains(pair))
+            .cloned()
+            .collect();
+        let dropped: Vec<&Value> = expected.iter().filter(|m| !found.contains(m)).collect();
+        let added: Vec<&Value> = found.iter().filter(|m| !expected.contains(m)).collect();
+        for want in &dropped {
             let negated = expected
                 .iter()
                 .any(|m| m["site"] == want["site"] && m["operator"] == "negate");
-            assert!(negated, "{}: {want} has no negation", reference.name);
-            dropped += 1;
+            assert!(
+                swap_of(want, &ops.negation_swaps) && negated,
+                "{}: unexpected difference at {want}",
+                reference.name
+            );
         }
-        assert!(
-            kept.next().is_none(),
-            "{}: extra native mutants",
-            reference.name
-        );
-        dropped_per_scope.push((reference.name.clone(), expected.len(), dropped));
+        for extra in &added {
+            assert!(
+                swap_of(extra, &new_pairs),
+                "{}: unexpected extra mutant {extra}",
+                reference.name
+            );
+        }
+        let kept: Vec<&Value> = found.iter().filter(|m| !added.contains(m)).collect();
+        let still: Vec<&Value> = expected.iter().filter(|m| !dropped.contains(m)).collect();
+        assert_eq!(kept, still, "{}", reference.name);
+        per_scope.push((
+            reference.name.clone(),
+            expected.len(),
+            dropped.len(),
+            added.len(),
+        ));
     }
-    println!("mutants in the reference and dropped as repeats: {dropped_per_scope:?}");
-    assert!(dropped_per_scope.iter().any(|(_, _, dropped)| *dropped > 0));
+    println!("reference mutants, dropped as repeats, added by new pairs: {per_scope:?}");
+    assert!(per_scope.iter().any(|(_, _, dropped, _)| *dropped > 0));
 }
 
 #[test]
@@ -388,4 +398,44 @@ fn the_engine_names_no_language_or_project() {
             assert!(!lower.contains(word), "a pack names {word}");
         }
     }
+}
+
+/// Hand-written control sets (`fixtures/driver/controls/<name>/`) admit the
+/// shipped pack; where a set names the operators a site must offer, a pack
+/// without those operators is rejected.
+#[test]
+fn hand_written_controls_admit_the_shipped_pack_only() {
+    let dir = std::env::temp_dir().join(format!("lc-test-controls-{}", std::process::id()));
+    let _ = fs::remove_dir_all(&dir);
+    fs::create_dir_all(&dir).unwrap();
+    let packs = Path::new(env!("CARGO_MANIFEST_DIR")).join("packs");
+    let mut sets = 0;
+    for entry in fs::read_dir(fixtures().join("controls")).unwrap() {
+        let root = entry.unwrap().path();
+        let controls = root.join("controls.json");
+        let file: Value = serde_json::from_slice(&fs::read(&controls).unwrap()).unwrap();
+        let language = file["language"].as_str().unwrap();
+        let pack = packs.join(format!("{language}.json"));
+        let out = dir.join(format!("{language}.receipt.json"));
+        let code = admit_pack(&pack, language, &controls, &root, &out);
+        let receipt: Value = serde_json::from_slice(&fs::read(&out).unwrap()).unwrap();
+        assert_eq!(code, Some(0), "{language}: {receipt}");
+        let cases = file["cases"].as_array().unwrap();
+        if cases.iter().any(|c| c.get("operators").is_some()) {
+            let mut weak: Value = serde_json::from_slice(&fs::read(&pack).unwrap()).unwrap();
+            weak["operators"]["failure_state"] = json!({});
+            let weak_path = dir.join(format!("{language}-weak.json"));
+            fs::write(&weak_path, weak.to_string()).unwrap();
+            let code = admit_pack(&weak_path, language, &controls, &root, &out);
+            let receipt: Value = serde_json::from_slice(&fs::read(&out).unwrap()).unwrap();
+            assert_eq!(code, Some(1), "{language}: {receipt}");
+            assert!(
+                receipt.to_string().contains("operators_differ"),
+                "{receipt}"
+            );
+        }
+        sets += 1;
+    }
+    assert!(sets >= 1);
+    fs::remove_dir_all(&dir).unwrap();
 }

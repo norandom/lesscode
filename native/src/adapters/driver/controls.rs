@@ -22,11 +22,20 @@ pub struct Case {
     pub label: String,
     pub annotations: Vec<Value>,
     pub expected: Vec<String>,
+    /// When given, the exact operator labels the pack must offer at the site.
+    #[serde(default)]
+    pub operators: Option<Vec<String>>,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ControlFile {
+    /// Optional: the language the controls are written for.
+    #[serde(default)]
+    pub language: Option<String>,
+    /// Optional: where the controls come from.
+    #[serde(default)]
+    pub note: Option<String>,
     pub files: Vec<String>,
     pub test_paths: Vec<String>,
     pub cases: Vec<Case>,
@@ -81,12 +90,9 @@ pub fn replay(pack: &Pack, source: &SourceSet, cases: &[Case]) -> Outcome {
     }
 }
 
-/// What the pack's own operator makes of one accepted control annotation.
-fn seed_outcome(
-    pack: &Pack,
-    source: &SourceSet,
-    annotation: &Value,
-) -> Result<&'static str, String> {
+/// What the pack's operators make of one accepted control annotation.
+fn seed_outcome(pack: &Pack, source: &SourceSet, case: &Case) -> Result<&'static str, String> {
+    let annotation = &case.annotations[0];
     let kind = annotation.get("kind").and_then(Value::as_str);
     if !OPERATOR_KINDS.iter().any(|k| Some(k.name()) == kind) {
         return Ok("no_operator");
@@ -95,21 +101,28 @@ fn seed_outcome(
         return Ok("no_site");
     };
     let text = source.raw(&site.file)?;
-    Ok(match mutants(pack, &text, &site)?.first() {
+    let found = mutants(pack, &text, &site)?;
+    if let Some(wanted) = &case.operators {
+        if !found.iter().map(|m| &m.operator).eq(wanted) {
+            return Ok("operators_differ");
+        }
+    }
+    Ok(match found.first() {
         None => "no_operator",
         Some(mutant) => classify(pack, &text, &mutant.text)?.name(),
     })
 }
 
 /// Every control that is one accepted annotation of a kind with operators
-/// must yield a real, parseable change, or have no operator.
+/// must yield a real, parseable change, or have no operator; a control that
+/// lists operators must get exactly those.
 pub fn seed_mutants(pack: &Pack, source: &SourceSet, cases: &[Case]) -> Outcome {
     let mut counts: BTreeMap<String, usize> = BTreeMap::new();
     let accepted = |case: &&Case| {
         case.annotations.len() == 1 && case.expected.iter().all(|e| e.starts_with("ok"))
     };
     for case in cases.iter().filter(accepted) {
-        let outcome = seed_outcome(pack, source, &case.annotations[0])
+        let outcome = seed_outcome(pack, source, case)
             .map(str::to_owned)
             .unwrap_or_else(|e| format!("error: {e}"));
         *counts.entry(outcome).or_default() += 1;

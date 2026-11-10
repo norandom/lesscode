@@ -1,0 +1,23 @@
+{
+ "language": "rust",
+ "note": "Hand-written controls added after the Slice B baseline (R68, owner approval 2026-11-10): behaviours that admission must tell apart and that the gate's seed controls do not contain.",
+ "files": ["src/sample.rs"],
+ "test_paths": ["tests/"],
+ "cases": [
+  {"label": "try_operator_is_a_failure_site_with_a_rewrite",
+   "annotations": [{"file": "src/sample.rs", "start_line": 5, "end_line": 5, "kind": "failure_state", "anchor": "read(input)?", "reason": "the error is passed to the caller"}],
+   "expected": ["ok"], "operators": ["rewrite:try_expression"]},
+  {"label": "error_constructor_call_is_a_failure_site",
+   "annotations": [{"file": "src/sample.rs", "start_line": 7, "end_line": 7, "kind": "failure_state", "anchor": "Err(format!(\"too large: {value}\"))", "reason": "the function ends with an error value"}],
+   "expected": ["ok"]},
+  {"label": "macro_that_builds_a_value_is_not_a_failure_site",
+   "annotations": [{"file": "src/sample.rs", "start_line": 14, "end_line": 14, "kind": "failure_state", "anchor": "format!(\"{input}\")", "reason": "control: an ordinary macro"}],
+   "expected": ["kind_mismatch"]},
+  {"label": "aborting_macro_is_a_failure_site",
+   "annotations": [{"file": "src/sample.rs", "start_line": 16, "end_line": 16, "kind": "failure_state", "anchor": "panic!(\"empty input\")", "reason": "the program stops here"}],
+   "expected": ["ok"]},
+  {"label": "code_under_an_inner_test_attribute_is_a_test_region",
+   "annotations": [{"file": "src/sample.rs", "start_line": 25, "end_line": 25, "kind": "branch_condition", "anchor": "x > 1", "reason": "control: inside a test-only module"}],
+   "expected": ["test_region"]}
+ ]
+}
