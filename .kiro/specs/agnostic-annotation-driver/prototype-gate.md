@@ -1,6 +1,6 @@
 # Prototype gate: agnostic annotation-guided driver
 
-Status: **not-run**, 2026-11-10 (checklist steps 1 and 2 done, see Amendments 1 and 2; no arm A, C or D run, no model call). Research preparation only. No production
+Status: **not-run**, 2026-11-10 (checklist steps 1 and 2 done; strategy consolidated in Amendment 3, which governs; no mutation run, no model call). Research preparation only. No production
 tasks exist or are authorized. Execution needs the owner's go, because it
 selects external scopes and spends model tokens. See the [brief](brief.md) and
 [R56](../../../docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md).
@@ -215,9 +215,92 @@ the first model call needs a dated amendment.
 **2d. Validator integrity row: met.** 71 of 71 controls behaved as expected
 on the four scopes (R58). This validates the checker, not the mechanism.
 
+## Amendment 3, 2026-11-10 (pre-run; strategy consolidation, [R59](../../../docs/research/2026-11-10/05-annotation-driver-strategy-and-harness.md))
+
+Made before any model call and before any mutation run. The owner clarified
+that "hard-coded arms" means non-agnostic runs, those that do not apply
+horizontally, and asked the agent to settle the strategy directly. Where this
+amendment conflicts with the text above or with Amendments 1 and 2, this
+amendment governs.
+
+**3a. Only horizontally applicable arms remain.**
+
+- Arm B (fixed operators) is removed as an arm. Its four counts in R57 stay
+  on record as history; it is not run again and no row refers to it. The
+  yield row is the absolute floor only: at least 4 landed mutants covering at
+  least 3 kinds per scope.
+- Arm C (one existing mutation tool per language) is removed. A different
+  tool, setup and operator set per language cannot apply horizontally, so it
+  cannot be an outcome under the first priority. The Comparison row and the
+  "stop in favour of existing tools" outcome are deleted. Whether an existing
+  tool is useful inside one language is not examined here.
+- The product consequence of Amendment 2b is unchanged: nothing
+  non-horizontal remains after a `proceed` design.
+
+**3b. One mechanism, two ways of choosing sites.** All language knowledge is
+one data pack per language: the node-kind table of Amendment 2c plus operator
+templates. The engine is the same for every language and reads only the pack.
+
+| Kind | Generic operator | Language data needed |
+| --- | --- | --- |
+| `branch_condition` | replace the condition by its negation | one negation template |
+| `failure_state` | remove the failure: drop a raise or throw statement, or stop propagating an error | per node kind, a replacement template; node kinds without one yield no mutant |
+| `state_write` | drop the write when it is a statement of its own | one empty-statement template and the statement wrapper kinds |
+| `error_order` | swap the check with the following check | none |
+| `pure_shell_boundary` | none (kept for the analysis consumer) | none |
+
+The arms differ only in how sites are chosen:
+
+| Arm | Sites | Model |
+| --- | --- | --- |
+| D1 | every site the pack makes eligible, with hand-written packs for all four languages | none |
+| D2 | every eligible site, with packs for TypeScript and Java written by the model offline from the guide, the Rust and Python packs and the grammar's node kinds; a model-written pack is admitted only if the scope's hand-made controls pass with it | once per language, offline |
+| A | the sites the model annotates under the frozen guide, validated as in Amendment 2c, hand-written packs | per scope and run |
+
+Because the engine and operators are shared, a difference between A and D1
+measures exactly what per-scope annotation adds. The hand-written TypeScript
+and Java packs are the reference for D2; agreement between each model-written
+pack and its reference is reported.
+
+**3c. Admission also requires enough sites.** A scope is admitted only if its
+pack makes at least 12 sites eligible across at least 3 kinds. Counted with
+the frozen tables: Python 200 sites, Java 157, TypeScript 51, and the Rust
+scope of Amendment 1a only 5 sites in 2 kinds. That scope could not meet the
+yield row whatever the mechanism did, so it is replaced, before any run, by
+`mmhmem` `src/setup/ui/update.rs` at the same revision (229 canonical lines,
+38 sites in 4 kinds, 17 tests passing in the clone). It had the most eligible
+sites among the six Rust files screened with passing tests.
+
+**3d. Bounded runs.** Arm D runs at most 40 mutants per scope, chosen by a
+seeded shuffle (seed 20261110) taken round-robin across kinds, so every kind
+present is represented. Arm A runs every validated annotation that has an
+operator.
+
+**3e. Classification.** A mutant is `invalid` if it is a no-op or does not
+parse (Amendment 2c), if the scope's build step fails, or if the test runner
+reports that it could not load or collect the tests. It is `killed` only if
+tests ran and at least one failed, `survived` if all passed, and `timeout` if
+the time limit was hit; a timeout is neither a kill nor a survival. The
+unmutated scope must pass before and after every batch, and the scope file
+must be restored byte for byte, or the batch is void.
+
+**3f. Roles.** Strategy and gate decisions are made by the session agent.
+Clearly specified implementation tasks are delegated to Opus at the highest
+effort setting, on the owner's instruction. This concerns who writes the
+prototype; the model under test in arms A and D2 remains the Opus endpoint
+configured through `LESSCODE_MODEL_ENV`.
+
+**3g. Revised checklist.** Steps 1 and 2 are done. 3: engine, operators,
+packs and harness, with model-free checks, then D1 on all four scopes. 4:
+guide version 0 from the Rust and Python scopes; freeze guide and packs by
+hash. 5: arm A twice per scope and D2 on the two held-out languages. 6:
+review of survivors. 7: size accounting. The decision rule of Amendment 1c
+stands: if D1 or D2 meets the gated rows on the same languages as A, the
+recommendation is the D form.
+
 ## Evidence record
 
-Screening and admission are recorded in R57, the validator controls in R58.
+Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58.
 No arm A, C or D result exists yet. Execution begins with a dated research entry that
 freezes the inputs, and ends with one that reports each row above, the raw
 annotations, validator decisions, mutants, test logs and the review labels.

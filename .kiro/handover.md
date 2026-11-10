@@ -36,8 +36,12 @@ Updated 2026-11-10 (details and evidence in [task 27 handover](task_27_handover.
    healthy. Step 2 done (R58): validator controls 71/71, prototype in
    `docs/experiments/annotation-driver/`. Owner approved arm D (rules as data,
    model as offline rule author) and requires the hard-coded operators to be
-   removed completely (gate Amendment 2). No model call yet. Next: step 3,
-   comparison arm and mutation baseline, then operators, rule packs, guide v0.
+   removed completely (gate Amendment 2). No model call yet. Strategy consolidated
+   (R59, gate Amendment 3, governs): non-horizontal arms B and C removed; one
+   engine plus a data pack per language; arms D1, D2, A differ only in site
+   selection; Rust scope replaced by `src/setup/ui/update.rs`. Owner rule:
+   agent decides strategy; clear implementation goes to Opus xhigh. Next:
+   engine and harness, then D1, guide v0, freeze, first model calls.
 5. **CI is faster.** nextest is installed as a prebuilt digest-checked binary
    (`tools/install_nextest.sh`), also inside the Dagger container. Jobs take
    about 1.5 to 4 minutes instead of 6 to 16. No build cache was added.

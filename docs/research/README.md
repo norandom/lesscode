@@ -2,7 +2,17 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R58 Annotation validator controls pass; arm D in force; hard-coded operators to be removed (2026-11-10)
+## Latest: R59 Annotation-driver strategy consolidated before any run (2026-11-10, running)
+
+[R59](2026-11-10/05-annotation-driver-strategy-and-harness.md) records gate
+Amendment 3, made before any mutation run or model call.
+- **Only horizontal arms remain.** The fixed operators (arm B) and the per-language existing tools (arm C) are removed as non-agnostic; the "stop in favour of existing tools" outcome goes with arm C, and the entry states that this removes one way for the hypothesis to lose.
+- **One engine, one data pack per language** (node-kind table plus operator templates). Arms differ only in site selection: every eligible site (D1 hand-written packs, D2 model-written packs for held-out languages) or model-annotated sites (A), so A against D1 measures what annotation adds.
+- **Rust scope replaced** before any run: the R57 scope had 5 eligible sites in 2 kinds and could not meet the yield row; `mmhmem` `src/setup/ui/update.rs` has 38 in 4 kinds, 17 tests passing. New admission rule: at least 12 sites in 3 kinds.
+- **Bounds and classification fixed:** 40 mutants per scope for arm D by a seeded, kind-balanced selection; a broken build or import is invalid, not killed.
+- **Next:** engine and harness with model-free checks, then D1.
+
+## Prior: R58 Annotation validator controls pass; arm D in force; hard-coded operators to be removed (2026-11-10)
 
 [R58](2026-11-10/04-annotation-driver-validator-controls.md) completes checklist
 step 2 of the gate, without a model.

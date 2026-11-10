@@ -1,16 +1,17 @@
 {
   "note": "Hand-made control annotations for gate checklist step 2. Each seed is a correct annotation written by hand from the scope source; run_controls.py derives the wrong variants from the seeds and from the locations named here. No model is involved.",
   "scopes": {
-    "rust-mmhmem-setup-check": {
+    "rust-mmhmem-setup-update": {
       "seeds": [
-        {"file": "src/setup/check.rs", "start_line": 214, "end_line": 214, "kind": "branch_condition", "anchor": "Some(step) == failed_at", "reason": "decides which step is reported as the failing one"},
-        {"file": "src/setup/check.rs", "start_line": 215, "end_line": 215, "kind": "state_write", "anchor": "seen_failure = true", "reason": "marks every later step as skipped"}
+        {"file": "src/setup/ui/update.rs", "start_line": 83, "end_line": 83, "kind": "branch_condition", "anchor": "mode != Mode::NoTerminal", "reason": "only a missing terminal refuses the update"},
+        {"file": "src/setup/ui/update.rs", "start_line": 63, "end_line": 63, "kind": "failure_state", "anchor": "return Err(\"--bootstrap\".to_owned())", "reason": "rejects an option the update command does not take"},
+        {"file": "src/setup/ui/update.rs", "start_line": 103, "end_line": 103, "kind": "state_write", "anchor": "deps.restart.command = Command::Update", "reason": "a restart must resume the update"}
       ],
-      "comment_line": 2,
-      "test_file": "tests/setup_check.rs",
+      "comment_line": 196,
+      "test_file": "tests/setup_update_spike.rs",
       "outside_file": "src/setup/mod.rs",
       "comment_text": "// control comment",
-      "real_change": ["Some(step) == failed_at", "Some(step) != failed_at"]
+      "real_change": ["mode != Mode::NoTerminal", "mode == Mode::NoTerminal"]
     },
     "python-mvibe-ratelimit": {
       "seeds": [
