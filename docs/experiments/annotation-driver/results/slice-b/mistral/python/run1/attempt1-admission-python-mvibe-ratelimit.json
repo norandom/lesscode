@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "python",
+  "pack_sha256": "afe15477b09bb1836baf2ad2123a6cffed9d9e1b5256c93ea817997c1f9c76d2",
+  "admitted": false,
+  "checks": [
+    {
+      "name": "json",
+      "pass": true,
+      "ran": true,
+      "detail": "one JSON object"
+    },
+    {
+      "name": "size",
+      "pass": false,
+      "ran": true,
+      "detail": "57 lines (at most 40), 1859 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": true,
+      "ran": true,
+      "detail": "required keys present with the right types"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": false,
+      "ran": true,
+      "detail": "node kinds not in the python grammar: boolean_operation, comparison_expression, comprehension, unary_expression"
+    },
+    {
+      "name": "templates",
+      "pass": true,
+      "ran": true,
+      "detail": "3 templates, placeholders only {text}, {noop}, {child0}"
+    },
+    {
+      "name": "controls",
+      "pass": true,
+      "ran": true,
+      "detail": "14 of 14 controls behaved as expected"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": true,
+      "ran": true,
+      "detail": "3 seeds: changed 3"
+    }
+  ]
+}

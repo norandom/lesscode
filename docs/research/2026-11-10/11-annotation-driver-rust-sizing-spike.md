@@ -1,7 +1,8 @@
 # R65: A Rust port of the driver's model-free core reproduces the prototype exactly on five scopes; it is 898 canonical lines against 753 it makes removable, and the apparatus cap as defined does not count either
 
 - Report date/time and timezone: 2026-11-10, Europe/Berlin (UTC+1)
-- Execution interval: 2026-11-10, about 19:10 to 19:45 local
+- Execution interval: 2026-11-10, about 17:45 to 18:10 local
+  (Corrected 2026-11-10 from file and commit times; first written as "2026-11-10, about 19:10 to 19:45 local", which was an estimate.)
 - Status: completed
 - Spec: [.kiro/specs/agnostic-annotation-driver/requirements.md](../../../.kiro/specs/agnostic-annotation-driver/requirements.md) (8.2, 8.4, 9.1, 9.3); first step of the design phase
 - Hypothesis ID and predecessor: sizing spike after [R64](10-annotation-driver-gate-attempt2.md) and the [feasibility report](../../reports/agnostic-driver-feasibility.md)

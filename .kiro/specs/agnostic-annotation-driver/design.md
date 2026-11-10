@@ -364,6 +364,30 @@ the language adapters it replaces. For the same reason the command handlers of t
 list of shipped packs so that no other driver file names a language. Packs carry their grammar name in a
 `language` key, as the prototype's packs already did.
 
+### Amendment 2, 2026-11-10 (task groups 4 to 6): what was built differently
+
+- Process supervision is not reused. The existing `NativeSpecimenRunner` reads a command's output only after
+  it has exited, which blocks on a test runner that prints much, and kills only the direct child at a
+  deadline. The driver has its own `process.rs`: output is read while the command runs, and at the limit
+  the whole process tree is killed (`taskkill /T` on Windows, the process group elsewhere).
+- Declared gaps are a pack key. `gaps` lists, with a reason, node kinds or node kinds with a text prefix
+  that the analysis reports (unsafe code, raw pointers, reflection, dynamic evaluation and the like). The
+  old analyzers matched text for these; what cannot be said by kind and prefix (for example a method called
+  on any receiver) is not reported any more. The key is optional; a pack without it is admitted.
+- `deconvolute run` has its own file, `run_command.rs`, and `analysis.rs` holds the file analysis, so that
+  every file stays within its budget. The reusable outcomes live under the work directory (`outcomes/`).
+- No Python adapter struct was added. The command line serves all four languages through the driver
+  directly; the per-language adapter bundles are reworked or removed with task group 7.
+- A source that does not parse is refused with the start of the first region the parser could not read,
+  which can be the start of the enclosing definition and not the exact token.
+- Requirement 5.7 is met for time limits and normal exits. The driver installs no signal handler (it would
+  need a new dependency), so a driver killed from outside can leave a project command running; the file it
+  had planted is restored when the copy is next opened.
+- Measured production lines of the files added in these groups: `cli.rs` 294, `analysis.rs` 70,
+  `workspace.rs` 224, `config.rs` 142, `process.rs` 122, `runner.rs` about 370, `run_command.rs` about 190,
+  `store.rs` 59. The driver is about 2,900 production lines in eighteen files against an estimate of about
+  2,400; every file is within the per-file budget.
+
 ## Contradictions and disposition
 
 | # | Contradiction | Source authority | Disposition |

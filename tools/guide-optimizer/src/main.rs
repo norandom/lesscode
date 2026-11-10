@@ -74,6 +74,9 @@ struct Args {
     /// Use a scripted stand-in instead of the endpoint; no call is made.
     #[arg(long)]
     dry_run: bool,
+    /// Output limit of an authoring call and of a reflection call, in tokens.
+    #[arg(long, num_args = 2, value_names = ["AUTHOR", "REFLECT"], default_values_t = [4_000, 8_000])]
+    max_tokens: Vec<u64>,
     /// Skip optimisation and judge this guide file with fresh calls.
     #[arg(long)]
     judge_only: Option<PathBuf>,
@@ -220,7 +223,8 @@ fn run(args: Args) -> Result<(), String> {
         } else {
             args.judge_list.clone()
         };
-        let judge = Authoring::new(metered.clone(), languages.clone(), train, val, rules);
+        let mut judge = Authoring::new(metered.clone(), languages.clone(), train, val, rules);
+        judge.max_tokens = (args.max_tokens[0], args.max_tokens[1]);
         let trials = judge.run("final", &guide, &list);
         let lines: Vec<String> = trials
             .iter()
@@ -262,13 +266,14 @@ fn run(args: Args) -> Result<(), String> {
         price.0, price.1, args.max_usd, args.project_cap_usd
     );
 
-    let adapter = Authoring::new(
+    let mut adapter = Authoring::new(
         metered.clone(),
         languages.clone(),
         train.clone(),
         val.clone(),
         rules.clone(),
     );
+    adapter.max_tokens = (args.max_tokens[0], args.max_tokens[1]);
     let (log, rejected) = (adapter.log.clone(), adapter.rejected.clone());
     let engine = GepaEngine {
         adapter,
@@ -335,13 +340,14 @@ fn run(args: Args) -> Result<(), String> {
 
     let improved = guides[chosen] != baseline;
     metered.set_limit(args.max_usd);
-    let judge = Authoring::new(
+    let mut judge = Authoring::new(
         metered.clone(),
         languages.clone(),
         train,
         val.clone(),
         rules,
     );
+    judge.max_tokens = (args.max_tokens[0], args.max_tokens[1]);
     let mut final_trials = Vec::new();
     if improved {
         println!(

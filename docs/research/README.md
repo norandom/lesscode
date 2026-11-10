@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R71 Guide optimisation on Opus: admission fixed for all four languages, Rust still differs from the hand pack, not adopted (2026-11-10)
+## Latest: R72 Slice B baseline on Mistral Large 4: 5 of 20 first replies admitted against 15 of 20 on Opus (2026-11-10)
+
+[R72](2026-11-10/18-slice-b-baseline-mistral.md) is the second model arm of R66, with the same guide and checks.
+- **First replies admitted:** Rust 0, Python 1, TypeScript 4, Java 0 of 5. The commonest failure is a node kind that does not exist in the grammar; admission names it.
+- **Repair:** Java 5 of 5 admitted after one repair turn and identical to the shipped pack's mutants; Rust never admitted; six runs used the whole output limit for reasoning and wrote no pack.
+- **Consequence:** changing the model is the largest drift measured so far. The barrier held: nothing inadmissible got through.
+- **Deviations:** output limit 16,000 tokens instead of 4,000, because the model counts its reasoning against it; a first attempt crashed on the multi-part reply.
+- **Cost:** 0.73 USD.
+
+## Prior: R71 Guide optimisation on Opus: admission fixed for all four languages, Rust still differs from the hand pack, not adopted (2026-11-10)
 
 [R71](2026-11-10/17-slice-b-guide-optimisation-opus.md) runs R70 on `claude-opus-5-5` with the copied GEPA engine.
 - **Final judgement, five fresh trials per language:** first replies admitted 5 of 5 for Rust, Java, Python and TypeScript (Rust was 0 of 5 under guide version 3). Java, Python and TypeScript give the shipped pack's mutants in every trial.

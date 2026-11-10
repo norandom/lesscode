@@ -1,8 +1,8 @@
 # R71: Guide optimisation with the GEPA engine on Opus: Rust admission goes from 0 of 5 to 5 of 5 and Java is stable again; the Rust packs still differ from the hand pack, so the guide is not adopted
 
 - Report date/time and timezone: 2026-11-10, Europe/Berlin (UTC+1)
-- Execution interval: 2026-11-10, about 21:23 to 22:20 local for the optimisation and its first final trials;
-  about 22:45 for the ten trials that completed the final judgement
+- Execution interval: 2026-11-10, 21:23 to 21:43 local for the optimisation and its first final trials; 21:48 to 21:49 for the trials that completed the final judgement
+  (Corrected 2026-11-10 from file and commit times; first written as "2026-11-10, about 21:23 to 22:20 local for the optimisation and its first final trials;   about 22:45 for the ten trials that completed the final judgement", which was an estimate.)
 - Status: completed for `claude-opus-5-5`
 - Spec: [constraint-guided-compression](../../../.kiro/specs/constraint-guided-compression/requirements.md), Slice B
 - Hypothesis ID and predecessor: runs [R70](16-slice-b-guide-optimisation-preregistration.md) with Amendments 1 to 3

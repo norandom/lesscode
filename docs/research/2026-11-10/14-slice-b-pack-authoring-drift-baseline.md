@@ -1,7 +1,8 @@
 # R68: Slice B baseline, Opus arm: every pack is admitted on the first reply, but Rust packs differ from run to run and admission does not notice
 
 - Report date/time and timezone: 2026-11-10, Europe/Berlin (UTC+1)
-- Execution interval: 2026-11-10, about 21:35 to 21:37 local (104 seconds wall time, four conversations at a time)
+- Execution interval: 2026-11-10, 20:32 to 20:34 local (104 seconds wall time, four conversations at a time)
+  (Corrected 2026-11-10 from file and commit times; first written as "2026-11-10, about 21:35 to 21:37 local (104 seconds wall time, four conversations at a time)", which was an estimate.)
 - Status: completed for the current endpoint; the second model arm is not run
 - Spec: [constraint-guided-compression](../../../.kiro/specs/constraint-guided-compression/requirements.md), Slice B
 - Hypothesis ID and predecessor: runs the protocol preregistered in

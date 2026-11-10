@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "java",
+  "pack_sha256": "803cced476f3cb3db9bf6de18154addbb7993fa85ebe7009fce696e596574cef",
+  "admitted": false,
+  "checks": [
+    {
+      "name": "json",
+      "pass": true,
+      "ran": true,
+      "detail": "one JSON object"
+    },
+    {
+      "name": "size",
+      "pass": true,
+      "ran": true,
+      "detail": "29 lines (at most 40), 1703 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": true,
+      "ran": true,
+      "detail": "required keys present with the right types"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": false,
+      "ran": true,
+      "detail": "node kinds not in the java grammar: text_block"
+    },
+    {
+      "name": "templates",
+      "pass": true,
+      "ran": true,
+      "detail": "3 templates, placeholders only {text}, {noop}, {child0}"
+    },
+    {
+      "name": "controls",
+      "pass": true,
+      "ran": true,
+      "detail": "16 of 16 controls behaved as expected"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": true,
+      "ran": true,
+      "detail": "5 seeds: changed 3, no_operator 2"
+    }
+  ]
+}

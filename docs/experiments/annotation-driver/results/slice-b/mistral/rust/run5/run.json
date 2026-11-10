@@ -1,0 +1,45 @@
+{
+ "language": "rust",
+ "run": 5,
+ "examples": [
+  "python",
+  "java"
+ ],
+ "started_utc": "2026-11-10T20:53:01+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-10T20:53:01+00:00",
+   "input_tokens": 2216,
+   "output_tokens": 12601,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- kinds_valid: node kinds not in the rust grammar: byte_string_literal, c_string_literal, compound_assignment_expression, let_expression, raw_byte_string_literal, raw_c_string_literal",
+    "- controls: 3 of 5 controls behaved as expected; failing: error_constructor_call_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; code_under_an_inner_test_attribute_is_a_test_region expected [\"test_region\"] got [\"ok\"]",
+    "- seed_mutants: 3 seeds: changed 1, no_operator 1, no_site 1"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-10T20:54:59+00:00",
+   "input_tokens": 2818,
+   "output_tokens": 16000,
+   "stop_reason": "length",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": null,
+   "error": null
+  }
+ ],
+ "outcome": "empty_reply",
+ "first_reply_admitted": false,
+ "admitted": false,
+ "repairs": 0,
+ "pack_sha256": null,
+ "mutants": null,
+ "finished_utc": "2026-11-10T20:57:50+00:00"
+}

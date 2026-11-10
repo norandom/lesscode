@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "typescript",
+  "pack_sha256": "5b52fe795bf06e69814e75fa58c2fc4d72f13b40d1bed8c56ba44b4aa81db542",
+  "admitted": false,
+  "checks": [
+    {
+      "name": "json",
+      "pass": true,
+      "ran": true,
+      "detail": "one JSON object"
+    },
+    {
+      "name": "size",
+      "pass": false,
+      "ran": true,
+      "detail": "50 lines (at most 40), 1784 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": true,
+      "ran": true,
+      "detail": "required keys present with the right types"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": false,
+      "ran": true,
+      "detail": "node kinds not in the typescript grammar: abstract_method_definition"
+    },
+    {
+      "name": "templates",
+      "pass": true,
+      "ran": true,
+      "detail": "3 templates, placeholders only {text}, {noop}, {child0}"
+    },
+    {
+      "name": "controls",
+      "pass": true,
+      "ran": true,
+      "detail": "14 of 14 controls behaved as expected"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": true,
+      "ran": true,
+      "detail": "3 seeds: changed 3"
+    }
+  ]
+}

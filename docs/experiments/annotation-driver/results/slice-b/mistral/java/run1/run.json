@@ -1,0 +1,54 @@
+{
+ "language": "java",
+ "run": 1,
+ "examples": [
+  "rust",
+  "python"
+ ],
+ "started_utc": "2026-11-10T20:43:22+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-10T20:43:22+00:00",
+   "input_tokens": 2267,
+   "output_tokens": 7169,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- kinds_valid: node kinds not in the java grammar: text_block"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-10T20:44:22+00:00",
+   "input_tokens": 2750,
+   "output_tokens": 6923,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": false,
+ "admitted": true,
+ "repairs": 1,
+ "pack_sha256": "e72c58f678d7183ef991e2c4622e6c24a5653bf6cfafcc5c9cc66b7642c4d56c",
+ "mutants": {
+  "identical": true,
+  "scopes": {
+   "java-commons-csv-lexer": {
+    "identical": true,
+    "shipped": 170,
+    "written": 170,
+    "only_shipped": 0,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-10T20:45:22+00:00"
+}

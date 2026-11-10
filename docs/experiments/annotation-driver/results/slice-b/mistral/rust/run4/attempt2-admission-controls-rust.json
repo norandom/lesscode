@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "rust",
+  "pack_sha256": "24bf0ad56f1482df1bde20932421a529f9b0cb37f5eb1a75a6bd3d3f938d6e94",
+  "admitted": false,
+  "checks": [
+    {
+      "name": "json",
+      "pass": true,
+      "ran": true,
+      "detail": "one JSON object"
+    },
+    {
+      "name": "size",
+      "pass": true,
+      "ran": true,
+      "detail": "32 lines (at most 40), 1644 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": true,
+      "ran": true,
+      "detail": "required keys present with the right types"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": false,
+      "ran": true,
+      "detail": "node kinds not in the rust grammar: byte_string_literal, raw_byte_string_literal"
+    },
+    {
+      "name": "templates",
+      "pass": true,
+      "ran": true,
+      "detail": "3 templates, placeholders only {text}, {noop}, {child0}"
+    },
+    {
+      "name": "controls",
+      "pass": false,
+      "ran": true,
+      "detail": "3 of 5 controls behaved as expected; failing: error_constructor_call_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; code_under_an_inner_test_attribute_is_a_test_region expected [\"test_region\"] got [\"ok\"]"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": false,
+      "ran": true,
+      "detail": "3 seeds: changed 1, no_site 1, operators_differ 1"
+    }
+  ]
+}

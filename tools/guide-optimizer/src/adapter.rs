@@ -14,8 +14,7 @@ use std::collections::BTreeMap;
 use std::sync::{Arc, Mutex};
 
 pub const COMPONENT: &str = "guide";
-const AUTHOR_MAX_TOKENS: u64 = 4_000;
-const REFLECT_MAX_TOKENS: u64 = 8_000;
+pub const DEFAULT_MAX_TOKENS: (u64, u64) = (4_000, 8_000);
 const SECTIONS: [&str; 4] = ["## Fields", "## Operators", "## Rules", "## Output"];
 
 /// GEPA's reflection prompt with the limits a new guide must respect.
@@ -118,6 +117,8 @@ pub struct Authoring {
     pub rules: Arc<Rules>,
     pub log: Arc<Mutex<Vec<Trial>>>,
     pub rejected: Arc<Mutex<Vec<Value>>>,
+    /// Output limits of an authoring call and of a reflection call.
+    pub max_tokens: (u64, u64),
     last: Vec<Trial>,
 }
 
@@ -137,6 +138,7 @@ impl Authoring {
             rules,
             log: Arc::default(),
             rejected: Arc::default(),
+            max_tokens: DEFAULT_MAX_TOKENS,
             last: Vec::new(),
         }
     }
@@ -146,7 +148,7 @@ impl Authoring {
         let (reply, verdict, tokens, stop) =
             match self
                 .model
-                .chat("author", guide, &task.request, AUTHOR_MAX_TOKENS)
+                .chat("author", guide, &task.request, self.max_tokens.0)
             {
                 Err(e) => (
                     String::new(),
@@ -315,9 +317,7 @@ impl GepaAdapter for Authoring {
         let template =
             REFLECTION_TEMPLATE.replace("<max_chars>", &self.rules.max_chars.to_string());
         let prompt = render_prompt(guide_of(candidate), &dataset, Some(&template));
-        let reply = self
-            .model
-            .chat("reflect", "", &prompt, REFLECT_MAX_TOKENS)?;
+        let reply = self.model.chat("reflect", "", &prompt, self.max_tokens.1)?;
         if reply.stop_reason == "refusal" {
             return Err("the reflection request was refused".into());
         }

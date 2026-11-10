@@ -1,0 +1,62 @@
+{
+ "language": "typescript",
+ "run": 2,
+ "examples": [
+  "rust",
+  "python"
+ ],
+ "started_utc": "2026-11-10T20:45:28+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-10T20:45:28+00:00",
+   "input_tokens": 2267,
+   "output_tokens": 9616,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- size: 50 lines (at most 40), 1784 characters (at most 2500)",
+    "- kinds_valid: node kinds not in the typescript grammar: abstract_method_definition"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-10T20:47:12+00:00",
+   "input_tokens": 2809,
+   "output_tokens": 7010,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": false,
+ "admitted": true,
+ "repairs": 1,
+ "pack_sha256": "d7c1d6feddfdf872677465195d774f16b039189a0428876bd25c2940d943cc59",
+ "mutants": {
+  "identical": false,
+  "scopes": {
+   "typescript-openultracode-state": {
+    "identical": false,
+    "shipped": 71,
+    "written": 72,
+    "only_shipped": 0,
+    "only_written": 1
+   },
+   "typescript-openultracode-verification": {
+    "identical": true,
+    "shipped": 55,
+    "written": 55,
+    "only_shipped": 0,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-10T20:48:50+00:00"
+}

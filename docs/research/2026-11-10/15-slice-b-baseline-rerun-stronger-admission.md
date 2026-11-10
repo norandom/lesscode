@@ -1,7 +1,8 @@
 # R69: Slice B baseline rerun: stronger admission stops every first Rust pack, repair succeeds twice in five, and Java now differs too
 
 - Report date/time and timezone: 2026-11-10, Europe/Berlin (UTC+1)
-- Execution interval: 2026-11-10, about 22:05 to 22:08 local (153 seconds wall time, four conversations at a time)
+- Execution interval: 2026-11-10, 20:44 to 20:47 local (153 seconds wall time, four conversations at a time)
+  (Corrected 2026-11-10 from file and commit times; first written as "2026-11-10, about 22:05 to 22:08 local (153 seconds wall time, four conversations at a time)", which was an estimate.)
 - Status: completed for the current endpoint
 - Spec: [constraint-guided-compression](../../../.kiro/specs/constraint-guided-compression/requirements.md), Slice B
 - Hypothesis ID and predecessor: rerun of [R68](14-slice-b-pack-authoring-drift-baseline.md) under

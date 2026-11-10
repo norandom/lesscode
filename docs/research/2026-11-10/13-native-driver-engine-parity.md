@@ -1,7 +1,8 @@
 # R67: The native engine reproduces the prototype on the five gate scopes; 38 of 594 mutants are dropped on purpose as repeats of a negation
 
 - Report date/time and timezone: 2026-11-10, Europe/Berlin (UTC+1)
-- Execution interval: 2026-11-10, about 20:00 to 21:10 local
+- Execution interval: 2026-11-10, about 19:50 to 20:02 local
+  (Corrected 2026-11-10 from file and commit times; first written as "2026-11-10, about 20:00 to 21:10 local", which was an estimate.)
 - Status: completed
 - Spec: [agnostic-annotation-driver](../../../.kiro/specs/agnostic-annotation-driver/tasks.md), task group 3
   (Requirements 2.1, 2.2, 3.1 to 3.4, 6.1 to 6.3, 9.1 to 9.3)
