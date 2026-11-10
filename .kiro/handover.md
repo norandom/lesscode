@@ -25,9 +25,9 @@ has the result table, the open decisions, the owner's rules and the commands.
    [docs/reports/agnostic-driver-feasibility.md](../docs/reports/agnostic-driver-feasibility.md).
    Owner approved: mutation and analysis ported together; requirements
    approved. **Sizing spike done (R65): exact parity with the prototype,
-   core 898 canonical lines against 753 removable.** Waiting for the owner:
-   whether the driver counts toward the 7,173-line cap (its counted set
-   does not contain the adapters). Design continues with the batch runner.
+   core 898 canonical lines against 753 removable.** Owner decided: the driver
+   stays outside the cap's counted set, governed by per-file budgets. Design
+   continues with the batch runner, then `design.md` for approval.
 3. **Second priority, not to be forgotten (owner, 2026-11-10): Slice B,**
    hardening against LLM inference drift, in `constraint-guided-compression`
    (requirements Amendment 5). Not started. It starts when the driver's

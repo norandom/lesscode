@@ -588,6 +588,16 @@ set. That set (R41) lists fixed files and contains neither the adapters
 nor the deconvolution command code. Whether the driver enters the counted
 set is the open owner decision; the batch runner is still unsized.
 
+## Owner decision on the apparatus cap, 2026-11-10
+
+The driver stays **outside the counted set of the 7,173-line cap**, as the
+adapters it replaces were (owner: "(1) it is", on the two options of R65).
+It is governed by the per-file complexity budgets (400 physical lines, 300
+syntax units, 80 lines per function) and must be registered in
+`native/complexity-budgets.json` file by file. The cap and its counted set
+(R41) are unchanged. This closes the apparatus row for the driver; it is not
+a general exemption for other work.
+
 ## Result of attempt 1, 2026-11-10
 
 Outcome `revise`; full tables and limits in R61. No design approval and no
