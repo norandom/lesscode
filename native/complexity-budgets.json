@@ -118,6 +118,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/workspace.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Working copies, refusal rules and the restore journal (tasks 5.1, 5.2, REQ 5.1..5.6)",
+   "disposition": null
+  },
+  {
    "path": "adapters/java/analysis.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

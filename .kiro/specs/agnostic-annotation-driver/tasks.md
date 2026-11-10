@@ -112,12 +112,12 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Done when CLI tests show mutants for all four languages and the source file is byte-identical afterwards.
   - _Requirements: 3.5, 3.6, 3.7, 5.1, 7.2_
 
-- [ ] 5. Workspace and safety
-- [ ] 5.1 Implement copies and the refusal rules
+- [x] 5. Workspace and safety
+- [x] 5.1 Implement copies and the refusal rules
   - `driver/workspace.rs`: recursive copy without version-control metadata and configured exclusions; setup
     commands; refusal when the work directory is the source root, inside it, or contains it.
   - _Requirements: 5.1, 5.2_
-- [ ] 5.2 Implement the restore journal
+- [x] 5.2 Implement the restore journal
   - Save the original and a journal entry before a mutant is written; restore, verify the hash and clear the
     entry afterwards; recover found entries at start and report them; stop with a failure when verification
     fails.

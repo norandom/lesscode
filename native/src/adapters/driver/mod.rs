@@ -15,6 +15,7 @@ pub mod registry;
 pub mod sites;
 pub mod source;
 pub mod tree;
+pub mod workspace;
 
 use serde::{Deserialize, Serialize};
 
