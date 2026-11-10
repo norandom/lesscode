@@ -187,6 +187,36 @@ Limits of this addition: the smoke test ran one real change per scope, which
 shows the harness classifies, not how the operators perform. Rust has only
 16 mutable sites, so its D1 batch will be 16 mutants, not 40.
 
+## Addition 2, 2026-11-10 (about 12:10 local): freeze before the first model call
+
+Guide version 0 and the model-call runner are frozen here, before any model
+call. The runner was written by a delegated Opus agent from a written
+specification and tested only against a local fake endpoint (17 tests); it
+has made no real call.
+
+| File | Lines | SHA-256 |
+| --- | --- | --- |
+| `guide-v0.md` | 51 | `4f011694ed11da621b4f6d9ff10c4f227d7aa562cf212ca79caf44bb74ee3ae1` |
+| `annotate.py` | 272 | `b4a9d5d95aec50b0c9fe2bb0b7d073c1c32cf715b3f1e5d8b49fbe60c8609133` |
+| `test_annotate.py` | 393 | `91b440bb66dc06beba4d221d550be4f28984ac7c365fa1ce41c48fe52a0e1b6a` |
+| `scopes.json` (Java limit, Amendment 5) | 39 | `b63e3a5e454b11425526d76d9f6e0b8b93293a57850cc2f902b0289a6b89b113` |
+| `compose.yaml` (Amendment 5) | 41 | `3d1e1bfeab3d574484df6d34c962acd7052986a7eca8bdae0bf4a900f0b909c6` |
+
+Request shape: the guide is the system message; the user message is the
+scope file with line numbers under a fixed one-sentence header; no sampling
+parameters and no extended thinking are requested; 16,000 output tokens at
+most; at most two attempts per call. Endpoint: Anthropic style,
+`claude-opus-5-5`, from the owner's `model.env`.
+
+Plan for the first calls, fixed now: one development call each on the Rust
+and Python scopes with guide version 0. These are not counted runs. If
+either scope has fewer than 80% valid annotations, the guide is revised
+using those two scopes only and frozen again as version 1 under a new hash;
+otherwise version 0 is the frozen guide. The counted runs (arm A twice per
+scope on all four scopes, D2 for the two held-out languages) follow. Every
+call, including development calls, counts toward the 20 USD cap and is
+recorded in the ledger.
+
 ## COBESY check
 
 Outcome first: decisions, no mechanism result. Replay: counts, revisions,
