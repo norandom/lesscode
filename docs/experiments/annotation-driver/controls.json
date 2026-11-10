@@ -1,0 +1,52 @@
+{
+  "note": "Hand-made control annotations for gate checklist step 2. Each seed is a correct annotation written by hand from the scope source; run_controls.py derives the wrong variants from the seeds and from the locations named here. No model is involved.",
+  "scopes": {
+    "rust-mmhmem-setup-check": {
+      "seeds": [
+        {"file": "src/setup/check.rs", "start_line": 214, "end_line": 214, "kind": "branch_condition", "anchor": "Some(step) == failed_at", "reason": "decides which step is reported as the failing one"},
+        {"file": "src/setup/check.rs", "start_line": 215, "end_line": 215, "kind": "state_write", "anchor": "seen_failure = true", "reason": "marks every later step as skipped"}
+      ],
+      "comment_line": 2,
+      "test_file": "tests/setup_check.rs",
+      "outside_file": "src/setup/mod.rs",
+      "comment_text": "// control comment",
+      "real_change": ["Some(step) == failed_at", "Some(step) != failed_at"]
+    },
+    "python-mvibe-ratelimit": {
+      "seeds": [
+        {"file": "mvibe_proxy/ratelimit.py", "start_line": 85, "end_line": 85, "kind": "branch_condition", "anchor": "raw is None or not raw.strip()", "reason": "treats an unset or blank setting as absent"},
+        {"file": "mvibe_proxy/ratelimit.py", "start_line": 108, "end_line": 108, "kind": "failure_state", "anchor": "raise RateLimitConfigError(f'{key} must be a positive number')", "reason": "rejects an invalid rate"},
+        {"file": "mvibe_proxy/ratelimit.py", "start_line": 453, "end_line": 453, "kind": "state_write", "anchor": "self._held += 1", "reason": "counts a held request"}
+      ],
+      "comment_line": 62,
+      "test_file": "tests/test_ratelimit.py",
+      "outside_file": "mvibe_proxy/compat.py",
+      "comment_text": "# control comment",
+      "real_change": ["self._held += 1", "self._held += 2"]
+    },
+    "typescript-openultracode-state": {
+      "seeds": [
+        {"file": "src/state.ts", "start_line": 50, "end_line": 50, "kind": "branch_condition", "anchor": "isNodeError(error) && error.code === \"ENOENT\"", "reason": "a missing state file is not an error"},
+        {"file": "src/state.ts", "start_line": 54, "end_line": 54, "kind": "failure_state", "anchor": "throw error", "reason": "any other read error propagates"},
+        {"file": "src/state.ts", "start_line": 59, "end_line": 59, "kind": "state_write", "anchor": "parsed = JSON.parse(raw)", "reason": "holds the parsed state"}
+      ],
+      "comment_line": 26,
+      "test_file": "tests/state.test.ts",
+      "outside_file": "src/config.ts",
+      "comment_text": "// control comment",
+      "real_change": ["error.code === \"ENOENT\"", "error.code !== \"ENOENT\""]
+    },
+    "java-commons-csv-lexer": {
+      "seeds": [
+        {"file": "src/main/java/org/apache/commons/csv/Lexer.java", "start_line": 82, "end_line": 82, "kind": "branch_condition", "anchor": "unescaped == EOF", "reason": "end of input directly after an escape character"},
+        {"file": "src/main/java/org/apache/commons/csv/Lexer.java", "start_line": 56, "end_line": 56, "kind": "state_write", "anchor": "this.reader = reader", "reason": "stores the input reader"},
+        {"file": "src/main/java/org/apache/commons/csv/Lexer.java", "start_line": 109, "end_line": 109, "kind": "failure_state", "anchor": "return reader.getBytesRead();", "reason": "syntactically a return; used as a kind-compatible seed"}
+      ],
+      "comment_line": 83,
+      "test_file": "src/test/java/org/apache/commons/csv/LexerTest.java",
+      "outside_file": "src/main/java/org/apache/commons/csv/CSVParser.java",
+      "comment_text": "// control comment",
+      "real_change": ["unescaped == EOF", "unescaped != EOF"]
+    }
+  }
+}

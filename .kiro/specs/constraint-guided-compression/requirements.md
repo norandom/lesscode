@@ -72,9 +72,11 @@ conditions are proposed for the design and remain open to review:
   test oracle.
 - No mutants, or a mutant that did not land, is an incomplete or failed
   result. It is never reported as a pass, and the command does not exit 0.
-- The existing fixed operators stay as a frozen control set. They give a
-  model-independent reference against which drift between models, versions
-  and temperatures can be measured.
+- ~~The existing fixed operators stay as a frozen control set.~~ Superseded
+  2026-11-10: the owner requires the hard-coded operators to be removed
+  completely (agnostic-annotation-driver gate Amendment 2b). The
+  model-independent reference for measuring drift is to come from hash-pinned
+  deterministic rule packs.
 - Scopes used to compile the prompt are kept apart from the held-out scopes
   on which generation is evaluated (`Req 7.5`); rollout hashes, model identity
   and sampling settings are retained (`Req 7.4`).

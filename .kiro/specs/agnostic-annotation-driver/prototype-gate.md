@@ -1,6 +1,6 @@
 # Prototype gate: agnostic annotation-guided driver
 
-Status: **not-run**, 2026-11-10 (scopes admitted, see Amendment 1; nothing else executed). Research preparation only. No production
+Status: **not-run**, 2026-11-10 (checklist steps 1 and 2 done, see Amendments 1 and 2; no arm A, C or D run, no model call). Research preparation only. No production
 tasks exist or are authorized. Execution needs the owner's go, because it
 selects external scopes and spends model tokens. See the [brief](brief.md) and
 [R56](../../../docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md).
@@ -166,9 +166,59 @@ second priority: a driver with no inference at run time has no run-time
 inference drift, and the remaining model output is a small, reviewable,
 hash-pinned artifact. If arm D fails where arm A passes, arm A stands.
 
+## Amendment 2, 2026-11-10 (pre-run; [R58](../../../docs/research/2026-11-10/04-annotation-driver-validator-controls.md))
+
+Made before any model call and before any arm A, C or D run.
+
+**2a. Arm D is in force.** The owner approved the proposal of Amendment 1c on
+2026-11-10. Arms D1 and D2 run on the same scopes and are judged by the same
+rows as arm A, with the decision rule stated there.
+
+**2b. The hard-coded operators are to be removed completely** (owner,
+2026-11-10: "we need to fully remove hardcoded arms"). Consequences:
+
+- Arm B exists in this gate only as a measurement, taken with the released
+  1.0.1 binary. It is not a component of any outcome.
+- A `proceed` design must delete the operator bodies in
+  `native/src/adapters/{rust,java,typescript}/mutation.rs` and every
+  specimen-specific string. They are not kept as a control set; this
+  supersedes the corresponding condition in
+  [constraint-guided-compression](../constraint-guided-compression/requirements.md)
+  Amendment 5. A model-independent reference for drift comes from the
+  hash-pinned rule packs instead.
+- The agnosticism row also covers rule packs: no scope-specific string in the
+  guide, the operators, the tables or the rule packs.
+- If the gate ends in `revise` or `stop`, the removal requirement remains;
+  what the released command does in the meantime is the owner's decision.
+
+**2c. Validator rules as implemented and frozen** (contract version 0; the
+five rules above, made precise):
+
+- Rule 2: the anchor must be exactly the text of one syntax node that starts
+  and ends on the stated lines. Text that is only part of a node, or that
+  matches nodes at more than one position in those lines, is rejected
+  (`anchor_mismatch`, `anchor_ambiguous`).
+- Rule 3: the kind check uses the node, any wrapper or wrapped node covering
+  the same text, and a parenthesis wrapper where the language table names
+  one, so an anchor on the expression inside `if (...)` counts as the
+  condition. `error_order` also needs a following sibling of the same kind.
+- Rule 1 also rejects sites under a test attribute named in the language
+  table (`test_region`), and annotations with missing or inconsistent fields
+  are rejected as `malformed`.
+- A mutant is `changed` only if it parses without error nodes and its token
+  sequence, ignoring comments and whitespace, differs from the original.
+
+Frozen by hash in R58: `validator.py`, the four tables (14 to 17 lines each),
+`scopes.json`, `controls.json`, `run_controls.py`. Changing any of them after
+the first model call needs a dated amendment.
+
+**2d. Validator integrity row: met.** 71 of 71 controls behaved as expected
+on the four scopes (R58). This validates the checker, not the mechanism.
+
 ## Evidence record
 
-Screening and admission are recorded in R57. No arm A, C or D result exists yet. Execution begins with a dated research entry that
+Screening and admission are recorded in R57, the validator controls in R58.
+No arm A, C or D result exists yet. Execution begins with a dated research entry that
 freezes the inputs, and ends with one that reports each row above, the raw
 annotations, validator decisions, mutants, test logs and the review labels.
 A validator control validates the checker, not the mechanism.

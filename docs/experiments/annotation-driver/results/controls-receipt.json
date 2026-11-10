@@ -1,0 +1,733 @@
+{
+ "receipt": "annotation-driver-validator-controls-v0",
+ "controls": 71,
+ "failed": 0,
+ "passed": true,
+ "inputs_sha256": {
+  "validator.py": "d1d11ac7841ca48d7f8ef3635cce28da2414f0fe2b816ba118965c3c3f313775",
+  "run_controls.py": "6e3851a80babd3295ef35ce4206570fe86c50a0cf8c0ec28758f8b159702bb49",
+  "controls.json": "2d1d4fb9fb4bd2cdb758f5912b6f381c87e1e0171d62991284b3d1f8ef27550d",
+  "scopes.json": "c1ea2e9bb827a053ff46445c2c6a8713a90ab235da57ab76c7909a24a234f2e0",
+  "tables/java.json": "e8769f905d6aba313b5a5b677890f46114f8187cc64718a79ae42217f8c69fc7",
+  "tables/python.json": "0be340697d93a3433a272942cfc51715b5811bbeea4158d1ecf0ac286a9a4b4a",
+  "tables/rust.json": "b519961dfe34d2f37aa90cf838d3519a295f7504814ef7ee879fe1271316ff54",
+  "tables/typescript.json": "f90933c604c8c2a3b81d20acfd9ea0d121666faedd4e9ed1170380642b5dcef3"
+ },
+ "scope_files_sha256": {
+  "rust-mmhmem-setup-check:src/setup/check.rs": "36eff9a6aaa7c3644f72b1d8c6ddc5c2d1899c0cd79acbadc6c5167524783788",
+  "python-mvibe-ratelimit:mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828",
+  "typescript-openultracode-state:src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9",
+  "java-commons-csv-lexer:src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+ },
+ "results": [
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "seed:branch_condition@214",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "seed:state_write@215",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "wrong_line",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "altered_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "partial_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "in_comment",
+   "expected": [
+    "in_comment_or_string"
+   ],
+   "got": [
+    "in_comment_or_string"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "test_file",
+   "expected": [
+    "test_file"
+   ],
+   "got": [
+    "test_file"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "outside_scope",
+   "expected": [
+    "outside_scope"
+   ],
+   "got": [
+    "outside_scope"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "kind_mismatch",
+   "expected": [
+    "kind_mismatch"
+   ],
+   "got": [
+    "kind_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "duplicate",
+   "expected": [
+    "ok",
+    "duplicate"
+   ],
+   "got": [
+    "ok",
+    "duplicate"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "malformed_no_kind",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "malformed_lines",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "mutant:identical",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "mutant:whitespace_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "mutant:comment_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "mutant:real_change",
+   "expected": "changed",
+   "got": "changed",
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-check",
+   "control": "mutant:unparseable",
+   "expected": "parse_error",
+   "got": "parse_error",
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "seed:branch_condition@85",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "seed:failure_state@108",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "seed:state_write@453",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "wrong_line",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "altered_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "partial_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "in_comment",
+   "expected": [
+    "in_comment_or_string"
+   ],
+   "got": [
+    "in_comment_or_string"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "test_file",
+   "expected": [
+    "test_file"
+   ],
+   "got": [
+    "test_file"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "outside_scope",
+   "expected": [
+    "outside_scope"
+   ],
+   "got": [
+    "outside_scope"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "kind_mismatch",
+   "expected": [
+    "kind_mismatch"
+   ],
+   "got": [
+    "kind_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "duplicate",
+   "expected": [
+    "ok",
+    "duplicate"
+   ],
+   "got": [
+    "ok",
+    "duplicate"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "malformed_no_kind",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "malformed_lines",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "mutant:identical",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "mutant:whitespace_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "mutant:comment_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "mutant:real_change",
+   "expected": "changed",
+   "got": "changed",
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "control": "mutant:unparseable",
+   "expected": "parse_error",
+   "got": "parse_error",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "seed:branch_condition@50",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "seed:failure_state@54",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "seed:state_write@59",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "wrong_line",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "altered_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "partial_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "in_comment",
+   "expected": [
+    "in_comment_or_string"
+   ],
+   "got": [
+    "in_comment_or_string"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "test_file",
+   "expected": [
+    "test_file"
+   ],
+   "got": [
+    "test_file"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "outside_scope",
+   "expected": [
+    "outside_scope"
+   ],
+   "got": [
+    "outside_scope"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "kind_mismatch",
+   "expected": [
+    "kind_mismatch"
+   ],
+   "got": [
+    "kind_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "duplicate",
+   "expected": [
+    "ok",
+    "duplicate"
+   ],
+   "got": [
+    "ok",
+    "duplicate"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "malformed_no_kind",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "malformed_lines",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "mutant:identical",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "mutant:whitespace_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "mutant:comment_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "mutant:real_change",
+   "expected": "changed",
+   "got": "changed",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "control": "mutant:unparseable",
+   "expected": "parse_error",
+   "got": "parse_error",
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "seed:branch_condition@82",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "seed:state_write@56",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "seed:failure_state@109",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "wrong_line",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "altered_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "partial_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "in_comment",
+   "expected": [
+    "in_comment_or_string"
+   ],
+   "got": [
+    "in_comment_or_string"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "test_file",
+   "expected": [
+    "test_file"
+   ],
+   "got": [
+    "test_file"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "outside_scope",
+   "expected": [
+    "outside_scope"
+   ],
+   "got": [
+    "outside_scope"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "kind_mismatch",
+   "expected": [
+    "kind_mismatch"
+   ],
+   "got": [
+    "kind_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "duplicate",
+   "expected": [
+    "ok",
+    "duplicate"
+   ],
+   "got": [
+    "ok",
+    "duplicate"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "malformed_no_kind",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "malformed_lines",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "mutant:identical",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "mutant:whitespace_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "mutant:comment_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "mutant:real_change",
+   "expected": "changed",
+   "got": "changed",
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "mutant:unparseable",
+   "expected": "parse_error",
+   "got": "parse_error",
+   "pass": true
+  }
+ ]
+}

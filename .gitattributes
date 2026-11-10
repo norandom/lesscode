@@ -10,3 +10,5 @@ docs/experiments/deconvolution/regenerator/results/turns/** text eol=lf
 # Release installer runs under POSIX sh on Linux and macOS.
 scripts/*.sh text eol=lf
 scripts/release-public-keys.txt text eol=lf
+# Prototype inputs are frozen by hash in the research log; keep their bytes stable.
+docs/experiments/annotation-driver/** text eol=lf

@@ -1,0 +1,9 @@
+{
+  "note": "Admitted by gate Amendment 1 (R57). Paths are relative to the isolated clone of each repository under SCOPES_DIR.",
+  "scopes": [
+    {"name": "rust-mmhmem-setup-check", "language": "rust", "role": "development", "repository": "mmhmem", "revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1", "files": ["src/setup/check.rs"], "test_paths": ["tests/"]},
+    {"name": "python-mvibe-ratelimit", "language": "python", "role": "development", "repository": "mvibe", "revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c", "files": ["mvibe_proxy/ratelimit.py"], "test_paths": ["tests/"]},
+    {"name": "typescript-openultracode-state", "language": "typescript", "role": "held-out", "repository": "OpenUltraCode", "revision": "37a4e55f1b9397332acc6434783099a631a04918", "files": ["src/state.ts"], "test_paths": ["tests/"]},
+    {"name": "java-commons-csv-lexer", "language": "java", "role": "held-out", "repository": "commons-csv", "revision": "2bd66bf181d44ffc92806f585d3955e915666f7f", "files": ["src/main/java/org/apache/commons/csv/Lexer.java"], "test_paths": ["src/test/"]}
+  ]
+}

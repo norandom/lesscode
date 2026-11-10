@@ -1,0 +1,17 @@
+{
+  "language": "rust",
+  "comment_kinds": ["line_comment", "block_comment"],
+  "string_kinds": ["string_literal", "raw_string_literal"],
+  "unwrap_kinds": [],
+  "test_attribute_markers": ["cfg(test)", "#[test]"],
+  "kinds": {
+    "branch_condition": {"field_of": [["if_expression", "condition"], ["while_expression", "condition"]]},
+    "failure_state": {
+      "nodes": ["return_expression", "try_expression"],
+      "nodes_with_prefix": {"call_expression": ["Err("], "macro_invocation": ["panic!", "bail!", "unreachable!"]}
+    },
+    "error_order": {"nodes": ["if_expression"], "requires_next_sibling": true},
+    "state_write": {"nodes": ["assignment_expression", "compound_assignment_expr"]},
+    "pure_shell_boundary": {"nodes": ["function_item"]}
+  }
+}

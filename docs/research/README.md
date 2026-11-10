@@ -2,7 +2,17 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R57 Scopes admitted for the annotation-driver gate (2026-11-10)
+## Latest: R58 Annotation validator controls pass; arm D in force; hard-coded operators to be removed (2026-11-10)
+
+[R58](2026-11-10/04-annotation-driver-validator-controls.md) completes checklist
+step 2 of the gate, without a model.
+- **Result:** 71 of 71 controls behaved as expected on the four scopes: 11 hand-made correct annotations accepted, 40 wrong ones rejected with the expected reason, 20 mutant classifications correct. This validates the checker, not the mechanism.
+- **Owner decisions (gate Amendment 2):** arm D (rules as data; the model as offline rule author for held-out languages) is approved; the hard-coded mutation operators must be removed completely and are not kept as a control set.
+- **Frozen by hash:** validator, four language tables (14 to 17 lines each), scope manifest, controls.
+- **Early warning:** the Rust scope has few branch sites, so the yield row may be hard to meet there.
+- **Next:** comparison arm and mutation baseline (model-free), then generic operators, rule packs and guide version 0.
+
+## Prior: R57 Scopes admitted for the annotation-driver gate (2026-11-10)
 
 [R57](2026-11-10/03-annotation-driver-scope-admission.md) completes checklist
 step 1 of the gate. Setup only; no model call, no hypothesis test.
