@@ -33,7 +33,7 @@
       "files": ["src/main/java/org/apache/commons/csv/Lexer.java"], "test_paths": ["src/test/"],
       "test": ["docker", "compose", "-f", "{experiment}/compose.yaml", "run", "--rm", "java-tests"],
       "env": {"SCOPES_DIR": "{scopes}", "JAVA_TEST": "LexerTest"},
-      "timeout_s": 900, "invalid_exit_codes": [], "invalid_output_patterns": ["COMPILATION ERROR"]
+      "timeout_s": 180, "invalid_exit_codes": [], "invalid_output_patterns": ["COMPILATION ERROR"]
     }
   ]
 }

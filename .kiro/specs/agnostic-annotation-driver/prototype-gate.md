@@ -323,6 +323,18 @@ building and checking the engine; none comes from a mutation result.
   eligible, Python 161 of 200, TypeScript 29 of 50, Java 115 of 157. Most of
   the rest are `return` statements labelled as failure sites.
 
+## Amendment 5, 2026-11-10 (operational; during D1, before any Java result)
+
+The first Java D1 batch was stopped by hand at its seventh mutant, which
+looped forever; the limit of 900 s per run would have cost 15 minutes for
+every such mutant, and the test container kept running after the harness
+gave up. No Java mutant result from that batch is used. The Java limit is
+now 180 s per run (the unmutated run takes 10 to 75 s) and the container
+ends itself after 240 s. Classification is unchanged: a run that hits the
+limit is `timeout`, neither killed nor survived. The clone was restored from
+its commit and its file hash matches R57. D1 for Rust, Python and TypeScript
+had already finished and is not affected.
+
 ## Evidence record
 
 Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58, the engine checks in the R59 addition.

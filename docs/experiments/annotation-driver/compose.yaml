@@ -16,7 +16,13 @@ services:
       - maven-repo:/root/.m2
     # Only compile and run the selected test class; the project's reporting
     # and license-audit plugins are not part of the behavioral baseline.
+    # The test run ends itself after 240 s, so a mutant that loops forever cannot
+    # leave a container running once the harness (limit 180 s) has given up on it.
     command:
+      - timeout
+      - -s
+      - KILL
+      - "240"
       - mvn
       - -B
       - -q
