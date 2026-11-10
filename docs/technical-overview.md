@@ -1,5 +1,11 @@
 # How Lesscode evaluates a proposed simplification
 
+> Archived (2026-11-10). This guide describes the Python prototype
+> `lesscode-baseline`, retired at commit `fd0b5b9`. Its package, tests and some
+> files linked below are no longer in the repository; the
+> [preserved baseline index](archive/preserved-python-baseline.md) explains how to
+> recover them. For the current tool, start at the [README](../README.md).
+
 Lesscode compares two supplied Python source trees under one recorded evaluation
 profile. Its result answers a bounded question: did this candidate pass these
 checks and acceptance rules, and what structural changes were measured?

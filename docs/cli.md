@@ -123,6 +123,12 @@ scope, tool metadata and provenance remain authoritative and validated. Imports
 do not recertify freshness. The CLI does not generate coverage/mutation results;
 generated evidence with explicit freshness bounds remains a Python integration API.
 
+> Archived (2026-11-10). This guide describes the Python prototype
+> `lesscode-baseline`, retired at commit `fd0b5b9`. Its package, tests and some
+> files linked below are no longer in the repository; the
+> [preserved baseline index](archive/preserved-python-baseline.md) explains how to
+> recover them. For the current tool, start at the [README](../README.md).
+
 ## Summarizing recorded experiments
 
 ```powershell

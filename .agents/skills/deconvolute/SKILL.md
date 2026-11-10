@@ -73,8 +73,15 @@ Evaluate structural reduction using `lesscode-core`:
 
 The native `lesscode-core` binary exposes first-class deconvolution commands across all supported runtimes:
 
+### Known limits of the porcelain (R55, 2026-11-10)
+Measured with the 1.0.1 binary; see `docs/research/2026-11-10/01-released-binary-adopter-dogfood.md`.
+- `analyze --lang python` performs no analysis and still reports `"passed": true`. Do not use it as evidence.
+- `mutate` uses operators bound to the experiment specimens. On other code it usually writes no mutants and still exits 0; read `mutants_generated`. There is no Python generator.
+- `density --lang python` reports the line count in both the line and statement fields.
+- The pre-push hook enforces complexity budgets only. It does not analyze `refactor/*` or `deconvolute/*` branches.
+
 ### Binary Discovery
-Locate the compiled binary in standard build locations:
+Prefer an installed release binary on `PATH` (`lesscode-core --version`; install with `scripts/install.sh` or `scripts/install.ps1`). Otherwise locate the compiled binary in standard build locations:
 - `$env:CARGO_TARGET_DIR/debug/lesscode-core.exe` (when custom target dir is configured)
 - `native/target/debug/lesscode-core.exe` (or `target/debug/lesscode-core.exe`)
 - Alternatively, invoke via Cargo: `cargo run --manifest-path native/Cargo.toml -- deconvolute <subcommand>`
@@ -113,11 +120,11 @@ Interprets push refs, verifies complexity ceilings before remote push, and gates
 lesscode-core deconvolute install-hook [--git-dir .git] [--force]
 
 # Execute pre-push validation directly:
-lesscode-core deconvolute pre-push [--ref <ref>] [--sha <sha>]
+lesscode-core deconvolute pre-push [--local-ref <ref>] [--local-sha <sha>]
 ```
 - **Automatic Bypasses:** Deletions of remote branches and `LESSCODE_SKIP_HOOK=1` exit 0 immediately.
 - **Complexity Budgets:** Intercepts regressions in `complexity-budgets.json` before code reaches the remote.
-- **Refactoring Branches (`refactor/*`, `deconvolute/*`):** Automatically treated as major refactorings, checking AST state-boundary cleanliness and test oracle kill discipline.
+- **Refactoring Branches (`refactor/*`, `deconvolute/*`):** Recognized and announced; the hook prints a note when tracked files are uncommitted. No state-boundary or mutation check runs in the hook, so run `analyze` and the test oracle yourself.
 
 ### General & Budget Commands
 ```powershell

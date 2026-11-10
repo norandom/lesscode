@@ -67,8 +67,8 @@ All four core languages operate with identical verification rigor, budget govern
 Language adapters plug into `lesscode-core` by implementing four traits:
 
 ### 1. `StateFrameAnalyzer`
-- **Purpose:** Statically analyzes candidate source text against a declared [`FrameSpec`](file:///C:/Users/mariu/Source/lesscode/native/src/adapter_traits.rs#L67).
-- **Semantics:** Emits all observed variable/field write sites. If the candidate attempts write operations outside permitted scopes or uses unanalyzable dynamic features (e.g. `eval`, `unsafe`, dynamic reflection), it returns a [`CoverageGap`](file:///C:/Users/mariu/Source/lesscode/native/src/adapter_traits.rs#L53) with precise source spans and marks the analysis invalid.
+- **Purpose:** Statically analyzes candidate source text against a declared [`FrameSpec`](../native/src/adapter_traits.rs#L67).
+- **Semantics:** Emits all observed variable/field write sites. If the candidate attempts write operations outside permitted scopes or uses unanalyzable dynamic features (e.g. `eval`, `unsafe`, dynamic reflection), it returns a [`CoverageGap`](../native/src/adapter_traits.rs#L53) with precise source spans and marks the analysis invalid.
 
 ### 2. `PureCoreVerifier`
 - **Purpose:** Verifies that a transformed pure core is behaviorally identical to the baseline implementation over a bounded finite domain.

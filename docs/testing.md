@@ -1,7 +1,8 @@
 # Parallel test runners
 
-Use cargo-nextest for the native Rust core and pytest-xdist for the retained
-Python reference package. These are development tools, not product dependencies.
+Use cargo-nextest for the native Rust core. The pytest-xdist commands below
+apply to the Python prototype, which was retired at commit `fd0b5b9`; they are
+kept for replaying the frozen trials from a checkout of that revision. These are development tools, not product dependencies.
 
 ## Rust
 
@@ -16,7 +17,7 @@ Cargo build jobs. Keep the separate doctest command: nextest does not replace
 that coverage. The native CI uses these commands and retains their output.
 [Nextest usage](https://nexte.st/docs/running/)
 
-## Python
+## Python (retired prototype)
 
 Use the explicit existing uv interpreter described in [runtime setup](runtime-setup.md).
 For this checkout:

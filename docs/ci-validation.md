@@ -57,6 +57,40 @@ describes the earlier capture time, superseded by the hosted audit.
 - **macOS x86_64 (Intel)**: Verified natively on Intel through GitHub-hosted `macos-15-intel` runners.
 - **Windows x86_64**: Verified natively through GitHub-hosted `windows-2025` runners.
 
+## Release binaries
+
+`.github/workflows/release.yml` builds the adopter binaries. Pushing a tag of
+the form `vX.Y.Z` runs three stages:
+
+1. `draft` checks that the tag equals the version in `native/Cargo.toml`,
+   creates a draft GitHub release with generated notes, and attaches
+   `scripts/install.sh` and `scripts/install.ps1`.
+2. `build` compiles `lesscode-core` with Rust 1.98.1 and `--locked` on the same
+   five runners as the correctness matrix, one per target:
+   `x86_64-unknown-linux-gnu`, `aarch64-unknown-linux-gnu`,
+   `x86_64-pc-windows-msvc`, `x86_64-apple-darwin`, `aarch64-apple-darwin`.
+   Each job runs the built binary once (`--version`), packs it with `LICENSE`,
+   `LICENSES.md` and `THIRD_PARTY_NOTICES.txt` into
+   `lesscode-core-<target>.tar.gz` (`.zip` on Windows), writes a `.sha256`
+   file and uploads both to the draft.
+3. `publish` marks the release as published and latest, only if all five
+   builds succeeded. A partial build leaves a draft that nobody can install
+   from; delete it or rerun the failed job.
+
+Asset names carry no version, so
+`https://github.com/norandom/lesscode/releases/latest/download/<asset>` always
+resolves to the newest release. The install scripts rely on that.
+
+Starting the workflow by hand (`workflow_dispatch`) runs only the build stage
+and keeps the archives as workflow artifacts for 14 days. Use it to check
+packaging before tagging. The release workflow does not run the test suite;
+tag only a commit whose `Native core correctness` run is green. The Linux
+binaries link against the runner's glibc (2.39 on Ubuntu 24.04).
+
+To cut a release: bump the version in `native/Cargo.toml`, `native/Cargo.lock`,
+`CITATION.cff`, `.zenodo.json` and the README badge; push; wait for green CI;
+then push the tag. Zenodo archives the release when it is published.
+
 ## Historical Python baseline (Archived)
 
 The Python prototype (`lesscode-baseline`) and its corresponding `.github/workflows/baseline-platforms.yml` workflow were retired and archived at commit `fd0b5b9`. The historical evidence and reports remain preserved in `evidence/`.

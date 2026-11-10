@@ -1,16 +1,33 @@
 # Lesscode documentation
 
-Follow the [dated research log](research/README.md) for experiment progress,
-hypothesis revisions, retained negative results and links back to Kiro specs.
+## Start here
 
-Start with the [native workflow and scoped readiness report](reports/native-core-readiness.md).
-Supply the baseline, candidate, reviewed ownership and externally run checks;
-inspect JSON and Markdown before adoption. Python and TypeScript are supported
-for the exercised scopes. Native Linux, Windows and macOS checks passed in
-[Actions](ci-validation.md#rust-core-dagger-and-actions).
-The retained Python evaluator guides below remain usable reference workflows.
+| You want to | Read |
+| --- | --- |
+| Install the binary and run it on one change | [README](../README.md#install) |
+| Know what the released commands check and what they do not | [README: what is not checked](../README.md#what-is-not-checked) and [R55](research/2026-11-10/01-released-binary-adopter-dogfood.md) |
+| Try it with one reviewer before making it a gate | [Adoption guide](adoption.md) |
+| Build from source, check prerequisites and license notices | [Native core](../native/README.md) |
+| Understand the architecture or add a language | [Multi-language deconvolution](multi-language-deconvolution.md) |
+| See how checks and releases are built | [CI and release workflows](ci-validation.md) |
+| Follow the experiments, including the failed ones | [Dated research log](research/README.md) |
+| Use the frozen-manifest comparison (`prepare`, `compare`) | [Native workflow and scoped readiness report](reports/native-core-readiness.md) |
 
-## Run your first comparison
+The native core runs on Linux x86_64 and aarch64, Windows x86_64, and macOS on
+Intel and Apple Silicon; each push to `main` is checked on all five in
+[Actions](ci-validation.md#multi-platform-and-multi-architecture-ci-matrix).
+
+The Python prototype (`lesscode-baseline`) was retired at commit `fd0b5b9`.
+Its guides ([CLI](cli.md), [runtime setup](runtime-setup.md),
+[analyzer setup](analyzer-setup.md), [profiles](profiles.md),
+[technical overview](technical-overview.md)) are kept as archived reference
+and carry a notice at the top.
+
+## Experiments, reports and earlier guides
+
+Rows that mention the Python package, uv or profiles belong to the retired
+prototype. Some rows point to experiment records that are kept in the owner's
+working tree and may not be present in a fresh clone.
 
 | Goal | Guide |
 | --- | --- |
@@ -50,7 +67,7 @@ The retained Python evaluator guides below remain usable reference workflows.
 | Research substantial simplification after modularization | [Facdrone empirical roadmap](experiments/facdrone/README.md) |
 | Inspect a measured architectural obstruction to simplification | [Facdrone solution review and boundary probe](experiments/facdrone/solution-review.md) |
 
-## Understand the evaluator
+## Understand the retired Python evaluator
 
 Read the [technical overview](technical-overview.md) for the detailed writeup:
 

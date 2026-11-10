@@ -1,5 +1,11 @@
 # Configure a comparison for your code
 
+> Archived (2026-11-10). This guide describes the Python prototype
+> `lesscode-baseline`, retired at commit `fd0b5b9`. Its package, tests and some
+> files linked below are no longer in the repository; the
+> [preserved baseline index](archive/preserved-python-baseline.md) explains how to
+> recover them. For the current tool, start at the [README](../README.md).
+
 A profile defines the question the evaluator can answer. Establish its source
 scope, check inventory, required measurements and thresholds before preparing
 either side. A profile change during a run invalidates the comparison.

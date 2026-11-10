@@ -1,10 +1,18 @@
 # Native capability-compression core
 
 This Rust 2021 package builds one library (`lesscode_core`) and one executable
-(`lesscode-core`). It freezes reviewed capability manifests and compares supplied
-Python, TypeScript and TSX source with source-bound external behavioral evidence.
-It writes JSON and Markdown, counts complete replacements and leaves specimens
-unchanged. It never runs project checks. The existing Python CLI remains available.
+(`lesscode-core`). To use the tool without building it, install a release
+binary as described in the [project README](../README.md#install); this page
+is for building from source and for the license obligations.
+
+The executable has two groups of commands. The `deconvolute` group and
+`budgets` work on plain source files and are described, with their measured
+limits, in the project README. The `prepare` and `compare` commands freeze
+reviewed capability manifests and compare supplied Python, TypeScript and TSX
+source with source-bound external behavioral evidence. They write JSON and
+Markdown, count complete replacements and leave specimens unchanged. They
+never run project checks. The Python CLI that preceded this package was retired
+at commit `fd0b5b9`.
 
 Start with the [working paired example and scoped readiness](../docs/reports/native-core-readiness.md).
 `prepare --manifest MANIFEST --baseline ROOT --out FRESH.json` freezes the trial;
@@ -22,7 +30,10 @@ with located unresolved calls and optional lower bounds. These are not Radon LLO
 or Lizard CCN. The [design metric contract](../.kiro/specs/capability-compression-core/design.md#metrics-contract)
 defines them. Byte/gzip size and runtime are not compression-benefit metrics.
 
-Native validation passed 102 Windows, 103 Linux and 103 macOS tests with zero
+The current correctness matrix covers five runners (Linux x86_64 and aarch64,
+Windows x86_64, macOS Intel and Apple Silicon); see
+[CI validation](../docs/ci-validation.md) for the latest run. The first hosted
+validation passed 102 Windows, 103 Linux and 103 macOS tests with zero
 skips, plus build/fmt/clippy/doctest/CLI checks in Actions run 41333477507;
 the readiness report retains exact source and artifact identities. Finite checks and consistency hashes
 do not establish universal equivalence or trusted execution. See the
@@ -52,7 +63,10 @@ cargo +1.98.1 clippy --locked --manifest-path native/Cargo.toml --all-targets --
 ```
 
 The [native correctness workflow](../.github/workflows/native-core.yml) runs these
-commands on Windows, Linux and macOS with Rust 1.98.1 and locked dependencies.
+commands on Windows, Linux (x86_64 and aarch64) and macOS (Intel and Apple
+Silicon) with Rust 1.98.1 and locked dependencies. The
+[release workflow](../.github/workflows/release.yml) builds the published
+binaries on the same runners.
 `cargo test` includes the metric/decision unit fixtures, parser probes, paired
 workflow fixtures and CLI exit-code/source-preservation checks. Platform-gated
 path fixtures exercise Windows reparse points and Unix symlinks/case collisions.
@@ -79,8 +93,12 @@ analyzer or hosted account is needed by native analysis.
   libc development headers and standard build utilities (Debian/Ubuntu
   `build-essential`). Generated grammar C sources ship in the crates; generating
   grammars with Node or tree-sitter CLI is unnecessary.
+- Linux aarch64: the `aarch64-unknown-linux-gnu` toolchain with the same
+  compiler and header packages. CI uses the `ubuntu-24.04-arm` hosted runner.
 - macOS x64: the `x86_64-apple-darwin` toolchain and Xcode Command Line Tools
   (Apple Clang and SDK). CI uses the `macos-15-intel` hosted runner.
+- macOS Apple Silicon: the `aarch64-apple-darwin` toolchain and Xcode Command
+  Line Tools. CI uses the `macos-15` hosted runner.
 - rustfmt/clippy are pinned toolchain components for development; neither is
   a native executable runtime requirement. Target-project behavioral checks
   still require their own recorded runtimes.

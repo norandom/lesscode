@@ -24,6 +24,7 @@ Updated 2026-11-09 late evening:
 
 ## Read next
 
+0. [Task 27 Handover](task_27_handover.md): v1.0.1 release workflow, adopter documentation, and R55 released-binary dogfood findings (2026-11-10). Read this first; it narrows several claims in the current-state list above.
 1. [Task 26 Handover](task_26_handover.md): CI remediation, v1.0.0 README update, and Slice B resumption blueprint.
 2. [Task 25 Handover](task_25_handover.md): Dogfood self-application and intelligent pre-push hook.
 3. [Constraint-Guided Compression Specification](specs/constraint-guided-compression/design.md): Slice B design and two-tier programmatic reward specification.

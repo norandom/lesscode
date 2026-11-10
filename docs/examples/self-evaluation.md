@@ -1,5 +1,11 @@
 # Example: evaluate and simplify Lesscode itself
 
+> Archived (2026-11-10). This guide describes the Python prototype
+> `lesscode-baseline`, retired at commit `fd0b5b9`. Its package, tests and some
+> files linked below are no longer in the repository; the
+> [preserved baseline index](../archive/preserved-python-baseline.md) explains how to
+> recover them. For the current tool, start at the [README](../../README.md).
+
 We measured all 13 Python modules in `src/lesscode_baseline`, then simplified
 one function in `decision.py`. The local change reduced branching and logical
 lines without adding a helper, class or public signature. The repository still

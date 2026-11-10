@@ -1,5 +1,11 @@
 # Install the baseline package
 
+> Archived (2026-11-10). This guide describes the Python prototype
+> `lesscode-baseline`, retired at commit `fd0b5b9`. Its package, tests and some
+> files linked below are no longer in the repository; the
+> [preserved baseline index](archive/preserved-python-baseline.md) explains how to
+> recover them. For the current tool, start at the [README](../README.md).
+
 Use a checkout of this repository, uv, and CPython 3.12.10. Validation used uv
 0.13.5. The duplication analyzer also requires Node 24.22.1 with npm;
 [analyzer setup](analyzer-setup.md)

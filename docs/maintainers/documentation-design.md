@@ -76,3 +76,39 @@ curly quotes and rollout jargon from adopter-facing text. The remaining risk is
 reference density: keep specialized definitions in linked guides and review
 each new paragraph against the governing idea. Do not turn future plans into
 current product claims.
+
+## Amendment, 2026-11-10: adopter README for the released binary
+
+The plan above was written for the Python evaluator. The native binary and its
+release archives changed the reader's first action, so the README and the docs
+index were recomposed. Earlier sections stay as the record of the first plan.
+
+- Target behavior: a maintainer installs the binary from the latest release,
+  runs `density` and `analyze` on one before/after pair they can review by
+  hand, and decides with a reviewer whether the receipts belong in their
+  review.
+- Suspected hidden assumption: a receipt that says `"passed": true` means the
+  code was checked. R55 showed three places where that is false, so the README
+  states them next to the commands instead of in a linked report.
+- Anchor: unchanged, a trusted reviewer of the selected module with its owner.
+- Disproof condition, stated in the adoption guide: do not gate on a result if
+  identical inputs give different receipts, a receipt passes without
+  examining the input, or a command changes sources.
+
+| Section | Reader's question | Material and emphasis |
+| --- | --- | --- |
+| Opening | What is this for? | Unchanged goal statement; no feature list |
+| What you can do today | Is it relevant to my code? | Four questions, the command for each, supported languages |
+| Install | How do I get it? | One command per system, verified download, no admin rights, source build as fallback |
+| Try it on one change | What do I type, what comes back? | Real receipt from this repository, pass conditions, exit codes |
+| What is not checked | What must I not conclude? | Measured gaps from R55, placed before the evidence section |
+| One reviewer first | How do I start without a mandate? | Link to the adoption guide |
+| Evidence, documentation, direction | Where is the depth? | Research log first; specimen results labelled as specimen results |
+
+The hook is the only costly behavior change (it can block pushes for others),
+so its preconditions are in both the README and the adoption guide. Everything
+else is reversible and local, which keeps the first trial cheap.
+
+Prose checks applied: no claims beyond what R55 or a linked entry measured, no
+decorative emphasis, no dashes used as punctuation, commands verified against
+the 1.0.1 binary.

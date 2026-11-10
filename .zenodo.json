@@ -9,7 +9,7 @@
       "name": "Ciepluch, Marius"
     }
   ],
-  "description": "<p>Lesscode is a research project on making AI-generated codebases smaller and less entangled while keeping their behaviour at the public surface. It records behaviour from the original under an effect-capturing sandbox, scores that recording by mutation, lets a language model regenerate one scope behind its derived public surface under a structural contract, accepts only on zero divergence, measures size and internal call edges, reviews independently, and searches the pure core for differences the recording cannot see.</p><p>This release archives the preregistered experiments and their receipts (research log entries R1 to R25), the dated research log, a Kiro-style specification of the loop with per-requirement feasibility status, a report for third parties, and the native measurement core.</p>",
+  "description": "<p>Lesscode is a research project on making AI-generated codebases smaller and less entangled while keeping their behaviour at the public surface. It records behaviour from the original under an effect-capturing sandbox, scores that recording by mutation, lets a language model regenerate one scope behind its derived public surface under a structural contract, accepts only on zero divergence, measures size and internal call edges, reviews independently, and searches the pure core for differences the recording cannot see.</p><p>This release archives the preregistered experiments and their receipts (research log entries R1 to R55), the dated research log, a Kiro-style specification of the loop with per-requirement feasibility status, a report for third parties, and the native measurement core.</p>",
   "keywords": [
     "code simplification",
     "AI-generated code",
