@@ -55,6 +55,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/sites.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Site rules and eligible sites (task 3.1, REQ 2.1/2.2/2.6)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/source.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

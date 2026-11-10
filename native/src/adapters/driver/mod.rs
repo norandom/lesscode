@@ -8,6 +8,7 @@ pub mod admission;
 pub mod cli;
 pub mod pack;
 pub mod registry;
+pub mod sites;
 pub mod source;
 pub mod tree;
 

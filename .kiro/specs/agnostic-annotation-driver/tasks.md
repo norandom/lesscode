@@ -71,7 +71,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - _Requirements: 9.6_
 
 - [ ] 3. Engine: sites, annotations and operators
-- [ ] 3.1 Port the site rules and eligible sites
+- [x] 3.1 Port the site rules and eligible sites
   - `driver/sites.rs`: the rules of the gate as amended (2c, 10a, 12), same order and de-duplication.
   - Done when the driver lists exactly the retained prototype sites for the five scopes.
   - _Requirements: 2.1, 2.2, 2.6, 9.1_
