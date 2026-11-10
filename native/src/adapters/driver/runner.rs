@@ -92,6 +92,17 @@ fn run_steps(
     done
 }
 
+/// The end of a command's output, for a message.
+fn tail(output: &str) -> String {
+    let skip = output.chars().count().saturating_sub(400);
+    output
+        .chars()
+        .skip(skip)
+        .collect::<String>()
+        .trim()
+        .to_owned()
+}
+
 fn contains_any(output: &str, patterns: &[String]) -> bool {
     patterns.iter().any(|p| output.contains(p.as_str()))
 }
@@ -177,7 +188,17 @@ impl Shared<'_> {
         for command in &self.config.setup {
             let finished = run(command, &space.tree, &self.config.env, ceiling);
             if !finished.passed() {
-                return Err(format!("setup command {command:?} did not succeed"));
+                return Err(format!(
+                    "setup command {:?} did not succeed (exit {:?}{}): {}",
+                    command.first(),
+                    finished.exit_code,
+                    finished
+                        .launch_error
+                        .as_deref()
+                        .map(|e| format!(", {e}"))
+                        .unwrap_or_default(),
+                    tail(&finished.output)
+                ));
             }
         }
         Ok(space)
