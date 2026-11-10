@@ -239,6 +239,42 @@ the D form (rules as data, model as offline pack author) as the base,
 because it has no inference at run time and its only model output is a
 small checked artefact; annotation as an optional layer that ranks sites.
 
+## Amendment, 2026-11-10 (afternoon): independent survivor labels
+
+The 36 distinct survivors of attempt 1 were labelled again by an independent
+agent (Opus, highest effort setting) that was given the code, the selected
+tests and each change, and was told not to read this log, the spec or the
+retained results. Its labels and the survivor list are in
+[results/review](../../experiments/annotation-driver/results/review/).
+
+- Agreement with the designer's labels: 32 of 36. No survivor was labelled a
+  real gap by one and equivalent by the other. The four differences are the
+  four the designer had left undetermined; the independent review resolved
+  two as equivalent (the extra `isDelimiter` call at end of input writes a
+  value the flag already holds) and two as real gaps (dropping the reset of
+  `isLastTokenDelimiter`, and the order of the resume check and the
+  not-set-up check in the Rust scope, with a concrete input for each).
+- Independent totals: 29 real gaps, 7 equivalent, none undetermined; 35 with
+  high confidence, one medium.
+- Why the Java gaps survive, in the reviewer's words: `LexerTest` checks only
+  each token's type and content and never reads `isReady`, `isQuoted`,
+  `isEscaped` or the first end-of-line string, all of which the parser reads.
+
+Meaningful share of landed mutants, recomputed with the independent labels:
+
+| Scope | D1 | A run 1 | A run 2 | D2 |
+| --- | --- | --- | --- | --- |
+| Rust | 16 of 16, 100% | 14 of 14, 100% | 13 of 13, 100% | not run |
+| Python | 39 of 40, 98% | 43 of 43, 100% | 53 of 53, 100% | not run |
+| TypeScript | 17 of 18, 94% | 13 of 14, 93% | 14 of 15, 93% | 17 of 18, 94% |
+| Java | 25 of 36, 69% | 19 of 22, 86% | 21 of 24, 88% | 29 of 36, 81% |
+
+No verdict changes: Java D1 remains just below the 70% target (69%, was 67%
+with the designer's labels) and Java D2 remains above it (81%, was 78%). The
+labels are no longer the designer's alone; the limit stated above under
+"Labels" is reduced to the independence of one model reviewing another's
+work, and to the Java scope's narrow test selection.
+
 ## COBESY check
 
 Outcome first: `revise`, with the failing language named in the title.

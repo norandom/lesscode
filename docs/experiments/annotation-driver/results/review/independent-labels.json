@@ -1,0 +1,218 @@
+[
+  {
+    "id": "S01",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "In nextToken the EOF test and the comment test can never both be true: isStartOfLine(lastChar) excludes lastChar == EOF (-1), and isCommentStart(c) needs c == commentStart, which is UNDEFINED (-2) or a char 0..65535, never EOF. Both tests are side-effect free, so swapping their order changes nothing."
+  },
+  {
+    "id": "S02",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "In the post-quote loop of parseEncapsulatedToken, isDelimiter(EOF) returns false at the first comparison without peeking or reading; its only side effect is isLastTokenDelimiter = false. That flag is already false there, because nextToken called isDelimiter(quoteChar) before entering, and every earlier loop iteration's isDelimiter returned false. So skipping that call when c is EOF has no effect."
+  },
+  {
+    "id": "S03",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With firstEol null, readEndOfLine now stores CR_STRING for any char that is neither LF nor CR, and nothing for a lone CR. For input \"a,b\\n\", the first readEndOfLine('a') sets firstEol to \"\\r\", so getFirstEol() (and CSVParser.getFirstEndOfLine()) returns \"\\r\" where the original returns \"\\n\". LexerTest never asserts getFirstEol."
+  },
+  {
+    "id": "S04",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "In parseSimpleToken, readEndOfLine(EOF) has no side effects: cur == CR is false, so there is no peek or read, and EOF is neither LF nor CR, so firstEol is untouched. It returns false. For a non-EOF cur the EOF test is false and readEndOfLine runs as before, so the reorder is unobservable."
+  },
+  {
+    "id": "S05",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Negating the guard at line 487 means a plain LF or CR is never recorded while firstEol is null, and it overwrites firstEol once it is set. For input \"a,b\\n\", getFirstEol() returns null instead of \"\\n\". The tests never read getFirstEol."
+  },
+  {
+    "id": "S06",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With trailingData=true, an end of line after a closing quote is now appended to the content before readEndOfLine is tested. Input \"\\\"a\\\"\\n\" gives EORECORD with content \"a\\n\" instead of \"a\" (and \"a\\r\" for CRLF). testTrailingTextAfterQuote only covers a delimiter and EOF after the quote."
+  },
+  {
+    "id": "S07",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Negating the guard in the CRLF branch of readEndOfLine skips recording CRLF while firstEol is null; the later block then records LF_STRING, because cur was reassigned to LF. For input \"a\\r\\nb\", getFirstEol() returns \"\\n\" instead of \"\\r\\n\", and a later CRLF overwrites an earlier \"\\n\". The tests do not check getFirstEol."
+  },
+  {
+    "id": "S08",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "Swapping isEndOfFile(c) and readEndOfLine(c) in the post-quote loop only matters when c is EOF, and readEndOfLine(EOF) is side-effect free: no peek, firstEol unchanged, returns false. For CR or LF the EOF test is false either way."
+  },
+  {
+    "id": "S09",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "Delimiter and EOF are mutually exclusive; the only difference is that the mutant calls isDelimiter(EOF) at EOF, which sets isLastTokenDelimiter = false and returns at the first comparison. In parseSimpleToken that flag is already false at EOF: nextToken's isDelimiter(ch) and every loop iteration's isDelimiter(cur) returned false. So the write is a no-op."
+  },
+  {
+    "id": "S10",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "If the EOF condition holds before the ignoreEmptyLines loop (lastChar == EOF, or c == EOF so eol is false), the loop would run zero times and the original returns the same EOF token. If the loop runs and exits normally, c is not EOF (EOF returns inside the loop) and lastChar is an EOL char, so the original's post-loop check is false. The check itself is pure."
+  },
+  {
+    "id": "S11",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "token.isEscaped is no longer set when readEscape translates a sequence; for example, escape '\\\\' with input \"a\\\\tb\" leaves isEscaped false. CSVParser.handleNull reads it: with withEscape('\\\\') and nullString \"\\\\N\", the field \"\\\\\\\\N\" parses to \"\\\\N\" in the original but to null in the mutant. LexerTest asserts only type and content."
+  },
+  {
+    "id": "S12",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Moving the 'save EOL state' block in front of the CRLF check records CR_STRING for the CR of a CRLF before the CRLF branch can record CRLF. For input \"a\\r\\nb\", getFirstEol() returns \"\\r\" instead of \"\\r\\n\". The return value is unchanged and the tests do not check getFirstEol."
+  },
+  {
+    "id": "S13",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Dropping token.isReady = true for EOF after a closing quote makes input \"\\\"a\\\"\" (no newline) return EOF with isReady false. CSVParser.nextRecord then drops the value, so the last record [\"a\"] is lost. The tests check only the type and content of the EOF token."
+  },
+  {
+    "id": "S14",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Without the reset in isDelimiter, isLastTokenDelimiter stays true after the first delimiter. For \"a,b\\n\" the token after the newline then reaches the in-loop EOF branch and comes back as EOF with isReady true, instead of the early EOF with isReady false. CSVParser therefore emits an extra record [\"\"]; the token's type and content, the only fields the tests check, are the same."
+  },
+  {
+    "id": "S15",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "_wait_for_slot behaves differently only when now >= ready_at > deadline on the first pass, which needs the clock to cross the deadline between the initial clock() > deadline read and the now = clock() read; ready_at stays fixed during the call because only the head run touches the key state. With an injected clock that returns 0.0 and then 2.0, deadline 1.0 and ready_at 1.5, the original returns True and sends while the mutant returns False and run() answers a synthesized 429. With the default time.monotonic this is only a microsecond-scale race, and the tests' fake clock never advances between reads."
+  },
+  {
+    "id": "S16",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "classify now returns None for a non-429 status before validating its arguments. classify(200, {}, fallback_wait_s=0.0, cap_s=30.0, now=0.0) raises ValueError in the original but returns None in the mutant. The same applies through UpstreamGate built with RateLimitConfig(backoff_cap_s=0), which is constructed directly and not validated. The tests check the ValueError only with status 429."
+  },
+  {
+    "id": "S17",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In _model_rps_setting, an entry that is both malformed and a repeated name now gets the 'repeats a model named earlier' message instead of 'is malformed; expected ...'. For example MVIBE_RATE_LIMIT_MODEL_RPS='a=1,a=x' or 'a=1,a' raises RateLimitConfigError with a different message. The tests only match the variable name, which both messages contain."
+  },
+  {
+    "id": "S18",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "_DELAY_SECONDS ('[0-9]+(?:[.][0-9]+)?') cannot fullmatch the empty string, so an empty text still falls through to the moved 'if not text: return None'. For non-empty text that check is false in both orders. fullmatch is pure."
+  },
+  {
+    "id": "S19",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The mutant advances state.next_slot = now + interval even when a run gives up (not on_time), so a run that sent nothing still delays the key. With RateLimitConfig(default_rps=1.0, max_wait_s=0.3): run A sends at t=0 (next_slot 1.0); run B arrives at t=0.6 and gives up (deadline 0.9 < 1.0), but the mutant moves next_slot to 1.6. Run C arriving at t=1.0 (deadline 1.3) is then sent upstream in the original but gets a synthesized 429 without an attempt in the mutant."
+  },
+  {
+    "id": "S20",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The order matters when flow.resume() would return Some and flow.record() is None, for example `mmhmem update --restarted v1.0.0` (accepted by UpdateArgs::parse) on a machine with no install record, or session() with deps.restart.resumed set and no record. The original runs resume() (planning) and finish(), printing the 'Updated to …' or check output; the mutant prints NOT_SET_UP, returns EXIT_NOT_SET_UP and never consumes restart.resumed. The tests cover each branch only on its own."
+  },
+  {
+    "id": "S21",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "restart_of builds Restart with ..Restart::default(), whose command is Command::Setup, so without this line run() relaunches the updated program as `setup --restarted <tag>` (the menu) instead of `update --restarted <tag>`. Flow::relaunch().args, the argv of the spawned process, differs after any verified `mmhmem update`. The unit tests build Restart by hand with Command::Update and never go through run()."
+  },
+  {
+    "id": "S22",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With update_refusal() Some (no trusted key, or no target platform), the original still asks PROMPT_UPDATE: answering 'n' gives NOTHING_CHANGED and EXIT_CANCELLED. The mutant prints UPDATE_NO_KEY and returns 1 without asking. without_a_trusted_release_key_nothing_is_downloaded answers 'y' and checks only the ending and the code 1, which both versions produce."
+  },
+  {
+    "id": "S23",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In changes(), the mutant prints the 'These tools will be skipped:' heading when view.problems is empty and omits the problem list when it is not. In the restarted update where opencode.json was deleted (groups non-empty), the output gains a dangling 'These tools will be skipped:' line. a_restarted_update_with_changes_lists_them_and_asks_once uses only starts_with/contains/ends_with checks that this extra line does not break."
+  },
+  {
+    "id": "S24",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "result_lines now appends text::update::DONE (\"Done.\") exactly when the original does not, so every finish() output differs in its last line. For example, the restarted check run with all tools passing (exit 0, no next steps) ends with 'Done.' only in the original. The tests check only prefixes and substrings, never 'Done.'."
+  },
+  {
+    "id": "S25",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The catch around lstat(statePath) in rejectSymlinkedStatePath is what rethrows the 'must not contain symlinks' Error from line 189 (it has no code, so isNodeError is false); with the rethrow gone, the catch swallows it. If workflow-state.json itself is a symlink to a file outside the project, the original load()/update()/clear() reject, while the mutant reads through the link (and also swallows non-ENOENT lstat errors). The tests only symlink a directory segment, which takes the loop path at line 175."
+  },
+  {
+    "id": "S26",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The containment check can fail for inputs that pass isSafeProjectRelativePath. createWorkflowStateStore('/', {state: {directory: '.ultracode'}}) on POSIX fails it because root + sep is '//', and on Windows directory 'C:/outside' resolves to C:\\outside\\workflow-state.json. The original throws 'must resolve inside the project root' while the mutant returns a store for that path; the tests only use inputs rejected earlier by isSafeProjectRelativePath."
+  },
+  {
+    "id": "S27",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "backupCorruptState now swallows non-ENOENT rename errors. With a corrupt workflow-state.json and a non-empty directory already at workflow-state.json.bak (rename fails with EISDIR/EPERM), the original load() rejects. The mutant resolves {state: undefined, degradations: [corrupt notice]} and leaves the corrupt file in place; the corrupt-state test only covers a successful rename."
+  },
+  {
+    "id": "S28",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Without this throw, a state file that is itself a symbolic link is no longer rejected. With workflow-state.json a symlink to an outside file, the original load(), update() and clear() reject with 'state.directory must not contain symlinks', while the mutant goes on to read, replace or remove it. The tests only cover a symlinked directory component."
+  },
+  {
+    "id": "S29",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The negated condition swallows every non-ENOENT rename error and throws only ENOENT. With a corrupt state file and a non-empty directory at workflow-state.json.bak, the original load() rejects (EISDIR/EPERM) but the mutant returns the corrupt-state degradation. Conversely, if the file vanishes between readFile and rename (a concurrent clear()), the mutant rejects with ENOENT where the original recovers."
+  },
+  {
+    "id": "S30",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With the inverted test, a finished mutate deletes the queue entry when a newer mutate owns it, which breaks serialization. Sequence: a = mutate(fA); b = mutate(fB); await a; c = mutate(fC). A's finally deletes B's entry, so C finds no predecessor and runs concurrently with B: both load the same state, and one of fB/fC is lost, where the original applies fC after fB. A finished lone mutate also stays in the global queue map."
+  },
+  {
+    "id": "S31",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "token.isEscaped is no longer set for an escaped delimiter: with withEscape('\\\\'), input \"\\\\,\" gives content \",\" with isEscaped false. CSVParser.handleNull reads the flag, so with nullString \",\" that field becomes null instead of \",\". LexerTest asserts only type and content."
+  },
+  {
+    "id": "S32",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "For a multi-character delimiter, isEscapeDelimiter now accepts any look-ahead that starts with delimiter[0] and has no position with both an escape and the matching delimiter char. It then consumes 2*len-1 characters and appends the whole delimiter. With delimiter \"[|]\" and escape '!', input \"a![xyzw\" gives content \"a[xyzw\" in the original and \"a[|]\" in the mutant. testPartialEscapedMultiCharacterDelimiterAtEOF happens to give the same content under both."
+  },
+  {
+    "id": "S33",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "This branch is reached at EOF right after a delimiter, for example the second token of \"a,\". Without isReady the trailing empty field is dropped, so CSVParser yields [\"a\"] instead of [\"a\", \"\"]. testBackslashWithoutEscaping checks only the EOF token's type and empty content."
+  },
+  {
+    "id": "S34",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Without this write, a first CRLF is recorded by the later block as LF_STRING, because cur was reassigned to LF. For input \"a\\r\\nb\", getFirstEol() returns \"\\n\" instead of \"\\r\\n\". The tests do not check getFirstEol."
+  },
+  {
+    "id": "S35",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "token.isQuoted stays false for quoted fields, and CSVParser reads it in addRecordValue and handleNull. With QuoteMode.ALL_NON_NULL and no nullString, input \"\\\"\\\"\" parses to \"\" in the original but null in the mutant; with trailingDelimiter=true, a final quoted empty field is dropped. LexerTest never reads isQuoted."
+  },
+  {
+    "id": "S36",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With lenientEof=true, an unterminated quoted field at EOF (input \"a,\\\"b\") now returns EOF with isReady false. CSVParser.nextRecord then drops \"b\", giving [\"a\"] instead of [\"a\", \"b\"]. testEOFWithoutClosingQuote checks only the token type and content."
+  }
+]
