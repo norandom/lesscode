@@ -7,6 +7,7 @@
 pub mod admission;
 pub mod analysis;
 pub mod annotations;
+pub mod classes;
 pub mod cli;
 pub mod config;
 pub mod controls;

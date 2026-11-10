@@ -166,6 +166,18 @@ fn time_limits_invalid_mutants_and_errors_are_told_apart() {
     assert_eq!(code, Some(0));
     assert_eq!(classes(&receipt)["2:negate"], "timeout");
 
+    // The step's limit is handed to a command that asks for it.
+    let told = project.config(
+        &["--print-if-missing", "limit={limit_s}s"],
+        json!({"error_output_patterns": ["limit=2s"]}),
+    );
+    let (_, receipt, _) = project.run(&told, "told", &[]);
+    assert_eq!(
+        classes(&receipt)["2:negate"],
+        "error",
+        "the limit of 2 seconds was not substituted"
+    );
+
     // A failing exit without the runner's own output is not a kill.
     let silent = project.config(
         &[],

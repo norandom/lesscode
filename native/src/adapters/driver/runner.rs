@@ -2,6 +2,7 @@
 //! project's own commands and classifies the result. A run is void when the
 //! unmutated tests do not pass or a mutant could not be run.
 
+pub use super::classes::{classify, ERROR, INVALID, KILLED, SURVIVED, TIMEOUT};
 use super::config::RunConfig;
 use super::process::{run, Finished};
 use super::sites::Site;
@@ -13,12 +14,8 @@ use std::path::Path;
 use std::sync::Mutex;
 use std::time::Duration;
 
-pub const KILLED: &str = "killed";
-pub const SURVIVED: &str = "survived";
-pub const INVALID: &str = "invalid";
-pub const TIMEOUT: &str = "timeout";
-/// The machine or the command failed; this says nothing about the mutant.
-pub const ERROR: &str = "error";
+/// In a command's arguments: replaced by the step's time limit in seconds.
+pub const LIMIT_PLACEHOLDER: &str = "{limit_s}";
 
 /// One mutant to run.
 #[derive(Debug, Clone)]
@@ -82,7 +79,17 @@ fn run_steps(
 ) -> Vec<(&'static str, Finished)> {
     let mut done = Vec::new();
     for ((name, command), limit) in steps(config).into_iter().zip(limits) {
-        let finished = run(command, tree, &config.env, *limit);
+        // A command that carries its own limit (work in a container cannot be
+        // killed from outside) gets the limit in its arguments, and a margin
+        // before the driver gives up on it.
+        let seconds = limit.as_secs().to_string();
+        let inner = command.iter().any(|a| a.contains(LIMIT_PLACEHOLDER));
+        let filled: Vec<String> = command
+            .iter()
+            .map(|a| a.replace(LIMIT_PLACEHOLDER, &seconds))
+            .collect();
+        let outer = *limit + Duration::from_secs(if inner { 15 } else { 0 });
+        let finished = run(&filled, tree, &config.env, outer);
         let passed = finished.passed();
         done.push((name, finished));
         if !passed {
@@ -101,61 +108,6 @@ fn tail(output: &str) -> String {
         .collect::<String>()
         .trim()
         .to_owned()
-}
-
-fn contains_any(output: &str, patterns: &[String]) -> bool {
-    patterns.iter().any(|p| output.contains(p.as_str()))
-}
-
-/// The class of a mutant from what its steps did, with the reason where the
-/// class alone does not say it.
-pub fn classify(
-    config: &RunConfig,
-    done: &[(&'static str, Finished)],
-) -> (&'static str, Option<String>) {
-    for (name, finished) in done {
-        if let Some(why) = &finished.launch_error {
-            return (ERROR, Some(format!("{name} could not start: {why}")));
-        }
-        if contains_any(&finished.output, &config.error_output_patterns) {
-            return (ERROR, Some(format!("resource failure during {name}")));
-        }
-        let inner_limit = finished
-            .exit_code
-            .is_some_and(|code| config.timeout_exit_codes.contains(&code));
-        if inner_limit {
-            return (
-                TIMEOUT,
-                Some(format!("{name} reached the command's own time limit")),
-            );
-        }
-        if finished.timed_out {
-            return (TIMEOUT, Some(format!("{name} reached its time limit")));
-        }
-        if *name == "build" && finished.exit_code != Some(0) {
-            return (INVALID, Some("did not build".into()));
-        }
-    }
-    let Some((_, test)) = done.last().filter(|(name, _)| *name == "test") else {
-        return (ERROR, Some("the test step did not run".into()));
-    };
-    if test.exit_code == Some(0) {
-        return (SURVIVED, None);
-    }
-    let cannot_load = test
-        .exit_code
-        .is_some_and(|code| config.invalid_exit_codes.contains(&code));
-    if cannot_load || contains_any(&test.output, &config.invalid_output_patterns) {
-        return (
-            INVALID,
-            Some("the tests could not be built or loaded".into()),
-        );
-    }
-    let evidence = &config.runner_evidence_patterns;
-    if !evidence.is_empty() && !contains_any(&test.output, evidence) {
-        return (ERROR, Some("no sign that the test runner ran".into()));
-    }
-    (KILLED, None)
 }
 
 /// What the workers share.

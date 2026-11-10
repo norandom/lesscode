@@ -36,7 +36,8 @@ pub struct RunConfig {
     /// Optional build step before the tests of each mutant.
     #[serde(default)]
     pub build: Option<Vec<String>>,
-    /// The test command; exit code 0 means the tests passed.
+    /// The test command; exit code 0 means the tests passed. In any command
+    /// `{limit_s}` is replaced by the step's time limit in seconds.
     pub test: Vec<String>,
     #[serde(default)]
     pub env: BTreeMap<String, String>,

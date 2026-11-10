@@ -37,6 +37,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/classes.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Mutant classes and their decision from step results (task 6.2, REQ 4.3..4.6)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/cli.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
