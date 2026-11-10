@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R69 Slice B rerun: stronger admission stops every first Rust pack; repair works twice in five; Java differs too (2026-11-10)
+## Latest: R70 Slice B guide optimisation preregistered, not run; optimiser is the `dsrust` MIPROv2 (2026-11-10)
+
+[R70](2026-11-10/16-slice-b-guide-optimisation-preregistration.md) fixes metric, split, verification and acceptance for optimising the pack guide.
+- **Optimiser:** by the owner's direction a Rust port of DSPy (`dsrust`, alpha) supplies `MIPROv2`, in a separate research package; no Python. Its parameters and soundness on this task are not yet checked.
+- **Acceptance:** on fresh runs, at least 4 of 5 for Rust and Java on admission and on equal mutants, and no regression for Python and TypeScript.
+- **Budget:** user-set parameters with defaults; the 20 USD project stop remains.
+- **Second endpoint:** Mistral (`mistral-large-4`) is configured locally for the open model arm of R66.
+
+## Prior: R69 Slice B rerun: stronger admission stops every first Rust pack; repair works twice in five; Java differs too (2026-11-10)
 
 [R69](2026-11-10/15-slice-b-baseline-rerun-stronger-admission.md) reruns the baseline of R68 with the hand-written Rust controls and the extended Python pack.
 - **Rust:** 0 of 5 first replies admitted; 2 admitted after two repairs, 2 still rejected, 1 repair request refused by the endpoint. The repair feedback did not name the expected operator; that defect is fixed.
