@@ -35,62 +35,98 @@ fn deconvolute_help_lists_all_subcommands() {
     assert!(stdout.contains("density"));
 }
 
-#[test]
-fn analyze_subcommand_reports_clean_pure_rust() {
-    let dir = temp_dir("clean-rust");
-    let src = dir.join("clean.rs");
-    fs::write(
-        &src,
-        r#"
-pub fn add(a: i32, b: i32) -> i32 {
-    let c = a + b;
-    c * 2
+fn receipt_of(path: &std::path::Path) -> serde_json::Value {
+    serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap()
 }
-"#,
-    )
-    .unwrap();
 
-    let out = dir.join("analysis.json");
-    let (status, _, _) = run_cli(&[
-        "deconvolute",
-        "analyze",
-        "--lang",
+/// One small source per language with a condition, a state write and a
+/// failure signal.
+const SAMPLES: [(&str, &str, &str); 4] = [
+    (
         "rust",
-        "--source",
-        src.to_str().unwrap(),
-        "--out",
-        out.to_str().unwrap(),
-    ]);
+        "sample.rs",
+        "pub fn step(total: &mut i32, a: i32) -> Result<i32, String> {\n    if a > 3 {\n        return Err(\"big\".to_owned());\n    }\n    *total = a;\n    Ok(a)\n}\n",
+    ),
+    (
+        "python",
+        "sample.py",
+        "def step(state, a):\n    if a > 3:\n        raise ValueError(\"big\")\n    state.total = a\n    return a\n",
+    ),
+    (
+        "typescript",
+        "sample.ts",
+        "export function step(state: { total: number }, a: number): number {\n  if (a > 3) {\n    throw new Error(\"big\");\n  }\n  state.total = a;\n  return a;\n}\n",
+    ),
+    (
+        "java",
+        "Sample.java",
+        "class Sample {\n  int total;\n  int step(int a) {\n    if (a > 3) {\n      throw new IllegalArgumentException(\"big\");\n    }\n    total = a;\n    return a;\n  }\n}\n",
+    ),
+];
 
-    assert_eq!(status.code(), Some(0));
-    assert!(out.exists());
-    let receipt: serde_json::Value =
-        serde_json::from_str(&fs::read_to_string(&out).unwrap()).unwrap();
-    assert_eq!(receipt["receipt"], "deconvolution-analysis-v1");
-    assert_eq!(receipt["passed"], true);
-    assert_eq!(receipt["gaps"].as_array().unwrap().len(), 0);
-
-    let _ = fs::remove_dir_all(&dir);
+#[test]
+fn analyze_reports_sites_writes_and_boundaries_for_four_languages() {
+    for (lang, name, source) in SAMPLES {
+        let dir = temp_dir(&format!("analyze-{lang}"));
+        let src = dir.join(name);
+        fs::write(&src, source).unwrap();
+        let out = dir.join("analysis.json");
+        let (status, _, stderr) = run_cli(&[
+            "deconvolute",
+            "analyze",
+            "--lang",
+            lang,
+            "--source",
+            src.to_str().unwrap(),
+            "--out",
+            out.to_str().unwrap(),
+        ]);
+        assert_eq!(status.code(), Some(0), "{lang}: {stderr}");
+        let receipt = receipt_of(&out);
+        assert_eq!(receipt["receipt"], "deconvolution-analysis-v2");
+        assert_eq!(receipt["lang"], lang);
+        assert_eq!(receipt["passed"], true, "{lang}");
+        assert_eq!(receipt["gaps"].as_array().unwrap().len(), 0, "{lang}");
+        assert_eq!(
+            receipt["write_sites"].as_array().unwrap().len(),
+            1,
+            "{lang}"
+        );
+        assert_eq!(
+            receipt["function_boundaries"].as_array().unwrap().len(),
+            1,
+            "{lang}"
+        );
+        let kinds: Vec<&str> = receipt["sites"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|s| s["kind"].as_str().unwrap())
+            .collect();
+        for kind in [
+            "branch_condition",
+            "failure_state",
+            "state_write",
+            "pure_shell_boundary",
+        ] {
+            assert!(kinds.contains(&kind), "{lang}: no {kind} in {kinds:?}");
+        }
+        assert_eq!(receipt["pack_sha256"].as_str().unwrap().len(), 64);
+        let _ = fs::remove_dir_all(&dir);
+    }
 }
 
 #[test]
-fn analyze_subcommand_flags_dynamic_gaps() {
+fn analyze_flags_declared_gaps_and_frame_violations() {
     let dir = temp_dir("gap-rust");
     let src = dir.join("unsafe.rs");
     fs::write(
         &src,
-        r#"
-pub fn dangerous() {
-    unsafe {
-        let ptr: *const i32 = std::ptr::null();
-    }
-}
-"#,
+        "pub fn dangerous(total: &mut i32) {\n    unsafe {\n        let ptr: *const i32 = std::ptr::null();\n        let _ = ptr;\n    }\n    *total = 1;\n}\n",
     )
     .unwrap();
-
     let out = dir.join("analysis.json");
-    let (status, _, _) = run_cli(&[
+    let args = [
         "deconvolute",
         "analyze",
         "--lang",
@@ -99,73 +135,194 @@ pub fn dangerous() {
         src.to_str().unwrap(),
         "--out",
         out.to_str().unwrap(),
-    ]);
-
+    ];
+    let (status, _, _) = run_cli(&args);
     assert_eq!(status.code(), Some(1));
-    assert!(out.exists());
-    let receipt: serde_json::Value =
-        serde_json::from_str(&fs::read_to_string(&out).unwrap()).unwrap();
+    let receipt = receipt_of(&out);
     assert_eq!(receipt["passed"], false);
-    assert!(!receipt["gaps"].as_array().unwrap().is_empty());
+    let gaps = receipt["gaps"].as_array().unwrap();
+    assert!(gaps.len() >= 2, "{gaps:?}");
+    assert!(
+        gaps[0]["location"]
+            .as_str()
+            .unwrap()
+            .ends_with("unsafe.rs:2"),
+        "{gaps:?}"
+    );
 
+    // A write outside the frame specification is a violation; inside it is not.
+    let clean = dir.join("clean.rs");
+    fs::write(
+        &clean,
+        "pub fn set(total: &mut i32) {\n    *total = 1;\n}\n",
+    )
+    .unwrap();
+    for (allowed, code, violations) in [("other.rs", 1, 1), ("clean.rs", 0, 0)] {
+        let spec = dir.join("frame.json");
+        fs::write(
+            &spec,
+            format!(r#"{{"allowed_write_sites": ["{allowed}"], "permitted_shell_locations": [], "failure_invariants": []}}"#),
+        )
+        .unwrap();
+        let (status, _, stderr) = run_cli(&[
+            "deconvolute",
+            "analyze",
+            "--lang",
+            "rust",
+            "--source",
+            clean.to_str().unwrap(),
+            "--frame-spec",
+            spec.to_str().unwrap(),
+            "--out",
+            out.to_str().unwrap(),
+        ]);
+        assert_eq!(status.code(), Some(code), "{allowed}: {stderr}");
+        assert_eq!(
+            receipt_of(&out)["violations"].as_array().unwrap().len(),
+            violations
+        );
+    }
     let _ = fs::remove_dir_all(&dir);
 }
 
 #[test]
-fn mutate_subcommand_generates_adverse_mutants() {
-    let dir = temp_dir("mutate-rust");
-    let src = dir.join("source.rs");
-    fs::write(
-        &src,
-        r#"
-pub fn check(status: i32, level2_ops: i32) -> bool {
-    if status != 0 {
-        return false;
-    }
-    if level2_ops > 0 {
-        return false;
-    }
-    true
-}
-"#,
-    )
-    .unwrap();
-
+fn analyze_and_mutate_refuse_a_source_that_does_not_parse() {
+    let dir = temp_dir("broken");
+    let src = dir.join("broken.py");
+    fs::write(&src, "def step(a):\n    return ((((\n").unwrap();
+    let out = dir.join("receipt.json");
     let out_dir = dir.join("mutants");
-    let out_receipt = dir.join("mutate-receipt.json");
-    let (status, _, stderr) = run_cli(&[
-        "deconvolute",
-        "mutate",
-        "--lang",
-        "rust",
-        "--source",
-        src.to_str().unwrap(),
-        "--out-dir",
-        out_dir.to_str().unwrap(),
-        "--out",
-        out_receipt.to_str().unwrap(),
-    ]);
+    for command in ["analyze", "mutate"] {
+        let mut args = vec![
+            "deconvolute",
+            command,
+            "--lang",
+            "python",
+            "--source",
+            src.to_str().unwrap(),
+            "--out",
+            out.to_str().unwrap(),
+        ];
+        if command == "mutate" {
+            args.extend(["--out-dir", out_dir.to_str().unwrap()]);
+        }
+        let (status, stdout, stderr) = run_cli(&args);
+        assert_eq!(status.code(), Some(3), "{command}: {stderr}");
+        assert!(
+            stderr.contains("does not parse") && stderr.contains("broken.py:1:0"),
+            "{stderr}"
+        );
+        assert!(
+            stdout.is_empty() && !out.exists() && !out_dir.exists(),
+            "{command}"
+        );
+    }
+    let _ = fs::remove_dir_all(&dir);
+}
 
-    assert_eq!(status.code(), Some(0));
-    assert!(out_dir.exists());
-    assert!(!stderr.contains("No mutation operator matched"), "{stderr}");
-    let receipt: serde_json::Value =
-        serde_json::from_str(&fs::read_to_string(&out_receipt).unwrap()).unwrap();
-    assert_eq!(receipt["receipt"], "deconvolution-mutation-v1");
-    let count = receipt["mutants_generated"].as_u64().unwrap();
-    assert!(count >= 1);
+#[test]
+fn mutate_writes_mutants_for_four_languages_and_leaves_the_source_alone() {
+    for (lang, name, source) in SAMPLES {
+        let dir = temp_dir(&format!("mutate-{lang}"));
+        let src = dir.join(name);
+        fs::write(&src, source).unwrap();
+        let out_dir = dir.join("mutants");
+        let out = dir.join("mutation.json");
+        let (status, _, stderr) = run_cli(&[
+            "deconvolute",
+            "mutate",
+            "--lang",
+            lang,
+            "--source",
+            src.to_str().unwrap(),
+            "--out-dir",
+            out_dir.to_str().unwrap(),
+            "--out",
+            out.to_str().unwrap(),
+        ]);
+        assert_eq!(status.code(), Some(0), "{lang}: {stderr}");
+        assert!(!stderr.contains("No mutation operator matched"), "{stderr}");
+        assert_eq!(
+            fs::read_to_string(&src).unwrap(),
+            source,
+            "{lang}: the source changed"
+        );
+        let receipt = receipt_of(&out);
+        assert_eq!(receipt["receipt"], "deconvolution-mutation-v2");
+        let mutants = receipt["mutants"].as_array().unwrap();
+        assert!(mutants.len() >= 3, "{lang}: {mutants:?}");
+        assert_eq!(receipt["mutants_generated"], mutants.len());
+        let extension = src.extension().unwrap().to_str().unwrap();
+        for mutant in mutants {
+            let file = out_dir.join(mutant["file"].as_str().unwrap());
+            assert_eq!(file.extension().unwrap().to_str().unwrap(), extension);
+            let text = fs::read_to_string(&file).unwrap();
+            assert_ne!(text, source, "{lang}: {mutant}");
+            assert_eq!(mutant["sha256"].as_str().unwrap().len(), 64);
+        }
+        assert_eq!(fs::read_dir(&out_dir).unwrap().count(), mutants.len());
+        let operators: Vec<&str> = mutants
+            .iter()
+            .map(|m| m["operator"].as_str().unwrap())
+            .collect();
+        assert!(
+            operators.contains(&"negate") && operators.contains(&"drop_statement"),
+            "{lang}: {operators:?}"
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+}
 
+#[test]
+fn mutate_limit_and_seed_select_the_same_mutants_every_time() {
+    let dir = temp_dir("mutate-seed");
+    let (_, name, source) = SAMPLES[3];
+    let src = dir.join(name);
+    fs::write(&src, source).unwrap();
+    let mut picks = Vec::new();
+    for (round, seed) in ["7", "7", "8"].iter().enumerate() {
+        let out_dir = dir.join(format!("mutants-{round}"));
+        let out = dir.join(format!("mutation-{round}.json"));
+        let (status, _, stderr) = run_cli(&[
+            "deconvolute",
+            "mutate",
+            "--lang",
+            "java",
+            "--source",
+            src.to_str().unwrap(),
+            "--out-dir",
+            out_dir.to_str().unwrap(),
+            "--out",
+            out.to_str().unwrap(),
+            "--limit",
+            "2",
+            "--seed",
+            seed,
+        ]);
+        assert_eq!(status.code(), Some(0), "{stderr}");
+        let receipt = receipt_of(&out);
+        assert_eq!(receipt["mutants_generated"], 2);
+        assert!(receipt["mutants_available"].as_u64().unwrap() > 2);
+        assert_eq!(fs::read_dir(&out_dir).unwrap().count(), 2);
+        let hashes: Vec<String> = receipt["mutants"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|m| m["sha256"].as_str().unwrap().to_owned())
+            .collect();
+        picks.push(hashes);
+    }
+    assert_eq!(picks[0], picks[1]);
     let _ = fs::remove_dir_all(&dir);
 }
 
 #[test]
 fn mutate_without_matching_operator_exits_1_with_receipt() {
-    let dir = temp_dir("mutate-nomatch");
-    let src = dir.join("plain.rs");
+    let dir = temp_dir("mutate-none");
+    let src = dir.join("pure.rs");
     fs::write(&src, "pub fn add(a: i32, b: i32) -> i32 {\n    a + b\n}\n").unwrap();
-
     let out_dir = dir.join("mutants");
-    let out_receipt = dir.join("mutate-receipt.json");
+    let out = dir.join("mutation.json");
     let (status, stdout, stderr) = run_cli(&[
         "deconvolute",
         "mutate",
@@ -176,115 +333,20 @@ fn mutate_without_matching_operator_exits_1_with_receipt() {
         "--out-dir",
         out_dir.to_str().unwrap(),
         "--out",
-        out_receipt.to_str().unwrap(),
+        out.to_str().unwrap(),
     ]);
-
     assert_eq!(status.code(), Some(1), "{stderr}");
     assert!(stdout.is_empty(), "{stdout}");
     assert_eq!(stderr.lines().count(), 1, "{stderr}");
     assert!(stderr.contains("No mutation operator matched"), "{stderr}");
     assert!(stderr.contains(src.to_str().unwrap()), "{stderr}");
-    let receipt: serde_json::Value =
-        serde_json::from_str(&fs::read_to_string(&out_receipt).unwrap()).unwrap();
-    assert_eq!(receipt["receipt"], "deconvolution-mutation-v1");
+    let receipt = receipt_of(&out);
+    assert_eq!(receipt["receipt"], "deconvolution-mutation-v2");
     assert_eq!(receipt["mutants_generated"], 0);
     assert_eq!(receipt["passed"], false);
-    let written = fs::read_dir(&out_dir).map(|d| d.count()).unwrap_or(0);
-    assert_eq!(written, 0);
-
+    assert_eq!(fs::read_dir(&out_dir).unwrap().count(), 0);
     let _ = fs::remove_dir_all(&dir);
 }
-
-#[test]
-fn analyze_python_is_not_implemented_and_writes_no_receipt() {
-    let dir = temp_dir("analyze-python");
-    let src = dir.join("module.py");
-    fs::write(&src, "def add(a, b):\n    return a + b\n").unwrap();
-    let out = dir.join("analysis.json");
-
-    for lang in ["python", "py"] {
-        let base = ["deconvolute", "analyze", "--lang", lang, "--source"];
-        let mut to_stdout = base.to_vec();
-        to_stdout.push(src.to_str().unwrap());
-        let mut to_file = to_stdout.clone();
-        to_file.extend(["--out", out.to_str().unwrap()]);
-
-        for args in [to_stdout, to_file] {
-            let (status, stdout, stderr) = run_cli(&args);
-            assert_eq!(status.code(), Some(2), "{lang}: {stderr}");
-            assert!(stdout.is_empty(), "{lang}: {stdout}");
-            assert_eq!(stderr.lines().count(), 1, "{lang}: {stderr}");
-            assert!(stderr.contains("not implemented"), "{lang}: {stderr}");
-            assert!(!out.exists(), "{lang}: receipt was written");
-        }
-    }
-
-    let _ = fs::remove_dir_all(&dir);
-}
-
-#[test]
-fn mutate_python_is_not_implemented_and_writes_nothing() {
-    let dir = temp_dir("mutate-python");
-    let src = dir.join("module.py");
-    fs::write(
-        &src,
-        "def check(status):\n    if status != 0:\n        return False\n    return True\n",
-    )
-    .unwrap();
-    let out_dir = dir.join("mutants");
-    let out_receipt = dir.join("mutate-receipt.json");
-
-    for lang in ["python", "py"] {
-        let mut args = vec!["deconvolute", "mutate", "--lang", lang, "--source"];
-        args.extend([
-            src.to_str().unwrap(),
-            "--out-dir",
-            out_dir.to_str().unwrap(),
-        ]);
-        let mut with_out = args.clone();
-        with_out.extend(["--out", out_receipt.to_str().unwrap()]);
-
-        for args in [args, with_out] {
-            let (status, stdout, stderr) = run_cli(&args);
-            assert_eq!(status.code(), Some(2), "{lang}: {stderr}");
-            assert!(stdout.is_empty(), "{lang}: {stdout}");
-            assert_eq!(stderr.lines().count(), 1, "{lang}: {stderr}");
-            assert!(stderr.contains("not implemented"), "{lang}: {stderr}");
-            let entries: Vec<_> = fs::read_dir(&dir)
-                .unwrap()
-                .map(|e| e.unwrap().file_name())
-                .collect();
-            assert_eq!(entries, vec!["module.py"], "{lang}: files were written");
-        }
-    }
-
-    let _ = fs::remove_dir_all(&dir);
-}
-
-#[test]
-fn analyze_java_and_typescript_still_print_receipts() {
-    let adapters = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("adapters");
-    for (lang, file) in [
-        ("java", "java/ProbeMain.java"),
-        ("typescript", "typescript/candidate_degradation.ts"),
-    ] {
-        let src = adapters.join(file);
-        let (status, stdout, stderr) = run_cli(&[
-            "deconvolute",
-            "analyze",
-            "--lang",
-            lang,
-            "--source",
-            src.to_str().unwrap(),
-        ]);
-        assert_eq!(status.code(), Some(0), "{lang}: {stderr}");
-        let receipt: serde_json::Value = serde_json::from_str(&stdout).unwrap();
-        assert_eq!(receipt["receipt"], "deconvolution-analysis-v1");
-        assert_eq!(receipt["lang"], lang);
-        assert_eq!(receipt["passed"], true);
-    }
-}
-
 #[test]
 fn density_subcommand_evaluates_structural_reduction() {
     let dir = temp_dir("density-rust");

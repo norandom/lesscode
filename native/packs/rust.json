@@ -31,5 +31,9 @@
                       "returned_literal_swaps": [["true", "false"], ["0", "1"]]},
     "state_write": {"statement": "{noop}"},
     "error_order": {"swap_next": true}
-  }
+  },
+  "gaps": [{"reason": "unsafe code", "nodes": ["unsafe_block"]}, {"reason": "raw pointer", "nodes": ["pointer_type"]},
+           {"reason": "dynamic dispatch", "nodes": ["dynamic_type"]},
+           {"reason": "unmonitored thread", "nodes_with_prefix": {"call_expression": ["thread::spawn(", "std::thread::spawn("]}},
+           {"reason": "interior mutability", "nodes_with_prefix": {"generic_type": ["RefCell<", "Mutex<", "RwLock<"]}}]
 }

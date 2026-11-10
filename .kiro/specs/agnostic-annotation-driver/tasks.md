@@ -94,19 +94,19 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     names.
   - _Requirements: 1.7, 9.1, 9.3, 9.5_
 
-- [ ] 4. Switch `analyze` and `mutate` to the driver
-- [ ] 4.1 Move the handlers out of `cli_deconvolute.rs`
+- [x] 4. Switch `analyze` and `mutate` to the driver
+- [x] 4.1 Move the handlers out of `cli_deconvolute.rs`
   - `analyze` and `mutate` move to `cli_driver.rs` unchanged in behaviour; `cli_deconvolute.rs` drops well
     below its ceiling. Existing CLI tests pass.
   - _Requirements: 8.3_
-- [ ] 4.2 Route `analyze` through the driver for four languages
+- [x] 4.2 Route `analyze` through the driver for four languages
   - Receipt `deconvolution-analysis-v2` with sites by kind, write sites, function boundaries, declared gaps
     and the pack hash; frame specification applied as before; exit 0, 1 or 3 as designed. A Python adapter
     module is added with the same shape as the others.
   - Done when the Python "not implemented" refusal is gone and replaced by a real result, and CLI tests cover
     each exit code per language.
   - _Requirements: 2.1, 2.3, 2.4, 2.5, 7.1_
-- [ ] 4.3 Route `mutate` through the driver for four languages
+- [x] 4.3 Route `mutate` through the driver for four languages
   - Receipt `deconvolution-mutation-v2`; mutant files written to the output directory only; exit 1 with no
     mutants; `--limit` and `--seed`.
   - Done when CLI tests show mutants for all four languages and the source file is byte-identical afterwards.

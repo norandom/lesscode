@@ -47,6 +47,15 @@ pub struct Rule {
     pub returned: Option<Returned>,
 }
 
+/// A construct the analysis cannot follow, reported when it occurs.
+#[derive(Debug, Default, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct Gap {
+    pub reason: String,
+    pub nodes: Vec<String>,
+    pub nodes_with_prefix: BTreeMap<String, Vec<String>>,
+}
+
 #[derive(Debug, Default, Deserialize)]
 #[serde(default, deny_unknown_fields)]
 pub struct BranchOps {
@@ -103,6 +112,9 @@ pub struct Pack {
     #[serde(default)]
     pub statement_terminator: Option<String>,
     pub operators: Operators,
+    /// Constructs the analysis reports as gaps.
+    #[serde(default)]
+    pub gaps: Vec<Gap>,
     /// SHA-256 of the pack text; set on loading, never read from the pack.
     #[serde(skip)]
     pub digest: String,

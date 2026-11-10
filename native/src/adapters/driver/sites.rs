@@ -228,11 +228,16 @@ pub fn site_at(pack: &Pack, file: &str, kind: Kind, node: &SgNode<'_>) -> Option
 
 /// Eligible sites of one file text, without duplicates, in order.
 pub fn file_sites(pack: &Pack, file: &str, text: &str) -> Result<Vec<Site>, String> {
+    sites_of(pack, file, text, &OPERATOR_KINDS)
+}
+
+/// Sites of the given kinds in one file text, without duplicates, in order.
+pub fn sites_of(pack: &Pack, file: &str, text: &str, kinds: &[Kind]) -> Result<Vec<Site>, String> {
     let root = parse(text, grammar(&pack.language)?)?;
     let mut found: Vec<Site> = Vec::new();
     let mut seen = std::collections::HashSet::new();
     for node in walk(&root.root()) {
-        for kind in OPERATOR_KINDS {
+        for kind in kinds.iter().copied() {
             if let Some(site) = site_at(pack, file, kind, &node) {
                 if seen.insert((site.span(), kind)) {
                     found.push(site);

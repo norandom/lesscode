@@ -24,5 +24,7 @@
     "failure_state": {"by_kind": {"raise_statement": "{noop}"}, "returned_literal_swaps": [["True", "False"], ["0", "1"]]},
     "state_write": {"statement": "{noop}"},
     "error_order": {"swap_next": true}
-  }
+  },
+  "gaps": [{"reason": "dynamic code execution", "nodes_with_prefix": {"call": ["eval(", "exec(", "__import__("]}},
+           {"reason": "dynamic attribute access", "nodes_with_prefix": {"call": ["getattr(", "setattr("]}}]
 }

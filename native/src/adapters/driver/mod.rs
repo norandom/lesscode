@@ -5,6 +5,7 @@
 //! packs under `native/packs/`, listed once in `registry.rs`.
 
 pub mod admission;
+pub mod analysis;
 pub mod annotations;
 pub mod cli;
 pub mod controls;
