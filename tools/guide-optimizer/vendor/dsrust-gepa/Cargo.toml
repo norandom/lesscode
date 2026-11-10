@@ -1,0 +1,15 @@
+# Copied from https://github.com/getlatentic/dsrust (crate dsrust-gepa 0.1.0-alpha.3); see ../README.md.
+[package]
+name = "dsrust-gepa"
+version = "0.1.0-alpha.3"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "gepa"
+path = "src/lib.rs"
+
+[dependencies]
+pyrng = { path = "../pyrng" }
+serde_json = { version = "=1.0.154", features = ["float_roundtrip", "preserve_order"] }

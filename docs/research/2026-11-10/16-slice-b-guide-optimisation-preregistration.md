@@ -172,6 +172,36 @@ Superseded: the acceptance rule H1 to H3 stays as the adoption rule for a guide,
 chosen from the frontier by the owner or, failing a choice, to the one with the highest minimum quality
 across languages.
 
+## Amendment 3, 2026-11-10 (before any call; the owner agreed to Amendment 2: "I agree")
+
+The optimiser exists and was run without model calls. What is now fixed:
+
+- Tool: `tools/guide-optimizer/`, a separate Cargo package. It copies `dsrust-gepa` and `pyrng` unmodified
+  (provenance and licences in `tools/guide-optimizer/vendor/README.md`) and uses `lesscode-core` by path for
+  admission, control replay and mutants. It is not built by the project's CI.
+- How the task is put to the engine: one component, the guide text. A metric call is one authoring
+  conversation. The pool for minibatches is Rust and Java, three repetitions each; the set every kept
+  candidate is scored on is Rust and Java, two repetitions each. Score per call: 0 not admitted, 0.5
+  admitted, 1 admitted with the shipped pack's mutants. Candidate selection is the engine's Pareto selection;
+  merging is off, since there is one component.
+- Reflection: the engine's own prompt, extended by the limits a new guide must respect. It is shown, per
+  call of the minibatch, the language asked for, the pack written and the admission feedback or the
+  difference from the reference. The separate observations file of the first version of this entry is not
+  used; the feedback of the trials replaces it.
+- Barrier, as in Amendment 2: a proposed guide that changes the statement of purpose, lacks a section, is
+  longer than 1.5 times version 3, or contains a node kind name of a shipped pack (names with an
+  underscore that version 3 does not contain) or a control label is discarded and recorded.
+- Defaults: 60 metric calls for optimisation, minibatch 3, five fresh runs per language for the final
+  judgement, stop of the run at 6 USD, project stop at 20 USD. All are command-line parameters; the tool
+  prints the expected cost before the first call.
+- Choice of the guide to judge: the candidate with the highest minimum, over Rust and Java, of its mean
+  score on the scoring set; then the higher mean; then the shorter text.
+- Dry run with a scripted stand-in: a weak starting behaviour was rejected by admission, one reflection
+  produced a guide that passed the barrier, the engine accepted it, and the final judgement ran and passed.
+  This shows the plumbing works. It says nothing about a real model.
+- Model arms: `claude-opus-5-5` first. `mistral-large-4` second; no list price for it is known to the tool,
+  so its price has to be given on the command line before that arm runs.
+
 ## COBESY check
 
 Outcome first: a protocol, nothing run. Replay: model, inputs, counts, scoring, selection and acceptance are

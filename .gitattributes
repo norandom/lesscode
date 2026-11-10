@@ -20,3 +20,5 @@ native/tests/fixtures/driver/reference/*.json text eol=lf
 native/tests/fixtures/driver/model-packs/*.json text eol=lf
 native/tests/fixtures/driver/gate-packs/*.json text eol=lf
 native/tests/fixtures/driver/controls/** text eol=lf
+# Copied third-party sources of the research tool: keep them byte-identical to the published crates.
+tools/guide-optimizer/vendor/** -text

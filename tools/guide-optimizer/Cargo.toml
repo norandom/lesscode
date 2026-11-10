@@ -1,0 +1,17 @@
+[package]
+name = "guide-optimizer"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.98.1"
+publish = false
+description = "Research tooling for Slice B: optimises the pack-authoring guide with a copied GEPA engine. Not part of lesscode-core."
+license = "MIT"
+
+# Standalone: not a member of any workspace and not a dependency of the product crate.
+[workspace]
+
+[dependencies]
+dsrust-gepa = { path = "vendor/dsrust-gepa" }
+lesscode-core = { path = "../../native" }
+serde_json = "=1.0.154"
+clap = { version = "=4.6.0", features = ["derive"] }
