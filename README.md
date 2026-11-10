@@ -1,7 +1,7 @@
 # Lesscode
 
 [![DOI](https://zenodo.org/badge/1440672292.svg)](https://doi.org/10.5281/zenodo.23958363)
-[![Release](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.0.0)
+[![Release](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.0.1)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 The goal is substantial code simplification while preserving features. In grown
