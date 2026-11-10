@@ -6,6 +6,7 @@
 
 pub mod admission;
 pub mod cli;
+pub mod operators;
 pub mod pack;
 pub mod registry;
 pub mod sites;

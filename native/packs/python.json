@@ -18,7 +18,8 @@
   "noop_statement": "pass",
   "statement_wrappers": ["expression_statement"],
   "operators": {
-    "branch_condition": {"template": "not ({text})", "token_swaps": [["==", "!="], ["<", "<="], [">", ">="], ["and", "or"]]},
+    "branch_condition": {"template": "not ({text})", "token_swaps": [["==", "!="], ["<", "<="], [">", ">="], ["and", "or"]],
+                          "negation_swaps": [["==", "!="]]},
     "failure_state": {"by_kind": {"raise_statement": "{noop}"}, "returned_literal_swaps": [["True", "False"], ["0", "1"]]},
     "state_write": {"statement": "{noop}"},
     "error_order": {"swap_next": true}

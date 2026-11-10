@@ -53,6 +53,8 @@ pub struct BranchOps {
     pub template: Option<String>,
     pub exclude_kinds: Vec<String>,
     pub token_swaps: Vec<(String, String)>,
+    /// Token pairs whose swap says the same as negating the whole condition.
+    pub negation_swaps: Vec<(String, String)>,
 }
 
 #[derive(Debug, Default, Deserialize)]

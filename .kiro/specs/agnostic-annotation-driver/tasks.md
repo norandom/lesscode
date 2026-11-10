@@ -79,7 +79,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - The five rules with the ten reason strings; terminator completion and statement unwrapping.
   - Done when all 98 controls give the recorded outcome.
   - _Requirements: 6.1, 6.2, 6.3, 9.3_
-- [ ] 3.3 Port the operators and mutant classification
+- [x] 3.3 Port the operators and mutant classification
   - `driver/operators.rs`: operators in fixed order, replacement by exact offsets, classification as
     changed, no-op or parse error; a swap of the site's own equality operator is dropped when the negation
     is present; seeded selection with a generator defined in the code.

@@ -25,7 +25,8 @@
   "statement_terminator": ";",
   "operators": {
     "branch_condition": {"template": "!({text})", "exclude_kinds": ["let_condition", "let_chain"],
-                         "token_swaps": [["==", "!="], ["<", "<="], [">", ">="], ["&&", "||"]]},
+                         "token_swaps": [["==", "!="], ["<", "<="], [">", ">="], ["&&", "||"]],
+                          "negation_swaps": [["==", "!="]]},
     "failure_state": {"by_kind": {"try_expression": "{child0}.unwrap()"},
                       "returned_literal_swaps": [["true", "false"], ["0", "1"]]},
     "state_write": {"statement": "{noop}"},
