@@ -226,7 +226,9 @@ pub fn recorded_spend(root: &Path, fallback: (f64, f64)) -> f64 {
 pub struct Metered {
     pub model: Box<dyn Model>,
     pub price: (f64, f64),
-    limit: Mutex<f64>,
+    max_usd: f64,
+    /// Calls that must stay affordable after the current phase.
+    held_back: Mutex<usize>,
     pub project_room_usd: f64,
     pub reserve_usd: f64,
     pub ledger: PathBuf,
@@ -245,7 +247,8 @@ impl Metered {
         Metered {
             model,
             price,
-            limit: Mutex::new(max_usd),
+            max_usd,
+            held_back: Mutex::new(0),
             project_room_usd,
             reserve_usd,
             ledger,
@@ -253,9 +256,10 @@ impl Metered {
         }
     }
 
-    /// The most this run may spend from now on.
-    pub fn set_limit(&self, usd: f64) {
-        *self.limit.lock().unwrap() = usd;
+    /// Keep this many later calls affordable: their cost is taken to be the
+    /// mean cost of the calls made so far, or the reserve before any was made.
+    pub fn hold_back(&self, calls: usize) {
+        *self.held_back.lock().unwrap() = calls;
     }
 
     pub fn spent(&self) -> (f64, u64) {
@@ -275,7 +279,13 @@ impl Metered {
         {
             let mut state = self.state.lock().unwrap();
             let committed = state.0 + state.1 + self.reserve_usd;
-            if committed > *self.limit.lock().unwrap() || committed > self.project_room_usd {
+            let per_call = if state.2 == 0 {
+                self.reserve_usd
+            } else {
+                state.0 / state.2 as f64
+            };
+            let held = *self.held_back.lock().unwrap() as f64 * per_call;
+            if committed + held > self.max_usd || committed > self.project_room_usd {
                 return Err("not run: the budget would be passed".into());
             }
             state.1 += self.reserve_usd;

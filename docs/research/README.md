@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R73 Native driver runs the five gate scopes end to end; 554 of 556 mutants classed as by the prototype (2026-11-10)
+## Latest: R74 Guide optimisation on Mistral Large 4: no improvement found (2026-11-10)
+
+[R74](2026-11-10/20-slice-b-guide-optimisation-mistral.md) runs R70 on the second model with the parameters of the Opus run.
+- **Result:** after 62 metric calls the starting guide and the one kept candidate both score zero on the scoring set; nothing is adopted and no final judgement was run. The candidate got 4 of 17 Java packs admitted on minibatches, Rust never.
+- **Barrier:** ten of eleven proposals discarded, eight for length and two for changing the statement of purpose.
+- **Reading, with R71 and R72:** optimising the instruction removed instability for a model that knows the grammars and did nothing for one that does not. Giving the author the grammar's node kinds is the idea to decide next.
+- **Cost:** 1.99 USD; recorded spend about 15.2 of 20 USD.
+
+## Prior: R73 Native driver runs the five gate scopes end to end; 554 of 556 mutants classed as by the prototype (2026-11-10)
 
 [R73](2026-11-10/19-native-driver-batches-on-gate-scopes.md) is task 8.1 of `agnostic-annotation-driver`.
 - **Result:** `deconvolute run` on the gate's Python, TypeScript (two files), Rust and Java scopes with the projects' own tests: every mutant both sides ran has the same class (556 of 556). A first Java run with a fixed time limit had two timeouts the prototype did not; with the limit scaled from the baseline they agree. Mutants only the prototype has are the 38 dropped repeats.

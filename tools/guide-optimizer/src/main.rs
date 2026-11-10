@@ -256,7 +256,7 @@ fn run(args: Args) -> Result<(), String> {
         + final_reserve
         + reflections as f64 * cost(price, 5_500, 5_300);
     // The final judgement must not be starved by the optimisation.
-    metered.set_limit((args.max_usd - final_reserve).max(0.0));
+    metered.hold_back(final_calls);
     println!(
         "model {name}; at most {} authoring calls for optimisation, {final_calls} for the final judgement, about {reflections} reflections",
         args.max_metric_calls
@@ -339,7 +339,7 @@ fn run(args: Args) -> Result<(), String> {
     }
 
     let improved = guides[chosen] != baseline;
-    metered.set_limit(args.max_usd);
+    metered.hold_back(0);
     let mut judge = Authoring::new(
         metered.clone(),
         languages.clone(),
