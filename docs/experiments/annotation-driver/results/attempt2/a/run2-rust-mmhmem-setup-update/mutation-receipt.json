@@ -1,0 +1,913 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "rust-mmhmem-setup-update",
+ "language": "rust",
+ "sites_from": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\a\\run2-rust-mmhmem-setup-update\\annotations.json",
+ "revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
+ "expected_revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
+ "pack_sha256": "d2d3dc291c90a36a5d2c3df2ca97940a32221e02ae2d422c0ce7afdd37233dd1",
+ "tables_dir": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\tables",
+ "code_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "harness.py": "92429b593de0905f54633c963f4a160f49fbf1bc7aee43220bb8214676bd4694",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_arm.py": "c2ba072ccda1004661c8d23299c17ddd0b57fae37b370eb984e08f20e9151ca0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921"
+ },
+ "limit": null,
+ "eligible_sites": 71,
+ "sites": 19,
+ "mutants_available": 23,
+ "selection_made": false,
+ "mutants_run": 23,
+ "counts_by_class": {
+  "killed": 17,
+  "survived": 6
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 12,
+   "survived": 3
+  },
+  "error_order": {
+   "survived": 2
+  },
+  "failure_state": {
+   "killed": 1
+  },
+  "state_write": {
+   "survived": 1,
+   "killed": 4
+  }
+ },
+ "error_mutants": [],
+ "sites_without_operator": [
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 63,
+   "start_column": 12,
+   "end_line": 63,
+   "end_column": 48,
+   "text": "return Err(\"--bootstrap\".to_owned())",
+   "reason": "no_operator"
+  }
+ ],
+ "annotation_decisions": [
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 62,
+    "end_line": 62,
+    "kind": "branch_condition",
+    "anchor": "setup.bootstrap.is_some()",
+    "reason": "Update would accept or reject --bootstrap incorrectly."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 63,
+    "end_line": 63,
+    "kind": "failure_state",
+    "anchor": "return Err(\"--bootstrap\".to_owned());",
+    "reason": "The unknown-argument error for --bootstrap would no longer be reported."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 83,
+    "end_line": 83,
+    "kind": "branch_condition",
+    "anchor": "mode != Mode::NoTerminal",
+    "reason": "Runs without a terminal would proceed, or runs with a terminal would be refused."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 103,
+    "end_line": 103,
+    "kind": "state_write",
+    "anchor": "deps.restart.command = Command::Update",
+    "reason": "The restarted program would run the wrong command after self-update."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 140,
+    "end_line": 143,
+    "kind": "branch_condition",
+    "anchor": "Ok(0) | Err(_) => {\n                    self.say(\"\");\n                    return false;\n                }",
+    "reason": "End of input would no longer count as no, so it could loop or confirm."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 165,
+    "end_line": 167,
+    "kind": "error_order",
+    "anchor": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\n    }",
+    "reason": "A restarted run would be checked for a record or do a lookup before it finishes the update."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 168,
+    "end_line": 168,
+    "kind": "branch_condition",
+    "anchor": "flow.record().is_none()",
+    "reason": "Update would proceed when not set up, or refuse when set up."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 175,
+    "end_line": 175,
+    "kind": "branch_condition",
+    "anchor": "*flow.newest() == Newest::Unknown",
+    "reason": "An unknown newest release would be reported as up to date instead of exiting 1."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 173,
+    "end_line": 173,
+    "kind": "state_write",
+    "anchor": "flow.set_newest(lookup())",
+    "reason": "The flow would not know the newest release, so the comparison would be wrong."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 188,
+    "end_line": 188,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+    "reason": "A declined update would proceed, or an accepted one would cancel."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 188,
+    "end_line": 191,
+    "kind": "error_order",
+    "anchor": "if !p.yes(text::update::PROMPT_UPDATE) {\n        p.say(text::update::NOTHING_CHANGED);\n        return EXIT_CANCELLED;\n    }",
+    "reason": "The order decides whether the user is asked before or after a refusal (no trusted key) is reported."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 192,
+    "end_line": 195,
+    "kind": "failure_state",
+    "anchor": "if let Some(note) = flow.update_refusal() {\n        p.say(note);\n        return 1;\n    }",
+    "reason": "An update without a trusted key would proceed instead of being refused."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 222,
+    "end_line": 223,
+    "kind": "branch_condition",
+    "anchor": "note == text::UPDATE_FAILED\n                && let Some(reason) = flow.last_note()",
+    "reason": "The failure reason would be shown or hidden incorrectly."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 230,
+    "end_line": 230,
+    "kind": "failure_state",
+    "anchor": "Next::Agents | Next::Progress => 1",
+    "reason": "Unexpected outcomes would report success instead of exit 1."
+   },
+   "accepted": false,
+   "reason": "anchor_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 238,
+    "end_line": 238,
+    "kind": "failure_state",
+    "anchor": "flow.bootstrap_offer()?",
+    "reason": "Runs that are not update offers would show the prompt instead of opening the menu."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 243,
+    "end_line": 243,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+    "reason": "The bootstrap offer would install despite a no, or cancel despite a yes."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 247,
+    "end_line": 247,
+    "kind": "state_write",
+    "anchor": "flow.plan_recorded()",
+    "reason": "The bootstrap update would not plan the recorded choices."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 257,
+    "end_line": 257,
+    "kind": "branch_condition",
+    "anchor": "view.groups.is_empty() && view.problems.is_empty()",
+    "reason": "Changes could be applied without asking, or the user could be asked needlessly."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 260,
+    "end_line": 260,
+    "kind": "branch_condition",
+    "anchor": "kept.is_some()",
+    "reason": "The 'updated' notice would be shown in the wrong mode."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 265,
+    "end_line": 265,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_APPLY)",
+    "reason": "Declined changes would be applied, or accepted ones skipped."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 271,
+    "end_line": 271,
+    "kind": "state_write",
+    "anchor": "flow.apply_update()",
+    "reason": "The confirmed changes would not be written."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 302,
+    "end_line": 302,
+    "kind": "state_write",
+    "anchor": "lines.drain(..blank)",
+    "reason": "Leading blank lines would remain in the results."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 303,
+    "end_line": 303,
+    "kind": "branch_condition",
+    "anchor": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())",
+    "reason": "'Done' would be printed despite failures or remaining steps."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 293,
+    "end_line": 307,
+    "kind": "pure_shell_boundary",
+    "anchor": "fn result_lines(flow: &Flow) -> Vec<String> {\n    let mut lines: Vec<String> = flow\n        .progress()\n        .map(|p| p.all_lines())\n        .unwrap_or_default()\n        .into_iter()\n        .filter(|l| l != text::CHECKING)\n        .collect();\n    let blank = lines.iter().take_while(|l| l.is_empty()).count();\n    lines.drain(..blank);\n    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\n        lines.push(text::update::DONE.to_owned());\n    }\n    lines\n}",
+    "reason": "Pure computation of the result lines from the flow state."
+   },
+   "accepted": true,
+   "reason": "ok"
+  }
+ ],
+ "annotations_skipped": [
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 222,
+    "end_line": 223,
+    "kind": "branch_condition",
+    "anchor": "note == text::UPDATE_FAILED\n                && let Some(reason) = flow.last_note()",
+    "reason": "The failure reason would be shown or hidden incorrectly."
+   },
+   "reason": "excluded_kind"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 293,
+    "end_line": 307,
+    "kind": "pure_shell_boundary",
+    "anchor": "fn result_lines(flow: &Flow) -> Vec<String> {\n    let mut lines: Vec<String> = flow\n        .progress()\n        .map(|p| p.all_lines())\n        .unwrap_or_default()\n        .into_iter()\n        .filter(|l| l != text::CHECKING)\n        .collect();\n    let blank = lines.iter().take_while(|l| l.is_empty()).count();\n    lines.drain(..blank);\n    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\n        lines.push(text::update::DONE.to_owned());\n    }\n    lines\n}",
+    "reason": "Pure computation of the result lines from the flow state."
+   },
+   "reason": "no_operator_kind"
+  }
+ ],
+ "wall_seconds": 3.3,
+ "scope_files_sha256": {
+  "src/setup/ui/update.rs": "804522e68de5d5059369418ab8190baf718eaed06c821ac007ab03661878381e"
+ },
+ "void": null,
+ "baseline_before": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "cargo",
+     "nextest",
+     "run",
+     "--locked",
+     "--lib",
+     "--test",
+     "setup_update_spike",
+     "-E",
+     "test(setup::ui::update) | binary(setup_update_spike)",
+     "--no-fail-fast"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 1.53,
+    "log": "baseline-before-test.log"
+   }
+  ]
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 62,
+    "start_column": 11,
+    "end_line": 62,
+    "end_column": 36,
+    "text": "setup.bootstrap.is_some()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 83,
+    "start_column": 7,
+    "end_line": 83,
+    "end_column": 31,
+    "text": "mode != Mode::NoTerminal"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 83,
+    "start_column": 7,
+    "end_line": 83,
+    "end_column": 31,
+    "text": "mode != Mode::NoTerminal"
+   },
+   "operator": "swap:!=->==@83:12",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\smoke\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 103,
+    "start_column": 4,
+    "end_line": 103,
+    "end_column": 42,
+    "text": "deps.restart.command = Command::Update"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "error_order",
+    "node_kind": "if_expression",
+    "start_line": 165,
+    "start_column": 4,
+    "end_line": 167,
+    "end_column": 5,
+    "text": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\r\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\r\n    }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 168,
+    "start_column": 7,
+    "end_line": 168,
+    "end_column": 30,
+    "text": "flow.record().is_none()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 175,
+    "start_column": 7,
+    "end_line": 175,
+    "end_column": 40,
+    "text": "*flow.newest() == Newest::Unknown"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 175,
+    "start_column": 7,
+    "end_line": 175,
+    "end_column": 40,
+    "text": "*flow.newest() == Newest::Unknown"
+   },
+   "operator": "swap:==->!=@175:22",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 173,
+    "start_column": 4,
+    "end_line": 173,
+    "end_column": 29,
+    "text": "flow.set_newest(lookup())"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 188,
+    "start_column": 7,
+    "end_line": 188,
+    "end_column": 42,
+    "text": "!p.yes(text::update::PROMPT_UPDATE)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "error_order",
+    "node_kind": "if_expression",
+    "start_line": 188,
+    "start_column": 4,
+    "end_line": 191,
+    "end_column": 5,
+    "text": "if !p.yes(text::update::PROMPT_UPDATE) {\r\n        p.say(text::update::NOTHING_CHANGED);\r\n        return EXIT_CANCELLED;\r\n    }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "try_expression",
+    "start_line": 238,
+    "start_column": 30,
+    "end_line": 238,
+    "end_column": 53,
+    "text": "flow.bootstrap_offer()?"
+   },
+   "operator": "rewrite:try_expression",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 243,
+    "start_column": 7,
+    "end_line": 243,
+    "end_column": 42,
+    "text": "!p.yes(text::update::PROMPT_UPDATE)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 247,
+    "start_column": 4,
+    "end_line": 247,
+    "end_column": 24,
+    "text": "flow.plan_recorded()"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 257,
+    "start_column": 7,
+    "end_line": 257,
+    "end_column": 57,
+    "text": "view.groups.is_empty() && view.problems.is_empty()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 257,
+    "start_column": 7,
+    "end_line": 257,
+    "end_column": 57,
+    "text": "view.groups.is_empty() && view.problems.is_empty()"
+   },
+   "operator": "swap:&&->||@257:30",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 260,
+    "start_column": 11,
+    "end_line": 260,
+    "end_column": 25,
+    "text": "kept.is_some()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 265,
+    "start_column": 11,
+    "end_line": 265,
+    "end_column": 45,
+    "text": "!p.yes(text::update::PROMPT_APPLY)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 271,
+    "start_column": 4,
+    "end_line": 271,
+    "end_column": 23,
+    "text": "flow.apply_update()"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 302,
+    "start_column": 4,
+    "end_line": 302,
+    "end_column": 24,
+    "text": "lines.drain(..blank)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "swap:==->!=@303:24",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "swap:&&->||@303:29",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  }
+ ],
+ "baseline_after": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "cargo",
+     "nextest",
+     "run",
+     "--locked",
+     "--lib",
+     "--test",
+     "setup_update_spike",
+     "-E",
+     "test(setup::ui::update) | binary(setup_update_spike)",
+     "--no-fail-fast"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 1.49,
+    "log": "baseline-after-test.log"
+   }
+  ]
+ },
+ "restored": true,
+ "limit_s": 120
+}

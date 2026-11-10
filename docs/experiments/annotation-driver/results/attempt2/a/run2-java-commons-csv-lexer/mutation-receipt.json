@@ -1,0 +1,2548 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "java-commons-csv-lexer",
+ "language": "java",
+ "sites_from": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\a\\run2-java-commons-csv-lexer\\annotations.json",
+ "revision": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+ "expected_revision": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+ "pack_sha256": "5367d13bc4d2b6ddc44d189d215844093514b2749d4d679edf9be716c74447e3",
+ "tables_dir": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\tables",
+ "code_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "harness.py": "92429b593de0905f54633c963f4a160f49fbf1bc7aee43220bb8214676bd4694",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_arm.py": "c2ba072ccda1004661c8d23299c17ddd0b57fae37b370eb984e08f20e9151ca0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "pool.py": "55f687ce2aa179d807c7dbc7a484f1d91139e756e4e90b8faabbb537d9d2f8a4"
+ },
+ "limit": null,
+ "eligible_sites": 184,
+ "sites": 31,
+ "mutants_available": 53,
+ "selection_made": false,
+ "mutants_run": 53,
+ "counts_by_class": {
+  "killed": 40,
+  "survived": 10,
+  "timeout": 3
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 37,
+   "survived": 4,
+   "timeout": 2
+  },
+  "error_order": {
+   "survived": 2
+  },
+  "failure_state": {
+   "killed": 2,
+   "timeout": 1
+  },
+  "state_write": {
+   "survived": 4,
+   "killed": 1
+  }
+ },
+ "error_mutants": [],
+ "sites_without_operator": [],
+ "annotation_decisions": [
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 77,
+    "end_line": 77,
+    "kind": "branch_condition",
+    "anchor": "isEscapeDelimiter()",
+    "reason": "Escaped multi-char delimiters would be decoded wrongly or not recognized."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 82,
+    "end_line": 82,
+    "kind": "branch_condition",
+    "anchor": "unescaped == EOF",
+    "reason": "Unknown escape sequences would be mistranslated instead of kept verbatim."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 87,
+    "end_line": 87,
+    "kind": "state_write",
+    "anchor": "token.isEscaped = true",
+    "reason": "Callers would not know the token contained escaped characters."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 152,
+    "end_line": 152,
+    "kind": "branch_condition",
+    "anchor": "ch != delimiter[0]",
+    "reason": "Delimiter detection would accept or reject the wrong characters."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 162,
+    "end_line": 162,
+    "kind": "branch_condition",
+    "anchor": "delimiterBuf[i] != delimiter[i + 1]",
+    "reason": "Partial multi-char delimiters would split fields."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 167,
+    "end_line": 167,
+    "kind": "state_write",
+    "anchor": "isLastTokenDelimiter = count != EOF",
+    "reason": "Trailing empty field after final delimiter at EOF would be lost or invented."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 219,
+    "end_line": 219,
+    "kind": "branch_condition",
+    "anchor": "escapeDelimiterBuf[2 * i] != delimiter[i] || escapeDelimiterBuf[2 * i - 1] != escape",
+    "reason": "Escaped delimiter sequences would be misrecognized."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 228,
+    "end_line": 228,
+    "kind": "branch_condition",
+    "anchor": "ch == escape || ch == quoteChar || ch == commentStart",
+    "reason": "Escaped meta chars would be treated as invalid escapes."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 242,
+    "end_line": 242,
+    "kind": "branch_condition",
+    "anchor": "ch == Constants.LF || ch == Constants.CR || ch == Constants.UNDEFINED",
+    "reason": "Empty line skipping and comment detection would break."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 265,
+    "end_line": 265,
+    "kind": "branch_condition",
+    "anchor": "eol && isStartOfLine(lastChar)",
+    "reason": "Empty lines would not be skipped or content lines skipped."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 279,
+    "end_line": 279,
+    "kind": "branch_condition",
+    "anchor": "isEndOfFile(lastChar) || !isLastTokenDelimiter && isEndOfFile(c)",
+    "reason": "Final empty field after trailing delimiter would be dropped or EOF missed."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 284,
+    "end_line": 284,
+    "kind": "branch_condition",
+    "anchor": "isStartOfLine(lastChar) && isCommentStart(c)",
+    "reason": "Comment lines would be parsed as data or vice versa."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 303,
+    "end_line": 303,
+    "kind": "branch_condition",
+    "anchor": "Character.isWhitespace((char) c) && !eol",
+    "reason": "Leading whitespace trimming would swallow line ends or keep spaces."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 313,
+    "end_line": 313,
+    "kind": "branch_condition",
+    "anchor": "delimiter || isDelimiter(c)",
+    "reason": "Empty fields would not be emitted at delimiters."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 327,
+    "end_line": 327,
+    "kind": "state_write",
+    "anchor": "token.isReady = true",
+    "reason": "Last record at EOF would be dropped."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 372,
+    "end_line": 372,
+    "kind": "branch_condition",
+    "anchor": "isQuoteChar(reader.peek())",
+    "reason": "Doubled quotes would end the field instead of producing a literal quote."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 380,
+    "end_line": 383,
+    "kind": "error_order",
+    "anchor": "if (isDelimiter(c)) {\n                            token.type = Token.Type.TOKEN;\n                            return token;\n                        }",
+    "reason": "Delimiter after closing quote must be recognized before other checks."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 393,
+    "end_line": 393,
+    "kind": "branch_condition",
+    "anchor": "trailingData",
+    "reason": "Trailing data after closing quote would raise or be silently kept."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 395,
+    "end_line": 395,
+    "kind": "branch_condition",
+    "anchor": "!Character.isWhitespace((char) c)",
+    "reason": "Whitespace after quote would error or garbage accepted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 397,
+    "end_line": 398,
+    "kind": "failure_state",
+    "anchor": "throw new CSVException(\"Invalid character between encapsulated token and delimiter at line: %,d, position: %,d\",\n                                    getCurrentLineNumber(), getCharacterPosition())",
+    "reason": "Malformed quoted fields would be silently accepted."
+   },
+   "accepted": true,
+   "reason": "ok",
+   "anchor_completed": true
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 405,
+    "end_line": 405,
+    "kind": "branch_condition",
+    "anchor": "lenientEof",
+    "reason": "Unterminated quotes at EOF would error or be accepted regardless of setting."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 411,
+    "end_line": 411,
+    "kind": "failure_state",
+    "anchor": "throw new CSVException(\"(startline %,d) EOF reached before encapsulated token finished\", startLineNumber)",
+    "reason": "Unterminated quoted field would not be reported."
+   },
+   "accepted": true,
+   "reason": "ok",
+   "anchor_completed": true
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 441,
+    "end_line": 444,
+    "kind": "error_order",
+    "anchor": "if (readEndOfLine(cur)) {\n                token.type = Token.Type.EORECORD;\n                break;\n            }",
+    "reason": "End of record must be detected before delimiter/escape handling."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 447,
+    "end_line": 447,
+    "kind": "state_write",
+    "anchor": "token.isReady = true",
+    "reason": "Unquoted last field at EOF would be dropped."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 463,
+    "end_line": 463,
+    "kind": "branch_condition",
+    "anchor": "ignoreSurroundingSpaces",
+    "reason": "Trailing spaces would be trimmed or kept contrary to format."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 478,
+    "end_line": 478,
+    "kind": "branch_condition",
+    "anchor": "cur == Constants.CR && reader.peek() == Constants.LF",
+    "reason": "CRLF would produce an extra empty record."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 483,
+    "end_line": 483,
+    "kind": "state_write",
+    "anchor": "this.firstEol = Constants.CRLF",
+    "reason": "Reported first line separator would be wrong."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 495,
+    "end_line": 495,
+    "kind": "branch_condition",
+    "anchor": "cur == Constants.LF || cur == Constants.CR",
+    "reason": "Line ends would not split records."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 528,
+    "end_line": 528,
+    "kind": "failure_state",
+    "anchor": "throw new CSVException(\"EOF while processing escape sequence\")",
+    "reason": "Dangling escape at EOF would not be reported."
+   },
+   "accepted": true,
+   "reason": "ok",
+   "anchor_completed": true
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 535,
+    "end_line": 535,
+    "kind": "branch_condition",
+    "anchor": "isMetaChar(ch) || isDelimiterChar(ch)",
+    "reason": "Escaped meta/delimiter chars would be kept with the escape char."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "start_line": 545,
+    "end_line": 545,
+    "kind": "branch_condition",
+    "anchor": "length > 0 && Character.isWhitespace(buffer.charAt(length - 1))",
+    "reason": "Trailing trim would fail or over-trim."
+   },
+   "accepted": true,
+   "reason": "ok"
+  }
+ ],
+ "annotations_skipped": [],
+ "wall_seconds": 42.7,
+ "scope_files_sha256": {
+  "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+ },
+ "void": null,
+ "baseline_before": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 20.08,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 19.51,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 20.04,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 19.65,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 18.89,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 19.78,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  }
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "method_invocation",
+    "start_line": 77,
+    "start_column": 12,
+    "end_line": 77,
+    "end_column": 31,
+    "text": "isEscapeDelimiter()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 16,
+    "end_line": 82,
+    "end_column": 32,
+    "text": "unescaped == EOF"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 16,
+    "end_line": 82,
+    "end_column": 32,
+    "text": "unescaped == EOF"
+   },
+   "operator": "swap:==->!=@82:26",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\smoke\\java-commons-csv-lexer",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 87,
+    "start_column": 16,
+    "end_line": 87,
+    "end_column": 38,
+    "text": "token.isEscaped = true"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 152,
+    "start_column": 12,
+    "end_line": 152,
+    "end_column": 30,
+    "text": "ch != delimiter[0]"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 152,
+    "start_column": 12,
+    "end_line": 152,
+    "end_column": 30,
+    "text": "ch != delimiter[0]"
+   },
+   "operator": "swap:!=->==@152:15",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 162,
+    "start_column": 16,
+    "end_line": 162,
+    "end_column": 51,
+    "text": "delimiterBuf[i] != delimiter[i + 1]"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 162,
+    "start_column": 16,
+    "end_line": 162,
+    "end_column": 51,
+    "text": "delimiterBuf[i] != delimiter[i + 1]"
+   },
+   "operator": "swap:!=->==@162:32",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 167,
+    "start_column": 8,
+    "end_line": 167,
+    "end_column": 43,
+    "text": "isLastTokenDelimiter = count != EOF"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 219,
+    "start_column": 16,
+    "end_line": 219,
+    "end_column": 100,
+    "text": "escapeDelimiterBuf[2 * i] != delimiter[i] || escapeDelimiterBuf[2 * i - 1] != escape"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 219,
+    "start_column": 16,
+    "end_line": 219,
+    "end_column": 100,
+    "text": "escapeDelimiterBuf[2 * i] != delimiter[i] || escapeDelimiterBuf[2 * i - 1] != escape"
+   },
+   "operator": "swap:!=->==@219:42",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 219,
+    "start_column": 16,
+    "end_line": 219,
+    "end_column": 100,
+    "text": "escapeDelimiterBuf[2 * i] != delimiter[i] || escapeDelimiterBuf[2 * i - 1] != escape"
+   },
+   "operator": "swap:||->&&@219:58",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 228,
+    "start_column": 15,
+    "end_line": 228,
+    "end_column": 68,
+    "text": "ch == escape || ch == quoteChar || ch == commentStart"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 228,
+    "start_column": 15,
+    "end_line": 228,
+    "end_column": 68,
+    "text": "ch == escape || ch == quoteChar || ch == commentStart"
+   },
+   "operator": "swap:==->!=@228:18",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 228,
+    "start_column": 15,
+    "end_line": 228,
+    "end_column": 68,
+    "text": "ch == escape || ch == quoteChar || ch == commentStart"
+   },
+   "operator": "swap:||->&&@228:28",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 242,
+    "start_column": 15,
+    "end_line": 242,
+    "end_column": 84,
+    "text": "ch == Constants.LF || ch == Constants.CR || ch == Constants.UNDEFINED"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 242,
+    "start_column": 15,
+    "end_line": 242,
+    "end_column": 84,
+    "text": "ch == Constants.LF || ch == Constants.CR || ch == Constants.UNDEFINED"
+   },
+   "operator": "swap:==->!=@242:18",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 242,
+    "start_column": 15,
+    "end_line": 242,
+    "end_column": 84,
+    "text": "ch == Constants.LF || ch == Constants.CR || ch == Constants.UNDEFINED"
+   },
+   "operator": "swap:||->&&@242:34",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 265,
+    "start_column": 19,
+    "end_line": 265,
+    "end_column": 49,
+    "text": "eol && isStartOfLine(lastChar)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 265,
+    "start_column": 19,
+    "end_line": 265,
+    "end_column": 49,
+    "text": "eol && isStartOfLine(lastChar)"
+   },
+   "operator": "swap:&&->||@265:23",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 279,
+    "start_column": 12,
+    "end_line": 279,
+    "end_column": 76,
+    "text": "isEndOfFile(lastChar) || !isLastTokenDelimiter && isEndOfFile(c)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 279,
+    "start_column": 12,
+    "end_line": 279,
+    "end_column": 76,
+    "text": "isEndOfFile(lastChar) || !isLastTokenDelimiter && isEndOfFile(c)"
+   },
+   "operator": "swap:||->&&@279:34",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 279,
+    "start_column": 12,
+    "end_line": 279,
+    "end_column": 76,
+    "text": "isEndOfFile(lastChar) || !isLastTokenDelimiter && isEndOfFile(c)"
+   },
+   "operator": "swap:&&->||@279:59",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 284,
+    "start_column": 12,
+    "end_line": 284,
+    "end_column": 56,
+    "text": "isStartOfLine(lastChar) && isCommentStart(c)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 284,
+    "start_column": 12,
+    "end_line": 284,
+    "end_column": 56,
+    "text": "isStartOfLine(lastChar) && isCommentStart(c)"
+   },
+   "operator": "swap:&&->||@284:36",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 23,
+    "end_line": 303,
+    "end_column": 63,
+    "text": "Character.isWhitespace((char) c) && !eol"
+   },
+   "operator": "negate",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": 137,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 23,
+    "end_line": 303,
+    "end_column": 63,
+    "text": "Character.isWhitespace((char) c) && !eol"
+   },
+   "operator": "swap:&&->||@303:56",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": 137,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 313,
+    "start_column": 16,
+    "end_line": 313,
+    "end_column": 43,
+    "text": "delimiter || isDelimiter(c)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 29,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 313,
+    "start_column": 16,
+    "end_line": 313,
+    "end_column": 43,
+    "text": "delimiter || isDelimiter(c)"
+   },
+   "operator": "swap:||->&&@313:26",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 30,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 327,
+    "start_column": 16,
+    "end_line": 327,
+    "end_column": 36,
+    "text": "token.isReady = true"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 31,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "method_invocation",
+    "start_line": 372,
+    "start_column": 20,
+    "end_line": 372,
+    "end_column": 46,
+    "text": "isQuoteChar(reader.peek())"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 32,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 380,
+    "start_column": 24,
+    "end_line": 383,
+    "end_column": 25,
+    "text": "if (isDelimiter(c)) {\r\n                            token.type = Token.Type.TOKEN;\r\n                            return token;\r\n                        }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 33,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "identifier",
+    "start_line": 393,
+    "start_column": 28,
+    "end_line": 393,
+    "end_column": 40,
+    "text": "trailingData"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 34,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 395,
+    "start_column": 35,
+    "end_line": 395,
+    "end_column": 68,
+    "text": "!Character.isWhitespace((char) c)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 35,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 397,
+    "start_column": 28,
+    "end_line": 398,
+    "end_column": 84,
+    "text": "throw new CSVException(\"Invalid character between encapsulated token and delimiter at line: %,d, position: %,d\",\r\n                                    getCurrentLineNumber(), getCharacterPosition());"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 36,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "identifier",
+    "start_line": 405,
+    "start_column": 20,
+    "end_line": 405,
+    "end_column": 30,
+    "text": "lenientEof"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 37,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 411,
+    "start_column": 16,
+    "end_line": 411,
+    "end_column": 122,
+    "text": "throw new CSVException(\"(startline %,d) EOF reached before encapsulated token finished\", startLineNumber);"
+   },
+   "operator": "drop:throw_statement",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": 137,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 38,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 441,
+    "start_column": 12,
+    "end_line": 444,
+    "end_column": 13,
+    "text": "if (readEndOfLine(cur)) {\r\n                token.type = Token.Type.EORECORD;\r\n                break;\r\n            }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 39,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 447,
+    "start_column": 16,
+    "end_line": 447,
+    "end_column": 36,
+    "text": "token.isReady = true"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 40,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "identifier",
+    "start_line": 463,
+    "start_column": 12,
+    "end_line": 463,
+    "end_column": 35,
+    "text": "ignoreSurroundingSpaces"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 41,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 478,
+    "start_column": 12,
+    "end_line": 478,
+    "end_column": 64,
+    "text": "cur == Constants.CR && reader.peek() == Constants.LF"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 42,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 478,
+    "start_column": 12,
+    "end_line": 478,
+    "end_column": 64,
+    "text": "cur == Constants.CR && reader.peek() == Constants.LF"
+   },
+   "operator": "swap:==->!=@478:16",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 43,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 478,
+    "start_column": 12,
+    "end_line": 478,
+    "end_column": 64,
+    "text": "cur == Constants.CR && reader.peek() == Constants.LF"
+   },
+   "operator": "swap:&&->||@478:32",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 44,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 483,
+    "start_column": 16,
+    "end_line": 483,
+    "end_column": 46,
+    "text": "this.firstEol = Constants.CRLF"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 45,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 495,
+    "start_column": 15,
+    "end_line": 495,
+    "end_column": 57,
+    "text": "cur == Constants.LF || cur == Constants.CR"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 46,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 495,
+    "start_column": 15,
+    "end_line": 495,
+    "end_column": 57,
+    "text": "cur == Constants.LF || cur == Constants.CR"
+   },
+   "operator": "swap:==->!=@495:19",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 47,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 495,
+    "start_column": 15,
+    "end_line": 495,
+    "end_column": 57,
+    "text": "cur == Constants.LF || cur == Constants.CR"
+   },
+   "operator": "swap:||->&&@495:35",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 48,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 528,
+    "start_column": 12,
+    "end_line": 528,
+    "end_column": 75,
+    "text": "throw new CSVException(\"EOF while processing escape sequence\");"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\pool2\\java-fill\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 49,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 535,
+    "start_column": 16,
+    "end_line": 535,
+    "end_column": 53,
+    "text": "isMetaChar(ch) || isDelimiterChar(ch)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 50,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 535,
+    "start_column": 16,
+    "end_line": 535,
+    "end_column": 53,
+    "text": "isMetaChar(ch) || isDelimiterChar(ch)"
+   },
+   "operator": "swap:||->&&@535:31",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 51,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 545,
+    "start_column": 15,
+    "end_line": 545,
+    "end_column": 78,
+    "text": "length > 0 && Character.isWhitespace(buffer.charAt(length - 1))"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 52,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 545,
+    "start_column": 15,
+    "end_line": 545,
+    "end_column": 78,
+    "text": "length > 0 && Character.isWhitespace(buffer.charAt(length - 1))"
+   },
+   "operator": "swap:>->>=@545:22",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 53,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 545,
+    "start_column": 15,
+    "end_line": 545,
+    "end_column": 78,
+    "text": "length > 0 && Character.isWhitespace(buffer.charAt(length - 1))"
+   },
+   "operator": "swap:&&->||@545:26",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\java-commons-csv-lexer\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  }
+ ],
+ "baseline_after": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 19.85,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 20.33,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 20.15,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 20.27,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 19.07,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "docker",
+      "compose",
+      "-f",
+      "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+      "exec",
+      "-T",
+      "java-worker",
+      "timeout",
+      "-s",
+      "KILL",
+      "180",
+      "sh",
+      "/opt/ad/java-fast-test.sh",
+      "LexerTest",
+      "src/main/java/org/apache/commons/csv/Lexer.java"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 19.13,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  }
+ },
+ "restored": true,
+ "limit_s": {
+  "w1": 101,
+  "w2": 98,
+  "w3": 101,
+  "w4": 99,
+  "w5": 95,
+  "w6": 99
+ },
+ "workers": 6,
+ "pool": {
+  "workers_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers",
+  "cache_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\result-cache",
+  "prepare_seconds": 0.2,
+  "prepare": [
+   {
+    "worker": "w1",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.1
+   },
+   {
+    "worker": "w2",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.1
+   },
+   {
+    "worker": "w3",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.1
+   },
+   {
+    "worker": "w4",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.1
+   },
+   {
+    "worker": "w5",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.1
+   },
+   {
+    "worker": "w6",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.1
+   }
+  ],
+  "ready_workers": [
+   "w1",
+   "w2",
+   "w3",
+   "w4",
+   "w5",
+   "w6"
+  ],
+  "rounds": 1,
+  "requeued": [],
+  "not_run": [],
+  "worker_batches": [
+   {
+    "worker": "w1",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w1",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 20.08,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 19.85,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 101,
+      "round": 1,
+      "mutants": []
+     }
+    ]
+   },
+   {
+    "worker": "w2",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w2",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 19.51,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 20.33,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 98,
+      "round": 1,
+      "mutants": [
+       33,
+       35,
+       37,
+       39,
+       43,
+       45,
+       47,
+       50,
+       53
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w3",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w3",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 20.04,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 20.15,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 101,
+      "round": 1,
+      "mutants": []
+     }
+    ]
+   },
+   {
+    "worker": "w4",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w4",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 19.65,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 20.27,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 99,
+      "round": 1,
+      "mutants": [
+       41,
+       44,
+       48,
+       52
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w5",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w5",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 18.89,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 19.07,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 95,
+      "round": 1,
+      "mutants": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15,
+       16,
+       17,
+       18,
+       19,
+       20,
+       21,
+       22,
+       23,
+       24,
+       25,
+       26,
+       27,
+       28,
+       29,
+       30,
+       31,
+       32,
+       34,
+       36,
+       38,
+       40,
+       42,
+       46,
+       49,
+       51
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w6",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w6",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 19.78,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "docker",
+          "compose",
+          "-f",
+          "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver/compose.yaml",
+          "exec",
+          "-T",
+          "java-worker",
+          "timeout",
+          "-s",
+          "KILL",
+          "180",
+          "sh",
+          "/opt/ad/java-fast-test.sh",
+          "LexerTest",
+          "src/main/java/org/apache/commons/csv/Lexer.java"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 19.13,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 99,
+      "round": 1,
+      "mutants": []
+     }
+    ]
+   }
+  ]
+ }
+}

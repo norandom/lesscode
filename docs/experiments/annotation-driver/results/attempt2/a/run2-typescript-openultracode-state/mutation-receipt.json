@@ -1,0 +1,2702 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "typescript-openultracode-state",
+ "language": "typescript",
+ "sites_from": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\a\\run2-typescript-openultracode-state\\annotations.json",
+ "revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "expected_revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "pack_sha256": "bc65de93b20564ec4f2b2d9b14da5e0ebe53d7e95b2215ce14ec6c532fb6dd6b",
+ "tables_dir": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\tables",
+ "code_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "harness.py": "92429b593de0905f54633c963f4a160f49fbf1bc7aee43220bb8214676bd4694",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_arm.py": "c2ba072ccda1004661c8d23299c17ddd0b57fae37b370eb984e08f20e9151ca0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "pool.py": "55f687ce2aa179d807c7dbc7a484f1d91139e756e4e90b8faabbb537d9d2f8a4"
+ },
+ "limit": null,
+ "eligible_sites": 70,
+ "sites": 32,
+ "mutants_available": 56,
+ "selection_made": false,
+ "mutants_run": 56,
+ "counts_by_class": {
+  "killed": 24,
+  "invalid": 19,
+  "survived": 12,
+  "timeout": 1
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 21,
+   "invalid": 14,
+   "survived": 7,
+   "timeout": 1
+  },
+  "failure_state": {
+   "invalid": 1,
+   "killed": 1,
+   "survived": 2
+  },
+  "state_write": {
+   "survived": 3,
+   "invalid": 4,
+   "killed": 2
+  }
+ },
+ "error_mutants": [],
+ "sites_without_operator": [],
+ "annotation_decisions": [
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 50,
+    "end_line": 50,
+    "kind": "branch_condition",
+    "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+    "reason": "Missing state file would be thrown instead of returning undefined state."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 54,
+    "end_line": 54,
+    "kind": "failure_state",
+    "anchor": "throw error",
+    "reason": "Read I/O errors would be swallowed instead of surfaced to caller."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 63,
+    "end_line": 63,
+    "kind": "branch_condition",
+    "anchor": "!isPersistedWorkflowState(parsed)",
+    "reason": "Schema-invalid state would be accepted or valid state backed up as corrupt."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 74,
+    "end_line": 74,
+    "kind": "branch_condition",
+    "anchor": "state === undefined",
+    "reason": "Mutate on missing state would call change with undefined or skip valid state."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 76,
+    "end_line": 76,
+    "kind": "branch_condition",
+    "anchor": "changed === undefined",
+    "reason": "Returning undefined from change would write undefined or skip real writes."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 77,
+    "end_line": 77,
+    "kind": "state_write",
+    "anchor": "await store.update(changed)",
+    "reason": "Mutated state would not be persisted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 80,
+    "end_line": 80,
+    "kind": "state_write",
+    "anchor": "mutationQueues.set(statePath, next)",
+    "reason": "Concurrent mutations would no longer serialize and could lose changes."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 82,
+    "end_line": 82,
+    "kind": "branch_condition",
+    "anchor": "mutationQueues.get(statePath) === next",
+    "reason": "A newer queued mutation could be removed, breaking serialization."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 82,
+    "end_line": 82,
+    "kind": "state_write",
+    "anchor": "mutationQueues.delete(statePath)",
+    "reason": "Queue entries would leak and never be cleaned up."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 90,
+    "end_line": 90,
+    "kind": "state_write",
+    "anchor": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)",
+    "reason": "Symlinks created during mkdir would no longer be rejected before writing."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 96,
+    "end_line": 96,
+    "kind": "state_write",
+    "anchor": "await writeStateAtomically(statePath, `${JSON.stringify(persisted, null, 2)}\\n`)",
+    "reason": "State would not be written to disk."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 101,
+    "end_line": 101,
+    "kind": "state_write",
+    "anchor": "await rm(statePath, { force: true })",
+    "reason": "Clear would leave the state file in place."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 106,
+    "end_line": 106,
+    "kind": "state_write",
+    "anchor": "await backupCorruptState(statePath)",
+    "reason": "Corrupt state would not be moved aside to .bak."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 124,
+    "end_line": 124,
+    "kind": "branch_condition",
+    "anchor": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)",
+    "reason": "Non-transient errors would be retried or transient ones fail immediately."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 137,
+    "end_line": 137,
+    "kind": "state_write",
+    "anchor": "await retryTransient(() => rename(stagingPath, statePath))",
+    "reason": "Staged state would never replace the real state file."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 144,
+    "end_line": 144,
+    "kind": "branch_condition",
+    "anchor": "!isSafeProjectRelativePath(stateDirectory)",
+    "reason": "Unsafe state directories would be accepted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 145,
+    "end_line": 145,
+    "kind": "failure_state",
+    "anchor": "throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")",
+    "reason": "Invalid directory config would not be rejected."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 151,
+    "end_line": 151,
+    "kind": "branch_condition",
+    "anchor": "statePath !== root && !statePath.startsWith(`${root}${sep}`)",
+    "reason": "State path escaping the project root would be accepted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 152,
+    "end_line": 152,
+    "kind": "failure_state",
+    "anchor": "throw new Error(\"state.directory must resolve inside the project root\")",
+    "reason": "Out-of-root state path would not be refused."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 159,
+    "end_line": 159,
+    "kind": "branch_condition",
+    "anchor": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")",
+    "reason": "Empty, absolute, or backslash paths would be treated as safe."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 163,
+    "end_line": 163,
+    "kind": "branch_condition",
+    "anchor": "!value.split(\"/\").includes(\"..\")",
+    "reason": "Parent-directory segments would be allowed."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 174,
+    "end_line": 174,
+    "kind": "branch_condition",
+    "anchor": "stats.isSymbolicLink()",
+    "reason": "Symlinked directory segments would be followed."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 178,
+    "end_line": 178,
+    "kind": "branch_condition",
+    "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+    "reason": "Missing segments would throw, or other errors including symlink rejection would be swallowed."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 188,
+    "end_line": 188,
+    "kind": "branch_condition",
+    "anchor": "stats.isSymbolicLink()",
+    "reason": "Symlinked state file would be accepted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 189,
+    "end_line": 189,
+    "kind": "failure_state",
+    "anchor": "throw new Error(\"state.directory must not contain symlinks\")",
+    "reason": "Symlinked state file would not be refused."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 192,
+    "end_line": 192,
+    "kind": "branch_condition",
+    "anchor": "!isNodeError(error) || error.code !== \"ENOENT\"",
+    "reason": "Symlink rejection errors could be swallowed or missing file reported as error."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 200,
+    "end_line": 200,
+    "kind": "state_write",
+    "anchor": "await retryTransient(() => rename(statePath, `${statePath}.bak`))",
+    "reason": "Corrupt file would not be preserved as .bak."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 202,
+    "end_line": 202,
+    "kind": "branch_condition",
+    "anchor": "!isNodeError(error) || error.code !== \"ENOENT\"",
+    "reason": "Backup failures would be swallowed or a vanished file would throw."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 223,
+    "end_line": 223,
+    "kind": "branch_condition",
+    "anchor": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\"",
+    "reason": "Wrong-version or malformed envelopes would be accepted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 229,
+    "end_line": 229,
+    "kind": "branch_condition",
+    "anchor": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\"",
+    "reason": "Malformed inner state would pass validation."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 233,
+    "end_line": 233,
+    "kind": "branch_condition",
+    "anchor": "typeof value === \"object\" && value !== null && !Array.isArray(value)",
+    "reason": "Null or arrays would be treated as records."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/state.ts",
+    "start_line": 237,
+    "end_line": 237,
+    "kind": "branch_condition",
+    "anchor": "error instanceof Error && \"code\" in error",
+    "reason": "Non-errno errors would be misclassified, changing ENOENT handling."
+   },
+   "accepted": true,
+   "reason": "ok"
+  }
+ ],
+ "annotations_skipped": [],
+ "wall_seconds": 13.8,
+ "scope_files_sha256": {
+  "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+ },
+ "void": null,
+ "baseline_before": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.99,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.53,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.74,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.47,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.96,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.54,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.97,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.55,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.78,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.51,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.65,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.53,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  }
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:&&->||@50:31",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:===->!==@50:45",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\smoke\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 54,
+    "start_column": 8,
+    "end_line": 54,
+    "end_column": 19,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 63,
+    "start_column": 10,
+    "end_line": 63,
+    "end_column": 43,
+    "text": "!isPersistedWorkflowState(parsed)"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 74,
+    "start_column": 12,
+    "end_line": 74,
+    "end_column": 31,
+    "text": "state === undefined"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 74,
+    "start_column": 12,
+    "end_line": 74,
+    "end_column": 31,
+    "text": "state === undefined"
+   },
+   "operator": "swap:===->!==@74:18",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 76,
+    "start_column": 12,
+    "end_line": 76,
+    "end_column": 33,
+    "text": "changed === undefined"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 76,
+    "start_column": 12,
+    "end_line": 76,
+    "end_column": 33,
+    "text": "changed === undefined"
+   },
+   "operator": "swap:===->!==@76:20",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 77,
+    "start_column": 8,
+    "end_line": 77,
+    "end_column": 35,
+    "text": "await store.update(changed)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 80,
+    "start_column": 6,
+    "end_line": 80,
+    "end_column": 41,
+    "text": "mutationQueues.set(statePath, next)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 12,
+    "end_line": 82,
+    "end_column": 50,
+    "text": "mutationQueues.get(statePath) === next"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 12,
+    "end_line": 82,
+    "end_column": 50,
+    "text": "mutationQueues.get(statePath) === next"
+   },
+   "operator": "swap:===->!==@82:42",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 82,
+    "start_column": 52,
+    "end_line": 82,
+    "end_column": 84,
+    "text": "mutationQueues.delete(statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 90,
+    "start_column": 6,
+    "end_line": 90,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 96,
+    "start_column": 6,
+    "end_line": 96,
+    "end_column": 86,
+    "text": "await writeStateAtomically(statePath, `${JSON.stringify(persisted, null, 2)}\\n`)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 101,
+    "start_column": 6,
+    "end_line": 101,
+    "end_column": 42,
+    "text": "await rm(statePath, { force: true })"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 106,
+    "start_column": 4,
+    "end_line": 106,
+    "end_column": 39,
+    "text": "await backupCorruptState(statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "negate",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": null,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "swap:>=->>@124:18",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "swap:||->&&@124:30",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 137,
+    "start_column": 4,
+    "end_line": 137,
+    "end_column": 62,
+    "text": "await retryTransient(() => rename(stagingPath, statePath))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 144,
+    "start_column": 6,
+    "end_line": 144,
+    "end_column": 48,
+    "text": "!isSafeProjectRelativePath(stateDirectory)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 145,
+    "start_column": 4,
+    "end_line": 145,
+    "end_column": 120,
+    "text": "throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "swap:!==->===@151:16",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "swap:&&->||@151:25",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 152,
+    "start_column": 4,
+    "end_line": 152,
+    "end_column": 75,
+    "text": "throw new Error(\"state.directory must resolve inside the project root\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 29,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 30,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "swap:===->!==@159:19",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 31,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "swap:||->&&@159:25",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 32,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 163,
+    "start_column": 9,
+    "end_line": 163,
+    "end_column": 41,
+    "text": "!value.split(\"/\").includes(\"..\")"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 33,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 174,
+    "start_column": 10,
+    "end_line": 174,
+    "end_column": 32,
+    "text": "stats.isSymbolicLink()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 34,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 35,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:&&->||@178:29",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 36,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:===->!==@178:43",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 37,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 188,
+    "start_column": 8,
+    "end_line": 188,
+    "end_column": 30,
+    "text": "stats.isSymbolicLink()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 38,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 189,
+    "start_column": 6,
+    "end_line": 189,
+    "end_column": 66,
+    "text": "throw new Error(\"state.directory must not contain symlinks\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 39,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 40,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:||->&&@192:28",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 41,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:!==->===@192:42",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 42,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 200,
+    "start_column": 4,
+    "end_line": 200,
+    "end_column": 69,
+    "text": "await retryTransient(() => rename(statePath, `${statePath}.bak`))"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 43,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 44,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:||->&&@202:28",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 45,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:!==->===@202:42",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 46,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 47,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "swap:||->&&@223:23",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 48,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "swap:!==->===@223:46",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 49,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 50,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "swap:&&->||@229:25",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 51,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "swap:===->!==@229:48",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 52,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 53,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "swap:===->!==@233:22",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 54,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "swap:&&->||@233:35",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 55,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 237,
+    "start_column": 9,
+    "end_line": 237,
+    "end_column": 50,
+    "text": "error instanceof Error && \"code\" in error"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 56,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 237,
+    "start_column": 9,
+    "end_line": 237,
+    "end_column": 50,
+    "text": "error instanceof Error && \"code\" in error"
+   },
+   "operator": "swap:&&->||@237:32",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-state\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  }
+ ],
+ "baseline_after": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.66,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.6,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.97,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.48,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.01,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.5,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.9,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.52,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.05,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.48,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.93,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.49,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  }
+ },
+ "restored": true,
+ "limit_s": {
+  "w1": 30,
+  "w2": 30,
+  "w3": 30,
+  "w4": 30,
+  "w5": 30,
+  "w6": 30
+ },
+ "workers": 6,
+ "pool": {
+  "workers_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers",
+  "cache_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\result-cache",
+  "prepare_seconds": 0.2,
+  "prepare": [
+   {
+    "worker": "w1",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   },
+   {
+    "worker": "w2",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   },
+   {
+    "worker": "w3",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   },
+   {
+    "worker": "w4",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   },
+   {
+    "worker": "w5",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   },
+   {
+    "worker": "w6",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   }
+  ],
+  "ready_workers": [
+   "w1",
+   "w2",
+   "w3",
+   "w4",
+   "w5",
+   "w6"
+  ],
+  "rounds": 1,
+  "requeued": [],
+  "not_run": [],
+  "worker_batches": [
+   {
+    "worker": "w1",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w1",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.99,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.53,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.66,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.6,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       31,
+       38,
+       45,
+       51,
+       55
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w2",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w2",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.74,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.47,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.97,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.48,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       4,
+       5,
+       7,
+       9,
+       12,
+       16,
+       18,
+       21,
+       24,
+       27,
+       32,
+       36,
+       43,
+       48,
+       54
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w3",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w3",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.96,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.54,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.01,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.5,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       26,
+       30,
+       35,
+       41,
+       49,
+       56
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w4",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w4",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.97,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.55,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.9,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.52,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       33,
+       39,
+       44,
+       50
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w5",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w5",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.78,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.51,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.05,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.48,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       11,
+       15,
+       19,
+       22,
+       23,
+       28,
+       37,
+       42,
+       47,
+       53
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w6",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w6",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.65,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.53,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.93,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.49,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       1,
+       2,
+       3,
+       6,
+       8,
+       10,
+       13,
+       14,
+       17,
+       20,
+       25,
+       29,
+       34,
+       40,
+       46,
+       52
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

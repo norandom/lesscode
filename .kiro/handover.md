@@ -11,15 +11,18 @@ has the result table, the open decisions, the owner's rules and the commands.
 
 1. **Top priority: the agnostic driver** (spec
    [agnostic-annotation-driver](specs/agnostic-annotation-driver/brief.md)).
-   Prototype gate attempt 1 ran today; outcome **revise**
+   **Gate attempt 2 (R64): the rules-as-data form meets every mechanism row
+   on all four languages, with model-written packs for the held-out ones.
+   Open: the apparatus ceiling (owner decision). Next: requirements, then a
+   design for approval.** History: attempt 1 ran earlier today; outcome revise
    ([R61](../docs/research/2026-11-10/07-annotation-driver-gate-result.md)).
    One engine with a data pack per language meets every gated row on Rust,
    Python and Java in at least one arm and fails on TypeScript in every arm.
    Packs written by the model for TypeScript and Java were admitted and are
    equivalent to hand-written ones. Nothing in `native/` changed.
-2. **Waiting for the owner:** go or no-go for attempt 2 and its content (R61
-   proposal); an independent check of the survivor labels, which are the
-   agent's own.
+2. **Waiting for the owner:** the apparatus ceiling for a production port
+   (amend the 7,173-line cap, remove as much elsewhere, or keep the engine as
+   a tool beside the binary), and the go to write requirements and a design.
 3. **Second priority:** hardening against LLM inference drift, in
    `constraint-guided-compression` Slice B (requirements Amendment 5). Not
    started. The run-to-run agreement measured today is its baseline.

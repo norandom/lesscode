@@ -1,0 +1,570 @@
+[
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 82,
+  "end_line": 87,
+  "kind": "pure_shell_boundary",
+  "anchor": "def _setting(env: Mapping[str, str], key: str) -> str | None:\n    \"\"\"The stripped value of `key`, or None when it is unset or blank.\"\"\"\n    raw = env.get(key)\n    if raw is None or not raw.strip():\n        return None\n    return raw.strip()",
+  "reason": "Pure lookup that decides whether a setting counts as unset."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 85,
+  "end_line": 85,
+  "kind": "branch_condition",
+  "anchor": "raw is None or not raw.strip()",
+  "reason": "Decides whether a blank setting takes its default or gets validated."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 96,
+  "end_line": 96,
+  "kind": "branch_condition",
+  "anchor": "not math.isfinite(value) or value <= 0",
+  "reason": "Decides whether zero, negative, inf or nan rates are rejected."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 104,
+  "end_line": 104,
+  "kind": "branch_condition",
+  "anchor": "text is None",
+  "reason": "Decides whether a numeric setting falls back to its default."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 107,
+  "end_line": 107,
+  "kind": "branch_condition",
+  "anchor": "value is None",
+  "reason": "Decides whether an invalid number aborts startup."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 108,
+  "end_line": 108,
+  "kind": "failure_state",
+  "anchor": "raise RateLimitConfigError(f'{key} must be a positive number')",
+  "reason": "Without it an invalid rate or wait setting would be accepted."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 114,
+  "end_line": 114,
+  "kind": "branch_condition",
+  "anchor": "text is None",
+  "reason": "Decides whether max_queue falls back to its default."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 119,
+  "end_line": 119,
+  "kind": "failure_state",
+  "anchor": "raise RateLimitConfigError(f'{key} must be a positive integer') from None",
+  "reason": "A non-integer max_queue would no longer stop startup."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 120,
+  "end_line": 120,
+  "kind": "branch_condition",
+  "anchor": "value <= 0",
+  "reason": "Decides whether a zero or negative queue bound is rejected."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 121,
+  "end_line": 121,
+  "kind": "failure_state",
+  "anchor": "raise RateLimitConfigError(f'{key} must be a positive integer')",
+  "reason": "A non-positive queue bound would no longer stop startup."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 128,
+  "end_line": 128,
+  "kind": "branch_condition",
+  "anchor": "text is None",
+  "reason": "Decides whether there are no model overrides."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 135,
+  "end_line": 135,
+  "kind": "branch_condition",
+  "anchor": "not separator or not name or rate is None",
+  "reason": "Decides whether a malformed model=rps entry is rejected."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 136,
+  "end_line": 138,
+  "kind": "failure_state",
+  "anchor": "raise RateLimitConfigError(\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\n                'comma-separated list of model=rps with a positive rps')",
+  "reason": "A malformed model rate entry would no longer stop startup."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 135,
+  "end_line": 138,
+  "kind": "error_order",
+  "anchor": "if not separator or not name or rate is None:\n            raise RateLimitConfigError(\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\n                'comma-separated list of model=rps with a positive rps')",
+  "reason": "Determines whether a malformed or a duplicate error is reported when both apply."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 139,
+  "end_line": 139,
+  "kind": "branch_condition",
+  "anchor": "name in rates",
+  "reason": "Decides whether a repeated model name is rejected."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 140,
+  "end_line": 141,
+  "kind": "failure_state",
+  "anchor": "raise RateLimitConfigError(\n                f'{ENV_MODEL_RPS} entry {position} repeats a model named earlier')",
+  "reason": "Duplicate model entries would silently override each other."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 142,
+  "end_line": 142,
+  "kind": "state_write",
+  "anchor": "rates[name] = rate",
+  "reason": "Stores the per-model rate used for pacing."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 160,
+  "end_line": 160,
+  "kind": "branch_condition",
+  "anchor": "env is None",
+  "reason": "Decides whether the process environment is read."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 178,
+  "end_line": 178,
+  "kind": "branch_condition",
+  "anchor": "key == MODELS_KEY",
+  "reason": "Ensures model discovery is never paced."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 221,
+  "end_line": 221,
+  "kind": "branch_condition",
+  "anchor": "value is None",
+  "reason": "A missing Retry-After must yield None."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 224,
+  "end_line": 224,
+  "kind": "branch_condition",
+  "anchor": "not text",
+  "reason": "A blank Retry-After must yield None."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 226,
+  "end_line": 226,
+  "kind": "branch_condition",
+  "anchor": "_DELAY_SECONDS.fullmatch(text)",
+  "reason": "Decides whether the value is read as delay-seconds or as a date."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 228,
+  "end_line": 228,
+  "kind": "branch_condition",
+  "anchor": "math.isfinite(delay)",
+  "reason": "Rejects huge digit strings that overflow to inf."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 233,
+  "end_line": 233,
+  "kind": "branch_condition",
+  "anchor": "when.tzinfo is None",
+  "reason": "Decides whether a zoneless date is treated as UTC."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 236,
+  "end_line": 236,
+  "kind": "branch_condition",
+  "anchor": "not math.isfinite(delay)",
+  "reason": "Rejects non-finite date delays."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 238,
+  "end_line": 238,
+  "kind": "branch_condition",
+  "anchor": "delay > 0",
+  "reason": "Past dates must clamp to zero rather than go negative."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 256,
+  "end_line": 256,
+  "kind": "branch_condition",
+  "anchor": "not (fallback_wait_s > 0 and cap_s > 0)",
+  "reason": "Validates the fallback and cap arguments."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 257,
+  "end_line": 257,
+  "kind": "failure_state",
+  "anchor": "raise ValueError('fallback_wait_s and cap_s must be positive')",
+  "reason": "Without it non-positive waits would be accepted."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 256,
+  "end_line": 257,
+  "kind": "error_order",
+  "anchor": "if not (fallback_wait_s > 0 and cap_s > 0):\n        raise ValueError('fallback_wait_s and cap_s must be positive')",
+  "reason": "Determines whether bad arguments raise even for non-429 statuses."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 258,
+  "end_line": 258,
+  "kind": "branch_condition",
+  "anchor": "status != _RATE_LIMIT_STATUS",
+  "reason": "Decides which responses count as rate-limit rejections."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 264,
+  "end_line": 264,
+  "kind": "branch_condition",
+  "anchor": "lowered == _RETRY_AFTER",
+  "reason": "Decides which header supplies the Retry-After."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 266,
+  "end_line": 266,
+  "kind": "branch_condition",
+  "anchor": "lowered.startswith(_SNAPSHOT_PREFIX)",
+  "reason": "Limits the snapshot to x-ratelimit headers so credentials never leak."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 269,
+  "end_line": 269,
+  "kind": "branch_condition",
+  "anchor": "parsed is None",
+  "reason": "Decides between the capped fallback and the uncapped Retry-After."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 332,
+  "end_line": 332,
+  "kind": "branch_condition",
+  "anchor": "len(body) >= _REJECTION_BODY_LIMIT",
+  "reason": "Stops reading the rejection body at 64 KiB."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 335,
+  "end_line": 335,
+  "kind": "state_write",
+  "anchor": "await response.aclose()",
+  "reason": "Closes the upstream stream while the run waits."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 339,
+  "end_line": 339,
+  "kind": "branch_condition",
+  "anchor": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)",
+  "reason": "Decides which upstream headers are forwarded to the client."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 341,
+  "end_line": 341,
+  "kind": "branch_condition",
+  "anchor": "signal.retry_after_present and signal.wait_s >= 1",
+  "reason": "Decides whether the upstream Retry-After is forwarded verbatim."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 356,
+  "end_line": 356,
+  "kind": "state_write",
+  "anchor": "record.exhausted = True",
+  "reason": "Marks the request as given up in diagnostics."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 358,
+  "end_line": 358,
+  "kind": "branch_condition",
+  "anchor": "rejection is not None",
+  "reason": "Decides between replaying the upstream 429 and a synthesized one."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 445,
+  "end_line": 445,
+  "kind": "branch_condition",
+  "anchor": "self._held >= self._config.max_queue",
+  "reason": "Enforces the global queue bound."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 449,
+  "end_line": 449,
+  "kind": "failure_state",
+  "anchor": "return _exhausted(record, max(ready_at - now, self._interval(key)))",
+  "reason": "Answers 429 immediately when the gate is full."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 452,
+  "end_line": 452,
+  "kind": "state_write",
+  "anchor": "state.waiters.append(waiter)",
+  "reason": "Joins the key's FIFO line."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 453,
+  "end_line": 453,
+  "kind": "state_write",
+  "anchor": "self._held += 1",
+  "reason": "Counts the run toward the queue bound."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 459,
+  "end_line": 459,
+  "kind": "state_write",
+  "anchor": "self._held -= 1",
+  "reason": "Releases the run's share of the queue bound."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 460,
+  "end_line": 460,
+  "kind": "state_write",
+  "anchor": "self._leave(state, waiter)",
+  "reason": "Removes the run and promotes the next waiter."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 471,
+  "end_line": 471,
+  "kind": "branch_condition",
+  "anchor": "state.waiters[0] is not waiter",
+  "reason": "Decides whether the run must wait for promotion."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 474,
+  "end_line": 474,
+  "kind": "branch_condition",
+  "anchor": "interval > 0",
+  "reason": "Sets the minimum hold to 1 s for unpaced keys."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 480,
+  "end_line": 480,
+  "kind": "state_write",
+  "anchor": "record.queued_ms += (now - waited_from) * 1000",
+  "reason": "Accumulates the queue time reported for the request."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 481,
+  "end_line": 481,
+  "kind": "branch_condition",
+  "anchor": "not on_time",
+  "reason": "Decides whether the run gives up instead of sending."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 482,
+  "end_line": 482,
+  "kind": "failure_state",
+  "anchor": "return _exhausted(record, max(state.ready_at() - now, interval), rejection)",
+  "reason": "Returns 429 when the deadline is passed."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 483,
+  "end_line": 483,
+  "kind": "branch_condition",
+  "anchor": "interval > 0",
+  "reason": "Decides whether the pacing slot advances."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 484,
+  "end_line": 484,
+  "kind": "state_write",
+  "anchor": "state.next_slot = now + interval",
+  "reason": "Schedules the next permitted send for the key."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 491,
+  "end_line": 491,
+  "kind": "branch_condition",
+  "anchor": "signal is None",
+  "reason": "Decides whether the response is returned or retried."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 495,
+  "end_line": 495,
+  "kind": "state_write",
+  "anchor": "record.rejections += 1",
+  "reason": "Counts the upstream rejections in the record."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 496,
+  "end_line": 496,
+  "kind": "state_write",
+  "anchor": "record.headers.update(signal.headers)",
+  "reason": "Records the latest x-ratelimit headers."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 497,
+  "end_line": 497,
+  "kind": "state_write",
+  "anchor": "self._hold(key, state, signal, shortest)",
+  "reason": "Holds the key after a 429."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 510,
+  "end_line": 510,
+  "kind": "branch_condition",
+  "anchor": "signal.retry_after_present",
+  "reason": "Chooses Retry-After or jittered backoff for the hold."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 517,
+  "end_line": 517,
+  "kind": "branch_condition",
+  "anchor": "hold_until > state.hold_until",
+  "reason": "Ensures a hold is only ever extended, never shortened."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 518,
+  "end_line": 518,
+  "kind": "state_write",
+  "anchor": "state.hold_until = hold_until",
+  "reason": "Sets the hold that every run on the key honours."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 531,
+  "end_line": 531,
+  "kind": "branch_condition",
+  "anchor": "self._clock() > deadline",
+  "reason": "Gives up runs that are already past their deadline."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 536,
+  "end_line": 536,
+  "kind": "branch_condition",
+  "anchor": "now >= ready_at",
+  "reason": "Decides whether the key may send now."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 536,
+  "end_line": 537,
+  "kind": "error_order",
+  "anchor": "if now >= ready_at:\n                return True",
+  "reason": "Lets a late wake-up still send instead of giving up."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 538,
+  "end_line": 538,
+  "kind": "branch_condition",
+  "anchor": "ready_at > deadline",
+  "reason": "Gives up when the slot or hold ends past the deadline."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 545,
+  "end_line": 545,
+  "kind": "branch_condition",
+  "anchor": "rate is None",
+  "reason": "Decides whether a key is unpaced."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 555,
+  "end_line": 555,
+  "kind": "branch_condition",
+  "anchor": "state is None",
+  "reason": "Decides whether a new key state is created."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 558,
+  "end_line": 558,
+  "kind": "branch_condition",
+  "anchor": "not known.waiters and known.ready_at() <= now",
+  "reason": "Only idle keys with expired slots and holds may be dropped."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 559,
+  "end_line": 559,
+  "kind": "state_write",
+  "anchor": "del self._keys[idle]",
+  "reason": "Drops idle key state."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 560,
+  "end_line": 560,
+  "kind": "state_write",
+  "anchor": "state = self._keys[key] = _KeyState()",
+  "reason": "Registers the new key state."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 570,
+  "end_line": 570,
+  "kind": "state_write",
+  "anchor": "state.waiters.remove(waiter)",
+  "reason": "Removes the run from its line."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 571,
+  "end_line": 571,
+  "kind": "branch_condition",
+  "anchor": "was_head and state.waiters and not state.waiters[0].done()",
+  "reason": "Decides whether the next waiter is promoted."
+ },
+ {
+  "file": "mvibe_proxy/ratelimit.py",
+  "start_line": 572,
+  "end_line": 572,
+  "kind": "state_write",
+  "anchor": "state.waiters[0].set_result(None)",
+  "reason": "Wakes the next run in line."
+ }
+]

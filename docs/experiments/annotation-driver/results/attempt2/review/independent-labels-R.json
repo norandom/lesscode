@@ -1,0 +1,128 @@
+[
+  {
+    "id": "R001",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In update::run, when super::process_deps returns None (no home folder found by etcetera::home_dir / RecordStore::locate, or the --release-dir loopback server cannot bind), the original prints NO_HOME and exits 1, the mutant prints the same message but exits 0. The process exit code of `mmhmem update` differs; no selected test calls run()."
+  },
+  {
+    "id": "R002",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "restart_of builds Restart with ..Restart::default(), so without `deps.restart.command = Command::Update` the command stays Command::Setup. After an accepted, verified update from a plain `mmhmem update`, Flow::relaunch starts the new program as `setup --restarted <tag>` (full-screen setup menu) instead of `update --restarted <tag>` (plain questions). The tests build the Restart themselves (updating()) and never call run()."
+  },
+  {
+    "id": "R003",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In Prompt::yes, when read_line returns Ok(0) (Ctrl+D at `Update now? [Y/n]`) or Err, the original ends the prompt line with a newline; the mutant does not, so the terminal shows `Update now? [Y/n] Nothing was changed.` on one line. a_declined_update_changes_nothing with \"\" only checks contains/ends_with after trim_end, which both outputs satisfy."
+  },
+  {
+    "id": "R004",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "The two checks only differ when flow.resume() is Some and flow.record() is None, e.g. `mmhmem update --restarted v1.0.0` (an argument UpdateArgs::parse accepts) on a computer with no install record and nothing to adopt. The original prints `Updated to v1.0.0. Checking your tools...` and exits 2 (exit_code without progress); the mutant prints NOT_SET_UP and exits 1. It counts as reachable only through that internal argument, or a record that disappears or becomes unreadable between the two runs."
+  },
+  {
+    "id": "R005",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "Flow::update_refusal is a pure read and is Some only with an empty key list or no target. Through run(), the keys come from trusted_release_keys() (RELEASE_PUBLIC_KEYS holds one key, and the e2e feature only adds one), and Target::current() is fixed at compile time, so with no target newest_release already returns Newest::Unknown and session exits before the prompt. At this point the refusal is always None in a real run, so moving it ahead of the question changes nothing; only unit tests that inject empty keys can see a difference."
+  },
+  {
+    "id": "R006",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "Reporter::finish redraws the last download sample on stderr without the 100 ms throttle in draw(); without it, on a terminal the progress line usually stays at the last throttled sample (for example `(97%)`) before ` signature and checksum OK.` is appended in the Next::Restart branch. Reporter::stderr is enabled only when stderr is a terminal, so the captured-output tests cannot see this. How visible it is depends on timing."
+  },
+  {
+    "id": "R007",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "Same missing final unthrottled redraw as R006, in the Next::Review branch. That branch is reachable through run() when the newest release equals this program's own version but the record names an older release (update_to's same_release), or with `--restarted <invalid tag>` (exec None, resumed None). The stale progress line stays on the user's terminal."
+  },
+  {
+    "id": "R008",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In the Next::Review branch (newest == own version, newer than the recorded release; or exec None), the mutant never prints ` signature and checksum OK.`. `Downloading vX ...` is then followed directly by finish's `Updated to vX. Checking your tools...` on the same line. No test drives session into Next::Review: updating() always restarts."
+  },
+  {
+    "id": "R009",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "In the Next::Note branch (update_to returned UPDATE_FAILED after a download or verification failure, for example a checksum mismatch after a full download), the final unthrottled progress redraw is skipped. On a terminal the stderr line can stay at an earlier sample instead of the last bytes received. This depends on timing, and only on a terminal."
+  },
+  {
+    "id": "R010",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "After p.start(\"Downloading vX ...\") with no newline, the original ends the line before printing the failure reason; the mutant appends the reason from flow.last_note() to the downloading line. Reachable whenever update_binary_with_progress fails (network drop, checksum or signature mismatch). No test covers Next::Note in session."
+  },
+  {
+    "id": "R011",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "On a failed download or verification, update_to pushes the tidied error into loaded.notes and returns Next::Note(UPDATE_FAILED). The original prints that reason; the mutant omits it but still prints `The update did not finish; the reason is shown above.`. No selected test reaches this branch."
+  },
+  {
+    "id": "R012",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In the Next::Note branch the mutant drops the note line itself, so after a failed update the user sees only the reason, without `The update did not finish; the reason is shown above.` The exit code is still 1. No selected test reaches Next::Note."
+  },
+  {
+    "id": "R013",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In bootstrap(), when the install command run in a terminal on an installed system brings a newer release and the user answers n, the original prints `Nothing was changed.`; the mutant prints nothing after the prompt. The test with \"n\\n\" checks only the code (Some(EXIT_CANCELLED)) and the digest, never the output."
+  },
+  {
+    "id": "R014",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In finish(), after the user accepts `Apply these changes? [Y/n]` (a restarted update whose recorded choices change files), the mutant never prints `Making the changes, then checking your tools...`. a_restarted_update_with_changes_lists_them_and_asks_once checks only the prompt count and later lines."
+  },
+  {
+    "id": "R015",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In changes(), with file changes but no problems (the common restarted-update review), the mutant prints a stray `These tools will be skipped:` heading with nothing under it. With problems (an agent whose plan() fails) it prints neither the heading nor the skipped-tool lines. The test with changes does not assert that the heading is absent."
+  },
+  {
+    "id": "R016",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "When a recorded agent cannot be planned in the restarted run (agent.plan returns Err, for example its config file is malformed), view.problems is non-empty. The mutant then prints the `X was skipped: ...` lines without the `These tools will be skipped:` heading. No selected test has review problems."
+  },
+  {
+    "id": "R017",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In the same problems case as R016, the mutant prints the `These tools will be skipped:` heading but none of the problem lines from view.problems. The user is then asked to apply without being told which tool is skipped or why."
+  },
+  {
+    "id": "R018",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In result_lines, the negated condition appends `Done.` in the typical success case (exit 0 with next steps, which all_lines already lists under `Done. Next steps:`) and after failures. It omits `Done.` exactly when the original prints it. an_accepted_update_restarts_as_update_and_the_restarted_run_only_checks only checks the start and contains, so the extra trailing `Done.` goes unnoticed."
+  },
+  {
+    "id": "R019",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With `!=`, a restarted check-only update whose only recorded tool fails its check (exit 1; progress_of adds no next step for a Fail) gets a trailing `Done.` the original does not print. A zero-exit run with no next steps loses the `Done.` it should get. No test asserts on `Done.` after a failed check."
+  },
+  {
+    "id": "R020",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With `||`, every successful run with next steps (every passing agent adds text::next_step) gets an extra `Done.` after the next-steps block, for example after the restarted check in the accepted-update test. Failing runs with no next steps get one too. The tests never assert that `Done.` is absent at the end."
+  },
+  {
+    "id": "R021",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "The push only runs when exit 0 and the progress has no next steps, which means no agent was checked. Example: the install record left by a removal that kept the running program (agents empty, binary kept; see Flow::program_left), then `mmhmem update` to a newer release. The restarted run prints `Updated to vX. Checking your tools...` followed by `Done.` in the original, and nothing after it in the mutant; no selected test has a record without agents."
+  }
+]

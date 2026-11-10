@@ -2,7 +2,19 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R63 Annotation-driver attempt 2 setup (2026-11-10)
+## Latest: R64 Annotation-driver gate, attempt 2: mechanism rows met for the rules-as-data form (2026-11-10)
+
+[R64](2026-11-10/10-annotation-driver-gate-attempt2.md) reports the second and last
+gate attempt.
+- **Outcome:** arm D (generic operators driven by a data pack per language, no model at run time) meets yield, oracle, meaningfulness and agnosticism on Rust, Python, TypeScript (two scopes) and Java. Meaningful share of landed mutants: 98%, 98%, 98%, 90% and 89%, with independent survivor labels.
+- **Model-written packs:** the TypeScript and Java packs were admitted on the first reply and yield exactly the mutants of the hand-written packs.
+- **Arm A (model annotates):** validity 81% to 100% on every scope and run; all rows met on Rust, Python and Java; one of four TypeScript runs landed two kinds instead of three. Every arm A mutant is also an arm D mutant, so annotation only selects.
+- **Open row:** the apparatus ceiling. The counted native apparatus is at its cap of 7,173 lines and no Rust port was sized; this is an owner decision before production.
+- **Limits:** 24% to 35% of TypeScript mutants do not compile; kind names are loose; five scopes, one model; this is about mutation, not compression.
+- **Spend, both attempts:** about 233k input and 115k output tokens, at most 12.10 USD at an assumed price, cap 20 USD.
+- **Next:** requirements and a design for the owner's approval.
+
+## Prior: R63 Annotation-driver attempt 2 setup (2026-11-10)
 
 [R63](2026-11-10/09-annotation-driver-attempt2-setup.md) freezes the inputs of the
 second and last gate attempt. Setup only, no counted run.

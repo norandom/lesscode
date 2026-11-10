@@ -1,0 +1,233 @@
+[
+ {
+  "id": "R001",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "failure_state",
+  "operator": "literal:1->0",
+  "start_line": 101,
+  "end_line": 101,
+  "diff": "--- original\n+++ mutant\n@@ -97,9 +97,9 @@\n         return code;\r\n     }\r\n     let Some(mut deps) = super::process_deps(&setup) else {\r\n         eprintln!(\"{}\", text::NO_HOME);\r\n-        return 1;\r\n+        return 0;\r\n     };\r\n     deps.restart.command = Command::Update;\r\n     let mut flow = Flow::load(deps);\r\n     let source = flow.release_source();\r\n"
+ },
+ {
+  "id": "R002",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 103,
+  "end_line": 103,
+  "diff": "--- original\n+++ mutant\n@@ -99,9 +99,9 @@\n     let Some(mut deps) = super::process_deps(&setup) else {\r\n         eprintln!(\"{}\", text::NO_HOME);\r\n         return 1;\r\n     };\r\n-    deps.restart.command = Command::Update;\r\n+    ;\r\n     let mut flow = Flow::load(deps);\r\n     let source = flow.release_source();\r\n     let lookup = move || super::newest_within(source, NEWEST_WAIT);\r\n     let code = session(\r\n"
+ },
+ {
+  "id": "R003",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 141,
+  "end_line": 141,
+  "diff": "--- original\n+++ mutant\n@@ -137,9 +137,9 @@\n             self.start(&format!(\"{prompt} \"));\r\n             let mut line = String::new();\r\n             match self.input.read_line(&mut line) {\r\n                 Ok(0) | Err(_) => {\r\n-                    self.say(\"\");\r\n+                    ;\r\n                     return false;\r\n                 }\r\n                 Ok(_) => {}\r\n             }\r\n"
+ },
+ {
+  "id": "R004",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "error_order",
+  "operator": "swap_next",
+  "start_line": 165,
+  "end_line": 167,
+  "diff": "--- original\n+++ mutant\n@@ -161,14 +161,14 @@\n     input: &mut dyn BufRead,\r\n     out: &mut dyn Write,\r\n ) -> i32 {\r\n     let mut p = Prompt { input, out };\r\n-    if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\r\n-        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\r\n-    }\r\n     if flow.record().is_none() {\r\n         p.say(text::update::NOT_SET_UP);\r\n         return EXIT_NOT_SET_UP;\r\n+    }\r\n+    if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\r\n+        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\r\n     }\r\n     p.say(text::update::CHECKING_NEWEST);\r\n     flow.set_newest(lookup());\r\n     let installed = flow.installed_release();\r\n"
+ },
+ {
+  "id": "R005",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "error_order",
+  "operator": "swap_next",
+  "start_line": 188,
+  "end_line": 191,
+  "diff": "--- original\n+++ mutant\n@@ -184,15 +184,15 @@\n         installed.as_str(),\r\n         newest.as_str(),\r\n     ));\r\n     p.say(text::update::KEEPS_CHOICES);\r\n+    if let Some(note) = flow.update_refusal() {\r\n+        p.say(note);\r\n+        return 1;\r\n+    }\r\n     if !p.yes(text::update::PROMPT_UPDATE) {\r\n         p.say(text::update::NOTHING_CHANGED);\r\n         return EXIT_CANCELLED;\r\n-    }\r\n-    if let Some(note) = flow.update_refusal() {\r\n-        p.say(note);\r\n-        return 1;\r\n     }\r\n     // One progress line (bytes, percent, speed, time left) while the\r\n     // release downloads (bugfix 2026-11-07: a frozen \"Downloading\u2026\").\r\n     let reporter = crate::setup::download_line::Reporter::stderr(newest.as_str());\r\n"
+ },
+ {
+  "id": "R006",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 203,
+  "end_line": 203,
+  "diff": "--- original\n+++ mutant\n@@ -199,9 +199,9 @@\n     let hook = reporter.hook();\r\n     p.start(&text::update::downloading(newest.as_str()));\r\n     match flow.begin_with(&HomeAction::UpdateTo(newest.clone()), hook) {\r\n         Next::Restart => {\r\n-            reporter.finish();\r\n+            ;\r\n             p.say(&format!(\" {}\", text::update::VERIFIED));\r\n             0\r\n         }\r\n         // The release is this program's own (or no restart is set up): go\r\n"
+ },
+ {
+  "id": "R007",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 210,
+  "end_line": 210,
+  "diff": "--- original\n+++ mutant\n@@ -206,9 +206,9 @@\n         }\r\n         // The release is this program's own (or no restart is set up): go\r\n         // on here with the files of this program.\r\n         Next::Review => {\r\n-            reporter.finish();\r\n+            ;\r\n             p.say(&format!(\" {}\", text::update::VERIFIED));\r\n             finish(\r\n                 flow,\r\n                 &mut p,\r\n"
+ },
+ {
+  "id": "R008",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 211,
+  "end_line": 211,
+  "diff": "--- original\n+++ mutant\n@@ -207,9 +207,9 @@\n         // The release is this program's own (or no restart is set up): go\r\n         // on here with the files of this program.\r\n         Next::Review => {\r\n             reporter.finish();\r\n-            p.say(&format!(\" {}\", text::update::VERIFIED));\r\n+            ;\r\n             finish(\r\n                 flow,\r\n                 &mut p,\r\n                 newest.as_str(),\r\n"
+ },
+ {
+  "id": "R009",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 220,
+  "end_line": 220,
+  "diff": "--- original\n+++ mutant\n@@ -216,9 +216,9 @@\n                 Some(text::update::CHANGES_KEPT),\r\n             )\r\n         }\r\n         Next::Note(note) => {\r\n-            reporter.finish();\r\n+            ;\r\n             p.say(\"\");\r\n             if note == text::UPDATE_FAILED\r\n                 && let Some(reason) = flow.last_note()\r\n             {\r\n"
+ },
+ {
+  "id": "R010",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 221,
+  "end_line": 221,
+  "diff": "--- original\n+++ mutant\n@@ -217,9 +217,9 @@\n             )\r\n         }\r\n         Next::Note(note) => {\r\n             reporter.finish();\r\n-            p.say(\"\");\r\n+            ;\r\n             if note == text::UPDATE_FAILED\r\n                 && let Some(reason) = flow.last_note()\r\n             {\r\n                 p.say(reason);\r\n"
+ },
+ {
+  "id": "R011",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 225,
+  "end_line": 225,
+  "diff": "--- original\n+++ mutant\n@@ -221,9 +221,9 @@\n             p.say(\"\");\r\n             if note == text::UPDATE_FAILED\r\n                 && let Some(reason) = flow.last_note()\r\n             {\r\n-                p.say(reason);\r\n+                ;\r\n             }\r\n             p.say(note);\r\n             1\r\n         }\r\n"
+ },
+ {
+  "id": "R012",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 227,
+  "end_line": 227,
+  "diff": "--- original\n+++ mutant\n@@ -223,9 +223,9 @@\n                 && let Some(reason) = flow.last_note()\r\n             {\r\n                 p.say(reason);\r\n             }\r\n-            p.say(note);\r\n+            ;\r\n             1\r\n         }\r\n         Next::Agents | Next::Progress => 1,\r\n     }\r\n"
+ },
+ {
+  "id": "R013",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 244,
+  "end_line": 244,
+  "diff": "--- original\n+++ mutant\n@@ -240,9 +240,9 @@\n     let offer = text::update::bootstrap_available(recorded.as_str(), brought.as_str());\r\n     p.say(&offer);\r\n     p.say(text::update::KEEPS_CHOICES);\r\n     if !p.yes(text::update::PROMPT_UPDATE) {\r\n-        p.say(text::update::NOTHING_CHANGED);\r\n+        ;\r\n         return Some(EXIT_CANCELLED);\r\n     }\r\n     flow.plan_recorded();\r\n     // A no here leaves even the program as it was.\r\n"
+ },
+ {
+  "id": "R014",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 269,
+  "end_line": 269,
+  "diff": "--- original\n+++ mutant\n@@ -265,9 +265,9 @@\n         if !p.yes(text::update::PROMPT_APPLY) {\r\n             p.say(kept.unwrap_or(text::update::NOTHING_CHANGED));\r\n             return EXIT_CANCELLED;\r\n         }\r\n-        p.say(text::update::MAKING_CHANGES);\r\n+        ;\r\n     }\r\n     flow.apply_update();\r\n     for line in result_lines(flow) {\r\n         p.say(&line);\r\n"
+ },
+ {
+  "id": "R015",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "branch_condition",
+  "operator": "negate",
+  "start_line": 286,
+  "end_line": 286,
+  "diff": "--- original\n+++ mutant\n@@ -282,9 +282,9 @@\n         for item in &group.items {\r\n             p.say(&format!(\"  {} {}\", item.mark, item.summary));\r\n         }\r\n     }\r\n-    if !view.problems.is_empty() {\r\n+    if !(!view.problems.is_empty()) {\r\n         p.say(text::REVIEW_PROBLEMS);\r\n         view.problems.iter().for_each(|l| p.say(l));\r\n     }\r\n }\r\n"
+ },
+ {
+  "id": "R016",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 287,
+  "end_line": 287,
+  "diff": "--- original\n+++ mutant\n@@ -283,9 +283,9 @@\n             p.say(&format!(\"  {} {}\", item.mark, item.summary));\r\n         }\r\n     }\r\n     if !view.problems.is_empty() {\r\n-        p.say(text::REVIEW_PROBLEMS);\r\n+        ;\r\n         view.problems.iter().for_each(|l| p.say(l));\r\n     }\r\n }\r\n \r\n"
+ },
+ {
+  "id": "R017",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 288,
+  "end_line": 288,
+  "diff": "--- original\n+++ mutant\n@@ -284,9 +284,9 @@\n         }\r\n     }\r\n     if !view.problems.is_empty() {\r\n         p.say(text::REVIEW_PROBLEMS);\r\n-        view.problems.iter().for_each(|l| p.say(l));\r\n+        ;\r\n     }\r\n }\r\n \r\n /// The results without the \"Checking \u2026\" heading said before the check.\r\n"
+ },
+ {
+  "id": "R018",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "branch_condition",
+  "operator": "negate",
+  "start_line": 303,
+  "end_line": 303,
+  "diff": "--- original\n+++ mutant\n@@ -299,9 +299,9 @@\n         .filter(|l| l != text::CHECKING)\r\n         .collect();\r\n     let blank = lines.iter().take_while(|l| l.is_empty()).count();\r\n     lines.drain(..blank);\r\n-    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\r\n+    if !(flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())) {\r\n         lines.push(text::update::DONE.to_owned());\r\n     }\r\n     lines\r\n }\r\n"
+ },
+ {
+  "id": "R019",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "branch_condition",
+  "operator": "swap:==->!=@303:24",
+  "start_line": 303,
+  "end_line": 303,
+  "diff": "--- original\n+++ mutant\n@@ -299,9 +299,9 @@\n         .filter(|l| l != text::CHECKING)\r\n         .collect();\r\n     let blank = lines.iter().take_while(|l| l.is_empty()).count();\r\n     lines.drain(..blank);\r\n-    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\r\n+    if flow.exit_code() != 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\r\n         lines.push(text::update::DONE.to_owned());\r\n     }\r\n     lines\r\n }\r\n"
+ },
+ {
+  "id": "R020",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "branch_condition",
+  "operator": "swap:&&->||@303:29",
+  "start_line": 303,
+  "end_line": 303,
+  "diff": "--- original\n+++ mutant\n@@ -299,9 +299,9 @@\n         .filter(|l| l != text::CHECKING)\r\n         .collect();\r\n     let blank = lines.iter().take_while(|l| l.is_empty()).count();\r\n     lines.drain(..blank);\r\n-    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\r\n+    if flow.exit_code() == 0 || flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\r\n         lines.push(text::update::DONE.to_owned());\r\n     }\r\n     lines\r\n }\r\n"
+ },
+ {
+  "id": "R021",
+  "scope": "rust-mmhmem-setup-update",
+  "repository": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes-ro\\mmhmem",
+  "file": "src/setup/ui/update.rs",
+  "kind": "state_write",
+  "operator": "drop_statement",
+  "start_line": 304,
+  "end_line": 304,
+  "diff": "--- original\n+++ mutant\n@@ -300,9 +300,9 @@\n         .collect();\r\n     let blank = lines.iter().take_while(|l| l.is_empty()).count();\r\n     lines.drain(..blank);\r\n     if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\r\n-        lines.push(text::update::DONE.to_owned());\r\n+        ;\r\n     }\r\n     lines\r\n }\r\n \r\n"
+ }
+]

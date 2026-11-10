@@ -1,0 +1,170 @@
+[
+ {
+  "file": "src/verification.ts",
+  "start_line": 19,
+  "end_line": 19,
+  "kind": "branch_condition",
+  "anchor": "criterion.status !== \"not-applicable\"",
+  "reason": "Changes which criteria count as applicable, which affects missing-evidence detection and the final status."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 24,
+  "end_line": 24,
+  "kind": "branch_condition",
+  "anchor": "evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id)",
+  "reason": "Decides whether a criterion is backed by passing evidence; a wrong check lets unverified criteria pass or flags verified ones as missing."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 27,
+  "end_line": 27,
+  "kind": "branch_condition",
+  "anchor": "hasNoApplicableCriteria && input.evidence.length === 0",
+  "reason": "Controls the no-evidence state that drives partial status, the summary and the risk text."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 78,
+  "end_line": 78,
+  "kind": "branch_condition",
+  "anchor": "researchOnly && policy === \"disabled\"",
+  "reason": "Decides when a report short-circuits to research-only and ignores blocked or failed evidence."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 78,
+  "end_line": 80,
+  "kind": "error_order",
+  "anchor": "if (researchOnly && policy === \"disabled\") {\n    return \"research-only\"\n  }",
+  "reason": "Research-only takes precedence over the blocked and failed checks; reordering changes the reported status."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 82,
+  "end_line": 82,
+  "kind": "branch_condition",
+  "anchor": "blocked.length > 0",
+  "reason": "Any blocked evidence must yield blocked status."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 82,
+  "end_line": 84,
+  "kind": "error_order",
+  "anchor": "if (blocked.length > 0) {\n    return \"blocked\"\n  }",
+  "reason": "When evidence is both blocked and failed, blocked is reported; swapping the checks reports failed instead."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 86,
+  "end_line": 86,
+  "kind": "branch_condition",
+  "anchor": "failed.length > 0",
+  "reason": "Any failed evidence must yield failed status."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 86,
+  "end_line": 88,
+  "kind": "error_order",
+  "anchor": "if (failed.length > 0) {\n    return \"failed\"\n  }",
+  "reason": "Failed takes precedence over the disabled-policy partial and research-only outcome."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 90,
+  "end_line": 90,
+  "kind": "branch_condition",
+  "anchor": "policy === \"disabled\"",
+  "reason": "With a disabled gate the result must never be verified."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 91,
+  "end_line": 91,
+  "kind": "branch_condition",
+  "anchor": "researchOnly",
+  "reason": "Chooses between research-only and partial when the gate is disabled."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 94,
+  "end_line": 94,
+  "kind": "branch_condition",
+  "anchor": "hasNoGateEvidence",
+  "reason": "Empty input must not count as verified."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 98,
+  "end_line": 98,
+  "kind": "branch_condition",
+  "anchor": "hasNoApplicableCriteria",
+  "reason": "Having no applicable criteria must not yield verified."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 102,
+  "end_line": 102,
+  "kind": "branch_condition",
+  "anchor": "missingCriterionIds.length === 0 && notRun.length === 0",
+  "reason": "This is the only path to verified; loosening it falsely claims verification."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 113,
+  "end_line": 113,
+  "kind": "branch_condition",
+  "anchor": "criterion.status === \"not-applicable\"",
+  "reason": "Not-applicable criteria keep their status instead of being reclassified."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 118,
+  "end_line": 118,
+  "kind": "branch_condition",
+  "anchor": "item.result === \"pass\"",
+  "reason": "Decides whether each criterion is reported as verified or unverified."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 148,
+  "end_line": 148,
+  "kind": "branch_condition",
+  "anchor": "item.residualRisk !== undefined",
+  "reason": "Controls whether residual risks on passing evidence appear in the report."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 153,
+  "end_line": 153,
+  "kind": "branch_condition",
+  "anchor": "policy === \"disabled\" && evidence.length === 0",
+  "reason": "Selects which no-evidence risk message is reported."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 177,
+  "end_line": 177,
+  "kind": "branch_condition",
+  "anchor": "hasNoGateEvidence",
+  "reason": "Chooses which missing-evidence label appears in the summary."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 205,
+  "end_line": 205,
+  "kind": "branch_condition",
+  "anchor": "values.length === 0",
+  "reason": "Empty detail lists are omitted from the summary."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 68,
+  "end_line": 107,
+  "kind": "pure_shell_boundary",
+  "anchor": "function classifyCompletion(\n  policy: GatePolicy,\n  researchOnly: boolean,\n  missingCriterionIds: readonly string[],\n  failed: readonly VerificationEvidence[],\n  blocked: readonly VerificationEvidence[],\n  notRun: readonly VerificationEvidence[],\n  hasNoApplicableCriteria: boolean,\n  hasNoGateEvidence: boolean\n): CompletionStatus {\n  if (researchOnly && policy === \"disabled\") {\n    return \"research-only\"\n  }\n\n  if (blocked.length > 0) {\n    return \"blocked\"\n  }\n\n  if (failed.length > 0) {\n    return \"failed\"\n  }\n\n  if (policy === \"disabled\") {\n    return researchOnly ? \"research-only\" : \"partial\"\n  }\n\n  if (hasNoGateEvidence) {\n    return \"partial\"\n  }\n\n  if (hasNoApplicableCriteria) {\n    return \"partial\"\n  }\n\n  if (missingCriterionIds.length === 0 && notRun.length === 0) {\n    return \"verified\"\n  }\n\n  return \"partial\"\n}",
+  "reason": "A pure status classifier whose decisions fully determine the reported completion status."
+ }
+]

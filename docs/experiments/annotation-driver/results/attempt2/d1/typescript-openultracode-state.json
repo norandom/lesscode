@@ -1,0 +1,3722 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "typescript-openultracode-state",
+ "language": "typescript",
+ "sites_from": "all_sites",
+ "revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "expected_revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "pack_sha256": "bc65de93b20564ec4f2b2d9b14da5e0ebe53d7e95b2215ce14ec6c532fb6dd6b",
+ "tables_dir": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\tables",
+ "code_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "harness.py": "92429b593de0905f54633c963f4a160f49fbf1bc7aee43220bb8214676bd4694",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_arm.py": "c2ba072ccda1004661c8d23299c17ddd0b57fae37b370eb984e08f20e9151ca0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "pool.py": "55f687ce2aa179d807c7dbc7a484f1d91139e756e4e90b8faabbb537d9d2f8a4"
+ },
+ "limit": null,
+ "eligible_sites": 70,
+ "sites": 50,
+ "mutants_available": 74,
+ "selection_made": false,
+ "mutants_run": 74,
+ "counts_by_class": {
+  "killed": 28,
+  "invalid": 26,
+  "survived": 19,
+  "timeout": 1
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 21,
+   "invalid": 15,
+   "survived": 7,
+   "timeout": 1
+  },
+  "failure_state": {
+   "invalid": 2,
+   "killed": 4,
+   "survived": 5
+  },
+  "state_write": {
+   "killed": 3,
+   "invalid": 9,
+   "survived": 7
+  }
+ },
+ "error_mutants": [],
+ "sites_without_operator": [],
+ "annotation_decisions": null,
+ "annotations_skipped": [],
+ "wall_seconds": 69.0,
+ "scope_files_sha256": {
+  "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+ },
+ "void": null,
+ "baseline_before": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.06,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.62,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.27,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.57,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.12,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.57,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.14,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.56,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.25,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.59,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.15,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.57,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  }
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 44,
+    "start_column": 6,
+    "end_line": 44,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.38,
+   "log": "m001-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.66,
+     "log": "m001-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.72,
+     "log": "m001-test.log"
+    }
+   ],
+   "worker": "w1"
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 48,
+    "start_column": 8,
+    "end_line": 48,
+    "end_column": 69,
+    "text": "raw = await retryTransient(() => readFile(statePath, \"utf8\"))"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:&&->||@50:31",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.07,
+   "log": "m004-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.07,
+     "log": "m004-build.log"
+    }
+   ],
+   "worker": "w3"
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:===->!==@50:45",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\smoke\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 54,
+    "start_column": 8,
+    "end_line": 54,
+    "end_column": 19,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 59,
+    "start_column": 8,
+    "end_line": 59,
+    "end_column": 32,
+    "text": "parsed = JSON.parse(raw)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 63,
+    "start_column": 10,
+    "end_line": 63,
+    "end_column": 43,
+    "text": "!isPersistedWorkflowState(parsed)"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 74,
+    "start_column": 12,
+    "end_line": 74,
+    "end_column": 31,
+    "text": "state === undefined"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 74,
+    "start_column": 12,
+    "end_line": 74,
+    "end_column": 31,
+    "text": "state === undefined"
+   },
+   "operator": "swap:===->!==@74:18",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 5.76,
+   "log": "m010-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 5.76,
+     "log": "m010-build.log"
+    }
+   ],
+   "worker": "w6"
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 76,
+    "start_column": 12,
+    "end_line": 76,
+    "end_column": 33,
+    "text": "changed === undefined"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 76,
+    "start_column": 12,
+    "end_line": 76,
+    "end_column": 33,
+    "text": "changed === undefined"
+   },
+   "operator": "swap:===->!==@76:20",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.17,
+   "log": "m012-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.17,
+     "log": "m012-build.log"
+    }
+   ],
+   "worker": "w4"
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 77,
+    "start_column": 8,
+    "end_line": 77,
+    "end_column": 35,
+    "text": "await store.update(changed)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 7.16,
+   "log": "m013-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.56,
+     "log": "m013-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.6,
+     "log": "m013-test.log"
+    }
+   ],
+   "worker": "w2"
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 80,
+    "start_column": 6,
+    "end_line": 80,
+    "end_column": 41,
+    "text": "mutationQueues.set(statePath, next)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 7.19,
+   "log": "m014-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.59,
+     "log": "m014-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.6,
+     "log": "m014-test.log"
+    }
+   ],
+   "worker": "w5"
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 12,
+    "end_line": 82,
+    "end_column": 50,
+    "text": "mutationQueues.get(statePath) === next"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 12,
+    "end_line": 82,
+    "end_column": 50,
+    "text": "mutationQueues.get(statePath) === next"
+   },
+   "operator": "swap:===->!==@82:42",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 7.46,
+   "log": "m016-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.78,
+     "log": "m016-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.68,
+     "log": "m016-test.log"
+    }
+   ],
+   "worker": "w6"
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 82,
+    "start_column": 52,
+    "end_line": 82,
+    "end_column": 84,
+    "text": "mutationQueues.delete(statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.07,
+   "log": "m017-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.07,
+     "log": "m017-build.log"
+    }
+   ],
+   "worker": "w3"
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 88,
+    "start_column": 6,
+    "end_line": 88,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 6.85,
+   "log": "m018-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.96,
+     "log": "m018-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.89,
+     "log": "m018-test.log"
+    }
+   ],
+   "worker": "w4"
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 89,
+    "start_column": 6,
+    "end_line": 89,
+    "end_column": 58,
+    "text": "await mkdir(dirname(statePath), { recursive: true })"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 7.02,
+   "log": "m019-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 7.02,
+     "log": "m019-build.log"
+    }
+   ],
+   "worker": "w1"
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 90,
+    "start_column": 6,
+    "end_line": 90,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 7.86,
+   "log": "m020-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 7.07,
+     "log": "m020-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.79,
+     "log": "m020-test.log"
+    }
+   ],
+   "worker": "w2"
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 96,
+    "start_column": 6,
+    "end_line": 96,
+    "end_column": 86,
+    "text": "await writeStateAtomically(statePath, `${JSON.stringify(persisted, null, 2)}\\n`)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.27,
+   "log": "m021-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.27,
+     "log": "m021-build.log"
+    }
+   ],
+   "worker": "w5"
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 100,
+    "start_column": 6,
+    "end_line": 100,
+    "end_column": 77,
+    "text": "await rejectSymlinkedStatePath(root, config.state.directory, statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 7.16,
+   "log": "m022-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.47,
+     "log": "m022-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.69,
+     "log": "m022-test.log"
+    }
+   ],
+   "worker": "w3"
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 101,
+    "start_column": 6,
+    "end_line": 101,
+    "end_column": 42,
+    "text": "await rm(statePath, { force: true })"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.94,
+   "log": "m023-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.26,
+     "log": "m023-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.68,
+     "log": "m023-test.log"
+    }
+   ],
+   "worker": "w4"
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 106,
+    "start_column": 4,
+    "end_line": 106,
+    "end_column": 39,
+    "text": "await backupCorruptState(statePath)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.64,
+   "log": "m024-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.64,
+     "log": "m024-build.log"
+    }
+   ],
+   "worker": "w5"
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "negate",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": null,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "swap:>=->>@124:18",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 7.25,
+   "log": "m026-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.66,
+     "log": "m026-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.59,
+     "log": "m026-test.log"
+    }
+   ],
+   "worker": "w6"
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "swap:||->&&@124:30",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 5.99,
+   "log": "m027-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 5.99,
+     "log": "m027-build.log"
+    }
+   ],
+   "worker": "w1"
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 124,
+    "start_column": 122,
+    "end_line": 124,
+    "end_column": 133,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 29,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 125,
+    "start_column": 6,
+    "end_line": 125,
+    "end_column": 70,
+    "text": "await new Promise((resolve) => setTimeout(resolve, 5 * attempt))"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 7.09,
+   "log": "m029-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.45,
+     "log": "m029-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.64,
+     "log": "m029-test.log"
+    }
+   ],
+   "worker": "w2"
+  },
+  {
+   "number": 30,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 136,
+    "start_column": 4,
+    "end_line": 136,
+    "end_column": 76,
+    "text": "await writeFile(stagingPath, contents, { encoding: \"utf8\", flag: \"wx\" })"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 5.77,
+   "log": "m030-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 5.77,
+     "log": "m030-build.log"
+    }
+   ],
+   "worker": "w4"
+  },
+  {
+   "number": 31,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 137,
+    "start_column": 4,
+    "end_line": 137,
+    "end_column": 62,
+    "text": "await retryTransient(() => rename(stagingPath, statePath))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.23,
+   "log": "m031-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.56,
+     "log": "m031-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.67,
+     "log": "m031-test.log"
+    }
+   ],
+   "worker": "w3"
+  },
+  {
+   "number": 32,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 139,
+    "start_column": 4,
+    "end_line": 139,
+    "end_column": 64,
+    "text": "await rm(stagingDirectory, { force: true, recursive: true })"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 6.07,
+   "log": "m032-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.47,
+     "log": "m032-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.6,
+     "log": "m032-test.log"
+    }
+   ],
+   "worker": "w5"
+  },
+  {
+   "number": 33,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 144,
+    "start_column": 6,
+    "end_line": 144,
+    "end_column": 48,
+    "text": "!isSafeProjectRelativePath(stateDirectory)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 34,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 145,
+    "start_column": 4,
+    "end_line": 145,
+    "end_column": 120,
+    "text": "throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 35,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 36,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "swap:!==->===@151:16",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 6.3,
+   "log": "m036-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.74,
+     "log": "m036-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.56,
+     "log": "m036-test.log"
+    }
+   ],
+   "worker": "w1"
+  },
+  {
+   "number": 37,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "swap:&&->||@151:25",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.25,
+   "log": "m037-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.75,
+     "log": "m037-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.5,
+     "log": "m037-test.log"
+    }
+   ],
+   "worker": "w6"
+  },
+  {
+   "number": 38,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 152,
+    "start_column": 4,
+    "end_line": 152,
+    "end_column": 75,
+    "text": "throw new Error(\"state.directory must resolve inside the project root\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 39,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 40,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "swap:===->!==@159:19",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.36,
+   "log": "m040-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.78,
+     "log": "m040-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.58,
+     "log": "m040-test.log"
+    }
+   ],
+   "worker": "w2"
+  },
+  {
+   "number": 41,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "swap:||->&&@159:25",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 5.92,
+   "log": "m041-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.19,
+     "log": "m041-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.73,
+     "log": "m041-test.log"
+    }
+   ],
+   "worker": "w4"
+  },
+  {
+   "number": 42,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "return_statement",
+    "start_line": 160,
+    "start_column": 4,
+    "end_line": 160,
+    "end_column": 16,
+    "text": "return false"
+   },
+   "operator": "literal:false->true",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.22,
+   "log": "m042-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.46,
+     "log": "m042-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.76,
+     "log": "m042-test.log"
+    }
+   ],
+   "worker": "w5"
+  },
+  {
+   "number": 43,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 163,
+    "start_column": 9,
+    "end_line": 163,
+    "end_column": 41,
+    "text": "!value.split(\"/\").includes(\"..\")"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.03,
+   "log": "m043-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.4,
+     "log": "m043-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.63,
+     "log": "m043-test.log"
+    }
+   ],
+   "worker": "w3"
+  },
+  {
+   "number": 44,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 170,
+    "start_column": 4,
+    "end_line": 170,
+    "end_column": 39,
+    "text": "current = resolve(current, segment)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 45,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 174,
+    "start_column": 10,
+    "end_line": 174,
+    "end_column": 32,
+    "text": "stats.isSymbolicLink()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 46,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 175,
+    "start_column": 8,
+    "end_line": 175,
+    "end_column": 68,
+    "text": "throw new Error(\"state.directory must not contain symlinks\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 47,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 48,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:&&->||@178:29",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 5.78,
+   "log": "m048-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 5.78,
+     "log": "m048-build.log"
+    }
+   ],
+   "worker": "w6"
+  },
+  {
+   "number": 49,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "swap:===->!==@178:43",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.27,
+   "log": "m049-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.63,
+     "log": "m049-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.64,
+     "log": "m049-test.log"
+    }
+   ],
+   "worker": "w1"
+  },
+  {
+   "number": 50,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 182,
+    "start_column": 6,
+    "end_line": 182,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 51,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 188,
+    "start_column": 8,
+    "end_line": 188,
+    "end_column": 30,
+    "text": "stats.isSymbolicLink()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 52,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 189,
+    "start_column": 6,
+    "end_line": 189,
+    "end_column": 66,
+    "text": "throw new Error(\"state.directory must not contain symlinks\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 53,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 54,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:||->&&@192:28",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 5.76,
+   "log": "m054-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 5.76,
+     "log": "m054-build.log"
+    }
+   ],
+   "worker": "w2"
+  },
+  {
+   "number": 55,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:!==->===@192:42",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.82,
+   "log": "m055-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.02,
+     "log": "m055-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.8,
+     "log": "m055-test.log"
+    }
+   ],
+   "worker": "w4"
+  },
+  {
+   "number": 56,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 193,
+    "start_column": 6,
+    "end_line": 193,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 57,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "await_expression",
+    "start_line": 200,
+    "start_column": 4,
+    "end_line": 200,
+    "end_column": 69,
+    "text": "await retryTransient(() => rename(statePath, `${statePath}.bak`))"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.15,
+   "log": "m057-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.15,
+     "log": "m057-build.log"
+    }
+   ],
+   "worker": "w3"
+  },
+  {
+   "number": 58,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 59,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:||->&&@202:28",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.22,
+   "log": "m059-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.22,
+     "log": "m059-build.log"
+    }
+   ],
+   "worker": "w5"
+  },
+  {
+   "number": 60,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "swap:!==->===@202:42",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 6.6,
+   "log": "m060-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.85,
+     "log": "m060-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.75,
+     "log": "m060-test.log"
+    }
+   ],
+   "worker": "w6"
+  },
+  {
+   "number": 61,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 203,
+    "start_column": 6,
+    "end_line": 203,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 62,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 209,
+    "start_column": 17,
+    "end_line": 209,
+    "end_column": 39,
+    "text": "error instanceof Error"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 63,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\typescript-openultracode-state",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 64,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "swap:||->&&@223:23",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.4,
+   "log": "m064-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.4,
+     "log": "m064-build.log"
+    }
+   ],
+   "worker": "w1"
+  },
+  {
+   "number": 65,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "swap:!==->===@223:46",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.78,
+   "log": "m065-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.07,
+     "log": "m065-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.71,
+     "log": "m065-test.log"
+    }
+   ],
+   "worker": "w2"
+  },
+  {
+   "number": 66,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "return_statement",
+    "start_line": 224,
+    "start_column": 4,
+    "end_line": 224,
+    "end_column": 16,
+    "text": "return false"
+   },
+   "operator": "literal:false->true",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 7.1,
+   "log": "m066-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.33,
+     "log": "m066-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.77,
+     "log": "m066-test.log"
+    }
+   ],
+   "worker": "w4"
+  },
+  {
+   "number": 67,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 8.11,
+   "log": "m067-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 7.43,
+     "log": "m067-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.68,
+     "log": "m067-test.log"
+    }
+   ],
+   "worker": "w3"
+  },
+  {
+   "number": 68,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "swap:&&->||@229:25",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 7.5,
+   "log": "m068-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 7.5,
+     "log": "m068-build.log"
+    }
+   ],
+   "worker": "w5"
+  },
+  {
+   "number": 69,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 229,
+    "start_column": 9,
+    "end_line": 229,
+    "end_column": 122,
+    "text": "isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\""
+   },
+   "operator": "swap:===->!==@229:48",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 7.8,
+   "log": "m069-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 7.06,
+     "log": "m069-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.74,
+     "log": "m069-test.log"
+    }
+   ],
+   "worker": "w6"
+  },
+  {
+   "number": 70,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 7.62,
+   "log": "m070-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.9,
+     "log": "m070-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.72,
+     "log": "m070-test.log"
+    }
+   ],
+   "worker": "w1"
+  },
+  {
+   "number": 71,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "swap:===->!==@233:22",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 7.68,
+   "log": "m071-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 7.07,
+     "log": "m071-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.61,
+     "log": "m071-test.log"
+    }
+   ],
+   "worker": "w2"
+  },
+  {
+   "number": 72,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 233,
+    "start_column": 9,
+    "end_line": 233,
+    "end_column": 77,
+    "text": "typeof value === \"object\" && value !== null && !Array.isArray(value)"
+   },
+   "operator": "swap:&&->||@233:35",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 6.86,
+   "log": "m072-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.25,
+     "log": "m072-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.61,
+     "log": "m072-test.log"
+    }
+   ],
+   "worker": "w4"
+  },
+  {
+   "number": 73,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 237,
+    "start_column": 9,
+    "end_line": 237,
+    "end_column": 50,
+    "text": "error instanceof Error && \"code\" in error"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 6.81,
+   "log": "m073-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.07,
+     "log": "m073-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.74,
+     "log": "m073-test.log"
+    }
+   ],
+   "worker": "w5"
+  },
+  {
+   "number": 74,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 237,
+    "start_column": 9,
+    "end_line": 237,
+    "end_column": 50,
+    "text": "error instanceof Error && \"code\" in error"
+   },
+   "operator": "swap:&&->||@237:32",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 6.07,
+   "log": "m074-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 6.07,
+     "log": "m074-build.log"
+    }
+   ],
+   "worker": "w6"
+  }
+ ],
+ "baseline_after": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.75,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.49,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.84,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.54,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.98,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.51,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 4.87,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.43,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 4.35,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.37,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 4.59,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.38,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  }
+ },
+ "restored": true,
+ "limit_s": {
+  "w1": 31,
+  "w2": 32,
+  "w3": 31,
+  "w4": 31,
+  "w5": 32,
+  "w6": 31
+ },
+ "workers": 6,
+ "pool": {
+  "workers_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers",
+  "cache_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\result-cache",
+  "prepare_seconds": 0.3,
+  "prepare": [
+   {
+    "worker": "w1",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   },
+   {
+    "worker": "w2",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.16
+   },
+   {
+    "worker": "w3",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.11
+   },
+   {
+    "worker": "w4",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.15
+   },
+   {
+    "worker": "w5",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.16
+   },
+   {
+    "worker": "w6",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.16
+   }
+  ],
+  "ready_workers": [
+   "w1",
+   "w2",
+   "w3",
+   "w4",
+   "w5",
+   "w6"
+  ],
+  "rounds": 1,
+  "requeued": [],
+  "not_run": [],
+  "worker_batches": [
+   {
+    "worker": "w1",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w1",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.06,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.62,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.75,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.49,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 31,
+      "round": 1,
+      "mutants": [
+       1,
+       19,
+       27,
+       33,
+       34,
+       35,
+       36,
+       49,
+       61,
+       62,
+       63,
+       64,
+       70
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w2",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w2",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.27,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.57,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.84,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.54,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 32,
+      "round": 1,
+      "mutants": [
+       13,
+       20,
+       28,
+       29,
+       38,
+       39,
+       40,
+       50,
+       51,
+       52,
+       53,
+       54,
+       65,
+       71
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w3",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w3",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.12,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.57,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.98,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.51,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 31,
+      "round": 1,
+      "mutants": [
+       2,
+       4,
+       17,
+       22,
+       31,
+       43,
+       56,
+       57,
+       67
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w4",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w4",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.14,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.56,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 4.87,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.43,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 31,
+      "round": 1,
+      "mutants": [
+       3,
+       5,
+       7,
+       9,
+       11,
+       12,
+       18,
+       23,
+       30,
+       41,
+       55,
+       66,
+       72
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w5",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w5",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.25,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.59,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 4.35,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.37,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 32,
+      "round": 1,
+      "mutants": [
+       14,
+       21,
+       24,
+       32,
+       42,
+       58,
+       59,
+       68,
+       73
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w6",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w6",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.15,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.57,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 4.59,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/state.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.38,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 31,
+      "round": 1,
+      "mutants": [
+       6,
+       8,
+       10,
+       15,
+       16,
+       25,
+       26,
+       37,
+       44,
+       45,
+       46,
+       47,
+       48,
+       60,
+       69,
+       74
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,3771 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "python-mvibe-ratelimit",
+ "language": "python",
+ "sites_from": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\a\\run2-python-mvibe-ratelimit\\annotations.json",
+ "revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c",
+ "expected_revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c",
+ "pack_sha256": "ebcdba056290add19156f2d516345fa99e7cf70dd5432ffe097b5e8c72ab9a7a",
+ "tables_dir": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\tables",
+ "code_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "harness.py": "92429b593de0905f54633c963f4a160f49fbf1bc7aee43220bb8214676bd4694",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_arm.py": "c2ba072ccda1004661c8d23299c17ddd0b57fae37b370eb984e08f20e9151ca0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "pool.py": "55f687ce2aa179d807c7dbc7a484f1d91139e756e4e90b8faabbb537d9d2f8a4"
+ },
+ "limit": null,
+ "eligible_sites": 211,
+ "sites": 64,
+ "mutants_available": 86,
+ "selection_made": false,
+ "mutants_run": 86,
+ "counts_by_class": {
+  "killed": 78,
+  "survived": 8
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 57,
+   "survived": 4
+  },
+  "error_order": {
+   "survived": 3
+  },
+  "failure_state": {
+   "killed": 6
+  },
+  "state_write": {
+   "killed": 15,
+   "survived": 1
+  }
+ },
+ "error_mutants": [],
+ "sites_without_operator": [
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 449,
+   "start_column": 12,
+   "end_line": 449,
+   "end_column": 79,
+   "text": "return _exhausted(record, max(ready_at - now, self._interval(key)))",
+   "reason": "no_operator"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 482,
+   "start_column": 16,
+   "end_line": 482,
+   "end_column": 91,
+   "text": "return _exhausted(record, max(state.ready_at() - now, interval), rejection)",
+   "reason": "no_operator"
+  }
+ ],
+ "annotation_decisions": [
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 82,
+    "end_line": 87,
+    "kind": "pure_shell_boundary",
+    "anchor": "def _setting(env: Mapping[str, str], key: str) -> str | None:\n    \"\"\"The stripped value of `key`, or None when it is unset or blank.\"\"\"\n    raw = env.get(key)\n    if raw is None or not raw.strip():\n        return None\n    return raw.strip()",
+    "reason": "Pure lookup that decides whether a setting counts as unset."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 85,
+    "end_line": 85,
+    "kind": "branch_condition",
+    "anchor": "raw is None or not raw.strip()",
+    "reason": "Decides whether a blank setting takes its default or gets validated."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 96,
+    "end_line": 96,
+    "kind": "branch_condition",
+    "anchor": "not math.isfinite(value) or value <= 0",
+    "reason": "Decides whether zero, negative, inf or nan rates are rejected."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 104,
+    "end_line": 104,
+    "kind": "branch_condition",
+    "anchor": "text is None",
+    "reason": "Decides whether a numeric setting falls back to its default."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 107,
+    "end_line": 107,
+    "kind": "branch_condition",
+    "anchor": "value is None",
+    "reason": "Decides whether an invalid number aborts startup."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 108,
+    "end_line": 108,
+    "kind": "failure_state",
+    "anchor": "raise RateLimitConfigError(f'{key} must be a positive number')",
+    "reason": "Without it an invalid rate or wait setting would be accepted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 114,
+    "end_line": 114,
+    "kind": "branch_condition",
+    "anchor": "text is None",
+    "reason": "Decides whether max_queue falls back to its default."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 119,
+    "end_line": 119,
+    "kind": "failure_state",
+    "anchor": "raise RateLimitConfigError(f'{key} must be a positive integer') from None",
+    "reason": "A non-integer max_queue would no longer stop startup."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 120,
+    "end_line": 120,
+    "kind": "branch_condition",
+    "anchor": "value <= 0",
+    "reason": "Decides whether a zero or negative queue bound is rejected."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 121,
+    "end_line": 121,
+    "kind": "failure_state",
+    "anchor": "raise RateLimitConfigError(f'{key} must be a positive integer')",
+    "reason": "A non-positive queue bound would no longer stop startup."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 128,
+    "end_line": 128,
+    "kind": "branch_condition",
+    "anchor": "text is None",
+    "reason": "Decides whether there are no model overrides."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 135,
+    "end_line": 135,
+    "kind": "branch_condition",
+    "anchor": "not separator or not name or rate is None",
+    "reason": "Decides whether a malformed model=rps entry is rejected."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 136,
+    "end_line": 138,
+    "kind": "failure_state",
+    "anchor": "raise RateLimitConfigError(\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\n                'comma-separated list of model=rps with a positive rps')",
+    "reason": "A malformed model rate entry would no longer stop startup."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 135,
+    "end_line": 138,
+    "kind": "error_order",
+    "anchor": "if not separator or not name or rate is None:\n            raise RateLimitConfigError(\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\n                'comma-separated list of model=rps with a positive rps')",
+    "reason": "Determines whether a malformed or a duplicate error is reported when both apply."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 139,
+    "end_line": 139,
+    "kind": "branch_condition",
+    "anchor": "name in rates",
+    "reason": "Decides whether a repeated model name is rejected."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 140,
+    "end_line": 141,
+    "kind": "failure_state",
+    "anchor": "raise RateLimitConfigError(\n                f'{ENV_MODEL_RPS} entry {position} repeats a model named earlier')",
+    "reason": "Duplicate model entries would silently override each other."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 142,
+    "end_line": 142,
+    "kind": "state_write",
+    "anchor": "rates[name] = rate",
+    "reason": "Stores the per-model rate used for pacing."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 160,
+    "end_line": 160,
+    "kind": "branch_condition",
+    "anchor": "env is None",
+    "reason": "Decides whether the process environment is read."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 178,
+    "end_line": 178,
+    "kind": "branch_condition",
+    "anchor": "key == MODELS_KEY",
+    "reason": "Ensures model discovery is never paced."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 221,
+    "end_line": 221,
+    "kind": "branch_condition",
+    "anchor": "value is None",
+    "reason": "A missing Retry-After must yield None."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 224,
+    "end_line": 224,
+    "kind": "branch_condition",
+    "anchor": "not text",
+    "reason": "A blank Retry-After must yield None."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 226,
+    "end_line": 226,
+    "kind": "branch_condition",
+    "anchor": "_DELAY_SECONDS.fullmatch(text)",
+    "reason": "Decides whether the value is read as delay-seconds or as a date."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 228,
+    "end_line": 228,
+    "kind": "branch_condition",
+    "anchor": "math.isfinite(delay)",
+    "reason": "Rejects huge digit strings that overflow to inf."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 233,
+    "end_line": 233,
+    "kind": "branch_condition",
+    "anchor": "when.tzinfo is None",
+    "reason": "Decides whether a zoneless date is treated as UTC."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 236,
+    "end_line": 236,
+    "kind": "branch_condition",
+    "anchor": "not math.isfinite(delay)",
+    "reason": "Rejects non-finite date delays."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 238,
+    "end_line": 238,
+    "kind": "branch_condition",
+    "anchor": "delay > 0",
+    "reason": "Past dates must clamp to zero rather than go negative."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 256,
+    "end_line": 256,
+    "kind": "branch_condition",
+    "anchor": "not (fallback_wait_s > 0 and cap_s > 0)",
+    "reason": "Validates the fallback and cap arguments."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 257,
+    "end_line": 257,
+    "kind": "failure_state",
+    "anchor": "raise ValueError('fallback_wait_s and cap_s must be positive')",
+    "reason": "Without it non-positive waits would be accepted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 256,
+    "end_line": 257,
+    "kind": "error_order",
+    "anchor": "if not (fallback_wait_s > 0 and cap_s > 0):\n        raise ValueError('fallback_wait_s and cap_s must be positive')",
+    "reason": "Determines whether bad arguments raise even for non-429 statuses."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 258,
+    "end_line": 258,
+    "kind": "branch_condition",
+    "anchor": "status != _RATE_LIMIT_STATUS",
+    "reason": "Decides which responses count as rate-limit rejections."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 264,
+    "end_line": 264,
+    "kind": "branch_condition",
+    "anchor": "lowered == _RETRY_AFTER",
+    "reason": "Decides which header supplies the Retry-After."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 266,
+    "end_line": 266,
+    "kind": "branch_condition",
+    "anchor": "lowered.startswith(_SNAPSHOT_PREFIX)",
+    "reason": "Limits the snapshot to x-ratelimit headers so credentials never leak."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 269,
+    "end_line": 269,
+    "kind": "branch_condition",
+    "anchor": "parsed is None",
+    "reason": "Decides between the capped fallback and the uncapped Retry-After."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 332,
+    "end_line": 332,
+    "kind": "branch_condition",
+    "anchor": "len(body) >= _REJECTION_BODY_LIMIT",
+    "reason": "Stops reading the rejection body at 64 KiB."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 335,
+    "end_line": 335,
+    "kind": "state_write",
+    "anchor": "await response.aclose()",
+    "reason": "Closes the upstream stream while the run waits."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 339,
+    "end_line": 339,
+    "kind": "branch_condition",
+    "anchor": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)",
+    "reason": "Decides which upstream headers are forwarded to the client."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 341,
+    "end_line": 341,
+    "kind": "branch_condition",
+    "anchor": "signal.retry_after_present and signal.wait_s >= 1",
+    "reason": "Decides whether the upstream Retry-After is forwarded verbatim."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 356,
+    "end_line": 356,
+    "kind": "state_write",
+    "anchor": "record.exhausted = True",
+    "reason": "Marks the request as given up in diagnostics."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 358,
+    "end_line": 358,
+    "kind": "branch_condition",
+    "anchor": "rejection is not None",
+    "reason": "Decides between replaying the upstream 429 and a synthesized one."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 445,
+    "end_line": 445,
+    "kind": "branch_condition",
+    "anchor": "self._held >= self._config.max_queue",
+    "reason": "Enforces the global queue bound."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 449,
+    "end_line": 449,
+    "kind": "failure_state",
+    "anchor": "return _exhausted(record, max(ready_at - now, self._interval(key)))",
+    "reason": "Answers 429 immediately when the gate is full."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 452,
+    "end_line": 452,
+    "kind": "state_write",
+    "anchor": "state.waiters.append(waiter)",
+    "reason": "Joins the key's FIFO line."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 453,
+    "end_line": 453,
+    "kind": "state_write",
+    "anchor": "self._held += 1",
+    "reason": "Counts the run toward the queue bound."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 459,
+    "end_line": 459,
+    "kind": "state_write",
+    "anchor": "self._held -= 1",
+    "reason": "Releases the run's share of the queue bound."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 460,
+    "end_line": 460,
+    "kind": "state_write",
+    "anchor": "self._leave(state, waiter)",
+    "reason": "Removes the run and promotes the next waiter."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 471,
+    "end_line": 471,
+    "kind": "branch_condition",
+    "anchor": "state.waiters[0] is not waiter",
+    "reason": "Decides whether the run must wait for promotion."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 474,
+    "end_line": 474,
+    "kind": "branch_condition",
+    "anchor": "interval > 0",
+    "reason": "Sets the minimum hold to 1 s for unpaced keys."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 480,
+    "end_line": 480,
+    "kind": "state_write",
+    "anchor": "record.queued_ms += (now - waited_from) * 1000",
+    "reason": "Accumulates the queue time reported for the request."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 481,
+    "end_line": 481,
+    "kind": "branch_condition",
+    "anchor": "not on_time",
+    "reason": "Decides whether the run gives up instead of sending."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 482,
+    "end_line": 482,
+    "kind": "failure_state",
+    "anchor": "return _exhausted(record, max(state.ready_at() - now, interval), rejection)",
+    "reason": "Returns 429 when the deadline is passed."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 483,
+    "end_line": 483,
+    "kind": "branch_condition",
+    "anchor": "interval > 0",
+    "reason": "Decides whether the pacing slot advances."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 484,
+    "end_line": 484,
+    "kind": "state_write",
+    "anchor": "state.next_slot = now + interval",
+    "reason": "Schedules the next permitted send for the key."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 491,
+    "end_line": 491,
+    "kind": "branch_condition",
+    "anchor": "signal is None",
+    "reason": "Decides whether the response is returned or retried."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 495,
+    "end_line": 495,
+    "kind": "state_write",
+    "anchor": "record.rejections += 1",
+    "reason": "Counts the upstream rejections in the record."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 496,
+    "end_line": 496,
+    "kind": "state_write",
+    "anchor": "record.headers.update(signal.headers)",
+    "reason": "Records the latest x-ratelimit headers."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 497,
+    "end_line": 497,
+    "kind": "state_write",
+    "anchor": "self._hold(key, state, signal, shortest)",
+    "reason": "Holds the key after a 429."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 510,
+    "end_line": 510,
+    "kind": "branch_condition",
+    "anchor": "signal.retry_after_present",
+    "reason": "Chooses Retry-After or jittered backoff for the hold."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 517,
+    "end_line": 517,
+    "kind": "branch_condition",
+    "anchor": "hold_until > state.hold_until",
+    "reason": "Ensures a hold is only ever extended, never shortened."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 518,
+    "end_line": 518,
+    "kind": "state_write",
+    "anchor": "state.hold_until = hold_until",
+    "reason": "Sets the hold that every run on the key honours."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 531,
+    "end_line": 531,
+    "kind": "branch_condition",
+    "anchor": "self._clock() > deadline",
+    "reason": "Gives up runs that are already past their deadline."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 536,
+    "end_line": 536,
+    "kind": "branch_condition",
+    "anchor": "now >= ready_at",
+    "reason": "Decides whether the key may send now."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 536,
+    "end_line": 537,
+    "kind": "error_order",
+    "anchor": "if now >= ready_at:\n                return True",
+    "reason": "Lets a late wake-up still send instead of giving up."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 538,
+    "end_line": 538,
+    "kind": "branch_condition",
+    "anchor": "ready_at > deadline",
+    "reason": "Gives up when the slot or hold ends past the deadline."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 545,
+    "end_line": 545,
+    "kind": "branch_condition",
+    "anchor": "rate is None",
+    "reason": "Decides whether a key is unpaced."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 555,
+    "end_line": 555,
+    "kind": "branch_condition",
+    "anchor": "state is None",
+    "reason": "Decides whether a new key state is created."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 558,
+    "end_line": 558,
+    "kind": "branch_condition",
+    "anchor": "not known.waiters and known.ready_at() <= now",
+    "reason": "Only idle keys with expired slots and holds may be dropped."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 559,
+    "end_line": 559,
+    "kind": "state_write",
+    "anchor": "del self._keys[idle]",
+    "reason": "Drops idle key state."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 560,
+    "end_line": 560,
+    "kind": "state_write",
+    "anchor": "state = self._keys[key] = _KeyState()",
+    "reason": "Registers the new key state."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 570,
+    "end_line": 570,
+    "kind": "state_write",
+    "anchor": "state.waiters.remove(waiter)",
+    "reason": "Removes the run from its line."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 571,
+    "end_line": 571,
+    "kind": "branch_condition",
+    "anchor": "was_head and state.waiters and not state.waiters[0].done()",
+    "reason": "Decides whether the next waiter is promoted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 572,
+    "end_line": 572,
+    "kind": "state_write",
+    "anchor": "state.waiters[0].set_result(None)",
+    "reason": "Wakes the next run in line."
+   },
+   "accepted": true,
+   "reason": "ok"
+  }
+ ],
+ "annotations_skipped": [
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 82,
+    "end_line": 87,
+    "kind": "pure_shell_boundary",
+    "anchor": "def _setting(env: Mapping[str, str], key: str) -> str | None:\n    \"\"\"The stripped value of `key`, or None when it is unset or blank.\"\"\"\n    raw = env.get(key)\n    if raw is None or not raw.strip():\n        return None\n    return raw.strip()",
+    "reason": "Pure lookup that decides whether a setting counts as unset."
+   },
+   "reason": "no_operator_kind"
+  }
+ ],
+ "wall_seconds": 9.2,
+ "scope_files_sha256": {
+  "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+ },
+ "void": null,
+ "baseline_before": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.39,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.48,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.58,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.2,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.48,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.2,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  }
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 85,
+    "start_column": 7,
+    "end_line": 85,
+    "end_column": 37,
+    "text": "raw is None or not raw.strip()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 85,
+    "start_column": 7,
+    "end_line": 85,
+    "end_column": 37,
+    "text": "raw is None or not raw.strip()"
+   },
+   "operator": "swap:or->and@85:19",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 96,
+    "start_column": 7,
+    "end_line": 96,
+    "end_column": 45,
+    "text": "not math.isfinite(value) or value <= 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 96,
+    "start_column": 7,
+    "end_line": 96,
+    "end_column": 45,
+    "text": "not math.isfinite(value) or value <= 0"
+   },
+   "operator": "swap:or->and@96:32",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 96,
+    "start_column": 7,
+    "end_line": 96,
+    "end_column": 45,
+    "text": "not math.isfinite(value) or value <= 0"
+   },
+   "operator": "swap:<=-><@96:41",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 104,
+    "start_column": 7,
+    "end_line": 104,
+    "end_column": 19,
+    "text": "text is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 107,
+    "start_column": 7,
+    "end_line": 107,
+    "end_column": 20,
+    "text": "value is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run2-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 108,
+    "start_column": 8,
+    "end_line": 108,
+    "end_column": 70,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive number')"
+   },
+   "operator": "drop:raise_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 114,
+    "start_column": 7,
+    "end_line": 114,
+    "end_column": 19,
+    "text": "text is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 119,
+    "start_column": 8,
+    "end_line": 119,
+    "end_column": 81,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive integer') from None"
+   },
+   "operator": "drop:raise_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 120,
+    "start_column": 7,
+    "end_line": 120,
+    "end_column": 17,
+    "text": "value <= 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 120,
+    "start_column": 7,
+    "end_line": 120,
+    "end_column": 17,
+    "text": "value <= 0"
+   },
+   "operator": "swap:<=-><@120:13",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 121,
+    "start_column": 8,
+    "end_line": 121,
+    "end_column": 71,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive integer')"
+   },
+   "operator": "drop:raise_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 128,
+    "start_column": 7,
+    "end_line": 128,
+    "end_column": 19,
+    "text": "text is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 135,
+    "start_column": 11,
+    "end_line": 135,
+    "end_column": 52,
+    "text": "not separator or not name or rate is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 135,
+    "start_column": 11,
+    "end_line": 135,
+    "end_column": 52,
+    "text": "not separator or not name or rate is None"
+   },
+   "operator": "swap:or->and@135:25",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 135,
+    "start_column": 11,
+    "end_line": 135,
+    "end_column": 52,
+    "text": "not separator or not name or rate is None"
+   },
+   "operator": "swap:or->and@135:37",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 136,
+    "start_column": 12,
+    "end_line": 138,
+    "end_column": 72,
+    "text": "raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\r\n                'comma-separated list of model=rps with a positive rps')"
+   },
+   "operator": "drop:raise_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 135,
+    "start_column": 8,
+    "end_line": 138,
+    "end_column": 72,
+    "text": "if not separator or not name or rate is None:\r\n            raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\r\n                'comma-separated list of model=rps with a positive rps')"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 139,
+    "start_column": 11,
+    "end_line": 139,
+    "end_column": 24,
+    "text": "name in rates"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 140,
+    "start_column": 12,
+    "end_line": 141,
+    "end_column": 82,
+    "text": "raise RateLimitConfigError(\r\n                f'{ENV_MODEL_RPS} entry {position} repeats a model named earlier')"
+   },
+   "operator": "drop:raise_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 142,
+    "start_column": 8,
+    "end_line": 142,
+    "end_column": 26,
+    "text": "rates[name] = rate"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run2-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 160,
+    "start_column": 11,
+    "end_line": 160,
+    "end_column": 22,
+    "text": "env is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 178,
+    "start_column": 11,
+    "end_line": 178,
+    "end_column": 28,
+    "text": "key == MODELS_KEY"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 178,
+    "start_column": 11,
+    "end_line": 178,
+    "end_column": 28,
+    "text": "key == MODELS_KEY"
+   },
+   "operator": "swap:==->!=@178:15",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 221,
+    "start_column": 7,
+    "end_line": 221,
+    "end_column": 20,
+    "text": "value is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 224,
+    "start_column": 7,
+    "end_line": 224,
+    "end_column": 15,
+    "text": "not text"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "call",
+    "start_line": 226,
+    "start_column": 7,
+    "end_line": 226,
+    "end_column": 37,
+    "text": "_DELAY_SECONDS.fullmatch(text)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 29,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 233,
+    "start_column": 7,
+    "end_line": 233,
+    "end_column": 26,
+    "text": "when.tzinfo is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 30,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 236,
+    "start_column": 7,
+    "end_line": 236,
+    "end_column": 31,
+    "text": "not math.isfinite(delay)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run2-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 31,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 256,
+    "start_column": 7,
+    "end_line": 256,
+    "end_column": 46,
+    "text": "not (fallback_wait_s > 0 and cap_s > 0)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 32,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 256,
+    "start_column": 7,
+    "end_line": 256,
+    "end_column": 46,
+    "text": "not (fallback_wait_s > 0 and cap_s > 0)"
+   },
+   "operator": "swap:>->>=@256:28",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 33,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 256,
+    "start_column": 7,
+    "end_line": 256,
+    "end_column": 46,
+    "text": "not (fallback_wait_s > 0 and cap_s > 0)"
+   },
+   "operator": "swap:and->or@256:32",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 34,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 257,
+    "start_column": 8,
+    "end_line": 257,
+    "end_column": 70,
+    "text": "raise ValueError('fallback_wait_s and cap_s must be positive')"
+   },
+   "operator": "drop:raise_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 35,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 256,
+    "start_column": 4,
+    "end_line": 257,
+    "end_column": 70,
+    "text": "if not (fallback_wait_s > 0 and cap_s > 0):\r\n        raise ValueError('fallback_wait_s and cap_s must be positive')"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 36,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 258,
+    "start_column": 7,
+    "end_line": 258,
+    "end_column": 35,
+    "text": "status != _RATE_LIMIT_STATUS"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 37,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 258,
+    "start_column": 7,
+    "end_line": 258,
+    "end_column": 35,
+    "text": "status != _RATE_LIMIT_STATUS"
+   },
+   "operator": "swap:!=->==@258:14",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 38,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 264,
+    "start_column": 11,
+    "end_line": 264,
+    "end_column": 34,
+    "text": "lowered == _RETRY_AFTER"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 39,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 264,
+    "start_column": 11,
+    "end_line": 264,
+    "end_column": 34,
+    "text": "lowered == _RETRY_AFTER"
+   },
+   "operator": "swap:==->!=@264:19",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 40,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "call",
+    "start_line": 266,
+    "start_column": 13,
+    "end_line": 266,
+    "end_column": 49,
+    "text": "lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 41,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 269,
+    "start_column": 7,
+    "end_line": 269,
+    "end_column": 21,
+    "text": "parsed is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 42,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 332,
+    "start_column": 19,
+    "end_line": 332,
+    "end_column": 53,
+    "text": "len(body) >= _REJECTION_BODY_LIMIT"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 43,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 332,
+    "start_column": 19,
+    "end_line": 332,
+    "end_column": 53,
+    "text": "len(body) >= _REJECTION_BODY_LIMIT"
+   },
+   "operator": "swap:>=->>@332:29",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 44,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "await",
+    "start_line": 335,
+    "start_column": 8,
+    "end_line": 335,
+    "end_column": 31,
+    "text": "await response.aclose()"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 45,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 339,
+    "start_column": 11,
+    "end_line": 339,
+    "end_column": 75,
+    "text": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 46,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 339,
+    "start_column": 11,
+    "end_line": 339,
+    "end_column": 75,
+    "text": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "swap:==->!=@339:19",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 47,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 339,
+    "start_column": 11,
+    "end_line": 339,
+    "end_column": 75,
+    "text": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "swap:or->and@339:36",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 48,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 341,
+    "start_column": 7,
+    "end_line": 341,
+    "end_column": 56,
+    "text": "signal.retry_after_present and signal.wait_s >= 1"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 49,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 341,
+    "start_column": 7,
+    "end_line": 341,
+    "end_column": 56,
+    "text": "signal.retry_after_present and signal.wait_s >= 1"
+   },
+   "operator": "swap:and->or@341:34",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 50,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 341,
+    "start_column": 7,
+    "end_line": 341,
+    "end_column": 56,
+    "text": "signal.retry_after_present and signal.wait_s >= 1"
+   },
+   "operator": "swap:>=->>@341:52",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 51,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 356,
+    "start_column": 4,
+    "end_line": 356,
+    "end_column": 27,
+    "text": "record.exhausted = True"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 52,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 358,
+    "start_column": 7,
+    "end_line": 358,
+    "end_column": 28,
+    "text": "rejection is not None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 53,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 445,
+    "start_column": 11,
+    "end_line": 445,
+    "end_column": 47,
+    "text": "self._held >= self._config.max_queue"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 54,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 445,
+    "start_column": 11,
+    "end_line": 445,
+    "end_column": 47,
+    "text": "self._held >= self._config.max_queue"
+   },
+   "operator": "swap:>=->>@445:22",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 55,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 452,
+    "start_column": 8,
+    "end_line": 452,
+    "end_column": 36,
+    "text": "state.waiters.append(waiter)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 56,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 453,
+    "start_column": 8,
+    "end_line": 453,
+    "end_column": 23,
+    "text": "self._held += 1"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 57,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 459,
+    "start_column": 12,
+    "end_line": 459,
+    "end_column": 27,
+    "text": "self._held -= 1"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 58,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 460,
+    "start_column": 12,
+    "end_line": 460,
+    "end_column": 38,
+    "text": "self._leave(state, waiter)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 59,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 471,
+    "start_column": 11,
+    "end_line": 471,
+    "end_column": 41,
+    "text": "state.waiters[0] is not waiter"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 60,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 480,
+    "start_column": 12,
+    "end_line": 480,
+    "end_column": 58,
+    "text": "record.queued_ms += (now - waited_from) * 1000"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 61,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 481,
+    "start_column": 15,
+    "end_line": 481,
+    "end_column": 26,
+    "text": "not on_time"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 62,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 483,
+    "start_column": 15,
+    "end_line": 483,
+    "end_column": 27,
+    "text": "interval > 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 63,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 483,
+    "start_column": 15,
+    "end_line": 483,
+    "end_column": 27,
+    "text": "interval > 0"
+   },
+   "operator": "swap:>->>=@483:24",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 64,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 484,
+    "start_column": 16,
+    "end_line": 484,
+    "end_column": 48,
+    "text": "state.next_slot = now + interval"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 65,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 491,
+    "start_column": 15,
+    "end_line": 491,
+    "end_column": 29,
+    "text": "signal is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 66,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 495,
+    "start_column": 12,
+    "end_line": 495,
+    "end_column": 34,
+    "text": "record.rejections += 1"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 67,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 496,
+    "start_column": 12,
+    "end_line": 496,
+    "end_column": 49,
+    "text": "record.headers.update(signal.headers)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 68,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 497,
+    "start_column": 12,
+    "end_line": 497,
+    "end_column": 52,
+    "text": "self._hold(key, state, signal, shortest)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 69,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "attribute",
+    "start_line": 510,
+    "start_column": 11,
+    "end_line": 510,
+    "end_column": 37,
+    "text": "signal.retry_after_present"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 70,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 517,
+    "start_column": 11,
+    "end_line": 517,
+    "end_column": 40,
+    "text": "hold_until > state.hold_until"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 71,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 517,
+    "start_column": 11,
+    "end_line": 517,
+    "end_column": 40,
+    "text": "hold_until > state.hold_until"
+   },
+   "operator": "swap:>->>=@517:22",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 72,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 518,
+    "start_column": 12,
+    "end_line": 518,
+    "end_column": 41,
+    "text": "state.hold_until = hold_until"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 73,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 531,
+    "start_column": 11,
+    "end_line": 531,
+    "end_column": 35,
+    "text": "self._clock() > deadline"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 74,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 531,
+    "start_column": 11,
+    "end_line": 531,
+    "end_column": 35,
+    "text": "self._clock() > deadline"
+   },
+   "operator": "swap:>->>=@531:25",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 75,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 536,
+    "start_column": 15,
+    "end_line": 536,
+    "end_column": 30,
+    "text": "now >= ready_at"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 76,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 536,
+    "start_column": 15,
+    "end_line": 536,
+    "end_column": 30,
+    "text": "now >= ready_at"
+   },
+   "operator": "swap:>=->>@536:19",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 77,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 536,
+    "start_column": 12,
+    "end_line": 537,
+    "end_column": 27,
+    "text": "if now >= ready_at:\r\n                return True"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 78,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 538,
+    "start_column": 15,
+    "end_line": 538,
+    "end_column": 34,
+    "text": "ready_at > deadline"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\mutation",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 79,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 538,
+    "start_column": 15,
+    "end_line": 538,
+    "end_column": 34,
+    "text": "ready_at > deadline"
+   },
+   "operator": "swap:>->>=@538:24",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 80,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 555,
+    "start_column": 11,
+    "end_line": 555,
+    "end_column": 24,
+    "text": "state is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 81,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 560,
+    "start_column": 12,
+    "end_line": 560,
+    "end_column": 49,
+    "text": "state = self._keys[key] = _KeyState()"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 82,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 570,
+    "start_column": 8,
+    "end_line": 570,
+    "end_column": 36,
+    "text": "state.waiters.remove(waiter)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 83,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 571,
+    "start_column": 11,
+    "end_line": 571,
+    "end_column": 69,
+    "text": "was_head and state.waiters and not state.waiters[0].done()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d1\\python-mvibe-ratelimit",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w6"
+  },
+  {
+   "number": 84,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 571,
+    "start_column": 11,
+    "end_line": 571,
+    "end_column": 69,
+    "text": "was_head and state.waiters and not state.waiters[0].done()"
+   },
+   "operator": "swap:and->or@571:20",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 85,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 571,
+    "start_column": 11,
+    "end_line": 571,
+    "end_column": 69,
+    "text": "was_head and state.waiters and not state.waiters[0].done()"
+   },
+   "operator": "swap:and->or@571:38",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 86,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "call",
+    "start_line": 572,
+    "start_column": 12,
+    "end_line": 572,
+    "end_column": 45,
+    "text": "state.waiters[0].set_result(None)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\python-mvibe-ratelimit\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  }
+ ],
+ "baseline_after": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.33,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.8,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.27,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.96,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.59,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.57,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  }
+ },
+ "restored": true,
+ "limit_s": {
+  "w1": 20,
+  "w2": 20,
+  "w3": 20,
+  "w4": 20,
+  "w5": 20,
+  "w6": 20
+ },
+ "workers": 6,
+ "pool": {
+  "workers_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers",
+  "cache_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\result-cache",
+  "prepare_seconds": 0.3,
+  "prepare": [
+   {
+    "worker": "w1",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.11
+   },
+   {
+    "worker": "w2",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.13
+   },
+   {
+    "worker": "w3",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.11
+   },
+   {
+    "worker": "w4",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.13
+   },
+   {
+    "worker": "w5",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.13
+   },
+   {
+    "worker": "w6",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.11
+   }
+  ],
+  "ready_workers": [
+   "w1",
+   "w2",
+   "w3",
+   "w4",
+   "w5",
+   "w6"
+  ],
+  "rounds": 1,
+  "requeued": [],
+  "not_run": [],
+  "worker_batches": [
+   {
+    "worker": "w1",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w1",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.39,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.33,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 20,
+      "round": 1,
+      "mutants": [
+       12,
+       16,
+       18,
+       23,
+       29,
+       35,
+       42,
+       49,
+       54,
+       56,
+       62,
+       69,
+       73,
+       82
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w2",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w2",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.48,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.8,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 20,
+      "round": 1,
+      "mutants": [
+       19,
+       25,
+       31,
+       36,
+       41,
+       46,
+       52,
+       59,
+       67,
+       75,
+       81
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w3",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w3",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.58,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.27,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 20,
+      "round": 1,
+      "mutants": [
+       27,
+       32,
+       38,
+       43,
+       48,
+       55,
+       61,
+       66,
+       71,
+       76,
+       80,
+       86
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w4",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w4",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.2,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.96,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 20,
+      "round": 1,
+      "mutants": [
+       1,
+       3,
+       4,
+       6,
+       9,
+       11,
+       14,
+       17,
+       22,
+       28,
+       33,
+       40,
+       44,
+       50,
+       60,
+       63,
+       68,
+       74,
+       79,
+       84
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w5",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w5",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.48,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.59,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 20,
+      "round": 1,
+      "mutants": [
+       21,
+       26,
+       34,
+       39,
+       47,
+       53,
+       58,
+       65,
+       70,
+       78,
+       85
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w6",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w6",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.2,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "test",
+         "command": [
+          "uv",
+          "run",
+          "--no-sync",
+          "python",
+          "-m",
+          "pytest",
+          "tests/test_ratelimit.py",
+          "-n",
+          "0",
+          "-q",
+          "-x",
+          "-p",
+          "no:cacheprovider"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 3.57,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 20,
+      "round": 1,
+      "mutants": [
+       2,
+       5,
+       7,
+       8,
+       10,
+       13,
+       15,
+       20,
+       24,
+       30,
+       37,
+       45,
+       51,
+       57,
+       64,
+       72,
+       77,
+       83
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,6 +1,6 @@
 # Prototype gate: agnostic annotation-guided driver
 
-Status: **revise**, 2026-11-10, attempt 1 of 2 ([R61](../../../docs/research/2026-11-10/07-annotation-driver-gate-result.md)); attempt 2 authorized by the owner and specified in Amendment 10, not yet run. Rust, Python and Java meet every gated row in at least one arm; TypeScript fails in every arm, so the agnosticism row is not met. Amendments 3 to 8 govern where they differ from the original text. A second attempt needs the owner's go. Research preparation only. No production
+Status: **proceed on the mechanism rows, apparatus row open**, 2026-11-10, after attempt 2 of 2 ([R64](../../../docs/research/2026-11-10/10-annotation-driver-gate-attempt2.md)). Attempt 1 was `revise` ([R61](../../../docs/research/2026-11-10/07-annotation-driver-gate-result.md)). Rust, Python and Java meet every gated row in at least one arm; TypeScript fails in every arm, so the agnosticism row is not met. Amendments 3 to 8 govern where they differ from the original text. A second attempt needs the owner's go. Research preparation only. No production
 tasks exist or are authorized. Execution needs the owner's go, because it
 selects external scopes and spends model tokens. See the [brief](brief.md) and
 [R56](../../../docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md).
@@ -531,6 +531,29 @@ Frozen for the counted runs (SHA-256):
 
 No further change to guides, packs, validator or engine is made before the
 gate decision.
+
+## Result of attempt 2, 2026-11-10
+
+Full tables and limits in R64.
+
+- Arm D (rules as data, no model at run time) meets validator integrity,
+  yield, oracle, meaningfulness and agnosticism on all four languages and
+  five scopes, with hand-written packs and, for TypeScript and Java, with
+  packs the model wrote and the admission checks accepted on the first
+  reply. Those packs yield exactly the mutants of the hand-written ones.
+- Arm A meets the rows on Rust, Python and Java in both runs and misses
+  yield in one of four TypeScript runs.
+- By the decision rule of Amendment 1c the recommended form is D.
+- The apparatus row is not met by measurement: no Rust port was sized, and
+  the counted native apparatus is at its cap of 7,173 canonical lines. As
+  the row says, this needs an owner-reviewed amendment, or an equal removal
+  elsewhere, before production; it is not an automatic pass.
+
+What this unlocks: requirements and a design for the owner's approval. What
+it does not: production tasks, any change to `native/`, or removal of the
+hard-coded operators, until the design is approved and the apparatus
+question is settled in it. Both attempts are used up; a further prototype
+run needs a new dated owner decision.
 
 ## Result of attempt 1, 2026-11-10
 

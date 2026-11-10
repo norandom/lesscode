@@ -1,0 +1,236 @@
+[
+ {
+  "id": "J001",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "appendNextEscapedCharacterToToken no longer sets Token.isEscaped for an escaped delimiter, and CSVParser.handleNull reads that flag when the value equals the null string. Format DEFAULT with escape backslash and nullString ',', input text backslash-comma: content is ',' in both, but the original record value is ',' while the mutant's value is null."
+ },
+ {
+  "id": "J002",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "isEscaped is no longer set after a translated escape (readEscape success), and CSVParser.handleNull uses it to keep a value that equals the null string. Format DEFAULT with escape backslash and nullString set to one backslash, input text of two backslashes: content is one backslash in both, the original value is that backslash, the mutant value is null."
+ },
+ {
+  "id": "J003",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Lexer.close() no longer closes the ExtendedBufferedReader, so Lexer.isClosed() and CSVParser.isClosed() stay false after close() and the caller's Reader stays open. For any input, after CSVParser.close() the original reports isClosed()==true and its iterator's hasNext() returns false; the mutant reports false and the iterator keeps yielding records."
+ },
+ {
+  "id": "J004",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Without the reset at the top of isDelimiter, isLastTokenDelimiter stays true after the first delimiter, and nextToken line 279 uses it to decide whether EOF carries an empty trailing field. DEFAULT, input 'a,b' followed by LF: the original returns EOF with isReady=false (one record [a, b]); the mutant returns EOF with isReady=true, so the parser produces a second record holding one empty value."
+ },
+ {
+  "id": "J005",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "For single-character delimiters isLastTokenDelimiter is never set to true, so after a trailing delimiter nextToken takes the early EOF return at line 279 without isReady. DEFAULT, input 'a,': the original yields record [a, empty] (EOF token with isReady=true), the mutant yields record [a]."
+ },
+ {
+  "id": "J006",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Without the peek, escapeDelimiterBuf stays all NUL, so isEscapeDelimiter() returns false for any non-NUL delimiter and the character after the escape goes through readEscape(). For most delimiters readEscape returns the same character, but not for a delimiter letter it translates: delimiter 't', escape backslash, input text a, backslash, t, b gives content 'atb' in the original and a, TAB, b in the mutant."
+ },
+ {
+  "id": "J007",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "The negated loop test in isEscapeDelimiter rejects a correctly escaped multi-character delimiter (which then still unescapes per character to the same content) but accepts look-ahead that matches at no position. Delimiter '[|]', escape '!', input 'x![abcd': the original yields EOF token 'x[abcd', the mutant consumes '[abcd' as an escaped delimiter and yields 'x[|]'."
+ },
+ {
+  "id": "J008",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "With == the isEscapeDelimiter test fails whenever a delimiter character matches and passes when it differs but is preceded by the escape. Delimiter '[|]', escape '!', input 'x![!c!d': the original content is 'x[!c!d' (unknown escapes kept verbatim), the mutant consumes '[!c!d' as an escaped delimiter and yields 'x[|]'."
+ },
+ {
+  "id": "J009",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "With && the isEscapeDelimiter test only fails when both the delimiter character and the escape mismatch at a position. Delimiter '[|]', escape '!', input 'x![a|b]': the original content is 'x[a|b]' (only the '[' is unescaped), the mutant accepts '[a|b]' as an escaped delimiter and yields 'x[|]'."
+ },
+ {
+  "id": "J010",
+  "label": "equivalent",
+  "confidence": "high",
+  "reason": "When the moved EOF test is true, either c is EOF (so eol is false) or lastChar is EOF (so isStartOfLine fails), so the ignoreEmptyLines loop would not run and the original evaluates the test on the same values. When the loop runs at least once it either returns EOF itself or exits with c not EOF and lastChar equal to CR or LF, so the original's later test is false. Neither test has side effects, and the loop does not touch isLastTokenDelimiter."
+ },
+ {
+  "id": "J011",
+  "label": "equivalent",
+  "confidence": "high",
+  "reason": "Dropping lastChar = c in the empty-line loop leaves lastChar at its entry value, which already satisfied isStartOfLine; the original's new value is the previous c, which is CR or LF because eol was true, so the loop condition is the same on every iteration. After the loop the local lastChar is only tested with isEndOfFile (false in both) and isStartOfLine (true in both)."
+ },
+ {
+  "id": "J012",
+  "label": "equivalent",
+  "confidence": "high",
+  "reason": "The EOF test and the comment test are mutually exclusive: the comment test needs isStartOfLine(lastChar), so lastChar is not EOF, and needs c to equal commentStart, which is a char value or UNDEFINED (-2) and never EOF (-1). The comment condition has no side effects (readLine runs only when it is true), so evaluating it first never changes which branch is taken."
+ },
+ {
+  "id": "J013",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "With && the early EOF return (no isReady) requires lastChar to be EOF, so after a record that ends in a line break the lexer falls through to the loop and returns EOF with isReady=true. DEFAULT, input 'a' followed by LF: the original parser yields one record [a], the mutant yields a second record holding one empty value."
+ },
+ {
+  "id": "J014",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "When the comment marker is the last character, readLine() returns null and the mutant returns the token without setting its type, so it stays INVALID after Token.reset(). Format DEFAULT with comment marker '#', input '#': the original returns EOF and the parser yields no records, the mutant makes CSVParser.nextRecord throw CSVException (invalid parse sequence)."
+ },
+ {
+  "id": "J015",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Without the eol update in the ignoreSurroundingSpaces skip loop, a line break after leading spaces is skipped as whitespace, which loses the record boundary and also skips the firstEol bookkeeping. DEFAULT with ignoreSurroundingSpaces, input 'a, ' + LF + 'b': the original gives TOKEN a, EORECORD empty, EOF b (records [a, empty] and [b]); the mutant gives TOKEN a, EOF b (one record [a, b])."
+ },
+ {
+  "id": "J016",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "The EOF branch of the nextToken loop, reached at end of input after a trailing delimiter, no longer sets isReady, which CSVParser.nextRecord reads to add the last field. DEFAULT, input 'a,': the original record is [a, empty], the mutant record is [a]."
+ },
+ {
+  "id": "J017",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "parseEncapsulatedToken no longer sets Token.isQuoted, which CSVParser.addRecordValue uses to keep a quoted empty last field under trailingDelimiter (and handleNull uses in strict quote modes). DEFAULT with trailingDelimiter=true, input 'a,' followed by two double quotes: the original record is [a, empty], the mutant drops the quoted empty field and gives [a]."
+ },
+ {
+  "id": "J018",
+  "label": "equivalent",
+  "confidence": "high",
+  "reason": "After the closing quote, isDelimiter(EOF) returns false at the first comparison and its only side effect sets isLastTokenDelimiter=false. That flag is already false there, because nextToken called isDelimiter on the quote character with a false result just before parseEncapsulatedToken, and any earlier post-quote iteration also called it with a false result. isEndOfFile is pure, so checking EOF first changes nothing."
+ },
+ {
+  "id": "J019",
+  "label": "equivalent",
+  "confidence": "high",
+  "reason": "readEndOfLine(EOF) returns false with no side effect (the CR test short-circuits before peek, and EOF is neither LF nor CR, so firstEol is untouched), and isEndOfFile is pure; the two conditions cannot both be true. Swapping their order in the post-quote loop is therefore equivalent."
+ },
+ {
+  "id": "J020",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "The EOF-after-closing-quote branch no longer sets isReady, so CSVParser.nextRecord drops a quoted last field at end of input. DEFAULT, input of a quoted x with no line break (three characters): the original yields record [x], the mutant yields no record."
+ },
+ {
+  "id": "J021",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Moving the readEndOfLine test after the trailingData branch makes a CR or LF after the closing quote get appended to the content when trailingData is true (when false it is whitespace, so no exception and no difference). Format DEFAULT with trailingData=true, input of a quoted a, then LF, then b: the original returns EORECORD 'a', the mutant returns EORECORD 'a' + LF."
+ },
+ {
+  "id": "J022",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Inside a quoted field the escape character is now skipped without consuming or translating the next character. DEFAULT with escape backslash, input: double quote, a, backslash, double quote, b, double quote. The original yields content a, double quote, b; the mutant takes the escaped quote as the closing quote and throws CSVException for 'b' before the delimiter."
+ },
+ {
+  "id": "J023",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "The lenientEof branch for an unterminated quoted field no longer sets isReady, so the parser drops that field. Format with lenientEof=true, input 'a,' + double quote + 'b': the original record is [a, b], the mutant record is [a]."
+ },
+ {
+  "id": "J024",
+  "label": "equivalent",
+  "confidence": "high",
+  "reason": "readEndOfLine(EOF) returns false with no side effect (no peek, firstEol untouched), and isEndOfFile is pure, so the two conditions cannot both be true. Evaluating isEndOfFile first in parseSimpleToken is equivalent."
+ },
+ {
+  "id": "J025",
+  "label": "equivalent",
+  "confidence": "high",
+  "reason": "When cur is EOF the mutant calls isDelimiter(EOF), which returns false at the first comparison and only sets isLastTokenDelimiter=false. That flag is already false, because parseSimpleToken is entered with a non-EOF character and every earlier iteration called isDelimiter with a false result (the escape helpers do not touch the flag). For non-EOF characters isEndOfFile is pure, so the order does not matter."
+ },
+ {
+  "id": "J026",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "parseSimpleToken's EOF branch no longer sets isReady, so CSVParser.nextRecord drops the final unquoted field at end of input. DEFAULT, input 'a' with no line break: the original yields record [a], the mutant yields no record."
+ },
+ {
+  "id": "J027",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Recording LF or CR before the CRLF check means a first CR LF is recorded as CR_STRING, and the later CRLF assignment is skipped because firstEol is no longer null. DEFAULT, input 'a' CR LF 'b': CSVParser.getFirstEndOfLine() returns CR LF in the original and CR alone in the mutant."
+ },
+ {
+  "id": "J028",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "readEndOfLine no longer consumes the LF of a CR LF pair, so the next nextToken reads that LF as a separate line break. DEFAULT with ignoreEmptyLines=false (as in EXCEL or RFC4180), input 'a' CR LF 'b': the original records are [a] and [b], the mutant records are [a], [empty] and [b]."
+ },
+ {
+  "id": "J029",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "With the negated test a first CR LF is not recorded as CRLF; the next block then records LF because cur is LF, and once firstEol is set every later CR LF overwrites it with CRLF. DEFAULT, input 'a' CR LF 'b': getFirstEndOfLine() is CR LF in the original and LF in the mutant."
+ },
+ {
+  "id": "J030",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "firstEol != null is semantically the same mutation as J029: a first CR LF is recorded as LF, and later CR LF pairs overwrite firstEol. DEFAULT, input 'a' CR LF 'b': getFirstEndOfLine() is CR LF in the original and LF in the mutant."
+ },
+ {
+  "id": "J031",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Without the CRLF assignment a first CR LF falls through to the next block with cur equal to LF and is recorded as LF_STRING. DEFAULT, input 'a' CR LF 'b': getFirstEndOfLine() is CR LF in the original and LF in the mutant."
+ },
+ {
+  "id": "J032",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "With the negated test the LF/CR recording only runs once firstEol is non-null, so a first LF or bare CR is never recorded and a recorded CRLF is overwritten with LF. DEFAULT, input 'a' LF 'b': getFirstEndOfLine() is LF in the original and null in the mutant."
+ },
+ {
+  "id": "J033",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "firstEol != null is semantically the same mutation as J032: a first LF or bare CR is never recorded, and a CRLF is overwritten with LF. DEFAULT, input 'a' LF 'b': getFirstEndOfLine() is LF in the original and null in the mutant."
+ },
+ {
+  "id": "J034",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "With the negated test, any non-LF character passed to readEndOfLine while firstEol is null sets LF_STRING, and nextToken calls readEndOfLine on the first character of the input. DEFAULT, input 'a' CR LF 'b': getFirstEndOfLine() is CR LF in the original and LF in the mutant (and LF instead of null for input with no line break)."
+ },
+ {
+  "id": "J035",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "cur != LF is semantically the same mutation as J034: the first ordinary character seen by readEndOfLine sets firstEol to LF_STRING. DEFAULT, input 'a' CR LF 'b': getFirstEndOfLine() is CR LF in the original and LF in the mutant."
+ },
+ {
+  "id": "J036",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Without the LF assignment a first LF line break is not recorded in firstEol. DEFAULT, input 'a' LF 'b': getFirstEndOfLine() is LF in the original and null in the mutant."
+ },
+ {
+  "id": "J037",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "With the negated else-if, any character that is neither LF nor CR (such as the first ordinary character that nextToken passes to readEndOfLine) sets CR_STRING while firstEol is null. DEFAULT, input 'a' LF 'b': getFirstEndOfLine() is LF in the original and CR in the mutant."
+ },
+ {
+  "id": "J038",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "cur != CR is semantically the same mutation as J037: the first ordinary character seen by readEndOfLine sets firstEol to CR_STRING. DEFAULT, input 'a' LF 'b': getFirstEndOfLine() is LF in the original and CR in the mutant."
+ },
+ {
+  "id": "J039",
+  "label": "real_gap",
+  "confidence": "high",
+  "reason": "Without the CR assignment a first bare CR line break is not recorded in firstEol. DEFAULT, input 'a' CR 'b': getFirstEndOfLine() is CR in the original and null in the mutant (or LF if a later LF follows)."
+ }
+]

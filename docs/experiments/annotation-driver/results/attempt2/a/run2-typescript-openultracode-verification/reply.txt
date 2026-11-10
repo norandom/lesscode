@@ -1,0 +1,27 @@
+```json
+[
+{"file":"src/verification.ts","start_line":19,"end_line":19,"kind":"branch_condition","anchor":"criterion.status !== \"not-applicable\"","reason":"Changes which criteria count as applicable, so the missing-evidence results and the completion status shift."},
+{"file":"src/verification.ts","start_line":24,"end_line":24,"kind":"branch_condition","anchor":"evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id)","reason":"Decides whether a criterion counts as covered by passing evidence; a change could let a gate be verified without proof."},
+{"file":"src/verification.ts","start_line":27,"end_line":27,"kind":"branch_condition","anchor":"hasNoApplicableCriteria && input.evidence.length === 0","reason":"Decides whether an empty gate is detected, which changes the status, the risks and the summary text."},
+{"file":"src/verification.ts","start_line":78,"end_line":78,"kind":"branch_condition","anchor":"researchOnly && policy === \"disabled\"","reason":"Controls when the research-only status takes priority over blocked or failed evidence."},
+{"file":"src/verification.ts","start_line":78,"end_line":80,"kind":"error_order","anchor":"if (researchOnly && policy === \"disabled\") {\n    return \"research-only\"\n  }","reason":"Because this check runs first, a disabled research run reports research-only even when evidence is failed or blocked."},
+{"file":"src/verification.ts","start_line":82,"end_line":82,"kind":"branch_condition","anchor":"blocked.length > 0","reason":"Decides whether blocked evidence produces a blocked status."},
+{"file":"src/verification.ts","start_line":82,"end_line":84,"kind":"error_order","anchor":"if (blocked.length > 0) {\n    return \"blocked\"\n  }","reason":"When evidence is both blocked and failed, the caller sees blocked instead of failed."},
+{"file":"src/verification.ts","start_line":83,"end_line":83,"kind":"failure_state","anchor":"return \"blocked\"","reason":"Reports the blocked completion outcome to the caller."},
+{"file":"src/verification.ts","start_line":86,"end_line":86,"kind":"branch_condition","anchor":"failed.length > 0","reason":"Decides whether failed evidence produces a failed status."},
+{"file":"src/verification.ts","start_line":86,"end_line":88,"kind":"error_order","anchor":"if (failed.length > 0) {\n    return \"failed\"\n  }","reason":"Because this check comes before the disabled-policy check, failures are reported even when the gate is disabled."},
+{"file":"src/verification.ts","start_line":87,"end_line":87,"kind":"failure_state","anchor":"return \"failed\"","reason":"Reports the failed completion outcome to the caller."},
+{"file":"src/verification.ts","start_line":90,"end_line":90,"kind":"branch_condition","anchor":"policy === \"disabled\"","reason":"With a disabled gate, the run is never reported as verified."},
+{"file":"src/verification.ts","start_line":102,"end_line":102,"kind":"branch_condition","anchor":"missingCriterionIds.length === 0 && notRun.length === 0","reason":"This is the only path to a verified status; weakening it would let incomplete work be reported as verified."},
+{"file":"src/verification.ts","start_line":113,"end_line":113,"kind":"branch_condition","anchor":"criterion.status === \"not-applicable\"","reason":"Not-applicable criteria keep their status instead of being reclassified."},
+{"file":"src/verification.ts","start_line":118,"end_line":118,"kind":"branch_condition","anchor":"item.result === \"pass\"","reason":"Decides whether each criterion is marked verified or unverified in the report."},
+{"file":"src/verification.ts","start_line":148,"end_line":148,"kind":"branch_condition","anchor":"item.residualRisk !== undefined","reason":"Controls whether the residual risks of passing evidence appear among the unresolved risks."},
+{"file":"src/verification.ts","start_line":153,"end_line":153,"kind":"branch_condition","anchor":"policy === \"disabled\" && evidence.length === 0","reason":"Selects which explanatory risk message is added to the unresolved risks."},
+{"file":"src/verification.ts","start_line":135,"end_line":135,"kind":"state_write","anchor":"risks.push(`${criterionId} is missing passing verification evidence.${criterion ? ` ${criterion.text}` : \"\"}`)","reason":"Adds the missing-evidence risk to the returned unresolved risks."},
+{"file":"src/verification.ts","start_line":140,"end_line":140,"kind":"state_write","anchor":"risks.push(`${item.id} failed: ${item.reason}`)","reason":"Adds failed checks to the reported unresolved risks."},
+{"file":"src/verification.ts","start_line":156,"end_line":156,"kind":"state_write","anchor":"risks.push(\"No acceptance criteria or verification evidence were provided.\")","reason":"Adds the empty-gate warning to the unresolved risks."},
+{"file":"src/verification.ts","start_line":185,"end_line":185,"kind":"branch_condition","anchor":"status === \"verified\"","reason":"Selects the verified summary text."},
+{"file":"src/verification.ts","start_line":205,"end_line":205,"kind":"branch_condition","anchor":"values.length === 0","reason":"Empty detail lists are omitted from the summary."},
+{"file":"src/verification.ts","start_line":204,"end_line":210,"kind":"pure_shell_boundary","anchor":"function formatDetail(label: string, values: readonly string[]): string {\n  if (values.length === 0) {\n    return \"\"\n  }\n\n  return `${label}: ${values.join(\", \")}.`\n}","reason":"A pure formatter whose output depends only on its arguments."}
+]
+```

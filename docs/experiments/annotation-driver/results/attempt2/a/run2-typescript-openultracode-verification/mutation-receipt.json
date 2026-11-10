@@ -1,0 +1,2002 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "typescript-openultracode-verification",
+ "language": "typescript",
+ "sites_from": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\a\\run2-typescript-openultracode-verification\\annotations.json",
+ "revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "expected_revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "pack_sha256": "bc65de93b20564ec4f2b2d9b14da5e0ebe53d7e95b2215ce14ec6c532fb6dd6b",
+ "tables_dir": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\tables",
+ "code_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "harness.py": "92429b593de0905f54633c963f4a160f49fbf1bc7aee43220bb8214676bd4694",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_arm.py": "c2ba072ccda1004661c8d23299c17ddd0b57fae37b370eb984e08f20e9151ca0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "pool.py": "55f687ce2aa179d807c7dbc7a484f1d91139e756e4e90b8faabbb537d9d2f8a4"
+ },
+ "limit": null,
+ "eligible_sites": 64,
+ "sites": 18,
+ "mutants_available": 29,
+ "selection_made": false,
+ "mutants_run": 29,
+ "counts_by_class": {
+  "killed": 19,
+  "invalid": 6,
+  "survived": 4
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 17,
+   "invalid": 5,
+   "survived": 1
+  },
+  "error_order": {
+   "survived": 3
+  },
+  "state_write": {
+   "invalid": 1,
+   "killed": 2
+  }
+ },
+ "error_mutants": [],
+ "sites_without_operator": [
+  {
+   "file": "src/verification.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 83,
+   "start_column": 4,
+   "end_line": 83,
+   "end_column": 20,
+   "text": "return \"blocked\"",
+   "reason": "no_operator"
+  },
+  {
+   "file": "src/verification.ts",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 87,
+   "start_column": 4,
+   "end_line": 87,
+   "end_column": 19,
+   "text": "return \"failed\"",
+   "reason": "no_operator"
+  }
+ ],
+ "annotation_decisions": [
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 19,
+    "end_line": 19,
+    "kind": "branch_condition",
+    "anchor": "criterion.status !== \"not-applicable\"",
+    "reason": "Changes which criteria count as applicable, so the missing-evidence results and the completion status shift."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 24,
+    "end_line": 24,
+    "kind": "branch_condition",
+    "anchor": "evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id)",
+    "reason": "Decides whether a criterion counts as covered by passing evidence; a change could let a gate be verified without proof."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 27,
+    "end_line": 27,
+    "kind": "branch_condition",
+    "anchor": "hasNoApplicableCriteria && input.evidence.length === 0",
+    "reason": "Decides whether an empty gate is detected, which changes the status, the risks and the summary text."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 78,
+    "end_line": 78,
+    "kind": "branch_condition",
+    "anchor": "researchOnly && policy === \"disabled\"",
+    "reason": "Controls when the research-only status takes priority over blocked or failed evidence."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 78,
+    "end_line": 80,
+    "kind": "error_order",
+    "anchor": "if (researchOnly && policy === \"disabled\") {\n    return \"research-only\"\n  }",
+    "reason": "Because this check runs first, a disabled research run reports research-only even when evidence is failed or blocked."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 82,
+    "end_line": 82,
+    "kind": "branch_condition",
+    "anchor": "blocked.length > 0",
+    "reason": "Decides whether blocked evidence produces a blocked status."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 82,
+    "end_line": 84,
+    "kind": "error_order",
+    "anchor": "if (blocked.length > 0) {\n    return \"blocked\"\n  }",
+    "reason": "When evidence is both blocked and failed, the caller sees blocked instead of failed."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 83,
+    "end_line": 83,
+    "kind": "failure_state",
+    "anchor": "return \"blocked\"",
+    "reason": "Reports the blocked completion outcome to the caller."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 86,
+    "end_line": 86,
+    "kind": "branch_condition",
+    "anchor": "failed.length > 0",
+    "reason": "Decides whether failed evidence produces a failed status."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 86,
+    "end_line": 88,
+    "kind": "error_order",
+    "anchor": "if (failed.length > 0) {\n    return \"failed\"\n  }",
+    "reason": "Because this check comes before the disabled-policy check, failures are reported even when the gate is disabled."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 87,
+    "end_line": 87,
+    "kind": "failure_state",
+    "anchor": "return \"failed\"",
+    "reason": "Reports the failed completion outcome to the caller."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 90,
+    "end_line": 90,
+    "kind": "branch_condition",
+    "anchor": "policy === \"disabled\"",
+    "reason": "With a disabled gate, the run is never reported as verified."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 102,
+    "end_line": 102,
+    "kind": "branch_condition",
+    "anchor": "missingCriterionIds.length === 0 && notRun.length === 0",
+    "reason": "This is the only path to a verified status; weakening it would let incomplete work be reported as verified."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 113,
+    "end_line": 113,
+    "kind": "branch_condition",
+    "anchor": "criterion.status === \"not-applicable\"",
+    "reason": "Not-applicable criteria keep their status instead of being reclassified."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 118,
+    "end_line": 118,
+    "kind": "branch_condition",
+    "anchor": "item.result === \"pass\"",
+    "reason": "Decides whether each criterion is marked verified or unverified in the report."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 148,
+    "end_line": 148,
+    "kind": "branch_condition",
+    "anchor": "item.residualRisk !== undefined",
+    "reason": "Controls whether the residual risks of passing evidence appear among the unresolved risks."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 153,
+    "end_line": 153,
+    "kind": "branch_condition",
+    "anchor": "policy === \"disabled\" && evidence.length === 0",
+    "reason": "Selects which explanatory risk message is added to the unresolved risks."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 135,
+    "end_line": 135,
+    "kind": "state_write",
+    "anchor": "risks.push(`${criterionId} is missing passing verification evidence.${criterion ? ` ${criterion.text}` : \"\"}`)",
+    "reason": "Adds the missing-evidence risk to the returned unresolved risks."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 140,
+    "end_line": 140,
+    "kind": "state_write",
+    "anchor": "risks.push(`${item.id} failed: ${item.reason}`)",
+    "reason": "Adds failed checks to the reported unresolved risks."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 156,
+    "end_line": 156,
+    "kind": "state_write",
+    "anchor": "risks.push(\"No acceptance criteria or verification evidence were provided.\")",
+    "reason": "Adds the empty-gate warning to the unresolved risks."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 185,
+    "end_line": 185,
+    "kind": "branch_condition",
+    "anchor": "status === \"verified\"",
+    "reason": "Selects the verified summary text."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 205,
+    "end_line": 205,
+    "kind": "branch_condition",
+    "anchor": "values.length === 0",
+    "reason": "Empty detail lists are omitted from the summary."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 204,
+    "end_line": 210,
+    "kind": "pure_shell_boundary",
+    "anchor": "function formatDetail(label: string, values: readonly string[]): string {\n  if (values.length === 0) {\n    return \"\"\n  }\n\n  return `${label}: ${values.join(\", \")}.`\n}",
+    "reason": "A pure formatter whose output depends only on its arguments."
+   },
+   "accepted": true,
+   "reason": "ok"
+  }
+ ],
+ "annotations_skipped": [
+  {
+   "annotation": {
+    "file": "src/verification.ts",
+    "start_line": 204,
+    "end_line": 210,
+    "kind": "pure_shell_boundary",
+    "anchor": "function formatDetail(label: string, values: readonly string[]): string {\n  if (values.length === 0) {\n    return \"\"\n  }\n\n  return `${label}: ${values.join(\", \")}.`\n}",
+    "reason": "A pure formatter whose output depends only on its arguments."
+   },
+   "reason": "no_operator_kind"
+  }
+ ],
+ "wall_seconds": 13.5,
+ "scope_files_sha256": {
+  "src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"
+ },
+ "void": null,
+ "baseline_before": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.19,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.43,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.33,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.41,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.3,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.42,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.28,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.42,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.21,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.42,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.49,
+     "log": "baseline-before-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.43,
+     "log": "baseline-before-test.log"
+    }
+   ]
+  }
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 78,
+    "start_column": 6,
+    "end_line": 78,
+    "end_column": 43,
+    "text": "researchOnly && policy === \"disabled\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 78,
+    "start_column": 6,
+    "end_line": 78,
+    "end_column": 43,
+    "text": "researchOnly && policy === \"disabled\""
+   },
+   "operator": "swap:&&->||@78:19",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 78,
+    "start_column": 6,
+    "end_line": 78,
+    "end_column": 43,
+    "text": "researchOnly && policy === \"disabled\""
+   },
+   "operator": "swap:===->!==@78:29",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 78,
+    "start_column": 2,
+    "end_line": 80,
+    "end_column": 3,
+    "text": "if (researchOnly && policy === \"disabled\") {\r\n    return \"research-only\"\r\n  }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 6,
+    "end_line": 82,
+    "end_column": 24,
+    "text": "blocked.length > 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 6,
+    "end_line": 82,
+    "end_column": 24,
+    "text": "blocked.length > 0"
+   },
+   "operator": "swap:>->>=@82:21",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 82,
+    "start_column": 2,
+    "end_line": 84,
+    "end_column": 3,
+    "text": "if (blocked.length > 0) {\r\n    return \"blocked\"\r\n  }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 86,
+    "start_column": 6,
+    "end_line": 86,
+    "end_column": 23,
+    "text": "failed.length > 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 86,
+    "start_column": 6,
+    "end_line": 86,
+    "end_column": 23,
+    "text": "failed.length > 0"
+   },
+   "operator": "swap:>->>=@86:20",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 86,
+    "start_column": 2,
+    "end_line": 88,
+    "end_column": 3,
+    "text": "if (failed.length > 0) {\r\n    return \"failed\"\r\n  }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 90,
+    "start_column": 6,
+    "end_line": 90,
+    "end_column": 27,
+    "text": "policy === \"disabled\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 90,
+    "start_column": 6,
+    "end_line": 90,
+    "end_column": 27,
+    "text": "policy === \"disabled\""
+   },
+   "operator": "swap:===->!==@90:13",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 102,
+    "start_column": 6,
+    "end_line": 102,
+    "end_column": 61,
+    "text": "missingCriterionIds.length === 0 && notRun.length === 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 102,
+    "start_column": 6,
+    "end_line": 102,
+    "end_column": 61,
+    "text": "missingCriterionIds.length === 0 && notRun.length === 0"
+   },
+   "operator": "swap:===->!==@102:33",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 102,
+    "start_column": 6,
+    "end_line": 102,
+    "end_column": 61,
+    "text": "missingCriterionIds.length === 0 && notRun.length === 0"
+   },
+   "operator": "swap:&&->||@102:39",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 113,
+    "start_column": 6,
+    "end_line": 113,
+    "end_column": 43,
+    "text": "criterion.status === \"not-applicable\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 113,
+    "start_column": 6,
+    "end_line": 113,
+    "end_column": 43,
+    "text": "criterion.status === \"not-applicable\""
+   },
+   "operator": "swap:===->!==@113:23",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 148,
+    "start_column": 15,
+    "end_line": 148,
+    "end_column": 46,
+    "text": "item.residualRisk !== undefined"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 148,
+    "start_column": 15,
+    "end_line": 148,
+    "end_column": 46,
+    "text": "item.residualRisk !== undefined"
+   },
+   "operator": "swap:!==->===@148:33",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w6",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 153,
+    "start_column": 6,
+    "end_line": 153,
+    "end_column": 52,
+    "text": "policy === \"disabled\" && evidence.length === 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 153,
+    "start_column": 6,
+    "end_line": 153,
+    "end_column": 52,
+    "text": "policy === \"disabled\" && evidence.length === 0"
+   },
+   "operator": "swap:===->!==@153:13",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 153,
+    "start_column": 6,
+    "end_line": 153,
+    "end_column": 52,
+    "text": "policy === \"disabled\" && evidence.length === 0"
+   },
+   "operator": "swap:&&->||@153:28",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 135,
+    "start_column": 4,
+    "end_line": 135,
+    "end_column": 114,
+    "text": "risks.push(`${criterionId} is missing passing verification evidence.${criterion ? ` ${criterion.text}` : \"\"}`)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 140,
+    "start_column": 6,
+    "end_line": 140,
+    "end_column": 53,
+    "text": "risks.push(`${item.id} failed: ${item.reason}`)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w3",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w5"
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 156,
+    "start_column": 4,
+    "end_line": 156,
+    "end_column": 80,
+    "text": "risks.push(\"No acceptance criteria or verification evidence were provided.\")"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 185,
+    "start_column": 6,
+    "end_line": 185,
+    "end_column": 27,
+    "text": "status === \"verified\""
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w2",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w2"
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 185,
+    "start_column": 6,
+    "end_line": 185,
+    "end_column": 27,
+    "text": "status === \"verified\""
+   },
+   "operator": "swap:===->!==@185:13",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w1",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w1"
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 205,
+    "start_column": 6,
+    "end_line": 205,
+    "end_column": 25,
+    "text": "values.length === 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w5",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w4"
+  },
+  {
+   "number": 29,
+   "site": {
+    "file": "src/verification.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 205,
+    "start_column": 6,
+    "end_line": 205,
+    "end_column": 25,
+    "text": "values.length === 0"
+   },
+   "operator": "swap:===->!==@205:20",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\att2\\d1\\typescript-openultracode-verification\\w4",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true,
+   "worker": "w3"
+  }
+ ],
+ "baseline_after": {
+  "w1": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.79,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.41,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w2": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.73,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.48,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w3": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.65,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.4,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w4": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 5.86,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.63,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w5": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.02,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.49,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  },
+  "w6": {
+   "class": "survived",
+   "reason": null,
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 6.61,
+     "log": "baseline-after-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/verification.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.4,
+     "log": "baseline-after-test.log"
+    }
+   ]
+  }
+ },
+ "restored": true,
+ "limit_s": {
+  "w1": 30,
+  "w2": 30,
+  "w3": 30,
+  "w4": 30,
+  "w5": 30,
+  "w6": 30
+ },
+ "workers": 6,
+ "pool": {
+  "workers_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers",
+  "cache_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\result-cache",
+  "prepare_seconds": 0.2,
+  "prepare": [
+   {
+    "worker": "w1",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.09
+   },
+   {
+    "worker": "w2",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.1
+   },
+   {
+    "worker": "w3",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.09
+   },
+   {
+    "worker": "w4",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.13
+   },
+   {
+    "worker": "w5",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   },
+   {
+    "worker": "w6",
+    "ready": true,
+    "steps": [],
+    "seconds": 0.12
+   }
+  ],
+  "ready_workers": [
+   "w1",
+   "w2",
+   "w3",
+   "w4",
+   "w5",
+   "w6"
+  ],
+  "rounds": 1,
+  "requeued": [],
+  "not_run": [],
+  "worker_batches": [
+   {
+    "worker": "w1",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w1",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.19,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.43,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.79,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.41,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       1,
+       2,
+       4,
+       6,
+       8,
+       12,
+       16,
+       21,
+       27
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w2",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w2",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.33,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.41,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.73,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.48,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       17,
+       22,
+       26
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w3",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w3",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.3,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.42,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.65,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.4,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       11,
+       14,
+       20,
+       23,
+       29
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w4",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w4",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.28,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.42,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.86,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.63,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       10,
+       15,
+       19,
+       25,
+       28
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w5",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w5",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.21,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.42,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.02,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.49,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": [
+       3,
+       5,
+       7,
+       9,
+       13,
+       18,
+       24
+      ]
+     }
+    ]
+   },
+   {
+    "worker": "w6",
+    "scopes_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\workers\\w6",
+    "void": null,
+    "segments": [
+     {
+      "scope_files_sha256": {
+       "src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"
+      },
+      "void": null,
+      "baseline_before": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 5.49,
+         "log": "baseline-before-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.43,
+         "log": "baseline-before-test.log"
+        }
+       ]
+      },
+      "baseline_after": {
+       "class": "survived",
+       "reason": null,
+       "runs": [
+        {
+         "step": "build",
+         "command": [
+          "pnpm",
+          "exec",
+          "tsc",
+          "--noEmit"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 6.61,
+         "log": "baseline-after-build.log"
+        },
+        {
+         "step": "test",
+         "command": [
+          "node",
+          "--import",
+          "tsx",
+          "--test",
+          "tests/verification.test.ts"
+         ],
+         "exit_code": 0,
+         "timed_out": false,
+         "seconds": 0.4,
+         "log": "baseline-after-test.log"
+        }
+       ]
+      },
+      "restored": true,
+      "limit_s": 30,
+      "round": 1,
+      "mutants": []
+     }
+    ]
+   }
+  ]
+ }
+}

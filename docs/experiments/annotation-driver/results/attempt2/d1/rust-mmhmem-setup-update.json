@@ -1,0 +1,2728 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "rust-mmhmem-setup-update",
+ "language": "rust",
+ "sites_from": "all_sites",
+ "revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
+ "expected_revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
+ "pack_sha256": "d2d3dc291c90a36a5d2c3df2ca97940a32221e02ae2d422c0ce7afdd37233dd1",
+ "tables_dir": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\tables",
+ "code_sha256": {
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "harness.py": "92429b593de0905f54633c963f4a160f49fbf1bc7aee43220bb8214676bd4694",
+  "validator.py": "66aeeac043ca5d382e775425921273dcfd7678f1f9ca4ba5fa161c7d9f2d501a",
+  "run_arm.py": "c2ba072ccda1004661c8d23299c17ddd0b57fae37b370eb984e08f20e9151ca0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921"
+ },
+ "limit": null,
+ "eligible_sites": 71,
+ "sites": 61,
+ "mutants_available": 66,
+ "selection_made": false,
+ "mutants_run": 66,
+ "counts_by_class": {
+  "killed": 45,
+  "survived": 21
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 12,
+   "survived": 4
+  },
+  "error_order": {
+   "survived": 2
+  },
+  "failure_state": {
+   "killed": 8,
+   "survived": 1
+  },
+  "state_write": {
+   "survived": 14,
+   "killed": 25
+  }
+ },
+ "error_mutants": [],
+ "sites_without_operator": [],
+ "annotation_decisions": null,
+ "annotations_skipped": [],
+ "wall_seconds": 1394.8,
+ "scope_files_sha256": {
+  "src/setup/ui/update.rs": "804522e68de5d5059369418ab8190baf718eaed06c821ac007ab03661878381e"
+ },
+ "void": null,
+ "baseline_before": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "cargo",
+     "nextest",
+     "run",
+     "--locked",
+     "--lib",
+     "--test",
+     "setup_update_spike",
+     "-E",
+     "test(setup::ui::update) | binary(setup_update_spike)",
+     "--no-fail-fast"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 1.88,
+    "log": "baseline-before-test.log"
+   }
+  ]
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "try_expression",
+    "start_line": 61,
+    "start_column": 20,
+    "end_line": 61,
+    "end_column": 43,
+    "text": "SetupArgs::parse(args)?"
+   },
+   "operator": "rewrite:try_expression",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 23.54,
+   "log": "m001-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 23.54,
+     "log": "m001-test.log"
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 62,
+    "start_column": 11,
+    "end_line": 62,
+    "end_column": 36,
+    "text": "setup.bootstrap.is_some()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 19.97,
+   "log": "m002-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 19.97,
+     "log": "m002-test.log"
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 83,
+    "start_column": 7,
+    "end_line": 83,
+    "end_column": 31,
+    "text": "mode != Mode::NoTerminal"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 13.4,
+   "log": "m003-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 13.4,
+     "log": "m003-test.log"
+    }
+   ]
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 83,
+    "start_column": 7,
+    "end_line": 83,
+    "end_column": 31,
+    "text": "mode != Mode::NoTerminal"
+   },
+   "operator": "swap:!=->==@83:12",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "first_run": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\smoke\\rust-mmhmem-setup-update",
+   "seconds": 0.0,
+   "log": null,
+   "cached": true
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 101,
+    "start_column": 8,
+    "end_line": 101,
+    "end_column": 16,
+    "text": "return 1"
+   },
+   "operator": "literal:1->0",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 13.92,
+   "log": "m005-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 13.92,
+     "log": "m005-test.log"
+    }
+   ]
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 103,
+    "start_column": 4,
+    "end_line": 103,
+    "end_column": 42,
+    "text": "deps.restart.command = Command::Update"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 16.37,
+   "log": "m006-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 16.37,
+     "log": "m006-test.log"
+    }
+   ]
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 137,
+    "start_column": 12,
+    "end_line": 137,
+    "end_column": 45,
+    "text": "self.start(&format!(\"{prompt} \"))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 31.59,
+   "log": "m007-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 31.59,
+     "log": "m007-test.log"
+    }
+   ]
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 141,
+    "start_column": 20,
+    "end_line": 141,
+    "end_column": 32,
+    "text": "self.say(\"\")"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 26.78,
+   "log": "m008-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 26.78,
+     "log": "m008-test.log"
+    }
+   ]
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 142,
+    "start_column": 20,
+    "end_line": 142,
+    "end_column": 32,
+    "text": "return false"
+   },
+   "operator": "literal:false->true",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 21.45,
+   "log": "m009-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 21.45,
+     "log": "m009-test.log"
+    }
+   ]
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 147,
+    "start_column": 36,
+    "end_line": 147,
+    "end_column": 47,
+    "text": "return true"
+   },
+   "operator": "literal:true->false",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 16.36,
+   "log": "m010-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 16.36,
+     "log": "m010-test.log"
+    }
+   ]
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 148,
+    "start_column": 30,
+    "end_line": 148,
+    "end_column": 42,
+    "text": "return false"
+   },
+   "operator": "literal:false->true",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 16.34,
+   "log": "m011-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 16.34,
+     "log": "m011-test.log"
+    }
+   ]
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "error_order",
+    "node_kind": "if_expression",
+    "start_line": 165,
+    "start_column": 4,
+    "end_line": 167,
+    "end_column": 5,
+    "text": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\r\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\r\n    }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 17.62,
+   "log": "m012-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 17.62,
+     "log": "m012-test.log"
+    }
+   ]
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 168,
+    "start_column": 7,
+    "end_line": 168,
+    "end_column": 30,
+    "text": "flow.record().is_none()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 16.49,
+   "log": "m013-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 16.49,
+     "log": "m013-test.log"
+    }
+   ]
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 169,
+    "start_column": 8,
+    "end_line": 169,
+    "end_column": 39,
+    "text": "p.say(text::update::NOT_SET_UP)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 25.48,
+   "log": "m014-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 25.48,
+     "log": "m014-test.log"
+    }
+   ]
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 172,
+    "start_column": 4,
+    "end_line": 172,
+    "end_column": 40,
+    "text": "p.say(text::update::CHECKING_NEWEST)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 15.2,
+   "log": "m015-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 15.2,
+     "log": "m015-test.log"
+    }
+   ]
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 173,
+    "start_column": 4,
+    "end_line": 173,
+    "end_column": 29,
+    "text": "flow.set_newest(lookup())"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 29.41,
+   "log": "m016-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 29.41,
+     "log": "m016-test.log"
+    }
+   ]
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 175,
+    "start_column": 7,
+    "end_line": 175,
+    "end_column": 40,
+    "text": "*flow.newest() == Newest::Unknown"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 28.2,
+   "log": "m017-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 28.2,
+     "log": "m017-test.log"
+    }
+   ]
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 175,
+    "start_column": 7,
+    "end_line": 175,
+    "end_column": 40,
+    "text": "*flow.newest() == Newest::Unknown"
+   },
+   "operator": "swap:==->!=@175:22",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 23.8,
+   "log": "m018-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 23.8,
+     "log": "m018-test.log"
+    }
+   ]
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 176,
+    "start_column": 8,
+    "end_line": 176,
+    "end_column": 43,
+    "text": "p.say(text::update::NEWEST_UNKNOWN)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 26.19,
+   "log": "m019-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 26.19,
+     "log": "m019-test.log"
+    }
+   ]
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 177,
+    "start_column": 8,
+    "end_line": 177,
+    "end_column": 16,
+    "text": "return 1"
+   },
+   "operator": "literal:1->0",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 24.13,
+   "log": "m020-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 24.13,
+     "log": "m020-test.log"
+    }
+   ]
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 180,
+    "start_column": 8,
+    "end_line": 180,
+    "end_column": 60,
+    "text": "p.say(&text::update::up_to_date(installed.as_str()))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 31.7,
+   "log": "m021-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 31.7,
+     "log": "m021-test.log"
+    }
+   ]
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 181,
+    "start_column": 8,
+    "end_line": 181,
+    "end_column": 16,
+    "text": "return 0"
+   },
+   "operator": "literal:0->1",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 26.49,
+   "log": "m022-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 26.49,
+     "log": "m022-test.log"
+    }
+   ]
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 183,
+    "start_column": 4,
+    "end_line": 186,
+    "end_column": 6,
+    "text": "p.say(&text::update::available(\r\n        installed.as_str(),\r\n        newest.as_str(),\r\n    ))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 26.47,
+   "log": "m023-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 26.47,
+     "log": "m023-test.log"
+    }
+   ]
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 187,
+    "start_column": 4,
+    "end_line": 187,
+    "end_column": 38,
+    "text": "p.say(text::update::KEEPS_CHOICES)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 30.85,
+   "log": "m024-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 30.85,
+     "log": "m024-test.log"
+    }
+   ]
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "error_order",
+    "node_kind": "if_expression",
+    "start_line": 188,
+    "start_column": 4,
+    "end_line": 191,
+    "end_column": 5,
+    "text": "if !p.yes(text::update::PROMPT_UPDATE) {\r\n        p.say(text::update::NOTHING_CHANGED);\r\n        return EXIT_CANCELLED;\r\n    }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 24.6,
+   "log": "m025-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 24.6,
+     "log": "m025-test.log"
+    }
+   ]
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 188,
+    "start_column": 7,
+    "end_line": 188,
+    "end_column": 42,
+    "text": "!p.yes(text::update::PROMPT_UPDATE)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 13.55,
+   "log": "m026-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 13.55,
+     "log": "m026-test.log"
+    }
+   ]
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 189,
+    "start_column": 8,
+    "end_line": 189,
+    "end_column": 44,
+    "text": "p.say(text::update::NOTHING_CHANGED)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 22.1,
+   "log": "m027-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 22.1,
+     "log": "m027-test.log"
+    }
+   ]
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 193,
+    "start_column": 8,
+    "end_line": 193,
+    "end_column": 19,
+    "text": "p.say(note)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 16.73,
+   "log": "m028-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 16.73,
+     "log": "m028-test.log"
+    }
+   ]
+  },
+  {
+   "number": 29,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 194,
+    "start_column": 8,
+    "end_line": 194,
+    "end_column": 16,
+    "text": "return 1"
+   },
+   "operator": "literal:1->0",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 19.99,
+   "log": "m029-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 19.99,
+     "log": "m029-test.log"
+    }
+   ]
+  },
+  {
+   "number": 30,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 200,
+    "start_column": 4,
+    "end_line": 200,
+    "end_column": 56,
+    "text": "p.start(&text::update::downloading(newest.as_str()))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 22.92,
+   "log": "m030-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 22.92,
+     "log": "m030-test.log"
+    }
+   ]
+  },
+  {
+   "number": 31,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 203,
+    "start_column": 12,
+    "end_line": 203,
+    "end_column": 29,
+    "text": "reporter.finish()"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 32.78,
+   "log": "m031-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 32.78,
+     "log": "m031-test.log"
+    }
+   ]
+  },
+  {
+   "number": 32,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 204,
+    "start_column": 12,
+    "end_line": 204,
+    "end_column": 58,
+    "text": "p.say(&format!(\" {}\", text::update::VERIFIED))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 33.23,
+   "log": "m032-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 33.23,
+     "log": "m032-test.log"
+    }
+   ]
+  },
+  {
+   "number": 33,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 210,
+    "start_column": 12,
+    "end_line": 210,
+    "end_column": 29,
+    "text": "reporter.finish()"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 29.9,
+   "log": "m033-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 29.9,
+     "log": "m033-test.log"
+    }
+   ]
+  },
+  {
+   "number": 34,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 211,
+    "start_column": 12,
+    "end_line": 211,
+    "end_column": 58,
+    "text": "p.say(&format!(\" {}\", text::update::VERIFIED))"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 28.5,
+   "log": "m034-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 28.5,
+     "log": "m034-test.log"
+    }
+   ]
+  },
+  {
+   "number": 35,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 220,
+    "start_column": 12,
+    "end_line": 220,
+    "end_column": 29,
+    "text": "reporter.finish()"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 29.27,
+   "log": "m035-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 29.27,
+     "log": "m035-test.log"
+    }
+   ]
+  },
+  {
+   "number": 36,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 221,
+    "start_column": 12,
+    "end_line": 221,
+    "end_column": 21,
+    "text": "p.say(\"\")"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 19.48,
+   "log": "m036-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 19.48,
+     "log": "m036-test.log"
+    }
+   ]
+  },
+  {
+   "number": 37,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 225,
+    "start_column": 16,
+    "end_line": 225,
+    "end_column": 29,
+    "text": "p.say(reason)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 18.09,
+   "log": "m037-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 18.09,
+     "log": "m037-test.log"
+    }
+   ]
+  },
+  {
+   "number": 38,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 227,
+    "start_column": 12,
+    "end_line": 227,
+    "end_column": 23,
+    "text": "p.say(note)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 14.99,
+   "log": "m038-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 14.99,
+     "log": "m038-test.log"
+    }
+   ]
+  },
+  {
+   "number": 39,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "try_expression",
+    "start_line": 238,
+    "start_column": 30,
+    "end_line": 238,
+    "end_column": 53,
+    "text": "flow.bootstrap_offer()?"
+   },
+   "operator": "rewrite:try_expression",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 18.17,
+   "log": "m039-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 18.17,
+     "log": "m039-test.log"
+    }
+   ]
+  },
+  {
+   "number": 40,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 241,
+    "start_column": 4,
+    "end_line": 241,
+    "end_column": 17,
+    "text": "p.say(&offer)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 16.13,
+   "log": "m040-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 16.13,
+     "log": "m040-test.log"
+    }
+   ]
+  },
+  {
+   "number": 41,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 242,
+    "start_column": 4,
+    "end_line": 242,
+    "end_column": 38,
+    "text": "p.say(text::update::KEEPS_CHOICES)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 12.66,
+   "log": "m041-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 12.66,
+     "log": "m041-test.log"
+    }
+   ]
+  },
+  {
+   "number": 42,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 243,
+    "start_column": 7,
+    "end_line": 243,
+    "end_column": 42,
+    "text": "!p.yes(text::update::PROMPT_UPDATE)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 13.08,
+   "log": "m042-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 13.08,
+     "log": "m042-test.log"
+    }
+   ]
+  },
+  {
+   "number": 43,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 244,
+    "start_column": 8,
+    "end_line": 244,
+    "end_column": 44,
+    "text": "p.say(text::update::NOTHING_CHANGED)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 13.56,
+   "log": "m043-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 13.56,
+     "log": "m043-test.log"
+    }
+   ]
+  },
+  {
+   "number": 44,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 247,
+    "start_column": 4,
+    "end_line": 247,
+    "end_column": 24,
+    "text": "flow.plan_recorded()"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 12.38,
+   "log": "m044-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 12.38,
+     "log": "m044-test.log"
+    }
+   ]
+  },
+  {
+   "number": 45,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 257,
+    "start_column": 7,
+    "end_line": 257,
+    "end_column": 57,
+    "text": "view.groups.is_empty() && view.problems.is_empty()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 11.35,
+   "log": "m045-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 11.35,
+     "log": "m045-test.log"
+    }
+   ]
+  },
+  {
+   "number": 46,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 257,
+    "start_column": 7,
+    "end_line": 257,
+    "end_column": 57,
+    "text": "view.groups.is_empty() && view.problems.is_empty()"
+   },
+   "operator": "swap:&&->||@257:30",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 10.2,
+   "log": "m046-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 10.2,
+     "log": "m046-test.log"
+    }
+   ]
+  },
+  {
+   "number": 47,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 258,
+    "start_column": 8,
+    "end_line": 258,
+    "end_column": 51,
+    "text": "p.say(&text::update::updated_checking(tag))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 19.37,
+   "log": "m047-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 19.37,
+     "log": "m047-test.log"
+    }
+   ]
+  },
+  {
+   "number": 48,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 260,
+    "start_column": 11,
+    "end_line": 260,
+    "end_column": 25,
+    "text": "kept.is_some()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 23.21,
+   "log": "m048-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 23.21,
+     "log": "m048-test.log"
+    }
+   ]
+  },
+  {
+   "number": 49,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 261,
+    "start_column": 12,
+    "end_line": 261,
+    "end_column": 46,
+    "text": "p.say(&text::update::updated(tag))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 26.79,
+   "log": "m049-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 26.79,
+     "log": "m049-test.log"
+    }
+   ]
+  },
+  {
+   "number": 50,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 263,
+    "start_column": 8,
+    "end_line": 263,
+    "end_column": 43,
+    "text": "p.say(text::update::CHANGES_NEEDED)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 21.28,
+   "log": "m050-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 21.28,
+     "log": "m050-test.log"
+    }
+   ]
+  },
+  {
+   "number": 51,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 264,
+    "start_column": 8,
+    "end_line": 264,
+    "end_column": 25,
+    "text": "changes(p, &view)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 23.43,
+   "log": "m051-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 23.43,
+     "log": "m051-test.log"
+    }
+   ]
+  },
+  {
+   "number": 52,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 265,
+    "start_column": 11,
+    "end_line": 265,
+    "end_column": 45,
+    "text": "!p.yes(text::update::PROMPT_APPLY)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 27.58,
+   "log": "m052-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 27.58,
+     "log": "m052-test.log"
+    }
+   ]
+  },
+  {
+   "number": 53,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 266,
+    "start_column": 12,
+    "end_line": 266,
+    "end_column": 64,
+    "text": "p.say(kept.unwrap_or(text::update::NOTHING_CHANGED))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 19.01,
+   "log": "m053-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 19.01,
+     "log": "m053-test.log"
+    }
+   ]
+  },
+  {
+   "number": 54,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 269,
+    "start_column": 8,
+    "end_line": 269,
+    "end_column": 43,
+    "text": "p.say(text::update::MAKING_CHANGES)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 15.77,
+   "log": "m054-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 15.77,
+     "log": "m054-test.log"
+    }
+   ]
+  },
+  {
+   "number": 55,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 271,
+    "start_column": 4,
+    "end_line": 271,
+    "end_column": 23,
+    "text": "flow.apply_update()"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 28.31,
+   "log": "m055-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 28.31,
+     "log": "m055-test.log"
+    }
+   ]
+  },
+  {
+   "number": 56,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 273,
+    "start_column": 8,
+    "end_line": 273,
+    "end_column": 20,
+    "text": "p.say(&line)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 24.92,
+   "log": "m056-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 24.92,
+     "log": "m056-test.log"
+    }
+   ]
+  },
+  {
+   "number": 57,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 281,
+    "start_column": 8,
+    "end_line": 281,
+    "end_column": 26,
+    "text": "p.say(&group.file)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 21.83,
+   "log": "m057-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 21.83,
+     "log": "m057-test.log"
+    }
+   ]
+  },
+  {
+   "number": 58,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 283,
+    "start_column": 12,
+    "end_line": 283,
+    "end_column": 63,
+    "text": "p.say(&format!(\"  {} {}\", item.mark, item.summary))"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 23.36,
+   "log": "m058-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 23.36,
+     "log": "m058-test.log"
+    }
+   ]
+  },
+  {
+   "number": 59,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 286,
+    "start_column": 7,
+    "end_line": 286,
+    "end_column": 32,
+    "text": "!view.problems.is_empty()"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 16.56,
+   "log": "m059-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 16.56,
+     "log": "m059-test.log"
+    }
+   ]
+  },
+  {
+   "number": 60,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 287,
+    "start_column": 8,
+    "end_line": 287,
+    "end_column": 36,
+    "text": "p.say(text::REVIEW_PROBLEMS)"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 13.71,
+   "log": "m060-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 13.71,
+     "log": "m060-test.log"
+    }
+   ]
+  },
+  {
+   "number": 61,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 288,
+    "start_column": 8,
+    "end_line": 288,
+    "end_column": 51,
+    "text": "view.problems.iter().for_each(|l| p.say(l))"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 16.29,
+   "log": "m061-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 16.29,
+     "log": "m061-test.log"
+    }
+   ]
+  },
+  {
+   "number": 62,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 302,
+    "start_column": 4,
+    "end_line": 302,
+    "end_column": 24,
+    "text": "lines.drain(..blank)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 18.67,
+   "log": "m062-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 18.67,
+     "log": "m062-test.log"
+    }
+   ]
+  },
+  {
+   "number": 63,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 15.35,
+   "log": "m063-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 15.35,
+     "log": "m063-test.log"
+    }
+   ]
+  },
+  {
+   "number": 64,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "swap:==->!=@303:24",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 10.11,
+   "log": "m064-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 10.11,
+     "log": "m064-test.log"
+    }
+   ]
+  },
+  {
+   "number": 65,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "swap:&&->||@303:29",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 9.61,
+   "log": "m065-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 9.61,
+     "log": "m065-test.log"
+    }
+   ]
+  },
+  {
+   "number": 66,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "call_expression",
+    "start_line": 304,
+    "start_column": 8,
+    "end_line": 304,
+    "end_column": 49,
+    "text": "lines.push(text::update::DONE.to_owned())"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 13.75,
+   "log": "m066-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 13.75,
+     "log": "m066-test.log"
+    }
+   ]
+  }
+ ],
+ "baseline_after": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "cargo",
+     "nextest",
+     "run",
+     "--locked",
+     "--lib",
+     "--test",
+     "setup_update_spike",
+     "-E",
+     "test(setup::ui::update) | binary(setup_update_spike)",
+     "--no-fail-fast"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 13.9,
+    "log": "baseline-after-test.log"
+   }
+  ]
+ },
+ "restored": true,
+ "limit_s": 120
+}

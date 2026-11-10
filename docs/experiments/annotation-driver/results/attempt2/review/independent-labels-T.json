@@ -1,0 +1,278 @@
+[
+  {
+    "id": "T001",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Dropping `await store.update(changed)` makes `mutate` return the changed state without persisting it. Sequence: `update(state)`, then `mutate(s => ({ ...s, phase: \"review\" }))`, then `load()`: the original returns phase \"review\", the mutant still returns the old phase. tests/state.test.ts never calls `mutate`."
+  },
+  {
+    "id": "T002",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Without `mutationQueues.set(statePath, next)` every `mutate` chains on `Promise.resolve()`, so concurrent mutations are no longer serialized. Two unawaited calls, `mutate(s => ({ ...s, goal: s.goal + \" A\" }))` and `mutate(s => ({ ...s, goal: s.goal + \" B\" }))`, both load the same initial state before either writes. The original ends with both suffixes; the mutant loses one of them (a lost update)."
+  },
+  {
+    "id": "T003",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The negated cleanup deletes the queue entry when a newer mutation is the tail. Sequence: call `mutate` A and B synchronously, await A, then call `mutate` C while B is still pending. A's `finally` has already removed B from `mutationQueues`, so C runs concurrently with B instead of after it, both load A's result, and one of the B/C changes is lost (the original keeps all three)."
+  },
+  {
+    "id": "T004",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "`mutationQueues.get(statePath) !== next` is the same as T003's `!(... === next)`. When A settles while B is queued, A's finally deletes B's entry, so a `mutate` C called after awaiting A runs in parallel with B. One of the two changes is lost; the original serializes C after B."
+  },
+  {
+    "id": "T005",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Without the first `rejectSymlinkedStatePath`, `update` runs `mkdir(dirname(statePath), { recursive: true })` before any symlink check. If `<root>/.opencode` is a symlink or junction to an outside directory and `open-ultracode/state` does not exist there, the mutant creates `outside/open-ultracode/state` before the second check throws the same error. The original throws before touching the disk; the test only symlinks the existing leaf `state`, so `mkdir` creates nothing."
+  },
+  {
+    "id": "T006",
+    "label": "real_gap",
+    "confidence": "low",
+    "reason": "Without outside interference the second `rejectSymlinkedStatePath` after `mkdir` sees the same tree as the first, because `mkdir` only creates real directories. Behaviour differs only in a TOCTOU race: if another process replaces a component of `state.directory` with a symlink after the first check, the original throws 'must not contain symlinks' and the mutant writes the state through the link. Real but only reachable through a concurrent external filesystem change."
+  },
+  {
+    "id": "T007",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "`clear()` loses its symlink check. With `.opencode/open-ultracode/state` a junction to `outside/` that contains `workflow-state.json`, the original rejects with 'state.directory must not contain symlinks' and leaves the file alone. The mutant's `rm(statePath, { force: true })` deletes `outside/workflow-state.json` through the link."
+  },
+  {
+    "id": "T008",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "In `retryTransient`, `attempt > attempts` allows a 9th attempt (after an extra 40 ms) instead of rejecting after the 8th. Suppose `rename`/`readFile` fails with EPERM/EBUSY until about 160 ms (a Windows handle held between the ~140 ms and ~180 ms cumulative backoffs): the original rejects with EPERM and the mutant succeeds. A persistent error also costs one extra operation call and a later rejection."
+  },
+  {
+    "id": "T009",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "Without the `setTimeout` backoff, all 8 attempts in `retryTransient` run back-to-back within microseconds. If a concurrent handle (antivirus, indexer, another reader) makes `rename(stagingPath, statePath)` fail with EPERM for about 20 ms, the original succeeds on a later spaced retry, while the mutant gives up and `update()`/`load()` rejects with EPERM."
+  },
+  {
+    "id": "T010",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Without `rm(stagingDirectory, ...)` in `writeStateAtomically`'s finally, every `update()` leaves an empty `.workflow-state-write-<uuid>-XXXXXX` directory in the state directory (and the staged file too when writing or renaming fails). The original leaves the directory holding only `workflow-state.json`. No test lists the directory."
+  },
+  {
+    "id": "T011",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "`statePath === root` can never be true (statePath always ends in workflow-state.json), so the containment guard in `resolveStatePath` can never throw. Example: on Windows, `createWorkflowStateStore(root, { state: { directory: \"D:/elsewhere\" } })` passes `isSafeProjectRelativePath`, resolves to `D:\\elsewhere\\workflow-state.json`, and the original throws 'must resolve inside the project root'. The mutant returns a store that writes outside the root; projectRoot \"/\" is another reachable difference."
+  },
+  {
+    "id": "T012",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Removing the throw disables the containment check in `resolveStatePath`. On Windows, `state.directory` \"D:/elsewhere\" (no leading '/', no backslash, no '..') resolves outside the project root: the original `createWorkflowStateStore` throws 'state.directory must resolve inside the project root', and the mutant accepts it and later reads and writes there."
+  },
+  {
+    "id": "T013",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Here `workflow-state.json` itself is a symlink to an outside file (every directory segment is real). The original `load()`/`update()`/`clear()` reject with 'state.directory must not contain symlinks'; the mutant goes through, for example `load()` reads and returns the outside file's state. The tests only cover a symlinked directory segment."
+  },
+  {
+    "id": "T014",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The final catch in `rejectSymlinkedStatePath` also catches the plain `Error` thrown when `statePath` is a symlink (it has no `code`), so dropping `throw error` swallows that rejection along with non-ENOENT lstat errors. If `workflow-state.json` is a symlink to an outside file, the original `load()` rejects and the mutant reads through it."
+  },
+  {
+    "id": "T015",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The negated condition in `backupCorruptState` swallows non-ENOENT rename errors and rethrows ENOENT. Setup: `workflow-state.json` contains \"not json\" and `workflow-state.json.bak` is a non-empty directory, so rename fails with EISDIR (EPERM on Windows). The original `load()` rejects; the mutant returns the corrupt-state degradation and leaves the corrupt file unbacked in place."
+  },
+  {
+    "id": "T016",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "`rename` errors are always Node errors, so `!isNodeError(error) || error.code === \"ENOENT\"` means: throw on ENOENT, swallow everything else (as in T015). For a corrupt state file whose `.bak` target is a non-empty directory, the original `load()` rejects with EISDIR/EPERM. The mutant resolves with a degradation notice and does not move the file."
+  },
+  {
+    "id": "T017",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Dropping `throw error` makes `backupCorruptState` swallow every rename failure. Setup: corrupt `workflow-state.json` with `workflow-state.json.bak` an existing non-empty directory. The original `load()` rejects with the rename error; the mutant returns `{ state: undefined, degradations: [corrupt notice] }` although no backup was made."
+  },
+  {
+    "id": "T018",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "`isPersistedWorkflowState` now accepts any value that fails the envelope checks. File content `{\"schemaVersion\":2,\"updatedAt\":\"x\",\"state\":{}}` gives a degradation notice plus a `.bak` file in the original; the mutant returns `{ state: {}, degradations: [] }` with no backup, and the content `null` makes the mutant's `load()` throw a TypeError. The only corruption test uses unparsable JSON."
+  },
+  {
+    "id": "T019",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With `||`, `isRecord` returns true for every value, including `null`. File content `null` (or an envelope with `\"state\": null`) makes the original `load()` return a corrupt-state degradation and back up the file. In the mutant, reading `.schemaVersion` on null throws a TypeError out of `load()`."
+  },
+  {
+    "id": "T020",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The blocked check now comes before the research-only check in `classifyCompletion`. Input `{ policy: \"disabled\", researchOnly: true, criteria: [], evidence: [<blocked item>] }`: the original status is \"research-only\" and the mutant's is \"blocked\" (with a different summary)."
+  },
+  {
+    "id": "T021",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "With `policy !== \"disabled\"`, research-only is returned for strict and advisory policies. Input `{ policy: \"strict\", researchOnly: true, criteria: [AC-1], evidence: [pass for AC-1] }`: the original returns \"verified\" and the mutant \"research-only\". The disabled-with-researchOnly test still passes through the later `policy === \"disabled\"` branch."
+  },
+  {
+    "id": "T022",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The failed and blocked checks are swapped. When the evidence holds both a `fail` and a `blocked` item (strict policy, not research-only), the original status is \"blocked\" and the mutant's is \"failed\". No test combines the two."
+  },
+  {
+    "id": "T023",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The disabled-policy branch now runs before the failed check. Input `{ policy: \"disabled\", researchOnly: false, evidence: [<fail item>] }`: the original returns \"failed\" and the mutant \"partial\"."
+  },
+  {
+    "id": "T024",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "The swapped branches overlap only when `policy === \"disabled\"` and `hasNoGateEvidence` are both true. There `researchOnly` must be false, since `researchOnly && disabled` already returned at the first check, so the disabled branch yields \"partial\", the same value as the `hasNoGateEvidence` branch."
+  },
+  {
+    "id": "T025",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The `policy === \"disabled\"` branch is reached only with `researchOnly` false, and the negation then returns \"research-only\" instead of \"partial\". Input `{ policy: \"disabled\", criteria: [], evidence: [] }` with researchOnly omitted: the original status is \"partial\", the mutant's \"research-only\"."
+  },
+  {
+    "id": "T026",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "The `hasNoGateEvidence` and `hasNoApplicableCriteria` branches both return \"partial\" and have no side effects. Swapping them cannot change the result of `classifyCompletion`."
+  },
+  {
+    "id": "T027",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "A failed item's `residualRisk` no longer appears in `unresolvedRisks`. For evidence `{ result: \"fail\", reason: \"Assertion failed.\", residualRisk: \"The completion report may misclassify failed evidence.\" }`, the original list contains that risk string and the mutant's does not. The test only checks the 'VE-2 failed: ...' line."
+  },
+  {
+    "id": "T028",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "A blocked item's `residualRisk` is dropped from `unresolvedRisks`. For the blocked VE-3 evidence with residualRisk 'High-severity dependency issues may be unknown.', the original returns that string and the mutant omits it. The test only checks the 'was blocked' line."
+  },
+  {
+    "id": "T029",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "A passing item's optional `residualRisk` is no longer reported. Evidence `{ result: \"pass\", criteriaIds: [\"AC-1\"], residualRisk: \"Only smoke-tested.\" }` puts \"Only smoke-tested.\" in the original's `unresolvedRisks`; the mutant's list omits it."
+  },
+  {
+    "id": "T030",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In `summarizeCompletion` the negated `hasNoGateEvidence` adds 'missing evidence: workflow verification.' whenever criteria or evidence exist. For a strict gate with all criteria passing, the original summary is 'Verified completion under strict verification policy.' and the mutant appends that false missing-evidence detail. With no criteria and no evidence it reports 'acceptance criteria' instead."
+  },
+  {
+    "id": "T031",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "`details.length >= 0` is always true, so with no details the suffix becomes a single space instead of \"\". The fully verified strict input returns 'Verified completion under strict verification policy. ' with a trailing space instead of '...policy.'. The test only regex-matches /verified/i."
+  },
+  {
+    "id": "T032",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "The swapped `status === \"verified\"` and `status === \"research-only\"` tests compare one value against two different literals and cannot both be true. Each branch only returns a string, so the order cannot matter."
+  },
+  {
+    "id": "T033",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "`status === \"research-only\"` and `status === \"blocked\"` are mutually exclusive and side-effect-free returns. Reordering them cannot change the returned summary."
+  },
+  {
+    "id": "T034",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "`status === \"blocked\"` and `status === \"failed\"` are mutually exclusive and side-effect-free returns. Reordering them cannot change the returned summary."
+  },
+  {
+    "id": "T035",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "Only \"failed\" and \"partial\" reach this branch, and the negation swaps their summaries. For an advisory gate with AC-2 missing (status \"partial\"), the original summary starts 'Partial completion under advisory verification policy; unresolved risks remain.' and the mutant's starts 'Failed completion under advisory verification policy.' The tests only regex-match the detail suffix and the policy name."
+  },
+  {
+    "id": "T036",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "`status !== \"failed\"` behaves like T035: a \"partial\" report gets the 'Failed completion ...' summary and a \"failed\" report gets the 'Partial completion ...; unresolved risks remain.' summary. Example: strict gate with a failing VE-2."
+  },
+  {
+    "id": "T037",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "In `_model_rps_setting`, an entry that is both a repeat and malformed now gets the duplicate message. `MVIBE_RATE_LIMIT_MODEL_RPS=\"a=1,a\"` (or \"a=1,a=0\") raises 'entry 2 is malformed; expected ...' in the original and 'entry 2 repeats a model named earlier' in the mutant. This is the user-visible startup error; the tests only match the variable name."
+  },
+  {
+    "id": "T038",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "Moving `if not text: return None` after the delay-seconds check only matters for an empty `text`. `_DELAY_SECONDS.fullmatch(\"\")` cannot match (it needs at least one digit), so an empty value still reaches the moved guard and `parse_retry_after` returns None either way."
+  },
+  {
+    "id": "T039",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "The exported `classify` now returns None for a non-429 status before validating its arguments. `classify(200, {}, fallback_wait_s=0.0, cap_s=30.0, now=0.0)` raises ValueError in the original and returns None in the mutant. Likewise a gate built with `RateLimitConfig(backoff_cap_s=0)` raises on a 200 originally but returns it in the mutant; the validation tests only use status 429."
+  },
+  {
+    "id": "T040",
+    "label": "undetermined",
+    "confidence": "low",
+    "reason": "The selected tests show httpx2 closes the stream by itself on both the full-read path and the early 64 KiB `break` path (`Body.closed` is asserted and passes on the mutant), so the explicit `await response.aclose()` is redundant there. Whether it matters on error paths, such as a stream raising mid-read, a content-decoding error, an iterator that fails before its own cleanup, or whether `Response.is_closed` is set, depends on httpx2 2.16.0's `aiter_bytes`/`aiter_raw` cleanup, which is not in the checkout. Settling it needs that source."
+  },
+  {
+    "id": "T041",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "An upstream `Retry-After: 1` (wait_s exactly 1.0) is no longer kept in the rejection headers. Config `RateLimitConfig(default_rps=0.5, max_wait_s=1.5)`, attempt latency 0.25 s, upstream 429 with `Retry-After: 1`: the gate exhausts, and the original answers `retry-after: 1` (forwarded) while the mutant answers `retry-after: 2` (its own hint `max(ready_at - now, interval)`). The tests only cover '0' and '0.5'."
+  },
+  {
+    "id": "T042",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "A run that gives up (`not on_time`) now still advances `state.next_slot` on a paced key, delaying later runs. With `default_rps=1` (1 s interval) and `max_wait_s=0.25`: run A sends at t=0 (next_slot=1); run B arriving at t=0.5 gives up, and the mutant moves next_slot to 1.5. Run C arriving at t=0.9 is then sent at t=1.0 in the original but gets a synthesized 429 in the mutant, because 1.5 > its 1.15 deadline."
+  },
+  {
+    "id": "T043",
+    "label": "equivalent",
+    "confidence": "high",
+    "reason": "The mutant also assigns `next_slot = now + 0` for an unpaced key (interval 0). The send time is never later than any later clock reading, so in `ready_at()` it can never be the binding term: `now >= ready_at` in `_wait_for_slot`, the `ready_at() <= now` idle drop in `_state`, and `max(ready_at - now, 0)` in `_exhausted` all give the same results. A negative interval is skipped by both; the only assumption is a non-decreasing `clock`, as the class contract states."
+  },
+  {
+    "id": "T044",
+    "label": "real_gap",
+    "confidence": "low",
+    "reason": "`>=` calls `warn(key, wait)` again when a new hold ends exactly at the current `state.hold_until`. A re-send happens only at or after the old hold, so equality needs a wait that is zero or lost in float addition plus a clock that has not advanced. Example: `RateLimitConfig(max_wait_s=0.0)` (or `MVIBE_RATE_LIMIT_MAX_WAIT_S=1e-300`), a frozen fake clock and a script of 429, 429, 200: the original warns once and the mutant twice."
+  },
+  {
+    "id": "T045",
+    "label": "real_gap",
+    "confidence": "high",
+    "reason": "`self._clock() >= deadline` gives up on a run that reaches the head exactly at its deadline. Unpaced, `max_wait_s=1`: run A's attempt takes 1.0 s (fake-clock latency) and returns 200; run B, which arrived at t0, is promoted at t0+1. The original sends B's attempt (`ready_at` ≤ now); the mutant returns a synthesized 429 with `record.exhausted=True` without calling it."
+  },
+  {
+    "id": "T046",
+    "label": "real_gap",
+    "confidence": "medium",
+    "reason": "The order matters only when `now >= ready_at > deadline`. While the head sleeps the key state cannot change, so this can happen only on the first loop pass, when the clock moves past both the deadline and `ready_at` between the entry check and `now = self._clock()`. That needs a clock that advances between those two reads (a real tick, or an injected stepping clock with a caller-chosen `arrived`); the original then sends the attempt and the mutant returns a 429."
+  }
+]
