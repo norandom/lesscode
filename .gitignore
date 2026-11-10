@@ -21,3 +21,8 @@ runs/
 .runs/e3-facdrone/*
 !.runs/e3-facdrone/*.sqlite
 .workspaces/
+
+# Local model endpoint configuration with secrets; .env.sample is the tracked template.
+.env
+.env.*
+!.env.sample
