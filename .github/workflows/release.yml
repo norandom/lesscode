@@ -1,0 +1,132 @@
+name: Release binaries
+
+# A pushed version tag builds lesscode-core for every supported platform and
+# publishes the archives, checksums and install scripts as a GitHub release.
+# A manual run builds the same archives as workflow artifacts and publishes
+# nothing, so the packaging can be checked before a tag exists.
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  RUST_VERSION: '1.98.1'
+
+jobs:
+  draft:
+    name: Open draft release
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Require the tag to match the crate version
+        run: |
+          crate_version=$(sed -n 's/^version = "\(.*\)"$/\1/p' native/Cargo.toml | head -n 1)
+          if [ "v$crate_version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match native/Cargo.toml version $crate_version" >&2
+            exit 1
+          fi
+      - name: Create the draft and attach the install scripts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --draft --verify-tag --generate-notes \
+            --title "$GITHUB_REF_NAME" scripts/install.sh scripts/install.ps1
+
+  build:
+    name: Build ${{ matrix.target }}
+    needs: draft
+    # Run after a successful draft on a tag, and without one on a manual run.
+    if: ${{ !cancelled() && (needs.draft.result == 'success' || github.event_name == 'workflow_dispatch') }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-24.04, target: x86_64-unknown-linux-gnu }
+          - { os: ubuntu-24.04-arm, target: aarch64-unknown-linux-gnu }
+          - { os: windows-2025, target: x86_64-pc-windows-msvc }
+          - { os: macos-15-intel, target: x86_64-apple-darwin }
+          - { os: macos-15, target: aarch64-apple-darwin }
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install pinned Rust
+        run: rustup toolchain install "$RUST_VERSION" --profile minimal --target "${{ matrix.target }}"
+      - name: Build the release binary with locked dependencies
+        run: cargo "+$RUST_VERSION" build --release --locked --target "${{ matrix.target }}" --manifest-path native/Cargo.toml
+      - name: Package the binary with its license notices
+        id: package
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          name="lesscode-core-$TARGET"
+          stage="$RUNNER_TEMP/$name"
+          mkdir -p "$stage"
+          exe=lesscode-core
+          if [ "$RUNNER_OS" = Windows ]; then exe=lesscode-core.exe; fi
+          bin="native/target/$TARGET/release/$exe"
+          "$bin" --version
+          cp "$bin" LICENSE native/LICENSES.md native/THIRD_PARTY_NOTICES.txt "$stage/"
+          cd "$RUNNER_TEMP"
+          if [ "$RUNNER_OS" = Windows ]; then
+            archive="$name.zip"
+            7z a -tzip "$archive" "$name" > /dev/null
+          else
+            archive="$name.tar.gz"
+            tar -czf "$archive" "$name"
+          fi
+          if command -v sha256sum > /dev/null; then
+            sha256sum "$archive" > "$archive.sha256"
+          else
+            shasum -a 256 "$archive" > "$archive.sha256"
+          fi
+          cat "$archive.sha256"
+          echo "archive=$archive" >> "$GITHUB_OUTPUT"
+      - name: Keep the archive as a workflow artifact
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: lesscode-core-${{ matrix.target }}
+          path: |
+            ${{ runner.temp }}/${{ steps.package.outputs.archive }}
+            ${{ runner.temp }}/${{ steps.package.outputs.archive }}.sha256
+          if-no-files-found: error
+          retention-days: 14
+      - name: Attach the archive to the draft release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARCHIVE: ${{ steps.package.outputs.archive }}
+        run: |
+          cd "$RUNNER_TEMP"
+          gh release upload "$GITHUB_REF_NAME" "$ARCHIVE" "$ARCHIVE.sha256" --clobber --repo "$GITHUB_REPOSITORY"
+
+  publish:
+    name: Publish release
+    needs: build
+    # Publish only when every platform built; a partial release stays a draft.
+    if: github.event_name == 'push' && needs.build.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Publish the draft as the latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "$GITHUB_REF_NAME" --draft=false --latest --repo "$GITHUB_REPOSITORY"

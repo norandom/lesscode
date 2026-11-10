@@ -7,3 +7,5 @@ tools/*.sh text eol=lf
 docs/experiments/deconvolution/regenerator/results/turns/** text eol=lf
 .runs/e4-lifecycle/** text eol=lf
 .runs/e3-facdrone/** text eol=lf
+# Release installer runs under POSIX sh on Linux and macOS.
+scripts/*.sh text eol=lf
