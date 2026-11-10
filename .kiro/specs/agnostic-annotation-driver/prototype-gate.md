@@ -567,6 +567,11 @@ run needs a new dated owner decision.
   not a result.
 - Feasibility is argued in
   [docs/reports/agnostic-driver-feasibility.md](../../../docs/reports/agnostic-driver-feasibility.md).
+- **Approved the same evening:** the port covers mutation and analysis
+  together; the first design step is a sizing spike (switch on the Rust and
+  Java grammars, re-admit the packs against the crate's grammar versions,
+  port the kind check and one operator, count the lines); the cap is decided
+  with that measurement. Requirements are in [requirements.md](requirements.md).
 
 ## Result of attempt 1, 2026-11-10
 

@@ -23,9 +23,9 @@ has the result table, the open decisions, the owner's rules and the commands.
 2. **Owner decided (2026-11-10 evening):** the apparatus is ported to Rust,
    one runtime; breaking codebases must be avoided. Feasibility report:
    [docs/reports/agnostic-driver-feasibility.md](../docs/reports/agnostic-driver-feasibility.md).
-   Waiting for the owner: port scope (mutation only, or mutation and
-   analysis), the go for requirements and design, and after a sizing spike
-   whether the 7,173-line cap holds.
+   Owner approved: mutation and analysis ported together; sizing spike as
+   the first design step; cap decided after it. **Requirements are
+   generated (nine areas) and await the owner's approval;** then design.
 3. **Second priority:** hardening against LLM inference drift, in
    `constraint-guided-compression` Slice B (requirements Amendment 5). Not
    started. The run-to-run agreement measured today is its baseline.
