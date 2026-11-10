@@ -10,7 +10,8 @@
     "native/rust-toolchain.toml",
     "native/src/**",
     "native/tests/**",
-    "tools/check_native.sh"
+    "tools/check_native.sh",
+    "tools/install_nextest.sh"
   ],
   "source": ".dagger"
 }

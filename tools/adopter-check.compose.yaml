@@ -1,0 +1,30 @@
+# Installs the released lesscode-core binary in clean Linux containers and runs
+# the documented commands against this repository (tools/adopter_check.sh).
+#
+#   docker compose -f tools/adopter-check.compose.yaml up --abort-on-container-failure
+#   docker compose -f tools/adopter-check.compose.yaml run --rm linux-arm64
+#   docker compose -f tools/adopter-check.compose.yaml down
+#
+# linux-arm64 needs arm64 emulation in the container engine on an x86_64 host.
+# Set LESSCODE_VERSION or INSTALLER=local in the environment to change what is
+# installed. Nothing is written to the repository; it is mounted read-only.
+name: lesscode-adopter-check
+
+x-check: &check
+  image: ubuntu:24.04
+  working_dir: /repo
+  volumes:
+    - ..:/repo:ro
+  environment:
+    LESSCODE_VERSION: ${LESSCODE_VERSION:-latest}
+    INSTALLER: ${INSTALLER:-published}
+  command: ["bash", "/repo/tools/adopter_check.sh"]
+
+services:
+  linux-amd64:
+    <<: *check
+    platform: linux/amd64
+  linux-arm64:
+    <<: *check
+    platform: linux/arm64
+    profiles: ["arm64"]

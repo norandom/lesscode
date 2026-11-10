@@ -49,7 +49,7 @@ for historical replay and frozen trials.
 
 ## Frozen experiments
 
-For the shared native check script, local WSL Dagger commands and Actions
+For the shared native check script, local Dagger commands and Actions
 artifact semantics, see [Rust CI validation](ci-validation.md#rust-core-dagger-and-actions).
 
 Do not change commands or dependencies halfway through an admitted trial.

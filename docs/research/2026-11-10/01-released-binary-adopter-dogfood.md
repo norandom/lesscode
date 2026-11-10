@@ -167,6 +167,27 @@ workstation's `PATH`.
   through the installer scripts, and run the analyzers on one external
   repository per language.
 
+## Amendment, 2026-11-10 (later the same day): published archive on Linux
+
+Part of the next gate was run after `v1.0.1` was published (tag on `eda13bb`),
+using `tools/adopter-check.compose.yaml` on Podman.
+
+- Linux x86_64, `ubuntu:24.04` (glibc 2.39): the published `install.sh`
+  installed 1.0.1 from the latest release; `density`, `analyze` (Rust,
+  TypeScript, Java) and `budgets` returned the same exit codes and the same
+  density numbers as the Windows session. Python `analyze` again printed
+  `passed: true` and `mutate` on `native/src/density.rs` again produced 0
+  mutants, so those gaps are not platform-specific.
+- Windows x86_64: the published `install.ps1` installed 1.0.1.
+- `debian:12` (glibc 2.36): the installer downloaded and verified the archive,
+  the binary failed to start (`GLIBC_2.39 not found`), and the installer exited
+  1 with the build-from-source message. This is the documented limit.
+- Linux aarch64: not run. The Podman machine has no arm64 emulation
+  (`Exec format error`). macOS: not run.
+
+Still open from the next gate: aarch64 and macOS installs, and the analyzers
+on an external repository per language.
+
 ## COBESY check
 
 Outcome first: three commands work, three do not, stated before the detail.

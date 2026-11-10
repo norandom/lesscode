@@ -8,12 +8,19 @@ Dagger module in `.dagger/`. Native Windows and macOS runners execute the same
 establish Windows or macOS correctness. The Go SDK is CI tooling only; the
 product core remains Rust.
 
-From the repository root in WSL, with Docker running and Dagger 0.21.8 on PATH:
+From the repository root on Windows, with the Podman machine running and the
+native Dagger CLI on PATH (PowerShell):
 
-```sh
-dagger call evidence --source . --revision "$(git rev-parse HEAD)" export --path /tmp/lesscode-native-evidence
-dagger call check --source . --revision "$(git rev-parse HEAD)"
+```powershell
+dagger call evidence --source . --revision (git rev-parse HEAD) export --path D:\BuildArtifacts\lesscode\native-evidence
+dagger call check --source . --revision (git rev-parse HEAD)
 ```
+
+No WSL distribution is involved; the CLI starts its engine as a container in
+Podman. On 2026-11-10 `check` passed this way in 250 s from a cold engine with
+CLI 0.21.11, while `dagger.json` and the Actions workflow stay pinned to
+0.21.8. On Linux or macOS use the same two commands with `"$(git rev-parse HEAD)"`
+and a local export path.
 
 Use `local-working-tree` as the revision for uncommitted changes. The revision
 argument is a provenance label, not an integrity check on the supplied directory.
@@ -63,6 +70,25 @@ describes the earlier capture time, superseded by the hosted audit.
 - **macOS aarch64 (Apple Silicon)**: Verified natively on Apple Silicon through GitHub-hosted `macos-15` runners.
 - **macOS x86_64 (Intel)**: Verified natively on Intel through GitHub-hosted `macos-15-intel` runners.
 - **Windows x86_64**: Verified natively through GitHub-hosted `windows-2025` runners.
+
+## Adopter check in containers
+
+`tools/adopter-check.compose.yaml` installs the released binary in a clean
+`ubuntu:24.04` container with the published `install.sh` and runs the
+documented commands against this repository, mounted read-only
+(`tools/adopter_check.sh`). It asserts the exit codes of `density`, `analyze`
+(Rust, TypeScript, Java) and `budgets`, and prints the two R55 gaps (Python
+`analyze`, `mutate`) so that a fix shows up as changed output.
+
+```powershell
+docker compose -f tools/adopter-check.compose.yaml up --abort-on-container-failure
+docker compose -f tools/adopter-check.compose.yaml down
+```
+
+Set `INSTALLER=local` to test `scripts/install.sh` from the checkout before a
+release, or `LESSCODE_VERSION` to pin a release. The `linux-arm64` service
+(`run --rm linux-arm64`) needs arm64 emulation in the container engine. It is
+a local check; no workflow runs it.
 
 ## Release binaries
 

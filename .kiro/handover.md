@@ -28,8 +28,13 @@ Updated 2026-11-10 (details and evidence in [task 27 handover](task_27_handover.
 5. **CI is faster.** nextest is installed as a prebuilt digest-checked binary
    (`tools/install_nextest.sh`), also inside the Dagger container. Jobs take
    about 1.5 to 4 minutes instead of 6 to 16. No build cache was added.
-6. **Not done:** installers tested on Linux and macOS (only Windows was run
-   against the published release); the pre-push hook is not installed in this
+6. **Local container tooling (owner, 2026-11-10):** Docker and Compose run
+   through Podman on Windows, and Dagger runs as a native CLI against Podman;
+   WSL is no longer the Dagger environment. `dagger call check` passed
+   natively. `tools/adopter-check.compose.yaml` installs the published binary
+   in a clean Ubuntu container and passed on Linux x86_64 (R55 amendment).
+7. **Not done:** installers on Linux aarch64 (no arm64 emulation in the
+   Podman machine) and macOS; the pre-push hook is not installed in this
    checkout; about 200 untracked experiment files linked from `docs/README.md`
    are still untracked.
 
