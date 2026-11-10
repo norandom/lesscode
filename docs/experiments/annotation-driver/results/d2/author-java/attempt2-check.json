@@ -1,0 +1,40 @@
+{
+ "admitted": false,
+ "checks": [
+  {
+   "name": "json",
+   "pass": true,
+   "detail": "one JSON object"
+  },
+  {
+   "name": "size",
+   "pass": true,
+   "detail": "22 lines (at most 40), 1050 characters (at most 2500)"
+  },
+  {
+   "name": "shape",
+   "pass": true,
+   "detail": "required keys present with the right types"
+  },
+  {
+   "name": "kinds_valid",
+   "pass": true,
+   "detail": "17 node kinds, all valid for java"
+  },
+  {
+   "name": "templates",
+   "pass": true,
+   "detail": "2 templates, placeholders only {text}, {noop}, {child0}"
+  },
+  {
+   "name": "controls",
+   "pass": false,
+   "detail": "run_controls.py stopped without a result (exit 1, FileNotFoundError)"
+  },
+  {
+   "name": "seed_mutants",
+   "pass": true,
+   "detail": "3 seeds: changed 2, no_operator 1"
+  }
+ ]
+}

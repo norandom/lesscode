@@ -1,6 +1,6 @@
 # Prototype gate: agnostic annotation-guided driver
 
-Status: **not-run**, 2026-11-10 (checklist steps 1 and 2 done; strategy consolidated in Amendment 3, which governs; no mutation run, no model call). Research preparation only. No production
+Status: **revise**, 2026-11-10, attempt 1 of 2 ([R61](../../../docs/research/2026-11-10/07-annotation-driver-gate-result.md)). Rust, Python and Java meet every gated row in at least one arm; TypeScript fails in every arm, so the agnosticism row is not met. Amendments 3 to 8 govern where they differ from the original text. A second attempt needs the owner's go. Research preparation only. No production
 tasks exist or are authorized. Execution needs the owner's go, because it
 selects external scopes and spends model tokens. See the [brief](brief.md) and
 [R56](../../../docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md).
@@ -409,9 +409,16 @@ mutant; timeouts are reported with that caveat.
 Applies to Java arm A run 2 and Java D2, which are rerun or run with it.
 `harness.py` SHA-256 `337b47e75921d3e94cca7aa5d272ec57f9708eda5447c26bca0af84fdbfd13c6`.
 
+## Result of attempt 1, 2026-11-10
+
+Outcome `revise`; full tables and limits in R61. No design approval and no
+production tasks follow from it. The proposal for attempt 2 in R61 is not in
+force until the owner accepts or changes it and it is recorded here as a
+dated amendment before any run.
+
 ## Evidence record
 
-Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58, the engine checks in the R59 addition.
+Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58, the engine checks in the R59 addition, arm D1 in R60, arms A and D2 and the gate result in R61.
 No arm A, C or D result exists yet. Execution begins with a dated research entry that
 freezes the inputs, and ends with one that reports each row above, the raw
 annotations, validator decisions, mutants, test logs and the review labels.

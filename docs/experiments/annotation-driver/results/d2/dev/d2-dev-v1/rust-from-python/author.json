@@ -1,0 +1,43 @@
+{
+ "language": "rust",
+ "scope": "rust-mmhmem-setup-update",
+ "examples": [
+  "python"
+ ],
+ "guide_path": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\pack-guide-v1.md",
+ "guide_sha256": "6fd47bf4246dc90089b58b13a73a86a539ef1e108898c98c3809c1de9343abc4",
+ "pack_user_template_sha256": "bbd2d2b98918e19ee989132e2fa32cebc9a186bb4cdb127eda3a7b853475f8d4",
+ "repair_template_sha256": "ca50cebb8731751c84e3320596e5aaad7cebb52e37c922f59facdbdb654590e3",
+ "example_packs_sha256": {
+  "python": "7d30f778994b05517416b108f63316a72f1d4801b43fa47ddc61d540757732c5"
+ },
+ "user_message_sha256": "2fafc5e3c9429a1c55657a4201a5b9a35f0bc08b4a6f9fe96886035b7919e5d9",
+ "api_style": "anthropic",
+ "base_url_host": "api.anthropic.com",
+ "requested_model": "claude-opus-5-5",
+ "returned_model": "claude-opus-5-5",
+ "max_output_tokens": 4000,
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-10T11:43:42+00:00",
+   "http_attempts": 1,
+   "input_tokens": 1910,
+   "output_tokens": 1810,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "cut_off": false,
+   "leniency": [],
+   "admitted": true,
+   "failed_checks": [],
+   "error": null
+  }
+ ],
+ "admitted": true,
+ "pack_sha256": "557bff958541f0573ff3d222a32f60c6e81eeed3539eed2b28e39aa17315a342",
+ "wall_seconds": 17.498,
+ "started_utc": "2026-11-10T11:43:42+00:00",
+ "dry_run": false,
+ "exit_code": 0,
+ "error": null
+}

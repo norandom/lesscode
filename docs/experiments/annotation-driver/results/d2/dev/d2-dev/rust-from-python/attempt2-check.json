@@ -1,0 +1,40 @@
+{
+ "admitted": false,
+ "checks": [
+  {
+   "name": "json",
+   "pass": false,
+   "detail": "not valid JSON: Expecting value: line 1 column 1 (char 0)"
+  },
+  {
+   "name": "size",
+   "pass": true,
+   "detail": "0 lines (at most 40), 0 characters (at most 2500)"
+  },
+  {
+   "name": "shape",
+   "pass": false,
+   "detail": "not run: the text is not one JSON object"
+  },
+  {
+   "name": "kinds_valid",
+   "pass": false,
+   "detail": "not run: the text is not one JSON object"
+  },
+  {
+   "name": "templates",
+   "pass": false,
+   "detail": "not run: the text is not one JSON object"
+  },
+  {
+   "name": "controls",
+   "pass": false,
+   "detail": "not run: the text is not one JSON object"
+  },
+  {
+   "name": "seed_mutants",
+   "pass": false,
+   "detail": "not run: the text is not one JSON object"
+  }
+ ]
+}

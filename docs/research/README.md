@@ -2,7 +2,18 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R60 Arm D1 results: two languages pass, two miss one row each (2026-11-10)
+## Latest: R61 Annotation-driver gate, attempt 1: revise (2026-11-10)
+
+[R61](2026-11-10/07-annotation-driver-gate-result.md) reports the counted runs
+and the gate outcome.
+- **Outcome:** `revise`. Rust, Python and Java meet every gated row in at least one arm; TypeScript, a held-out language, fails in every arm (kind coverage everywhere, annotation validity 71% and 76% in arm A), so the agnosticism row is not met.
+- **Arm A (model annotates, two runs per scope):** all rows met on Rust, Python and Java. Run-to-run agreement on sites: 0.93, 0.78, 0.95 (TypeScript), 0.64.
+- **Arm D2 (model writes the pack):** TypeScript and Java packs admitted on the first reply and equivalent to the hand-written ones (identical sites for TypeScript, 97% for Java). Java D2 meets all rows at 78% meaningful; Java D1, a different draw, was 67%.
+- **What annotation adds:** a higher share of killed mutants and fewer invalid ones, most on Java; not needed to obtain mutants.
+- **Also recorded:** one pack request was refused by the endpoint until its purpose was stated; survivor labels are the designer's own and provisional; 21 model calls, about 125k input and 56k output tokens.
+- **Next:** owner decision on a second attempt (type-preserving operators, an operator for `return` failure sites, a second TypeScript scope, independent label check).
+
+## Prior: R60 Arm D1 results: two languages pass, two miss one row each (2026-11-10)
 
 [R60](2026-11-10/06-annotation-driver-d1-results.md) reports the first measured
 arm: generic operators at every eligible site, no model, hand-written packs.

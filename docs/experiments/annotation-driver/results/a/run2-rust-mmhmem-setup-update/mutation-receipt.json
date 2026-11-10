@@ -1,0 +1,1043 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "rust-mmhmem-setup-update",
+ "language": "rust",
+ "sites_from": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run2-rust-mmhmem-setup-update\\annotations.json",
+ "revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
+ "expected_revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
+ "pack_sha256": "8be82132121987419773defe0e51511ea7e50028265da187da5f75a37e09b787",
+ "tables_dir": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\tables",
+ "code_sha256": {
+  "engine.py": "c584e0c119be4766a8bd02341c0bd6f7675de8babd7c334d816a65c0dc862bbd",
+  "harness.py": "125e3d10b318264488859b61d9ae03f60125afa4f680c154ec345c6c854cd593",
+  "validator.py": "5cc042519bd5f2a880f68f541cc3291dbc2379705abb8c457d9ee970a8716901",
+  "run_arm.py": "74a6609fdaa2062cad530165b1b6f347828fe7ad6d88f715975c156296d4b7d3",
+  "scopes.json": "b63e3a5e454b11425526d76d9f6e0b8b93293a57850cc2f902b0289a6b89b113"
+ },
+ "limit": null,
+ "eligible_sites": 33,
+ "sites": 21,
+ "mutants_run": 13,
+ "counts_by_class": {
+  "killed": 9,
+  "survived": 4
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 9,
+   "survived": 2
+  },
+  "error_order": {
+   "survived": 1
+  },
+  "state_write": {
+   "survived": 1
+  }
+ },
+ "sites_without_operator": [
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 63,
+   "start_column": 12,
+   "end_line": 63,
+   "end_column": 48,
+   "text": "return Err(\"--bootstrap\".to_owned())",
+   "reason": "no_operator"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 101,
+   "start_column": 8,
+   "end_line": 101,
+   "end_column": 16,
+   "text": "return 1",
+   "reason": "no_operator"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 170,
+   "start_column": 8,
+   "end_line": 170,
+   "end_column": 30,
+   "text": "return EXIT_NOT_SET_UP",
+   "reason": "no_operator"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 177,
+   "start_column": 8,
+   "end_line": 177,
+   "end_column": 16,
+   "text": "return 1",
+   "reason": "no_operator"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 190,
+   "start_column": 8,
+   "end_line": 190,
+   "end_column": 29,
+   "text": "return EXIT_CANCELLED",
+   "reason": "no_operator"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 194,
+   "start_column": 8,
+   "end_line": 194,
+   "end_column": 16,
+   "text": "return 1",
+   "reason": "no_operator"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 245,
+   "start_column": 8,
+   "end_line": 245,
+   "end_column": 35,
+   "text": "return Some(EXIT_CANCELLED)",
+   "reason": "no_operator"
+  },
+  {
+   "file": "src/setup/ui/update.rs",
+   "kind": "failure_state",
+   "node_kind": "return_expression",
+   "start_line": 267,
+   "start_column": 12,
+   "end_line": 267,
+   "end_column": 33,
+   "text": "return EXIT_CANCELLED",
+   "reason": "no_operator"
+  }
+ ],
+ "annotation_decisions": [
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 62,
+    "end_line": 62,
+    "kind": "branch_condition",
+    "anchor": "setup.bootstrap.is_some()",
+    "reason": "Inverting this would let update accept --bootstrap or reject every valid argument list."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 63,
+    "end_line": 63,
+    "kind": "failure_state",
+    "anchor": "return Err(\"--bootstrap\".to_owned())",
+    "reason": "The caller would no longer get --bootstrap reported as an unknown argument."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 83,
+    "end_line": 83,
+    "kind": "branch_condition",
+    "anchor": "mode != Mode::NoTerminal",
+    "reason": "Update would run without a terminal, or be refused inside one."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 101,
+    "end_line": 101,
+    "kind": "failure_state",
+    "anchor": "return 1",
+    "reason": "A missing home directory would no longer give exit code 1."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 103,
+    "end_line": 103,
+    "kind": "state_write",
+    "anchor": "deps.restart.command = Command::Update",
+    "reason": "The restarted program would run a different command instead of update."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 165,
+    "end_line": 167,
+    "kind": "error_order",
+    "anchor": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\n    }",
+    "reason": "Doing the record check first would change what a resumed run reports."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 168,
+    "end_line": 168,
+    "kind": "branch_condition",
+    "anchor": "flow.record().is_none()",
+    "reason": "Without an install record, update would continue instead of saying to set up first."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 170,
+    "end_line": 170,
+    "kind": "failure_state",
+    "anchor": "return EXIT_NOT_SET_UP",
+    "reason": "The not-set-up exit code would change."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 175,
+    "end_line": 175,
+    "kind": "branch_condition",
+    "anchor": "*flow.newest() == Newest::Unknown",
+    "reason": "An unknown newest release would be reported as up to date with exit 0 instead of failing."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 177,
+    "end_line": 177,
+    "kind": "failure_state",
+    "anchor": "return 1",
+    "reason": "A failed lookup would no longer give exit code 1."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 188,
+    "end_line": 188,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+    "reason": "Declining would update anyway, or accepting would cancel."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 190,
+    "end_line": 190,
+    "kind": "failure_state",
+    "anchor": "return EXIT_CANCELLED",
+    "reason": "The cancel exit code of update would change."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 192,
+    "end_line": 195,
+    "kind": "branch_condition",
+    "anchor": "let Some(note) = flow.update_refusal()",
+    "reason": "An update with no trusted key would no longer be refused."
+   },
+   "accepted": false,
+   "reason": "anchor_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 194,
+    "end_line": 194,
+    "kind": "failure_state",
+    "anchor": "return 1",
+    "reason": "A refused update would no longer give exit code 1."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 222,
+    "end_line": 223,
+    "kind": "branch_condition",
+    "anchor": "note == text::UPDATE_FAILED\n                && let Some(reason) = flow.last_note()",
+    "reason": "The failure reason would be printed in the wrong cases or left out."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 228,
+    "end_line": 228,
+    "kind": "failure_state",
+    "anchor": "1",
+    "reason": "A failed update would no longer give exit code 1."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 230,
+    "end_line": 230,
+    "kind": "failure_state",
+    "anchor": "Next::Agents | Next::Progress => 1",
+    "reason": "An unexpected next state would no longer be reported as failure."
+   },
+   "accepted": false,
+   "reason": "anchor_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 243,
+    "end_line": 243,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+    "reason": "The bootstrap offer would install even when declined."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 245,
+    "end_line": 245,
+    "kind": "failure_state",
+    "anchor": "return Some(EXIT_CANCELLED)",
+    "reason": "The cancel exit code of bootstrap would change."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 257,
+    "end_line": 257,
+    "kind": "branch_condition",
+    "anchor": "view.groups.is_empty() && view.problems.is_empty()",
+    "reason": "Changes would be applied without asking, or a no-change run would ask."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 260,
+    "end_line": 260,
+    "kind": "branch_condition",
+    "anchor": "kept.is_some()",
+    "reason": "The 'updated' line would be shown at the wrong time."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 265,
+    "end_line": 265,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_APPLY)",
+    "reason": "Declined changes would be applied anyway."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 267,
+    "end_line": 267,
+    "kind": "failure_state",
+    "anchor": "return EXIT_CANCELLED",
+    "reason": "Declining the changes would give a different exit code."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 286,
+    "end_line": 286,
+    "kind": "branch_condition",
+    "anchor": "!view.problems.is_empty()",
+    "reason": "The skipped-tools heading would show when there are no problems, or be missing when there are."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 303,
+    "end_line": 303,
+    "kind": "branch_condition",
+    "anchor": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())",
+    "reason": "'Done' would appear after failures or pending steps, or be missing on success."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 293,
+    "end_line": 307,
+    "kind": "pure_shell_boundary",
+    "anchor": "fn result_lines(flow: &Flow) -> Vec<String> {\n    let mut lines: Vec<String> = flow\n        .progress()\n        .map(|p| p.all_lines())\n        .unwrap_or_default()\n        .into_iter()\n        .filter(|l| l != text::CHECKING)\n        .collect();\n    let blank = lines.iter().take_while(|l| l.is_empty()).count();\n    lines.drain(..blank);\n    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\n        lines.push(text::update::DONE.to_owned());\n    }\n    lines\n}",
+    "reason": "Computes the result lines from flow state only and writes nothing."
+   },
+   "accepted": true,
+   "reason": "ok"
+  }
+ ],
+ "annotations_skipped": [
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 222,
+    "end_line": 223,
+    "kind": "branch_condition",
+    "anchor": "note == text::UPDATE_FAILED\n                && let Some(reason) = flow.last_note()",
+    "reason": "The failure reason would be printed in the wrong cases or left out."
+   },
+   "reason": "excluded_kind"
+  },
+  {
+   "annotation": {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 293,
+    "end_line": 307,
+    "kind": "pure_shell_boundary",
+    "anchor": "fn result_lines(flow: &Flow) -> Vec<String> {\n    let mut lines: Vec<String> = flow\n        .progress()\n        .map(|p| p.all_lines())\n        .unwrap_or_default()\n        .into_iter()\n        .filter(|l| l != text::CHECKING)\n        .collect();\n    let blank = lines.iter().take_while(|l| l.is_empty()).count();\n    lines.drain(..blank);\n    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\n        lines.push(text::update::DONE.to_owned());\n    }\n    lines\n}",
+    "reason": "Computes the result lines from flow state only and writes nothing."
+   },
+   "reason": "no_operator_kind"
+  }
+ ],
+ "wall_seconds": 151.0,
+ "scope_files_sha256": {
+  "src/setup/ui/update.rs": "804522e68de5d5059369418ab8190baf718eaed06c821ac007ab03661878381e"
+ },
+ "void": null,
+ "baseline_before": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "cargo",
+     "nextest",
+     "run",
+     "--locked",
+     "--lib",
+     "--test",
+     "setup_update_spike",
+     "-E",
+     "test(setup::ui::update) | binary(setup_update_spike)",
+     "--no-fail-fast"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 1.52,
+    "log": "baseline-before-test.log"
+   }
+  ]
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 62,
+    "start_column": 11,
+    "end_line": 62,
+    "end_column": 36,
+    "text": "setup.bootstrap.is_some()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 10.14,
+   "log": "m001-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 10.14,
+     "log": "m001-test.log"
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 83,
+    "start_column": 7,
+    "end_line": 83,
+    "end_column": 31,
+    "text": "mode != Mode::NoTerminal"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 9.64,
+   "log": "m002-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 9.64,
+     "log": "m002-test.log"
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 103,
+    "start_column": 4,
+    "end_line": 103,
+    "end_column": 42,
+    "text": "deps.restart.command = Command::Update"
+   },
+   "operator": "drop_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 13.46,
+   "log": "m003-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 13.46,
+     "log": "m003-test.log"
+    }
+   ]
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "error_order",
+    "node_kind": "if_expression",
+    "start_line": 165,
+    "start_column": 4,
+    "end_line": 167,
+    "end_column": 5,
+    "text": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\r\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\r\n    }"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 13.21,
+   "log": "m004-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 13.21,
+     "log": "m004-test.log"
+    }
+   ]
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 168,
+    "start_column": 7,
+    "end_line": 168,
+    "end_column": 30,
+    "text": "flow.record().is_none()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 9.81,
+   "log": "m005-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 9.81,
+     "log": "m005-test.log"
+    }
+   ]
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 175,
+    "start_column": 7,
+    "end_line": 175,
+    "end_column": 40,
+    "text": "*flow.newest() == Newest::Unknown"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 9.56,
+   "log": "m006-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 9.56,
+     "log": "m006-test.log"
+    }
+   ]
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 188,
+    "start_column": 7,
+    "end_line": 188,
+    "end_column": 42,
+    "text": "!p.yes(text::update::PROMPT_UPDATE)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 9.27,
+   "log": "m007-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 9.27,
+     "log": "m007-test.log"
+    }
+   ]
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 243,
+    "start_column": 7,
+    "end_line": 243,
+    "end_column": 42,
+    "text": "!p.yes(text::update::PROMPT_UPDATE)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 10.1,
+   "log": "m008-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 10.1,
+     "log": "m008-test.log"
+    }
+   ]
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 257,
+    "start_column": 7,
+    "end_line": 257,
+    "end_column": 57,
+    "text": "view.groups.is_empty() && view.problems.is_empty()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 9.4,
+   "log": "m009-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 9.4,
+     "log": "m009-test.log"
+    }
+   ]
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 260,
+    "start_column": 11,
+    "end_line": 260,
+    "end_column": 25,
+    "text": "kept.is_some()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 9.28,
+   "log": "m010-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 9.28,
+     "log": "m010-test.log"
+    }
+   ]
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 265,
+    "start_column": 11,
+    "end_line": 265,
+    "end_column": 45,
+    "text": "!p.yes(text::update::PROMPT_APPLY)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 100,
+   "seconds": 9.42,
+   "log": "m011-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 100,
+     "timed_out": false,
+     "seconds": 9.42,
+     "log": "m011-test.log"
+    }
+   ]
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 286,
+    "start_column": 7,
+    "end_line": 286,
+    "end_column": 32,
+    "text": "!view.problems.is_empty()"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 9.88,
+   "log": "m012-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 9.88,
+     "log": "m012-test.log"
+    }
+   ]
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 303,
+    "start_column": 7,
+    "end_line": 303,
+    "end_column": 88,
+    "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 9.87,
+   "log": "m013-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--lib",
+      "--test",
+      "setup_update_spike",
+      "-E",
+      "test(setup::ui::update) | binary(setup_update_spike)",
+      "--no-fail-fast"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 9.87,
+     "log": "m013-test.log"
+    }
+   ]
+  }
+ ],
+ "baseline_after": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "cargo",
+     "nextest",
+     "run",
+     "--locked",
+     "--lib",
+     "--test",
+     "setup_update_spike",
+     "-E",
+     "test(setup::ui::update) | binary(setup_update_spike)",
+     "--no-fail-fast"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 9.71,
+    "log": "baseline-after-test.log"
+   }
+  ]
+ },
+ "restored": true
+}

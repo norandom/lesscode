@@ -1,0 +1,2602 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "python-mvibe-ratelimit",
+ "language": "python",
+ "sites_from": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\a\\run1-python-mvibe-ratelimit\\annotations.json",
+ "revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c",
+ "expected_revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c",
+ "pack_sha256": "7d30f778994b05517416b108f63316a72f1d4801b43fa47ddc61d540757732c5",
+ "code_sha256": {
+  "engine.py": "c584e0c119be4766a8bd02341c0bd6f7675de8babd7c334d816a65c0dc862bbd",
+  "harness.py": "125e3d10b318264488859b61d9ae03f60125afa4f680c154ec345c6c854cd593",
+  "validator.py": "afa504eaf246240c7c1ed2b5920c8162c410181317c01acfe9e47829c7c3a046",
+  "run_arm.py": "0fb08f528aeb9b8e39caf544c067ba2c30c9e8bb4fd7f9779fcb62bc489fb28e",
+  "scopes.json": "b63e3a5e454b11425526d76d9f6e0b8b93293a57850cc2f902b0289a6b89b113"
+ },
+ "limit": null,
+ "eligible_sites": 200,
+ "sites": 45,
+ "mutants_run": 43,
+ "counts_by_class": {
+  "killed": 41,
+  "survived": 2
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 29
+  },
+  "error_order": {
+   "survived": 2
+  },
+  "failure_state": {
+   "killed": 2
+  },
+  "state_write": {
+   "killed": 10
+  }
+ },
+ "sites_without_operator": [
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 449,
+   "start_column": 12,
+   "end_line": 449,
+   "end_column": 79,
+   "text": "return _exhausted(record, max(ready_at - now, self._interval(key)))",
+   "reason": "no_operator"
+  },
+  {
+   "file": "mvibe_proxy/ratelimit.py",
+   "kind": "failure_state",
+   "node_kind": "return_statement",
+   "start_line": 482,
+   "start_column": 16,
+   "end_line": 482,
+   "end_column": 91,
+   "text": "return _exhausted(record, max(state.ready_at() - now, interval), rejection)",
+   "reason": "no_operator"
+  }
+ ],
+ "annotation_decisions": [
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 85,
+    "end_line": 85,
+    "kind": "branch_condition",
+    "anchor": "raw is None or not raw.strip()",
+    "reason": "Blank settings would stop falling back to defaults, or set values would be ignored."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 96,
+    "end_line": 96,
+    "kind": "branch_condition",
+    "anchor": "not math.isfinite(value) or value <= 0",
+    "reason": "Zero, negative or infinite rates would be accepted as valid configuration."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 108,
+    "end_line": 108,
+    "kind": "failure_state",
+    "anchor": "raise RateLimitConfigError(f'{key} must be a positive number')",
+    "reason": "A malformed numeric setting would let the proxy start instead of failing."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 119,
+    "end_line": 119,
+    "kind": "failure_state",
+    "anchor": "raise RateLimitConfigError(f'{key} must be a positive integer') from None",
+    "reason": "A non-integer queue size would not be rejected at startup."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 120,
+    "end_line": 120,
+    "kind": "branch_condition",
+    "anchor": "value <= 0",
+    "reason": "A zero or negative max queue would be accepted and block or break the gate."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 135,
+    "end_line": 135,
+    "kind": "branch_condition",
+    "anchor": "not separator or not name or rate is None",
+    "reason": "Malformed model=rps entries would be accepted silently."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 135,
+    "end_line": 141,
+    "kind": "error_order",
+    "anchor": "if not separator or not name or rate is None:\n            raise RateLimitConfigError(\n                f'{ENV_MODEL_RPS} entry {position} is malformed; expected a '\n                'comma-separated list of model=rps with a positive rps')",
+    "reason": "Which error message is reported for a malformed duplicate entry would change."
+   },
+   "accepted": false,
+   "reason": "anchor_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 139,
+    "end_line": 139,
+    "kind": "branch_condition",
+    "anchor": "name in rates",
+    "reason": "Duplicate model entries would silently override earlier ones."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 178,
+    "end_line": 178,
+    "kind": "branch_condition",
+    "anchor": "key == MODELS_KEY",
+    "reason": "Model-list discovery would become paced against the requirement."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 226,
+    "end_line": 226,
+    "kind": "branch_condition",
+    "anchor": "_DELAY_SECONDS.fullmatch(text)",
+    "reason": "Numeric Retry-After values would be parsed as dates or rejected."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 233,
+    "end_line": 233,
+    "kind": "branch_condition",
+    "anchor": "when.tzinfo is None",
+    "reason": "Zone-less HTTP-dates would be read in local time or cause errors."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 238,
+    "end_line": 238,
+    "kind": "branch_condition",
+    "anchor": "delay > 0",
+    "reason": "Past dates would yield negative waits instead of 0.0."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 256,
+    "end_line": 256,
+    "kind": "branch_condition",
+    "anchor": "not (fallback_wait_s > 0 and cap_s > 0)",
+    "reason": "Non-positive fallback or cap would be accepted, yielding zero waits."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 256,
+    "end_line": 257,
+    "kind": "error_order",
+    "anchor": "if not (fallback_wait_s > 0 and cap_s > 0):\n        raise ValueError('fallback_wait_s and cap_s must be positive')",
+    "reason": "Bad arguments would go unreported for non-429 responses if the status check came first."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 258,
+    "end_line": 258,
+    "kind": "branch_condition",
+    "anchor": "status != _RATE_LIMIT_STATUS",
+    "reason": "Non-429 responses would be treated as rate limits or 429s passed through."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 264,
+    "end_line": 264,
+    "kind": "branch_condition",
+    "anchor": "lowered == _RETRY_AFTER",
+    "reason": "Retry-After would be ignored and fallback backoff used instead."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 266,
+    "end_line": 266,
+    "kind": "branch_condition",
+    "anchor": "lowered.startswith(_SNAPSHOT_PREFIX)",
+    "reason": "Unsafe headers could enter the recorded snapshot, or rate-limit headers be lost."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 269,
+    "end_line": 269,
+    "kind": "branch_condition",
+    "anchor": "parsed is None",
+    "reason": "Usable Retry-After would be replaced by fallback or vice versa."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 332,
+    "end_line": 332,
+    "kind": "branch_condition",
+    "anchor": "len(body) >= _REJECTION_BODY_LIMIT",
+    "reason": "Rejection body reading would not stop at the 64 KiB limit."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 339,
+    "end_line": 339,
+    "kind": "branch_condition",
+    "anchor": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)",
+    "reason": "Other upstream headers would leak to the client or needed ones be dropped."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 341,
+    "end_line": 341,
+    "kind": "branch_condition",
+    "anchor": "signal.retry_after_present and signal.wait_s >= 1",
+    "reason": "A sub-second or unusable upstream Retry-After would be forwarded to the client."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 356,
+    "end_line": 356,
+    "kind": "state_write",
+    "anchor": "record.exhausted = True",
+    "reason": "Diagnostics would not mark gate give-ups as exhausted."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 358,
+    "end_line": 358,
+    "kind": "branch_condition",
+    "anchor": "rejection is not None",
+    "reason": "Clients would get a synthetic body instead of the upstream rejection or vice versa."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 445,
+    "end_line": 445,
+    "kind": "branch_condition",
+    "anchor": "self._held >= self._config.max_queue",
+    "reason": "The global bound on held runs would be off by one or not enforced."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 449,
+    "end_line": 449,
+    "kind": "failure_state",
+    "anchor": "return _exhausted(record, max(ready_at - now, self._interval(key)))",
+    "reason": "A full gate would not answer with an immediate 429."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 453,
+    "end_line": 453,
+    "kind": "state_write",
+    "anchor": "self._held += 1",
+    "reason": "Held count would not grow, so the queue bound never triggers."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 459,
+    "end_line": 459,
+    "kind": "state_write",
+    "anchor": "self._held -= 1",
+    "reason": "Held count would leak, eventually rejecting every request."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 471,
+    "end_line": 471,
+    "kind": "branch_condition",
+    "anchor": "state.waiters[0] is not waiter",
+    "reason": "Runs would skip FIFO waiting or the head would wait forever."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 474,
+    "end_line": 474,
+    "kind": "branch_condition",
+    "anchor": "interval > 0",
+    "reason": "Unpaced keys would get a zero minimum hold and immediate resend."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 480,
+    "end_line": 480,
+    "kind": "state_write",
+    "anchor": "record.queued_ms += (now - waited_from) * 1000",
+    "reason": "Recorded queue time would be wrong."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 481,
+    "end_line": 481,
+    "kind": "branch_condition",
+    "anchor": "not on_time",
+    "reason": "Runs past their deadline would still send or on-time runs give up."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 482,
+    "end_line": 482,
+    "kind": "failure_state",
+    "anchor": "return _exhausted(record, max(state.ready_at() - now, interval), rejection)",
+    "reason": "Late runs would not receive the 429 with the last rejection."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 483,
+    "end_line": 483,
+    "kind": "branch_condition",
+    "anchor": "interval > 0",
+    "reason": "Pacing slots would not be advanced for paced keys or set for unpaced ones."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 484,
+    "end_line": 484,
+    "kind": "state_write",
+    "anchor": "state.next_slot = now + interval",
+    "reason": "Paced keys would send attempts without spacing."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 491,
+    "end_line": 491,
+    "kind": "branch_condition",
+    "anchor": "signal is None",
+    "reason": "Successful responses would be retried or 429s returned to the caller."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 494,
+    "end_line": 494,
+    "kind": "state_write",
+    "anchor": "rejections += 1",
+    "reason": "Backoff would stop doubling with repeated rejections."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 495,
+    "end_line": 495,
+    "kind": "state_write",
+    "anchor": "record.rejections += 1",
+    "reason": "Diagnostics would undercount upstream rejections."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 498,
+    "end_line": 498,
+    "kind": "state_write",
+    "anchor": "waited_from = self._clock()",
+    "reason": "Queue time would double-count earlier waits after a rejection."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 510,
+    "end_line": 510,
+    "kind": "branch_condition",
+    "anchor": "signal.retry_after_present",
+    "reason": "Retry-After waits would be jittered and capped, or backoff left unjittered."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 515,
+    "end_line": 515,
+    "kind": "state_write",
+    "anchor": "wait = min(wait, self._config.max_wait_s)",
+    "reason": "Holds could exceed max_wait_s."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 517,
+    "end_line": 517,
+    "kind": "branch_condition",
+    "anchor": "hold_until > state.hold_until",
+    "reason": "A shorter hold could shorten an existing one, or warnings repeat."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 518,
+    "end_line": 518,
+    "kind": "state_write",
+    "anchor": "state.hold_until = hold_until",
+    "reason": "A 429 would not hold the key, so resends follow immediately."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 531,
+    "end_line": 531,
+    "kind": "branch_condition",
+    "anchor": "self._clock() > deadline",
+    "reason": "Runs reaching the head past their deadline would still send."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 536,
+    "end_line": 536,
+    "kind": "branch_condition",
+    "anchor": "now >= ready_at",
+    "reason": "Runs would send before the slot or hold ends, or never send."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 536,
+    "end_line": 537,
+    "kind": "error_order",
+    "anchor": "if now >= ready_at:\n                return True",
+    "reason": "A late wake-up past the deadline would give up instead of sending."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 538,
+    "end_line": 538,
+    "kind": "branch_condition",
+    "anchor": "ready_at > deadline",
+    "reason": "Runs would sleep past their deadline instead of giving up at once."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 545,
+    "end_line": 545,
+    "kind": "branch_condition",
+    "anchor": "rate is None",
+    "reason": "Unpaced keys would crash or paced keys get no interval."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 555,
+    "end_line": 555,
+    "kind": "branch_condition",
+    "anchor": "state is None",
+    "reason": "Existing keys would be replaced, losing holds and lines."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 558,
+    "end_line": 558,
+    "kind": "branch_condition",
+    "anchor": "not known.waiters and known.ready_at() <= now",
+    "reason": "Keys with active holds or waiters would be dropped."
+   },
+   "accepted": false,
+   "reason": "kind_mismatch"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 571,
+    "end_line": 571,
+    "kind": "branch_condition",
+    "anchor": "was_head and state.waiters and not state.waiters[0].done()",
+    "reason": "The next run would never be promoted, or a cancelled future would be set."
+   },
+   "accepted": true,
+   "reason": "ok"
+  },
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 542,
+    "end_line": 545,
+    "kind": "pure_shell_boundary",
+    "anchor": "def _interval(self, key: str) -> float:\n        \"\"\"The pacing interval of `key` in seconds, or 0.0 when the key is not paced.\"\"\"\n        rate = self._config.rate_for(key)\n        return 0.0 if rate is None else 1 / rate",
+    "reason": "The pacing interval is computed only from config."
+   },
+   "accepted": true,
+   "reason": "ok"
+  }
+ ],
+ "annotations_skipped": [
+  {
+   "annotation": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "start_line": 542,
+    "end_line": 545,
+    "kind": "pure_shell_boundary",
+    "anchor": "def _interval(self, key: str) -> float:\n        \"\"\"The pacing interval of `key` in seconds, or 0.0 when the key is not paced.\"\"\"\n        rate = self._config.rate_for(key)\n        return 0.0 if rate is None else 1 / rate",
+    "reason": "The pacing interval is computed only from config."
+   },
+   "reason": "no_operator_kind"
+  }
+ ],
+ "wall_seconds": 114.2,
+ "scope_files_sha256": {
+  "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+ },
+ "void": null,
+ "baseline_before": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "uv",
+     "run",
+     "--no-sync",
+     "python",
+     "-m",
+     "pytest",
+     "tests/test_ratelimit.py",
+     "-n",
+     "0",
+     "-q",
+     "-x",
+     "-p",
+     "no:cacheprovider"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 2.89,
+    "log": "baseline-before-test.log"
+   }
+  ]
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 85,
+    "start_column": 7,
+    "end_line": 85,
+    "end_column": 37,
+    "text": "raw is None or not raw.strip()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.14,
+   "log": "m001-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.14,
+     "log": "m001-test.log"
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 96,
+    "start_column": 7,
+    "end_line": 96,
+    "end_column": 45,
+    "text": "not math.isfinite(value) or value <= 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.21,
+   "log": "m002-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.21,
+     "log": "m002-test.log"
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 108,
+    "start_column": 8,
+    "end_line": 108,
+    "end_column": 70,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive number')"
+   },
+   "operator": "drop:raise_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.23,
+   "log": "m003-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.23,
+     "log": "m003-test.log"
+    }
+   ]
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 119,
+    "start_column": 8,
+    "end_line": 119,
+    "end_column": 81,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive integer') from None"
+   },
+   "operator": "drop:raise_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.3,
+   "log": "m004-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.3,
+     "log": "m004-test.log"
+    }
+   ]
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 120,
+    "start_column": 7,
+    "end_line": 120,
+    "end_column": 17,
+    "text": "value <= 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.13,
+   "log": "m005-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.13,
+     "log": "m005-test.log"
+    }
+   ]
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 135,
+    "start_column": 11,
+    "end_line": 135,
+    "end_column": 52,
+    "text": "not separator or not name or rate is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.1,
+   "log": "m006-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.1,
+     "log": "m006-test.log"
+    }
+   ]
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 139,
+    "start_column": 11,
+    "end_line": 139,
+    "end_column": 24,
+    "text": "name in rates"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.23,
+   "log": "m007-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.23,
+     "log": "m007-test.log"
+    }
+   ]
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 178,
+    "start_column": 11,
+    "end_line": 178,
+    "end_column": 28,
+    "text": "key == MODELS_KEY"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.16,
+   "log": "m008-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.16,
+     "log": "m008-test.log"
+    }
+   ]
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "call",
+    "start_line": 226,
+    "start_column": 7,
+    "end_line": 226,
+    "end_column": 37,
+    "text": "_DELAY_SECONDS.fullmatch(text)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.45,
+   "log": "m009-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.45,
+     "log": "m009-test.log"
+    }
+   ]
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 233,
+    "start_column": 7,
+    "end_line": 233,
+    "end_column": 26,
+    "text": "when.tzinfo is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.39,
+   "log": "m010-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.39,
+     "log": "m010-test.log"
+    }
+   ]
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 256,
+    "start_column": 7,
+    "end_line": 256,
+    "end_column": 46,
+    "text": "not (fallback_wait_s > 0 and cap_s > 0)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.56,
+   "log": "m011-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.56,
+     "log": "m011-test.log"
+    }
+   ]
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 256,
+    "start_column": 4,
+    "end_line": 257,
+    "end_column": 70,
+    "text": "if not (fallback_wait_s > 0 and cap_s > 0):\r\n        raise ValueError('fallback_wait_s and cap_s must be positive')"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 2.15,
+   "log": "m012-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 2.15,
+     "log": "m012-test.log"
+    }
+   ]
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 258,
+    "start_column": 7,
+    "end_line": 258,
+    "end_column": 35,
+    "text": "status != _RATE_LIMIT_STATUS"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.61,
+   "log": "m013-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.61,
+     "log": "m013-test.log"
+    }
+   ]
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 264,
+    "start_column": 11,
+    "end_line": 264,
+    "end_column": 34,
+    "text": "lowered == _RETRY_AFTER"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.78,
+   "log": "m014-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.78,
+     "log": "m014-test.log"
+    }
+   ]
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "call",
+    "start_line": 266,
+    "start_column": 13,
+    "end_line": 266,
+    "end_column": 49,
+    "text": "lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.78,
+   "log": "m015-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.78,
+     "log": "m015-test.log"
+    }
+   ]
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 269,
+    "start_column": 7,
+    "end_line": 269,
+    "end_column": 21,
+    "text": "parsed is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.66,
+   "log": "m016-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.66,
+     "log": "m016-test.log"
+    }
+   ]
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 332,
+    "start_column": 19,
+    "end_line": 332,
+    "end_column": 53,
+    "text": "len(body) >= _REJECTION_BODY_LIMIT"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.25,
+   "log": "m017-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.25,
+     "log": "m017-test.log"
+    }
+   ]
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 339,
+    "start_column": 11,
+    "end_line": 339,
+    "end_column": 75,
+    "text": "lowered == _CONTENT_TYPE or lowered.startswith(_SNAPSHOT_PREFIX)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.51,
+   "log": "m018-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.51,
+     "log": "m018-test.log"
+    }
+   ]
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 341,
+    "start_column": 7,
+    "end_line": 341,
+    "end_column": 56,
+    "text": "signal.retry_after_present and signal.wait_s >= 1"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.03,
+   "log": "m019-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.03,
+     "log": "m019-test.log"
+    }
+   ]
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 356,
+    "start_column": 4,
+    "end_line": 356,
+    "end_column": 27,
+    "text": "record.exhausted = True"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.76,
+   "log": "m020-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.76,
+     "log": "m020-test.log"
+    }
+   ]
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 358,
+    "start_column": 7,
+    "end_line": 358,
+    "end_column": 28,
+    "text": "rejection is not None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.03,
+   "log": "m021-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.03,
+     "log": "m021-test.log"
+    }
+   ]
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 445,
+    "start_column": 11,
+    "end_line": 445,
+    "end_column": 47,
+    "text": "self._held >= self._config.max_queue"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.81,
+   "log": "m022-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.81,
+     "log": "m022-test.log"
+    }
+   ]
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 453,
+    "start_column": 8,
+    "end_line": 453,
+    "end_column": 23,
+    "text": "self._held += 1"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.89,
+   "log": "m023-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.89,
+     "log": "m023-test.log"
+    }
+   ]
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 459,
+    "start_column": 12,
+    "end_line": 459,
+    "end_column": 27,
+    "text": "self._held -= 1"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.91,
+   "log": "m024-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.91,
+     "log": "m024-test.log"
+    }
+   ]
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 471,
+    "start_column": 11,
+    "end_line": 471,
+    "end_column": 41,
+    "text": "state.waiters[0] is not waiter"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 7.0,
+   "log": "m025-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 7.0,
+     "log": "m025-test.log"
+    }
+   ]
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 480,
+    "start_column": 12,
+    "end_line": 480,
+    "end_column": 58,
+    "text": "record.queued_ms += (now - waited_from) * 1000"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.95,
+   "log": "m026-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.95,
+     "log": "m026-test.log"
+    }
+   ]
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "not_operator",
+    "start_line": 481,
+    "start_column": 15,
+    "end_line": 481,
+    "end_column": 26,
+    "text": "not on_time"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.85,
+   "log": "m027-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.85,
+     "log": "m027-test.log"
+    }
+   ]
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 483,
+    "start_column": 15,
+    "end_line": 483,
+    "end_column": 27,
+    "text": "interval > 0"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.77,
+   "log": "m028-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.77,
+     "log": "m028-test.log"
+    }
+   ]
+  },
+  {
+   "number": 29,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 484,
+    "start_column": 16,
+    "end_line": 484,
+    "end_column": 48,
+    "text": "state.next_slot = now + interval"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.96,
+   "log": "m029-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.96,
+     "log": "m029-test.log"
+    }
+   ]
+  },
+  {
+   "number": 30,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 491,
+    "start_column": 15,
+    "end_line": 491,
+    "end_column": 29,
+    "text": "signal is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.96,
+   "log": "m030-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.96,
+     "log": "m030-test.log"
+    }
+   ]
+  },
+  {
+   "number": 31,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 494,
+    "start_column": 12,
+    "end_line": 494,
+    "end_column": 27,
+    "text": "rejections += 1"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.29,
+   "log": "m031-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.29,
+     "log": "m031-test.log"
+    }
+   ]
+  },
+  {
+   "number": 32,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 495,
+    "start_column": 12,
+    "end_line": 495,
+    "end_column": 34,
+    "text": "record.rejections += 1"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.02,
+   "log": "m032-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.02,
+     "log": "m032-test.log"
+    }
+   ]
+  },
+  {
+   "number": 33,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 498,
+    "start_column": 12,
+    "end_line": 498,
+    "end_column": 39,
+    "text": "waited_from = self._clock()"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.22,
+   "log": "m033-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.22,
+     "log": "m033-test.log"
+    }
+   ]
+  },
+  {
+   "number": 34,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "attribute",
+    "start_line": 510,
+    "start_column": 11,
+    "end_line": 510,
+    "end_column": 37,
+    "text": "signal.retry_after_present"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.29,
+   "log": "m034-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.29,
+     "log": "m034-test.log"
+    }
+   ]
+  },
+  {
+   "number": 35,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 515,
+    "start_column": 8,
+    "end_line": 515,
+    "end_column": 49,
+    "text": "wait = min(wait, self._config.max_wait_s)"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.31,
+   "log": "m035-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.31,
+     "log": "m035-test.log"
+    }
+   ]
+  },
+  {
+   "number": 36,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 517,
+    "start_column": 11,
+    "end_line": 517,
+    "end_column": 40,
+    "text": "hold_until > state.hold_until"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.18,
+   "log": "m036-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.18,
+     "log": "m036-test.log"
+    }
+   ]
+  },
+  {
+   "number": 37,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "assignment",
+    "start_line": 518,
+    "start_column": 12,
+    "end_line": 518,
+    "end_column": 41,
+    "text": "state.hold_until = hold_until"
+   },
+   "operator": "drop_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.12,
+   "log": "m037-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.12,
+     "log": "m037-test.log"
+    }
+   ]
+  },
+  {
+   "number": 38,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 531,
+    "start_column": 11,
+    "end_line": 531,
+    "end_column": 35,
+    "text": "self._clock() > deadline"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.02,
+   "log": "m038-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.02,
+     "log": "m038-test.log"
+    }
+   ]
+  },
+  {
+   "number": 39,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 536,
+    "start_column": 15,
+    "end_line": 536,
+    "end_column": 30,
+    "text": "now >= ready_at"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.95,
+   "log": "m039-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.95,
+     "log": "m039-test.log"
+    }
+   ]
+  },
+  {
+   "number": 40,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "error_order",
+    "node_kind": "if_statement",
+    "start_line": 536,
+    "start_column": 12,
+    "end_line": 537,
+    "end_column": 27,
+    "text": "if now >= ready_at:\r\n                return True"
+   },
+   "operator": "swap_next",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 2.08,
+   "log": "m040-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 2.08,
+     "log": "m040-test.log"
+    }
+   ]
+  },
+  {
+   "number": 41,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 538,
+    "start_column": 15,
+    "end_line": 538,
+    "end_column": 34,
+    "text": "ready_at > deadline"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 2.01,
+   "log": "m041-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 2.01,
+     "log": "m041-test.log"
+    }
+   ]
+  },
+  {
+   "number": 42,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "comparison_operator",
+    "start_line": 555,
+    "start_column": 11,
+    "end_line": 555,
+    "end_column": 24,
+    "text": "state is None"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.87,
+   "log": "m042-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.87,
+     "log": "m042-test.log"
+    }
+   ]
+  },
+  {
+   "number": 43,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 571,
+    "start_column": 11,
+    "end_line": 571,
+    "end_column": 69,
+    "text": "was_head and state.waiters and not state.waiters[0].done()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 1.81,
+   "log": "m043-test.log",
+   "runs": [
+    {
+     "step": "test",
+     "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_ratelimit.py",
+      "-n",
+      "0",
+      "-q",
+      "-x",
+      "-p",
+      "no:cacheprovider"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 1.81,
+     "log": "m043-test.log"
+    }
+   ]
+  }
+ ],
+ "baseline_after": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "test",
+    "command": [
+     "uv",
+     "run",
+     "--no-sync",
+     "python",
+     "-m",
+     "pytest",
+     "tests/test_ratelimit.py",
+     "-n",
+     "0",
+     "-q",
+     "-x",
+     "-p",
+     "no:cacheprovider"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 2.13,
+    "log": "baseline-after-test.log"
+   }
+  ]
+ },
+ "restored": true
+}

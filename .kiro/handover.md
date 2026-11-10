@@ -43,8 +43,10 @@ Updated 2026-11-10 (details and evidence in [task 27 handover](task_27_handover.
    agent decides strategy; clear implementation goes to Opus xhigh. D1 done (R60):
    Rust and Python pass; TypeScript misses kind coverage, Java misses
    meaningfulness on provisional labels. Guide v1 frozen after four
-   development calls (R59 additions). Next: counted arm A (twice per scope)
-   and D2 packs, then the gate decision. Do not manage the Podman machine
+   development calls (R59 additions). **Gate attempt 1 is done: outcome revise (R61).** Rust, Python
+   and Java pass in at least one arm; TypeScript fails in every arm;
+   model-written packs are equivalent to hand-written ones. Attempt 2 (R61
+   proposal) needs the owner's go; survivor labels need an independent check. Do not manage the Podman machine
    (owner); only run containers.
 5. **CI is faster.** nextest is installed as a prebuilt digest-checked binary
    (`tools/install_nextest.sh`), also inside the Dagger container. Jobs take

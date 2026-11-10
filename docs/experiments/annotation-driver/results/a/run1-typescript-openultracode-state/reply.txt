@@ -1,0 +1,32 @@
+```json
+[
+{"file":"src/state.ts","start_line":50,"end_line":50,"kind":"branch_condition","anchor":"isNodeError(error) && error.code === \"ENOENT\"","reason":"Determines whether a missing state file is treated as no state or as an I/O error that is thrown."},
+{"file":"src/state.ts","start_line":54,"end_line":54,"kind":"failure_state","anchor":"throw error","reason":"Read errors other than a missing file are passed to the caller instead of being reported as corruption."},
+{"file":"src/state.ts","start_line":63,"end_line":63,"kind":"branch_condition","anchor":"!isPersistedWorkflowState(parsed)","reason":"Schema-invalid state is backed up and ignored instead of being returned."},
+{"file":"src/state.ts","start_line":74,"end_line":74,"kind":"branch_condition","anchor":"state === undefined","reason":"When no state exists, mutate returns undefined and does not call change."},
+{"file":"src/state.ts","start_line":76,"end_line":76,"kind":"branch_condition","anchor":"changed === undefined","reason":"When change returns undefined, the existing state is kept and nothing is written."},
+{"file":"src/state.ts","start_line":80,"end_line":80,"kind":"state_write","anchor":"mutationQueues.set(statePath, next)","reason":"Registers this mutation as the queue tail so later mutations run after it."},
+{"file":"src/state.ts","start_line":82,"end_line":82,"kind":"branch_condition","anchor":"mutationQueues.get(statePath) === next","reason":"The queue entry is deleted only when it still belongs to this mutation, so later mutations stay serialized."},
+{"file":"src/state.ts","start_line":124,"end_line":124,"kind":"branch_condition","anchor":"attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)","reason":"Decides whether an operation is retried or its error is thrown."},
+{"file":"src/state.ts","start_line":144,"end_line":144,"kind":"branch_condition","anchor":"!isSafeProjectRelativePath(stateDirectory)","reason":"Unsafe state directory configurations are rejected."},
+{"file":"src/state.ts","start_line":145,"end_line":145,"kind":"failure_state","anchor":"throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")","reason":"An invalid configuration throws when the store is created."},
+{"file":"src/state.ts","start_line":151,"end_line":151,"kind":"branch_condition","anchor":"statePath !== root && !statePath.startsWith(`${root}${sep}`)","reason":"Rejects a state path that resolves outside the project root."},
+{"file":"src/state.ts","start_line":152,"end_line":152,"kind":"failure_state","anchor":"throw new Error(\"state.directory must resolve inside the project root\")","reason":"Path escape is reported as an error."},
+{"file":"src/state.ts","start_line":159,"end_line":159,"kind":"branch_condition","anchor":"value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")","reason":"Rejects empty, absolute, or backslash paths."},
+{"file":"src/state.ts","start_line":163,"end_line":163,"kind":"branch_condition","anchor":"!value.split(\"/\").includes(\"..\")","reason":"Rejects parent directory segments in the path."},
+{"file":"src/state.ts","start_line":174,"end_line":174,"kind":"branch_condition","anchor":"stats.isSymbolicLink()","reason":"Rejects a directory segment that is a symlink."},
+{"file":"src/state.ts","start_line":175,"end_line":175,"kind":"failure_state","anchor":"throw new Error(\"state.directory must not contain symlinks\")","reason":"A symlinked directory segment causes an error."},
+{"file":"src/state.ts","start_line":178,"end_line":178,"kind":"branch_condition","anchor":"isNodeError(error) && error.code === \"ENOENT\"","reason":"A missing segment ends the check early instead of throwing."},
+{"file":"src/state.ts","start_line":188,"end_line":188,"kind":"branch_condition","anchor":"stats.isSymbolicLink()","reason":"Rejects a state file that is a symlink."},
+{"file":"src/state.ts","start_line":192,"end_line":192,"kind":"branch_condition","anchor":"!isNodeError(error) || error.code !== \"ENOENT\"","reason":"Any lstat error other than ENOENT, including the symlink error, is rethrown."},
+{"file":"src/state.ts","start_line":202,"end_line":202,"kind":"branch_condition","anchor":"!isNodeError(error) || error.code !== \"ENOENT\"","reason":"A missing file during backup is tolerated; other errors are thrown."},
+{"file":"src/state.ts","start_line":223,"end_line":223,"kind":"branch_condition","anchor":"!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\"","reason":"Validates the persisted envelope schema."},
+{"file":"src/state.ts","start_line":229,"end_line":229,"kind":"branch_condition","anchor":"isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\"","reason":"Validates the inner state schema."},
+{"file":"src/state.ts","start_line":233,"end_line":233,"kind":"branch_condition","anchor":"typeof value === \"object\" && value !== null && !Array.isArray(value)","reason":"Determines which values count as records."},
+{"file":"src/state.ts","start_line":88,"end_line":88,"kind":"failure_state","anchor":"await rejectSymlinkedStatePath(root, config.state.directory, statePath)","reason":"The symlink check must run before mkdir, otherwise directories could be created through a symlink."},
+{"file":"src/state.ts","start_line":96,"end_line":96,"kind":"state_write","anchor":"await writeStateAtomically(statePath, `${JSON.stringify(persisted, null, 2)}\\n`)","reason":"Persists the state that later loads will read."},
+{"file":"src/state.ts","start_line":101,"end_line":101,"kind":"state_write","anchor":"await rm(statePath, { force: true })","reason":"Clears the persisted state."},
+{"file":"src/state.ts","start_line":233,"end_line":233,"kind":"pure_shell_boundary","anchor":"function isRecord(value: unknown): value is Record<string, unknown> {\n  return typeof value === \"object\" && value !== null && !Array.isArray(value)\n}","reason":"Pure predicate used by schema validation."},
+{"file":"src/state.ts","start_line":158,"end_line":164,"kind":"pure_shell_boundary","anchor":"function isSafeProjectRelativePath(value: string): boolean {\n  if (value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")) {\n    return false\n  }\n\n  return !value.split(\"/\").includes(\"..\")\n}","reason":"Pure path validation that guards against path escape."}
+]
+```

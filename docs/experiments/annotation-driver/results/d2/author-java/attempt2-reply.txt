@@ -1,0 +1,22 @@
+{
+  "language": "java",
+  "comment_kinds": ["line_comment", "block_comment"],
+  "string_kinds": ["string_literal"],
+  "unwrap_kinds": ["parenthesized_expression"],
+  "test_attribute_markers": [],
+  "kinds": {
+    "branch_condition": {"field_of": [["if_statement", "condition"], ["while_statement", "condition"], ["do_statement", "condition"], ["for_statement", "condition"], ["ternary_expression", "condition"]]},
+    "failure_state": {"nodes": ["throw_statement", "return_statement"]},
+    "error_order": {"nodes": ["if_statement"], "requires_next_sibling": true},
+    "state_write": {"nodes": ["assignment_expression", "update_expression"]},
+    "pure_shell_boundary": {"nodes": ["method_declaration", "constructor_declaration"]}
+  },
+  "noop_statement": ";",
+  "statement_wrappers": ["expression_statement"],
+  "operators": {
+    "branch_condition": {"template": "!({text})", "exclude_kinds": ["instanceof_expression"]},
+    "failure_state": {"by_kind": {}},
+    "state_write": {"statement": "{noop}"},
+    "error_order": {"swap_next": true}
+  }
+}

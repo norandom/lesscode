@@ -1,0 +1,1324 @@
+{
+ "receipt": "annotation-driver-arm-v0",
+ "scope": "typescript-openultracode-state",
+ "language": "typescript",
+ "sites_from": "all_sites",
+ "revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "expected_revision": "37a4e55f1b9397332acc6434783099a631a04918",
+ "pack_sha256": "2379973c2c6a49482e35471fd80378ee527d3c77363ea48172db43b265173fd1",
+ "tables_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\runs\\d2\\tables",
+ "code_sha256": {
+  "engine.py": "c584e0c119be4766a8bd02341c0bd6f7675de8babd7c334d816a65c0dc862bbd",
+  "harness.py": "125e3d10b318264488859b61d9ae03f60125afa4f680c154ec345c6c854cd593",
+  "validator.py": "5cc042519bd5f2a880f68f541cc3291dbc2379705abb8c457d9ee970a8716901",
+  "run_arm.py": "74a6609fdaa2062cad530165b1b6f347828fe7ad6d88f715975c156296d4b7d3",
+  "scopes.json": "b63e3a5e454b11425526d76d9f6e0b8b93293a57850cc2f902b0289a6b89b113"
+ },
+ "limit": null,
+ "eligible_sites": 50,
+ "sites": 28,
+ "mutants_run": 28,
+ "counts_by_class": {
+  "killed": 11,
+  "survived": 6,
+  "invalid": 10,
+  "timeout": 1
+ },
+ "counts_by_kind": {
+  "branch_condition": {
+   "killed": 8,
+   "invalid": 5,
+   "timeout": 1,
+   "survived": 2
+  },
+  "failure_state": {
+   "survived": 4,
+   "invalid": 2,
+   "killed": 3
+  },
+  "state_write": {
+   "invalid": 3
+  }
+ },
+ "sites_without_operator": [],
+ "annotation_decisions": null,
+ "annotations_skipped": [],
+ "wall_seconds": 419.3,
+ "scope_files_sha256": {
+  "src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"
+ },
+ "void": null,
+ "baseline_before": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "build",
+    "command": [
+     "pnpm",
+     "exec",
+     "tsc",
+     "--noEmit"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 3.14,
+    "log": "baseline-before-build.log"
+   },
+   {
+    "step": "test",
+    "command": [
+     "node",
+     "--import",
+     "tsx",
+     "--test",
+     "tests/state.test.ts"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 0.39,
+    "log": "baseline-before-test.log"
+   }
+  ]
+ },
+ "mutants": [
+  {
+   "number": 1,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.59,
+   "log": "m001-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.22,
+     "log": "m001-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.37,
+     "log": "m001-test.log"
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 193,
+    "start_column": 6,
+    "end_line": 193,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 3.62,
+   "log": "m002-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.29,
+     "log": "m002-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.33,
+     "log": "m002-test.log"
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 48,
+    "start_column": 8,
+    "end_line": 48,
+    "end_column": 69,
+    "text": "raw = await retryTransient(() => readFile(statePath, \"utf8\"))"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.3,
+   "log": "m003-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.3,
+     "log": "m003-build.log"
+    }
+   ]
+  },
+  {
+   "number": 4,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 223,
+    "start_column": 6,
+    "end_line": 223,
+    "end_column": 90,
+    "text": "!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\""
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.3,
+   "log": "m004-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.3,
+     "log": "m004-build.log"
+    }
+   ]
+  },
+  {
+   "number": 5,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 152,
+    "start_column": 4,
+    "end_line": 152,
+    "end_column": 75,
+    "text": "throw new Error(\"state.directory must resolve inside the project root\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 3.63,
+   "log": "m005-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.32,
+     "log": "m005-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.31,
+     "log": "m005-test.log"
+    }
+   ]
+  },
+  {
+   "number": 6,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 59,
+    "start_column": 8,
+    "end_line": 59,
+    "end_column": 32,
+    "text": "parsed = JSON.parse(raw)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.05,
+   "log": "m006-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.05,
+     "log": "m006-build.log"
+    }
+   ]
+  },
+  {
+   "number": 7,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 174,
+    "start_column": 10,
+    "end_line": 174,
+    "end_column": 32,
+    "text": "stats.isSymbolicLink()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.55,
+   "log": "m007-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.18,
+     "log": "m007-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.37,
+     "log": "m007-test.log"
+    }
+   ]
+  },
+  {
+   "number": 8,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 54,
+    "start_column": 8,
+    "end_line": 54,
+    "end_column": 19,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.19,
+   "log": "m008-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.19,
+     "log": "m008-build.log"
+    }
+   ]
+  },
+  {
+   "number": 9,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 170,
+    "start_column": 4,
+    "end_line": 170,
+    "end_column": 39,
+    "text": "current = resolve(current, segment)"
+   },
+   "operator": "drop_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.05,
+   "log": "m009-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.05,
+     "log": "m009-build.log"
+    }
+   ]
+  },
+  {
+   "number": 10,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 63,
+    "start_column": 10,
+    "end_line": 63,
+    "end_column": 43,
+    "text": "!isPersistedWorkflowState(parsed)"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.02,
+   "log": "m010-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.02,
+     "log": "m010-build.log"
+    }
+   ]
+  },
+  {
+   "number": 11,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 182,
+    "start_column": 6,
+    "end_line": 182,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.37,
+   "log": "m011-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 2.98,
+     "log": "m011-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.39,
+     "log": "m011-test.log"
+    }
+   ]
+  },
+  {
+   "number": 12,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 209,
+    "start_column": 17,
+    "end_line": 209,
+    "end_column": 39,
+    "text": "error instanceof Error"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.13,
+   "log": "m012-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.13,
+     "log": "m012-build.log"
+    }
+   ]
+  },
+  {
+   "number": 13,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 175,
+    "start_column": 8,
+    "end_line": 175,
+    "end_column": 68,
+    "text": "throw new Error(\"state.directory must not contain symlinks\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.3,
+   "log": "m013-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.0,
+     "log": "m013-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.3,
+     "log": "m013-test.log"
+    }
+   ]
+  },
+  {
+   "number": 14,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 76,
+    "start_column": 12,
+    "end_line": 76,
+    "end_column": 33,
+    "text": "changed === undefined"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.15,
+   "log": "m014-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.15,
+     "log": "m014-build.log"
+    }
+   ]
+  },
+  {
+   "number": 15,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 203,
+    "start_column": 6,
+    "end_line": 203,
+    "end_column": 17,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 3.37,
+   "log": "m015-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.03,
+     "log": "m015-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.34,
+     "log": "m015-test.log"
+    }
+   ]
+  },
+  {
+   "number": 16,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 159,
+    "start_column": 6,
+    "end_line": 159,
+    "end_column": 73,
+    "text": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.45,
+   "log": "m016-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.16,
+     "log": "m016-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.29,
+     "log": "m016-test.log"
+    }
+   ]
+  },
+  {
+   "number": 17,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 145,
+    "start_column": 4,
+    "end_line": 145,
+    "end_column": 120,
+    "text": "throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.54,
+   "log": "m017-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.12,
+     "log": "m017-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.42,
+     "log": "m017-test.log"
+    }
+   ]
+  },
+  {
+   "number": 18,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 124,
+    "start_column": 10,
+    "end_line": 124,
+    "end_column": 120,
+    "text": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)"
+   },
+   "operator": "negate",
+   "class": "timeout",
+   "reason": "test_timeout",
+   "exit_code": null,
+   "seconds": 303.4,
+   "log": "m018-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.05,
+     "log": "m018-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": null,
+     "timed_out": true,
+     "seconds": 300.35,
+     "log": "m018-test.log"
+    }
+   ]
+  },
+  {
+   "number": 19,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 189,
+    "start_column": 6,
+    "end_line": 189,
+    "end_column": 66,
+    "text": "throw new Error(\"state.directory must not contain symlinks\")"
+   },
+   "operator": "drop:throw_statement",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 3.78,
+   "log": "m019-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.39,
+     "log": "m019-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.39,
+     "log": "m019-test.log"
+    }
+   ]
+  },
+  {
+   "number": 20,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 202,
+    "start_column": 8,
+    "end_line": 202,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 3.45,
+   "log": "m020-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.14,
+     "log": "m020-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.31,
+     "log": "m020-test.log"
+    }
+   ]
+  },
+  {
+   "number": 21,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 124,
+    "start_column": 122,
+    "end_line": 124,
+    "end_column": 133,
+    "text": "throw error"
+   },
+   "operator": "drop:throw_statement",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.35,
+   "log": "m021-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.35,
+     "log": "m021-build.log"
+    }
+   ]
+  },
+  {
+   "number": 22,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 151,
+    "start_column": 6,
+    "end_line": 151,
+    "end_column": 66,
+    "text": "statePath !== root && !statePath.startsWith(`${root}${sep}`)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.39,
+   "log": "m022-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.11,
+     "log": "m022-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.28,
+     "log": "m022-test.log"
+    }
+   ]
+  },
+  {
+   "number": 23,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 12,
+    "end_line": 82,
+    "end_column": 50,
+    "text": "mutationQueues.get(statePath) === next"
+   },
+   "operator": "negate",
+   "class": "survived",
+   "reason": null,
+   "exit_code": 0,
+   "seconds": 3.56,
+   "log": "m023-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.25,
+     "log": "m023-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 0.31,
+     "log": "m023-test.log"
+    }
+   ]
+  },
+  {
+   "number": 24,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "unary_expression",
+    "start_line": 144,
+    "start_column": 6,
+    "end_line": 144,
+    "end_column": 48,
+    "text": "!isSafeProjectRelativePath(stateDirectory)"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.42,
+   "log": "m024-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.08,
+     "log": "m024-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.34,
+     "log": "m024-test.log"
+    }
+   ]
+  },
+  {
+   "number": 25,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 192,
+    "start_column": 8,
+    "end_line": 192,
+    "end_column": 54,
+    "text": "!isNodeError(error) || error.code !== \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.65,
+   "log": "m025-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.31,
+     "log": "m025-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.34,
+     "log": "m025-test.log"
+    }
+   ]
+  },
+  {
+   "number": 26,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 178,
+    "start_column": 10,
+    "end_line": 178,
+    "end_column": 55,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.61,
+   "log": "m026-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.29,
+     "log": "m026-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.32,
+     "log": "m026-test.log"
+    }
+   ]
+  },
+  {
+   "number": 27,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 74,
+    "start_column": 12,
+    "end_line": 74,
+    "end_column": 31,
+    "text": "state === undefined"
+   },
+   "operator": "negate",
+   "class": "invalid",
+   "reason": "build_failed",
+   "exit_code": 2,
+   "seconds": 3.09,
+   "log": "m027-build.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 2,
+     "timed_out": false,
+     "seconds": 3.09,
+     "log": "m027-build.log"
+    }
+   ]
+  },
+  {
+   "number": 28,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "call_expression",
+    "start_line": 188,
+    "start_column": 8,
+    "end_line": 188,
+    "end_column": 30,
+    "text": "stats.isSymbolicLink()"
+   },
+   "operator": "negate",
+   "class": "killed",
+   "reason": null,
+   "exit_code": 1,
+   "seconds": 3.81,
+   "log": "m028-test.log",
+   "runs": [
+    {
+     "step": "build",
+     "command": [
+      "pnpm",
+      "exec",
+      "tsc",
+      "--noEmit"
+     ],
+     "exit_code": 0,
+     "timed_out": false,
+     "seconds": 3.48,
+     "log": "m028-build.log"
+    },
+    {
+     "step": "test",
+     "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "tests/state.test.ts"
+     ],
+     "exit_code": 1,
+     "timed_out": false,
+     "seconds": 0.33,
+     "log": "m028-test.log"
+    }
+   ]
+  }
+ ],
+ "baseline_after": {
+  "class": "survived",
+  "reason": null,
+  "runs": [
+   {
+    "step": "build",
+    "command": [
+     "pnpm",
+     "exec",
+     "tsc",
+     "--noEmit"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 3.17,
+    "log": "baseline-after-build.log"
+   },
+   {
+    "step": "test",
+    "command": [
+     "node",
+     "--import",
+     "tsx",
+     "--test",
+     "tests/state.test.ts"
+    ],
+    "exit_code": 0,
+    "timed_out": false,
+    "seconds": 0.34,
+    "log": "baseline-after-test.log"
+   }
+  ]
+ },
+ "restored": true
+}

@@ -1,0 +1,210 @@
+[
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 82,
+  "end_line": 82,
+  "kind": "branch_condition",
+  "anchor": "unescaped == EOF",
+  "reason": "Inverting it would translate invalid escape sequences instead of keeping them verbatim."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 79,
+  "end_line": 79,
+  "kind": "state_write",
+  "anchor": "token.isEscaped = true",
+  "reason": "Dropping it leaves an escaped delimiter unmarked, which changes how the parser treats the token."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 167,
+  "end_line": 167,
+  "kind": "state_write",
+  "anchor": "isLastTokenDelimiter = count != EOF",
+  "reason": "A wrong flag makes a trailing empty field at EOF be missed or invented."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 162,
+  "end_line": 162,
+  "kind": "branch_condition",
+  "anchor": "delimiterBuf[i] != delimiter[i + 1]",
+  "reason": "A wrong comparison would accept partial multi-character delimiters as field separators."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 219,
+  "end_line": 219,
+  "kind": "branch_condition",
+  "anchor": "escapeDelimiterBuf[2 * i] != delimiter[i] || escapeDelimiterBuf[2 * i - 1] != escape",
+  "reason": "Escaped multi-character delimiters would be misrecognized."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 265,
+  "end_line": 265,
+  "kind": "branch_condition",
+  "anchor": "eol && isStartOfLine(lastChar)",
+  "reason": "Changing it would alter whether empty lines are skipped."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 279,
+  "end_line": 279,
+  "kind": "branch_condition",
+  "anchor": "isEndOfFile(lastChar) || !isLastTokenDelimiter && isEndOfFile(c)",
+  "reason": "Changing it would alter whether a final empty field after a trailing delimiter is reported or EOF is returned early."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 284,
+  "end_line": 284,
+  "kind": "branch_condition",
+  "anchor": "isStartOfLine(lastChar) && isCommentStart(c)",
+  "reason": "Comment markers would be detected in the middle of lines, or comments would be missed."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 303,
+  "end_line": 303,
+  "kind": "branch_condition",
+  "anchor": "Character.isWhitespace((char) c) && !eol",
+  "reason": "Changing it would alter how leading whitespace is skipped and could swallow end-of-line characters."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 313,
+  "end_line": 313,
+  "kind": "branch_condition",
+  "anchor": "delimiter || isDelimiter(c)",
+  "reason": "Changing it would mis-detect empty tokens or evaluate the delimiter check twice."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 327,
+  "end_line": 327,
+  "kind": "state_write",
+  "anchor": "token.isReady = true",
+  "reason": "Without it the final empty field at EOF is dropped."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 380,
+  "end_line": 383,
+  "kind": "error_order",
+  "anchor": "if (isDelimiter(c)) {\n                            token.type = Token.Type.TOKEN;\n                            return token;\n                        }",
+  "reason": "Reordering this check against the EOF and EOL checks would change which token type is reported after a closing quote."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 393,
+  "end_line": 393,
+  "kind": "branch_condition",
+  "anchor": "trailingData",
+  "reason": "Inverting it would reject or accept data after a closing quote."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 395,
+  "end_line": 395,
+  "kind": "branch_condition",
+  "anchor": "!Character.isWhitespace((char) c)",
+  "reason": "Changing it would alter whether whitespace after a closing quote raises an error."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 397,
+  "end_line": 398,
+  "kind": "failure_state",
+  "anchor": "throw new CSVException(\"Invalid character between encapsulated token and delimiter at line: %,d, position: %,d\",\n                                    getCurrentLineNumber(), getCharacterPosition())",
+  "reason": "Removing it would silently accept malformed quoted fields."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 405,
+  "end_line": 405,
+  "kind": "branch_condition",
+  "anchor": "lenientEof",
+  "reason": "Inverting it would change whether an unterminated quote throws an error or yields data."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 411,
+  "end_line": 411,
+  "kind": "failure_state",
+  "anchor": "throw new CSVException(\"(startline %,d) EOF reached before encapsulated token finished\", startLineNumber)",
+  "reason": "Removing it would let unterminated quoted fields pass silently."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 441,
+  "end_line": 444,
+  "kind": "error_order",
+  "anchor": "if (readEndOfLine(cur)) {\n                token.type = Token.Type.EORECORD;\n                break;\n            }",
+  "reason": "Reordering this check against the EOF and delimiter checks changes the reported token type."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 463,
+  "end_line": 463,
+  "kind": "branch_condition",
+  "anchor": "ignoreSurroundingSpaces",
+  "reason": "Inverting it would change whether trailing spaces are trimmed from simple tokens."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 478,
+  "end_line": 478,
+  "kind": "branch_condition",
+  "anchor": "cur == Constants.CR && reader.peek() == Constants.LF",
+  "reason": "Without it, CRLF would yield an extra empty record."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 487,
+  "end_line": 487,
+  "kind": "branch_condition",
+  "anchor": "firstEol == null",
+  "reason": "Changing it would let the reported first line ending be overwritten by later ones."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 483,
+  "end_line": 483,
+  "kind": "state_write",
+  "anchor": "this.firstEol = Constants.CRLF",
+  "reason": "A wrong value here misreports the detected line separator."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 528,
+  "end_line": 528,
+  "kind": "failure_state",
+  "anchor": "throw new CSVException(\"EOF while processing escape sequence\")",
+  "reason": "Removing it would silently accept a trailing escape character at EOF."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 535,
+  "end_line": 535,
+  "kind": "branch_condition",
+  "anchor": "isMetaChar(ch) || isDelimiterChar(ch)",
+  "reason": "Changing it would alter which escaped characters are unescaped and which are kept verbatim."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 545,
+  "end_line": 545,
+  "kind": "branch_condition",
+  "anchor": "length > 0 && Character.isWhitespace(buffer.charAt(length - 1))",
+  "reason": "Changing it would trim the wrong amount or index out of bounds."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 543,
+  "end_line": 551,
+  "kind": "pure_shell_boundary",
+  "anchor": "void trimTrailingSpaces(final StringBuilder buffer) {\n        int length = buffer.length();\n        while (length > 0 && Character.isWhitespace(buffer.charAt(length - 1))) {\n            length--;\n        }\n        if (length != buffer.length()) {\n            buffer.setLength(length);\n        }\n    }",
+  "reason": "Self-contained trimming logic whose only effect is on the given buffer."
+ }
+]
