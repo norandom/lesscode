@@ -27,7 +27,7 @@ has the result table, the open decisions, the owner's rules and the commands.
    approved. **Sizing spike done (R65): exact parity with the prototype,
    core 898 canonical lines against 753 removable.** Owner decided: the driver
    stays outside the cap's counted set, governed by per-file budgets. Design
-   continues with the batch runner, then `design.md` for approval.
+   is generated (`design.md`, 2026-11-10) and awaits the owner's approval; Slice B gets its dated step at that approval.
 3. **Second priority, not to be forgotten (owner, 2026-11-10): Slice B,**
    hardening against LLM inference drift, in `constraint-guided-compression`
    (requirements Amendment 5). Not started. It starts when the driver's
