@@ -125,28 +125,28 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     run killed in the middle, and a stop on a forced hash mismatch.
   - _Requirements: 5.3, 5.4, 5.5, 5.6_
 
-- [ ] 6. Batch runner, outcome store and `deconvolute run`
-- [ ] 6.1 Add the run configuration
+- [x] 6. Batch runner, outcome store and `deconvolute run`
+- [x] 6.1 Add the run configuration
   - `driver/config.rs`: commands as argument vectors, environment, limit floor, ceiling and factor, exit
     codes and output patterns for the classes, setup commands, exclusions, workers, `serial_only`.
   - _Requirements: 4.1, 4.4_
-- [ ] 6.2 Implement the single-worker protocol and classification
+- [x] 6.2 Implement the single-worker protocol and classification
   - Baseline before and after; scaled limit; classes killed, survived, invalid, timeout, error; one retry
     for errors; process trees killed on every exit path; reuse of the crate's existing process supervision.
   - Done when toy-project tests produce each class, including a command that cannot start and a
     resource-failure pattern, and a failing baseline voids the run.
   - _Requirements: 4.2, 4.3, 4.5, 4.6, 5.7_
-- [ ] 6.3 Add the worker pool
+- [x] 6.3 Add the worker pool
   - Threads with one copy each on a shared queue; a worker with a failed baseline returns its mutants;
     void when a mutant could not be run or a closing baseline fails.
   - Done when a parallel run gives the same classes as a serial run on the toy projects.
   - _Requirements: 4.7_
-- [ ] 6.4 (P) Add the outcome store
+- [x] 6.4 (P) Add the outcome store
   - `driver/store.rs`: key from original hash, mutated-text hash and configuration; atomic write; errors and
     void runs never stored; `--no-reuse`.
   - _Boundary: driver/store.rs_
   - _Requirements: 4.8_
-- [ ] 6.5 Add `deconvolute run` and its receipt
+- [x] 6.5 Add `deconvolute run` and its receipt
   - Receipt `deconvolution-run-v1`; `--annotations` restricts the run to validated sites; exit 0 complete,
     2 incomplete, 3 void or bad input.
   - Done when CLI tests cover the exit codes and an annotated run mutates only accepted sites.

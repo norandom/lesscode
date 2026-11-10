@@ -8,12 +8,17 @@ pub mod admission;
 pub mod analysis;
 pub mod annotations;
 pub mod cli;
+pub mod config;
 pub mod controls;
 pub mod operators;
 pub mod pack;
+pub mod process;
 pub mod registry;
+pub mod run_command;
+pub mod runner;
 pub mod sites;
 pub mod source;
+pub mod store;
 pub mod tree;
 pub mod workspace;
 

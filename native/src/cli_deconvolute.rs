@@ -10,6 +10,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use crate::adapters::driver::cli::{self as driver_cli, emit_json};
+use crate::adapters::driver::run_command::{run_run, RunArgs};
 
 #[path = "cli_hook.rs"]
 pub mod cli_hook;
@@ -56,6 +57,8 @@ pub enum DeconvoluteCommand {
     },
     /// Check a language pack before it is used.
     AdmitPack(driver_cli::AdmitPackArgs),
+    /// Run the project's own tests against every mutant, in copies only.
+    Run(RunArgs),
     /// Git pre-push hook; enforces complexity budgets only.
     PrePush(cli_hook::PrePushArgs),
     /// Install standard Git pre-push hook script in .git/hooks.
@@ -128,6 +131,7 @@ pub fn run(cmd: DeconvoluteCommand) -> Result<u8, String> {
             out,
         } => run_density(&lang, &baseline, &candidate, out.as_deref()),
         DeconvoluteCommand::AdmitPack(args) => driver_cli::run_admit_pack(args),
+        DeconvoluteCommand::Run(args) => run_run(args),
         DeconvoluteCommand::PrePush(args) => cli_hook::run_pre_push(args),
         DeconvoluteCommand::InstallHook(args) => cli_hook::run_install_hook(args),
     }

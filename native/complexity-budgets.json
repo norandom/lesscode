@@ -46,6 +46,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/config.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Run configuration: files, commands, limits, patterns (task 6.1, REQ 4.1/4.4)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/controls.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
@@ -82,12 +91,39 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/process.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Commands with a time limit, output capture and tree kill (task 6.2, REQ 4.2/5.7)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/registry.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
    "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Packs shipped in the binary (task 1.2, REQ 1.2/1.6)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/run_command.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "deconvolute run handler and receipt (task 6.5, REQ 4.9/6.4/6.5)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/runner.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Batch protocol, classification and worker pool (tasks 6.2, 6.3, REQ 4.2..4.7)",
    "disposition": null
   },
   {
@@ -106,6 +142,15 @@
    "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Read-only source access and text conventions (task 1.3, REQ 2.6)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/store.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Reusable outcomes (task 6.4, REQ 4.8)",
    "disposition": null
   },
   {
