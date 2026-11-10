@@ -1,66 +1,46 @@
-# Handover: v1.0.1 Released, Signing Pending Owner Setup, R55 Findings Open, 2026-11-10
+# Handover: Agnostic Driver Gate Attempt 1 Is `revise`; Owner Decisions Pending, 2026-11-10
 
-Updated 2026-11-10 morning, Europe/Berlin. This file is the single handover and action list.
+Updated 2026-11-10, about 13:30 Europe/Berlin. This file is the single handover and action list.
 The current sections below govern continuation; dated history follows for evidence
 and earlier interpretations, not as an active implementation queue.
 
 ## Current state
 
-Updated 2026-11-10 (details and evidence in [task 27 handover](task_27_handover.md)):
+Updated 2026-11-10. Start with the [task 28 handover](task_28_handover.md); it
+has the result table, the open decisions, the owner's rules and the commands.
 
-1. **v1.0.1 is published** with prebuilt binaries for five targets (Linux
-   x86_64 and aarch64, Windows x86_64, macOS Intel and Apple Silicon), tag on
-   `eda13bb`: https://github.com/norandom/lesscode/releases/tag/v1.0.1.
-   It is unsigned. `v1.0.0` was left untouched and has no GitHub release.
-2. **`main` is at `6886c8e` or later, CI green.** Since the tag: release
-   signing was added (not yet used by any release).
-3. **Next release is blocked until the owner sets up the signing key.** Run
-   `powershell -ExecutionPolicy Bypass -File scripts\setup-release-signing.ps1`,
-   back up `~\lesscode-release-key\release.key`, commit
-   `scripts/release-public-keys.txt`, then bump the version and tag. The publish
-   job waits for approval of the `release` environment. See
-   [docs/release-signing.md](../docs/release-signing.md).
-4. **R55 narrows the claims in the 2026-11-09 list below.** The porcelain
-   `analyze` has no Python implementation (returns `passed: true`), `mutate`
-   only works on the experiment specimens, and the pre-push hook enforces
-   budgets only. Owner decision open: implement, fail loudly, or remove. This
-   affects the Slice B reward gate, which planned to use `deconvolute analyze`.
-   Mutation is decided (2026-11-10): it goes into Slice B as an LLM-driver
-   task, recorded as `constraint-guided-compression` requirements Amendment 5;
-   a prototype gate comes before any design or tasks. Python `analyze` and
-   the hook check are still open.
-   **Top priority (owner, 2026-11-10): the agnostic driver.** New spec
-   [agnostic-annotation-driver](specs/agnostic-annotation-driver/brief.md)
-   with a prototype gate (not-run), R56. Inference-drift hardening is second
-   and stays in Slice B. Step 1 done (R57): four scopes admitted, baselines
-   healthy. Step 2 done (R58): validator controls 71/71, prototype in
-   `docs/experiments/annotation-driver/`. Owner approved arm D (rules as data,
-   model as offline rule author) and requires the hard-coded operators to be
-   removed completely (gate Amendment 2). No model call yet. Strategy consolidated
-   (R59, gate Amendment 3, governs): non-horizontal arms B and C removed; one
-   engine plus a data pack per language; arms D1, D2, A differ only in site
-   selection; Rust scope replaced by `src/setup/ui/update.rs`. Owner rule:
-   agent decides strategy; clear implementation goes to Opus xhigh. D1 done (R60):
-   Rust and Python pass; TypeScript misses kind coverage, Java misses
-   meaningfulness on provisional labels. Guide v1 frozen after four
-   development calls (R59 additions). **Gate attempt 1 is done: outcome revise (R61).** Rust, Python
-   and Java pass in at least one arm; TypeScript fails in every arm;
-   model-written packs are equivalent to hand-written ones. Attempt 2 (R61
-   proposal) needs the owner's go; survivor labels need an independent check. Do not manage the Podman machine
-   (owner); only run containers.
-5. **CI is faster.** nextest is installed as a prebuilt digest-checked binary
-   (`tools/install_nextest.sh`), also inside the Dagger container. Jobs take
-   about 1.5 to 4 minutes instead of 6 to 16. No build cache was added.
-6. **Local container tooling (owner, 2026-11-10):** Docker and Compose run
-   through Podman on Windows, and Dagger runs as a native CLI against Podman;
-   WSL is no longer the Dagger environment. `dagger call check` passed
-   natively. `tools/adopter-check.compose.yaml` installs the published binary
-   in a clean Ubuntu container and passed on Linux x86_64 (R55 amendment).
-7. **Not done:** installers on Linux aarch64 (no arm64 emulation in the
-   Podman machine) and macOS; the pre-push hook is not installed in this
-   checkout; about 200 untracked experiment files linked from `docs/README.md`
-   are still untracked.
+1. **Top priority: the agnostic driver** (spec
+   [agnostic-annotation-driver](specs/agnostic-annotation-driver/brief.md)).
+   Prototype gate attempt 1 ran today; outcome **revise**
+   ([R61](../docs/research/2026-11-10/07-annotation-driver-gate-result.md)).
+   One engine with a data pack per language meets every gated row on Rust,
+   Python and Java in at least one arm and fails on TypeScript in every arm.
+   Packs written by the model for TypeScript and Java were admitted and are
+   equivalent to hand-written ones. Nothing in `native/` changed.
+2. **Waiting for the owner:** go or no-go for attempt 2 and its content (R61
+   proposal); an independent check of the survivor labels, which are the
+   agent's own.
+3. **Second priority:** hardening against LLM inference drift, in
+   `constraint-guided-compression` Slice B (requirements Amendment 5). Not
+   started. The run-to-run agreement measured today is its baseline.
+4. **Release:** `v1.0.1` is published with binaries for five targets and is
+   unsigned. A new tag cannot be published until the owner runs
+   `scripts\setup-release-signing.ps1`, backs up the key and commits
+   `scripts/release-public-keys.txt`
+   ([docs/release-signing.md](../docs/release-signing.md)).
+5. **Open from R55:** Python `deconvolute analyze` is a stub that reports
+   `passed: true`; the pre-push hook's refactor-branch check does nothing;
+   the hard-coded mutation operators stay until a design passes the gate.
+6. **Working rules from the owner today:** the agent decides strategy and
+   records it; clear implementation goes to Opus at xhigh effort; do not
+   manage the Podman machine, only run containers; the runs were too slow,
+   so keep batches short and reuse outcomes.
+7. **Not done:** installers on Linux aarch64 and macOS; the pre-push hook is
+   not installed in this checkout; about 200 untracked experiment files
+   linked from `docs/README.md` are still untracked.
 
+Details of the release, CI and container work of this morning are in the
+[task 27 handover](task_27_handover.md).
 Updated 2026-11-09 late evening:
 1. **Major Release v1.0.0 Shipped:**
    - Unified native four-substrate deconvolution engine (`lesscode-core`) covering **Python**, **TypeScript**, **Java**, and **Rust**.
@@ -79,6 +59,7 @@ Updated 2026-11-09 late evening:
 
 ## Read next
 
+00. [Task 28 Handover](task_28_handover.md): agnostic annotation driver, prototype gate attempt 1 (revise), open owner decisions and how to run the prototype (2026-11-10). Read this first.
 0. [Task 27 Handover](task_27_handover.md): v1.0.1 release workflow, adopter documentation, and R55 released-binary dogfood findings (2026-11-10). Read this first; it narrows several claims in the current-state list above.
 1. [Task 26 Handover](task_26_handover.md): CI remediation, v1.0.0 README update, and Slice B resumption blueprint.
 2. [Task 25 Handover](task_25_handover.md): Dogfood self-application and intelligent pre-push hook.
