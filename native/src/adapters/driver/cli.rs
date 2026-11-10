@@ -3,7 +3,7 @@
 use super::admission::admit;
 use super::analysis::analyse;
 use super::controls::{replay, seed_mutants, ControlFile};
-use super::operators::{classify, mutants, Change};
+use super::operators::mutants_of_sites;
 use super::pack::Pack;
 use super::registry::embedded;
 use super::sites::{file_sites, Site};
@@ -213,16 +213,13 @@ fn all_mutants(
 ) -> Result<(Vec<MutantRecord>, Vec<Site>, usize, usize), String> {
     let sites = file_sites(pack, name, text)?;
     let (mut found, mut bare, mut invalid) = (Vec::new(), Vec::new(), 0);
-    for site in &sites {
-        let of_site = mutants(pack, text, site)?;
-        if of_site.is_empty() {
+    let all: Vec<&Site> = sites.iter().collect();
+    for (site, of_site) in sites.iter().zip(mutants_of_sites(pack, text, &all)?) {
+        if of_site.offered == 0 {
             bare.push(site.clone());
         }
-        for mutant in of_site {
-            if classify(pack, text, &mutant.text)? != Change::Changed {
-                invalid += 1;
-                continue;
-            }
+        invalid += of_site.offered - of_site.valid.len();
+        for mutant in of_site.valid {
             found.push(MutantRecord {
                 file: String::new(),
                 site: site.clone(),

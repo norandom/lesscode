@@ -248,18 +248,63 @@ fn tokens(root: &SgNode<'_>, skip: &[String]) -> Vec<String> {
     out
 }
 
-/// `Changed` for a real, parseable change; otherwise why the mutant is
-/// invalid.
-pub fn classify(pack: &Pack, original: &str, mutated: &str) -> Result<Change, String> {
-    let lang = grammar(&pack.language)?;
-    let mutated_root = parse(mutated, lang)?;
+/// What `mutated` is, given the tokens of the original.
+fn change(pack: &Pack, original_tokens: &[String], mutated: &str) -> Result<Change, String> {
+    let mutated_root = parse(mutated, grammar(&pack.language)?)?;
     if walk(&mutated_root.root()).iter().any(|n| n.is_error()) {
         return Ok(Change::ParseError);
     }
-    let original_root = parse(original, lang)?;
-    let skip = &pack.comment_kinds;
-    if tokens(&original_root.root(), skip) == tokens(&mutated_root.root(), skip) {
+    if original_tokens == tokens(&mutated_root.root(), &pack.comment_kinds) {
         return Ok(Change::NoOp);
     }
     Ok(Change::Changed)
+}
+
+/// `Changed` for a real, parseable change; otherwise why the mutant is
+/// invalid.
+pub fn classify(pack: &Pack, original: &str, mutated: &str) -> Result<Change, String> {
+    let original_root = parse(original, grammar(&pack.language)?)?;
+    change(
+        pack,
+        &tokens(&original_root.root(), &pack.comment_kinds),
+        mutated,
+    )
+}
+
+/// The mutants of one site: those that are a real change, and how many
+/// the pack offered in all.
+pub struct SiteMutants {
+    pub valid: Vec<Mutant>,
+    pub offered: usize,
+}
+
+/// The mutants of several sites of one text, which is parsed once.
+pub fn mutants_of_sites(
+    pack: &Pack,
+    text: &str,
+    sites: &[&Site],
+) -> Result<Vec<SiteMutants>, String> {
+    let root = parse(text, grammar(&pack.language)?)?;
+    let nodes = walk(&root.root());
+    let original_tokens = tokens(&root.root(), &pack.comment_kinds);
+    let mut found = Vec::new();
+    for site in sites {
+        let node = nodes
+            .iter()
+            .find(|n| n.kind() == site.node_kind.as_str() && position(n) == site.span())
+            .ok_or_else(|| format!("site no longer present in {}: {site:?}", site.file))?;
+        let mut of_site = SiteMutants {
+            valid: Vec::new(),
+            offered: 0,
+        };
+        for (operator, edits) in all_edits(pack, site.kind, node)? {
+            let mutant = apply(text, operator, edits)?;
+            of_site.offered += 1;
+            if change(pack, &original_tokens, &mutant.text)? == Change::Changed {
+                of_site.valid.push(mutant);
+            }
+        }
+        found.push(of_site);
+    }
+    Ok(found)
 }

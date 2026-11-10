@@ -3,7 +3,7 @@
 
 use super::annotations::{site_of, validate, Decision};
 use super::config::RunConfig;
-use super::operators::{classify, mutants, Change};
+use super::operators::mutants_of_sites;
 use super::pack::Pack;
 use super::registry::embedded;
 use super::runner::{run_batch, BatchOutput, Job, MutantResult, ERROR};
@@ -95,31 +95,32 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
     let identity = config.identity();
     let mut texts: BTreeMap<String, String> = BTreeMap::new();
     let (mut jobs, mut bare, mut invalid) = (Vec::new(), Vec::new(), 0);
-    for site in &sites {
-        if !texts.contains_key(&site.file) {
-            texts.insert(site.file.clone(), source.raw(&site.file)?);
+    for file in &source.files {
+        let of_file: Vec<&Site> = sites.iter().filter(|s| s.file == *file).collect();
+        if of_file.is_empty() {
+            continue;
         }
-        let text = &texts[&site.file];
-        let of_site = mutants(pack, text, site)?;
-        if of_site.is_empty() {
-            bare.push(site.clone());
-        }
-        for mutant in of_site {
-            if classify(pack, text, &mutant.text)? != Change::Changed {
-                invalid += 1;
-                continue;
+        let text = source.raw(file)?;
+        let original = sha256_hex_bytes(text.as_bytes());
+        for (site, of_site) in of_file.iter().zip(mutants_of_sites(pack, &text, &of_file)?) {
+            if of_site.offered == 0 {
+                bare.push((*site).clone());
             }
-            let sha256 = sha256_hex_bytes(mutant.text.as_bytes());
-            let key = Store::key(&sha256_hex_bytes(text.as_bytes()), &sha256, &identity);
-            jobs.push(Job {
-                number: jobs.len() + 1,
-                site: site.clone(),
-                operator: mutant.operator,
-                text: mutant.text,
-                sha256,
-                key,
-            });
+            invalid += of_site.offered - of_site.valid.len();
+            for mutant in of_site.valid {
+                let sha256 = sha256_hex_bytes(mutant.text.as_bytes());
+                let key = Store::key(&original, &sha256, &identity);
+                jobs.push(Job {
+                    number: jobs.len() + 1,
+                    site: (*site).clone(),
+                    operator: mutant.operator,
+                    text: mutant.text,
+                    sha256,
+                    key,
+                });
+            }
         }
+        texts.insert(file.clone(), text);
     }
     let store = match args.no_reuse {
         true => None,
