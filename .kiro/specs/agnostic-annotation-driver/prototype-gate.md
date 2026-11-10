@@ -1,6 +1,6 @@
 # Prototype gate: agnostic annotation-guided driver
 
-Status: **revise**, 2026-11-10, attempt 1 of 2 ([R61](../../../docs/research/2026-11-10/07-annotation-driver-gate-result.md)). Rust, Python and Java meet every gated row in at least one arm; TypeScript fails in every arm, so the agnosticism row is not met. Amendments 3 to 8 govern where they differ from the original text. A second attempt needs the owner's go. Research preparation only. No production
+Status: **revise**, 2026-11-10, attempt 1 of 2 ([R61](../../../docs/research/2026-11-10/07-annotation-driver-gate-result.md)); attempt 2 authorized by the owner and specified in Amendment 10, not yet run. Rust, Python and Java meet every gated row in at least one arm; TypeScript fails in every arm, so the agnosticism row is not met. Amendments 3 to 8 govern where they differ from the original text. A second attempt needs the owner's go. Research preparation only. No production
 tasks exist or are authorized. Execution needs the owner's go, because it
 selects external scopes and spends model tokens. See the [brief](brief.md) and
 [R56](../../../docs/research/2026-11-10/02-agnostic-annotation-driver-direction.md).
@@ -432,6 +432,58 @@ Verified before use: with reuse off, every D1 mutant of the four scopes gets
 the same class as in the serial receipts of R60. None of the 240 kills of
 attempt 1 was a launch failure. Classification of real test runs is
 unchanged.
+
+## Amendment 10, 2026-11-10 (before attempt 2; owner go: "Full revision")
+
+The owner chose the full revision for the second and last attempt, an
+independent agent for the survivor labels, and separately that the released
+commands which pass without doing the work must fail loudly now (a native
+change outside this gate). Everything below is fixed before any attempt 2
+run. Targets and the `proceed` rule are unchanged from attempt 1.
+
+**10a. Pack format version 1** (data only; the engine stays free of
+language and project names). Additions to each language pack:
+
+| Addition | What it does |
+| --- | --- |
+| `kinds.state_write.call_statements` | A statement that consists of a call (or an awaited call) whose value is not used is a write site; the existing operator drops the statement. Covers state changed through calls. |
+| `kinds.branch_condition.returned` | A returned expression is a condition site when its node kind and one of its own operator tokens are in the pack's lists. Covers predicate functions. |
+| `operators.branch_condition.token_swaps` | Pairs of operator tokens. Each such token inside a condition site yields a mutant with its partner (at most two per site, in source order), in addition to the negation. These keep the types intact. |
+| `operators.failure_state.returned_literal_swaps` | A return that signals failure by a literal in the pack's list yields a mutant returning the partner literal. First operator for `return`-based failure sites. |
+| `statement_terminator` | An anchor that omits the statement terminator is accepted when the anchor plus the terminator is exactly one node. |
+
+A site may now yield several mutants. Packs stay within 40 lines.
+
+**10b. Guides.** The annotation guide and the pack authoring guide are
+revised to describe 10a, using the Rust and Python scopes and leave-one-out
+pack trials only, then frozen by hash before any TypeScript or Java call.
+
+**10c. Scopes.** The four scopes of attempt 1 stay. A second TypeScript
+scope is added by rule: among `OpenUltraCode` source files of 150 to 800
+canonical lines with their own passing test file, other than `state.ts`,
+`slugify.ts` and `degradation.ts`, the one with the most eligible sites
+under the version 1 hand pack, provided it has at least 12 sites in at
+least 3 kinds. A language meets a row only if all of its scopes do.
+
+**10d. No sampling where it is affordable.** Arm D runs every mutant of
+every eligible site when a scope has at most 200 mutants; above that, 200
+chosen by the seeded, kind-balanced selection. Batches run in the worker
+pool of Amendment 9.
+
+**10e. Arms.** D1 with hand-written version 1 packs on all scopes; D2 with
+packs the model writes for TypeScript and Java from the Rust and Python
+version 1 packs (admission as in Amendment 6, one repair); A with the frozen
+guide, two runs per scope. The decision rule of Amendment 1c stands.
+
+**10f. Labels.** Survivors are labelled by an independent agent that sees
+only the code, the tests and the change, not the designer's labels. The
+meaningfulness row uses the independent labels. The designer's labels are
+reported next to them with the disagreements. The same check is applied to
+the 36 survivors of attempt 1.
+
+**10g. Bounds.** This is the second of two attempts. Model spend for both
+attempts together stays within the 20 USD cap. `error` mutants (Amendment 9)
+must be zero in every counted batch or the batch is rerun.
 
 ## Result of attempt 1, 2026-11-10
 
