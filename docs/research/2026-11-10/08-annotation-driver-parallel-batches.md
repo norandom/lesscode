@@ -122,8 +122,8 @@ Failed attempts and defects found:
 - **A long-lived container alone barely helped Java** (1,384 s): Maven needs
   about 19 s per run even without the container start.
 
-Cost of the workers: about 9 GB of disk after the unused Rust build
-directories of the workers were removed (22 GB); eight idle test containers
+Cost of the workers: 2.3 GB of disk as measured after the unused Rust build
+directories of four workers were removed (23 GB); eight idle test containers
 were stopped at the end.
 
 ## Limits and interpretation
