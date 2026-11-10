@@ -171,7 +171,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - _Requirements: 7.5, 8.6_
 
 - [ ] 8. Validation and close
-- [ ] 8.1 Run one full batch per language with the native driver
+- [x] 8.1 Run one full batch per language with the native driver
   - The five gate scopes through `deconvolute run`; classes compared with the attempt 2 receipts; every
     difference explained. Linux-only runs use containers; the Podman machine is not managed by the agent.
   - _Requirements: 9.1, 9.2, 9.4_

@@ -1,0 +1,44 @@
+{
+  "files": [
+    "src/setup/ui/update.rs"
+  ],
+  "source_root": "D:/BuildArtifacts/lesscode/annotation-driver/scopes/mmhmem",
+  "exclusions": [
+    "target"
+  ],
+  "test_paths": [
+    "tests/"
+  ],
+  "runner_evidence_patterns": [
+    "Starting ",
+    "Summary ["
+  ],
+  "invalid_output_patterns": [
+    "could not compile",
+    "error[E"
+  ],
+  "timeout_floor_s": 120,
+  "test": [
+    "cargo",
+    "nextest",
+    "run",
+    "--locked",
+    "--lib",
+    "--test",
+    "setup_update_spike",
+    "-E",
+    "test(setup::ui::update) | binary(setup_update_spike)",
+    "--no-fail-fast"
+  ],
+  "env": {
+    "CARGO_TARGET_DIR": "D:/BuildArtifacts/lesscode/annotation-driver/native-run/rust-target"
+  },
+  "error_output_patterns": [
+    "memory allocation of",
+    "found invalid metadata files",
+    "paging file is too small"
+  ],
+  "serial_only": true,
+  "language": "rust",
+  "timeout_ceiling_s": 900
+}

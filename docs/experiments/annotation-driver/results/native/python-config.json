@@ -1,0 +1,53 @@
+{
+  "invalid_exit_codes": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "source_root": "D:/BuildArtifacts/lesscode/annotation-driver/scopes/mvibe",
+  "workers": 6,
+  "exclusions": [
+    ".venv",
+    ".pytest_cache",
+    "__pycache__",
+    ".ruff_cache"
+  ],
+  "language": "python",
+  "runner_evidence_patterns": [
+    " passed",
+    " failed",
+    " error"
+  ],
+  "timeout_ceiling_s": 300,
+  "files": [
+    "mvibe_proxy/ratelimit.py"
+  ],
+  "test": [
+    "uv",
+    "run",
+    "--no-sync",
+    "python",
+    "-m",
+    "pytest",
+    "tests/test_ratelimit.py",
+    "-n",
+    "0",
+    "-q",
+    "-x",
+    "-p",
+    "no:cacheprovider"
+  ],
+  "setup": [
+    [
+      "uv",
+      "sync",
+      "--quiet",
+      "--all-groups"
+    ]
+  ],
+  "test_paths": [
+    "tests/"
+  ],
+  "timeout_floor_s": 20
+}

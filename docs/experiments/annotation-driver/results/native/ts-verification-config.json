@@ -1,0 +1,42 @@
+{
+  "runner_evidence_patterns": [
+    "tests ",
+    "pass ",
+    "fail "
+  ],
+  "timeout_floor_s": 30,
+  "workers": 6,
+  "timeout_ceiling_s": 300,
+  "build": [
+    "pnpm",
+    "exec",
+    "tsc",
+    "--noEmit"
+  ],
+  "setup": [
+    [
+      "pnpm",
+      "install",
+      "--frozen-lockfile"
+    ]
+  ],
+  "test": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "tests/verification.test.ts"
+  ],
+  "source_root": "D:/BuildArtifacts/lesscode/annotation-driver/scopes/OpenUltraCode",
+  "test_paths": [
+    "tests/"
+  ],
+  "language": "typescript",
+  "exclusions": [
+    "node_modules",
+    "dist"
+  ],
+  "files": [
+    "src/verification.ts"
+  ]
+}

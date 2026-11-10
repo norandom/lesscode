@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R72 Slice B baseline on Mistral Large 4: 5 of 20 first replies admitted against 15 of 20 on Opus (2026-11-10)
+## Latest: R73 Native driver runs the five gate scopes end to end; 554 of 556 mutants classed as by the prototype (2026-11-10)
+
+[R73](2026-11-10/19-native-driver-batches-on-gate-scopes.md) is task 8.1 of `agnostic-annotation-driver`.
+- **Result:** `deconvolute run` on the gate's Python, TypeScript (two files), Rust and Java scopes with the projects' own tests: every mutant both sides ran has the same class, except two Java mutants that are timeouts under this run's tighter limit. Mutants only the prototype has are the 38 dropped repeats.
+- **Safety:** no scope file changed; no container left behind.
+- **Speed:** Python 118 s and TypeScript about 100 s with six copies; Java 814 s with four containers; Rust about 23 minutes, serial.
+- **Open:** final validation and the removal of the old adapters (task groups 7 and 8.3) need the owner.
+
+## Prior: R72 Slice B baseline on Mistral Large 4: 5 of 20 first replies admitted against 15 of 20 on Opus (2026-11-10)
 
 [R72](2026-11-10/18-slice-b-baseline-mistral.md) is the second model arm of R66, with the same guide and checks.
 - **First replies admitted:** Rust 0, Python 1, TypeScript 4, Java 0 of 5. The commonest failure is a node kind that does not exist in the grammar; admission names it.
