@@ -131,6 +131,47 @@ for optimisation and kept apart, the verification of candidate guides, and the a
 fresh runs. Still to be written and hashed here before the first call: the observations file, the default
 parameters, and the commit of the optimiser package.
 
+## Amendment 2, 2026-11-10 (before any call and before any optimiser code; owner directions)
+
+The owner: "you can copy the code we need from the dsrust repo then. which toolchains are ideal for us? we
+can run some tests to see the behavior. compare models. a minimum barrier is absolutely needed in regards to
+a quality detector. optimization wise there must be a pareto frontier here. we can have a max budget."
+
+What was measured in the published crates (version `0.1.0-alpha.3`, licence MIT or Apache-2.0):
+
+| Part | Lines | Depends on | Tied to the rest of the port |
+| --- | --- | --- | --- |
+| `dsrust-gepa`: reflective prompt evolution with Pareto-front selection | 2,874 | `pyrng`, `serde_json` | no; it works through an adapter trait and knows no model |
+| `pyrng`: the random number generator the two engines share | 1,135 | `sha2` | no |
+| `dsrust-tpe`: the sampler `MIPROv2` uses | 1,396 | `pyrng` | no |
+| `MIPROv2` inside `dsrust` | 3,486 | the whole port (about 70,000 lines, about 200 crates) | yes |
+
+Consequences for this protocol:
+
+- Code is copied, not depended on. `dsrust-gepa` and `pyrng` are copied into the research package with their
+  licence notices and the source commit recorded; nothing else is needed for the first optimiser. The crates
+  as published carry no licence file, so the licence texts are taken from the repository.
+- First optimiser: the GEPA engine. Reasons: it mutates the instruction from textual feedback, which is what
+  admission produces; it keeps a Pareto front over the individual tasks instead of one average, which is the
+  frontier the owner asks for; it is small and independent of any model. `MIPROv2` adds a joint search over
+  demonstrations and instructions; here the demonstrations are the example packs, so it has something to
+  search, but it cannot be copied without most of the port. It is run second, for comparison, through the
+  full crate in the separate package, if the first run leaves a question it can answer.
+- Minimum barrier (hard, not traded against anything): a candidate guide is on the frontier only if it
+  passes the verification rules of this entry, and a pack counts as a success only if admission passes with
+  all control sets. Scores below the barrier are zero, whatever they cost.
+- Frontier reported at the end: per candidate guide, quality (first-reply admission rate and rate of mutants
+  equal to the shipped pack's, per language), stability (number of distinct behaviours in repeated runs) and
+  cost (tokens per authoring call). No single number is formed from them.
+- Models: the same protocol on `claude-opus-5-5` and on `mistral-large-4`, each as author; the reflection
+  model is the author model in each arm. Results are reported side by side.
+- Budget: one maximum per run, set by the user, with a default; metric calls are the unit the engine counts,
+  and the expected cost of the default is printed before the first call. The 20 USD project stop remains.
+
+Superseded: the acceptance rule H1 to H3 stays as the adoption rule for a guide, applied to the candidate
+chosen from the frontier by the owner or, failing a choice, to the one with the highest minimum quality
+across languages.
+
 ## COBESY check
 
 Outcome first: a protocol, nothing run. Replay: model, inputs, counts, scoring, selection and acceptance are
