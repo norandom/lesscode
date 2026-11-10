@@ -1,6 +1,6 @@
 # Implementation Plan: agnostic driver in `lesscode-core`
 
-Generated 2026-11-10. **Approved by the owner on 2026-11-10.** The fixture question is unanswered; task 3.4 uses the path-by-environment default until the owner allows the files in.
+Generated 2026-11-10. **Approved by the owner on 2026-11-10.** Owner decision 2026-11-10 ("3.4 - yes"): the five gate scope files may be added to the repository as test fixtures.
 Basis: [requirements](requirements.md) and [design](design.md), both approved 2026-11-10; gate `proceed`;
 sizing spike [R65](../../../docs/research/2026-11-10/11-annotation-driver-rust-sizing-spike.md).
 
@@ -85,9 +85,9 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     the dropped duplicates listed and explained in a research entry (an intended difference under 9.2).
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.7, 9.1, 9.2_
 - [ ] 3.4 Add the parity tests and the name scan
-  - Integration tests over the retained receipts and controls, needing no Python. Scope files come from
-    fixtures if the owner allows them in the repository, otherwise from a directory named by an environment
-    variable; a missing reference is reported as "not run", never as passed.
+  - Integration tests over the retained receipts and controls, needing no Python. The five scope files are added as
+    fixtures at their gate commits (owner decision 2026-11-10), each with its origin, commit and licence noted,
+    with line endings pinned; a missing reference is reported as "not run", never as passed.
   - A test scans the engine sources and packs for language names, repository names and the gate's file
     names.
   - _Requirements: 1.7, 9.1, 9.3, 9.5_

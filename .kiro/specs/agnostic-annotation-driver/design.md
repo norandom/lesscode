@@ -375,5 +375,5 @@ list of shipped packs so that no other driver file names a language. Packs carry
 | C7 | `cli_deconvolute.rs` at 399 of 400 lines | Budgets | Handlers move to `cli_driver.rs` first |
 | C8 | Sizes of the runner, workspace, store and CLI are estimates | R65 measured the engine only | Each task group reports measured lines against this table; a file over budget is split, not exempted |
 
-Open, for the owner at approval: whether the five scope files may be added to the repository as test fixtures
+Decided by the owner on 2026-11-10 ("3.4 - yes"): the five scope files are added to the repository as test fixtures, so CI runs the parity tests. The question was: whether the five scope files may be added to the repository as test fixtures
 (two are the owner's own repositories without a licence file, one is Beer-ware, one MIT, one Apache-2.0).

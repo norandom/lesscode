@@ -10,9 +10,8 @@ Owner decisions and approvals of this session, all 2026-11-10:
 - Requirements approved ("make sure we don't forget slice B this time").
 - Apparatus cap: the driver stays outside the counted set of the 7,173-line cap and is governed by the
   per-file budgets ("(1) it is").
-- Design approved; tasks approved. The fixture question (may the five gate scope files go into the
-  repository) was asked twice and not answered; task 3.4 uses the default (path from an environment variable,
-  "not run" when absent).
+- Design approved; tasks approved. Fixtures: the owner allowed the five gate scope files into the repository as test fixtures ("3.4 - yes"),
+  so CI runs the parity tests.
 
 Work:
 
@@ -69,7 +68,7 @@ live in the files.
 2. **Slice B** (hardening against LLM inference drift): queued second, not started. Its dated step is task
    2.4: the preregistration of the pack-authoring drift baseline is due with the handover of group 2. Running
    the baseline needs the owner's go.
-3. Ask the owner again about the fixtures before task 3.4.
+3. Task 3.4 adds the five scope files as fixtures (origin, commit and licence noted; line endings pinned in `.gitattributes`, since mutant hashes depend on the exact bytes).
 
 ## Standing rules that bit in this session
 
