@@ -46,7 +46,8 @@ impl Admission {
         open.map(|c| format!("{}: {}", c.name, c.detail)).collect()
     }
 
-    fn add(&mut self, name: &'static str, result: Result<String, String>) {
+    /// Record a check that ran: Ok with its detail when it passed.
+    pub fn add(&mut self, name: &'static str, result: Result<String, String>) {
         let (pass, detail) = match result {
             Ok(detail) => (true, detail),
             Err(detail) => (false, detail),

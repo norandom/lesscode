@@ -19,12 +19,30 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/annotations.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Validation of sites selected elsewhere (task 3.2, REQ 6.1..6.3)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/cli.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
    "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Driver command handlers and receipt output (task 2.3, REQ 1.5/1.6)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/controls.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Control replay for pack admission (task 3.2, REQ 1.3/9.3)",
    "disposition": null
   },
   {

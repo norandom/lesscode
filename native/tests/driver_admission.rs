@@ -205,7 +205,7 @@ fn admit_pack_exit_codes_are_0_1_and_3() {
 }
 
 #[test]
-fn requested_controls_that_cannot_be_checked_keep_the_pack_out() {
+fn a_control_file_that_cannot_be_read_as_one_is_bad_input() {
     let dir = temp_dir("controls");
     let (_, language, text) = base();
     let good = dir.join("good.json");
@@ -227,10 +227,8 @@ fn requested_controls_that_cannot_be_checked_keep_the_pack_out() {
         "--out",
         receipt.to_str().unwrap(),
     ]);
-    assert_eq!(code, Some(1));
-    assert!(stderr.contains("controls: not run"), "{stderr}");
-    let written: Value = serde_json::from_slice(&fs::read(&receipt).unwrap()).unwrap();
-    assert_eq!(written["admitted"], false);
-    assert_eq!(written["checks"][5]["ran"], false);
+    assert_eq!(code, Some(3), "{stderr}");
+    assert!(stderr.contains("not a control file"), "{stderr}");
+    assert!(!receipt.exists());
     fs::remove_dir_all(&dir).unwrap();
 }

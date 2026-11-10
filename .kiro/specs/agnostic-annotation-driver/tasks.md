@@ -75,7 +75,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - `driver/sites.rs`: the rules of the gate as amended (2c, 10a, 12), same order and de-duplication.
   - Done when the driver lists exactly the retained prototype sites for the five scopes.
   - _Requirements: 2.1, 2.2, 2.6, 9.1_
-- [ ] 3.2 Port annotation validation
+- [x] 3.2 Port annotation validation
   - The five rules with the ten reason strings; terminator completion and statement unwrapping.
   - Done when all 98 controls give the recorded outcome.
   - _Requirements: 6.1, 6.2, 6.3, 9.3_

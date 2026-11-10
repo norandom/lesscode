@@ -1,6 +1,8 @@
 //! Command handlers of the driver. An `Err` is bad input (exit code 3).
 
 use super::admission::admit;
+use super::controls::{replay, seed_mutants, ControlFile};
+use super::pack::Pack;
 use serde::Serialize;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -58,8 +60,20 @@ pub fn run_admit_pack(args: AdmitPackArgs) -> Result<u8, String> {
         }
     }
     let mut result = admit(&text, &args.lang).map_err(|e| e.to_string())?;
-    if args.controls.is_some() {
-        result.not_run("controls", "control replay is not available in this build");
+    if let (Some(controls), Some(root)) = (&args.controls, &args.source_root) {
+        let file = ControlFile::read(controls)?;
+        match Pack::parse(&text) {
+            Ok(pack) => {
+                let source = file.source(root);
+                result.add("controls", replay(&pack, &source, &file.cases));
+                result.add("seed_mutants", seed_mutants(&pack, &source, &file.cases));
+            }
+            Err(_) => {
+                for name in ["controls", "seed_mutants"] {
+                    result.not_run(name, "the pack does not have the pack shape");
+                }
+            }
+        }
     }
     emit_json(&result, args.out.as_deref())?;
     for line in result.feedback() {
