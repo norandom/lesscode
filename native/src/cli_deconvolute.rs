@@ -52,7 +52,7 @@ pub enum DeconvoluteCommand {
         #[arg(long)]
         out: Option<PathBuf>,
     },
-    /// Intelligent Git pre-push hook for size governance and refactoring discipline.
+    /// Git pre-push hook; enforces complexity budgets only.
     PrePush(cli_hook::PrePushArgs),
     /// Install standard Git pre-push hook script in .git/hooks.
     InstallHook(cli_hook::InstallHookArgs),
@@ -127,6 +127,12 @@ fn normalize_lang(lang: &str) -> Result<&'static str, String> {
     }
 }
 
+/// Python has no analyzer or mutant generator: produce nothing and exit 2 (incomplete).
+fn python_not_implemented(what: &str) -> Result<u8, String> {
+    eprintln!("Python {what} is not implemented in this release; no result was produced.");
+    Ok(2)
+}
+
 pub fn run(cmd: DeconvoluteCommand) -> Result<u8, String> {
     match cmd {
         DeconvoluteCommand::Analyze {
@@ -159,6 +165,9 @@ fn run_analyze(
     out: Option<&Path>,
 ) -> Result<u8, String> {
     let lang = normalize_lang(lang)?;
+    if lang == "python" {
+        return python_not_implemented("analysis");
+    }
     let source_text = read_text(source_path)?;
     let path_str = source_path.to_string_lossy().to_string();
 
@@ -172,7 +181,6 @@ fn run_analyze(
         "typescript" => TypeScriptAdapter::new()
             .analyzer
             .scan_source(&path_str, &source_text),
-        "python" => (Vec::new(), Vec::new()),
         _ => unreachable!(),
     };
 
@@ -282,6 +290,9 @@ fn run_mutate(
     out: Option<&Path>,
 ) -> Result<u8, String> {
     let lang = normalize_lang(lang)?;
+    if lang == "python" {
+        return python_not_implemented("mutation");
+    }
     let source_text = read_text(source_path)?;
     fs::create_dir_all(out_dir)
         .map_err(|e| format!("Cannot create out-dir {}: {e}", out_dir.display()))?;
@@ -293,7 +304,6 @@ fn run_mutate(
         "rust" => "rs",
         "java" => "java",
         "typescript" => "ts",
-        "python" => "py",
         _ => unreachable!(),
     };
     write_mutants(out_dir, ext, &mutants)?;
@@ -307,6 +317,13 @@ fn run_mutate(
         passed: !mutants.is_empty(),
     };
     emit_json(&receipt, out)?;
+    if !receipt.passed {
+        eprintln!(
+            "No mutation operator matched {}; 0 mutants were generated.",
+            receipt.source
+        );
+        return Ok(1);
+    }
     Ok(0)
 }
 

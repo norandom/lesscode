@@ -167,6 +167,18 @@ workstation's `PATH`.
   through the installer scripts, and run the analyzers on one external
   repository per language.
 
+## Amendment, 2026-11-10: the three false passes now fail loudly
+
+Owner decision of 2026-11-10 ("fail loudly now"), implemented for the release
+after 1.0.1: `deconvolute analyze --lang python` and `deconvolute mutate
+--lang python` write nothing, say on stderr that they are not implemented and
+exit 2; `mutate` exits 1 when no operator matched (the receipt is still
+written); the pre-push hook no longer announces refactoring branches and
+treats every branch the same, checking budgets only. Covered by new CLI and
+hook tests; 356 native tests pass. The findings above describe 1.0.1 and stay
+as measured. The operators themselves are unchanged and still specimen-bound;
+replacing them is the subject of the agnostic-annotation-driver gate.
+
 ## Amendment, 2026-11-10: owner direction on mutation
 
 The owner directs that the specimen-bound mutation operators be addressed in

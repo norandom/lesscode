@@ -63,13 +63,16 @@ echo "== density: $(field "$out/density.json" baseline_lines) -> $(field "$out/d
   "$(field "$out/density.json" baseline_stmts) -> $(field "$out/density.json" candidate_stmts) statements," \
   "verdict $(field "$out/density.json" verdict)"
 
-# Known gaps from R55. Reported, not asserted, so a fix shows up as a change here.
+# Known gaps from R55. Reported, not asserted, because the answer depends on the
+# installed release: 1.0.1 exits 0 in both cases, later releases fail loudly.
+py_exit=0
 lesscode-core deconvolute analyze --lang python --source native/shim/recording_shim.py \
-  --out "$out/analyze-python.json" > /dev/null 2>&1 || true
-echo "== R55 gap, python analyze: passed=$(field "$out/analyze-python.json" passed) (a stub while this prints true)"
+  --out "$out/analyze-python.json" > /dev/null 2>&1 || py_exit=$?
+echo "== python analyze: exit $py_exit (2 = not implemented and nothing written; 0 = the 1.0.1 stub)"
+mut_exit=0
 lesscode-core deconvolute mutate --lang rust --source native/src/density.rs \
-  --out-dir "$out/mutants" --out "$out/mutate.json" > /dev/null 2>&1 || true
-echo "== R55 gap, rust mutate on density.rs: mutants_generated=$(field "$out/mutate.json" mutants_generated)"
+  --out-dir "$out/mutants" --out "$out/mutate.json" > /dev/null 2>&1 || mut_exit=$?
+echo "== rust mutate on density.rs: exit $mut_exit, mutants_generated=$(field "$out/mutate.json" mutants_generated) (exit 1 = no operator matched; 1.0.1 exits 0)"
 
 if [ "$failed" -ne 0 ]; then
   echo "ADOPTER CHECK FAILED"

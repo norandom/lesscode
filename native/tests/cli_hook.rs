@@ -144,27 +144,51 @@ fn install_hook_creates_portable_git_hook_script() {
 }
 
 #[test]
-fn refactor_branch_detection_triggers_refactoring_path() {
+fn refactor_branch_push_behaves_like_normal_branch_push() {
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let cfg = manifest_dir.join("complexity-budgets.json");
     let src = manifest_dir.join("src");
-    let stdin_lines =
-        "refs/heads/refactor/deconvolute-cache 1122 refs/heads/refactor/deconvolute-cache 3344\n";
+    let push = |branch: &str| {
+        let stdin_lines = format!("refs/heads/{branch} 1122 refs/heads/{branch} 3344\n");
+        let output = run_cli(
+            &[
+                "deconvolute",
+                "pre-push",
+                "--config",
+                cfg.to_str().unwrap(),
+                "--root",
+                src.to_str().unwrap(),
+                "--stdin-lines",
+                &stdin_lines,
+            ],
+            &[],
+        );
+        let stdout = String::from_utf8_lossy(&output.stdout).to_string();
+        let stderr = String::from_utf8_lossy(&output.stderr).to_string();
+        (output.status.code(), stdout, stderr)
+    };
 
-    let output = run_cli(
-        &[
-            "deconvolute",
-            "pre-push",
-            "--config",
-            cfg.to_str().unwrap(),
-            "--root",
-            src.to_str().unwrap(),
-            "--stdin-lines",
-            stdin_lines,
-        ],
-        &[],
-    );
-    assert_eq!(output.status.code(), Some(0));
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    assert!(stdout.contains("Detected major refactoring branch"));
+    let (normal_code, normal_stdout, normal_stderr) = push("feature/x");
+    assert_eq!(normal_code, Some(0), "{normal_stderr}");
+    assert!(normal_stdout.contains("Complexity budgets verified (0 violations)"));
+    assert!(normal_stdout.contains("Pre-push verification passed"));
+
+    for branch in ["refactor/x", "deconvolute/x", "deconv/x"] {
+        let (code, stdout, stderr) = push(branch);
+        assert_eq!(code, normal_code, "{branch}: {stderr}");
+        assert_eq!(
+            stdout.replace(branch, "feature/x"),
+            normal_stdout,
+            "{branch}"
+        );
+        assert_eq!(
+            stderr.replace(branch, "feature/x"),
+            normal_stderr,
+            "{branch}"
+        );
+        let all = format!("{stdout}{stderr}").to_lowercase();
+        assert!(!all.contains("refactoring"), "{branch}: {all}");
+        assert!(!all.contains("detected major"), "{branch}: {all}");
+        assert!(!all.contains("uncommitted"), "{branch}: {all}");
+    }
 }

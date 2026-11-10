@@ -1,10 +1,8 @@
-//! Git pre-push hook and installer porcelain for size governance and refactoring discipline.
+//! Git pre-push hook and installer porcelain. The hook enforces complexity budgets only.
 //!
-//! Intelligently intercepts candidate branches before pushing to remotes:
 //! - Bypasses branch deletions (`(delete)` or zero-sha) and `LESSCODE_SKIP_HOOK=1`.
-//! - Runs fast complexity budget validation against `complexity-budgets.json`.
-//! - Treats `refactor/*` and `deconvolute/*` branches as major refactorings,
-//!   validating AST state-boundary cleanliness on modified source files.
+//! - Otherwise runs the complexity budget check against `complexity-budgets.json`.
+//! - Treats every branch name the same; no other check runs.
 
 use std::fs;
 use std::io::Read;
@@ -19,7 +17,7 @@ pub struct PrePushArgs {
     pub remote: Option<String>,
     /// Remote URL (passed by git as $2).
     pub url: Option<String>,
-    /// Local ref to validate (e.g. refs/heads/refactor/my-change).
+    /// Local ref being pushed (e.g. refs/heads/my-branch).
     #[arg(long)]
     pub local_ref: Option<String>,
     /// Local commit sha.
@@ -77,13 +75,6 @@ pub fn parse_ref_lines(input: &str) -> Vec<PushRef> {
         .collect()
 }
 
-pub fn is_refactor_branch(ref_name: &str) -> bool {
-    let stripped = ref_name.strip_prefix("refs/heads/").unwrap_or(ref_name);
-    stripped.starts_with("refactor/")
-        || stripped.starts_with("deconvolute/")
-        || stripped.starts_with("deconv/")
-}
-
 pub fn is_branch_deletion(local_ref: &str, local_sha: &str) -> bool {
     local_ref == "(delete)"
         || local_sha == "0000000000000000000000000000000000000000"
@@ -132,25 +123,6 @@ fn check_budgets_gate(config_path: &Path, root_path: &Path) -> Result<(), String
     Ok(())
 }
 
-fn check_refactor_cleanliness() -> Result<(), String> {
-    let output = std::process::Command::new("git")
-        .args(["status", "--porcelain"])
-        .output()
-        .map_err(|e| format!("Failed to run git status: {e}"))?;
-    if !output.status.success() {
-        return Ok(());
-    }
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    let tracked_changes = stdout.lines().any(|l| {
-        let prefix = &l[..l.len().min(2)];
-        prefix.starts_with('M') || prefix.starts_with('A') || prefix.starts_with('D')
-    });
-    if tracked_changes {
-        println!("[lesscode-hook] Note: Working tree contains uncommitted changes.");
-    }
-    Ok(())
-}
-
 fn check_ref_target(r: &PushRef, args: &PrePushArgs) -> Result<(), String> {
     if is_branch_deletion(&r.local_ref, &r.local_sha) {
         println!(
@@ -158,14 +130,6 @@ fn check_ref_target(r: &PushRef, args: &PrePushArgs) -> Result<(), String> {
             r.local_ref
         );
         return Ok(());
-    }
-
-    if is_refactor_branch(&r.local_ref) {
-        println!(
-            "[lesscode-hook] Detected major refactoring branch: {}",
-            r.local_ref
-        );
-        check_refactor_cleanliness()?;
     }
 
     if !args.skip_budgets {
