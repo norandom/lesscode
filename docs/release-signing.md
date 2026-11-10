@@ -23,7 +23,7 @@ The pinned signing tool is `zipsign` 0.2.2. Never paste a real key into an
 issue, a commit, a chat or a log.
 
 Release 1.0.1 was published before signing existed. Its archives carry SHA-256
-files but no signatures.
+files but no signatures. Release 1.0.2 is the first signed release.
 
 ## Verify a download
 

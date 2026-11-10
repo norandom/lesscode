@@ -23,14 +23,17 @@ has the result table, the open decisions, the owner's rules and the commands.
 3. **Second priority:** hardening against LLM inference drift, in
    `constraint-guided-compression` Slice B (requirements Amendment 5). Not
    started. The run-to-run agreement measured today is its baseline.
-4. **Release:** `v1.0.1` is published with binaries for five targets and is
-   unsigned. A new tag cannot be published until the owner runs
-   `scripts\setup-release-signing.ps1`, backs up the key and commits
-   `scripts/release-public-keys.txt`
+4. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
+   release: archives carry zipsign signatures, `SHA256SUMS.sig` and a
+   provenance attestation, all verified after publication. It contains the
+   fail-loudly fixes (item 5). The owner holds the signing key and approves
+   the `release` environment for each tag
    ([docs/release-signing.md](../docs/release-signing.md)).
-5. **Open from R55:** Python `deconvolute analyze` is a stub that reports
-   `passed: true`; the pre-push hook's refactor-branch check does nothing;
-   the hard-coded mutation operators stay until a design passes the gate.
+5. **R55 false passes fixed in 1.0.2:** Python `analyze` and `mutate` exit 2
+   and write nothing, `mutate` exits 1 when no operator matched, the hook
+   checks budgets only. The hard-coded mutation operators themselves stay
+   until a design passes the gate; `cli_deconvolute.rs` is at 399 of its
+   400-line ceiling.
    Batches now run in parallel worker copies (R62): a full pass over the
    four scopes takes about 8 minutes instead of 43, with identical results.
 6. **Working rules from the owner today:** the agent decides strategy and
