@@ -10,5 +10,13 @@
     "error_order": {"nodes": ["if_statement"], "requires_next_sibling": true},
     "state_write": {"nodes": ["assignment_expression", "augmented_assignment_expression", "update_expression"]},
     "pure_shell_boundary": {"nodes": ["function_declaration", "method_definition", "arrow_function", "function_expression"]}
+  },
+  "noop_statement": ";",
+  "statement_wrappers": ["expression_statement"],
+  "operators": {
+    "branch_condition": {"template": "!({text})", "exclude_kinds": ["empty_statement"]},
+    "failure_state": {"by_kind": {"throw_statement": "{noop}"}},
+    "state_write": {"statement": "{noop}"},
+    "error_order": {"swap_next": true}
   }
 }

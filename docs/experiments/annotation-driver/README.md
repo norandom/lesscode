@@ -13,6 +13,9 @@ Research entries: [R56](../../research/2026-11-10/02-agnostic-annotation-driver-
 | `tables/<language>.json` | Everything language-specific: comment and string kinds, which syntax nodes each annotation kind may sit on |
 | `validator.py` | Accepts or rejects annotations; classifies a mutant as changed, no-op or unparseable. No model |
 | `controls.json`, `run_controls.py` | Hand-made control annotations and their runner (gate checklist step 2) |
+| `engine.py` | Finds eligible sites and applies the generic operators; reads only the packs |
+| `harness.py`, `run_arm.py` | Runs a batch of mutants against a scope's own tests and writes a receipt |
+| `run_engine_checks.py` | Model-free checks of packs, positions, operators, counts, selection and the harness |
 | `results/` | Retained receipts |
 | `compose.yaml` | Linux-side tools (Maven for the Java scope) |
 

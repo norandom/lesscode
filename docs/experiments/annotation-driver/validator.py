@@ -85,31 +85,35 @@ def _chain(node: SgNode) -> list[SgNode]:
     return chain
 
 
-def _kind_allowed(chain: list[SgNode], rule: dict, unwrap: frozenset[str] = frozenset()) -> bool:
+def _kind_match(chain: list[SgNode], rule: dict, unwrap: frozenset[str] = frozenset()) -> SgNode | None:
+    """The first node of the chain (or its parenthesis wrapper) the rule allows."""
     # A condition is often wrapped in parentheses that belong to the statement;
     # an anchor on the inner expression then counts as the wrapped node.
     wrapper = chain[0].parent()
     candidates = [*chain, wrapper] if wrapper is not None and wrapper.kind() in unwrap else chain
     for node in candidates:
         if node.kind() in rule.get("nodes", ()):
-            return True
+            return node
         for prefix in rule.get("nodes_with_prefix", {}).get(node.kind(), ()):
             if node.text().startswith(prefix):
-                return True
+                return node
         parent = node.parent()
         if parent is not None:
             for parent_kind, field in rule.get("field_of", ()):
                 target = parent.field(field) if parent.kind() == parent_kind else None
                 if target is not None and _span(target) == _span(node):
-                    return True
-    return False
+                    return node
+    return None
 
 
-def _next_sibling_allowed(chain: list[SgNode], rule: dict, skip: set[str]) -> bool:
+def next_check(chain: list[SgNode], rule: dict, skip: set[str]) -> SgNode | None:
+    """The following named sibling, if it is of a kind the rule names."""
     sibling = chain[0].next()
     while sibling is not None and (not sibling.is_named() or sibling.kind() in skip):
         sibling = sibling.next()
-    return sibling is not None and _kind_allowed(_chain(sibling), {"nodes": rule.get("nodes", ())})
+    if sibling is None or _kind_match(_chain(sibling), {"nodes": rule.get("nodes", ())}) is None:
+        return None
+    return sibling
 
 
 def _in_test_region(node: SgNode, markers: tuple[str, ...]) -> bool:
@@ -124,6 +128,39 @@ def _in_test_region(node: SgNode, markers: tuple[str, ...]) -> bool:
     return False
 
 
+def is_test_file(scope: Scope, normalized: str) -> bool:
+    return any(normalized.startswith(p) or f"/{p}" in f"/{normalized}" for p in scope.test_paths)
+
+
+def anchor_nodes(root: SgNode, start: int, end: int, anchor: str) -> list[SgNode]:
+    """Nodes starting on line ``start`` and ending on line ``end`` whose text is ``anchor``.
+
+    Text is compared with universal newlines, as ``Scope.source`` reads it, so
+    a tree parsed from the exact file bytes matches the same anchors. Only
+    named nodes count: a lone bracket or operator token is not a site.
+    """
+    return [n for n in _walk(root)
+            if n.is_named() and n.range().start.line == start - 1 and n.range().end.line == end - 1
+            and n.text().replace("\r\n", "\n").replace("\r", "\n") == anchor]
+
+
+def site_check(table: dict, node: SgNode, kind: str) -> tuple[str, SgNode | None]:
+    """Rules 3 and 4 and the test-region rule for one node: (reason, allowed node)."""
+    chain = _chain(node)
+    hidden = set(table["comment_kinds"]) | set(table["string_kinds"])
+    if any(n.kind() in hidden for n in [*chain, *_ancestors(chain[0])]):
+        return "in_comment_or_string", None
+    if _in_test_region(chain[0], tuple(table.get("test_attribute_markers", ()))):
+        return "test_region", None
+    rule = table["kinds"].get(kind, {})
+    matched = _kind_match(chain, rule, frozenset(table.get("unwrap_kinds", ())))
+    if matched is None:
+        return "kind_mismatch", None
+    if rule.get("requires_next_sibling") and next_check(chain, rule, set(table["comment_kinds"])) is None:
+        return "kind_mismatch", None
+    return "ok", matched
+
+
 def validate(scope: Scope, annotations: list[dict]) -> list[dict]:
     """Return one decision per annotation: ``accepted`` plus a ``reason``.
 
@@ -133,7 +170,6 @@ def validate(scope: Scope, annotations: list[dict]) -> list[dict]:
     5 not a duplicate of an accepted annotation.
     """
     table = load_table(scope.language)
-    hidden = set(table["comment_kinds"]) | set(table["string_kinds"])
     roots: dict[str, SgNode] = {}
     accepted_sites: set[tuple] = set()
     decisions = []
@@ -146,30 +182,21 @@ def validate(scope: Scope, annotations: list[dict]) -> list[dict]:
                 or not isinstance(start, int) or not isinstance(end, int) or start < 1 or end < start:
             return "malformed"
         normalized = str(file).replace("\\", "/")
-        if any(normalized.startswith(p) or f"/{p}" in f"/{normalized}" for p in scope.test_paths):
+        if is_test_file(scope, normalized):
             return "test_file"
         if normalized not in scope.files:
             return "outside_scope"
         if normalized not in roots:
             roots[normalized] = SgRoot(scope.source(normalized), scope.language).root()
-        matches = [n for n in _walk(roots[normalized])
-                   if n.range().start.line == start - 1 and n.range().end.line == end - 1
-                   and n.text() == anchor]
+        matches = anchor_nodes(roots[normalized], start, end, anchor)
         spans = {_span(n) for n in matches}
         if not spans:
             return "anchor_mismatch"
         if len(spans) > 1:
             return "anchor_ambiguous"
-        chain = _chain(matches[0])
-        if any(n.kind() in hidden for n in [*chain, *_ancestors(chain[0])]):
-            return "in_comment_or_string"
-        if _in_test_region(chain[0], tuple(table.get("test_attribute_markers", ()))):
-            return "test_region"
-        rule = table["kinds"].get(kind, {})
-        if not _kind_allowed(chain, rule, frozenset(table.get("unwrap_kinds", ()))):
-            return "kind_mismatch"
-        if rule.get("requires_next_sibling") and not _next_sibling_allowed(chain, rule, set(table["comment_kinds"])):
-            return "kind_mismatch"
+        reason, _ = site_check(table, matches[0], kind)
+        if reason != "ok":
+            return reason
         site = (normalized, spans.pop(), kind)
         if site in accepted_sites:
             return "duplicate"

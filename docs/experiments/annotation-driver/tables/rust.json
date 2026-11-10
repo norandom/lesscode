@@ -13,5 +13,13 @@
     "error_order": {"nodes": ["if_expression"], "requires_next_sibling": true},
     "state_write": {"nodes": ["assignment_expression", "compound_assignment_expr"]},
     "pure_shell_boundary": {"nodes": ["function_item"]}
+  },
+  "noop_statement": ";",
+  "statement_wrappers": ["expression_statement"],
+  "operators": {
+    "branch_condition": {"template": "!({text})", "exclude_kinds": ["let_condition", "let_chain"]},
+    "failure_state": {"by_kind": {"try_expression": "{child0}.unwrap()"}},
+    "state_write": {"statement": "{noop}"},
+    "error_order": {"swap_next": true}
   }
 }

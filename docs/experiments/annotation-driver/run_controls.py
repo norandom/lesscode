@@ -34,6 +34,16 @@ def comment_node_at(scope: v.Scope, file: str, line: int) -> dict:
     raise SystemExit(f"no comment node at {file}:{line}; fix controls.json")
 
 
+def punctuation_case(scope: v.Scope, seed: dict) -> list[tuple[str, list[dict], list[str]]]:
+    """A lone bracket that is unique on the seed's line is a token, not a site."""
+    line = scope.source(seed["file"]).splitlines()[seed["start_line"] - 1]
+    bracket = next((c for c in "({[" if line.count(c) == 1), None)
+    if bracket is None:
+        return []
+    token = {**seed, "anchor": bracket, "end_line": seed["start_line"]}
+    return [("punctuation_anchor", [token], ["anchor_mismatch"])]
+
+
 def annotation_cases(scope: v.Scope, spec: dict) -> list[tuple[str, list[dict], list[str]]]:
     """(label, annotations, expected reason per annotation)."""
     seeds = spec["seeds"]
@@ -51,6 +61,7 @@ def annotation_cases(scope: v.Scope, spec: dict) -> list[tuple[str, list[dict], 
         ("wrong_line", [variant(start_line=first["start_line"] + 3, end_line=first["end_line"] + 3)], ["anchor_mismatch"]),
         ("altered_anchor", [variant(anchor=first["anchor"] + " x")], ["anchor_mismatch"]),
         ("partial_anchor", [variant(anchor=first["anchor"][: max(3, len(first["anchor"]) // 2)])], ["anchor_mismatch"]),
+        *punctuation_case(scope, first),
         ("in_comment", [comment_node_at(scope, first["file"], spec["comment_line"])], ["in_comment_or_string"]),
         ("test_file", [variant(file=spec["test_file"])], ["test_file"]),
         ("outside_scope", [variant(file=spec["outside_file"])], ["outside_scope"]),

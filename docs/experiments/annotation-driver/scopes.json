@@ -14,7 +14,7 @@
       "name": "python-mvibe-ratelimit", "language": "python", "role": "development",
       "repository": "mvibe", "revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c",
       "files": ["mvibe_proxy/ratelimit.py"], "test_paths": ["tests/"],
-      "test": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_ratelimit.py", "-q", "-x", "-p", "no:cacheprovider"],
+      "test": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_ratelimit.py", "-n", "0", "-q", "-x", "-p", "no:cacheprovider"],
       "env": {},
       "timeout_s": 300, "invalid_exit_codes": [2, 3, 4, 5], "invalid_output_patterns": []
     },

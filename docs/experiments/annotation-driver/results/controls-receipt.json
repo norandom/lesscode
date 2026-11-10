@@ -1,17 +1,17 @@
 {
  "receipt": "annotation-driver-validator-controls-v0",
- "controls": 72,
+ "controls": 76,
  "failed": 0,
  "passed": true,
  "inputs_sha256": {
-  "validator.py": "d1d11ac7841ca48d7f8ef3635cce28da2414f0fe2b816ba118965c3c3f313775",
-  "run_controls.py": "6e3851a80babd3295ef35ce4206570fe86c50a0cf8c0ec28758f8b159702bb49",
+  "validator.py": "afa504eaf246240c7c1ed2b5920c8162c410181317c01acfe9e47829c7c3a046",
+  "run_controls.py": "4238c2c33aefa98fedb5533e22c7e3f9a62de6b76e1793f945575fda8bbbb38b",
   "controls.json": "99966c71510fb6ac0dd71d84f348e03dc9e5e5eb0f2e98e1ce54859fd54fc14b",
-  "scopes.json": "3a92cd386ecf63edb543bf001aff9f860cc9af13a430a38261e72e3087195650",
-  "tables/java.json": "e8769f905d6aba313b5a5b677890f46114f8187cc64718a79ae42217f8c69fc7",
-  "tables/python.json": "0be340697d93a3433a272942cfc51715b5811bbeea4158d1ecf0ac286a9a4b4a",
-  "tables/rust.json": "b519961dfe34d2f37aa90cf838d3519a295f7504814ef7ee879fe1271316ff54",
-  "tables/typescript.json": "f90933c604c8c2a3b81d20acfd9ea0d121666faedd4e9ed1170380642b5dcef3"
+  "scopes.json": "229ff3fa7be807678cdaffaadbf4a0669c8c544d36e9fd05c010472d80072260",
+  "tables/java.json": "9a7f65c126ba84c0a6c447913539bfc75035ceddc74122a15d4764b30d55746f",
+  "tables/python.json": "7d30f778994b05517416b108f63316a72f1d4801b43fa47ddc61d540757732c5",
+  "tables/rust.json": "8be82132121987419773defe0e51511ea7e50028265da187da5f75a37e09b787",
+  "tables/typescript.json": "22ce24939e92aaf9f541723b43fd6701eaf9494408cdb320db1c8fe5acf84808"
  },
  "scope_files_sha256": {
   "rust-mmhmem-setup-update:src/setup/ui/update.rs": "804522e68de5d5059369418ab8190baf718eaed06c821ac007ab03661878381e",
@@ -78,6 +78,17 @@
   {
    "scope": "rust-mmhmem-setup-update",
    "control": "partial_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "control": "punctuation_anchor",
    "expected": [
     "anchor_mismatch"
    ],
@@ -268,6 +279,17 @@
   },
   {
    "scope": "python-mvibe-ratelimit",
+   "control": "punctuation_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
    "control": "in_comment",
    "expected": [
     "in_comment_or_string"
@@ -448,6 +470,17 @@
   },
   {
    "scope": "typescript-openultracode-state",
+   "control": "punctuation_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
    "control": "in_comment",
    "expected": [
     "in_comment_or_string"
@@ -618,6 +651,17 @@
   {
    "scope": "java-commons-csv-lexer",
    "control": "partial_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "punctuation_anchor",
    "expected": [
     "anchor_mismatch"
    ],

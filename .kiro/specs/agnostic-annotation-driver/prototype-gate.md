@@ -298,9 +298,34 @@ review of survivors. 7: size accounting. The decision rule of Amendment 1c
 stands: if D1 or D2 meets the gated rows on the same languages as A, the
 recommendation is the D form.
 
+## Amendment 4, 2026-11-10 (pre-run; after the engine and harness were built, [R59](../../../docs/research/2026-11-10/05-annotation-driver-strategy-and-harness.md) addition)
+
+Made before any arm batch and before any model call. Each point comes from
+building and checking the engine; none comes from a mutation result.
+
+- **4a. Python test command.** The scope's own pytest settings run parallel
+  workers, under which an ordinary test failure and a collection error are
+  not distinguishable by exit code. The command now runs serially (`-n 0`):
+  a failing test exits 1 (killed), a collection error exits 2 (invalid).
+  Baseline unchanged, 230 passed.
+- **4b. The cap of 3d applies to mutants.** Arm D selects among the eligible
+  sites that have an operator, so the 40 are 40 mutants. Sites without an
+  operator are reported, not drawn.
+- **4c. Validator rule 2 counts named syntax nodes only.** A lone bracket
+  that happened to be unique on its line was accepted as an anchor. It is now
+  rejected, and a control for it is added (76 controls, all as expected).
+- **4d. TypeScript pack.** The empty condition of `for (;;)` is excluded
+  (`empty_statement`); negating it cannot parse. This edit to a held-out
+  language's hand-written pack was made after seeing that scope, so D1 on
+  TypeScript is not a clean held-out result. D2, whose pack the model writes
+  without seeing the scope, remains the agnosticism test.
+- **4e. Sites that can yield a mutant**, with these packs: Rust 16 of 33
+  eligible, Python 161 of 200, TypeScript 29 of 50, Java 115 of 157. Most of
+  the rest are `return` statements labelled as failure sites.
+
 ## Evidence record
 
-Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58.
+Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58, the engine checks in the R59 addition.
 No arm A, C or D result exists yet. Execution begins with a dated research entry that
 freezes the inputs, and ends with one that reports each row above, the raw
 annotations, validator decisions, mutants, test logs and the review labels.

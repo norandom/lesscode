@@ -1,0 +1,946 @@
+{
+ "receipt": "annotation-driver-engine-checks-v0",
+ "passed": true,
+ "checks_passed": {
+  "a_packs": true,
+  "b_positions": true,
+  "c_seeds": true,
+  "c_all_sites": true,
+  "d_counts": true,
+  "e_select": true,
+  "f_smoke": true
+ },
+ "inputs_sha256": {
+  "engine.py": "c584e0c119be4766a8bd02341c0bd6f7675de8babd7c334d816a65c0dc862bbd",
+  "harness.py": "125e3d10b318264488859b61d9ae03f60125afa4f680c154ec345c6c854cd593",
+  "validator.py": "afa504eaf246240c7c1ed2b5920c8162c410181317c01acfe9e47829c7c3a046",
+  "run_arm.py": "0fb08f528aeb9b8e39caf544c067ba2c30c9e8bb4fd7f9779fcb62bc489fb28e",
+  "run_engine_checks.py": "de6310f4ef1cc80d3ac0a85f6ab58e5cf397af5e78db0a4f335f0d12f3e70dbe",
+  "run_controls.py": "4238c2c33aefa98fedb5533e22c7e3f9a62de6b76e1793f945575fda8bbbb38b",
+  "controls.json": "99966c71510fb6ac0dd71d84f348e03dc9e5e5eb0f2e98e1ce54859fd54fc14b",
+  "scopes.json": "229ff3fa7be807678cdaffaadbf4a0669c8c544d36e9fd05c010472d80072260",
+  "compose.yaml": "cc5c1bb39583061c039fbfab6134fc79690dd1ac5c4061414a5b510cd9aee1e3",
+  "tables/java.json": "9a7f65c126ba84c0a6c447913539bfc75035ceddc74122a15d4764b30d55746f",
+  "tables/python.json": "7d30f778994b05517416b108f63316a72f1d4801b43fa47ddc61d540757732c5",
+  "tables/rust.json": "8be82132121987419773defe0e51511ea7e50028265da187da5f75a37e09b787",
+  "tables/typescript.json": "22ce24939e92aaf9f541723b43fd6701eaf9494408cdb320db1c8fe5acf84808"
+ },
+ "a_packs": [
+  {
+   "pack": "java.json",
+   "kinds_checked": 16,
+   "invalid_kinds": [],
+   "invalid_kind_control_raises": true,
+   "lines": 22,
+   "pass": true
+  },
+  {
+   "pack": "python.json",
+   "kinds_checked": 13,
+   "invalid_kinds": [],
+   "invalid_kind_control_raises": true,
+   "lines": 22,
+   "pass": true
+  },
+  {
+   "pack": "rust.json",
+   "kinds_checked": 16,
+   "invalid_kinds": [],
+   "invalid_kind_control_raises": true,
+   "lines": 25,
+   "pass": true
+  },
+  {
+   "pack": "typescript.json",
+   "kinds_checked": 19,
+   "invalid_kinds": [],
+   "invalid_kind_control_raises": true,
+   "lines": 22,
+   "pass": true
+  }
+ ],
+ "b_positions": [
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "file": "src/setup/ui/update.rs",
+   "crlf_pairs": 311,
+   "lone_cr": 0,
+   "non_ascii_chars": 8,
+   "nodes_and_mismatches": {
+    "disk": [
+     3141,
+     0
+    ],
+    "lf": [
+     3141,
+     0
+    ],
+    "non_ascii_prefix": [
+     3143,
+     0
+    ]
+   },
+   "sites_same_with_lf": true,
+   "sites_same_after_non_ascii_line": true,
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "file": "mvibe_proxy/ratelimit.py",
+   "crlf_pairs": 572,
+   "lone_cr": 0,
+   "non_ascii_chars": 0,
+   "nodes_and_mismatches": {
+    "disk": [
+     4121,
+     0
+    ],
+    "lf": [
+     4121,
+     0
+    ],
+    "non_ascii_prefix": [
+     4122,
+     0
+    ]
+   },
+   "sites_same_with_lf": true,
+   "sites_same_after_non_ascii_line": true,
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "file": "src/state.ts",
+   "crlf_pairs": 238,
+   "lone_cr": 0,
+   "non_ascii_chars": 0,
+   "nodes_and_mismatches": {
+    "disk": [
+     2346,
+     0
+    ],
+    "lf": [
+     2346,
+     0
+    ],
+    "non_ascii_prefix": [
+     2347,
+     0
+    ]
+   },
+   "sites_same_with_lf": true,
+   "sites_same_after_non_ascii_line": true,
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+   "crlf_pairs": 552,
+   "lone_cr": 0,
+   "non_ascii_chars": 0,
+   "nodes_and_mismatches": {
+    "disk": [
+     3094,
+     0
+    ],
+    "lf": [
+     3094,
+     0
+    ],
+    "non_ascii_prefix": [
+     3095,
+     0
+    ]
+   },
+   "sites_same_with_lf": true,
+   "sites_same_after_non_ascii_line": true,
+   "pass": true
+  }
+ ],
+ "c_seeds": [
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "seed": "branch_condition@83",
+   "accepted": true,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 83,
+    "start_column": 7,
+    "end_line": 83,
+    "end_column": 31,
+    "text": "mode != Mode::NoTerminal"
+   },
+   "site_is_eligible": true,
+   "operator": "negate",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "mode != Mode::NoTerminal",
+   "after": "!(mode != Mode::NoTerminal)",
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "seed": "failure_state@63",
+   "accepted": true,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "failure_state",
+    "node_kind": "return_expression",
+    "start_line": 63,
+    "start_column": 12,
+    "end_line": 63,
+    "end_column": 48,
+    "text": "return Err(\"--bootstrap\".to_owned())"
+   },
+   "site_is_eligible": true,
+   "operator": null,
+   "note": "no_operator: not mutated",
+   "pass": true
+  },
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "seed": "state_write@103",
+   "accepted": true,
+   "site": {
+    "file": "src/setup/ui/update.rs",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 103,
+    "start_column": 4,
+    "end_line": 103,
+    "end_column": 42,
+    "text": "deps.restart.command = Command::Update"
+   },
+   "site_is_eligible": true,
+   "operator": "drop_statement",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "deps.restart.command = Command::Update;",
+   "after": ";",
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "seed": "branch_condition@85",
+   "accepted": true,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "branch_condition",
+    "node_kind": "boolean_operator",
+    "start_line": 85,
+    "start_column": 7,
+    "end_line": 85,
+    "end_column": 37,
+    "text": "raw is None or not raw.strip()"
+   },
+   "site_is_eligible": true,
+   "operator": "negate",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "raw is None or not raw.strip()",
+   "after": "not (raw is None or not raw.strip())",
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "seed": "failure_state@108",
+   "accepted": true,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "failure_state",
+    "node_kind": "raise_statement",
+    "start_line": 108,
+    "start_column": 8,
+    "end_line": 108,
+    "end_column": 70,
+    "text": "raise RateLimitConfigError(f'{key} must be a positive number')"
+   },
+   "site_is_eligible": true,
+   "operator": "drop:raise_statement",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "raise RateLimitConfigError(f'{key} must be a positive number')",
+   "after": "pass",
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "seed": "state_write@453",
+   "accepted": true,
+   "site": {
+    "file": "mvibe_proxy/ratelimit.py",
+    "kind": "state_write",
+    "node_kind": "augmented_assignment",
+    "start_line": 453,
+    "start_column": 8,
+    "end_line": 453,
+    "end_column": 23,
+    "text": "self._held += 1"
+   },
+   "site_is_eligible": true,
+   "operator": "drop_statement",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "self._held += 1",
+   "after": "pass",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "seed": "branch_condition@50",
+   "accepted": true,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 50,
+    "start_column": 12,
+    "end_line": 50,
+    "end_column": 57,
+    "text": "isNodeError(error) && error.code === \"ENOENT\""
+   },
+   "site_is_eligible": true,
+   "operator": "negate",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "isNodeError(error) && error.code === \"ENOENT\"",
+   "after": "!(isNodeError(error) && error.code === \"ENOENT\")",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "seed": "failure_state@54",
+   "accepted": true,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "failure_state",
+    "node_kind": "throw_statement",
+    "start_line": 54,
+    "start_column": 8,
+    "end_line": 54,
+    "end_column": 19,
+    "text": "throw error"
+   },
+   "site_is_eligible": true,
+   "operator": "drop:throw_statement",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "throw error",
+   "after": ";",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "seed": "state_write@59",
+   "accepted": true,
+   "site": {
+    "file": "src/state.ts",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 59,
+    "start_column": 8,
+    "end_line": 59,
+    "end_column": 32,
+    "text": "parsed = JSON.parse(raw)"
+   },
+   "site_is_eligible": true,
+   "operator": "drop_statement",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "parsed = JSON.parse(raw)",
+   "after": ";",
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "seed": "branch_condition@82",
+   "accepted": true,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "branch_condition",
+    "node_kind": "binary_expression",
+    "start_line": 82,
+    "start_column": 16,
+    "end_line": 82,
+    "end_column": 32,
+    "text": "unescaped == EOF"
+   },
+   "site_is_eligible": true,
+   "operator": "negate",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "unescaped == EOF",
+   "after": "!(unescaped == EOF)",
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "seed": "state_write@56",
+   "accepted": true,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "state_write",
+    "node_kind": "assignment_expression",
+    "start_line": 56,
+    "start_column": 8,
+    "end_line": 56,
+    "end_column": 28,
+    "text": "this.reader = reader"
+   },
+   "site_is_eligible": true,
+   "operator": "drop_statement",
+   "verdict": "changed",
+   "site_text_at_offsets": true,
+   "inside_statement": true,
+   "before": "this.reader = reader;",
+   "after": ";",
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "seed": "failure_state@109",
+   "accepted": true,
+   "site": {
+    "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+    "kind": "failure_state",
+    "node_kind": "return_statement",
+    "start_line": 109,
+    "start_column": 8,
+    "end_line": 109,
+    "end_column": 37,
+    "text": "return reader.getBytesRead();"
+   },
+   "site_is_eligible": true,
+   "operator": null,
+   "note": "no_operator: not mutated",
+   "pass": true
+  }
+ ],
+ "c_all_sites": [
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "coverage": {
+    "branch_condition": {
+     "operator:negate": 11
+    },
+    "error_order": {
+     "operator:swap_next": 2
+    },
+    "failure_state": {
+     "operator:rewrite:try_expression": 2,
+     "no_operator:return_expression": 16,
+     "no_operator:call_expression": 1
+    },
+    "state_write": {
+     "operator:drop_statement": 1
+    }
+   },
+   "verdicts": {
+    "changed": 16
+   },
+   "edit_failures": [],
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "coverage": {
+    "branch_condition": {
+     "operator:negate": 40
+    },
+    "error_order": {
+     "operator:swap_next": 5
+    },
+    "failure_state": {
+     "no_operator:return_statement": 38,
+     "operator:drop:raise_statement": 6
+    },
+    "state_write": {
+     "operator:drop_statement": 110,
+     "no_operator:assignment": 1
+    }
+   },
+   "verdicts": {
+    "changed": 161
+   },
+   "edit_failures": [],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "coverage": {
+    "branch_condition": {
+     "operator:negate": 16
+    },
+    "failure_state": {
+     "no_operator:return_statement": 20,
+     "operator:drop:throw_statement": 9
+    },
+    "state_write": {
+     "no_operator:augmented_assignment_expression": 2,
+     "operator:drop_statement": 3
+    }
+   },
+   "verdicts": {
+    "changed": 28
+   },
+   "edit_failures": [],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "coverage": {
+    "branch_condition": {
+     "operator:negate": 51
+    },
+    "error_order": {
+     "operator:swap_next": 11
+    },
+    "failure_state": {
+     "no_operator:return_statement": 40,
+     "operator:drop:throw_statement": 3
+    },
+    "state_write": {
+     "operator:drop_statement": 50,
+     "no_operator:update_expression": 2
+    }
+   },
+   "verdicts": {
+    "changed": 115
+   },
+   "edit_failures": [],
+   "pass": true
+  }
+ ],
+ "d_counts": [
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "r59": {
+    "failure_state": 19,
+    "branch_condition": 16,
+    "error_order": 2,
+    "state_write": 1
+   },
+   "r59_method": {
+    "branch_condition": 16,
+    "error_order": 2,
+    "failure_state": 19,
+    "state_write": 1
+   },
+   "r59_total": 38,
+   "expected_engine": {
+    "failure_state": 19,
+    "branch_condition": 11,
+    "error_order": 2,
+    "state_write": 1
+   },
+   "engine": {
+    "branch_condition": 11,
+    "error_order": 2,
+    "failure_state": 19,
+    "state_write": 1
+   },
+   "engine_total": 33,
+   "only_r59_method": {
+    "branch_condition:let_condition": 4,
+    "branch_condition:let_chain": 1
+   },
+   "only_engine": {},
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "r59": {
+    "state_write": 111,
+    "failure_state": 44,
+    "branch_condition": 40,
+    "error_order": 5
+   },
+   "r59_method": {
+    "branch_condition": 40,
+    "error_order": 5,
+    "failure_state": 44,
+    "state_write": 111
+   },
+   "r59_total": 200,
+   "expected_engine": {
+    "state_write": 111,
+    "failure_state": 44,
+    "branch_condition": 40,
+    "error_order": 5
+   },
+   "engine": {
+    "branch_condition": 40,
+    "error_order": 5,
+    "failure_state": 44,
+    "state_write": 111
+   },
+   "engine_total": 200,
+   "only_r59_method": {},
+   "only_engine": {},
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "r59": {
+    "failure_state": 29,
+    "branch_condition": 17,
+    "state_write": 5
+   },
+   "r59_method": {
+    "branch_condition": 17,
+    "failure_state": 29,
+    "state_write": 5
+   },
+   "r59_total": 51,
+   "expected_engine": {
+    "failure_state": 29,
+    "branch_condition": 16,
+    "state_write": 5
+   },
+   "engine": {
+    "branch_condition": 16,
+    "failure_state": 29,
+    "state_write": 5
+   },
+   "engine_total": 50,
+   "only_r59_method": {
+    "branch_condition:parenthesized_expression": 15,
+    "branch_condition:empty_statement": 1
+   },
+   "only_engine": {
+    "branch_condition:binary_expression": 11,
+    "branch_condition:unary_expression": 2,
+    "branch_condition:call_expression": 2
+   },
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "r59": {
+    "state_write": 52,
+    "branch_condition": 51,
+    "failure_state": 43,
+    "error_order": 11
+   },
+   "r59_method": {
+    "branch_condition": 51,
+    "error_order": 11,
+    "failure_state": 43,
+    "state_write": 52
+   },
+   "r59_total": 157,
+   "expected_engine": {
+    "state_write": 52,
+    "branch_condition": 51,
+    "failure_state": 43,
+    "error_order": 11
+   },
+   "engine": {
+    "branch_condition": 51,
+    "error_order": 11,
+    "failure_state": 43,
+    "state_write": 52
+   },
+   "engine_total": 157,
+   "only_r59_method": {
+    "branch_condition:parenthesized_expression": 48
+   },
+   "only_engine": {
+    "branch_condition:method_invocation": 16,
+    "branch_condition:binary_expression": 22,
+    "branch_condition:identifier": 6,
+    "branch_condition:true": 3,
+    "branch_condition:unary_expression": 1
+   },
+   "pass": true
+  }
+ ],
+ "e_select": [
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "selected": 33,
+   "by_kind": {
+    "branch_condition": 11,
+    "error_order": 2,
+    "failure_state": 19,
+    "state_write": 1
+   },
+   "selected_with_operator": 16,
+   "deterministic": true,
+   "every_prefix_balanced": true,
+   "size_and_membership": true,
+   "other_seed_differs": true,
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "selected": 40,
+   "by_kind": {
+    "branch_condition": 12,
+    "error_order": 5,
+    "failure_state": 12,
+    "state_write": 11
+   },
+   "selected_with_operator": 31,
+   "deterministic": true,
+   "every_prefix_balanced": true,
+   "size_and_membership": true,
+   "other_seed_differs": true,
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "selected": 40,
+   "by_kind": {
+    "branch_condition": 16,
+    "failure_state": 19,
+    "state_write": 5
+   },
+   "selected_with_operator": 25,
+   "deterministic": true,
+   "every_prefix_balanced": true,
+   "size_and_membership": true,
+   "other_seed_differs": true,
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "selected": 40,
+   "by_kind": {
+    "branch_condition": 10,
+    "error_order": 10,
+    "failure_state": 10,
+    "state_write": 10
+   },
+   "selected_with_operator": 31,
+   "deterministic": true,
+   "every_prefix_balanced": true,
+   "size_and_membership": true,
+   "other_seed_differs": true,
+   "pass": true
+  }
+ ],
+ "f_smoke": [
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "seconds": 20.4,
+   "void": null,
+   "file_restored": true,
+   "classes": [
+    [
+     "invalid",
+     "no_op"
+    ],
+    [
+     "invalid",
+     "parse_error"
+    ],
+    [
+     "killed",
+     null
+    ]
+   ],
+   "real_change_class": "killed",
+   "real_change_seconds": 9.61,
+   "baseline_before": {
+    "class": "survived",
+    "reason": null,
+    "runs": [
+     {
+      "step": "test",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 1.54,
+      "log": "baseline-before-test.log"
+     }
+    ]
+   },
+   "baseline_after": {
+    "class": "survived",
+    "reason": null,
+    "runs": [
+     {
+      "step": "test",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 9.27,
+      "log": "baseline-after-test.log"
+     }
+    ]
+   },
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "seconds": 9.4,
+   "void": null,
+   "file_restored": true,
+   "classes": [
+    [
+     "invalid",
+     "no_op"
+    ],
+    [
+     "invalid",
+     "parse_error"
+    ],
+    [
+     "killed",
+     null
+    ]
+   ],
+   "real_change_class": "killed",
+   "real_change_seconds": 3.94,
+   "baseline_before": {
+    "class": "survived",
+    "reason": null,
+    "runs": [
+     {
+      "step": "test",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 3.45,
+      "log": "baseline-before-test.log"
+     }
+    ]
+   },
+   "baseline_after": {
+    "class": "survived",
+    "reason": null,
+    "runs": [
+     {
+      "step": "test",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 1.99,
+      "log": "baseline-after-test.log"
+     }
+    ]
+   },
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "seconds": 10.0,
+   "void": null,
+   "file_restored": true,
+   "classes": [
+    [
+     "invalid",
+     "no_op"
+    ],
+    [
+     "invalid",
+     "parse_error"
+    ],
+    [
+     "killed",
+     null
+    ]
+   ],
+   "real_change_class": "killed",
+   "real_change_seconds": 3.48,
+   "baseline_before": {
+    "class": "survived",
+    "reason": null,
+    "runs": [
+     {
+      "step": "build",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 2.97,
+      "log": "baseline-before-build.log"
+     },
+     {
+      "step": "test",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.3,
+      "log": "baseline-before-test.log"
+     }
+    ]
+   },
+   "baseline_after": {
+    "class": "survived",
+    "reason": null,
+    "runs": [
+     {
+      "step": "build",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 2.96,
+      "log": "baseline-after-build.log"
+     },
+     {
+      "step": "test",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 0.29,
+      "log": "baseline-after-test.log"
+     }
+    ]
+   },
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "seconds": 68.2,
+   "void": null,
+   "file_restored": true,
+   "classes": [
+    [
+     "invalid",
+     "no_op"
+    ],
+    [
+     "invalid",
+     "parse_error"
+    ],
+    [
+     "killed",
+     null
+    ]
+   ],
+   "real_change_class": "killed",
+   "real_change_seconds": 26.19,
+   "baseline_before": {
+    "class": "survived",
+    "reason": null,
+    "runs": [
+     {
+      "step": "test",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 16.14,
+      "log": "baseline-before-test.log"
+     }
+    ]
+   },
+   "baseline_after": {
+    "class": "survived",
+    "reason": null,
+    "runs": [
+     {
+      "step": "test",
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 25.85,
+      "log": "baseline-after-test.log"
+     }
+    ]
+   },
+   "pass": true
+  }
+ ]
+}

@@ -2,7 +2,7 @@
 
 - Report date/time and timezone: 2026-11-10, Europe/Berlin (UTC+1)
 - Execution interval: 2026-11-10, about 11:05 to 11:30 local for the counts and baselines reported here; engine and harness work follows and is appended below when done
-- Status: running (decisions recorded; engine and harness not yet built)
+- Status: completed (setup: decisions, engine, harness and model-free checks; no arm batch and no model call)
 - Spec: [.kiro/specs/agnostic-annotation-driver/prototype-gate.md](../../../.kiro/specs/agnostic-annotation-driver/prototype-gate.md), Amendment 3
 - Hypothesis ID and predecessor: H-AD1, [R58](04-annotation-driver-validator-controls.md)
 - Type: preregistered (pre-run amendment; no hypothesis test in this entry)
@@ -110,6 +110,82 @@ Setup facts only, as tabulated above. Two observations bear on later rows:
   D1 on all four scopes. The inputs are re-frozen by hash after that work,
   in an addition to this entry, before guide version 0 and the first model
   call.
+
+## Addition, 2026-11-10 (about 11:35 to 12:15 local): engine, harness, checks and freeze
+
+The engine, harness and their checks were written by a delegated Opus agent
+at the highest effort setting from a written specification, then reviewed and
+rerun by the session agent, which also made the changes listed under
+"Decisions after review". No arm batch was run and no model was called.
+
+Model-free checks, [receipt](../../experiments/annotation-driver/results/engine-checks-receipt.json), all passing:
+
+| Check | Result |
+| --- | --- |
+| Pack node kinds valid for each grammar, packs at most 40 lines | 4 of 4 (22 to 25 lines) |
+| Positions are character offsets; CRLF and non-ASCII text handled | 4 of 4 |
+| Every control seed with an operator yields a real change confined to its statement | 12 of 12 seeds; also all 321 mutable sites, 0 outside their span |
+| Site counts reproduce R59 with its method, and match the engine's normalised counts | 4 of 4 |
+| Selection deterministic and kind-balanced | 4 of 4 |
+| Harness smoke per scope: identical file invalid, unparseable file invalid, one real change classified, baselines pass before and after, file restored byte for byte | 4 of 4; the real change was killed in every scope |
+
+Validator controls after the changes: 76 of 76
+([receipt](../../experiments/annotation-driver/results/controls-receipt.json)).
+
+Sites that can yield a mutant with these packs:
+
+| Scope | Eligible | With operator | By kind | Without operator |
+| --- | --- | --- | --- | --- |
+| Rust | 33 | 16 | branch 11, failure 2, order 2, write 1 | 17 failure sites (16 `return`, 1 `Err(`) |
+| Python | 200 | 161 | write 110, branch 40, failure 6, order 5 | 38 `return`, 1 chained assignment |
+| TypeScript | 50 | 29 | branch 16, failure 9, write 3, and 1 see note | 20 `return`, 2 writes that are not statements |
+| Java | 157 | 115 | branch 51, write 50, order 11, failure 3 | 40 `return`, 2 writes in `for` headers |
+
+Note: the engine's Rust count is 33, not 38, because five `if let`
+conditions cannot be negated and are excluded by the pack. The TypeScript
+count is 50 after excluding one empty `for (;;)` condition.
+
+Decisions after review (gate Amendment 4):
+
+- Python tests run serially so that a failing test and a broken import have
+  different exit codes. Found by the implementing agent; without it every
+  kill in the Python scope would have been recorded as invalid.
+- Arm D draws its 40 from sites that have an operator.
+- The validator accepted a lone bracket as an anchor when it was unique on
+  its line. It now accepts named syntax nodes only; a control covers it.
+- The TypeScript pack excludes the empty `for` condition. That is an edit to
+  a held-out language's pack made after seeing the held-out scope, and is
+  recorded as a contamination of D1 for TypeScript.
+
+Failed attempt, kept on record: the first run of the checks could not start
+the Java scope's tests. The Docker API pipe of the Podman machine was missing
+after an earlier machine restart in this session; restarting the machine
+restored it and the Java smoke test then passed. No scope was modified.
+
+Frozen inputs for the D1 batches (LF line endings):
+
+| File | Lines | SHA-256 |
+| --- | --- | --- |
+| `validator.py` | 237 | `afa504eaf246240c7c1ed2b5920c8162c410181317c01acfe9e47829c7c3a046` |
+| `engine.py` | 195 | `c584e0c119be4766a8bd02341c0bd6f7675de8babd7c334d816a65c0dc862bbd` |
+| `harness.py` | 202 | `125e3d10b318264488859b61d9ae03f60125afa4f680c154ec345c6c854cd593` |
+| `run_arm.py` | 126 | `0fb08f528aeb9b8e39caf544c067ba2c30c9e8bb4fd7f9779fcb62bc489fb28e` |
+| `run_controls.py` | 139 | `4238c2c33aefa98fedb5533e22c7e3f9a62de6b76e1793f945575fda8bbbb38b` |
+| `run_engine_checks.py` | 322 | `de6310f4ef1cc80d3ac0a85f6ab58e5cf397af5e78db0a4f335f0d12f3e70dbe` |
+| `controls.json` | 53 | `99966c71510fb6ac0dd71d84f348e03dc9e5e5eb0f2e98e1ce54859fd54fc14b` |
+| `scopes.json` | 39 | `229ff3fa7be807678cdaffaadbf4a0669c8c544d36e9fd05c010472d80072260` |
+| `tables/rust.json` | 25 | `8be82132121987419773defe0e51511ea7e50028265da187da5f75a37e09b787` |
+| `tables/python.json` | 22 | `7d30f778994b05517416b108f63316a72f1d4801b43fa47ddc61d540757732c5` |
+| `tables/typescript.json` | 22 | `22ce24939e92aaf9f541723b43fd6701eaf9494408cdb320db1c8fe5acf84808` |
+| `tables/java.json` | 22 | `9a7f65c126ba84c0a6c447913539bfc75035ceddc74122a15d4764b30d55746f` |
+
+These supersede the hashes in R58 for the files that changed. The engine
+(`engine.py`, 195 lines) and the harness contain no language or repository
+name; the four packs total 91 lines.
+
+Limits of this addition: the smoke test ran one real change per scope, which
+shows the harness classifies, not how the operators perform. Rust has only
+16 mutable sites, so its D1 batch will be 16 mutants, not 40.
 
 ## COBESY check
 
