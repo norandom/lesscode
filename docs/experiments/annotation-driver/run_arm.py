@@ -3,9 +3,13 @@ r"""Run one arm batch on one scope (gate Amendment 3b, 3d, 3e).
     uv run --no-sync python run_arm.py --scope NAME --scopes-dir DIR --out-dir DIR
         (--all-sites | --annotations FILE) [--limit N] [--workers N [--workers-dir DIR]]
 
-``--all-sites`` takes every eligible site through ``engine.select``;
-``--annotations`` validates a JSON list of annotations and mutates the
-accepted ones. ``--limit`` caps the number of mutants run. Writes
+``--all-sites`` builds every mutant of every eligible site and runs all of
+them when there are at most 200, else 200 chosen by ``engine.select_mutants``
+(gate Amendment 10d); ``--annotations`` validates a JSON list of annotations
+and runs every mutant of each accepted one's site. The receipt records
+``mutants_available`` and ``selection_made``; each mutant record carries its
+operator label, so (site, operator) identifies a mutant. ``--limit`` caps the
+number of mutants run. Writes
 ``receipt.json`` and one log per run into the output directory.
 ``--workers N`` (N > 1) runs the mutants concurrently in N worker copies
 under ``--workers-dir`` (default ``<scopes-dir>/../workers``; see pool.py).
@@ -30,6 +34,7 @@ import validator as v
 
 HERE = Path(__file__).parent
 CODE = ("engine.py", "harness.py", "validator.py", "run_arm.py", "scopes.json")
+MUTANT_CAP = 200  # gate Amendment 10d
 
 
 def file_sha(path: Path) -> str:
@@ -82,19 +87,24 @@ def main() -> int:
     cfg = h.scope_config(args.scope)
     decisions, skipped = None, []
     eligible = e.eligible_sites(scope)
+    mutants, no_operator = [], []
     if args.all_sites:
-        # Gate Amendment 4b: the cap applies to mutants, so choose among sites that have an operator.
-        sites = e.select([s for s in eligible if e.mutate(scope, s) is not None])
+        # Gate Amendment 10d: every mutant of every eligible site, or MUTANT_CAP of them chosen
+        # by the seeded, kind-balanced selection. Sites without an operator are not drawn (4b).
+        every = [m for site in eligible for m in e.mutants(scope, site)]
+        selection_made = len(every) > MUTANT_CAP
+        mutants = e.select_mutants(every, MUTANT_CAP) if selection_made else every
+        sites = list(dict.fromkeys(m.site for m in mutants))
+        available = len(every)
     else:
         annotations = json.loads(args.annotations.read_text(encoding="utf-8"))
         sites, decisions, skipped = annotated_sites(scope, annotations)
-    mutants, no_operator = [], []
-    for site in sites:
-        mutant = e.mutate(scope, site)
-        if mutant is None:
-            no_operator.append({**asdict(site), "reason": "no_operator"})
-        else:
-            mutants.append(mutant)
+        for site in sites:
+            found = e.mutants(scope, site)
+            if not found:
+                no_operator.append({**asdict(site), "reason": "no_operator"})
+            mutants += found
+        selection_made, available = False, len(mutants)
     if args.limit is not None:
         mutants = mutants[: args.limit]
 
@@ -124,6 +134,8 @@ def main() -> int:
         "limit": args.limit,
         "eligible_sites": len(eligible),
         "sites": len(sites),
+        "mutants_available": available,
+        "selection_made": selection_made,
         "mutants_run": len(mutants),
         "counts_by_class": by_class,
         "counts_by_kind": by_kind,

@@ -32,6 +32,16 @@
       "timeout_s": 300, "timeout_floor_s": 30, "invalid_exit_codes": [], "invalid_output_patterns": []
     },
     {
+      "name": "typescript-openultracode-verification", "language": "typescript", "role": "held-out",
+      "repository": "OpenUltraCode", "revision": "37a4e55f1b9397332acc6434783099a631a04918",
+      "files": ["src/verification.ts"], "test_paths": ["tests/"],
+      "build": ["pnpm", "exec", "tsc", "--noEmit"],
+      "test": ["node", "--import", "tsx", "--test", "tests/verification.test.ts"],
+      "env": {}, "worker_setup": [["pnpm", "install", "--frozen-lockfile"]],
+      "runner_evidence_patterns": ["(?m)^.{0,3}(tests|pass|fail) \\d+\\s*$"],
+      "timeout_s": 300, "timeout_floor_s": 30, "invalid_exit_codes": [], "invalid_output_patterns": []
+    },
+    {
       "name": "java-commons-csv-lexer", "language": "java", "role": "held-out",
       "repository": "commons-csv", "revision": "2bd66bf181d44ffc92806f585d3955e915666f7f",
       "files": ["src/main/java/org/apache/commons/csv/Lexer.java"], "test_paths": ["src/test/"],

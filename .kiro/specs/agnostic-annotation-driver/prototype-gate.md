@@ -485,6 +485,22 @@ the 36 survivors of attempt 1.
 attempts together stays within the 20 USD cap. `error` mutants (Amendment 9)
 must be zero in every counted batch or the batch is rerun.
 
+## Amendment 11, 2026-11-10 (before any attempt 2 call or batch; [R63](../../../docs/research/2026-11-10/09-annotation-driver-attempt2-setup.md))
+
+- **Second TypeScript scope admitted** by the rule of 10c:
+  `OpenUltraCode` `src/verification.ts` (183 canonical lines, 64 eligible
+  sites in 4 kinds, 7 tests passing). The other qualifying file,
+  `config.ts`, had 59 sites.
+- **Designer labels become a cross-check.** In attempt 1 the independent
+  labels and the designer's agreed on 32 of 36 survivors with no opposite
+  verdicts. In attempt 2 the independent agent labels every survivor and
+  those labels decide; the designer labels a seeded sample of 30 survivors
+  (seed 20261110) and the agreement is reported. This replaces the last
+  sentence but one of 10f.
+- **Inputs frozen** by hash in R63: engine, validator, harness, pool, packs
+  (version 1), scopes and controls. The two guides are drafts until the
+  development calls on Rust and Python are done.
+
 ## Result of attempt 1, 2026-11-10
 
 Outcome `revise`; full tables and limits in R61. No design approval and no

@@ -1,22 +1,23 @@
 {
  "receipt": "annotation-driver-validator-controls-v0",
- "controls": 76,
+ "controls": 95,
  "failed": 0,
  "passed": true,
  "inputs_sha256": {
-  "validator.py": "5cc042519bd5f2a880f68f541cc3291dbc2379705abb8c457d9ee970a8716901",
-  "run_controls.py": "daf2e49d80c94511f8117bea1ac2287e42f8453a3fcee94edc9f6307fe727144",
-  "controls.json": "99966c71510fb6ac0dd71d84f348e03dc9e5e5eb0f2e98e1ce54859fd54fc14b",
-  "scopes.json": "6c60a49cd7f072caf461691938ecaed9f0e83cde974321434ebc3ab7698c2d33",
-  "tables/java.json": "9a7f65c126ba84c0a6c447913539bfc75035ceddc74122a15d4764b30d55746f",
-  "tables/python.json": "7d30f778994b05517416b108f63316a72f1d4801b43fa47ddc61d540757732c5",
-  "tables/rust.json": "8be82132121987419773defe0e51511ea7e50028265da187da5f75a37e09b787",
-  "tables/typescript.json": "22ce24939e92aaf9f541723b43fd6701eaf9494408cdb320db1c8fe5acf84808"
+  "validator.py": "05422d6e42352d4ace3bd33830ac9a0933c4172c653979a1a3564a28a73645df",
+  "run_controls.py": "ace514ce472f7e58123c7f12b823c061db93266d0d63f69045fbb1aef0be65db",
+  "controls.json": "3cc3c563ccbf375c9d77ade62c1c29a7288704dbfebbce9e2d9ca40ed492fce0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "tables/java.json": "5367d13bc4d2b6ddc44d189d215844093514b2749d4d679edf9be716c74447e3",
+  "tables/python.json": "ebcdba056290add19156f2d516345fa99e7cf70dd5432ffe097b5e8c72ab9a7a",
+  "tables/rust.json": "d2d3dc291c90a36a5d2c3df2ca97940a32221e02ae2d422c0ce7afdd37233dd1",
+  "tables/typescript.json": "bc65de93b20564ec4f2b2d9b14da5e0ebe53d7e95b2215ce14ec6c532fb6dd6b"
  },
  "scope_files_sha256": {
   "rust-mmhmem-setup-update:src/setup/ui/update.rs": "804522e68de5d5059369418ab8190baf718eaed06c821ac007ab03661878381e",
   "python-mvibe-ratelimit:mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828",
   "typescript-openultracode-state:src/state.ts": "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9",
+  "typescript-openultracode-verification:src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0",
   "java-commons-csv-lexer:src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
  },
  "results": [
@@ -594,6 +595,186 @@
    "pass": true
   },
   {
+   "scope": "typescript-openultracode-verification",
+   "control": "seed:branch_condition@82",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "seed:state_write@140",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "seed:failure_state@79",
+   "expected": [
+    "ok"
+   ],
+   "got": [
+    "ok"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "wrong_line",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "altered_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "partial_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "punctuation_anchor",
+   "expected": [
+    "anchor_mismatch"
+   ],
+   "got": [
+    "anchor_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "test_file",
+   "expected": [
+    "test_file"
+   ],
+   "got": [
+    "test_file"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "outside_scope",
+   "expected": [
+    "outside_scope"
+   ],
+   "got": [
+    "outside_scope"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "kind_mismatch",
+   "expected": [
+    "kind_mismatch"
+   ],
+   "got": [
+    "kind_mismatch"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "duplicate",
+   "expected": [
+    "ok",
+    "duplicate"
+   ],
+   "got": [
+    "ok",
+    "duplicate"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "malformed_no_kind",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "malformed_lines",
+   "expected": [
+    "malformed"
+   ],
+   "got": [
+    "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "mutant:identical",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "mutant:whitespace_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "mutant:comment_only",
+   "expected": "no_op",
+   "got": "no_op",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "mutant:real_change",
+   "expected": "changed",
+   "got": "changed",
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-verification",
+   "control": "mutant:unparseable",
+   "expected": "parse_error",
+   "got": "parse_error",
+   "pass": true
+  },
+  {
    "scope": "java-commons-csv-lexer",
    "control": "seed:branch_condition@82",
    "expected": [
@@ -746,6 +927,17 @@
    ],
    "got": [
     "malformed"
+   ],
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "control": "anchor_completed:failure_state@109",
+   "expected": [
+    "ok+anchor_completed"
+   ],
+   "got": [
+    "ok+anchor_completed"
    ],
    "pass": true
   },

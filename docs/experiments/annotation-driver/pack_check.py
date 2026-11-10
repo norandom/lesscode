@@ -36,11 +36,18 @@ MAX_LINES, MAX_CHARS = 40, 2500
 REQUIRED = {"language": "string", "comment_kinds": "strings", "string_kinds": "strings", "unwrap_kinds": "strings",
             "test_attribute_markers": "strings", "kinds": "object", "noop_statement": "string",
             "statement_wrappers": "strings", "operators": "object"}
+OPTIONAL = {"statement_terminator": "string"}  # pack format version 1
 KIND_ORDER = ("branch_condition", "failure_state", "error_order", "state_write", "pure_shell_boundary")
-RULE_KEYS = {"field_of": "pairs", "nodes": "strings", "nodes_with_prefix": "prefixes", "requires_next_sibling": "boolean"}
+RULE_KEYS = {"field_of": "pairs", "nodes": "strings", "nodes_with_prefix": "prefixes", "requires_next_sibling": "boolean",
+             "call_statements": "strings", "returned": "returned"}
 OPERATOR_ENTRIES = ("branch_condition", "failure_state", "state_write", "error_order")
+OPERATOR_KEYS = (("branch_condition", "exclude_kinds", "strings"), ("branch_condition", "token_swaps", "swaps"),
+                 ("failure_state", "returned_literal_swaps", "swaps"))
+RETURNED_KEYS = ("of", "kinds", "tokens")
 DESCRIBE = {"string": "a string", "object": "an object", "strings": "a list of strings", "boolean": "true or false",
-            "pairs": "a list of [kind, field] string pairs", "prefixes": "an object of lists of strings"}
+            "pairs": "a list of [kind, field] string pairs", "prefixes": "an object of lists of strings",
+            "swaps": "a list of [a, b] string pairs",
+            "returned": 'an object with "of", "kinds" and "tokens", each a list of strings'}
 PLACEHOLDERS = ("text", "noop", "child0")
 PLACEHOLDER = re.compile(r"\{(\w+)\}")  # what engine._fill substitutes
 PASSING_SEED_OUTCOMES = ("changed", "no_operator")
@@ -74,9 +81,11 @@ def _type_ok(value, expected: str) -> bool:
         return isinstance(value, list) and all(isinstance(x, str) for x in value)
     if expected == "boolean":
         return isinstance(value, bool)
-    if expected == "pairs":
+    if expected in ("pairs", "swaps"):
         return isinstance(value, list) and all(isinstance(p, list) and len(p) == 2 and _type_ok(p, "strings")
                                                for p in value)
+    if expected == "returned":
+        return isinstance(value, dict) and all(_type_ok(value.get(key), "strings") for key in RETURNED_KEYS)
     if expected == "prefixes":
         return isinstance(value, dict) and all(_type_ok(x, "strings") for x in value.values())
     raise ValueError(expected)
@@ -90,6 +99,8 @@ def shape_problems(pack: dict, language: str) -> tuple[list[str], list[str]]:
             structural.append(f"missing key {key}")
         elif not _type_ok(pack[key], expected):
             structural.append(f"{key} must be {DESCRIBE[expected]}")
+    structural += [f"{key} must be {DESCRIBE[expected]}"
+                   for key, expected in OPTIONAL.items() if key in pack and not _type_ok(pack[key], expected)]
     if isinstance(pack.get("language"), str) and pack["language"] != language:
         other.append(f"language is {json.dumps(pack['language'])}, expected {json.dumps(language)}")
     kinds = pack.get("kinds")
@@ -107,12 +118,14 @@ def shape_problems(pack: dict, language: str) -> tuple[list[str], list[str]]:
     if isinstance(ops, dict):
         structural += [f"operators.{name} must be an object"
                        for name in OPERATOR_ENTRIES if name in ops and not isinstance(ops[name], dict)]
-        branch, failure = ops.get("branch_condition"), ops.get("failure_state")
-        if isinstance(branch, dict) and "exclude_kinds" in branch and not _type_ok(branch["exclude_kinds"], "strings"):
-            structural.append("operators.branch_condition.exclude_kinds must be a list of strings")
+        for name, key, expected in OPERATOR_KEYS:
+            entry = ops.get(name)
+            if isinstance(entry, dict) and key in entry and not _type_ok(entry[key], expected):
+                structural.append(f"operators.{name}.{key} must be {DESCRIBE[expected]}")
+        failure = ops.get("failure_state")
         if isinstance(failure, dict) and "by_kind" in failure and not isinstance(failure["by_kind"], dict):
             structural.append("operators.failure_state.by_kind must be an object")
-    unknown = sorted(set(pack) - set(REQUIRED))
+    unknown = sorted(set(pack) - set(REQUIRED) - set(OPTIONAL))
     if unknown:
         other.append(f"unknown top-level keys: {', '.join(unknown)}")
     return structural, other
@@ -140,6 +153,9 @@ def kind_names(pack: dict) -> list[str]:
         names += [p[0] for p in (pairs if isinstance(pairs, list) else ())
                   if isinstance(p, list) and p and isinstance(p[0], str)]
         names += list(_entry(rule, "nodes_with_prefix"))
+        names += _strings(rule.get("call_statements"))
+        returned = _entry(rule, "returned")
+        names += _strings(returned.get("of")) + _strings(returned.get("kinds"))
     ops = pack.get("operators")
     names += _strings(_entry(ops, "branch_condition").get("exclude_kinds"))
     names += list(_entry(_entry(ops, "failure_state"), "by_kind"))

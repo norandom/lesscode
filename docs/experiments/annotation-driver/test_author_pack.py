@@ -49,6 +49,8 @@ FROZEN_SHA256 = {
                                "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"},
     "typescript-openultracode-state": {"src/state.ts":
                                        "3c9afdb17729b713455f3ee768f05e54e2511f4dadb550c9a70a4455deac7ad9"},
+    "typescript-openultracode-verification": {"src/verification.ts":
+                                              "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"},
     "java-commons-csv-lexer": {"src/main/java/org/apache/commons/csv/Lexer.java":
                                "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"},
 }

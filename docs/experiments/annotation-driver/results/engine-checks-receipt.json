@@ -8,54 +8,55 @@
   "c_all_sites": true,
   "d_counts": true,
   "e_select": true,
+  "g_v0_receipts": true,
   "f_smoke": true
  },
  "inputs_sha256": {
-  "engine.py": "c584e0c119be4766a8bd02341c0bd6f7675de8babd7c334d816a65c0dc862bbd",
-  "harness.py": "125e3d10b318264488859b61d9ae03f60125afa4f680c154ec345c6c854cd593",
-  "validator.py": "afa504eaf246240c7c1ed2b5920c8162c410181317c01acfe9e47829c7c3a046",
-  "run_arm.py": "0fb08f528aeb9b8e39caf544c067ba2c30c9e8bb4fd7f9779fcb62bc489fb28e",
-  "run_engine_checks.py": "de6310f4ef1cc80d3ac0a85f6ab58e5cf397af5e78db0a4f335f0d12f3e70dbe",
-  "run_controls.py": "4238c2c33aefa98fedb5533e22c7e3f9a62de6b76e1793f945575fda8bbbb38b",
-  "controls.json": "99966c71510fb6ac0dd71d84f348e03dc9e5e5eb0f2e98e1ce54859fd54fc14b",
-  "scopes.json": "229ff3fa7be807678cdaffaadbf4a0669c8c544d36e9fd05c010472d80072260",
-  "compose.yaml": "cc5c1bb39583061c039fbfab6134fc79690dd1ac5c4061414a5b510cd9aee1e3",
-  "tables/java.json": "9a7f65c126ba84c0a6c447913539bfc75035ceddc74122a15d4764b30d55746f",
-  "tables/python.json": "7d30f778994b05517416b108f63316a72f1d4801b43fa47ddc61d540757732c5",
-  "tables/rust.json": "8be82132121987419773defe0e51511ea7e50028265da187da5f75a37e09b787",
-  "tables/typescript.json": "22ce24939e92aaf9f541723b43fd6701eaf9494408cdb320db1c8fe5acf84808"
+  "engine.py": "31052d0df9af356b01014560ef1d68e98a093ae5b78b30ee471512650e70c73e",
+  "harness.py": "92429b593de0905f54633c963f4a160f49fbf1bc7aee43220bb8214676bd4694",
+  "validator.py": "05422d6e42352d4ace3bd33830ac9a0933c4172c653979a1a3564a28a73645df",
+  "run_arm.py": "c2ba072ccda1004661c8d23299c17ddd0b57fae37b370eb984e08f20e9151ca0",
+  "run_engine_checks.py": "6509720ca17ba2446246b2424c15a42b4d388d7138a5d696844c14df7b4110d0",
+  "run_controls.py": "ace514ce472f7e58123c7f12b823c061db93266d0d63f69045fbb1aef0be65db",
+  "controls.json": "3cc3c563ccbf375c9d77ade62c1c29a7288704dbfebbce9e2d9ca40ed492fce0",
+  "scopes.json": "32dd0054dd85cd54391ddd6eab9ad0e264464db48a6a88c71468021817f7a921",
+  "compose.yaml": "6fdbb76187b3cfdf0c981740b3da4e6ff6d97f78f9f1649062f9d2a0c5a36708",
+  "tables/java.json": "5367d13bc4d2b6ddc44d189d215844093514b2749d4d679edf9be716c74447e3",
+  "tables/python.json": "ebcdba056290add19156f2d516345fa99e7cf70dd5432ffe097b5e8c72ab9a7a",
+  "tables/rust.json": "d2d3dc291c90a36a5d2c3df2ca97940a32221e02ae2d422c0ce7afdd37233dd1",
+  "tables/typescript.json": "bc65de93b20564ec4f2b2d9b14da5e0ebe53d7e95b2215ce14ec6c532fb6dd6b"
  },
  "a_packs": [
   {
    "pack": "java.json",
-   "kinds_checked": 16,
+   "kinds_checked": 19,
    "invalid_kinds": [],
    "invalid_kind_control_raises": true,
-   "lines": 22,
+   "lines": 27,
    "pass": true
   },
   {
    "pack": "python.json",
-   "kinds_checked": 13,
+   "kinds_checked": 18,
    "invalid_kinds": [],
    "invalid_kind_control_raises": true,
-   "lines": 22,
+   "lines": 26,
    "pass": true
   },
   {
    "pack": "rust.json",
-   "kinds_checked": 16,
+   "kinds_checked": 19,
    "invalid_kinds": [],
    "invalid_kind_control_raises": true,
-   "lines": 25,
+   "lines": 33,
    "pass": true
   },
   {
    "pack": "typescript.json",
-   "kinds_checked": 19,
+   "kinds_checked": 23,
    "invalid_kinds": [],
    "invalid_kind_control_raises": true,
-   "lines": 22,
+   "lines": 29,
    "pass": true
   }
  ],
@@ -430,93 +431,105 @@
  "c_all_sites": [
   {
    "scope": "rust-mmhmem-setup-update",
+   "mutants": 66,
    "coverage": {
     "branch_condition": {
-     "operator:negate": 11
+     "operator:negate": 11,
+     "operator:swap": 5
     },
     "error_order": {
      "operator:swap_next": 2
     },
     "failure_state": {
      "operator:rewrite:try_expression": 2,
-     "no_operator:return_expression": 16,
-     "no_operator:call_expression": 1
+     "no_operator:return_expression": 9,
+     "no_operator:call_expression": 1,
+     "operator:literal": 7
     },
     "state_write": {
-     "operator:drop_statement": 1
+     "operator:drop_statement": 39
     }
    },
    "verdicts": {
-    "changed": 16
+    "changed": 66
    },
    "edit_failures": [],
    "pass": true
   },
   {
    "scope": "python-mvibe-ratelimit",
+   "mutants": 199,
    "coverage": {
     "branch_condition": {
-     "operator:negate": 40
+     "operator:negate": 40,
+     "operator:swap": 24
     },
     "error_order": {
      "operator:swap_next": 5
     },
     "failure_state": {
-     "no_operator:return_statement": 38,
-     "operator:drop:raise_statement": 6
+     "no_operator:return_statement": 35,
+     "operator:drop:raise_statement": 6,
+     "operator:literal": 3
     },
     "state_write": {
-     "operator:drop_statement": 110,
+     "operator:drop_statement": 121,
      "no_operator:assignment": 1
     }
    },
    "verdicts": {
-    "changed": 161
+    "changed": 199
    },
    "edit_failures": [],
    "pass": true
   },
   {
    "scope": "typescript-openultracode-state",
+   "mutants": 74,
    "coverage": {
     "branch_condition": {
-     "operator:negate": 16
+     "operator:negate": 20,
+     "operator:swap": 24
     },
     "failure_state": {
-     "no_operator:return_statement": 20,
-     "operator:drop:throw_statement": 9
+     "no_operator:return_statement": 18,
+     "operator:drop:throw_statement": 9,
+     "operator:literal": 2
     },
     "state_write": {
      "no_operator:augmented_assignment_expression": 2,
-     "operator:drop_statement": 3
+     "operator:drop_statement": 19
     }
    },
    "verdicts": {
-    "changed": 28
+    "changed": 74
    },
    "edit_failures": [],
    "pass": true
   },
   {
    "scope": "java-commons-csv-lexer",
+   "mutants": 189,
    "coverage": {
     "branch_condition": {
-     "operator:negate": 51
+     "operator:negate": 59,
+     "operator:swap": 40
     },
     "error_order": {
      "operator:swap_next": 11
     },
     "failure_state": {
-     "no_operator:return_statement": 40,
+     "no_operator:return_statement": 33,
+     "operator:literal": 7,
      "operator:drop:throw_statement": 3
     },
     "state_write": {
-     "operator:drop_statement": 50,
+     "operator:drop_statement": 69,
      "no_operator:update_expression": 2
     }
    },
    "verdicts": {
-    "changed": 115
+    "changed": 189
    },
    "edit_failures": [],
    "pass": true
@@ -542,20 +555,22 @@
     "failure_state": 19,
     "branch_condition": 11,
     "error_order": 2,
-    "state_write": 1
+    "state_write": 39
    },
    "engine": {
     "branch_condition": 11,
     "error_order": 2,
     "failure_state": 19,
-    "state_write": 1
+    "state_write": 39
    },
-   "engine_total": 33,
+   "engine_total": 71,
    "only_r59_method": {
     "branch_condition:let_condition": 4,
     "branch_condition:let_chain": 1
    },
-   "only_engine": {},
+   "only_engine": {
+    "state_write:call_expression": 38
+   },
    "pass": true
   },
   {
@@ -574,7 +589,7 @@
    },
    "r59_total": 200,
    "expected_engine": {
-    "state_write": 111,
+    "state_write": 122,
     "failure_state": 44,
     "branch_condition": 40,
     "error_order": 5
@@ -583,11 +598,14 @@
     "branch_condition": 40,
     "error_order": 5,
     "failure_state": 44,
-    "state_write": 111
+    "state_write": 122
    },
-   "engine_total": 200,
+   "engine_total": 211,
    "only_r59_method": {},
-   "only_engine": {},
+   "only_engine": {
+    "state_write:await": 3,
+    "state_write:call": 8
+   },
    "pass": true
   },
   {
@@ -605,22 +623,24 @@
    "r59_total": 51,
    "expected_engine": {
     "failure_state": 29,
-    "branch_condition": 16,
-    "state_write": 5
+    "branch_condition": 20,
+    "state_write": 21
    },
    "engine": {
-    "branch_condition": 16,
+    "branch_condition": 20,
     "failure_state": 29,
-    "state_write": 5
+    "state_write": 21
    },
-   "engine_total": 50,
+   "engine_total": 70,
    "only_r59_method": {
     "branch_condition:parenthesized_expression": 15,
     "branch_condition:empty_statement": 1
    },
    "only_engine": {
-    "branch_condition:binary_expression": 11,
-    "branch_condition:unary_expression": 2,
+    "state_write:await_expression": 14,
+    "branch_condition:binary_expression": 14,
+    "branch_condition:unary_expression": 3,
+    "state_write:call_expression": 2,
     "branch_condition:call_expression": 2
    },
    "pass": true
@@ -641,24 +661,25 @@
    },
    "r59_total": 157,
    "expected_engine": {
-    "state_write": 52,
-    "branch_condition": 51,
+    "state_write": 71,
+    "branch_condition": 59,
     "failure_state": 43,
     "error_order": 11
    },
    "engine": {
-    "branch_condition": 51,
+    "branch_condition": 59,
     "error_order": 11,
     "failure_state": 43,
-    "state_write": 52
+    "state_write": 71
    },
-   "engine_total": 157,
+   "engine_total": 184,
    "only_r59_method": {
     "branch_condition:parenthesized_expression": 48
    },
    "only_engine": {
     "branch_condition:method_invocation": 16,
-    "branch_condition:binary_expression": 22,
+    "state_write:method_invocation": 19,
+    "branch_condition:binary_expression": 30,
     "branch_condition:identifier": 6,
     "branch_condition:true": 3,
     "branch_condition:unary_expression": 1
@@ -669,18 +690,24 @@
  "e_select": [
   {
    "scope": "rust-mmhmem-setup-update",
-   "selected": 33,
+   "selected": 40,
    "by_kind": {
     "branch_condition": 11,
     "error_order": 2,
-    "failure_state": 19,
-    "state_write": 1
+    "failure_state": 14,
+    "state_write": 13
    },
-   "selected_with_operator": 16,
+   "selected_with_operator": 31,
    "deterministic": true,
    "every_prefix_balanced": true,
    "size_and_membership": true,
    "other_seed_differs": true,
+   "mutants_available": 66,
+   "mutants_selected": 66,
+   "mutant_selection_needed": false,
+   "mutants_deterministic": true,
+   "mutants_every_prefix_balanced": true,
+   "mutants_size_and_membership": true,
    "pass": true
   },
   {
@@ -697,21 +724,33 @@
    "every_prefix_balanced": true,
    "size_and_membership": true,
    "other_seed_differs": true,
+   "mutants_available": 199,
+   "mutants_selected": 199,
+   "mutant_selection_needed": false,
+   "mutants_deterministic": true,
+   "mutants_every_prefix_balanced": true,
+   "mutants_size_and_membership": true,
    "pass": true
   },
   {
    "scope": "typescript-openultracode-state",
    "selected": 40,
    "by_kind": {
-    "branch_condition": 16,
-    "failure_state": 19,
-    "state_write": 5
+    "branch_condition": 14,
+    "failure_state": 13,
+    "state_write": 13
    },
-   "selected_with_operator": 25,
+   "selected_with_operator": 31,
    "deterministic": true,
    "every_prefix_balanced": true,
    "size_and_membership": true,
    "other_seed_differs": true,
+   "mutants_available": 74,
+   "mutants_selected": 74,
+   "mutant_selection_needed": false,
+   "mutants_deterministic": true,
+   "mutants_every_prefix_balanced": true,
+   "mutants_size_and_membership": true,
    "pass": true
   },
   {
@@ -723,18 +762,120 @@
     "failure_state": 10,
     "state_write": 10
    },
-   "selected_with_operator": 31,
+   "selected_with_operator": 34,
    "deterministic": true,
    "every_prefix_balanced": true,
    "size_and_membership": true,
    "other_seed_differs": true,
+   "mutants_available": 189,
+   "mutants_selected": 189,
+   "mutant_selection_needed": false,
+   "mutants_deterministic": true,
+   "mutants_every_prefix_balanced": true,
+   "mutants_size_and_membership": true,
+   "pass": true
+  }
+ ],
+ "g_v0_receipts": [
+  {
+   "scope": "rust-mmhmem-setup-update",
+   "tables_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\v0-tables",
+   "pack_sha256_is_receipts": true,
+   "eligible": 33,
+   "receipt_eligible": 33,
+   "eligible_by_kind": {
+    "branch_condition": 11,
+    "error_order": 2,
+    "failure_state": 19,
+    "state_write": 1
+   },
+   "expected_by_kind": {
+    "failure_state": 19,
+    "branch_condition": 11,
+    "error_order": 2,
+    "state_write": 1
+   },
+   "at_most_one_mutant_per_site": true,
+   "mutants": 16,
+   "receipt_mutants": 16,
+   "same_sites_and_operators": true,
+   "pass": true
+  },
+  {
+   "scope": "python-mvibe-ratelimit",
+   "tables_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\v0-tables",
+   "pack_sha256_is_receipts": true,
+   "eligible": 200,
+   "receipt_eligible": 200,
+   "eligible_by_kind": {
+    "branch_condition": 40,
+    "error_order": 5,
+    "failure_state": 44,
+    "state_write": 111
+   },
+   "expected_by_kind": {
+    "state_write": 111,
+    "failure_state": 44,
+    "branch_condition": 40,
+    "error_order": 5
+   },
+   "at_most_one_mutant_per_site": true,
+   "mutants": 40,
+   "receipt_mutants": 40,
+   "same_sites_and_operators": true,
+   "pass": true
+  },
+  {
+   "scope": "typescript-openultracode-state",
+   "tables_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\v0-tables",
+   "pack_sha256_is_receipts": true,
+   "eligible": 50,
+   "receipt_eligible": 50,
+   "eligible_by_kind": {
+    "branch_condition": 16,
+    "failure_state": 29,
+    "state_write": 5
+   },
+   "expected_by_kind": {
+    "failure_state": 29,
+    "branch_condition": 16,
+    "state_write": 5
+   },
+   "at_most_one_mutant_per_site": true,
+   "mutants": 28,
+   "receipt_mutants": 28,
+   "same_sites_and_operators": true,
+   "pass": true
+  },
+  {
+   "scope": "java-commons-csv-lexer",
+   "tables_dir": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\engine-checks\\v1\\v0-tables",
+   "pack_sha256_is_receipts": true,
+   "eligible": 157,
+   "receipt_eligible": 157,
+   "eligible_by_kind": {
+    "branch_condition": 51,
+    "error_order": 11,
+    "failure_state": 43,
+    "state_write": 52
+   },
+   "expected_by_kind": {
+    "state_write": 52,
+    "branch_condition": 51,
+    "failure_state": 43,
+    "error_order": 11
+   },
+   "at_most_one_mutant_per_site": true,
+   "mutants": 40,
+   "receipt_mutants": 40,
+   "same_sites_and_operators": true,
    "pass": true
   }
  ],
  "f_smoke": [
   {
    "scope": "rust-mmhmem-setup-update",
-   "seconds": 20.4,
+   "seconds": 3.0,
    "void": null,
    "file_restored": true,
    "classes": [
@@ -752,7 +893,7 @@
     ]
    ],
    "real_change_class": "killed",
-   "real_change_seconds": 9.61,
+   "real_change_seconds": 0.0,
    "baseline_before": {
     "class": "survived",
     "reason": null,
@@ -761,7 +902,7 @@
       "step": "test",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 1.54,
+      "seconds": 1.57,
       "log": "baseline-before-test.log"
      }
     ]
@@ -774,7 +915,7 @@
       "step": "test",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 9.27,
+      "seconds": 1.43,
       "log": "baseline-after-test.log"
      }
     ]
@@ -783,7 +924,7 @@
   },
   {
    "scope": "python-mvibe-ratelimit",
-   "seconds": 9.4,
+   "seconds": 4.1,
    "void": null,
    "file_restored": true,
    "classes": [
@@ -801,7 +942,7 @@
     ]
    ],
    "real_change_class": "killed",
-   "real_change_seconds": 3.94,
+   "real_change_seconds": 0.0,
    "baseline_before": {
     "class": "survived",
     "reason": null,
@@ -810,7 +951,7 @@
       "step": "test",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 3.45,
+      "seconds": 2.19,
       "log": "baseline-before-test.log"
      }
     ]
@@ -823,7 +964,7 @@
       "step": "test",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 1.99,
+      "seconds": 1.86,
       "log": "baseline-after-test.log"
      }
     ]
@@ -832,7 +973,7 @@
   },
   {
    "scope": "typescript-openultracode-state",
-   "seconds": 10.0,
+   "seconds": 6.6,
    "void": null,
    "file_restored": true,
    "classes": [
@@ -850,7 +991,7 @@
     ]
    ],
    "real_change_class": "killed",
-   "real_change_seconds": 3.48,
+   "real_change_seconds": 0.0,
    "baseline_before": {
     "class": "survived",
     "reason": null,
@@ -866,7 +1007,7 @@
       "step": "test",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 0.3,
+      "seconds": 0.28,
       "log": "baseline-before-test.log"
      }
     ]
@@ -879,14 +1020,14 @@
       "step": "build",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 2.96,
+      "seconds": 3.04,
       "log": "baseline-after-build.log"
      },
      {
       "step": "test",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 0.29,
+      "seconds": 0.27,
       "log": "baseline-after-test.log"
      }
     ]
@@ -895,7 +1036,7 @@
   },
   {
    "scope": "java-commons-csv-lexer",
-   "seconds": 68.2,
+   "seconds": 18.1,
    "void": null,
    "file_restored": true,
    "classes": [
@@ -913,7 +1054,7 @@
     ]
    ],
    "real_change_class": "killed",
-   "real_change_seconds": 26.19,
+   "real_change_seconds": 0.0,
    "baseline_before": {
     "class": "survived",
     "reason": null,
@@ -922,7 +1063,7 @@
       "step": "test",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 16.14,
+      "seconds": 8.37,
       "log": "baseline-before-test.log"
      }
     ]
@@ -935,7 +1076,7 @@
       "step": "test",
       "exit_code": 0,
       "timed_out": false,
-      "seconds": 25.85,
+      "seconds": 8.55,
       "log": "baseline-after-test.log"
      }
     ]

@@ -3,6 +3,9 @@ r"""Gate checklist step 2: validator controls, no model.
 Derives wrong annotations from the hand-made seeds in controls.json and checks
 that every one is rejected for the expected reason, that the seeds themselves
 are accepted, and that no-op or unparseable mutants are classified invalid.
+With a pack that has a statement terminator (pack format version 1), a seed
+anchor that ends with it is also tried without it and must be accepted with
+the terminator appended (reported as ``ok+anchor_completed``).
 
     uv run python run_controls.py --scopes-dir D:\BuildArtifacts\lesscode\annotation-driver\scopes --out RECEIPT.json
         [--scope NAME ...]
@@ -26,6 +29,7 @@ from ast_grep_py import SgRoot
 import validator as v
 
 HERE = Path(__file__).parent
+COMPLETED = "+anchor_completed"
 
 
 def comment_node_at(scope: v.Scope, file: str, line: int) -> dict:
@@ -48,6 +52,21 @@ def punctuation_case(scope: v.Scope, seed: dict) -> list[tuple[str, list[dict], 
     return [("punctuation_anchor", [token], ["anchor_mismatch"])]
 
 
+def terminator_cases(scope: v.Scope, spec: dict) -> list[tuple[str, list[dict], list[str]]]:
+    """Pack format version 1: a seed whose anchor ends with the pack's statement terminator,
+    without it, is accepted with the terminator appended (rule 2 extension)."""
+    terminator = v.load_table(scope.language).get("statement_terminator") or ""
+    if not terminator:
+        return []
+    return [(f"anchor_completed:{s['kind']}@{s['start_line']}", [{**s, "anchor": s["anchor"][: -len(terminator)]}],
+             [f"ok{COMPLETED}"]) for s in spec["seeds"] if s["anchor"].endswith(terminator)]
+
+
+def outcome(decision: dict) -> str:
+    """The reason, marked when the anchor matched only with the statement terminator appended."""
+    return decision["reason"] + (COMPLETED if decision.get("anchor_completed") else "")
+
+
 def annotation_cases(scope: v.Scope, spec: dict) -> list[tuple[str, list[dict], list[str]]]:
     """(label, annotations, expected reason per annotation)."""
     seeds = spec["seeds"]
@@ -66,13 +85,16 @@ def annotation_cases(scope: v.Scope, spec: dict) -> list[tuple[str, list[dict], 
         ("altered_anchor", [variant(anchor=first["anchor"] + " x")], ["anchor_mismatch"]),
         ("partial_anchor", [variant(anchor=first["anchor"][: max(3, len(first["anchor"]) // 2)])], ["anchor_mismatch"]),
         *punctuation_case(scope, first),
-        ("in_comment", [comment_node_at(scope, first["file"], spec["comment_line"])], ["in_comment_or_string"]),
+        # A scope file without any comment has no such control (comment_line is null).
+        *([("in_comment", [comment_node_at(scope, first["file"], spec["comment_line"])], ["in_comment_or_string"])]
+          if spec.get("comment_line") else []),
         ("test_file", [variant(file=spec["test_file"])], ["test_file"]),
         ("outside_scope", [variant(file=spec["outside_file"])], ["outside_scope"]),
         ("kind_mismatch", [variant(kind=other_kind if other_kind != first["kind"] else "pure_shell_boundary")], ["kind_mismatch"]),
         ("duplicate", [first, copy.deepcopy(first)], ["ok", "duplicate"]),
         ("malformed_no_kind", [{k: val for k, val in first.items() if k != "kind"}], ["malformed"]),
         ("malformed_lines", [variant(start_line=first["end_line"] + 1)], ["malformed"]),
+        *terminator_cases(scope, spec),
     ]
     return cases
 
@@ -115,7 +137,7 @@ def main() -> int:
     for name, spec in controls.items():
         scope = scopes[name]
         for label, annotations, expected in annotation_cases(scope, spec):
-            got = [d["reason"] for d in v.validate(scope, annotations)]
+            got = [outcome(d) for d in v.validate(scope, annotations)]
             ok = got == expected
             failures += not ok
             results.append({"scope": name, "control": label, "expected": expected, "got": got, "pass": ok})

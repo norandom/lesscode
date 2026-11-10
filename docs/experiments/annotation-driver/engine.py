@@ -2,8 +2,9 @@
 
 One engine for every language (gate Amendment 3b): all language knowledge
 comes from the data pack ``tables/<language>.json``. Site eligibility is the
-validator's own (``validator.site_check``). No model, and no I/O beyond
-reading scope files and packs.
+validator's own (``validator.site_check``). Under pack format version 1
+(gate Amendment 10a) a site can yield several mutants (``mutants``). No model,
+and no I/O beyond reading scope files and packs.
 
 Positions: ast-grep-py reports 0-based lines, columns counted in characters
 (code points) and ``Pos.index`` as a character offset into the parsed string.
@@ -115,9 +116,10 @@ def site_from_annotation(scope: v.Scope, annotation: dict) -> Site | None:
     if kind not in OPERATOR_KINDS:
         return None
     file = str(annotation["file"]).replace("\\", "/")
+    table = v.load_table(scope.language)
     root = SgRoot(read_text(scope, file), scope.language).root()
-    nodes = v.anchor_nodes(root, annotation["start_line"], annotation["end_line"], annotation["anchor"])
-    return _site_at(v.load_table(scope.language), file, kind, nodes[0]) if nodes else None
+    nodes, _ = v.match_anchor(table, root, annotation["start_line"], annotation["end_line"], annotation["anchor"])
+    return _site_at(table, file, kind, nodes[0]) if nodes else None
 
 
 def _fill(template: str, table: dict, node: SgNode) -> str:
@@ -147,6 +149,63 @@ def _edits(table: dict, kind: str, node: SgNode) -> tuple[str, list[tuple[SgNode
     return None
 
 
+def _partners(pairs) -> dict[str, str]:
+    partner: dict[str, str] = {}
+    for a, b in pairs:
+        partner.setdefault(a, b)
+        partner.setdefault(b, a)
+    return partner
+
+
+def _token_swaps(table: dict, node: SgNode) -> list[tuple[str, list[tuple[SgNode, str]]]]:
+    """Pack format version 1: the first two operator tokens of a condition that have a partner, in source order.
+
+    A token is an unnamed node anywhere below the site node, outside comment
+    and string nodes; each yields one mutant with that token replaced.
+    """
+    partner = _partners(table.get("operators", {}).get("branch_condition", {}).get("token_swaps", ()))
+    hidden = set(table["comment_kinds"]) | set(table["string_kinds"])
+    found: list[SgNode] = []
+
+    def visit(parent: SgNode) -> None:
+        for child in parent.children():
+            if child.is_named():
+                if child.kind() not in hidden:
+                    visit(child)
+            elif child.text() in partner:
+                found.append(child)
+
+    if partner:
+        visit(node)
+    swaps = []
+    for token in sorted(found, key=lambda t: t.range().start.index)[:2]:
+        old, new, r = token.text(), partner[token.text()], token.range()
+        swaps.append((f"swap:{old}->{new}@{r.start.line + 1}:{r.start.column}", [(token, new)]))
+    return swaps
+
+
+def _literal_swap(table: dict, node: SgNode) -> list[tuple[str, list[tuple[SgNode, str]]]]:
+    """Pack format version 1: a failure site without a by_kind template whose one named child is a listed literal."""
+    ops = table.get("operators", {}).get("failure_state", {})
+    named = [c for c in node.children() if c.is_named()]
+    if node.kind() in ops.get("by_kind", {}) or len(named) != 1:
+        return []
+    old = named[0].text()
+    partner = _partners(ops.get("returned_literal_swaps", ()))
+    return [(f"literal:{old}->{partner[old]}", [(named[0], partner[old])])] if old in partner else []
+
+
+def _all_edits(table: dict, kind: str, node: SgNode) -> list[tuple[str, list[tuple[SgNode, str]]]]:
+    """Every operator for the site: the existing one first, then token swaps, then the literal swap."""
+    first = _edits(table, kind, node)
+    found = [first] if first is not None else []
+    if kind == "branch_condition":
+        found += _token_swaps(table, node)
+    if kind == "failure_state":
+        found += _literal_swap(table, node)
+    return found
+
+
 def _apply(text: str, edits: list[tuple[SgNode, str]]) -> tuple[str, tuple[tuple[int, int], ...]]:
     """Replace each node by exact character offsets, last first; never by searching text."""
     spans = []
@@ -168,28 +227,47 @@ def _node_of(root: SgNode, site: Site) -> SgNode | None:
     return None
 
 
-def mutate(scope: v.Scope, site: Site) -> Mutant | None:
-    """Apply the pack's operator for the site; None when the pack gives none (no_operator)."""
+def mutants(scope: v.Scope, site: Site) -> list[Mutant]:
+    """Every mutant the pack gives for the site, in a stable order; empty without an operator (no_operator).
+
+    The existing operator comes first, then token swaps in source order, then
+    the literal swap (pack format version 1). Operator labels are unique per site.
+    """
     table = v.load_table(scope.language)
     text = read_text(scope, site.file)
     node = _node_of(SgRoot(text, scope.language).root(), site)
     if node is None:
         raise ValueError(f"site no longer present in {site.file}: {site}")
-    edits = _edits(table, site.kind, node)
-    if edits is None:
-        return None
-    mutated, spans = _apply(text, edits[1])
-    return Mutant(site, edits[0], mutated, spans)
+    return [Mutant(site, label, *_apply(text, edits)) for label, edits in _all_edits(table, site.kind, node)]
 
 
-def select(sites: list[Site], cap: int = 40, seed: int = 20261110) -> list[Site]:
-    """Seeded shuffle, then round-robin across kinds (by name) until ``cap`` or exhaustion."""
-    shuffled = sorted(sites, key=site_order)
+def mutate(scope: v.Scope, site: Site) -> Mutant | None:
+    """The first of ``mutants``; None when the pack gives none (no_operator)."""
+    found = mutants(scope, site)
+    return found[0] if found else None
+
+
+def _round_robin(items: list, order, kind, cap: int, seed: int) -> list:
+    shuffled = sorted(items, key=order)
     random.Random(seed).shuffle(shuffled)
-    queues = [[s for s in shuffled if s.kind == k] for k in sorted({s.kind for s in shuffled})]
-    chosen: list[Site] = []
+    queues = [[x for x in shuffled if kind(x) == k] for k in sorted({kind(x) for x in shuffled})]
+    chosen: list = []
     while len(chosen) < cap and any(queues):
         for queue in queues:
             if queue and len(chosen) < cap:
                 chosen.append(queue.pop(0))
     return chosen
+
+
+def select(sites: list[Site], cap: int = 40, seed: int = 20261110) -> list[Site]:
+    """Seeded shuffle, then round-robin across kinds (by name) until ``cap`` or exhaustion."""
+    return _round_robin(sites, site_order, lambda s: s.kind, cap, seed)
+
+
+def mutant_order(mutant: Mutant) -> tuple:
+    return (*site_order(mutant.site), mutant.operator)
+
+
+def select_mutants(found: list[Mutant], cap: int = 200, seed: int = 20261110) -> list[Mutant]:
+    """``select`` applied to mutants grouped by their site's kind (gate Amendment 10d)."""
+    return _round_robin(found, mutant_order, lambda m: m.site.kind, cap, seed)

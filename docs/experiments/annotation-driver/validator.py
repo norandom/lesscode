@@ -94,8 +94,25 @@ def _chain(node: SgNode) -> list[SgNode]:
     return chain
 
 
-def _kind_match(chain: list[SgNode], rule: dict, unwrap: frozenset[str] = frozenset()) -> SgNode | None:
-    """The first node of the chain (or its parenthesis wrapper) the rule allows."""
+def _only_named_child(parent: SgNode, node: SgNode) -> bool:
+    named = [c for c in parent.children() if c.is_named()]
+    return len(named) == 1 and named[0].kind() == node.kind() and _span(named[0]) == _span(node)
+
+
+def _returned(node: SgNode, parent: SgNode, rule: dict) -> bool:
+    """Pack format version 1: a returned expression of a listed kind with one of its own operator tokens listed."""
+    returned = rule.get("returned") or {}
+    return parent.kind() in returned.get("of", ()) and node.kind() in returned.get("kinds", ()) \
+        and any(not c.is_named() and c.text() in returned.get("tokens", ()) for c in node.children())
+
+
+def _kind_match(chain: list[SgNode], rule: dict, unwrap: frozenset[str] = frozenset(),
+                wrappers: frozenset[str] = frozenset()) -> SgNode | None:
+    """The first node of the chain (or its parenthesis wrapper) the rule allows.
+
+    ``wrappers`` are the pack's statement wrapper kinds, for the rule key
+    ``call_statements`` (pack format version 1).
+    """
     # A condition is often wrapped in parentheses that belong to the statement;
     # an anchor on the inner expression then counts as the wrapped node.
     wrapper = chain[0].parent()
@@ -111,6 +128,12 @@ def _kind_match(chain: list[SgNode], rule: dict, unwrap: frozenset[str] = frozen
             for parent_kind, field in rule.get("field_of", ()):
                 target = parent.field(field) if parent.kind() == parent_kind else None
                 if target is not None and _span(target) == _span(node):
+                    return node
+            if _only_named_child(parent, node):
+                # A call that is a statement of its own; a returned yes-or-no expression.
+                if node.kind() in rule.get("call_statements", ()) and parent.kind() in wrappers:
+                    return node
+                if _returned(node, parent, rule):
                     return node
     return None
 
@@ -153,6 +176,21 @@ def anchor_nodes(root: SgNode, start: int, end: int, anchor: str) -> list[SgNode
             and n.text().replace("\r\n", "\n").replace("\r", "\n") == anchor]
 
 
+def match_anchor(table: dict, root: SgNode, start: int, end: int, anchor: str) -> tuple[list[SgNode], bool]:
+    """Rule 2: the nodes the anchor matches, and whether the statement terminator was appended.
+
+    Pack format version 1: when no node matches and the pack's
+    ``statement_terminator`` is non-empty, the anchor plus the terminator is
+    tried under the same rules.
+    """
+    nodes = anchor_nodes(root, start, end, anchor)
+    terminator = table.get("statement_terminator") or ""
+    if nodes or not terminator:
+        return nodes, False
+    completed = anchor_nodes(root, start, end, anchor + terminator)
+    return completed, bool(completed)
+
+
 def site_check(table: dict, node: SgNode, kind: str) -> tuple[str, SgNode | None]:
     """Rules 3 and 4 and the test-region rule for one node: (reason, allowed node)."""
     chain = _chain(node)
@@ -162,7 +200,8 @@ def site_check(table: dict, node: SgNode, kind: str) -> tuple[str, SgNode | None
     if _in_test_region(chain[0], tuple(table.get("test_attribute_markers", ()))):
         return "test_region", None
     rule = table["kinds"].get(kind, {})
-    matched = _kind_match(chain, rule, frozenset(table.get("unwrap_kinds", ())))
+    matched = _kind_match(chain, rule, frozenset(table.get("unwrap_kinds", ())),
+                          frozenset(table.get("statement_wrappers", ())))
     if matched is None:
         return "kind_mismatch", None
     if rule.get("requires_next_sibling") and next_check(chain, rule, set(table["comment_kinds"])) is None:
@@ -176,45 +215,50 @@ def validate(scope: Scope, annotations: list[dict]) -> list[dict]:
     Rules (contract version 0): 1 file in scope and not a test; 2 anchor is
     exactly the text of one syntax node at the stated lines; 3 that node's
     kind is allowed for the annotation kind; 4 not inside a comment or string;
-    5 not a duplicate of an accepted annotation.
+    5 not a duplicate of an accepted annotation. Pack format version 1 extends
+    rule 2 (``match_anchor``); a decision whose anchor matched only with the
+    statement terminator appended carries ``"anchor_completed": true``.
     """
     table = load_table(scope.language)
     roots: dict[str, SgNode] = {}
     accepted_sites: set[tuple] = set()
     decisions = []
 
-    def decide(annotation: dict) -> str:
+    def decide(annotation: dict) -> tuple[str, bool]:
         file, kind = annotation.get("file"), annotation.get("kind")
         anchor = annotation.get("anchor")
         start, end = annotation.get("start_line"), annotation.get("end_line")
         if kind not in KINDS or not isinstance(anchor, str) or not anchor.strip() \
                 or not isinstance(start, int) or not isinstance(end, int) or start < 1 or end < start:
-            return "malformed"
+            return "malformed", False
         normalized = str(file).replace("\\", "/")
         if is_test_file(scope, normalized):
-            return "test_file"
+            return "test_file", False
         if normalized not in scope.files:
-            return "outside_scope"
+            return "outside_scope", False
         if normalized not in roots:
             roots[normalized] = SgRoot(scope.source(normalized), scope.language).root()
-        matches = anchor_nodes(roots[normalized], start, end, anchor)
+        matches, completed = match_anchor(table, roots[normalized], start, end, anchor)
         spans = {_span(n) for n in matches}
         if not spans:
-            return "anchor_mismatch"
+            return "anchor_mismatch", completed
         if len(spans) > 1:
-            return "anchor_ambiguous"
+            return "anchor_ambiguous", completed
         reason, _ = site_check(table, matches[0], kind)
         if reason != "ok":
-            return reason
+            return reason, completed
         site = (normalized, spans.pop(), kind)
         if site in accepted_sites:
-            return "duplicate"
+            return "duplicate", completed
         accepted_sites.add(site)
-        return "ok"
+        return "ok", completed
 
     for annotation in annotations:
-        reason = decide(annotation)
-        decisions.append({"annotation": annotation, "accepted": reason == "ok", "reason": reason})
+        reason, completed = decide(annotation)
+        decision = {"annotation": annotation, "accepted": reason == "ok", "reason": reason}
+        if completed:
+            decision["anchor_completed"] = True
+        decisions.append(decision)
     return decisions
 
 

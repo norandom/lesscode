@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R62 Parallel batches for the annotation-driver prototype (2026-11-10)
+## Latest: R63 Annotation-driver attempt 2 setup (2026-11-10)
+
+[R63](2026-11-10/09-annotation-driver-attempt2-setup.md) freezes the inputs of the
+second and last gate attempt. Setup only, no counted run.
+- **Pack format version 1** implemented as data: call statements as write sites, returned conditions, type-preserving token swaps, a literal swap for `return`-based failures, anchors completed by the statement terminator. Mutants per scope rise from 16, 161, 28 and 115 to 66, 199, 74 and 189; all at or below 200, so arm D runs every mutant.
+- **Second TypeScript scope** admitted by rule: `OpenUltraCode` `src/verification.ts`.
+- **Checks:** 95 of 95 controls on five scopes; engine checks pass, including a regression check that the version 0 packs still reproduce the committed D1 receipts.
+- **Also today:** the independent survivor labels for attempt 1 (R61 amendment: 32 of 36 agree, no verdict changes) and release 1.0.2 with the fail-loudly fixes (R55 amendment).
+
+## Prior: R62 Parallel batches for the annotation-driver prototype (2026-11-10)
 
 [R62](2026-11-10/08-annotation-driver-parallel-batches.md) replaces the serial
 batching of attempt 1. Apparatus only; the gate outcome of R61 stands.
