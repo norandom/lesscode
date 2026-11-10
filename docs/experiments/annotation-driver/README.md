@@ -16,6 +16,8 @@ Research entries: [R56](../../research/2026-11-10/02-agnostic-annotation-driver-
 | `engine.py` | Finds eligible sites and applies the generic operators; reads only the packs |
 | `harness.py`, `run_arm.py` | Runs a batch of mutants against a scope's own tests and writes a receipt |
 | `run_engine_checks.py` | Model-free checks of packs, positions, operators, counts, selection and the harness |
+| `pool.py` | Runs a batch in parallel worker copies (`run_arm.py --workers N`); see R62 |
+| `java-fast-test.sh` | Compiles one Java file and runs one test class inside the long-lived test container |
 | `results/` | Retained receipts |
 | `compose.yaml` | Linux-side tools (Maven for the Java scope) |
 

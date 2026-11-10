@@ -1,5 +1,5 @@
 {
-  "note": "Scopes of the agnostic-annotation-driver gate (Amendments 1 and 3; R57, R59). Paths are relative to the isolated clone of each repository under the scopes directory. In commands, {scopes} is the scopes directory, {work} its parent and {experiment} this directory.",
+  "note": "Scopes of the agnostic-annotation-driver gate (Amendments 1 and 3; R57, R59). Paths are relative to the isolated clone of each repository under the scopes directory. In commands, {scopes} is the scopes directory, {work} its parent, {id} the scopes directory's name and {experiment} this directory. worker_setup runs once in a fresh worker copy (pool.py). A failing test exit counts as killed only when its output matches one of runner_evidence_patterns, else it is an error.",
   "admission": {"min_canonical_lines": 150, "max_canonical_lines": 800, "min_sites": 12, "min_kinds": 3},
   "scopes": [
     {
@@ -7,16 +7,19 @@
       "repository": "mmhmem", "revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
       "files": ["src/setup/ui/update.rs"], "test_paths": ["tests/"],
       "test": ["cargo", "nextest", "run", "--locked", "--lib", "--test", "setup_update_spike", "-E", "test(setup::ui::update) | binary(setup_update_spike)", "--no-fail-fast"],
-      "env": {"CARGO_TARGET_DIR": "{work}/target-mmhmem"},
-      "timeout_s": 900, "invalid_exit_codes": [], "invalid_output_patterns": ["could not compile", "error\\[E"]
+      "env": {"CARGO_TARGET_DIR": "{scopes}/.target-mmhmem"},
+      "runner_evidence_patterns": ["(?m)^\\s*Starting \\d+ tests? across", "(?m)^\\s*Summary \\["],
+      "max_workers": 1, "error_output_patterns": ["memory allocation of \\d+ bytes failed", "found invalid metadata files", "paging file is too small"],
+      "timeout_s": 900, "timeout_floor_s": 120, "invalid_exit_codes": [], "invalid_output_patterns": ["could not compile", "error\\[E"]
     },
     {
       "name": "python-mvibe-ratelimit", "language": "python", "role": "development",
       "repository": "mvibe", "revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c",
       "files": ["mvibe_proxy/ratelimit.py"], "test_paths": ["tests/"],
       "test": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_ratelimit.py", "-n", "0", "-q", "-x", "-p", "no:cacheprovider"],
-      "env": {},
-      "timeout_s": 300, "invalid_exit_codes": [2, 3, 4, 5], "invalid_output_patterns": []
+      "env": {}, "worker_setup": [["uv", "sync", "--quiet", "--all-groups"]],
+      "runner_evidence_patterns": ["\\d+ (passed|failed|errors?)\\b.* in \\d+(\\.\\d+)?s"],
+      "timeout_s": 300, "timeout_floor_s": 20, "invalid_exit_codes": [2, 3, 4, 5], "invalid_output_patterns": []
     },
     {
       "name": "typescript-openultracode-state", "language": "typescript", "role": "held-out",
@@ -24,16 +27,19 @@
       "files": ["src/state.ts"], "test_paths": ["tests/"],
       "build": ["pnpm", "exec", "tsc", "--noEmit"],
       "test": ["node", "--import", "tsx", "--test", "tests/state.test.ts"],
-      "env": {},
-      "timeout_s": 300, "invalid_exit_codes": [], "invalid_output_patterns": []
+      "env": {}, "worker_setup": [["pnpm", "install", "--frozen-lockfile"]],
+      "runner_evidence_patterns": ["(?m)^.{0,3}(tests|pass|fail) \\d+\\s*$"],
+      "timeout_s": 300, "timeout_floor_s": 30, "invalid_exit_codes": [], "invalid_output_patterns": []
     },
     {
       "name": "java-commons-csv-lexer", "language": "java", "role": "held-out",
       "repository": "commons-csv", "revision": "2bd66bf181d44ffc92806f585d3955e915666f7f",
       "files": ["src/main/java/org/apache/commons/csv/Lexer.java"], "test_paths": ["src/test/"],
-      "test": ["docker", "compose", "-f", "{experiment}/compose.yaml", "run", "--rm", "java-tests"],
-      "env": {"SCOPES_DIR": "{scopes}", "JAVA_TEST": "LexerTest"},
-      "timeout_s": 180, "invalid_exit_codes": [], "invalid_output_patterns": ["COMPILATION ERROR"]
+      "setup": ["docker", "compose", "-f", "{experiment}/compose.yaml", "up", "-d", "java-worker"],
+      "test": ["docker", "compose", "-f", "{experiment}/compose.yaml", "exec", "-T", "java-worker", "timeout", "-s", "KILL", "{limit}", "sh", "/opt/ad/java-fast-test.sh", "LexerTest", "src/main/java/org/apache/commons/csv/Lexer.java"],
+      "env": {"SCOPES_DIR": "{scopes}", "COMPOSE_PROJECT_NAME": "lesscode-ad-{id}"},
+      "runner_evidence_patterns": ["Tests run: \\d+", "(?m)^\\[ERROR\\]"],
+      "timeout_s": 180, "timeout_floor_s": 30, "timeout_exit_codes": [124, 137], "invalid_exit_codes": [], "invalid_output_patterns": ["COMPILATION ERROR", "\\.java:\\d+: error:"]
     }
   ]
 }

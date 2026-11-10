@@ -31,6 +31,8 @@ has the result table, the open decisions, the owner's rules and the commands.
 5. **Open from R55:** Python `deconvolute analyze` is a stub that reports
    `passed: true`; the pre-push hook's refactor-branch check does nothing;
    the hard-coded mutation operators stay until a design passes the gate.
+   Batches now run in parallel worker copies (R62): a full pass over the
+   four scopes takes about 8 minutes instead of 43, with identical results.
 6. **Working rules from the owner today:** the agent decides strategy and
    records it; clear implementation goes to Opus at xhigh effort; do not
    manage the Podman machine, only run containers; the runs were too slow,

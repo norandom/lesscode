@@ -409,6 +409,30 @@ mutant; timeouts are reported with that caveat.
 Applies to Java arm A run 2 and Java D2, which are rerun or run with it.
 `harness.py` SHA-256 `337b47e75921d3e94cca7aa5d272ec57f9708eda5447c26bca0af84fdbfd13c6`.
 
+## Amendment 9, 2026-11-10 (operational; after attempt 1, owner: the serial runs make no sense)
+
+How batches run, from now on ([R62](../../../docs/research/2026-11-10/08-annotation-driver-parallel-batches.md)):
+
+- Mutants of a scope run concurrently in independent worker copies that
+  pull from one queue (`run_arm.py --workers N`). Rust is limited to one
+  worker: concurrent builds of that scope exhaust memory.
+- A run may take five times what the unmutated run needed on that worker,
+  with a floor per scope, in place of the fixed limits of Amendment 5.
+- Java runs in one long-lived container per worker, compiling only the
+  scope file and running the one test class.
+- One outcome store is shared by all workers and the serial path
+  (Amendment 8).
+- New class `error`: a test command that did not start, or a build that ran
+  out of memory, is not a result about the mutant. It is retried once, never
+  stored, and reported. A failing exit counts as killed only when the test
+  runner's own output shows that it ran. `error` mutants are outside every
+  row's numerator and denominator, and a batch with any left is incomplete.
+
+Verified before use: with reuse off, every D1 mutant of the four scopes gets
+the same class as in the serial receipts of R60. None of the 240 kills of
+attempt 1 was a launch failure. Classification of real test runs is
+unchanged.
+
 ## Result of attempt 1, 2026-11-10
 
 Outcome `revise`; full tables and limits in R61. No design approval and no

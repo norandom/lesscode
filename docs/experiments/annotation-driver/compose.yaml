@@ -37,5 +37,19 @@ services:
       - -Dtest=${JAVA_TEST:-LexerTest}
       - test
 
+  # Long-lived variant: started once per batch, each test run is an exec in it,
+  # so the container and Maven's start-up are not paid per mutant.
+  java-worker:
+    image: maven:3.9-eclipse-temurin-21
+    working_dir: /scope
+    volumes:
+      - ${SCOPES_DIR:?set SCOPES_DIR to the isolated scopes directory}/commons-csv:/scope
+      - maven-repo:/root/.m2
+      - ./java-fast-test.sh:/opt/ad/java-fast-test.sh:ro
+    command: ["sleep", "infinity"]
+
 volumes:
+  # One fixed name, so every project (one per worker copy, COMPOSE_PROJECT_NAME
+  # in scopes.json) uses the same populated repository for `mvn -o`.
   maven-repo:
+    name: lesscode-annotation-driver_maven-repo

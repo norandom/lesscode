@@ -89,6 +89,11 @@ uv run --no-sync python annotate.py --scope NAME --scopes-dir $scopes --guide gu
 uv run --no-sync python run_arm.py --scope NAME --scopes-dir $scopes --out-dir OUT --annotations OUT\annotations.json
 ```
 
+- **Run batches in parallel:** add `--workers 6` to `run_arm.py` (Rust is
+  capped at 1 by `scopes.json`). A D1 batch then takes about 30 s (Python),
+  70 s (TypeScript), 3 min (Java) and 3.5 min (Rust); see R62. Worker copies
+  live in `...\annotation-driver\workers`. A mutant classed `error` means
+  the test command did not run; the batch is then incomplete.
 - Scope names are in `scopes.json`. The scopes are isolated clones under
   `D:\BuildArtifacts\lesscode\annotation-driver\scopes`; pristine read-only
   copies are in `...\scopes-ro` (use these for checks while a batch runs).
@@ -98,9 +103,9 @@ uv run --no-sync python run_arm.py --scope NAME --scopes-dir $scopes --out-dir O
 - Model endpoint: `%USERPROFILE%\.lesscode\model.env` (Anthropic style,
   `claude-opus-5-5`). Every real call appends to a `ledger.jsonl` next to
   its output directory. Real calls cost money.
-- Java tests run through `docker compose -f compose.yaml run --rm java-tests`
-  with `SCOPES_DIR` set; each run starts a fresh Maven container and takes
-  20 to 60 seconds. Rust tests for the `mmhmem` scope must use the restricted
+- Java tests run by `docker compose exec` in a long-lived `java-worker`
+  container per worker (started by the batch; stop idle ones with
+  `docker container stop`). Rust tests for the `mmhmem` scope must use the restricted
   target list in `scopes.json` (other test targets do not compile at that
   revision).
 

@@ -2,7 +2,17 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R61 Annotation-driver gate, attempt 1: revise (2026-11-10)
+## Latest: R62 Parallel batches for the annotation-driver prototype (2026-11-10)
+
+[R62](2026-11-10/08-annotation-driver-parallel-batches.md) replaces the serial
+batching of attempt 1. Apparatus only; the gate outcome of R61 stands.
+- **Times, same 40-mutant batches, nothing reused:** Java 1,875 s to 178 s, TypeScript 412 s to 70 s, Python 97 s to 32 s; Rust unchanged at 207 s and kept serial because concurrent builds run out of memory.
+- **Same results:** every mutant gets the class it has in the serial receipts of R60, on all four scopes.
+- **How:** worker copies pulling from one queue, time limits scaled from the unmutated run, a long-lived Java container that compiles one file and runs one test class, one shared outcome store.
+- **Defects found and fixed:** a test command that failed to start was counted as killed, and an out-of-memory build as an invalid mutant; both are now class `error`. None of the 240 kills of attempt 1 was affected.
+- **For attempt 2:** the rejected TypeScript annotations are mostly state-writing calls and returned boolean expressions the taxonomy does not cover.
+
+## Prior: R61 Annotation-driver gate, attempt 1: revise (2026-11-10)
 
 [R61](2026-11-10/07-annotation-driver-gate-result.md) reports the counted runs
 and the gate outcome.

@@ -1,12 +1,14 @@
 r"""Run one arm batch on one scope (gate Amendment 3b, 3d, 3e).
 
     uv run --no-sync python run_arm.py --scope NAME --scopes-dir DIR --out-dir DIR
-        (--all-sites | --annotations FILE) [--limit N]
+        (--all-sites | --annotations FILE) [--limit N] [--workers N [--workers-dir DIR]]
 
 ``--all-sites`` takes every eligible site through ``engine.select``;
 ``--annotations`` validates a JSON list of annotations and mutates the
 accepted ones. ``--limit`` caps the number of mutants run. Writes
 ``receipt.json`` and one log per run into the output directory.
+``--workers N`` (N > 1) runs the mutants concurrently in N worker copies
+under ``--workers-dir`` (default ``<scopes-dir>/../workers``; see pool.py).
 
 Exit code 0 when the batch protocol held, whatever the mutants' classes;
 1 when the batch is void.
@@ -70,7 +72,11 @@ def main() -> int:
     group.add_argument("--all-sites", action="store_true")
     group.add_argument("--annotations", type=Path)
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--workers-dir", type=Path)
     args = parser.parse_args()
+    if args.workers < 1:
+        parser.error("--workers must be at least 1")
 
     scope = v.load_scopes(args.scopes_dir)[args.scope]
     cfg = h.scope_config(args.scope)
@@ -93,8 +99,18 @@ def main() -> int:
         mutants = mutants[: args.limit]
 
     started = time.monotonic()
-    batch = h.run_batch(scope, cfg, args.scopes_dir, mutants, args.out_dir)
+    code = CODE
+    args.workers = min(args.workers, cfg.get("max_workers", args.workers))  # e.g. builds that do not fit in memory side by side
+    if args.workers > 1:
+        import pool
+
+        code = (*CODE, "pool.py")
+        workers_dir = args.workers_dir or args.scopes_dir.parent / "workers"
+        batch = pool.run_pool(args.scope, args.scopes_dir, workers_dir, args.workers, mutants, args.out_dir)
+    else:
+        batch = h.run_batch(scope, cfg, args.scopes_dir, mutants, args.out_dir)
     by_class, by_kind = counts(batch["mutants"])
+    errors = [m["number"] for m in batch["mutants"] if m["class"] == "error"]
     receipt = {
         "receipt": "annotation-driver-arm-v0",
         "scope": scope.name,
@@ -104,13 +120,14 @@ def main() -> int:
         "expected_revision": cfg["revision"],
         "pack_sha256": file_sha(v.tables_dir() / f"{scope.language}.json"),
         "tables_dir": str(v.tables_dir().resolve()),
-        "code_sha256": {name: file_sha(HERE / name) for name in CODE},
+        "code_sha256": {name: file_sha(HERE / name) for name in code},
         "limit": args.limit,
         "eligible_sites": len(eligible),
         "sites": len(sites),
         "mutants_run": len(mutants),
         "counts_by_class": by_class,
         "counts_by_kind": by_kind,
+        "error_mutants": errors,
         "sites_without_operator": no_operator,
         "annotation_decisions": decisions,
         "annotations_skipped": skipped,
@@ -120,6 +137,9 @@ def main() -> int:
     args.out_dir.mkdir(parents=True, exist_ok=True)
     (args.out_dir / "receipt.json").write_text(json.dumps(receipt, indent=1) + "\n", encoding="utf-8", newline="\n")
     print(f"{scope.name}: void={batch['void']} {by_class} -> {args.out_dir / 'receipt.json'}")
+    if errors:  # not void, but these mutants have no outcome
+        print(f"INCOMPLETE: {len(errors)} mutant(s) are `error` (the test runner did not run, also on retry): "
+              f"numbers {errors}")
     return 0 if batch["void"] is None else 1
 
 
