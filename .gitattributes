@@ -17,3 +17,4 @@ native/packs/*.json text eol=lf
 # Parity fixtures of the agnostic driver: mutant hashes depend on the exact bytes (CRLF as at the gate).
 native/tests/fixtures/driver/scopes/** -text
 native/tests/fixtures/driver/reference/*.json text eol=lf
+native/tests/fixtures/driver/model-packs/*.json text eol=lf

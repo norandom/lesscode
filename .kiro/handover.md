@@ -27,7 +27,7 @@ has the result table, the open decisions, the owner's rules and the commands.
    approved. **Sizing spike done (R65): exact parity with the prototype,
    core 898 canonical lines against 753 removable.** Owner decided: the driver
    stays outside the cap's counted set, governed by per-file budgets. Design
-   was approved 2026-11-10; tasks approved; task groups 1 and 2 (foundation, pack admission) are done, see `.kiro/task_30_handover.md`; group 3 (engine with parity) is next. Slice B is preregistered (R66) and starts after group 3 on the owner's go. Slice B has its dated step (driver task 2.4, preregistration due with task group 2). Open: may the five scope files be fixtures.
+   was approved 2026-11-10; tasks approved; task groups 1 to 3 (foundation, pack admission, engine with parity R67) are done, see `.kiro/task_31_handover.md`; group 4 (switch `analyze` and `mutate` to the driver) is next. Slice B is preregistered (R66) and starts after group 3 on the owner's go. Slice B has its dated step (driver task 2.4, preregistration due with task group 2). Open: may the five scope files be fixtures.
 3. **Second priority, not to be forgotten (owner, 2026-11-10): Slice B,**
    hardening against LLM inference drift, in `constraint-guided-compression`
    (requirements Amendment 5). Not started. It starts when the driver's

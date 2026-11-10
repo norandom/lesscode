@@ -19,6 +19,12 @@ converts them. The mutant hashes in the references depend on these exact bytes.
 These files are test data. They are not compiled, not shipped in the binary and not covered by the project's
 complexity budgets.
 
+## `model-packs/`: the two packs a model wrote at the gate
+
+Byte-identical copies of `docs/experiments/annotation-driver/results/attempt2/d2/packs/{java,typescript}.json`
+(gate attempt 2, R64). They are copied here because the Linux check runs in a container that mounts only
+`native/` and `tools/`; a test must not read outside those.
+
 ## `reference/`: what the Python prototype produced
 
 One file per gate scope, written by

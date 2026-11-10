@@ -61,8 +61,7 @@ fn base() -> (Value, String, String) {
 #[test]
 fn shipped_and_model_written_packs_are_admitted() {
     let shipped = packs_in(&repo().join("native/packs"));
-    let written =
-        packs_in(&repo().join("docs/experiments/annotation-driver/results/attempt2/d2/packs"));
+    let written = packs_in(&repo().join("native/tests/fixtures/driver/model-packs"));
     assert_eq!((shipped.len(), written.len()), (4, 2));
     for path in shipped.iter().chain(&written) {
         let (text, language) = pack_text(path);
