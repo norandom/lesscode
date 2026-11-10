@@ -2,7 +2,19 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R54 Self-application dogfooding, clean-clone validation & intelligent pre-push hook (2026-11-09)
+## Latest: R55 The released binary used as an adopter would use it (2026-11-10)
+
+[R55](2026-11-10/01-released-binary-adopter-dogfood.md) runs the 1.0.1 binary's
+documented commands against this repository from the outside:
+- **Disposition:** completed, exploratory; the hypothesis that every documented command gives a meaningful receipt on ordinary code was rejected.
+- **Works:** `budgets` (38 files, 0 violations with `--root native/src`), `deconvolute density` (reproduces R52: 248 to 148 lines, 83 to 70 statements), `deconvolute analyze` for Rust, Java and TypeScript, and the pre-push hook's budget gate.
+- **Does not work for an adopter:** `analyze --lang python` returns an empty receipt with `"passed": true` without analysis; `mutate` produced no mutants for 36 of 38 Rust files and 0 of 40 Python files because its operators replace specimen-specific substrings; the hook's `refactor/*` handling prints a note and checks nothing.
+- **Breaks:** with the hook installed and the binary not on `PATH`, every push fails. Three README commands failed as written (`--file`, missing `--out`, wrong budgets file).
+- **Consequence:** README, docs index and agent skill corrected; R54's tool consequence is narrowed to budget enforcement. No code changed. Owner decision open: implement, fail loudly, or drop the three non-working paths.
+
+## Prior: R54 Self-application dogfooding, clean-clone validation & intelligent pre-push hook (2026-11-09)
+
+> Amended 2026-11-10 by [R55](2026-11-10/01-released-binary-adopter-dogfood.md): the hook enforces complexity budgets only. The state-boundary check on `refactor/*` and `deconvolute/*` branches described below is not implemented.
 
 [R54](2026-11-09/12-dogfood-self-application-synthesis.md) records the execution,
 clean-clone verification, and tooling integration for the `dogfood-self-application`

@@ -8,6 +8,13 @@
 - Hypothesis ID and predecessor: [R53](11-multi-language-deconvolution-synthesis.md) (Multi-language deconvolution unification synthesis); [R52](10-rust-adapter-prototype-gate.md) (Rust adapter prototype feasibility gate); [R49](07-native-closure-prototype-gate.md) (Native closure prototype gate).
 - Type: Retrospective trial, self-application validation, and tooling integration.
 
+> Amendment, 2026-11-10 ([R55](../2026-11-10/01-released-binary-adopter-dogfood.md)):
+> running the released binary on this repository showed that the pre-push hook
+> enforces complexity budgets only. On `refactor/*` and `deconvolute/*` branches
+> it prints a note about uncommitted files and applies no state-boundary or AST
+> check, so decision item 4 and the tool consequence below overstate it. The
+> porcelain `analyze` has no Python implementation and `mutate` is bound to the
+> experiment specimens. The test counts and commit record below are unchanged.
 ---
 
 ## Decision
