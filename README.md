@@ -1,7 +1,7 @@
 # Lesscode
 
 [![DOI](https://zenodo.org/badge/1440672292.svg)](https://doi.org/10.5281/zenodo.23958363)
-[![Release](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.0.1)
+[![Release](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.0.2)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 The goal is substantial code simplification while preserving features. In grown
@@ -82,8 +82,7 @@ also download an archive and its `.sha256` file by hand from the
 [releases page](https://github.com/norandom/lesscode/releases/latest); each
 archive contains the binary, the license and the third-party notices.
 
-The install scripts check the SHA-256 digest of the download. From the release
-after 1.0.1 on, archives are also signed with the project's Ed25519 key and
+The install scripts check the SHA-256 digest of the download. From release 1.0.2 on, archives are also signed with the project's Ed25519 key and
 carry a GitHub provenance attestation; [release signing](docs/release-signing.md)
 shows how to verify them. Release 1.0.1 itself is not signed.
 
@@ -201,12 +200,11 @@ Know these three things before you install it:
 
 These limits were measured with the 1.0.1 binary on this repository and are
 recorded in [R55](docs/research/2026-11-10/01-released-binary-adopter-dogfood.md).
-Where the release after 1.0.1 behaves differently, the bullet says so.
+Where release 1.0.2 behaves differently, the bullet says so.
 
 - The commands do not run your tests and do not establish that a rewrite
   behaves the same. Behavioral evidence is yours to supply and review.
-- `deconvolute analyze --lang python` is not implemented. From the release
-  after 1.0.1 it writes no receipt, prints a note to stderr and exits with
+- `deconvolute analyze --lang python` is not implemented. From release 1.0.2 it writes no receipt, prints a note to stderr and exits with
   code 2. Version 1.0.1 instead returns an empty receipt with `"passed": true`
   for any Python file; do not read that as a clean result.
 - `deconvolute density --lang python` counts lines only; its statement fields
@@ -214,14 +212,14 @@ Where the release after 1.0.1 behaves differently, the bullet says so.
 - `deconvolute mutate` applies operators written for the specimens used in
   this project's experiments. On other code it usually produces no mutants:
   it did so for 36 of the 38 Rust files in `native/src` and for all 40 Python
-  files tried. From the release after 1.0.1 it exits with code 1 when no
+  files tried. From release 1.0.2 it exits with code 1 when no
   operator matches (the receipt still shows `"mutants_generated": 0`), and
   `--lang python` writes nothing and exits with code 2 because there is no
   Python generator. Version 1.0.1 exits 0 in both cases, so check
   `mutants_generated` in the receipt. It is not yet a general mutation tool.
 - The budget check reads the files in your working tree, not the commits being
   pushed, and it covers Rust only.
-- The hook checks complexity budgets only, and from the release after 1.0.1
+- The hook checks complexity budgets only, and from release 1.0.2
   it treats every branch the same. Version 1.0.1 prints a note on `refactor/*`
   and `deconvolute/*` branches but performs no additional analysis on them.
 - Receipts written with `--out` may be placed anywhere, including inside your

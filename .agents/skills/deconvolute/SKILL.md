@@ -74,11 +74,11 @@ Evaluate structural reduction using `lesscode-core`:
 The native `lesscode-core` binary exposes first-class deconvolution commands across all supported runtimes:
 
 ### Known limits of the porcelain (R55, 2026-11-10)
-Measured with the 1.0.1 binary; see `docs/research/2026-11-10/01-released-binary-adopter-dogfood.md`. Where the release after 1.0.1 behaves differently, the item says so.
-- `analyze --lang python` performs no analysis. From the release after 1.0.1 it writes no receipt, prints a note to stderr and exits 2. Version 1.0.1 still reports `"passed": true`. Do not use either as evidence.
-- `mutate` uses operators bound to the experiment specimens. On other code it usually writes no mutants. From the release after 1.0.1 it then exits 1 (the receipt shows `"mutants_generated": 0`); version 1.0.1 exits 0, so read `mutants_generated`. There is no Python generator: from the release after 1.0.1 `mutate --lang python` writes nothing and exits 2.
+Measured with the 1.0.1 binary; see `docs/research/2026-11-10/01-released-binary-adopter-dogfood.md`. Where release 1.0.2 behaves differently, the item says so.
+- `analyze --lang python` performs no analysis. From release 1.0.2 it writes no receipt, prints a note to stderr and exits 2. Version 1.0.1 still reports `"passed": true`. Do not use either as evidence.
+- `mutate` uses operators bound to the experiment specimens. On other code it usually writes no mutants. From release 1.0.2 it then exits 1 (the receipt shows `"mutants_generated": 0`); version 1.0.1 exits 0, so read `mutants_generated`. There is no Python generator: from release 1.0.2 `mutate --lang python` writes nothing and exits 2.
 - `density --lang python` reports the line count in both the line and statement fields.
-- The pre-push hook enforces complexity budgets only. From the release after 1.0.1 it treats `refactor/*` and `deconvolute/*` branches like any other branch; version 1.0.1 announces them but checks nothing more.
+- The pre-push hook enforces complexity budgets only. From release 1.0.2 it treats `refactor/*` and `deconvolute/*` branches like any other branch; version 1.0.1 announces them but checks nothing more.
 
 ### Binary Discovery
 Prefer an installed release binary on `PATH` (`lesscode-core --version`; install with `scripts/install.sh` or `scripts/install.ps1`). Otherwise locate the compiled binary in standard build locations:
@@ -124,7 +124,7 @@ lesscode-core deconvolute pre-push [--local-ref <ref>] [--local-sha <sha>]
 ```
 - **Automatic Bypasses:** Deletions of remote branches and `LESSCODE_SKIP_HOOK=1` exit 0 immediately.
 - **Complexity Budgets:** Intercepts regressions in `complexity-budgets.json` before code reaches the remote.
-- **Refactoring Branches (`refactor/*`, `deconvolute/*`):** From the release after 1.0.1, treated like any other branch: budget check only (version 1.0.1 announces them and prints a note when tracked files are uncommitted). No state-boundary or mutation check runs in the hook, so run `analyze` and the test oracle yourself.
+- **Refactoring Branches (`refactor/*`, `deconvolute/*`):** From release 1.0.2, treated like any other branch: budget check only (version 1.0.1 announces them and prints a note when tracked files are uncommitted). No state-boundary or mutation check runs in the hook, so run `analyze` and the test oracle yourself.
 
 ### General & Budget Commands
 ```powershell
