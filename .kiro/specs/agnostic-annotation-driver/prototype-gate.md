@@ -391,6 +391,24 @@ Frozen for the TypeScript and Java calls: `pack-guide-v1.md`, SHA-256
 `6fd47bf4246dc90089b58b13a73a86a539ef1e108898c98c3809c1de9343abc4`. If the endpoint refuses a held-out language with this guide, that is
 a D2 failure for the language; the guide is not reworded again.
 
+## Amendment 8, 2026-11-10 (operational; owner: the runs are too slow)
+
+The harness now keeps the outcome of each mutant, keyed by the original
+file's hash, the mutated text's hash and the scope's build and test
+settings, and reuses it when the same mutant comes up again in another arm
+or run. A reused outcome is marked `cached` in the receipt and names the
+batch that first ran it. `AD_RESULT_CACHE=off` disables reuse.
+
+Why this does not change results: a mutant's outcome depends only on those
+three things. The store was first filled from the batches already run; 165
+mutants had been run more than once across D1, arm A and TypeScript D2, and
+every repeat had the same class as the first run. The one way this can
+mislead is a run that hit the time limit for reasons of load, not of the
+mutant; timeouts are reported with that caveat.
+
+Applies to Java arm A run 2 and Java D2, which are rerun or run with it.
+`harness.py` SHA-256 `337b47e75921d3e94cca7aa5d272ec57f9708eda5447c26bca0af84fdbfd13c6`.
+
 ## Evidence record
 
 Screening and admission are recorded in R57 (Rust scope replaced in R59), the validator controls in R58, the engine checks in the R59 addition.

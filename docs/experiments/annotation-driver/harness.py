@@ -131,6 +131,21 @@ def check(cfg: dict, root: Path, scopes_dir: Path, out_dir: Path, label: str) ->
     return {"class": "survived" if test["exit_code"] == 0 else "killed", "reason": None, "runs": runs}
 
 
+def _cache_file(cfg: dict, scopes_dir: Path, scope_name: str, digest: str, mutated: str) -> Path | None:
+    """Where the outcome of this exact mutated file under this exact check is kept.
+
+    The outcome of a mutant is a function of the original file, the mutated
+    text and the scope's build and test settings, so a second run of the same
+    mutant repeats the first (gate Amendment 8). `AD_RESULT_CACHE=off` disables reuse.
+    """
+    if os.environ.get("AD_RESULT_CACHE", "").lower() == "off":
+        return None
+    settings = json.dumps({k: cfg.get(k) for k in ("build", "test", "env", "timeout_s", "invalid_exit_codes",
+                                                   "invalid_output_patterns")}, sort_keys=True)
+    key = sha256("\n".join((digest, sha256(mutated.encode("utf-8")), settings)).encode("utf-8"))
+    return scopes_dir.parent / "result-cache" / scope_name / f"{key}.json"
+
+
 def _write(path: Path, data: bytes) -> None:
     # Every write lands in a new wall-clock second, so a cache keyed on a
     # whole-second mtime and the size cannot take one version for another.
@@ -159,12 +174,20 @@ def _run_mutant(number: int, mutant: e.Mutant, scope: v.Scope, cfg: dict, scopes
     if verdict != "changed":
         return {**record, "class": "invalid", "reason": verdict, "exit_code": None, "seconds": 0.0, "log": None}
     path = scope.root / mutant.site.file
+    entry = _cache_file(cfg, scopes_dir, scope.name, digest, mutant.text)
+    if entry is not None and entry.exists():
+        return {**record, **json.loads(entry.read_text(encoding="utf-8")), "seconds": 0.0, "log": None, "cached": True}
     try:
         _write(path, mutant.text.encode("utf-8"))
         result = check(cfg, scope.root, scopes_dir, out_dir, f"m{number:03d}")
     finally:
         _restore(path, original, digest)
     test = result["runs"][-1]
+    if entry is not None:
+        entry.parent.mkdir(parents=True, exist_ok=True)
+        entry.write_text(json.dumps({"class": result["class"], "reason": result["reason"],
+                                     "exit_code": test["exit_code"], "first_run": str(out_dir)}),
+                         encoding="utf-8", newline="\n")
     return {**record, "class": result["class"], "reason": result["reason"], "exit_code": test["exit_code"],
             "seconds": round(sum(r["seconds"] for r in result["runs"]), 2), "log": test["log"],
             "runs": result["runs"]}
