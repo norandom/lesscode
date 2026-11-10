@@ -239,6 +239,15 @@ Rust 1,395 s (serial, 66 mutants).
   small artefact per language (the pack) and to the optional annotation
   layer, with the agreement figures above as its baseline.
 
+## Amendment, 2026-11-10 (evening): owner decision and report
+
+The owner decided that the apparatus is ported to Rust as a single runtime
+and that breaking codebases must be avoided. The decision is recorded in the
+gate. A feasibility report for that port, built on this entry and on R55 to
+R63, is at
+[docs/reports/agnostic-driver-feasibility.md](../../reports/agnostic-driver-feasibility.md).
+Its size figures for a Rust port are estimates; nothing new was run for it.
+
 ## COBESY check
 
 Outcome first: arm D meets the mechanism rows everywhere, one row is open

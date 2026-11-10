@@ -20,9 +20,12 @@ has the result table, the open decisions, the owner's rules and the commands.
    Python and Java in at least one arm and fails on TypeScript in every arm.
    Packs written by the model for TypeScript and Java were admitted and are
    equivalent to hand-written ones. Nothing in `native/` changed.
-2. **Waiting for the owner:** the apparatus ceiling for a production port
-   (amend the 7,173-line cap, remove as much elsewhere, or keep the engine as
-   a tool beside the binary), and the go to write requirements and a design.
+2. **Owner decided (2026-11-10 evening):** the apparatus is ported to Rust,
+   one runtime; breaking codebases must be avoided. Feasibility report:
+   [docs/reports/agnostic-driver-feasibility.md](../docs/reports/agnostic-driver-feasibility.md).
+   Waiting for the owner: port scope (mutation only, or mutation and
+   analysis), the go for requirements and design, and after a sizing spike
+   whether the 7,173-line cap holds.
 3. **Second priority:** hardening against LLM inference drift, in
    `constraint-guided-compression` Slice B (requirements Amendment 5). Not
    started. The run-to-run agreement measured today is its baseline.

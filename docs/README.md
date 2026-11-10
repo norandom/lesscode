@@ -12,6 +12,7 @@
 | See how checks and releases are built | [CI and release workflows](ci-validation.md) |
 | Verify a download or set up the signing key | [Release signing](release-signing.md) |
 | Follow the experiments, including the failed ones | [Dated research log](research/README.md) |
+| Judge whether the agnostic mutation driver can become part of the Rust binary | [Feasibility report](reports/agnostic-driver-feasibility.md) |
 | Use the frozen-manifest comparison (`prepare`, `compare`) | [Native workflow and scoped readiness report](reports/native-core-readiness.md) |
 
 The native core runs on Linux x86_64 and aarch64, Windows x86_64, and macOS on

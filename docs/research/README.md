@@ -12,7 +12,7 @@ gate attempt.
 - **Open row:** the apparatus ceiling. The counted native apparatus is at its cap of 7,173 lines and no Rust port was sized; this is an owner decision before production.
 - **Limits:** 24% to 35% of TypeScript mutants do not compile; kind names are loose; five scopes, one model; this is about mutation, not compression.
 - **Spend, both attempts:** about 233k input and 115k output tokens, at most 12.10 USD at an assumed price, cap 20 USD.
-- **Next:** requirements and a design for the owner's approval.
+- **Next:** requirements and a design for the owner's approval. Owner decision the same evening: Rust port, single runtime, no breakage of codebases; see the [feasibility report](../reports/agnostic-driver-feasibility.md).
 
 ## Prior: R63 Annotation-driver attempt 2 setup (2026-11-10)
 

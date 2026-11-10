@@ -555,6 +555,19 @@ hard-coded operators, until the design is approved and the apparatus
 question is settled in it. Both attempts are used up; a further prototype
 run needs a new dated owner decision.
 
+## Owner decision after attempt 2, 2026-11-10
+
+- **The apparatus is ported to Rust. One runtime.** A second runtime beside
+  the binary is rejected as too complex. This answers the apparatus row's
+  question of form; whether the cap of 7,173 canonical lines holds is to be
+  decided with a measured figure from a sizing spike in the design phase.
+- **Breaking codebases must be avoided.** Binding on the design: mutants are
+  written only into copies, the original bytes are restored and verified
+  also when a run is interrupted, and a run that did not test is an error,
+  not a result.
+- Feasibility is argued in
+  [docs/reports/agnostic-driver-feasibility.md](../../../docs/reports/agnostic-driver-feasibility.md).
+
 ## Result of attempt 1, 2026-11-10
 
 Outcome `revise`; full tables and limits in R61. No design approval and no
