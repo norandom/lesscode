@@ -1,5 +1,25 @@
 # Roadmap
 
+## Work queue, owner order of 2026-11-10 (do not drop the second item)
+
+1. **Agnostic driver** (`agnostic-annotation-driver`): requirements approved 2026-11-10; design next, starting
+   with a sizing spike for the Rust port (mutation and analysis, single runtime).
+2. **Slice B: hardening against LLM inference drift** (`constraint-guided-compression`, requirements
+   Amendment 5; blueprint in `.kiro/task_26_handover.md`). The owner's second priority, explicitly not to be
+   forgotten. It is not started. It begins when the driver's design is approved, or earlier if the owner says
+   so, and it must have a dated next step before `agnostic-annotation-driver` is reported complete
+   (that spec's Requirement 9.6). What it inherits from the driver work:
+   - The artefacts to harden are now small and checkable: the language pack a model writes once, admitted by
+     deterministic checks, and the optional annotation layer.
+   - Baseline to beat (R64): two identical annotation runs agree on 0.60 to 0.94 of their sites; annotation
+     validity is 81% to 100%; packs were admitted on the first reply for four languages, so the repair path is
+     untested.
+   - Method named by the owner: an annotation-guidance process with bounded, verified `MIPROv2`, `GEPA` if
+     needed. Opus endpoint now, Mistral later; switching models is itself a drift test.
+   - Known endpoint behaviour to design for: one request was refused until its purpose was stated (gate
+     Amendment 7).
+   - Correction to the task 26 blueprint: its static reward gate assumed `deconvolute analyze`, which had no
+     Python implementation; it becomes usable for all four languages only with the native driver.
 ## Current priority: demonstrate the solution first (2026-11-07)
 [Slice](../specs/deconvolution-native-core/slice-proposal.md) and
 [gate](../specs/deconvolution-native-core/prototype-gate.md) govern next work.

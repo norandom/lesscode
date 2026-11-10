@@ -26,9 +26,11 @@ has the result table, the open decisions, the owner's rules and the commands.
    Owner approved: mutation and analysis ported together; sizing spike as
    the first design step; cap decided after it. **Requirements are
    generated (nine areas) and await the owner's approval;** then design.
-3. **Second priority:** hardening against LLM inference drift, in
-   `constraint-guided-compression` Slice B (requirements Amendment 5). Not
-   started. The run-to-run agreement measured today is its baseline.
+3. **Second priority, not to be forgotten (owner, 2026-11-10): Slice B,**
+   hardening against LLM inference drift, in `constraint-guided-compression`
+   (requirements Amendment 5). Not started. It starts when the driver's
+   design is approved, and needs a dated next step before the driver spec is
+   reported complete. Baseline and inherited artefacts: roadmap, "Work queue".
 4. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
    release: archives carry zipsign signatures, `SHA256SUMS.sig` and a
    provenance attestation, all verified after publication. It contains the
@@ -79,6 +81,10 @@ Updated 2026-11-09 late evening:
 5. [R54 Synthesis Log](../docs/research/2026-11-09/12-dogfood-self-application-synthesis.md): Dogfood self-application synthesis and verification.
 
 ## Next authorized work and candidate directions
+
+Owner order of 2026-11-10, which governs over the older list below: (1) the agnostic driver, design phase;
+(2) **Slice B, hardening against LLM inference drift, which must not be dropped**. The queue, what Slice B
+inherits and when it starts are in [steering/roadmap.md](steering/roadmap.md) under "Work queue".
 
 With `state-boundary-deconvolution` finished and closed, the following candidate directions are available:
 

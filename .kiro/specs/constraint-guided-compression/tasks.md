@@ -508,6 +508,11 @@ and start only on the owner's explicit answer. Frozen apparatus
   checks, classified by the real test oracle, with the fixed operators as the
   frozen control set and `MIPROv2` compilation on separate scopes. Belongs
   with the Slice B adoption plan above.
+- **Slice B is queued second by the owner (2026-11-10) and must not be dropped.** The agnostic driver's gate
+  finished ([R64](../../../docs/research/2026-11-10/10-annotation-driver-gate-attempt2.md)); its design comes
+  first. Slice B starts when that design is approved. What it inherits (packs and the annotation layer as
+  the artefacts to harden, the run-to-run agreement baseline, the refusal behaviour, the correction to the
+  task 26 reward gate) is listed in `.kiro/steering/roadmap.md` under "Work queue".
 - _Requirements: 5.8, 7.1, 7.4, 7.5, 7.9, 7.10_
 
 ## Implementation Notes

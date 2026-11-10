@@ -18,6 +18,9 @@ together, and that it must never damage a codebase.
 These requirements describe what a maintainer, an adopter and a continuing researcher can observe of that
 driver. Criterion identifiers use section.item notation, for example 3.2.
 
+Approved by the owner on 2026-11-10 ("other than that approved"), with the instruction that Slice B must not be
+forgotten; criterion 9.6 was added for that.
+
 ## Boundary Context
 
 - **In scope**: language packs and their admission; discovery of sites and the analysis receipt for Rust,
@@ -218,3 +221,7 @@ judged by, so that the port cannot quietly change what was shown.
    separate outcomes.
 5. If a comparison cannot be made because a retained receipt or scope revision is unavailable, then the
    workflow shall report the comparison as not run and shall not report it as passed.
+6. When the design of the native driver is approved, the workflow shall record a dated next step for the
+   hardening against model drift (Slice B of constraint-guided-compression) in the roadmap and in that spec,
+   with the baseline figures and artefacts it inherits, and shall not report this spec complete while that
+   next step is missing.
