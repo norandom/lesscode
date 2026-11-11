@@ -18,6 +18,35 @@ module, hiding it behind a wrapper, or dropping a feature does not establish
 that result. A replacement's dependencies, configuration and behavioral
 differences also count when judging whether it simplifies the project.
 
+## How it works
+
+![Three steps: simplify one piece of code, let a model rewrite it inside fixed limits, and let your tests decide on a Git branch](docs/figures/how-it-works.svg)
+
+1. **Take one tangled piece and write it simpler.** Not the whole codebase: one
+   function or module whose job you can name. The picture shows a real one from
+   this repository, drawn simplified. Same checks and same results, with the
+   set-up done once and one way out.
+2. **A model does the rewriting, inside limits it cannot move.** The public
+   surface stays, the places that may write state are declared up front, and
+   "smaller" is counted in tokens, so squeezing more onto a line does not count.
+   Prompts are tuned by search (GEPA, MIPROv2) against mechanical checks. What
+   a model writes is used only after those checks let it through.
+3. **It lands on a Git branch, and your tests decide.** Your test suite runs on
+   the branch. Then `lesscode-core` plants small faults in the new code, one at
+   a time, in copies of your tree, and reports which ones your tests notice.
+   Where they notice nothing, a cut is not protected yet. You merge, or you
+   don't.
+
+Step 3 is one command today (`deconvolute run`, below). Step 2 exists as a
+research pipeline in this repository, not as a one-command workflow, and what
+it has delivered so far is modest: candidates that pass their tests and are 6%
+to 19% smaller in tokens ([R87](docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md)).
+
+[openidea-kiro](https://github.com/norandom/openidea-kiro) has your back while
+you do this: it checks that the specification stays free of contradictions and
+that a change does not make the code harder to change. Lesscode is the step
+after that, less code for the same behaviour.
+
 ## What you can do with it today
 
 `lesscode-core` is one native binary. You give it source files you already

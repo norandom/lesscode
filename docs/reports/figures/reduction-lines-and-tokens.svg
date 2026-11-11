@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" width="820" height="420" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img">
+<title>The same candidates, measured in lines and in tokens: reduction in percent</title>
+<rect width="820" height="420" fill="#fcfcfb"/>
+<text x="20.0" y="28.0" font-size="15" fill="#0b0b0b" text-anchor="start" font-weight="600">The same candidates, measured in lines and in tokens: reduction in percent</text>
+<rect x="300" y="44" width="12" height="12" rx="2" fill="#2a78d6"/>
+<text x="318.0" y="54.0" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal">fewer lines</text>
+<rect x="407" y="44" width="12" height="12" rx="2" fill="#eb6834"/>
+<text x="425.0" y="54.0" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal">fewer tokens</text>
+<text x="290.0" y="89.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Rust lifecycle: lines</text>
+<path d="M300.0,74.0 h253.0 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-253.0 z" fill="#2a78d6"/>
+<text x="563.0" y="89.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">40.2 %</text>
+<text x="290.0" y="119.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Rust lifecycle: tokens</text>
+<path d="M300.0,104.0 h40.7 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-40.7 z" fill="#eb6834"/>
+<text x="350.7" y="119.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">7 %</text>
+<text x="290.0" y="149.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Java CSVPrinter: lines</text>
+<path d="M300.0,134.0 h242.1 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-242.1 z" fill="#2a78d6"/>
+<text x="552.1" y="149.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">38.5 %</text>
+<text x="290.0" y="179.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Java CSVPrinter: tokens</text>
+<path d="M300.0,164.0 h31.8 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-31.8 z" fill="#eb6834"/>
+<text x="341.8" y="179.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">5.6 %</text>
+<text x="290.0" y="209.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript degradation: lines</text>
+<path d="M300.0,194.0 h276.0 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-276.0 z" fill="#2a78d6"/>
+<text x="586.0" y="209.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">43.8 %</text>
+<text x="290.0" y="239.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript degradation: tokens</text>
+<path d="M300.0,224.0 h116.2 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-116.2 z" fill="#eb6834"/>
+<text x="426.2" y="239.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">18.8 %</text>
+<text x="290.0" y="269.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Python lifecycle, 7 files: lines</text>
+<path d="M300.0,254.0 h138.6 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-138.6 z" fill="#2a78d6"/>
+<text x="448.6" y="269.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">22.3 %</text>
+<text x="290.0" y="299.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Python lifecycle, 7 files: tokens</text>
+<path d="M300.0,284.0 h43.9 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-43.9 z" fill="#eb6834"/>
+<text x="353.9" y="299.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">7.5 %</text>
+<text x="290.0" y="329.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Python report envelope, 6 files: lines</text>
+<path d="M300.0,314.0 h113.6 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-113.6 z" fill="#2a78d6"/>
+<text x="423.6" y="329.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">18.4 %</text>
+<text x="290.0" y="359.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Python report envelope, 6 files: tokens</text>
+<path d="M300.0,344.0 h58.6 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-58.6 z" fill="#eb6834"/>
+<text x="368.6" y="359.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">9.8 %</text>
+<line x1="300" y1="70" x2="300" y2="374" stroke="#c3c2b7" stroke-width="1"/>
+<text x="20.0" y="406.0" font-size="11" fill="#898781" text-anchor="start" font-weight="normal">Lines with code against tokens outside comments. Layout changes the first and not the second. Source: results/density-v2.</text>
+</svg>

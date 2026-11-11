@@ -199,7 +199,28 @@ def annotation_agreement():
                   rows, "", colours, [("two Opus runs", BLUE), ("an Opus run and a Mistral run", ORANGE)])
 
 
+def reduction_by_measure():
+    folder = RESULTS / "density-v2"
+    rows, colours = [], []
+    for label, name in [("Rust lifecycle", "rust"), ("Java CSVPrinter", "java"), ("TypeScript degradation", "typescript"),
+                        ("Python lifecycle, 7 files", "python-e5-lifecycle"),
+                        ("Python report envelope, 6 files", "python-e6-report-envelope")]:
+        data = json.loads((folder / f"{name}.json").read_text(encoding="utf-8-sig"))
+        if "totals" in data:
+            t = data["totals"]
+            lines = 100 * (t["baseline_lines"] - t["candidate_lines"]) / t["baseline_lines"]
+            tokens = 100 * (t["baseline_tokens"] - t["candidate_tokens"]) / t["baseline_tokens"]
+        else:
+            lines, tokens = data["line_reduction_pct"], data["token_reduction_pct"]
+        rows += [(f"{label}: lines", round(lines, 1), ""), (f"{label}: tokens", round(tokens, 1), "")]
+        colours += [BLUE, ORANGE]
+    single_series("reduction-lines-and-tokens.svg", "The same candidates, measured in lines and in tokens: reduction in percent",
+                  "Lines with code against tokens outside comments. Layout changes the first and not the second. Source: results/density-v2.",
+                  rows, "%", colours, [("fewer lines", BLUE), ("fewer tokens", ORANGE)])
+
+
 if __name__ == "__main__":
+    reduction_by_measure()
     call_arguments()
     annotation_agreement()
     classes()
