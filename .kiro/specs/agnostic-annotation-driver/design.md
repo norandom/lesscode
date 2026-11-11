@@ -443,6 +443,24 @@ configuration, so that the merged list fits `run --annotations` with the same co
 least one site kept, 1 with none, 3 for bad input including a threshold above the number of lists. It
 contacts no model (Requirement 6.5). It is not in release 1.1.0, which was tagged before it.
 
+### Amendment 6, 2026-11-11: `deconvolute density` counts syntax
+
+Owner decision of 2026-11-11 after R86, where a reported 40% line reduction became 12% once both files were
+formatted alike. The command now measures both files by their syntax tree (`adapters/driver/measure.rs`),
+with the grammar and the comment kinds of the language's pack, for all four languages:
+
+- tokens: leaves of the tree outside comments;
+- nodes: named syntax nodes outside comments;
+- lines: lines on which a token starts, reported for information and not used for the verdict.
+
+Receipt `deconvolution-density-v2`. Verdict `pass` needs at least 20% fewer tokens, at least 400 tokens
+removed, and at least 10% fewer nodes; the thresholds are in the receipt. The percentages are those of the
+earlier line and statement rule. The floor of 400 tokens stands for the earlier 50 lines at eight tokens a
+line; it was fixed here before any specimen was measured with the new command. A file that does not parse
+is refused with exit code 3. The line and keyword counters in `adapters/<lang>/metrics.rs` and
+`density.rs` are no longer used by the command; they remain in the library with their tests, and what to
+do with them is the owner's decision.
+
 ## Contradictions and disposition
 
 | # | Contradiction | Source authority | Disposition |

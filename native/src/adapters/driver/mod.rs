@@ -13,6 +13,7 @@ pub mod config;
 pub mod contract;
 pub mod controls;
 pub mod interrupt;
+pub mod measure;
 pub mod merge;
 pub mod operators;
 pub mod pack;

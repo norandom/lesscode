@@ -91,6 +91,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/measure.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Size of a source text by syntax, for the density command (design Amendment 6)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/merge.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
