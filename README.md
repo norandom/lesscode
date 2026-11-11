@@ -19,7 +19,7 @@ any difference in behaviour.
 
 ![Three things you do: see where your tests guard the code, pin and then simplify one function, and let one check decide on the branch before you push](docs/figures/how-it-works.svg)
 
-*What you type and what you see, on a real function of this repository. The commands are described in [docs/steps.md](docs/steps.md), the reasoning in [docs/testability.md](docs/testability.md).*
+*What you type and what you see. The function in the picture is from this repository and happens to be Rust; the same commands work on Python, TypeScript and Java. They are described in [docs/steps.md](docs/steps.md), the reasoning in [docs/testability.md](docs/testability.md).*
 
 1. Take one tangled piece and write it simpler. Start with a function or module
    whose job you can name, and leave the rest of the codebase alone. The
@@ -51,8 +51,12 @@ after that, less code for the same behaviour.
 
 ## What you can do with it today
 
-`lesscode-core` is one native binary. You give it source files you already
-have, and it writes JSON receipts you can read in a review. No command changes
+`lesscode-core` is one native binary for code written in Python, TypeScript,
+Java or Rust. The four are treated alike: what the tool knows about a language
+is a small data file, and it runs your project's own build and test commands,
+whatever they are (pytest, the Node test runner, Maven, Cargo). You give it
+source files you already have, and it writes JSON receipts you can read in a
+review. No command changes
 your sources, and none of the commands in this table makes a network or model
 request. (The binary also holds the research commands named
 [further down](#what-is-not-checked); one of them, `regenerate`, sends a prompt
@@ -60,14 +64,14 @@ to a model endpoint you configure.)
 
 | You want to know | Command | Works on |
 | --- | --- | --- |
-| Is this rewrite a substantial reduction or a cosmetic one? | `deconvolute density` | Rust, Python, TypeScript, Java |
-| Where does this file decide behaviour and write state? | `deconvolute analyze` | Rust, Python, TypeScript, Java |
-| Which small faults can be planted in this file? | `deconvolute mutate` | Rust, Python, TypeScript, Java |
+| Is this rewrite a substantial reduction or a cosmetic one? | `deconvolute density` | Python, TypeScript, Java, Rust |
+| Where does this file decide behaviour and write state? | `deconvolute analyze` | Python, TypeScript, Java, Rust |
+| Which small faults can be planted in this file? | `deconvolute mutate` | Python, TypeScript, Java, Rust |
 | Which of those faults do my tests catch? | `deconvolute run` | the same four, with your own build and test commands |
+| After this small change, do my tests still pass and still catch planted faults as often as before? | `step check`, with `step plan`, `pin`, `record`, `guard` | the same four, in a Git repository; from release 1.2.0 |
 | Is this language pack fit for use? | `deconvolute admit-pack` | any pack for a compiled-in grammar |
-| Are my Rust files still within their agreed size ceilings? | `budgets` | Rust source trees |
-| Can a push be stopped when those ceilings are broken? | `deconvolute install-hook` | Any Git repository with a budgets file |
-| After this small change, do my tests still pass and still catch planted faults as often as before? | `step check`, with `step plan`, `pin`, `record`, `guard` | the same four languages, in a Git repository; from release 1.2.0 |
+| Are my files still within their agreed size ceilings? | `budgets` | Rust only so far |
+| Can a push be stopped when those ceilings are broken? | `deconvolute install-hook` | a Git repository with a budgets file (Rust only so far) |
 
 `deconvolute run` and `step plan`, `step pin` and `step check` are the commands
 that execute your project's commands. They do so in copies of your source tree
@@ -136,7 +140,8 @@ shows how to verify them. Release 1.0.1 itself is not signed.
 
 ### Build from source
 
-Use Rust 1.98.1 and a C compiler. [native/README.md](native/README.md) lists
+The tool itself is written in Rust, whatever language you use it on. To build
+it you need Rust 1.98.1 and a C compiler. [native/README.md](native/README.md) lists
 the per-platform prerequisites.
 
 ```sh
@@ -154,16 +159,17 @@ after. Keep the receipts outside your source tree.
 ### 1. Measure the reduction
 
 ```sh
-lesscode-core deconvolute density --lang rust \
-  --baseline before/lifecycle.rs --candidate after/lifecycle.rs \
+lesscode-core deconvolute density --lang python \
+  --baseline before/ratelimit.py --candidate after/ratelimit.py \
   --out receipts/density.json
 ```
 
-The command measures both files by their syntax, so that layout cannot change
-the result: `tokens` are the names, literals, operators and punctuation outside
-comments, `nodes` the named syntax nodes. Run against the lifecycle pair kept in
-this repository (`native/adapters/rust/baseline_lifecycle.rs` and
-`candidate_lifecycle.rs`), the receipt reads:
+`--lang` is `python`, `typescript`, `java` or `rust`. The command measures both
+files by their syntax, so that layout cannot change the result: `tokens` are
+the names, literals, operators and punctuation outside comments, `nodes` the
+named syntax nodes. This repository keeps one complete pair you can run it on,
+a Rust one (`native/adapters/rust/baseline_lifecycle.rs` and
+`candidate_lifecycle.rs`, with `--lang rust`). Its receipt reads:
 
 ```json
 {
@@ -183,8 +189,11 @@ this repository (`native/adapters/rust/baseline_lifecycle.rs` and
 This pair is the reason the command works this way. The candidate has 40%
 fewer lines and 7% fewer tokens: most of what looked like a reduction was
 denser layout. Releases up to 1.1.0 counted lines and reported this pair as
-`pass` ([R86](docs/research/2026-11-11/12-rust-candidate-built-and-measured.md),
-[R87](docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md)).
+`pass` ([R86](docs/research/2026-11-11/12-rust-candidate-built-and-measured.md)).
+The project's rewrites in the other languages measure the same way: 5.6%
+fewer tokens for the Java one, 7.5% and 9.8% for two Python ones and 18.8%
+for the TypeScript one, where 24% to 44% fewer lines had been reported
+([R87](docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md)).
 
 `pass` needs at least 20% fewer tokens, at least 400 tokens removed, and at
 least 10% fewer nodes. Anything less is reported as `marginal` with exit code
@@ -241,8 +250,9 @@ that the run is void and nothing in it may be relied on. Stopping the run with
 Ctrl-C kills your commands, restores the copy and ends the run as void; faults
 already classed are kept and reused by the next run.
 
-### 4. Hold Rust files to size ceilings
+### 4. Hold files to size ceilings (Rust only so far)
 
+This is the one check that does not cover the other three languages yet.
 Write a budgets file that names every `.rs` file under the root you govern:
 
 ```json
@@ -302,7 +312,9 @@ ask:
 lesscode-core step check --declaration .kiro/specs/one-exit/step.json --work ../work
 ```
 
-Exit code 0 means: the change stays in the files you declared, the scope did
+The declaration names the language and your own test command, so the same
+command judges a pytest project, a Node one, a Maven one or a Cargo one. Exit
+code 0 means: the change stays in the files you declared, the scope did
 not grow beyond the limit you set, your tests pass before and after, and in no
 function do more planted faults go unnoticed than before. Exit code 1 refuses
 the step and names the reason. `step record` puts an accepted step on a ledger
@@ -313,8 +325,8 @@ tests and declaration.
 Before a change, `step plan` shows per function which planted faults your
 tests notice, and `step pin` tells you whether a new test pins one they did
 not. The tooling writes neither tests nor refactorings; it judges what a person
-or a model wrote. The whole procedure with a worked example on this repository
-is in [docs/steps.md](docs/steps.md); an agent skill that walks the phases is
+or a model wrote. The whole procedure, with real steps taken in TypeScript,
+Java and Rust projects, is in [docs/steps.md](docs/steps.md); an agent skill that walks the phases is
 [refactor-in-steps](.agents/skills/refactor-in-steps/SKILL.md). The skill
 cannot accept a step; only the exit codes can.
 
@@ -334,14 +346,19 @@ cannot accept a step; only the exit codes can.
 - Speed is your project's own build and test time per fault. Measured here:
   under a second per fault for a Python file, several seconds for Java, and
   five to twenty seconds for Rust, which rebuilds the crate each time.
-- Copies must not share a build cache. With Cargo and a global
-  `CARGO_TARGET_DIR`, set `"env": {"CARGO_TARGET_DIR": "target"}` in the run
-  configuration; otherwise copies run each other's builds and the run is
-  voided ([details](docs/driver.md#run-configuration)).
+- Copies must not share a build cache, in any language. The case we hit is
+  Cargo with a global `CARGO_TARGET_DIR`: set
+  `"env": {"CARGO_TARGET_DIR": "target"}` in the run configuration, otherwise
+  copies run each other's builds and the run is voided
+  ([details](docs/driver.md#run-configuration)). A build tool that keeps its
+  output outside the project directory needs the same care.
+- The step commands have been used on real steps in TypeScript, Java and Rust
+  projects. No step has been taken in a Python project yet; the fault runs
+  underneath have been used on Python code.
 - Four languages have a pack. A fifth needs its grammar compiled into the
   binary and a pack that `admit-pack` accepts.
 - The budget check reads the files in your working tree, not the commits being
-  pushed, and it covers Rust only.
+  pushed. It is the one command that covers Rust only.
 - The hook that `deconvolute install-hook` writes checks complexity budgets
   only, and from release 1.0.2 it treats every branch the same. The hook that
   `step install-hook` writes also runs the step guard. Version 1.0.1 prints a note on `refactor/*`
