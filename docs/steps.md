@@ -1,8 +1,8 @@
 # Refactoring in checked steps
 
 Status: in development after release 1.1.1 (spec
-[gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). `step plan`,
-`step pin` and `step check` exist; `guard` and `record` follow.
+[gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). all commands
+below exist. It has not been used on a real step from start to finish yet.
 
 Why it works this way, for readers new to the idea: [testability.md](testability.md).
 
@@ -118,8 +118,58 @@ would be about another state than the one you see.
 The evidence file (`step-evidence-provisional-v0`) lists per criterion the command, its exit code and the
 same hashes. Its format is provisional until it is agreed with openidea-kiro.
 
-## Example
-A plan for `native/src/recording.rs` of this repository, with the tests of `tests/recording.rs` only
+## 5. Put it on record: `step record`
+
+```sh
+lesscode-core step record --declaration .kiro/specs/one-exit/step.json
+lesscode-core step record --declaration .kiro/specs/one-exit/step.json --override --reason "hotfix; pin follows in step 12"
+lesscode-core step record --release 1.2.0 --ledger .kiro/steps/ledger.jsonl
+```
+
+The ledger is a file of JSON lines in the repository, only ever appended. Each entry carries the hash of
+the line before it; if an earlier entry is edited or removed, every later use of the ledger stops with
+"the ledger was rewritten".
+
+- Without options, the accepted verdict is recorded with its numbers per function. A verdict that is not
+  accepted, or that no longer matches the committed code, tests and declaration, is not recorded (exit 1).
+- `--override` records that the step goes ahead without an accepted verdict. It needs a reason and shows
+  up everywhere as "overridden", never as "accepted". It holds for exactly the committed content it was
+  made for.
+- `--release` records a release and lists the steps since the one before.
+
+From then on `step check` holds each function to the best number an accepted step left on the ledger: a
+later step may not leave more faults unnoticed than that, even if its own base got worse in between.
+
+Commit the verdict, the evidence and the ledger on the branch. That moves the branch, not what was judged.
+
+## 6. The boundary: `step guard` and the hook
+
+```sh
+lesscode-core step guard --branch step/one-exit
+lesscode-core step install-hook
+```
+
+The guard runs nothing. It reads the commit: is there a verdict that says "accepted" for exactly the scope
+files, test files and declaration this commit has, or an override on the ledger for exactly that content?
+If not, it exits 1 and says what changed. It judges what is committed; a verdict or an override that is
+only on disk counts once it is committed. A branch that no declaration names is not a step branch and
+passes.
+
+`step install-hook` writes a pre-push hook that runs `lesscode-core step pre-push`: the complexity
+budgets, the guard for every pushed branch, and, where `tools/bin/kiro-cli` is installed, the audit of the
+step's spec. Any of them stops the push by exit code.
+
+A local hook can be skipped with `git push --no-verify`. The boundary that cannot be skipped is the same
+command in your pipeline, as a required check on the main branch:
+
+```sh
+lesscode-core step guard --branch "$BRANCH" --revision "$COMMIT"
+```
+
+Use a commit or a tag as `base` in the declaration. A branch name such as `main` moves, and a verdict is
+written for one base commit.
+
+## ExampleA plan for `native/src/recording.rs` of this repository, with the tests of `tests/recording.rs` only
 (2026-11-11, 191 faults, 13.8 minutes with three copies; receipt in
 `docs/experiments/gradual-steps/gate2/plan-recording.json`): 91 faults noticed, 100 not. Twelve functions have
 no noticed fault, led by `replay_to_l2` (20 unnoticed) and `assemble_meta` (17); `verdict` has 11 noticed and

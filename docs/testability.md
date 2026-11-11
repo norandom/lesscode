@@ -182,8 +182,9 @@ this project says "Pex and Moles" it means that pair of questions, not those too
 
 ## Status
 
-`step plan`, `step pin` and `step check` exist and are tested. The guard that refuses a push without a
-matching verdict, and the ledger that records steps release by release, are being built. See
+`step plan`, `step pin`, `step check`, `step record` and `step guard` exist and are tested, including a
+push that the installed hook stops. No real step has been taken through all of them from start to finish
+yet; that comes next. See
 [steps.md](steps.md) for the commands and the spec under
 [.kiro/specs/gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/requirements.md) for the
 requirements.

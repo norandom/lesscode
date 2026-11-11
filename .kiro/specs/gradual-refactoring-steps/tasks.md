@@ -107,24 +107,24 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - _Boundary: Verdict_
   - _Requirements: 5.7, 5.8, 8.2, 8.3, 8.4_
 
-- [ ] 5. Guard and ledger
-- [ ] 5.1 Ledger: append, chain, ratchet, release
+- [x] 5. Guard and ledger
+- [x] 5.1 Ledger: append, chain, ratchet, release
   - `step/ledger.rs` and `step record`: entries with the hash of the line before; a broken chain is
     reported; last accepted number per function; `--release`; `--override --reason`.
   - _Boundary: Ledger_
   - _Requirements: 6.4, 7.1, 7.2, 7.3, 7.4_
-- [ ] 5.2 `step guard`
+- [x] 5.2 `step guard`
   - Recompute revisions and hashes, compare with the verdict; stale on a change to code, tests or
     declaration; overridden reported as overridden; a branch no declaration names is said not to be a step
     branch.
   - _Boundary: Guard_
   - _Requirements: 6.1, 6.2, 6.4, 6.5, 6.7_
-- [ ] 5.3 Hook and pipeline
+- [x] 5.3 Hook and pipeline
   - `step install-hook` beside the budgets call; `kiro-cli check` in the hook where `tools/bin` has it;
     `docs/steps.md` with the pipeline job.
   - _Boundary: Guard_
   - _Requirements: 6.3, 6.6, 6.7_
-- [ ] 5.4 Protection tests
+- [x] 5.4 Protection tests
   - The repository tree and refs before and after every command differ only in the three declared outputs;
     the git arguments used contain no writing command.
   - _Requirements: 10.2, 10.3, 10.5_

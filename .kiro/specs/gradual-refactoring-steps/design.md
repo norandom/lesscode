@@ -425,6 +425,22 @@ script stays under `docs/experiments/` as the record of R88.
 - **Uncommitted work** in the declaration, the scope or the tests is bad input (exit 3), nothing is written.
 - **Ledger number (7.5)** is compared in task 5.1, when the ledger exists.
 
+### Amendment 4, 2026-11-11 (task group 5): as built
+
+- **Hook.** The hook is one line, `exec lesscode-core step pre-push`. The shell version in this design read
+  the pushed refs with a subshell, which failed on this Windows machine. `step pre-push` runs the budgets
+  check, the guard and, where `tools/bin/kiro-cli` exists, `kiro-cli check --feature <spec>`. The guard
+  itself still calls nothing.
+- **Committed first.** The guard reads verdict and ledger from the commit it judges and falls back to the
+  files on disk only when the commit has none. An override therefore counts once the ledger is committed.
+- **Moved branch.** The guard accepts a later commit of the branch when the hashes of scope, tests and
+  declaration are those of the verdict; committing verdict, evidence and ledger does not make it stale.
+- **Base.** A verdict is written for one base commit. If the declared base is a branch that moved, the
+  guard refuses; declarations should name a commit or a tag.
+- **Release.** `step record --release NAME --ledger PATH` needs no declaration.
+- **Ledger entry.** `result` is `accepted`, `overridden` or `release`; an accepted entry holds the
+  verdict's SHA-256, the hashes, and per function the numbers before and after.
+
 ## Contradictions and disposition
 
 | Conflict | Authority | Disposition |
