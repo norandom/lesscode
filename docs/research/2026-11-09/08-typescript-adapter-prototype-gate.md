@@ -137,3 +137,8 @@ Receipt summary from [`prototype-gate-report.json`](../../../.kiro/specs/typescr
 
 Reading the gate script (`.kiro/specs/typescript-deconvolution-adapter/run_gate.py`) shows that three of the four controls were text replacements in the candidate, each compared with the baseline through a probe on one hand-picked input, and that the fourth (`TS_ADV_3_Buffer_Drop`) is the assignment `stream_killed = True` in the script. No mutant was run against the project's own tests. None of the four has a counterpart among the driver's operators. Run through the driver with the project's tests, the candidate has 6 mutants of which 5 are killed and 1 does not compile; the original has 17, with 15 killed, 1 survivor and 1 that does not compile. The "4 of 4 killed" of this entry should not be cited as evidence of test sensitivity. Details: [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md).
 
+
+## Amendment, 2026-11-11: compression measured by syntax
+
+Measured by syntax instead of lines, the candidate has 1,042 tokens against 1,283 (18.8% fewer) and 842 named nodes against 1,064 (20.9% fewer); 241 tokens are removed. Under the density check as it now stands that is `marginal`. The line-based compression figure of this entry overstated the reduction. Details: [R87](../2026-11-11/13-density-by-syntax-specimens-restated.md).
+

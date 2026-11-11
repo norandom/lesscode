@@ -1,0 +1,93 @@
+{
+  "set": "python-e6-report-envelope",
+  "baseline_root": ".runs/e2-facdrone/source",
+  "candidate_root": ".runs/e6-report-envelope/cand-e6",
+  "files": [
+    {
+      "file": "packages/facdrone-kernel/facdrone_kernel/canonical.py",
+      "baseline": {
+        "tokens": 2813,
+        "nodes": 2672,
+        "lines": 291
+      },
+      "candidate": {
+        "tokens": 2114,
+        "nodes": 2015,
+        "lines": 209
+      }
+    },
+    {
+      "file": "packages/facdrone-reporting/facdrone_reporting/shells/composition_errors.py",
+      "baseline": {
+        "tokens": 300,
+        "nodes": 325,
+        "lines": 49
+      },
+      "candidate": {
+        "tokens": 294,
+        "nodes": 316,
+        "lines": 43
+      }
+    },
+    {
+      "file": "packages/facdrone-reporting/facdrone_reporting/shells/evidence_validation.py",
+      "baseline": {
+        "tokens": 1531,
+        "nodes": 1516,
+        "lines": 204
+      },
+      "candidate": {
+        "tokens": 1440,
+        "nodes": 1411,
+        "lines": 165
+      }
+    },
+    {
+      "file": "packages/facdrone-reporting/facdrone_reporting/shells/reporting_request_store.py",
+      "baseline": {
+        "tokens": 988,
+        "nodes": 959,
+        "lines": 189
+      },
+      "candidate": {
+        "tokens": 931,
+        "nodes": 906,
+        "lines": 159
+      }
+    },
+    {
+      "file": "packages/facdrone-reporting/facdrone_reporting/shells/reporting_request.py",
+      "baseline": {
+        "tokens": 3251,
+        "nodes": 3241,
+        "lines": 471
+      },
+      "candidate": {
+        "tokens": 3079,
+        "nodes": 3057,
+        "lines": 425
+      }
+    },
+    {
+      "file": "packages/facdrone-reporting/facdrone_reporting/shells/snapshot_store.py",
+      "baseline": {
+        "tokens": 2249,
+        "nodes": 2172,
+        "lines": 408
+      },
+      "candidate": {
+        "tokens": 2178,
+        "nodes": 2104,
+        "lines": 314
+      }
+    }
+  ],
+  "totals": {
+    "baseline_tokens": 11132,
+    "candidate_tokens": 10036,
+    "baseline_nodes": 10885,
+    "candidate_nodes": 9809,
+    "baseline_lines": 1612,
+    "candidate_lines": 1315
+  }
+}

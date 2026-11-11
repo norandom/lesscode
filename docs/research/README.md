@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R86 The Rust specimen candidate, built for the first time: it works, and most of its 40% is formatting (2026-11-11)
+## Latest: R87 Measured by syntax, the four specimen candidates are 6% to 19% smaller, not 24% to 44% (2026-11-11)
+
+[R87](2026-11-11/13-density-by-syntax-specimens-restated.md) re-measures the specimens of R50 to R53 with `deconvolute density` after it was changed to count syntax (design Amendment 6, thresholds fixed beforehand).
+- **Tokens fewer:** Java 5.6%, Rust 7.0%, Python 7.5% and 9.8% (two sets), TypeScript 18.8%. Reported before, in lines: 38.5%, 40.3%, 23.8%, 36.8%. None meets the threshold for a substantial reduction.
+- **Why:** the candidates put more on each line; the earlier command counted lines and, as "statements", keywords and semicolons per line.
+- **Unchanged:** the candidates pass the tests there are (R50, R51, R86).
+- **Open for the owner:** whether regeneration can produce reductions that are substantial by syntax is open again.
+
+## Prior: R86 The Rust specimen candidate, built for the first time: it works, and most of its 40% is formatting (2026-11-11)
 
 [R86](2026-11-11/12-rust-candidate-built-and-measured.md) closes the open point of R75.
 - **Works:** in place of the six original functions the candidate compiles, lints clean and passes all 375 tests; under the driver 18 of its 36 mutants are killed (original 20 of 38). Three of the six functions are not reached by the tests that ran.

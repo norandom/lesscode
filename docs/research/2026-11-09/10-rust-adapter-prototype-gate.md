@@ -123,3 +123,8 @@ Reading the gate script (`.kiro/specs/rust-deconvolution-unification/run_gate.py
 
 The candidate was built for the first time on 2026-11-11 ([R86](../2026-11-11/12-rust-candidate-built-and-measured.md)). In place of the original functions it compiles and all 375 tests of the crate pass. Its reduction does not hold as reported: with baseline and candidate formatted the same way the figures are 248 to 219 canonical lines (11.7%) and 83 to 76 statements (8.4%), verdict "marginal", against the 40.3% and 15.7% of this entry. Most of the reported reduction was layout.
 
+
+## Amendment, 2026-11-11: compression measured by syntax
+
+Measured by syntax instead of lines, the candidate has 1,716 tokens against 1,846 (7.0% fewer) and 1,350 named nodes against 1,460 (7.5% fewer); under the density check as it now stands the pair is `marginal`. This replaces the formatter-based figure of the second amendment as the reference. Details: [R87](../2026-11-11/13-density-by-syntax-specimens-restated.md).
+

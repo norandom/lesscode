@@ -16,8 +16,10 @@
 > - The parsers are the tree-sitter grammars compiled into the binary; `syn` and `oxc` are not used.
 > - `PureCoreVerifier::compare` on the three language adapters did not run the two entry points; it was
 >   removed on 2026-11-11 (R81).
-> - The row "Compression Ratio (Lines)" depends on layout. For Rust, 40.3% becomes 11.7% when both files are
->   formatted the same way (R86); the other columns were not re-measured.
+> - The rows "Compression Ratio" are lines and mostly layout. By syntax the candidates have 5.6% (Java), 7.0%
+>   (Rust), 8.7% (Python) and 18.8% (TypeScript) fewer tokens, and none meets the density check as it now
+>   stands ([R87](research/2026-11-11/13-density-by-syntax-specimens-restated.md)). Section 4 describes the
+>   earlier line-based gate; the command now counts tokens and nodes.
 > - Section 5 is replaced by the note at its start.
 
 Lesscode's state-boundary deconvolution engine unifies cross-language whole-responsibility compression and equivalence verification under a high-performance native Rust substrate. 

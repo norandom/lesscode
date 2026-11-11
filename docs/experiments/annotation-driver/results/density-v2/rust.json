@@ -1,0 +1,27 @@
+{
+  "receipt": "deconvolution-density-v2",
+  "lang": "rust",
+  "baseline": "native\\adapters\\rust\\baseline_lifecycle.rs",
+  "candidate": "native\\adapters\\rust\\candidate_lifecycle.rs",
+  "baseline_size": {
+    "tokens": 1846,
+    "nodes": 1460,
+    "lines": 249
+  },
+  "candidate_size": {
+    "tokens": 1716,
+    "nodes": 1350,
+    "lines": 149
+  },
+  "token_reduction_pct": 7.042253521126761,
+  "tokens_removed": 130,
+  "node_reduction_pct": 7.534246575342466,
+  "line_reduction_pct": 40.16064257028113,
+  "thresholds": {
+    "min_token_reduction_pct": 20.0,
+    "min_tokens_removed": 400,
+    "min_node_reduction_pct": 10.0
+  },
+  "passed": false,
+  "verdict": "marginal"
+}

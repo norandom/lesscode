@@ -155,3 +155,8 @@ Receipt summary from [`prototype-gate-report.json`](../../../.kiro/specs/java-de
 
 Reading the gate script (`.kiro/specs/java-deconvolution-unification/run_gate.py`) shows that the four controls were text replacements in the candidate, compiled and compared with the baseline through a probe; a mutant that failed to compile also counted as killed. The receipt records `JAVA_ADV_2` (removed `lock.unlock()`) as "killed at compile time": the replacement left a syntax error. The driver's mutant for the same change compiles, and the project's `CSVPrinterTest` does not notice it: it survives. Of the other three, two have a driver counterpart and are killed; one (a changed argument) has none. Whole file with the project's tests: candidate 78 of 89 killed, original 78 of 90. The gate also copied the candidate over a file in the upstream checkout and copied the original back; the driver never writes to a source tree. The "4 of 4 killed" of this entry should not be cited as evidence of test sensitivity. Details: [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md).
 
+
+## Amendment, 2026-11-11: compression measured by syntax
+
+Measured by syntax instead of lines, the candidate has 1,341 tokens against 1,420 (5.6% fewer) and 1,159 named nodes against 1,212 (4.4% fewer). The 38.5% line reduction of this entry was almost entirely layout; under the density check as it now stands the pair is `marginal`. Details: [R87](../2026-11-11/13-density-by-syntax-specimens-restated.md).
+

@@ -1,0 +1,27 @@
+{
+  "receipt": "deconvolution-density-v2",
+  "lang": "typescript",
+  "baseline": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes\\OpenUltraCode\\src\\degradation.ts",
+  "candidate": "native\\adapters\\typescript\\candidate_degradation.ts",
+  "baseline_size": {
+    "tokens": 1283,
+    "nodes": 1064,
+    "lines": 201
+  },
+  "candidate_size": {
+    "tokens": 1042,
+    "nodes": 842,
+    "lines": 113
+  },
+  "token_reduction_pct": 18.784099766173032,
+  "tokens_removed": 241,
+  "node_reduction_pct": 20.86466165413534,
+  "line_reduction_pct": 43.78109452736319,
+  "thresholds": {
+    "min_token_reduction_pct": 20.0,
+    "min_tokens_removed": 400,
+    "min_node_reduction_pct": 10.0
+  },
+  "passed": false,
+  "verdict": "marginal"
+}

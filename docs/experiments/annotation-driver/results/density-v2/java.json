@@ -1,0 +1,27 @@
+{
+  "receipt": "deconvolution-density-v2",
+  "lang": "java",
+  "baseline": "D:\\BuildArtifacts\\lesscode\\annotation-driver\\scopes\\commons-csv\\src\\main\\java\\org\\apache\\commons\\csv\\CSVPrinter.java",
+  "candidate": "native\\adapters\\java\\candidate_CSVPrinter.java",
+  "baseline_size": {
+    "tokens": 1420,
+    "nodes": 1212,
+    "lines": 221
+  },
+  "candidate_size": {
+    "tokens": 1341,
+    "nodes": 1159,
+    "lines": 136
+  },
+  "token_reduction_pct": 5.563380281690141,
+  "tokens_removed": 79,
+  "node_reduction_pct": 4.372937293729374,
+  "line_reduction_pct": 38.46153846153847,
+  "thresholds": {
+    "min_token_reduction_pct": 20.0,
+    "min_tokens_removed": 400,
+    "min_node_reduction_pct": 10.0
+  },
+  "passed": false,
+  "verdict": "marginal"
+}

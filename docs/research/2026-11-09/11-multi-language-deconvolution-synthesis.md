@@ -146,3 +146,8 @@ The line "100% kill rate across 20/20 mandatory adverse mutation controls (Pytho
 
 The Rust specimen's reduction of 40.3% lines is 11.7% when baseline and candidate are formatted the same way ([R86](../2026-11-11/12-rust-candidate-built-and-measured.md)); the density check counts lines and depends on layout. The figures of the other three specimens were measured the same way and have not been re-measured under a common formatter.
 
+
+## Amendment, 2026-11-11: compression measured by syntax
+
+The compression column of this entry does not hold as substantial reductions. By syntax the four candidates have fewer tokens by 5.6% (Java), 7.0% (Rust), 7.5% and 9.8% (the two Python sets) and 18.8% (TypeScript); none meets the density check as it now stands. The reported 24% to 44% were lines, and mostly layout. Details: [R87](../2026-11-11/13-density-by-syntax-specimens-restated.md).
+
