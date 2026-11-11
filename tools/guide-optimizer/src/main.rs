@@ -5,6 +5,7 @@
 //! Makes real model calls unless --dry-run is given. Not part of lesscode-core.
 
 mod adapter;
+mod mipro;
 mod model;
 mod task;
 
@@ -71,6 +72,13 @@ struct Args {
     price: Option<Vec<f64>>,
     #[arg(long, default_value_t = 0)]
     seed: u64,
+    /// The search engine: gepa (reflection on judged replies) or mipro
+    /// (instructions proposed up front, then sampled).
+    #[arg(long, default_value = "gepa")]
+    engine: String,
+    /// With --engine mipro: how many instructions, the starting one included (MIPROv2's light preset).
+    #[arg(long, default_value_t = 6)]
+    candidates: usize,
     /// Use a scripted stand-in instead of the endpoint; no call is made.
     #[arg(long)]
     dry_run: bool,
@@ -137,6 +145,44 @@ fn profile(trials: &[Trial], guide: &str) -> Value {
         })
         .collect();
     json!({"guide": guide_id(guide), "characters": guide.chars().count(), "not_run": not_run, "languages": languages})
+}
+
+/// What either engine leaves behind: the guides it tried (the first is the
+/// starting guide), their scores on the scoring set, and the candidates that
+/// are best at some position of that set.
+struct Found {
+    guides: Vec<String>,
+    val_subscores: Vec<Vec<f64>>,
+    val_aggregate_scores: Vec<f64>,
+    front: BTreeSet<usize>,
+    report: Value,
+}
+
+impl Found {
+    fn from_mipro(outcome: mipro::Outcome) -> Self {
+        let report = outcome.report();
+        let positions = outcome.subscores.first().map_or(0, Vec::len);
+        let tried = |c: &usize| outcome.aggregate[*c] >= 0.0;
+        let mut front = BTreeSet::new();
+        for at in 0..positions {
+            let best = (0..outcome.guides.len())
+                .filter(tried)
+                .map(|c| outcome.subscores[c][at])
+                .fold(f64::NEG_INFINITY, f64::max);
+            front.extend(
+                (0..outcome.guides.len())
+                    .filter(tried)
+                    .filter(|c| outcome.subscores[*c][at] == best),
+            );
+        }
+        Found {
+            guides: outcome.guides,
+            val_subscores: outcome.subscores,
+            val_aggregate_scores: outcome.aggregate,
+            front,
+            report,
+        }
+    }
 }
 
 fn run(args: Args) -> Result<(), String> {
@@ -275,32 +321,60 @@ fn run(args: Args) -> Result<(), String> {
     );
     adapter.max_tokens = (args.max_tokens[0], args.max_tokens[1]);
     let (log, rejected) = (adapter.log.clone(), adapter.rejected.clone());
-    let engine = GepaEngine {
-        adapter,
-        trainset_size: train.len(),
-        valset_size: val.len(),
-        minibatch_size: args.minibatch.min(train.len()),
-        max_metric_calls: args.max_metric_calls,
-        perfect_score: 1.0,
-        skip_perfect_score: true,
-        seed: args.seed,
-        use_merge: false,
-        max_merge_invocations: 0,
-        candidate_selection_strategy: CandidateSelection::Pareto,
-        component_selector: ComponentSelection::RoundRobin,
-        track_best_outputs: false,
-        progress: Arc::new(Printer),
+    let outcome = match args.engine.as_str() {
+        "mipro" => {
+            let settings = mipro::Settings {
+                candidates: args.candidates,
+                trials: args.max_metric_calls,
+                seed: args.seed,
+                max_metric_calls: args.max_metric_calls,
+            };
+            Found::from_mipro(mipro::optimise(&adapter, &baseline, &settings))
+        }
+        "gepa" => {
+            let engine = GepaEngine {
+                adapter,
+                trainset_size: train.len(),
+                valset_size: val.len(),
+                minibatch_size: args.minibatch.min(train.len()),
+                max_metric_calls: args.max_metric_calls,
+                perfect_score: 1.0,
+                skip_perfect_score: true,
+                seed: args.seed,
+                use_merge: false,
+                max_merge_invocations: 0,
+                candidate_selection_strategy: CandidateSelection::Pareto,
+                component_selector: ComponentSelection::RoundRobin,
+                track_best_outputs: false,
+                progress: Arc::new(Printer),
+            };
+            let start = Candidate::from([(COMPONENT.to_owned(), baseline.clone())]);
+            let outcome = block_on(engine.optimize(start));
+            Found {
+                guides: outcome
+                    .candidates
+                    .iter()
+                    .map(|c| c.get(COMPONENT).cloned().unwrap_or_default())
+                    .collect(),
+                front: outcome
+                    .per_val_instance_best_candidates
+                    .iter()
+                    .flatten()
+                    .copied()
+                    .collect(),
+                report: json!({"engine": "gepa", "iterations": outcome.iterations, "metric_calls": outcome.total_num_evals,
+                               "candidates": outcome.candidates.len(), "scores_on_scoring_set": outcome.val_aggregate_scores,
+                               "parents": outcome.parents}),
+                val_subscores: outcome.val_subscores,
+                val_aggregate_scores: outcome.val_aggregate_scores,
+            }
+        }
+        other => return Err(format!("unknown engine {other}: gepa or mipro")),
     };
-    let outcome =
-        block_on(engine.optimize(Candidate::from([(COMPONENT.to_owned(), baseline.clone())])));
 
     // The guide to judge: the highest minimum over the training languages of
     // its mean score on the scoring set, then the higher mean, then the shorter.
-    let guides: Vec<&str> = outcome
-        .candidates
-        .iter()
-        .map(|c| c.get(COMPONENT).map(String::as_str).unwrap_or_default())
-        .collect();
+    let guides: Vec<&str> = outcome.guides.iter().map(String::as_str).collect();
     let rank = |index: usize| {
         let per_language: Vec<f64> = args
             .train
@@ -374,12 +448,7 @@ fn run(args: Args) -> Result<(), String> {
     std::fs::write(args.out_dir.join("trials.jsonl"), lines.join("\n") + "\n")
         .map_err(|e| e.to_string())?;
 
-    let front: BTreeSet<usize> = outcome
-        .per_val_instance_best_candidates
-        .iter()
-        .flatten()
-        .copied()
-        .collect();
+    let front = &outcome.front;
     let optimisation: Vec<Trial> = trials
         .iter()
         .filter(|t| t.phase != "final")
@@ -415,8 +484,7 @@ fn run(args: Args) -> Result<(), String> {
         "parameters": {"train_runs": args.train_runs, "val_runs": args.val_runs, "minibatch": args.minibatch,
                        "max_metric_calls": args.max_metric_calls, "final_runs": args.final_runs, "seed": args.seed,
                        "max_usd": args.max_usd, "usd_per_mtok": [price.0, price.1]},
-        "engine": {"iterations": outcome.iterations, "metric_calls": outcome.total_num_evals, "candidates": guides.len(),
-                   "scores_on_scoring_set": outcome.val_aggregate_scores, "parents": outcome.parents},
+        "engine": outcome.report,
         "discarded_proposals": *rejected.lock().unwrap(),
         "frontier": frontier,
         "chosen_candidate": chosen, "chosen_guide": guide_id(guides[chosen]), "improved_on_baseline": improved,
