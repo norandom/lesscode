@@ -234,8 +234,8 @@ impl Shared<'_> {
             vec![Duration::from_secs(self.config.timeout_ceiling_s); steps(self.config).len()];
         let baseline = run_steps(self.config, &space.tree, &ceiling);
         report.baseline_s = baseline.iter().map(|(_, f)| f.seconds).collect();
-        if baseline.len() < ceiling.len() || !baseline.iter().all(|(_, f)| f.passed()) {
-            report.stopped = Some(TESTS_FAIL.into());
+        report.stopped = unusable(&baseline, ceiling.len());
+        if report.stopped.is_some() {
             return report;
         }
         report.limits_s = report
@@ -277,6 +277,16 @@ impl Shared<'_> {
         });
         report
     }
+}
+
+/// Why a copy cannot be used after its unmutated run, if so. A command
+/// that cannot start says nothing about the project's tests.
+fn unusable(baseline: &[(&'static str, Finished)], steps: usize) -> Option<String> {
+    if let Some(why) = baseline.iter().find_map(|(_, f)| f.launch_error.as_ref()) {
+        return Some(format!("a command could not be started: {why}"));
+    }
+    let failed = baseline.len() < steps || !baseline.iter().all(|(_, f)| f.passed());
+    failed.then(|| TESTS_FAIL.to_owned())
 }
 
 /// Why nothing in a run may be relied on, if so.

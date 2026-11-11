@@ -104,7 +104,9 @@ impl Repo {
     }
 
     /// Start the branch of a step from main and commit its declaration.
+    /// Outputs an earlier step left in the working tree are removed first.
     pub fn begin(&self, step: &str, extra: Value) {
+        self.git(&["clean", "-fdq"]);
         self.git(&["checkout", "-q", "-b", &format!("step/{step}"), "main"]);
         let path = Repo::declaration_path(step);
         self.commit(

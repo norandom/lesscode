@@ -393,6 +393,27 @@
    "disposition": null
   },
   {
+   "path": "step/check.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "step check: the checks that need no run, the verdict (design: Check, REQ 1.2, 3.4, 5.5, 5.6, 5.12)",
+   "disposition": null
+  },
+  {
+   "path": "step/check_runs.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "step check: tests and fault runs on base and step, comparison per function, evidence (design: Check, REQ 5.1 to 5.4, 5.9 to 5.11, 8.2)",
+   "disposition": null
+  },
+  {
+   "path": "step/context.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "What a step is judged on: committed declaration, revisions, trees, hashes (design: Verdict)",
+   "disposition": null
+  },
+  {
    "path": "step/declaration.rs",
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
@@ -446,6 +467,13 @@
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
    "allocation": "Trees of two revisions compared; the copies a step is judged in (design: Revisions)",
+   "disposition": null
+  },
+  {
+   "path": "step/verdict.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "Verdict and evidence of a step (design: Verdict, REQ 5.7, 5.8, 8.2, 8.3)",
    "disposition": null
   },
   {
