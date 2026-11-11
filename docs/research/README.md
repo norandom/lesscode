@@ -2,7 +2,14 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R79 A MIPROv2-style search does not fix Rust admission on Opus; the GEPA run did (2026-11-11)
+## Latest: R80 Final validation of the agnostic driver: implemented as specified, one criterion in part (2026-11-11)
+
+[R80](2026-11-11/06-agnostic-driver-final-validation.md) is task 8.3 of `agnostic-annotation-driver`; the report is in the spec directory.
+- **Result:** 382 tests, lints, budgets and smoke runs pass; CI is green on five platforms for the commit with every code change. Every requirement has evidence; 5.7 is met in part (a driver killed from outside can leave a project command running; no signal handler).
+- **Not independent:** done inline by the implementer under the owner's foreground rule.
+- **Open for the owner:** a release, a signal handler, two library functions that report success without running anything (R75), a CI job for the guide optimiser.
+
+## Prior: R79 A MIPROv2-style search does not fix Rust admission on Opus; the GEPA run did (2026-11-11)
 
 [R79](2026-11-11/05-slice-b-miprov2-opus.md) runs the preregistration [R77](2026-11-11/03-slice-b-miprov2-preregistration.md) with a second engine in the guide optimiser (TPE sampler copied from `dsrust`; MIPROv2's proposer wording and trial loop, without demonstrations and minibatches, which this task has no use for).
 - **Result:** same model, starting guide, rules and 60 authoring calls as the GEPA run. The chosen guide scores 0.50 on the scoring set (claim: at least 0.75, refuted); in the final judgement Rust is admitted 0 of 5 times, against 5 of 5 for GEPA's guide (R71). Nothing is adopted.

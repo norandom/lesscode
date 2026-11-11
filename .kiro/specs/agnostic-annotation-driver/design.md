@@ -388,6 +388,24 @@ list of shipped packs so that no other driver file names a language. Packs carry
   `store.rs` 59. The driver is about 2,900 production lines in eighteen files against an estimate of about
   2,400; every file is within the per-file budget.
 
+### Amendment 3, 2026-11-11 (task group 7): the migration as carried out
+
+- The adapter traits are answered by one file, `adapters/driver/contract.rs`, which the three adapter modules
+  call; the design had each adapter implement them. No Python adapter struct was added (Amendment 2).
+- `MutantOutcome` has a new variant, `NotRun { mutants }`. Generation through the trait runs no test, so a
+  control with a driver mutant is reported as not run. The removed operators reported "killed" when the text
+  had changed; that meaning is gone on purpose.
+- The mapping of step 3 is `contract::operators_of`. `SilentNone` maps to a dropped statement or a swapped
+  returned literal, `MissingFailureState` to the removal or rewrite of a failure signal. Seven of the twelve
+  hand-made controls of the specimen gates have no counterpart and are recorded as lost (R75).
+- Step 4 could not be done as written for Rust: the candidate specimen is not part of any build. The rerun
+  uses the original code in `native/src/recording.rs`. For Java the rerun used the JDK and Maven on the
+  machine instead of a container, because the container engine was not running.
+- Not touched, and reported to the owner: `PureCoreVerifier::compare` on the adapters and
+  `NativeMutantGenerator::generate` report success without running anything. They are outside the six files
+  this spec deletes.
+- The driver is now twenty files and about 3,660 lines including tests in the files; the largest is 348.
+
 ## Contradictions and disposition
 
 | # | Contradiction | Source authority | Disposition |

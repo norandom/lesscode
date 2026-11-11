@@ -1,43 +1,45 @@
-# Handover: driver built through task group 6 and run on the gate scopes; Slice B measured on two models, 2026-11-10
+# Handover: driver complete through validation, old adapters deleted; Slice B measured with two optimisers, 2026-11-11
 
-Updated 2026-11-10, about 23:30 Europe/Berlin, at the end of an unattended evening session. This file is the
-single handover and action list. The current sections below govern continuation; dated history follows for
-evidence and earlier interpretations, not as an active implementation queue.
+Updated 2026-11-11, about 08:35 Europe/Berlin. This file is the single handover and action list. The current
+sections below govern continuation; dated history follows for evidence and earlier interpretations, not as an
+active implementation queue.
 
 ## Current state
 
-Start with the [task 32 handover](task_32_handover.md) and the
-[overnight plan](overnight-plan-2026-11-10.md), which lists the open tasks and the owner's decisions.
+Start with the [task 33 handover](task_33_handover.md).
 
-1. **Top priority: the agnostic driver** (spec
-   [agnostic-annotation-driver](specs/agnostic-annotation-driver/tasks.md); requirements, design and tasks
-   approved 2026-11-10). Task groups 1 to 6 and tasks 8.1 and 8.2 are done; main is green on five platforms.
-   - `lesscode-core deconvolute analyze | mutate | run | admit-pack` work through the driver for Rust,
-     Python, TypeScript and Java ([docs/driver.md](../docs/driver.md)).
-   - The engine reproduces the prototype's sites and mutants exactly
-     ([R67](../docs/research/2026-11-10/13-native-driver-engine-parity.md)), and `deconvolute run` gives
-     every one of 556 mutants on the five gate scopes the class the prototype gave
-     ([R73](../docs/research/2026-11-10/19-native-driver-batches-on-gate-scopes.md)). No source tree was
-     changed by any run.
-   - Not done, and waiting for the owner: task group 7 (delete the six old adapter files, restate the
-     specimen results, README and adoption guide) and task 8.3 (final validation). No release contains the
-     driver.
-2. **Second priority: Slice B,** hardening against LLM inference drift (`constraint-guided-compression`).
-   Started and measured this evening; entries R66 and R68 to R74.
-   - Baseline on `claude-opus-5-5`: every pack admitted at first, but Rust packs differed between runs
-     unnoticed (R68); with hand-written Rust controls no first Rust reply is admitted (R69).
-   - Optimising the guide with a GEPA engine copied from `dsrust` (tool `tools/guide-optimizer/`, R70): on
-     Opus every first reply is then admitted for all four languages and three languages match the shipped
-     packs; Rust still differs from the hand pack in four fixed points, so the guide is not adopted (R71).
-   - `mistral-large-4`: 5 of 20 first replies admitted, mostly failing on node kinds that do not exist
-     (R72); optimisation finds no improvement (R74).
-   - Open for the owner: the four Rust points of R71; whether to give the author the grammar's node kinds;
-     a `MIPROv2` comparison; the annotation layer, which is untouched.
-   - Model spend recorded at list prices: about 15.2 of 20 USD.
-3. **Rules that held this session:** no deletion of the old adapters, no release, no change to what the
-   shipped packs make the driver do except the two Python operator pairs the owner approved, no management
-   of the Podman machine, containers removed after each batch, keys never printed or committed (`.env` is
-   git-ignored; the Mistral key was pasted into the chat and is in that transcript).4. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
+1. **The agnostic driver** (spec [agnostic-annotation-driver](specs/agnostic-annotation-driver/tasks.md)):
+   every task is done and validated
+   ([report](specs/agnostic-annotation-driver/validation-report.md),
+   [R80](../docs/research/2026-11-11/06-agnostic-driver-final-validation.md)).
+   - `lesscode-core deconvolute analyze | mutate | run | admit-pack` for Rust, Python, TypeScript and Java
+     ([docs/driver.md](../docs/driver.md)). The six text-matching adapter files are deleted.
+   - The specimen gates' "4 of 4 killed" figures are restated
+     ([R75](../docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md)): for Rust they were
+     written into the gate script; with the projects' own tests four of the five reproducible controls are
+     killed and one survives. R49 to R53 carry dated amendments.
+   - Met in part: Requirement 5.7 (no signal handler). No release contains the driver.
+   - Lesson of the day: copies must not share a build directory. On this machine `CARGO_TARGET_DIR` is set
+     globally; a Rust run needs `"env": {"CARGO_TARGET_DIR": "target"}` in its configuration. The same
+     shared directory can hand this repository's own tests a stale library after experiments in a copy;
+     `cargo clean -p lesscode-core` clears it.
+2. **Slice B,** hardening against LLM inference drift (`constraint-guided-compression`): entries R66 and R68
+   to R79.
+   - Owner decisions of 2026-11-11: no Rust point of R71 goes into the shipped pack; node kind list tried on
+     both models; stop for model spend raised to 40 USD; MIPROv2 comparison run.
+   - Node kinds as input (R76, R78): invalid node kinds fall from 10 to 1 of 20 first replies on
+     `mistral-large-4`, admission stays at 5 and 6 of 20; no change on `claude-opus-5-5`. Not adopted.
+   - MIPROv2-style search on Opus (R77, R79): Rust admitted 0 of 5 in the final judgement, where GEPA's
+     guide got 5 of 5 (R71). Nothing adopted.
+   - Measured so far: drift between runs, between models, under two optimisers. Not measured: the annotation
+     layer; one model over time. Next step is the owner's choice between an annotation-layer baseline and
+     closing the pack-authoring question.
+   - Model spend recorded at list prices: about 25.5 of 40 USD.
+3. **Open for the owner:** a release with the driver; a signal handler; `PureCoreVerifier::compare` on the
+   adapters and `NativeMutantGenerator::generate`, which report success without running anything; operators
+   for a changed argument and a changed literal in a call; a CI job for `tools/guide-optimizer/`; rotating the
+   Mistral key, which was pasted into a chat.
+4. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
    release: archives carry zipsign signatures, `SHA256SUMS.sig` and a
    provenance attestation, all verified after publication. It contains the
    fail-loudly fixes (item 5). The owner holds the signing key and approves

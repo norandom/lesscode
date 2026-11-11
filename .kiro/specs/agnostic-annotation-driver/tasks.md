@@ -170,7 +170,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     the narrowed statement that only `deconvolute run` executes a project's commands, in copies.
   - _Requirements: 7.5, 8.6_
 
-- [ ] 8. Validation and close
+- [x] 8. Validation and close
 - [x] 8.1 Run one full batch per language with the native driver
   - The five gate scopes through `deconvolute run`; classes compared with the attempt 2 receipts; every
     difference explained. Linux-only runs use containers; the Podman machine is not managed by the agent.
@@ -179,7 +179,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - The existing CI matrix through the Dagger configuration is green with the driver; binary size and build
     time recorded against R65.
   - _Requirements: 8.5, 8.6_
-- [ ] 8.3 Final validation and Slice B check
+- [x] 8.3 Final validation and Slice B check
   - `$kiro-validate-impl`; a research entry with the outcome; confirm that the Slice B baseline has a dated
     status (run, scheduled with a date, or stopped by the owner). The spec is not reported complete without
     it.
