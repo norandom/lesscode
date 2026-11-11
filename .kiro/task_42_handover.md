@@ -9,7 +9,7 @@ Written 2026-11-11, 19:18 (Europe/Berlin, from the clock). Predecessor: `.kiro/t
 | 6.1 `verdict()` change as the first real step | `48d2d4d` on main; branch `step/one-exit` (`08f4a05`, `e64b7b3`, `0d54533`) | accepted, recorded, guard exit 0; `verdict` 11 / 0 to 12 / 0 noticed / unnoticed; 7,307 to 7,306 tokens |
 | 6.2 one step in Java and one in TypeScript | `633f608` | commons-csv `comment-start` and OpenUltraCode `slug-separator`, both accepted, recorded, guard exit 0 |
 | 6.3 README section, skill, what no command checks | `198f369` | `README.md` (row, section 6, limits), `docs/steps.md` (examples, "What no command checks"), `.agents/skills/refactor-in-steps/SKILL.md` |
-| 6.4 validation, research entry, issue text | this commit | [R92](../docs/research/2026-11-11/18-three-real-steps.md); `.kiro/specs/gradual-refactoring-steps/openidea-kiro-issue.md` for the owner to file |
+| 6.4 validation, research entry, issue text | this commit | [R92](../docs/research/2026-11-11/18-three-real-steps.md); an issue text for openidea-kiro, replaced later the same day by `.kiro/specs/gradual-refactoring-steps/evidence-alignment.md` |
 
 All tasks of `gradual-refactoring-steps` are ticked.
 
@@ -44,7 +44,7 @@ All tasks of `gradual-refactoring-steps` are ticked.
 ## Next steps (owner's decisions)
 
 1. Decided: `step/one-exit` is merged (see above).
-2. File the issue text at openidea-kiro, or change it first.
+2. Decided: no issue. openidea-kiro is the owner's co-project and its spec `verification-evidence` already defines the record (`RunRecord`); the alignment note names it as the target and the evidence file stays provisional (design Amendment 5).
 3. Decided: no release yet; first show a pin and a refusal on a real step.
 4. Decided: the next task group is a real step that needs a pin and one that is refused, in a foreign project. It needs a spec or an amendment to this one first; all tasks here are ticked.
 

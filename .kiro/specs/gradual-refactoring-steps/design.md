@@ -441,6 +441,17 @@ script stays under `docs/experiments/` as the record of R88.
 - **Ledger entry.** `result` is `accepted`, `overridden` or `release`; an accepted entry holds the
   verdict's SHA-256, the hashes, and per function the numbers before and after.
 
+### Amendment 5, 2026-11-11 (owner decision): the evidence format aims at openidea-kiro's `RunRecord`
+
+- openidea-kiro is the owner's co-project. Its spec `verification-evidence` (design approved, not
+  implemented) defines the execution record `RunRecord` and `breadth accept`. lesscode proposes no format
+  of its own; `RunRecord` is the target and `step-evidence-provisional-v0` stays until `breadth accept`
+  exists to test against.
+- The gap that matters: `RunRecord` names every test with its result, and exit code 0 alone is not
+  acceptance there. lesscode records the command and its exit code. Closing it needs per-test results from
+  the project's runner, through the pack or the run configuration; not designed here.
+- Comparison field by field: [evidence-alignment.md](evidence-alignment.md).
+
 ## Contradictions and disposition
 
 | Conflict | Authority | Disposition |
@@ -448,4 +459,4 @@ script stays under `docs/experiments/` as the record of R88.
 | Driver design says the store key has three parts; this spec adds the tests | Requirement 9, approved | Amendment to the driver design when the task is done; `docs/driver.md` updated |
 | R89 says the change is refused; R90 says it would be within budget | Both are true at their time | R89 amended with a dated note; change not applied |
 | Requirement 6 wants an unbypassable guard; a local hook can be skipped with a flag | Git | The pipeline job is the hard boundary; the hook is the early one. Stated in `docs/steps.md` |
-| Evidence format is not agreed with openidea-kiro | Requirement 8.3 | Provisional name; no change to openidea-kiro |
+| Evidence format is not agreed with openidea-kiro | Requirement 8.3 | Provisional name; no change to openidea-kiro. Target is its `RunRecord` (Amendment 5) |
