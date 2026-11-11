@@ -134,7 +134,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Spec, declaration, branch, check, record, guard, on this repository. Owner decision 2026-11-11.
   - Done 2026-11-11: branch `step/one-exit` (`08f4a05` spec and declaration, `e64b7b3` the change, `0d54533`
     verdict, evidence, ledger). Accepted; guard exit 0. Copies of the outputs:
-    `docs/experiments/gradual-steps/steps/one-exit/`. The branch is not merged; that is the owner's decision.
+    `docs/experiments/gradual-steps/steps/one-exit/`. Merged into main as `63d456f` by owner decision of 2026-11-11.
   - _Requirements: 11.2, 11.3_
 - [x] 6.2 One step in a foreign project in each of two languages
   - Copies of the Java and TypeScript projects used in R88; verdicts recorded, including any refusal.

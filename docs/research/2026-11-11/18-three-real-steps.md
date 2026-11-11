@@ -104,3 +104,11 @@ also the requirements and the change as a patch.
 Outcome first: three accepted, and what was not exercised is in the title. Replay: commits, commands and
 files named. Disproof: the prediction for `one-exit` could have failed on three named checks. Facts and
 reading are apart; the size gains are called what they are.
+
+## Amendment, 2026-11-11, 19:30 (after the owner's decisions)
+
+The owner decided to merge `step/one-exit`. It is on main as merge commit `63d456f`, with the change, the
+spec `.kiro/specs/one-exit/` and the ledger `.kiro/steps/ledger.jsonl`. On the merged main: 385 of 385 tests,
+format check and lints clean, `step guard --branch step/one-exit` exit 0. The statements above that the
+branch is local and not merged describe the state when the entry was written. Further decisions: no release
+yet; the next task group is a real step that needs a pin and one that is refused, in a foreign project.

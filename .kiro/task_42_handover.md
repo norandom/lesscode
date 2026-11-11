@@ -35,7 +35,7 @@ All tasks of `gradual-refactoring-steps` are ticked.
 
 ## Current state
 
-- main holds everything above. `step/one-exit` is a local branch, not pushed and not merged.
+- main holds everything above. Owner decision 2026-11-11, 19:25: `step/one-exit` is merged into main as `63d456f` (385 of 385 tests, format, lints, guard exit 0 on the merged main). The branch itself was not pushed.
 - The foreign steps are on clones under `D:\BuildArtifacts\lesscode\steps-foreign` (`commons-csv`,
   `OpenUltraCode`); their outputs and patches are copied to `docs/experiments/gradual-steps/steps/`.
 - The spec's `phase` in `spec.json` is still `tasks-generated`; `ready_for_implementation` is false. Not
@@ -43,11 +43,10 @@ All tasks of `gradual-refactoring-steps` are ticked.
 
 ## Next steps (owner's decisions)
 
-1. Merge `step/one-exit` into main, or not. If it is merged, the ledger `.kiro/steps/ledger.jsonl` and the
-   spec `.kiro/specs/one-exit/` come with it.
+1. Decided: `step/one-exit` is merged (see above).
 2. File the issue text at openidea-kiro, or change it first.
-3. A release that contains the step commands (the README says "build from source" until then).
-4. A real step that needs a pin and one that is refused, in a foreign project; R92 names this as not shown.
+3. Decided: no release yet; first show a pin and a refusal on a real step.
+4. Decided: the next task group is a real step that needs a pin and one that is refused, in a foreign project. It needs a spec or an amendment to this one first; all tasks here are ticked.
 
 ## Notes
 
