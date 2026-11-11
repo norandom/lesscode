@@ -217,7 +217,7 @@ Candidate deconvolution branches must pass full team / CI review:
 - Full test suite passes across all platforms.
 - The `deconvolute run` receipt is not void, and every surviving mutant has a recorded reason (missing test added, or the change makes no difference).
 - Density receipt proves non-marginal complexity reduction.
-- All complexity budgets ($\le 400$ physical lines, $\le 300$ syntax units, $\le 80$ lines/fn) are met.
+- All complexity budgets ($\le 2{,}800$ tokens, $\le 300$ syntax units, $\le 560$ tokens/fn) are met.
 
 ---
 
@@ -225,5 +225,5 @@ Candidate deconvolution branches must pass full team / CI review:
 
 - **Never invent fake equivalence:** passing existing tests does not establish equivalence without adverse controls and bounded domain coverage.
 - **Preserve public interfaces:** public caller contracts, exceptions, and observable behavior must remain intact.
-- **Maintain complexity ceilings:** new adapters and commands must conform to the $\le 400$ physical lines, $\le 300$ syntax units, $\le 80$ lines per function complexity budget.
+- **Maintain complexity ceilings:** new adapters and commands must conform to the $\le 2{,}800$ tokens, $\le 300$ syntax units, $\le 560$ tokens per function complexity budget.
 - **Fail-safe path validation:** tools must validate paths safely without rejecting legitimate sibling specimen directories.

@@ -248,11 +248,15 @@ Write a budgets file that names every `.rs` file under the root you govern:
 lesscode-core budgets --config complexity-budgets.json --root src --out receipts/budgets.json
 ```
 
-Paths are relative to `--root`. Each file defaults to 400 physical lines, 300
-syntax units and 80 lines per function; set `max_physical_lines`,
-`max_logical_units` or `max_fn_lines` per file to change that. A `.rs` file
-that is not listed fails the check, as does a listed file that is missing or
-over a ceiling. Exit code 0 means every file is within budget. This
+Paths are relative to `--root`. Size is counted in tokens outside comments and
+test code, so reformatting cannot move a file over or under its ceiling. Each
+file defaults to 2,800 tokens, 300 syntax units and 560 tokens per function
+(about 400 and 80 lines); set `max_tokens`, `max_logical_units` or
+`max_fn_tokens` per file to change that. An entry written for release 1.1.1
+or earlier, with `max_physical_lines` or `max_fn_lines`, is still held to
+those ceilings in lines until you replace them. A `.rs` file that is not
+listed fails the check, as does a listed file that is missing or over a
+ceiling. Exit code 0 means every file is within budget. This
 repository's own file is [native/complexity-budgets.json](native/complexity-budgets.json).
 
 ### 5. Stop a push that breaks the ceilings

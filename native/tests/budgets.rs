@@ -1,4 +1,4 @@
-//! Fixtures for the budgets checker (`rust-syntax-units-v1`).
+//! Fixtures for the budgets checker (`rust-syntax-units-v2`).
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -43,17 +43,85 @@ fn within_budget_reports_clean() {
     let config = r#"{"files": [{"path": "lib.rs", "owner": "t", "allocation": "a"}]}"#;
     let (code, receipt) = run(&dir, config);
     assert_eq!(code, 0);
-    assert_eq!(receipt["schema"], "rust-syntax-units-v1");
+    assert_eq!(receipt["schema"], "rust-syntax-units-v2");
     assert_eq!(status_of(&receipt, 0), "within_budget");
     assert_eq!(receipt["files"][0]["logical_units"], 1);
     assert_eq!(receipt["files"][0]["longest_fn_name"], "main");
-    assert_eq!(receipt["files"][0]["max_physical_lines"], 400);
+    // Without a ceiling in the entry the defaults apply, in tokens.
+    assert_eq!(receipt["files"][0]["max_tokens"], 2800);
+    assert_eq!(receipt["files"][0]["max_physical_lines"], Value::Null);
     assert_eq!(receipt["files"][0]["max_logical_units"], 300);
-    assert_eq!(receipt["files"][0]["max_fn_lines"], 80);
+    assert_eq!(receipt["files"][0]["max_fn_tokens"], 560);
+    assert_eq!(receipt["files"][0]["max_fn_lines"], Value::Null);
+    // `fn main ( ) { }`: six tokens, all in the one function.
+    assert_eq!(receipt["files"][0]["production_tokens"], 6);
+    assert_eq!(receipt["files"][0]["longest_fn_tokens"], 6);
     assert_eq!(receipt["summary"]["total"], 1);
     assert_eq!(receipt["summary"]["within_budget"], 1);
     let sidecar = fs::read_to_string(dir.join("out.json.sha256")).unwrap();
     assert!(sidecar.ends_with("  out.json\n"));
+}
+
+/// Tokens do not depend on layout: the same code on one line or on many
+/// has the same count, comments and test code are not counted, and a
+/// ceiling in tokens cannot be met by squeezing lines together.
+#[test]
+fn token_ceilings_ignore_layout_comments_and_test_code() {
+    let spread = "// a comment\nfn a(x: i32) -> i32 {\n    let y = x + 1;\n    y\n}\n\n#[cfg(test)]\nmod tests {\n    #[test]\n    fn t() {\n        assert_eq!(super::a(1), 2);\n    }\n}\n";
+    let dense = "fn a(x: i32) -> i32 { let y = x + 1; y }\n";
+    let mut counts = Vec::new();
+    for (name, text) in [("spread", spread), ("dense", dense)] {
+        let dir = fixture(name);
+        write(&dir.join("lib.rs"), text);
+        let config = r#"{"files": [{"path": "lib.rs", "owner": "t", "allocation": "a"}]}"#;
+        let (_, receipt) = run(&dir, config);
+        let file = &receipt["files"][0];
+        counts.push((
+            file["production_tokens"].as_u64().unwrap(),
+            file["longest_fn_tokens"].as_u64().unwrap(),
+        ));
+        assert_eq!(file["longest_fn_tokens_name"], "a");
+    }
+    assert_eq!(
+        counts[0], counts[1],
+        "layout, comments and tests must not count"
+    );
+
+    let (tokens, _) = counts[1];
+    let dir = fixture("token-ceiling");
+    write(&dir.join("lib.rs"), dense);
+    let over = format!(
+        r#"{{"files": [{{"path": "lib.rs", "owner": "t", "allocation": "a", "max_tokens": {}}}]}}"#,
+        tokens - 1
+    );
+    let (code, receipt) = run(&dir, &over);
+    assert_eq!((code, status_of(&receipt, 0)), (1, "exceeded"));
+    let exact = over.replace(&format!("{}", tokens - 1), &tokens.to_string());
+    let (code, _) = run(&dir, &exact);
+    assert_eq!(code, 0);
+    let function =
+        r#"{"files": [{"path": "lib.rs", "owner": "t", "allocation": "a", "max_fn_tokens": 5}]}"#;
+    let (code, receipt) = run(&dir, function);
+    assert_eq!((code, status_of(&receipt, 0)), (1, "exceeded"));
+}
+
+/// An entry that still gives its ceiling in lines is held to it, in lines,
+/// and a token ceiling in the same entry takes precedence.
+#[test]
+fn a_line_ceiling_in_an_entry_still_applies_until_it_is_replaced() {
+    let dir = fixture("legacy");
+    write(&dir.join("lib.rs"), "fn a() {}\nfn b() {}\nfn c() {}\n");
+    let lines = r#"{"files": [{"path": "lib.rs", "owner": "t", "allocation": "a",
+        "max_physical_lines": 2}]}"#;
+    let (code, receipt) = run(&dir, lines);
+    assert_eq!((code, status_of(&receipt, 0)), (1, "exceeded"));
+    assert_eq!(receipt["files"][0]["max_physical_lines"], 2);
+    assert_eq!(receipt["files"][0]["max_tokens"], Value::Null);
+    let both = r#"{"files": [{"path": "lib.rs", "owner": "t", "allocation": "a",
+        "max_physical_lines": 2, "max_tokens": 100}]}"#;
+    let (code, receipt) = run(&dir, both);
+    assert_eq!((code, status_of(&receipt, 0)), (0, "within_budget"));
+    assert_eq!(receipt["files"][0]["max_tokens"], 100);
 }
 
 #[test]

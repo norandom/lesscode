@@ -396,7 +396,7 @@ fn budgets_subcommand_enforces_frozen_ceilings_through_the_binary() {
     let receipt: serde_json::Value =
         serde_json::from_str(&fs::read_to_string(&out).unwrap()).unwrap();
     assert_eq!(receipt["receipt"], "budgets");
-    assert_eq!(receipt["schema"], "rust-syntax-units-v1");
+    assert_eq!(receipt["schema"], "rust-syntax-units-v2");
     assert_eq!(receipt["summary"]["exceeded"], 0);
     assert_eq!(receipt["summary"]["unlisted"], 0);
     assert_eq!(receipt["summary"]["missing"], 0);

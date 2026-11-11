@@ -18,6 +18,31 @@ pub struct Size {
     pub lines: usize,
 }
 
+/// Where each token outside comments starts: 1-based line, 0-based
+/// character column, in source order. For measures of a part of a file.
+pub fn token_starts(pack: &Pack, label: &str, text: &str) -> Result<Vec<(usize, usize)>, String> {
+    let root = parse(text, grammar(&pack.language)?)?;
+    if let Some((line, column)) = first_error(&root.root()) {
+        return Err(format!(
+            "{label}:{line}:{column}: the source does not parse"
+        ));
+    }
+    let is_comment = |kind: &str| pack.comment_kinds.iter().any(|c| c == kind);
+    let mut starts = Vec::new();
+    for node in walk(&root.root()) {
+        let leaf = node.children().next().is_none() && !node.text().is_empty();
+        if leaf
+            && !is_comment(&node.kind())
+            && !ancestors(&node).iter().any(|a| is_comment(&a.kind()))
+        {
+            let (line, column, _, _) = position(&node);
+            starts.push((line, column));
+        }
+    }
+    starts.sort_unstable();
+    Ok(starts)
+}
+
 /// Measure `text` with the grammar and comment kinds of `pack`. A text that
 /// does not parse is an error that says where parsing stopped.
 pub fn measure(pack: &Pack, label: &str, text: &str) -> Result<Size, String> {

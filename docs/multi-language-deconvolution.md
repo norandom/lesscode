@@ -150,9 +150,9 @@ Create `native/src/adapters/<lang>/`:
 ### Step 3: Register in Module Root & Complexity Budgets
 1. Register `pub mod <lang>;` in `native/src/adapters/mod.rs`.
 2. Register the new modules in `native/complexity-budgets.json` with strict complexity ceilings:
-   - Max physical lines: $\le 400$
+   - Max tokens outside comments and tests: $\le 2{,}800$ (about 400 lines)
    - Max logical syntax units: $\le 300$
-   - Max function length: $\le 80$ lines
+   - Max function size: $\le 560$ tokens (about 80 lines)
 3. Ensure total native apparatus volume remains within the governing R41 ceiling ($\le 7,173$ canonical lines).
 
 ### Step 4: Verification Battery

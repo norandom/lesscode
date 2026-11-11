@@ -1,8 +1,10 @@
-//! Size governance for the native sources: the `rust-syntax-units-v1` metric.
+//! Size governance for Rust sources: the `rust-syntax-units-v2` metric.
 //!
-//! Enforces the ceilings frozen in `complexity-budgets.json` (design.md,
-//! Production Size Governance); see the design for the metric defaults
-//! (400 physical / 300 logical units / 80 lines per function).
+//! Enforces the ceilings in a budgets file. Size is counted in tokens
+//! outside comments, so that layout cannot change it: by default 2,800
+//! tokens per file, 300 logical units and 560 tokens per function (the
+//! earlier 400 and 80 lines at seven tokens a line). A file whose entry
+//! still gives a ceiling in lines is held to that ceiling, in lines.
 
 use std::{
     fs,
@@ -13,15 +15,24 @@ use serde::Deserialize;
 use syn::spanned::Spanned;
 use syn::visit::Visit;
 
-use crate::receipt::{write_receipt, J};
+use crate::adapters::driver::measure::token_starts;
+use crate::adapters::driver::registry::embedded;
+use crate::budgets_report::receipt;
+use crate::receipt::write_receipt;
 
 /// One governed file; omitted ceilings fall back to the metric defaults.
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct FileBudget {
     pub path: String,
+    /// Ceiling on production tokens; the default when no ceiling is given.
+    pub max_tokens: Option<usize>,
+    /// Earlier form of the size ceiling, in lines; used when `max_tokens` is absent.
     pub max_physical_lines: Option<usize>,
     pub max_logical_units: Option<usize>,
+    /// Ceiling on the tokens of one function.
+    pub max_fn_tokens: Option<usize>,
+    /// Earlier form, in lines; used when `max_fn_tokens` is absent.
     pub max_fn_lines: Option<usize>,
     pub owner: String,
     pub allocation: String,
@@ -45,7 +56,14 @@ pub struct FileReport {
     pub logical_units: usize,
     pub longest_fn_lines: usize,
     pub longest_fn_name: String,
+    pub production_tokens: usize,
+    pub test_tokens: usize,
+    pub longest_fn_tokens: usize,
+    pub longest_fn_tokens_name: String,
+    /// File size, logical units, function size.
     pub limit: [usize; 3],
+    /// Whether the file and the function ceiling are still given in lines.
+    pub in_lines: [bool; 2],
     pub owner: String,
     pub allocation: String,
     pub disposition: Option<String>,
@@ -53,10 +71,21 @@ pub struct FileReport {
 
 impl FileReport {
     pub fn exceeded(&self) -> bool {
+        let pick = |lines: bool, a: usize, b: usize| if lines { a } else { b };
+        let size = pick(
+            self.in_lines[0],
+            self.production_lines,
+            self.production_tokens,
+        );
+        let function = pick(
+            self.in_lines[1],
+            self.longest_fn_lines,
+            self.longest_fn_tokens,
+        );
         self.present
-            && (self.production_lines > self.limit[0]
+            && (size > self.limit[0]
                 || self.logical_units > self.limit[1]
-                || self.longest_fn_lines > self.limit[2])
+                || function > self.limit[2])
     }
 
     pub fn status(&self) -> &'static str {
@@ -81,6 +110,21 @@ struct Counter {
     longest_name: String,
     test_depth: usize,
     test_lines: usize,
+    /// Start and end (line, column) of each `#[cfg(test)]` subtree and of
+    /// each production function with its name, for counting tokens.
+    test_spans: Vec<Range>,
+    fn_spans: Vec<(String, Range)>,
+}
+
+type Range = ((usize, usize), (usize, usize));
+
+fn range(span: proc_macro2::Span) -> Range {
+    let (a, b) = (span.start(), span.end());
+    ((a.line, a.column), (b.line, b.column))
+}
+
+fn tokens_in(starts: &[(usize, usize)], (from, to): Range) -> usize {
+    starts.iter().filter(|s| **s >= from && **s < to).count()
 }
 
 fn is_cfg_test(a: &syn::Attribute) -> bool {
@@ -125,6 +169,7 @@ macro_rules! visit_function {
                     self.longest = lines;
                     self.longest_name = i.sig.ident.to_string();
                 }
+                self.fn_spans.push((i.sig.ident.to_string(), range(span)));
             }
             syn::visit::$walk(self, i);
             self.exit(&i.attrs);
@@ -137,6 +182,9 @@ impl Counter {
         if attrs.iter().any(is_cfg_test) {
             self.test_depth += 1;
             self.test_lines += span.end().line - span.start().line + 1;
+            if self.test_depth == 1 {
+                self.test_spans.push(range(span));
+            }
             return false;
         }
         self.test_depth == 0
@@ -176,9 +224,13 @@ fn new_report(b: &FileBudget) -> FileReport {
     FileReport {
         path: b.path.clone(),
         limit: [
-            b.max_physical_lines.unwrap_or(400),
+            b.max_tokens.or(b.max_physical_lines).unwrap_or(2800),
             b.max_logical_units.unwrap_or(300),
-            b.max_fn_lines.unwrap_or(80),
+            b.max_fn_tokens.or(b.max_fn_lines).unwrap_or(560),
+        ],
+        in_lines: [
+            b.max_tokens.is_none() && b.max_physical_lines.is_some(),
+            b.max_fn_tokens.is_none() && b.max_fn_lines.is_some(),
         ],
         owner: b.owner.clone(),
         allocation: b.allocation.clone(),
@@ -198,6 +250,8 @@ fn measure(path: &Path, b: &FileBudget) -> Result<FileReport, String> {
         longest_name: String::new(),
         test_depth: 0,
         test_lines: 0,
+        test_spans: Vec::new(),
+        fn_spans: Vec::new(),
     };
     c.visit_file(&file);
     let mut r = new_report(b);
@@ -208,6 +262,17 @@ fn measure(path: &Path, b: &FileBudget) -> Result<FileReport, String> {
     r.logical_units = c.units;
     r.longest_fn_lines = c.longest;
     r.longest_fn_name = c.longest_name;
+    let pack = embedded("rust").map_err(|e| e.to_string())?;
+    let starts = token_starts(pack, &path.to_string_lossy(), &text)?;
+    r.test_tokens = c.test_spans.iter().map(|s| tokens_in(&starts, *s)).sum();
+    r.production_tokens = starts.len().saturating_sub(r.test_tokens);
+    for (name, span) in c.fn_spans {
+        let tokens = tokens_in(&starts, span);
+        if tokens > r.longest_fn_tokens {
+            r.longest_fn_tokens = tokens;
+            r.longest_fn_tokens_name = name;
+        }
+    }
     Ok(r)
 }
 
@@ -259,61 +324,6 @@ pub fn check(
             .iter()
             .any(|r| matches!(r.status(), "exceeded" | "missing"));
     Ok((reports, unlisted, u8::from(failed)))
-}
-
-fn n(v: usize) -> J {
-    J::int(v as i64)
-}
-fn file_j(r: &FileReport) -> J {
-    J::obj(vec![
-        ("path", J::str(r.path.clone())),
-        ("present", J::Bool(r.present)),
-        ("total_lines", n(r.total_lines)),
-        ("production_lines", n(r.production_lines)),
-        ("test_lines", n(r.test_lines)),
-        ("logical_units", n(r.logical_units)),
-        ("longest_fn_lines", n(r.longest_fn_lines)),
-        ("longest_fn_name", J::str(r.longest_fn_name.clone())),
-        ("max_physical_lines", n(r.limit[0])),
-        ("max_logical_units", n(r.limit[1])),
-        ("max_fn_lines", n(r.limit[2])),
-        ("owner", J::str(r.owner.clone())),
-        ("allocation", J::str(r.allocation.clone())),
-        (
-            "disposition",
-            r.disposition.clone().map(J::str).unwrap_or(J::Null),
-        ),
-        ("status", J::str(r.status())),
-    ])
-}
-
-fn receipt(root: &Path, config: &Path, reports: &[FileReport], unlisted: &[String]) -> J {
-    let s = |status: &str| n(reports.iter().filter(|r| r.status() == status).count());
-    J::obj(vec![
-        ("receipt", J::str("budgets")),
-        ("schema", J::str("rust-syntax-units-v1")),
-        ("root", J::str(root.to_string_lossy().replace('\\', "/"))),
-        (
-            "config",
-            J::str(config.to_string_lossy().replace('\\', "/")),
-        ),
-        ("files", J::Arr(reports.iter().map(file_j).collect())),
-        (
-            "unlisted",
-            J::Arr(unlisted.iter().map(|p| J::str(p.clone())).collect()),
-        ),
-        (
-            "summary",
-            J::obj(vec![
-                ("total", n(reports.len() + unlisted.len())),
-                ("within_budget", s("within_budget")),
-                ("disposed", s("disposed")),
-                ("exceeded", s("exceeded")),
-                ("unlisted", n(unlisted.len())),
-                ("missing", s("missing")),
-            ]),
-        ),
-    ])
 }
 
 /// Exit 0 when every discovered file is listed and within its ceilings; 1 on

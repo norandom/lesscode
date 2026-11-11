@@ -84,3 +84,10 @@ was shorter only because it was not formatted (R86).
 Outcome first: one part accepted, one refused, with the refusing check named. Replay: commits, branch, patch,
 receipts and ledger named. Disproof: the expectation that the change would be accepted failed. The irony of
 a line ceiling doing the refusing is stated, not smoothed over.
+
+## Amendment, 2026-11-11 (after the owner's decisions)
+
+The pins were merged into main (`4004bf6`). The owner agreed that budgets should count tokens; with that
+rule ([R90](16-budgets-count-tokens.md)) the refused change is within budget (7,306 of 7,307 tokens). The
+refusal above stands as what happened under the rule then in force; the change has not been applied.
+

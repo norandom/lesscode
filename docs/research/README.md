@@ -2,7 +2,14 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R89 The first tracked step: the pins are accepted, the change is refused by a guard this repository already had (2026-11-11)
+## Latest: R90 Complexity budgets count tokens; the change refused in R89 would now be within budget (2026-11-11)
+
+[R90](2026-11-11/16-budgets-count-tokens.md) changes the `budgets` check by owner decision.
+- **Metric:** tokens outside comments and test code per file and per function; defaults 2,800 and 560 (seven tokens a line, measured 6.96). Line ceilings in older budgets files still apply.
+- **Migration:** every ceiling of this repository carried over with the headroom it had; one file and two functions frozen because they are over the new defaults. Nothing became looser.
+- **R89's change:** 7,306 of 7,307 tokens, within budget. Whether it goes in is the owner's decision.
+
+## Prior: R89 The first tracked step: the pins are accepted, the change is refused by a guard this repository already had (2026-11-11)
 
 [R89](2026-11-11/15-first-tracked-step.md) takes the first real step by hand on a clone, for `gradual-refactoring-steps` (requirements generated, not approved).
 - **Pins, accepted:** one test fixes the order of the reasons `verdict()` returns; planted faults noticed in the function 10 of 11 to 11 of 11. Branch `step/verdict-one-exit`, pushed for review, not merged.

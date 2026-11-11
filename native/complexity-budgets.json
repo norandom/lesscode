@@ -2,457 +2,395 @@
  "files": [
   {
    "path": "adapter_traits.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "native-deconvolution-closure",
    "allocation": "Normative adapter traits and carrier contracts (task 1, REQ-NAT-1.1/3.1/5.1/6.3)",
    "disposition": null
   },
   {
    "path": "adapters/driver/admission.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Pack admission checks (task 2.1, REQ 1.3..1.5)",
    "disposition": null
   },
   {
    "path": "adapters/driver/analysis.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "File analysis: sites, state writes, boundaries, declared gaps (task 4.2, REQ 2.3..2.5)",
    "disposition": null
   },
   {
    "path": "adapters/driver/annotations.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Validation of sites selected elsewhere (task 3.2, REQ 6.1..6.3)",
    "disposition": null
   },
   {
    "path": "adapters/driver/classes.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Mutant classes and their decision from step results (task 6.2, REQ 4.3..4.6)",
    "disposition": null
   },
   {
    "path": "adapters/driver/cli.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Driver command handlers and receipt output (task 2.3, REQ 1.5/1.6)",
    "disposition": null
   },
   {
    "path": "adapters/driver/config.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Run configuration: files, commands, limits, patterns (task 6.1, REQ 4.1/4.4)",
    "disposition": null
   },
   {
    "path": "adapters/driver/contract.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Adapter traits answered by the driver; control kinds mapped onto operators (task 7.1, REQ 7.3/7.5)",
    "disposition": null
   },
   {
    "path": "adapters/driver/controls.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Control replay for pack admission (task 3.2, REQ 1.3/9.3)",
    "disposition": null
   },
   {
    "path": "adapters/driver/interrupt.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Stop requests from outside: Ctrl-C, termination, closing console (REQ 5.7)",
    "disposition": null
   },
   {
    "path": "adapters/driver/measure.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Size of a source text by syntax, for the density command (design Amendment 6)",
    "disposition": null
   },
   {
    "path": "adapters/driver/merge.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
+   "max_fn_tokens": 655,
    "owner": "agnostic-annotation-driver",
    "allocation": "Merging annotation lists by agreement (design Amendment 5, REQ 6)",
    "disposition": null
   },
   {
    "path": "adapters/driver/mod.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Agnostic driver module root and site kinds (task 1.2, REQ 1.1)",
    "disposition": null
   },
   {
    "path": "adapters/driver/operators.rs",
-   "max_physical_lines": 400,
+   "max_tokens": 3024,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Operators and mutant classification (task 3.3, REQ 3.1..3.4)",
    "disposition": null
   },
   {
    "path": "adapters/driver/pack.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Typed language pack and loading (task 1.2, REQ 1.1/1.2/1.6)",
    "disposition": null
   },
   {
    "path": "adapters/driver/process.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Commands with a time limit, output capture and tree kill (task 6.2, REQ 4.2/5.7)",
    "disposition": null
   },
   {
    "path": "adapters/driver/registry.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Packs shipped in the binary (task 1.2, REQ 1.2/1.6)",
    "disposition": null
   },
   {
    "path": "adapters/driver/run_command.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
+   "max_fn_tokens": 719,
    "owner": "agnostic-annotation-driver",
    "allocation": "deconvolute run handler and receipt (task 6.5, REQ 4.9/6.4/6.5)",
    "disposition": null
   },
   {
    "path": "adapters/driver/runner.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Batch protocol, classification and worker pool (tasks 6.2, 6.3, REQ 4.2..4.7)",
    "disposition": null
   },
   {
    "path": "adapters/driver/sites.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Site rules and eligible sites (task 3.1, REQ 2.1/2.2/2.6)",
    "disposition": null
   },
   {
    "path": "adapters/driver/source.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Read-only source access and text conventions (task 1.3, REQ 2.6)",
    "disposition": null
   },
   {
    "path": "adapters/driver/store.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Reusable outcomes (task 6.4, REQ 4.8)",
    "disposition": null
   },
   {
    "path": "adapters/driver/tree.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Parsing and syntax-tree helpers (task 1.3, REQ 2.5)",
    "disposition": null
   },
   {
    "path": "adapters/driver/workspace.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "agnostic-annotation-driver",
    "allocation": "Working copies, refusal rules and the restore journal (tasks 5.1, 5.2, REQ 5.1..5.6)",
    "disposition": null
   },
   {
    "path": "adapters/java/mod.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "java-deconvolution-unification",
    "allocation": "Java adapter module root and profile dispatch (task 1)",
    "disposition": null
   },
   {
    "path": "adapters/mod.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "typescript-deconvolution-adapter",
    "allocation": "Multi-language runtime adapters module root (task 1)",
    "disposition": null
   },
   {
    "path": "adapters/rust/mod.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "rust-deconvolution-unification",
    "allocation": "Rust adapter module root and profile dispatch (task 1)",
    "disposition": null
   },
   {
    "path": "adapters/typescript/mod.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "typescript-deconvolution-adapter",
    "allocation": "TypeScript adapter module root and profile dispatch (task 1)",
    "disposition": null
   },
   {
    "path": "admission.rs",
-   "max_physical_lines": 272,
+   "max_tokens": 1868,
    "max_logical_units": 72,
-   "max_fn_lines": 81,
+   "max_fn_tokens": 618,
    "owner": "capability-compression-core",
    "allocation": "attempt-2 measured baseline (R31); task-2 split: receipt writer extracted to receipt.rs",
    "disposition": "keep-measured-ceiling; task-2 split complete; blob e7ea66c7db4f4f16d9cbfabea1cc9a19ea130211"
   },
   {
+   "path": "budgets_report.rs",
+   "max_logical_units": 300,
+   "owner": "deconvolution-native-core",
+   "allocation": "Receipt of the budgets check, split from budgets.rs when token ceilings were added (2026-11-11)",
+   "disposition": null
+  },
+  {
    "path": "budgets.rs",
-   "max_physical_lines": 330,
+   "max_tokens": 2525,
    "owner": "deconvolution-native-core",
    "allocation": "rust-syntax-units-v1 checker; owner-amended ceiling 2026-11-07 (research.md)",
    "disposition": null
   },
   {
    "path": "cli_deconvolute.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "dogfood-self-application",
    "allocation": "Deconvolution CLI subcommands for analyze, mutate, and density (task 4)",
    "disposition": null
   },
   {
    "path": "cli_hook.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "dogfood-self-application",
    "allocation": "Intelligent Git pre-push hook and hook installer (task 6, REQ-7.1..7.5)",
    "disposition": null
   },
   {
    "path": "compare.rs",
-   "max_physical_lines": 805,
+   "max_tokens": 4246,
    "max_logical_units": 230,
-   "max_fn_lines": 253,
+   "max_fn_tokens": 1160,
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob d43192b09fed53994188eea6b963d1039c095059"
   },
   {
    "path": "jsonval.rs",
-   "max_physical_lines": 128,
+   "max_tokens": 947,
    "max_logical_units": 36,
-   "max_fn_lines": 32,
+   "max_fn_tokens": 243,
    "owner": "constraint-guided-compression",
    "allocation": "Receipt-domain JSON value type extracted from receipt.rs in the defect-7 split (task 9.3, R37); shared kernels consolidated here in the task-9.4/9.5 slim pass (j_get/j_str accessors, serde bridge, ensure_ascii-optional escapes); measured at slim pass",
    "disposition": null
   },
   {
    "path": "lib.rs",
-   "max_physical_lines": 605,
+   "max_tokens": 4127,
    "max_logical_units": 196,
-   "max_fn_lines": 302,
+   "max_fn_tokens": 2027,
    "owner": "capability-compression-core",
    "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split) + pub mod state_contract (task 3.3) + pub mod adapter_traits (task 1) + pub mod density (task 2) + pub mod state_frame (task 2) + pub mod pure_verifier (task 3) + pub mod mutant_generator (task 4) + pub mod stream_monitor (task 4) + pub mod specimen_runner (task 5) + pub mod token_guard (task 6) + pub mod adapters (task 1)",
    "disposition": "keep-measured-ceiling; +5 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
    "path": "main.rs",
-   "max_physical_lines": 265,
+   "max_tokens": 1942,
    "max_logical_units": 82,
-   "max_fn_lines": 65,
+   "max_fn_tokens": 652,
    "owner": "capability-compression-core",
    "allocation": "Budgets subcommand arm complete (+12 of the +25 design allowance); Surface subcommand arm (+6, task 8.2); Regenerate subcommand arm (+8, task 8.5)",
    "disposition": "keep-measured-ceiling; blob 4e41a2aeb11a9228629d2722fabb7f1227f21894"
   },
   {
    "path": "measures.rs",
-   "max_physical_lines": 1420,
+   "max_tokens": 10818,
    "max_logical_units": 454,
-   "max_fn_lines": 160,
+   "max_fn_tokens": 1502,
    "owner": "constraint-guided-compression",
    "allocation": "Tier-1 structural checks and canonical measure port (task 8.3, R36); task-9.4/9.5 slim: j_get delegates to jsonval; measured at slim pass",
    "disposition": null
   },
   {
    "path": "metrics.rs",
-   "max_physical_lines": 886,
+   "max_tokens": 5857,
    "max_logical_units": 286,
-   "max_fn_lines": 220,
+   "max_fn_tokens": 1633,
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob f28cb0dacabe3191e8024a32f5d44c6cb1ae77a4"
   },
   {
    "path": "model.rs",
-   "max_physical_lines": 331,
+   "max_tokens": 2140,
    "max_logical_units": 73,
-   "max_fn_lines": 24,
+   "max_fn_tokens": 250,
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob 04a3fd67d33b2e67678c04990b4f16611d0acfc9"
   },
   {
    "path": "mutant_generator.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "native-deconvolution-closure",
    "allocation": "Targeted adverse mutation generator and sensitivity accounting (task 4, REQ-NAT-4.3..4.5)",
    "disposition": null
   },
   {
    "path": "pure_verifier.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "native-deconvolution-closure",
    "allocation": "Pure core bounded domain scheduler and witness engine (task 3, REQ-NAT-3.1..3.5)",
    "disposition": null
   },
   {
    "path": "receipt.rs",
-   "max_physical_lines": 122,
+   "max_tokens": 841,
    "max_logical_units": 64,
-   "max_fn_lines": 57,
+   "max_fn_tokens": 428,
    "owner": "deconvolution-native-core",
    "allocation": "receipt writer module (task 2.1); design allocation admission <= 280 + receipt <= 150 combined <= 430; dumps/arr helpers (task 8.2) + J::Float for measure shares (task 8.3); write_json_str pub(crate) for the recording golden writer (task 8.4); task-9.3 defect-7 split: J type + shared kernels extracted to jsonval.rs (R37), string escaping now delegates; measured at slim pass",
    "disposition": null
   },
   {
    "path": "recording.rs",
-   "max_physical_lines": 969,
+   "max_tokens": 7307,
    "max_logical_units": 338,
-   "max_fn_lines": 111,
+   "max_fn_tokens": 1010,
    "owner": "constraint-guided-compression",
    "allocation": "L1/L2 record/replay engine port: golden bytes, LF-body digests, diffing, deadline-killed arms, serial pytest groups (task 8.4, R36); py_float_repr pub(crate) for the regenerator hash writer (task 8.5); task-9.4/9.5 slim: serde bridge + accessors delegate to jsonval; measured at slim pass",
    "disposition": null
   },
   {
    "path": "regenerator.rs",
-   "max_physical_lines": 2783,
+   "max_tokens": 20827,
    "max_logical_units": 862,
-   "max_fn_lines": 306,
+   "max_fn_tokens": 2314,
    "owner": "constraint-guided-compression",
    "allocation": "Two-tier refine controller port: TurnRequest/prompt builder, Tier-1 ladder, Tier-2 pinned formula, BestOfN refine control, ReceiptWriter with bindings, openai adapter on ureq (task 8.5, R36); task-9.4 slim: serde bridge, accessors and Python-parity escapes delegate to jsonval; measured at slim pass; task-12 R39 oracle repairs and task-3.2 state obligation bridge",
    "disposition": null
   },
   {
    "path": "scope.rs",
-   "max_physical_lines": 863,
+   "max_tokens": 5682,
    "max_logical_units": 300,
-   "max_fn_lines": 265,
+   "max_fn_tokens": 1615,
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob 295533fe3c89b27d8099d3072f1907224a762109"
   },
   {
    "path": "specimen_runner.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "native-deconvolution-closure",
    "allocation": "Counted specimen trace runner and child process supervisor (task 5, REQ-NAT-5.1..5.5)",
    "disposition": null
   },
   {
    "path": "state_contract.rs",
-   "max_physical_lines": 92,
+   "max_tokens": 431,
    "max_logical_units": 32,
-   "max_fn_lines": 56,
+   "max_fn_tokens": 283,
    "owner": "state-boundary-deconvolution",
    "allocation": "State contract and scope-wide density scoring structures (task 3.3)",
    "disposition": null
   },
   {
    "path": "state_frame.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "native-deconvolution-closure",
    "allocation": "State frame analyzer and dynamic boundary checks (task 2, REQ-NAT-1.1..1.5)",
    "disposition": null
   },
   {
    "path": "stream_monitor.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "native-deconvolution-closure",
    "allocation": "Ordered stream event monitor and buffer preservation checks (task 4, REQ-NAT-4.1..4.2)",
    "disposition": null
   },
   {
    "path": "surface.rs",
-   "max_physical_lines": 1149,
+   "max_tokens": 8131,
    "max_logical_units": 398,
-   "max_fn_lines": 207,
+   "max_fn_tokens": 1295,
    "owner": "constraint-guided-compression",
    "allocation": "Contract-B surface derivation port onto ast-grep tree-sitter-python (task 8.2, R36); task-9.4/9.5 slim: j_get delegates to jsonval (value_to_j stays local: int-only by design); measured at slim pass",
    "disposition": null
   },
   {
    "path": "token_guard.rs",
-   "max_physical_lines": 400,
    "max_logical_units": 300,
-   "max_fn_lines": 80,
    "owner": "native-deconvolution-closure",
    "allocation": "Token limit guard and causal refinement feedback bridge (task 6, REQ-NAT-6.1..6.2)",
    "disposition": null
