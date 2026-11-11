@@ -1,0 +1,140 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.1.1",
+  "language": "rust",
+  "pack_sha256": "750b4e71f2889c995db1412f730d86efd0054787a8b7f290a4541ee33c493b69",
+  "config_sha256": "7a03895415c59491d8f64ee060bcab36a81c692dfef8b2da24dec215af4f9f4c",
+  "source_files_sha256": {
+    "native/src/recording.rs": "c89bdce80afed9a2d522c8066826d3e04ea85c1fd0e1d919791819c051ee16e1"
+  },
+  "sites": 15,
+  "sites_not_selected": 659,
+  "sites_without_operator": [
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 860,
+      "start_column": 16,
+      "end_line": 860,
+      "end_column": 18,
+      "text": "()"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 865,
+      "start_column": 20,
+      "end_line": 865,
+      "end_column": 75,
+      "text": "(\"replay not fresh or short of golden coverage\".into())"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 865,
+      "start_column": 72,
+      "end_line": 865,
+      "end_column": 74,
+      "text": "()"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 868,
+      "start_column": 20,
+      "end_line": 870,
+      "end_column": 10,
+      "text": "(format!(\n            \"{level2_ops} L2 differences without query-differential evidence\"\n        ))"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 872,
+      "start_column": 23,
+      "end_line": 872,
+      "end_column": 25,
+      "text": "()"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 873,
+      "start_column": 8,
+      "end_line": 873,
+      "end_column": 27,
+      "text": "return (0, reasons)"
+    }
+  ],
+  "mutants_not_selected": 10,
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {
+    "survived": 1
+  },
+  "counts_by_kind": {
+    "error_order": {
+      "survived": 1
+    }
+  },
+  "incomplete": false,
+  "mutants": [
+    {
+      "number": 2,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 864,
+        "start_column": 4,
+        "end_line": 866,
+        "end_column": 5,
+        "text": "if !fresh {\n        reasons.push(\"replay not fresh or short of golden coverage\".into());\n    }"
+      },
+      "operator": "swap_next",
+      "sha256": "baff40d11f08308d6740accc9a1db0962193bec3b41fb3ab96bc27b590ed24d2",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 7.5893131,
+      "worker": 2,
+      "reused_from": null
+    }
+  ],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [
+        74.6075452
+      ],
+      "limits_s": [
+        374
+      ],
+      "mutants_run": 0,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    },
+    {
+      "worker": 2,
+      "recovered": null,
+      "baseline_s": [
+        74.0278366
+      ],
+      "limits_s": [
+        371
+      ],
+      "mutants_run": 1,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    }
+  ],
+  "void": null
+}

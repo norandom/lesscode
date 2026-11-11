@@ -35,6 +35,10 @@ pub struct RunArgs {
     /// Run every mutant again, even one with a stored outcome.
     #[arg(long)]
     pub no_reuse: bool,
+    /// Run only the mutants with these numbers, as numbered by a run of
+    /// the same configuration on the same files.
+    #[arg(long, value_delimiter = ',')]
+    pub only: Vec<usize>,
     /// Where to write the run receipt.
     #[arg(long)]
     pub out: PathBuf,
@@ -53,6 +57,9 @@ struct RunReceipt<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     sites_not_selected: Option<usize>,
     sites_without_operator: Vec<Site>,
+    /// Mutants left out by `--only`; absent without it.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    mutants_not_selected: Option<usize>,
     invalid_before_run: usize,
     annotation_decisions: Option<Vec<Decision>>,
     counts_by_class: BTreeMap<String, usize>,
@@ -138,6 +145,30 @@ fn planned(
     })
 }
 
+/// Keep the mutants with the given numbers; all of them when none is given.
+/// A number no mutant has is an error.
+fn only(jobs: Vec<Job>, numbers: &[usize]) -> Result<(Vec<Job>, Option<usize>), String> {
+    if numbers.is_empty() {
+        return Ok((jobs, None));
+    }
+    if let Some(missing) = numbers
+        .iter()
+        .find(|n| !jobs.iter().any(|j| j.number == **n))
+    {
+        return Err(format!(
+            "--only: there is no mutant {missing}; the run has {}",
+            jobs.len()
+        ));
+    }
+    let total = jobs.len();
+    let kept: Vec<Job> = jobs
+        .into_iter()
+        .filter(|j| numbers.contains(&j.number))
+        .collect();
+    let left_out = total - kept.len();
+    Ok((kept, Some(left_out)))
+}
+
 /// Exit 0 when every mutant has a class, 2 when errors remain; a void run
 /// or bad input is exit 3.
 pub fn run_run(args: RunArgs) -> Result<u8, String> {
@@ -158,6 +189,7 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
         invalid,
         texts,
     } = planned(&source, &sites, pack, &identity)?;
+    let (jobs, mutants_not_selected) = only(jobs, &args.only)?;
     let store = match args.no_reuse {
         true => None,
         false => Some(Store::open(&args.work.join("outcomes"))?),
@@ -182,6 +214,7 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
         sites: sites.len(),
         sites_not_selected,
         sites_without_operator: bare,
+        mutants_not_selected,
         invalid_before_run: invalid,
         annotation_decisions: decisions,
         counts_by_class,

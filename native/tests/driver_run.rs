@@ -440,3 +440,34 @@ fn unsafe_work_directories_are_refused_and_interrupted_copies_recovered() {
         APP
     );
 }
+
+/// `--only` runs the numbered mutants with the numbers and classes they have
+/// in a full run; a number that does not exist is bad input.
+#[test]
+fn single_mutants_can_be_run_by_number() {
+    let project = Project::new("only");
+    let config = project.config(&[], json!({}));
+    let (code, full, stderr) = project.run(&config, "full", &["--no-reuse"]);
+    assert_eq!(code, Some(0), "{stderr}");
+    let all = full["mutants"].as_array().unwrap();
+    assert!(all.len() >= 2);
+    let last = &all[all.len() - 1];
+    let number = last["number"].as_u64().unwrap();
+
+    let only = number.to_string();
+    let (code, one, stderr) = project.run(&config, "one", &["--no-reuse", "--only", &only]);
+    assert_eq!(code, Some(0), "{stderr}");
+    let run = one["mutants"].as_array().unwrap();
+    assert_eq!(run.len(), 1);
+    for key in ["number", "site", "operator", "sha256", "class"] {
+        assert_eq!(run[0][key], last[key], "{key}");
+    }
+    assert_eq!(one["mutants_not_selected"], all.len() as u64 - 1);
+    assert_eq!(full.get("mutants_not_selected"), None);
+
+    let (code, receipt, stderr) = project.run(&config, "none", &["--only", "9999"]);
+    assert_eq!(code, Some(3), "{stderr}");
+    assert_eq!(receipt, Value::Null);
+    assert!(stderr.contains("there is no mutant 9999"), "{stderr}");
+    assert_eq!(project.source(), APP, "the source tree was changed");
+}

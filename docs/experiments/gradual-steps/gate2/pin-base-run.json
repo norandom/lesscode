@@ -1,0 +1,357 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.1.1",
+  "language": "rust",
+  "pack_sha256": "750b4e71f2889c995db1412f730d86efd0054787a8b7f290a4541ee33c493b69",
+  "config_sha256": "7a03895415c59491d8f64ee060bcab36a81c692dfef8b2da24dec215af4f9f4c",
+  "source_files_sha256": {
+    "native/src/recording.rs": "c89bdce80afed9a2d522c8066826d3e04ea85c1fd0e1d919791819c051ee16e1"
+  },
+  "sites": 15,
+  "sites_not_selected": 659,
+  "sites_without_operator": [
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 860,
+      "start_column": 16,
+      "end_line": 860,
+      "end_column": 18,
+      "text": "()"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 865,
+      "start_column": 20,
+      "end_line": 865,
+      "end_column": 75,
+      "text": "(\"replay not fresh or short of golden coverage\".into())"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 865,
+      "start_column": 72,
+      "end_line": 865,
+      "end_column": 74,
+      "text": "()"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 868,
+      "start_column": 20,
+      "end_line": 870,
+      "end_column": 10,
+      "text": "(format!(\n            \"{level2_ops} L2 differences without query-differential evidence\"\n        ))"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 872,
+      "start_column": 23,
+      "end_line": 872,
+      "end_column": 25,
+      "text": "()"
+    },
+    {
+      "file": "native/src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 873,
+      "start_column": 8,
+      "end_line": 873,
+      "end_column": 27,
+      "text": "return (0, reasons)"
+    }
+  ],
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {
+    "killed": 10,
+    "survived": 1
+  },
+  "counts_by_kind": {
+    "branch_condition": {
+      "killed": 7
+    },
+    "error_order": {
+      "killed": 1,
+      "survived": 1
+    },
+    "state_write": {
+      "killed": 2
+    }
+  },
+  "incomplete": false,
+  "mutants": [
+    {
+      "number": 1,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 859,
+        "start_column": 25,
+        "end_line": 859,
+        "end_column": 38,
+        "text": "arm_exit == 0"
+      },
+      "operator": "negate",
+      "sha256": "b3a8a2b35265804b3860b474f5e0555fc158b2007e1052c17131ed39fc4da820",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.1535955,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 2,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 864,
+        "start_column": 4,
+        "end_line": 866,
+        "end_column": 5,
+        "text": "if !fresh {\n        reasons.push(\"replay not fresh or short of golden coverage\".into());\n    }"
+      },
+      "operator": "swap_next",
+      "sha256": "baff40d11f08308d6740accc9a1db0962193bec3b41fb3ab96bc27b590ed24d2",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 7.086325,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 3,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 864,
+        "start_column": 7,
+        "end_line": 864,
+        "end_column": 13,
+        "text": "!fresh"
+      },
+      "operator": "negate",
+      "sha256": "3768b013c2736ebde17056ae146b475dc51ac089b56d3aa63e1ef1dc5d549c9e",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.1014519,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 4,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 865,
+        "start_column": 8,
+        "end_line": 865,
+        "end_column": 75,
+        "text": "reasons.push(\"replay not fresh or short of golden coverage\".into())"
+      },
+      "operator": "drop_statement",
+      "sha256": "ed874f0a8edb91f417055ac525f46f667d4f1260f53ad4df6f80ff1b5dcae3b2",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.1755236,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 5,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 867,
+        "start_column": 4,
+        "end_line": 871,
+        "end_column": 5,
+        "text": "if level2_ops > 0 && !matches!(query_evidence, Some(p) if p.is_file()) {\n        reasons.push(format!(\n            \"{level2_ops} L2 differences without query-differential evidence\"\n        ));\n    }"
+      },
+      "operator": "swap_next",
+      "sha256": "57a844c13d473040e8982996a26417e61910f8234eb49537f9e6a7d509fcd8be",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 6.8820951,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 6,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 867,
+        "start_column": 7,
+        "end_line": 867,
+        "end_column": 74,
+        "text": "level2_ops > 0 && !matches!(query_evidence, Some(p) if p.is_file())"
+      },
+      "operator": "negate",
+      "sha256": "a7904a88b6df8ae70dd14f1c39616dab33696e6752326fe69a5c7f4845fe1e4d",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.2861092,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 7,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 867,
+        "start_column": 7,
+        "end_line": 867,
+        "end_column": 74,
+        "text": "level2_ops > 0 && !matches!(query_evidence, Some(p) if p.is_file())"
+      },
+      "operator": "swap:>->>=@867:18",
+      "sha256": "17832a2c0349fac74d9c686fb996c3934f09ec33445da32d7533a62fd2c490f7",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 6.8109003999999995,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 8,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 867,
+        "start_column": 7,
+        "end_line": 867,
+        "end_column": 74,
+        "text": "level2_ops > 0 && !matches!(query_evidence, Some(p) if p.is_file())"
+      },
+      "operator": "swap:&&->||@867:22",
+      "sha256": "2261e9d5b3bf34061c7a3b39f61e57c1c1212d7df8f1823bca022c7919fcee31",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.0365755,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 9,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 868,
+        "start_column": 8,
+        "end_line": 870,
+        "end_column": 10,
+        "text": "reasons.push(format!(\n            \"{level2_ops} L2 differences without query-differential evidence\"\n        ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "c1c68f5977fd4e2e22788086d2f9c42d841bf6a97a1d18dd7883893b15fbcead",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.2613851,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 10,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 872,
+        "start_column": 7,
+        "end_line": 872,
+        "end_column": 25,
+        "text": "reasons.is_empty()"
+      },
+      "operator": "negate",
+      "sha256": "f4ad42329a78bbc1259f7f19fa26ded695b1e57f99f101bccc6b3a9b1937d025",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.1393797,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 11,
+      "site": {
+        "file": "native/src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 875,
+        "start_column": 8,
+        "end_line": 875,
+        "end_column": 21,
+        "text": "arm_exit == 2"
+      },
+      "operator": "negate",
+      "sha256": "09a286f542c174c86ba9f638ce1533f7849e23de81776caf7adc2ad05154845f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.4559548,
+      "worker": 1,
+      "reused_from": null
+    }
+  ],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [
+        60.4212816
+      ],
+      "limits_s": [
+        303
+      ],
+      "mutants_run": 6,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    },
+    {
+      "worker": 2,
+      "recovered": null,
+      "baseline_s": [
+        60.3720432
+      ],
+      "limits_s": [
+        302
+      ],
+      "mutants_run": 5,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    }
+  ],
+  "void": null
+}
