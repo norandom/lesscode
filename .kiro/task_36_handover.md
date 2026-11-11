@@ -22,6 +22,13 @@ Written 2026-11-11, 14:50 (Europe/Berlin). Predecessor: `.kiro/task_35_handover.
 2. **Release.** The token budgets change the released `budgets` command (new defaults, receipt schema
    `rust-syntax-units-v2`; old budgets files keep working). No release was prepared.
 
+## Amendment, 2026-11-11, about 15:10: owner decisions
+
+The owner approved the design: callers by name; no differential check for now; the change refused in R89
+is kept as the first step through the finished tooling. No release was asked for. `tasks.md` is generated
+(`5780220`), six groups, **not approved**. `kiro-cli check`: 0 errors, 0 warnings. Waiting for the owner:
+approval of the tasks, then `kiro-impl gradual-refactoring-steps 1.1` and following in the foreground.
+
 ## Next, after approval
 
 - `kiro-spec-tasks gradual-refactoring-steps`. The design's prototype-gate section names the first three
