@@ -52,6 +52,23 @@ command did not examine, or if a command changes your sources. Reproduce and
 report those cases. A shorter candidate that fails your tests must be rejected
 whatever the density receipt says.
 
+## From a receipt to a checked step
+
+From release 1.2.0 the same trial can end in a verdict instead of receipts to
+read side by side. Put the proposed change on a branch, declare it as a step,
+and run `step check` ([refactoring in checked steps](steps.md)). Exit code 0
+says the change stayed in its declared files and size, your tests pass before
+and after, and no function lost fault sensitivity. Agree on two things before
+you use it with others:
+
+- Who may record an override, and that its reason is read by someone.
+- That an accepted step is still reviewed. The check does not show the change
+  behaves the same, and it does not judge whether a new test asserts the right
+  behaviour ([what no command checks](steps.md#what-no-command-checks)).
+
+Start with a function your tests already cover well; `step plan` shows which
+those are.
+
 ## Before you install the pre-push hook
 
 The hook is the one part that can stop other people's work. Settle these first:
@@ -65,6 +82,8 @@ The hook is the one part that can stop other people's work. Settle these first:
 - The team agrees who may raise a ceiling and how that is recorded.
 - The hook is local to each clone. It is not installed by cloning, and it is
   not a substitute for running the same check in CI.
+- `deconvolute install-hook` checks the budgets only. `step install-hook`
+  (from release 1.2.0) also runs the step guard for every pushed branch.
 
 ## Expand only after the first review is useful
 
@@ -78,8 +97,10 @@ support. Agree on exceptions before enforcement and keep the original
 receipts. Reconsider adoption if setup and review cost outweigh the decisions
 the receipts improve.
 
-The binary measures supplied files. It does not generate a simplification,
-distribute coding-agent rules or ratchet a regression baseline. The
+The binary measures supplied files and judges steps you declare. It does not
+generate a simplification or distribute coding-agent rules. The only baseline
+it keeps is the step ledger: per function, the fewest unnoticed faults an
+accepted step left behind. The
 [roadmap](../.kiro/steering/roadmap.md) separates what is delivered from what
 is proposed. Start by using today's receipts in an existing review, then
 choose whether to invest in a gate.

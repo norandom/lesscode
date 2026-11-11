@@ -1,22 +1,19 @@
 # Lesscode
 
 [![DOI](https://zenodo.org/badge/1440672292.svg)](https://doi.org/10.5281/zenodo.23958363)
-[![Release](https://img.shields.io/badge/version-1.1.1-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.1.1)
+[![Release](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.2.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The goal is substantial code simplification while preserving features. In grown
-codebases, custom implementations, boilerplate and supporting layers can often
-be replaced by capabilities already provided by the project's framework,
-libraries or language. Lesscode aims to help identify those opportunities and
-check the resulting changes.
+Lesscode is for making a grown codebase smaller without losing features. Code
+that was written by hand, or by a model, often repeats what the project's
+framework, its libraries or the language already provide. Lesscode helps you
+find such places and check the change you make there.
 
-The work is to move responsibility into suitable existing capabilities: use a
-framework shorthand, reuse a library operation, or express the same behavior
-with clearer idiomatic code. Success means less code and structure to maintain
-for the same features and public contracts. Moving custom code into another
-module, hiding it behind a wrapper, or dropping a feature does not establish
-that result. A replacement's dependencies, configuration and behavioral
-differences also count when judging whether it simplifies the project.
+A change counts when there is less code and less structure to maintain for the
+same features and the same public contracts. Moving code into another module,
+hiding it behind a wrapper or dropping a feature does not count. What a
+replacement brings with it counts too: its dependencies, its configuration and
+any difference in behaviour.
 
 ## How it works
 
@@ -24,22 +21,25 @@ differences also count when judging whether it simplifies the project.
 
 *What you type and what you see, on a real function of this repository. The commands are described in [docs/steps.md](docs/steps.md), the reasoning in [docs/testability.md](docs/testability.md).*
 
-1. **Take one tangled piece and write it simpler.** Not the whole codebase: one
-   function or module whose job you can name. The picture shows a real one from
-   this repository, drawn simplified. Same checks and same results, with the
-   set-up done once and one way out.
-2. **A model does the rewriting, inside limits it cannot move.** The public
-   surface stays, the places that may write state are declared up front, and
-   "smaller" is counted in tokens, so squeezing more onto a line does not count.
-   Prompts are tuned by search (GEPA, MIPROv2) against mechanical checks. What
-   a model writes is used only after those checks let it through.
-3. **It lands on a Git branch, and your tests decide.** Your test suite runs on
-   the branch. Then `lesscode-core` plants small faults in the new code, one at
-   a time, in copies of your tree, and reports which ones your tests notice.
+1. Take one tangled piece and write it simpler. Start with a function or module
+   whose job you can name, and leave the rest of the codebase alone. The
+   picture shows a real one from this repository, drawn simplified: the same
+   checks and the same results, with the set-up done once and one way out.
+2. A model can do the rewriting, inside limits it cannot move. The public
+   surface stays and the places that may write state are declared up front.
+   "Smaller" is counted in tokens, so squeezing more onto a line does not
+   count. Prompts are tuned by search (GEPA, MIPROv2) against mechanical
+   checks, and what a model writes is used only after those checks let it
+   through.
+3. The change lands on a Git branch and your tests decide. Your test suite runs
+   on the branch. Then `lesscode-core` plants small faults in the new code, one
+   at a time, in copies of your tree, and reports which ones your tests notice.
    Where they notice nothing, a cut is not protected yet. You merge, or you
    don't.
 
-Step 3 is one command today (`deconvolute run`, below). Step 2 exists as a
+Step 3 is in the binary today: `deconvolute run` plants the faults, and from
+release 1.2.0 `step check` judges a change on its branch by exit code (both
+below). Step 2 exists as a
 research pipeline in this repository, not as a one-command workflow, and what
 it has delivered so far is modest: candidates that pass their tests and are 6%
 to 19% smaller in tokens ([R87](docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md)).
@@ -53,7 +53,10 @@ after that, less code for the same behaviour.
 
 `lesscode-core` is one native binary. You give it source files you already
 have, and it writes JSON receipts you can read in a review. No command changes
-your sources, and none makes a network or model request.
+your sources, and none of the commands in this table makes a network or model
+request. (The binary also holds the research commands named
+[further down](#what-is-not-checked); one of them, `regenerate`, sends a prompt
+to a model endpoint you configure.)
 
 | You want to know | Command | Works on |
 | --- | --- | --- |
@@ -64,7 +67,7 @@ your sources, and none makes a network or model request.
 | Is this language pack fit for use? | `deconvolute admit-pack` | any pack for a compiled-in grammar |
 | Are my Rust files still within their agreed size ceilings? | `budgets` | Rust source trees |
 | Can a push be stopped when those ceilings are broken? | `deconvolute install-hook` | Any Git repository with a budgets file |
-| After this small change, do my tests still pass and still catch planted faults as often as before? | `step check`, with `step plan`, `pin`, `record`, `guard` | the same four languages, in a Git repository; after release 1.1.1, build from source |
+| After this small change, do my tests still pass and still catch planted faults as often as before? | `step check`, with `step plan`, `pin`, `record`, `guard` | the same four languages, in a Git repository; from release 1.2.0 |
 
 `deconvolute run` and `step plan`, `step pin` and `step check` are the commands
 that execute your project's commands. They do so in copies of your source tree
@@ -188,6 +191,7 @@ least 10% fewer nodes. Anything less is reported as `marginal` with exit code
 1. A marginal verdict says the change is small; it does not say the change is
 wrong. Lines are in the receipt for information and do not count. A file that
 does not parse is refused with exit code 3.
+
 ### 2. List the write sites
 
 ```sh
@@ -290,8 +294,8 @@ Know these three things before you install it:
 
 ### 6. Refactor in checked steps
 
-Not in a release yet; build from source. A step is one small change on one
-branch with one small spec. You declare it in a file, commit the change, and
+From release 1.2.0. A step is one small change on one branch with one small
+spec. You declare it in a file, commit the change, and
 ask:
 
 ```sh
@@ -338,8 +342,9 @@ cannot accept a step; only the exit codes can.
   binary and a pack that `admit-pack` accepts.
 - The budget check reads the files in your working tree, not the commits being
   pushed, and it covers Rust only.
-- The hook checks complexity budgets only, and from release 1.0.2
-  it treats every branch the same. Version 1.0.1 prints a note on `refactor/*`
+- The hook that `deconvolute install-hook` writes checks complexity budgets
+  only, and from release 1.0.2 it treats every branch the same. The hook that
+  `step install-hook` writes also runs the step guard. Version 1.0.1 prints a note on `refactor/*`
   and `deconvolute/*` branches but performs no additional analysis on them.
 - Receipts written with `--out` may be placed anywhere, including inside your
   source tree, and an existing file is overwritten.
@@ -352,7 +357,8 @@ The research pipeline behind the published experiments (recorded behavior,
 bounded finite-domain comparison, mutation scoring against real test suites,
 model-driven regeneration) lives in the library and in the `prepare`, `compare`,
 `admission`, `surface` and `regenerate` commands. Those need frozen manifests,
-recorded evidence and per-specimen setup. Start from the
+recorded evidence and per-specimen setup, and `regenerate` sends prompts to a
+model endpoint you configure. Start from the
 [working paired example](docs/reports/native-core-readiness.md) if you want to
 use them; they are not a one-command workflow yet.
 
@@ -379,6 +385,11 @@ attempts and the revisions to its hypotheses.
 - [The specimen controls rerun through the driver (R75)](docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md):
   what the earlier "4 of 4 killed" figures were, and what the project's own
   tests catch when the driver plants faults in the same code.
+- [Three real steps through the step commands (R92)](docs/research/2026-11-11/18-three-real-steps.md):
+  one each in Rust, Java and TypeScript, all accepted, with the numbers before
+  and after.
+- [A step that was refused, pinned and then accepted (R93)](docs/research/2026-11-11/19-refused-pinned-accepted.md),
+  and the fault in the driver that it uncovered.
 - [Native driver on five real scopes (R73)](docs/research/2026-11-10/19-native-driver-batches-on-gate-scopes.md):
   `deconvolute run` gives 556 of 556 mutants the class the Python prototype gave.
 - [Self-application (R54)](docs/research/2026-11-09/12-dogfood-self-application-synthesis.md):
@@ -409,13 +420,16 @@ archived.
 
 ## Where the project is going
 
-1. A release that contains the agnostic driver.
+1. Steps that are harder than the ones taken so far: functions no test reaches,
+   which need a fake before they can be pinned, and per-test evidence that
+   [openidea-kiro](https://github.com/norandom/openidea-kiro) can accept for a
+   step's spec.
 2. Slice B, hardening against drift in model output: wherever a model writes
    something the tool then relies on (today: a language pack), measure how
    much its answers vary between runs and between models, and keep a
-   mechanical barrier that admits only what passes. Measured so far on two
-   models, with two prompt-optimisation engines; see the research log from
-   R66 on.
+   mechanical barrier that admits only what passes. Measured on two models
+   with two prompt-optimisation engines and closed for now; see the
+   [closing summary](docs/reports/slice-b-drift-hardening.md).
 3. Deterministic rewrites and synthesis: extend concolic extraction and bounded
    synthesis to more language semantics and idiomatic transformations.
 

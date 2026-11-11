@@ -26,7 +26,7 @@ a void run. Gate every next action on the exit code.
 - A work directory outside the repository, not a drive root. Copies and stored outcomes live there.
 - The project's own test command, runnable from the repository root in a fresh copy of the repository.
   With Cargo and a global `CARGO_TARGET_DIR`, set `"env": {"CARGO_TARGET_DIR": "target"}`.
-- No model is needed and the commands contact none.
+- No model is needed, and the `step` commands contact none.
 
 ## Phase 1: choose the step (`step plan`)
 

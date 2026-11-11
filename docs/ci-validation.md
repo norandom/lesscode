@@ -62,14 +62,17 @@ that confirmed evidence export and nonzero enforcement; see the
 [local receipt](evidence/dagger-native-e35bc02.json). Its pending-Actions label
 describes the earlier capture time, superseded by the hosted audit.
 
-## Multi-Platform and Multi-Architecture CI Matrix
+## Multi-platform and multi-architecture CI matrix
 
-`.github/workflows/native-core.yml` verifies native core correctness across operating systems and CPU architectures:
-- **Linux x86_64**: Verified through containerized Dagger execution (`rust:1.98.1-bookworm`).
-- **Linux aarch64 (ARM64)**: Verified through native GitHub-hosted `ubuntu-24.04-arm` runners.
-- **macOS aarch64 (Apple Silicon)**: Verified natively on Apple Silicon through GitHub-hosted `macos-15` runners.
-- **macOS x86_64 (Intel)**: Verified natively on Intel through GitHub-hosted `macos-15-intel` runners.
-- **Windows x86_64**: Verified natively through GitHub-hosted `windows-2025` runners.
+`.github/workflows/native-core.yml` runs the native checks on five platforms:
+
+| Platform | Where it runs |
+| --- | --- |
+| Linux x86_64 | In a container through Dagger (`rust:1.98.1-bookworm`) |
+| Linux aarch64 | GitHub-hosted `ubuntu-24.04-arm` |
+| macOS Apple Silicon | GitHub-hosted `macos-15` |
+| macOS Intel | GitHub-hosted `macos-15-intel` |
+| Windows x86_64 | GitHub-hosted `windows-2025` |
 
 ## Adopter check in containers
 
@@ -78,7 +81,11 @@ describes the earlier capture time, superseded by the hosted audit.
 documented commands against this repository, mounted read-only
 (`tools/adopter_check.sh`). It asserts the exit codes of `density`, `analyze`
 (Rust, TypeScript, Java) and `budgets`, and prints the two R55 gaps (Python
-`analyze`, `mutate`) so that a fix shows up as changed output.
+`analyze`, `mutate`) so that a fix shows up as changed output. The script was
+written against release 1.0.x: both gaps are closed since 1.1.0, its `mutate`
+probe names a file that no longer exists, and it does not exercise
+`deconvolute run` or the `step` commands. Read its output with that in mind
+until it is brought up to date.
 
 ```powershell
 docker compose -f tools/adopter-check.compose.yaml up --abort-on-container-failure

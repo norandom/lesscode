@@ -1,5 +1,11 @@
 # Local evaluation CLI
 
+> Archived (2026-11-10). This guide describes the Python prototype
+> `lesscode-baseline`, retired at commit `fd0b5b9`. Its package, tests and some
+> files linked below are no longer in the repository; the
+> [preserved baseline index](archive/preserved-python-baseline.md) explains how to
+> recover them. For the current tool, start at the [README](../README.md).
+
 The evaluator compares supplied Python sources locally. It requires no Codex,
 LLM service, hosted account, source upload or commercial analyzer. It does not
 create a candidate. Passing declared checks is evidence, not proof of equivalence.

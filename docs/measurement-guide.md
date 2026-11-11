@@ -47,8 +47,9 @@ values. Keep concise loop names when the role is already obvious.
 
 Likewise, moving branches into new helpers can lower a function's CCN without
 reducing the work a maintainer must understand. Record the new indirection and
-why it is justified. The [package instructions](../src/lesscode_baseline/AGENTS.md)
-apply these rules to future agent edits in this repository.
+why it is justified. The package instructions that applied these rules to
+agent edits went with the retired Python prototype
+([preserved baseline index](archive/preserved-python-baseline.md)).
 
 ## Distinguish maintenance proxies from observed effort
 

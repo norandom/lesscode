@@ -7,6 +7,8 @@
 | Install the binary and run it on one change | [README](../README.md#install) |
 | Know what the released commands check and what they do not | [README: what is not checked](../README.md#what-is-not-checked) and [R55](research/2026-11-10/01-released-binary-adopter-dogfood.md) |
 | Try it with one reviewer before making it a gate | [Adoption guide](adoption.md) |
+| Refactor in small steps that are judged by exit code (from release 1.2.0) | [Refactoring in checked steps](steps.md), and [why it works this way](testability.md) |
+| Plant faults and see which ones your tests catch (from release 1.1.0) | [The agnostic driver](driver.md) |
 | Build from source, check prerequisites and license notices | [Native core](../native/README.md) |
 | Understand the architecture or add a language | [Multi-language deconvolution](multi-language-deconvolution.md) |
 | See how checks and releases are built | [CI and release workflows](ci-validation.md) |
@@ -40,9 +42,7 @@ working tree and may not be present in a fresh clone.
 | Inspect real paired replacements, including a marginal Facdrone result | [mvibe: 23 lines removed](experiments/proxy-routing-trial/README.md) and [Facdrone CSV: rejected](experiments/facdrone-csv-trial/README.md) |
 | Inspect local Rust/Python/TypeScript baselines and a rejected library shortcut | [mmhmem/mvibe measurements, versions, chart and COBESY experiment track](experiments/local-adoption/README.md) |
 | Run Rust and Python tests in parallel | [cargo-nextest and pytest-xdist](testing.md) |
-| Find decision sites, write mutants and run a project's tests against them (from release 1.1.0) | [The agnostic driver](driver.md) |
-| Take a refactoring in small steps that are judged by exit code (after release 1.1.1) | [Refactoring in checked steps](steps.md) and [why it works this way](testability.md) |
-| See what a release contains and what changed | [Release 1.1.1](releases/1.1.1.md), [release 1.1.0](releases/1.1.0.md) |
+| See what a release contains and what changed | [Release 1.2.0](releases/1.2.0.md), [release 1.1.1](releases/1.1.1.md), [release 1.1.0](releases/1.1.0.md) |
 | Decide how far a model may be trusted to write a language pack or choose mutation sites | [Slice B closing summary](reports/slice-b-drift-hardening.md) |
 | Run the same Linux checks locally (native Dagger CLI with Podman) and in Actions | [Dagger pipeline and native platform evidence](ci-validation.md#rust-core-dagger-and-actions) |
 | Build and run the native comparison CLI | [Native setup](../native/README.md) and [working paired example](reports/native-core-readiness.md) |
@@ -59,7 +59,6 @@ working tree and may not be present in a fresh clone.
 | Repeat scope-based compression on active typed code | [CPU/NPU backend trial](experiments/npu-backends/README.md) and [two-trial synthesis](reports/capability-compression.md) |
 | Install the Python package with uv | [Runtime setup](runtime-setup.md) |
 | Provision and probe the pinned analyzers | [Analyzer setup](analyzer-setup.md) |
-| Run the included unchanged fixture | [README example](../README.md#try-an-unchanged-pair-first) |
 | Compare your own snapshots | [Profile configuration](profiles.md), then [CLI reference](cli.md) |
 | Try the process with a reviewer | [Adoption guide](adoption.md) |
 | Drive compression trials from real code opportunities | [Reusable procedure and agent skill](compression-procedure.md) |
@@ -89,9 +88,10 @@ The [CLI reference](cli.md) specifies invocation and exit semantics. The
 the current implementation can execute.
 
 The [measurement guide](measurement-guide.md) distinguishes LLOC, complexity,
-convolution, role-revealing names and actual maintenance effort. Scoped
-[package instructions](../src/lesscode_baseline/AGENTS.md) guide future coding
-agent edits before a refactoring pass is needed.
+convolution, role-revealing names and actual maintenance effort. The package
+instructions it refers to went with the prototype; the
+[preserved baseline index](archive/preserved-python-baseline.md) says how to
+recover them.
 
 ## Inspect the evidence
 
@@ -112,8 +112,13 @@ retention; the CI guide explains how to reproduce them.
 
 ## Maintain or extend Lesscode
 
-The versioned records and serializers in
-[`contracts.py`](../src/lesscode_baseline/contracts.py) define the JSON boundary.
+For the native core, start at [native/README.md](../native/README.md) and the
+[architecture guide](multi-language-deconvolution.md); the step commands are
+specified in [gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)
+and the driver in [agnostic-annotation-driver](../.kiro/specs/agnostic-annotation-driver/design.md).
+
+For the retired Python prototype, the versioned records and serializers in
+`contracts.py` (removed with the package) defined the JSON boundary.
 The [approved design](../.kiro/specs/efficiency-baseline/design.md) and
 [requirements](../.kiro/specs/efficiency-baseline/requirements.md) record the
 baseline contract. The [roadmap](../.kiro/steering/roadmap.md) separates delivered
