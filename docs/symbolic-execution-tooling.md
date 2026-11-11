@@ -96,6 +96,33 @@ discipline as the oracle: controls first, verdicts after.
 E3 inherits this: differential checks on a candidate's pure core count only
 after these four checks pass for that session.
 
+## Solvers in the two projects: what is used where, and why
+
+Added 2026-11-11 at the owner's request. lesscode and its co-project
+[openidea-kiro](https://github.com/norandom/openidea-kiro) both check things
+mechanically, with different engines, because they check different things.
+
+| | openidea-kiro (`kiro-cli`) | lesscode (`lesscode-core`) |
+| --- | --- | --- |
+| What is checked | A spec: can two acceptance criteria contradict each other? | Code: does a change keep behaviour, and do the tests notice faults? |
+| Shape of the problem | Finite by construction. Every term is declared in a vocabulary with a finite set of regions, so a criterion is a boolean guard. | Not finite. Program inputs, strings, state and effects; no vocabulary bounds them. |
+| Engine in the released tool | Binary decision diagrams (BDDs), pure Rust, with fixed caps and an explicit refusal above them | No solver. Planted faults run against the project's own tests (`deconvolute run`, `step check`); comparisons enumerate bounded finite domains. |
+| Why | Canonical form, a witness state for every contradiction, no native solver to ship, runs in a WebAssembly sandbox, predictable cost | A verdict has to come from the project's real code and tests in its own language; a solver would judge a model or an encoding of the code, not the code |
+| SMT solvers (Z3) | Rejected, with reasons | Research instrument only: behind CrossHair on the pure core of a Python scope, and Kani for Rust in CI (table above). Not part of the binary; a solver verdict counts only after the encoding checks of the section above. |
+
+The comparison of SMT solvers and BDDs, and why BDDs fit spec checks, is in
+openidea-kiro's
+[verification strategy](https://github.com/norandom/openidea-kiro/blob/main/docs/verification.md#2-architectural-comparison-smt-solvers-vs-bdds).
+What lesscode learned about solver verdicts on code is in
+[R23](research/2026-11-03/05-e1c-concolic-rung.md) and in the section above: wrong encodings produced
+outputs that looked like results. Since the owner decision of 2026-11-03, static
+state models and model-written SMT encodings are not the authority for "same
+behaviour" in this project.
+
+In short: where the domain is finite and declared, decide exactly with BDDs
+(openidea-kiro). Where it is real code, run it (lesscode), and use a solver only
+on a pure core, within stated bounds, behind controls.
+
 ## Related records
 
 - [R19, dynamic deconvolution direction](research/2026-11-03/01-dynamic-deconvolution-direction.md), amendments on guided generation, Rust mapping and host constraints.

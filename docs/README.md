@@ -63,7 +63,7 @@ working tree and may not be present in a fresh clone.
 | Compare your own snapshots | [Profile configuration](profiles.md), then [CLI reference](cli.md) |
 | Try the process with a reviewer | [Adoption guide](adoption.md) |
 | Drive compression trials from real code opportunities | [Reusable procedure and agent skill](compression-procedure.md) |
-| Choose symbolic-execution and guided-input tooling per language | [Symbolic execution tooling assessment](symbolic-execution-tooling.md) |
+| Choose symbolic-execution and guided-input tooling per language; see which solver lesscode and openidea-kiro use where, and why | [Symbolic execution tooling assessment](symbolic-execution-tooling.md) |
 | Understand the input and run a real family prototype | [Reader-family trial plan and results](experiments/reader-family/README.md) |
 | Inspect a smaller classifier and source-derived SMT check | [Outcome hotspot and next LLM compression pass](experiments/outcome-hotspot/README.md) |
 | Inspect a real simplification of Lesscode | [Self-evaluation example and charts](examples/self-evaluation.md) |
