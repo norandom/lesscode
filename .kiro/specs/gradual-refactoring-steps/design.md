@@ -379,6 +379,21 @@ script stays under `docs/experiments/` as the record of R88.
 4. **The change refused in R89:** kept for the finished tooling, as its first step (task 6.1).
 5. No release for the token budgets was asked for.
 
+## Amendments
+
+### Amendment 1, 2026-11-11 (task group 1, [R91](../../../docs/research/2026-11-11/17-gradual-steps-three-assumptions.md))
+
+- **Whole repository.** The copies of base and step hold the whole repository, not a `root` directory: a
+  copy of `native/` alone failed 5 of 363 tests that read files elsewhere. The declaration has no `root`;
+  its paths are relative to the repository root and its commands run there.
+- **Hashes of committed content.** The verdict and the guard hash the blobs of the revisions, not files on
+  disk, because working trees can hold converted line endings.
+- **No `git archive`.** Trees are read with `git ls-tree` and `git cat-file --batch`; the allowed git
+  commands are `rev-parse`, `merge-base`, `ls-tree`, `cat-file` and `log`.
+- **Driver options as built:** `functions` in the run configuration and `deconvolute run --only N`; the
+  receipt gains `sites_not_selected` and `mutants_not_selected` when they are used.
+- **Prototype gate:** the three points listed above as not yet shown are shown; status `proceed`.
+
 ## Contradictions and disposition
 
 | Conflict | Authority | Disposition |

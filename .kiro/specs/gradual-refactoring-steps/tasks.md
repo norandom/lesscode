@@ -19,8 +19,8 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
 
 ## Tasks
 
-- [ ] 1. Show the three assumptions the design rests on
-- [ ] 1.1 Limit a fault run to named functions and compare with a whole-file run
+- [x] 1. Show the three assumptions the design rests on
+- [x] 1.1 Limit a fault run to named functions and compare with a whole-file run
   - Run configuration accepts `functions` per file; sites outside them are not mutated and are counted as
     not selected in the receipt. Without the field the receipt is unchanged.
   - Compare, for `verdict` in `native/src/recording.rs`, the classes of the filtered run with those of the
@@ -29,7 +29,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     fault; a difference is recorded and stops the group.
   - _Boundary: DriverChanges_
   - _Requirements: 5.2_
-- [ ] 1.2 Copies from `git archive` build and test like a working tree
+- [x] 1.2 Copies from `git archive` build and test like a working tree
   - `step/revisions.rs`: resolve a revision, unpack `git archive` of a root into a work directory outside
     the repository, reject a work directory inside it or at a drive root.
   - Try it on this repository at two revisions and on the Java and TypeScript projects of R88: tests in the
@@ -38,7 +38,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Done when the comparison is recorded in a research entry and the unit tests pass.
   - _Boundary: Revisions_
   - _Requirements: 10.1, 10.4_
-- [ ] 1.3 Admit a pin against one fault through the driver
+- [x] 1.3 Admit a pin against one fault through the driver
   - Apply one numbered fault of a base run to a copy that has the base code and the step's test paths; run
     the tests on the copy with and without the fault.
   - Repeat the pin of R89 this way: admitted. A test that does not fail on the fault: rejected, with the
@@ -46,7 +46,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Done when the three outcomes are reproduced and recorded.
   - _Boundary: Pin_
   - _Requirements: 3.1, 3.2_
-- [ ] 1.4 Record the gate result
+- [x] 1.4 Record the gate result
   - Research entry with the three results, index updated, handover written.
   - _Requirements: 11.3_
 

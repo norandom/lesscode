@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R90 Complexity budgets count tokens; the change refused in R89 would now be within budget (2026-11-11)
+## Latest: R91 The three assumptions of the step design hold; two details of the design change (2026-11-11)
+
+[R91](2026-11-11/17-gradual-steps-three-assumptions.md) is the gate of task group 1 of `gradual-refactoring-steps`: proceed.
+- **Function filter:** the 11 faults in `verdict()` have the same classes as in the whole-file run, in 2.1 minutes instead of about 17.
+- **Copies from a commit:** same test results as the working tree on this repository, a Java and a TypeScript project, if the whole repository is copied; a copy of `native/` alone fails 5 of 363 tests.
+- **Pin against one fault:** admitted, rejected as useless and rejected as failing, all three through `deconvolute run --only`.
+- **Design changes:** copy the whole repository; hash committed content, not files on disk; no `git archive`.
+
+## Prior: R90 Complexity budgets count tokens; the change refused in R89 would now be within budget (2026-11-11)
 
 [R90](2026-11-11/16-budgets-count-tokens.md) changes the `budgets` check by owner decision.
 - **Metric:** tokens outside comments and test code per file and per function; defaults 2,800 and 560 (seven tokens a line, measured 6.96). Line ceilings in older budgets files still apply.
