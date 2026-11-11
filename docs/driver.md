@@ -110,7 +110,8 @@ A JSON file. Commands are argument vectors; nothing is passed through a shell.
   the closing run of the unmutated tests, which then fails and voids the run; the receipt names the copy and
   shows the end of the failing output.
 - Outcomes are stored under `W/outcomes` by the hash of the original file, the mutated text and the
-  configuration, and reused by later runs unless `--no-reuse` is given.
+  configuration, and reused by later runs unless `--no-reuse` is given. The tests are not part of that key:
+  after changing tests, use `--no-reuse` or a fresh work directory, or stale classes are reused (R88).
 
 The configurations used for the five gate scopes are in
 `docs/experiments/annotation-driver/results/native/`.

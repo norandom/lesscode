@@ -1,0 +1,72 @@
+{
+ "receipt": "step-verdict-prototype-v1",
+ "accepted": true,
+ "reasons": [],
+ "killed": [
+  15,
+  5
+ ],
+ "survived": [
+  1,
+  0
+ ],
+ "functions_that_differ": [
+  {
+   "function": "blk",
+   "before": {},
+   "after": {
+    "killed": 2
+   }
+  },
+  {
+   "function": "blockedNotices",
+   "before": {
+    "killed": 2
+   },
+   "after": {}
+  },
+  {
+   "function": "createNotice",
+   "before": {
+    "invalid": 1
+   },
+   "after": {}
+  },
+  {
+   "function": "deg",
+   "before": {},
+   "after": {
+    "killed": 2
+   }
+  },
+  {
+   "function": "degradedNotices",
+   "before": {
+    "killed": 2
+   },
+   "after": {}
+  },
+  {
+   "function": "isDigit",
+   "before": {
+    "killed": 9,
+    "survived": 1
+   },
+   "after": {}
+  },
+  {
+   "function": "mk",
+   "before": {},
+   "after": {
+    "invalid": 1
+   }
+  },
+  {
+   "function": "noun",
+   "before": {
+    "killed": 1
+   },
+   "after": {}
+  }
+ ]
+}

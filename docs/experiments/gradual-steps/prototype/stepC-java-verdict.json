@@ -1,0 +1,38 @@
+{
+ "receipt": "step-verdict-prototype-v1",
+ "accepted": true,
+ "reasons": [],
+ "killed": [
+  78,
+  78
+ ],
+ "survived": [
+  12,
+  11
+ ],
+ "functions_that_differ": [
+  {
+   "function": "CSVPrinter",
+   "before": {
+    "killed": 8,
+    "survived": 1,
+    "invalid": 2
+   },
+   "after": {
+    "invalid": 2,
+    "killed": 7
+   }
+  },
+  {
+   "function": "printComment",
+   "before": {
+    "killed": 19,
+    "survived": 2
+   },
+   "after": {
+    "killed": 20,
+    "survived": 2
+   }
+  }
+ ]
+}

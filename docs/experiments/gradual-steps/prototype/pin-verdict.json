@@ -1,0 +1,25 @@
+{
+ "receipt": "step-verdict-prototype-v1",
+ "accepted": true,
+ "reasons": [],
+ "killed": [
+  90,
+  91
+ ],
+ "survived": [
+  101,
+  100
+ ],
+ "functions_that_differ": [
+  {
+   "function": "verdict",
+   "before": {
+    "killed": 10,
+    "survived": 1
+   },
+   "after": {
+    "killed": 11
+   }
+  }
+ ]
+}

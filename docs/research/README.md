@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R87 Measured by syntax, the four specimen candidates are 6% to 19% smaller, not 24% to 44% (2026-11-11)
+## Latest: R88 Prototype gate for gradual refactoring: a step can be judged from two fault runs, and pinning first makes it pass (2026-11-11)
+
+[R88](2026-11-11/14-gradual-steps-prototype-gate.md) is the prototype gate of the brief `.kiro/specs/gradual-refactoring-steps/brief.md`, after the owner asked whether code is healthy and working after a change and whether refactoring can be supported step by step.
+- **Method:** `deconvolute run` before and after a step, compared function by function; refused when unnoticed faults rise.
+- **Results:** a step that removes two tests is refused (noticed faults 10 to 0 in the function) although everything passes; a simpler `verdict()` is refused because a second order of checks is unpinned; one added test is accepted; two foreign steps are accepted from earlier receipts.
+- **Pin first:** two assertions that pass on the code and fail on the two planted faults turn the refusal into an acceptance.
+- **For requirements:** totals when functions are renamed, run only what a step touches, stored outcomes must depend on the tests, isolation for functions nothing tests, evidence keyed by spec criteria for openidea-kiro.
+
+## Prior: R87 Measured by syntax, the four specimen candidates are 6% to 19% smaller, not 24% to 44% (2026-11-11)
 
 [R87](2026-11-11/13-density-by-syntax-specimens-restated.md) re-measures the specimens of R50 to R53 with `deconvolute density` after it was changed to count syntax (design Amendment 6, thresholds fixed beforehand).
 - **Tokens fewer:** Java 5.6%, Rust 7.0%, Python 7.5% and 9.8% (two sets), TypeScript 18.8%. Reported before, in lines: 38.5%, 40.3%, 23.8%, 36.8%. None meets the threshold for a substantial reduction.

@@ -1,0 +1,27 @@
+{
+  "receipt": "deconvolution-density-v2",
+  "lang": "rust",
+  "baseline": "D:\\BuildArtifacts\\lesscode\\steps\\base\\native\\src\\recording.rs",
+  "candidate": "D:\\BuildArtifacts\\lesscode\\steps\\stepA\\native\\src\\recording.rs",
+  "baseline_size": {
+    "tokens": 7307,
+    "nodes": 5776,
+    "lines": 857
+  },
+  "candidate_size": {
+    "tokens": 7306,
+    "nodes": 5778,
+    "lines": 848
+  },
+  "token_reduction_pct": 0.01368550704803613,
+  "tokens_removed": 1,
+  "node_reduction_pct": 0.0,
+  "line_reduction_pct": 1.0501750291715286,
+  "thresholds": {
+    "min_token_reduction_pct": 20.0,
+    "min_tokens_removed": 400,
+    "min_node_reduction_pct": 10.0
+  },
+  "passed": false,
+  "verdict": "marginal"
+}
