@@ -1,0 +1,10 @@
+{
+  "receipt": "step-pin-v1",
+  "step": "shape-checks",
+  "base": "37a4e55f1b9397332acc6434783099a631a04918",
+  "tests_of": "8b856bbd12e398629d3775b4fdb99c940bdc0aa8",
+  "fault": "#4 line 224 literal:false->true",
+  "result": "admitted",
+  "reason": "the tests with the pin pass on the unchanged code and fail on the fault",
+  "remaining_unnoticed": []
+}

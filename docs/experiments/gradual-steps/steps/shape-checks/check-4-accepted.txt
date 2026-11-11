@@ -1,0 +1,2 @@
+step shape-checks: accepted
+exit 0

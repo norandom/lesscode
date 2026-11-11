@@ -1,0 +1,52 @@
+From 8b856bbd12e398629d3775b4fdb99c940bdc0aa8 Mon Sep 17 00:00:00 2001
+From: Marius Ciepluch <11855163+norandom@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 19:55:42 +0100
+Subject: [PATCH] test(state): pin that a misshapen state file is treated as
+ corrupt
+
+---
+ tests/state.test.ts | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/tests/state.test.ts b/tests/state.test.ts
+index 1af1072..d5f41f8 100644
+--- a/tests/state.test.ts
++++ b/tests/state.test.ts
+@@ -81,6 +81,34 @@ describe("workflow state store", () => {
+     assert.equal(existsSync(join(projectRoot, `${stateFile}.bak`)), true)
+     assert.equal(existsSync(join(projectRoot, stateFile)), false)
+   })
++  const persisted = { schemaVersion: 1, updatedAt: "2026-06-15T18:30:00.000Z", state: createState() }
++  const misshapenStateFiles: ReadonlyArray<readonly [string, unknown]> = [
++    ["that holds null", null],
++    ["that holds a list", []],
++    ["with another schema version", { ...persisted, schemaVersion: 2 }],
++    ["whose time of update is not a string", { ...persisted, updatedAt: 5 }],
++    ["whose state is null", { ...persisted, state: null }],
++    ["whose state is a list", { ...persisted, state: [] }],
++    ["whose state has another schema version", { ...persisted, state: { ...createState(), schemaVersion: 2 } }],
++    ["whose state has a mode that is not a string", { ...persisted, state: { ...createState(), mode: 7 } }],
++    ["whose state has a phase that is not a string", { ...persisted, state: { ...createState(), phase: 7 } }]
++  ]
++
++  for (const [description, content] of misshapenStateFiles) {
++    it(`treats a state file ${description} as corrupt`, async () => {
++      const projectRoot = await createProjectRoot()
++      await mkdir(join(projectRoot, stateDirectory), { recursive: true })
++      await writeFile(join(projectRoot, stateFile), JSON.stringify(content), "utf8")
++      const store = createWorkflowStateStore(projectRoot, { state: { directory: stateDirectory } })
++
++      const loaded = await store.load()
++
++      assert.equal(loaded.state, undefined)
++      assert.equal(loaded.degradations.length, 1)
++      assert.equal(existsSync(join(projectRoot, `${stateFile}.bak`)), true)
++      assert.equal(existsSync(join(projectRoot, stateFile)), false)
++    })
++  }
+ 
+   it("rejects state directories that can escape the project root", async () => {
+     const parent = await mkdtemp(join(tmpdir(), "open-ultracode-parent-"))
+-- 
+2.56.0.windows.3
+

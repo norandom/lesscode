@@ -1,9 +1,9 @@
 # Refactoring in checked steps
 
-Status: in development after release 1.1.1 (spec
+Status: part of `lesscode-core` from release 1.2.0 (spec
 [gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). All commands
-below exist. Three real steps have been taken with them from start to finish, one each in Rust, Java and
-TypeScript ([examples](#examples)).
+below exist. Four real steps have been taken with them from start to finish, in Rust, Java and TypeScript
+([examples](#examples)).
 
 Why it works this way, for readers new to the idea: [testability.md](testability.md).
 
@@ -186,6 +186,30 @@ The three ran at the same time on one machine. In the Java step the new method h
 base, so the totals of the file were compared as well. In the TypeScript step the fault that went unnoticed
 before sat in the condition that could not be false; it is gone with the condition.
 
+A fourth step was refused first ([R93](research/2026-11-11/19-refused-pinned-accepted.md)). In OpenUltraCode,
+`isPersistedWorkflowState` checked six rules in two conditions; the step `shape-checks` writes one rule per
+statement.
+
+```text
+$ lesscode-core step check --declaration .kiro/specs/shape-checks/step.json --work ../work
+step shape-checks: refused
+  src/state.ts: isPersistedWorkflowState: unnoticed faults rise from 1 to 7: #15 line 224 literal:false->true, ...
+```
+
+The tests had one case for a corrupt state file, and it was not valid JSON. No test gave the function a
+file that parsed and had the wrong shape, so after the split six more single rules could be broken unseen.
+Nine short tests, one misshapen file each, went into a commit of their own:
+
+```text
+$ lesscode-core step pin --declaration .kiro/specs/shape-checks/step.json --fault 4 --work ../work
+#4 line 224 literal:false->true: admitted (the tests with the pin pass on the unchanged code and fail on the fault)
+$ lesscode-core step check --declaration .kiro/specs/shape-checks/step.json --work ../work
+step shape-checks: accepted
+```
+
+Noticed / unnoticed in the function: 3 / 1 before, 11 / 1 after. The one that remains swaps two checks that
+can stand in either order. The file grew by 25 tokens, inside the 30 the step had declared.
+
 A plan for `native/src/recording.rs` of this repository, with the tests of `tests/recording.rs` only
 (2026-11-11, 191 faults, 13.8 minutes with three copies; receipt in
 `docs/experiments/gradual-steps/gate2/plan-recording.json`): 91 faults noticed, 100 not. Twelve functions have
@@ -198,20 +222,20 @@ test command does not run the tests that cover it; configure the tests you rely 
 These could not be made mechanical. They stay with the person who takes or reviews the step; the
 [agent skill](../.agents/skills/refactor-in-steps/SKILL.md) names them and does not decide them.
 
-- **Same behaviour.** An accepted step passed the tests and lost no fault sensitivity in the functions that
-  were run. That is not a proof that it behaves the same. Where a function is pure and its inputs are few,
-  compare old and new on all of them yourself (the `verdict()` change was compared on 480 inputs in R89).
-- **What a pin asserts.** A pin is admitted when it passes on the code and fails on the fault. Whether the
-  behaviour it fixes is the wanted one is not checked.
-- **Whether the step is a good one.** Small enough, worth taking, easier to read: no check.
-- **The reason for "out of reach".** It is recorded, not verified.
-- **The reason for an override.** It must be there; nobody checks that it is a good one.
-- **The spec.** `step check` runs the commands tied to criteria; whether the criteria say what the step is
-  for, and whether a criterion without a command is met, is not checked. `kiro-cli check` audits the form of
+- An accepted step is not shown to behave the same. It passed the tests and lost no fault sensitivity in
+  the functions that were run. Where a function is pure and its inputs are few, compare old and new on all
+  of them yourself; the `verdict()` change was compared on 480 inputs in R89.
+- A pin is admitted when it passes on the code and fails on the fault. Whether the behaviour it fixes is
+  the one you want is your call.
+- Nothing checks that a step is worth taking, small enough, or easier to read afterwards.
+- The reason given for "out of reach" is recorded and never verified. The same goes for the reason of an
+  override: it has to be there, and somebody has to read it.
+- `step check` runs the commands a declaration ties to criteria. It does not check that the criteria say
+  what the step is for, or that a criterion without a command is met. `kiro-cli check` audits the form of
   the spec, in the hook, where it is installed.
-- **Fewer noticed faults.** Only unnoticed faults refuse a step. A function in which fewer faults are planted
-  after the step passes; read the numbers in the verdict.
-- **A skipped local hook.** `git push --no-verify` skips it. Only the pipeline job is a boundary.
+- Only unnoticed faults refuse a step. A function in which fewer faults are planted afterwards passes, so
+  read the numbers in the verdict.
+- `git push --no-verify` skips the local hook. The pipeline job is the boundary that holds.
 
 ## Limits
 

@@ -1,0 +1,111 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "shape-checks",
+  "spec": "shape-checks",
+  "base": "37a4e55f1b9397332acc6434783099a631a04918",
+  "revision": "8b856bbd12e398629d3775b4fdb99c940bdc0aa8",
+  "hashes": {
+    "scope": {
+      "src/state.ts": "e6245b544305b07969257b233d178e04a0a2975f"
+    },
+    "tests": "3f2834b1f8cd1e948c1a8265425b64e485da11bc4578f599f285cf1148824d3d",
+    "declaration": "ea72033e2a40f485196b1692088e36ef68c20e45"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 37a4e55, step 8b856bb"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "pass",
+      "detail": "no state write outside the declared frame, or none declared"
+    },
+    {
+      "name": "tests and fault runs",
+      "result": "pass",
+      "detail": "the project's tests pass on the base and on the step"
+    },
+    {
+      "name": "planted faults",
+      "result": "pass",
+      "detail": "in no function are more faults unnoticed after the step than before"
+    },
+    {
+      "name": "evidence for criteria",
+      "result": "pass",
+      "detail": "every tied command passes"
+    }
+  ],
+  "functions_run": {
+    "src/state.ts": [
+      "isPersistedWorkflowState",
+      "load"
+    ]
+  },
+  "functions": [
+    {
+      "file": "src/state.ts",
+      "function": "isPersistedWorkflowState",
+      "before": {
+        "noticed": 3,
+        "unnoticed": 1,
+        "other": 3
+      },
+      "after": {
+        "noticed": 11,
+        "unnoticed": 1,
+        "other": 4
+      },
+      "unnoticed_after": [
+        "#16 line 226 swap_next"
+      ]
+    },
+    {
+      "file": "src/state.ts",
+      "function": "load",
+      "before": {
+        "noticed": 4,
+        "unnoticed": 1,
+        "other": 7
+      },
+      "after": {
+        "noticed": 4,
+        "unnoticed": 1,
+        "other": 7
+      },
+      "unnoticed_after": [
+        "#12 line 64 arg_literal:string->empty@64:39"
+      ]
+    }
+  ],
+  "unmatched_functions": [],
+  "size": {
+    "tokens": [
+      1505,
+      1530
+    ],
+    "nodes": [
+      1301,
+      1318
+    ]
+  },
+  "result": "accepted",
+  "reasons": []
+}

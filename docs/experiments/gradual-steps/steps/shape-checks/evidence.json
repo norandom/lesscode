@@ -1,0 +1,29 @@
+{
+  "receipt": "step-evidence-provisional-v0",
+  "provisional": true,
+  "step": "shape-checks",
+  "spec": "shape-checks",
+  "base": "37a4e55f1b9397332acc6434783099a631a04918",
+  "revision": "8b856bbd12e398629d3775b4fdb99c940bdc0aa8",
+  "hashes": {
+    "scope": {
+      "src/state.ts": "e6245b544305b07969257b233d178e04a0a2975f"
+    },
+    "tests": "3f2834b1f8cd1e948c1a8265425b64e485da11bc4578f599f285cf1148824d3d",
+    "declaration": "ea72033e2a40f485196b1692088e36ef68c20e45"
+  },
+  "criteria": [
+    {
+      "id": "1.2",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "tests/state.test.ts"
+      ],
+      "exit_code": 0,
+      "passed": true
+    }
+  ]
+}

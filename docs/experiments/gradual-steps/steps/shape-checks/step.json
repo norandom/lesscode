@@ -1,0 +1,20 @@
+{
+  "step": "shape-checks", "spec": "shape-checks", "branch": "step/shape-checks",
+  "base": "37a4e55f1b9397332acc6434783099a631a04918",
+  "language": "typescript",
+  "scope": ["src/state.ts"],
+  "test_paths": ["tests/"],
+  "setup": [["pnpm", "install", "--frozen-lockfile"]],
+  "build": ["pnpm", "exec", "tsc", "--noEmit"],
+  "test": ["node", "--import", "tsx", "--test", "tests/state.test.ts"],
+  "run": {"timeout_floor_s": 30, "timeout_ceiling_s": 300, "exclusions": ["node_modules", "dist"],
+          "runner_evidence_patterns": ["tests ", "pass ", "fail "]},
+  "focus": {"src/state.ts": ["isPersistedWorkflowState"]},
+  "max_token_growth": 30,
+  "criteria": [
+    {"id": "1.2", "command": ["node", "--import", "tsx", "--test", "tests/state.test.ts"]}
+  ],
+  "outputs": {"verdict": ".kiro/specs/shape-checks/verdict.json",
+              "evidence": ".kiro/specs/shape-checks/evidence.json",
+              "ledger": ".kiro/steps/ledger.jsonl"}
+}

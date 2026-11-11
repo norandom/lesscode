@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R92 Three real steps through the step tooling, in Rust, Java and TypeScript: all accepted (2026-11-11)
+## Latest: R93 A real step is refused, pinned and accepted; a reused working copy kept its old tests (2026-11-11)
+
+[R93](2026-11-11/19-refused-pinned-accepted.md) closes what R92 left open, as preparation for release 1.2.0.
+- **The step:** in OpenUltraCode, `isPersistedWorkflowState` rewritten to one rule per statement. Refused: unnoticed faults in the function rise from 1 to 7. Nine tests admitted by `step pin`. Accepted: 3 noticed / 1 unnoticed before, 11 / 1 after.
+- **The defect:** between refusal and acceptance stood two wrong refusals. A working copy was reused as it was, so the mutants ran again against the tests without the pins. Releases 1.1.0 and 1.1.1 have the same fault in `deconvolute run`.
+- **The fix:** `aa9d7d7`; a copy follows its source before it is used again. A test that fails without the fix is in the suite.
+- **Still not shown on a real step:** override, release entry, frame specification, out-of-reach mark, push through the installed hook.
+
+## Prior: R92 Three real steps through the step tooling, in Rust, Java and TypeScript: all accepted (2026-11-11)
 
 [R92](2026-11-11/18-three-real-steps.md) is tasks 6.1 and 6.2 of `gradual-refactoring-steps`.
 - **This repository, Rust:** the `verdict()` change refused in R89 is accepted; 11 noticed / 0 unnoticed faults before, 12 / 0 after; 7,307 to 7,306 tokens. Merged into main as `63d456f` by owner decision the same day.

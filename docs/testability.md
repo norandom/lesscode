@@ -13,8 +13,7 @@ to be protected, and you need to know that they are. The tooling gives you three
 3. One answer after each change: do the tests still pass, and do they still notice mistakes in the changed
    code at least as often as before.
 
-Everything else in this document explains why these three are enough for one step, and what they do not
-give you.
+The rest of this page says why these three are enough for one step, and what they do not give you.
 
 ## The situation this is for
 
@@ -29,8 +28,8 @@ The usual advice is to write tests first. That is correct and it does not help m
 say which tests, how many, or when you may stop. Teams answer it with a test-writing initiative that takes
 a quarter, or they skip it and refactor on trust.
 
-There is a third way: make the question small. Not "is this codebase tested" but "is this one function
-protected well enough to change it today".
+There is a third way: make the question small. Ask whether this one function is protected well enough to
+change it today, and leave "is this codebase tested" for another year.
 
 ## The idea: ask the tests, with planted faults
 
@@ -49,8 +48,8 @@ Each planted fault ends in one of two useful states:
 An unnoticed fault is the precise form of "nothing was looking". It names a line and a kind of change that
 your tests accept. If a refactoring made that change by accident, you would not hear about it.
 
-This is mutation testing, and it is not new. What is specific here is what it is used for: not a score for
-the whole codebase, but a yes-or-no for a single step.
+This is mutation testing, and it is not new. It is usually run for a score over a whole codebase. Here it
+answers yes or no for a single step.
 
 ## Three pieces
 
@@ -63,7 +62,7 @@ For one file of this repository, with one of its test files, the plan found 191 
 The tests noticed 91 and let 100 through. Twelve functions had faults planted and none noticed. One
 function, `verdict`, had 11 faults and 10 of them noticed.
 
-That list changes the conversation. The twelve are not candidates for a quick cleanup, whatever they look
+With that list the choice was easy. The twelve are not candidates for a quick cleanup, whatever they look
 like. `verdict` is one test away from being fully protected. So the first step went there.
 
 ### 2. Pins: tests that are proven to protect
@@ -87,8 +86,9 @@ the real pin was admitted, a test that asserted nothing was rejected, and a fail
 Who writes the pin does not matter. A person can, a model can. The tool does not write tests. It decides
 whether a test counts.
 
-Pins are committed by themselves, before the change. A pin that arrives in the same commit as the change
-was never shown against the old code, and the check refuses the step for that.
+Pins are committed by themselves, best before the change. `step pin` always tries a pin against the code
+as it was at the base, so a pin written after a refusal still counts. A pin that arrives in the same commit
+as the change is refused with the step.
 
 ### 3. Seams: what stands in the way
 
@@ -140,7 +140,6 @@ any of them changes afterwards, the verdict no longer matches and the step has t
 
 ## What this is not
 
-It helps to be plain about the limits.
 
 - It does not generate tests. Tools that explore a function's paths and write tests for them exist; this
   is not one. Here a person or a model writes the test and the tool judges it.
@@ -182,9 +181,10 @@ this project says "Pex and Moles" it means that pair of questions, not those too
 
 ## Status
 
-`step plan`, `step pin`, `step check`, `step record` and `step guard` exist and are tested, including a
-push that the installed hook stops. No real step has been taken through all of them from start to finish
-yet; that comes next. See
+`step plan`, `step pin`, `step check`, `step record` and `step guard` are part of release 1.2.0. Four real
+steps have gone through them, in Rust, Java and TypeScript. Three were accepted as they were. The fourth
+was refused, got a pin and was accepted, and on the way it turned up a bug in how working copies were
+reused, which is fixed ([examples](steps.md#examples)). See
 [steps.md](steps.md) for the commands and the spec under
 [.kiro/specs/gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/requirements.md) for the
 requirements.

@@ -1,0 +1,3 @@
+step shape-checks: refused
+  src/state.ts: isPersistedWorkflowState: unnoticed faults rise from 1 to 7: #15 line 224 literal:false->true, #16 line 226 swap_next, #18 line 227 literal:false->true, #20 line 230 literal:false->true, #23 line 236 literal:false->true, #25 line 239 literal:false->true, #28 line 242 swap:&&->||@242:40
+exit 1

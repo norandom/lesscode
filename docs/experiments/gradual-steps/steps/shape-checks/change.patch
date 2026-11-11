@@ -1,0 +1,46 @@
+From b8b8090a29046d7ab692a1b2cbd73182346cac1a Mon Sep 17 00:00:00 2001
+From: Marius Ciepluch <11855163+norandom@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 19:49:00 +0100
+Subject: [PATCH] refactor(state): isPersistedWorkflowState checks one rule per
+ statement
+
+---
+ src/state.ts | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/src/state.ts b/src/state.ts
+index 2855c1b..e6245b5 100644
+--- a/src/state.ts
++++ b/src/state.ts
+@@ -220,13 +220,26 @@ function createCorruptStateNotice(error: unknown): DegradationNotice {
+ }
+ 
+ function isPersistedWorkflowState(value: unknown): value is PersistedWorkflowState {
+-  if (!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== "string") {
++  if (!isRecord(value)) {
++    return false
++  }
++  if (value.schemaVersion !== 1) {
++    return false
++  }
++  if (typeof value.updatedAt !== "string") {
+     return false
+   }
+ 
+   const state = value.state
+ 
+-  return isRecord(state) && state.schemaVersion === 1 && typeof state.mode === "string" && typeof state.phase === "string"
++  if (!isRecord(state)) {
++    return false
++  }
++  if (state.schemaVersion !== 1) {
++    return false
++  }
++
++  return typeof state.mode === "string" && typeof state.phase === "string"
+ }
+ 
+ function isRecord(value: unknown): value is Record<string, unknown> {
+-- 
+2.56.0.windows.3
+

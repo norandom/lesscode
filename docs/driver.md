@@ -18,12 +18,13 @@ input, unsupported language or a void run.
 | --- | --- | --- |
 | `analyze --lang L --source F [--frame-spec S] [--out R]` | Lists the sites of a file by kind, the state-write sites, the function boundaries and the constructs the pack declares as gaps. Exit 1 on a gap or on a write outside the frame specification | no |
 | `mutate --lang L --source F --out-dir D [--out R] [--limit N --seed S]` | Writes every valid mutant of a file into `D`, with a receipt naming site, operator and hash. Exit 1 when there is none | no |
-| `run --config C --work W [--workers N] [--annotations A] [--no-reuse] [--only N,...] --out R` | Mutates the configured files in copies under `W`, runs the project's commands against each mutant and classes it. With `functions` in the configuration (per file, a list of function names) only sites inside those functions are mutated; `--only` runs the mutants with the given numbers of a run with the same configuration. Both after release 1.1.1. Exit 2 when errors remain, 3 when the run is void | no; only the copies change, and each is restored and verified |
+| `run --config C --work W [--workers N] [--annotations A] [--no-reuse] [--only N,...] --out R` | Mutates the configured files in copies under `W`, runs the project's commands against each mutant and classes it. With `functions` in the configuration (per file, a list of function names) only sites inside those functions are mutated; `--only` runs the mutants with the given numbers of a run with the same configuration. Both from release 1.2.0. Exit 2 when errors remain, 3 when the run is void | no; only the copies change, and each is restored and verified |
 | `admit-pack --pack P --lang L [--controls K --source-root S] [--out R]` | Checks a language pack before it is used. Exit 1 when it is rejected | no |
 | `merge-annotations --config C [--min N] --out M LIST...` | Validates several annotation lists and writes the annotations of the sites that at least N lists name (default 2), for use with `run --annotations`. Exit 1 when no site is kept. From release 1.1.1 | no |
 
-`run` is the one command that executes a project's commands. It refuses a work directory that is the source
-root, lies inside it or contains it.
+`run` is the one command of this group that executes a project's commands. It refuses a work directory that
+is the source root, lies inside it or contains it. The `step` commands `plan`, `pin` and `check`
+([refactoring in checked steps](steps.md), from release 1.2.0) run the same engine under the same rule.
 
 ## Annotations and why to merge them
 
@@ -97,6 +98,11 @@ A JSON file. Commands are argument vectors; nothing is passed through a shell.
 ```
 
 - `source_root` is relative to the configuration file. `setup` runs once in each fresh copy.
+- A copy under `W` is used again by later runs, with what its builds left in it. Before that, the files
+  that changed or are new in the source root are copied into it and the files that are gone are removed;
+  if anything changed, `setup` runs again. This is new in release 1.2.0. Releases 1.1.0 and 1.1.1 used the
+  copy as it was, so after a change to a test or to a file that is not mutated they ran against the old
+  files. With those releases, use a fresh work directory after such a change.
 - The time limit of a step is `timeout_factor` times the slowest unmutated run of that step, at least the
   floor and at most the ceiling. An argument containing `{limit_s}` receives that limit in seconds; with
   `timeout_exit_codes` this lets a command that works inside a container stop itself and be classed as a
@@ -111,8 +117,8 @@ A JSON file. Commands are argument vectors; nothing is passed through a shell.
   shows the end of the failing output.
 - Outcomes are stored under `W/outcomes` by the hash of the original file, the mutated text, the
   configuration and, where `test_paths` are declared, the files under them; they are reused by later runs
-  unless `--no-reuse` is given. A changed or added test file therefore makes the mutants run again (after
-  release 1.1.1; the receipt records the hash as `test_files_sha256`). Two limits remain: without
+  unless `--no-reuse` is given. A changed or added test file therefore makes the mutants run again (from
+  release 1.2.0; a store written by an earlier release no longer matches and is left alone; the receipt records the hash as `test_files_sha256`). Two limits remain: without
   `test_paths` the tests are not part of the key, and a change to another source file that is neither
   mutated nor a test is not seen. In both cases use `--no-reuse` or a fresh work directory.
 
