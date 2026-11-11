@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R88 Prototype gate for gradual refactoring: a step can be judged from two fault runs, and pinning first makes it pass (2026-11-11)
+## Latest: R89 The first tracked step: the pins are accepted, the change is refused by a guard this repository already had (2026-11-11)
+
+[R89](2026-11-11/15-first-tracked-step.md) takes the first real step by hand on a clone, for `gradual-refactoring-steps` (requirements generated, not approved).
+- **Pins, accepted:** one test fixes the order of the reasons `verdict()` returns; planted faults noticed in the function 10 of 11 to 11 of 11. Branch `step/verdict-one-exit`, pushed for review, not merged.
+- **Change, refused:** identical results on 480 inputs, format and lints clean, but the file grows from 969 to 972 lines against a frozen ceiling of 969; and it removes one token. Kept as a patch.
+- **Point:** the refusal came from a hard boundary (the complexity budget), not from a skill or a reviewer.
+- **Releases:** 1.1.0 and 1.1.1 are published and verified (signatures, checksums, attestation, install script, Zenodo).
+
+## Prior: R88 Prototype gate for gradual refactoring: a step can be judged from two fault runs, and pinning first makes it pass (2026-11-11)
 
 [R88](2026-11-11/14-gradual-steps-prototype-gate.md) is the prototype gate of the brief `.kiro/specs/gradual-refactoring-steps/brief.md`, after the owner asked whether code is healthy and working after a change and whether refactoring can be supported step by step.
 - **Method:** `deconvolute run` before and after a step, compared function by function; refused when unnoticed faults rise.

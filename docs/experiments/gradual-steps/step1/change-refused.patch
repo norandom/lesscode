@@ -1,0 +1,60 @@
+From 36987101f74c13ae9f84ab79f3e3906155f1371a Mon Sep 17 00:00:00 2001
+From: Marius Ciepluch <wishinet@gmail.com>
+Date: Wed, 11 Nov 2026 13:31:51 +0100
+Subject: [PATCH] refactor(recording): verdict() collects its reasons in one
+ pass and returns once
+
+Step verdict-one-exit, the change. The reasons list is set up once
+instead of inside a branch, the three checks follow each other, and
+there is one return. Compared with the function as it was on 480
+combinations of exit code, freshness, difference count and evidence
+path: identical results. By syntax the file is one token smaller; this
+step reshapes control flow, it does not remove code.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ native/src/recording.rs | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/native/src/recording.rs b/native/src/recording.rs
+index f271a22..da63888 100644
+--- a/native/src/recording.rs
++++ b/native/src/recording.rs
+@@ -856,11 +856,10 @@ pub fn verdict(
+     level2_ops: i64,
+     query_evidence: Option<&Path>,
+ ) -> (i32, Vec<String>) {
+-    let mut reasons = if arm_exit == 0 {
+-        Vec::new()
+-    } else {
+-        vec![format!("arm exit {arm_exit}")]
+-    };
++    let mut reasons = Vec::new();
++    if arm_exit != 0 {
++        reasons.push(format!("arm exit {arm_exit}"));
++    }
+     if !fresh {
+         reasons.push("replay not fresh or short of golden coverage".into());
+     }
+@@ -869,10 +868,14 @@ pub fn verdict(
+             "{level2_ops} L2 differences without query-differential evidence"
+         ));
+     }
+-    if reasons.is_empty() {
+-        return (0, reasons);
+-    }
+-    (if arm_exit == 2 { 2 } else { 1 }, reasons)
++    let code = if reasons.is_empty() {
++        0
++    } else if arm_exit == 2 {
++        2
++    } else {
++        1
++    };
++    (code, reasons)
+ }
+ 
+ /// The arm environment: thread caps, warning silencers, module path.
+-- 
+2.56.0.windows.3
+

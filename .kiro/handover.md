@@ -8,6 +8,11 @@ active implementation queue.
 
 Start with the [task 34 handover](task_34_handover.md).
 
+0. **State at 14:00 on 2026-11-11:** releases 1.1.0 and 1.1.1 are published and verified. Requirements for
+   `gradual-refactoring-steps` are generated and wait for approval. First tracked step
+   ([R89](../docs/research/2026-11-11/15-first-tracked-step.md)): the pins are on the pushed branch
+   `step/verdict-one-exit` (accepted, not merged); the change is refused by the complexity budget and kept
+   as a patch.
 0. **Next, the owner's question of 2026-11-11:** is the code healthy and working after a change, and can a
    refactoring be supported step by step, release by release? Discovery brief, not approved:
    [specs/gradual-refactoring-steps/brief.md](specs/gradual-refactoring-steps/brief.md). `v1.1.1` is tagged on
