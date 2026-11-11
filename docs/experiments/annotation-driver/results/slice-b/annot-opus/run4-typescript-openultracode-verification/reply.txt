@@ -1,0 +1,22 @@
+```json
+[
+  {"file": "src/verification.ts", "start_line": 19, "end_line": 19, "kind": "branch_condition", "anchor": "criterion.status !== \"not-applicable\"", "reason": "Decides which criteria count toward the gate, so it changes the missing-evidence and no-criteria outcomes."},
+  {"file": "src/verification.ts", "start_line": 24, "end_line": 24, "kind": "branch_condition", "anchor": "evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id)", "reason": "Decides whether a criterion has passing evidence, which controls missing IDs and a verified status."},
+  {"file": "src/verification.ts", "start_line": 27, "end_line": 27, "kind": "branch_condition", "anchor": "hasNoApplicableCriteria && input.evidence.length === 0", "reason": "Detects the no-evidence case, which changes the status, the risks and the summary text."},
+  {"file": "src/verification.ts", "start_line": 78, "end_line": 78, "kind": "branch_condition", "anchor": "researchOnly && policy === \"disabled\"", "reason": "Decides when the research-only status overrides blocked or failed evidence."},
+  {"file": "src/verification.ts", "start_line": 78, "end_line": 80, "kind": "error_order", "anchor": "if (researchOnly && policy === \"disabled\") {\n    return \"research-only\"\n  }", "reason": "The research-only check runs before the blocked check, so blocked evidence is hidden in that mode."},
+  {"file": "src/verification.ts", "start_line": 82, "end_line": 82, "kind": "branch_condition", "anchor": "blocked.length > 0", "reason": "Any blocked evidence makes the status blocked."},
+  {"file": "src/verification.ts", "start_line": 82, "end_line": 84, "kind": "error_order", "anchor": "if (blocked.length > 0) {\n    return \"blocked\"\n  }", "reason": "Blocked takes precedence over failed when both are present."},
+  {"file": "src/verification.ts", "start_line": 86, "end_line": 86, "kind": "branch_condition", "anchor": "failed.length > 0", "reason": "Any failed evidence makes the status failed."},
+  {"file": "src/verification.ts", "start_line": 86, "end_line": 88, "kind": "error_order", "anchor": "if (failed.length > 0) {\n    return \"failed\"\n  }", "reason": "Failed is reported before the disabled-policy partial status."},
+  {"file": "src/verification.ts", "start_line": 90, "end_line": 90, "kind": "branch_condition", "anchor": "policy === \"disabled\"", "reason": "A disabled policy prevents a verified status."},
+  {"file": "src/verification.ts", "start_line": 102, "end_line": 102, "kind": "branch_condition", "anchor": "missingCriterionIds.length === 0 && notRun.length === 0", "reason": "This is the sole gate for claiming a verified completion."},
+  {"file": "src/verification.ts", "start_line": 113, "end_line": 113, "kind": "branch_condition", "anchor": "criterion.status === \"not-applicable\"", "reason": "Keeps not-applicable criteria unchanged instead of reclassifying them."},
+  {"file": "src/verification.ts", "start_line": 118, "end_line": 118, "kind": "branch_condition", "anchor": "mappedEvidence.some((item) => item.result === \"pass\")", "reason": "Decides whether a reported criterion is verified or unverified."},
+  {"file": "src/verification.ts", "start_line": 148, "end_line": 148, "kind": "branch_condition", "anchor": "item.residualRisk !== undefined", "reason": "Controls whether residual risks from passing evidence appear in unresolved risks."},
+  {"file": "src/verification.ts", "start_line": 153, "end_line": 153, "kind": "branch_condition", "anchor": "policy === \"disabled\" && evidence.length === 0", "reason": "Selects the disabled-gate risk message over the generic no-evidence messages."},
+  {"file": "src/verification.ts", "start_line": 185, "end_line": 185, "kind": "branch_condition", "anchor": "status === \"verified\"", "reason": "Selects the verified summary text."},
+  {"file": "src/verification.ts", "start_line": 205, "end_line": 205, "kind": "branch_condition", "anchor": "values.length === 0", "reason": "Empty detail lists are dropped from the summary."},
+  {"file": "src/verification.ts", "start_line": 204, "end_line": 210, "kind": "pure_shell_boundary", "anchor": "function formatDetail(label: string, values: readonly string[]): string {\n  if (values.length === 0) {\n    return \"\"\n  }\n\n  return `${label}: ${values.join(\", \")}.`\n}", "reason": "A pure formatter whose output feeds the summary text."}
+]
+```

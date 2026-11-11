@@ -1,0 +1,144 @@
+```json
+[
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 60,
+    "end_line": 69,
+    "kind": "pure_shell_boundary",
+    "anchor": "pub fn parse(args: &[String]) -> Result<Self, String> {\n        let setup = SetupArgs::parse(args)?;\n        if setup.bootstrap.is_some() {\n            return Err(\"--bootstrap\".to_owned());\n        }\n        Ok(Self {\n            release_dir: setup.release_dir,\n            restarted: setup.restarted,\n        })\n    }",
+    "reason": "Pure argument parsing; a change here alters which UpdateArgs or Err every caller of update gets."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 61,
+    "end_line": 61,
+    "kind": "failure_state",
+    "anchor": "SetupArgs::parse(args)?",
+    "reason": "An argument-parse error is passed straight back to the caller as Err."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 62,
+    "end_line": 62,
+    "kind": "branch_condition",
+    "anchor": "setup.bootstrap.is_some()",
+    "reason": "Decides whether `update --bootstrap` is rejected with Err instead of parsed."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 63,
+    "end_line": 63,
+    "kind": "failure_state",
+    "anchor": "return Err(\"--bootstrap\".to_owned())",
+    "reason": "Signals the rejected --bootstrap argument to the caller as Err."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 71,
+    "end_line": 77,
+    "kind": "pure_shell_boundary",
+    "anchor": "fn setup_args(&self) -> SetupArgs {\n        SetupArgs {\n            bootstrap: None,\n            release_dir: self.release_dir.clone(),\n            restarted: self.restarted.clone(),\n        }\n    }",
+    "reason": "Pure conversion shell; callers observe exactly the forwarded SetupArgs it returns."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 82,
+    "end_line": 88,
+    "kind": "pure_shell_boundary",
+    "anchor": "pub fn refuse_without_terminal(mode: Mode, out: &mut dyn Write) -> Option<i32> {\n    if mode != Mode::NoTerminal {\n        return None;\n    }\n    let _ = writeln!(out, \"{}\", text::update::NEEDS_TERMINAL);\n    Some(EXIT_NEEDS_TERMINAL)\n}",
+    "reason": "Effect shell: it only writes the needs-terminal message and yields the refusal code."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 83,
+    "end_line": 83,
+    "kind": "branch_condition",
+    "anchor": "mode != Mode::NoTerminal",
+    "reason": "Decides whether the run may proceed or is refused with EXIT_NEEDS_TERMINAL."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 87,
+    "end_line": 87,
+    "kind": "failure_state",
+    "anchor": "Some(EXIT_NEEDS_TERMINAL)",
+    "reason": "Returns the needs-terminal exit code that the process caller observes."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 91,
+    "end_line": 114,
+    "kind": "pure_shell_boundary",
+    "anchor": "pub fn run(args: UpdateArgs) -> i32 {\n    if let Some(code) = refuse_without_terminal(super::current_mode(), &mut std::io::stdout()) {\n        return code;\n    }\n    let setup = args.setup_args();\n    if let Some(code) = super::missing_release_dir(&setup) {\n        return code;\n    }\n    let Some(mut deps) = super::process_deps(&setup) else {\n        eprintln!(\"{}\", text::NO_HOME);\n        return 1;\n    };\n    deps.restart.command = Command::Update;\n    let mut flow = Flow::load(deps);\n    let source = flow.release_source();\n    let lookup = move || super::newest_within(source, NEWEST_WAIT);\n    let code = session(\n        &mut flow,\n        lookup,\n        &mut std::io::stdin().lock(),\n        &mut std::io::stdout().lock(),\n    );\n    super::restarted(&flow).unwrap_or(code)\n}",
+    "reason": "Entry-point effect shell; only orchestrates IO and returns the process exit code."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 92,
+    "end_line": 92,
+    "kind": "branch_condition",
+    "anchor": "let Some(code) = refuse_without_terminal(super::current_mode(), &mut std::io::stdout())",
+    "reason": "Without a terminal the run early-returns the refusal code instead of updating."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 92,
+    "end_line": 94,
+    "kind": "error_order",
+    "anchor": "if let Some(code) = refuse_without_terminal(super::current_mode(), &mut std::io::stdout()) {\n        return code;\n    }",
+    "reason": "The terminal refusal is acted on before the missing-release-dir check that follows it."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 96,
+    "end_line": 96,
+    "kind": "branch_condition",
+    "anchor": "let Some(code) = super::missing_release_dir(&setup)",
+    "reason": "A missing release dir makes the run return early with that check's code."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 96,
+    "end_line": 98,
+    "kind": "error_order",
+    "anchor": "if let Some(code) = super::missing_release_dir(&setup) {\n        return code;\n    }",
+    "reason": "The missing-release-dir result is reported before the no-home check that directly follows."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 99,
+    "end_line": 99,
+    "kind": "branch_condition",
+    "anchor": "super::process_deps(&setup)",
+    "reason": "When deps cannot be built the run falls into the no-home error path instead of updating."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 101,
+    "end_line": 101,
+    "kind": "failure_state",
+    "anchor": "return 1",
+    "reason": "No home directory: nothing could be done, so the caller sees exit code 1."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 103,
+    "end_line": 103,
+    "kind": "state_write",
+    "anchor": "deps.restart.command = Command::Update",
+    "reason": "Marks the flow as an update, which the later restart path reads."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 113,
+    "end_line": 113,
+    "kind": "failure_state",
+    "anchor": "super::restarted(&flow).unwrap_or(code)",
+    "reason": "The process exit code returned to the caller prefers the restarted program's code."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 158,
+    "end_line": 232,
+    "kind": "pure_shell_boundary",
+    "anchor": "pub fn session(\n    flow: &mut Flow,\n    lookup: impl FnOnce() -> Newest,\n    input: &mut dyn BufRead,\n    out: &mut dyn Write,\n) -> i32 {\n    let mut p = Prompt { input, out };\n    if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\n    }\n    if flow.record().is_none() {\n        p.say(text::update::NOT_SET_UP);\n        return EXIT_NOT_SET_UP;\n    }\n    p.say(text::update::CHECKING_NEWEST);\n    flow.set_newest(lookup());\n    let installed = flow.installed_release();\n    if *flow.newest() == Newest::Unknown {\n        p.say(text::update::NEWEST_UNKNOWN);\n        return 1;\n    }\n    let Some(newest) = flow.newer_release() else {\n        p.say(&text::update::up_to_date(installed.as_str()));\n        return 0;\n    };\n    p.say(&text::update::available(\n        installed.as_str(),\n        newest.as_str(),\n    ));\n    p.say(text::update::KEEPS_CHOICES);\n    if !p.yes(text::update::PROMPT_UPDATE) {\n        p.say(text::update::NOTHING_CHANGED);\n        return EXIT_CANCELLED;\n    }\n    if let Some(note) = flow.update_refusal() {\n        p.say(note);\n        return 1;\n    }\n    // One progress line (bytes, percent, speed, time left) while the\n    // release downloads (bugfix 2026-11-07: a frozen \"Downloading…\").\n    let reporter = crate::setup::download_line::Reporter::stderr(newest.as_str());\n    let hook = reporter.hook();\n    p.start(&text::update::downloading(newest.as_str()));\n    match flow.begin_with(&HomeAction::UpdateTo(newest.clone()), hook) {\n        Next::Restart => {\n            reporter.finish();\n            p.say(&format!(\" {}\", text::update::VERIFIED));\n            0\n        }\n        // The release is this program's own (or no restart is set up): go\n        // on here with the files of this program.\n        Next::Review => {\n            reporter.finish();\n            p.say(&format!(\" {}\", text::update::VERIFIED));\n            finish(\n                flow,\n                &mut p,\n                newest.as_str(),\n                Some(text::update::CHANGES_KEPT),\n            )\n        }\n        Next::Note(note) => {\n            reporter.finish();\n            p.say(\"\");\n            if note == text::UPDATE_FAILED\n                && let Some(reason) =

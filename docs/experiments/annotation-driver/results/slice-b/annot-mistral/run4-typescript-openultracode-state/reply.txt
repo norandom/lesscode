@@ -1,0 +1,39 @@
+```json
+[
+  {
+    "file": "src/state.ts",
+    "start_line": 27,
+    "end_line": 27,
+    "kind": "state_write",
+    "anchor": "const mutationQueues: Map<string, Promise<unknown>> = ((globalThis as Record<symbol, unknown>)[Symbol.for(\"open-ultracode.state-queues\")] ??= new Map<string, Promise<unknown>>()) as Map<string, Promise<unknown>>",
+    "reason": "Registers the shared per-process mutation queue map on globalThis, which every plugin instance reads to serialize state-file writes."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 50,
+    "end_line": 50,
+    "kind": "branch_condition",
+    "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+    "reason": "Decides whether a missing state file yields an empty result or is rethrown as an I/O error."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 54,
+    "end_line": 54,
+    "kind": "failure_state",
+    "anchor": "throw error",
+    "reason": "Non-ENOENT read errors are thrown to the caller instead of being treated as a missing file."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 61,
+    "end_line": 61,
+    "kind": "failure_state",
+    "anchor": "return backupCorrupt(error)",
+    "reason": "A JSON parse failure is passed on to the caller as a corrupt-state degradation after the file is backed up."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 63,
+    "end_line": 63,
+    "kind

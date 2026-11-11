@@ -1,0 +1,28 @@
+{
+ "scope": "java-commons-csv-lexer",
+ "scope_revision": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+ "api_style": "openai",
+ "base_url_host": "api.mistral.ai",
+ "requested_model": "mistral-large-4",
+ "returned_model": "mistral-large-4",
+ "guide_path": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\guide-v2.md",
+ "guide_sha256": "d32113204c3f6239a59575f0e5626d420332ac034a1bea69e6df7627d57ab6b2",
+ "user_template_sha256": "b2030459c0133c1496e74521256b39f931f96abf87b68689b2648f93b88aba1c",
+ "user_message_sha256": "cf1da6f3994ea2d448923bd78a5211f37ffc5da9a871bdc53a64c6594bfae07b",
+ "scope_files_sha256": {
+  "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+ },
+ "max_output_tokens": 32000,
+ "attempts": 1,
+ "input_tokens": 7508,
+ "output_tokens": 32000,
+ "stop_reason": "length",
+ "parse": "parse_failed",
+ "leniency": [],
+ "annotations": null,
+ "wall_seconds": 350.303,
+ "started_utc": "2026-11-11T08:26:48+00:00",
+ "dry_run": false,
+ "exit_code": 2,
+ "error": null
+}

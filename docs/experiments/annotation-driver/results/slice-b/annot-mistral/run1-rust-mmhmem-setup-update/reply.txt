@@ -1,0 +1,332 @@
+```json
+[
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 61,
+    "end_line": 61,
+    "kind": "failure_state",
+    "anchor": "let setup = SetupArgs::parse(args)?",
+    "reason": "An argument-parse error is passed straight back to the caller of UpdateArgs::parse."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 62,
+    "end_line": 62,
+    "kind": "branch_condition",
+    "anchor": "setup.bootstrap.is_some()",
+    "reason": "A --bootstrap argument makes update reject the args instead of accepting them."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 63,
+    "end_line": 63,
+    "kind": "failure_state",
+    "anchor": "return Err(\"--bootstrap\".to_owned())",
+    "reason": "The Err tells the caller that --bootstrap is not valid for update."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 83,
+    "end_line": 83,
+    "kind": "branch_condition",
+    "anchor": "mode != Mode::NoTerminal",
+    "reason": "Only NoTerminal mode is refused; every other mode lets the run continue."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 87,
+    "end_line": 87,
+    "kind": "failure_state",
+    "anchor": "Some(EXIT_NEEDS_TERMINAL)",
+    "reason": "Returns the EXIT_NEEDS_TERMINAL code that the caller exits with."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 92,
+    "end_line": 92,
+    "kind": "branch_condition",
+    "anchor": "let Some(code) = refuse_without_terminal(super::current_mode(), &mut std::io::stdout())",
+    "reason": "A terminal refusal short-circuits run before anything is read or changed."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 93,
+    "end_line": 93,
+    "kind": "failure_state",
+    "anchor": "return code",
+    "reason": "The refusal exit code is returned to the process caller."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 96,
+    "end_line": 96,
+    "kind": "branch_condition",
+    "anchor": "let Some(code) = super::missing_release_dir(&setup)",
+    "reason": "A missing or invalid release dir stops the update run early."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 96,
+    "end_line": 98,
+    "kind": "error_order",
+    "anchor": "if let Some(code) = super::missing_release_dir(&setup) {\n        return code;\n    }",
+    "reason": "This check runs before the process-deps check, so which of the two problems is reported first is decided here."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 97,
+    "end_line": 97,
+    "kind": "failure_state",
+    "anchor": "return code",
+    "reason": "The missing-release-dir exit code is returned to the caller."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 99,
+    "end_line": 99,
+    "kind": "branch_condition",
+    "anchor": "super::process_deps(&setup)",
+    "reason": "No process deps (no home) decides between the NO_HOME/exit-1 path and continuing."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 101,
+    "end_line": 101,
+    "kind": "failure_state",
+    "anchor": "return 1",
+    "reason": "Exit 1 signals that nothing could be done because there is no home."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 103,
+    "end_line": 103,
+    "kind": "state_write",
+    "anchor": "deps.restart.command = Command::Update",
+    "reason": "Sets the restart command that super::restarted reads when choosing the returned exit code."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 113,
+    "end_line": 113,
+    "kind": "branch_condition",
+    "anchor": "super::restarted(&flow).unwrap_or(code)",
+    "reason": "The process exit code is the restarted run's code when present, otherwise the session's code."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 142,
+    "end_line": 142,
+    "kind": "failure_state",
+    "anchor": "return false",
+    "reason": "End of input or a read error counts as 'no', which callers turn into EXIT_CANCELLED."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 165,
+    "end_line": 165,
+    "kind": "branch_condition",
+    "anchor": "let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume()",
+    "reason": "A resumed run goes straight to finish instead of the normal update flow."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 165,
+    "end_line": 167,
+    "kind": "error_order",
+    "anchor": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\n    }",
+    "reason": "The resume check runs before the not-set-up check, so a resumed run takes precedence over the EXIT_NOT_SET_UP path."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 168,
+    "end_line": 168,
+    "kind": "branch_condition",
+    "anchor": "flow.record().is_none()",
+    "reason": "Without an install record the session prints NOT_SET_UP and stops."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 170,
+    "end_line": 170,
+    "kind": "failure_state",
+    "anchor": "return EXIT_NOT_SET_UP",
+    "reason": "Returns EXIT_NOT_SET_UP when the system is not installed yet."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 173,
+    "end_line": 173,
+    "kind": "state_write",
+    "anchor": "flow.set_newest(lookup())",
+    "reason": "Stores the lookup result that the newest/newer checks on the following lines read."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 175,
+    "end_line": 175,
+    "kind": "branch_condition",
+    "anchor": "*flow.newest() == Newest::Unknown",
+    "reason": "An unknown newest release exits 1 before any update is offered."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 175,
+    "end_line": 178,
+    "kind": "error_order",
+    "anchor": "if *flow.newest() == Newest::Unknown {\n        p.say(text::update::NEWEST_UNKNOWN);\n        return 1;\n    }",
+    "reason": "This check is acted on before the newer-release check, so 'unknown' is reported instead of 'up to date'."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 177,
+    "end_line": 177,
+    "kind": "failure_state",
+    "anchor": "return 1",
+    "reason": "Exit 1 when the newest release could not be determined."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 179,
+    "end_line": 179,
+    "kind": "branch_condition",
+    "anchor": "flow.newer_release()",
+    "reason": "No newer release means 'up to date' and exit 0 instead of the update path."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 188,
+    "end_line": 188,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+    "reason": "Answering no to the update prompt changes nothing."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 190,
+    "end_line": 190,
+    "kind": "failure_state",
+    "anchor": "return EXIT_CANCELLED",
+    "reason": "Declining the update returns EXIT_CANCELLED."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 192,
+    "end_line": 192,
+    "kind": "branch_condition",
+    "anchor": "let Some(note) = flow.update_refusal()",
+    "reason": "A refusal (e.g. no trusted key) is reported instead of starting the update."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 194,
+    "end_line": 194,
+    "kind": "failure_state",
+    "anchor": "return 1",
+    "reason": "The refusal path exits with code 1."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 222,
+    "end_line": 223,
+    "kind": "branch_condition",
+    "anchor": "note == text::UPDATE_FAILED\n                && let Some(reason) = flow.last_note()",
+    "reason": "The underlying failure reason is only printed when the note is UPDATE_FAILED and a reason exists."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 238,
+    "end_line": 238,
+    "kind": "failure_state",
+    "anchor": "let (recorded, brought) = flow.bootstrap_offer()?",
+    "reason": "When there is no bootstrap offer, None is passed back to the caller so the normal menu opens."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 243,
+    "end_line": 243,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+    "reason": "Answering no to the bootstrap offer leaves even the program unchanged."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 245,
+    "end_line": 245,
+    "kind": "failure_state",
+    "anchor": "return Some(EXIT_CANCELLED)",
+    "reason": "Declining the bootstrap offer returns Some(EXIT_CANCELLED)."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 247,
+    "end_line": 247,
+    "kind": "state_write",
+    "anchor": "flow.plan_recorded()",
+    "reason": "Plans the recorded choices; the plan is what finish then reviews and applies."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 257,
+    "end_line": 257,
+    "kind": "branch_condition",
+    "anchor": "view.groups.is_empty() && view.problems.is_empty()",
+    "reason": "An empty review means only a check runs and no apply question is asked."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 260,
+    "end_line": 260,
+    "kind": "branch_condition",
+    "anchor": "kept.is_some()",
+    "reason": "The 'updated' line is only printed when the caller passed a kept message."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 265,
+    "end_line": 265,
+    "kind": "branch_condition",
+    "anchor": "!p.yes(text::update::PROMPT_APPLY)",
+    "reason": "Declining the apply prompt keeps the files as they are."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 267,
+    "end_line": 267,
+    "kind": "failure_state",
+    "anchor": "return EXIT_CANCELLED",
+    "reason": "Declining the changes returns EXIT_CANCELLED."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 271,
+    "end_line": 271,
+    "kind": "state_write",
+    "anchor": "flow.apply_update()",
+    "reason": "Applies the planned update; the result lines and exit code are read afterwards."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 279,
+    "end_line": 290,
+    "kind": "pure_shell_boundary",
+    "anchor": "fn changes(p: &mut Prompt, view: &ReviewView) {\n    for group in &view.groups {\n        p.say(&group.file);\n        for item in &group.items {\n            p.say(&format!(\"  {} {}\", item.mark, item.summary));\n        }\n    }\n    if !view.problems.is_empty() {\n        p.say(text::REVIEW_PROBLEMS);\n        view.problems.iter().for_each(|l| p.say(l));\n    }\n}",
+    "reason": "Only performs output effects from its arguments; it changes no state a caller reads back."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 293,
+    "end_line": 307,
+    "kind": "pure_shell_boundary",
+    "anchor": "fn result_lines(flow: &Flow) -> Vec<String> {\n    let mut lines: Vec<String> = flow\n        .progress()\n        .map(|p| p.all_lines())\n        .unwrap_or_default()\n        .into_iter()\n        .filter(|l| l != text::CHECKING)\n        .collect();\n    let blank = lines.iter().take_while(|l| l.is_empty()).count();\n    lines.drain(..blank);\n    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\n        lines.push(text::update::DONE.to_owned());\n    }\n    lines\n}",
+    "reason": "Only computes the result lines from the flow; it performs no effects."
+  },
+  {
+    "file": "src/setup/ui/update.rs",
+    "start_line": 303,
+    "end_line": 303,
+    "kind": "branch_condition",
+    "anchor": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())",
+    "reason": "The DONE line is only added to the output when the exit code is 0 and no next steps remain."
+  }
+]
+```

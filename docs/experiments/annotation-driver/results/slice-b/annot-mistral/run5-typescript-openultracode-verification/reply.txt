@@ -1,0 +1,396 @@
+```json
+[
+  {
+    "file": "src/verification.ts",
+    "start_line": 19,
+    "end_line": 19,
+    "kind": "branch_condition",
+    "anchor": "criterion.status !== \"not-applicable\"",
+    "reason": "Decides which criteria count as applicable, which drives status, missing-evidence risks and the summary."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 20,
+    "end_line": 20,
+    "kind": "branch_condition",
+    "anchor": "evidence.result === \"fail\"",
+    "reason": "Selects failed evidence, which can force the report status to \"failed\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 21,
+    "end_line": 21,
+    "kind": "branch_condition",
+    "anchor": "evidence.result === \"blocked\"",
+    "reason": "Selects blocked evidence, which can force the report status to \"blocked\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 22,
+    "end_line": 22,
+    "kind": "branch_condition",
+    "anchor": "evidence.result === \"not-run\"",
+    "reason": "Selects not-run evidence, which prevents a \"verified\" status and appears in the summary."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 24,
+    "end_line": 24,
+    "kind": "branch_condition",
+    "anchor": "!input.evidence.some((evidence) => evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id))",
+    "reason": "Decides whether a criterion is reported as missing passing evidence, affecting status, risks and summary."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 26,
+    "end_line": 26,
+    "kind": "branch_condition",
+    "anchor": "applicableCriteria.length === 0",
+    "reason": "Sets the no-applicable-criteria flag that changes status, risks and summary wording."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 27,
+    "end_line": 27,
+    "kind": "branch_condition",
+    "anchor": "hasNoApplicableCriteria && input.evidence.length === 0",
+    "reason": "Sets the no-gate-evidence flag that changes status and the risk/summary messages."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 18,
+    "end_line": 66,
+    "kind": "pure_shell_boundary",
+    "anchor": "export function evaluateCompletion(input: CompletionGateInput): CompletionReport {\n  const applicableCriteria = input.criteria.filter((criterion) => criterion.status !== \"not-applicable\")\n  const failed = input.evidence.filter((evidence) => evidence.result === \"fail\")\n  const blocked = input.evidence.filter((evidence) => evidence.result === \"blocked\")\n  const notRun = input.evidence.filter((evidence) => evidence.result === \"not-run\")\n  const missingCriterionIds = applicableCriteria\n    .filter((criterion) => !input.evidence.some((evidence) => evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id)))\n    .map((criterion) => criterion.id)\n  const hasNoApplicableCriteria = applicableCriteria.length === 0\n  const hasNoGateEvidence = hasNoApplicableCriteria && input.evidence.length === 0\n  const unresolvedRisks = collectUnresolvedRisks(\n    input.criteria,\n    input.evidence,\n    missingCriterionIds,\n    input.policy,\n    hasNoApplicableCriteria,\n    hasNoGateEvidence\n  )\n  const status = classifyCompletion(\n    input.policy,\n    input.researchOnly === true,\n    missingCriterionIds,\n    failed,\n    blocked,\n    notRun,\n    hasNoApplicableCriteria,\n    hasNoGateEvidence\n  )\n  const criteria = input.criteria.map((criterion) => classifyCriterion(criterion, input.evidence))\n\n  return {\n    status,\n    summary: summarizeCompletion(\n      status,\n      input.policy,\n      missingCriterionIds,\n      failed,\n      blocked,\n      notRun,\n      hasNoApplicableCriteria,\n      hasNoGateEvidence\n    ),\n    criteria,\n    unresolvedRisks,\n    verificationIds: input.evidence.map((evidence) => evidence.id),\n    findingIds: input.findingIds ?? [],\n    assumptions: input.assumptions ?? []\n  }\n}",
+    "reason": "The exported gate evaluation computes the entire caller-visible report purely from its input."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 78,
+    "end_line": 78,
+    "kind": "branch_condition",
+    "anchor": "researchOnly && policy === \"disabled\"",
+    "reason": "Decides whether the report status becomes \"research-only\" instead of any evidence-based status."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 78,
+    "end_line": 80,
+    "kind": "error_order",
+    "anchor": "if (researchOnly && policy === \"disabled\") {\n    return \"research-only\"\n  }",
+    "reason": "When research-only with a disabled gate and blocked/failed evidence coincide, this check runs first and the caller sees \"research-only\" rather than \"blocked\" or \"failed\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 82,
+    "end_line": 82,
+    "kind": "branch_condition",
+    "anchor": "blocked.length > 0",
+    "reason": "Any blocked evidence forces the report status to \"blocked\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 82,
+    "end_line": 84,
+    "kind": "error_order",
+    "anchor": "if (blocked.length > 0) {\n    return \"blocked\"\n  }",
+    "reason": "When evidence is both blocked and failed, this check is evaluated first and the caller observes \"blocked\" rather than \"failed\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 83,
+    "end_line": 83,
+    "kind": "failure_state",
+    "anchor": "return \"blocked\"",
+    "reason": "Signals the blocked failure outcome to the caller in the report status."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 86,
+    "end_line": 86,
+    "kind": "branch_condition",
+    "anchor": "failed.length > 0",
+    "reason": "Any failed evidence forces the report status to \"failed\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 86,
+    "end_line": 88,
+    "kind": "error_order",
+    "anchor": "if (failed.length > 0) {\n    return \"failed\"\n  }",
+    "reason": "When evidence is failed and the gate policy is disabled, this check runs before the disabled-policy check, so the caller sees \"failed\" rather than \"partial\" or \"research-only\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 87,
+    "end_line": 87,
+    "kind": "failure_state",
+    "anchor": "return \"failed\"",
+    "reason": "Signals the failed outcome to the caller in the report status."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 90,
+    "end_line": 90,
+    "kind": "branch_condition",
+    "anchor": "policy === \"disabled\"",
+    "reason": "A disabled gate policy changes the status to \"research-only\" or \"partial\" when no blocking evidence exists."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 94,
+    "end_line": 94,
+    "kind": "branch_condition",
+    "anchor": "hasNoGateEvidence",
+    "reason": "No criteria plus no evidence yields \"partial\" instead of \"verified\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 98,
+    "end_line": 98,
+    "kind": "branch_condition",
+    "anchor": "hasNoApplicableCriteria",
+    "reason": "Having only not-applicable criteria yields \"partial\" instead of \"verified\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 102,
+    "end_line": 102,
+    "kind": "branch_condition",
+    "anchor": "missingCriterionIds.length === 0 && notRun.length === 0",
+    "reason": "Only when no criterion lacks passing evidence and nothing is not-run does the caller get \"verified\"; otherwise \"partial\"."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 113,
+    "end_line": 113,
+    "kind": "branch_condition",
+    "anchor": "criterion.status === \"not-applicable\"",
+    "reason": "Not-applicable criteria are passed through unchanged instead of being reclassified from evidence."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 118,
+    "end_line": 118,
+    "kind": "branch_condition",
+    "anchor": "mappedEvidence.some((item) => item.result === \"pass\")",
+    "reason": "Decides whether each criterion is reported as \"verified\" or \"unverified\" in the returned criteria list."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 135,
+    "end_line": 135,
+    "kind": "state_write",
+    "anchor": "risks.push(`${criterionId} is missing passing verification evidence.${criterion ? ` ${criterion.text}` : \"\"}`)",
+    "reason": "Stores the missing-evidence risk string that the caller later receives in unresolvedRisks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 139,
+    "end_line": 139,
+    "kind": "branch_condition",
+    "anchor": "item.result === \"fail\"",
+    "reason": "Selects failed evidence so its reason and residual risk are added to the reported risks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 140,
+    "end_line": 140,
+    "kind": "state_write",
+    "anchor": "risks.push(`${item.id} failed: ${item.reason}`)",
+    "reason": "Stores the failure risk message visible to the caller in unresolvedRisks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 141,
+    "end_line": 141,
+    "kind": "state_write",
+    "anchor": "risks.push(item.residualRisk)",
+    "reason": "Stores the residual risk of a failed check that the caller later sees."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 142,
+    "end_line": 142,
+    "kind": "branch_condition",
+    "anchor": "item.result === \"blocked\"",
+    "reason": "Selects blocked evidence so its reason and residual risk are added to the reported risks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 143,
+    "end_line": 143,
+    "kind": "state_write",
+    "anchor": "risks.push(`${item.id} was blocked: ${item.reason}`)",
+    "reason": "Stores the blocked risk message visible to the caller in unresolvedRisks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 144,
+    "end_line": 144,
+    "kind": "state_write",
+    "anchor": "risks.push(item.residualRisk)",
+    "reason": "Stores the residual risk of a blocked check that the caller later sees."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 145,
+    "end_line": 145,
+    "kind": "branch_condition",
+    "anchor": "item.result === \"not-run\"",
+    "reason": "Selects not-run evidence so its reason and residual risk are added to the reported risks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 146,
+    "end_line": 146,
+    "kind": "state_write",
+    "anchor": "risks.push(`${item.id} was not run: ${item.reason}`)",
+    "reason": "Stores the not-run risk message visible to the caller in unresolvedRisks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 147,
+    "end_line": 147,
+    "kind": "state_write",
+    "anchor": "risks.push(item.residualRisk)",
+    "reason": "Stores the residual risk of a not-run check that the caller later sees."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 148,
+    "end_line": 148,
+    "kind": "branch_condition",
+    "anchor": "item.residualRisk !== undefined",
+    "reason": "Passing evidence with a residual risk still contributes that risk to the caller-visible list."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 149,
+    "end_line": 149,
+    "kind": "state_write",
+    "anchor": "risks.push(item.residualRisk)",
+    "reason": "Stores the residual risk of otherwise-passing evidence that the caller later sees."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 153,
+    "end_line": 153,
+    "kind": "branch_condition",
+    "anchor": "policy === \"disabled\" && evidence.length === 0",
+    "reason": "Decides which explanatory risk message is added when the gate is disabled with no evidence."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 153,
+    "end_line": 154,
+    "kind": "error_order",
+    "anchor": "if (policy === \"disabled\" && evidence.length === 0) {\n      risks.push(\"No verification evidence was collected because the gate is disabled.\")",
+    "reason": "When the gate is disabled with no evidence and there are also no applicable criteria, this branch's message is reported before the generic no-evidence message."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 154,
+    "end_line": 154,
+    "kind": "state_write",
+    "anchor": "risks.push(\"No verification evidence was collected because the gate is disabled.\")",
+    "reason": "Stores the disabled-gate explanation that the caller later receives in unresolvedRisks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 155,
+    "end_line": 155,
+    "kind": "branch_condition",
+    "anchor": "hasNoGateEvidence",
+    "reason": "No criteria and no evidence adds the generic missing-input risk to the caller-visible list."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 156,
+    "end_line": 156,
+    "kind": "state_write",
+    "anchor": "risks.push(\"No acceptance criteria or verification evidence were provided.\")",
+    "reason": "Stores the no-input risk message visible to the caller in unresolvedRisks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 157,
+    "end_line": 157,
+    "kind": "branch_condition",
+    "anchor": "hasNoApplicableCriteria",
+    "reason": "Having no applicable criteria adds the missing-criteria risk to the caller-visible list."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 158,
+    "end_line": 158,
+    "kind": "state_write",
+    "anchor": "risks.push(\"No acceptance criteria were provided.\")",
+    "reason": "Stores the no-criteria risk message visible to the caller in unresolvedRisks."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 177,
+    "end_line": 177,
+    "kind": "branch_condition",
+    "anchor": "hasNoGateEvidence",
+    "reason": "Chooses \"workflow verification\" as the missing-evidence detail in the caller-visible summary."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 177,
+    "end_line": 177,
+    "kind": "branch_condition",
+    "anchor": "hasNoApplicableCriteria",
+    "reason": "Chooses \"acceptance criteria\" as the missing-evidence detail in the caller-visible summary when only criteria are absent."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 183,
+    "end_line": 183,
+    "kind": "branch_condition",
+    "anchor": "details.length > 0",
+    "reason": "Decides whether the summary sentence includes the appended detail suffix at all."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 185,
+    "end_line": 185,
+    "kind": "branch_condition",
+    "anchor": "status === \"verified\"",
+    "reason": "Selects the \"Verified completion\" summary wording the caller receives."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 189,
+    "end_line": 189,
+    "kind": "branch_condition",
+    "anchor": "status === \"research-only\"",
+    "reason": "Selects the \"Research-only outcome\" summary wording the caller receives."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 193,
+    "end_line": 193,
+    "kind": "branch_condition",
+    "anchor": "status === \"blocked\"",
+    "reason": "Selects the \"Blocked completion\" summary wording the caller receives."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 197,
+    "end_line": 197,
+    "kind": "branch_condition",
+    "anchor": "status === \"failed\"",
+    "reason": "Selects the \"Failed completion\" summary wording the caller receives."
+  },
+  {
+    "file": "src/verification.ts",
+    "start_line": 205,
+    "end_line": 205,
+    "kind": "branch_condition",
+    "anchor": "values.length === 0",
+    "reason": "Empty detail lists are dropped from the summary instead of rendering as an empty label."
+  }
+]
+```

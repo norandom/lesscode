@@ -22,11 +22,14 @@
    admission gap on Mistral, and is not adopted
    ([R78](../../docs/research/2026-11-11/04-slice-b-node-kinds-result.md)); a MIPROv2-style search on Opus
    does not fix Rust admission where GEPA did
-   ([R79](../../docs/research/2026-11-11/05-slice-b-miprov2-opus.md)). Recorded spend about 25.5 of 40 USD.
-   Status on 2026-11-11: measured for pack authoring between runs, between models and under two optimisers;
-   not measured: the annotation layer, and one model over time. Dated next step: the owner decides by the
-   next session whether to preregister the annotation-layer baseline or to close Slice B for pack authoring
-   with the finding "a model that knows the grammar, plus the admission barrier". Earlier dated step (2026-11-10, at the approval of the driver design): the preregistration of a drift baseline for pack authoring is driver task 2.4 and is due with the handover of driver task group 2. Five authoring runs per language for four languages with the frozen pack guide, current endpoint first, Mistral second; measures are admission rate, repair attempts and identity of the mutants. Running it needs the owner's go.
+   ([R79](../../docs/research/2026-11-11/05-slice-b-miprov2-opus.md)). Annotation-layer baseline run on both models
+   ([R83](../../docs/research/2026-11-11/09-slice-b-annotation-baseline.md)): Opus runs agree on 0.69 to 0.92 of their
+   sites, three of five Mistral calls give no annotations. Recorded spend about 29.7 of 40 USD.
+   Status on 2026-11-11: measured for pack authoring and for annotation, between runs and between models, and
+   under two optimisers for pack authoring; not measured: one model over time. Dated next step: the owner
+   decides by the next session whether annotations get a hardening (sites named by at least two of three
+   runs, or the union), whether drift over time is scheduled, or whether Slice B closes with the finding
+   "the mechanical barriers decide soundness; a model's choice decides only how much is tried". Earlier dated step (2026-11-10, at the approval of the driver design): the preregistration of a drift baseline for pack authoring is driver task 2.4 and is due with the handover of driver task group 2. Five authoring runs per language for four languages with the frozen pack guide, current endpoint first, Mistral second; measures are admission rate, repair attempts and identity of the mutants. Running it needs the owner's go.
    Preregistered 2026-11-10 as [R66](../../docs/research/2026-11-10/12-slice-b-pack-authoring-drift-preregistration.md); start condition: driver task group 3 done, guide amendment hashed, owner's go.
    It must have a dated next step before `agnostic-annotation-driver` is reported complete
    (that spec's Requirement 9.6). What it inherits from the driver work:

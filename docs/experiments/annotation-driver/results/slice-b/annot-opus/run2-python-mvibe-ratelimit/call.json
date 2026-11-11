@@ -1,0 +1,30 @@
+{
+ "scope": "python-mvibe-ratelimit",
+ "scope_revision": "b56d0e37a716e77c6237f9aa5fe230745f76742c",
+ "api_style": "anthropic",
+ "base_url_host": "api.anthropic.com",
+ "requested_model": "claude-opus-5-5",
+ "returned_model": "claude-opus-5-5",
+ "guide_path": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\guide-v2.md",
+ "guide_sha256": "d32113204c3f6239a59575f0e5626d420332ac034a1bea69e6df7627d57ab6b2",
+ "user_template_sha256": "b2030459c0133c1496e74521256b39f931f96abf87b68689b2648f93b88aba1c",
+ "user_message_sha256": "0ef3ed2d4262a07df57e47428c8104605b3e442dc80281b9a9b6854101eb6817",
+ "scope_files_sha256": {
+  "mvibe_proxy/ratelimit.py": "027e304481efc745ec8c04b9784d8e3efa54fd8516d197058ea4c928ffab6828"
+ },
+ "max_output_tokens": 16000,
+ "attempts": 1,
+ "input_tokens": 12321,
+ "output_tokens": 7834,
+ "stop_reason": "end_turn",
+ "parse": "ok",
+ "leniency": [
+  "code_fence"
+ ],
+ "annotations": 63,
+ "wall_seconds": 56.51,
+ "started_utc": "2026-11-11T08:10:56+00:00",
+ "dry_run": false,
+ "exit_code": 0,
+ "error": null
+}

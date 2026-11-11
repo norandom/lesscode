@@ -145,7 +145,10 @@ def extract(style: str, raw: str) -> dict:
         return {"text": text, "input_tokens": usage.get("input_tokens"), "output_tokens": usage.get("output_tokens"),
                 "stop_reason": data.get("stop_reason"), "returned_model": data.get("model")}
     choice = data["choices"][0]
-    return {"text": choice["message"]["content"] or "", "input_tokens": usage.get("prompt_tokens"),
+    content = choice["message"]["content"] or ""
+    if isinstance(content, list):  # reasoning and text parts (Mistral): the reply is the text parts
+        content = "".join(p.get("text", "") for p in content if isinstance(p, dict) and p.get("type") == "text")
+    return {"text": content, "input_tokens": usage.get("prompt_tokens"),
             "output_tokens": usage.get("completion_tokens"), "stop_reason": choice.get("finish_reason"),
             "returned_model": data.get("model")}
 

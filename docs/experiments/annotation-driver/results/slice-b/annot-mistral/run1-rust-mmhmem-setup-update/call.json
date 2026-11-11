@@ -1,0 +1,31 @@
+{
+ "scope": "rust-mmhmem-setup-update",
+ "scope_revision": "f32596f8c3117aa05a0d4db924a4de18d80f42d1",
+ "api_style": "openai",
+ "base_url_host": "api.mistral.ai",
+ "requested_model": "mistral-large-4",
+ "returned_model": "mistral-large-4",
+ "guide_path": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\guide-v2.md",
+ "guide_sha256": "d32113204c3f6239a59575f0e5626d420332ac034a1bea69e6df7627d57ab6b2",
+ "user_template_sha256": "b2030459c0133c1496e74521256b39f931f96abf87b68689b2648f93b88aba1c",
+ "user_message_sha256": "cd997ac69a3bb63d8a34810b906bcdc5ea154117ce8e3aabc9ce7268a0ec4ff8",
+ "scope_files_sha256": {
+  "src/setup/ui/update.rs": "804522e68de5d5059369418ab8190baf718eaed06c821ac007ab03661878381e"
+ },
+ "max_output_tokens": 32000,
+ "attempts": 1,
+ "input_tokens": 5020,
+ "output_tokens": 23553,
+ "stop_reason": "stop",
+ "parse": "ok",
+ "leniency": [
+  "code_fence"
+ ],
+ "annotations": 41,
+ "wall_seconds": null,
+ "started_utc": "2026-11-11T08:10:33+00:00",
+ "dry_run": false,
+ "exit_code": 0,
+ "error": null,
+ "salvaged": "2026-11-11: read from the saved response"
+}

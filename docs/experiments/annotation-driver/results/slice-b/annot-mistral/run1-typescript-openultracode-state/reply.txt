@@ -1,0 +1,356 @@
+```json
+[
+  {
+    "file": "src/state.ts",
+    "start_line": 50,
+    "end_line": 50,
+    "kind": "branch_condition",
+    "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+    "reason": "A missing state file returns { state: undefined } with no degradations instead of throwing to the caller."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 54,
+    "end_line": 54,
+    "kind": "failure_state",
+    "anchor": "throw error",
+    "reason": "Non-ENOENT read errors propagate to the caller instead of being treated as an absent state file."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 61,
+    "end_line": 61,
+    "kind": "failure_state",
+    "anchor": "return backupCorrupt(error)",
+    "reason": "Unparseable JSON is surfaced to the caller as a corrupt-state degradation notice (with a .bak backup) rather than a hard error."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 63,
+    "end_line": 63,
+    "kind": "branch_condition",
+    "anchor": "!isPersistedWorkflowState(parsed)",
+    "reason": "Schema-invalid file content takes the backup/degradation path instead of being returned as trusted state."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 64,
+    "end_line": 64,
+    "kind": "failure_state",
+    "anchor": "return backupCorrupt(new Error(\"state file did not match the expected schema\"))",
+    "reason": "A schema mismatch is signaled to the caller as a corrupt-state degradation notice."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 74,
+    "end_line": 74,
+    "kind": "branch_condition",
+    "anchor": "state === undefined",
+    "reason": "mutate returns undefined without ever invoking the change callback when no state file exists."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 76,
+    "end_line": 76,
+    "kind": "branch_condition",
+    "anchor": "changed === undefined",
+    "reason": "A change callback returning undefined leaves the persisted state untouched and returns the prior state."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 80,
+    "end_line": 80,
+    "kind": "state_write",
+    "anchor": "mutationQueues.set(statePath, next)",
+    "reason": "Registers the queued mutation so concurrent updates to the same state file serialize instead of dropping changes."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 82,
+    "end_line": 82,
+    "kind": "branch_condition",
+    "anchor": "mutationQueues.get(statePath) === next",
+    "reason": "Only the queue entry that is still current is cleaned up, so a stale completion cannot delete a newer queued mutation."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 82,
+    "end_line": 82,
+    "kind": "state_write",
+    "anchor": "mutationQueues.delete(statePath)",
+    "reason": "Removes the finished queue entry so later mutations do not chain onto a completed one."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 89,
+    "end_line": 89,
+    "kind": "state_write",
+    "anchor": "await mkdir(dirname(statePath), { recursive: true })",
+    "reason": "Creates the state directory on disk before the state file is written."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 96,
+    "end_line": 96,
+    "kind": "state_write",
+    "anchor": "await writeStateAtomically(statePath, `${JSON.stringify(persisted, null, 2)}\\n`)",
+    "reason": "Persists the workflow state to the state file on disk."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 101,
+    "end_line": 101,
+    "kind": "state_write",
+    "anchor": "await rm(statePath, { force: true })",
+    "reason": "Deletes the state file from disk when the store is cleared."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 106,
+    "end_line": 106,
+    "kind": "state_write",
+    "anchor": "await backupCorruptState(statePath)",
+    "reason": "Moves the corrupt state file aside to workflow-state.json.bak before the caller is told it was ignored."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 124,
+    "end_line": 124,
+    "kind": "branch_condition",
+    "anchor": "attempt >= attempts || !isNodeError(error) || error.code === undefined || !transientErrorCodes.has(error.code)",
+    "reason": "Decides whether a failed I/O operation is retried after a delay or rethrown to the caller."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 124,
+    "end_line": 124,
+    "kind": "failure_state",
+    "anchor": "throw error",
+    "reason": "Exhausted or non-transient errors are rethrown instead of being retried."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 144,
+    "end_line": 146,
+    "kind": "error_order",
+    "anchor": "if (!isSafeProjectRelativePath(stateDirectory)) {\n    throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")\n  }",
+    "reason": "This validation runs before the resolves-inside-root check, so when both apply the caller sees this error message first."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 151,
+    "end_line": 151,
+    "kind": "branch_condition",
+    "anchor": "statePath !== root && !statePath.startsWith(`${root}${sep}`)",
+    "reason": "Rejects state paths that resolve outside the project root."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 152,
+    "end_line": 152,
+    "kind": "failure_state",
+    "anchor": "throw new Error(\"state.directory must resolve inside the project root\")",
+    "reason": "Path-escape attempts throw this error to the caller of createWorkflowStateStore."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 159,
+    "end_line": 159,
+    "kind": "branch_condition",
+    "anchor": "value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")",
+    "reason": "Empty, absolute, or backslash-containing state directories are rejected as unsafe."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 163,
+    "end_line": 163,
+    "kind": "branch_condition",
+    "anchor": "!value.split(\"/\").includes(\"..\")",
+    "reason": "State directories containing '..' segments are rejected, preventing escape from the project root."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 174,
+    "end_line": 174,
+    "kind": "branch_condition",
+    "anchor": "stats.isSymbolicLink()",
+    "reason": "A symlinked directory component aborts load/update/clear instead of following the link."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 175,
+    "end_line": 175,
+    "kind": "failure_state",
+    "anchor": "throw new Error(\"state.directory must not contain symlinks\")",
+    "reason": "A symlink in the state directory path throws to the caller."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 178,
+    "end_line": 178,
+    "kind": "branch_condition",
+    "anchor": "isNodeError(error) && error.code === \"ENOENT\"",
+    "reason": "A missing path component ends the symlink scan successfully instead of surfacing an error."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 182,
+    "end_line": 182,
+    "kind": "failure_state",
+    "anchor": "throw error",
+    "reason": "Non-ENOENT errors during the directory scan propagate to the caller."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 188,
+    "end_line": 188,
+    "kind": "branch_condition",
+    "anchor": "stats.isSymbolicLink()",
+    "reason": "A symlinked state file aborts the operation instead of reading or writing through the link."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 189,
+    "end_line": 189,
+    "kind": "failure_state",
+    "anchor": "throw new Error(\"state.directory must not contain symlinks\")",
+    "reason": "A symlinked state file throws to the caller."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 192,
+    "end_line": 192,
+    "kind": "branch_condition",
+    "anchor": "!isNodeError(error) || error.code !== \"ENOENT\"",
+    "reason": "Non-ENOENT lstat errors on the state file propagate instead of being treated as 'no file yet'."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 193,
+    "end_line": 193,
+    "kind": "failure_state",
+    "anchor": "throw error",
+    "reason": "Those lstat errors are rethrown to the caller."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 202,
+    "end_line": 202,
+    "kind": "branch_condition",
+    "anchor": "!isNodeError(error) || error.code !== \"ENOENT\"",
+    "reason": "Backup-rename failures other than ENOENT propagate instead of being silently ignored."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 203,
+    "end_line": 203,
+    "kind": "failure_state",
+    "anchor": "throw error",
+    "reason": "Those backup failures are rethrown to the caller."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 136,
+    "end_line": 136,
+    "kind": "state_write",
+    "anchor": "await writeFile(stagingPath, contents, { encoding: \"utf8\", flag: \"wx\" })",
+    "reason": "Writes the new state contents into the exclusive staging file."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 137,
+    "end_line": 137,
+    "kind": "state_write",
+    "anchor": "await retryTransient(() => rename(stagingPath, statePath))",
+    "reason": "Atomically renames the staged file over the state file, replacing its contents."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 139,
+    "end_line": 139,
+    "kind": "state_write",
+    "anchor": "await rm(stagingDirectory, { force: true, recursive: true })",
+    "reason": "Removes the temporary staging directory after the write completes or fails."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 200,
+    "end_line": 200,
+    "kind": "state_write",
+    "anchor": "await retryTransient(() => rename(statePath, `${statePath}.bak`))",
+    "reason": "Renames the corrupt state file to workflow-state.json.bak on disk."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 130,
+    "end_line": 141,
+    "kind": "pure_shell_boundary",
+    "anchor": "async function writeStateAtomically(statePath: string, contents: string): Promise<void> {\n  const stateDirectory = dirname(statePath)\n  const stagingDirectory = await mkdtemp(resolve(stateDirectory, `.workflow-state-write-${randomUUID()}-`))\n  const stagingPath = resolve(stagingDirectory, stateFileName)\n\n  try {\n    await writeFile(stagingPath, contents, { encoding: \"utf8\", flag: \"wx\" })\n    await retryTransient(() => rename(stagingPath, statePath))\n  } finally {\n    await rm(stagingDirectory, { force: true, recursive: true })\n  }\n}",
+    "reason": "This function only performs filesystem effects; changing it changes how (and whether) state is durably persisted for callers."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 143,
+    "end_line": 156,
+    "kind": "pure_shell_boundary",
+    "anchor": "function resolveStatePath(projectRoot: string, stateDirectory: string): string {\n  if (!isSafeProjectRelativePath(stateDirectory)) {\n    throw new Error(\"state.directory must be a project-relative path and must not contain '..' segments or backslashes\")\n  }\n\n  const root = resolve(projectRoot)\n  const statePath = resolve(root, stateDirectory, stateFileName)\n\n  if (statePath !== root && !statePath.startsWith(`${root}${sep}`)) {\n    throw new Error(\"state.directory must resolve inside the project root\")\n  }\n\n  return statePath\n}",
+    "reason": "Pure path computation and validation; a change here alters which state file path is used or which error callers receive."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 158,
+    "end_line": 164,
+    "kind": "pure_shell_boundary",
+    "anchor": "function isSafeProjectRelativePath(value: string): boolean {\n  if (value.length === 0 || value.startsWith(\"/\") || value.includes(\"\\\\\")) {\n    return false\n  }\n\n  return !value.split(\"/\").includes(\"..\")\n}",
+    "reason": "Pure predicate deciding whether a configured state directory is accepted."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 166,
+    "end_line": 196,
+    "kind": "pure_shell_boundary",
+    "anchor": "async function rejectSymlinkedStatePath(root: string, stateDirectory: string, statePath: string): Promise<void> {\n  let current = root\n\n  for (const segment of stateDirectory.split(\"/\")) {\n    current = resolve(current, segment)\n\n    try {\n      const stats = await lstat(current)\n      if (stats.isSymbolicLink()) {\n        throw new Error(\"state.directory must not contain symlinks\")\n      }\n    } catch (error) {\n      if (isNodeError(error) && error.code === \"ENOENT\") {\n        return\n      }\n\n      throw error\n    }\n  }\n\n  try {\n    const stats = await lstat(statePath)\n    if (stats.isSymbolicLink()) {\n      throw new Error(\"state.directory must not contain symlinks\")\n    }\n  } catch (error) {\n    if (!isNodeError(error) || error.code !== \"ENOENT\") {\n      throw error\n    }\n  }\n}",
+    "reason": "Effect-only guard; changing it alters which symlink violations make load/update/clear throw for callers."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 198,
+    "end_line": 206,
+    "kind": "pure_shell_boundary",
+    "anchor": "async function backupCorruptState(statePath: string): Promise<void> {\n  try {\n    await retryTransient(() => rename(statePath, `${statePath}.bak`))\n  } catch (error) {\n    if (!isNodeError(error) || error.code !== \"ENOENT\") {\n      throw error\n    }\n  }\n}",
+    "reason": "Effect-only backup step; changing it alters whether corrupt state files are moved aside or the error surfaces."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 208,
+    "end_line": 220,
+    "kind": "pure_shell_boundary",
+    "anchor": "function createCorruptStateNotice(error: unknown): DegradationNotice {\n  const reason = error instanceof Error ? error.message : \"State file could not be read.\"\n\n  return {\n    id: \"workflow-state-corrupt\",\n    capability: \"workflow state persistence\",\n    severity: \"warning\",\n    reason,\n    userVisibleMessage: \"The OpenUltraCode workflow state file was corrupt and has been ignored for safety.\",\n    safeNextAction: \"Continue with a new workflow state; inspect workflow-state.json.bak if prior context is needed.\",\n    occurredAt: new Date().toISOString()\n  }\n}",
+    "reason": "Pure construction of the degradation notice; changing it changes what corruption message callers see."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 222,
+    "end_line": 230,
+    "kind": "pure_shell_boundary",
+    "anchor": "function isPersistedWorkflowState(value: unknown): value is PersistedWorkflowState {\n  if (!isRecord(value) || value.schemaVersion !== 1 || typeof value.updatedAt !== \"string\") {\n    return false\n  }\n\n  const state = value.state\n\n  return isRecord(state) && state.schemaVersion === 1 && typeof state.mode === \"string\" && typeof state.phase === \"string\"\n}",
+    "reason": "Pure schema check deciding whether loaded file content is trusted as state or treated as corrupt."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 232,
+    "end_line": 234,
+    "kind": "pure_shell_boundary",
+    "anchor": "function isRecord(value: unknown): value is Record<string, unknown> {\n  return typeof value === \"object\" && value !== null && !Array.isArray(value)\n}",
+    "reason": "Pure type predicate used by schema validation; changing it changes which parsed values pass validation."
+  },
+  {
+    "file": "src/state.ts",
+    "start_line": 236,
+    "end_line": 238,
+    "kind": "pure_shell_boundary",
+    "anchor": "function isNodeError(error: unknown): error is NodeJS.ErrnoException {\n  return error instanceof Error && \"code\" in error\n}",
+    "reason": "Pure predicate deciding which thrown errors are treated as Node I/O errors in every error path."
+  }
+]
+```

@@ -2,7 +2,23 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R80 Final validation of the agnostic driver: implemented as specified, one criterion in part (2026-11-11)
+## Latest: R83 Annotation layer: Opus runs agree on 0.69 to 0.92 of their sites; three of five Mistral runs give no annotations (2026-11-11)
+
+[R83](2026-11-11/09-slice-b-annotation-baseline.md) runs the preregistration [R82](2026-11-11/07-slice-b-annotation-baseline-preregistration.md): five annotation runs per scope on two models, checked by the driver's validator.
+- **Opus:** every run usable; median agreement between runs 0.69 to 0.92 per scope; sites named in every run are 44% to 85% of those named in any. Two runs fall below 80% accepted (claim A1 refuted).
+- **Mistral Large 4:** 15 of 25 calls end at the 32,000-token output limit without annotations; where a reply comes it is as valid as Opus's. Agreement with Opus runs 0.28 to 0.72, lower than among Opus runs in every scope.
+- **Reading:** rejected annotations never become mutants, so this drift changes what is tried, not whether a run is sound. The default (every eligible site) does not drift.
+- **Deviation:** the caller could not read the second model's reply format; seventeen runs were finished from their saved responses without a new call.
+- **Cost:** 4.20 USD; recorded spend about 29.7 of 40 USD.
+
+## Prior: R81 Three changes after the validation: a stop handler, three false successes removed, call-argument operators measured (2026-11-11)
+
+[R81](2026-11-11/08-driver-three-changes-and-call-arguments.md) records the owner's three choices after R80.
+- **Stop handler:** Requirement 5.7 is met for Ctrl-C, Ctrl-Break, termination and a closing console; tested with a real signal on five platforms.
+- **Removed:** three functions that reported success without running anything (R75 had named two).
+- **Call arguments:** a sixth, optional site kind. On the five gate scopes 125 new mutants beside 557; 88 are killed or survive. 556 of 557 earlier mutants keep their class (one time limit under load). Swapping the first two arguments rarely builds in Java and Rust (2 of 17).
+
+## Prior: R80 Final validation of the agnostic driver: implemented as specified, one criterion in part (2026-11-11)
 
 [R80](2026-11-11/06-agnostic-driver-final-validation.md) is task 8.3 of `agnostic-annotation-driver`; the report is in the spec directory.
 - **Result:** 382 tests, lints, budgets and smoke runs pass; CI is green on five platforms for the commit with every code change. Every requirement has evidence; 5.7 is met in part (a driver killed from outside can leave a project command running; no signal handler).
