@@ -78,6 +78,16 @@ Owner's choices: verify the release after approval (pending: the workflow still 
 build the Rust candidate (R86: compiles, 375 tests pass, reduction 11.7% instead of 40.3% under a common
 formatter); delete the day's work directories.
 
+## Addition, 2026-11-11, about 11:45
+
+Owner's choices: density counts syntax (`cc9144e`, design Amendment 6); re-measure the specimens (R87: 6% to
+19% fewer tokens, none substantial); 1.1.1 after that (prepared, owner tags); hunt the leaky test (found under
+load in two older CLI tests, passes, not reproduced in 23 further runs; time limits of the run and adapter
+tests loosened because they failed under that load). Owner's request during the work: an intro picture for
+developers in the README (`docs/figures/how-it-works.svg`), with a link to openidea-kiro.
+Still in the library and the owner's to decide: the line and keyword counters in
+`adapters/<lang>/metrics.rs` and `density.rs` with tests that pin the old figures.
+
 ## CI
 
 Run 42991301300 for commit `3316cbc`: success on all five jobs (Linux x86_64 through Dagger, Linux aarch64,

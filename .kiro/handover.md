@@ -8,6 +8,11 @@ active implementation queue.
 
 Start with the [task 34 handover](task_34_handover.md).
 
+0. **Read first:** by syntax the four specimen candidates are 6% to 19% smaller, not 24% to 44%
+   ([R87](../docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md)). `deconvolute density` now
+   counts tokens and nodes. Release 1.1.1 with that, `merge-annotations` and the corrected README is
+   prepared ([docs/releases/1.1.1.md](../docs/releases/1.1.1.md)); the owner tags it. The README has a
+   three-step picture for developers (`docs/figures/how-it-works.svg`).
 1. **Release 1.1.0 is tagged** (`v1.1.0` on `54c2806`, pushed 2026-11-11 with the owner's yes). The release
    workflow waits for the owner's approval of the `release` environment; notes and the checks after
    publication are in [docs/releases/1.1.0.md](../docs/releases/1.1.0.md).

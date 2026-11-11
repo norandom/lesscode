@@ -41,7 +41,7 @@ working tree and may not be present in a fresh clone.
 | Inspect local Rust/Python/TypeScript baselines and a rejected library shortcut | [mmhmem/mvibe measurements, versions, chart and COBESY experiment track](experiments/local-adoption/README.md) |
 | Run Rust and Python tests in parallel | [cargo-nextest and pytest-xdist](testing.md) |
 | Find decision sites, write mutants and run a project's tests against them (from release 1.1.0) | [The agnostic driver](driver.md) |
-| See what a release contains and what changed | [Release 1.1.0](releases/1.1.0.md) |
+| See what a release contains and what changed | [Release 1.1.1](releases/1.1.1.md), [release 1.1.0](releases/1.1.0.md) |
 | Decide how far a model may be trusted to write a language pack or choose mutation sites | [Slice B closing summary](reports/slice-b-drift-hardening.md) |
 | Run the same Linux checks locally (native Dagger CLI with Podman) and in Actions | [Dagger pipeline and native platform evidence](ci-validation.md#rust-core-dagger-and-actions) |
 | Build and run the native comparison CLI | [Native setup](../native/README.md) and [working paired example](reports/native-core-readiness.md) |
