@@ -133,7 +133,8 @@ def spend():
             ("Node kinds, Mistral, two arms (R78)", ["kinds-mistral-control", "kinds-mistral-treatment"]),
             ("Node kinds, Opus, two arms (R78)", ["kinds-opus-control", "kinds-opus-treatment"]),
             ("MIPROv2 search and judgement, Opus (R79)", "optimise2-opus-mipro"),
-            ("Annotation baseline, Opus (R83)", "annot-opus"), ("Annotation baseline, Mistral (R83)", "annot-mistral")]
+            ("Annotation baseline, Opus (R83)", "annot-opus"), ("Annotation baseline, Mistral (R83)", "annot-mistral"),
+            ("Annotation rules over three runs, Opus (R85)", "annot-opus-ensemble")]
     rows, colours = [], []
     for label, names in runs:
         usd, calls, model = 0.0, 0, None

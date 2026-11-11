@@ -71,6 +71,13 @@ three alternatives and is asked again.
   runs agrees on 0.74 to 0.96 against 0.62 to 0.86 for single runs; the 0.80 target in four files is missed.
   3.25 USD; recorded spend about 32.9 of 40 USD.
 
+## Addition, 2026-11-11, about 11:05
+
+Owner's choices: verify the release after approval (pending: the workflow still waits); add a merge command
+(`c791516`, design Amendment 5); close Slice B with a summary (`docs/reports/slice-b-drift-hardening.md`);
+build the Rust candidate (R86: compiles, 375 tests pass, reduction 11.7% instead of 40.3% under a common
+formatter); delete the day's work directories.
+
 ## CI
 
 Run 42991301300 for commit `3316cbc`: success on all five jobs (Linux x86_64 through Dagger, Linux aarch64,

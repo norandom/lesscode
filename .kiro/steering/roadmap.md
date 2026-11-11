@@ -7,7 +7,9 @@
    languages, the six text-matching adapter files are deleted, and the specimen results are restated
    ([R75](../../docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md)). No release contains
    it yet; a release is the owner's decision.
-2. **Slice B: hardening against LLM inference drift** (`constraint-guided-compression`, requirements
+2. **Slice B: hardening against LLM inference drift**: **closed by the owner on 2026-11-11** with the summary
+   [docs/reports/slice-b-drift-hardening.md](../../docs/reports/slice-b-drift-hardening.md); unmeasured and named there:
+   drift of one model over time. History follows. (`constraint-guided-compression`, requirements
    Amendment 5; blueprint in `.kiro/task_26_handover.md`). The owner's second priority, explicitly not to be
    forgotten. Started 2026-11-10: the pack-authoring baseline ran on the current endpoint
    ([R68](../../docs/research/2026-11-10/14-slice-b-pack-authoring-drift-baseline.md)): admission 20 of 20, but Rust

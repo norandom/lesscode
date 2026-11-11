@@ -24,14 +24,20 @@ Start with the [task 34 handover](task_34_handover.md).
    their sites; three of five Mistral calls give no annotations. Nothing was adopted; the mechanical barriers
    held in every run. Two selection rules over three runs were tested
    ([R85](../docs/research/2026-11-11/11-slice-b-annotation-hardening.md)): the majority of three is steadier than
-   one run but misses the 0.80 target. Not measured: one model over time. Spend about 32.9 of 40 USD.
+   one run but misses the 0.80 target. **Closed by the owner on 2026-11-11** with the summary
+   [docs/reports/slice-b-drift-hardening.md](../docs/reports/slice-b-drift-hardening.md). Not measured: one model
+   over time. Spend about 32.9 of 40 USD.
 4. **The report** [docs/reports/agnostic-driver-feasibility.md](../docs/reports/agnostic-driver-feasibility.md)
    has two dated updates (sections 8 and 9) with six figures written by
    `docs/reports/figures/make_figures.py` from the committed receipts and ledgers.
 5. **CI** builds, lints and dry-runs `tools/guide-optimizer/` on all five platforms.
-6. **Open for the owner:** approving the release environment; whether a command that merges annotation files
-   by majority belongs in the tool; drift over time, or closing Slice B; the Rust specimen candidate, which
-   has never been built.
+6. **After the tag** (on `main`, not in 1.1.0): `deconvolute merge-annotations` (design Amendment 5); the
+   Rust specimen candidate built for the first time
+   ([R86](../docs/research/2026-11-11/12-rust-candidate-built-and-measured.md)): it works under the crate's
+   tests, and its 40% line reduction is 12% when both files are formatted the same way.
+7. **Open for the owner:** approving the release environment; what to do about `deconvolute density`, whose
+   verdict depends on layout (format its inputs, refuse unformatted ones, or count syntax); whether the other
+   specimens' compression figures should be re-measured under a common formatter.
 7. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
    release: archives carry zipsign signatures, `SHA256SUMS.sig` and a
    provenance attestation, all verified after publication. It contains the

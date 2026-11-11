@@ -42,6 +42,7 @@ working tree and may not be present in a fresh clone.
 | Run Rust and Python tests in parallel | [cargo-nextest and pytest-xdist](testing.md) |
 | Find decision sites, write mutants and run a project's tests against them (from release 1.1.0) | [The agnostic driver](driver.md) |
 | See what a release contains and what changed | [Release 1.1.0](releases/1.1.0.md) |
+| Decide how far a model may be trusted to write a language pack or choose mutation sites | [Slice B closing summary](reports/slice-b-drift-hardening.md) |
 | Run the same Linux checks locally (native Dagger CLI with Podman) and in Actions | [Dagger pipeline and native platform evidence](ci-validation.md#rust-core-dagger-and-actions) |
 | Build and run the native comparison CLI | [Native setup](../native/README.md) and [working paired example](reports/native-core-readiness.md) |
 | Inspect the native decision and maturity boundary | [Readiness gate](../.kiro/specs/capability-compression-core/readiness.md) and [32-criterion coverage](../.kiro/specs/capability-compression-core/requirement-coverage.md) |
