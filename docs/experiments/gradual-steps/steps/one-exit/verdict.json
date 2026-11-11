@@ -1,0 +1,91 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "one-exit",
+  "spec": "one-exit",
+  "base": "9ee2fc32e31f9f18c78d5836c0d4dcfbad1dcc56",
+  "revision": "e64b7b3587c36992dceb7551cccd042762e7c968",
+  "hashes": {
+    "scope": {
+      "native/src/recording.rs": "da63888288777b19c3007ac1c67834ddac8e1098"
+    },
+    "tests": "9a4d1c8d1011ab977eaad773992e02ec44c0cfdbef83918d0a6e6c68e014168e",
+    "declaration": "dca471ab06bd2075b18f544e7dcab80e6a866bf4"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 9ee2fc3, step e64b7b3"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "pass",
+      "detail": "no state write outside the declared frame, or none declared"
+    },
+    {
+      "name": "tests and fault runs",
+      "result": "pass",
+      "detail": "the project's tests pass on the base and on the step"
+    },
+    {
+      "name": "planted faults",
+      "result": "pass",
+      "detail": "in no function are more faults unnoticed after the step than before"
+    },
+    {
+      "name": "evidence for criteria",
+      "result": "pass",
+      "detail": "every tied command passes"
+    }
+  ],
+  "functions_run": {
+    "native/src/recording.rs": [
+      "verdict"
+    ]
+  },
+  "functions": [
+    {
+      "file": "native/src/recording.rs",
+      "function": "verdict",
+      "before": {
+        "noticed": 11,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "after": {
+        "noticed": 12,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    }
+  ],
+  "unmatched_functions": [],
+  "size": {
+    "tokens": [
+      7307,
+      7306
+    ],
+    "nodes": [
+      5776,
+      5778
+    ]
+  },
+  "result": "accepted",
+  "reasons": []
+}

@@ -1,0 +1,46 @@
+{
+  "receipt": "step-evidence-provisional-v0",
+  "provisional": true,
+  "step": "one-exit",
+  "spec": "one-exit",
+  "base": "9ee2fc32e31f9f18c78d5836c0d4dcfbad1dcc56",
+  "revision": "e64b7b3587c36992dceb7551cccd042762e7c968",
+  "hashes": {
+    "scope": {
+      "native/src/recording.rs": "da63888288777b19c3007ac1c67834ddac8e1098"
+    },
+    "tests": "9a4d1c8d1011ab977eaad773992e02ec44c0cfdbef83918d0a6e6c68e014168e",
+    "declaration": "dca471ab06bd2075b18f544e7dcab80e6a866bf4"
+  },
+  "criteria": [
+    {
+      "id": "1.1",
+      "command": [
+        "cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--manifest-path",
+        "native/Cargo.toml",
+        "--test",
+        "recording",
+        "verdict_"
+      ],
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "1.2",
+      "command": [
+        "cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--manifest-path",
+        "native/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "passed": true
+    }
+  ]
+}
