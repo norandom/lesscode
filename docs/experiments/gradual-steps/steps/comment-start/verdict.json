@@ -1,0 +1,128 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "comment-start",
+  "spec": "comment-start",
+  "base": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+  "revision": "5c0cb7361fe911ae1757bb0f5dad79b7d5ee2b19",
+  "hashes": {
+    "scope": {
+      "src/main/java/org/apache/commons/csv/CSVPrinter.java": "21bda5330a58bc7cd0781bf9927b157afe8064ab"
+    },
+    "tests": "d88afc59054db8767b0ee66066cc9f3f38e05b625552a0886b69eb95f82f3421",
+    "declaration": "bb24553460aeddcaa3aac4081b5fdeff5f0e8540"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 2bd66bf, step 5c0cb73"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "pass",
+      "detail": "no state write outside the declared frame, or none declared"
+    },
+    {
+      "name": "tests and fault runs",
+      "result": "pass",
+      "detail": "the project's tests pass on the base and on the step"
+    },
+    {
+      "name": "planted faults",
+      "result": "pass",
+      "detail": "in no function are more faults unnoticed after the step than before"
+    },
+    {
+      "name": "evidence for criteria",
+      "result": "pass",
+      "detail": "every tied command passes"
+    }
+  ],
+  "functions_run": {
+    "src/main/java/org/apache/commons/csv/CSVPrinter.java": [
+      "CSVPrinter",
+      "printComment",
+      "printCommentStart"
+    ]
+  },
+  "functions": [
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "function": "CSVPrinter",
+      "before": {
+        "noticed": 8,
+        "unnoticed": 3,
+        "other": 2
+      },
+      "after": {
+        "noticed": 8,
+        "unnoticed": 3,
+        "other": 2
+      },
+      "unnoticed_after": [
+        "#2 line 108 arg_literal:string->empty@108:43",
+        "#3 line 109 drop_statement",
+        "#4 line 109 arg_literal:string->empty@109:39"
+      ]
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "function": "printComment",
+      "before": {
+        "noticed": 19,
+        "unnoticed": 2,
+        "other": 0
+      },
+      "after": {
+        "noticed": 17,
+        "unnoticed": 2,
+        "other": 0
+      },
+      "unnoticed_after": [
+        "#15 line 233 swap_next",
+        "#32 line 259 drop_statement"
+      ]
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "function": "printCommentStart",
+      "before": null,
+      "after": {
+        "noticed": 2,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    }
+  ],
+  "unmatched_functions": [
+    "src/main/java/org/apache/commons/csv/CSVPrinter.java: printCommentStart"
+  ],
+  "size": {
+    "tokens": [
+      1420,
+      1415
+    ],
+    "nodes": [
+      1212,
+      1210
+    ]
+  },
+  "result": "accepted",
+  "reasons": []
+}

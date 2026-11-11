@@ -1,0 +1,20 @@
+{
+  "step": "comment-start", "spec": "comment-start", "branch": "step/comment-start",
+  "base": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+  "language": "java",
+  "scope": ["src/main/java/org/apache/commons/csv/CSVPrinter.java"],
+  "test_paths": ["src/test/"],
+  "setup": [["java", "-classpath", "D:/BuildArtifacts/tools/apache-maven-3.9.9/boot/plexus-classworlds-2.8.0.jar", "-Dclassworlds.conf=D:/BuildArtifacts/tools/apache-maven-3.9.9/bin/m2.conf", "-Dmaven.home=D:/BuildArtifacts/tools/apache-maven-3.9.9", "-Dmaven.multiModuleProjectDirectory=.", "org.codehaus.plexus.classworlds.launcher.Launcher", "-o", "-B", "-Drat.skip=true", "-Dcheckstyle.skip=true", "-Dspotbugs.skip=true", "-Dpmd.skip=true", "-Djapicmp.skip=true", "-Djacoco.skip=true", "-Danimal.sniffer.skip=true", "-q", "-DskipTests", "test-compile"]],
+  "test": ["java", "-classpath", "D:/BuildArtifacts/tools/apache-maven-3.9.9/boot/plexus-classworlds-2.8.0.jar", "-Dclassworlds.conf=D:/BuildArtifacts/tools/apache-maven-3.9.9/bin/m2.conf", "-Dmaven.home=D:/BuildArtifacts/tools/apache-maven-3.9.9", "-Dmaven.multiModuleProjectDirectory=.", "org.codehaus.plexus.classworlds.launcher.Launcher", "-o", "-B", "-Drat.skip=true", "-Dcheckstyle.skip=true", "-Dspotbugs.skip=true", "-Dpmd.skip=true", "-Djapicmp.skip=true", "-Djacoco.skip=true", "-Danimal.sniffer.skip=true", "-Dsurefire.failIfNoSpecifiedTests=false", "-Dtest=CSVPrinterTest", "test"],
+  "run": {"timeout_floor_s": 60, "timeout_ceiling_s": 900, "exclusions": ["target"],
+          "invalid_output_patterns": ["COMPILATION ERROR", ": error:"],
+          "runner_evidence_patterns": ["Tests run:", "[ERROR]"]},
+  "focus": {"src/main/java/org/apache/commons/csv/CSVPrinter.java": ["printComment"]},
+  "max_token_growth": 0,
+  "criteria": [
+    {"id": "1.2", "command": ["java", "-classpath", "D:/BuildArtifacts/tools/apache-maven-3.9.9/boot/plexus-classworlds-2.8.0.jar", "-Dclassworlds.conf=D:/BuildArtifacts/tools/apache-maven-3.9.9/bin/m2.conf", "-Dmaven.home=D:/BuildArtifacts/tools/apache-maven-3.9.9", "-Dmaven.multiModuleProjectDirectory=.", "org.codehaus.plexus.classworlds.launcher.Launcher", "-o", "-B", "-Drat.skip=true", "-Dcheckstyle.skip=true", "-Dspotbugs.skip=true", "-Dpmd.skip=true", "-Djapicmp.skip=true", "-Djacoco.skip=true", "-Danimal.sniffer.skip=true", "-Dsurefire.failIfNoSpecifiedTests=false", "-Dtest=CSVPrinterTest", "test"]}
+  ],
+  "outputs": {"verdict": ".kiro/specs/comment-start/verdict.json",
+              "evidence": ".kiro/specs/comment-start/evidence.json",
+              "ledger": ".kiro/steps/ledger.jsonl"}
+}

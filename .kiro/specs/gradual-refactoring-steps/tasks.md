@@ -136,8 +136,12 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     verdict, evidence, ledger). Accepted; guard exit 0. Copies of the outputs:
     `docs/experiments/gradual-steps/steps/one-exit/`. The branch is not merged; that is the owner's decision.
   - _Requirements: 11.2, 11.3_
-- [ ] 6.2 One step in a foreign project in each of two languages
+- [x] 6.2 One step in a foreign project in each of two languages
   - Copies of the Java and TypeScript projects used in R88; verdicts recorded, including any refusal.
+  - Done 2026-11-11 on clones under `D:\BuildArtifacts\lesscode\steps-foreign`: Java `comment-start`
+    (commons-csv, `printComment`) and TypeScript `slug-separator` (OpenUltraCode, `slugify`), both accepted,
+    recorded and passed by the guard; no refusal occurred. Outputs and patches:
+    `docs/experiments/gradual-steps/steps/`.
   - _Requirements: 11.2, 11.3_
 - [ ] 6.3 Documents and the soft layer
   - README section, `docs/steps.md` complete, a skill that walks the phases and calls the commands; a check

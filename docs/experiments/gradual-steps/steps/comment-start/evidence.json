@@ -1,0 +1,43 @@
+{
+  "receipt": "step-evidence-provisional-v0",
+  "provisional": true,
+  "step": "comment-start",
+  "spec": "comment-start",
+  "base": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+  "revision": "5c0cb7361fe911ae1757bb0f5dad79b7d5ee2b19",
+  "hashes": {
+    "scope": {
+      "src/main/java/org/apache/commons/csv/CSVPrinter.java": "21bda5330a58bc7cd0781bf9927b157afe8064ab"
+    },
+    "tests": "d88afc59054db8767b0ee66066cc9f3f38e05b625552a0886b69eb95f82f3421",
+    "declaration": "bb24553460aeddcaa3aac4081b5fdeff5f0e8540"
+  },
+  "criteria": [
+    {
+      "id": "1.2",
+      "command": [
+        "java",
+        "-classpath",
+        "D:/BuildArtifacts/tools/apache-maven-3.9.9/boot/plexus-classworlds-2.8.0.jar",
+        "-Dclassworlds.conf=D:/BuildArtifacts/tools/apache-maven-3.9.9/bin/m2.conf",
+        "-Dmaven.home=D:/BuildArtifacts/tools/apache-maven-3.9.9",
+        "-Dmaven.multiModuleProjectDirectory=.",
+        "org.codehaus.plexus.classworlds.launcher.Launcher",
+        "-o",
+        "-B",
+        "-Drat.skip=true",
+        "-Dcheckstyle.skip=true",
+        "-Dspotbugs.skip=true",
+        "-Dpmd.skip=true",
+        "-Djapicmp.skip=true",
+        "-Djacoco.skip=true",
+        "-Danimal.sniffer.skip=true",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "-Dtest=CSVPrinterTest",
+        "test"
+      ],
+      "exit_code": 0,
+      "passed": true
+    }
+  ]
+}

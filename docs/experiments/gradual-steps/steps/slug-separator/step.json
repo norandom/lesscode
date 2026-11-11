@@ -1,0 +1,20 @@
+{
+  "step": "slug-separator", "spec": "slug-separator", "branch": "step/slug-separator",
+  "base": "37a4e55f1b9397332acc6434783099a631a04918",
+  "language": "typescript",
+  "scope": ["src/degradation.ts"],
+  "test_paths": ["tests/"],
+  "setup": [["pnpm", "install", "--frozen-lockfile"]],
+  "build": ["pnpm", "exec", "tsc", "--noEmit"],
+  "test": ["node", "--import", "tsx", "--test", "tests/degradation.test.ts"],
+  "run": {"timeout_floor_s": 30, "timeout_ceiling_s": 300, "exclusions": ["node_modules", "dist"],
+          "runner_evidence_patterns": ["tests ", "pass ", "fail "]},
+  "focus": {"src/degradation.ts": ["slugify"]},
+  "max_token_growth": 0,
+  "criteria": [
+    {"id": "1.2", "command": ["node", "--import", "tsx", "--test", "tests/degradation.test.ts"]}
+  ],
+  "outputs": {"verdict": ".kiro/specs/slug-separator/verdict.json",
+              "evidence": ".kiro/specs/slug-separator/evidence.json",
+              "ledger": ".kiro/steps/ledger.jsonl"}
+}

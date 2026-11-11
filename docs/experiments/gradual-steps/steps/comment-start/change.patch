@@ -1,0 +1,54 @@
+From 5c0cb7361fe911ae1757bb0f5dad79b7d5ee2b19 Mon Sep 17 00:00:00 2001
+From: Marius Ciepluch <11855163+norandom@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 18:49:19 +0100
+Subject: [PATCH] refactor(printer): printComment starts every comment line in
+ one place
+
+---
+ .../java/org/apache/commons/csv/CSVPrinter.java  | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/src/main/java/org/apache/commons/csv/CSVPrinter.java b/src/main/java/org/apache/commons/csv/CSVPrinter.java
+index b9e18ed..21bda53 100644
+--- a/src/main/java/org/apache/commons/csv/CSVPrinter.java
++++ b/src/main/java/org/apache/commons/csv/CSVPrinter.java
+@@ -236,8 +236,7 @@ public final class CSVPrinter implements Flushable, Closeable {
+             if (!newRecord) {
+                 println();
+             }
+-            appendable.append(format.getCommentMarker().charValue()); // Explicit unboxing is intentional
+-            appendable.append(SP);
++            printCommentStart();
+             for (int i = 0; i < comment.length(); i++) {
+                 final char c = comment.charAt(i);
+                 switch (c) {
+@@ -248,8 +247,7 @@ public final class CSVPrinter implements Flushable, Closeable {
+                     // falls-through: break intentionally excluded.
+                 case LF:
+                     printCommentSeparator();
+-                    appendable.append(format.getCommentMarker().charValue()); // Explicit unboxing is intentional
+-                    appendable.append(SP);
++                    printCommentStart();
+                     break;
+                 default:
+                     appendable.append(c);
+@@ -276,6 +274,16 @@ public final class CSVPrinter implements Flushable, Closeable {
+         newRecord = true;
+     }
+ 
++    /**
++     * Starts a comment line with the comment marker and a space.
++     *
++     * @throws IOException If an I/O error occurs.
++     */
++    private void printCommentStart() throws IOException {
++        appendable.append(format.getCommentMarker().charValue()); // Explicit unboxing is intentional
++        appendable.append(SP);
++    }
++
+     /**
+      * Prints headers for a result set based on its metadata.
+      *
+-- 
+2.56.0.windows.3
+

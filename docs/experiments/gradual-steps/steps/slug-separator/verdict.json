@@ -1,0 +1,139 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "slug-separator",
+  "spec": "slug-separator",
+  "base": "37a4e55f1b9397332acc6434783099a631a04918",
+  "revision": "752b8eba92ead081fb99d799ede37d5dd7b3ca53",
+  "hashes": {
+    "scope": {
+      "src/degradation.ts": "02c380b957084b2bc1d9c24ab5ffe56397c31122"
+    },
+    "tests": "223ddd846f8279e5888755fa27a00a6dc2ad108dca3ebcebe4d9b056e775bc00",
+    "declaration": "9e16775bfb7f22748d45d6363049555674360376"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 37a4e55, step 752b8eb"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "pass",
+      "detail": "no state write outside the declared frame, or none declared"
+    },
+    {
+      "name": "tests and fault runs",
+      "result": "pass",
+      "detail": "the project's tests pass on the base and on the step"
+    },
+    {
+      "name": "planted faults",
+      "result": "pass",
+      "detail": "in no function are more faults unnoticed after the step than before"
+    },
+    {
+      "name": "evidence for criteria",
+      "result": "pass",
+      "detail": "every tied command passes"
+    }
+  ],
+  "functions_run": {
+    "src/degradation.ts": [
+      "createPermissionDeniedNotice",
+      "createToolErrorNotice",
+      "createUnsupportedCapabilityNotice",
+      "slugify"
+    ]
+  },
+  "functions": [
+    {
+      "file": "src/degradation.ts",
+      "function": "createPermissionDeniedNotice",
+      "before": {
+        "noticed": 0,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "after": {
+        "noticed": 0,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    },
+    {
+      "file": "src/degradation.ts",
+      "function": "createToolErrorNotice",
+      "before": {
+        "noticed": 0,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "after": {
+        "noticed": 0,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    },
+    {
+      "file": "src/degradation.ts",
+      "function": "createUnsupportedCapabilityNotice",
+      "before": {
+        "noticed": 0,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "after": {
+        "noticed": 0,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    },
+    {
+      "file": "src/degradation.ts",
+      "function": "slugify",
+      "before": {
+        "noticed": 9,
+        "unnoticed": 1,
+        "other": 0
+      },
+      "after": {
+        "noticed": 8,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    }
+  ],
+  "unmatched_functions": [],
+  "size": {
+    "tokens": [
+      1283,
+      1277
+    ],
+    "nodes": [
+      1064,
+      1058
+    ]
+  },
+  "result": "accepted",
+  "reasons": []
+}

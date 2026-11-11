@@ -1,0 +1,26 @@
+From 752b8eba92ead081fb99d799ede37d5dd7b3ca53 Mon Sep 17 00:00:00 2001
+From: Marius Ciepluch <11855163+norandom@users.noreply.github.com>
+Date: Wed, 11 Nov 2026 18:48:43 +0100
+Subject: [PATCH] refactor(degradation): slugify drops a condition that is
+ always true
+
+---
+ src/degradation.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/degradation.ts b/src/degradation.ts
+index ae26d27..02c380b 100644
+--- a/src/degradation.ts
++++ b/src/degradation.ts
+@@ -218,7 +218,7 @@ function slugify(value: string): string {
+     const isDigit = character >= "0" && character <= "9"
+ 
+     if (isLowerAscii || isDigit) {
+-      if (needsSeparator && slug.length > 0) {
++      if (needsSeparator) {
+         slug += "-"
+       }
+ 
+-- 
+2.56.0.windows.3
+
