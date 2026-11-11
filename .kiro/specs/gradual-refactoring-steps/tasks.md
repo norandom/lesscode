@@ -63,19 +63,19 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     agnostic-annotation-driver.
   - _Requirements: 9.1_
 
-- [ ] 3. Declaration, functions and plan
-- [ ] 3.1 Read and validate the step declaration
+- [x] 3. Declaration, functions and plan
+- [x] 3.1 Read and validate the step declaration
   - `step/declaration.rs` and the `step` command group with its exit codes. Unknown fields, a base that is
     not an ancestor, an output path outside the repository: bad input.
   - _Boundary: Declaration, CommandLine_
   - _Requirements: 1.1, 1.3, 1.4, 4.2, 8.1_
-- [ ] 3.2 Functions: which changed, which call them, which fault belongs where
+- [x] 3.2 Functions: which changed, which call them, which fault belongs where
   - `step/functions.rs` from the pack's function boundaries: changed by token sequence, callers in scope by
     callee name, faults assigned by position; calls and state writes that leave a function.
   - The name scan that keeps language names out of the driver covers `native/src/step/` too.
   - _Boundary: Functions_
   - _Requirements: 1.5, 4.1, 5.2, 5.10_
-- [ ] 3.3 `step plan`
+- [x] 3.3 `step plan`
   - Per function: noticed and unnoticed faults, writes outside the frame, tokens; ranked; functions with no
     noticed fault marked and their outward calls listed. Runs in copies only.
   - Done when an integration test on a fixture repository checks the table and that the repository is

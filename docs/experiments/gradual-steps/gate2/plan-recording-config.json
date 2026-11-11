@@ -1,0 +1,43 @@
+{
+  "language": "rust",
+  "source_root": "D:/BuildArtifacts/lesscode/t12/whole",
+  "files": [
+    "native/src/recording.rs"
+  ],
+  "test_paths": [
+    "native/tests/"
+  ],
+  "test": [
+    "cargo",
+    "nextest",
+    "run",
+    "--locked",
+    "--manifest-path",
+    "native/Cargo.toml",
+    "--test",
+    "recording",
+    "--no-fail-fast"
+  ],
+  "env": {
+    "CARGO_TARGET_DIR": "target"
+  },
+  "exclusions": [
+    "target"
+  ],
+  "timeout_floor_s": 180,
+  "timeout_ceiling_s": 900,
+  "invalid_output_patterns": [
+    "could not compile",
+    "error[E"
+  ],
+  "error_output_patterns": [
+    "memory allocation of",
+    "found invalid metadata files",
+    "paging file is too small"
+  ],
+  "runner_evidence_patterns": [
+    "Starting ",
+    "Summary ["
+  ],
+  "workers": 3
+}

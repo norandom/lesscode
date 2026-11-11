@@ -394,6 +394,19 @@ script stays under `docs/experiments/` as the record of R88.
   receipt gains `sites_not_selected` and `mutants_not_selected` when they are used.
 - **Prototype gate:** the three points listed above as not yet shown are shown; status `proceed`.
 
+### Amendment 2, 2026-11-11 (task group 3): as built
+
+- **Declaration.** No `root` (Amendment 1). Fields as in the example, plus `setup` and `build`; a key of
+  `run` that the declaration sets itself is an error.
+- **Function names.** A function takes the `name` field of its node or of the node it is bound to; one
+  without either is counted with the function around it.
+- **Callers.** A call is a name token directly before an opening parenthesis (design: "callee name"). No
+  pack field is needed for it.
+- **`step plan`** takes a run configuration (`--config`), not a declaration, because a plan is made before
+  a step is declared. Receipt `step-plan-v1`.
+- **Binary.** `main.rs` was at its ceiling; its path helpers moved to `cli_paths.rs` and its ceilings were
+  lowered to the measured size.
+
 ## Contradictions and disposition
 
 | Conflict | Authority | Disposition |

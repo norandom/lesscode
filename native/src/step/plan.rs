@@ -56,7 +56,7 @@ struct Row {
     /// State writes the frame specification does not allow; absent without one.
     #[serde(skip_serializing_if = "Option::is_none")]
     outside_frame: Option<usize>,
-    /// No planted fault in it is noticed by the tests.
+    /// Faults were planted in it and the tests noticed none.
     unprotected: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     reaches_out: Option<ReachesOut>,
@@ -114,7 +114,8 @@ fn rows_of(
             .iter()
             .map(|(_, s)| format!("{file}:{}", s.start_line))
             .collect();
-        let unprotected = faults.noticed == 0;
+        let planted = faults.noticed + faults.unnoticed + faults.other;
+        let unprotected = faults.noticed == 0 && planted > 0;
         let line = |s: &str| s.lines().next().unwrap_or("").trim().to_owned();
         let reaches_out = unprotected.then(|| ReachesOut {
             calls: functions
@@ -147,10 +148,11 @@ fn print(plan: &Plan) {
         "function", "noticed", "unnoticed", "tokens", "writes"
     );
     for row in &plan.functions {
-        let mark = if row.unprotected {
-            "  no fault noticed"
-        } else {
-            ""
+        let planted = row.faults.noticed + row.faults.unnoticed + row.faults.other;
+        let mark = match (row.unprotected, planted) {
+            (true, _) => "  no fault noticed",
+            (false, 0) => "  no fault planted",
+            _ => "",
         };
         let name = format!("{}: {}", row.file, row.function);
         println!(

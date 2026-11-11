@@ -1,0 +1,621 @@
+{
+  "receipt": "step-plan-v1",
+  "run": "D:/BuildArtifacts/lesscode/t33/work/plan-run.json",
+  "incomplete": false,
+  "functions": [
+    {
+      "file": "native/src/recording.rs",
+      "function": "replay_to_l2",
+      "noticed": 0,
+      "unnoticed": 20,
+      "other": 0,
+      "tokens": 1010,
+      "state_writes": 4,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Arr",
+          "Float",
+          "Obj",
+          "Ok",
+          "RecordingError",
+          "Some",
+          "as_bytes",
+          "as_secs_f64",
+          "as_str",
+          "canon",
+          "clone",
+          "cloned",
+          "display",
+          "dumps",
+          "duration_since",
+          "enumerate",
+          "err",
+          "file_name",
+          "find",
+          "first",
+          "first_diff",
+          "int",
+          "into_owned",
+          "iter",
+          "j_arr",
+          "j_get",
+          "j_str",
+          "len",
+          "map",
+          "map_err",
+          "new",
+          "now",
+          "obj",
+          "push",
+          "read_json",
+          "retain",
+          "shim_replay",
+          "str",
+          "strip_sql",
+          "to_string_lossy",
+          "truncate_chars",
+          "unwrap_or",
+          "unwrap_or_default",
+          "write",
+          "zip"
+        ],
+        "state_writes": [
+          "line 641: pairs.retain(|(k, _)| k != \"sql\")",
+          "line 658: l2.push(J::obj(vec![",
+          "line 675: operations += 1",
+          "line 677: sequences += 1"
+        ]
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "assemble_meta",
+      "noticed": 0,
+      "unnoticed": 17,
+      "other": 0,
+      "tokens": 824,
+      "state_writes": 9,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Arr",
+          "any",
+          "clone",
+          "cloned",
+          "collect",
+          "contains",
+          "difference",
+          "filter",
+          "find",
+          "flat_map",
+          "from_ref",
+          "int",
+          "into_iter",
+          "is_empty",
+          "iter",
+          "j_arr",
+          "j_get",
+          "j_str",
+          "len",
+          "map",
+          "obj",
+          "push",
+          "signatures",
+          "str",
+          "sum",
+          "union",
+          "unwrap_or"
+        ],
+        "state_writes": [
+          "line 454: fields.push((\"scope\", j_get(inputs, \"scope\").cloned().unwrap_or(J::Null)))",
+          "line 456: fields.push((\"root\", j_get(inputs, \"root\").cloned().unwrap_or(J::Null)))",
+          "line 457: fields.push((",
+          "line 461: fields.push((",
+          "line 466: fields.push((\"sequences\", J::int(seqs.len() as i64)))",
+          "line 467: fields.push((",
+          "line 475: fields.push((",
+          "line 479: fields.push((",
+          "line 488: fields.push(("
+        ]
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "record_golden",
+      "noticed": 0,
+      "unnoticed": 10,
+      "other": 0,
+      "tokens": 261,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Arr",
+          "Int",
+          "Ok",
+          "Some",
+          "assemble_meta",
+          "err",
+          "into",
+          "is_empty",
+          "j_arr",
+          "j_get",
+          "j_int",
+          "join",
+          "read_json",
+          "run_shim",
+          "to_string_lossy",
+          "to_vec",
+          "unwrap_or",
+          "write_golden"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "replay_golden",
+      "noticed": 0,
+      "unnoticed": 10,
+      "other": 0,
+      "tokens": 378,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Ok",
+          "Some",
+          "canon",
+          "enumerate",
+          "err",
+          "find",
+          "first_diff",
+          "iter",
+          "j_arr",
+          "j_get",
+          "j_str",
+          "read_json",
+          "shim_replay",
+          "to_path_buf",
+          "truncate_chars",
+          "unwrap_or",
+          "zip"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "run_groups",
+      "noticed": 0,
+      "unnoticed": 6,
+      "other": 0,
+      "tokens": 334,
+      "state_writes": 3,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "as_ref",
+          "as_secs_f64",
+          "as_str",
+          "call",
+          "cloned",
+          "collect",
+          "elapsed",
+          "extend",
+          "is_empty",
+          "iter",
+          "join",
+          "map",
+          "now",
+          "to_string",
+          "to_string_lossy"
+        ],
+        "state_writes": [
+          "line 823: cmd.extend(extra_first.iter().cloned())",
+          "line 824: cmd.extend(",
+          "line 829: cmd.extend(args.iter().cloned())"
+        ]
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "arm_env",
+      "noticed": 0,
+      "unnoticed": 5,
+      "other": 0,
+      "tokens": 266,
+      "state_writes": 4,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Some",
+          "as_str",
+          "clone",
+          "collect",
+          "find",
+          "into_owned",
+          "iter",
+          "iter_mut",
+          "join",
+          "map",
+          "push",
+          "push_str",
+          "to_string",
+          "to_string_lossy"
+        ],
+        "state_writes": [
+          "line 886: pythonpath.push(';')",
+          "line 887: pythonpath.push_str(&p.to_string_lossy())",
+          "line 902: entry.1 = v.clone()",
+          "line 904: env.push((k.clone(), v.clone()))"
+        ]
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "shim_replay",
+      "noticed": 0,
+      "unnoticed": 5,
+      "other": 0,
+      "tokens": 220,
+      "state_writes": 1,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Ok",
+          "as_str",
+          "clone",
+          "collect",
+          "extend",
+          "into",
+          "into_owned",
+          "iter",
+          "j_arr",
+          "j_get",
+          "join",
+          "map",
+          "read_json",
+          "run_shim",
+          "to_string_lossy",
+          "to_vec",
+          "unwrap_or"
+        ],
+        "state_writes": [
+          "line 557: args.extend(golden_args)"
+        ]
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "call",
+      "noticed": 1,
+      "unnoticed": 5,
+      "other": 0,
+      "tokens": 270,
+      "state_writes": 3,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "probe",
+      "noticed": 0,
+      "unnoticed": 4,
+      "other": 0,
+      "tokens": 210,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Ok",
+          "RecordingError",
+          "arg",
+          "clone",
+          "cloned",
+          "display",
+          "envs",
+          "err",
+          "from",
+          "from_utf8_lossy",
+          "is_empty",
+          "iter",
+          "map_err",
+          "new",
+          "output",
+          "same_file_prefix",
+          "to_string",
+          "trim"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "run_shim",
+      "noticed": 0,
+      "unnoticed": 4,
+      "other": 0,
+      "tokens": 150,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Ok",
+          "RecordingError",
+          "arg",
+          "args",
+          "env",
+          "err",
+          "first",
+          "from_utf8_lossy",
+          "map_err",
+          "new",
+          "output",
+          "success",
+          "unwrap_or"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "write_golden",
+      "noticed": 0,
+      "unnoticed": 4,
+      "other": 0,
+      "tokens": 291,
+      "state_writes": 1,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Ok",
+          "RecordingError",
+          "Some",
+          "as_bytes",
+          "clone",
+          "comma_count",
+          "create_dir_all",
+          "display",
+          "file_name",
+          "from",
+          "golden_write",
+          "into_owned",
+          "len",
+          "map",
+          "map_err",
+          "new",
+          "obj",
+          "parent",
+          "sha256_hex",
+          "to_string_lossy",
+          "unwrap_or_default",
+          "write"
+        ],
+        "state_writes": [
+          "line 237: golden_write("
+        ]
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "py_float_repr",
+      "noticed": 15,
+      "unnoticed": 4,
+      "other": 0,
+      "tokens": 365,
+      "state_writes": 2,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "write_scalar",
+      "noticed": 2,
+      "unnoticed": 2,
+      "other": 0,
+      "tokens": 149,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "canon",
+      "noticed": 0,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 32,
+      "state_writes": 1,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "canon_dumps",
+          "new"
+        ],
+        "state_writes": [
+          "line 309: canon_dumps(value, &mut out)"
+        ]
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "read_json",
+      "noticed": 0,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 99,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "RecordingError",
+          "display",
+          "map",
+          "map_err",
+          "read_to_string",
+          "value_to_j"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "canon_dumps",
+      "noticed": 14,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 216,
+      "state_writes": 11,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "golden_write",
+      "noticed": 23,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 281,
+      "state_writes": 11,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "err",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 26,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "fmt",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 37,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "j_arr",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 34,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "j_obj",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 38,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "py_str_of",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 104,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "same_file_prefix",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 82,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "truncate_chars",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 30,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "golden_dumps",
+      "noticed": 1,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 33,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "write_str_py",
+      "noticed": 1,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 27,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "first_diff",
+      "noticed": 3,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 356,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "comma_count",
+      "noticed": 5,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 85,
+      "state_writes": 2,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "signatures",
+      "noticed": 5,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 263,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "build_groups",
+      "noticed": 10,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 429,
+      "state_writes": 4,
+      "unprotected": false
+    },
+    {
+      "file": "native/src/recording.rs",
+      "function": "verdict",
+      "noticed": 11,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 151,
+      "state_writes": 2,
+      "unprotected": false
+    }
+  ]
+}
