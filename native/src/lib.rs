@@ -9,7 +9,6 @@ pub mod adapter_traits;
 pub mod adapters;
 pub mod admission;
 pub mod budgets;
-mod budgets_report;
 pub mod cli_deconvolute;
 pub mod compare;
 pub mod jsonval;

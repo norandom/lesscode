@@ -3,6 +3,7 @@
 
 use super::annotations::{site_of, validate, Decision};
 use super::config::RunConfig;
+use super::functions::select;
 use super::operators::mutants_of_sites;
 use super::pack::Pack;
 use super::registry::embedded;
@@ -48,6 +49,9 @@ struct RunReceipt<'a> {
     config_sha256: String,
     source_files_sha256: BTreeMap<String, String>,
     sites: usize,
+    /// Sites outside the functions the configuration names; absent when it names none.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sites_not_selected: Option<usize>,
     sites_without_operator: Vec<Site>,
     invalid_before_run: usize,
     annotation_decisions: Option<Vec<Decision>>,
@@ -80,19 +84,23 @@ fn chosen_sites(
     Ok((sites, Some(decisions)))
 }
 
-/// Exit 0 when every mutant has a class, 2 when errors remain; a void run
-/// or bad input is exit 3.
-pub fn run_run(args: RunArgs) -> Result<u8, String> {
-    let config = RunConfig::read(&args.config)?;
-    let pack = embedded(&config.language).map_err(|e| e.to_string())?;
-    check_separate(&config.source_root, &args.work)?;
-    let source = SourceSet {
-        root: config.source_root.clone(),
-        files: config.files.clone(),
-        test_paths: config.test_paths.clone(),
-    };
-    let (sites, decisions) = chosen_sites(&args, &source, pack)?;
-    let identity = config.identity();
+/// The mutants to run, with what was found on the way.
+struct Planned {
+    jobs: Vec<Job>,
+    /// Sites for which the pack offers no operator.
+    bare: Vec<Site>,
+    /// Mutants that were offered and do not parse.
+    invalid: usize,
+    /// The text of each file that has a site.
+    texts: BTreeMap<String, String>,
+}
+
+fn planned(
+    source: &SourceSet,
+    sites: &[Site],
+    pack: &Pack,
+    identity: &str,
+) -> Result<Planned, String> {
     let mut texts: BTreeMap<String, String> = BTreeMap::new();
     let (mut jobs, mut bare, mut invalid) = (Vec::new(), Vec::new(), 0);
     for file in &source.files {
@@ -109,7 +117,7 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
             invalid += of_site.offered - of_site.valid.len();
             for mutant in of_site.valid {
                 let sha256 = sha256_hex_bytes(mutant.text.as_bytes());
-                let key = Store::key(&original, &sha256, &identity);
+                let key = Store::key(&original, &sha256, identity);
                 jobs.push(Job {
                     number: jobs.len() + 1,
                     site: (*site).clone(),
@@ -122,6 +130,34 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
         }
         texts.insert(file.clone(), text);
     }
+    Ok(Planned {
+        jobs,
+        bare,
+        invalid,
+        texts,
+    })
+}
+
+/// Exit 0 when every mutant has a class, 2 when errors remain; a void run
+/// or bad input is exit 3.
+pub fn run_run(args: RunArgs) -> Result<u8, String> {
+    let config = RunConfig::read(&args.config)?;
+    let pack = embedded(&config.language).map_err(|e| e.to_string())?;
+    check_separate(&config.source_root, &args.work)?;
+    let source = SourceSet {
+        root: config.source_root.clone(),
+        files: config.files.clone(),
+        test_paths: config.test_paths.clone(),
+    };
+    let (sites, decisions) = chosen_sites(&args, &source, pack)?;
+    let (sites, sites_not_selected) = select(sites, &config.functions, &source, pack)?;
+    let identity = config.identity();
+    let Planned {
+        jobs,
+        bare,
+        invalid,
+        texts,
+    } = planned(&source, &sites, pack, &identity)?;
     let store = match args.no_reuse {
         true => None,
         false => Some(Store::open(&args.work.join("outcomes"))?),
@@ -144,6 +180,7 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
             .map(|(file, text)| (file.clone(), sha256_hex_bytes(text.as_bytes())))
             .collect(),
         sites: sites.len(),
+        sites_not_selected,
         sites_without_operator: bare,
         invalid_before_run: invalid,
         annotation_decisions: decisions,

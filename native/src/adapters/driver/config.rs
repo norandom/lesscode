@@ -27,6 +27,10 @@ pub struct RunConfig {
     pub source_root: PathBuf,
     /// Files to mutate, relative to the source root, with forward slashes.
     pub files: Vec<String>,
+    /// Per file, the functions to mutate in; a file without an entry is
+    /// mutated everywhere. Does not change what a mutant's outcome is.
+    #[serde(default)]
+    pub functions: BTreeMap<String, Vec<String>>,
     /// Path prefixes that hold tests; files under them are never mutated.
     #[serde(default)]
     pub test_paths: Vec<String>,

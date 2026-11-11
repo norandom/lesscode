@@ -64,6 +64,13 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/functions.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "Functions of a file by the pack's boundary kind; limit of a run to named functions (task 1.1, REQ 5.2)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/interrupt.rs",
    "max_logical_units": 300,
    "owner": "agnostic-annotation-driver",
@@ -124,7 +131,6 @@
   {
    "path": "adapters/driver/run_command.rs",
    "max_logical_units": 300,
-   "max_fn_tokens": 719,
    "owner": "agnostic-annotation-driver",
    "allocation": "deconvolute run handler and receipt (task 6.5, REQ 4.9/6.4/6.5)",
    "disposition": null
@@ -209,7 +215,7 @@
    "disposition": "keep-measured-ceiling; task-2 split complete; blob e7ea66c7db4f4f16d9cbfabea1cc9a19ea130211"
   },
   {
-   "path": "budgets_report.rs",
+   "path": "budgets/report.rs",
    "max_logical_units": 300,
    "owner": "deconvolution-native-core",
    "allocation": "Receipt of the budgets check, split from budgets.rs when token ceilings were added (2026-11-11)",

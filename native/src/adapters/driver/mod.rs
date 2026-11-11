@@ -12,6 +12,7 @@ pub mod cli;
 pub mod config;
 pub mod contract;
 pub mod controls;
+pub mod functions;
 pub mod interrupt;
 pub mod measure;
 pub mod merge;

@@ -17,8 +17,10 @@ use syn::visit::Visit;
 
 use crate::adapters::driver::measure::token_starts;
 use crate::adapters::driver::registry::embedded;
-use crate::budgets_report::receipt;
 use crate::receipt::write_receipt;
+use report::receipt;
+
+mod report;
 
 /// One governed file; omitted ceilings fall back to the metric defaults.
 #[derive(Deserialize)]

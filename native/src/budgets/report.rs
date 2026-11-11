@@ -2,7 +2,7 @@
 
 use std::path::Path;
 
-use crate::budgets::FileReport;
+use super::FileReport;
 use crate::receipt::J;
 
 fn n(v: usize) -> J {
