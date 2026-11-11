@@ -48,7 +48,14 @@ and not run. A swap that says the same as the negation at the same site is left 
 | `error` | The command could not start, the machine ran out of a resource, or the test runner left no sign that it ran. This says nothing about the mutant; it is retried once and never stored |
 
 A run is void, and nothing in it may be relied on, when the unmutated tests do not pass before or after the
-mutants, when a mutant could not be run by any copy, or when a restoration could not be verified.
+mutants, when a mutant could not be run by any copy, when a restoration could not be verified, or when the
+run was stopped from outside.
+
+Stopping a run: on Ctrl-C, Ctrl-Break, a termination signal or a closing console the driver kills the
+project command it is waiting for with everything that command started, writes the original file back into
+the copy, writes the receipt as void and exits with code 3. Mutants classed before the stop stay in the
+outcome store and are reused by the next run. A driver that is killed outright (`kill -9`, the task manager)
+cannot do this; the file it had planted is then restored when the copy is next opened.
 
 ## Run configuration
 
@@ -115,6 +122,4 @@ offer. Hand-written control sets are in `native/tests/fixtures/driver/controls/`
   prints. Seven of the twelve hand-made controls of the earlier specimen gates were of these kinds and have
   no driver mutant (R75).
 - A fifth language: it needs a grammar compiled into the binary and an admitted pack.
-- A signal handler: a driver killed from outside can leave a project command running. The file it had
-  planted in a copy is restored when that copy is next opened.
 - Faster Rust runs: each mutant rebuilds the crate.

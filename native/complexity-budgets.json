@@ -82,6 +82,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/interrupt.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Stop requests from outside: Ctrl-C, termination, closing console (REQ 5.7)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/mod.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

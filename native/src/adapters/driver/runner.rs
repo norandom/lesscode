@@ -4,6 +4,7 @@
 
 pub use super::classes::{classify, ERROR, INVALID, KILLED, SURVIVED, TIMEOUT};
 use super::config::RunConfig;
+use super::interrupt;
 use super::process::{run, Finished};
 use super::sites::Site;
 use super::store::{Store, Stored};
@@ -173,6 +174,11 @@ impl Shared<'_> {
             space
                 .restore()
                 .inspect_err(|e| *self.fatal.lock().unwrap() = Some(e.clone()))?;
+            if interrupt::requested() {
+                // The mutant's run was cut short: it has no class.
+                *self.fatal.lock().unwrap() = Some(interrupt::STOPPED.into());
+                return Err(interrupt::STOPPED.into());
+            }
             let (class, reason) = classify(self.config, &done);
             let seconds = done.iter().map(|(_, f)| f.seconds).sum();
             outcome = (
@@ -350,7 +356,9 @@ pub fn run_batch(
             .collect()
     });
     let left = shared.queue.lock().unwrap().len();
-    let fatal = shared.fatal.lock().unwrap().clone();
+    // A stop during setup or an unmutated run reaches no mutant; say so anyway.
+    let stopped = interrupt::requested().then(|| interrupt::STOPPED.to_owned());
+    let fatal = stopped.or_else(|| shared.fatal.lock().unwrap().clone());
     let void = void_reason(&reports, left, fatal);
     let mut mutants = shared.results.into_inner().unwrap();
     mutants.sort_by_key(|m| m.number);

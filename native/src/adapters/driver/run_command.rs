@@ -128,6 +128,7 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
     };
     let run_id = args.out.to_string_lossy().into_owned();
     let workers = config.parallel(args.workers);
+    super::interrupt::install();
     let batch = run_batch(&config, &args.work, jobs, store.as_ref(), workers, &run_id);
     let (counts_by_class, counts_by_kind) = counts(&batch.mutants);
     let incomplete = counts_by_class.contains_key(ERROR);
