@@ -3,11 +3,11 @@
   "created_at": "2026-11-11T12:15:00+01:00",
   "updated_at": "2026-11-11T14:00:00+01:00",
   "language": "en",
-  "phase": "requirements-generated",
+  "phase": "requirements-approved",
   "approvals": {
     "requirements": {
       "generated": true,
-      "approved": false
+      "approved": true
     },
     "design": {
       "generated": false,
@@ -29,5 +29,5 @@
     "docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md",
     "docs/research/2026-11-11/14-gradual-steps-prototype-gate.md"
   ],
-  "notes": "2026-11-11: owner asked whether code is healthy and working after a change and whether refactoring can be supported step by step, release by release; cc-sdd per branch, one small case per branch, assurance inspired by Pex and Moles, handover to openidea-kiro, skills are not hard boundaries. Brief written, prototype gate passed (R88). Owner said yes to writing requirements and to a first real step from a copy of this repository with a thorough check and a guard. Requirements generated, not approved."
+  "notes": "2026-11-11: owner asked whether code is healthy and working after a change and whether refactoring can be supported step by step, release by release; cc-sdd per branch, one small case per branch, assurance inspired by Pex and Moles, handover to openidea-kiro, skills are not hard boundaries. Brief written, prototype gate passed (R88). Owner said yes to writing requirements and to a first real step from a copy of this repository with a thorough check and a guard. Requirements generated and approved by the owner 2026-11-11 (\"1. approved\"). Owner decisions of the same message: merge the pins branch; complexity budgets should count tokens instead of lines; kiro-cli is installed from its release into tools/bin by a pinned script. kiro-cli check on this spec: 0 errors, 15 warnings (criteria with more than one shall), to be split when the design is written."
 }

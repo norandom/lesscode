@@ -26,3 +26,6 @@ runs/
 .env
 .env.*
 !.env.sample
+
+# Pinned tool binaries installed by tools/install_*.sh / .ps1
+tools/bin/

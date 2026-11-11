@@ -1,7 +1,7 @@
 # Requirements: gradual refactoring in checked steps
 
 Generated 2026-11-11 (Europe/Berlin) from the [brief](brief.md) after its prototype gate passed
-([R88](../../../docs/research/2026-11-11/14-gradual-steps-prototype-gate.md)). Awaiting the owner's approval.
+([R88](../../../docs/research/2026-11-11/14-gradual-steps-prototype-gate.md)). Approved by the owner on 2026-11-11.
 
 ## Introduction
 
