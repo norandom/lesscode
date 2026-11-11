@@ -13,6 +13,7 @@ use lesscode_core::adapters::driver::pack::Pack;
 use lesscode_core::adapters::driver::registry::{embedded, shipped_texts};
 use lesscode_core::adapters::driver::sites::eligible_sites;
 use lesscode_core::adapters::driver::source::SourceSet;
+use lesscode_core::adapters::driver::Kind;
 use lesscode_core::specimen_runner::sha256_hex_bytes;
 use serde_json::{json, Value};
 use std::fs;
@@ -106,7 +107,9 @@ fn native_mutants(reference: &Reference, pack: &Pack) -> Vec<Value> {
 fn eligible_sites_equal_the_prototype() {
     for reference in references() {
         let pack = embedded(reference.data["language"].as_str().unwrap()).unwrap();
-        let sites = eligible_sites(&reference.source, pack).unwrap();
+        // Argument lists became sites after the gate; the prototype has none.
+        let mut sites = eligible_sites(&reference.source, pack).unwrap();
+        sites.retain(|site| site.kind != Kind::CallArgument);
         let expected = reference.data["sites"].as_array().unwrap();
         assert_eq!(sites.len(), expected.len(), "{}", reference.name);
         for (site, want) in sites.iter().zip(expected) {
@@ -142,7 +145,17 @@ fn shipped_packs_differ_from_the_gate_only_as_intended() {
     for reference in references() {
         let language = reference.data["language"].as_str().unwrap();
         let (pack, gate) = (embedded(language).unwrap(), gate_pack(language));
-        let found = native_mutants(&reference, pack);
+        // The third intended difference: mutants of call arguments, a kind
+        // added on 2026-11-11 that the gate packs do not have.
+        let mut found = native_mutants(&reference, pack);
+        let with_arguments = found.len();
+        found.retain(|m| m["site"]["kind"] != "call_argument");
+        println!(
+            "{}: {} call-argument mutants beside {}",
+            reference.name,
+            with_arguments - found.len(),
+            found.len()
+        );
         let expected = reference.data["mutants"].as_array().unwrap();
         let ops = &pack.operators.branch_condition;
         let swap_of = |mutant: &Value, pairs: &[(String, String)]| {

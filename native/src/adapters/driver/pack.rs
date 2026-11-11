@@ -85,6 +85,18 @@ pub struct OrderOps {
     pub swap_next: bool,
 }
 
+/// What can be changed in the arguments of a call.
+#[derive(Debug, Default, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct ArgumentOps {
+    /// Literal arguments that are swapped for their partner.
+    pub literal_swaps: Vec<(String, String)>,
+    /// The empty string literal; a non-empty string argument becomes this.
+    pub empty_string: Option<String>,
+    /// Swap the first two arguments.
+    pub swap_first_two: bool,
+}
+
 #[derive(Debug, Default, Deserialize)]
 #[serde(default, deny_unknown_fields)]
 pub struct Operators {
@@ -92,6 +104,7 @@ pub struct Operators {
     pub failure_state: FailureOps,
     pub state_write: WriteOps,
     pub error_order: OrderOps,
+    pub call_argument: ArgumentOps,
 }
 
 #[derive(Debug, Deserialize)]

@@ -406,6 +406,33 @@ list of shipped packs so that no other driver file names a language. Packs carry
   this spec deletes.
 - The driver is now twenty files and about 3,660 lines including tests in the files; the largest is 348.
 
+### Amendment 4, 2026-11-11 (after the final validation): three changes chosen by the owner
+
+Owner decision of 2026-11-11, after the validation report: add a signal handler, remove the functions that
+report success without running anything, and add operators for call arguments.
+
+- Signal handler (`interrupt.rs`, commit `56abd58`). Requirement 5.7 is now met for a driver that is told to
+  stop; a driver killed outright still relies on the journal. The handler is two system calls declared in
+  the file, the crate's first unsafe code, chosen over a new dependency.
+- Removed (commit `8e0e2b9`): `PureCoreVerifier::compare` on the three adapters, the same method on
+  `NativePureCoreVerifier` (found while removing the first), and `NativeMutantGenerator::generate`.
+- Call arguments. A sixth site kind, `call_argument`, whose site is the argument list of a call. It is the
+  only kind a pack may leave out, so packs written under the present guide stay admissible. Operators, from
+  the pack's `operators.call_argument`:
+  - `literal_swaps`: a literal argument with a listed partner is swapped for it;
+  - `empty_string`: a non-empty string argument becomes the empty string;
+  - `swap_first_two`: the first two arguments change places.
+  At most two literal changes and one swap per call, so that long argument lists do not flood a run. The
+  usual rules apply: a mutant that does not parse or changes nothing is not written.
+- What this does not reproduce: replacing an argument by a value of another form (the Java control that put
+  `true` where a variable stood), dropping an element of a list, or removing a chained call.
+- Prediction, written before the measurement runs were read: on the five gate scopes every mutant of the
+  five earlier kinds keeps the class of R73; of the new mutants at least half are killed or survive, that
+  is, say something about the tests. If fewer than half do, `swap_first_two` is switched off in the packs of
+  the typed languages, where a swap of two differently typed arguments only costs a failed build.
+- The engine parity tests compare with the prototype after leaving the new kind out; the count of new
+  mutants per scope is printed by the test (12, 49, 10, 35 and 19 beside 170, 197, 64, 71 and 55).
+
 ## Contradictions and disposition
 
 | # | Contradiction | Source authority | Disposition |

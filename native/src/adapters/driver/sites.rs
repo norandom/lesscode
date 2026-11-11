@@ -8,11 +8,12 @@ use super::Kind;
 use serde::Serialize;
 
 /// The kinds that have operators, in the order sites are discovered.
-pub const OPERATOR_KINDS: [Kind; 4] = [
+pub const OPERATOR_KINDS: [Kind; 5] = [
     Kind::BranchCondition,
     Kind::FailureState,
     Kind::StateWrite,
     Kind::ErrorOrder,
+    Kind::CallArgument,
 ];
 
 /// Why a node is or is not a site of a kind.

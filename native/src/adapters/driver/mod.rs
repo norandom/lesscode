@@ -36,15 +36,27 @@ pub enum Kind {
     ErrorOrder,
     StateWrite,
     PureShellBoundary,
+    /// The argument list of a call. A pack may leave this kind out.
+    CallArgument,
 }
 
 impl Kind {
-    pub const ALL: [Kind; 5] = [
+    /// The kinds every pack must have a rule for.
+    pub const REQUIRED: [Kind; 5] = [
         Kind::BranchCondition,
         Kind::FailureState,
         Kind::ErrorOrder,
         Kind::StateWrite,
         Kind::PureShellBoundary,
+    ];
+
+    pub const ALL: [Kind; 6] = [
+        Kind::BranchCondition,
+        Kind::FailureState,
+        Kind::ErrorOrder,
+        Kind::StateWrite,
+        Kind::PureShellBoundary,
+        Kind::CallArgument,
     ];
 
     /// The name used in packs, annotations and receipts.
@@ -55,6 +67,7 @@ impl Kind {
             Kind::ErrorOrder => "error_order",
             Kind::StateWrite => "state_write",
             Kind::PureShellBoundary => "pure_shell_boundary",
+            Kind::CallArgument => "call_argument",
         }
     }
 }

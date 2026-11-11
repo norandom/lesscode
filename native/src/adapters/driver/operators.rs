@@ -101,7 +101,7 @@ fn first_edit<'r>(
                 ("swap_next".into(), vec![(first, b), (sibling, a)])
             }))
         }
-        Kind::PureShellBoundary => Ok(None),
+        Kind::PureShellBoundary | Kind::CallArgument => Ok(None),
     }
 }
 
@@ -166,11 +166,49 @@ fn literal_swap<'r>(pack: &Pack, node: &SgNode<'r>) -> Option<Labelled<'r>> {
     ))
 }
 
+/// Changes to the arguments of a call: the first two literal arguments that
+/// have a partner or are a non-empty string, and the first two arguments
+/// swapped. Bounded, so that a long argument list does not flood a run.
+fn argument_edits<'r>(pack: &Pack, list: &SgNode<'r>) -> Vec<Labelled<'r>> {
+    let ops = &pack.operators.call_argument;
+    let partner = partners(&ops.literal_swaps);
+    let arguments = named_children(list, &pack.comment_kinds);
+    let mut found = Vec::new();
+    for argument in &arguments {
+        let (line, column, _, _) = position(argument);
+        let old = argument.text().into_owned();
+        let change = match (partner.get(&old), &ops.empty_string) {
+            (Some(new), _) => Some((format!("{old}->{new}"), new.clone())),
+            (None, Some(empty)) if has(&pack.string_kinds, &argument.kind()) && old != *empty => {
+                Some(("string->empty".to_owned(), empty.clone()))
+            }
+            _ => None,
+        };
+        if let Some((label, new)) = change {
+            let label = format!("arg_literal:{label}@{line}:{column}");
+            found.push((label, vec![(argument.clone(), new)]));
+        }
+        if found.len() == 2 {
+            break;
+        }
+    }
+    if let [first, second, ..] = arguments.as_slice() {
+        let (a, b) = (first.text().into_owned(), second.text().into_owned());
+        if ops.swap_first_two && a != b {
+            let (line, column, _, _) = position(first);
+            let edits = vec![(first.clone(), b), (second.clone(), a)];
+            found.push((format!("arg_swap@{line}:{column}"), edits));
+        }
+    }
+    found
+}
+
 fn all_edits<'r>(pack: &Pack, kind: Kind, node: &SgNode<'r>) -> Result<Vec<Labelled<'r>>, String> {
     let mut found: Vec<_> = first_edit(pack, kind, node)?.into_iter().collect();
     match kind {
         Kind::BranchCondition => found.extend(token_swaps(pack, node, !found.is_empty())),
         Kind::FailureState => found.extend(literal_swap(pack, node)),
+        Kind::CallArgument => found.extend(argument_edits(pack, node)),
         _ => {}
     }
     Ok(found)

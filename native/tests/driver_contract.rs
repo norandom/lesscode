@@ -285,6 +285,99 @@ fn the_source_tree_has_no_specimen_fragment_and_no_first_occurrence_replacement(
     }
 }
 
+/// The operators of every valid mutant at call-argument sites, with the
+/// mutated line.
+fn argument_mutants(language: &str, text: &str) -> Vec<(String, String)> {
+    use lesscode_core::adapters::driver::operators::mutants_of_sites;
+    use lesscode_core::adapters::driver::registry::embedded;
+    use lesscode_core::adapters::driver::sites::file_sites;
+    use lesscode_core::adapters::driver::Kind;
+    let pack = embedded(language).unwrap();
+    let sites = file_sites(pack, "sample", text).unwrap();
+    let wanted: Vec<_> = sites
+        .iter()
+        .filter(|s| s.kind == Kind::CallArgument)
+        .collect();
+    let mut found = Vec::new();
+    for (site, of_site) in wanted
+        .iter()
+        .zip(mutants_of_sites(pack, text, &wanted).unwrap())
+    {
+        for mutant in of_site.valid {
+            let line = mutant.text.lines().nth(site.start_line - 1).unwrap();
+            found.push((mutant.operator, line.trim().to_owned()));
+        }
+    }
+    found
+}
+
+/// Added 2026-11-11: literal arguments are swapped or emptied, the first two
+/// arguments change places, and at most two literals per call are touched.
+#[test]
+fn call_arguments_get_bounded_literal_and_swap_mutants() {
+    let rust = argument_mutants("rust", "fn f() {\n    send(\"warning\", true, 0, 1);\n}\n");
+    let lines: Vec<&str> = rust.iter().map(|(_, line)| line.as_str()).collect();
+    assert_eq!(
+        lines,
+        [
+            "send(\"\", true, 0, 1);",
+            "send(\"warning\", false, 0, 1);",
+            "send(true, \"warning\", 0, 1);"
+        ]
+    );
+    assert!(rust[0].0.starts_with("arg_literal:string->empty@2:"));
+    assert!(rust[1].0.starts_with("arg_literal:true->false@2:"));
+    assert!(rust[2].0.starts_with("arg_swap@2:"));
+
+    let python = argument_mutants("python", "def f():\n    send(name, False)\n    log(\"\")\n");
+    let lines: Vec<&str> = python.iter().map(|(_, line)| line.as_str()).collect();
+    assert_eq!(lines, ["send(name, True)", "send(False, name)"]);
+
+    let java = argument_mutants(
+        "java",
+        "class A { void f() {\n    format.print(value, appendable, newRecord);\n} }\n",
+    );
+    let lines: Vec<&str> = java.iter().map(|(_, line)| line.as_str()).collect();
+    assert_eq!(lines, ["format.print(appendable, value, newRecord);"]);
+
+    let ts = argument_mutants(
+        "typescript",
+        "function f() {\n  mk(cap, \"warning\", reason);\n}\n",
+    );
+    let lines: Vec<&str> = ts.iter().map(|(_, line)| line.as_str()).collect();
+    assert_eq!(
+        lines,
+        ["mk(cap, \"\", reason);", "mk(\"warning\", cap, reason);"]
+    );
+
+    // An argument inside a string or a comment is not a site, and a call
+    // without arguments has no mutant.
+    assert!(argument_mutants("python", "def f():\n    go()\n    # send(True)\n").is_empty());
+}
+
+/// A pack without the optional kind is still admitted and gives no
+/// call-argument site.
+#[test]
+fn the_call_argument_kind_is_optional_in_a_pack() {
+    use lesscode_core::adapters::driver::admission::admit;
+    use lesscode_core::adapters::driver::registry::shipped_texts;
+    let text = shipped_texts()
+        .iter()
+        .find(|t| t.contains("\"language\": \"python\""))
+        .unwrap();
+    let mut pack: serde_json::Value = serde_json::from_str(text).unwrap();
+    pack["kinds"]
+        .as_object_mut()
+        .unwrap()
+        .remove("call_argument");
+    pack["operators"]
+        .as_object_mut()
+        .unwrap()
+        .remove("call_argument");
+    let result = admit(&pack.to_string(), "python").unwrap();
+    assert!(result.admitted, "{:?}", result.feedback());
+}
+
 fn analysis_request(path: &str, allowed: &[&str]) -> AnalysisRequest {
     AnalysisRequest {
         scope_name: "test".into(),

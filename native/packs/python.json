@@ -13,7 +13,7 @@
     "failure_state": {"nodes": ["raise_statement", "return_statement"]},
     "error_order": {"nodes": ["if_statement"], "requires_next_sibling": true},
     "state_write": {"nodes": ["assignment", "augmented_assignment"], "call_statements": ["call", "await"]},
-    "pure_shell_boundary": {"nodes": ["function_definition"]}
+    "pure_shell_boundary": {"nodes": ["function_definition"]}, "call_argument": {"nodes": ["argument_list"]}
   },
   "noop_statement": "pass",
   "statement_wrappers": ["expression_statement"],
@@ -23,7 +23,8 @@
                           "negation_swaps": [["==", "!="], ["in", "not in"], ["is", "is not"]]},
     "failure_state": {"by_kind": {"raise_statement": "{noop}"}, "returned_literal_swaps": [["True", "False"], ["0", "1"]]},
     "state_write": {"statement": "{noop}"},
-    "error_order": {"swap_next": true}
+    "error_order": {"swap_next": true},
+    "call_argument": {"literal_swaps": [["True", "False"], ["0", "1"]], "empty_string": "\"\"", "swap_first_two": true}
   },
   "gaps": [{"reason": "dynamic code execution", "nodes_with_prefix": {"call": ["eval(", "exec(", "__import__("]}},
            {"reason": "dynamic attribute access", "nodes_with_prefix": {"call": ["getattr(", "setattr("]}}]

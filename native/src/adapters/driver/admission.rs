@@ -160,7 +160,7 @@ fn shape(pack: &Pack, language: &str) -> Result<String, String> {
             pack.language
         ));
     }
-    for kind in Kind::ALL {
+    for kind in Kind::REQUIRED {
         if pack.rule(kind).is_none() {
             problems.push(format!("missing kinds.{}", kind.name()));
         }
