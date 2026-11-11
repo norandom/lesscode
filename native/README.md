@@ -7,7 +7,13 @@ is for building from source and for the license obligations.
 
 The executable has two groups of commands. The `deconvolute` group and
 `budgets` work on plain source files and are described, with their measured
-limits, in the project README. The `prepare` and `compare` commands freeze
+limits, in the project README. On `main` the `deconvolute` commands `analyze`,
+`mutate`, `run` and `admit-pack` are served by one engine driven by language
+packs (`packs/`, compiled into the binary) for Rust, Python, TypeScript and
+Java; see [the agnostic driver](../docs/driver.md). Of all commands only
+`deconvolute run` executes a project's own build and test commands, and it does
+so in copies of the source tree, never in the tree itself. The `prepare` and
+`compare` commands freeze
 reviewed capability manifests and compare supplied Python, TypeScript and TSX
 source with source-bound external behavioral evidence. They write JSON and
 Markdown, count complete replacements and leave specimens unchanged. They
@@ -113,14 +119,18 @@ cargo +1.98.1 test --locked --manifest-path native/Cargo.toml
 
 ## Parser selection and license obligations
 
-Only `tree-sitter-python` and `tree-sitter-typescript` features are enabled on
-`ast-grep-language`; its broad `builtin-parser` default is disabled. TypeScript
+Four grammar features are enabled on `ast-grep-language`: `tree-sitter-python`,
+`tree-sitter-typescript`, and, for the driver, `tree-sitter-rust` and
+`tree-sitter-java`; its broad `builtin-parser` default is disabled. TypeScript
 and TSX are separate parsers supplied by the same grammar crate. The lock selects
-ast-grep core/language **0.51.0**, tree-sitter **0.27.1**, Python grammar **0.25.0**
-and TypeScript/TSX grammar **0.23.2**. The library exposes their existing parser
+ast-grep core/language **0.51.0**, tree-sitter **0.27.1**, Python grammar **0.25.0**,
+TypeScript/TSX grammar **0.23.2**, Rust grammar **0.24.2** and Java grammar
+**0.23.5**. The library exposes their existing parser
 types directly. `tests/parsers.rs` checks source retention, language-specific
 nodes, JSX recognition distinct from TypeScript, and syntax-error detection for
-all three grammars. These are parsing checks, with no metric names or counts.
+the Python, TypeScript and TSX grammars. These are parsing checks, with no metric
+names or counts. The Rust and Java grammars are exercised by the driver's tests
+(`tests/driver_*.rs`).
 
 [LICENSES.md](LICENSES.md) inventories every dependency record from locked Cargo
 metadata, including optional and platform-specific records. Preserve the

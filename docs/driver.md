@@ -1,9 +1,9 @@
 # The agnostic driver (not yet in a release)
 
-State on 2026-11-10: built on `main`, covered by the test suite on five platforms, not part of the released
-binary 1.0.2. The older text-matching adapters are still in the source tree and are no longer reached from
-the command line. Spec: `.kiro/specs/agnostic-annotation-driver/`. Evidence: research entries R65, R67 and
-R73 under `docs/research/2026-11-10/`.
+State on 2026-11-11: built on `main`, covered by the test suite on five platforms, not part of the released
+binary 1.0.2. The older text-matching analysers and operators were deleted on 2026-11-11 (commit `964921c`).
+Spec: `.kiro/specs/agnostic-annotation-driver/`. Evidence: research entries R65, R67 and R73 under
+`docs/research/2026-11-10/` and R75 under `docs/research/2026-11-11/`.
 
 The driver finds the places in a source file where behaviour is decided, plants small faults there
 (mutants), and can run a project's own tests to see which faults they catch. Everything it knows about a
@@ -84,6 +84,13 @@ A JSON file. Commands are argument vectors; nothing is passed through a shell.
   `timeout_exit_codes` this lets a command that works inside a container stop itself and be classed as a
   timeout.
 - Patterns are plain text fragments, not regular expressions.
+- Each copy must build into its own directory. The driver copies the source tree; it cannot see a build
+  cache that your tools share through the environment. Cargo with a global `CARGO_TARGET_DIR` is such a case:
+  two copies then share compiled units, a copy can run tests against another copy's mutant, and classes come
+  out wrong (16 of 133 in one measured run, R75). Set `"env": {"CARGO_TARGET_DIR": "target"}` so that each
+  copy builds inside itself, or run one copy with `serial_only`. The driver notices the damage only through
+  the closing run of the unmutated tests, which then fails and voids the run; the receipt names the copy and
+  shows the end of the failing output.
 - Outcomes are stored under `W/outcomes` by the hash of the original file, the mutated text and the
   configuration, and reused by later runs unless `--no-reuse` is given.
 
@@ -103,7 +110,10 @@ offer. Hand-written control sets are in `native/tests/fixtures/driver/controls/`
 
 ## What is not there yet
 
-- A release that contains the driver, and the removal of the older adapters.
+- A release that contains the driver.
+- Operators for a changed argument, a changed literal inside a call, the order of a list, or what a process
+  prints. Seven of the twelve hand-made controls of the earlier specimen gates were of these kinds and have
+  no driver mutant (R75).
 - A fifth language: it needs a grammar compiled into the binary and an admitted pack.
 - A signal handler: a driver killed from outside can leave a project command running. The file it had
   planted in a copy is restored when that copy is next opened.

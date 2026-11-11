@@ -52,14 +52,13 @@ Run native AST analysis to verify that the candidate does not leak side effects 
 1. Define a bounded parameter domain `DomainSpec` covering representative inputs, empty values, zeros, extremes, and boundaries.
 2. Generate Cartesian combinations (typically 100 cases).
 3. Evaluate baseline vs candidate: require **0 divergences**. If divergences appear, shrink the witness to identify the minimal causal defect.
+4. Run the comparison on the real baseline and the real candidate, in the project's own language and test framework. No `lesscode-core` command does this for you. A comparison of two re-implementations written for the check proves nothing about the code under review.
 
 ### Phase 5: Adverse Mutation Sensitivity
-1. Apply 4 mandatory adverse controls to the candidate:
-   - `MissingFailureState`: omit error classification or timeout kill.
-   - `InvertedCondition`: flip branch conditions (`!= 0` to `== 0`).
-   - `InvertedErrorOrder`: bypass divergence checks or reorder error precedence.
-   - `SilentNone`: drop environment variables, stream flush, or required headers.
-2. Run the test oracle: require **100% kill rate** ($K / N = 1.0$). If any mutant survives, the test battery is insufficient and the candidate must not be admitted.
+1. Let the driver plant faults in the candidate and run the project's own tests against each one (`deconvolute run`, built from `main`; see `docs/driver.md`). The operators come from the language pack: negate a condition, swap a paired operator, remove or rewrite a failure signal, drop a state write, swap two adjacent checks.
+2. Read the classes in the receipt. `killed` means the tests failed. `survived` means they passed: look at each survivor and decide whether a test is missing or the change makes no difference. `invalid`, `timeout` and `error` say nothing about the tests. A void run says nothing at all.
+3. A mutant is killed only when a test run says so. A changed text, a hand-written witness or a mutant that did not compile is not a kill. The earlier gates of this project counted such things (R75, `docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md`); do not repeat that.
+4. Faults the pack has no operator for (a changed argument, a changed literal inside a call, the order of a list, what a process prints) are not covered. If one of them matters, write the test for it by hand and say so in the review.
 
 ### Phase 6: Mechanical Density Gate
 Evaluate structural reduction using `lesscode-core`:
@@ -79,6 +78,18 @@ Measured with the 1.0.1 binary; see `docs/research/2026-11-10/01-released-binary
 - `mutate` uses operators bound to the experiment specimens. On other code it usually writes no mutants. From release 1.0.2 it then exits 1 (the receipt shows `"mutants_generated": 0`); version 1.0.1 exits 0, so read `mutants_generated`. There is no Python generator: from release 1.0.2 `mutate --lang python` writes nothing and exits 2.
 - `density --lang python` reports the line count in both the line and statement fields.
 - The pre-push hook enforces complexity budgets only. From release 1.0.2 it treats `refactor/*` and `deconvolute/*` branches like any other branch; version 1.0.1 announces them but checks nothing more.
+
+### On `main`, not yet in a release
+Built from `main`, `analyze` and `mutate` are served by one engine driven by language packs for Rust, Python, TypeScript and Java, and two commands are new. The limits above describe releases 1.0.1 and 1.0.2 and do not apply to that build. Full description: `docs/driver.md`.
+```powershell
+# Run the project's own tests against every planted fault, in copies of the source tree:
+lesscode-core deconvolute run --config <run-config.json> --work <work-dir> [--workers N] [--no-reuse] --out <receipt.json>
+
+# Check a language pack before it is used:
+lesscode-core deconvolute admit-pack --pack <pack.json> --lang <language> [--controls <controls.json> --source-root <dir>]
+```
+- `run` is the only command that executes a project's commands. It works in copies under `--work` and refuses a work directory that is the source root, lies inside it or contains it. Exit 0 complete, 2 errors remain, 3 void or bad input.
+- `analyze` exits 1 on a declared gap or a write outside the frame specification; `mutate` exits 1 when a file has no mutant. A source that does not parse is refused with exit 3.
 
 ### Binary Discovery
 Prefer an installed release binary on `PATH` (`lesscode-core --version`; install with `scripts/install.sh` or `scripts/install.ps1`). Otherwise locate the compiled binary in standard build locations:
@@ -102,7 +113,7 @@ lesscode-core deconvolute mutate --lang <rust|java|typescript|python> --source <
 ```
 - **Inputs:** Target source file and target output directory.
 - **Output:** Writes individual mutant source files (`mutant_1_...`, `mutant_2_...`) and outputs a JSON receipt summarizing generated mutations.
-- **Verification Rule:** Every generated mutant must be executed against the candidate test suite; candidate is accepted only if $K / N = 1.0$ (100% killed).
+- **Verification Rule:** `mutate` only writes mutant files. Running them against the test suite is `deconvolute run` (on `main`) or your own harness. Review every survivor; do not report a kill that no test run produced.
 
 ### `density` Subcommand
 Computes canonical and AST statement reductions between baseline and candidate implementations:
@@ -152,7 +163,7 @@ To prevent workspace corruption and guarantee reproducible refactorings, deconvo
 │ Deconvolution Execution         │
 │ 1. `deconvolute analyze`        │
 │ 2. Extract Core / Shell         │
-│ 3. `deconvolute mutate` (K/N=1) │
+│ 3. `deconvolute run` (review)   │
 │ 4. `deconvolute density` (Pass) │
 └────────────────┬────────────────┘
                  │
@@ -167,7 +178,7 @@ To prevent workspace corruption and guarantee reproducible refactorings, deconvo
 ┌─────────────────────────────────┐
 │ Major Refactoring Review        │
 │ - Full CI / nextest run         │
-│ - Zero adverse surviving mutants│
+│ - Surviving mutants reviewed    │
 │ - Mechanical density audit      │
 └─────────────────────────────────┘
 ```
@@ -182,7 +193,7 @@ cd ..\lesscode-dogfood-copy
 ### 2. Execute Deconvolution & Verification
 1. Run `analyze` on the targeted module to verify write sites and AST gaps.
 2. Refactor into pure core and imperative shell.
-3. Run `mutate` and verify that the test suite kills 100% of generated adverse mutants.
+3. Run `deconvolute run` and review every mutant the test suite does not kill.
 4. Run `density` to ensure structural simplification exceeds the mechanical thresholds.
 5. Run the full specimen test suite using an isolated target directory:
    ```powershell
@@ -202,7 +213,7 @@ git push origin refactor/deconvolute-<component>
 ### 4. Treat as a Major Refactoring
 Candidate deconvolution branches must pass full team / CI review:
 - Full test suite passes across all platforms.
-- Adverse mutation receipts show $K/N = 1.0$ kill rate.
+- The `deconvolute run` receipt is not void, and every surviving mutant has a recorded reason (missing test added, or the change makes no difference).
 - Density receipt proves non-marginal complexity reduction.
 - All complexity budgets ($\le 400$ physical lines, $\le 300$ syntax units, $\le 80$ lines/fn) are met.
 

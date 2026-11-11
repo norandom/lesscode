@@ -35,6 +35,28 @@ no network or model requests.
 Read [what is not checked](#what-is-not-checked) before you rely on a result.
 The limits there come from running the released binary against this repository.
 
+### On `main`, not yet in a release
+
+The source on `main` is ahead of release 1.0.2. If you build from source you
+get a different `deconvolute` group, described in
+[the agnostic driver](docs/driver.md):
+
+| You want to know | Command | Works on |
+| --- | --- | --- |
+| Where does this file decide behaviour and write state? | `deconvolute analyze` | Rust, Python, TypeScript, Java |
+| Which small faults can be planted in this file? | `deconvolute mutate` | Rust, Python, TypeScript, Java |
+| Which of those faults do my tests catch? | `deconvolute run` | the same four, with your own build and test commands |
+| Is this language pack fit for use? | `deconvolute admit-pack` | any pack for a compiled-in grammar |
+
+`deconvolute run` is the one command that executes your project's commands. It
+does so in copies of your source tree under a work directory you name, never in
+the tree itself, and it refuses a work directory inside or around the source.
+Everything else still only reads. What a language needs is a data file of at
+most 40 lines (`native/packs/`), not code.
+
+No release contains these commands yet; the tables and limits elsewhere in this
+README describe release 1.0.2.
+
 ## Install
 
 Releases carry prebuilt binaries for five targets. The scripts below download
@@ -202,8 +224,10 @@ These limits were measured with the 1.0.1 binary on this repository and are
 recorded in [R55](docs/research/2026-11-10/01-released-binary-adopter-dogfood.md).
 Where release 1.0.2 behaves differently, the bullet says so.
 
-- The commands do not run your tests and do not establish that a rewrite
-  behaves the same. Behavioral evidence is yours to supply and review.
+- The released commands do not run your tests and do not establish that a
+  rewrite behaves the same. Behavioral evidence is yours to supply and review.
+  (On `main`, `deconvolute run` runs your tests against planted faults; that
+  measures how sensitive the tests are, not whether a rewrite is equivalent.)
 - `deconvolute analyze --lang python` is not implemented. From release 1.0.2 it writes no receipt, prints a note to stderr and exits with
   code 2. Version 1.0.1 instead returns an empty receipt with `"passed": true`
   for any Python file; do not read that as a clean result.
@@ -217,6 +241,8 @@ Where release 1.0.2 behaves differently, the bullet says so.
   `--lang python` writes nothing and exits with code 2 because there is no
   Python generator. Version 1.0.1 exits 0 in both cases, so check
   `mutants_generated` in the receipt. It is not yet a general mutation tool.
+  On `main` those operators are deleted and `mutate` works from language
+  packs; see [the agnostic driver](docs/driver.md).
 - The budget check reads the files in your working tree, not the commits being
   pushed, and it covers Rust only.
 - The hook checks complexity budgets only, and from release 1.0.2
@@ -250,7 +276,13 @@ attempts and the revisions to its hypotheses.
   record by date.
 - [Multi-language synthesis (R53)](docs/research/2026-11-09/11-multi-language-deconvolution-synthesis.md):
   four specimens in Python, TypeScript, Java and Rust with 24% to 44% fewer
-  lines, 100 compared cases each and no observed divergence.
+  lines. Its behavioural figures (100 compared cases, all adverse controls
+  killed) are weaker than they read: see the next entry.
+- [The specimen controls rerun through the driver (R75)](docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md):
+  what the earlier "4 of 4 killed" figures were, and what the project's own
+  tests catch when the driver plants faults in the same code.
+- [Native driver on five real scopes (R73)](docs/research/2026-11-10/19-native-driver-batches-on-gate-scopes.md):
+  `deconvolute run` gives 556 of 556 mutants the class the Python prototype gave.
 - [Self-application (R54)](docs/research/2026-11-09/12-dogfood-self-application-synthesis.md):
   the native test suite on a clean clone and the pre-push hook tests.
 - [Released binary on this repository (R55)](docs/research/2026-11-10/01-released-binary-adopter-dogfood.md):
@@ -277,11 +309,14 @@ archived.
 
 ## Where the project is going
 
-1. Slice B, probabilistic turn refinement: wrap model-driven regeneration in
-   multi-turn `Refine` and `BestOfN` controllers and compile prompts offline
-   against a deterministic two-tier reward (`StaticAssertionGate`, then
-   `RuntimeOracleGate`).
-2. Deterministic rewrites and synthesis: extend concolic extraction and bounded
+1. A release that contains the agnostic driver.
+2. Slice B, hardening against drift in model output: wherever a model writes
+   something the tool then relies on (today: a language pack), measure how
+   much its answers vary between runs and between models, and keep a
+   mechanical barrier that admits only what passes. Measured so far on two
+   models, with two prompt-optimisation engines; see the research log from
+   R66 on.
+3. Deterministic rewrites and synthesis: extend concolic extraction and bounded
    synthesis to more language semantics and idiomatic transformations.
 
 ## License

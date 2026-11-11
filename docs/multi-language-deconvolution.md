@@ -1,5 +1,23 @@
 # Multi-Language State-Boundary Deconvolution Architecture
 
+> **Amended 2026-11-11.** Parts of this page describe the state of 2026-11-09 and no longer hold. Read it
+> with these corrections; the current description of analysis and mutation is [the agnostic driver](driver.md).
+>
+> - The per-language analysers and mutation operators (`adapters/<lang>/analysis.rs` and `mutation.rs`) were
+>   deleted. One engine driven by language packs now serves Rust, Python, TypeScript and Java.
+> - The rows "Finite Domain Cases" and "Adverse Kill Rate" in the matrix below are not what they say. For
+>   Rust the four kills were written into the gate script and the 100 cases compared functions written for
+>   the check, not the specimen. For TypeScript one of the four kills was written into the script. For Rust,
+>   TypeScript and Java no mutant was run against the project's own tests; the Python column was not
+>   re-examined. What the driver finds when it does run them is in
+>   [R75](research/2026-11-11/01-specimen-controls-rerun-through-driver.md).
+> - "Production Certified" is not a status this project can support with that evidence, and "proves" in the
+>   introduction overstates finite checks.
+> - The parsers are the tree-sitter grammars compiled into the binary; `syn` and `oxc` are not used.
+> - `PureCoreVerifier::compare` on the three language adapters does not run the two entry points. It returns
+>   `Verified` with the number of cases the domain would have. Do not use it as evidence.
+> - Section 5 is replaced by the note at its start.
+
 Lesscode's state-boundary deconvolution engine unifies cross-language whole-responsibility compression and equivalence verification under a high-performance native Rust substrate. 
 
 Deconvolution isolates pure computational transformations from stateful, effectful, or I/O-bound outer shells. By isolating mutable state boundaries and generating verified finite-domain proofs alongside adverse mutation sensitivity controls, Lesscode proves that candidate simplifications preserve exact program behavior without manual test authoring.
@@ -99,6 +117,13 @@ Marginal changes (e.g., refactorings that remove $< 50$ lines or $< 10$ statemen
 ---
 
 ## 5. Extension Guide: Adding a New Language Adapter
+
+> **Amended 2026-11-11.** For analysis and mutation a new language no longer needs code. It needs its
+> tree-sitter grammar enabled as a feature of `ast-grep-language` in `native/Cargo.toml`, a pack of at most
+> 40 lines under `native/packs/` listed in `adapters/driver/registry.rs`, and a control file that
+> `deconvolute admit-pack` accepts ([the agnostic driver](driver.md)). Steps 2 to 4 below apply only to the
+> metrics module and the adapter struct; the files `analysis.rs` and `mutation.rs` named there no longer exist.
+> In Step 1, items 4 and 5 must be done by running the real code and the project's own tests.
 
 To extend Lesscode to a new language (e.g., Go, C#, or Kotlin):
 
