@@ -24,6 +24,7 @@ pub mod scope;
 pub mod specimen_runner;
 pub mod state_contract;
 pub mod state_frame;
+pub mod step;
 pub mod stream_monitor;
 pub mod surface;
 pub mod token_guard;
