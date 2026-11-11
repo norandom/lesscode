@@ -12,6 +12,7 @@ pub mod declaration;
 pub mod faults;
 pub mod functions;
 pub mod guard;
+pub mod hook;
 pub mod ledger;
 pub mod pin;
 pub mod plan;
@@ -33,6 +34,10 @@ pub enum StepCommand {
     Guard(guard::GuardArgs),
     /// Put an accepted step, an override or a release on the ledger.
     Record(record::RecordArgs),
+    /// Install a pre-push hook that runs the budgets and the step guard.
+    InstallHook(hook::InstallHookArgs),
+    /// What the installed hook runs: budgets, step guard, spec audit.
+    PrePush(hook::StepPrePushArgs),
 }
 
 pub fn run(command: StepCommand) -> Result<u8, String> {
@@ -42,5 +47,7 @@ pub fn run(command: StepCommand) -> Result<u8, String> {
         StepCommand::Check(args) => check::run_check(args),
         StepCommand::Guard(args) => guard::run_guard(args),
         StepCommand::Record(args) => record::run_record(args),
+        StepCommand::InstallHook(args) => hook::run_install_hook(args),
+        StepCommand::PrePush(args) => hook::run_pre_push_hook(args),
     }
 }

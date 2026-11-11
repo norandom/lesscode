@@ -164,12 +164,17 @@ pub fn run_guard(args: GuardArgs) -> Result<u8, String> {
         }
         (None, false) => return Err("give --branch or --pushed".into()),
     };
-    let mut refused = false;
+    let (refused, _) = judge(&args.repo, &targets)?;
+    Ok(u8::from(refused))
+}
+
+/// Judge branches at commits and say what was found: whether one is
+/// refused, and the specs of the steps among them.
+pub fn judge(repo: &Path, targets: &[(String, String)]) -> Result<(bool, Vec<String>), String> {
+    let (mut refused, mut specs) = (false, Vec::new());
     for (branch, revision) in targets {
-        let (found, spec) = standing(&args.repo, &branch, &revision)?;
-        if let Some(spec) = spec {
-            println!("spec: {spec}");
-        }
+        let (found, spec) = standing(repo, branch, revision)?;
+        specs.extend(spec);
         match found {
             Standing::NotAStep => println!("{branch}: not a step branch"),
             Standing::Accepted => println!("{branch}: accepted"),
@@ -180,5 +185,5 @@ pub fn run_guard(args: GuardArgs) -> Result<u8, String> {
             }
         }
     }
-    Ok(u8::from(refused))
+    Ok((refused, specs))
 }

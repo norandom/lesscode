@@ -46,10 +46,7 @@ fn a_branch_stands_only_with_a_verdict_for_exactly_its_content() {
     let before = repo.state();
     let (code, said) = guard(&repo, "step/smaller");
     assert_eq!(code, Some(0), "{said}");
-    assert!(
-        said.contains("step/smaller: accepted") && said.contains("spec: smaller"),
-        "{said}"
-    );
+    assert!(said.contains("step/smaller: accepted"), "{said}");
     assert_eq!(repo.state(), before, "the guard wrote something");
 
     // A branch no declaration names is not a step branch.
@@ -138,8 +135,18 @@ fn a_branch_stands_only_with_a_verdict_for_exactly_its_content() {
 #[test]
 fn the_ledger_holds_the_best_number_and_cannot_be_rewritten() {
     let repo = checked("ledger");
+    let before = repo.state();
     let (code, said) = record(&repo, &[]);
     assert_eq!(code, Some(0), "{said}");
+    // Recording writes the ledger and nothing else.
+    let after = repo.state();
+    let new: Vec<&str> = after
+        .iter()
+        .filter(|entry| !before.contains(entry))
+        .map(|(name, _)| name.as_str())
+        .collect();
+    assert_eq!(new, [LEDGER]);
+    assert!(before.iter().all(|entry| after.contains(entry)));
     repo.commit(&[], "verdict and ledger");
     let held = ledger(&repo)[0]["functions"][0]["after"]["unnoticed"]
         .as_u64()
@@ -187,4 +194,97 @@ fn the_ledger_holds_the_best_number_and_cannot_be_rewritten() {
         3,
         "nothing was appended"
     );
+}
+
+/// The hook stops a real push by exit code, and lets a judged step through.
+#[test]
+fn the_installed_hook_stops_a_push_without_a_matching_verdict() {
+    let repo = checked("hook");
+    let remote = repo.dir.parent().unwrap().join("remote.git");
+    let remote_text = remote.to_string_lossy().into_owned();
+    repo.git(&["init", "-q", "--bare", &remote_text]);
+    repo.git(&["remote", "add", "origin", &remote_text]);
+
+    let (code, said) = repo.cli(&["install-hook"], "");
+    assert_eq!(code, Some(0), "{said}");
+    let hook = fs::read_to_string(repo.dir.join(".git/hooks/pre-push")).unwrap();
+    assert!(hook.contains("exec lesscode-core step pre-push"));
+    // A hook that is there already is not replaced unasked.
+    let (code, said) = repo.cli(&["install-hook"], "");
+    assert_eq!(code, Some(1), "{said}");
+    let (code, _) = repo.cli(&["install-hook", "--force"], "");
+    assert_eq!(code, Some(0));
+
+    // The hook finds the binary on the path, as an installed one would be.
+    let binary = std::path::Path::new(env!("CARGO_BIN_EXE_lesscode-core"));
+    let mut paths = vec![binary.parent().unwrap().to_path_buf()];
+    paths.extend(std::env::split_paths(&std::env::var_os("PATH").unwrap()));
+    let path = std::env::join_paths(paths).unwrap();
+    let push = |branch: &str| {
+        let out = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&repo.dir)
+            .args(["push", "-q", "origin", branch])
+            .env("PATH", &path)
+            .output()
+            .unwrap();
+        let said = [out.stdout, out.stderr].concat();
+        (
+            out.status.success(),
+            String::from_utf8_lossy(&said).into_owned(),
+        )
+    };
+    let on_remote = |branch: &str| {
+        let out = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&remote)
+            .args(["rev-parse", "--verify", "--quiet", branch])
+            .output()
+            .unwrap();
+        String::from_utf8_lossy(&out.stdout).trim().to_owned()
+    };
+
+    // The judged step goes through; so does a branch that is no step.
+    let (pushed, said) = push("step/smaller");
+    assert!(pushed, "{said}");
+    assert!(said.contains("step/smaller: accepted"), "{said}");
+    assert_eq!(
+        on_remote("step/smaller"),
+        repo.git(&["rev-parse", "step/smaller"])
+    );
+    let (pushed, said) = push("main");
+    assert!(pushed, "{said}");
+
+    // Code changed after the verdict: the push is stopped, nothing arrives.
+    let judged = repo.git(&["rev-parse", "step/smaller"]);
+    repo.commit(&[("src/app.py", APP)], "one more change");
+    let (pushed, said) = push("step/smaller");
+    assert!(!pushed, "{said}");
+    assert!(said.contains("step/smaller: refused"), "{said}");
+    assert_eq!(on_remote("step/smaller"), judged);
+}
+
+/// The step tooling starts git only through the module that lists the
+/// reading commands, and starts nothing else itself.
+#[test]
+fn only_the_revisions_module_starts_git() {
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/step");
+    let mut scanned = 0;
+    for entry in fs::read_dir(&dir).unwrap() {
+        let path = entry.unwrap().path();
+        let text = fs::read_to_string(&path).unwrap();
+        let starts = text.contains("Command::new");
+        let is_revisions = path.file_name().is_some_and(|n| n == "revisions.rs");
+        assert_eq!(starts, is_revisions, "{}", path.display());
+        // Other programs run only where the project's own commands are
+        // run in a copy, and for the spec audit of the hook.
+        let runs = text.contains("process::run");
+        let may_run = ["check_runs.rs", "hook.rs"];
+        let allowed = path
+            .file_name()
+            .is_some_and(|n| may_run.iter().any(|m| n == *m));
+        assert!(!runs || allowed, "{}", path.display());
+        scanned += 1;
+    }
+    assert!(scanned >= 10, "scanned {scanned} files");
 }

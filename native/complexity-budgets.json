@@ -435,6 +435,13 @@
    "disposition": null
   },
   {
+   "path": "step/hook.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "step install-hook: the pre-push hook with budgets, guard and spec audit (design: Guard, REQ 6.3)",
+   "disposition": null
+  },
+  {
    "path": "step/ledger.rs",
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
