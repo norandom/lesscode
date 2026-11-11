@@ -8,6 +8,11 @@ active implementation queue.
 
 Start with the [task 34 handover](task_34_handover.md).
 
+0. **Next, the owner's question of 2026-11-11:** is the code healthy and working after a change, and can a
+   refactoring be supported step by step, release by release? Discovery brief, not approved:
+   [specs/gradual-refactoring-steps/brief.md](specs/gradual-refactoring-steps/brief.md). `v1.1.1` is tagged on
+   `9c48ab8` (green on five platforms); both release workflows wait for the owner's approval of the
+   `release` environment. The line and keyword counters are removed (`9c48ab8`).
 0. **Read first:** by syntax the four specimen candidates are 6% to 19% smaller, not 24% to 44%
    ([R87](../docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md)). `deconvolute density` now
    counts tokens and nodes. Release 1.1.1 with that, `merge-annotations` and the corrected README is

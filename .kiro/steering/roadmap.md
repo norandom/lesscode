@@ -1,5 +1,11 @@
 # Roadmap
 
+## Next question, owner, 2026-11-11
+
+"Is the code healthy and working afterwards; can we support a gradual refactoring step by step, minor
+release by minor release?" Discovery brief: `.kiro/specs/gradual-refactoring-steps/brief.md` (not approved;
+prototype gate named in it). This replaces "how much smaller" as the leading question after R87.
+
 ## Work queue, owner order of 2026-11-10 (do not drop the second item)
 
 1. **Agnostic driver** (`agnostic-annotation-driver`): requirements, design and tasks approved 2026-11-10.
