@@ -54,4 +54,5 @@ Written 2026-11-11, about 14:20 (Europe/Berlin). Predecessor: `.kiro/task_34_han
 
 ## CI
 
-Filled in once the run for this commit has finished.
+Run 43025817849 for commit `e5d61b5` (main with the merged pins and the kiro-cli installer): success on all
+five jobs, 2026-11-11.
