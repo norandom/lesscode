@@ -2,7 +2,32 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R74 Guide optimisation on Mistral Large 4: no improvement found (2026-11-10)
+## Latest: R79 A MIPROv2-style search does not fix Rust admission on Opus; the GEPA run did (2026-11-11)
+
+[R79](2026-11-11/05-slice-b-miprov2-opus.md) runs the preregistration [R77](2026-11-11/03-slice-b-miprov2-preregistration.md) with a second engine in the guide optimiser (TPE sampler copied from `dsrust`; MIPROv2's proposer wording and trial loop, without demonstrations and minibatches, which this task has no use for).
+- **Result:** same model, starting guide, rules and 60 authoring calls as the GEPA run. The chosen guide scores 0.50 on the scoring set (claim: at least 0.75, refuted); in the final judgement Rust is admitted 0 of 5 times, against 5 of 5 for GEPA's guide (R71). Nothing is adopted.
+- **Reading:** GEPA writes each new guide from the judged replies; MIPROv2 proposes from a task description and tips before any failure is seen. Here the failures carried the information. One run per engine; no general ranking.
+- **Cost:** 5.82 USD; recorded spend about 25.5 of 40 USD (stop raised by the owner on 2026-11-11).
+- **Slice B state:** drift measured between runs, between models and under two optimisers; the annotation layer and drift over time are not measured.
+
+## Prior: R78 The node kind list removes invalid node kinds but does not raise admission on Mistral Large 4 (2026-11-11)
+
+[R78](2026-11-11/04-slice-b-node-kinds-result.md) runs [R76](2026-11-11/02-slice-b-node-kinds-preregistration.md): the grammar's node kinds as extra input for the pack author, with a same-day control arm on each model.
+- **Mistral Large 4:** first replies naming a node kind the grammar does not have fall from 10 to 1 of 20; first replies admitted stay at 5 and 6 of 20, because more replies end at the output limit and the rest fail control cases. Two of the four claims are refuted.
+- **Opus:** 15 of 20 in both arms; the list changes nothing.
+- **Not adopted** as part of the task's input. With precise repair feedback Mistral ends at 15 of 20 admitted without the list.
+- **Cost:** 4.46 USD for the four arms.
+
+## Prior: R75 The specimen gates' adverse controls, looked up and rerun through the driver (2026-11-11)
+
+[R75](2026-11-11/01-specimen-controls-rerun-through-driver.md) is tasks 7.1 and 7.2 of `agnostic-annotation-driver`; dated amendments are appended to R49 to R53.
+- **What the old figures were:** R52 (Rust): the four kills and the 100-case parity were written into the gate script; the candidate was never built. R50 (TypeScript): three probe comparisons and one kill written into the script. R51 (Java): four probe comparisons, one of them a mutant that did not compile. No mutant was run against a project's own tests.
+- **Rerun:** five of the twelve controls have a driver mutant; with the projects' tests four are killed and one survives (a dropped `lock.unlock()`). Seven are recorded as not reproducible.
+- **Measured instead:** killed of killed plus survived, whole file: TypeScript candidate 5 of 5 and original 15 of 16; Java candidate 78 of 89 and original 78 of 90; Rust original 75 of 133 (the six specimen functions 20 of 38).
+- **A void run:** copies that share a build directory through the environment (a global `CARGO_TARGET_DIR`) gave 16 of 133 wrong classes; the closing run caught it. Documented, and the void reason now quotes the failing output.
+- **Deleted on the same day:** the six text-matching adapter files (869 lines) and their tests.
+
+## Prior: R74 Guide optimisation on Mistral Large 4: no improvement found (2026-11-10)
 
 [R74](2026-11-10/20-slice-b-guide-optimisation-mistral.md) runs R70 on the second model with the parameters of the Opus run.
 - **Result:** after 62 metric calls the starting guide and the one kept candidate both score zero on the scoring set; nothing is adopted and no final judgement was run. The candidate got 4 of 17 Java packs admitted on minibatches, Rust never.

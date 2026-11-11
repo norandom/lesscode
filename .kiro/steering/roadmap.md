@@ -2,8 +2,11 @@
 
 ## Work queue, owner order of 2026-11-10 (do not drop the second item)
 
-1. **Agnostic driver** (`agnostic-annotation-driver`): requirements and design approved 2026-11-10; tasks
-   generated and awaiting approval.
+1. **Agnostic driver** (`agnostic-annotation-driver`): requirements, design and tasks approved 2026-11-10.
+   Task groups 1 to 7 done by 2026-11-11: the driver serves `analyze`, `mutate`, `run` and `admit-pack` for four
+   languages, the six text-matching adapter files are deleted, and the specimen results are restated
+   ([R75](../../docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md)). No release contains
+   it yet; a release is the owner's decision.
 2. **Slice B: hardening against LLM inference drift** (`constraint-guided-compression`, requirements
    Amendment 5; blueprint in `.kiro/task_26_handover.md`). The owner's second priority, explicitly not to be
    forgotten. Started 2026-11-10: the pack-authoring baseline ran on the current endpoint
@@ -13,8 +16,17 @@
    reply, repair works twice in five, Java differs in 3 of 5. Optimisation of the guide with a copied GEPA engine
    (R70 to R74): on Opus every first reply is admitted afterwards, Rust still differs from the hand pack in four
    fixed points, not adopted; on Mistral Large 4 the baseline admits 5 of 20 first replies and optimisation
-   finds no improvement. Next, for the owner: the four Rust points, and whether to give the author the
-   grammar's node kinds. A `MIPROv2` comparison through the full `dsrust` crate has not been run. Dated next step (2026-11-10, at the approval of the driver design): the preregistration of a drift baseline for pack authoring is driver task 2.4 and is due with the handover of driver task group 2. Five authoring runs per language for four languages with the frozen pack guide, current endpoint first, Mistral second; measures are admission rate, repair attempts and identity of the mutants. Running it needs the owner's go.
+   finds no improvement. Owner decisions of 2026-11-11: none of the four Rust points goes into the shipped
+   pack; the node kind list is tried on both models; the stop for model spend is raised to 40 USD and the
+   `MIPROv2` comparison is run. Results of 2026-11-11: the node kind list removes invalid kinds but not the
+   admission gap on Mistral, and is not adopted
+   ([R78](../../docs/research/2026-11-11/04-slice-b-node-kinds-result.md)); a MIPROv2-style search on Opus
+   does not fix Rust admission where GEPA did
+   ([R79](../../docs/research/2026-11-11/05-slice-b-miprov2-opus.md)). Recorded spend about 25.5 of 40 USD.
+   Status on 2026-11-11: measured for pack authoring between runs, between models and under two optimisers;
+   not measured: the annotation layer, and one model over time. Dated next step: the owner decides by the
+   next session whether to preregister the annotation-layer baseline or to close Slice B for pack authoring
+   with the finding "a model that knows the grammar, plus the admission barrier". Earlier dated step (2026-11-10, at the approval of the driver design): the preregistration of a drift baseline for pack authoring is driver task 2.4 and is due with the handover of driver task group 2. Five authoring runs per language for four languages with the frozen pack guide, current endpoint first, Mistral second; measures are admission rate, repair attempts and identity of the mutants. Running it needs the owner's go.
    Preregistered 2026-11-10 as [R66](../../docs/research/2026-11-10/12-slice-b-pack-authoring-drift-preregistration.md); start condition: driver task group 3 done, guide amendment hashed, owner's go.
    It must have a dated next step before `agnostic-annotation-driver` is reported complete
    (that spec's Requirement 9.6). What it inherits from the driver work:
