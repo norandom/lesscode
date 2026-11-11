@@ -140,6 +140,12 @@ the receipt reads:
 }
 ```
 
+Read that receipt with care. The candidate in this pair is written more densely than a formatter allows.
+With both files formatted the same way the same command reports 248 to 219 lines (11.7%) and 83 to 76
+statements (8.4%), verdict `marginal`
+([R86](docs/research/2026-11-11/12-rust-candidate-built-and-measured.md)). Format both files the same way
+before you run `density`; it counts lines.
+
 `pass` needs all four conditions: at least 20% and 50 fewer canonical lines,
 and at least 10% and 10 fewer statements. Canonical lines exclude blank lines
 and line comments. Anything less is reported as `marginal` with exit code 1. A
@@ -298,7 +304,8 @@ attempts and the revisions to its hypotheses.
   record by date.
 - [Multi-language synthesis (R53)](docs/research/2026-11-09/11-multi-language-deconvolution-synthesis.md):
   four specimens in Python, TypeScript, Java and Rust with 24% to 44% fewer
-  lines. Its behavioural figures (100 compared cases, all adverse controls
+  lines as measured then; the Rust figure falls from 40% to 12% when both files
+  are formatted the same way (R86). Its behavioural figures (100 compared cases, all adverse controls
   killed) are weaker than they read: see the next entry.
 - [The specimen controls rerun through the driver (R75)](docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md):
   what the earlier "4 of 4 killed" figures were, and what the project's own

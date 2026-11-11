@@ -118,3 +118,8 @@ Generate Phase 2 implementation tasks in `.kiro/specs/rust-deconvolution-unifica
 
 Reading the gate script (`.kiro/specs/rust-deconvolution-unification/run_gate.py`) shows that the four adverse controls are four entries with `"killed": True` and a witness sentence, written into the script. No mutant was made and nothing was run. The "100 Cartesian cases, 0 divergences" compared pairs of Python functions written inside the script, not the Rust baseline and candidate; `candidate_lifecycle.rs` is not part of any build and no record shows that it was ever compiled, and the "314 tests passed" ran the unchanged repository. The oracle-sensitivity and finite-domain results of this entry are therefore withdrawn as evidence; the compression figures (line and statement counts of the two files) stand. Run through the driver with this repository's own tests, the original code in `native/src/recording.rs` has 38 mutants in the six functions, of which 20 are killed and 18 survive. Details: [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md).
 
+
+## Amendment, 2026-11-11 (second): the candidate built, and the reduction restated
+
+The candidate was built for the first time on 2026-11-11 ([R86](../2026-11-11/12-rust-candidate-built-and-measured.md)). In place of the original functions it compiles and all 375 tests of the crate pass. Its reduction does not hold as reported: with baseline and candidate formatted the same way the figures are 248 to 219 canonical lines (11.7%) and 83 to 76 statements (8.4%), verdict "marginal", against the 40.3% and 15.7% of this entry. Most of the reported reduction was layout.
+

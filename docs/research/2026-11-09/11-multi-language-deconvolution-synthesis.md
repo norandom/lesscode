@@ -141,3 +141,8 @@ Native recording and replay verification verified byte-identical digests across 
 
 The line "100% kill rate across 20/20 mandatory adverse mutation controls (Python 8/8, TypeScript 4/4, Java 4/4, Rust 4/4)" does not hold as stated. Rust: the four kills were written into the gate script. TypeScript: one of four was written into the script. Java: one of four was a mutant that did not compile, and the same change survives the project's tests when made properly. In none of the three languages was a mutant run against the project's own tests; the Python figures were not re-examined. The Rust "100 cases, 0 divergences" compared functions written for the check. The compression figures are not affected. "Production certified" is not supported by this evidence. Details and the measured replacement figures: [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md).
 
+
+## Amendment, 2026-11-11 (second): the Rust compression figure
+
+The Rust specimen's reduction of 40.3% lines is 11.7% when baseline and candidate are formatted the same way ([R86](../2026-11-11/12-rust-candidate-built-and-measured.md)); the density check counts lines and depends on layout. The figures of the other three specimens were measured the same way and have not been re-measured under a common formatter.
+

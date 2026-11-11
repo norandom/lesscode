@@ -1,0 +1,3033 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.0.2",
+  "language": "rust",
+  "pack_sha256": "5552c9c6dafab73800d77a5105466b216e8add554c16f51432f02452fdcad207",
+  "config_sha256": "c03f01060489785ab898508a35612d7f9f4d4c835f541eb0d3aa50372f61657c",
+  "source_files_sha256": {
+    "src/recording.rs": "c55471a8aa3c9cc7a50369254f334849ba4d47680460249f7cce1bf81cf3c1ca"
+  },
+  "sites": 133,
+  "sites_without_operator": [
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "call_expression",
+      "start_line": 63,
+      "start_column": 4,
+      "end_line": 63,
+      "end_column": 28,
+      "text": "Err(RecordingError(msg))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 90,
+      "start_column": 8,
+      "end_line": 90,
+      "end_column": 27,
+      "text": "return \"NaN\".into()"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "macro_invocation",
+      "start_line": 142,
+      "start_column": 13,
+      "end_line": 142,
+      "end_column": 35,
+      "text": "unreachable!(\"scalar\")"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 282,
+      "start_column": 8,
+      "end_line": 288,
+      "end_column": 10,
+      "text": "return err(format!(\n            \"shim {} failed ({}): {}{}\",\n            args.first().unwrap_or(&\"\"),\n            output.status,\n            String::from_utf8_lossy(&output.stdout),\n            String::from_utf8_lossy(&output.stderr)\n        ))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 362,
+      "start_column": 8,
+      "end_line": 362,
+      "end_column": 19,
+      "text": "return None"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 376,
+      "start_column": 20,
+      "end_line": 376,
+      "end_column": 28,
+      "text": "return d"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 384,
+      "start_column": 20,
+      "end_line": 384,
+      "end_column": 34,
+      "text": "return Some(d)"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 525,
+      "start_column": 8,
+      "end_line": 525,
+      "end_column": 55,
+      "text": "return err(\"shim produced no sequences\".into())"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 575,
+      "start_column": 12,
+      "end_line": 575,
+      "end_column": 70,
+      "text": "return err(format!(\"shim did not replay sequence {name}\"))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 582,
+      "start_column": 12,
+      "end_line": 582,
+      "end_column": 63,
+      "text": "return Ok(Some(format!(\"{name} start state: {d}\")))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 589,
+      "start_column": 16,
+      "end_line": 592,
+      "end_column": 19,
+      "text": "return Ok(Some(format!(\n                    \"{name} op {i} {}: {d}\",\n                    truncate_chars(&canon(o), 160)\n                )))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 625,
+      "start_column": 16,
+      "end_line": 625,
+      "end_column": 74,
+      "text": "return err(format!(\"shim did not replay sequence {name}\"))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 632,
+      "start_column": 16,
+      "end_line": 632,
+      "end_column": 83,
+      "text": "return err(format!(\"{} {name} start state: {d}\", golden.display()))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 651,
+      "start_column": 20,
+      "end_line": 655,
+      "end_column": 22,
+      "text": "return err(format!(\n                        \"{} {name} op {i} {}: {d}\",\n                        golden.display(),\n                        truncate_chars(&canon(o), 160)\n                    ))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 732,
+      "start_column": 43,
+      "end_line": 732,
+      "end_column": 53,
+      "text": "return 127"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 736,
+      "start_column": 12,
+      "end_line": 736,
+      "end_column": 42,
+      "text": "return st.code().unwrap_or(-1)"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 742,
+      "start_column": 16,
+      "end_line": 742,
+      "end_column": 26,
+      "text": "return 124"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 768,
+      "start_column": 8,
+      "end_line": 768,
+      "end_column": 147,
+      "text": "return Err(LifecycleError(format!(\"INVALID scope not imported from {}: {stdout}{}\", root.display(), String::from_utf8_lossy(&out.stderr))))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "call_expression",
+      "start_line": 768,
+      "start_column": 15,
+      "end_line": 768,
+      "end_column": 147,
+      "text": "Err(LifecycleError(format!(\"INVALID scope not imported from {}: {stdout}{}\", root.display(), String::from_utf8_lossy(&out.stderr))))"
+    },
+    {
+      "file": "src/recording.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 856,
+      "start_column": 29,
+      "end_line": 856,
+      "end_column": 40,
+      "text": "return None"
+    }
+  ],
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {
+    "invalid": 1,
+    "killed": 73,
+    "survived": 57
+  },
+  "counts_by_kind": {
+    "branch_condition": {
+      "killed": 38,
+      "survived": 11
+    },
+    "error_order": {
+      "survived": 4
+    },
+    "failure_state": {
+      "survived": 18
+    },
+    "state_write": {
+      "invalid": 1,
+      "killed": 35,
+      "survived": 24
+    }
+  },
+  "incomplete": false,
+  "mutants": [
+    {
+      "number": 1,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 82,
+        "start_column": 4,
+        "end_line": 82,
+        "end_column": 42,
+        "text": "crate::receipt::write_json_str(s, out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "3f7290b90b5e8b37845347b77e2b27aceeb5f1b63c58f6dbec34b5a40afa3142",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 11.5300638,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 2,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 89,
+        "start_column": 7,
+        "end_line": 89,
+        "end_column": 21,
+        "text": "!x.is_finite()"
+      },
+      "operator": "negate",
+      "sha256": "3b4161aa9b03a7e8b83640e6467285f51d4073a2b319d42c1db8755cab7f8e91",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 10.5105004,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 3,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 100,
+        "start_column": 18,
+        "end_line": 100,
+        "end_column": 44,
+        "text": "decpt <= -4 || decpt >= 17"
+      },
+      "operator": "negate",
+      "sha256": "d228b9aa6928a3aa2d61836a117c2dece448db95bf4a5ebf04e5b70bf6766da4",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 13.7995304,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 4,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 100,
+        "start_column": 18,
+        "end_line": 100,
+        "end_column": 44,
+        "text": "decpt <= -4 || decpt >= 17"
+      },
+      "operator": "swap:<=-><@100:24",
+      "sha256": "861203326119fe387c7030a5a436caf059bf5cce26b9fdd9f1fe7417cc920648",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 12.0032708,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 5,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 100,
+        "start_column": 18,
+        "end_line": 100,
+        "end_column": 44,
+        "text": "decpt <= -4 || decpt >= 17"
+      },
+      "operator": "swap:||->&&@100:30",
+      "sha256": "f7b91d91ae6e450af784a78c9a3785b79f9e5ab6eb6271c73222d9ed14a032b5",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 11.9862229,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 6,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 102,
+        "start_column": 11,
+        "end_line": 102,
+        "end_column": 27,
+        "text": "digits.len() > 1"
+      },
+      "operator": "negate",
+      "sha256": "5b9c83a87dc8ad9790880e46315d91d40b44bffe1f27c13994bcd923604a4143",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.8767685,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 7,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 102,
+        "start_column": 11,
+        "end_line": 102,
+        "end_column": 27,
+        "text": "digits.len() > 1"
+      },
+      "operator": "swap:>->>=@102:24",
+      "sha256": "95ed6239a35911409a50c62983c88a0808cb5f649a8d423800e5294e8ac10cef",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.0307393,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 8,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 103,
+        "start_column": 12,
+        "end_line": 103,
+        "end_column": 23,
+        "text": "s.push('.')"
+      },
+      "operator": "drop_statement",
+      "sha256": "9d28bab84a493e266c23dbf608f329f848fd8082c71b3be31c8ec353cf461e69",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.7172474,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 9,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 104,
+        "start_column": 12,
+        "end_line": 104,
+        "end_column": 36,
+        "text": "s.push_str(&digits[1..])"
+      },
+      "operator": "drop_statement",
+      "sha256": "a28af8ae7c1058688e9f8bbbde43657965ed1598752b227ce1004954848a1323",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.7106859,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 10,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 106,
+        "start_column": 22,
+        "end_line": 106,
+        "end_column": 29,
+        "text": "exp < 0"
+      },
+      "operator": "negate",
+      "sha256": "1831149c4bb667f5c585de351d3ad0e726fbe2d927f4131b983d9a871d91b65b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.3478508,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 11,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 106,
+        "start_column": 22,
+        "end_line": 106,
+        "end_column": 29,
+        "text": "exp < 0"
+      },
+      "operator": "swap:<-><=@106:26",
+      "sha256": "9c40779ae1cf2544506985a6c5a1f8887ccc6b7eb10c6ca2e134ecf0d69095d4",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.5091933,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 12,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 107,
+        "start_column": 11,
+        "end_line": 107,
+        "end_column": 25,
+        "text": "exp.abs() < 10"
+      },
+      "operator": "negate",
+      "sha256": "41fe3705343cf8f43b533ec149fad9c3773b1414399aef560d7f52302835b4b1",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.6721483,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 13,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 107,
+        "start_column": 11,
+        "end_line": 107,
+        "end_column": 25,
+        "text": "exp.abs() < 10"
+      },
+      "operator": "swap:<-><=@107:21",
+      "sha256": "eedf0922083b810282eeddfce78d13612b40abdf1af91b427a9d9b4c083b033a",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.3080282,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 14,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 113,
+        "start_column": 14,
+        "end_line": 113,
+        "end_column": 24,
+        "text": "decpt <= 0"
+      },
+      "operator": "negate",
+      "sha256": "a6e33c97e5f4a4cda70d7409c02e5a25dfd80171743210855760bf4bf2bc00bb",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.2752671,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 15,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 113,
+        "start_column": 14,
+        "end_line": 113,
+        "end_column": 24,
+        "text": "decpt <= 0"
+      },
+      "operator": "swap:<=-><@113:20",
+      "sha256": "4ed8d7dfe92af4f7a78d4dc69e4242f5bd8185a8e39aaa7f098619c2b05bc753",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 25.1756055,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 16,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 115,
+        "start_column": 14,
+        "end_line": 115,
+        "end_column": 44,
+        "text": "decpt as usize >= digits.len()"
+      },
+      "operator": "negate",
+      "sha256": "906468bcaec21203077425fe36c846a7120ce8a36e6dad548eee9cf707c88582",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 22.6047851,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 17,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 115,
+        "start_column": 14,
+        "end_line": 115,
+        "end_column": 44,
+        "text": "decpt as usize >= digits.len()"
+      },
+      "operator": "swap:>=->>@115:29",
+      "sha256": "24a77e2cc51b68ad65ddcc4c0f3e39fceb0780530f1670a9b23330303b52464f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 22.8980933,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 18,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 124,
+        "start_column": 7,
+        "end_line": 124,
+        "end_column": 27,
+        "text": "x.is_sign_negative()"
+      },
+      "operator": "negate",
+      "sha256": "ef828835acfd8ade0e32697b5c3e2bfcd7d1aba18c23d19c85aead715f4319c9",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 12.8614975,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 19,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 151,
+        "start_column": 12,
+        "end_line": 151,
+        "end_column": 25,
+        "text": "out.push('[')"
+      },
+      "operator": "drop_statement",
+      "sha256": "d30adc97fc9a2d2c871930e61c796a9abe3004d96b5a9cffcfc70f5c58f4f977",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 13.2604916,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 20,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 153,
+        "start_column": 19,
+        "end_line": 153,
+        "end_column": 24,
+        "text": "i > 0"
+      },
+      "operator": "negate",
+      "sha256": "957ebf3673c054960a4767b158877621122e7d14e8025d1d011d2bdfde2644e0",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 12.2825889,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 21,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 153,
+        "start_column": 19,
+        "end_line": 153,
+        "end_column": 24,
+        "text": "i > 0"
+      },
+      "operator": "swap:>->>=@153:21",
+      "sha256": "735f050019154686ab224982c097297cfaddc1ae5bdeb19b65053e2d8ef9a15c",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 15.374422,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 22,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 154,
+        "start_column": 20,
+        "end_line": 154,
+        "end_column": 33,
+        "text": "out.push(',')"
+      },
+      "operator": "drop_statement",
+      "sha256": "b3ddf3062eb733385f75a68b781a73033101fc454d4e39964098a38b4536e14a",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 13.5356557,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 23,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 156,
+        "start_column": 16,
+        "end_line": 156,
+        "end_column": 38,
+        "text": "canon_dumps(item, out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "4f8636c10c65d30871a2720d58779492732b08aaacbe9f36670f17e80e1aeab8",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 14.3476609,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 24,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 158,
+        "start_column": 12,
+        "end_line": 158,
+        "end_column": 25,
+        "text": "out.push(']')"
+      },
+      "operator": "drop_statement",
+      "sha256": "d441baceaee088844281cf8de4da0b5fcb3aa4a32d4a2db59d1264550d15289a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.5606469,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 25,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 162,
+        "start_column": 12,
+        "end_line": 162,
+        "end_column": 46,
+        "text": "keys.sort_by(|a, b| a.0.cmp(&b.0))"
+      },
+      "operator": "drop_statement",
+      "sha256": "769f1b1854419783adb5647df0452bdb06e06730a4959a49d02bc8cb25182fbb",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 10.7516546,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 26,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 163,
+        "start_column": 12,
+        "end_line": 163,
+        "end_column": 25,
+        "text": "out.push('{')"
+      },
+      "operator": "drop_statement",
+      "sha256": "4db63f9b3c7cf3e8c68dcc924db11d0b087a15d3268b87c93fa0662433878627",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.8676716,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 27,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 165,
+        "start_column": 19,
+        "end_line": 165,
+        "end_column": 24,
+        "text": "i > 0"
+      },
+      "operator": "negate",
+      "sha256": "1e3110e3c53d34faa1a49aea810f51086a17a8d38971eab841b2274742902da1",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.1551319,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 28,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 165,
+        "start_column": 19,
+        "end_line": 165,
+        "end_column": 24,
+        "text": "i > 0"
+      },
+      "operator": "swap:>->>=@165:21",
+      "sha256": "d90e7e85387aa060fb9faad7d247c79e13bc0141672a7da0131b1e32fa64b8a0",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.1863749,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 29,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 166,
+        "start_column": 20,
+        "end_line": 166,
+        "end_column": 33,
+        "text": "out.push(',')"
+      },
+      "operator": "drop_statement",
+      "sha256": "5c9cea918a8c4e29a5446da51d99558a01a68ebf2f809834e4c86bbf7c2644e4",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 10.0940036,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 30,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 168,
+        "start_column": 16,
+        "end_line": 168,
+        "end_column": 38,
+        "text": "write_str_py(key, out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "5db53d8caabc74d05c59df4fbd7dbdd96e154c4e8de04b9825fe8789a4ce8903",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.2867967,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 31,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 169,
+        "start_column": 16,
+        "end_line": 169,
+        "end_column": 29,
+        "text": "out.push(':')"
+      },
+      "operator": "drop_statement",
+      "sha256": "a8d1017c1071fce159b36ddd48abfe65dcd287f6cd8a2cc540e5bbf90a990039",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.0236931,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 32,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 170,
+        "start_column": 16,
+        "end_line": 170,
+        "end_column": 37,
+        "text": "canon_dumps(val, out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "3426f4925fd5cd8bc9765ef3de82430e17c5d6f87ebb4227e477e8991b4373fd",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.656119499999999,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 33,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 172,
+        "start_column": 12,
+        "end_line": 172,
+        "end_column": 25,
+        "text": "out.push('}')"
+      },
+      "operator": "drop_statement",
+      "sha256": "a401918d3ba419476a720e18666a969cb9bd8de7fe9e97e9c5296d3305be1671",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.0684302,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 34,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 183,
+        "start_column": 12,
+        "end_line": 183,
+        "end_column": 31,
+        "text": "out.push_str(\"[\\n\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "e4bbeb18363dba91a8f294e40fd39f8dfe97deb30fd29c0d933bcc63790e32f3",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.1662276,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 35,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 185,
+        "start_column": 19,
+        "end_line": 185,
+        "end_column": 24,
+        "text": "i > 0"
+      },
+      "operator": "negate",
+      "sha256": "e6c0b5d4fbd09b4e0f5882203b620c0c5f1381f0bc76e93fa3548e083cbcf356",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.9413977,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 36,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 185,
+        "start_column": 19,
+        "end_line": 185,
+        "end_column": 24,
+        "text": "i > 0"
+      },
+      "operator": "swap:>->>=@185:21",
+      "sha256": "c6484e48fcba61112567b29aac15b290dab4cf354fd32c01422af632f6cc0210",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.1742284,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 37,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 186,
+        "start_column": 20,
+        "end_line": 186,
+        "end_column": 39,
+        "text": "out.push_str(\",\\n\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "fe27499b73fd798b36891673ac282e54b63dc79109e4943c6bbbf517e7ed4629",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.5401558,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 38,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 188,
+        "start_column": 16,
+        "end_line": 188,
+        "end_column": 39,
+        "text": "golden_write(item, out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "0624ae2d84cce5c7b45ce79d22acac7464168daa4f3ef9319d1f189d23386887",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.4980079,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 39,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 190,
+        "start_column": 12,
+        "end_line": 190,
+        "end_column": 31,
+        "text": "out.push_str(\"\\n]\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "b369a83c9490ea2559df0c30776a88b009e2c9f9ad6959be0a4be75b563a3e91",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 10.0144788,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 40,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 194,
+        "start_column": 12,
+        "end_line": 194,
+        "end_column": 46,
+        "text": "keys.sort_by(|a, b| a.0.cmp(&b.0))"
+      },
+      "operator": "drop_statement",
+      "sha256": "3cdc4137e85fc011d3eeb36c32c1044d2fdf0af7a9bf1bada8badd3181434f44",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 13.7435348,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 41,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 195,
+        "start_column": 12,
+        "end_line": 195,
+        "end_column": 31,
+        "text": "out.push_str(\"{\\n\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "8485799845730a5a116a383da7a74559f54df6c69239aa79582aa319ffeb8efb",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 17.9404159,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 42,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 197,
+        "start_column": 19,
+        "end_line": 197,
+        "end_column": 24,
+        "text": "i > 0"
+      },
+      "operator": "negate",
+      "sha256": "6a1c4012863fe6a1e7b1ec36d58b48d9bcc18bc44583146a8c0d20b91bf95a31",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 13.8988118,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 43,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 197,
+        "start_column": 19,
+        "end_line": 197,
+        "end_column": 24,
+        "text": "i > 0"
+      },
+      "operator": "swap:>->>=@197:21",
+      "sha256": "039b7b67fc59e80c854a42cd3786e20bab12656ce3139b6038df1d158aa9605a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 15.6445481,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 44,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 198,
+        "start_column": 20,
+        "end_line": 198,
+        "end_column": 39,
+        "text": "out.push_str(\",\\n\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "f99ceaa453afdef721d53ffef73644a624dab2fb8320c89c98f49957448a05ce",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.3699388,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 45,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 200,
+        "start_column": 16,
+        "end_line": 200,
+        "end_column": 38,
+        "text": "write_str_py(key, out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "3992b7b9bee3e8a00e77109f1807099f097f2ba2dcfe374f7308d03071791335",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.2858297,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 46,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 201,
+        "start_column": 16,
+        "end_line": 201,
+        "end_column": 34,
+        "text": "out.push_str(\": \")"
+      },
+      "operator": "drop_statement",
+      "sha256": "cc3ffea2e09a59e51a4b649218711b62948ef07f526e42c84d501a5941060194",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.544374,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 47,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 202,
+        "start_column": 16,
+        "end_line": 202,
+        "end_column": 38,
+        "text": "golden_write(val, out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "c754a10151a6ec236a918044f56c28e6448b0a328c0bf5236e3f83eaaedfa993",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.5452463,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 48,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 204,
+        "start_column": 12,
+        "end_line": 204,
+        "end_column": 31,
+        "text": "out.push_str(\"\\n}\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "409b083bd28e6121fd3a82684d8bbd25523688b4e1f84adf71227d55bb2d85a1",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.5082891,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 49,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 217,
+        "start_column": 11,
+        "end_line": 217,
+        "end_column": 56,
+        "text": "i > 0 && (digits.len() - i).is_multiple_of(3)"
+      },
+      "operator": "negate",
+      "sha256": "20e16213918f69fbb560b2222d22508e8bbf51f231cf526bcb8dfda99bd81352",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.9780732,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 50,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 217,
+        "start_column": 11,
+        "end_line": 217,
+        "end_column": 56,
+        "text": "i > 0 && (digits.len() - i).is_multiple_of(3)"
+      },
+      "operator": "swap:>->>=@217:13",
+      "sha256": "d5fbb0919d476a9c6a9fac1f98e5d9aa8dac18888881142996144934af5b3561",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.9109222,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 51,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 217,
+        "start_column": 11,
+        "end_line": 217,
+        "end_column": 56,
+        "text": "i > 0 && (digits.len() - i).is_multiple_of(3)"
+      },
+      "operator": "swap:&&->||@217:17",
+      "sha256": "b3572b4355109484fe9899fbb872780fed773db80401ff61e7514c7c3f2c068b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.5285467,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 52,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 218,
+        "start_column": 12,
+        "end_line": 218,
+        "end_column": 25,
+        "text": "out.push(',')"
+      },
+      "operator": "drop_statement",
+      "sha256": "a9534e55d40b36abe74008d7a7ff1e52e7fe5777a4b10b4e40aa19c9b262bbb5",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.3600313,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 53,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 220,
+        "start_column": 8,
+        "end_line": 220,
+        "end_column": 19,
+        "text": "out.push(c)"
+      },
+      "operator": "drop_statement",
+      "sha256": "72d8ba2d7afa768558bd9dc26e96affbcfd347522cbb7314d49cfc032ac664ff",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.9520537000000004,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 54,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 229,
+        "start_column": 4,
+        "end_line": 229,
+        "end_column": 33,
+        "text": "golden_write(value, &mut out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "e696c9d2d6a168e31a130b26b581b711cb6f9ef1afb1c1813cb02ce18b0cdeb4",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.3636409,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 55,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 237,
+        "start_column": 4,
+        "end_line": 240,
+        "end_column": 5,
+        "text": "golden_write(\n        &J::obj(vec![(\"meta\", meta.clone()), (\"sequences\", seqs.clone())]),\n        &mut body,\n    )"
+      },
+      "operator": "drop_statement",
+      "sha256": "8fe522940ed78c8e3b03e3708815c55d0f08e2fb31937ba9bc1012225bbde71a",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.364804,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 56,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 242,
+        "start_column": 8,
+        "end_line": 243,
+        "end_column": 93,
+        "text": "fs::create_dir_all(parent)\n            .map_err(|e| RecordingError(format!(\"cannot create {}: {e}\", parent.display())))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "7b715f87bf46fdcbd24d41db08a0611fa29c1b0f6deabbe34d5a6ae1531b19eb",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.2633884,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 57,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 245,
+        "start_column": 4,
+        "end_line": 246,
+        "end_column": 85,
+        "text": "fs::write(out, body.as_bytes())\n        .map_err(|e| RecordingError(format!(\"cannot write {}: {e}\", out.display())))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "1600e0dec550dc7112c5cde1f07a45ee280fccb392638e1d0a6360badcc5762b",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 11.0732402,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 58,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 256,
+        "start_column": 4,
+        "end_line": 260,
+        "end_column": 71,
+        "text": "fs::write(\n        PathBuf::from(format!(\"{}.sha256\", out.display())),\n        sidecar.as_bytes(),\n    )\n    .map_err(|e| RecordingError(format!(\"cannot write sidecar: {e}\")))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "407dc255757d950c619e8b7501b2dd8ac5f709462b283e2fdb62fa623c9a8cfd",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 14.6427754,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 59,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 267,
+        "start_column": 15,
+        "end_line": 268,
+        "end_column": 85,
+        "text": "fs::read_to_string(path)\n        .map_err(|e| RecordingError(format!(\"cannot read {}: {e}\", path.display())))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "2116687d45492fb9c6caf3c0a962fa24fca4fe9c9fc76288318709bbd94a6f53",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 21.3277828,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 60,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 275,
+        "start_column": 17,
+        "end_line": 280,
+        "end_column": 70,
+        "text": "Command::new(&plan.venv)\n        .arg(&plan.shim)\n        .args(args)\n        .env(\"PYTHONDONTWRITEBYTECODE\", \"1\")\n        .output()\n        .map_err(|e| RecordingError(format!(\"cannot run shim: {e}\")))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "aed1215fa6b96ba05ad1893c0fd6c0aa8fdccda2983399222758ac88bbc91ea7",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 19.0361409,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 61,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 281,
+        "start_column": 7,
+        "end_line": 281,
+        "end_column": 31,
+        "text": "!output.status.success()"
+      },
+      "operator": "negate",
+      "sha256": "3c898e7e55251afd128440e3926f39dbd64b3f6e13e5e1b5dba958f0e2d8ac3c",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 12.8187788,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 62,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 309,
+        "start_column": 4,
+        "end_line": 309,
+        "end_column": 32,
+        "text": "canon_dumps(value, &mut out)"
+      },
+      "operator": "drop_statement",
+      "sha256": "fd0eb0084e46356bf168a486aec5534162458047a616f74eb2f7fbff72b31611",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 12.4099743,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 63,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 349,
+        "start_column": 12,
+        "end_line": 352,
+        "end_column": 14,
+        "text": "out.insert(format!(\n                \"{}:{sig}\",\n                j_str(j_get(o, \"op\").unwrap_or(&J::Null))\n            ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "7be0a0030425b0635b2a8f5f895809df84a69c6516995458dcacfe057d3518e6",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 10.9610083,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 64,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 361,
+        "start_column": 7,
+        "end_line": 361,
+        "end_column": 13,
+        "text": "a == b"
+      },
+      "operator": "negate",
+      "sha256": "3b387a1807bf68d8b26023884620f6b3086b31df67a057039e27b4ca8b38bd06",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.148094,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 65,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 368,
+        "start_column": 12,
+        "end_line": 368,
+        "end_column": 56,
+        "text": "keys.extend(j_obj(b).iter().map(|(k, _)| k))"
+      },
+      "operator": "drop_statement",
+      "sha256": "cf7ebc0aec5d0425fce18996efb207ccbbecfd1d56eae28eee92085b7dc32173",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.548384800000001,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 66,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 375,
+        "start_column": 19,
+        "end_line": 375,
+        "end_column": 30,
+        "text": "d.is_some()"
+      },
+      "operator": "negate",
+      "sha256": "27ec50396635cb2f01467a7903ab94e9e5bba9d97ae9d76170b34c56e9afb4b5",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.8451608,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 67,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 453,
+        "start_column": 7,
+        "end_line": 453,
+        "end_column": 20,
+        "text": "scope == \"e3\""
+      },
+      "operator": "negate",
+      "sha256": "058f073f17af46f5fe39e96c9247850b18567438550fd26d47b4d064a2480d11",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.7023463,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 68,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 454,
+        "start_column": 8,
+        "end_line": 454,
+        "end_column": 82,
+        "text": "fields.push((\"scope\", j_get(inputs, \"scope\").cloned().unwrap_or(J::Null)))"
+      },
+      "operator": "drop_statement",
+      "sha256": "4d5e7563eaa1b44bb7c11f5f3faab35af0c3aa63052b58508d3a0ab5fca02886",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.8160728,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 69,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 456,
+        "start_column": 8,
+        "end_line": 456,
+        "end_column": 80,
+        "text": "fields.push((\"root\", j_get(inputs, \"root\").cloned().unwrap_or(J::Null)))"
+      },
+      "operator": "drop_statement",
+      "sha256": "dc538d767903c97ecdeedb94a7035cbe4bbc730edd86b2eec9a84a5d9b40eadb",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.5979911,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 70,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 457,
+        "start_column": 8,
+        "end_line": 460,
+        "end_column": 10,
+        "text": "fields.push((\n            \"scope_sha256\",\n            j_get(inputs, \"scope_sha256\").cloned().unwrap_or(J::Null),\n        ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "d8b606125626f5042a585eb8611ac6cba63caa82201f877dfcfc51e438723210",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.7213598,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 71,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 461,
+        "start_column": 8,
+        "end_line": 464,
+        "end_column": 10,
+        "text": "fields.push((\n            \"alphabet\",\n            j_get(inputs, \"alphabet\").cloned().unwrap_or(J::Null),\n        ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "e972508937e59b4b62d36714d008ac3475f05de014adcc59018d881096cadca1",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 7.7798308,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 72,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 466,
+        "start_column": 4,
+        "end_line": 466,
+        "end_column": 57,
+        "text": "fields.push((\"sequences\", J::int(seqs.len() as i64)))"
+      },
+      "operator": "drop_statement",
+      "sha256": "2d5021bce97e89e7fa444a7c09deaff5451d80cca424b917aa161deb8feaafae",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.5149179,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 73,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 467,
+        "start_column": 4,
+        "end_line": 474,
+        "end_column": 6,
+        "text": "fields.push((\n        \"operations\",\n        J::int(\n            seqs.iter()\n                .map(|s| j_arr(j_get(s, \"ops\").unwrap_or(&J::Null)).len() as i64)\n                .sum(),\n        ),\n    ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "8bb3d7f64b8dda12cb8ed8fe34d793247c537a2f760af65d816b7e34f123b7ae",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.9078724,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 74,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 475,
+        "start_column": 4,
+        "end_line": 478,
+        "end_column": 6,
+        "text": "fields.push((\n        \"seed_signatures\",\n        J::Arr(seed_sigs.iter().map(|s| J::str(s.clone())).collect()),\n    ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "f5dbfd270e5cdb48bcf9aa749d599700eb4f8b54b66d8aca72ccc90ea0b67644",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 17.2805449,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 75,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 479,
+        "start_column": 4,
+        "end_line": 487,
+        "end_column": 6,
+        "text": "fields.push((\n        \"generated_only_signatures\",\n        J::Arr(\n            gen_sigs\n                .difference(&seed_sigs)\n                .map(|s| J::str(s.clone()))\n                .collect(),\n        ),\n    ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "d2c23dcd6330eddcbf6d08a72081239429fc6379e1eb0a4cdf09a8b31d08bfdf",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 16.4213305,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 76,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 488,
+        "start_column": 4,
+        "end_line": 497,
+        "end_column": 6,
+        "text": "fields.push((\n        \"harness_suspects\",\n        J::Arr(\n            all_sigs\n                .iter()\n                .filter(|s| suspects.iter().any(|e| !e.is_empty() && s.contains(e)))\n                .map(|s| J::str(s.clone()))\n                .collect(),\n        ),\n    ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "fcca380ed733788eee6395e1e6c1e2176ec241445789338b7a222b0009e7b714",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 17.0490895,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 77,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 511,
+        "start_column": 4,
+        "end_line": 520,
+        "end_column": 6,
+        "text": "run_shim(\n        plan,\n        &[\n            \"record\",\n            \"--scope\",\n            &plan.scope,\n            \"--out-dir\",\n            &plan.work_dir.to_string_lossy(),\n        ],\n    )?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "25fba0f5997f70d2ddf2f587c600fe56c7fae431322bbfda848f875d8c910ad0",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 12.7322779,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 78,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 521,
+        "start_column": 19,
+        "end_line": 521,
+        "end_column": 63,
+        "text": "read_json(&plan.work_dir.join(\"seqs.json\"))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "d94a2f7dd16018777b977f1d14f617ce33cae507a02f3fac911803c67b52945e",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 12.9182163,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 79,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 522,
+        "start_column": 17,
+        "end_line": 522,
+        "end_column": 67,
+        "text": "read_json(&plan.work_dir.join(\"meta-input.json\"))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "c9978ed38ff6a106b7d2075b9c76bbd97c580f8c0d76d6bccd3f1c4349a7e6e2",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 12.1226818,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 80,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 524,
+        "start_column": 7,
+        "end_line": 524,
+        "end_column": 22,
+        "text": "seqs.is_empty()"
+      },
+      "operator": "negate",
+      "sha256": "3f0fe7c23f7d683dd9df72c16408c443d5024489ecdd61829d823d05bd673427",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.4125252,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 81,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 528,
+        "start_column": 22,
+        "end_line": 528,
+        "end_column": 62,
+        "text": "write_golden(out, &meta, &J::Arr(seqs))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "c3e31f102cc4bd9ee15cc1a72dc85097015128b92d0157c89aa0668b0c1a110a",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.664618,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 82,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 557,
+        "start_column": 4,
+        "end_line": 557,
+        "end_column": 28,
+        "text": "args.extend(golden_args)"
+      },
+      "operator": "drop_statement",
+      "sha256": "9201f889b3a2f4d868fcf83207f77cd373104638ddf1a9f3f22ac3f5f8bec4ed",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.2796714,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 83,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 559,
+        "start_column": 4,
+        "end_line": 559,
+        "end_column": 30,
+        "text": "run_shim(plan, &arg_refs)?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "35b8040e15d45ede5c8b9ea36ed234b1d30ee6103fd8e3436c79f1431f94594d",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.5760171,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 84,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 560,
+        "start_column": 14,
+        "end_line": 560,
+        "end_column": 57,
+        "text": "read_json(&plan.work_dir.join(\"got.json\"))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "f06687354d3ed76a6f135b4e32430e3af76e8920e689fe4d0439d9773f88fe88",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.8115701,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 85,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 567,
+        "start_column": 16,
+        "end_line": 567,
+        "end_column": 34,
+        "text": "read_json(golden)?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "884a5c5a10022311f303f6693133080f232a206ddca00c6c657ecb17f320dfd6",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.3465206,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 86,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 568,
+        "start_column": 14,
+        "end_line": 568,
+        "end_column": 57,
+        "text": "shim_replay(plan, &[golden.to_path_buf()])?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "36501b374944d61b624b3ad096590618b5944d06892967dde24889d38f2cb529",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.1242598,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 87,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 608,
+        "start_column": 14,
+        "end_line": 608,
+        "end_column": 41,
+        "text": "shim_replay(plan, goldens)?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "15f0ad6925dbe13f455fe1f46a9da783561fa214a102d2b2fff949b793f22115",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.570412900000001,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 88,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 612,
+        "start_column": 20,
+        "end_line": 612,
+        "end_column": 38,
+        "text": "read_json(golden)?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "b0195ba2eb50017f0c3ee806ba29116c95deced036a457e4e5506b46a0fd3791",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 14.6758482,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 89,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 641,
+        "start_column": 24,
+        "end_line": 641,
+        "end_column": 57,
+        "text": "pairs.retain(|(k, _)| k != \"sql\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "56df6826a83c1cefde7fe0aa9d30a4e6b42a13927aba34ea825508c24de79f68",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 18.5360883,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 90,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 650,
+        "start_column": 16,
+        "end_line": 656,
+        "end_column": 17,
+        "text": "if let Some(d) = first_diff(&a_rest, &b_rest, \"\") {\n                    return err(format!(\n                        \"{} {name} op {i} {}: {d}\",\n                        golden.display(),\n                        truncate_chars(&canon(o), 160)\n                    ));\n                }"
+      },
+      "operator": "swap_next",
+      "sha256": "cead446a5d797216d06631728aaf72e688e7ea2614c12b60288fb21dbe42c052",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 17.1400524,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 91,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 657,
+        "start_column": 19,
+        "end_line": 657,
+        "end_column": 43,
+        "text": "canon(&sa) != canon(&sb)"
+      },
+      "operator": "negate",
+      "sha256": "d3b4a5f26be261ea1d3c9463e7c4fc0ebfe908de6de89d5af4f965c5b42b333e",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 13.7124055,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 92,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 658,
+        "start_column": 20,
+        "end_line": 673,
+        "end_column": 23,
+        "text": "l2.push(J::obj(vec![\n                        (\n                            \"golden\",\n                            J::str(\n                                golden\n                                    .file_name()\n                                    .map(|n| n.to_string_lossy().into_owned())\n                                    .unwrap_or_default(),\n                            ),\n                        ),\n                        (\"sequence\", J::str(name)),\n                        (\"op_index\", J::int(i as i64)),\n                        (\"op\", o.clone()),\n                        (\"recorded\", sa),\n                        (\"replayed\", sb),\n                    ]))"
+      },
+      "operator": "drop_statement",
+      "sha256": "527ac1ad09a14a3ae259b87093c8529dec144d9c6cd9418e078ebb27098b74ab",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.7487502,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 93,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "compound_assignment_expr",
+        "start_line": 675,
+        "start_column": 16,
+        "end_line": 675,
+        "end_column": 31,
+        "text": "operations += 1"
+      },
+      "operator": "drop_statement",
+      "sha256": "46deb55cfc099444a4abc5bb154a5264580e1b914df679b10e1752a7cbf59bb0",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.3202187,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 94,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "compound_assignment_expr",
+        "start_line": 677,
+        "start_column": 12,
+        "end_line": 677,
+        "end_column": 26,
+        "text": "sequences += 1"
+      },
+      "operator": "drop_statement",
+      "sha256": "45291a6332772921a688385e6f80adba18c7bf1155158cccb6b7f80c0a7dc0c0",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.7146473,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 95,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 702,
+        "start_column": 4,
+        "end_line": 703,
+        "end_column": 85,
+        "text": "fs::write(out, crate::receipt::dumps(&report).as_bytes())\n        .map_err(|e| RecordingError(format!(\"cannot write {}: {e}\", out.display())))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "4939139d89d23c1b3c150800e425e2cb16c98bf76acea3cb14b7f4e8bb44a01d",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.1709338,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 96,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 731,
+        "start_column": 4,
+        "end_line": 731,
+        "end_column": 62,
+        "text": "cmd.args(args).current_dir(cwd).envs(envs.iter().cloned())"
+      },
+      "operator": "drop_statement",
+      "sha256": "df6af5838b30ddd908080eddd600e2d704f8655ee22fb2fdd254b4fcd2bb6ccd",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.1110982,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 97,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 735,
+        "start_column": 8,
+        "end_line": 737,
+        "end_column": 9,
+        "text": "if let Ok(Some(st)) = child.try_wait() {\n            return st.code().unwrap_or(-1);\n        }"
+      },
+      "operator": "swap_next",
+      "sha256": "b0d0b072ff2d1a86d96bef1fcef5086ae117053278102f43b9048531db258342",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.4166066,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 98,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 739,
+        "start_column": 15,
+        "end_line": 739,
+        "end_column": 35,
+        "text": "Instant::now() >= dl"
+      },
+      "operator": "negate",
+      "sha256": "2a6af418c619f92c74751565536bdf156dde716cd561af7f2a1fa581e27babe8",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.4068814,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 99,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 739,
+        "start_column": 15,
+        "end_line": 739,
+        "end_column": 35,
+        "text": "Instant::now() >= dl"
+      },
+      "operator": "swap:>=->>@739:30",
+      "sha256": "d91b4160c6073d440ecb96d5ff3ed0e1f5d2ad6cea17360f8ea381697463ece2",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.3721064,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 100,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 744,
+        "start_column": 12,
+        "end_line": 744,
+        "end_column": 86,
+        "text": "std::thread::sleep(poll.min(dl.saturating_duration_since(Instant::now())))"
+      },
+      "operator": "drop_statement",
+      "sha256": "8d24316523dcdd48b2bba981caca9c49b8a2aa6c9bc751a3f3c86c4e1914cf08",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.1035732,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 101,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 746,
+        "start_column": 12,
+        "end_line": 746,
+        "end_column": 36,
+        "text": "std::thread::sleep(poll)"
+      },
+      "operator": "drop_statement",
+      "sha256": "53f3cf1fdae7b39704bf6df6254a4e6f04e178805498722a7665f8f568db9f40",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.8867849,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 102,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 759,
+        "start_column": 14,
+        "end_line": 760,
+        "end_column": 67,
+        "text": "Command::new(venv).arg(\"-c\").arg(&code).envs(envs.iter().cloned()).output()\n        .map_err(|e| LifecycleError(format!(\"probe failed: {e}\")))?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "3299095ad0cc681c368a33df873983655fb000f5780dc03d01b3982abf44c992",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.3470517,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 103,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 762,
+        "start_column": 36,
+        "end_line": 762,
+        "end_column": 53,
+        "text": "stdout.is_empty()"
+      },
+      "operator": "negate",
+      "sha256": "4a6bbec17a19a35f04b207f3ed185098563d146be8988069a52deead2c688452",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 16.1794676,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 104,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 767,
+        "start_column": 7,
+        "end_line": 767,
+        "end_column": 17,
+        "text": "!is_prefix"
+      },
+      "operator": "negate",
+      "sha256": "3fcd976d4786c10ed5214bdd9d88c6df865f2b6856cfe61b77c52dc59a85fea4",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 14.8714286,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 105,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 787,
+        "start_column": 8,
+        "end_line": 787,
+        "end_column": 58,
+        "text": "cmd.extend(extra_first.iter().map(String::as_str))"
+      },
+      "operator": "drop_statement",
+      "sha256": "5bf4a53c57d2e9579d8708cfe6256661423f8b0bdeffa508b5e97b49382021ad",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 15.9232299,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 106,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 788,
+        "start_column": 8,
+        "end_line": 788,
+        "end_column": 41,
+        "text": "cmd.extend_from_slice(&tail_args)"
+      },
+      "operator": "drop_statement",
+      "sha256": "011d9d7b62fa1ff8c659bfd5767d5d974f234438e2e78746b5cf8a1030beff4e",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 11.4283015,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 107,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 789,
+        "start_column": 8,
+        "end_line": 789,
+        "end_column": 51,
+        "text": "cmd.extend(args.iter().map(String::as_str))"
+      },
+      "operator": "drop_statement",
+      "sha256": "34ca4acce93720b62014312b66446ec7dd47c6d2c9fb5d5fd15742abcb26071e",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.4159182,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 108,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 793,
+        "start_column": 11,
+        "end_line": 793,
+        "end_column": 33,
+        "text": "!matches!(code, 0 | 5)"
+      },
+      "operator": "negate",
+      "sha256": "0717150b40dd226ed66cf3747435fdebbc21910de8736f552668e9640e6abc4c",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.2796854,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 109,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "failure_state",
+        "node_kind": "return_expression",
+        "start_line": 793,
+        "start_column": 36,
+        "end_line": 793,
+        "end_column": 44,
+        "text": "return 1"
+      },
+      "operator": "literal:1->0",
+      "sha256": "a07d829efb59179f8dad48b17e2be070564e015c241fb770200cbb3f0c654f0d",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.7435089,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 110,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 806,
+        "start_column": 4,
+        "end_line": 806,
+        "end_column": 70,
+        "text": "if arm_exit != 0 { reasons.push(format!(\"arm exit {arm_exit}\")); }"
+      },
+      "operator": "swap_next",
+      "sha256": "e67e9285212641cdcd838fe38bcf1aba18bba9df6b4669af6ffbbcde9c37708e",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.5976458,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 111,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 806,
+        "start_column": 7,
+        "end_line": 806,
+        "end_column": 20,
+        "text": "arm_exit != 0"
+      },
+      "operator": "negate",
+      "sha256": "090568d766bdd7329728b72ea0bdead97f57298da83831d87e12abe198607f59",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.0454265,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 112,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 806,
+        "start_column": 23,
+        "end_line": 806,
+        "end_column": 67,
+        "text": "reasons.push(format!(\"arm exit {arm_exit}\"))"
+      },
+      "operator": "drop_statement",
+      "sha256": "54d81406fa6234bdbf47f4ff6f538f55f1c87b94bd5acd8f81b86a7095ac09c6",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.7594908,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 113,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 807,
+        "start_column": 4,
+        "end_line": 807,
+        "end_column": 86,
+        "text": "if !fresh { reasons.push(\"replay not fresh or short of golden coverage\".into()); }"
+      },
+      "operator": "swap_next",
+      "sha256": "4c165d84a26a9c91b2c56760caa8f954cc2661e6345e6a66052867eb56fa9f63",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 7.9785756,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 114,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 807,
+        "start_column": 7,
+        "end_line": 807,
+        "end_column": 13,
+        "text": "!fresh"
+      },
+      "operator": "negate",
+      "sha256": "8b0725d41d482a8c7dcfb3b7bce465a327bf14cfc2ca4f5be92edb07a1526e82",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.1806877,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 115,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 807,
+        "start_column": 16,
+        "end_line": 807,
+        "end_column": 83,
+        "text": "reasons.push(\"replay not fresh or short of golden coverage\".into())"
+      },
+      "operator": "drop_statement",
+      "sha256": "f8cc9dfd316315745250c9dd1099caf92e00cb6ccf5cc07f09474f0d083adf88",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.1619952,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 116,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 808,
+        "start_column": 7,
+        "end_line": 808,
+        "end_column": 74,
+        "text": "level2_ops > 0 && !matches!(query_evidence, Some(p) if p.is_file())"
+      },
+      "operator": "negate",
+      "sha256": "03e471a1ad4e313a8f5c75cfb2ef64941f27d0acc4a7046a1f05d7206129ce0b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.7936695,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 117,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 808,
+        "start_column": 7,
+        "end_line": 808,
+        "end_column": 74,
+        "text": "level2_ops > 0 && !matches!(query_evidence, Some(p) if p.is_file())"
+      },
+      "operator": "swap:>->>=@808:18",
+      "sha256": "06984ffb5ed60948cea90f2c1d669145b6e04c6466e62b476a509b6495828604",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.4546305,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 118,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 808,
+        "start_column": 7,
+        "end_line": 808,
+        "end_column": 74,
+        "text": "level2_ops > 0 && !matches!(query_evidence, Some(p) if p.is_file())"
+      },
+      "operator": "swap:&&->||@808:22",
+      "sha256": "bc8a7cc78780e01b43be612e7923ed7ebb5ba4135b02029dcc4e442481874ed6",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.7440344,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 119,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 809,
+        "start_column": 8,
+        "end_line": 809,
+        "end_column": 96,
+        "text": "reasons.push(format!(\"{level2_ops} L2 differences without query-differential evidence\"))"
+      },
+      "operator": "drop_statement",
+      "sha256": "bba862e71b87555a800fdb5c896d8c8bf093154c3e90df6f19f00be985b7b3fb",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.726007,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 120,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 811,
+        "start_column": 18,
+        "end_line": 811,
+        "end_column": 36,
+        "text": "reasons.is_empty()"
+      },
+      "operator": "negate",
+      "sha256": "79caca6ad161a6b7ab22a2b21c3d23eb173117ce6b09bc4b4ce95932591ba9ca",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.2853873,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 121,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 811,
+        "start_column": 51,
+        "end_line": 811,
+        "end_column": 64,
+        "text": "arm_exit == 2"
+      },
+      "operator": "negate",
+      "sha256": "40e8ed0de098b6166ac73a42fafca2b957006cc7fb22e23ebf1c8d05583a3749",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.9171341,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 122,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 835,
+        "start_column": 66,
+        "end_line": 835,
+        "end_column": 81,
+        "text": "e.1 = v.clone()"
+      },
+      "operator": "drop_statement",
+      "sha256": "edb6e3e8b9f43383a3f7b9da14f548a2a6b4a21fbb4ee6feeb6aee8ccf87f1d6",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 8.3842863,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 123,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 836,
+        "start_column": 15,
+        "end_line": 836,
+        "end_column": 47,
+        "text": "env.push((k.clone(), v.clone()))"
+      },
+      "operator": "drop_statement",
+      "sha256": "8c1aa9478a060d2c213b4d444076282b1961188222a8571a7d4f3c8cb90b1647",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 7.9384327,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 124,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 853,
+        "start_column": 8,
+        "end_line": 853,
+        "end_column": 66,
+        "text": "groups.push((format!(\"packages/facdrone-{p}\"), pkg_files))"
+      },
+      "operator": "drop_statement",
+      "sha256": "4df1c02d3f9126dff93087558bacaf5139e10a8a1963498f756d2195bcd87996",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 2.6158618000000002,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 125,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 856,
+        "start_column": 11,
+        "end_line": 856,
+        "end_column": 26,
+        "text": "args.is_empty()"
+      },
+      "operator": "negate",
+      "sha256": "9771e36f729f9e9093acdd5fbb54f2ba7d106374a2621cc01f7eee242f82c587",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.1175843,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 126,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 857,
+        "start_column": 24,
+        "end_line": 857,
+        "end_column": 34,
+        "text": "cwd == \".\""
+      },
+      "operator": "negate",
+      "sha256": "9e50aaf41f560d3a074371b34e650b0097bdb3a3d03b9265a075a261881118fd",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.9469252,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 127,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 860,
+        "start_column": 15,
+        "end_line": 860,
+        "end_column": 52,
+        "text": "cwd != \".\" || n.starts_with(\"tests/\")"
+      },
+      "operator": "negate",
+      "sha256": "2ad1d115f28d5fd757eeeecdaf66be7f03dac9ab9a4874950a2357405234189f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.0753043,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 128,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 860,
+        "start_column": 15,
+        "end_line": 860,
+        "end_column": 52,
+        "text": "cwd != \".\" || n.starts_with(\"tests/\")"
+      },
+      "operator": "swap:!=->==@860:19",
+      "sha256": "d6c79257b50e427566fc729464addd0be452c551870b59ef9d6a70e6ec9fb3a0",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.2583047,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 129,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 860,
+        "start_column": 15,
+        "end_line": 860,
+        "end_column": 52,
+        "text": "cwd != \".\" || n.starts_with(\"tests/\")"
+      },
+      "operator": "swap:||->&&@860:26",
+      "sha256": "9dd3c8a0a2786fe18902305377ab590c9a83e9065ce34e9de32628237ea34da9",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 8.0529037,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 130,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 861,
+        "start_column": 16,
+        "end_line": 861,
+        "end_column": 58,
+        "text": "group_args.push(format!(\"--deselect={n}\"))"
+      },
+      "operator": "drop_statement",
+      "sha256": "ef663486365c9e9eaf0b705354844f9a72e9a7b64c9e6f1889f8085ca40038ad",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 7.9007198,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 131,
+      "site": {
+        "file": "src/recording.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 867,
+        "start_column": 8,
+        "end_line": 867,
+        "end_column": 106,
+        "text": "first.1.extend([\"-p\".into(), \"facdrone_testing.fixtures\".into(), target.to_string_lossy().into()])"
+      },
+      "operator": "drop_statement",
+      "sha256": "bcbfb04f21407566ce15bd3ed5ae5dafb84a789b5bc808a85dbc79612b72a384",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 9.7363291,
+      "worker": 1,
+      "reused_from": null
+    }
+  ],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [
+        78.7003447
+      ],
+      "limits_s": [
+        394
+      ],
+      "mutants_run": 44,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 2,
+      "recovered": null,
+      "baseline_s": [
+        78.7194318
+      ],
+      "limits_s": [
+        394
+      ],
+      "mutants_run": 43,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 3,
+      "recovered": null,
+      "baseline_s": [
+        82.3853607
+      ],
+      "limits_s": [
+        412
+      ],
+      "mutants_run": 44,
+      "closing_baseline_passed": true,
+      "stopped": null
+    }
+  ],
+  "void": null
+}

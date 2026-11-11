@@ -14,8 +14,10 @@
 > - "Production Certified" is not a status this project can support with that evidence, and "proves" in the
 >   introduction overstates finite checks.
 > - The parsers are the tree-sitter grammars compiled into the binary; `syn` and `oxc` are not used.
-> - `PureCoreVerifier::compare` on the three language adapters does not run the two entry points. It returns
->   `Verified` with the number of cases the domain would have. Do not use it as evidence.
+> - `PureCoreVerifier::compare` on the three language adapters did not run the two entry points; it was
+>   removed on 2026-11-11 (R81).
+> - The row "Compression Ratio (Lines)" depends on layout. For Rust, 40.3% becomes 11.7% when both files are
+>   formatted the same way (R86); the other columns were not re-measured.
 > - Section 5 is replaced by the note at its start.
 
 Lesscode's state-boundary deconvolution engine unifies cross-language whole-responsibility compression and equivalence verification under a high-performance native Rust substrate. 

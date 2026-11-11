@@ -2,7 +2,14 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R85 Three annotation runs select more stably than one, but not stably enough to call the selection fixed (2026-11-11)
+## Latest: R86 The Rust specimen candidate, built for the first time: it works, and most of its 40% is formatting (2026-11-11)
+
+[R86](2026-11-11/12-rust-candidate-built-and-measured.md) closes the open point of R75.
+- **Works:** in place of the six original functions the candidate compiles, lints clean and passes all 375 tests; under the driver 18 of its 36 mutants are killed (original 20 of 38). Three of the six functions are not reached by the tests that ran.
+- **Reduction restated:** 248 to 148 lines (40.3%, "pass") as committed; 248 to 219 (11.7%) and 83 to 76 statements (8.4%), "marginal", with both files formatted the same way.
+- **Tool weakness:** `deconvolute density` counts lines and depends on layout; the other specimens' figures were measured the same way and not re-measured.
+
+## Prior: R85 Three annotation runs select more stably than one, but not stably enough to call the selection fixed (2026-11-11)
 
 [R85](2026-11-11/11-slice-b-annotation-hardening.md) runs the preregistration [R84](2026-11-11/10-slice-b-annotation-hardening-preregistration.md): six fresh Opus runs per scope, two rules over three runs.
 - **Majority of three:** agrees more than single runs in four of five files (0.74 to 0.96 against 0.62 to 0.86) and keeps as few sites as one run; the target of 0.80 in four files is missed (three).
