@@ -128,9 +128,52 @@ def summarise(args) -> int:
     return 0
 
 
+def ensemble(args) -> int:
+    """R84: do rules over three runs select more stably than one run does?
+
+    Every split of the runs into two disjoint groups of three is taken. In each group the majority rule keeps
+    the sites at least two runs name, the union rule keeps the sites any run names. Agreement is measured
+    between the two groups' selections, and between single runs for comparison.
+    """
+    arm = arm_summary(args, args.out_dir)
+    out = {}
+    for name, row in arm.items():
+        runs = {run: set(sites) for run, sites in row["sites_by_run"].items()}
+        keys = sorted(runs)
+        single = [jaccard(sorted(runs[a]), sorted(runs[b])) for a, b in itertools.combinations(keys, 2)]
+        majority, union, sizes = [], [], {"single": [len(s) for s in runs.values()], "majority": [], "union": []}
+        for group in itertools.combinations(keys, 3):
+            rest = tuple(k for k in keys if k not in group)
+            if len(rest) != 3 or group > rest:
+                continue
+            chosen = []
+            for members in (group, rest):
+                count = {}
+                for member in members:
+                    for site in runs[member]:
+                        count[site] = count.get(site, 0) + 1
+                chosen.append(({s for s, n in count.items() if n >= 2}, set(count)))
+            majority.append(jaccard(sorted(chosen[0][0]), sorted(chosen[1][0])))
+            union.append(jaccard(sorted(chosen[0][1]), sorted(chosen[1][1])))
+            sizes["majority"] += [len(chosen[0][0]), len(chosen[1][0])]
+            sizes["union"] += [len(chosen[0][1]), len(chosen[1][1])]
+        med = lambda values: round(statistics.median(values), 3) if values else None  # noqa: E731
+        out[name] = {"runs": len(keys), "splits": len(majority), "eligible_sites": row["eligible_sites"],
+                     "agreement": {"single": med(single), "majority": med(majority), "union": med(union)},
+                     "agreement_range": {"single": [min(single), max(single)] if single else None,
+                                         "majority": [min(majority), max(majority)] if majority else None,
+                                         "union": [min(union), max(union)] if union else None},
+                     "median_sites": {k: med(v) for k, v in sizes.items()}}
+        print(f"{name}: agreement single {out[name]['agreement']['single']} majority {out[name]['agreement']['majority']} "
+              f"union {out[name]['agreement']['union']}; sites {out[name]['median_sites']} of {row['eligible_sites']}")
+    result = {"receipt": "slice-b-annotation-ensemble-v1", "preregistration": "R84", "scopes": out}
+    (args.out_dir / "ensemble.json").write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8", newline="\n")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=["call", "summarise"])
+    parser.add_argument("action", choices=["call", "summarise", "ensemble"])
     parser.add_argument("--out-dir", type=Path, required=True)
     parser.add_argument("--scopes-dir", type=Path, required=True)
     parser.add_argument("--guide", type=Path, default=PROTOTYPE / "guide-v2.md")
@@ -142,7 +185,7 @@ def main() -> int:
     parser.add_argument("--checker", type=Path)
     parser.add_argument("--compare", type=Path)
     args = parser.parse_args()
-    return call(args) if args.action == "call" else summarise(args)
+    return {"call": call, "summarise": summarise, "ensemble": ensemble}[args.action](args)
 
 
 if __name__ == "__main__":
