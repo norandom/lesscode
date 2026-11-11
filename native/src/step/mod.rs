@@ -3,4 +3,5 @@
 //! (`.kiro/specs/gradual-refactoring-steps`).
 
 pub mod declaration;
+pub mod functions;
 pub mod revisions;

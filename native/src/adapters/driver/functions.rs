@@ -1,10 +1,10 @@
 //! The functions of a source text, as the pack's boundary kind finds them,
 //! and the sites that lie in named ones.
 //!
-//! A function is named by the `name` field of its syntax node; one without
-//! such a field is called `line N` after the line it starts on. Two
-//! functions of one file may share a name (methods of different types);
-//! naming it then means both.
+//! A function is named by the `name` field of its syntax node, or of the
+//! node it is bound to; one without either is called `line N` after the
+//! line it starts on. Two functions of one file may share a name (methods
+//! of different types); naming it then means both.
 
 use super::pack::Pack;
 use super::sites::{sites_of, Site};
@@ -12,12 +12,14 @@ use super::source::SourceSet;
 use super::tree::{grammar, parse, position, walk};
 use super::Kind;
 use serde::Serialize;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 /// Lines are 1-based, columns 0-based characters, as for a site.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct Function {
     pub name: String,
+    /// The syntax gives it no name; it is called after its line.
+    pub anonymous: bool,
     pub start_line: usize,
     pub start_column: usize,
     pub end_line: usize,
@@ -37,23 +39,36 @@ impl Function {
 pub fn functions_of(pack: &Pack, label: &str, text: &str) -> Result<Vec<Function>, String> {
     let boundaries = sites_of(pack, label, text, &[Kind::PureShellBoundary])?;
     let root = parse(text, grammar(&pack.language)?)?;
+    let wanted: BTreeSet<_> = boundaries
+        .iter()
+        .map(|b| (b.span(), b.node_kind.clone()))
+        .collect();
     let mut names = BTreeMap::new();
     for node in walk(&root.root()) {
-        if let Some(name) = node.field("name") {
-            names
-                .entry((position(&node), node.kind().into_owned()))
-                .or_insert_with(|| name.text().into_owned());
+        let key = (position(&node), node.kind().into_owned());
+        if !wanted.contains(&key) {
+            continue;
+        }
+        // Its own name, or the name of what it is bound to.
+        let name = node
+            .field("name")
+            .or_else(|| node.parent().and_then(|p| p.field("name")));
+        if let Some(name) = name {
+            names.entry(key).or_insert_with(|| name.text().into_owned());
         }
     }
-    let function = |b: &Site| Function {
-        name: names
-            .get(&(b.span(), b.node_kind.clone()))
-            .cloned()
-            .unwrap_or_else(|| format!("line {}", b.start_line)),
-        start_line: b.start_line,
-        start_column: b.start_column,
-        end_line: b.end_line,
-        end_column: b.end_column,
+    let function = |b: &Site| {
+        let name = names.get(&(b.span(), b.node_kind.clone()));
+        Function {
+            name: name
+                .cloned()
+                .unwrap_or_else(|| format!("line {}", b.start_line)),
+            anonymous: name.is_none(),
+            start_line: b.start_line,
+            start_column: b.start_column,
+            end_line: b.end_line,
+            end_column: b.end_column,
+        }
     };
     Ok(boundaries.iter().map(function).collect())
 }

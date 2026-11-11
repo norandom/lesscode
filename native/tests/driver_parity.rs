@@ -391,9 +391,13 @@ fn the_engine_names_no_language_or_project() {
         })
         .collect();
     banned.extend(languages.iter().map(String::as_str));
-    let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("src/adapters/driver");
+    // The driver and the step tooling built on it.
+    let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("src");
+    let files = ["adapters/driver", "step"]
+        .iter()
+        .flat_map(|dir| fs::read_dir(source.join(dir)).unwrap());
     let mut scanned = 0;
-    for entry in fs::read_dir(&dir).unwrap() {
+    for entry in files {
         let path = entry.unwrap().path();
         if path.file_name().is_some_and(|n| n == "registry.rs") {
             continue;

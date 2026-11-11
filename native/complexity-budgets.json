@@ -393,6 +393,13 @@
    "disposition": null
   },
   {
+   "path": "step/functions.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "Changed functions, callers by name, faults per function (design: Functions, REQ 4.1, 5.2, 5.10)",
+   "disposition": null
+  },
+  {
    "path": "step/mod.rs",
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
