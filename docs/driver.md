@@ -20,9 +20,19 @@ input, unsupported language or a void run.
 | `mutate --lang L --source F --out-dir D [--out R] [--limit N --seed S]` | Writes every valid mutant of a file into `D`, with a receipt naming site, operator and hash. Exit 1 when there is none | no |
 | `run --config C --work W [--workers N] [--annotations A] [--no-reuse] --out R` | Mutates the configured files in copies under `W`, runs the project's commands against each mutant and classes it. Exit 2 when errors remain, 3 when the run is void | no; only the copies change, and each is restored and verified |
 | `admit-pack --pack P --lang L [--controls K --source-root S] [--out R]` | Checks a language pack before it is used. Exit 1 when it is rejected | no |
+| `merge-annotations --config C [--min N] --out M LIST...` | Validates several annotation lists and writes the annotations of the sites that at least N lists name (default 2), for use with `run --annotations`. Exit 1 when no site is kept. On `main` after release 1.1.0 | no |
 
 `run` is the one command that executes a project's commands. It refuses a work directory that is the source
 root, lies inside it or contains it.
+
+## Annotations and why to merge them
+
+`run --annotations A` mutates only the sites a list of annotations names; each annotation is validated and a
+rejected one never becomes a mutant. Such a list usually comes from a model, and a model does not name the
+same sites twice: two runs on one file shared 62% to 86% of their sites in one measurement, and the sites
+that at least two of three runs name shared 74% to 96% (R83, R85). `merge-annotations` builds that steadier
+list. It is steadier, not fixed. Without annotations the driver mutates every eligible site, and that
+selection does not vary.
 
 ## Site kinds and operators
 

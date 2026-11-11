@@ -91,6 +91,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/merge.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Merging annotation lists by agreement (design Amendment 5, REQ 6)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/mod.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

@@ -317,6 +317,93 @@ fn an_annotated_run_mutates_only_accepted_sites() {
     );
 }
 
+/// `merge-annotations` keeps the sites enough lists name, counts only
+/// accepted annotations, and its output drives a run.
+#[test]
+fn annotation_lists_are_merged_by_agreement() {
+    let project = Project::new("merge");
+    let condition = json!({"file": "src/app.py", "start_line": 2, "end_line": 2, "kind": "branch_condition", "anchor": "a > 3", "reason": "r"});
+    let write = json!({"file": "src/app.py", "start_line": 4, "end_line": 4, "kind": "state_write", "anchor": "state.total = a", "reason": "r"});
+    let raise = json!({"file": "src/app.py", "start_line": 3, "end_line": 3, "kind": "failure_state", "anchor": "raise ValueError(\"big\")", "reason": "r"});
+    let wrong = json!({"file": "src/app.py", "start_line": 4, "end_line": 4, "kind": "branch_condition", "anchor": "state.total = a", "reason": "wrong kind"});
+    let lists = [
+        json!([condition, write, wrong]),
+        json!([condition, raise, wrong]),
+        json!([condition, write, condition]),
+    ];
+    let mut paths = Vec::new();
+    for (index, list) in lists.iter().enumerate() {
+        let path = project.dir.join(format!("list{index}.json"));
+        fs::write(&path, list.to_string()).unwrap();
+        paths.push(path);
+    }
+    let config = project.config(&[], json!({}));
+    let merge = |min: &str, out: &Path, lists: &[PathBuf]| {
+        let output = Command::new(env!("CARGO_BIN_EXE_lesscode-core"))
+            .args(["deconvolute", "merge-annotations", "--config"])
+            .arg(&config)
+            .args(["--min", min, "--out"])
+            .arg(out)
+            .args(lists)
+            .output()
+            .unwrap();
+        let receipt: Value = serde_json::from_slice(&output.stdout).unwrap_or(Value::Null);
+        (output.status.code(), receipt)
+    };
+    let merged = project.dir.join("merged.json");
+
+    let (code, receipt) = merge("2", &merged, &paths);
+    assert_eq!(code, Some(0));
+    assert_eq!(receipt["receipt"], "deconvolution-annotation-merge-v1");
+    // Three sites are named in all; the condition by three lists, the write
+    // by two, the raise by one. The rejected annotation never counts.
+    assert_eq!(
+        (
+            receipt["sites_named"].as_u64(),
+            receipt["sites_kept"].as_u64()
+        ),
+        (Some(3), Some(2))
+    );
+    assert_eq!(receipt["lists"][0]["accepted"], 2);
+    assert_eq!(
+        receipt["lists"][2]["sites"], 2,
+        "a site named twice in one list counts once"
+    );
+    let kept: Vec<Value> = serde_json::from_slice(&fs::read(&merged).unwrap()).unwrap();
+    let kinds: Vec<&str> = kept.iter().map(|a| a["kind"].as_str().unwrap()).collect();
+    assert_eq!(kinds, ["branch_condition", "state_write"]);
+
+    let (code, receipt) = merge("3", &merged, &paths);
+    assert_eq!((code, receipt["sites_kept"].as_u64()), (Some(0), Some(1)));
+    let (code, receipt) = merge("1", &merged, &paths);
+    assert_eq!((code, receipt["sites_kept"].as_u64()), (Some(0), Some(3)));
+    // Nothing agreed on is exit 1; a threshold above the number of lists is bad input.
+    let (code, _) = merge(
+        "2",
+        &merged,
+        &paths[1..2]
+            .iter()
+            .chain(&paths[1..2])
+            .cloned()
+            .collect::<Vec<_>>()[..1],
+    );
+    assert_eq!(code, Some(3), "--min 2 with one list");
+    let only_raise = project.dir.join("raise.json");
+    fs::write(&only_raise, json!([raise]).to_string()).unwrap();
+    let (code, receipt) = merge("2", &merged, &[paths[0].clone(), only_raise]);
+    assert_eq!((code, receipt["sites_kept"].as_u64()), (Some(1), Some(0)));
+
+    // The merged list drives a run.
+    let (_, _) = merge("2", &merged, &paths);
+    let (code, receipt, stderr) = project.run(
+        &config,
+        "work",
+        &["--annotations", merged.to_str().unwrap()],
+    );
+    assert_eq!(code, Some(0), "{stderr}");
+    assert_eq!(receipt["sites"], 2);
+}
+
 #[test]
 fn unsafe_work_directories_are_refused_and_interrupted_copies_recovered() {
     let project = Project::new("safety");

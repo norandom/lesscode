@@ -59,6 +59,8 @@ pub enum DeconvoluteCommand {
     AdmitPack(driver_cli::AdmitPackArgs),
     /// Run the project's own tests against every mutant, in copies only.
     Run(RunArgs),
+    /// Keep the sites that enough annotation lists agree on.
+    MergeAnnotations(crate::adapters::driver::merge::MergeArgs),
     /// Git pre-push hook; enforces complexity budgets only.
     PrePush(cli_hook::PrePushArgs),
     /// Install standard Git pre-push hook script in .git/hooks.
@@ -132,6 +134,9 @@ pub fn run(cmd: DeconvoluteCommand) -> Result<u8, String> {
         } => run_density(&lang, &baseline, &candidate, out.as_deref()),
         DeconvoluteCommand::AdmitPack(args) => driver_cli::run_admit_pack(args),
         DeconvoluteCommand::Run(args) => run_run(args),
+        DeconvoluteCommand::MergeAnnotations(args) => {
+            crate::adapters::driver::merge::run_merge(args)
+        }
         DeconvoluteCommand::PrePush(args) => cli_hook::run_pre_push(args),
         DeconvoluteCommand::InstallHook(args) => cli_hook::run_install_hook(args),
     }

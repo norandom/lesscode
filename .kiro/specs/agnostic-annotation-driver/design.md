@@ -433,6 +433,16 @@ report success without running anything, and add operators for call arguments.
 - The engine parity tests compare with the prototype after leaving the new kind out; the count of new
   mutants per scope is printed by the test (12, 49, 10, 35 and 19 beside 170, 197, 64, 71 and 55).
 
+### Amendment 5, 2026-11-11: a command that merges annotation lists
+
+Owner decision of 2026-11-11 after R85. `deconvolute merge-annotations --config C [--min N] --out M LIST...`
+(`adapters/driver/merge.rs`) validates each list with the driver's validator, counts for every site how many
+lists name it with an accepted annotation (a site named twice in one list counts once), and writes the first
+annotation of each site that at least N lists name, in site order. The source set comes from a run
+configuration, so that the merged list fits `run --annotations` with the same configuration. Exit 0 with at
+least one site kept, 1 with none, 3 for bad input including a threshold above the number of lists. It
+contacts no model (Requirement 6.5). It is not in release 1.1.0, which was tagged before it.
+
 ## Contradictions and disposition
 
 | # | Contradiction | Source authority | Disposition |
