@@ -1,0 +1,33 @@
+{
+  "feature_name": "gradual-refactoring-steps",
+  "created_at": "2026-11-11T12:15:00+01:00",
+  "updated_at": "2026-11-11T14:00:00+01:00",
+  "language": "en",
+  "phase": "requirements-generated",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": false
+    },
+    "design": {
+      "generated": false,
+      "approved": false
+    },
+    "tasks": {
+      "generated": false,
+      "approved": false
+    }
+  },
+  "ready_for_implementation": false,
+  "prototype_gate": "brief.md",
+  "prototype_status": "proceed",
+  "related": [
+    "agnostic-annotation-driver",
+    "constraint-guided-compression"
+  ],
+  "evidence": [
+    "docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md",
+    "docs/research/2026-11-11/14-gradual-steps-prototype-gate.md"
+  ],
+  "notes": "2026-11-11: owner asked whether code is healthy and working after a change and whether refactoring can be supported step by step, release by release; cc-sdd per branch, one small case per branch, assurance inspired by Pex and Moles, handover to openidea-kiro, skills are not hard boundaries. Brief written, prototype gate passed (R88). Owner said yes to writing requirements and to a first real step from a copy of this repository with a thorough check and a guard. Requirements generated, not approved."
+}
