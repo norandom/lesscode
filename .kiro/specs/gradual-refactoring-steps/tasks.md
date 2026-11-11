@@ -1,6 +1,6 @@
 # Implementation Plan: gradual refactoring in checked steps
 
-Generated 2026-11-11. **Not approved.**
+Generated 2026-11-11. **Approved by the owner on 2026-11-11.**
 Basis: [requirements](requirements.md) (approved 2026-11-11) and [design](design.md) (approved 2026-11-11);
 gate `proceed` for the demonstrated subset
 ([R88](../../../docs/research/2026-11-11/14-gradual-steps-prototype-gate.md),
