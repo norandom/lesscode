@@ -73,7 +73,11 @@ fn accepted(context: &Context, entries: &[Value], mut entry: Entry) -> Result<u8
     let revision = &context.revisions.step;
     let (found, _) = standing(&context.repo, &declaration.branch, revision)?;
     if found != Standing::Accepted {
-        println!("step {}: not recorded: {found:?}", declaration.step);
+        let why = match found {
+            Standing::Refused(why) => why,
+            other => format!("{other:?}"),
+        };
+        println!("step {}: not recorded: {why}", declaration.step);
         return Ok(1);
     }
     let path = context.repo.join(&declaration.outputs.verdict);

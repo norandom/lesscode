@@ -65,7 +65,7 @@ pub enum DeconvoluteCommand {
     MergeAnnotations(crate::adapters::driver::merge::MergeArgs),
     /// Git pre-push hook; enforces complexity budgets only.
     PrePush(cli_hook::PrePushArgs),
-    /// Install standard Git pre-push hook script in .git/hooks.
+    /// Install a pre-push hook that runs the complexity budgets.
     InstallHook(cli_hook::InstallHookArgs),
 }
 
