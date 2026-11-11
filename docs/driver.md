@@ -109,9 +109,12 @@ A JSON file. Commands are argument vectors; nothing is passed through a shell.
   copy builds inside itself, or run one copy with `serial_only`. The driver notices the damage only through
   the closing run of the unmutated tests, which then fails and voids the run; the receipt names the copy and
   shows the end of the failing output.
-- Outcomes are stored under `W/outcomes` by the hash of the original file, the mutated text and the
-  configuration, and reused by later runs unless `--no-reuse` is given. The tests are not part of that key:
-  after changing tests, use `--no-reuse` or a fresh work directory, or stale classes are reused (R88).
+- Outcomes are stored under `W/outcomes` by the hash of the original file, the mutated text, the
+  configuration and, where `test_paths` are declared, the files under them; they are reused by later runs
+  unless `--no-reuse` is given. A changed or added test file therefore makes the mutants run again (after
+  release 1.1.1; the receipt records the hash as `test_files_sha256`). Two limits remain: without
+  `test_paths` the tests are not part of the key, and a change to another source file that is neither
+  mutated nor a test is not seen. In both cases use `--no-reuse` or a fresh work directory.
 
 The configurations used for the five gate scopes are in
 `docs/experiments/annotation-driver/results/native/`.

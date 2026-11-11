@@ -50,15 +50,15 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Research entry with the three results, index updated, handover written.
   - _Requirements: 11.3_
 
-- [ ] 2. Driver: stored outcomes depend on the tests
-- [ ] 2.1 Put the test files into the identity of a stored outcome
+- [x] 2. Driver: stored outcomes depend on the tests
+- [x] 2.1 Put the test files into the identity of a stored outcome
   - Hash over the files under `test_paths` (relative path and content, sorted) joins the configuration
     identity. Old stores no longer match and are left alone.
   - Done when a test shows that a changed test file makes the affected mutants run again without
     `--no-reuse`, and an unchanged one reuses.
   - _Boundary: DriverChanges_
   - _Requirements: 9.1, 9.2_
-- [ ] 2.2 Update the driver's documents
+- [x] 2.2 Update the driver's documents
   - `docs/driver.md`: the hazard note becomes the new behaviour. Amendment in the design of
     agnostic-annotation-driver.
   - _Requirements: 9.1_

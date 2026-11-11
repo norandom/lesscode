@@ -462,6 +462,21 @@ is refused with exit code 3. The line and keyword counters in `adapters/<lang>/m
 2026-11-11 by the owner's decision, together with the three tests that pinned the earlier compression
 figures as "QUALIFIED".
 
+### Amendment 7, 2026-11-11: changes made for gradual-refactoring-steps
+
+Three additions to `deconvolute run`, specified in
+[gradual-refactoring-steps](../gradual-refactoring-steps/design.md) and shown in
+[R91](../../../docs/research/2026-11-11/17-gradual-steps-three-assumptions.md):
+
+- **Outcome store.** Where test paths are declared, a hash over the files under them joins the store key
+  (Requirement 9 there). The section "Outcome store" above names three parts of the key; there are now four.
+  Stores written earlier no longer match and are left alone.
+- **`functions`** in the run configuration limits mutation to named functions (`driver/functions.rs`).
+- **`--only N`** runs single mutants by number.
+
+The receipt gains `test_files_sha256`, `sites_not_selected` and `mutants_not_selected`, each only when
+the feature is used; a run without them writes the receipt as before.
+
 ## Contradictions and disposition
 
 | # | Contradiction | Source authority | Disposition |
