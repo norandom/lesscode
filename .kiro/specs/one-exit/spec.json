@@ -1,0 +1,29 @@
+{
+  "feature_name": "one-exit",
+  "created_at": "2026-11-11T18:46:00+01:00",
+  "updated_at": "2026-11-11T18:46:00+01:00",
+  "language": "en",
+  "phase": "requirements-generated",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": false
+    },
+    "design": {
+      "generated": false,
+      "approved": false
+    },
+    "tasks": {
+      "generated": false,
+      "approved": false
+    }
+  },
+  "ready_for_implementation": false,
+  "related": [
+    "gradual-refactoring-steps"
+  ],
+  "evidence": [
+    "docs/research/2026-11-11/15-first-tracked-step.md"
+  ],
+  "notes": "2026-11-11: the spec of one step (gradual-refactoring-steps task 6.1, owner decision of 2026-11-11 that the R89 change becomes the first step through the tooling). A step spec has requirements and a declaration (step.json); the change is one function, so there is no design and no task list. Merging the branch is the owner's decision."
+}

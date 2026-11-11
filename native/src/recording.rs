@@ -856,11 +856,10 @@ pub fn verdict(
     level2_ops: i64,
     query_evidence: Option<&Path>,
 ) -> (i32, Vec<String>) {
-    let mut reasons = if arm_exit == 0 {
-        Vec::new()
-    } else {
-        vec![format!("arm exit {arm_exit}")]
-    };
+    let mut reasons = Vec::new();
+    if arm_exit != 0 {
+        reasons.push(format!("arm exit {arm_exit}"));
+    }
     if !fresh {
         reasons.push("replay not fresh or short of golden coverage".into());
     }
@@ -869,10 +868,14 @@ pub fn verdict(
             "{level2_ops} L2 differences without query-differential evidence"
         ));
     }
-    if reasons.is_empty() {
-        return (0, reasons);
-    }
-    (if arm_exit == 2 { 2 } else { 1 }, reasons)
+    let code = if reasons.is_empty() {
+        0
+    } else if arm_exit == 2 {
+        2
+    } else {
+        1
+    };
+    (code, reasons)
 }
 
 /// The arm environment: thread caps, warning silencers, module path.
