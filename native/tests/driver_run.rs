@@ -228,6 +228,22 @@ fn a_run_whose_unmutated_tests_fail_is_void() {
         "nothing was mutated"
     );
 
+    // A mutant's run leaves something behind that makes the unmutated tests
+    // fail afterwards: the classes cannot be trusted, and the receipt says
+    // which copy and shows the end of the failing output.
+    let poisoned = project.config(&["--poison", "left-behind.marker"], json!({}));
+    let (code, receipt, stderr) = project.run(&poisoned, "poisoned", &[]);
+    assert_eq!(code, Some(3), "{stderr}");
+    let void = receipt["void"].as_str().unwrap();
+    assert!(
+        void.contains("no longer passed after the mutants"),
+        "{void}"
+    );
+    assert!(void.contains("copy 1: test step, exit Some(1)"), "{void}");
+    assert!(void.contains("poisoned by an earlier run"), "{void}");
+    assert_eq!(receipt["workers"][0]["closing_baseline_passed"], false);
+    assert_eq!(project.source(), APP);
+
     let missing = project.config(&[], json!({"test": ["no-such-program-lesscode-test"]}));
     let (code, receipt, _) = project.run(&missing, "missing", &[]);
     assert_eq!(code, Some(3));

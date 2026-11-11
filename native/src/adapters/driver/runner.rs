@@ -54,6 +54,8 @@ pub struct WorkerReport {
     pub limits_s: Vec<u64>,
     pub mutants_run: usize,
     pub closing_baseline_passed: Option<bool>,
+    /// The step that failed in the closing run, and the end of its output.
+    pub closing_failure: Option<String>,
     /// Why the worker stopped early, if it did.
     pub stopped: Option<String>,
 }
@@ -260,6 +262,11 @@ impl Shared<'_> {
         let closing = run_steps(self.config, &space.tree, &ceiling);
         report.closing_baseline_passed =
             Some(closing.len() == ceiling.len() && closing.iter().all(|(_, f)| f.passed()));
+        report.closing_failure = closing.iter().find(|(_, f)| !f.passed()).map(|(step, f)| {
+            let timed_out = if f.timed_out { ", timed out" } else { "" };
+            let output = tail(&f.output);
+            format!("{step} step, exit {:?}{timed_out}: {output}", f.exit_code)
+        });
         report
     }
 }
@@ -284,9 +291,14 @@ fn void_reason(reports: &[WorkerReport], left: usize, fatal: Option<String>) -> 
     }
     let failed_after = reports
         .iter()
-        .any(|r| r.closing_baseline_passed == Some(false));
-    failed_after.then(|| "the unmutated tests no longer passed after the mutants".to_owned())
+        .find(|r| r.closing_baseline_passed == Some(false))?;
+    let detail = failed_after.closing_failure.as_deref().unwrap_or_default();
+    Some(format!(
+        "the unmutated tests no longer passed after the mutants (copy {}: {detail})",
+        failed_after.worker
+    ))
 }
+
 /// Run the jobs in `workers` copies under `work`. Outcomes found in the
 /// store are reused and not run again.
 pub fn run_batch(

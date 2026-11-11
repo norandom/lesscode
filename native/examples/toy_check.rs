@@ -3,7 +3,7 @@
 //!
 //!     toy_check --file F --expect TEXT [--expect TEXT ...]
 //!               [--print TEXT] [--print-if-missing TEXT]
-//!               [--sleep-if-missing-ms N] [--missing-exit CODE]
+//!               [--sleep-if-missing-ms N] [--missing-exit CODE] [--poison MARKER]
 //!
 //! Exit 0 when the file contains every expected text; otherwise the exit
 //! code given (1 by default), after the optional output and sleep.
@@ -31,11 +31,21 @@ fn main() -> ExitCode {
     if let Some(always) = one("--print") {
         println!("{always}");
     }
+    // A check that leaves something behind when it fails, and fails from
+    // then on: what a build cache shared between copies does to a real run.
+    let poison = one("--poison");
+    if poison.is_some_and(|marker| std::path::Path::new(marker).exists()) {
+        println!("poisoned by an earlier run");
+        return ExitCode::from(1);
+    }
     if values("--expect")
         .iter()
         .all(|expected| text.contains(expected.as_str()))
     {
         return ExitCode::SUCCESS;
+    }
+    if let Some(marker) = poison {
+        let _ = std::fs::write(marker, "");
     }
     if let Some(note) = one("--print-if-missing") {
         println!("{note}");
