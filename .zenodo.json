@@ -3,13 +3,13 @@
   "upload_type": "software",
   "access_right": "open",
   "license": "MIT",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "creators": [
     {
       "name": "Ciepluch, Marius"
     }
   ],
-  "description": "<p>Lesscode is a research project on making AI-generated codebases smaller and less entangled while keeping their behaviour at the public surface. It records behaviour from the original under an effect-capturing sandbox, scores that recording by mutation, lets a language model regenerate one scope behind its derived public surface under a structural contract, accepts only on zero divergence, measures size and internal call edges, reviews independently, and searches the pure core for differences the recording cannot see.</p><p>This release archives the preregistered experiments and their receipts (research log entries R1 to R83), the dated research log, a Kiro-style specification of the loop with per-requirement feasibility status, a report for third parties, and the native measurement core. From version 1.1.0 the core contains a mutation driver for Rust, Python, TypeScript and Java that is driven by a small data pack per language and runs a project's own tests against planted faults in copies of the source tree.</p>",
+  "description": "<p>Lesscode is a research project on making AI-generated codebases smaller and less entangled while keeping their behaviour at the public surface. It records behaviour from the original under an effect-capturing sandbox, scores that recording by mutation, lets a language model regenerate one scope behind its derived public surface under a structural contract, accepts only on zero divergence, measures size and internal call edges, reviews independently, and searches the pure core for differences the recording cannot see.</p><p>This release archives the preregistered experiments and their receipts (research log entries R1 to R93), the dated research log, a Kiro-style specification of the loop with per-requirement feasibility status, a report for third parties, and the native measurement core. From version 1.1.0 the core contains a mutation driver for Rust, Python, TypeScript and Java that is driven by a small data pack per language and runs a project's own tests against planted faults in copies of the source tree. From version 1.2.0 it also judges one small refactoring step at a time on a Git branch: the tests before and after, and per function whether they still notice planted faults as often as before.</p>",
   "keywords": [
     "code simplification",
     "AI-generated code",
