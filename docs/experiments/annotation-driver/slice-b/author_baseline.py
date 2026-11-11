@@ -43,6 +43,8 @@ RESERVE_USD = 0.25  # held back before each call; the gate's authoring calls cos
 MAX_REPAIRS = 2
 MAX_OUTPUT_TOKENS = 4000
 TIMEOUT_S = 600
+KINDS_TEMPLATE = ("\n\nThese are the named node kinds of the {language} grammar that the pack will be checked "
+                  "against, one per line. Every node kind you name in the pack must be one of them.\n\n{kinds}")
 
 
 def utc_now() -> str:
@@ -163,6 +165,9 @@ def one_run(args, cfg: dict, guide: str, language: str, run: int, budget: Budget
     names = EXAMPLES[language]
     packs = {name: (PACKS / f"{name}.json").read_bytes() for name in names}
     user = ap.user_message(language, names, packs)
+    if args.kinds_dir:  # R76: the grammar's node kinds as additional input
+        user += KINDS_TEMPLATE.format(language=language,
+                                      kinds=(args.kinds_dir / f"{language}.txt").read_text(encoding="utf-8"))
     record = {"language": language, "run": run, "examples": names, "started_utc": utc_now(),
               "requested_model": cfg[a.NAME], "attempts": [], "outcome": None, "first_reply_admitted": False,
               "admitted": False, "repairs": 0, "pack_sha256": None, "mutants": None}
@@ -262,6 +267,7 @@ def main() -> int:
     parser.add_argument("--max-output-tokens", type=int, default=MAX_OUTPUT_TOKENS)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--endpoint-env", type=Path)
+    parser.add_argument("--kinds-dir", type=Path, help="directory with LANGUAGE.txt node kind lists (R76)")
     args = parser.parse_args()
     if (args.out_dir / "summary.json").exists():
         print("refusing to overwrite an existing run", file=sys.stderr)
@@ -284,6 +290,8 @@ def main() -> int:
         "receipt": "slice-b-pack-authoring-baseline-v1", "preregistration": "R66", "dry_run": args.dry_run,
         "requested_model": cfg[a.NAME], "guide_sha256": a.sha(guide_bytes),
         "shipped_packs_sha256": {p.stem: a.sha(p.read_bytes()) for p in sorted(PACKS.glob("*.json"))},
+        "node_kinds_sha256": ({p.stem: a.sha(p.read_bytes()) for p in sorted(args.kinds_dir.glob("*.txt"))}
+                              if args.kinds_dir else None),
         "runs_per_language": args.runs, "max_output_tokens": args.max_output_tokens, "max_repairs": MAX_REPAIRS, "usd_per_mtok_list": LIST_USD_PER_MTOK, "usd_per_mtok_otherwise": USD_PER_MTOK,
         "spent_before_usd": round(spent, 2), "spent_after_usd": round(budget.spent, 2),
         "cap_usd": args.cap_usd, "wall_seconds": round(time.monotonic() - started, 1),
