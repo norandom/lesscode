@@ -1,0 +1,234 @@
+{
+  "receipt": "step-plan-v1",
+  "run": "D:/BuildArtifacts/lesscode/steps-foreign/work-plan-state/plan-run.json",
+  "incomplete": false,
+  "functions": [
+    {
+      "file": "src/state.ts",
+      "function": "update",
+      "noticed": 1,
+      "unnoticed": 4,
+      "other": 4,
+      "tokens": 93,
+      "state_writes": 4,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "mutate",
+      "noticed": 0,
+      "unnoticed": 3,
+      "other": 4,
+      "tokens": 134,
+      "state_writes": 3,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "catch",
+          "change",
+          "delete",
+          "finally",
+          "get",
+          "load",
+          "resolve",
+          "set",
+          "then",
+          "update"
+        ],
+        "state_writes": [
+          "line 77: await store.update(changed)",
+          "line 80: mutationQueues.set(statePath, next)",
+          "line 82: mutationQueues.delete(statePath)"
+        ]
+      }
+    },
+    {
+      "file": "src/state.ts",
+      "function": "backupCorruptState",
+      "noticed": 2,
+      "unnoticed": 3,
+      "other": 2,
+      "tokens": 62,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "resolveStatePath",
+      "noticed": 6,
+      "unnoticed": 3,
+      "other": 1,
+      "tokens": 84,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "rejectSymlinkedStatePath",
+      "noticed": 11,
+      "unnoticed": 3,
+      "other": 3,
+      "tokens": 161,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "retryTransient",
+      "noticed": 0,
+      "unnoticed": 2,
+      "other": 4,
+      "tokens": 103,
+      "state_writes": 2,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Promise",
+          "has",
+          "isNodeError",
+          "operation",
+          "setTimeout"
+        ],
+        "state_writes": [
+          "line 120: attempt += 1",
+          "line 125: await new Promise((resolve) => setTimeout(resolve, 5 * attempt))"
+        ]
+      }
+    },
+    {
+      "file": "src/state.ts",
+      "function": "clear",
+      "noticed": 1,
+      "unnoticed": 2,
+      "other": 1,
+      "tokens": 35,
+      "state_writes": 2,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "writeStateAtomically",
+      "noticed": 4,
+      "unnoticed": 2,
+      "other": 3,
+      "tokens": 111,
+      "state_writes": 3,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "(outside any function)",
+      "noticed": 0,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 0,
+      "state_writes": 1,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Set",
+          "for"
+        ],
+        "state_writes": [
+          "line 27: (globalThis as Record<symbol, unknown>)[Symbol.for(\"open-ultracode.state-queues\")] ??= new Map<string, Promise<unknown>>()"
+        ]
+      }
+    },
+    {
+      "file": "src/state.ts",
+      "function": "isRecord",
+      "noticed": 2,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 37,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "isPersistedWorkflowState",
+      "noticed": 3,
+      "unnoticed": 1,
+      "other": 3,
+      "tokens": 75,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "load",
+      "noticed": 4,
+      "unnoticed": 1,
+      "other": 7,
+      "tokens": 144,
+      "state_writes": 3,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "backupCorrupt",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 1,
+      "tokens": 35,
+      "state_writes": 1,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "backupCorruptState",
+          "createCorruptStateNotice"
+        ],
+        "state_writes": [
+          "line 106: await backupCorruptState(statePath)"
+        ]
+      }
+    },
+    {
+      "file": "src/state.ts",
+      "function": "createCorruptStateNotice",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 1,
+      "tokens": 70,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "Date",
+          "toISOString"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "src/state.ts",
+      "function": "createWorkflowStateStore",
+      "noticed": 1,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 488,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "isNodeError",
+      "noticed": 1,
+      "unnoticed": 0,
+      "other": 1,
+      "tokens": 25,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "src/state.ts",
+      "function": "isSafeProjectRelativePath",
+      "noticed": 9,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 58,
+      "state_writes": 0,
+      "unprotected": false
+    }
+  ]
+}

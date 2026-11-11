@@ -2,8 +2,9 @@
 
 Status: part of `lesscode-core` from release 1.2.0 (spec
 [gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). All commands
-below exist. Four real steps have been taken with them from start to finish, in Rust, Java and TypeScript
-([examples](#examples)).
+below exist, and they work alike on Python, TypeScript, Java and Rust: the declaration names the language
+and your project's own test command. Four real steps have been taken with them from start to finish, in
+TypeScript, Java and Rust projects ([examples](#examples)); none in a Python project yet.
 
 Why it works this way, for readers new to the idea: [testability.md](testability.md).
 
@@ -44,24 +45,42 @@ ones (pins), and only then change the code.
 
 ## 2. Declare the step
 
-One file in the repository, committed on the step's branch, for example `.kiro/specs/one-exit/step.json`:
+One file in the repository, committed on the step's branch, for example
+`.kiro/specs/shape-checks/step.json`. This one is from a real step in a TypeScript project:
 
 ```json
 {
-  "step": "one-exit", "spec": "one-exit", "branch": "step/one-exit", "base": "main",
-  "language": "rust",
-  "scope": ["native/src/recording.rs"],
-  "test_paths": ["native/tests/"],
-  "test": ["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml"],
-  "env": {"CARGO_TARGET_DIR": "target"},
-  "run": {"timeout_floor_s": 180, "exclusions": ["target"]},
-  "focus": {"native/src/recording.rs": ["verdict"]},
-  "max_token_growth": 0,
-  "outputs": {"verdict": ".kiro/specs/one-exit/verdict.json",
-              "evidence": ".kiro/specs/one-exit/evidence.json",
+  "step": "shape-checks", "spec": "shape-checks", "branch": "step/shape-checks",
+  "base": "37a4e55f1b9397332acc6434783099a631a04918",
+  "language": "typescript",
+  "scope": ["src/state.ts"],
+  "test_paths": ["tests/"],
+  "setup": [["pnpm", "install", "--frozen-lockfile"]],
+  "build": ["pnpm", "exec", "tsc", "--noEmit"],
+  "test": ["node", "--import", "tsx", "--test", "tests/state.test.ts"],
+  "run": {"timeout_floor_s": 30, "timeout_ceiling_s": 300, "exclusions": ["node_modules", "dist"],
+          "runner_evidence_patterns": ["tests ", "pass ", "fail "]},
+  "focus": {"src/state.ts": ["isPersistedWorkflowState"]},
+  "max_token_growth": 30,
+  "outputs": {"verdict": ".kiro/specs/shape-checks/verdict.json",
+              "evidence": ".kiro/specs/shape-checks/evidence.json",
               "ledger": ".kiro/steps/ledger.jsonl"}
 }
 ```
+
+Only a few fields depend on the language. These are the ones the real steps used; the Python row is the
+configuration `deconvolute run` has been used with, since no step has been taken in a Python project yet.
+
+| `language` | `test` | Also needed |
+| --- | --- | --- |
+| `python` | `["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_ratelimit.py", "-q", "-x"]` | `setup` `[["uv", "sync", "--quiet"]]`; in `run`: `"invalid_exit_codes": [2, 3, 4, 5]`, `"exclusions": [".venv", "__pycache__"]` |
+| `typescript` | `["node", "--import", "tsx", "--test", "tests/state.test.ts"]` | `setup` and `build` as above; in `run`: `"exclusions": ["node_modules", "dist"]` |
+| `java` | Maven, offline, one test class: `[..., "-o", "-B", "-Dtest=CSVPrinterTest", "test"]` | `setup` that compiles the tests once; in `run`: `"exclusions": ["target"]`, `"invalid_output_patterns": ["COMPILATION ERROR", ": error:"]` |
+| `rust` | `["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml", "--test", "recording"]` | `"env": {"CARGO_TARGET_DIR": "target"}`; in `run`: `"exclusions": ["target"]` |
+
+Commands are argument vectors and are not passed through a shell. On Windows that rules out `mvn`, which
+is a script; the Java step called Maven's launcher class with `java` instead. The full declarations of
+the four steps are in `docs/experiments/gradual-steps/steps/`.
 
 Paths are relative to the repository root and commands run there, in copies of the whole repository.
 `focus` names the functions the step is about; their faults are run even when the step does not change
@@ -72,7 +91,7 @@ criteria of the step's spec), `setup`, `build`.
 ## 3. Pin before you cut: `step pin`
 
 ```sh
-lesscode-core step pin --declaration .kiro/specs/one-exit/step.json --fault 2 --work ../work
+lesscode-core step pin --declaration .kiro/specs/shape-checks/step.json --fault 4 --work ../work
 ```
 
 Write a test, commit it on the branch by itself, and ask whether it pins an unnoticed fault of the base.
@@ -91,7 +110,7 @@ output also lists the faults that remain unnoticed; none is required to be gone.
 ## 4. Judge the step: `step check`
 
 ```sh
-lesscode-core step check --declaration .kiro/specs/one-exit/step.json --work ../work
+lesscode-core step check --declaration .kiro/specs/shape-checks/step.json --work ../work
 ```
 
 Checks that need no run come first; the runs follow only if those pass.
@@ -122,8 +141,8 @@ same hashes. Its format is provisional until it is agreed with openidea-kiro.
 ## 5. Put it on record: `step record`
 
 ```sh
-lesscode-core step record --declaration .kiro/specs/one-exit/step.json
-lesscode-core step record --declaration .kiro/specs/one-exit/step.json --override --reason "hotfix; pin follows in step 12"
+lesscode-core step record --declaration .kiro/specs/shape-checks/step.json
+lesscode-core step record --declaration .kiro/specs/shape-checks/step.json --override --reason "hotfix; pin follows in step 12"
 lesscode-core step record --release 1.2.0 --ledger .kiro/steps/ledger.jsonl
 ```
 
@@ -146,7 +165,7 @@ Commit the verdict, the evidence and the ledger on the branch. That moves the br
 ## 6. The boundary: `step guard` and the hook
 
 ```sh
-lesscode-core step guard --branch step/one-exit
+lesscode-core step guard --branch step/shape-checks
 lesscode-core step install-hook
 ```
 
@@ -178,9 +197,9 @@ Three steps taken on 2026-11-11, all accepted, recorded and passed by the guard
 
 | Step | Change | Function before | after | Tokens of the file | Time |
 | --- | --- | --- | --- | --- | --- |
-| `one-exit`, this repository, Rust | `verdict()` collects its reasons in one pass and returns once | 11 / 0 | 12 / 0 | 7,307 to 7,306 | 10 min |
-| `comment-start`, commons-csv, Java | `printComment` starts every comment line through one private method | 19 / 2 | 17 / 2, new method 2 / 0 | 1,420 to 1,415 | 25 min |
 | `slug-separator`, OpenUltraCode, TypeScript | `slugify` drops a condition that is always true | 9 / 1 | 8 / 0 | 1,283 to 1,277 | 4 min |
+| `comment-start`, commons-csv, Java | `printComment` starts every comment line through one private method | 19 / 2 | 17 / 2, new method 2 / 0 | 1,420 to 1,415 | 25 min |
+| `one-exit`, this repository, Rust | `verdict()` collects its reasons in one pass and returns once | 11 / 0 | 12 / 0 | 7,307 to 7,306 | 10 min |
 
 The three ran at the same time on one machine. In the Java step the new method has no counterpart on the
 base, so the totals of the file were compared as well. In the TypeScript step the fault that went unnoticed
@@ -210,7 +229,14 @@ step shape-checks: accepted
 Noticed / unnoticed in the function: 3 / 1 before, 11 / 1 after. The one that remains swaps two checks that
 can stand in either order. The file grew by 25 tokens, inside the 30 the step had declared.
 
-A plan for `native/src/recording.rs` of this repository, with the tests of `tests/recording.rs` only
+Two plans. For `src/state.ts` of OpenUltraCode, a TypeScript project, with the tests of
+`tests/state.test.ts` (2026-11-11; receipt in
+`docs/experiments/gradual-steps/steps/shape-checks/plan-state.json`): 17 entries, 45 faults noticed, 26
+not. `update` leads with 4 unnoticed of 5, and `mutate` and `retryTransient` have no noticed fault at all.
+`isPersistedWorkflowState` had 3 noticed and 1 unnoticed, few enough to pin, and became the step
+`shape-checks` above.
+
+For `native/src/recording.rs` of this repository, a Rust file, with the tests of `tests/recording.rs` only
 (2026-11-11, 191 faults, 13.8 minutes with three copies; receipt in
 `docs/experiments/gradual-steps/gate2/plan-recording.json`): 91 faults noticed, 100 not. Twelve functions have
 no noticed fault, led by `replay_to_l2` (20 unnoticed) and `assemble_meta` (17); `verdict` has 11 noticed and
