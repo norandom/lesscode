@@ -18,15 +18,21 @@ pub struct Size {
     pub lines: usize,
 }
 
-/// A token: where it starts (1-based line, 0-based character column) and
-/// its text.
-pub type Token = ((usize, usize), String);
+/// A token outside comments.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Token {
+    /// Where it starts: 1-based line, 0-based character column.
+    pub at: (usize, usize),
+    pub text: String,
+    /// A name or a literal, as opposed to a keyword, operator or bracket.
+    pub named: bool,
+}
 
 /// Where each token outside comments starts: 1-based line, 0-based
 /// character column, in source order. For measures of a part of a file.
 pub fn token_starts(pack: &Pack, label: &str, text: &str) -> Result<Vec<(usize, usize)>, String> {
     let tokens = tokens(pack, label, text)?;
-    Ok(tokens.into_iter().map(|(start, _)| start).collect())
+    Ok(tokens.into_iter().map(|token| token.at).collect())
 }
 
 /// Each token outside comments with where it starts, in source order.
@@ -46,7 +52,11 @@ pub fn tokens(pack: &Pack, label: &str, text: &str) -> Result<Vec<Token>, String
             && !ancestors(&node).iter().any(|a| is_comment(&a.kind()))
         {
             let (line, column, _, _) = position(&node);
-            starts.push(((line, column), node.text().into_owned()));
+            starts.push(Token {
+                at: (line, column),
+                text: node.text().into_owned(),
+                named: node.is_named(),
+            });
         }
     }
     starts.sort();

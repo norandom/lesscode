@@ -44,9 +44,9 @@ impl FileFunctions {
 
     fn tokens_of(&self, f: &Function) -> Vec<&str> {
         let (from, to) = span(f);
-        let inside = |(at, _): &&Token| *at >= from && *at < to;
+        let inside = |t: &&Token| t.at >= from && t.at < to;
         let texts = self.tokens.iter().filter(inside);
-        texts.map(|(_, text)| text.as_str()).collect()
+        texts.map(|t| t.text.as_str()).collect()
     }
 
     /// Per name, the token sequences of the functions that carry it, in
@@ -79,19 +79,29 @@ impl FileFunctions {
         innermost.map_or(OUTSIDE, |f| f.name.as_str())
     }
 
+    /// Each call as (function it is in, name called): a name directly
+    /// before an opening parenthesis, the function's own header excluded.
+    fn calls(&self) -> impl Iterator<Item = (&str, &str)> {
+        let pairs = self.tokens.iter().zip(self.tokens.iter().skip(1));
+        pairs.filter_map(|(callee, next)| {
+            let caller = self.owner(callee.at);
+            let is_call = callee.named && next.text == "(" && caller != callee.text;
+            is_call.then_some((caller, callee.text.as_str()))
+        })
+    }
+
     /// The named functions that call one of `names`, themselves excluded.
     pub fn callers_of(&self, names: &BTreeSet<String>) -> BTreeSet<String> {
-        let mut callers = BTreeSet::new();
-        for pair in self.tokens.windows(2) {
-            let ((at, callee), (_, next)) = (&pair[0], &pair[1]);
-            let caller = self.owner(*at);
-            // The name in the function's own header is not a call.
-            if next == "(" && names.contains(callee) && caller != callee && caller != OUTSIDE {
-                callers.insert(caller.to_owned());
-            }
-        }
-        callers.retain(|c| !names.contains(c));
-        callers
+        let calls = self.calls().filter(|(caller, callee)| {
+            names.contains(*callee) && *caller != OUTSIDE && !names.contains(*caller)
+        });
+        calls.map(|(caller, _)| caller.to_owned()).collect()
+    }
+
+    /// The names a function calls.
+    pub fn calls_in(&self, function: &str) -> BTreeSet<&str> {
+        let calls = self.calls().filter(|(caller, _)| *caller == function);
+        calls.map(|(_, callee)| callee).collect()
     }
 
     /// Count faults, given as position and class, per owning function.

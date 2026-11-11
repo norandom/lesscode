@@ -270,12 +270,19 @@
    "disposition": "keep-measured-ceiling; +5 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
-   "path": "main.rs",
-   "max_tokens": 1942,
-   "max_logical_units": 82,
-   "max_fn_tokens": 652,
+   "path": "cli_paths.rs",
+   "max_logical_units": 300,
    "owner": "capability-compression-core",
-   "allocation": "Budgets subcommand arm complete (+12 of the +25 design allowance); Surface subcommand arm (+6, task 8.2); Regenerate subcommand arm (+8, task 8.5)",
+   "allocation": "Input reading and fresh-output checks of prepare and compare, split from main.rs when the step command group was added (2026-11-11)",
+   "disposition": null
+  },
+  {
+   "path": "main.rs",
+   "max_tokens": 1094,
+   "max_logical_units": 42,
+   "max_fn_tokens": 602,
+   "owner": "capability-compression-core",
+   "allocation": "Command dispatch. Budgets, Surface, Regenerate and Step subcommand arms; path helpers moved to cli_paths.rs and the ceilings lowered to the measured size (2026-11-11)",
    "disposition": "keep-measured-ceiling; blob 4e41a2aeb11a9228629d2722fabb7f1227f21894"
   },
   {
@@ -404,6 +411,13 @@
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
    "allocation": "Step command group (design: CommandLine)",
+   "disposition": null
+  },
+  {
+   "path": "step/plan.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "step plan: faults, size and seams per function (design: Plan, REQ 2.1 to 2.5, 4.1)",
    "disposition": null
   },
   {
