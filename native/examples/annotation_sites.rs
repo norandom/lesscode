@@ -33,7 +33,10 @@ struct Args {
 fn key(site: &Site) -> String {
     let (line, column, end_line, end_column) = site.span();
     let kind = site.kind.name();
-    format!("{}:{line}:{column}-{end_line}:{end_column}:{kind}", site.file)
+    format!(
+        "{}:{line}:{column}-{end_line}:{end_column}:{kind}",
+        site.file
+    )
 }
 
 fn run(args: Args) -> Result<Value, String> {
@@ -52,8 +55,10 @@ fn run(args: Args) -> Result<Value, String> {
             true => site_of(&source, pack, annotation)?.map(|s| key(&s)),
             false => None,
         };
-        rows.push(json!({"accepted": decision.accepted, "outcome": decision.outcome(),
-                         "kind": annotation["kind"], "site": site}));
+        rows.push(
+            json!({"accepted": decision.accepted, "outcome": decision.outcome(),
+                         "kind": annotation["kind"], "site": site}),
+        );
     }
     let eligible: Vec<String> = eligible_sites(&source, pack)?.iter().map(key).collect();
     Ok(json!({"annotations": rows, "eligible": eligible}))
