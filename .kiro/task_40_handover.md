@@ -44,4 +44,4 @@ test file is a list of expectations for the toy check.
 
 ## CI
 
-Filled in once the run for this commit has finished.
+Run 43062388134 for commit `1edd230`: success on all five jobs, 2026-11-11.
