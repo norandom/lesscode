@@ -24,7 +24,9 @@
    does not fix Rust admission where GEPA did
    ([R79](../../docs/research/2026-11-11/05-slice-b-miprov2-opus.md)). Annotation-layer baseline run on both models
    ([R83](../../docs/research/2026-11-11/09-slice-b-annotation-baseline.md)): Opus runs agree on 0.69 to 0.92 of their
-   sites, three of five Mistral calls give no annotations. Recorded spend about 29.7 of 40 USD.
+   sites, three of five Mistral calls give no annotations. Two selection rules over three runs tested
+   ([R85](../../docs/research/2026-11-11/11-slice-b-annotation-hardening.md)): the majority of three is more stable
+   than one run in four of five files but misses the 0.80 target. Recorded spend about 32.9 of 40 USD.
    Status on 2026-11-11: measured for pack authoring and for annotation, between runs and between models, and
    under two optimisers for pack authoring; not measured: one model over time. Dated next step: the owner
    decides by the next session whether annotations get a hardening (sites named by at least two of three

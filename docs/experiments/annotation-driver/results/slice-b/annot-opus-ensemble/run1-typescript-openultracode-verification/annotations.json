@@ -1,0 +1,178 @@
+[
+ {
+  "file": "src/verification.ts",
+  "start_line": 19,
+  "end_line": 19,
+  "kind": "branch_condition",
+  "anchor": "criterion.status !== \"not-applicable\"",
+  "reason": "Decides which criteria count toward the gate, so it changes whether the result is verified or partial."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 24,
+  "end_line": 24,
+  "kind": "branch_condition",
+  "anchor": "evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id)",
+  "reason": "Decides whether a criterion is reported as missing passing evidence."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 26,
+  "end_line": 26,
+  "kind": "branch_condition",
+  "anchor": "applicableCriteria.length === 0",
+  "reason": "Marks the gate as having no criteria, which forces a partial status."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 27,
+  "end_line": 27,
+  "kind": "branch_condition",
+  "anchor": "hasNoApplicableCriteria && input.evidence.length === 0",
+  "reason": "Selects the no-evidence partial path and changes its risk and summary text."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 78,
+  "end_line": 78,
+  "kind": "branch_condition",
+  "anchor": "researchOnly && policy === \"disabled\"",
+  "reason": "Decides when the research-only status overrides blocked or failed results."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 78,
+  "end_line": 80,
+  "kind": "error_order",
+  "anchor": "if (researchOnly && policy === \"disabled\") {\n    return \"research-only\"\n  }",
+  "reason": "Because this check runs before the blocked and failed checks, failures are hidden for disabled research-only runs."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 82,
+  "end_line": 82,
+  "kind": "branch_condition",
+  "anchor": "blocked.length > 0",
+  "reason": "Any blocked evidence yields the blocked status."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 82,
+  "end_line": 84,
+  "kind": "error_order",
+  "anchor": "if (blocked.length > 0) {\n    return \"blocked\"\n  }",
+  "reason": "When evidence is both blocked and failed, blocked is reported instead of failed."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 86,
+  "end_line": 86,
+  "kind": "branch_condition",
+  "anchor": "failed.length > 0",
+  "reason": "Any failing evidence yields the failed status."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 86,
+  "end_line": 88,
+  "kind": "error_order",
+  "anchor": "if (failed.length > 0) {\n    return \"failed\"\n  }",
+  "reason": "Failed takes precedence over the disabled-policy partial outcome."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 90,
+  "end_line": 90,
+  "kind": "branch_condition",
+  "anchor": "policy === \"disabled\"",
+  "reason": "A disabled policy can never produce verified."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 102,
+  "end_line": 102,
+  "kind": "branch_condition",
+  "anchor": "missingCriterionIds.length === 0 && notRun.length === 0",
+  "reason": "This is the sole condition for granting the verified status."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 113,
+  "end_line": 113,
+  "kind": "branch_condition",
+  "anchor": "criterion.status === \"not-applicable\"",
+  "reason": "Not-applicable criteria keep their status unchanged."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 118,
+  "end_line": 118,
+  "kind": "branch_condition",
+  "anchor": "item.result === \"pass\"",
+  "reason": "Determines whether a criterion is reported as verified or unverified."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 139,
+  "end_line": 139,
+  "kind": "branch_condition",
+  "anchor": "item.result === \"fail\"",
+  "reason": "Selects the failure risk message for the evidence item."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 142,
+  "end_line": 142,
+  "kind": "branch_condition",
+  "anchor": "item.result === \"blocked\"",
+  "reason": "Selects the blocked risk message for the evidence item."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 145,
+  "end_line": 145,
+  "kind": "branch_condition",
+  "anchor": "item.result === \"not-run\"",
+  "reason": "Selects the not-run risk message for the evidence item."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 148,
+  "end_line": 148,
+  "kind": "branch_condition",
+  "anchor": "item.residualRisk !== undefined",
+  "reason": "Controls whether residual risks of passing evidence are reported."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 153,
+  "end_line": 153,
+  "kind": "branch_condition",
+  "anchor": "policy === \"disabled\" && evidence.length === 0",
+  "reason": "Chooses the disabled-gate risk message over the missing-criteria messages."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 205,
+  "end_line": 205,
+  "kind": "branch_condition",
+  "anchor": "values.length === 0",
+  "reason": "Empty detail groups are omitted from the summary."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 109,
+  "end_line": 121,
+  "kind": "pure_shell_boundary",
+  "anchor": "function classifyCriterion(\n  criterion: AcceptanceCriterion,\n  evidence: readonly VerificationEvidence[]\n): AcceptanceCriterion {\n  if (criterion.status === \"not-applicable\") {\n    return criterion\n  }\n\n  const mappedEvidence = evidence.filter((item) => item.criteriaIds.includes(criterion.id))\n  const status = mappedEvidence.some((item) => item.result === \"pass\") ? \"verified\" : \"unverified\"\n\n  return { ...criterion, status }\n}",
+  "reason": "A pure classification computed only from its arguments."
+ },
+ {
+  "file": "src/verification.ts",
+  "start_line": 204,
+  "end_line": 210,
+  "kind": "pure_shell_boundary",
+  "anchor": "function formatDetail(label: string, values: readonly string[]): string {\n  if (values.length === 0) {\n    return \"\"\n  }\n\n  return `${label}: ${values.join(\", \")}.`\n}",
+  "reason": "A pure formatter computed only from its arguments."
+ }
+]

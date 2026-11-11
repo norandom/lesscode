@@ -1,0 +1,226 @@
+[
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 62,
+  "end_line": 62,
+  "kind": "branch_condition",
+  "anchor": "setup.bootstrap.is_some()",
+  "reason": "Inverting would accept --bootstrap for update or reject every update invocation."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 63,
+  "end_line": 63,
+  "kind": "failure_state",
+  "anchor": "return Err(\"--bootstrap\".to_owned());",
+  "reason": "Without this error, `update --bootstrap` would be silently accepted."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 83,
+  "end_line": 83,
+  "kind": "branch_condition",
+  "anchor": "mode != Mode::NoTerminal",
+  "reason": "Flipping would refuse in terminals and run without one."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 103,
+  "end_line": 103,
+  "kind": "state_write",
+  "anchor": "deps.restart.command = Command::Update",
+  "reason": "Without this, the restarted program would not continue as `update --restarted`."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 147,
+  "end_line": 147,
+  "kind": "branch_condition",
+  "anchor": "\"\" | \"y\" | \"yes\" => return true",
+  "reason": "Changing which answers count as yes, or the result returned for them, alters whether a bare Enter consents."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 168,
+  "end_line": 168,
+  "kind": "branch_condition",
+  "anchor": "flow.record().is_none()",
+  "reason": "Without this check, an update would be attempted on a system with no install record."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 165,
+  "end_line": 167,
+  "kind": "error_order",
+  "anchor": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\n    }",
+  "reason": "The resume must be handled before the not-set-up check, otherwise a restarted run could be refused."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 170,
+  "end_line": 170,
+  "kind": "failure_state",
+  "anchor": "return EXIT_NOT_SET_UP",
+  "reason": "The exit code reported when mmhmem is not set up."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 173,
+  "end_line": 173,
+  "kind": "state_write",
+  "anchor": "flow.set_newest(lookup())",
+  "reason": "Stores the newest release that the checks below read."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 175,
+  "end_line": 175,
+  "kind": "branch_condition",
+  "anchor": "*flow.newest() == Newest::Unknown",
+  "reason": "An unknown newest release would be reported as up to date with exit 0 instead of 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 177,
+  "end_line": 177,
+  "kind": "failure_state",
+  "anchor": "return 1",
+  "reason": "Exit code when the newest release lookup fails."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 188,
+  "end_line": 188,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+  "reason": "Inverting would update when the user says no."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 190,
+  "end_line": 190,
+  "kind": "failure_state",
+  "anchor": "return EXIT_CANCELLED",
+  "reason": "The cancel exit code reported when the user declines the update."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 192,
+  "end_line": 195,
+  "kind": "error_order",
+  "anchor": "if let Some(note) = flow.update_refusal() {\n        p.say(note);\n        return 1;\n    }",
+  "reason": "The refusal (e.g. no trusted key) must stop the run before downloading."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 201,
+  "end_line": 201,
+  "kind": "state_write",
+  "anchor": "flow.begin_with(&HomeAction::UpdateTo(newest.clone()), hook)",
+  "reason": "Performs the verified download and install of the new release."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 222,
+  "end_line": 223,
+  "kind": "branch_condition",
+  "anchor": "note == text::UPDATE_FAILED\n                && let Some(reason) = flow.last_note()",
+  "reason": "Controls whether the failure reason is shown to the user."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 230,
+  "end_line": 230,
+  "kind": "failure_state",
+  "anchor": "Next::Agents | Next::Progress => 1",
+  "reason": "Unexpected flow outcomes are reported as failure."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 243,
+  "end_line": 243,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+  "reason": "Inverting would install the brought release when the user declines."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 245,
+  "end_line": 245,
+  "kind": "failure_state",
+  "anchor": "return Some(EXIT_CANCELLED)",
+  "reason": "Cancel exit code for the bootstrap decline."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 247,
+  "end_line": 247,
+  "kind": "state_write",
+  "anchor": "flow.plan_recorded()",
+  "reason": "Plans the recorded choices; without it, finish would review a stale plan."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 257,
+  "end_line": 257,
+  "kind": "branch_condition",
+  "anchor": "view.groups.is_empty() && view.problems.is_empty()",
+  "reason": "Decides whether changes are applied without asking; `||` would skip the question when there are changes."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 260,
+  "end_line": 260,
+  "kind": "branch_condition",
+  "anchor": "kept.is_some()",
+  "reason": "Controls whether the \"updated\" line is printed."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 265,
+  "end_line": 265,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_APPLY)",
+  "reason": "Inverting would apply the changes when the user declines."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 267,
+  "end_line": 267,
+  "kind": "failure_state",
+  "anchor": "return EXIT_CANCELLED",
+  "reason": "Exit code when the user declines to apply the changes."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 271,
+  "end_line": 271,
+  "kind": "state_write",
+  "anchor": "flow.apply_update()",
+  "reason": "Writes the files and the program; without it, nothing is applied."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 286,
+  "end_line": 286,
+  "kind": "branch_condition",
+  "anchor": "!view.problems.is_empty()",
+  "reason": "Controls whether the problems heading and the skipped tools are listed."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 303,
+  "end_line": 303,
+  "kind": "branch_condition",
+  "anchor": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())",
+  "reason": "Decides whether DONE is printed; a change could claim done despite failures or pending steps."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 293,
+  "end_line": 307,
+  "kind": "pure_shell_boundary",
+  "anchor": "fn result_lines(flow: &Flow) -> Vec<String> {\n    let mut lines: Vec<String> = flow\n        .progress()\n        .map(|p| p.all_lines())\n        .unwrap_or_default()\n        .into_iter()\n        .filter(|l| l != text::CHECKING)\n        .collect();\n    let blank = lines.iter().take_while(|l| l.is_empty()).count();\n    lines.drain(..blank);\n    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\n        lines.push(text::update::DONE.to_owned());\n    }\n    lines\n}",
+  "reason": "Only computes the result lines from the flow's state."
+ }
+]

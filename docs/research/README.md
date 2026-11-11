@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R83 Annotation layer: Opus runs agree on 0.69 to 0.92 of their sites; three of five Mistral runs give no annotations (2026-11-11)
+## Latest: R85 Three annotation runs select more stably than one, but not stably enough to call the selection fixed (2026-11-11)
+
+[R85](2026-11-11/11-slice-b-annotation-hardening.md) runs the preregistration [R84](2026-11-11/10-slice-b-annotation-hardening-preregistration.md): six fresh Opus runs per scope, two rules over three runs.
+- **Majority of three:** agrees more than single runs in four of five files (0.74 to 0.96 against 0.62 to 0.86) and keeps as few sites as one run; the target of 0.80 in four files is missed (three).
+- **Union of three:** more stable in four of five files, keeps 10% to 60% more sites.
+- **Recommendation:** if annotations are used, the majority of three, described as what two of three runs agreed on. The default of every eligible site remains the only selection that does not vary.
+- **Cost:** 3.25 USD; recorded spend about 32.9 of 40 USD.
+
+## Prior: R83 Annotation layer: Opus runs agree on 0.69 to 0.92 of their sites; three of five Mistral runs give no annotations (2026-11-11)
 
 [R83](2026-11-11/09-slice-b-annotation-baseline.md) runs the preregistration [R82](2026-11-11/07-slice-b-annotation-baseline-preregistration.md): five annotation runs per scope on two models, checked by the driver's validator.
 - **Opus:** every run usable; median agreement between runs 0.69 to 0.92 per scope; sites named in every run are 44% to 85% of those named in any. Two runs fall below 80% accepted (claim A1 refuted).

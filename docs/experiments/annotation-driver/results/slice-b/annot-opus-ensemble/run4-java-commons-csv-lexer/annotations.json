@@ -1,0 +1,274 @@
+[
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 82,
+  "end_line": 82,
+  "kind": "branch_condition",
+  "anchor": "unescaped == EOF",
+  "reason": "Decides whether an unknown escape is kept verbatim or translated, which changes the token content."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 79,
+  "end_line": 79,
+  "kind": "state_write",
+  "anchor": "token.isEscaped = true",
+  "reason": "Marks the token as escaped, which later affects how the parsed value is treated."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 152,
+  "end_line": 152,
+  "kind": "branch_condition",
+  "anchor": "ch != delimiter[0]",
+  "reason": "The first character of the delimiter decides whether a field boundary is detected."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 162,
+  "end_line": 162,
+  "kind": "branch_condition",
+  "anchor": "delimiterBuf[i] != delimiter[i + 1]",
+  "reason": "A multi-character delimiter only matches when every remaining character matches."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 167,
+  "end_line": 167,
+  "kind": "state_write",
+  "anchor": "isLastTokenDelimiter = count != EOF",
+  "reason": "Records that a delimiter was just read, which decides later whether an empty trailing field is emitted at EOF."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 219,
+  "end_line": 219,
+  "kind": "branch_condition",
+  "anchor": "escapeDelimiterBuf[2 * i] != delimiter[i] || escapeDelimiterBuf[2 * i - 1] != escape",
+  "reason": "Decides whether an escaped multi-character delimiter is recognized."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 228,
+  "end_line": 228,
+  "kind": "branch_condition",
+  "anchor": "ch == escape || ch == quoteChar || ch == commentStart",
+  "reason": "Decides which escaped characters unescape to themselves."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 242,
+  "end_line": 242,
+  "kind": "branch_condition",
+  "anchor": "ch == Constants.LF || ch == Constants.CR || ch == Constants.UNDEFINED",
+  "reason": "Start-of-line detection controls whether empty lines are skipped and whether comments are recognized."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 265,
+  "end_line": 265,
+  "kind": "branch_condition",
+  "anchor": "eol && isStartOfLine(lastChar)",
+  "reason": "Decides whether empty lines are skipped."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 279,
+  "end_line": 279,
+  "kind": "branch_condition",
+  "anchor": "isEndOfFile(lastChar) || !isLastTokenDelimiter && isEndOfFile(c)",
+  "reason": "Decides whether EOF is returned or an empty trailing field is produced after a delimiter."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 284,
+  "end_line": 284,
+  "kind": "branch_condition",
+  "anchor": "isStartOfLine(lastChar) && isCommentStart(c)",
+  "reason": "A comment marker is only recognized at the start of a line."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 286,
+  "end_line": 286,
+  "kind": "branch_condition",
+  "anchor": "line == null",
+  "reason": "A comment line at end of stream yields EOF instead of a COMMENT token."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 303,
+  "end_line": 303,
+  "kind": "branch_condition",
+  "anchor": "Character.isWhitespace((char) c) && !eol",
+  "reason": "Controls how much leading whitespace is skipped."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 313,
+  "end_line": 313,
+  "kind": "branch_condition",
+  "anchor": "delimiter || isDelimiter(c)",
+  "reason": "Without the remembered match, a delimiter would be evaluated twice and consumed wrongly."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 327,
+  "end_line": 327,
+  "kind": "state_write",
+  "anchor": "token.isReady = true",
+  "reason": "Signals that there is data at EOF, so a final empty field is emitted."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 338,
+  "end_line": 338,
+  "kind": "branch_condition",
+  "anchor": "c == null",
+  "reason": "A null format character must map to a disabled value."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 365,
+  "end_line": 365,
+  "kind": "state_write",
+  "anchor": "token.isQuoted = true",
+  "reason": "The quoted flag affects later handling of the record."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 372,
+  "end_line": 372,
+  "kind": "branch_condition",
+  "anchor": "isQuoteChar(reader.peek())",
+  "reason": "Distinguishes a doubled quote from the end of the quoted field."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 393,
+  "end_line": 393,
+  "kind": "branch_condition",
+  "anchor": "trailingData",
+  "reason": "Decides whether trailing data after a closing quote is kept or rejected."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 395,
+  "end_line": 395,
+  "kind": "branch_condition",
+  "anchor": "!Character.isWhitespace((char) c)",
+  "reason": "Non-whitespace after a closing quote throws an error."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 397,
+  "end_line": 398,
+  "kind": "failure_state",
+  "anchor": "throw new CSVException(\"Invalid character between encapsulated token and delimiter at line: %,d, position: %,d\",\n                                    getCurrentLineNumber(), getCharacterPosition());",
+  "reason": "Rejects malformed input after a closing quote."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 405,
+  "end_line": 405,
+  "kind": "branch_condition",
+  "anchor": "lenientEof",
+  "reason": "Decides whether an unterminated quote at EOF is accepted or causes an error."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 411,
+  "end_line": 411,
+  "kind": "failure_state",
+  "anchor": "throw new CSVException(\"(startline %,d) EOF reached before encapsulated token finished\", startLineNumber);",
+  "reason": "Reports an unterminated quoted field."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 380,
+  "end_line": 383,
+  "kind": "error_order",
+  "anchor": "if (isDelimiter(c)) {\n                            token.type = Token.Type.TOKEN;\n                            return token;\n                        }",
+  "reason": "The order of the delimiter, EOF and EOL checks after a closing quote determines which token type is returned."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 441,
+  "end_line": 444,
+  "kind": "error_order",
+  "anchor": "if (readEndOfLine(cur)) {\n                token.type = Token.Type.EORECORD;\n                break;\n            }",
+  "reason": "The end-of-line check runs before the delimiter check; reordering them would change token types for overlapping characters."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 463,
+  "end_line": 463,
+  "kind": "branch_condition",
+  "anchor": "ignoreSurroundingSpaces",
+  "reason": "Decides whether trailing spaces are trimmed from simple tokens."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 478,
+  "end_line": 478,
+  "kind": "branch_condition",
+  "anchor": "cur == Constants.CR && reader.peek() == Constants.LF",
+  "reason": "Detects CRLF so that it counts as a single line terminator."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 487,
+  "end_line": 487,
+  "kind": "branch_condition",
+  "anchor": "firstEol == null",
+  "reason": "Only the first line ending encountered should be recorded."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 483,
+  "end_line": 483,
+  "kind": "state_write",
+  "anchor": "this.firstEol = Constants.CRLF",
+  "reason": "Records the detected line separator, which callers can read later."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 495,
+  "end_line": 495,
+  "kind": "branch_condition",
+  "anchor": "cur == Constants.LF || cur == Constants.CR",
+  "reason": "Decides what counts as end of line."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 528,
+  "end_line": 528,
+  "kind": "failure_state",
+  "anchor": "throw new CSVException(\"EOF while processing escape sequence\")",
+  "reason": "Rejects an escape character at the end of the stream."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 535,
+  "end_line": 535,
+  "kind": "branch_condition",
+  "anchor": "isMetaChar(ch) || isDelimiterChar(ch)",
+  "reason": "Decides which characters unescape to themselves rather than being kept verbatim."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 545,
+  "end_line": 545,
+  "kind": "branch_condition",
+  "anchor": "length > 0 && Character.isWhitespace(buffer.charAt(length - 1))",
+  "reason": "Controls how much trailing whitespace is trimmed."
+ },
+ {
+  "file": "src/main/java/org/apache/commons/csv/Lexer.java",
+  "start_line": 337,
+  "end_line": 339,
+  "kind": "pure_shell_boundary",
+  "anchor": "private int nullToDisabled(final Character c) {\n        return c == null ? Constants.UNDEFINED : c.charValue(); // Explicit unboxing\n    }",
+  "reason": "A pure mapping from a nullable format character to a disabled marker value."
+ }
+]

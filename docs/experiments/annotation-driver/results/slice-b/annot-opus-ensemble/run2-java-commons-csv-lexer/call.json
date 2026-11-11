@@ -1,0 +1,28 @@
+{
+ "scope": "java-commons-csv-lexer",
+ "scope_revision": "2bd66bf181d44ffc92806f585d3955e915666f7f",
+ "api_style": "anthropic",
+ "base_url_host": "api.anthropic.com",
+ "requested_model": "claude-opus-5-5",
+ "returned_model": "claude-opus-5-5",
+ "guide_path": "D:\\Source\\lesscode\\docs\\experiments\\annotation-driver\\guide-v2.md",
+ "guide_sha256": "d32113204c3f6239a59575f0e5626d420332ac034a1bea69e6df7627d57ab6b2",
+ "user_template_sha256": "b2030459c0133c1496e74521256b39f931f96abf87b68689b2648f93b88aba1c",
+ "user_message_sha256": "cf1da6f3994ea2d448923bd78a5211f37ffc5da9a871bdc53a64c6594bfae07b",
+ "scope_files_sha256": {
+  "src/main/java/org/apache/commons/csv/Lexer.java": "8a57dc0759e26dc91f79942d8cc0a1eb6c3f53449fb31da4dedf4a6cb9ff0e0c"
+ },
+ "max_output_tokens": 16000,
+ "attempts": 1,
+ "input_tokens": 9910,
+ "output_tokens": 3564,
+ "stop_reason": "end_turn",
+ "parse": "ok",
+ "leniency": [],
+ "annotations": 33,
+ "wall_seconds": 26.032,
+ "started_utc": "2026-11-11T09:28:39+00:00",
+ "dry_run": false,
+ "exit_code": 0,
+ "error": null
+}

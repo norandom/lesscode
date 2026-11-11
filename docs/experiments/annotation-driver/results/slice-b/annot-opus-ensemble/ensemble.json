@@ -1,0 +1,151 @@
+{
+ "receipt": "slice-b-annotation-ensemble-v1",
+ "preregistration": "R84",
+ "scopes": {
+  "rust-mmhmem-setup-update": {
+   "runs": 6,
+   "splits": 10,
+   "eligible_sites": 71,
+   "agreement": {
+    "single": 0.75,
+    "majority": 0.75,
+    "union": 1.0
+   },
+   "agreement_range": {
+    "single": [
+     0.696,
+     0.917
+    ],
+    "majority": [
+     0.708,
+     0.792
+    ],
+    "union": [
+     0.875,
+     1.0
+    ]
+   },
+   "median_sites": {
+    "single": 21.0,
+    "majority": 21.0,
+    "union": 24.0
+   }
+  },
+  "python-mvibe-ratelimit": {
+   "runs": 6,
+   "splits": 10,
+   "eligible_sites": 211,
+   "agreement": {
+    "single": 0.818,
+    "majority": 0.855,
+    "union": 0.886
+   },
+   "agreement_range": {
+    "single": [
+     0.706,
+     0.9
+    ],
+    "majority": [
+     0.781,
+     0.898
+    ],
+    "union": [
+     0.814,
+     0.914
+    ]
+   },
+   "median_sites": {
+    "single": 57.0,
+    "majority": 56.5,
+    "union": 66.5
+   }
+  },
+  "typescript-openultracode-state": {
+   "runs": 6,
+   "splits": 10,
+   "eligible_sites": 70,
+   "agreement": {
+    "single": 0.842,
+    "majority": 0.914,
+    "union": 0.923
+   },
+   "agreement_range": {
+    "single": [
+     0.711,
+     0.943
+    ],
+    "majority": [
+     0.838,
+     0.971
+    ],
+    "union": [
+     0.872,
+     0.949
+    ]
+   },
+   "median_sites": {
+    "single": 34.0,
+    "majority": 34.0,
+    "union": 37.5
+   }
+  },
+  "typescript-openultracode-verification": {
+   "runs": 6,
+   "splits": 10,
+   "eligible_sites": 64,
+   "agreement": {
+    "single": 0.619,
+    "majority": 0.744,
+    "union": 0.6
+   },
+   "agreement_range": {
+    "single": [
+     0.458,
+     0.867
+    ],
+    "majority": [
+     0.684,
+     0.812
+    ],
+    "union": [
+     0.533,
+     0.667
+    ]
+   },
+   "median_sites": {
+    "single": 15.0,
+    "majority": 15.0,
+    "union": 24.0
+   }
+  },
+  "java-commons-csv-lexer": {
+   "runs": 6,
+   "splits": 10,
+   "eligible_sites": 184,
+   "agreement": {
+    "single": 0.857,
+    "majority": 0.956,
+    "union": 0.872
+   },
+   "agreement_range": {
+    "single": [
+     0.784,
+     0.941
+    ],
+    "majority": [
+     0.882,
+     1.0
+    ],
+    "union": [
+     0.846,
+     0.872
+    ]
+   },
+   "median_sites": {
+    "single": 32.5,
+    "majority": 33.0,
+    "union": 36.5
+   }
+  }
+ }
+}

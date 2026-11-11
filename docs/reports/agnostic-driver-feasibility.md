@@ -486,3 +486,12 @@ that model's reply format; the replies were saved and were read later without a 
 - For Slice B: drift of one model over time; whether sites named in every run are better targets than sites
   named once; a second model that answers within its limit.
 - No release contains the driver. Release 1.1.0 is being prepared; the owner tags it.
+
+### Addition, 2026-11-11, about 10:40: two rules for a steadier selection (R85)
+
+Six fresh Opus runs per file, split in every way into two groups of three. Keeping the sites that at least
+two of three runs name gives selections that agree with each other on 0.74 to 0.96 of their sites (single
+runs in the same batch: 0.62 to 0.86), without selecting more than one run does. Taking the union of three
+runs is also steadier in four of five files and selects 10% to 60% more. Neither makes the selection
+fixed, and either costs three calls per file. The release that contains the driver, 1.1.0, was tagged on
+2026-11-11; the argument swap was switched off in the Java and Rust packs before the tag.

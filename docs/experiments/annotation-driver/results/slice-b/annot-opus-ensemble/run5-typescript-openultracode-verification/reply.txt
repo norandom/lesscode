@@ -1,0 +1,21 @@
+```json
+[
+  {"file": "src/verification.ts", "start_line": 19, "end_line": 19, "kind": "branch_condition", "anchor": "criterion.status !== \"not-applicable\"", "reason": "Decides which criteria count toward the gate; changing it alters missing-evidence detection and the status."},
+  {"file": "src/verification.ts", "start_line": 24, "end_line": 24, "kind": "branch_condition", "anchor": "evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id)", "reason": "Defines what counts as passing coverage; weakening it lets unverified criteria be reported as verified."},
+  {"file": "src/verification.ts", "start_line": 78, "end_line": 78, "kind": "branch_condition", "anchor": "researchOnly && policy === \"disabled\"", "reason": "Controls when a run is reported as research-only instead of blocked or failed."},
+  {"file": "src/verification.ts", "start_line": 82, "end_line": 82, "kind": "branch_condition", "anchor": "blocked.length > 0", "reason": "Any blocked evidence must yield blocked status; a wrong threshold hides the blockage."},
+  {"file": "src/verification.ts", "start_line": 82, "end_line": 84, "kind": "error_order", "anchor": "if (blocked.length > 0) {\n    return \"blocked\"\n  }", "reason": "When evidence is both blocked and failed, this order decides whether callers see blocked or failed."},
+  {"file": "src/verification.ts", "start_line": 86, "end_line": 86, "kind": "branch_condition", "anchor": "failed.length > 0", "reason": "Failing evidence must yield failed status instead of partial or verified."},
+  {"file": "src/verification.ts", "start_line": 90, "end_line": 90, "kind": "branch_condition", "anchor": "policy === \"disabled\"", "reason": "A disabled gate must never report verified."},
+  {"file": "src/verification.ts", "start_line": 90, "end_line": 92, "kind": "error_order", "anchor": "if (policy === \"disabled\") {\n    return researchOnly ? \"research-only\" : \"partial\"\n  }", "reason": "Reordering this check against the no-evidence checks changes whether a disabled research run reports research-only."},
+  {"file": "src/verification.ts", "start_line": 102, "end_line": 102, "kind": "branch_condition", "anchor": "missingCriterionIds.length === 0 && notRun.length === 0", "reason": "This is the only path to verified status; loosening it claims verification with gaps."},
+  {"file": "src/verification.ts", "start_line": 113, "end_line": 113, "kind": "branch_condition", "anchor": "criterion.status === \"not-applicable\"", "reason": "Not-applicable criteria keep their status instead of being reclassified."},
+  {"file": "src/verification.ts", "start_line": 118, "end_line": 118, "kind": "branch_condition", "anchor": "mappedEvidence.some((item) => item.result === \"pass\")", "reason": "Decides whether each reported criterion is marked verified."},
+  {"file": "src/verification.ts", "start_line": 148, "end_line": 148, "kind": "branch_condition", "anchor": "item.residualRisk !== undefined", "reason": "Controls whether residual risks of passing evidence appear in the unresolved risks."},
+  {"file": "src/verification.ts", "start_line": 153, "end_line": 153, "kind": "branch_condition", "anchor": "policy === \"disabled\" && evidence.length === 0", "reason": "Selects which no-evidence risk message callers receive."},
+  {"file": "src/verification.ts", "start_line": 154, "end_line": 154, "kind": "state_write", "anchor": "risks.push(\"No verification evidence was collected because the gate is disabled.\")", "reason": "Dropping it removes the disabled-gate risk from the report."},
+  {"file": "src/verification.ts", "start_line": 141, "end_line": 141, "kind": "state_write", "anchor": "risks.push(item.residualRisk)", "reason": "Dropping it omits the residual risk of failed checks from the report."},
+  {"file": "src/verification.ts", "start_line": 205, "end_line": 205, "kind": "branch_condition", "anchor": "values.length === 0", "reason": "Decides whether an empty detail section is suppressed in the summary."},
+  {"file": "src/verification.ts", "start_line": 204, "end_line": 210, "kind": "pure_shell_boundary", "anchor": "function formatDetail(label: string, values: readonly string[]): string {\n  if (values.length === 0) {\n    return \"\"\n  }\n\n  return `${label}: ${values.join(\", \")}.`\n}", "reason": "A pure formatter whose output is computed only from its arguments."}
+]
+```

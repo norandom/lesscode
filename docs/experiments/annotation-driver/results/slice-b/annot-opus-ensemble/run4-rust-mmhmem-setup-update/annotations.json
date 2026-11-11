@@ -1,0 +1,234 @@
+[
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 62,
+  "end_line": 62,
+  "kind": "branch_condition",
+  "anchor": "setup.bootstrap.is_some()",
+  "reason": "Inverting it would accept --bootstrap for update or reject every valid update argument list."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 63,
+  "end_line": 63,
+  "kind": "failure_state",
+  "anchor": "return Err(\"--bootstrap\".to_owned())",
+  "reason": "Callers would no longer be told --bootstrap is an unknown argument to update."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 83,
+  "end_line": 83,
+  "kind": "branch_condition",
+  "anchor": "mode != Mode::NoTerminal",
+  "reason": "A wrong check would let update run without a terminal or refuse it in a real terminal."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 103,
+  "end_line": 103,
+  "kind": "state_write",
+  "anchor": "deps.restart.command = Command::Update",
+  "reason": "Without it the restarted program would not be started as `update --restarted`."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 140,
+  "end_line": 143,
+  "kind": "branch_condition",
+  "anchor": "Ok(0) | Err(_) => {\n                    self.say(\"\");\n                    return false;\n                }",
+  "reason": "End of input would no longer count as no, so the prompt could loop or proceed."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 165,
+  "end_line": 167,
+  "kind": "error_order",
+  "anchor": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\n    }",
+  "reason": "Checking the resume before the install record decides whether a restarted run finishes or reports not set up."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 168,
+  "end_line": 168,
+  "kind": "branch_condition",
+  "anchor": "flow.record().is_none()",
+  "reason": "Without this guard, update would run on a system that has not been set up."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 170,
+  "end_line": 170,
+  "kind": "failure_state",
+  "anchor": "return EXIT_NOT_SET_UP",
+  "reason": "The not-set-up exit code returned to the caller would change."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 173,
+  "end_line": 173,
+  "kind": "state_write",
+  "anchor": "flow.set_newest(lookup())",
+  "reason": "The newest release would not be stored, so the newer and unknown checks would read stale state."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 175,
+  "end_line": 175,
+  "kind": "branch_condition",
+  "anchor": "*flow.newest() == Newest::Unknown",
+  "reason": "An unknown newest release would be reported as up to date with exit 0 instead of exit 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 177,
+  "end_line": 177,
+  "kind": "failure_state",
+  "anchor": "return 1",
+  "reason": "A failed lookup would no longer exit with 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 188,
+  "end_line": 188,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+  "reason": "Inverting it would update when the user declines and cancel when the user agrees."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 190,
+  "end_line": 190,
+  "kind": "failure_state",
+  "anchor": "return EXIT_CANCELLED",
+  "reason": "Declining would no longer give the cancelled exit code."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 188,
+  "end_line": 191,
+  "kind": "error_order",
+  "anchor": "if !p.yes(text::update::PROMPT_UPDATE) {\n        p.say(text::update::NOTHING_CHANGED);\n        return EXIT_CANCELLED;\n    }",
+  "reason": "Asking before the trusted-key refusal check decides whether a decline or a refusal is reported first."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 192,
+  "end_line": 195,
+  "kind": "branch_condition",
+  "anchor": "let Some(note) = flow.update_refusal()",
+  "reason": "Skipping it would let an update go ahead with no trusted key."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 194,
+  "end_line": 194,
+  "kind": "failure_state",
+  "anchor": "return 1",
+  "reason": "A refused update would no longer exit with 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 222,
+  "end_line": 223,
+  "kind": "branch_condition",
+  "anchor": "note == text::UPDATE_FAILED\n                && let Some(reason) = flow.last_note()",
+  "reason": "The failure reason would be shown or hidden for the wrong notes."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 228,
+  "end_line": 228,
+  "kind": "failure_state",
+  "anchor": "1",
+  "reason": "A failed verified update would no longer exit with 1."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 243,
+  "end_line": 243,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_UPDATE)",
+  "reason": "Inverting it would let the bootstrap install the brought release after the user said no."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 245,
+  "end_line": 245,
+  "kind": "failure_state",
+  "anchor": "return Some(EXIT_CANCELLED)",
+  "reason": "A declined bootstrap update would return the wrong exit code."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 247,
+  "end_line": 247,
+  "kind": "state_write",
+  "anchor": "flow.plan_recorded()",
+  "reason": "Without planning the recorded choices, the bootstrap update would review or apply the wrong plan."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 257,
+  "end_line": 257,
+  "kind": "branch_condition",
+  "anchor": "view.groups.is_empty() && view.problems.is_empty()",
+  "reason": "File changes could be applied without asking, or the user could be asked when nothing changes."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 260,
+  "end_line": 260,
+  "kind": "branch_condition",
+  "anchor": "kept.is_some()",
+  "reason": "The \"updated\" line would be shown wrongly in bootstrap runs, or left out after a real update."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 265,
+  "end_line": 265,
+  "kind": "branch_condition",
+  "anchor": "!p.yes(text::update::PROMPT_APPLY)",
+  "reason": "Inverting it would apply changes the user declined."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 267,
+  "end_line": 267,
+  "kind": "failure_state",
+  "anchor": "return EXIT_CANCELLED",
+  "reason": "Declining the changes would no longer give the cancelled exit code."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 271,
+  "end_line": 271,
+  "kind": "state_write",
+  "anchor": "flow.apply_update()",
+  "reason": "Without it the update is never applied, yet results are still printed."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 286,
+  "end_line": 286,
+  "kind": "branch_condition",
+  "anchor": "!view.problems.is_empty()",
+  "reason": "The skipped-tools heading would appear when there are no problems, or be missing when there are."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 303,
+  "end_line": 303,
+  "kind": "branch_condition",
+  "anchor": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())",
+  "reason": "\"Done\" would be printed after failures or while steps remain, or be missing after a clean update."
+ },
+ {
+  "file": "src/setup/ui/update.rs",
+  "start_line": 293,
+  "end_line": 307,
+  "kind": "pure_shell_boundary",
+  "anchor": "fn result_lines(flow: &Flow) -> Vec<String> {\n    let mut lines: Vec<String> = flow\n        .progress()\n        .map(|p| p.all_lines())\n        .unwrap_or_default()\n        .into_iter()\n        .filter(|l| l != text::CHECKING)\n        .collect();\n    let blank = lines.iter().take_while(|l| l.is_empty()).count();\n    lines.drain(..blank);\n    if flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty()) {\n        lines.push(text::update::DONE.to_owned());\n    }\n    lines\n}",
+  "reason": "This function only computes the printed result lines from the flow state, so any mistake shows up in what the user sees."
+ }
+]
