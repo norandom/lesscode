@@ -1,7 +1,7 @@
 # Lesscode
 
 [![DOI](https://zenodo.org/badge/1440672292.svg)](https://doi.org/10.5281/zenodo.23958363)
-[![Release](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.0.2)
+[![Release](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.1.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 The goal is substantial code simplification while preserving features. In grown
@@ -21,41 +21,30 @@ differences also count when judging whether it simplifies the project.
 ## What you can do with it today
 
 `lesscode-core` is one native binary. You give it source files you already
-have, and it writes JSON receipts you can read in a review. The four commands
-below read your sources without changing them, do not run your tests and make
-no network or model requests.
+have, and it writes JSON receipts you can read in a review. No command changes
+your sources, and none makes a network or model request.
 
 | You want to know | Command | Works on |
 | --- | --- | --- |
 | Is this rewrite a substantial reduction or a cosmetic one? | `deconvolute density` | Rust, Java, TypeScript; Python by line count only |
-| Where does this file write state, and does it use dynamic escape hatches? | `deconvolute analyze` | Rust, Java, TypeScript |
-| Are my Rust files still within their agreed size ceilings? | `budgets` | Rust source trees |
-| Can a push be stopped when those ceilings are broken? | `deconvolute install-hook` | Any Git repository with a budgets file |
-
-Read [what is not checked](#what-is-not-checked) before you rely on a result.
-The limits there come from running the released binary against this repository.
-
-### On `main`, not yet in a release
-
-The source on `main` is ahead of release 1.0.2. If you build from source you
-get a different `deconvolute` group, described in
-[the agnostic driver](docs/driver.md):
-
-| You want to know | Command | Works on |
-| --- | --- | --- |
 | Where does this file decide behaviour and write state? | `deconvolute analyze` | Rust, Python, TypeScript, Java |
 | Which small faults can be planted in this file? | `deconvolute mutate` | Rust, Python, TypeScript, Java |
 | Which of those faults do my tests catch? | `deconvolute run` | the same four, with your own build and test commands |
 | Is this language pack fit for use? | `deconvolute admit-pack` | any pack for a compiled-in grammar |
+| Are my Rust files still within their agreed size ceilings? | `budgets` | Rust source trees |
+| Can a push be stopped when those ceilings are broken? | `deconvolute install-hook` | Any Git repository with a budgets file |
 
 `deconvolute run` is the one command that executes your project's commands. It
 does so in copies of your source tree under a work directory you name, never in
 the tree itself, and it refuses a work directory inside or around the source.
-Everything else still only reads. What a language needs is a data file of at
-most 40 lines (`native/packs/`), not code.
+Everything else only reads. `analyze`, `mutate` and `run` share one engine,
+described in [the agnostic driver](docs/driver.md); what it knows about a
+language is a data file of at most 40 lines (`native/packs/`), not code.
 
-No release contains these commands yet; the tables and limits elsewhere in this
-README describe release 1.0.2.
+Read [what is not checked](#what-is-not-checked) before you rely on a result.
+Releases before 1.1.0 had different `analyze` and `mutate` commands, bound to
+this project's experiment specimens; their limits are in
+[R55](docs/research/2026-11-10/01-released-binary-adopter-dogfood.md).
 
 ## Install
 
@@ -163,15 +152,49 @@ lesscode-core deconvolute analyze --lang typescript \
   --source src/session.ts --out receipts/analysis.json
 ```
 
-The receipt lists each state write as `file:line` and each dynamic form the
-analyzer cannot follow (for example `eval`, reflection or `unsafe`) under
+The receipt lists every place the file decides behaviour (`sites`), each state
+write as `file:line`, the function boundaries, and each construct the
+language pack declares it cannot follow (for example `unsafe` code) under
 `gaps`. With `--frame-spec FILE` you supply a JSON file whose
 `allowed_write_sites` lists the sites you allow (the file also needs
 `permitted_shell_locations` and `failure_invariants`, which may be empty
 lists), and any other site is reported under `violations`. Exit code 0 means no gaps and no
 violations; 1 means at least one.
 
-### 3. Hold Rust files to size ceilings
+### 3. See which faults your tests catch
+
+Write a run configuration that names the files, your test command and, if
+needed, setup and build commands (the fields are in
+[the agnostic driver](docs/driver.md#run-configuration)):
+
+```json
+{
+  "language": "python",
+  "source_root": "../my-project",
+  "files": ["pkg/ratelimit.py"],
+  "test_paths": ["tests/"],
+  "setup": [["uv", "sync", "--quiet"]],
+  "test": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_ratelimit.py", "-q", "-x"],
+  "runner_evidence_patterns": [" passed", " failed", " error"],
+  "invalid_exit_codes": [2, 3, 4, 5]
+}
+```
+
+```sh
+lesscode-core deconvolute run --config run.json --work /some/scratch/dir \
+  --workers 6 --out receipts/run.json
+```
+
+The driver copies the source tree into the work directory once per worker,
+checks that your tests pass there unmutated, plants one fault at a time, runs
+your commands, restores the file and verifies the restoration. The receipt
+classes every fault as `killed`, `survived`, `invalid`, `timeout` or `error`.
+Exit code 0 means the run is complete, 2 that some faults ended in `error`, 3
+that the run is void and nothing in it may be relied on. Stopping the run with
+Ctrl-C kills your commands, restores the copy and ends the run as void; faults
+already classed are kept and reused by the next run.
+
+### 4. Hold Rust files to size ceilings
 
 Write a budgets file that names every `.rs` file under the root you govern:
 
@@ -194,7 +217,7 @@ that is not listed fails the check, as does a listed file that is missing or
 over a ceiling. Exit code 0 means every file is within budget. This
 repository's own file is [native/complexity-budgets.json](native/complexity-budgets.json).
 
-### 4. Stop a push that breaks the ceilings
+### 5. Stop a push that breaks the ceilings
 
 ```sh
 lesscode-core deconvolute install-hook
@@ -220,29 +243,28 @@ Know these three things before you install it:
 
 ## What is not checked
 
-These limits were measured with the 1.0.1 binary on this repository and are
-recorded in [R55](docs/research/2026-11-10/01-released-binary-adopter-dogfood.md).
-Where release 1.0.2 behaves differently, the bullet says so.
-
-- The released commands do not run your tests and do not establish that a
-  rewrite behaves the same. Behavioral evidence is yours to supply and review.
-  (On `main`, `deconvolute run` runs your tests against planted faults; that
-  measures how sensitive the tests are, not whether a rewrite is equivalent.)
-- `deconvolute analyze --lang python` is not implemented. From release 1.0.2 it writes no receipt, prints a note to stderr and exits with
-  code 2. Version 1.0.1 instead returns an empty receipt with `"passed": true`
-  for any Python file; do not read that as a clean result.
+- No command establishes that a rewrite behaves the same as the original.
+  `deconvolute run` measures how sensitive your tests are to planted faults: a
+  fault they do not catch is a place where a cut is not protected. A run in
+  which every fault is caught is not an equivalence proof.
+- The planted faults are these: a negated or altered condition, a
+  removed failure signal, a dropped state write, two adjacent checks swapped,
+  and a changed call argument. Other faults (an element dropped from a list, a
+  removed chained call, what a process prints) are not planted.
+- In typed languages a share of the planted faults does not compile. They are
+  reported as `invalid` and say nothing about your tests; each still costs a
+  build.
+- Speed is your project's own build and test time per fault. Measured here:
+  under a second per fault for a Python file, several seconds for Java, and
+  five to twenty seconds for Rust, which rebuilds the crate each time.
+- Copies must not share a build cache. With Cargo and a global
+  `CARGO_TARGET_DIR`, set `"env": {"CARGO_TARGET_DIR": "target"}` in the run
+  configuration; otherwise copies run each other's builds and the run is
+  voided ([details](docs/driver.md#run-configuration)).
+- Four languages have a pack. A fifth needs its grammar compiled into the
+  binary and a pack that `admit-pack` accepts.
 - `deconvolute density --lang python` counts lines only; its statement fields
   repeat the line count.
-- `deconvolute mutate` applies operators written for the specimens used in
-  this project's experiments. On other code it usually produces no mutants:
-  it did so for 36 of the 38 Rust files in `native/src` and for all 40 Python
-  files tried. From release 1.0.2 it exits with code 1 when no
-  operator matches (the receipt still shows `"mutants_generated": 0`), and
-  `--lang python` writes nothing and exits with code 2 because there is no
-  Python generator. Version 1.0.1 exits 0 in both cases, so check
-  `mutants_generated` in the receipt. It is not yet a general mutation tool.
-  On `main` those operators are deleted and `mutate` works from language
-  packs; see [the agnostic driver](docs/driver.md).
 - The budget check reads the files in your working tree, not the commits being
   pushed, and it covers Rust only.
 - The hook checks complexity budgets only, and from release 1.0.2

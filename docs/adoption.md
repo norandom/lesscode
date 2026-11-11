@@ -24,26 +24,27 @@ trial; it does not establish your team's culture or incentives.
 
 1. [Install the binary](../README.md#install) and run `lesscode-core --version`.
 2. Read [what is not checked](../README.md#what-is-not-checked). In particular,
-   the commands do not run your tests, Python analysis is not implemented, and
-   `mutate` rarely produces mutants on code outside this project's specimens.
+   no command establishes that a change behaves the same, and a share of the
+   planted faults in typed languages does not compile.
 3. Take the file before and after one proposed change. Run
    `deconvolute density` on the pair and `deconvolute analyze` on the new file
-   (Rust, Java or TypeScript). Write the receipts outside the source tree.
+   (Rust, Python, TypeScript or Java). Write the receipts outside the source
+   tree.
 4. Run your own test suite on both versions yourself and keep its output with
-   the receipts. That is the behavioral evidence; the tool does not supply it.
-5. Let the reviewer read the receipts next to the diff. Record whether they
+   the receipts. That is the behavioral evidence.
+5. Run `deconvolute run` on the file ([the agnostic driver](driver.md)). It
+   plants each fault in a copy of your source tree, runs your own build and
+   test commands there, and reports which faults your tests catch. It never
+   writes to the tree you point it at. A fault your tests do not catch is a
+   place to look at the tests before cutting code there; it is not a verdict
+   on the proposed change, and a run in which every fault is caught is not
+   evidence that the change behaves the same.
+6. Let the reviewer read the receipts next to the diff. Record whether they
    affected the review, what setup they cost, and which important behavior
    nothing checked.
 
-If you build from `main` instead of installing release 1.0.2, three things in
-this list change ([the agnostic driver](driver.md)): `analyze` and `mutate`
-also work on Python and on code outside this project's specimens, and step 4
-can be done by the tool. `deconvolute run` plants each fault in a copy of your
-source tree, runs your own build and test commands there, and reports which
-faults your tests catch. It never writes to the tree you point it at. A fault
-your tests do not catch is a place to look at the tests; it is not a verdict on
-the proposed change, and a clean run is not evidence that the change behaves
-the same.
+Releases before 1.1.0 had no `run` command, no Python analysis, and a `mutate`
+that rarely produced mutants outside this project's specimens.
 
 Do not rely on a result as a blocking gate if identical inputs produce
 different receipts, if a receipt reports `"passed": true` for something the

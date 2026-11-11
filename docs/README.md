@@ -40,7 +40,8 @@ working tree and may not be present in a fresh clone.
 | Inspect real paired replacements, including a marginal Facdrone result | [mvibe: 23 lines removed](experiments/proxy-routing-trial/README.md) and [Facdrone CSV: rejected](experiments/facdrone-csv-trial/README.md) |
 | Inspect local Rust/Python/TypeScript baselines and a rejected library shortcut | [mmhmem/mvibe measurements, versions, chart and COBESY experiment track](experiments/local-adoption/README.md) |
 | Run Rust and Python tests in parallel | [cargo-nextest and pytest-xdist](testing.md) |
-| Find decision sites, write mutants and run a project's tests against them (on `main`, not yet released) | [The agnostic driver](driver.md) |
+| Find decision sites, write mutants and run a project's tests against them (from release 1.1.0) | [The agnostic driver](driver.md) |
+| See what a release contains and what changed | [Release 1.1.0](releases/1.1.0.md) |
 | Run the same Linux checks locally (native Dagger CLI with Podman) and in Actions | [Dagger pipeline and native platform evidence](ci-validation.md#rust-core-dagger-and-actions) |
 | Build and run the native comparison CLI | [Native setup](../native/README.md) and [working paired example](reports/native-core-readiness.md) |
 | Inspect the native decision and maturity boundary | [Readiness gate](../.kiro/specs/capability-compression-core/readiness.md) and [32-criterion coverage](../.kiro/specs/capability-compression-core/requirement-coverage.md) |

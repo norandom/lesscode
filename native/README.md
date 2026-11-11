@@ -7,7 +7,7 @@ is for building from source and for the license obligations.
 
 The executable has two groups of commands. The `deconvolute` group and
 `budgets` work on plain source files and are described, with their measured
-limits, in the project README. On `main` the `deconvolute` commands `analyze`,
+limits, in the project README. From release 1.1.0 the `deconvolute` commands `analyze`,
 `mutate`, `run` and `admit-pack` are served by one engine driven by language
 packs (`packs/`, compiled into the binary) for Rust, Python, TypeScript and
 Java; see [the agnostic driver](../docs/driver.md). Of all commands only

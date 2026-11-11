@@ -55,7 +55,7 @@ Run native AST analysis to verify that the candidate does not leak side effects 
 4. Run the comparison on the real baseline and the real candidate, in the project's own language and test framework. No `lesscode-core` command does this for you. A comparison of two re-implementations written for the check proves nothing about the code under review.
 
 ### Phase 5: Adverse Mutation Sensitivity
-1. Let the driver plant faults in the candidate and run the project's own tests against each one (`deconvolute run`, built from `main`; see `docs/driver.md`). The operators come from the language pack: negate a condition, swap a paired operator, remove or rewrite a failure signal, drop a state write, swap two adjacent checks.
+1. Let the driver plant faults in the candidate and run the project's own tests against each one (`deconvolute run`, from release 1.1.0; see `docs/driver.md`). The operators come from the language pack: negate a condition, swap a paired operator, remove or rewrite a failure signal, drop a state write, swap two adjacent checks.
 2. Read the classes in the receipt. `killed` means the tests failed. `survived` means they passed: look at each survivor and decide whether a test is missing or the change makes no difference. `invalid`, `timeout` and `error` say nothing about the tests. A void run says nothing at all.
 3. A mutant is killed only when a test run says so. A changed text, a hand-written witness or a mutant that did not compile is not a kill. The earlier gates of this project counted such things (R75, `docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md`); do not repeat that.
 4. Faults the pack has no operator for (a changed argument, a changed literal inside a call, the order of a list, what a process prints) are not covered. If one of them matters, write the test for it by hand and say so in the review.
@@ -72,15 +72,18 @@ Evaluate structural reduction using `lesscode-core`:
 
 The native `lesscode-core` binary exposes first-class deconvolution commands across all supported runtimes:
 
-### Known limits of the porcelain (R55, 2026-11-10)
-Measured with the 1.0.1 binary; see `docs/research/2026-11-10/01-released-binary-adopter-dogfood.md`. Where release 1.0.2 behaves differently, the item says so.
-- `analyze --lang python` performs no analysis. From release 1.0.2 it writes no receipt, prints a note to stderr and exits 2. Version 1.0.1 still reports `"passed": true`. Do not use either as evidence.
-- `mutate` uses operators bound to the experiment specimens. On other code it usually writes no mutants. From release 1.0.2 it then exits 1 (the receipt shows `"mutants_generated": 0`); version 1.0.1 exits 0, so read `mutants_generated`. There is no Python generator: from release 1.0.2 `mutate --lang python` writes nothing and exits 2.
-- `density --lang python` reports the line count in both the line and statement fields.
-- The pre-push hook enforces complexity budgets only. From release 1.0.2 it treats `refactor/*` and `deconvolute/*` branches like any other branch; version 1.0.1 announces them but checks nothing more.
+### Known limits of releases 1.0.1 and 1.0.2 (R55, 2026-11-10)
+Check `lesscode-core --version` first. These apply only to a binary older than 1.1.0; see `docs/research/2026-11-10/01-released-binary-adopter-dogfood.md`.
+- `analyze --lang python` performs no analysis. Release 1.0.2 writes no receipt, prints a note to stderr and exits 2. Version 1.0.1 reports `"passed": true`. Do not use either as evidence.
+- `mutate` uses operators bound to the experiment specimens. On other code it usually writes no mutants. Release 1.0.2 then exits 1 (the receipt shows `"mutants_generated": 0`); version 1.0.1 exits 0, so read `mutants_generated`. There is no Python generator.
+- There is no `run` and no `admit-pack` command.
 
-### On `main`, not yet in a release
-Built from `main`, `analyze` and `mutate` are served by one engine driven by language packs for Rust, Python, TypeScript and Java, and two commands are new. The limits above describe releases 1.0.1 and 1.0.2 and do not apply to that build. Full description: `docs/driver.md`.
+Still true in 1.1.0:
+- `density --lang python` reports the line count in both the line and statement fields.
+- The pre-push hook enforces complexity budgets only and treats every branch the same.
+
+### From release 1.1.0: the agnostic driver
+`analyze` and `mutate` are served by one engine driven by language packs for Rust, Python, TypeScript and Java, and two commands are new. Full description: `docs/driver.md`.
 ```powershell
 # Run the project's own tests against every planted fault, in copies of the source tree:
 lesscode-core deconvolute run --config <run-config.json> --work <work-dir> [--workers N] [--no-reuse] --out <receipt.json>
@@ -113,7 +116,7 @@ lesscode-core deconvolute mutate --lang <rust|java|typescript|python> --source <
 ```
 - **Inputs:** Target source file and target output directory.
 - **Output:** Writes individual mutant source files (`mutant_1_...`, `mutant_2_...`) and outputs a JSON receipt summarizing generated mutations.
-- **Verification Rule:** `mutate` only writes mutant files. Running them against the test suite is `deconvolute run` (on `main`) or your own harness. Review every survivor; do not report a kill that no test run produced.
+- **Verification Rule:** `mutate` only writes mutant files. Running them against the test suite is `deconvolute run` or your own harness. Review every survivor; do not report a kill that no test run produced.
 
 ### `density` Subcommand
 Computes canonical and AST statement reductions between baseline and candidate implementations:

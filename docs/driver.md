@@ -1,9 +1,9 @@
-# The agnostic driver (not yet in a release)
+# The agnostic driver
 
-State on 2026-11-11: built on `main`, covered by the test suite on five platforms, not part of the released
-binary 1.0.2. The older text-matching analysers and operators were deleted on 2026-11-11 (commit `964921c`).
-Spec: `.kiro/specs/agnostic-annotation-driver/`. Evidence: research entries R65, R67 and R73 under
-`docs/research/2026-11-10/` and R75 under `docs/research/2026-11-11/`.
+Part of `lesscode-core` from release 1.1.0. It replaces the text-matching analysers and operators of the
+releases before, which were bound to this project's experiment specimens. Spec:
+`.kiro/specs/agnostic-annotation-driver/`. Evidence: research entries R65, R67 and R73 under
+`docs/research/2026-11-10/` and R75, R80 and R81 under `docs/research/2026-11-11/`.
 
 The driver finds the places in a source file where behaviour is decided, plants small faults there
 (mutants), and can run a project's own tests to see which faults they catch. Everything it knows about a
@@ -118,7 +118,6 @@ offer. Hand-written control sets are in `native/tests/fixtures/driver/controls/`
 
 ## What is not there yet
 
-- A release that contains the driver.
 - Operators for an argument replaced by a value of another form, a dropped list element, a removed chained
   call, or what a process prints. Seven of the twelve hand-made controls of the earlier specimen gates had
   no driver mutant (R75); the call-argument operators added on 2026-11-11 reach one of them.

@@ -8,8 +8,8 @@ title: "Lesscode: measured deconvolution of AI-generated codebases"
 authors:
   - family-names: Ciepluch
     given-names: Marius
-version: 1.0.2
-date-released: 2026-11-10
+version: 1.1.0
+date-released: 2026-11-11
 doi: 10.5281/zenodo.23958363
 identifiers:
   - type: doi

@@ -1,45 +1,37 @@
-# Handover: driver complete through validation, old adapters deleted; Slice B measured with two optimisers, 2026-11-11
+# Handover: release 1.1.0 prepared; driver has stop handler and call-argument operators; Slice B measured for packs and annotations, 2026-11-11
 
-Updated 2026-11-11, about 08:35 Europe/Berlin. This file is the single handover and action list. The current
+Updated 2026-11-11, about 10:05 Europe/Berlin. This file is the single handover and action list. The current
 sections below govern continuation; dated history follows for evidence and earlier interpretations, not as an
 active implementation queue.
 
 ## Current state
 
-Start with the [task 33 handover](task_33_handover.md).
+Start with the [task 34 handover](task_34_handover.md).
 
-1. **The agnostic driver** (spec [agnostic-annotation-driver](specs/agnostic-annotation-driver/tasks.md)):
-   every task is done and validated
-   ([report](specs/agnostic-annotation-driver/validation-report.md),
-   [R80](../docs/research/2026-11-11/06-agnostic-driver-final-validation.md)).
-   - `lesscode-core deconvolute analyze | mutate | run | admit-pack` for Rust, Python, TypeScript and Java
-     ([docs/driver.md](../docs/driver.md)). The six text-matching adapter files are deleted.
-   - The specimen gates' "4 of 4 killed" figures are restated
-     ([R75](../docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md)): for Rust they were
-     written into the gate script; with the projects' own tests four of the five reproducible controls are
-     killed and one survives. R49 to R53 carry dated amendments.
-   - Met in part: Requirement 5.7 (no signal handler). No release contains the driver.
-   - Lesson of the day: copies must not share a build directory. On this machine `CARGO_TARGET_DIR` is set
-     globally; a Rust run needs `"env": {"CARGO_TARGET_DIR": "target"}` in its configuration. The same
-     shared directory can hand this repository's own tests a stale library after experiments in a copy;
-     `cargo clean -p lesscode-core` clears it.
-2. **Slice B,** hardening against LLM inference drift (`constraint-guided-compression`): entries R66 and R68
-   to R79.
-   - Owner decisions of 2026-11-11: no Rust point of R71 goes into the shipped pack; node kind list tried on
-     both models; stop for model spend raised to 40 USD; MIPROv2 comparison run.
-   - Node kinds as input (R76, R78): invalid node kinds fall from 10 to 1 of 20 first replies on
-     `mistral-large-4`, admission stays at 5 and 6 of 20; no change on `claude-opus-5-5`. Not adopted.
-   - MIPROv2-style search on Opus (R77, R79): Rust admitted 0 of 5 in the final judgement, where GEPA's
-     guide got 5 of 5 (R71). Nothing adopted.
-   - Measured so far: drift between runs, between models, under two optimisers. Not measured: the annotation
-     layer; one model over time. Next step is the owner's choice between an annotation-layer baseline and
-     closing the pack-authoring question.
-   - Model spend recorded at list prices: about 25.5 of 40 USD.
-3. **Open for the owner:** a release with the driver; a signal handler; `PureCoreVerifier::compare` on the
-   adapters and `NativeMutantGenerator::generate`, which report success without running anything; operators
-   for a changed argument and a changed literal in a call; a CI job for `tools/guide-optimizer/`; rotating the
-   Mistral key, which was pasted into a chat.
-4. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
+1. **Release 1.1.0 is prepared, not tagged.** Version bumped, README and guides describe the driver as
+   released, notes and the owner's steps are in [docs/releases/1.1.0.md](../docs/releases/1.1.0.md). The owner
+   pushes the tag and approves the `release` environment.
+2. **The agnostic driver** (spec [agnostic-annotation-driver](specs/agnostic-annotation-driver/tasks.md),
+   complete and validated, R80) with three changes after validation
+   ([R81](../docs/research/2026-11-11/08-driver-three-changes-and-call-arguments.md)): it stops cleanly on
+   Ctrl-C or a termination signal (Requirement 5.7); three functions that reported success without running
+   anything are removed; call arguments are a sixth, optional site kind. Open choice: switch the argument
+   swap off for Java and Rust.
+   - On this machine `CARGO_TARGET_DIR` is global: a Rust run needs `"env": {"CARGO_TARGET_DIR": "target"}`.
+3. **Slice B,** hardening against LLM inference drift (`constraint-guided-compression`): entries R66 and R68
+   to R83. Measured for pack authoring (between runs, between models, under GEPA and a MIPROv2-style search)
+   and for the annotation layer
+   ([R83](../docs/research/2026-11-11/09-slice-b-annotation-baseline.md)): Opus runs agree on 0.69 to 0.92 of
+   their sites; three of five Mistral calls give no annotations. Nothing was adopted; the mechanical barriers
+   held in every run. Not measured: one model over time. Next step is the owner's: a hardening for
+   annotations, drift over time, or closing Slice B. Spend about 29.7 of 40 USD.
+4. **The report** [docs/reports/agnostic-driver-feasibility.md](../docs/reports/agnostic-driver-feasibility.md)
+   has two dated updates (sections 8 and 9) with six figures written by
+   `docs/reports/figures/make_figures.py` from the committed receipts and ledgers.
+5. **CI** builds, lints and dry-runs `tools/guide-optimizer/` on all five platforms.
+6. **Open for the owner:** the tag; the argument swap in two packs; the Slice B next step; rotating the
+   Mistral key; the Rust specimen candidate, which has never been built.
+7. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
    release: archives carry zipsign signatures, `SHA256SUMS.sig` and a
    provenance attestation, all verified after publication. It contains the
    fail-loudly fixes (item 5). The owner holds the signing key and approves
