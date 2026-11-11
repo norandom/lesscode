@@ -8,6 +8,9 @@ active implementation queue.
 
 Start with the [task 34 handover](task_34_handover.md).
 
+0. **Start here:** [task 35 handover](task_35_handover.md). Requirements of `gradual-refactoring-steps` are
+   approved; next are its design, complexity budgets counted in tokens, and splitting 15 criteria that
+   `kiro-cli check` flags. The pins of the first step are merged (`4004bf6`).
 0. **State at 14:00 on 2026-11-11:** releases 1.1.0 and 1.1.1 are published and verified. Requirements for
    `gradual-refactoring-steps` are generated and wait for approval. First tracked step
    ([R89](../docs/research/2026-11-11/15-first-tracked-step.md)): the pins are on the pushed branch
