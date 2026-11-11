@@ -26,7 +26,7 @@ your sources, and none makes a network or model request.
 
 | You want to know | Command | Works on |
 | --- | --- | --- |
-| Is this rewrite a substantial reduction or a cosmetic one? | `deconvolute density` | Rust, Java, TypeScript; Python by line count only |
+| Is this rewrite a substantial reduction or a cosmetic one? | `deconvolute density` | Rust, Python, TypeScript, Java |
 | Where does this file decide behaviour and write state? | `deconvolute analyze` | Rust, Python, TypeScript, Java |
 | Which small faults can be planted in this file? | `deconvolute mutate` | Rust, Python, TypeScript, Java |
 | Which of those faults do my tests catch? | `deconvolute run` | the same four, with your own build and test commands |
@@ -122,35 +122,38 @@ lesscode-core deconvolute density --lang rust \
   --out receipts/density.json
 ```
 
-Run against the lifecycle pair kept in this repository
-(`native/adapters/rust/baseline_lifecycle.rs` and `candidate_lifecycle.rs`),
-the receipt reads:
+The command measures both files by their syntax, so that layout cannot change
+the result: `tokens` are the names, literals, operators and punctuation outside
+comments, `nodes` the named syntax nodes. Run against the lifecycle pair kept in
+this repository (`native/adapters/rust/baseline_lifecycle.rs` and
+`candidate_lifecycle.rs`), the receipt reads:
 
 ```json
 {
-  "receipt": "deconvolution-density-v1",
-  "baseline_lines": 248,
-  "candidate_lines": 148,
-  "line_reduction_pct": 40.32,
-  "baseline_stmts": 83,
-  "candidate_stmts": 70,
-  "stmt_reduction_pct": 15.66,
-  "passed": true,
-  "verdict": "pass"
+  "receipt": "deconvolution-density-v2",
+  "baseline_size": { "tokens": 1846, "nodes": 1460, "lines": 249 },
+  "candidate_size": { "tokens": 1716, "nodes": 1350, "lines": 149 },
+  "token_reduction_pct": 7.04,
+  "tokens_removed": 130,
+  "node_reduction_pct": 7.53,
+  "line_reduction_pct": 40.16,
+  "thresholds": { "min_token_reduction_pct": 20.0, "min_tokens_removed": 400, "min_node_reduction_pct": 10.0 },
+  "passed": false,
+  "verdict": "marginal"
 }
 ```
 
-Read that receipt with care. The candidate in this pair is written more densely than a formatter allows.
-With both files formatted the same way the same command reports 248 to 219 lines (11.7%) and 83 to 76
-statements (8.4%), verdict `marginal`
-([R86](docs/research/2026-11-11/12-rust-candidate-built-and-measured.md)). Format both files the same way
-before you run `density`; it counts lines.
+This pair is the reason the command works this way. The candidate has 40%
+fewer lines and 7% fewer tokens: most of what looked like a reduction was
+denser layout. Releases up to 1.1.0 counted lines and reported this pair as
+`pass` ([R86](docs/research/2026-11-11/12-rust-candidate-built-and-measured.md),
+[R87](docs/research/2026-11-11/13-density-by-syntax-specimens-restated.md)).
 
-`pass` needs all four conditions: at least 20% and 50 fewer canonical lines,
-and at least 10% and 10 fewer statements. Canonical lines exclude blank lines
-and line comments. Anything less is reported as `marginal` with exit code 1. A
-marginal verdict says the change is small; it does not say the change is wrong.
-
+`pass` needs at least 20% fewer tokens, at least 400 tokens removed, and at
+least 10% fewer nodes. Anything less is reported as `marginal` with exit code
+1. A marginal verdict says the change is small; it does not say the change is
+wrong. Lines are in the receipt for information and do not count. A file that
+does not parse is refused with exit code 3.
 ### 2. List the write sites
 
 ```sh
@@ -269,8 +272,6 @@ Know these three things before you install it:
   voided ([details](docs/driver.md#run-configuration)).
 - Four languages have a pack. A fifth needs its grammar compiled into the
   binary and a pack that `admit-pack` accepts.
-- `deconvolute density --lang python` counts lines only; its statement fields
-  repeat the line count.
 - The budget check reads the files in your working tree, not the commits being
   pushed, and it covers Rust only.
 - The hook checks complexity budgets only, and from release 1.0.2
@@ -303,9 +304,9 @@ attempts and the revisions to its hypotheses.
 - [Research log](docs/research/README.md): the latest decision first, then the
   record by date.
 - [Multi-language synthesis (R53)](docs/research/2026-11-09/11-multi-language-deconvolution-synthesis.md):
-  four specimens in Python, TypeScript, Java and Rust with 24% to 44% fewer
-  lines as measured then; the Rust figure falls from 40% to 12% when both files
-  are formatted the same way (R86). Its behavioural figures (100 compared cases, all adverse controls
+  four specimens in Python, TypeScript, Java and Rust, reported with 24% to 44%
+  fewer lines. Measured by syntax the same candidates have 6% to 19% fewer
+  tokens (R87). Its behavioural figures (100 compared cases, all adverse controls
   killed) are weaker than they read: see the next entry.
 - [The specimen controls rerun through the driver (R75)](docs/research/2026-11-11/01-specimen-controls-rerun-through-driver.md):
   what the earlier "4 of 4 killed" figures were, and what the project's own

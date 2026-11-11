@@ -382,10 +382,64 @@ fn density_subcommand_evaluates_structural_reduction() {
     assert_eq!(status.code(), Some(0));
     let receipt: serde_json::Value =
         serde_json::from_str(&fs::read_to_string(&out).unwrap()).unwrap();
-    assert_eq!(receipt["receipt"], "deconvolution-density-v1");
+    assert_eq!(receipt["receipt"], "deconvolution-density-v2");
     assert_eq!(receipt["passed"], true);
     assert_eq!(receipt["verdict"], "pass");
-    assert!(receipt["line_reduction_pct"].as_f64().unwrap() >= 20.0);
+    assert!(receipt["token_reduction_pct"].as_f64().unwrap() >= 20.0);
+    assert_eq!(receipt["thresholds"]["min_tokens_removed"], 400);
+    let tokens = |text: &str| -> u64 {
+        let path = dir.join("measure.rs");
+        fs::write(&path, text).unwrap();
+        let out = dir.join("measure.json");
+        let _ = run_cli(&[
+            "deconvolute",
+            "density",
+            "--lang",
+            "rust",
+            "--baseline",
+            path.to_str().unwrap(),
+            "--candidate",
+            path.to_str().unwrap(),
+            "--out",
+            out.to_str().unwrap(),
+        ]);
+        let receipt: serde_json::Value =
+            serde_json::from_str(&fs::read_to_string(&out).unwrap()).unwrap();
+        receipt["baseline_size"]["tokens"].as_u64().unwrap()
+    };
+
+    // The same code written densely is not a reduction: layout does not count.
+    let dense: String = cand_text.replace("{\n    ", "{ ").replace(";\n}", "; }");
+    assert!(dense.lines().count() < cand_text.lines().count() / 2);
+    assert_eq!(tokens(&dense), tokens(&cand_text));
+
+    // Python is measured like the others; a file that does not parse is refused.
+    let py = dir.join("a.py");
+    fs::write(&py, "def f(a):\n    return a + 1\n").unwrap();
+    let (status, _, _) = run_cli(&[
+        "deconvolute",
+        "density",
+        "--lang",
+        "python",
+        "--baseline",
+        py.to_str().unwrap(),
+        "--candidate",
+        py.to_str().unwrap(),
+    ]);
+    assert_eq!(status.code(), Some(1), "no reduction is marginal");
+    let broken = dir.join("broken.rs");
+    fs::write(&broken, "fn f( {").unwrap();
+    let (status, _, stderr) = run_cli(&[
+        "deconvolute",
+        "density",
+        "--lang",
+        "rust",
+        "--baseline",
+        base.to_str().unwrap(),
+        "--candidate",
+        broken.to_str().unwrap(),
+    ]);
+    assert_eq!(status.code(), Some(3), "{stderr}");
 
     let _ = fs::remove_dir_all(&dir);
 }

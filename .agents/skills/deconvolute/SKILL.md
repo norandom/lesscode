@@ -61,7 +61,7 @@ Run native AST analysis to verify that the candidate does not leak side effects 
 4. Faults the pack has no operator for (a changed argument, a changed literal inside a call, the order of a list, what a process prints) are not covered. If one of them matters, write the test for it by hand and say so in the review.
 
 ### Phase 6: Mechanical Density Gate
-Evaluate structural reduction using `lesscode-core`:
+Evaluate structural reduction using `lesscode-core` (from release 1.1.1 by syntax: at least 20% fewer tokens, at least 400 tokens removed and at least 10% fewer named nodes; lines do not count, because layout changes them). The line-based rule below describes releases up to 1.1.0 and overstated reductions (R87):
 - $\text{LineReduction} \ge 20\%$ and $\Delta \text{Lines} \ge 50$ canonical lines.
 - $\text{StmtReduction} \ge 10\%$ and $\Delta \text{Stmts} \ge 10$ AST statements.
 - Any change below these absolute or relative thresholds is rejected as marginal.
@@ -79,7 +79,6 @@ Check `lesscode-core --version` first. These apply only to a binary older than 1
 - There is no `run` and no `admit-pack` command.
 
 Still true in 1.1.0:
-- `density --lang python` reports the line count in both the line and statement fields.
 - The pre-push hook enforces complexity budgets only and treats every branch the same.
 
 ### From release 1.1.0: the agnostic driver
