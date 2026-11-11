@@ -1,0 +1,74 @@
+{
+ "language": "rust",
+ "run": 5,
+ "examples": [
+  "python",
+  "java"
+ ],
+ "started_utc": "2026-11-11T06:53:08+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T06:53:08+00:00",
+   "input_tokens": 2938,
+   "output_tokens": 16000,
+   "stop_reason": "length",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- the reply was cut off before the pack was complete",
+    "- json: not valid JSON: control character (\\u0000-\\u001F) found while parsing a string at line 7 column 0",
+    "- shape: not run: the text is not one JSON object",
+    "- kinds_valid: not run: the text is not one JSON object",
+    "- templates: not run: the text is not one JSON object",
+    "- controls: not run: the pack does not have the pack shape",
+    "- seed_mutants: not run: the pack does not have the pack shape"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-11T06:56:23+00:00",
+   "input_tokens": 3134,
+   "output_tokens": 2477,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- controls: 3 of 5 controls behaved as expected; failing: error_constructor_call_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; code_under_an_inner_test_attribute_is_a_test_region expected [\"test_region\"] got [\"ok\"]",
+    "- seed_mutants: 3 seeds: changed 1, no_site 1, operators_differ 1; failing: try_operator_is_a_failure_site_with_a_rewrite: expected operators [\"rewrite:try_expression\"] on a try_expression, got []; error_constructor_call_is_a_failure_site: not a site the pack's operators can act on"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 3,
+   "started_utc": "2026-11-11T06:56:53+00:00",
+   "input_tokens": 3764,
+   "output_tokens": 4723,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": false,
+ "admitted": true,
+ "repairs": 2,
+ "pack_sha256": "30c96ca7e4a52b27226874f451331237003136733d0d9af7ebd1f2d8b5d61b4e",
+ "mutants": {
+  "identical": false,
+  "scopes": {
+   "rust-mmhmem-setup-update": {
+    "identical": false,
+    "shipped": 64,
+    "written": 66,
+    "only_shipped": 2,
+    "only_written": 4
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T06:57:42+00:00"
+}

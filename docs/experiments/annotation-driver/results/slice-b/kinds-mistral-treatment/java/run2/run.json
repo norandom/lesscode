@@ -1,0 +1,30 @@
+{
+ "language": "java",
+ "run": 2,
+ "examples": [
+  "rust",
+  "python"
+ ],
+ "started_utc": "2026-11-11T06:46:42+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T06:46:42+00:00",
+   "input_tokens": 3009,
+   "output_tokens": 16000,
+   "stop_reason": "length",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": null,
+   "error": null
+  }
+ ],
+ "outcome": "empty_reply",
+ "first_reply_admitted": false,
+ "admitted": false,
+ "repairs": 0,
+ "pack_sha256": null,
+ "mutants": null,
+ "finished_utc": "2026-11-11T06:49:47+00:00"
+}

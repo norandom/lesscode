@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "typescript",
+  "pack_sha256": "766d9aeee4a5368d6534f58406f16b8eb3f9edd58c6184b8bc23420863bc4036",
+  "admitted": false,
+  "checks": [
+    {
+      "name": "json",
+      "pass": true,
+      "ran": true,
+      "detail": "one JSON object"
+    },
+    {
+      "name": "size",
+      "pass": true,
+      "ran": true,
+      "detail": "27 lines (at most 40), 1838 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": true,
+      "ran": true,
+      "detail": "required keys present with the right types"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": true,
+      "ran": true,
+      "detail": "28 node kinds, all valid for typescript"
+    },
+    {
+      "name": "templates",
+      "pass": true,
+      "ran": true,
+      "detail": "3 templates, placeholders only {text}, {noop}, {child0}"
+    },
+    {
+      "name": "controls",
+      "pass": false,
+      "ran": true,
+      "detail": "12 of 14 controls behaved as expected; failing: seed:branch_condition@50 expected [\"ok\"] got [\"kind_mismatch\"]; duplicate expected [\"ok\", \"duplicate\"] got [\"kind_mismatch\", \"kind_mismatch\"]"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": false,
+      "ran": true,
+      "detail": "3 seeds: changed 2, no_site 1; failing: seed:branch_condition@50: not a site the pack's operators can act on"
+    }
+  ]
+}

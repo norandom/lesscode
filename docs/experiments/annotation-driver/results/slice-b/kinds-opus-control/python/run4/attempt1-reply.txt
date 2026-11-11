@@ -1,0 +1,34 @@
+```json
+{
+  "language": "python",
+  "comment_kinds": ["comment"],
+  "string_kinds": ["string", "concatenated_string"],
+  "unwrap_kinds": [],
+  "test_attribute_markers": [],
+  "kinds": {
+    "branch_condition": {
+      "field_of": [["if_statement", "condition"], ["elif_clause", "condition"], ["while_statement", "condition"]],
+      "returned": {"of": ["return_statement"], "kinds": ["boolean_operator", "comparison_operator", "not_operator"],
+                   "tokens": ["and", "or", "not", "==", "!=", "<", ">", "<=", ">=", "in", "not in", "is", "is not"]}
+    },
+    "failure_state": {"nodes": ["raise_statement", "assert_statement", "return_statement"]},
+    "error_order": {"nodes": ["if_statement"], "requires_next_sibling": true},
+    "state_write": {"nodes": ["assignment", "augmented_assignment"], "call_statements": ["call", "await"]},
+    "pure_shell_boundary": {"nodes": ["function_definition"]}
+  },
+  "noop_statement": "pass",
+  "statement_wrappers": ["expression_statement"],
+  "operators": {
+    "branch_condition": {"template": "not ({text})",
+                         "token_swaps": [["==", "!="], ["<", "<="], [">", ">="], ["and", "or"], ["in", "not in"], ["is", "is not"]],
+                         "negation_swaps": [["==", "!="], ["in", "not in"], ["is", "is not"]]},
+    "failure_state": {"by_kind": {"raise_statement": "{noop}", "assert_statement": "{noop}"},
+                      "returned_literal_swaps": [["True", "False"], ["0", "1"]]},
+    "state_write": {"statement": "{noop}"},
+    "error_order": {"swap_next": true}
+  },
+  "gaps": [{"reason": "dynamic code execution", "nodes_with_prefix": {"call": ["eval(", "exec("]}},
+           {"reason": "global state", "nodes": ["global_statement", "nonlocal_statement"]},
+           {"reason": "unmonitored thread", "nodes_with_prefix": {"call": ["threading.Thread(", "Thread("]}}]
+}
+```

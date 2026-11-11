@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "rust",
+  "pack_sha256": "a2d001e91f2b72b5b1c495b05efde0881f68b5eed23114def331cc2b420f6af8",
+  "admitted": false,
+  "checks": [
+    {
+      "name": "json",
+      "pass": false,
+      "ran": true,
+      "detail": "not valid JSON: control character (\\u0000-\\u001F) found while parsing a string at line 7 column 0"
+    },
+    {
+      "name": "size",
+      "pass": true,
+      "ran": true,
+      "detail": "6 lines (at most 40), 219 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": false,
+      "ran": false,
+      "detail": "not run: the text is not one JSON object"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": false,
+      "ran": false,
+      "detail": "not run: the text is not one JSON object"
+    },
+    {
+      "name": "templates",
+      "pass": false,
+      "ran": false,
+      "detail": "not run: the text is not one JSON object"
+    },
+    {
+      "name": "controls",
+      "pass": false,
+      "ran": false,
+      "detail": "not run: the pack does not have the pack shape"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": false,
+      "ran": false,
+      "detail": "not run: the pack does not have the pack shape"
+    }
+  ]
+}

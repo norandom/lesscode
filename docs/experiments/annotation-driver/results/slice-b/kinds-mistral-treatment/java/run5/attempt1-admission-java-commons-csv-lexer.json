@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "java",
+  "pack_sha256": "fafbcc1300fa62e6f6904ae043911f8c7df3f8660b2b2d551d13065c9b900f39",
+  "admitted": false,
+  "checks": [
+    {
+      "name": "json",
+      "pass": true,
+      "ran": true,
+      "detail": "one JSON object"
+    },
+    {
+      "name": "size",
+      "pass": true,
+      "ran": true,
+      "detail": "32 lines (at most 40), 1777 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": true,
+      "ran": true,
+      "detail": "required keys present with the right types"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": true,
+      "ran": true,
+      "detail": "24 node kinds, all valid for java"
+    },
+    {
+      "name": "templates",
+      "pass": true,
+      "ran": true,
+      "detail": "3 templates, placeholders only {text}, {noop}, {child0}"
+    },
+    {
+      "name": "controls",
+      "pass": false,
+      "ran": true,
+      "detail": "14 of 16 controls behaved as expected; failing: seed:branch_condition@82 expected [\"ok\"] got [\"kind_mismatch\"]; duplicate expected [\"ok\", \"duplicate\"] got [\"kind_mismatch\", \"kind_mismatch\"]"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": false,
+      "ran": true,
+      "detail": "5 seeds: changed 2, no_operator 2, no_site 1; failing: seed:branch_condition@82: not a site the pack's operators can act on"
+    }
+  ]
+}

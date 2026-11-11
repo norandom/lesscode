@@ -1,0 +1,54 @@
+{
+ "language": "python",
+ "run": 3,
+ "examples": [
+  "rust",
+  "java"
+ ],
+ "started_utc": "2026-11-11T06:49:31+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T06:49:31+00:00",
+   "input_tokens": 2427,
+   "output_tokens": 12997,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- kinds_valid: node kinds not in the python grammar: assignment_expression, binary_expression, comparison_expression, unary_expression"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-11T06:51:21+00:00",
+   "input_tokens": 2979,
+   "output_tokens": 7052,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": false,
+ "admitted": true,
+ "repairs": 1,
+ "pack_sha256": "1e715050e59fcf415747105020736315895f5091aa84f17f5b8150048c1aef6d",
+ "mutants": {
+  "identical": true,
+  "scopes": {
+   "python-mvibe-ratelimit": {
+    "identical": true,
+    "shipped": 197,
+    "written": 197,
+    "only_shipped": 0,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T06:52:52+00:00"
+}

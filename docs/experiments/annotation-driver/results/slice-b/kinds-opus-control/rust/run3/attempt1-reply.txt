@@ -1,0 +1,33 @@
+```json
+{
+  "language": "rust",
+  "comment_kinds": ["line_comment", "block_comment"],
+  "string_kinds": ["string_literal", "raw_string_literal"],
+  "unwrap_kinds": [],
+  "test_attribute_markers": ["#[test]", "#[cfg(test)]"],
+  "test_attribute_kinds": ["attribute_item"],
+  "kinds": {
+    "branch_condition": {
+      "field_of": [["if_expression", "condition"], ["while_expression", "condition"], ["match_pattern", "condition"]],
+      "returned": {"of": ["return_expression"], "kinds": ["binary_expression", "unary_expression"],
+                   "tokens": ["&&", "||", "!", "==", "!=", "<", ">", "<=", ">="]}
+    },
+    "failure_state": {"nodes": ["return_expression", "try_expression"],
+                      "nodes_with_prefix": {"macro_invocation": ["panic!", "unreachable!", "todo!", "unimplemented!"]}},
+    "error_order": {"nodes": ["if_expression"], "requires_next_sibling": true},
+    "state_write": {"nodes": ["assignment_expression", "compound_assignment_expr"], "call_statements": ["call_expression", "await_expression"]},
+    "pure_shell_boundary": {"nodes": ["function_item"]}
+  },
+  "noop_statement": ";",
+  "statement_wrappers": ["expression_statement"],
+  "statement_terminator": ";",
+  "operators": {
+    "branch_condition": {"template": "!({text})", "token_swaps": [["==", "!="], ["<", "<="], [">", ">="], ["&&", "||"]],
+                          "negation_swaps": [["==", "!="]],
+                          "exclude_kinds": ["let_condition", "let_chain"]},
+    "failure_state": {"by_kind": {"macro_invocation": "{noop}"}, "returned_literal_swaps": [["true", "false"], ["0", "1"]]},
+    "state_write": {"statement": "{noop}"},
+    "error_order": {"swap_next": true}
+  }
+}
+```

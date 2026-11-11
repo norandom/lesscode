@@ -1,0 +1,48 @@
+{
+ "language": "typescript",
+ "run": 1,
+ "examples": [
+  "rust",
+  "python"
+ ],
+ "started_utc": "2026-11-11T06:43:11+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T06:43:11+00:00",
+   "input_tokens": 3106,
+   "output_tokens": 8367,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": true,
+ "admitted": true,
+ "repairs": 0,
+ "pack_sha256": "ab54c90accb978e0cfec67bbadc3f895c5aadc566f398487bb8d168d09e2e77e",
+ "mutants": {
+  "identical": false,
+  "scopes": {
+   "typescript-openultracode-state": {
+    "identical": false,
+    "shipped": 71,
+    "written": 72,
+    "only_shipped": 0,
+    "only_written": 1
+   },
+   "typescript-openultracode-verification": {
+    "identical": true,
+    "shipped": 55,
+    "written": 55,
+    "only_shipped": 0,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T06:44:46+00:00"
+}

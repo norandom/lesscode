@@ -1,0 +1,46 @@
+{
+ "language": "typescript",
+ "run": 4,
+ "examples": [
+  "rust",
+  "python"
+ ],
+ "started_utc": "2026-11-11T06:51:15+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T06:51:15+00:00",
+   "input_tokens": 3106,
+   "output_tokens": 10999,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- controls: 12 of 14 controls behaved as expected; failing: seed:branch_condition@50 expected [\"ok\"] got [\"kind_mismatch\"]; duplicate expected [\"ok\", \"duplicate\"] got [\"kind_mismatch\", \"kind_mismatch\"]",
+    "- seed_mutants: 3 seeds: changed 2, no_site 1; failing: seed:branch_condition@50: not a site the pack's operators can act on",
+    "- controls: 11 of 13 controls behaved as expected; failing: seed:branch_condition@82 expected [\"ok\"] got [\"kind_mismatch\"]; duplicate expected [\"ok\", \"duplicate\"] got [\"kind_mismatch\", \"kind_mismatch\"]",
+    "- seed_mutants: 3 seeds: changed 1, no_operator 1, no_site 1; failing: seed:branch_condition@82: not a site the pack's operators can act on"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-11T06:53:17+00:00",
+   "input_tokens": 3792,
+   "output_tokens": 16000,
+   "stop_reason": "length",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": null,
+   "error": null
+  }
+ ],
+ "outcome": "empty_reply",
+ "first_reply_admitted": false,
+ "admitted": false,
+ "repairs": 0,
+ "pack_sha256": null,
+ "mutants": null,
+ "finished_utc": "2026-11-11T06:56:24+00:00"
+}

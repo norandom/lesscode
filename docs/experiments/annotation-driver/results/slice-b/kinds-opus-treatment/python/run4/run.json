@@ -1,0 +1,41 @@
+{
+ "language": "python",
+ "run": 4,
+ "examples": [
+  "rust",
+  "java"
+ ],
+ "started_utc": "2026-11-11T07:02:45+00:00",
+ "requested_model": "claude-opus-5-5",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T07:02:45+00:00",
+   "input_tokens": 4494,
+   "output_tokens": 2403,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": true,
+ "admitted": true,
+ "repairs": 0,
+ "pack_sha256": "d26daa76c3297e893e8c8d93aba6202fccccf679bf6d2e4a7619f6fed94bf363",
+ "mutants": {
+  "identical": true,
+  "scopes": {
+   "python-mvibe-ratelimit": {
+    "identical": true,
+    "shipped": 197,
+    "written": 197,
+    "only_shipped": 0,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T07:03:27+00:00"
+}

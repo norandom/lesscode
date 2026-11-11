@@ -1,0 +1,56 @@
+{
+ "language": "rust",
+ "run": 5,
+ "examples": [
+  "python",
+  "java"
+ ],
+ "started_utc": "2026-11-11T06:54:01+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T06:54:01+00:00",
+   "input_tokens": 2336,
+   "output_tokens": 12422,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- kinds_valid: node kinds not in the rust grammar: byte_string_literal, method_call_expression, raw_byte_string_literal, update_expression",
+    "- controls: 3 of 5 controls behaved as expected; failing: error_constructor_call_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; code_under_an_inner_test_attribute_is_a_test_region expected [\"test_region\"] got [\"ok\"]",
+    "- seed_mutants: 3 seeds: changed 1, no_site 1, operators_differ 1; failing: try_operator_is_a_failure_site_with_a_rewrite: expected operators [\"rewrite:try_expression\"] on a try_expression, got []; error_constructor_call_is_a_failure_site: not a site the pack's operators can act on"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-11T06:56:08+00:00",
+   "input_tokens": 3038,
+   "output_tokens": 3549,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": false,
+ "admitted": true,
+ "repairs": 1,
+ "pack_sha256": "e5e97f547f4670a7752993d6e09ee5870c0d0745e22d3fda92a68750c4eac120",
+ "mutants": {
+  "identical": false,
+  "scopes": {
+   "rust-mmhmem-setup-update": {
+    "identical": false,
+    "shipped": 64,
+    "written": 67,
+    "only_shipped": 2,
+    "only_written": 5
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T06:57:08+00:00"
+}

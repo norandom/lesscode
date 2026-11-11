@@ -1,0 +1,6 @@
+{
+  "language": "rust",
+  "comment_kinds": ["line_comment", "block_comment", "doc_comment"],
+  "string_kinds": ["string_literal", "raw_string_literal"],
+  "unwrap_kinds": ["parenthesized_expression"],
+  "test_attribute

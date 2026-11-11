@@ -1,0 +1,48 @@
+{
+ "language": "typescript",
+ "run": 4,
+ "examples": [
+  "rust",
+  "python"
+ ],
+ "started_utc": "2026-11-11T07:02:59+00:00",
+ "requested_model": "claude-opus-5-5",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T07:02:59+00:00",
+   "input_tokens": 4863,
+   "output_tokens": 2137,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": true,
+ "admitted": true,
+ "repairs": 0,
+ "pack_sha256": "94df1303a617f2241d71077e63b15c73f42c6d333a2b2c22f06ff05c0033e9a7",
+ "mutants": {
+  "identical": true,
+  "scopes": {
+   "typescript-openultracode-state": {
+    "identical": true,
+    "shipped": 71,
+    "written": 71,
+    "only_shipped": 0,
+    "only_written": 0
+   },
+   "typescript-openultracode-verification": {
+    "identical": true,
+    "shipped": 55,
+    "written": 55,
+    "only_shipped": 0,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T07:03:26+00:00"
+}

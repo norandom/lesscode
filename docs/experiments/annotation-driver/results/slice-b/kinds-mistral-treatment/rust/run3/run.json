@@ -1,0 +1,44 @@
+{
+ "language": "rust",
+ "run": 3,
+ "examples": [
+  "python",
+  "java"
+ ],
+ "started_utc": "2026-11-11T06:47:50+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T06:47:50+00:00",
+   "input_tokens": 2938,
+   "output_tokens": 10481,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- controls: 2 of 5 controls behaved as expected; failing: error_constructor_call_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; aborting_macro_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; code_under_an_inner_test_attribute_is_a_test_region expected [\"test_region\"] got [\"ok\"]",
+    "- seed_mutants: 3 seeds: no_site 2, operators_differ 1; failing: try_operator_is_a_failure_site_with_a_rewrite: expected operators [\"rewrite:try_expression\"] on a try_expression, got []; error_constructor_call_is_a_failure_site: not a site the pack's operators can act on; aborting_macro_is_a_failure_site: not a site the pack's operators can act on"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-11T06:49:52+00:00",
+   "input_tokens": 3536,
+   "output_tokens": 16000,
+   "stop_reason": "length",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": null,
+   "error": null
+  }
+ ],
+ "outcome": "empty_reply",
+ "first_reply_admitted": false,
+ "admitted": false,
+ "repairs": 0,
+ "pack_sha256": null,
+ "mutants": null,
+ "finished_utc": "2026-11-11T06:53:08+00:00"
+}

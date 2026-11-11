@@ -1,0 +1,50 @@
+{
+  "receipt": "pack-admission-v1",
+  "language": "rust",
+  "pack_sha256": "4a5d6ff1710eb51b5ca62a8043b543f8c28cd81e6066cb815ab7704a6029cfa9",
+  "admitted": false,
+  "checks": [
+    {
+      "name": "json",
+      "pass": true,
+      "ran": true,
+      "detail": "one JSON object"
+    },
+    {
+      "name": "size",
+      "pass": true,
+      "ran": true,
+      "detail": "40 lines (at most 40), 1916 characters (at most 2500)"
+    },
+    {
+      "name": "shape",
+      "pass": true,
+      "ran": true,
+      "detail": "required keys present with the right types"
+    },
+    {
+      "name": "kinds_valid",
+      "pass": false,
+      "ran": true,
+      "detail": "node kinds not in the rust grammar: byte_string_literal, method_call_expression, raw_byte_string_literal, update_expression"
+    },
+    {
+      "name": "templates",
+      "pass": true,
+      "ran": true,
+      "detail": "3 templates, placeholders only {text}, {noop}, {child0}"
+    },
+    {
+      "name": "controls",
+      "pass": false,
+      "ran": true,
+      "detail": "3 of 5 controls behaved as expected; failing: error_constructor_call_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; code_under_an_inner_test_attribute_is_a_test_region expected [\"test_region\"] got [\"ok\"]"
+    },
+    {
+      "name": "seed_mutants",
+      "pass": false,
+      "ran": true,
+      "detail": "3 seeds: changed 1, no_site 1, operators_differ 1; failing: try_operator_is_a_failure_site_with_a_rewrite: expected operators [\"rewrite:try_expression\"] on a try_expression, got []; error_constructor_call_is_a_failure_site: not a site the pack's operators can act on"
+    }
+  ]
+}

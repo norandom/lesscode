@@ -1,0 +1,105 @@
+{
+ "receipt": "slice-b-pack-authoring-baseline-v1",
+ "preregistration": "R66",
+ "dry_run": false,
+ "requested_model": "claude-opus-5-5",
+ "guide_sha256": "dc49e14bb0d62d1560724b828e54e1c7d216ca5bd47cb37580b618b4c7d02bbb",
+ "shipped_packs_sha256": {
+  "java": "208b54a157b46339fef97876464c1de50ada7e89899c3bdba30776cbc7195b49",
+  "python": "c69693dcde6ef4459d7dd6cd21d51d4e72df92e7fb0dc5e631bc859552f2a1b5",
+  "rust": "5552c9c6dafab73800d77a5105466b216e8add554c16f51432f02452fdcad207",
+  "typescript": "301f9bb0b2ab40115387cc8acf1d29db91ef3ed9ca876ce98ca18d247f2a19c5"
+ },
+ "node_kinds_sha256": {
+  "java": "d8f75fac1ddc7ff8e265e6ed8540fb7e34514a4b0eb967c5bba5a76380eea308",
+  "python": "a8fed2f3a3c1b19ffe689dc8b8ca05dfba1a70185dc609da55ea3e3775054654",
+  "rust": "54b237d92eb4ba1b2e5eddb327d6961bc31515dbbde3eb528d5b5fbe59b6e8f2",
+  "typescript": "fdc9433f719263c46a5fd31931c302eb08a24d350cf0ba7175555513b748f999"
+ },
+ "runs_per_language": 5,
+ "max_output_tokens": 4000,
+ "max_repairs": 2,
+ "usd_per_mtok_list": {
+  "claude-opus-5-5": [
+   4.0,
+   20.0
+  ],
+  "mistral-large-4": [
+   0.7,
+   2.1
+  ]
+ },
+ "usd_per_mtok_otherwise": [
+  15.0,
+  75.0
+ ],
+ "spent_before_usd": 16.65,
+ "spent_after_usd": 18.26,
+ "cap_usd": 40.0,
+ "wall_seconds": 208.3,
+ "languages": {
+  "java": {
+   "runs": 5,
+   "outcomes": {
+    "admitted": 5
+   },
+   "first_reply_admitted": 5,
+   "admitted": 5,
+   "repair_replies": 0,
+   "same_mutants": 2,
+   "distinct_admitted_packs": 5,
+   "failed_checks_first_reply": [],
+   "input_tokens": 23655,
+   "output_tokens": 11683,
+   "usd": 0.33
+  },
+  "python": {
+   "runs": 5,
+   "outcomes": {
+    "admitted": 5
+   },
+   "first_reply_admitted": 5,
+   "admitted": 5,
+   "repair_replies": 0,
+   "same_mutants": 5,
+   "distinct_admitted_packs": 5,
+   "failed_checks_first_reply": [],
+   "input_tokens": 22470,
+   "output_tokens": 10422,
+   "usd": 0.3
+  },
+  "rust": {
+   "runs": 5,
+   "outcomes": {
+    "admitted": 5
+   },
+   "first_reply_admitted": 0,
+   "admitted": 5,
+   "repair_replies": 5,
+   "same_mutants": 2,
+   "distinct_admitted_packs": 5,
+   "failed_checks_first_reply": [
+    "controls",
+    "seed_mutants"
+   ],
+   "input_tokens": 51445,
+   "output_tokens": 24227,
+   "usd": 0.69
+  },
+  "typescript": {
+   "runs": 5,
+   "outcomes": {
+    "admitted": 5
+   },
+   "first_reply_admitted": 5,
+   "admitted": 5,
+   "repair_replies": 0,
+   "same_mutants": 5,
+   "distinct_admitted_packs": 5,
+   "failed_checks_first_reply": [],
+   "input_tokens": 24315,
+   "output_tokens": 9975,
+   "usd": 0.3
+  }
+ }
+}

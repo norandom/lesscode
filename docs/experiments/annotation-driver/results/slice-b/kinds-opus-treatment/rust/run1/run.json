@@ -1,0 +1,55 @@
+{
+ "language": "rust",
+ "run": 1,
+ "examples": [
+  "python",
+  "java"
+ ],
+ "started_utc": "2026-11-11T07:00:57+00:00",
+ "requested_model": "claude-opus-5-5",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T07:00:57+00:00",
+   "input_tokens": 4637,
+   "output_tokens": 3075,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "admitted": false,
+   "feedback": [
+    "- controls: 2 of 5 controls behaved as expected; failing: error_constructor_call_is_a_failure_site expected [\"ok\"] got [\"kind_mismatch\"]; macro_that_builds_a_value_is_not_a_failure_site expected [\"kind_mismatch\"] got [\"ok\"]; code_under_an_inner_test_attribute_is_a_test_region expected [\"test_region\"] got [\"ok\"]",
+    "- seed_mutants: 3 seeds: no_operator 1, no_site 1, operators_differ 1; failing: try_operator_is_a_failure_site_with_a_rewrite: expected operators [\"rewrite:try_expression\"] on a try_expression, got []; error_constructor_call_is_a_failure_site: not a site the pack's operators can act on"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-11T07:01:27+00:00",
+   "input_tokens": 5699,
+   "output_tokens": 1593,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": false,
+ "admitted": true,
+ "repairs": 1,
+ "pack_sha256": "213376b61d7b7ef31ca284f2ce8963cf4e18e6ae16871f19781fa14ac9be02c6",
+ "mutants": {
+  "identical": false,
+  "scopes": {
+   "rust-mmhmem-setup-update": {
+    "identical": false,
+    "shipped": 64,
+    "written": 64,
+    "only_shipped": 39,
+    "only_written": 39
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T07:01:56+00:00"
+}

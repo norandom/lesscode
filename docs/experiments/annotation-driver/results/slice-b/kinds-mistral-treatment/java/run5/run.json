@@ -1,0 +1,55 @@
+{
+ "language": "java",
+ "run": 5,
+ "examples": [
+  "rust",
+  "python"
+ ],
+ "started_utc": "2026-11-11T06:56:15+00:00",
+ "requested_model": "mistral-large-4",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T06:56:15+00:00",
+   "input_tokens": 3009,
+   "output_tokens": 5449,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": false,
+   "feedback": [
+    "- controls: 14 of 16 controls behaved as expected; failing: seed:branch_condition@82 expected [\"ok\"] got [\"kind_mismatch\"]; duplicate expected [\"ok\", \"duplicate\"] got [\"kind_mismatch\", \"kind_mismatch\"]",
+    "- seed_mutants: 5 seeds: changed 2, no_operator 2, no_site 1; failing: seed:branch_condition@82: not a site the pack's operators can act on"
+   ],
+   "error": null
+  },
+  {
+   "attempt": 2,
+   "started_utc": "2026-11-11T06:57:20+00:00",
+   "input_tokens": 3583,
+   "output_tokens": 2466,
+   "stop_reason": "stop",
+   "returned_model": "mistral-large-4",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": false,
+ "admitted": true,
+ "repairs": 1,
+ "pack_sha256": "26d4f1842710e88087728011cad137846f0083c0bff74fb6a8c432ef660b59e6",
+ "mutants": {
+  "identical": true,
+  "scopes": {
+   "java-commons-csv-lexer": {
+    "identical": true,
+    "shipped": 170,
+    "written": 170,
+    "only_shipped": 0,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T06:57:57+00:00"
+}

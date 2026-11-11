@@ -1,0 +1,41 @@
+{
+ "language": "java",
+ "run": 1,
+ "examples": [
+  "rust",
+  "python"
+ ],
+ "started_utc": "2026-11-11T07:00:55+00:00",
+ "requested_model": "claude-opus-5-5",
+ "attempts": [
+  {
+   "attempt": 1,
+   "started_utc": "2026-11-11T07:00:55+00:00",
+   "input_tokens": 3779,
+   "output_tokens": 2195,
+   "stop_reason": "end_turn",
+   "returned_model": "claude-opus-5-5",
+   "admitted": true,
+   "feedback": [],
+   "error": null
+  }
+ ],
+ "outcome": "admitted",
+ "first_reply_admitted": true,
+ "admitted": true,
+ "repairs": 0,
+ "pack_sha256": "dad2d5ad22ab7da6ee4e49e2aab2c562e8129e07d0136e1120a6ac5757e14125",
+ "mutants": {
+  "identical": false,
+  "scopes": {
+   "java-commons-csv-lexer": {
+    "identical": false,
+    "shipped": 170,
+    "written": 167,
+    "only_shipped": 3,
+    "only_written": 0
+   }
+  }
+ },
+ "finished_utc": "2026-11-11T07:01:32+00:00"
+}
