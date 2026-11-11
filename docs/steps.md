@@ -43,7 +43,7 @@ ones (pins), and only then change the code.
 
 A plan for `native/src/recording.rs` of this repository, with the tests of `tests/recording.rs` only
 (2026-11-11, 191 faults, 13.8 minutes with three copies; receipt in
-`docs/experiments/gradual-steps/gate2/plan-recording.json`): 91 faults noticed, 100 not. Ten functions have
+`docs/experiments/gradual-steps/gate2/plan-recording.json`): 91 faults noticed, 100 not. Twelve functions have
 no noticed fault, led by `replay_to_l2` (20 unnoticed) and `assemble_meta` (17); `verdict` has 11 noticed and
 none unnoticed, which is why it was the first step. A function can look unprotected because the configured
 test command does not run the tests that cover it; configure the tests you rely on.

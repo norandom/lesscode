@@ -40,4 +40,4 @@ not, 13.8 minutes with three copies; a second run from the store is immediate. R
 
 ## CI
 
-Filled in once the run for this commit has finished.
+Run 43054185408 for commit `72a95e6`: success on all five jobs, 2026-11-11.
