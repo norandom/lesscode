@@ -6,9 +6,7 @@
 
 use std::collections::BTreeMap;
 
-use crate::adapter_traits::{
-    ComparisonRequest, DomainSpec, PureCoreVerifier, TaggedValue, VerificationResult,
-};
+use crate::adapter_traits::{DomainSpec, TaggedValue, VerificationResult};
 
 /// Purity violation kind for static auditing.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -113,52 +111,6 @@ impl NativePureCoreVerifier {
         VerificationResult::Verified {
             evidence,
             domain: domain_desc,
-        }
-    }
-}
-
-impl PureCoreVerifier for NativePureCoreVerifier {
-    fn compare(&self, request: &ComparisonRequest) -> VerificationResult {
-        if request.timeout_ms == 0 {
-            return VerificationResult::ExecutionFailed {
-                failure: "Timeout budget cannot be 0ms".into(),
-            };
-        }
-        if request.domain.param_names.is_empty() {
-            return VerificationResult::Unverified {
-                reason: "Declared domain has no parameters".into(),
-            };
-        }
-
-        let cases = Self::generate_cartesian_cases(&request.domain);
-        if cases.is_empty() {
-            return VerificationResult::Unverified {
-                reason: "No finite values declared for domain parameters".into(),
-            };
-        }
-
-        // Check if candidate entrypoint simulates divergence
-        if request.entrypoint_candidate.contains("divergent") {
-            return VerificationResult::Divergent {
-                witness: format!(
-                    "Candidate '{}' diverged on case 0",
-                    request.entrypoint_candidate
-                ),
-            };
-        }
-
-        if request.entrypoint_candidate.contains("failure") {
-            return VerificationResult::ExecutionFailed {
-                failure: format!(
-                    "Candidate '{}' failed execution",
-                    request.entrypoint_candidate
-                ),
-            };
-        }
-
-        VerificationResult::Verified {
-            evidence: format!("{} cases verified", cases.len()),
-            domain: format!("{:?}", request.domain.param_names),
         }
     }
 }

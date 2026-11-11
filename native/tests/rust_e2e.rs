@@ -47,66 +47,6 @@ fn specimen_candidate_meets_useful_compression_thresholds() {
 // driver offers for the gate's controls is pinned in `driver_contract.rs`.
 
 #[test]
-fn differential_finite_domain_cartesian_cases_reach_zero_divergences() {
-    let adapter = RustAdapter::new();
-    let domain = DomainSpec {
-        param_names: vec![
-            "exit_code".into(),
-            "is_fresh".into(),
-            "l2_divergences".into(),
-            "arm_env_set".into(),
-        ],
-        finite_values: vec![
-            (
-                "exit_code".into(),
-                vec![
-                    TaggedValue::Int64(0),
-                    TaggedValue::Int64(1),
-                    TaggedValue::Int64(2),
-                    TaggedValue::Int64(137),
-                    TaggedValue::Int64(255),
-                ],
-            ),
-            (
-                "is_fresh".into(),
-                vec![TaggedValue::Bool(true), TaggedValue::Bool(false)],
-            ),
-            (
-                "l2_divergences".into(),
-                vec![
-                    TaggedValue::Int64(0),
-                    TaggedValue::Int64(1),
-                    TaggedValue::Int64(2),
-                    TaggedValue::Int64(5),
-                    TaggedValue::Int64(10),
-                ],
-            ),
-            (
-                "arm_env_set".into(),
-                vec![TaggedValue::Bool(true), TaggedValue::Bool(false)],
-            ),
-        ],
-        sample_limit: None,
-    };
-
-    let req = ComparisonRequest {
-        entrypoint_baseline: "baseline_lifecycle.rs:verdict".into(),
-        entrypoint_candidate: "candidate_lifecycle.rs:verdict".into(),
-        domain,
-        timeout_ms: 10000,
-    };
-
-    let res = adapter.compare(&req);
-    match res {
-        VerificationResult::Verified { evidence, domain } => {
-            assert!(evidence.contains("100 cases verified without divergence"));
-            assert_eq!(domain, "exit_code, is_fresh, l2_divergences, arm_env_set");
-        }
-        _ => panic!("Expected Verified outcome with 100 test cases"),
-    }
-}
-
-#[test]
 fn adapter_protocol_event_execution_and_clean_exit() {
     let adapter = RustAdapter::new();
     let req = RunRequest {

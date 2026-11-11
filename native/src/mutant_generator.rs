@@ -5,8 +5,7 @@
 //! - `.kiro/specs/native-deconvolution-closure/design.md`
 
 use crate::adapter_traits::{
-    AdverseMutantGenerator, MutantOutcome, MutationBatch, MutationKind, MutationRequest,
-    MutationResult, MutationSpec,
+    MutantOutcome, MutationBatch, MutationKind, MutationResult, MutationSpec,
 };
 
 /// Adverse mutant generator implementing AdverseMutantGenerator trait.
@@ -88,35 +87,5 @@ impl NativeMutantGenerator {
                 description: "Inverts error emission order between stdout and stderr".into(),
             },
         ]
-    }
-}
-
-impl AdverseMutantGenerator for NativeMutantGenerator {
-    fn generate(&self, request: &MutationRequest) -> MutationBatch {
-        let controls = if request.controls.is_empty() {
-            Self::standard_mandatory_controls()
-        } else {
-            request.controls.clone()
-        };
-
-        // Default mock execution: simulates oracle kill on all valid controls
-        Self::evaluate_controls(&controls, |spec| match spec.kind {
-            MutationKind::MissingFailureState => Ok(Some(format!(
-                "Required failure state missing in '{}'",
-                spec.location
-            ))),
-            MutationKind::TruncatedStream => Ok(Some(format!(
-                "Candidate dropped bytes on sink '{}'",
-                spec.location
-            ))),
-            MutationKind::SilentNone => {
-                Ok(Some(format!("Silent None detected at '{}'", spec.location)))
-            }
-            MutationKind::InvertedErrorOrder => Ok(Some(format!(
-                "Relative ordering between sinks inverted at '{}'",
-                spec.location
-            ))),
-            _ => Ok(Some(format!("Killed mutant '{}'", spec.id))),
-        })
     }
 }

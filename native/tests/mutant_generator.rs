@@ -55,16 +55,3 @@ fn evaluate_controls_survived_fails_gate() {
         .unwrap();
     assert_eq!(survived.outcome, MutantOutcome::Survived);
 }
-
-#[test]
-fn mutant_generator_trait_implementation() {
-    let gen = NativeMutantGenerator::new();
-    let req = MutationRequest {
-        target_path: "src/store.py".into(),
-        controls: vec![],
-    };
-
-    let batch = gen.generate(&req);
-    assert!(batch.all_killed);
-    assert_eq!(batch.denominator, 4);
-}

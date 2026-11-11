@@ -7,9 +7,8 @@
 pub mod metrics;
 
 use crate::adapter_traits::{
-    AdverseMutantGenerator, AnalysisRequest, AnalysisResult, ComparisonRequest, MutationBatch,
-    MutationRequest, PureCoreVerifier, RunRequest, RunResult, SpecimenTraceRunner,
-    VerificationResult,
+    AdverseMutantGenerator, AnalysisRequest, AnalysisResult, MutationBatch, MutationRequest,
+    RunRequest, RunResult, SpecimenTraceRunner,
 };
 use crate::adapters::driver::contract;
 use crate::specimen_runner::NativeSpecimenRunner;
@@ -44,34 +43,6 @@ impl crate::adapter_traits::StateFrameAnalyzer for RustAdapter {
 impl AdverseMutantGenerator for RustAdapter {
     fn generate(&self, request: &MutationRequest) -> MutationBatch {
         contract::generate("rust", request)
-    }
-}
-
-impl PureCoreVerifier for RustAdapter {
-    fn compare(&self, request: &ComparisonRequest) -> VerificationResult {
-        if request.domain.finite_values.is_empty() {
-            return VerificationResult::Unverified {
-                reason: "Empty finite domain specification".into(),
-            };
-        }
-
-        let total_cases: usize = request
-            .domain
-            .finite_values
-            .iter()
-            .map(|(_, vals)| vals.len().max(1))
-            .product();
-
-        if total_cases == 0 {
-            return VerificationResult::Unverified {
-                reason: "Zero domain test cases".into(),
-            };
-        }
-
-        VerificationResult::Verified {
-            evidence: format!("{total_cases} cases verified without divergence"),
-            domain: request.domain.param_names.join(", "),
-        }
     }
 }
 

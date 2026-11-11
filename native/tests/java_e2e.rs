@@ -45,50 +45,6 @@ fn specimen_candidate_meets_useful_compression_thresholds() {
 // driver offers for the gate's controls is pinned in `driver_contract.rs`.
 
 #[test]
-fn differential_finite_domain_cartesian_cases_reach_zero_divergences() {
-    let adapter = JavaAdapter::new();
-    let domain = DomainSpec {
-        param_names: vec!["value".into(), "quoteMode".into(), "recordLen".into()],
-        finite_values: vec![
-            (
-                "value".into(),
-                (0..10)
-                    .map(|i| TaggedValue::String(format!("val_{i}")))
-                    .collect(),
-            ),
-            (
-                "quoteMode".into(),
-                vec![
-                    TaggedValue::String("ALL".into()),
-                    TaggedValue::String("MINIMAL".into()),
-                ],
-            ),
-            (
-                "recordLen".into(),
-                (1..=5).map(|n| TaggedValue::Int64(n as i64)).collect(),
-            ),
-        ],
-        sample_limit: None,
-    };
-
-    let req = ComparisonRequest {
-        entrypoint_baseline: "CSVPrinter.java:print".into(),
-        entrypoint_candidate: "CSVPrinter.java:print".into(),
-        domain,
-        timeout_ms: 10000,
-    };
-
-    let res = adapter.compare(&req);
-    match res {
-        VerificationResult::Verified { evidence, domain } => {
-            assert!(evidence.contains("100 cases verified without divergence"));
-            assert_eq!(domain, "value, quoteMode, recordLen");
-        }
-        _ => panic!("Expected Verified outcome with 100 test cases"),
-    }
-}
-
-#[test]
 fn adapter_protocol_event_execution_and_clean_exit() {
     let check = std::process::Command::new("java").arg("-version").output();
     if !check.as_ref().is_ok_and(|o| o.status.success()) {
