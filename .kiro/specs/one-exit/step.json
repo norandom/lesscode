@@ -1,0 +1,19 @@
+{
+  "step": "one-exit", "spec": "one-exit", "branch": "step/one-exit",
+  "base": "9ee2fc32e31f9f18c78d5836c0d4dcfbad1dcc56",
+  "language": "rust",
+  "scope": ["native/src/recording.rs"],
+  "test_paths": ["native/tests/"],
+  "test": ["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml", "--test", "recording"],
+  "env": {"CARGO_TARGET_DIR": "target"},
+  "run": {"timeout_floor_s": 180, "exclusions": ["target"]},
+  "focus": {"native/src/recording.rs": ["verdict"]},
+  "max_token_growth": 0,
+  "criteria": [
+    {"id": "1.1", "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml", "--test", "recording", "verdict_"]},
+    {"id": "1.2", "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml"]}
+  ],
+  "outputs": {"verdict": ".kiro/specs/one-exit/verdict.json",
+              "evidence": ".kiro/specs/one-exit/evidence.json",
+              "ledger": ".kiro/steps/ledger.jsonl"}
+}
