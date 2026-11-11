@@ -1,6 +1,8 @@
 //! The files a command works on, read without changing them, and the text
 //! conventions the site rules share with the retained prototype receipts.
 
+use super::workspace::METADATA;
+use crate::specimen_runner::sha256_hex_bytes;
 use std::path::{Component, Path, PathBuf};
 
 /// A source root, the files in scope and the path prefixes that hold tests.
@@ -39,6 +41,44 @@ impl SourceSet {
             .iter()
             .any(|p| normalized.starts_with(p.as_str()) || slashed.contains(&format!("/{p}")))
     }
+}
+
+/// One hash over the test files of the tree: every file under a test path,
+/// by relative path and content, in sorted order. Version-control metadata
+/// and the excluded names or relative paths are left out, as in a copy.
+/// `None` when no test path is declared.
+pub fn test_files_digest(
+    source: &SourceSet,
+    exclusions: &[String],
+) -> Result<Option<String>, String> {
+    if source.test_paths.is_empty() {
+        return Ok(None);
+    }
+    let mut lines = Vec::new();
+    let mut stack = vec![PathBuf::new()];
+    while let Some(relative) = stack.pop() {
+        let dir = source.root.join(&relative);
+        let failed = |e: std::io::Error| format!("{}: {e}", dir.display());
+        for entry in std::fs::read_dir(&dir).map_err(failed)? {
+            let entry = entry.map_err(failed)?;
+            let name = entry.file_name().to_string_lossy().into_owned();
+            let below = relative.join(&name);
+            let slashed = below.to_string_lossy().replace('\\', "/");
+            let excluded = |e: &String| *e == name || *e == slashed;
+            if METADATA.contains(&name.as_str()) || exclusions.iter().any(excluded) {
+                continue;
+            }
+            let kind = entry.file_type().map_err(failed)?;
+            if kind.is_dir() {
+                stack.push(below);
+            } else if kind.is_file() && source.is_test_file(&slashed) {
+                let bytes = std::fs::read(entry.path()).map_err(failed)?;
+                lines.push(format!("{slashed}\t{}", sha256_hex_bytes(&bytes)));
+            }
+        }
+    }
+    lines.sort();
+    Ok(Some(sha256_hex_bytes(lines.join("\n").as_bytes())))
 }
 
 /// CRLF and lone CR become LF.

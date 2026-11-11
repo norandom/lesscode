@@ -11,7 +11,7 @@ use crate::specimen_runner::sha256_hex_bytes;
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 
-const METADATA: [&str; 3] = [".git", ".hg", ".svn"];
+pub(super) const METADATA: [&str; 3] = [".git", ".hg", ".svn"];
 
 /// The path with its existing part resolved and the rest appended, so that
 /// two spellings of one place compare equal before anything is created.

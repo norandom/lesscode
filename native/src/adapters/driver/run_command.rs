@@ -9,7 +9,7 @@ use super::pack::Pack;
 use super::registry::embedded;
 use super::runner::{run_batch, BatchOutput, Job, MutantResult, ERROR};
 use super::sites::{eligible_sites, Site};
-use super::source::SourceSet;
+use super::source::{test_files_digest, SourceSet};
 use super::store::Store;
 use super::workspace::check_separate;
 use crate::specimen_runner::sha256_hex_bytes;
@@ -51,6 +51,9 @@ struct RunReceipt<'a> {
     language: &'a str,
     pack_sha256: &'a str,
     config_sha256: String,
+    /// One hash over the files under the test paths; absent when none is declared.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    test_files_sha256: Option<String>,
     source_files_sha256: BTreeMap<String, String>,
     sites: usize,
     /// Sites outside the functions the configuration names; absent when it names none.
@@ -89,6 +92,15 @@ fn chosen_sites(
         }
     }
     Ok((sites, Some(decisions)))
+}
+
+/// What a stored outcome depends on besides the two texts: the
+/// configuration and, where test paths are declared, the test files.
+fn identity_with_tests(config: &str, tests: Option<&str>) -> String {
+    match tests {
+        Some(hash) => format!("{config}|tests:{hash}"),
+        None => config.to_owned(),
+    }
 }
 
 /// The mutants to run, with what was found on the way.
@@ -182,7 +194,8 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
     };
     let (sites, decisions) = chosen_sites(&args, &source, pack)?;
     let (sites, sites_not_selected) = select(sites, &config.functions, &source, pack)?;
-    let identity = config.identity();
+    let test_files_sha256 = test_files_digest(&source, &config.exclusions)?;
+    let identity = identity_with_tests(&config.identity(), test_files_sha256.as_deref());
     let Planned {
         jobs,
         bare,
@@ -206,7 +219,8 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
         driver: env!("CARGO_PKG_VERSION"),
         language: &config.language,
         pack_sha256: &pack.digest,
-        config_sha256: sha256_hex_bytes(identity.as_bytes()),
+        config_sha256: sha256_hex_bytes(config.identity().as_bytes()),
+        test_files_sha256,
         source_files_sha256: texts
             .iter()
             .map(|(file, text)| (file.clone(), sha256_hex_bytes(text.as_bytes())))

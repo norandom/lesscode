@@ -471,3 +471,53 @@ fn single_mutants_can_be_run_by_number() {
     assert!(stderr.contains("there is no mutant 9999"), "{stderr}");
     assert_eq!(project.source(), APP, "the source tree was changed");
 }
+
+/// A stored outcome is reused only while the test files are what they were
+/// (gradual-refactoring-steps, Requirement 9): a changed or added file
+/// under a test path makes every mutant run again without `--no-reuse`.
+#[test]
+fn a_changed_test_file_makes_the_mutants_run_again() {
+    let project = Project::new("tests-identity");
+    let tests = project.dir.join("project/tests");
+    fs::create_dir_all(&tests).unwrap();
+    fs::write(tests.join("check.txt"), "first\n").unwrap();
+    let config = project.config(&[], json!({"test_paths": ["tests/"]}));
+    let reused = |receipt: &Value| -> Vec<bool> {
+        let mutants = receipt["mutants"].as_array().unwrap();
+        mutants
+            .iter()
+            .map(|m| m["reused_from"].is_string())
+            .collect()
+    };
+
+    let (code, first, stderr) = project.run(&config, "work", &[]);
+    assert_eq!(code, Some(0), "{stderr}");
+    assert!(reused(&first).iter().all(|r| !r));
+    let hash = first["test_files_sha256"].as_str().unwrap().to_owned();
+
+    let (_, same, _) = project.run(&config, "work", &[]);
+    assert!(reused(&same).iter().all(|r| *r), "unchanged tests reuse");
+    assert_eq!(same["test_files_sha256"], hash.as_str());
+
+    fs::write(tests.join("check.txt"), "second\n").unwrap();
+    let (code, changed, stderr) = project.run(&config, "work", &[]);
+    assert_eq!(code, Some(0), "{stderr}");
+    assert!(reused(&changed).iter().all(|r| !r), "a changed test reruns");
+    assert_ne!(changed["test_files_sha256"], hash.as_str());
+    assert_eq!(changed["config_sha256"], first["config_sha256"]);
+    assert_eq!(classes(&changed), classes(&first));
+
+    fs::write(tests.join("more.txt"), "").unwrap();
+    let (_, added, _) = project.run(&config, "work", &[]);
+    assert!(reused(&added).iter().all(|r| !r), "an added test reruns");
+
+    // A file outside the test paths does not count.
+    fs::write(project.dir.join("project/notes.txt"), "x").unwrap();
+    let (_, other, _) = project.run(&config, "work", &[]);
+    assert!(reused(&other).iter().all(|r| *r));
+
+    // Without test paths there is no such hash, as before.
+    let plain = project.config(&[], json!({}));
+    let (_, receipt, _) = project.run(&plain, "plain", &[]);
+    assert_eq!(receipt.get("test_files_sha256"), None);
+}
