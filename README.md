@@ -20,9 +20,9 @@ differences also count when judging whether it simplifies the project.
 
 ## How it works
 
-![Figure 1: (a) control-flow graph of one function before and after a candidate step; (b) a model proposes rewrites inside fixed constraints and mechanical checks decide; (c) each step is a Git branch judged by the project's tests and by planted faults](docs/figures/how-it-works.svg)
+![Three things you do: see where your tests guard the code, pin and then simplify one function, and let one check decide on the branch before you push](docs/figures/how-it-works.svg)
 
-*Figure 1. One step of simplification: (a) what changes in the code, (b) who proposes and what decides, (c) how the step is checked before it is merged.*
+*What you type and what you see, on a real function of this repository. The commands are described in [docs/steps.md](docs/steps.md), the reasoning in [docs/testability.md](docs/testability.md).*
 
 1. **Take one tangled piece and write it simpler.** Not the whole codebase: one
    function or module whose job you can name. The picture shows a real one from
