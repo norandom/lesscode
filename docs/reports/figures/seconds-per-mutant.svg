@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 360" width="820" height="360" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img">
+<title>Wall time per mutant, whole batch including setup and unmutated runs</title>
+<rect width="820" height="360" fill="#fcfcfb"/>
+<text x="20.0" y="28.0" font-size="15" fill="#0b0b0b" text-anchor="start" font-weight="600">Wall time per mutant, whole batch including setup and unmutated runs</text>
+<text x="290.0" y="89.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Python ratelimit.py</text>
+<path d="M300.0,74.0 h3.9 a3.888888888888889,3.888888888888889 0 0 1 3.888888888888889,3.888888888888889 v12.2 a3.888888888888889,3.888888888888889 0 0 1 -3.888888888888889,3.888888888888889 h-3.9 z" fill="#2a78d6"/>
+<text x="313.8" y="89.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.6 s  (197 mutants, 6 copies)</text>
+<text x="290.0" y="119.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript state.ts</text>
+<path d="M300.0,104.0 h15.4 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-15.4 z" fill="#2a78d6"/>
+<text x="325.4" y="119.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">1.5 s  (71 mutants, 6 copies)</text>
+<text x="290.0" y="149.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript verification.ts</text>
+<path d="M300.0,134.0 h16.7 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-16.7 z" fill="#2a78d6"/>
+<text x="326.7" y="149.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">1.6 s  (55 mutants, 6 copies)</text>
+<text x="290.0" y="179.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Java Lexer.java, containers</text>
+<path d="M300.0,164.0 h58.2 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-58.2 z" fill="#2a78d6"/>
+<text x="368.2" y="179.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">4.8 s  (170 mutants, 4 copies)</text>
+<text x="290.0" y="209.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Java CSVPrinter.java original, native</text>
+<path d="M300.0,194.0 h126.9 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-126.9 z" fill="#2a78d6"/>
+<text x="436.9" y="209.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">10.1 s  (94 mutants, 4 copies)</text>
+<text x="290.0" y="239.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Java CSVPrinter.java candidate, native</text>
+<path d="M300.0,224.0 h199.5 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-199.5 z" fill="#2a78d6"/>
+<text x="509.5" y="239.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">15.7 s  (93 mutants, 4 copies)</text>
+<text x="290.0" y="269.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Rust recording.rs</text>
+<path d="M300.0,254.0 h67.3 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-67.3 z" fill="#2a78d6"/>
+<text x="377.3" y="269.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">5.5 s  (133 mutants, 3 copies)</text>
+<text x="290.0" y="299.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Rust update.rs</text>
+<path d="M300.0,284.0 h276.0 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-276.0 z" fill="#2a78d6"/>
+<text x="586.0" y="299.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">21.6 s  (64 mutants, 1 copy)</text>
+<line x1="300" y1="70" x2="300" y2="314" stroke="#c3c2b7" stroke-width="1"/>
+<text x="20.0" y="346.0" font-size="11" fill="#898781" text-anchor="start" font-weight="normal">Seconds of wall time divided by mutants run. One shared machine; other batches ran beside some of these.</text>
+</svg>

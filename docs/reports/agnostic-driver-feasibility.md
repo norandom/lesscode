@@ -5,7 +5,8 @@ gate. Composition recorded in `docs/reports/blueprints/2026-11-10-agnostic-drive
 
 - Project: Lesscode, research on making AI-generated code smaller and less entangled without changing its
   behaviour.
-- Period covered: 10 November 2026, research entries R55 to R64.
+- Period covered: 10 November 2026, research entries R55 to R64. Section 8, added 2026-11-11, covers R65 to R80
+  and has the figures.
 - Audience: the owner, who decides whether to start requirements and design for a Rust port; then the
   implementer of that port, and an adopter who wants to know whether running the tool can damage their code.
 - Status: a prototype in Python that passed its gate on the second attempt, on five files in four languages.
@@ -267,3 +268,134 @@ The claim would be wrong if the crate's grammars reject the packs' node kinds fo
 restore a scope byte for byte when a run is interrupted, or if the measured port exceeds the cap with nothing
 left to remove. The first is checked in minutes, the third in the spike, the second in the design of the batch
 runner.
+
+## 8. Update, 2026-11-11: the port exists; what was built and measured since
+
+Added 2026-11-11, about 09:00 Europe/Berlin, before three further changes to the code that the owner chose
+today (a signal handler, the removal of two functions that report success without running anything, and
+operators for changed arguments and literals in calls). A second update follows when those are done. Period
+covered: research entries R65 to R80. The sections above are left as they were written.
+
+### The claim, one day later
+
+The claim of this report held. The driver is one engine in the one binary for Rust, Python, TypeScript and
+Java; it reproduces the prototype exactly; the six line-scanning adapter files are deleted; and the
+specification is validated with one criterion met in part. The three things section 6 named as not shown are
+now measured:
+
+| Not shown on 2026-11-10 | Measured | Entry |
+| --- | --- | --- |
+| The port itself | Sites and mutants equal the prototype's on five files; 556 of 556 mutants get the prototype's class with the projects' own tests | R67, R73 |
+| Its size | Twenty files of at most 348 lines under per-file budgets; the binary grows from 10.99 to 13.26 MB; build time unchanged | R65, R73 |
+| Its speed on Rust | Still the slowest: 21.6 seconds per mutant with one copy, 5.5 with three copies that each build inside themselves | R73, R75 |
+
+### What the driver finds in real code
+
+![Mutant classes per file](figures/mutant-classes.svg)
+
+| File | Mutants | Killed | Survived | Invalid | Timeout |
+| --- | --- | --- | --- | --- | --- |
+| Python `ratelimit.py` | 197 | 181 | 10 | 5 | 1 |
+| TypeScript `state.ts` | 71 | 28 | 18 | 24 | 1 |
+| TypeScript `verification.ts` | 55 | 30 | 16 | 9 | 0 |
+| Rust `update.rs` | 64 | 43 | 21 | 0 | 0 |
+| Java `Lexer.java` | 170 | 108 | 35 | 15 | 12 |
+| TypeScript `degradation.ts`, candidate | 6 | 5 | 0 | 1 | 0 |
+| TypeScript `degradation.ts`, original | 17 | 15 | 1 | 1 | 0 |
+| Java `CSVPrinter.java`, candidate | 93 | 78 | 11 | 2 | 2 |
+| Java `CSVPrinter.java`, original | 94 | 78 | 12 | 2 | 2 |
+| Rust `recording.rs`, original | 133 | 75 | 58 | 0 | 0 |
+
+A survivor is a planted fault the project's tests did not notice. For the question this project asks, whether
+code can be cut safely, the orange share is where a cut is not protected by tests. It ranges from a twentieth
+of a file's mutants to over two fifths.
+
+The last five rows restate earlier results of this project. The gates of R50 to R52 had each reported "4 of 4
+adverse controls killed". Read in the gate scripts, the Rust kills were written into the script, one
+TypeScript kill was too, and one Java kill was a mutant that did not compile. Of the twelve hand-made
+controls five have a driver mutant; with the projects' own tests four are killed and one survives (R75).
+
+### How long a run takes
+
+![Wall time per mutant](figures/seconds-per-mutant.svg)
+
+| Batch | Wall time | Mutants | Copies | Seconds per mutant |
+| --- | --- | --- | --- | --- |
+| Python `ratelimit.py` | 118 s | 197 | 6 | 0.6 |
+| TypeScript `state.ts` | 107 s | 71 | 6 | 1.5 |
+| TypeScript `verification.ts` | 88 s | 55 | 6 | 1.6 |
+| Java `Lexer.java`, in containers | 814 s | 170 | 4 | 4.8 |
+| Java `CSVPrinter.java` original, native | 946 s | 94 | 4 | 10.1 |
+| Java `CSVPrinter.java` candidate, native | 1,462 s | 93 | 4 | 15.7 |
+| Rust `recording.rs` | 738 s | 133 | 3 | 5.5 |
+| Rust `update.rs` | about 1,380 s | 64 | 1 | 21.6 |
+
+Wall time covers the whole batch: copying, setup, the unmutated runs before and after, and every mutant. The
+cost per mutant is set by what the project's own build and test command costs, not by the driver. A full
+Maven test phase per mutant (the two native Java rows) is two to three times dearer than compiling one file
+and running one test class (the container row). Rust pays a rebuild per mutant; three copies bring it from
+21.6 to 5.5 seconds on a different, smaller crate, so the two Rust rows are not a clean comparison. The
+machine was shared, and the candidate Java batch ran beside a Rust batch.
+
+One run today was void, and correctly so: three Rust copies shared a build directory through a global
+environment variable, and 16 of 133 mutants got a wrong class. The driver's closing run of the unmutated
+tests failed and voided the run. The safety argument of section 2 therefore has a second half that was not
+written there: besides never touching the source tree, the driver has to notice when its copies are not
+independent, and at present it notices only afterwards.
+
+### Slice B: how much a model's output drifts, and what holds it
+
+The driver takes its knowledge of a language from a pack, and a model can write that pack. Slice B asks how
+reliable that is.
+
+![First replies admitted](figures/first-replies-admitted.svg)
+
+| Model and condition | First replies admitted, of 20 | Entry |
+| --- | --- | --- |
+| `claude-opus-5-5`, guide version 3 | 15 | R69 |
+| `claude-opus-5-5`, guide version 3, rerun | 15 | R78 |
+| `claude-opus-5-5`, plus the grammar's node kinds | 15 | R78 |
+| `claude-opus-5-5`, guide found by GEPA | 20 | R71 |
+| `claude-opus-5-5`, guide found by a MIPROv2-style search | 15 | R79 |
+| `mistral-large-4`, guide version 3 | 5 | R72 |
+| `mistral-large-4`, guide version 3, rerun | 5 | R78 |
+| `mistral-large-4`, plus the grammar's node kinds | 6 | R78 |
+
+Three readings. Changing the model moves admission more than anything else measured. An optimiser that
+writes its next guide from the judged failures (GEPA) repaired the one language that failed; one that
+proposes guides before seeing a failure (MIPROv2 as far as it applies here) did not. Giving the weaker model
+the list of valid node kinds removed the invalid kinds and left admission where it was. In every arm the
+admission barrier held: nothing inadmissible was admitted. No optimised guide was adopted, because the Rust
+packs written under it still differ from the hand-written pack, which the owner decided to keep.
+
+![Model spend per run](figures/slice-b-spend.svg)
+
+| Run | Calls | USD at list prices |
+| --- | --- | --- |
+| Baseline, Opus (R68) | 20 | 1.04 |
+| Baseline rerun, Opus (R69) | 30 | 1.62 |
+| GEPA search and judgement, Opus (R71) | 95 | 6.50 |
+| Baseline, Mistral (R72) | 44 | 0.83 |
+| GEPA search, Mistral (R74) | 76 | 1.99 |
+| Node kinds, Mistral, two arms (R78) | 60 | 1.43 |
+| Node kinds, Opus, two arms (R78) | 50 | 3.02 |
+| MIPROv2 search and judgement, Opus (R79) | 85 | 5.82 |
+
+Slice B has cost 22.25 USD; with the gate attempts before it the recorded total is about 25.5 of a stop the
+owner raised to 40 USD. The two optimiser runs on Opus are more than half of it. A baseline of twenty
+authoring runs costs between one and two dollars.
+
+### What is still not shown
+
+- A driver that is killed from outside can leave a project command running. That is the criterion met in
+  part, and the first of today's three changes.
+- Two functions in the library still report success without running anything. They are not reachable from
+  the command line. Removing them is the second change.
+- Seven of the twelve hand-made controls were faults the driver has no operator for: a changed argument, a
+  changed literal inside a call, the order of a list, what a process prints. Operators for the first two are
+  the third change.
+- The Rust specimen candidate has never been built, so nothing is known about its behaviour.
+- For Slice B: the annotation layer, where a model chooses sites, and the drift of one model over time.
+- No release contains the driver.
+
+The figures are written by `docs/reports/figures/make_figures.py` from the committed receipts and ledgers.
