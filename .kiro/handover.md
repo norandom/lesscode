@@ -8,29 +8,30 @@ active implementation queue.
 
 Start with the [task 34 handover](task_34_handover.md).
 
-1. **Release 1.1.0 is prepared, not tagged.** Version bumped, README and guides describe the driver as
-   released, notes and the owner's steps are in [docs/releases/1.1.0.md](../docs/releases/1.1.0.md). The owner
-   pushes the tag and approves the `release` environment.
+1. **Release 1.1.0 is tagged** (`v1.1.0` on `54c2806`, pushed 2026-11-11 with the owner's yes). The release
+   workflow waits for the owner's approval of the `release` environment; notes and the checks after
+   publication are in [docs/releases/1.1.0.md](../docs/releases/1.1.0.md).
 2. **The agnostic driver** (spec [agnostic-annotation-driver](specs/agnostic-annotation-driver/tasks.md),
    complete and validated, R80) with three changes after validation
    ([R81](../docs/research/2026-11-11/08-driver-three-changes-and-call-arguments.md)): it stops cleanly on
    Ctrl-C or a termination signal (Requirement 5.7); three functions that reported success without running
-   anything are removed; call arguments are a sixth, optional site kind. Open choice: switch the argument
-   swap off for Java and Rust.
+   anything are removed; call arguments are a sixth, optional site kind. The argument swap is off in the Java and Rust packs (owner, 2026-11-11).
    - On this machine `CARGO_TARGET_DIR` is global: a Rust run needs `"env": {"CARGO_TARGET_DIR": "target"}`.
 3. **Slice B,** hardening against LLM inference drift (`constraint-guided-compression`): entries R66 and R68
    to R83. Measured for pack authoring (between runs, between models, under GEPA and a MIPROv2-style search)
    and for the annotation layer
    ([R83](../docs/research/2026-11-11/09-slice-b-annotation-baseline.md)): Opus runs agree on 0.69 to 0.92 of
    their sites; three of five Mistral calls give no annotations. Nothing was adopted; the mechanical barriers
-   held in every run. Not measured: one model over time. Next step is the owner's: a hardening for
-   annotations, drift over time, or closing Slice B. Spend about 29.7 of 40 USD.
+   held in every run. Two selection rules over three runs were tested
+   ([R85](../docs/research/2026-11-11/11-slice-b-annotation-hardening.md)): the majority of three is steadier than
+   one run but misses the 0.80 target. Not measured: one model over time. Spend about 32.9 of 40 USD.
 4. **The report** [docs/reports/agnostic-driver-feasibility.md](../docs/reports/agnostic-driver-feasibility.md)
    has two dated updates (sections 8 and 9) with six figures written by
    `docs/reports/figures/make_figures.py` from the committed receipts and ledgers.
 5. **CI** builds, lints and dry-runs `tools/guide-optimizer/` on all five platforms.
-6. **Open for the owner:** the tag; the argument swap in two packs; the Slice B next step; rotating the
-   Mistral key; the Rust specimen candidate, which has never been built.
+6. **Open for the owner:** approving the release environment; whether a command that merges annotation files
+   by majority belongs in the tool; drift over time, or closing Slice B; the Rust specimen candidate, which
+   has never been built.
 7. **Release:** `v1.0.2` is published (2026-11-10) as the first signed
    release: archives carry zipsign signatures, `SHA256SUMS.sig` and a
    provenance attestation, all verified after publication. It contains the

@@ -63,6 +63,14 @@ Owner answers: tag the release (yes); switch the argument swap off for Java and 
 tests and documents); the Mistral key is no longer an open item. The Slice B answer was "yes" to a list of
 three alternatives and is asked again.
 
+## Addition, 2026-11-11, about 10:40
+
+- `54c2806` (argument swap off for Java and Rust) is green on five platforms; `v1.1.0` is tagged there and
+  pushed. The release workflow (run 42994943359) waits for the owner's approval of the `release` environment.
+- Slice B, owner's choice: harden annotations. R84 (preregistration) and R85 (result): the majority of three
+  runs agrees on 0.74 to 0.96 against 0.62 to 0.86 for single runs; the 0.80 target in four files is missed.
+  3.25 USD; recorded spend about 32.9 of 40 USD.
+
 ## CI
 
 Run 42991301300 for commit `3316cbc`: success on all five jobs (Linux x86_64 through Dagger, Linux aarch64,
