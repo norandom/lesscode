@@ -113,3 +113,8 @@ Receipt summary from [`prototype-gate-report.json`](../../../.kiro/specs/rust-de
 ## Next step
 
 Generate Phase 2 implementation tasks in `.kiro/specs/rust-deconvolution-unification/tasks.md` and execute foreground TDD implementation.
+
+## Amendment, 2026-11-11: what the adverse-control figure was
+
+Reading the gate script (`.kiro/specs/rust-deconvolution-unification/run_gate.py`) shows that the four adverse controls are four entries with `"killed": True` and a witness sentence, written into the script. No mutant was made and nothing was run. The "100 Cartesian cases, 0 divergences" compared pairs of Python functions written inside the script, not the Rust baseline and candidate; `candidate_lifecycle.rs` is not part of any build and no record shows that it was ever compiled, and the "314 tests passed" ran the unchanged repository. The oracle-sensitivity and finite-domain results of this entry are therefore withdrawn as evidence; the compression figures (line and statement counts of the two files) stand. Run through the driver with this repository's own tests, the original code in `native/src/recording.rs` has 38 mutants in the six functions, of which 20 are killed and 18 survive. Details: [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md).
+

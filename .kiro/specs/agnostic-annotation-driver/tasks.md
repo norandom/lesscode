@@ -152,11 +152,11 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - Done when CLI tests cover the exit codes and an annotated run mutates only accepted sites.
   - _Requirements: 4.9, 6.4, 6.5_
 
-- [ ] 7. Migration: remove the specimen-bound rules
+- [x] 7. Migration: remove the specimen-bound rules
 - [x] 7.1 Map the specimen mutation kinds onto driver operators
   - Five kinds mapped as designed; `TruncatedStream` has no counterpart and the loss is recorded.
   - _Requirements: 7.3, 7.5_
-- [ ] 7.2 Rerun the specimen experiments through the driver
+- [x] 7.2 Rerun the specimen experiments through the driver
   - The experiments that cited "four of four adverse controls killed" (R49 to R53) are rerun; new figures are
     recorded beside the old ones in a dated research entry and as amendments to the cited entries.
   - _Requirements: 7.4, 9.4_
@@ -165,7 +165,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     matching; keep the specimens as fixtures; update the budgets file.
   - Done when the suite passes and a search finds no fixed specimen substring in `native/src`.
   - _Requirements: 7.1, 7.2, 7.3_
-- [ ] 7.4 Update the documentation
+- [x] 7.4 Update the documentation
   - README, native README, adoption guide and the deconvolute skill: four languages, the new commands, and
     the narrowed statement that only `deconvolute run` executes a project's commands, in copies.
   - _Requirements: 7.5, 8.6_

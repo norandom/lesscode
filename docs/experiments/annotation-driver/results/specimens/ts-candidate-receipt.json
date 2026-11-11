@@ -1,0 +1,287 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.0.2",
+  "language": "typescript",
+  "pack_sha256": "301f9bb0b2ab40115387cc8acf1d29db91ef3ed9ca876ce98ca18d247f2a19c5",
+  "config_sha256": "a64acaab6ccd5875668aeaf6ce32bc2f82b465ad398676e00ad73e533042c3d3",
+  "source_files_sha256": {
+    "src/degradation.ts": "b31798ff9430e43fece2a336c417e6cef05cbe4bb569f6dbc467aa6426f87c5d"
+  },
+  "sites": 8,
+  "sites_without_operator": [
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 96,
+      "start_column": 4,
+      "end_line": 101,
+      "end_column": 5,
+      "text": "return {\n      state: \"disabled\",\n      message: \"OpenUltraCode is disabled. Normal opencode behavior is unchanged.\",\n      safeNextAction: \"Enable OpenUltraCode before starting a governed workflow.\",\n      notices: i.notices,\n    }"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 105,
+      "start_column": 4,
+      "end_line": 110,
+      "end_column": 5,
+      "text": "return {\n      state: \"blocked\",\n      message: `OpenUltraCode is blocked by ${fmt(blk)}.`,\n      safeNextAction: blk[0]?.safeNextAction ?? \"Resolve the blocked capability before continuing.\",\n      notices: i.notices,\n    }"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 114,
+      "start_column": 4,
+      "end_line": 119,
+      "end_column": 5,
+      "text": "return {\n      state: \"degraded\",\n      message: `OpenUltraCode is running with ${fmt(deg, \"degraded \")}.`,\n      safeNextAction: deg[0]?.safeNextAction ?? \"Continue with visible workflow checks.\",\n      notices: i.notices,\n    }"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 121,
+      "start_column": 2,
+      "end_line": 126,
+      "end_column": 3,
+      "text": "return {\n    state: \"active\",\n    message: \"OpenUltraCode workflow support is active with no reported degradation.\",\n    safeNextAction: \"Continue the current workflow and collect verification evidence before completion.\",\n    notices: i.notices,\n  }"
+    }
+  ],
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {
+    "invalid": 1,
+    "killed": 5
+  },
+  "counts_by_kind": {
+    "branch_condition": {
+      "invalid": 1,
+      "killed": 5
+    }
+  },
+  "incomplete": false,
+  "mutants": [
+    {
+      "number": 1,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 48,
+        "start_column": 51,
+        "end_line": 48,
+        "end_column": 67,
+        "text": "ph === undefined"
+      },
+      "operator": "negate",
+      "sha256": "0a9fcda78d46ece541e0a6c0f6b1dfd770244e17ef0b24ab2ab19cc56ab5fe13",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 7.6239051,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 2,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 95,
+        "start_column": 6,
+        "end_line": 95,
+        "end_column": 16,
+        "text": "!i.enabled"
+      },
+      "operator": "negate",
+      "sha256": "9a33737f63794ac53bb68a86516b7437da570aac2bb364ea8b75c919867317d0",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 8.167526599999999,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 3,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 104,
+        "start_column": 6,
+        "end_line": 104,
+        "end_column": 20,
+        "text": "blk.length > 0"
+      },
+      "operator": "negate",
+      "sha256": "936c4f0e023185f4cf505aca4e709b57f247082b3511ae989581eaf8abd477e4",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 8.5155288,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 4,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 104,
+        "start_column": 6,
+        "end_line": 104,
+        "end_column": 20,
+        "text": "blk.length > 0"
+      },
+      "operator": "swap:>->>=@104:17",
+      "sha256": "629d9ed55e298a5e34d7ecee92f64456106e01f56581301247324411cc7d022a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 8.2206949,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 5,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 113,
+        "start_column": 6,
+        "end_line": 113,
+        "end_column": 20,
+        "text": "deg.length > 0"
+      },
+      "operator": "negate",
+      "sha256": "29cbb0588958e9f9a8f7156fe393cf43964987fb93872f1b3bc93d27a3048e0f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 8.1016741,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 6,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 113,
+        "start_column": 6,
+        "end_line": 113,
+        "end_column": 20,
+        "text": "deg.length > 0"
+      },
+      "operator": "swap:>->>=@113:17",
+      "sha256": "191f6619db14aeeed691500c1aa33d1790f7ec3cb1b85bd3ea3376febd47425f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 8.0779299,
+      "worker": 3,
+      "reused_from": null
+    }
+  ],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [
+        8.7255255,
+        0.9756314
+      ],
+      "limits_s": [
+        44,
+        30
+      ],
+      "mutants_run": 1,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 2,
+      "recovered": null,
+      "baseline_s": [
+        8.4374379,
+        1.0437781
+      ],
+      "limits_s": [
+        43,
+        30
+      ],
+      "mutants_run": 1,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 3,
+      "recovered": null,
+      "baseline_s": [
+        8.4360883,
+        0.8282489
+      ],
+      "limits_s": [
+        43,
+        30
+      ],
+      "mutants_run": 1,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 4,
+      "recovered": null,
+      "baseline_s": [
+        8.5511013,
+        0.731909
+      ],
+      "limits_s": [
+        43,
+        30
+      ],
+      "mutants_run": 1,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 5,
+      "recovered": null,
+      "baseline_s": [
+        8.1828259,
+        0.9335659
+      ],
+      "limits_s": [
+        41,
+        30
+      ],
+      "mutants_run": 1,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 6,
+      "recovered": null,
+      "baseline_s": [
+        8.736687,
+        0.7301415
+      ],
+      "limits_s": [
+        44,
+        30
+      ],
+      "mutants_run": 1,
+      "closing_baseline_passed": true,
+      "stopped": null
+    }
+  ],
+  "void": null
+}

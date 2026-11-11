@@ -1,0 +1,68 @@
+{
+  "language": "java",
+  "source_root": "D:/BuildArtifacts/lesscode/annotation-driver/scopes/commons-csv",
+  "files": [
+    "src/main/java/org/apache/commons/csv/CSVPrinter.java"
+  ],
+  "test_paths": [
+    "src/test/"
+  ],
+  "setup": [
+    [
+      "java",
+      "-classpath",
+      "D:/BuildArtifacts/tools/apache-maven-3.9.9/boot/plexus-classworlds-2.8.0.jar",
+      "-Dclassworlds.conf=D:/BuildArtifacts/tools/apache-maven-3.9.9/bin/m2.conf",
+      "-Dmaven.home=D:/BuildArtifacts/tools/apache-maven-3.9.9",
+      "-Dmaven.multiModuleProjectDirectory=.",
+      "org.codehaus.plexus.classworlds.launcher.Launcher",
+      "-o",
+      "-q",
+      "-B",
+      "-Drat.skip=true",
+      "-Dcheckstyle.skip=true",
+      "-Dspotbugs.skip=true",
+      "-Dpmd.skip=true",
+      "-Djapicmp.skip=true",
+      "-Djacoco.skip=true",
+      "-Danimal.sniffer.skip=true",
+      "-DskipTests",
+      "test-compile"
+    ]
+  ],
+  "test": [
+    "java",
+    "-classpath",
+    "D:/BuildArtifacts/tools/apache-maven-3.9.9/boot/plexus-classworlds-2.8.0.jar",
+    "-Dclassworlds.conf=D:/BuildArtifacts/tools/apache-maven-3.9.9/bin/m2.conf",
+    "-Dmaven.home=D:/BuildArtifacts/tools/apache-maven-3.9.9",
+    "-Dmaven.multiModuleProjectDirectory=.",
+    "org.codehaus.plexus.classworlds.launcher.Launcher",
+    "-o",
+    "-B",
+    "-Drat.skip=true",
+    "-Dcheckstyle.skip=true",
+    "-Dspotbugs.skip=true",
+    "-Dpmd.skip=true",
+    "-Djapicmp.skip=true",
+    "-Djacoco.skip=true",
+    "-Danimal.sniffer.skip=true",
+    "-Dsurefire.failIfNoSpecifiedTests=false",
+    "-Dtest=CSVPrinterTest",
+    "test"
+  ],
+  "exclusions": [
+    "target"
+  ],
+  "timeout_floor_s": 60,
+  "timeout_ceiling_s": 900,
+  "invalid_output_patterns": [
+    "COMPILATION ERROR",
+    ": error:"
+  ],
+  "runner_evidence_patterns": [
+    "Tests run:",
+    "[ERROR]"
+  ],
+  "workers": 4
+}

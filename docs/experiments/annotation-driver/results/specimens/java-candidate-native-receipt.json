@@ -1,0 +1,2098 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.0.2",
+  "language": "java",
+  "pack_sha256": "208b54a157b46339fef97876464c1de50ada7e89899c3bdba30776cbc7195b49",
+  "config_sha256": "67640b4d817deaccad613e559598713651cea528a8e4729ab134603471d378bc",
+  "source_files_sha256": {
+    "src/main/java/org/apache/commons/csv/CSVPrinter.java": "215dece779a91fa8dd2982ef0a156119d397aa8b31a96d18caa2ca51f2705f48"
+  },
+  "sites": 86,
+  "sites_without_operator": [
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 71,
+      "start_column": 33,
+      "end_line": 71,
+      "end_column": 51,
+      "text": "return appendable;"
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 72,
+      "start_column": 35,
+      "end_line": 72,
+      "end_column": 54,
+      "text": "return recordCount;"
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 92,
+      "start_column": 65,
+      "end_line": 92,
+      "end_column": 72,
+      "text": "return;"
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "state_write",
+      "node_kind": "update_expression",
+      "start_line": 95,
+      "start_column": 50,
+      "end_line": 95,
+      "end_column": 53,
+      "text": "i++"
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "state_write",
+      "node_kind": "update_expression",
+      "start_line": 154,
+      "start_column": 43,
+      "end_line": 154,
+      "end_column": 46,
+      "text": "i++"
+    }
+  ],
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {
+    "invalid": 2,
+    "killed": 78,
+    "survived": 11,
+    "timeout": 2
+  },
+  "counts_by_kind": {
+    "branch_condition": {
+      "killed": 28,
+      "survived": 1,
+      "timeout": 2
+    },
+    "error_order": {
+      "killed": 1,
+      "survived": 2
+    },
+    "state_write": {
+      "invalid": 2,
+      "killed": 49,
+      "survived": 8
+    }
+  },
+  "incomplete": false,
+  "mutants": [
+    {
+      "number": 1,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 46,
+        "start_column": 8,
+        "end_line": 46,
+        "end_column": 74,
+        "text": "this.appendable = Objects.requireNonNull(appendable, \"appendable\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "92c28a385c607e5c6a4f88e4fd7aff422543bc11dd77233841c64259f1d1298d",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 1,
+      "seconds": 19.5361132,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 2,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 47,
+        "start_column": 8,
+        "end_line": 47,
+        "end_column": 69,
+        "text": "this.format = Objects.requireNonNull(format, \"format\").copy()"
+      },
+      "operator": "drop_statement",
+      "sha256": "7fd5e3c2f417795c18108fcc1fa3515a37eb2c2c6b3f386f1042e420eaab4d8f",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 1,
+      "seconds": 19.407827,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 3,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 48,
+        "start_column": 8,
+        "end_line": 50,
+        "end_column": 9,
+        "text": "if (this.format.getHeaderComments() != null) {\n            for (final String line : this.format.getHeaderComments()) printComment(line);\n        }"
+      },
+      "operator": "swap_next",
+      "sha256": "189482a2e558a738188c8d1ad0fe84c6b218a5612d43f3d00154848859aade1c",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 57.7223342,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 4,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 48,
+        "start_column": 12,
+        "end_line": 48,
+        "end_column": 51,
+        "text": "this.format.getHeaderComments() != null"
+      },
+      "operator": "negate",
+      "sha256": "1cc2cd15568cac1b04215823704dd0ca27b128dffbdff1a148c4a36985bcdd62",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 43.1810427,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 5,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 49,
+        "start_column": 70,
+        "end_line": 49,
+        "end_column": 88,
+        "text": "printComment(line)"
+      },
+      "operator": "drop_statement",
+      "sha256": "4d2a23f2d8c48c20c185687fbc52cef56fd3c50a26513e7876ba2de3fdce44ae",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 65.6203964,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 6,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 51,
+        "start_column": 12,
+        "end_line": 51,
+        "end_column": 81,
+        "text": "this.format.getHeader() != null && !this.format.getSkipHeaderRecord()"
+      },
+      "operator": "negate",
+      "sha256": "dd3e313eb2c473cd4cb62cc504236c273d83f644edd5ab1a77934f70735797e7",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 48.7436488,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 7,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 51,
+        "start_column": 12,
+        "end_line": 51,
+        "end_column": 81,
+        "text": "this.format.getHeader() != null && !this.format.getSkipHeaderRecord()"
+      },
+      "operator": "swap:!=->==@51:36",
+      "sha256": "be0bff434d3b7ecec3ccd8a9fa99ed63e22c10b49353634ae4deb92a203b1b16",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 36.804306,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 8,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 51,
+        "start_column": 12,
+        "end_line": 51,
+        "end_column": 81,
+        "text": "this.format.getHeader() != null && !this.format.getSkipHeaderRecord()"
+      },
+      "operator": "swap:&&->||@51:44",
+      "sha256": "82e45674c31d1c87ce109ba93630f3dc7981ba51830163a1fc101866b517a00c",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 46.9406965,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 9,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 52,
+        "start_column": 12,
+        "end_line": 52,
+        "end_column": 59,
+        "text": "printRecord((Object[]) this.format.getHeader())"
+      },
+      "operator": "drop_statement",
+      "sha256": "39f50c7e2f7216ced2f753d332c1af5e2d80fab12fccc3d7b07e1ca186c947ef",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 56.588763,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 10,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 57,
+        "start_column": 45,
+        "end_line": 57,
+        "end_column": 57,
+        "text": "close(false)"
+      },
+      "operator": "drop_statement",
+      "sha256": "f18996638711dbe1e61faeec9f0460c5d1d1cc8d6463f9732b1815c108e77b7a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 48.7381363,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 11,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 60,
+        "start_column": 8,
+        "end_line": 60,
+        "end_column": 52,
+        "text": "if (flush || format.getAutoFlush()) flush();"
+      },
+      "operator": "swap_next",
+      "sha256": "1d9023e761ce547507a822d9cc0d9d3c8331a735f5bd02cbf080d241b4ed9034",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 52.4934144,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 12,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 60,
+        "start_column": 12,
+        "end_line": 60,
+        "end_column": 42,
+        "text": "flush || format.getAutoFlush()"
+      },
+      "operator": "negate",
+      "sha256": "1847e7c3282483dbfee2806fdc35fd8c861d93684a9b4ee2a41c1ba472325108",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 50.8269011,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 13,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 60,
+        "start_column": 12,
+        "end_line": 60,
+        "end_column": 42,
+        "text": "flush || format.getAutoFlush()"
+      },
+      "operator": "swap:||->&&@60:18",
+      "sha256": "a812bcdf2b15f624fc473760be671f75f1485d87e3139865f16f89c98d578324",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 48.0242159,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 14,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 60,
+        "start_column": 44,
+        "end_line": 60,
+        "end_column": 51,
+        "text": "flush()"
+      },
+      "operator": "drop_statement",
+      "sha256": "b6dafec75854aae756bdb78c7aff4b508bfea22cc1c48faf2c9ac6f4e5444d77",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 46.8859839,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 15,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "instanceof_expression",
+        "start_line": 61,
+        "start_column": 12,
+        "end_line": 61,
+        "end_column": 43,
+        "text": "appendable instanceof Closeable"
+      },
+      "operator": "negate",
+      "sha256": "77c360be3fb4677cf909f8cdca5f4e65cf0317bc66569c78e493900b8858379d",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 46.5748046,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 16,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 61,
+        "start_column": 45,
+        "end_line": 61,
+        "end_column": 77,
+        "text": "((Closeable) appendable).close()"
+      },
+      "operator": "drop_statement",
+      "sha256": "e94f1f9585a141c417e30f520d05ec0c43555733d85513fd0c1561b65dfbc54c",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 47.9172342,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 17,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 64,
+        "start_column": 52,
+        "end_line": 64,
+        "end_column": 61,
+        "text": "println()"
+      },
+      "operator": "drop_statement",
+      "sha256": "6799d0904d89e67ebeb6174f584076591cc7387da2afe1913db75ad3422a4a79",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 47.0024957,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 18,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "update_expression",
+        "start_line": 64,
+        "start_column": 63,
+        "end_line": 64,
+        "end_column": 76,
+        "text": "recordCount++"
+      },
+      "operator": "drop_statement",
+      "sha256": "c1d73484d144d121568309866bff20b3fa90fc3c8b76933edf22becbcd611451",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 52.0909301,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 19,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "instanceof_expression",
+        "start_line": 68,
+        "start_column": 12,
+        "end_line": 68,
+        "end_column": 43,
+        "text": "appendable instanceof Flushable"
+      },
+      "operator": "negate",
+      "sha256": "d2f9df85ab139160fbdff1f0ffffaad2e7c7fd040373c866009b4d5fc2781512",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 55.7958858,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 20,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 68,
+        "start_column": 45,
+        "end_line": 68,
+        "end_column": 77,
+        "text": "((Flushable) appendable).flush()"
+      },
+      "operator": "drop_statement",
+      "sha256": "ae14cfcf5635dd0f4442b76eed5ee73cd188884ed9d3279e9f998073fb883f39",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 59.0271534,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 21,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 75,
+        "start_column": 8,
+        "end_line": 75,
+        "end_column": 19,
+        "text": "lock.lock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "67c7c4e8e62ccf384ee6f3c9ec181dfdc4770d5f68494fa60b265042dbfe5ca9",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 45.3818715,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 22,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 76,
+        "start_column": 14,
+        "end_line": 76,
+        "end_column": 29,
+        "text": "printRaw(value)"
+      },
+      "operator": "drop_statement",
+      "sha256": "a06cbbc615fd7863da30f9513a2733fbb241519e72442f9538191f39ee48a1bc",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 47.2489098,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 23,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 76,
+        "start_column": 43,
+        "end_line": 76,
+        "end_column": 56,
+        "text": "lock.unlock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "5245e76cf2e290e559a2fb19170f2c675a5516babf9530d18e8268dfdcac1e25",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 61.6775549,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 24,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 80,
+        "start_column": 8,
+        "end_line": 80,
+        "end_column": 50,
+        "text": "format.print(value, appendable, newRecord)"
+      },
+      "operator": "drop_statement",
+      "sha256": "acc8c68de9b5774301e5762a2aaa08ae07764ef5be4a3921268ac1d315f496bd",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 47.506933599999996,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 25,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 81,
+        "start_column": 8,
+        "end_line": 81,
+        "end_column": 25,
+        "text": "newRecord = false"
+      },
+      "operator": "drop_statement",
+      "sha256": "3e2f2af7aeeef925f9cc39b23b2e6446034ab92f0731ea41d58aa77e5d423b88",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 43.8357877,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 26,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 85,
+        "start_column": 8,
+        "end_line": 85,
+        "end_column": 19,
+        "text": "lock.lock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "343ae923156fb9f7942cb69e857fc2136c7bba5dacd55614c6ac3171e2000163",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 47.1419654,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 27,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 86,
+        "start_column": 14,
+        "end_line": 86,
+        "end_column": 40,
+        "text": "format.println(appendable)"
+      },
+      "operator": "drop_statement",
+      "sha256": "b9b38a95481b0f2271662dbf880014afea0309a97ceac3b70d2bb302d655d94f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 50.6446653,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 28,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 86,
+        "start_column": 42,
+        "end_line": 86,
+        "end_column": 58,
+        "text": "newRecord = true"
+      },
+      "operator": "drop_statement",
+      "sha256": "4a2f1aeefd1e17b22600adedfc004d0e892ef1524b8146964ce86d7fbd693808",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 50.6266277,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 29,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 86,
+        "start_column": 72,
+        "end_line": 86,
+        "end_column": 85,
+        "text": "lock.unlock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "2ae62531550df15da9712e9947966378f123ff407000db7c3eb23ccb63ec968b",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 54.7091438,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 30,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 90,
+        "start_column": 8,
+        "end_line": 90,
+        "end_column": 19,
+        "text": "lock.lock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "f15b4f581390a8159def3ce599ae15dea58236e1fb97a6aaa2ec9ff8bc560ca3",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 48.9123181,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 31,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 92,
+        "start_column": 12,
+        "end_line": 92,
+        "end_column": 72,
+        "text": "if (comment == null || !format.isCommentMarkerSet()) return;"
+      },
+      "operator": "swap_next",
+      "sha256": "ee3b8ec9abf08125d2689d6f2d92ce4848cf877a857b0a08c90c440e305d6e8d",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 52.6162078,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 32,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 92,
+        "start_column": 16,
+        "end_line": 92,
+        "end_column": 63,
+        "text": "comment == null || !format.isCommentMarkerSet()"
+      },
+      "operator": "negate",
+      "sha256": "64b4c38dceca92e9a7105126ea5ee8796e58e2b123c20408b2102324b6274fef",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 55.3184925,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 33,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 92,
+        "start_column": 16,
+        "end_line": 92,
+        "end_column": 63,
+        "text": "comment == null || !format.isCommentMarkerSet()"
+      },
+      "operator": "swap:==->!=@92:24",
+      "sha256": "5b054dec3c50cf53a1ff6309039fb1f12b9d58b0fcfa6a4aea822e9e3c606d8e",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 52.8782379,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 34,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 92,
+        "start_column": 16,
+        "end_line": 92,
+        "end_column": 63,
+        "text": "comment == null || !format.isCommentMarkerSet()"
+      },
+      "operator": "swap:||->&&@92:32",
+      "sha256": "fd639db7c41303ffce917f5c7334bee651ecdf01e097de998cf7944d2421323e",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 59.3615,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 35,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 93,
+        "start_column": 16,
+        "end_line": 93,
+        "end_column": 26,
+        "text": "!newRecord"
+      },
+      "operator": "negate",
+      "sha256": "30dc9e927ebef337677392cd15595a5821a41c8e6a5f1e51f6570e41562fb581",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 67.1292437,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 36,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 93,
+        "start_column": 28,
+        "end_line": 93,
+        "end_column": 37,
+        "text": "println()"
+      },
+      "operator": "drop_statement",
+      "sha256": "6176d9cd5d542eb204160e2054fce0431610d64416a3466c288fd607d85a8a05",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 63.7191851,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 37,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 94,
+        "start_column": 12,
+        "end_line": 94,
+        "end_column": 79,
+        "text": "appendable.append(format.getCommentMarker().charValue()).append(SP)"
+      },
+      "operator": "drop_statement",
+      "sha256": "1c4c79d92764da2824d44a193ae380c28e1de25a9853fe90bc0248bb277838f6",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 51.2441733,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 38,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 95,
+        "start_column": 28,
+        "end_line": 95,
+        "end_column": 48,
+        "text": "i < comment.length()"
+      },
+      "operator": "negate",
+      "sha256": "66b8186046cabec27b7e7135f1f23eb4bfdfe9bf598a3ecc6c8dbce506ee0013",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 51.9674121,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 39,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 95,
+        "start_column": 28,
+        "end_line": 95,
+        "end_column": 48,
+        "text": "i < comment.length()"
+      },
+      "operator": "swap:<-><=@95:30",
+      "sha256": "3521ea2b0fc3a6fb312982a83a9e7f9b3cd297862c94a5b3296e83521f72d0f4",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 63.8798399,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 40,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 97,
+        "start_column": 20,
+        "end_line": 97,
+        "end_column": 38,
+        "text": "c == CR || c == LF"
+      },
+      "operator": "negate",
+      "sha256": "4649e3fa434a0f2eef8a9b414fd93953b83fdd2897769b72408971bd591cc88f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 61.8652278,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 41,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 97,
+        "start_column": 20,
+        "end_line": 97,
+        "end_column": 38,
+        "text": "c == CR || c == LF"
+      },
+      "operator": "swap:==->!=@97:22",
+      "sha256": "6b14d0188ab6f230a8a2111c8c4ed7fb9fd78cf92b8498f14cae37ffc734e17b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 59.8029028,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 42,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 97,
+        "start_column": 20,
+        "end_line": 97,
+        "end_column": 38,
+        "text": "c == CR || c == LF"
+      },
+      "operator": "swap:||->&&@97:28",
+      "sha256": "7d15120b65eef65d4a00253e3fb5fdeaf05cee7a32ea965ff752a60185b42792",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 52.9690828,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 43,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 98,
+        "start_column": 24,
+        "end_line": 98,
+        "end_column": 90,
+        "text": "c == CR && i + 1 < comment.length() && comment.charAt(i + 1) == LF"
+      },
+      "operator": "negate",
+      "sha256": "93a954661e9cacc8c0e1d91a236527f5403191f63ef060920c56f8c16b88280f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 67.1150041,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 44,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 98,
+        "start_column": 24,
+        "end_line": 98,
+        "end_column": 90,
+        "text": "c == CR && i + 1 < comment.length() && comment.charAt(i + 1) == LF"
+      },
+      "operator": "swap:==->!=@98:26",
+      "sha256": "da02d41d48c78dffe90413d2a5da4cc51a94af1b5cacf64184d64132c181a456",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 67.1350965,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 45,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 98,
+        "start_column": 24,
+        "end_line": 98,
+        "end_column": 90,
+        "text": "c == CR && i + 1 < comment.length() && comment.charAt(i + 1) == LF"
+      },
+      "operator": "swap:&&->||@98:32",
+      "sha256": "d9e75ae0d4bca44d958fb959df15636e006b90f36d7e4cc0e18b934302cb8295",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 66.4323528,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 46,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "update_expression",
+        "start_line": 98,
+        "start_column": 92,
+        "end_line": 98,
+        "end_column": 95,
+        "text": "i++"
+      },
+      "operator": "drop_statement",
+      "sha256": "76578dd5b2019a58d6f7cfb427056655618d82d799185235f615cc7b23b6a152",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 60.6526076,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 47,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 99,
+        "start_column": 20,
+        "end_line": 99,
+        "end_column": 43,
+        "text": "printCommentSeparator()"
+      },
+      "operator": "drop_statement",
+      "sha256": "a6483551110158ed1af011809f85987fafcab7b3c2158b143e68255b437b36cb",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 55.3715729,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 48,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 100,
+        "start_column": 20,
+        "end_line": 100,
+        "end_column": 87,
+        "text": "appendable.append(format.getCommentMarker().charValue()).append(SP)"
+      },
+      "operator": "drop_statement",
+      "sha256": "d2b881237bcd19676a47f3a964d96ef175902f372481e88a7cc8d5373ddc005b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 65.3440372,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 49,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 102,
+        "start_column": 20,
+        "end_line": 102,
+        "end_column": 40,
+        "text": "appendable.append(c)"
+      },
+      "operator": "drop_statement",
+      "sha256": "a557944bd00a449c6ce7d48580af654001a2409dc2de4a545806aeaf8579917c",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 54.9616433,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 50,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 105,
+        "start_column": 12,
+        "end_line": 105,
+        "end_column": 35,
+        "text": "printCommentSeparator()"
+      },
+      "operator": "drop_statement",
+      "sha256": "68bbab70647be23f2465cf054daaf5be514ce17aaa8a79cd837ef215edae25ed",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 64.1420941,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 51,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 106,
+        "start_column": 20,
+        "end_line": 106,
+        "end_column": 33,
+        "text": "lock.unlock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "fa3ae21996d47674b5fea9e2702e00ca3a2d94c20863fda353c4f73d58dc257a",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 60.2823825,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 52,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 110,
+        "start_column": 12,
+        "end_line": 110,
+        "end_column": 47,
+        "text": "format.getRecordSeparator() != null"
+      },
+      "operator": "negate",
+      "sha256": "58fa76bc7b2899ec9d89f9fb6ec4f4086759ba6f36d4b350ca05021137c26ec0",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 56.9960619,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 53,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 110,
+        "start_column": 49,
+        "end_line": 110,
+        "end_column": 95,
+        "text": "appendable.append(format.getRecordSeparator())"
+      },
+      "operator": "drop_statement",
+      "sha256": "a4d3fab7c56545e0895f29079b27d2b8694d48966903c69c28c1f04187c96788",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 64.6747148,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 54,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 111,
+        "start_column": 8,
+        "end_line": 111,
+        "end_column": 24,
+        "text": "newRecord = true"
+      },
+      "operator": "drop_statement",
+      "sha256": "eba78829378666e542bbca11230ad65d4b8fabfeae6bdea78a53e930342d868a",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 53.9678401,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 55,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 115,
+        "start_column": 8,
+        "end_line": 115,
+        "end_column": 19,
+        "text": "lock.lock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "07654805405dd624451eebb81294c33c0d81de9ef04b6452d794996fea95015b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 45.2306869,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 56,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 116,
+        "start_column": 14,
+        "end_line": 116,
+        "end_column": 61,
+        "text": "IOStream.of(values).forEachOrdered(this::print)"
+      },
+      "operator": "drop_statement",
+      "sha256": "fe89aa134746017d2f4caf51aba5c388d424cea4418783de7b221b641d50591d",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 45.246123,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 57,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 116,
+        "start_column": 63,
+        "end_line": 116,
+        "end_column": 76,
+        "text": "endOfRecord()"
+      },
+      "operator": "drop_statement",
+      "sha256": "38612e7af9049ca807e55bfc652f456959b7c4e4dc3a085feec406e7eae37d65",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 45.0073629,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 58,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 116,
+        "start_column": 90,
+        "end_line": 116,
+        "end_column": 103,
+        "text": "lock.unlock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "e365af94923be48e18b8830acbd850193fb7124b1797d22b3494a07987f4ef78",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 51.4366288,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 59,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 119,
+        "start_column": 73,
+        "end_line": 119,
+        "end_column": 107,
+        "text": "printRecord(Arrays.asList(values))"
+      },
+      "operator": "drop_statement",
+      "sha256": "fecdab9f2dee9a6052cc3dccb5c8649b459e42da4bea285453e23c3c7ab6af35",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 53.469455,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 60,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 122,
+        "start_column": 8,
+        "end_line": 122,
+        "end_column": 19,
+        "text": "lock.lock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "bf6088010e8dbdd2f4154fa86ac137d9b4a9e8242f99f85f6350bff84712ea7b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 65.0962109,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 61,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 124,
+        "start_column": 12,
+        "end_line": 124,
+        "end_column": 101,
+        "text": "IOStream.adapt(stream).forEachOrdered(stream.isParallel() ? this::printRaw : this::print)"
+      },
+      "operator": "drop_statement",
+      "sha256": "e11148a72210941ef23770bcdfb31264b2c7287aac6c7672215f5c1667a86c6e",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 62.0469306,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 62,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "method_invocation",
+        "start_line": 124,
+        "start_column": 50,
+        "end_line": 124,
+        "end_column": 69,
+        "text": "stream.isParallel()"
+      },
+      "operator": "negate",
+      "sha256": "769a27b59d958c4a2ddf5cfc212330996088f8b939b4eb18547bed7321796f6a",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 52.0102043,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 63,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 125,
+        "start_column": 12,
+        "end_line": 125,
+        "end_column": 25,
+        "text": "endOfRecord()"
+      },
+      "operator": "drop_statement",
+      "sha256": "2be898f67ac007b91dbddfa5bd7ec002d7fdf4935131e9aaf5553f6112fda06f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 68.84601,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 64,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 126,
+        "start_column": 20,
+        "end_line": 126,
+        "end_column": 33,
+        "text": "lock.unlock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "2fec2f20090ef86f49f2f9708cfc32ecaffd13d7e3c5ab7ee438d8c63b67e1a4",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 79.879825,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 65,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "instanceof_expression",
+        "start_line": 130,
+        "start_column": 12,
+        "end_line": 130,
+        "end_column": 35,
+        "text": "val instanceof Object[]"
+      },
+      "operator": "negate",
+      "sha256": "9c909abc81b8470d37570caef2f9a0e5b624b4a4f081f020f46cc30ee198fdf8",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 92.4912913,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 66,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 130,
+        "start_column": 37,
+        "end_line": 130,
+        "end_column": 64,
+        "text": "printRecord((Object[]) val)"
+      },
+      "operator": "drop_statement",
+      "sha256": "0bdb020cf5a41cbc743f9fb9a5ee4d38420fe7ec3437ee76099af9273d39f1fc",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 57.356644,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 67,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "instanceof_expression",
+        "start_line": 131,
+        "start_column": 17,
+        "end_line": 131,
+        "end_column": 40,
+        "text": "val instanceof Iterable"
+      },
+      "operator": "negate",
+      "sha256": "8b1245f402322c4428850f5102406f2fc5b6afec83b7a58b54c0d297a72d7723",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 65.6563321,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 68,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 131,
+        "start_column": 42,
+        "end_line": 131,
+        "end_column": 72,
+        "text": "printRecord((Iterable<?>) val)"
+      },
+      "operator": "drop_statement",
+      "sha256": "bc547be1c0fe2930de360943681f6259d6ca849eac6fe67a3487cc3697928f78",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 63.2325961,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 69,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 132,
+        "start_column": 13,
+        "end_line": 132,
+        "end_column": 29,
+        "text": "printRecord(val)"
+      },
+      "operator": "drop_statement",
+      "sha256": "b3efe46ff61395b4e3ef09de4bafd10ceb44d30e80e5fc9590d55c638d81e951",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 57.3948745,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 70,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 135,
+        "start_column": 76,
+        "end_line": 135,
+        "end_column": 109,
+        "text": "printRecords(IOStream.of(values))"
+      },
+      "operator": "drop_statement",
+      "sha256": "3060627e0ec6c9d6f7ee2ad1d9de0666af8b29935ca6d58f858fea1b1d42b9c5",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 52.502274,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 71,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 136,
+        "start_column": 74,
+        "end_line": 136,
+        "end_column": 109,
+        "text": "printRecords(Arrays.asList(values))"
+      },
+      "operator": "drop_statement",
+      "sha256": "caba90e2dee1be83672ee14cfa5f63adcc0c009d303f7750f22d4385a30623d5",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 56.5817635,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 72,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 137,
+        "start_column": 74,
+        "end_line": 137,
+        "end_column": 110,
+        "text": "printRecords(IOStream.adapt(values))"
+      },
+      "operator": "drop_statement",
+      "sha256": "1a2d378e348f6d00d438c552f84876c28c28fe7889a1ba24214db86ef4a0f4f3",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 55.4542358,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 73,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 138,
+        "start_column": 77,
+        "end_line": 138,
+        "end_column": 137,
+        "text": "format.limit(stream).forEachOrdered(this::printRecordObject)"
+      },
+      "operator": "drop_statement",
+      "sha256": "fa30140a873495cce74d41ae01c41627b422ccaefa39169d5757dddfdf9199e6",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 51.3364075,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 74,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 141,
+        "start_column": 8,
+        "end_line": 141,
+        "end_column": 19,
+        "text": "lock.lock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "9cacea3eec62c5e4b488a4b29953598c2ad4eb61a301e4853f93250a6f196d6a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 45.4048708,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 75,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 143,
+        "start_column": 103,
+        "end_line": 143,
+        "end_column": 132,
+        "text": "s.forEachOrdered(this::print)"
+      },
+      "operator": "drop_statement",
+      "sha256": "8a17d7b26ddeabe2f56026b5f709ca3c36818da9b6455f414af358e8a2ca1a6e",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 68.1649021,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 76,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 144,
+        "start_column": 12,
+        "end_line": 144,
+        "end_column": 21,
+        "text": "println()"
+      },
+      "operator": "drop_statement",
+      "sha256": "b32dbda39485faffd65215bd22d46e4da501f8e396d77d7beeb55ad680321bc9",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 72.7083535,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 77,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 145,
+        "start_column": 20,
+        "end_line": 145,
+        "end_column": 33,
+        "text": "lock.unlock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "73fb1a7db9704fc7fd96edba2d0dbc445f3c05051c049f55cced3586ea1ae2d6",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 57.4401243,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 78,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 151,
+        "start_column": 15,
+        "end_line": 151,
+        "end_column": 55,
+        "text": "format.useRow(rowCount + 1) && rs.next()"
+      },
+      "operator": "negate",
+      "sha256": "5bf6da3ec442efe089c15686b250913a444a166b3da340586024cde23eea9a96",
+      "class": "timeout",
+      "reason": "test reached its time limit",
+      "exit_code": null,
+      "seconds": 240.3909456,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 79,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 151,
+        "start_column": 15,
+        "end_line": 151,
+        "end_column": 55,
+        "text": "format.useRow(rowCount + 1) && rs.next()"
+      },
+      "operator": "swap:&&->||@151:43",
+      "sha256": "8100dfbb0daad776f92bbc44bb061fa4311fbac6339dd4fd0cd71877ce628a2d",
+      "class": "timeout",
+      "reason": "test reached its time limit",
+      "exit_code": null,
+      "seconds": 228.5120821,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 80,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 152,
+        "start_column": 12,
+        "end_line": 152,
+        "end_column": 23,
+        "text": "lock.lock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "185ba39dee05cdadff67bb738df70046e3653d36fe513538960545534671c342",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 60.562309,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 81,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 154,
+        "start_column": 32,
+        "end_line": 154,
+        "end_column": 41,
+        "text": "i <= cols"
+      },
+      "operator": "negate",
+      "sha256": "859de8a0362318744a1ce092e2951c963f2b5547b04b4fcce88b94e33f817357",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 68.8969729,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 82,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 154,
+        "start_column": 32,
+        "end_line": 154,
+        "end_column": 41,
+        "text": "i <= cols"
+      },
+      "operator": "swap:<=-><@154:34",
+      "sha256": "dc720e57161bc0be5cd7af9701a584990652cc30e5de22dd42b7482f17e56b72",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 54.6720885,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 83,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "instanceof_expression",
+        "start_line": 156,
+        "start_column": 24,
+        "end_line": 156,
+        "end_column": 43,
+        "text": "obj instanceof Clob"
+      },
+      "operator": "negate",
+      "sha256": "fa23c5d5a1cf7f656ea8c785776c8ef89c82b91539cfc8ba0836b400e3b8f4f2",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 43.6495576,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 84,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 157,
+        "start_column": 77,
+        "end_line": 157,
+        "end_column": 85,
+        "text": "print(r)"
+      },
+      "operator": "drop_statement",
+      "sha256": "7b542b4fd49da3953c9336a8af01b9f3a6854198e3875119c53476da0cb073fa",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 34.0699792,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 85,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "instanceof_expression",
+        "start_line": 158,
+        "start_column": 31,
+        "end_line": 158,
+        "end_column": 50,
+        "text": "obj instanceof Blob"
+      },
+      "operator": "negate",
+      "sha256": "b4d12a9e95e49e1fe5c51ca517223d175f1b8331aa1841d31d3748eb3715a443",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 40.9344723,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 86,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 159,
+        "start_column": 80,
+        "end_line": 159,
+        "end_column": 89,
+        "text": "print(in)"
+      },
+      "operator": "drop_statement",
+      "sha256": "b104acf2f06bf0bdd8863e188981fdf42458581212e48812c19052a2a8312757",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 34.1655777,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 87,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 161,
+        "start_column": 24,
+        "end_line": 161,
+        "end_column": 34,
+        "text": "print(obj)"
+      },
+      "operator": "drop_statement",
+      "sha256": "a10020362a947c1681115be113fb3b15555d0ea5d85122cabb800da6a7edbc77",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 33.208181,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 88,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 164,
+        "start_column": 16,
+        "end_line": 164,
+        "end_column": 29,
+        "text": "endOfRecord()"
+      },
+      "operator": "drop_statement",
+      "sha256": "4e07bc2024a0c9116408698fa665b6a5940047058acb78ffa6c738f314371409",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 36.5540173,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 89,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 165,
+        "start_column": 24,
+        "end_line": 165,
+        "end_column": 37,
+        "text": "lock.unlock()"
+      },
+      "operator": "drop_statement",
+      "sha256": "b54086c827b33f3cabbceaac97b23128400c050e87e84a1b23a7ec5c4b29a6a3",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 43.8367363,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 90,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "update_expression",
+        "start_line": 166,
+        "start_column": 12,
+        "end_line": 166,
+        "end_column": 22,
+        "text": "rowCount++"
+      },
+      "operator": "drop_statement",
+      "sha256": "e88d49f3f16722b120cb7c351d3442cbdc392912d6be4ce9fd12193a0add5207",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 36.8936518,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 91,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "branch_condition",
+        "node_kind": "identifier",
+        "start_line": 171,
+        "start_column": 12,
+        "end_line": 171,
+        "end_column": 23,
+        "text": "printHeader"
+      },
+      "operator": "negate",
+      "sha256": "1fec2a6f0dd346957c117751e67e409ca5fb1bfacbdd2d8b7766841c674a1671",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 41.126447,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 92,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 171,
+        "start_column": 25,
+        "end_line": 171,
+        "end_column": 41,
+        "text": "printHeaders(rs)"
+      },
+      "operator": "drop_statement",
+      "sha256": "ec527a91d8f00085af44dff5c4dfb348beacf91070cf12ce34261c8cd926d2f0",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 42.7575218,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 93,
+      "site": {
+        "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+        "kind": "state_write",
+        "node_kind": "method_invocation",
+        "start_line": 172,
+        "start_column": 8,
+        "end_line": 172,
+        "end_column": 24,
+        "text": "printRecords(rs)"
+      },
+      "operator": "drop_statement",
+      "sha256": "b4c2fbe355b6c34fe5c888f88b28637983b8cd0270a74dfadf7005aa35b349c0",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 35.6713754,
+      "worker": 3,
+      "reused_from": null
+    }
+  ],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [
+        38.5009686
+      ],
+      "limits_s": [
+        193
+      ],
+      "mutants_run": 25,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 2,
+      "recovered": null,
+      "baseline_s": [
+        45.4727435
+      ],
+      "limits_s": [
+        228
+      ],
+      "mutants_run": 21,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 3,
+      "recovered": null,
+      "baseline_s": [
+        47.8332898
+      ],
+      "limits_s": [
+        240
+      ],
+      "mutants_run": 21,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 4,
+      "recovered": null,
+      "baseline_s": [
+        46.7685967
+      ],
+      "limits_s": [
+        234
+      ],
+      "mutants_run": 26,
+      "closing_baseline_passed": true,
+      "stopped": null
+    }
+  ],
+  "void": null
+}

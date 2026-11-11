@@ -1,0 +1,108 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.0.2",
+  "language": "java",
+  "pack_sha256": "208b54a157b46339fef97876464c1de50ada7e89899c3bdba30776cbc7195b49",
+  "config_sha256": "a48771c517aed0b00b41b05132201ad450a358bbfb6ae9d846d03c7eace2af3f",
+  "source_files_sha256": {
+    "src/main/java/org/apache/commons/csv/CSVPrinter.java": "215dece779a91fa8dd2982ef0a156119d397aa8b31a96d18caa2ca51f2705f48"
+  },
+  "sites": 86,
+  "sites_without_operator": [
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 71,
+      "start_column": 33,
+      "end_line": 71,
+      "end_column": 51,
+      "text": "return appendable;"
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 72,
+      "start_column": 35,
+      "end_line": 72,
+      "end_column": 54,
+      "text": "return recordCount;"
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 92,
+      "start_column": 65,
+      "end_line": 92,
+      "end_column": 72,
+      "text": "return;"
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "state_write",
+      "node_kind": "update_expression",
+      "start_line": 95,
+      "start_column": 50,
+      "end_line": 95,
+      "end_column": 53,
+      "text": "i++"
+    },
+    {
+      "file": "src/main/java/org/apache/commons/csv/CSVPrinter.java",
+      "kind": "state_write",
+      "node_kind": "update_expression",
+      "start_line": 154,
+      "start_column": 43,
+      "end_line": 154,
+      "end_column": 46,
+      "text": "i++"
+    }
+  ],
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {},
+  "counts_by_kind": {},
+  "incomplete": false,
+  "mutants": [],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [],
+      "limits_s": [],
+      "mutants_run": 0,
+      "closing_baseline_passed": null,
+      "stopped": "setup command Some(\"pwsh.exe\") did not succeed (exit Some(125)): Cannot connect to Podman. Please verify your connection to the Linux system using `podman system connection list`, or try `podman machine init` and `podman machine start` to manage a new Linux VM\nError: unable to connect to Podman socket: failed to connect: dial tcp 127.0.0.1:62042: connectex: No connection could be made because the target machine actively refused it."
+    },
+    {
+      "worker": 2,
+      "recovered": null,
+      "baseline_s": [],
+      "limits_s": [],
+      "mutants_run": 0,
+      "closing_baseline_passed": null,
+      "stopped": "setup command Some(\"pwsh.exe\") did not succeed (exit Some(125)): Cannot connect to Podman. Please verify your connection to the Linux system using `podman system connection list`, or try `podman machine init` and `podman machine start` to manage a new Linux VM\nError: unable to connect to Podman socket: failed to connect: dial tcp 127.0.0.1:62042: connectex: No connection could be made because the target machine actively refused it."
+    },
+    {
+      "worker": 3,
+      "recovered": null,
+      "baseline_s": [],
+      "limits_s": [],
+      "mutants_run": 0,
+      "closing_baseline_passed": null,
+      "stopped": "setup command Some(\"pwsh.exe\") did not succeed (exit Some(125)): Cannot connect to Podman. Please verify your connection to the Linux system using `podman system connection list`, or try `podman machine init` and `podman machine start` to manage a new Linux VM\nError: unable to connect to Podman socket: failed to connect: dial tcp 127.0.0.1:62042: connectex: No connection could be made because the target machine actively refused it."
+    },
+    {
+      "worker": 4,
+      "recovered": null,
+      "baseline_s": [],
+      "limits_s": [],
+      "mutants_run": 0,
+      "closing_baseline_passed": null,
+      "stopped": "setup command Some(\"pwsh.exe\") did not succeed (exit Some(125)): Cannot connect to Podman. Please verify your connection to the Linux system using `podman system connection list`, or try `podman machine init` and `podman machine start` to manage a new Linux VM\nError: unable to connect to Podman socket: failed to connect: dial tcp 127.0.0.1:62042: connectex: No connection could be made because the target machine actively refused it."
+    }
+  ],
+  "void": "no working copy could run the unmutated tests: setup command Some(\"pwsh.exe\") did not succeed (exit Some(125)): Cannot connect to Podman. Please verify your connection to the Linux system using `podman system connection list`, or try `podman machine init` and `podman machine start` to manage a new Linux VM\nError: unable to connect to Podman socket: failed to connect: dial tcp 127.0.0.1:62042: connectex: No connection could be made because the target machine actively refused it.; setup command Some(\"pwsh.exe\") did not succeed (exit Some(125)): Cannot connect to Podman. Please verify your connection to the Linux system using `podman system connection list`, or try `podman machine init` and `podman machine start` to manage a new Linux VM\nError: unable to connect to Podman socket: failed to connect: dial tcp 127.0.0.1:62042: connectex: No connection could be made because the target machine actively refused it.; setup command Some(\"pwsh.exe\") did not succeed (exit Some(125)): Cannot connect to Podman. Please verify your connection to the Linux system using `podman system connection list`, or try `podman machine init` and `podman machine start` to manage a new Linux VM\nError: unable to connect to Podman socket: failed to connect: dial tcp 127.0.0.1:62042: connectex: No connection could be made because the target machine actively refused it.; setup command Some(\"pwsh.exe\") did not succeed (exit Some(125)): Cannot connect to Podman. Please verify your connection to the Linux system using `podman system connection list`, or try `podman machine init` and `podman machine start` to manage a new Linux VM\nError: unable to connect to Podman socket: failed to connect: dial tcp 127.0.0.1:62042: connectex: No connection could be made because the target machine actively refused it."
+}

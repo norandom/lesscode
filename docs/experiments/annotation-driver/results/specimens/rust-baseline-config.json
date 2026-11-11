@@ -34,5 +34,8 @@
     "Starting ",
     "Summary ["
   ],
-  "workers": 3
+  "workers": 3,
+  "env": {
+    "CARGO_TARGET_DIR": "target"
+  }
 }

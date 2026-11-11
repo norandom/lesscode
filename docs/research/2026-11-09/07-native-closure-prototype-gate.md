@@ -126,3 +126,8 @@ Receipt summary from `prototype-gate-report.json`:
 - **Negative results safe to report:** Any mutant survival or budget overage would trigger immediate HALT.
 - **Facts and interpretation separated:** Gate JSON receipt metrics reported verbatim; architectural implications isolated to discussion.
 - **No inflated claims:** Bounded to the verified specimen scopes and discrete finite domains.
+
+## Amendment, 2026-11-11: what the adverse-control figure was
+
+The four adverse controls of this entry exercise the Python model's monitors on inputs constructed for the purpose (a missing audit record, a shortened stream, a `None` input, the order of two checks in a four-line sample). They do not mutate a specimen and no project's tests were run against a mutant. "100% kill rate" here means that each monitor reported its constructed case. The finite-domain check compared two identical functions written inside the gate script. See [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md) for what the later language gates' figures were and what a rerun through the driver gives.
+

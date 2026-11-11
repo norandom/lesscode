@@ -132,3 +132,8 @@ Receipt summary from [`prototype-gate-report.json`](../../../.kiro/specs/typescr
 - Separation of concerns: admission, behavioral fidelity, sensitivity, compression, regression, and apparatus are reported as distinct independent outcomes.
 - Falsifiers and thresholds are explicit and verified against raw outputs.
 - No inflated claims: results apply to the admitted profile and specimen.
+
+## Amendment, 2026-11-11: what the adverse-control figure was
+
+Reading the gate script (`.kiro/specs/typescript-deconvolution-adapter/run_gate.py`) shows that three of the four controls were text replacements in the candidate, each compared with the baseline through a probe on one hand-picked input, and that the fourth (`TS_ADV_3_Buffer_Drop`) is the assignment `stream_killed = True` in the script. No mutant was run against the project's own tests. None of the four has a counterpart among the driver's operators. Run through the driver with the project's tests, the candidate has 6 mutants of which 5 are killed and 1 does not compile; the original has 17, with 15 killed, 1 survivor and 1 that does not compile. The "4 of 4 killed" of this entry should not be cited as evidence of test sensitivity. Details: [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md).
+

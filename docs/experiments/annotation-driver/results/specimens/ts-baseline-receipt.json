@@ -1,0 +1,623 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.0.2",
+  "language": "typescript",
+  "pack_sha256": "301f9bb0b2ab40115387cc8acf1d29db91ef3ed9ca876ce98ca18d247f2a19c5",
+  "config_sha256": "a64acaab6ccd5875668aeaf6ce32bc2f82b465ad398676e00ad73e533042c3d3",
+  "source_files_sha256": {
+    "src/degradation.ts": "858faf8ca451f6a154f6da72bf505d257a35843ca35f8a0cd59022aec006b676"
+  },
+  "sites": 26,
+  "sites_without_operator": [
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 45,
+      "start_column": 2,
+      "end_line": 54,
+      "end_column": 4,
+      "text": "return createNotice({\r\n    id: `unsupported-${slugify(input.capability)}`,\r\n    capability: input.capability,\r\n    severity: \"warning\",\r\n    reason: input.reason,\r\n    userVisibleMessage: `OpenUltraCode cannot use ${input.capability}: ${input.reason}.`,\r\n    safeNextAction: \"Continue without this capability and use the visible workflow phases to track progress.\",\r\n    occurredAt: input.occurredAt,\r\n    phase: input.phase\r\n  })"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 58,
+      "start_column": 2,
+      "end_line": 69,
+      "end_column": 4,
+      "text": "return createNotice({\r\n    id: \"multi-agent-unavailable\",\r\n    capability: \"role-based multi-agent execution\",\r\n    severity: \"warning\",\r\n    reason: input.reason,\r\n    userVisibleMessage:\r\n      \"Role-based multi-agent execution is unavailable; OpenUltraCode will use a single-session fallback with the same phase structure.\",\r\n    safeNextAction:\r\n      \"Continue in a single-session workflow using intake, planning, execution, review, reconciliation, and verification phases.\",\r\n    occurredAt: input.occurredAt,\r\n    phase: input.phase\r\n  })"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 73,
+      "start_column": 2,
+      "end_line": 82,
+      "end_column": 4,
+      "text": "return createNotice({\r\n    id: `phase-${input.phase}-failed`,\r\n    capability: `workflow phase ${input.phase}`,\r\n    severity: \"blocked\",\r\n    reason: input.reason,\r\n    userVisibleMessage: `The ${input.phase} phase failed: ${input.reason}.`,\r\n    safeNextAction: `Stop the workflow at ${input.phase}, fix or explicitly accept the issue, then rerun the phase before reporting completion.`,\r\n    occurredAt: input.occurredAt,\r\n    phase: input.phase\r\n  })"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 92,
+      "start_column": 2,
+      "end_line": 101,
+      "end_column": 4,
+      "text": "return createNotice({\r\n    id: `tool-error-${slugify(input.tool)}`,\r\n    capability: `tool ${input.tool}`,\r\n    severity: \"warning\",\r\n    reason: input.reason,\r\n    userVisibleMessage: `${input.tool} failed during ${input.phase}: ${input.reason}.`,\r\n    safeNextAction: `Check whether the ${input.tool} failure affects the result; record a blocked check if required evidence could not be produced.`,\r\n    occurredAt: input.occurredAt,\r\n    phase: input.phase\r\n  })"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 105,
+      "start_column": 2,
+      "end_line": 114,
+      "end_column": 4,
+      "text": "return createNotice({\r\n    id: `permission-denied-${slugify(input.operation)}`,\r\n    capability: `permission for ${input.operation}`,\r\n    severity: \"blocked\",\r\n    reason: input.reason,\r\n    userVisibleMessage: `OpenUltraCode cannot perform ${input.operation}: ${input.reason}.`,\r\n    safeNextAction: `Respect the permission denial; ask the user to approve ${input.operation} or choose a permitted alternative before retrying.`,\r\n    occurredAt: input.occurredAt,\r\n    phase: input.phase\r\n  })"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 118,
+      "start_column": 2,
+      "end_line": 127,
+      "end_column": 4,
+      "text": "return createNotice({\r\n    id: \"high-effort-limitation\",\r\n    capability: \"high-effort provider controls\",\r\n    severity: \"warning\",\r\n    reason: input.reason,\r\n    userVisibleMessage: `High-effort provider controls are unavailable: ${input.reason}.`,\r\n    safeNextAction: \"Continue with normal provider settings and rely on visible planning, review, and verification discipline.\",\r\n    occurredAt: input.occurredAt,\r\n    phase: input.phase\r\n  })"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 131,
+      "start_column": 2,
+      "end_line": 139,
+      "end_column": 4,
+      "text": "return createNotice({\r\n    id: \"workflow-disabled\",\r\n    capability: \"OpenUltraCode workflow mode\",\r\n    severity: \"notice\",\r\n    reason: input.reason,\r\n    userVisibleMessage: `OpenUltraCode workflow mode is disabled: ${input.reason}.`,\r\n    safeNextAction: \"Use normal opencode behavior or enable OpenUltraCode before starting a governed workflow.\",\r\n    occurredAt: input.occurredAt\r\n  })"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 144,
+      "start_column": 4,
+      "end_line": 149,
+      "end_column": 5,
+      "text": "return {\r\n      state: \"disabled\",\r\n      message: \"OpenUltraCode is disabled. Normal opencode behavior is unchanged.\",\r\n      safeNextAction: \"Enable OpenUltraCode before starting a governed workflow.\",\r\n      notices: input.notices\r\n    }"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 154,
+      "start_column": 4,
+      "end_line": 159,
+      "end_column": 5,
+      "text": "return {\r\n      state: \"blocked\",\r\n      message: `OpenUltraCode is blocked by ${formatCapabilityList(blockedNotices)}.`,\r\n      safeNextAction: blockedNotices[0]?.safeNextAction ?? \"Resolve the blocked capability before continuing.\",\r\n      notices: input.notices\r\n    }"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 164,
+      "start_column": 4,
+      "end_line": 169,
+      "end_column": 5,
+      "text": "return {\r\n      state: \"degraded\",\r\n      message: `OpenUltraCode is running with ${formatCapabilityList(degradedNotices, \"degraded \")}.`,\r\n      safeNextAction: degradedNotices[0]?.safeNextAction ?? \"Continue with visible workflow checks.\",\r\n      notices: input.notices\r\n    }"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 172,
+      "start_column": 2,
+      "end_line": 177,
+      "end_column": 3,
+      "text": "return {\r\n    state: \"active\",\r\n    message: \"OpenUltraCode workflow support is active with no reported degradation.\",\r\n    safeNextAction: \"Continue the current workflow and collect verification evidence before completion.\",\r\n    notices: input.notices\r\n  }"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 192,
+      "start_column": 2,
+      "end_line": 201,
+      "end_column": 3,
+      "text": "return {\r\n    id: input.id,\r\n    capability: input.capability,\r\n    severity: input.severity,\r\n    reason: input.reason,\r\n    userVisibleMessage: input.userVisibleMessage,\r\n    safeNextAction: input.safeNextAction,\r\n    occurredAt: input.occurredAt ?? new Date().toISOString(),\r\n    ...(input.phase === undefined ? {} : { phase: input.phase })\r\n  }"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 209,
+      "start_column": 2,
+      "end_line": 209,
+      "end_column": 44,
+      "text": "return `${count} ${noun}: ${capabilities}`"
+    },
+    {
+      "file": "src/degradation.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 232,
+      "start_column": 2,
+      "end_line": 232,
+      "end_column": 45,
+      "text": "return slug.length === 0 ? \"unknown\" : slug"
+    }
+  ],
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {
+    "invalid": 1,
+    "killed": 15,
+    "survived": 1
+  },
+  "counts_by_kind": {
+    "branch_condition": {
+      "invalid": 1,
+      "killed": 11,
+      "survived": 1
+    },
+    "state_write": {
+      "killed": 4
+    }
+  },
+  "incomplete": false,
+  "mutants": [
+    {
+      "number": 1,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 143,
+        "start_column": 6,
+        "end_line": 143,
+        "end_column": 20,
+        "text": "!input.enabled"
+      },
+      "operator": "negate",
+      "sha256": "9cbbf89302831c8747a399d40f5b436e30dc6cbc5be7c3e2295564091a488e75",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.4528467,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 2,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 153,
+        "start_column": 6,
+        "end_line": 153,
+        "end_column": 31,
+        "text": "blockedNotices.length > 0"
+      },
+      "operator": "negate",
+      "sha256": "8271e72161430717c8055ede09b55276c2aef55c4ce3ef171cbcea65e5df7a95",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.773483899999999,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 3,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 153,
+        "start_column": 6,
+        "end_line": 153,
+        "end_column": 31,
+        "text": "blockedNotices.length > 0"
+      },
+      "operator": "swap:>->>=@153:28",
+      "sha256": "51d1639b5e9bed0f9c36018df0291a9e6c1dce382de96ebd352ea7c7d83267d0",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.8163396,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 4,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 163,
+        "start_column": 6,
+        "end_line": 163,
+        "end_column": 32,
+        "text": "degradedNotices.length > 0"
+      },
+      "operator": "negate",
+      "sha256": "ce06dd252056de6d4c11fabc9d63ff84d5566bed82a689c76b131fccae609732",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.63988,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 5,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 163,
+        "start_column": 6,
+        "end_line": 163,
+        "end_column": 32,
+        "text": "degradedNotices.length > 0"
+      },
+      "operator": "swap:>->>=@163:29",
+      "sha256": "7517115fb6e5251578488b0b6b62c6d653c516fab14c4c4ad0a8462870b56a8f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.8498581,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 6,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 200,
+        "start_column": 8,
+        "end_line": 200,
+        "end_column": 33,
+        "text": "input.phase === undefined"
+      },
+      "operator": "negate",
+      "sha256": "a1fec45e6b4a26e74c5009f309a09f491474796c977b5f5c891bb8c33e37868a",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 9.1529558,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 7,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 206,
+        "start_column": 15,
+        "end_line": 206,
+        "end_column": 26,
+        "text": "count === 1"
+      },
+      "operator": "negate",
+      "sha256": "603f7cb5b1bd801bb75edb9e60522665c4fb746a46f3a3eee475c142390e96c2",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.106813,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 8,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 220,
+        "start_column": 8,
+        "end_line": 220,
+        "end_column": 31,
+        "text": "isLowerAscii || isDigit"
+      },
+      "operator": "negate",
+      "sha256": "75eec0b740e5720fea114f3420b05b875fed99fbe6ef8061860fead1c18ecdb6",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.6608786,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 9,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 220,
+        "start_column": 8,
+        "end_line": 220,
+        "end_column": 31,
+        "text": "isLowerAscii || isDigit"
+      },
+      "operator": "swap:||->&&@220:21",
+      "sha256": "554ea4f4adbd464ef6fbe83b64a221d5be3e9776fb4571aeeb6b953681101333",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.454201900000001,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 10,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 221,
+        "start_column": 10,
+        "end_line": 221,
+        "end_column": 43,
+        "text": "needsSeparator && slug.length > 0"
+      },
+      "operator": "negate",
+      "sha256": "2b74f6a2ee2fb4923161fe43832687eea368315bda906aa49c1fce42d4a23a81",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.4221258,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 11,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 221,
+        "start_column": 10,
+        "end_line": 221,
+        "end_column": 43,
+        "text": "needsSeparator && slug.length > 0"
+      },
+      "operator": "swap:&&->||@221:25",
+      "sha256": "4f7ff6383973c0c16d4efb568c8e2f09d9547b5c5727ac983c4343eec3e6ff38",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.4634415,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 12,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 221,
+        "start_column": 10,
+        "end_line": 221,
+        "end_column": 43,
+        "text": "needsSeparator && slug.length > 0"
+      },
+      "operator": "swap:>->>=@221:40",
+      "sha256": "2b243f2d70fde4bf4348d89af3efe5ed1fa01653bcaae489440da5ac05710342",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.098054099999999,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 13,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "state_write",
+        "node_kind": "augmented_assignment_expression",
+        "start_line": 222,
+        "start_column": 8,
+        "end_line": 222,
+        "end_column": 19,
+        "text": "slug += \"-\""
+      },
+      "operator": "drop_statement",
+      "sha256": "cee10c616f73b21c4ee48bc352bf6fb36bedea2c661caadb79ead6277754a3ca",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.146361,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 14,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "state_write",
+        "node_kind": "augmented_assignment_expression",
+        "start_line": 225,
+        "start_column": 6,
+        "end_line": 225,
+        "end_column": 23,
+        "text": "slug += character"
+      },
+      "operator": "drop_statement",
+      "sha256": "607ae2f177025b8752c8234cccb5a82a4b852a2530b750df1d99695e8a241847",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.842267099999999,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 15,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 226,
+        "start_column": 6,
+        "end_line": 226,
+        "end_column": 28,
+        "text": "needsSeparator = false"
+      },
+      "operator": "drop_statement",
+      "sha256": "295cc818906f8343cc6a1a0997c31467568a0c6ccf9e016c9335bdcf366acc77",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.4906021,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 16,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 228,
+        "start_column": 6,
+        "end_line": 228,
+        "end_column": 38,
+        "text": "needsSeparator = slug.length > 0"
+      },
+      "operator": "drop_statement",
+      "sha256": "c660b8bc6d865b2d3704e6f15a8503b768564919558649e4e881966cb0211ed3",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.312577000000001,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 17,
+      "site": {
+        "file": "src/degradation.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 232,
+        "start_column": 9,
+        "end_line": 232,
+        "end_column": 26,
+        "text": "slug.length === 0"
+      },
+      "operator": "negate",
+      "sha256": "1d009714ee1710b48253bb23ac53f3a45522f15b674d6fbe15436864ec80fb88",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.0061518,
+      "worker": 2,
+      "reused_from": null
+    }
+  ],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [
+        8.5617688,
+        0.7334003
+      ],
+      "limits_s": [
+        43,
+        30
+      ],
+      "mutants_run": 3,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 2,
+      "recovered": null,
+      "baseline_s": [
+        8.3800524,
+        0.9607087
+      ],
+      "limits_s": [
+        42,
+        30
+      ],
+      "mutants_run": 3,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 3,
+      "recovered": null,
+      "baseline_s": [
+        8.4179528,
+        0.8771663
+      ],
+      "limits_s": [
+        43,
+        30
+      ],
+      "mutants_run": 2,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 4,
+      "recovered": null,
+      "baseline_s": [
+        8.833912399999999,
+        0.9792632
+      ],
+      "limits_s": [
+        45,
+        30
+      ],
+      "mutants_run": 3,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 5,
+      "recovered": null,
+      "baseline_s": [
+        8.7479898,
+        0.7323593
+      ],
+      "limits_s": [
+        44,
+        30
+      ],
+      "mutants_run": 3,
+      "closing_baseline_passed": true,
+      "stopped": null
+    },
+    {
+      "worker": 6,
+      "recovered": null,
+      "baseline_s": [
+        8.3782507,
+        0.7764217
+      ],
+      "limits_s": [
+        42,
+        30
+      ],
+      "mutants_run": 3,
+      "closing_baseline_passed": true,
+      "stopped": null
+    }
+  ],
+  "void": null
+}

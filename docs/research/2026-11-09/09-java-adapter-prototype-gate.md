@@ -150,3 +150,8 @@ Receipt summary from [`prototype-gate-report.json`](../../../.kiro/specs/java-de
 - Governs: Stage 3 (`java-deconvolution-unification`) under [.kiro/steering/roadmap.md](../../../.kiro/steering/roadmap.md).
 - Closes open admission requirement in [.kiro/specs/java-deconvolution-unification/prototype-gate.md](../../../.kiro/specs/java-deconvolution-unification/prototype-gate.md).
 - Unblocks implementation task generation in [.kiro/specs/java-deconvolution-unification/tasks.md](../../../.kiro/specs/java-deconvolution-unification/tasks.md).
+
+## Amendment, 2026-11-11: what the adverse-control figure was
+
+Reading the gate script (`.kiro/specs/java-deconvolution-unification/run_gate.py`) shows that the four controls were text replacements in the candidate, compiled and compared with the baseline through a probe; a mutant that failed to compile also counted as killed. The receipt records `JAVA_ADV_2` (removed `lock.unlock()`) as "killed at compile time": the replacement left a syntax error. The driver's mutant for the same change compiles, and the project's `CSVPrinterTest` does not notice it: it survives. Of the other three, two have a driver counterpart and are killed; one (a changed argument) has none. Whole file with the project's tests: candidate 78 of 89 killed, original 78 of 90. The gate also copied the candidate over a file in the upstream checkout and copied the original back; the driver never writes to a source tree. The "4 of 4 killed" of this entry should not be cited as evidence of test sensitivity. Details: [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md).
+

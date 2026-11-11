@@ -136,3 +136,8 @@ Native recording and replay verification verified byte-identical digests across 
 - **Negative results safe to report:** Statement reduction variances (e.g. Rust lifecycle at −15.66% vs TypeScript at −40.38%) transparently reported and analyzed.
 - **Facts and interpretation separated:** Direct mechanical test counts and line delta tables precede analytical interpretation.
 - **No inflated claims:** Bounded domain limitations explicit; Windows polyfill dependencies acknowledged; no claims of unassisted automated whole-program refactoring.
+
+## Amendment, 2026-11-11: what the adverse-control figure was
+
+The line "100% kill rate across 20/20 mandatory adverse mutation controls (Python 8/8, TypeScript 4/4, Java 4/4, Rust 4/4)" does not hold as stated. Rust: the four kills were written into the gate script. TypeScript: one of four was written into the script. Java: one of four was a mutant that did not compile, and the same change survives the project's tests when made properly. In none of the three languages was a mutant run against the project's own tests; the Python figures were not re-examined. The Rust "100 cases, 0 divergences" compared functions written for the check. The compression figures are not affected. "Production certified" is not supported by this evidence. Details and the measured replacement figures: [R75](../2026-11-11/01-specimen-controls-rerun-through-driver.md).
+
