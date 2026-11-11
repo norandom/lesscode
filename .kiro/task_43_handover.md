@@ -56,7 +56,9 @@ it is: the research index, whose bold lead-ins are that file's convention.
 
 ## Current state
 
-- main: everything above, pushed after this handover is committed. CI result to be added below.
+- main: everything above, pushed. CI on five platforms: success for `db175e5` (run 43087717445) and for
+  `3710db7` (run 43088660633, README reworded for four languages). Later commits change documents only
+  (`docs/steps.md` reworded the same way, `.kiro/handover.md` reset for the next session).
 - Not tagged. `docs/releases/1.2.0.md` has the steps for the owner.
 - Foreign clones under `D:\BuildArtifacts\lesscode\steps-foreign`: `OpenUltraCode` (branches
   `step/slug-separator`, `step/shape-checks`), `commons-csv` (`step/comment-start`), `OpenUltraCode-replay`.
