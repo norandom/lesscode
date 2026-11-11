@@ -121,6 +121,13 @@ By operator:
 - The parity tests compare with the prototype after leaving the new kind out, and print its count per scope.
 - `docs/driver.md` describes the stop behaviour and the sixth kind.
 
+## Addition, 2026-11-11, about 10:20: the swap is switched off for Java and Rust
+
+Owner decision of 2026-11-11 on the open point above: `swap_first_two` is removed from the Java and Rust
+packs. On the gate scopes that takes away 7 Java and 10 Rust mutants, of which 15 did not build and 2 Rust
+mutants were killed; the Rust scope now has no call-argument mutant and the Java scope has 5 (literals). The
+Python and TypeScript packs keep the swap. The table above shows the state before this change.
+
 ## COBESY check
 
 Outcome first: three changes, one measured; one prediction holds and one is refuted by a single mutant, with

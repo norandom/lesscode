@@ -31,7 +31,7 @@
                       "returned_literal_swaps": [["true", "false"], ["0", "1"]]},
     "state_write": {"statement": "{noop}"},
     "error_order": {"swap_next": true},
-    "call_argument": {"literal_swaps": [["true", "false"], ["0", "1"]], "empty_string": "\"\"", "swap_first_two": true}
+    "call_argument": {"literal_swaps": [["true", "false"], ["0", "1"]], "empty_string": "\"\""}
   },
   "gaps": [{"reason": "unsafe code", "nodes": ["unsafe_block"]}, {"reason": "raw pointer", "nodes": ["pointer_type"]},
            {"reason": "dynamic dispatch", "nodes": ["dynamic_type"]},

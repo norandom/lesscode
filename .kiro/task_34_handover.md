@@ -57,6 +57,12 @@ Written 2026-11-11, about 10:05 (Europe/Berlin). Predecessor: `.kiro/task_33_han
 4. The Mistral key is unrotated.
 5. The Rust specimen candidate has never been built.
 
+## Addition, 2026-11-11, about 10:20
+
+Owner answers: tag the release (yes); switch the argument swap off for Java and Rust (yes, done in the packs,
+tests and documents); the Mistral key is no longer an open item. The Slice B answer was "yes" to a list of
+three alternatives and is asked again.
+
 ## CI
 
 Run 42991301300 for commit `3316cbc`: success on all five jobs (Linux x86_64 through Dagger, Linux aarch64,

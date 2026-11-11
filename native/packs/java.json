@@ -25,7 +25,7 @@
     "failure_state": {"by_kind": {"throw_statement": "{noop}"}, "returned_literal_swaps": [["true", "false"], ["0", "1"]]},
     "state_write": {"statement": "{noop}"},
     "error_order": {"swap_next": true},
-    "call_argument": {"literal_swaps": [["true", "false"], ["0", "1"]], "empty_string": "\"\"", "swap_first_two": true}
+    "call_argument": {"literal_swaps": [["true", "false"], ["0", "1"]], "empty_string": "\"\""}
   },
   "gaps": [{"reason": "reflection or class loading", "nodes_with_prefix": {"method_invocation": ["Class.forName("]}},
            {"reason": "unmonitored thread", "nodes_with_prefix": {"object_creation_expression": ["new Thread("]}}]

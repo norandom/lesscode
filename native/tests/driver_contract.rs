@@ -319,26 +319,25 @@ fn call_arguments_get_bounded_literal_and_swap_mutants() {
     let lines: Vec<&str> = rust.iter().map(|(_, line)| line.as_str()).collect();
     assert_eq!(
         lines,
-        [
-            "send(\"\", true, 0, 1);",
-            "send(\"warning\", false, 0, 1);",
-            "send(true, \"warning\", 0, 1);"
-        ]
+        ["send(\"\", true, 0, 1);", "send(\"warning\", false, 0, 1);"],
+        "the Rust pack has no argument swap: 8 of 10 did not build (R81)"
     );
     assert!(rust[0].0.starts_with("arg_literal:string->empty@2:"));
     assert!(rust[1].0.starts_with("arg_literal:true->false@2:"));
-    assert!(rust[2].0.starts_with("arg_swap@2:"));
 
     let python = argument_mutants("python", "def f():\n    send(name, False)\n    log(\"\")\n");
     let lines: Vec<&str> = python.iter().map(|(_, line)| line.as_str()).collect();
     assert_eq!(lines, ["send(name, True)", "send(False, name)"]);
+    assert!(python[1].0.starts_with("arg_swap@2:"));
 
+    // The Java pack has no argument swap either (7 of 7 did not build), so
+    // a call without literal arguments gets nothing; a literal is changed.
     let java = argument_mutants(
         "java",
-        "class A { void f() {\n    format.print(value, appendable, newRecord);\n} }\n",
+        "class A { void f() {\n    format.print(value, appendable, newRecord);\n    log(\"x\", true);\n} }\n",
     );
     let lines: Vec<&str> = java.iter().map(|(_, line)| line.as_str()).collect();
-    assert_eq!(lines, ["format.print(appendable, value, newRecord);"]);
+    assert_eq!(lines, ["log(\"\", true);", "log(\"x\", false);"]);
 
     let ts = argument_mutants(
         "typescript",
