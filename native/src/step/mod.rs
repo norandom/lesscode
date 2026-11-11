@@ -2,4 +2,5 @@
 //! judged by the project's own tests and by planted faults
 //! (`.kiro/specs/gradual-refactoring-steps`).
 
+pub mod declaration;
 pub mod revisions;

@@ -386,6 +386,13 @@
    "disposition": null
   },
   {
+   "path": "step/declaration.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "The step declaration: read, validate, run configuration, revisions (design: Declaration, REQ 1.1, 4.2, 8.1)",
+   "disposition": null
+  },
+  {
    "path": "step/mod.rs",
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
