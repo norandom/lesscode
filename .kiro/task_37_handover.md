@@ -46,4 +46,4 @@ first step through the tooling), then the task list.
 
 ## CI
 
-Filled in once the run for this commit has finished.
+Run 43040111177 for commit `c51bd57`: success on all five jobs, 2026-11-11.
