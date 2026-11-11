@@ -2,8 +2,11 @@
 //! It needs no network and behaves the same on every platform.
 //!
 //!     toy_check --file F --expect TEXT [--expect TEXT ...]
-//!               [--print TEXT] [--print-if-missing TEXT]
+//!               [--expect-from FILE] [--print TEXT] [--print-if-missing TEXT]
 //!               [--sleep-if-missing-ms N] [--missing-exit CODE] [--poison MARKER]
+//!
+//! `--expect-from` reads further expected texts, one per line, from a file:
+//! the stand-in for a project's test files. Exit 2 when it cannot be read.
 //!
 //! Exit 0 when the file contains every expected text; otherwise the exit
 //! code given (1 by default), after the optional output and sleep.
@@ -38,10 +41,20 @@ fn main() -> ExitCode {
         println!("poisoned by an earlier run");
         return ExitCode::from(1);
     }
-    if values("--expect")
-        .iter()
-        .all(|expected| text.contains(expected.as_str()))
-    {
+    let mut expected: Vec<String> = values("--expect").into_iter().cloned().collect();
+    for list in values("--expect-from") {
+        let Ok(lines) = std::fs::read_to_string(list) else {
+            eprintln!("toy_check: cannot read {list}");
+            return ExitCode::from(2);
+        };
+        expected.extend(
+            lines
+                .lines()
+                .filter(|l| !l.trim().is_empty())
+                .map(str::to_owned),
+        );
+    }
+    if expected.iter().all(|e| text.contains(e.as_str())) {
         return ExitCode::SUCCESS;
     }
     if let Some(marker) = poison {

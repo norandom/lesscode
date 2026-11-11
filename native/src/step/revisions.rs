@@ -61,14 +61,23 @@ pub struct Copied {
     pub skipped: Vec<(String, String)>,
 }
 
-struct Entry {
-    mode: String,
-    kind: String,
-    hash: String,
-    path: String,
+/// One entry of a tree: a file, a link or another repository.
+#[derive(Debug, Clone)]
+pub struct Entry {
+    pub mode: String,
+    pub kind: String,
+    pub hash: String,
+    pub path: String,
 }
 
-fn entries(repo: &Path, revision: &str, root: &str) -> Result<Vec<Entry>, String> {
+impl Entry {
+    pub fn is_plain_file(&self) -> bool {
+        self.kind == "blob" && self.mode != "120000"
+    }
+}
+
+/// The entries below `root` (the whole tree when empty) at a revision.
+pub fn entries(repo: &Path, revision: &str, root: &str) -> Result<Vec<Entry>, String> {
     let mut args = vec!["ls-tree", "-r", "-z", "--full-tree", revision];
     if !root.is_empty() {
         args.extend(["--", root]);
@@ -138,19 +147,20 @@ fn next_blob(reader: &mut impl BufRead, hash: &str) -> Result<Vec<u8>, String> {
     Ok(content)
 }
 
-/// Copy the files below `root` (the whole tree when empty) as they are at
-/// `revision` into the new directory `dest`, which must not exist. File
-/// contents are the committed bytes; no line-ending conversion is applied.
-pub fn copy_tree(repo: &Path, revision: &str, root: &str, dest: &Path) -> Result<Copied, String> {
-    if dest.exists() {
-        return Err(format!("{} exists already", dest.display()));
-    }
+/// Write the plain files among `entries` below `dest`, reading their
+/// content from the repository. File contents are the committed bytes; no
+/// line-ending conversion is applied. Other entries are listed as skipped.
+pub fn write_entries(
+    repo: &Path,
+    entries: Vec<Entry>,
+    root: &str,
+    dest: &Path,
+) -> Result<Copied, String> {
     check_separate(repo, dest)?;
-    let io = |e: std::io::Error| format!("copy of {revision}: {e}");
+    let io = |e: std::io::Error| format!("copy into {}: {e}", dest.display());
     let (mut blobs, mut copied) = (Vec::new(), Copied::default());
-    for entry in entries(repo, revision, root)? {
-        let plain = entry.kind == "blob" && entry.mode != "120000";
-        match plain {
+    for entry in entries {
+        match entry.is_plain_file() {
             true => blobs.push(entry),
             false => {
                 let why = format!("mode {} {}", entry.mode, entry.kind);
@@ -172,8 +182,7 @@ pub fn copy_tree(repo: &Path, revision: &str, root: &str, dest: &Path) -> Result
     let feeder = std::thread::spawn(move || stdin.write_all(&wanted));
     let mut reader = BufReader::new(child.stdout.take().expect("piped"));
     for blob in &blobs {
-        let content =
-            next_blob(&mut reader, &blob.hash).map_err(|e| format!("copy of {revision}: {e}"))?;
+        let content = next_blob(&mut reader, &blob.hash)?;
         let path = target(dest, root, &blob.path)?;
         if let Some(parent) = path.parent() {
             std::fs::create_dir_all(parent).map_err(io)?;
@@ -188,4 +197,30 @@ pub fn copy_tree(repo: &Path, revision: &str, root: &str, dest: &Path) -> Result
     let _ = feeder.join();
     child.wait().map_err(io)?;
     Ok(copied)
+}
+
+/// Copy the files below `root` (the whole tree when empty) as they are at
+/// `revision` into the new directory `dest`, which must not exist.
+pub fn copy_tree(repo: &Path, revision: &str, root: &str, dest: &Path) -> Result<Copied, String> {
+    if dest.exists() {
+        return Err(format!("{} exists already", dest.display()));
+    }
+    write_entries(repo, entries(repo, revision, root)?, root, dest)
+}
+
+/// The content of one committed file.
+pub fn blob(repo: &Path, hash: &str) -> Result<Vec<u8>, String> {
+    let (found, out) = output(repo, &["cat-file", "blob", hash])?;
+    match found {
+        true => Ok(out),
+        false => Err(format!("git has no blob {hash}")),
+    }
+}
+
+/// The commits after `base` up to `step`, newest first.
+pub fn commits(repo: &Path, base: &str, step: &str) -> Result<Vec<String>, String> {
+    let range = format!("{base}..{step}");
+    let (_, out) = output(repo, &["log", "--format=%H", &range])?;
+    let text = String::from_utf8_lossy(&out);
+    Ok(text.lines().map(str::to_owned).collect())
 }

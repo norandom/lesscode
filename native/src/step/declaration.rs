@@ -58,6 +58,10 @@ pub struct Declaration {
     /// Further fields of the driver's run configuration (limits, patterns).
     #[serde(default)]
     pub run: Map<String, Value>,
+    /// Per file, functions the step is about; their faults are run even
+    /// when the step does not change them (a step that only adds pins).
+    #[serde(default)]
+    pub focus: BTreeMap<String, Vec<String>>,
     /// Tokens the scope may grow by.
     #[serde(default)]
     pub max_token_growth: usize,
@@ -99,7 +103,7 @@ impl Declaration {
         Ok(declaration)
     }
 
-    fn is_test_path(&self, file: &str) -> bool {
+    pub fn is_test_path(&self, file: &str) -> bool {
         self.test_paths.iter().any(|p| file.starts_with(p.as_str()))
     }
 
@@ -125,6 +129,9 @@ impl Declaration {
         if let Some(bad) = paths.clone().find(|p| !inside(p)) {
             return Err(format!("{bad}: not a path inside the repository"));
         }
+        if let Some(stray) = self.focus.keys().find(|f| !self.scope.contains(f)) {
+            return Err(format!("focus: {stray} is not in the scope"));
+        }
         if let Some(test) = self.scope.iter().find(|f| self.is_test_path(f)) {
             return Err(format!("scope: {test} lies under a test path"));
         }
@@ -145,12 +152,12 @@ impl Declaration {
     }
 
     /// The driver's run configuration for a copy at `source_root`, with
-    /// faults limited to `functions` where any are named.
-    pub fn run_config(
+    /// faults limited to `functions` where any are named, as JSON.
+    pub fn run_config_json(
         &self,
         source_root: &Path,
         functions: &BTreeMap<String, Vec<String>>,
-    ) -> Result<RunConfig, String> {
+    ) -> Result<Value, String> {
         let mut fields = self.run.clone();
         let own = json!({
             "language": self.language, "source_root": source_root, "files": self.scope,
@@ -162,8 +169,17 @@ impl Declaration {
                 return Err(format!("run: {key} is set by the declaration itself"));
             }
         }
-        let config: RunConfig =
-            serde_json::from_value(Value::Object(fields)).map_err(|e| format!("run: {e}"))?;
+        Ok(Value::Object(fields))
+    }
+
+    /// The same as a checked run configuration.
+    pub fn run_config(
+        &self,
+        source_root: &Path,
+        functions: &BTreeMap<String, Vec<String>>,
+    ) -> Result<RunConfig, String> {
+        let fields = self.run_config_json(source_root, functions)?;
+        let config: RunConfig = serde_json::from_value(fields).map_err(|e| format!("run: {e}"))?;
         config.check().map(|()| config)
     }
 

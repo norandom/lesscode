@@ -414,6 +414,20 @@
    "disposition": null
   },
   {
+   "path": "step/faults.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "Fault runs of a step through the driver, with their result read back (design: Check, Pin)",
+   "disposition": null
+  },
+  {
+   "path": "step/pin.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "step pin: admission of a pin against one fault (design: Pin, REQ 3.1 to 3.7)",
+   "disposition": null
+  },
+  {
    "path": "step/plan.rs",
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
@@ -425,6 +439,13 @@
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
    "allocation": "Read-only git: resolve revisions, copy a tree at a revision (design: Revisions, REQ 10.1, 10.4)",
+   "disposition": null
+  },
+  {
+   "path": "step/trees.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "Trees of two revisions compared; the copies a step is judged in (design: Revisions)",
    "disposition": null
   },
   {

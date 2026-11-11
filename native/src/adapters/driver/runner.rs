@@ -17,6 +17,8 @@ use std::time::Duration;
 
 /// In a command's arguments: replaced by the step's time limit in seconds.
 pub const LIMIT_PLACEHOLDER: &str = "{limit_s}";
+/// Why a copy stops when the project's tests fail before any mutant.
+pub const TESTS_FAIL: &str = "the unmutated tests do not pass in this copy";
 
 /// One mutant to run.
 #[derive(Debug, Clone)]
@@ -233,7 +235,7 @@ impl Shared<'_> {
         let baseline = run_steps(self.config, &space.tree, &ceiling);
         report.baseline_s = baseline.iter().map(|(_, f)| f.seconds).collect();
         if baseline.len() < ceiling.len() || !baseline.iter().all(|(_, f)| f.passed()) {
-            report.stopped = Some("the unmutated tests do not pass in this copy".into());
+            report.stopped = Some(TESTS_FAIL.into());
             return report;
         }
         report.limits_s = report
