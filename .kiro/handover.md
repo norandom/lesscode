@@ -8,7 +8,9 @@ active implementation queue.
 
 Start with the [task 34 handover](task_34_handover.md).
 
-0. **Start here:** [task 35 handover](task_35_handover.md). Requirements of `gradual-refactoring-steps` are
+0. **Start here:** [task 36 handover](task_36_handover.md). Budgets count tokens (R90). The design of
+   `gradual-refactoring-steps` is generated and waits for the owner's approval with four open points.
+0. Earlier: [task 35 handover](task_35_handover.md). Requirements of `gradual-refactoring-steps` are
    approved; next are its design, complexity budgets counted in tokens, and splitting 15 criteria that
    `kiro-cli check` flags. The pins of the first step are merged (`4004bf6`).
 0. **State at 14:00 on 2026-11-11:** releases 1.1.0 and 1.1.1 are published and verified. Requirements for
