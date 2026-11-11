@@ -11,8 +11,11 @@ pub mod context;
 pub mod declaration;
 pub mod faults;
 pub mod functions;
+pub mod guard;
+pub mod ledger;
 pub mod pin;
 pub mod plan;
+pub mod record;
 pub mod revisions;
 pub mod trees;
 pub mod verdict;
@@ -26,6 +29,10 @@ pub enum StepCommand {
     Pin(pin::PinArgs),
     /// Judge a step: tests on base and step, planted faults before and after.
     Check(check::CheckArgs),
+    /// Accept a step branch only with a verdict for exactly its content.
+    Guard(guard::GuardArgs),
+    /// Put an accepted step, an override or a release on the ledger.
+    Record(record::RecordArgs),
 }
 
 pub fn run(command: StepCommand) -> Result<u8, String> {
@@ -33,5 +40,7 @@ pub fn run(command: StepCommand) -> Result<u8, String> {
         StepCommand::Plan(args) => plan::run_plan(args),
         StepCommand::Pin(args) => pin::run_pin(args),
         StepCommand::Check(args) => check::run_check(args),
+        StepCommand::Guard(args) => guard::run_guard(args),
+        StepCommand::Record(args) => record::run_record(args),
     }
 }

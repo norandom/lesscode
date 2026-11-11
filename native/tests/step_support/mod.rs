@@ -134,6 +134,33 @@ impl Repo {
         )
     }
 
+    /// Run any `step` command in this repository, with text on standard input.
+    pub fn cli(&self, args: &[&str], input: &str) -> (Option<i32>, String) {
+        use std::io::Write;
+        let mut child = Command::new(env!("CARGO_BIN_EXE_lesscode-core"))
+            .arg("step")
+            .args(args)
+            .arg("--repo")
+            .arg(&self.dir)
+            .stdin(std::process::Stdio::piped())
+            .stdout(std::process::Stdio::piped())
+            .stderr(std::process::Stdio::piped())
+            .spawn()
+            .expect("run lesscode-core binary");
+        child
+            .stdin
+            .take()
+            .unwrap()
+            .write_all(input.as_bytes())
+            .unwrap();
+        let output = child.wait_with_output().unwrap();
+        let said = [output.stdout, output.stderr].concat();
+        (
+            output.status.code(),
+            String::from_utf8_lossy(&said).into_owned(),
+        )
+    }
+
     pub fn json(&self, path: &Path) -> Value {
         serde_json::from_slice(&fs::read(path).unwrap()).unwrap()
     }

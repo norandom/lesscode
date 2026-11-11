@@ -6,10 +6,12 @@ use super::check::CheckArgs;
 use super::context::Context;
 use super::faults::{run, Ended, Fault, FaultRun, Request};
 use super::functions::{changed, FileFunctions, Tally};
+use super::ledger::{last_accepted, read};
 use super::trees::{fresh_copy, Tree};
 use super::verdict::{CriterionEvidence, FunctionRow, Verdict};
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::process;
+use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 use std::time::Duration;
@@ -137,6 +139,7 @@ fn compare(
     file: &str,
     names: &BTreeSet<String>,
     [before, after]: [Side; 2],
+    ledger: &[Value],
     verdict: &mut Verdict,
 ) -> Vec<String> {
     let mut reasons = Vec::new();
@@ -148,11 +151,14 @@ fn compare(
         let out_of_reach = reach.iter().find(|o| o.function == *name);
         total[0] += was.map_or(0, |t| t.unnoticed);
         total[1] += is.map_or(0, |t| t.unnoticed);
-        match (was, is) {
-            (Some(was), Some(is)) if is.unnoticed > was.unnoticed && out_of_reach.is_none() => {
+        // The lower of the base and the best number already on the ledger.
+        let held = last_accepted(ledger, file, name);
+        let allowed = was.map(|w| held.map_or(w.unnoticed, |h| h.min(w.unnoticed)));
+        match (allowed, is) {
+            (Some(allowed), Some(is)) if is.unnoticed > allowed && out_of_reach.is_none() => {
                 reasons.push(format!(
                     "{file}: {name}: unnoticed faults rise from {} to {}: {}",
-                    was.unnoticed,
+                    allowed,
                     is.unnoticed,
                     unnoticed_after.join(", ")
                 ));
@@ -252,13 +258,14 @@ pub fn judge_by_runs(
         "tests and fault runs",
         "the project's tests pass on the base and on the step",
     );
+    let ledger = read(&context.repo.join(&context.declaration.outputs.ledger))?;
     let mut reasons = Vec::new();
     for (file, names) in &wanted {
         let sides = [
             Side::new(&before[file], &runs[0].faults, file),
             Side::new(&after[file], &runs[1].faults, file),
         ];
-        reasons.extend(compare(context, file, names, sides, verdict));
+        reasons.extend(compare(context, file, names, sides, &ledger, verdict));
     }
     verdict.settle(
         "planted faults",

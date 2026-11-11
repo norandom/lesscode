@@ -20,6 +20,16 @@ pub struct Hashes {
     pub declaration: String,
 }
 
+/// The hashes of what a declaration at `path` puts under judgement, in a tree.
+pub fn hashes(declaration: &Declaration, path: &str, tree: &Tree) -> Hashes {
+    let file = |f: &String| (f.clone(), tree.get(f).cloned().unwrap_or_default());
+    Hashes {
+        scope: declaration.scope.iter().map(file).collect(),
+        tests: digest(tree, |p| declaration.is_test_path(p)),
+        declaration: tree.get(path).cloned().unwrap_or_default(),
+    }
+}
+
 pub struct Context {
     pub repo: PathBuf,
     /// The declaration's path, relative to the repository root.
@@ -88,13 +98,7 @@ impl Context {
 
     /// The hashes of what is judged, at any revision's tree.
     pub fn hashes_of(&self, tree: &Tree) -> Hashes {
-        let scope = &self.declaration.scope;
-        let file = |f: &String| (f.clone(), tree.get(f).cloned().unwrap_or_default());
-        Hashes {
-            scope: scope.iter().map(file).collect(),
-            tests: digest(tree, |p| self.declaration.is_test_path(p)),
-            declaration: tree.get(&self.path).cloned().unwrap_or_default(),
-        }
+        hashes(&self.declaration, &self.path, tree)
     }
 
     /// The text of a scope file at a revision; empty when it is not there.

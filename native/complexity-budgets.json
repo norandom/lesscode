@@ -428,6 +428,20 @@
    "disposition": null
   },
   {
+   "path": "step/guard.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "step guard: a branch stands only with a verdict or an override for exactly its committed content (design: Guard, REQ 6.1 to 6.7)",
+   "disposition": null
+  },
+  {
+   "path": "step/ledger.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "The ledger: appended lines chained by hash, last accepted number per function, releases (design: Ledger, REQ 7.1 to 7.4)",
+   "disposition": null
+  },
+  {
    "path": "step/mod.rs",
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
@@ -453,6 +467,13 @@
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
    "allocation": "step plan: faults, size and seams per function (design: Plan, REQ 2.1 to 2.5, 4.1)",
+   "disposition": null
+  },
+  {
+   "path": "step/record.rs",
+   "max_logical_units": 300,
+   "owner": "gradual-refactoring-steps",
+   "allocation": "step record: accepted verdict, override with reason, release (design: Ledger, REQ 6.4, 7.1, 7.3)",
    "disposition": null
   },
   {
