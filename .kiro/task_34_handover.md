@@ -59,4 +59,11 @@ Written 2026-11-11, about 10:05 (Europe/Berlin). Predecessor: `.kiro/task_33_han
 
 ## CI
 
-Filled in below once the run for the release-preparation commit has finished.
+Run 42991301300 for commit `3316cbc`: success on all five jobs (Linux x86_64 through Dagger, Linux aarch64,
+Windows, macOS on Intel and on Apple silicon), finished 2026-11-11, 10:06 local. That commit contains the
+version bump and every code change of this round.
+
+The runs for `ce00613` and `3455604` failed, on every platform, at the format check: the example added with
+R82 (`native/examples/annotation_sites.rs`) was committed unformatted, and I pushed three commits on top
+without running the format check again. `3316cbc` formats it. Tag from `3316cbc` or later, not from
+`3455604`.
