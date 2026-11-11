@@ -30,7 +30,8 @@
     "docs/research/2026-11-11/14-gradual-steps-prototype-gate.md",
     "docs/research/2026-11-11/15-first-tracked-step.md",
     "docs/research/2026-11-11/16-budgets-count-tokens.md",
-    "docs/research/2026-11-11/17-gradual-steps-three-assumptions.md"
+    "docs/research/2026-11-11/17-gradual-steps-three-assumptions.md",
+    "docs/research/2026-11-11/18-three-real-steps.md"
   ],
   "notes": "2026-11-11: owner asked whether code is healthy and working after a change and whether refactoring can be supported step by step, release by release; cc-sdd per branch, one small case per branch, assurance inspired by Pex and Moles, handover to openidea-kiro, skills are not hard boundaries. Brief written, prototype gate passed (R88). Owner said yes to writing requirements and to a first real step from a copy of this repository with a thorough check and a guard. Requirements generated and approved by the owner 2026-11-11 (\"1. approved\"). Owner decisions of the same message: merge the pins branch; complexity budgets should count tokens instead of lines; kiro-cli is installed from its release into tools/bin by a pinned script. kiro-cli check on this spec: 0 errors, 15 warnings (criteria with more than one shall), split on 2026-11-11 without change of meaning (61 criteria). Design generated 2026-11-11, approved by the owner the same day (callers by name; no differential check for now; the R89 change becomes the first step through the tooling). Tasks generated and approved by the owner 2026-11-11; group 1 shows three assumptions and can fail."
 }

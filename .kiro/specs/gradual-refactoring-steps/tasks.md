@@ -129,7 +129,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     the git arguments used contain no writing command.
   - _Requirements: 10.2, 10.3, 10.5_
 
-- [ ] 6. Real steps and delivery
+- [x] 6. Real steps and delivery
 - [x] 6.1 The `verdict()` change of R89 as the first step through the tooling
   - Spec, declaration, branch, check, record, guard, on this repository. Owner decision 2026-11-11.
   - Done 2026-11-11: branch `step/one-exit` (`08f4a05` spec and declaration, `e64b7b3` the change, `0d54533`
@@ -147,7 +147,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - README section, `docs/steps.md` complete, a skill that walks the phases and calls the commands; a check
     that could not be made mechanical is listed, not moved into the skill.
   - _Requirements: 4.3, 6.6, 11.4, 11.5_
-- [ ] 6.4 Final validation
+- [x] 6.4 Final validation
   - `kiro-validate-impl`, `kiro-cli check`, research entry, handover; the evidence format proposed to
     openidea-kiro as an issue text for the owner to file.
   - _Requirements: 8.3, 11.3_

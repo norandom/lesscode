@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R91 The three assumptions of the step design hold; two details of the design change (2026-11-11)
+## Latest: R92 Three real steps through the step tooling, in Rust, Java and TypeScript: all accepted (2026-11-11)
+
+[R92](2026-11-11/18-three-real-steps.md) is tasks 6.1 and 6.2 of `gradual-refactoring-steps`.
+- **This repository, Rust:** the `verdict()` change refused in R89 is accepted; 11 noticed / 0 unnoticed faults before, 12 / 0 after; 7,307 to 7,306 tokens. Branch `step/one-exit`, local, not merged.
+- **commons-csv, Java:** `printComment` starts comment lines through one method; 19 / 2 to 17 / 2 plus 2 / 0 in the new method.
+- **OpenUltraCode, TypeScript:** `slugify` drops a condition that is always true; 9 / 1 to 8 / 0.
+- **Not exercised:** no step was refused and none needed a pin; those paths rest on the fixture tests and R91.
+- **Open for the owner:** merge `step/one-exit` or not.
+
+## Prior: R91 The three assumptions of the step design hold; two details of the design change (2026-11-11)
 
 [R91](2026-11-11/17-gradual-steps-three-assumptions.md) is the gate of task group 1 of `gradual-refactoring-steps`: proceed.
 - **Function filter:** the 11 faults in `verdict()` have the same classes as in the whole-file run, in 2.1 minutes instead of about 17.
