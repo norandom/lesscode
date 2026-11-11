@@ -13,15 +13,14 @@ use crate::adapter_traits::{
     MutationRequest, PureCoreVerifier, RunRequest, RunResult, SpecimenTraceRunner,
     VerificationResult,
 };
+use crate::adapters::driver::contract;
 use crate::specimen_runner::NativeSpecimenRunner;
 
 pub use analysis::RustEffectAnalyzer;
 pub use mutation::RustMutantGenerator;
 
-/// Main Rust language adapter bundling analysis, mutation, verification, and runner traits.
+/// Main Rust language adapter answering the adapter traits; analysis and mutation come from the driver.
 pub struct RustAdapter {
-    pub analyzer: RustEffectAnalyzer,
-    pub mutant_gen: RustMutantGenerator,
     pub runner: NativeSpecimenRunner,
     pub profile_id: String,
 }
@@ -29,8 +28,6 @@ pub struct RustAdapter {
 impl RustAdapter {
     pub fn new() -> Self {
         Self {
-            analyzer: RustEffectAnalyzer::new(),
-            mutant_gen: RustMutantGenerator::new(),
             runner: NativeSpecimenRunner::new(),
             profile_id: "rust-nextest-v1".into(),
         }
@@ -45,13 +42,13 @@ impl Default for RustAdapter {
 
 impl crate::adapter_traits::StateFrameAnalyzer for RustAdapter {
     fn analyze(&self, request: &AnalysisRequest) -> AnalysisResult {
-        self.analyzer.analyze(request)
+        contract::analyze("rust", request)
     }
 }
 
 impl AdverseMutantGenerator for RustAdapter {
     fn generate(&self, request: &MutationRequest) -> MutationBatch {
-        self.mutant_gen.generate(request)
+        contract::generate("rust", request)
     }
 }
 

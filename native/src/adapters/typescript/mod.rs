@@ -13,15 +13,11 @@ use crate::adapter_traits::{
     MutationRequest, PureCoreVerifier, RunRequest, RunResult, SpecimenTraceRunner,
     VerificationResult,
 };
+use crate::adapters::driver::contract;
 use crate::specimen_runner::NativeSpecimenRunner;
 
-use self::analysis::TypeScriptEffectAnalyzer;
-use self::mutation::TypeScriptMutantGenerator;
-
-/// Main TypeScript language adapter bundling analysis, mutation, verification, and runner traits.
+/// Main TypeScript language adapter answering the adapter traits; analysis and mutation come from the driver.
 pub struct TypeScriptAdapter {
-    pub analyzer: TypeScriptEffectAnalyzer,
-    pub mutant_gen: TypeScriptMutantGenerator,
     pub runner: NativeSpecimenRunner,
     pub profile_id: String,
 }
@@ -29,8 +25,6 @@ pub struct TypeScriptAdapter {
 impl TypeScriptAdapter {
     pub fn new() -> Self {
         Self {
-            analyzer: TypeScriptEffectAnalyzer::new(),
-            mutant_gen: TypeScriptMutantGenerator::new(),
             runner: NativeSpecimenRunner::new(),
             profile_id: "ts-node-v1".into(),
         }
@@ -45,13 +39,13 @@ impl Default for TypeScriptAdapter {
 
 impl crate::adapter_traits::StateFrameAnalyzer for TypeScriptAdapter {
     fn analyze(&self, request: &AnalysisRequest) -> AnalysisResult {
-        self.analyzer.analyze(request)
+        contract::analyze("typescript", request)
     }
 }
 
 impl AdverseMutantGenerator for TypeScriptAdapter {
     fn generate(&self, request: &MutationRequest) -> MutationBatch {
-        self.mutant_gen.generate(request)
+        contract::generate("typescript", request)
     }
 }
 

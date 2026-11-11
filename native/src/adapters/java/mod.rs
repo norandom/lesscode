@@ -13,15 +13,14 @@ use crate::adapter_traits::{
     MutationRequest, PureCoreVerifier, RunRequest, RunResult, SpecimenTraceRunner,
     VerificationResult,
 };
+use crate::adapters::driver::contract;
 use crate::specimen_runner::NativeSpecimenRunner;
 
 pub use analysis::JavaEffectAnalyzer;
 pub use mutation::JavaMutantGenerator;
 
-/// Main Java language adapter bundling analysis, mutation, verification, and runner traits.
+/// Main Java language adapter answering the adapter traits; analysis and mutation come from the driver.
 pub struct JavaAdapter {
-    pub analyzer: JavaEffectAnalyzer,
-    pub mutant_gen: JavaMutantGenerator,
     pub runner: NativeSpecimenRunner,
     pub profile_id: String,
 }
@@ -29,8 +28,6 @@ pub struct JavaAdapter {
 impl JavaAdapter {
     pub fn new() -> Self {
         Self {
-            analyzer: JavaEffectAnalyzer::new(),
-            mutant_gen: JavaMutantGenerator::new(),
             runner: NativeSpecimenRunner::new(),
             profile_id: "java-junit-v1".into(),
         }
@@ -45,13 +42,13 @@ impl Default for JavaAdapter {
 
 impl crate::adapter_traits::StateFrameAnalyzer for JavaAdapter {
     fn analyze(&self, request: &AnalysisRequest) -> AnalysisResult {
-        self.analyzer.analyze(request)
+        contract::analyze("java", request)
     }
 }
 
 impl AdverseMutantGenerator for JavaAdapter {
     fn generate(&self, request: &MutationRequest) -> MutationBatch {
-        self.mutant_gen.generate(request)
+        contract::generate("java", request)
     }
 }
 

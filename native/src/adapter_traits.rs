@@ -129,11 +129,21 @@ pub struct MutationSpec {
 /// Resulting status of an adverse mutation trial.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum MutantOutcome {
-    Killed { witness: String },
+    Killed {
+        witness: String,
+    },
     Survived,
-    Invalid { reason: String },
+    Invalid {
+        reason: String,
+    },
     Timeout,
-    InfrastructureFailure { reason: String },
+    InfrastructureFailure {
+        reason: String,
+    },
+    /// Mutants exist for the control, and no test was run against them.
+    NotRun {
+        mutants: usize,
+    },
 }
 
 /// Individual mutation trial record.

@@ -1,7 +1,7 @@
 //! Command handlers of the driver. An `Err` is bad input (exit code 3).
 
 use super::admission::admit;
-use super::analysis::analyse;
+use super::analysis::{analyse, outside_frame};
 use super::controls::{replay, seed_mutants, ControlFile};
 use super::operators::mutants_of_sites;
 use super::pack::Pack;
@@ -124,19 +124,7 @@ pub fn run_analyze(
             .map_err(|e| format!("Cannot read frame spec {}: {e}", spec_path.display()))?;
         let spec: FrameSpec =
             serde_json::from_slice(&bytes).map_err(|e| format!("Invalid frame spec JSON: {e}"))?;
-        let allowed = |site: &String| {
-            let file_only = site
-                .rsplit_once(':')
-                .map_or(site.as_str(), |(file, _)| file);
-            let permits = |a: &String| file_only.ends_with(a.as_str()) || site.contains(a.as_str());
-            spec.allowed_write_sites.iter().any(permits)
-        };
-        violations = analysis
-            .write_sites
-            .iter()
-            .filter(|site| !allowed(site))
-            .cloned()
-            .collect();
+        violations = outside_frame(&analysis.write_sites, &spec);
     }
     let passed = analysis.gaps.is_empty() && violations.is_empty();
     let receipt = AnalysisReceipt {

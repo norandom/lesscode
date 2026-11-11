@@ -112,15 +112,20 @@ fn adapter_adverse_mutant_generator_integration() {
         controls: vec![MutationSpec {
             id: "JAVA_ADV_1".into(),
             location: "Target.java:1".into(),
-            kind: MutationKind::MissingFailureState,
+            kind: MutationKind::SilentNone,
             description: "State mutation omission".into(),
         }],
     };
 
     let batch = adapter.generate(&req);
+    // The driver finds the dropped write; no test is run, so it is not killed.
     assert_eq!(batch.denominator, 1);
-    assert_eq!(batch.killed_count, 1);
-    assert!(batch.all_killed);
+    assert_eq!(batch.killed_count, 0);
+    assert!(!batch.all_killed);
+    assert_eq!(
+        batch.results[0].outcome,
+        MutantOutcome::NotRun { mutants: 1 }
+    );
 
     let _ = std::fs::remove_dir_all(&temp_dir);
 }

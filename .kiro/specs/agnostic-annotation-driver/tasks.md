@@ -153,7 +153,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - _Requirements: 4.9, 6.4, 6.5_
 
 - [ ] 7. Migration: remove the specimen-bound rules
-- [ ] 7.1 Map the specimen mutation kinds onto driver operators
+- [x] 7.1 Map the specimen mutation kinds onto driver operators
   - Five kinds mapped as designed; `TruncatedStream` has no counterpart and the loss is recorded.
   - _Requirements: 7.3, 7.5_
 - [ ] 7.2 Rerun the specimen experiments through the driver

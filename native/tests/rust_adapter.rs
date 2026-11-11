@@ -140,13 +140,13 @@ fn verdict(arm_exit: i32, level2_ops: usize) -> (bool, &'static str) {
         controls: vec![
             MutationSpec {
                 id: "RUST_ADV_2".into(),
-                location: "Target.rs:2".into(),
+                location: "Target.rs:3".into(),
                 kind: MutationKind::InvertedCondition,
                 description: "Inverted refusal condition in verdict".into(),
             },
             MutationSpec {
                 id: "RUST_ADV_3".into(),
-                location: "Target.rs:5".into(),
+                location: "Target.rs:3".into(),
                 kind: MutationKind::InvertedErrorOrder,
                 description: "Bypassed level2 differences check".into(),
             },
@@ -154,9 +154,13 @@ fn verdict(arm_exit: i32, level2_ops: usize) -> (bool, &'static str) {
     };
 
     let batch = adapter.generate(&req);
+    // The driver finds a mutant for each control; no test is run, so none is killed.
     assert_eq!(batch.denominator, 2);
-    assert_eq!(batch.killed_count, 2);
-    assert!(batch.all_killed);
+    assert_eq!(batch.killed_count, 0);
+    assert!(!batch.all_killed);
+    for result in &batch.results {
+        assert_eq!(result.outcome, MutantOutcome::NotRun { mutants: 1 });
+    }
 
     let _ = std::fs::remove_dir_all(&temp_dir);
 }

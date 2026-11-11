@@ -64,6 +64,15 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/contract.rs",
+   "max_physical_lines": 400,
+   "max_logical_units": 300,
+   "max_fn_lines": 80,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Adapter traits answered by the driver; control kinds mapped onto operators (task 7.1, REQ 7.3/7.5)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/controls.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,

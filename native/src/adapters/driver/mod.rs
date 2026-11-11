@@ -10,6 +10,7 @@ pub mod annotations;
 pub mod classes;
 pub mod cli;
 pub mod config;
+pub mod contract;
 pub mod controls;
 pub mod operators;
 pub mod pack;

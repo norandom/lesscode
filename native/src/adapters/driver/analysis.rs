@@ -5,7 +5,23 @@ use super::pack::{has, Gap, Pack};
 use super::sites::{sites_of, Site, OPERATOR_KINDS};
 use super::tree::{ancestors, first_error, grammar, parse, walk, SgNode};
 use super::Kind;
-use crate::adapter_traits::CoverageGap;
+use crate::adapter_traits::{CoverageGap, FrameSpec};
+
+/// The write sites (`label:line`) that a frame specification does not allow.
+pub fn outside_frame(write_sites: &[String], spec: &FrameSpec) -> Vec<String> {
+    let allowed = |site: &&String| {
+        let file_only = site
+            .rsplit_once(':')
+            .map_or(site.as_str(), |(file, _)| file);
+        let permits = |a: &String| file_only.ends_with(a.as_str()) || site.contains(a.as_str());
+        spec.allowed_write_sites.iter().any(permits)
+    };
+    write_sites
+        .iter()
+        .filter(|site| !allowed(site))
+        .cloned()
+        .collect()
+}
 
 pub struct Analysis {
     /// Every site of every kind, in order.
