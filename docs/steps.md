@@ -4,6 +4,8 @@ Status: in development after release 1.1.1 (spec
 [gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). `step plan`,
 `step pin` and `step check` exist; `guard` and `record` follow.
 
+Why it works this way, for readers new to the idea: [testability.md](testability.md).
+
 A step is one small change on one branch with one small spec. The tooling answers by exit code whether the
 project's tests still pass after the step and whether they still notice planted faults in the changed code
 at least as often as before. It writes no test and no refactoring; it judges what a person or a model wrote.
