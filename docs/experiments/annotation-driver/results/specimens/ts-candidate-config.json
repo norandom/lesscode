@@ -1,0 +1,42 @@
+{
+  "language": "typescript",
+  "source_root": "D:/BuildArtifacts/lesscode/specimen-rerun/OpenUltraCode-candidate",
+  "files": [
+    "src/degradation.ts"
+  ],
+  "test_paths": [
+    "tests/"
+  ],
+  "setup": [
+    [
+      "pnpm",
+      "install",
+      "--frozen-lockfile"
+    ]
+  ],
+  "build": [
+    "pnpm",
+    "exec",
+    "tsc",
+    "--noEmit"
+  ],
+  "test": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "tests/degradation.test.ts"
+  ],
+  "exclusions": [
+    "node_modules",
+    "dist"
+  ],
+  "timeout_floor_s": 30,
+  "timeout_ceiling_s": 300,
+  "runner_evidence_patterns": [
+    "tests ",
+    "pass ",
+    "fail "
+  ],
+  "workers": 6
+}

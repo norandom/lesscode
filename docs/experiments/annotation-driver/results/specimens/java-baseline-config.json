@@ -1,0 +1,77 @@
+{
+  "language": "java",
+  "source_root": "D:/BuildArtifacts/lesscode/annotation-driver/scopes/commons-csv",
+  "files": [
+    "src/main/java/org/apache/commons/csv/CSVPrinter.java"
+  ],
+  "test_paths": [
+    "src/test/"
+  ],
+  "setup": [
+    [
+      "pwsh.exe",
+      "-NoLogo",
+      "-NoProfile",
+      "-File",
+      "D:\\Source\\PowerShell\\scripts\\Invoke-Podman.ps1",
+      "run",
+      "--rm",
+      "-v",
+      ".:/work",
+      "-v",
+      "lesscode-annotation-driver_maven-repo:/root/.m2",
+      "-v",
+      "D:/Source/lesscode/docs/experiments/annotation-driver:/opt/ad:ro",
+      "-w",
+      "/work",
+      "docker.io/library/maven:3.9-eclipse-temurin-21",
+      "sh",
+      "-c",
+      "mvn -o -q -B -Drat.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true -Dpmd.skip=true -Djapicmp.skip=true -Djacoco.skip=true -Danimal.sniffer.skip=true -DskipTests test-compile"
+    ]
+  ],
+  "test": [
+    "pwsh.exe",
+    "-NoLogo",
+    "-NoProfile",
+    "-File",
+    "D:\\Source\\PowerShell\\scripts\\Invoke-Podman.ps1",
+    "run",
+    "--rm",
+    "-v",
+    ".:/work",
+    "-v",
+    "lesscode-annotation-driver_maven-repo:/root/.m2",
+    "-v",
+    "D:/Source/lesscode/docs/experiments/annotation-driver:/opt/ad:ro",
+    "-w",
+    "/work",
+    "docker.io/library/maven:3.9-eclipse-temurin-21",
+    "timeout",
+    "-s",
+    "KILL",
+    "{limit_s}",
+    "sh",
+    "/opt/ad/java-fast-test.sh",
+    "CSVPrinterTest",
+    "src/main/java/org/apache/commons/csv/CSVPrinter.java"
+  ],
+  "exclusions": [
+    "target"
+  ],
+  "timeout_floor_s": 30,
+  "timeout_ceiling_s": 900,
+  "timeout_exit_codes": [
+    124,
+    137
+  ],
+  "invalid_output_patterns": [
+    "COMPILATION ERROR",
+    ": error:"
+  ],
+  "runner_evidence_patterns": [
+    "Tests run:",
+    "[ERROR]"
+  ],
+  "workers": 4
+}
