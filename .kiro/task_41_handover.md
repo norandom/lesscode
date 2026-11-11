@@ -44,4 +44,4 @@ tools. `docs/testability.md` has a section saying so.
 
 ## CI
 
-Filled in once the run for this commit has finished.
+Run 43068592336 for commit `19b747a`: success on all five jobs, 2026-11-11.
