@@ -27,5 +27,18 @@ run_check test cargo +1.98.1 nextest run --locked --manifest-path native/Cargo.t
 run_check doctest cargo +1.98.1 test --locked --manifest-path native/Cargo.toml --doc
 run_check build cargo +1.98.1 build --locked --manifest-path native/Cargo.toml
 run_check help cargo +1.98.1 run --locked --manifest-path native/Cargo.toml -- --help
+# Research tooling beside the product: the guide optimiser. Built and linted wherever its sources are
+# present; its dry run (a scripted stand-in, no model call) needs the repository's documents as well.
+optimizer=tools/guide-optimizer/Cargo.toml
+if [ -f "$optimizer" ]; then
+  run_check optimizer-fmt cargo +1.98.1 fmt --manifest-path "$optimizer" -- --check
+  run_check optimizer-clippy cargo +1.98.1 clippy --locked --manifest-path "$optimizer" --all-targets -- -D warnings
+  if [ -f docs/experiments/annotation-driver/pack-guide-v3.md ]; then
+    for engine in gepa mipro; do
+      run_check "optimizer-dry-run-$engine" cargo +1.98.1 run --locked --manifest-path "$optimizer" -- \
+        --dry-run --engine "$engine" --max-metric-calls 24 --repo . --out-dir "$evidence/optimizer-dry-run-$engine"
+    done
+  fi
+fi
 printf '%s\n' "$failed" > "$evidence/overall.exit-code"
 exit "$failed"

@@ -65,7 +65,7 @@ struct Args {
     #[arg(long, default_value_t = 6.0)]
     max_usd: f64,
     /// Project-wide stop in USD over every recorded ledger.
-    #[arg(long, default_value_t = 20.0)]
+    #[arg(long, default_value_t = 40.0)]
     project_cap_usd: f64,
     /// USD per million input and output tokens when the model has no list price here.
     #[arg(long, num_args = 2, value_names = ["IN", "OUT"])]
@@ -252,7 +252,12 @@ fn run(args: Args) -> Result<(), String> {
         model,
         price,
         args.max_usd,
-        args.project_cap_usd - before,
+        // A dry run costs nothing and must not be refused for money already spent.
+        if args.dry_run {
+            f64::INFINITY
+        } else {
+            args.project_cap_usd - before
+        },
         args.out_dir.join("ledger.jsonl"),
     ));
 
@@ -512,6 +517,11 @@ fn run(args: Args) -> Result<(), String> {
             "not passed"
         }
     );
+    // The stand-in is scripted so that a working search finds one hint and
+    // the judgement passes; anything else in a dry run is a broken tool.
+    if args.dry_run && !(adopted && complete) {
+        return Err("dry run: the scripted improvement was not found and adopted".into());
+    }
     Ok(())
 }
 

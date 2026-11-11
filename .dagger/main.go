@@ -15,7 +15,7 @@ type LesscodeCi struct{}
 // Use Check to enforce the recorded result.
 func (m *LesscodeCi) Evidence(
 	// +defaultPath="/"
-	// +ignore=["**", "!native/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "native/target/**"]
+	// +ignore=["**", "!native/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "native/target/**", "tools/guide-optimizer/target/**"]
 	source *dagger.Directory,
 	revision string,
 ) *dagger.Directory {
@@ -27,6 +27,7 @@ func (m *LesscodeCi) Evidence(
 		WithMountedCache("/usr/local/cargo/registry", dag.CacheVolume("lesscode-cargo-registry-1.98.1")).
 		WithDirectory("/workspace/native", source.Directory("native")).
 		WithFile("/workspace/tools/check_native.sh", source.File("tools/check_native.sh")).
+		WithDirectory("/workspace/tools/guide-optimizer", source.Directory("tools/guide-optimizer")).
 		WithMountedCache("/workspace/native/target", dag.CacheVolume("lesscode-native-target-1.98.1")).
 		WithEnvVariable("GITHUB_SHA", revision).
 		WithWorkdir("/workspace").
@@ -38,7 +39,7 @@ func (m *LesscodeCi) Evidence(
 func (m *LesscodeCi) Check(
 	ctx context.Context,
 	// +defaultPath="/"
-	// +ignore=["**", "!native/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "native/target/**"]
+	// +ignore=["**", "!native/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "native/target/**", "tools/guide-optimizer/target/**"]
 	source *dagger.Directory,
 	revision string,
 ) (string, error) {
