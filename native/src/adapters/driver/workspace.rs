@@ -54,8 +54,14 @@ pub fn check_separate(source_root: &Path, work: &Path) -> Result<(), String> {
     Ok(())
 }
 
+/// Whether a copy leaves an entry out: version-control metadata, an excluded
+/// name, or an excluded relative path.
+pub(super) fn skipped(name: &str, slashed: &str, exclusions: &[String]) -> bool {
+    METADATA.contains(&name) || exclusions.iter().any(|e| e == name || e == slashed)
+}
+
 #[cfg_attr(not(unix), allow(clippy::permissions_set_readonly_false))]
-fn make_writable(path: &Path) -> std::io::Result<()> {
+pub(super) fn make_writable(path: &Path) -> std::io::Result<()> {
     let mut permissions = fs::metadata(path)?.permissions();
     if !permissions.readonly() {
         return Ok(());
@@ -85,8 +91,7 @@ pub fn copy_tree(from: &Path, to: &Path, exclusions: &[String]) -> Result<usize,
             let name = entry.file_name().to_string_lossy().into_owned();
             let below = relative.join(&name);
             let slashed = below.to_string_lossy().replace('\\', "/");
-            let excluded = |e: &String| *e == name || *e == slashed;
-            if METADATA.contains(&name.as_str()) || exclusions.iter().any(excluded) {
+            if skipped(&name, &slashed, exclusions) {
                 continue;
             }
             let kind = entry.file_type().map_err(|e| format!("{slashed}: {e}"))?;

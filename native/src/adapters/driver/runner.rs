@@ -8,6 +8,7 @@ use super::interrupt;
 use super::process::{run, Finished};
 use super::sites::Site;
 use super::store::{Store, Stored};
+use super::sync;
 use super::workspace::Workspace;
 use serde::Serialize;
 use std::collections::VecDeque;
@@ -130,17 +131,25 @@ struct Shared<'a> {
 impl Shared<'_> {
     fn open_copy(&self, report: &mut WorkerReport) -> Result<Workspace, String> {
         let name = format!("w{}", report.worker);
-        if self.work.join(&name).exists() {
+        let (home, config) = (self.work.join(&name), self.config);
+        if home.exists() {
             let (space, recovered) = Workspace::open(self.work, &name)?;
             report.recovered = recovered;
+            // A copy that is used again gets the files that changed since;
+            // the setup runs again only then.
+            if sync::refresh(&home, &config.source_root, &config.exclusions)? > 0 {
+                self.set_up(&space)?;
+            }
             return Ok(space);
         }
-        let space = Workspace::create(
-            &self.config.source_root,
-            self.work,
-            &name,
-            &self.config.exclusions,
-        )?;
+        let space = Workspace::create(&config.source_root, self.work, &name, &config.exclusions)?;
+        sync::remember(&home, &config.source_root, &config.exclusions)?;
+        self.set_up(&space)?;
+        Ok(space)
+    }
+
+    /// The setup commands, in the copy.
+    fn set_up(&self, space: &Workspace) -> Result<(), String> {
         let ceiling = Duration::from_secs(self.config.timeout_ceiling_s);
         for command in &self.config.setup {
             let finished = run(command, &space.tree, &self.config.env, ceiling);
@@ -158,7 +167,7 @@ impl Shared<'_> {
                 ));
             }
         }
-        Ok(space)
+        Ok(())
     }
 
     /// Plant, run, restore and classify one mutant; an error is retried once.

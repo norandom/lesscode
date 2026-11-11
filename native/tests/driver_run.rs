@@ -472,6 +472,52 @@ fn single_mutants_can_be_run_by_number() {
     assert_eq!(project.source(), APP, "the source tree was changed");
 }
 
+/// A working copy that is used again is brought up to date first: a test
+/// added to the project after the first run must reach the copy, or the
+/// mutants are run again against the tests as they were (found on a real
+/// step, R93).
+#[test]
+fn a_changed_test_file_reaches_a_copy_that_is_used_again() {
+    let project = Project::new("copy-current");
+    let tests = project.dir.join("project/tests");
+    fs::create_dir_all(&tests).unwrap();
+    fs::write(tests.join("expect.txt"), "def step\n").unwrap();
+    fs::write(tests.join("old.txt"), "").unwrap();
+    let config = project.config(
+        &["--expect-from", "tests/expect.txt"],
+        json!({"test_paths": ["tests/"]}),
+    );
+    let (code, first, stderr) = project.run(&config, "work", &[]);
+    assert_eq!(code, Some(0), "{stderr}");
+    let survivors = |receipt: &Value| -> Vec<String> {
+        let found = classes(receipt);
+        let alive = found.iter().filter(|(_, class)| *class == "survived");
+        alive.map(|(mutant, _)| mutant.clone()).collect()
+    };
+    let before = survivors(&first);
+    assert!(
+        before.iter().any(|m| m.starts_with("3:")),
+        "nothing checks the raise yet: {before:?}"
+    );
+
+    fs::write(
+        tests.join("expect.txt"),
+        "def step\nraise ValueError(\"big\")\n",
+    )
+    .unwrap();
+    fs::remove_file(tests.join("old.txt")).unwrap();
+    let (code, second, stderr) = project.run(&config, "work", &[]);
+    assert_eq!(code, Some(0), "{stderr}");
+    let after = survivors(&second);
+    assert!(
+        !after.iter().any(|m| m.starts_with("3:")),
+        "the new expectation did not reach the copy: {after:?}"
+    );
+    let copy = project.dir.join("work/w1/tree/tests");
+    assert!(!copy.join("old.txt").exists(), "a removed file stayed");
+    assert_eq!(project.source(), APP, "the source tree was changed");
+}
+
 /// A stored outcome is reused only while the test files are what they were
 /// (gradual-refactoring-steps, Requirement 9): a changed or added file
 /// under a test path makes every mutant run again without `--no-reuse`.

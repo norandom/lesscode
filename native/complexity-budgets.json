@@ -171,6 +171,13 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/sync.rs",
+   "max_logical_units": 300,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Bringing a reused working copy up to date with its source (found in R93; REQ 5.1, gradual-refactoring-steps REQ 9.2)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/workspace.rs",
    "max_logical_units": 300,
    "owner": "agnostic-annotation-driver",
