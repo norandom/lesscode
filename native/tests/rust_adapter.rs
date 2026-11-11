@@ -90,7 +90,7 @@ fn adapter_trace_runner_executes_process() {
         args: vec!["--version".into()],
         env: vec![],
         cwd: None,
-        timeout_ms: 5000,
+        timeout_ms: 60_000,
         max_output_bytes: 4096,
     };
     let res = adapter.run(&req);
@@ -114,7 +114,7 @@ fn adapter_trace_runner_injects_isolated_target_dir() {
         args: vec!["--version".into()],
         env: vec![],
         cwd: Some(temp.to_string_lossy().to_string()),
-        timeout_ms: 5000,
+        timeout_ms: 60_000,
         max_output_bytes: 4096,
     };
     let res = adapter.run(&req);

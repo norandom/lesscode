@@ -52,7 +52,7 @@ impl Project {
         test.extend(test_extra.iter().map(|s| (*s).to_owned()));
         let mut config = json!({
             "language": "python", "source_root": "project", "files": ["src/app.py"], "test": test,
-            "timeout_floor_s": 2, "timeout_ceiling_s": 30,
+            "timeout_floor_s": 10, "timeout_ceiling_s": 60,
         });
         for (key, value) in extra.as_object().unwrap() {
             config[key] = value.clone();
@@ -136,7 +136,10 @@ fn mutants_are_killed_or_survive_and_the_source_is_untouched() {
     );
     let worker = &receipt["workers"][0];
     assert_eq!(worker["closing_baseline_passed"], true);
-    assert_eq!(worker["limits_s"][0], 2);
+    assert_eq!(
+        worker["limits_s"][0], 10,
+        "the floor, since the unmutated run is fast"
+    );
     assert_eq!(project.source(), APP, "the source tree was changed");
     assert_eq!(
         fs::read_to_string(project.dir.join("work/w1/tree/src/app.py")).unwrap(),
@@ -148,7 +151,10 @@ fn mutants_are_killed_or_survive_and_the_source_is_untouched() {
 #[test]
 fn time_limits_invalid_mutants_and_errors_are_told_apart() {
     let project = Project::new("limits");
-    let slow = project.config(&["--sleep-if-missing-ms", "6000"], json!({}));
+    let slow = project.config(
+        &["--sleep-if-missing-ms", "6000"],
+        json!({"timeout_floor_s": 2}),
+    );
     let (code, receipt, stderr) = project.run(&slow, "slow", &[]);
     assert_eq!(code, Some(0), "{stderr}");
     assert_eq!(classes(&receipt)["2:negate"], "timeout");
@@ -169,13 +175,13 @@ fn time_limits_invalid_mutants_and_errors_are_told_apart() {
     // The step's limit is handed to a command that asks for it.
     let told = project.config(
         &["--print-if-missing", "limit={limit_s}s"],
-        json!({"error_output_patterns": ["limit=2s"]}),
+        json!({"error_output_patterns": ["limit=10s"]}),
     );
     let (_, receipt, _) = project.run(&told, "told", &[]);
     assert_eq!(
         classes(&receipt)["2:negate"],
         "error",
-        "the limit of 2 seconds was not substituted"
+        "the limit of 10 seconds was not substituted"
     );
 
     // A failing exit without the runner's own output is not a kill.

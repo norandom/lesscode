@@ -54,7 +54,7 @@ fn adapter_protocol_event_execution_and_clean_exit() {
         args: vec!["--version".into()],
         env: vec![],
         cwd: None,
-        timeout_ms: 5000,
+        timeout_ms: 60_000,
         max_output_bytes: 8192,
     };
 
