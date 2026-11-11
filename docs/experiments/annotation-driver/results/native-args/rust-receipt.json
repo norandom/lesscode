@@ -1,0 +1,2987 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.0.2",
+  "language": "rust",
+  "pack_sha256": "1cd9a2314d417be4af9330e4984ae94b58d953b8bd6f5f6380e8b55f14a57bbe",
+  "config_sha256": "6b5aad98eee0daabeca1cbd67ae425a41c9157b3ea7fc10f99a4e7d2f6234f79",
+  "source_files_sha256": {
+    "src/setup/ui/update.rs": "804522e68de5d5059369418ab8190baf718eaed06c821ac007ab03661878381e"
+  },
+  "sites": 208,
+  "sites_without_operator": [
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 46,
+      "start_column": 53,
+      "end_line": 46,
+      "end_column": 57,
+      "text": "(15)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 61,
+      "start_column": 36,
+      "end_line": 61,
+      "end_column": 42,
+      "text": "(args)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 62,
+      "start_column": 34,
+      "end_line": 62,
+      "end_column": 36,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 63,
+      "start_column": 12,
+      "end_line": 63,
+      "end_column": 48,
+      "text": "return Err(\"--bootstrap\".to_owned())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "call_expression",
+      "start_line": 63,
+      "start_column": 19,
+      "end_line": 63,
+      "end_column": 48,
+      "text": "Err(\"--bootstrap\".to_owned())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 63,
+      "start_column": 22,
+      "end_line": 63,
+      "end_column": 48,
+      "text": "(\"--bootstrap\".to_owned())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 63,
+      "start_column": 45,
+      "end_line": 63,
+      "end_column": 47,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 65,
+      "start_column": 10,
+      "end_line": 68,
+      "end_column": 10,
+      "text": "(Self {\r\n            release_dir: setup.release_dir,\r\n            restarted: setup.restarted,\r\n        })"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 74,
+      "start_column": 47,
+      "end_line": 74,
+      "end_column": 49,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 75,
+      "start_column": 43,
+      "end_line": 75,
+      "end_column": 45,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 84,
+      "start_column": 8,
+      "end_line": 84,
+      "end_column": 19,
+      "text": "return None"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 87,
+      "start_column": 8,
+      "end_line": 87,
+      "end_column": 29,
+      "text": "(EXIT_NEEDS_TERMINAL)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 92,
+      "start_column": 67,
+      "end_line": 92,
+      "end_column": 69,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 92,
+      "start_column": 91,
+      "end_line": 92,
+      "end_column": 93,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 93,
+      "start_column": 8,
+      "end_line": 93,
+      "end_column": 19,
+      "text": "return code"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 95,
+      "start_column": 31,
+      "end_line": 95,
+      "end_column": 33,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 96,
+      "start_column": 50,
+      "end_line": 96,
+      "end_column": 58,
+      "text": "(&setup)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 97,
+      "start_column": 8,
+      "end_line": 97,
+      "end_column": 19,
+      "text": "return code"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 99,
+      "start_column": 44,
+      "end_line": 99,
+      "end_column": 52,
+      "text": "(&setup)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 104,
+      "start_column": 29,
+      "end_line": 104,
+      "end_column": 35,
+      "text": "(deps)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 105,
+      "start_column": 36,
+      "end_line": 105,
+      "end_column": 38,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 110,
+      "start_column": 27,
+      "end_line": 110,
+      "end_column": 29,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 110,
+      "start_column": 34,
+      "end_line": 110,
+      "end_column": 36,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 111,
+      "start_column": 28,
+      "end_line": 111,
+      "end_column": 30,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 111,
+      "start_column": 35,
+      "end_line": 111,
+      "end_column": 37,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 113,
+      "start_column": 20,
+      "end_line": 113,
+      "end_column": 27,
+      "text": "(&flow)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 113,
+      "start_column": 37,
+      "end_line": 113,
+      "end_column": 43,
+      "text": "(code)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 130,
+      "start_column": 30,
+      "end_line": 130,
+      "end_column": 32,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 137,
+      "start_column": 22,
+      "end_line": 137,
+      "end_column": 45,
+      "text": "(&format!(\"{prompt} \"))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 138,
+      "start_column": 38,
+      "end_line": 138,
+      "end_column": 40,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 139,
+      "start_column": 38,
+      "end_line": 139,
+      "end_column": 49,
+      "text": "(&mut line)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 141,
+      "start_column": 28,
+      "end_line": 141,
+      "end_column": 32,
+      "text": "(\"\")"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 146,
+      "start_column": 27,
+      "end_line": 146,
+      "end_column": 29,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 146,
+      "start_column": 42,
+      "end_line": 146,
+      "end_column": 44,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 146,
+      "start_column": 51,
+      "end_line": 146,
+      "end_column": 53,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 149,
+      "start_column": 29,
+      "end_line": 149,
+      "end_column": 55,
+      "text": "(text::update::BAD_ANSWER)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 165,
+      "start_column": 73,
+      "end_line": 165,
+      "end_column": 75,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 166,
+      "start_column": 8,
+      "end_line": 166,
+      "end_column": 83,
+      "text": "return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 166,
+      "start_column": 46,
+      "end_line": 166,
+      "end_column": 48,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 166,
+      "start_column": 54,
+      "end_line": 166,
+      "end_column": 82,
+      "text": "(text::update::CHANGES_KEPT)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 168,
+      "start_column": 18,
+      "end_line": 168,
+      "end_column": 20,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 168,
+      "start_column": 28,
+      "end_line": 168,
+      "end_column": 30,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 169,
+      "start_column": 13,
+      "end_line": 169,
+      "end_column": 39,
+      "text": "(text::update::NOT_SET_UP)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 170,
+      "start_column": 8,
+      "end_line": 170,
+      "end_column": 30,
+      "text": "return EXIT_NOT_SET_UP"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 172,
+      "start_column": 9,
+      "end_line": 172,
+      "end_column": 40,
+      "text": "(text::update::CHECKING_NEWEST)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 173,
+      "start_column": 19,
+      "end_line": 173,
+      "end_column": 29,
+      "text": "(lookup())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 173,
+      "start_column": 26,
+      "end_line": 173,
+      "end_column": 28,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 174,
+      "start_column": 42,
+      "end_line": 174,
+      "end_column": 44,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 175,
+      "start_column": 19,
+      "end_line": 175,
+      "end_column": 21,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 176,
+      "start_column": 13,
+      "end_line": 176,
+      "end_column": 43,
+      "text": "(text::update::NEWEST_UNKNOWN)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 179,
+      "start_column": 41,
+      "end_line": 179,
+      "end_column": 43,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 180,
+      "start_column": 13,
+      "end_line": 180,
+      "end_column": 60,
+      "text": "(&text::update::up_to_date(installed.as_str()))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 180,
+      "start_column": 39,
+      "end_line": 180,
+      "end_column": 59,
+      "text": "(installed.as_str())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 180,
+      "start_column": 56,
+      "end_line": 180,
+      "end_column": 58,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 183,
+      "start_column": 9,
+      "end_line": 186,
+      "end_column": 6,
+      "text": "(&text::update::available(\r\n        installed.as_str(),\r\n        newest.as_str(),\r\n    ))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 184,
+      "start_column": 24,
+      "end_line": 184,
+      "end_column": 26,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 185,
+      "start_column": 21,
+      "end_line": 185,
+      "end_column": 23,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 187,
+      "start_column": 9,
+      "end_line": 187,
+      "end_column": 38,
+      "text": "(text::update::KEEPS_CHOICES)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 188,
+      "start_column": 13,
+      "end_line": 188,
+      "end_column": 42,
+      "text": "(text::update::PROMPT_UPDATE)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 189,
+      "start_column": 13,
+      "end_line": 189,
+      "end_column": 44,
+      "text": "(text::update::NOTHING_CHANGED)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 190,
+      "start_column": 8,
+      "end_line": 190,
+      "end_column": 29,
+      "text": "return EXIT_CANCELLED"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 192,
+      "start_column": 43,
+      "end_line": 192,
+      "end_column": 45,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 193,
+      "start_column": 13,
+      "end_line": 193,
+      "end_column": 19,
+      "text": "(note)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 198,
+      "start_column": 64,
+      "end_line": 198,
+      "end_column": 81,
+      "text": "(newest.as_str())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 198,
+      "start_column": 78,
+      "end_line": 198,
+      "end_column": 80,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 199,
+      "start_column": 28,
+      "end_line": 199,
+      "end_column": 30,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 200,
+      "start_column": 11,
+      "end_line": 200,
+      "end_column": 56,
+      "text": "(&text::update::downloading(newest.as_str()))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 200,
+      "start_column": 38,
+      "end_line": 200,
+      "end_column": 55,
+      "text": "(newest.as_str())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 200,
+      "start_column": 52,
+      "end_line": 200,
+      "end_column": 54,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 201,
+      "start_column": 47,
+      "end_line": 201,
+      "end_column": 63,
+      "text": "(newest.clone())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 201,
+      "start_column": 60,
+      "end_line": 201,
+      "end_column": 62,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 203,
+      "start_column": 27,
+      "end_line": 203,
+      "end_column": 29,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 204,
+      "start_column": 17,
+      "end_line": 204,
+      "end_column": 58,
+      "text": "(&format!(\" {}\", text::update::VERIFIED))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 210,
+      "start_column": 27,
+      "end_line": 210,
+      "end_column": 29,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 211,
+      "start_column": 17,
+      "end_line": 211,
+      "end_column": 58,
+      "text": "(&format!(\" {}\", text::update::VERIFIED))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 215,
+      "start_column": 29,
+      "end_line": 215,
+      "end_column": 31,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 216,
+      "start_column": 20,
+      "end_line": 216,
+      "end_column": 48,
+      "text": "(text::update::CHANGES_KEPT)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 220,
+      "start_column": 27,
+      "end_line": 220,
+      "end_column": 29,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 221,
+      "start_column": 17,
+      "end_line": 221,
+      "end_column": 21,
+      "text": "(\"\")"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 223,
+      "start_column": 52,
+      "end_line": 223,
+      "end_column": 54,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 225,
+      "start_column": 21,
+      "end_line": 225,
+      "end_column": 29,
+      "text": "(reason)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 227,
+      "start_column": 17,
+      "end_line": 227,
+      "end_column": 23,
+      "text": "(note)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 238,
+      "start_column": 50,
+      "end_line": 238,
+      "end_column": 52,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 240,
+      "start_column": 65,
+      "end_line": 240,
+      "end_column": 67,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 240,
+      "start_column": 83,
+      "end_line": 240,
+      "end_column": 85,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 241,
+      "start_column": 9,
+      "end_line": 241,
+      "end_column": 17,
+      "text": "(&offer)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 242,
+      "start_column": 9,
+      "end_line": 242,
+      "end_column": 38,
+      "text": "(text::update::KEEPS_CHOICES)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 243,
+      "start_column": 13,
+      "end_line": 243,
+      "end_column": 42,
+      "text": "(text::update::PROMPT_UPDATE)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 244,
+      "start_column": 13,
+      "end_line": 244,
+      "end_column": 44,
+      "text": "(text::update::NOTHING_CHANGED)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 245,
+      "start_column": 8,
+      "end_line": 245,
+      "end_column": 35,
+      "text": "return Some(EXIT_CANCELLED)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 245,
+      "start_column": 19,
+      "end_line": 245,
+      "end_column": 35,
+      "text": "(EXIT_CANCELLED)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 247,
+      "start_column": 22,
+      "end_line": 247,
+      "end_column": 24,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 249,
+      "start_column": 8,
+      "end_line": 249,
+      "end_column": 54,
+      "text": "(finish(flow, &mut p, brought.as_str(), None))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 249,
+      "start_column": 44,
+      "end_line": 249,
+      "end_column": 46,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 256,
+      "start_column": 33,
+      "end_line": 256,
+      "end_column": 35,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 257,
+      "start_column": 27,
+      "end_line": 257,
+      "end_column": 29,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 257,
+      "start_column": 55,
+      "end_line": 257,
+      "end_column": 57,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 258,
+      "start_column": 13,
+      "end_line": 258,
+      "end_column": 51,
+      "text": "(&text::update::updated_checking(tag))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 258,
+      "start_column": 45,
+      "end_line": 258,
+      "end_column": 50,
+      "text": "(tag)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 260,
+      "start_column": 23,
+      "end_line": 260,
+      "end_column": 25,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 261,
+      "start_column": 17,
+      "end_line": 261,
+      "end_column": 46,
+      "text": "(&text::update::updated(tag))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 261,
+      "start_column": 40,
+      "end_line": 261,
+      "end_column": 45,
+      "text": "(tag)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 263,
+      "start_column": 13,
+      "end_line": 263,
+      "end_column": 43,
+      "text": "(text::update::CHANGES_NEEDED)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 265,
+      "start_column": 17,
+      "end_line": 265,
+      "end_column": 45,
+      "text": "(text::update::PROMPT_APPLY)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 266,
+      "start_column": 17,
+      "end_line": 266,
+      "end_column": 64,
+      "text": "(kept.unwrap_or(text::update::NOTHING_CHANGED))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 266,
+      "start_column": 32,
+      "end_line": 266,
+      "end_column": 63,
+      "text": "(text::update::NOTHING_CHANGED)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "failure_state",
+      "node_kind": "return_expression",
+      "start_line": 267,
+      "start_column": 12,
+      "end_line": 267,
+      "end_column": 33,
+      "text": "return EXIT_CANCELLED"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 269,
+      "start_column": 13,
+      "end_line": 269,
+      "end_column": 43,
+      "text": "(text::update::MAKING_CHANGES)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 271,
+      "start_column": 21,
+      "end_line": 271,
+      "end_column": 23,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 272,
+      "start_column": 28,
+      "end_line": 272,
+      "end_column": 34,
+      "text": "(flow)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 273,
+      "start_column": 13,
+      "end_line": 273,
+      "end_column": 20,
+      "text": "(&line)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 275,
+      "start_column": 18,
+      "end_line": 275,
+      "end_column": 20,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 281,
+      "start_column": 13,
+      "end_line": 281,
+      "end_column": 26,
+      "text": "(&group.file)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 283,
+      "start_column": 17,
+      "end_line": 283,
+      "end_column": 63,
+      "text": "(&format!(\"  {} {}\", item.mark, item.summary))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 286,
+      "start_column": 30,
+      "end_line": 286,
+      "end_column": 32,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 287,
+      "start_column": 13,
+      "end_line": 287,
+      "end_column": 36,
+      "text": "(text::REVIEW_PROBLEMS)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 288,
+      "start_column": 26,
+      "end_line": 288,
+      "end_column": 28,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 288,
+      "start_column": 37,
+      "end_line": 288,
+      "end_column": 51,
+      "text": "(|l| p.say(l))"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 288,
+      "start_column": 47,
+      "end_line": 288,
+      "end_column": 50,
+      "text": "(l)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 295,
+      "start_column": 17,
+      "end_line": 295,
+      "end_column": 19,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 296,
+      "start_column": 12,
+      "end_line": 296,
+      "end_column": 31,
+      "text": "(|p| p.all_lines())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 296,
+      "start_column": 28,
+      "end_line": 296,
+      "end_column": 30,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 297,
+      "start_column": 26,
+      "end_line": 297,
+      "end_column": 28,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 298,
+      "start_column": 18,
+      "end_line": 298,
+      "end_column": 20,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 299,
+      "start_column": 15,
+      "end_line": 299,
+      "end_column": 40,
+      "text": "(|l| l != text::CHECKING)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 300,
+      "start_column": 16,
+      "end_line": 300,
+      "end_column": 18,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 301,
+      "start_column": 26,
+      "end_line": 301,
+      "end_column": 28,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 301,
+      "start_column": 39,
+      "end_line": 301,
+      "end_column": 57,
+      "text": "(|l| l.is_empty())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 301,
+      "start_column": 54,
+      "end_line": 301,
+      "end_column": 56,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 301,
+      "start_column": 63,
+      "end_line": 301,
+      "end_column": 65,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 302,
+      "start_column": 15,
+      "end_line": 302,
+      "end_column": 24,
+      "text": "(..blank)"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 303,
+      "start_column": 21,
+      "end_line": 303,
+      "end_column": 23,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 303,
+      "start_column": 45,
+      "end_line": 303,
+      "end_column": 47,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 303,
+      "start_column": 59,
+      "end_line": 303,
+      "end_column": 88,
+      "text": "(|p| p.next_steps.is_empty())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 303,
+      "start_column": 85,
+      "end_line": 303,
+      "end_column": 87,
+      "text": "()"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 304,
+      "start_column": 18,
+      "end_line": 304,
+      "end_column": 49,
+      "text": "(text::update::DONE.to_owned())"
+    },
+    {
+      "file": "src/setup/ui/update.rs",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 304,
+      "start_column": 46,
+      "end_line": 304,
+      "end_column": 48,
+      "text": "()"
+    }
+  ],
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {
+    "invalid": 8,
+    "killed": 44,
+    "survived": 21,
+    "timeout": 1
+  },
+  "counts_by_kind": {
+    "branch_condition": {
+      "killed": 10,
+      "survived": 4
+    },
+    "call_argument": {
+      "invalid": 8,
+      "killed": 2
+    },
+    "error_order": {
+      "survived": 2
+    },
+    "failure_state": {
+      "killed": 7,
+      "survived": 1,
+      "timeout": 1
+    },
+    "state_write": {
+      "killed": 25,
+      "survived": 14
+    }
+  },
+  "incomplete": false,
+  "mutants": [
+    {
+      "number": 1,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 61,
+        "start_column": 20,
+        "end_line": 61,
+        "end_column": 43,
+        "text": "SetupArgs::parse(args)?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "26886d8d6a26babcd7e9921e22941090b88d0c1bad0da9b0e5b1a5f44b218bfa",
+      "class": "timeout",
+      "reason": "test reached its time limit",
+      "exit_code": null,
+      "seconds": 120.5111698,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 2,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 62,
+        "start_column": 11,
+        "end_line": 62,
+        "end_column": 36,
+        "text": "setup.bootstrap.is_some()"
+      },
+      "operator": "negate",
+      "sha256": "25b21350867c5ec2c5b603f2677d63c60b1d3727296dfdd951540c51f5653a4d",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 44.6336798,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 3,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 83,
+        "start_column": 7,
+        "end_line": 83,
+        "end_column": 31,
+        "text": "mode != Mode::NoTerminal"
+      },
+      "operator": "negate",
+      "sha256": "eba4705e40f9e1a2a102f3ffa4903c53106526dbf6008c73e85db06ce3898afd",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 24.6140523,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 4,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 92,
+        "start_column": 47,
+        "end_line": 92,
+        "end_column": 94,
+        "text": "(super::current_mode(), &mut std::io::stdout())"
+      },
+      "operator": "arg_swap@92:48",
+      "sha256": "ffec8d36e8719b56e68f633f9c29815db7552ff27389284a76afc4d1290b53ec",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 10.32136,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 5,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "return_expression",
+        "start_line": 101,
+        "start_column": 8,
+        "end_line": 101,
+        "end_column": 16,
+        "text": "return 1"
+      },
+      "operator": "literal:1->0",
+      "sha256": "28daf2ffce2a919e58b2decb7ab276b72203a9faf6aa4f90ce7b5e8aad3c8ef9",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 24.7991091,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 6,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "assignment_expression",
+        "start_line": 103,
+        "start_column": 4,
+        "end_line": 103,
+        "end_column": 42,
+        "text": "deps.restart.command = Command::Update"
+      },
+      "operator": "drop_statement",
+      "sha256": "5f7554031f3399d77380da03d7f7152187075bb6783f49f573f52ea24ef89ae9",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 33.2295321,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 7,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 106,
+        "start_column": 45,
+        "end_line": 106,
+        "end_column": 66,
+        "text": "(source, NEWEST_WAIT)"
+      },
+      "operator": "arg_swap@106:46",
+      "sha256": "ae86c13fa0e83572bf95d4e6f5ea1f8f3eb7bfaacc15502b03d5a48b8ad6294a",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 7.9014083,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 8,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 107,
+        "start_column": 22,
+        "end_line": 112,
+        "end_column": 5,
+        "text": "(\r\n        &mut flow,\r\n        lookup,\r\n        &mut std::io::stdin().lock(),\r\n        &mut std::io::stdout().lock(),\r\n    )"
+      },
+      "operator": "arg_swap@108:8",
+      "sha256": "6ca28e712d31f679b5cd8fa88ac602f1a690907d8bff10a3918307ff05b24dab",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 7.9918806,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 9,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 137,
+        "start_column": 12,
+        "end_line": 137,
+        "end_column": 45,
+        "text": "self.start(&format!(\"{prompt} \"))"
+      },
+      "operator": "drop_statement",
+      "sha256": "d397b8807f89063379c336a9184c2a561518e02a2e6f1da315ab918e8703e1c2",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 61.1786049,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 10,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 141,
+        "start_column": 20,
+        "end_line": 141,
+        "end_column": 32,
+        "text": "self.say(\"\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "66ebe32fa2a0e13d243a2de617a93518799027c6afbe34eed3ba6ea9058bf1ed",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 48.8820177,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 11,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "return_expression",
+        "start_line": 142,
+        "start_column": 20,
+        "end_line": 142,
+        "end_column": 32,
+        "text": "return false"
+      },
+      "operator": "literal:false->true",
+      "sha256": "41802db6488a912960d787ef76bc763e05c690f2ce5ed665c4a85e6e8ace5793",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 33.5059476,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 12,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "return_expression",
+        "start_line": 147,
+        "start_column": 36,
+        "end_line": 147,
+        "end_column": 47,
+        "text": "return true"
+      },
+      "operator": "literal:true->false",
+      "sha256": "e2148fb92f9393bd591f8403dac0148e6186b09ce8435c979c4cee71c6da645d",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 26.3165866,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 13,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "return_expression",
+        "start_line": 148,
+        "start_column": 30,
+        "end_line": 148,
+        "end_column": 42,
+        "text": "return false"
+      },
+      "operator": "literal:false->true",
+      "sha256": "473d50a6d697bf61c4ca33e05d20818695d53b084aad5c3b9ab48744d6c3b175",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 24.821345,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 14,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 165,
+        "start_column": 4,
+        "end_line": 167,
+        "end_column": 5,
+        "text": "if let Some(Resumed::Check(tag) | Resumed::Review(tag)) = flow.resume() {\r\n        return finish(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT));\r\n    }"
+      },
+      "operator": "swap_next",
+      "sha256": "f0aad583b0fcffb203924f49c2c3d06adc6b432324ac9665f9436a5b38cbcdae",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 26.9506037,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 15,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 166,
+        "start_column": 21,
+        "end_line": 166,
+        "end_column": 83,
+        "text": "(flow, &mut p, tag.as_str(), Some(text::update::CHANGES_KEPT))"
+      },
+      "operator": "arg_swap@166:22",
+      "sha256": "51faac8b69d37ff3b5ccd4fb7baf4fe25a506ddf98f890c5aa7374bbdb3e3296",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 11.3986587,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 16,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 168,
+        "start_column": 7,
+        "end_line": 168,
+        "end_column": 30,
+        "text": "flow.record().is_none()"
+      },
+      "operator": "negate",
+      "sha256": "0cb4401f08e4d0af1d2961160b8657274f05279397a52467a9132244ba5d3ed7",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 28.3593969,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 17,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 169,
+        "start_column": 8,
+        "end_line": 169,
+        "end_column": 39,
+        "text": "p.say(text::update::NOT_SET_UP)"
+      },
+      "operator": "drop_statement",
+      "sha256": "dfbce8c5344e030b478fded40e54f526635e29fe5125be15edc73c829c980540",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 46.3834842,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 18,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 172,
+        "start_column": 4,
+        "end_line": 172,
+        "end_column": 40,
+        "text": "p.say(text::update::CHECKING_NEWEST)"
+      },
+      "operator": "drop_statement",
+      "sha256": "a25c27b31023ceb26a6f3ed26845f98c9bce54647e46797ba0c3029e9616f36f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 39.6694544,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 19,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 173,
+        "start_column": 4,
+        "end_line": 173,
+        "end_column": 29,
+        "text": "flow.set_newest(lookup())"
+      },
+      "operator": "drop_statement",
+      "sha256": "d79bc24b81619a98c50b61a169679d6046df7646d73e5487cc91b6accdd30cde",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 58.87691,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 20,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 175,
+        "start_column": 7,
+        "end_line": 175,
+        "end_column": 40,
+        "text": "*flow.newest() == Newest::Unknown"
+      },
+      "operator": "negate",
+      "sha256": "65b4160956cd2511a7c243927a58070ec229f9b40db68452d1bceaaf2952542d",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 52.1826901,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 21,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 176,
+        "start_column": 8,
+        "end_line": 176,
+        "end_column": 43,
+        "text": "p.say(text::update::NEWEST_UNKNOWN)"
+      },
+      "operator": "drop_statement",
+      "sha256": "f244532a9f6ab8b33c58cde4b937e870ed0f711404e98c3f364a56ab9613f51b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 44.2307745,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 22,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "return_expression",
+        "start_line": 177,
+        "start_column": 8,
+        "end_line": 177,
+        "end_column": 16,
+        "text": "return 1"
+      },
+      "operator": "literal:1->0",
+      "sha256": "420575c189c909a95941def0fd15aa8c91bc3ac1346f81e3e5522c6cd4dbef9f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 45.1438696,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 23,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 180,
+        "start_column": 8,
+        "end_line": 180,
+        "end_column": 60,
+        "text": "p.say(&text::update::up_to_date(installed.as_str()))"
+      },
+      "operator": "drop_statement",
+      "sha256": "e279b6a92a501001c81cc0a863acefb0f014cfadfa378bdb75aedb663757174f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 30.7713195,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 24,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "return_expression",
+        "start_line": 181,
+        "start_column": 8,
+        "end_line": 181,
+        "end_column": 16,
+        "text": "return 0"
+      },
+      "operator": "literal:0->1",
+      "sha256": "6633ec21a5b5eb9d83b6250bab74f1e18f77a94b99a817e9d77fd1c38bf39aad",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 29.6399267,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 25,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 183,
+        "start_column": 4,
+        "end_line": 186,
+        "end_column": 6,
+        "text": "p.say(&text::update::available(\r\n        installed.as_str(),\r\n        newest.as_str(),\r\n    ))"
+      },
+      "operator": "drop_statement",
+      "sha256": "58ade951466db91cb83baccf04d408a105e6deac8f79ca96799ea0274adfbb08",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 26.8123149,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 26,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 183,
+        "start_column": 34,
+        "end_line": 186,
+        "end_column": 5,
+        "text": "(\r\n        installed.as_str(),\r\n        newest.as_str(),\r\n    )"
+      },
+      "operator": "arg_swap@184:8",
+      "sha256": "7788f2d18f6e493d8d432d19d3fed0c4ae629a109147f148c8f0582827966610",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 28.075185,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 27,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 187,
+        "start_column": 4,
+        "end_line": 187,
+        "end_column": 38,
+        "text": "p.say(text::update::KEEPS_CHOICES)"
+      },
+      "operator": "drop_statement",
+      "sha256": "fe1d1caa4a58a4297ae30744a059b7e4923f194d98665906c977c0ec8b6b3a33",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 25.8490225,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 28,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "error_order",
+        "node_kind": "if_expression",
+        "start_line": 188,
+        "start_column": 4,
+        "end_line": 191,
+        "end_column": 5,
+        "text": "if !p.yes(text::update::PROMPT_UPDATE) {\r\n        p.say(text::update::NOTHING_CHANGED);\r\n        return EXIT_CANCELLED;\r\n    }"
+      },
+      "operator": "swap_next",
+      "sha256": "4cc0df16898692a95d59fbcc634cb4f4714644d347ca95184242ee280fd4b290",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 25.5413267,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 29,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 188,
+        "start_column": 7,
+        "end_line": 188,
+        "end_column": 42,
+        "text": "!p.yes(text::update::PROMPT_UPDATE)"
+      },
+      "operator": "negate",
+      "sha256": "5a2d778d11cdbb9979a76a8d3c6b8a0a73e2ecc6d9f9052200c6cd270dd557bf",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 15.2228104,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 30,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 189,
+        "start_column": 8,
+        "end_line": 189,
+        "end_column": 44,
+        "text": "p.say(text::update::NOTHING_CHANGED)"
+      },
+      "operator": "drop_statement",
+      "sha256": "5374d1273d105af0edfdbbe61fc64d2f81142ac55f032e3904ae1b8b93d2f3e8",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 28.3665894,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 31,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 193,
+        "start_column": 8,
+        "end_line": 193,
+        "end_column": 19,
+        "text": "p.say(note)"
+      },
+      "operator": "drop_statement",
+      "sha256": "39b718bb5f4da7d91e52d8011aac839dc1faf7da6f34967de23b59521055f757",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 20.8135745,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 32,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "return_expression",
+        "start_line": 194,
+        "start_column": 8,
+        "end_line": 194,
+        "end_column": 16,
+        "text": "return 1"
+      },
+      "operator": "literal:1->0",
+      "sha256": "22a9c390664611be7d02cba5f35d6d1eba8532fe30db29c07498c80218ef2966",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 28.2122056,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 33,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 200,
+        "start_column": 4,
+        "end_line": 200,
+        "end_column": 56,
+        "text": "p.start(&text::update::downloading(newest.as_str()))"
+      },
+      "operator": "drop_statement",
+      "sha256": "5de3f895142a568c4bdbd026984c74d104bc031c75e98afe66efcb4115684247",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 32.2404707,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 34,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 201,
+        "start_column": 25,
+        "end_line": 201,
+        "end_column": 70,
+        "text": "(&HomeAction::UpdateTo(newest.clone()), hook)"
+      },
+      "operator": "arg_swap@201:26",
+      "sha256": "82eb275c7e18a9445a81b876bb8169332f8a9a7c56be37eaf1a5024ec467a968",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 5.0011143,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 35,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 203,
+        "start_column": 12,
+        "end_line": 203,
+        "end_column": 29,
+        "text": "reporter.finish()"
+      },
+      "operator": "drop_statement",
+      "sha256": "06618c814423163dc8354e0aa92f291b5334972456115637a906bdd1e747c0ee",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 28.0204839,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 36,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 204,
+        "start_column": 12,
+        "end_line": 204,
+        "end_column": 58,
+        "text": "p.say(&format!(\" {}\", text::update::VERIFIED))"
+      },
+      "operator": "drop_statement",
+      "sha256": "2877d69e5a62c9a812b8b43e620220f7e9c9acc5fac5d18add49dbc4b421134a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 30.3909866,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 37,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 210,
+        "start_column": 12,
+        "end_line": 210,
+        "end_column": 29,
+        "text": "reporter.finish()"
+      },
+      "operator": "drop_statement",
+      "sha256": "9a18ca45f4c6f552e6dd89088f859731a6e397eb07087a2983488b9ad8ff3014",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 31.3956061,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 38,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 211,
+        "start_column": 12,
+        "end_line": 211,
+        "end_column": 58,
+        "text": "p.say(&format!(\" {}\", text::update::VERIFIED))"
+      },
+      "operator": "drop_statement",
+      "sha256": "67973e933f56b6274ab3062974326c7d0fbdaebc45d074349f30931f7ce2f32c",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 34.4508826,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 39,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 212,
+        "start_column": 18,
+        "end_line": 217,
+        "end_column": 13,
+        "text": "(\r\n                flow,\r\n                &mut p,\r\n                newest.as_str(),\r\n                Some(text::update::CHANGES_KEPT),\r\n            )"
+      },
+      "operator": "arg_swap@213:16",
+      "sha256": "fa7e311b85196b5465883121cdbc4936b346bbe2495636d18d3c0ffddea21c5d",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 6.8063587,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 40,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 220,
+        "start_column": 12,
+        "end_line": 220,
+        "end_column": 29,
+        "text": "reporter.finish()"
+      },
+      "operator": "drop_statement",
+      "sha256": "b26e8f3321b7cbd483e8702fa7e1162a52d53c615caa1cc519afdb4f1c6ea848",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 39.5138859,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 41,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 221,
+        "start_column": 12,
+        "end_line": 221,
+        "end_column": 21,
+        "text": "p.say(\"\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "3dfbee85fbba52916439c9e0ddc89c6dd2ebda215dbac4365385f51e9ff89ec6",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 25.9053462,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 42,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 225,
+        "start_column": 16,
+        "end_line": 225,
+        "end_column": 29,
+        "text": "p.say(reason)"
+      },
+      "operator": "drop_statement",
+      "sha256": "5e869d211b02dbb36a9d459ccd9711d373ab09b2aaef5d3bbc1ebdb0b46bed44",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 23.4999188,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 43,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 227,
+        "start_column": 12,
+        "end_line": 227,
+        "end_column": 23,
+        "text": "p.say(note)"
+      },
+      "operator": "drop_statement",
+      "sha256": "1b77907f2ffc1f17006c4992fa6571e5824add41a8cc829736eec77452755806",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 19.0212945,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 44,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "failure_state",
+        "node_kind": "try_expression",
+        "start_line": 238,
+        "start_column": 30,
+        "end_line": 238,
+        "end_column": 53,
+        "text": "flow.bootstrap_offer()?"
+      },
+      "operator": "rewrite:try_expression",
+      "sha256": "3b1a28d6103e5961976bf5a1b411df78d213d9d99e314d1c63c2636586b59092",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 32.7187358,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 45,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 240,
+        "start_column": 49,
+        "end_line": 240,
+        "end_column": 86,
+        "text": "(recorded.as_str(), brought.as_str())"
+      },
+      "operator": "arg_swap@240:50",
+      "sha256": "95adf09ea1a60e9aba74b38a688cbaf90fe0af68d074d69e55d67e6ebe6ae595",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 25.7125105,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 46,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 241,
+        "start_column": 4,
+        "end_line": 241,
+        "end_column": 17,
+        "text": "p.say(&offer)"
+      },
+      "operator": "drop_statement",
+      "sha256": "6cabff4eba8f911b10295b46c71e014047bfc28e5f3b20a041c8ddf5bfdfdacd",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 26.9881206,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 47,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 242,
+        "start_column": 4,
+        "end_line": 242,
+        "end_column": 38,
+        "text": "p.say(text::update::KEEPS_CHOICES)"
+      },
+      "operator": "drop_statement",
+      "sha256": "50ee01c4823da63e455eddcdac93931f8d744b87d8ad3ed155dd40d672d4c28a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 23.8917853,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 48,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 243,
+        "start_column": 7,
+        "end_line": 243,
+        "end_column": 42,
+        "text": "!p.yes(text::update::PROMPT_UPDATE)"
+      },
+      "operator": "negate",
+      "sha256": "c686c9ecbcb7926030325edd58e422b632e7d6ea427e265f8f72815b3da59630",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 25.1211233,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 49,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 244,
+        "start_column": 8,
+        "end_line": 244,
+        "end_column": 44,
+        "text": "p.say(text::update::NOTHING_CHANGED)"
+      },
+      "operator": "drop_statement",
+      "sha256": "57d70e730c67ac624542b299ce4fc9680ca6cd14bc8ef5875d19a28a85bb20d9",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 28.7789469,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 50,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 247,
+        "start_column": 4,
+        "end_line": 247,
+        "end_column": 24,
+        "text": "flow.plan_recorded()"
+      },
+      "operator": "drop_statement",
+      "sha256": "c557b45f1c60085858f61a4919fdca9ef5732190eb348ee35c05c3bfacc14187",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 26.4549451,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 51,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 249,
+        "start_column": 15,
+        "end_line": 249,
+        "end_column": 53,
+        "text": "(flow, &mut p, brought.as_str(), None)"
+      },
+      "operator": "arg_swap@249:16",
+      "sha256": "7729c214ced8457c1011800d43776d153e7f32af4b8f615d8e285eeb1057ae3e",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 6.6448004,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 52,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 257,
+        "start_column": 7,
+        "end_line": 257,
+        "end_column": 57,
+        "text": "view.groups.is_empty() && view.problems.is_empty()"
+      },
+      "operator": "negate",
+      "sha256": "055dcb9f4e23d490492c9bfd55241c3f82e2022f069be2c63fb368d524ae786c",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 25.5146805,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 53,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 257,
+        "start_column": 7,
+        "end_line": 257,
+        "end_column": 57,
+        "text": "view.groups.is_empty() && view.problems.is_empty()"
+      },
+      "operator": "swap:&&->||@257:30",
+      "sha256": "93574baad356f426e2481aab362f3acc8f127b7744ed353be51ca6a6ce61cc7b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 22.0789753,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 54,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 258,
+        "start_column": 8,
+        "end_line": 258,
+        "end_column": 51,
+        "text": "p.say(&text::update::updated_checking(tag))"
+      },
+      "operator": "drop_statement",
+      "sha256": "a9306c7d57b599a44c874ab5219db8e53e6eea889ec0bf1573931209fe8b8344",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 37.14745,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 55,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 260,
+        "start_column": 11,
+        "end_line": 260,
+        "end_column": 25,
+        "text": "kept.is_some()"
+      },
+      "operator": "negate",
+      "sha256": "8360c6fa7e67bdb55fe27fd7293b171a78120574a557a2b876138c6733ab562f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 36.8731589,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 56,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 261,
+        "start_column": 12,
+        "end_line": 261,
+        "end_column": 46,
+        "text": "p.say(&text::update::updated(tag))"
+      },
+      "operator": "drop_statement",
+      "sha256": "f37d46d0f083891d5881a7bf6fb2ce34683b46be7c07b48ff9a32daab414f377",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 34.4076217,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 57,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 263,
+        "start_column": 8,
+        "end_line": 263,
+        "end_column": 43,
+        "text": "p.say(text::update::CHANGES_NEEDED)"
+      },
+      "operator": "drop_statement",
+      "sha256": "e54bd2892bb7a24b9591ada277c84a2ade96eabadb6b3c5a5631000b07d67f20",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 24.961727,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 58,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 264,
+        "start_column": 8,
+        "end_line": 264,
+        "end_column": 25,
+        "text": "changes(p, &view)"
+      },
+      "operator": "drop_statement",
+      "sha256": "ad2d4f6ac644cd54ce2b443eb54529035004c150be1be575948b580ce66fad93",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 25.6112289,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 59,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 264,
+        "start_column": 15,
+        "end_line": 264,
+        "end_column": 25,
+        "text": "(p, &view)"
+      },
+      "operator": "arg_swap@264:16",
+      "sha256": "092b5bbe833b2f63a36333151c4409e9e890d915bfce0b7b135a2c465ea67846",
+      "class": "invalid",
+      "reason": "the tests could not be built or loaded",
+      "exit_code": 101,
+      "seconds": 4.7243196,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 60,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 265,
+        "start_column": 11,
+        "end_line": 265,
+        "end_column": 45,
+        "text": "!p.yes(text::update::PROMPT_APPLY)"
+      },
+      "operator": "negate",
+      "sha256": "8a483748b16597eaa72a956575d3e20c9202bcd5f59ec61246d4dea066f5e967",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 25.1443725,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 61,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 266,
+        "start_column": 12,
+        "end_line": 266,
+        "end_column": 64,
+        "text": "p.say(kept.unwrap_or(text::update::NOTHING_CHANGED))"
+      },
+      "operator": "drop_statement",
+      "sha256": "ba495884b0542f83f5e6de6320aa4ecab2f46860193d5e400c9a4a92c92a98ef",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 17.9845145,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 62,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 269,
+        "start_column": 8,
+        "end_line": 269,
+        "end_column": 43,
+        "text": "p.say(text::update::MAKING_CHANGES)"
+      },
+      "operator": "drop_statement",
+      "sha256": "0caf8c2e809f78b1c4561ae43c1ebb4f340450960983babf7451e3e47a1abbb7",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 12.1391145,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 63,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 271,
+        "start_column": 4,
+        "end_line": 271,
+        "end_column": 23,
+        "text": "flow.apply_update()"
+      },
+      "operator": "drop_statement",
+      "sha256": "248b35ac8b2d020594157375fec0e2562f50bb037c924f68c3860c78f1ef7470",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 16.3330522,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 64,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 273,
+        "start_column": 8,
+        "end_line": 273,
+        "end_column": 20,
+        "text": "p.say(&line)"
+      },
+      "operator": "drop_statement",
+      "sha256": "ab722de86b5157cda0a58a28c858df6ff179512d89e8fd881451a47dbc014dff",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 16.7250149,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 65,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 281,
+        "start_column": 8,
+        "end_line": 281,
+        "end_column": 26,
+        "text": "p.say(&group.file)"
+      },
+      "operator": "drop_statement",
+      "sha256": "13cbefa902f1435db5ff3fb2376a50b25598c26e57210a1765a83c969cfdc32c",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 16.2755311,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 66,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 283,
+        "start_column": 12,
+        "end_line": 283,
+        "end_column": 63,
+        "text": "p.say(&format!(\"  {} {}\", item.mark, item.summary))"
+      },
+      "operator": "drop_statement",
+      "sha256": "2fed12d7046147b688b2f0c16b774e0bc69748440d7f0bb8f8cb6c9c752f48ac",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 23.9336529,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 67,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "unary_expression",
+        "start_line": 286,
+        "start_column": 7,
+        "end_line": 286,
+        "end_column": 32,
+        "text": "!view.problems.is_empty()"
+      },
+      "operator": "negate",
+      "sha256": "ab17e6beb419cc5c020878898c9510d446f6787a3534698fd0bdcd650648563d",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 21.7450065,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 68,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 287,
+        "start_column": 8,
+        "end_line": 287,
+        "end_column": 36,
+        "text": "p.say(text::REVIEW_PROBLEMS)"
+      },
+      "operator": "drop_statement",
+      "sha256": "52803379d1cea90d812199582ab7a684d4af164b4d0898be26004776215bcf85",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 17.1912129,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 69,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 288,
+        "start_column": 8,
+        "end_line": 288,
+        "end_column": 51,
+        "text": "view.problems.iter().for_each(|l| p.say(l))"
+      },
+      "operator": "drop_statement",
+      "sha256": "309db6dc7fcc63bdd8e02651e6f85ba51bb10090a5cc12b22d27f0aba09c86c5",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 20.6294755,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 70,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 302,
+        "start_column": 4,
+        "end_line": 302,
+        "end_column": 24,
+        "text": "lines.drain(..blank)"
+      },
+      "operator": "drop_statement",
+      "sha256": "0eec74eef12f701e4b5ae5a6571388df4309b70d0e38c2d4a3c2896d212db610",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 100,
+      "seconds": 23.8155606,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 71,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 303,
+        "start_column": 7,
+        "end_line": 303,
+        "end_column": 88,
+        "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+      },
+      "operator": "negate",
+      "sha256": "257fc952e8c9264d7f8c6cd1cbf0139203ebdb69b5fe55e367952730772e839d",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 19.7446915,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 72,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 303,
+        "start_column": 7,
+        "end_line": 303,
+        "end_column": 88,
+        "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+      },
+      "operator": "swap:==->!=@303:24",
+      "sha256": "3c55d540aad1499a1976a2de6bc3ddae8864029528ac980c99211568c464917b",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 13.7937541,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 73,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 303,
+        "start_column": 7,
+        "end_line": 303,
+        "end_column": 88,
+        "text": "flow.exit_code() == 0 && flow.progress().is_some_and(|p| p.next_steps.is_empty())"
+      },
+      "operator": "swap:&&->||@303:29",
+      "sha256": "cd436279f1ee464f2f06bb61f8ab11a1be8ef4332d7abe9d714cff724d9c5620",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 11.9511893,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 74,
+      "site": {
+        "file": "src/setup/ui/update.rs",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 304,
+        "start_column": 8,
+        "end_line": 304,
+        "end_column": 49,
+        "text": "lines.push(text::update::DONE.to_owned())"
+      },
+      "operator": "drop_statement",
+      "sha256": "3547518d0bbfb6bcdf50be9295b73430fefa1bf5e52044b0d8af284726b07c45",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 17.7167809,
+      "worker": 1,
+      "reused_from": null
+    }
+  ],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [
+        7.729994
+      ],
+      "limits_s": [
+        120
+      ],
+      "mutants_run": 74,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    }
+  ],
+  "void": null
+}

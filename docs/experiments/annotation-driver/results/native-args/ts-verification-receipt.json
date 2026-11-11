@@ -1,0 +1,2126 @@
+{
+  "receipt": "deconvolution-run-v1",
+  "driver": "1.0.2",
+  "language": "typescript",
+  "pack_sha256": "9fb37f5a0fa2a8f97fb9d15b761898f2fb07d038c9e490469fa287a3a39c1ea8",
+  "config_sha256": "d8b2a2ce2e9146ba294d2bcda9c2d5661d9b9d1d76c11396788b3b4eb45c80a9",
+  "source_files_sha256": {
+    "src/verification.ts": "9908a3ad63cba13f813ca75a7fb441ff09c377698afe9dee62a738cbdee3c8c0"
+  },
+  "sites": 103,
+  "sites_without_operator": [
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 19,
+      "start_column": 50,
+      "end_line": 19,
+      "end_column": 104,
+      "text": "((criterion) => criterion.status !== \"not-applicable\")"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 20,
+      "start_column": 38,
+      "end_line": 20,
+      "end_column": 80,
+      "text": "((evidence) => evidence.result === \"fail\")"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 21,
+      "start_column": 39,
+      "end_line": 21,
+      "end_column": 84,
+      "text": "((evidence) => evidence.result === \"blocked\")"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 22,
+      "start_column": 38,
+      "end_line": 22,
+      "end_column": 83,
+      "text": "((evidence) => evidence.result === \"not-run\")"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 24,
+      "start_column": 11,
+      "end_line": 24,
+      "end_column": 137,
+      "text": "((criterion) => !input.evidence.some((evidence) => evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id)))"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 24,
+      "start_column": 47,
+      "end_line": 24,
+      "end_column": 136,
+      "text": "((evidence) => evidence.result === \"pass\" && evidence.criteriaIds.includes(criterion.id))"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 24,
+      "start_column": 121,
+      "end_line": 24,
+      "end_column": 135,
+      "text": "(criterion.id)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 25,
+      "start_column": 8,
+      "end_line": 25,
+      "end_column": 37,
+      "text": "((criterion) => criterion.id)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 46,
+      "start_column": 37,
+      "end_line": 46,
+      "end_column": 98,
+      "text": "((criterion) => classifyCriterion(criterion, input.evidence))"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 48,
+      "start_column": 2,
+      "end_line": 65,
+      "end_column": 3,
+      "text": "return {\r\n    status,\r\n    summary: summarizeCompletion(\r\n      status,\r\n      input.policy,\r\n      missingCriterionIds,\r\n      failed,\r\n      blocked,\r\n      notRun,\r\n      hasNoApplicableCriteria,\r\n      hasNoGateEvidence\r\n    ),\r\n    criteria,\r\n    unresolvedRisks,\r\n    verificationIds: input.evidence.map((evidence) => evidence.id),\r\n    findingIds: input.findingIds ?? [],\r\n    assumptions: input.assumptions ?? []\r\n  }"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 62,
+      "start_column": 39,
+      "end_line": 62,
+      "end_column": 66,
+      "text": "((evidence) => evidence.id)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 79,
+      "start_column": 4,
+      "end_line": 79,
+      "end_column": 26,
+      "text": "return \"research-only\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 83,
+      "start_column": 4,
+      "end_line": 83,
+      "end_column": 20,
+      "text": "return \"blocked\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 87,
+      "start_column": 4,
+      "end_line": 87,
+      "end_column": 19,
+      "text": "return \"failed\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 91,
+      "start_column": 4,
+      "end_line": 91,
+      "end_column": 53,
+      "text": "return researchOnly ? \"research-only\" : \"partial\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 95,
+      "start_column": 4,
+      "end_line": 95,
+      "end_column": 20,
+      "text": "return \"partial\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 99,
+      "start_column": 4,
+      "end_line": 99,
+      "end_column": 20,
+      "text": "return \"partial\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 103,
+      "start_column": 4,
+      "end_line": 103,
+      "end_column": 21,
+      "text": "return \"verified\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 106,
+      "start_column": 2,
+      "end_line": 106,
+      "end_column": 18,
+      "text": "return \"partial\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 114,
+      "start_column": 4,
+      "end_line": 114,
+      "end_column": 20,
+      "text": "return criterion"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 117,
+      "start_column": 40,
+      "end_line": 117,
+      "end_column": 91,
+      "text": "((item) => item.criteriaIds.includes(criterion.id))"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 117,
+      "start_column": 76,
+      "end_line": 117,
+      "end_column": 90,
+      "text": "(criterion.id)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 118,
+      "start_column": 36,
+      "end_line": 118,
+      "end_column": 70,
+      "text": "((item) => item.result === \"pass\")"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 120,
+      "start_column": 2,
+      "end_line": 120,
+      "end_column": 33,
+      "text": "return { ...criterion, status }"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 134,
+      "start_column": 35,
+      "end_line": 134,
+      "end_column": 70,
+      "text": "((item) => item.id === criterionId)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 141,
+      "start_column": 16,
+      "end_line": 141,
+      "end_column": 35,
+      "text": "(item.residualRisk)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 144,
+      "start_column": 16,
+      "end_line": 144,
+      "end_column": 35,
+      "text": "(item.residualRisk)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 147,
+      "start_column": 16,
+      "end_line": 147,
+      "end_column": 35,
+      "text": "(item.residualRisk)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 149,
+      "start_column": 16,
+      "end_line": 149,
+      "end_column": 35,
+      "text": "(item.residualRisk)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 161,
+      "start_column": 2,
+      "end_line": 161,
+      "end_column": 35,
+      "text": "return Array.from(new Set(risks))"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 161,
+      "start_column": 19,
+      "end_line": 161,
+      "end_column": 35,
+      "text": "(new Set(risks))"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 161,
+      "start_column": 27,
+      "end_line": 161,
+      "end_column": 34,
+      "text": "(risks)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 179,
+      "start_column": 44,
+      "end_line": 179,
+      "end_column": 63,
+      "text": "((item) => item.id)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 180,
+      "start_column": 46,
+      "end_line": 180,
+      "end_column": 65,
+      "text": "((item) => item.id)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 181,
+      "start_column": 45,
+      "end_line": 181,
+      "end_column": 64,
+      "text": "((item) => item.id)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "call_argument",
+      "node_kind": "arguments",
+      "start_line": 182,
+      "start_column": 10,
+      "end_line": 182,
+      "end_column": 41,
+      "text": "((detail) => detail.length > 0)"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 186,
+      "start_column": 4,
+      "end_line": 186,
+      "end_column": 78,
+      "text": "return `Verified completion under ${policy} verification policy.${suffix}`"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 190,
+      "start_column": 4,
+      "end_line": 190,
+      "end_column": 115,
+      "text": "return `Research-only outcome; verification gate disabled and no completion verification was claimed.${suffix}`"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 194,
+      "start_column": 4,
+      "end_line": 194,
+      "end_column": 77,
+      "text": "return `Blocked completion under ${policy} verification policy.${suffix}`"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 198,
+      "start_column": 4,
+      "end_line": 198,
+      "end_column": 76,
+      "text": "return `Failed completion under ${policy} verification policy.${suffix}`"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 201,
+      "start_column": 2,
+      "end_line": 201,
+      "end_column": 100,
+      "text": "return `Partial completion under ${policy} verification policy; unresolved risks remain.${suffix}`"
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 206,
+      "start_column": 4,
+      "end_line": 206,
+      "end_column": 13,
+      "text": "return \"\""
+    },
+    {
+      "file": "src/verification.ts",
+      "kind": "failure_state",
+      "node_kind": "return_statement",
+      "start_line": 209,
+      "start_column": 2,
+      "end_line": 209,
+      "end_column": 42,
+      "text": "return `${label}: ${values.join(\", \")}.`"
+    }
+  ],
+  "invalid_before_run": 0,
+  "annotation_decisions": null,
+  "counts_by_class": {
+    "invalid": 18,
+    "killed": 40,
+    "survived": 16
+  },
+  "counts_by_kind": {
+    "branch_condition": {
+      "invalid": 8,
+      "killed": 22,
+      "survived": 5
+    },
+    "call_argument": {
+      "invalid": 9,
+      "killed": 10
+    },
+    "error_order": {
+      "killed": 1,
+      "survived": 8
+    },
+    "state_write": {
+      "invalid": 1,
+      "killed": 7,
+      "survived": 3
+    }
+  },
+  "incomplete": false,
+  "mutants": [
+    {
+      "number": 1,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 28,
+        "start_column": 48,
+        "end_line": 35,
+        "end_column": 3,
+        "text": "(\r\n    input.criteria,\r\n    input.evidence,\r\n    missingCriterionIds,\r\n    input.policy,\r\n    hasNoApplicableCriteria,\r\n    hasNoGateEvidence\r\n  )"
+      },
+      "operator": "arg_swap@29:4",
+      "sha256": "b6db7ff732f54da1520240c83299ff33ec867ca0ee8c59254ba8df54cffdec0f",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 8.5249595,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 2,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 36,
+        "start_column": 35,
+        "end_line": 45,
+        "end_column": 3,
+        "text": "(\r\n    input.policy,\r\n    input.researchOnly === true,\r\n    missingCriterionIds,\r\n    failed,\r\n    blocked,\r\n    notRun,\r\n    hasNoApplicableCriteria,\r\n    hasNoGateEvidence\r\n  )"
+      },
+      "operator": "arg_swap@37:4",
+      "sha256": "0ca155b81a1ef01da5767393716fcf36f81a36c872c1668cee81326c933f5140",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 8.6712999,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 3,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 46,
+        "start_column": 70,
+        "end_line": 46,
+        "end_column": 97,
+        "text": "(criterion, input.evidence)"
+      },
+      "operator": "arg_swap@46:71",
+      "sha256": "129adafd620af34ee16a502f6fb7ab9760bd44c5f8d5f9dbdcb95cd46faba3e8",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 9.3149439,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 4,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 50,
+        "start_column": 32,
+        "end_line": 59,
+        "end_column": 5,
+        "text": "(\r\n      status,\r\n      input.policy,\r\n      missingCriterionIds,\r\n      failed,\r\n      blocked,\r\n      notRun,\r\n      hasNoApplicableCriteria,\r\n      hasNoGateEvidence\r\n    )"
+      },
+      "operator": "arg_swap@51:6",
+      "sha256": "80f26155d6c87772737102ebaea2c8bf53c3cadfd1e14b56c9c1e6c77aac19fe",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 9.2210723,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 5,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 78,
+        "start_column": 2,
+        "end_line": 80,
+        "end_column": 3,
+        "text": "if (researchOnly && policy === \"disabled\") {\r\n    return \"research-only\"\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "3788ea00a1d4b1fffc086a9119d6d25bafbddca27336108de1df7d0a0984eda6",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.115968299999999,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 6,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 78,
+        "start_column": 6,
+        "end_line": 78,
+        "end_column": 43,
+        "text": "researchOnly && policy === \"disabled\""
+      },
+      "operator": "negate",
+      "sha256": "81a5a7912f6835751bfb25718ce9f8eae9b2d6140350e785e9c3179d70dc1034",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.8668323,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 7,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 78,
+        "start_column": 6,
+        "end_line": 78,
+        "end_column": 43,
+        "text": "researchOnly && policy === \"disabled\""
+      },
+      "operator": "swap:&&->||@78:19",
+      "sha256": "e6b0e93766efe4af9950975c1ce1a1c103130637af0ef548e21b9508fc118c51",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 9.3031901,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 8,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 78,
+        "start_column": 6,
+        "end_line": 78,
+        "end_column": 43,
+        "text": "researchOnly && policy === \"disabled\""
+      },
+      "operator": "swap:===->!==@78:29",
+      "sha256": "8df6f228d3721ee46225d249dd51b286a229f6aa61b45de6b39f87bd8abf1656",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.7765852,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 9,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 82,
+        "start_column": 2,
+        "end_line": 84,
+        "end_column": 3,
+        "text": "if (blocked.length > 0) {\r\n    return \"blocked\"\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "5e1871cf497c6bb8ba562ad26b2a3261d9b4140a920e0e7655c5758d96356429",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.2686478,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 10,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 82,
+        "start_column": 6,
+        "end_line": 82,
+        "end_column": 24,
+        "text": "blocked.length > 0"
+      },
+      "operator": "negate",
+      "sha256": "f3ea89a45a819b6b7a345bc4ae05c2ce407744504e2b2372a359aaa374cd72e4",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.301248300000001,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 11,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 82,
+        "start_column": 6,
+        "end_line": 82,
+        "end_column": 24,
+        "text": "blocked.length > 0"
+      },
+      "operator": "swap:>->>=@82:21",
+      "sha256": "b53245891e9505fa44f05e1e2ceb59c7ecb78545dc8973d7ffa441865e0cb188",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.2584962,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 12,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 86,
+        "start_column": 2,
+        "end_line": 88,
+        "end_column": 3,
+        "text": "if (failed.length > 0) {\r\n    return \"failed\"\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "ea63280f4baa5b8b75f6d4d6c5ae735e2930630ef1b1f6017f1bc70b96d9eadf",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.0889411,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 13,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 86,
+        "start_column": 6,
+        "end_line": 86,
+        "end_column": 23,
+        "text": "failed.length > 0"
+      },
+      "operator": "negate",
+      "sha256": "0c821ec77414bc9d1d495a37eb606b55ca149d8f4771e8513913ea3a1c6fa23a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.3173605,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 14,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 86,
+        "start_column": 6,
+        "end_line": 86,
+        "end_column": 23,
+        "text": "failed.length > 0"
+      },
+      "operator": "swap:>->>=@86:20",
+      "sha256": "82ef683347c35c96e3a5e1940992621e50b29a09cfb734b4bddf664464ea0f4f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.305477,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 15,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 90,
+        "start_column": 2,
+        "end_line": 92,
+        "end_column": 3,
+        "text": "if (policy === \"disabled\") {\r\n    return researchOnly ? \"research-only\" : \"partial\"\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "e56000de3aa426be01f9170631c28cee00e0e3fab1041839f1ae8213c9131830",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 11.2303778,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 16,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 90,
+        "start_column": 6,
+        "end_line": 90,
+        "end_column": 27,
+        "text": "policy === \"disabled\""
+      },
+      "operator": "negate",
+      "sha256": "98fd81f31bcecfa61f534daadba50036a2517228fe0c8c8fe331ccd80ea7b2fd",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 11.0094889,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 17,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "identifier",
+        "start_line": 91,
+        "start_column": 11,
+        "end_line": 91,
+        "end_column": 23,
+        "text": "researchOnly"
+      },
+      "operator": "negate",
+      "sha256": "764880b12d5e9ed450e4b833d09a5683f2a87b7b3d0f021527213ffac287b554",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.4811542,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 18,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 94,
+        "start_column": 2,
+        "end_line": 96,
+        "end_column": 3,
+        "text": "if (hasNoGateEvidence) {\r\n    return \"partial\"\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "58b9159ebec62f7d42363b48aa0eaad6797c7d8194adc7221921850657d6b485",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 11.2779205,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 19,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "identifier",
+        "start_line": 94,
+        "start_column": 6,
+        "end_line": 94,
+        "end_column": 23,
+        "text": "hasNoGateEvidence"
+      },
+      "operator": "negate",
+      "sha256": "673bdb43c4647ef3565eee354159c7ea2a397950fb8ceffcdb7d382f8564aa6d",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.5366951,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 20,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 98,
+        "start_column": 2,
+        "end_line": 100,
+        "end_column": 3,
+        "text": "if (hasNoApplicableCriteria) {\r\n    return \"partial\"\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "b13bfca19935abe3bb78bd29f833768697f66e01e35336cf03ecfbcde595ec0a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 11.5045895,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 21,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "identifier",
+        "start_line": 98,
+        "start_column": 6,
+        "end_line": 98,
+        "end_column": 29,
+        "text": "hasNoApplicableCriteria"
+      },
+      "operator": "negate",
+      "sha256": "e0ae0e2e936a6fec26ad490b006f78c3e294e1d88c45d8477b691a4e2b35c96f",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 11.4308639,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 22,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 102,
+        "start_column": 6,
+        "end_line": 102,
+        "end_column": 61,
+        "text": "missingCriterionIds.length === 0 && notRun.length === 0"
+      },
+      "operator": "negate",
+      "sha256": "f7d52182d35a28b41bcff6e06b9648fe21d9d630d912288d3cf77d3b7b147204",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 11.235843200000001,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 23,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 102,
+        "start_column": 6,
+        "end_line": 102,
+        "end_column": 61,
+        "text": "missingCriterionIds.length === 0 && notRun.length === 0"
+      },
+      "operator": "swap:===->!==@102:33",
+      "sha256": "29d6c090e4b477fe68c67af714d2f4113e27c3e43fb0eabe6969bf0758c123c3",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.8638718,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 24,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 102,
+        "start_column": 6,
+        "end_line": 102,
+        "end_column": 61,
+        "text": "missingCriterionIds.length === 0 && notRun.length === 0"
+      },
+      "operator": "swap:&&->||@102:39",
+      "sha256": "93c07125f6e6ec8787808f5e56862c3f73d54925cc727d0b76b58869816d35e9",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.933211400000001,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 25,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 113,
+        "start_column": 6,
+        "end_line": 113,
+        "end_column": 43,
+        "text": "criterion.status === \"not-applicable\""
+      },
+      "operator": "negate",
+      "sha256": "fd05423bc8729c4817c2eeb3f22a9484dceaae447baf5a3b905829e194aaea24",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.865905999999999,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 26,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 118,
+        "start_column": 17,
+        "end_line": 118,
+        "end_column": 70,
+        "text": "mappedEvidence.some((item) => item.result === \"pass\")"
+      },
+      "operator": "negate",
+      "sha256": "73586a7aac99e8b09928fe2e1eecc869be1f5878b0352be316aaaf9ec8b47bbc",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.413095400000001,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 27,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "call_expression",
+        "start_line": 118,
+        "start_column": 17,
+        "end_line": 118,
+        "end_column": 70,
+        "text": "mappedEvidence.some((item) => item.result === \"pass\")"
+      },
+      "operator": "swap:===->!==@118:59",
+      "sha256": "7c5c75ae89aa2feb3c00121402000cd7731ed8bc6e7486a32619dc474ef98431",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.193316,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 28,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 135,
+        "start_column": 4,
+        "end_line": 135,
+        "end_column": 114,
+        "text": "risks.push(`${criterionId} is missing passing verification evidence.${criterion ? ` ${criterion.text}` : \"\"}`)"
+      },
+      "operator": "drop_statement",
+      "sha256": "751c9485960a1b91055a2d5127274bee16d390cc345ef753c2e6580f0b5ef7da",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 9.2363656,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 29,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 135,
+        "start_column": 14,
+        "end_line": 135,
+        "end_column": 114,
+        "text": "(`${criterionId} is missing passing verification evidence.${criterion ? ` ${criterion.text}` : \"\"}`)"
+      },
+      "operator": "arg_literal:string->empty@135:15",
+      "sha256": "294dc8fa2b80762f7090c74560487bf1a2d8d32876aa7937f2546347d45106e1",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 8.8242022,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 30,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 139,
+        "start_column": 8,
+        "end_line": 139,
+        "end_column": 30,
+        "text": "item.result === \"fail\""
+      },
+      "operator": "negate",
+      "sha256": "d6f433c15cd8d56e475a19156c9e2f0c9faee7a6263a71608d26c5458408263d",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 9.0457506,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 31,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 140,
+        "start_column": 6,
+        "end_line": 140,
+        "end_column": 53,
+        "text": "risks.push(`${item.id} failed: ${item.reason}`)"
+      },
+      "operator": "drop_statement",
+      "sha256": "25d0a242e63cb38f7ba6191f012e12707658be0dab813d6b4d63c412d7fde716",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.7786388,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 32,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 140,
+        "start_column": 16,
+        "end_line": 140,
+        "end_column": 53,
+        "text": "(`${item.id} failed: ${item.reason}`)"
+      },
+      "operator": "arg_literal:string->empty@140:17",
+      "sha256": "f8db02648d137521a7af7bf14aa2c5c3ff854adf83f596428cbcbe5f3150df0e",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.827678500000001,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 33,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 141,
+        "start_column": 6,
+        "end_line": 141,
+        "end_column": 35,
+        "text": "risks.push(item.residualRisk)"
+      },
+      "operator": "drop_statement",
+      "sha256": "8ee790f4a6b6fa5c6feb76ec746958b0d0be66a23cc1d8ee3cf1f99cc216c8c9",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.745768400000001,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 34,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 142,
+        "start_column": 15,
+        "end_line": 142,
+        "end_column": 40,
+        "text": "item.result === \"blocked\""
+      },
+      "operator": "negate",
+      "sha256": "4d9714f10c724ff7d2a4be167758f6d4fe23b0a630fd3ada42c8b35abebfbfc5",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 8.996629800000001,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 35,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 143,
+        "start_column": 6,
+        "end_line": 143,
+        "end_column": 58,
+        "text": "risks.push(`${item.id} was blocked: ${item.reason}`)"
+      },
+      "operator": "drop_statement",
+      "sha256": "8e3bfd961b6e12a9fc0879ec6dfab78479e6176c8d892f3aa86889f7af27d48d",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.8108409,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 36,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 143,
+        "start_column": 16,
+        "end_line": 143,
+        "end_column": 58,
+        "text": "(`${item.id} was blocked: ${item.reason}`)"
+      },
+      "operator": "arg_literal:string->empty@143:17",
+      "sha256": "7c6e6cfc80c751be69958c0bac4bff3642dac78fb232d6ad3e838d93751f03b3",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.6037897,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 37,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 144,
+        "start_column": 6,
+        "end_line": 144,
+        "end_column": 35,
+        "text": "risks.push(item.residualRisk)"
+      },
+      "operator": "drop_statement",
+      "sha256": "22f94ec7ac54fc2c25d9b2d33960de374b40f30f327a8bc87c7f84c7c72d7422",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.481213799999999,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 38,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 145,
+        "start_column": 15,
+        "end_line": 145,
+        "end_column": 40,
+        "text": "item.result === \"not-run\""
+      },
+      "operator": "negate",
+      "sha256": "72704126623e2719e94f984d7286572d1a408c018f79dee0f0b54a4faeb49e34",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 8.5924447,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 39,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 146,
+        "start_column": 6,
+        "end_line": 146,
+        "end_column": 58,
+        "text": "risks.push(`${item.id} was not run: ${item.reason}`)"
+      },
+      "operator": "drop_statement",
+      "sha256": "ed71eb2dd6f4c8880d14eb8db847f898a0de38171ff7654d95513c570730853a",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 8.7951686,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 40,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 146,
+        "start_column": 16,
+        "end_line": 146,
+        "end_column": 58,
+        "text": "(`${item.id} was not run: ${item.reason}`)"
+      },
+      "operator": "arg_literal:string->empty@146:17",
+      "sha256": "8febd45eb1b0115251e432655902ea21618bed72154eb3d6121b61856477031e",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 9.6677512,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 41,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 147,
+        "start_column": 6,
+        "end_line": 147,
+        "end_column": 35,
+        "text": "risks.push(item.residualRisk)"
+      },
+      "operator": "drop_statement",
+      "sha256": "3fb47af089899c093a44c815fbc19682b402041c65e07aa735aeb346a215ede2",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.2295695,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 42,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 148,
+        "start_column": 15,
+        "end_line": 148,
+        "end_column": 46,
+        "text": "item.residualRisk !== undefined"
+      },
+      "operator": "negate",
+      "sha256": "e84ef800ccfa13450a476327eb19705f298b8696b87a38d12796a5e03dab5f7a",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 7.8421436,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 43,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 149,
+        "start_column": 6,
+        "end_line": 149,
+        "end_column": 35,
+        "text": "risks.push(item.residualRisk)"
+      },
+      "operator": "drop_statement",
+      "sha256": "ce1b5a94d9503756ad12104f2684dbc2aa368c465071eb5f44264c6b2d36b0db",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 9.4136919,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 44,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 153,
+        "start_column": 6,
+        "end_line": 153,
+        "end_column": 52,
+        "text": "policy === \"disabled\" && evidence.length === 0"
+      },
+      "operator": "negate",
+      "sha256": "bc5d702894cf3fdc3d3cfa6b0d964f39056934ec72b1dc01a3b71bb6c9613ffe",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 8.3925999,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 45,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 153,
+        "start_column": 6,
+        "end_line": 153,
+        "end_column": 52,
+        "text": "policy === \"disabled\" && evidence.length === 0"
+      },
+      "operator": "swap:===->!==@153:13",
+      "sha256": "b18005d55df7f906776842f91a42c7980c274b1c74160af5b13a35a280a0877b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 15.9362107,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 46,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 153,
+        "start_column": 6,
+        "end_line": 153,
+        "end_column": 52,
+        "text": "policy === \"disabled\" && evidence.length === 0"
+      },
+      "operator": "swap:&&->||@153:28",
+      "sha256": "4fee295562696e2f8da0943b0d4c900830f18659d699f6bf3956bfbf35763330",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 15.3939835,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 47,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 154,
+        "start_column": 4,
+        "end_line": 154,
+        "end_column": 86,
+        "text": "risks.push(\"No verification evidence was collected because the gate is disabled.\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "239194f4e1f1d6df3069f3127049b7427479cd9531a78d1d886b49909b0bf4e1",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 14.5777635,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 48,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 154,
+        "start_column": 14,
+        "end_line": 154,
+        "end_column": 86,
+        "text": "(\"No verification evidence was collected because the gate is disabled.\")"
+      },
+      "operator": "arg_literal:string->empty@154:15",
+      "sha256": "d219d92048c21202d2646c161817db40d0071bcc4d7644ed1b9c077aff719b74",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 16.1521395,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 49,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "identifier",
+        "start_line": 155,
+        "start_column": 13,
+        "end_line": 155,
+        "end_column": 30,
+        "text": "hasNoGateEvidence"
+      },
+      "operator": "negate",
+      "sha256": "0ed641bd110c89e53e89106db77ee6b34a553a31bef278708c6ed8adbcbd78f4",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 13.329995,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 50,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 156,
+        "start_column": 4,
+        "end_line": 156,
+        "end_column": 80,
+        "text": "risks.push(\"No acceptance criteria or verification evidence were provided.\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "93017c608353fe6e4d15a1f8fb795dff09da6abcbdf0446271e696bf106b44de",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 14.588196,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 51,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 156,
+        "start_column": 14,
+        "end_line": 156,
+        "end_column": 80,
+        "text": "(\"No acceptance criteria or verification evidence were provided.\")"
+      },
+      "operator": "arg_literal:string->empty@156:15",
+      "sha256": "e462a34abd75e08b78be0ab51ea8c6286f687faab9351019b443345829fe239b",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 11.213888299999999,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 52,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "identifier",
+        "start_line": 157,
+        "start_column": 13,
+        "end_line": 157,
+        "end_column": 36,
+        "text": "hasNoApplicableCriteria"
+      },
+      "operator": "negate",
+      "sha256": "b1acb9de3a68ccd87c4b212137b367e6f88dd9992a75e7e7353d7fb2285bb2bf",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.492254200000001,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 53,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "state_write",
+        "node_kind": "call_expression",
+        "start_line": 158,
+        "start_column": 4,
+        "end_line": 158,
+        "end_column": 55,
+        "text": "risks.push(\"No acceptance criteria were provided.\")"
+      },
+      "operator": "drop_statement",
+      "sha256": "cf28483b7dcf16db290e6b4a56cc3cb6994c97da8819151866ff968a580fd702",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 11.4256017,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 54,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 158,
+        "start_column": 14,
+        "end_line": 158,
+        "end_column": 55,
+        "text": "(\"No acceptance criteria were provided.\")"
+      },
+      "operator": "arg_literal:string->empty@158:15",
+      "sha256": "91e32ae1fab8a44ec61c31b8d5b146daad7e2fdfd8302d2c8b9d5b4cdeafb526",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.9361088,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 55,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 175,
+        "start_column": 16,
+        "end_line": 178,
+        "end_column": 5,
+        "text": "(\r\n      \"missing evidence\",\r\n      hasNoGateEvidence ? [\"workflow verification\"] : hasNoApplicableCriteria ? [\"acceptance criteria\"] : missingCriterionIds\r\n    )"
+      },
+      "operator": "arg_literal:string->empty@176:6",
+      "sha256": "678804b255d854d3ef1e9572b201f35cd2d7b91ba9f67861f8f885edabffa5c9",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.3025619,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 56,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 175,
+        "start_column": 16,
+        "end_line": 178,
+        "end_column": 5,
+        "text": "(\r\n      \"missing evidence\",\r\n      hasNoGateEvidence ? [\"workflow verification\"] : hasNoApplicableCriteria ? [\"acceptance criteria\"] : missingCriterionIds\r\n    )"
+      },
+      "operator": "arg_swap@176:6",
+      "sha256": "08abc23aee52af9a79a1f7e3195b85e4b923f82ec5b6acf6dc86a08ea9ebdef1",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 9.9778795,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 57,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "identifier",
+        "start_line": 177,
+        "start_column": 6,
+        "end_line": 177,
+        "end_column": 23,
+        "text": "hasNoGateEvidence"
+      },
+      "operator": "negate",
+      "sha256": "42d510259093ba6588a36b7df0a00b12b5d379d005147e1e823a5d697a39d91f",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.3322239,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 58,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "identifier",
+        "start_line": 177,
+        "start_column": 54,
+        "end_line": 177,
+        "end_column": 77,
+        "text": "hasNoApplicableCriteria"
+      },
+      "operator": "negate",
+      "sha256": "26583cd55b01c59dfe66e114ad97e2b461394178376a9e26d99e0fdee7df9081",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.927466,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 59,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 179,
+        "start_column": 16,
+        "end_line": 179,
+        "end_column": 64,
+        "text": "(\"failed checks\", failed.map((item) => item.id))"
+      },
+      "operator": "arg_literal:string->empty@179:17",
+      "sha256": "748691db8621791469933d15e9c6afb05c02ab3e979e6794c6637113abd07cdb",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.6118598,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 60,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 179,
+        "start_column": 16,
+        "end_line": 179,
+        "end_column": 64,
+        "text": "(\"failed checks\", failed.map((item) => item.id))"
+      },
+      "operator": "arg_swap@179:17",
+      "sha256": "c535a9ff116e91f4c77f3fd05c6ae7140941c5b7b421342016dc59d59f2ccef7",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 10.5524196,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 61,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 180,
+        "start_column": 16,
+        "end_line": 180,
+        "end_column": 66,
+        "text": "(\"blocked checks\", blocked.map((item) => item.id))"
+      },
+      "operator": "arg_literal:string->empty@180:17",
+      "sha256": "cb56f08e29618c1a89ac3abe547084bdc028f90cfb93d7c4969557a565512afa",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 11.079972099999999,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 62,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 180,
+        "start_column": 16,
+        "end_line": 180,
+        "end_column": 66,
+        "text": "(\"blocked checks\", blocked.map((item) => item.id))"
+      },
+      "operator": "arg_swap@180:17",
+      "sha256": "e1f23fc84354223dabe16da57151029ba0e0a598603f22ea49a054f01647bdcc",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 10.1432786,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 63,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 181,
+        "start_column": 16,
+        "end_line": 181,
+        "end_column": 65,
+        "text": "(\"not-run checks\", notRun.map((item) => item.id))"
+      },
+      "operator": "arg_literal:string->empty@181:17",
+      "sha256": "5d32cd18840be6903ef88a858acb44ef01cc382bb0f6e7d9b714b330eecb7b76",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.1586599,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 64,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "call_argument",
+        "node_kind": "arguments",
+        "start_line": 181,
+        "start_column": 16,
+        "end_line": 181,
+        "end_column": 65,
+        "text": "(\"not-run checks\", notRun.map((item) => item.id))"
+      },
+      "operator": "arg_swap@181:17",
+      "sha256": "0a96a94f0ae46f45232a77cc2222a413af921ce979b880caefcc7913a0ed4f65",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 9.9525832,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 65,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 183,
+        "start_column": 17,
+        "end_line": 183,
+        "end_column": 35,
+        "text": "details.length > 0"
+      },
+      "operator": "negate",
+      "sha256": "cf1b1be27204a847708e996a19380cc02753736d159ec65523b8bccead26c8fa",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 10.658282,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 66,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 183,
+        "start_column": 17,
+        "end_line": 183,
+        "end_column": 35,
+        "text": "details.length > 0"
+      },
+      "operator": "swap:>->>=@183:32",
+      "sha256": "f5eee6963dfbc7ce37ca1ec5e65548eb172a3c7442ed05d9b404bca361deca9a",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 10.9686042,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 67,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 185,
+        "start_column": 2,
+        "end_line": 187,
+        "end_column": 3,
+        "text": "if (status === \"verified\") {\r\n    return `Verified completion under ${policy} verification policy.${suffix}`\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "8ee40c9be6e8257432312e0234dc984c8d9305a64255b4aeae9ca258d86b3279",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 11.2284029,
+      "worker": 3,
+      "reused_from": null
+    },
+    {
+      "number": 68,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 185,
+        "start_column": 6,
+        "end_line": 185,
+        "end_column": 27,
+        "text": "status === \"verified\""
+      },
+      "operator": "negate",
+      "sha256": "6064da7a294ba498a08211a39d5e205f53976742230f7f7fe299ea334dcdc249",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 10.2748051,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 69,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 189,
+        "start_column": 2,
+        "end_line": 191,
+        "end_column": 3,
+        "text": "if (status === \"research-only\") {\r\n    return `Research-only outcome; verification gate disabled and no completion verification was claimed.${suffix}`\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "3f81bfbb2d5c8d10f70837a3593c6f53281b4df09cc28e1165e0ae475b6f6652",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 13.4541351,
+      "worker": 2,
+      "reused_from": null
+    },
+    {
+      "number": 70,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 189,
+        "start_column": 6,
+        "end_line": 189,
+        "end_column": 32,
+        "text": "status === \"research-only\""
+      },
+      "operator": "negate",
+      "sha256": "ac05913e4caf5de93aa3f08b9bb2ea0d3024a35bd194a8dbe01293af478a3025",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 12.8208815,
+      "worker": 1,
+      "reused_from": null
+    },
+    {
+      "number": 71,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "error_order",
+        "node_kind": "if_statement",
+        "start_line": 193,
+        "start_column": 2,
+        "end_line": 195,
+        "end_column": 3,
+        "text": "if (status === \"blocked\") {\r\n    return `Blocked completion under ${policy} verification policy.${suffix}`\r\n  }"
+      },
+      "operator": "swap_next",
+      "sha256": "2801322205a601b5177443db7de619b6997b7f1ef37b87dc4c8affa9f38e9191",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 14.1150942,
+      "worker": 4,
+      "reused_from": null
+    },
+    {
+      "number": 72,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 193,
+        "start_column": 6,
+        "end_line": 193,
+        "end_column": 26,
+        "text": "status === \"blocked\""
+      },
+      "operator": "negate",
+      "sha256": "412608f5ad2fa35baadea3d590cf28b4e45670989261d41f7f6df50550fe5bc2",
+      "class": "invalid",
+      "reason": "did not build",
+      "exit_code": 2,
+      "seconds": 13.0636577,
+      "worker": 6,
+      "reused_from": null
+    },
+    {
+      "number": 73,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 197,
+        "start_column": 6,
+        "end_line": 197,
+        "end_column": 25,
+        "text": "status === \"failed\""
+      },
+      "operator": "negate",
+      "sha256": "ed126380a3f7f8b76f58ea609fbf2273108639f87ad389040ae7c8243adff7ec",
+      "class": "survived",
+      "reason": null,
+      "exit_code": 0,
+      "seconds": 13.8873876,
+      "worker": 5,
+      "reused_from": null
+    },
+    {
+      "number": 74,
+      "site": {
+        "file": "src/verification.ts",
+        "kind": "branch_condition",
+        "node_kind": "binary_expression",
+        "start_line": 205,
+        "start_column": 6,
+        "end_line": 205,
+        "end_column": 25,
+        "text": "values.length === 0"
+      },
+      "operator": "negate",
+      "sha256": "58a8a311b5f55e37ec320959f68f9c90515f7745a17a63474b9e9965cb88fcc3",
+      "class": "killed",
+      "reason": null,
+      "exit_code": 1,
+      "seconds": 13.5821207,
+      "worker": 3,
+      "reused_from": null
+    }
+  ],
+  "workers": [
+    {
+      "worker": 1,
+      "recovered": null,
+      "baseline_s": [
+        9.9465727,
+        0.9813335
+      ],
+      "limits_s": [
+        50,
+        30
+      ],
+      "mutants_run": 12,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    },
+    {
+      "worker": 2,
+      "recovered": null,
+      "baseline_s": [
+        9.9492005,
+        1.1870020000000001
+      ],
+      "limits_s": [
+        50,
+        30
+      ],
+      "mutants_run": 13,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    },
+    {
+      "worker": 3,
+      "recovered": null,
+      "baseline_s": [
+        10.1501819,
+        0.992766
+      ],
+      "limits_s": [
+        51,
+        30
+      ],
+      "mutants_run": 13,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    },
+    {
+      "worker": 4,
+      "recovered": null,
+      "baseline_s": [
+        10.7404965,
+        1.1222396
+      ],
+      "limits_s": [
+        54,
+        30
+      ],
+      "mutants_run": 12,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    },
+    {
+      "worker": 5,
+      "recovered": null,
+      "baseline_s": [
+        11.1180062,
+        1.1475297
+      ],
+      "limits_s": [
+        56,
+        30
+      ],
+      "mutants_run": 12,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    },
+    {
+      "worker": 6,
+      "recovered": null,
+      "baseline_s": [
+        9.064097,
+        1.0968589
+      ],
+      "limits_s": [
+        46,
+        30
+      ],
+      "mutants_run": 12,
+      "closing_baseline_passed": true,
+      "closing_failure": null,
+      "stopped": null
+    }
+  ],
+  "void": null
+}
