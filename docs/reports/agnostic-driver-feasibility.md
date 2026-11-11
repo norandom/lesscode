@@ -5,8 +5,8 @@ gate. Composition recorded in `docs/reports/blueprints/2026-11-10-agnostic-drive
 
 - Project: Lesscode, research on making AI-generated code smaller and less entangled without changing its
   behaviour.
-- Period covered: 10 November 2026, research entries R55 to R64. Sections 8 and 9, added 2026-11-11, cover R65 to R83
-  and have the figures.
+- Period covered: 10 November 2026, research entries R55 to R64. Sections 8 to 10, added 2026-11-11, cover R65 to R87
+  and have the figures. Section 10 restates the size of the reductions and should be read first.
 - Audience: the owner, who decides whether to start requirements and design for a Rust port; then the
   implementer of that port, and an adopter who wants to know whether running the tool can damage their code.
 - Status: a prototype in Python that passed its gate on the second attempt, on five files in four languages.
@@ -495,3 +495,45 @@ runs in the same batch: 0.62 to 0.86), without selecting more than one run does.
 runs is also steadier in four of five files and selects 10% to 60% more. Neither makes the selection
 fixed, and either costs three calls per file. The release that contains the driver, 1.1.0, was tagged on
 2026-11-11; the argument swap was switched off in the Java and Rust packs before the tag.
+
+
+## 10. Third update, 2026-11-11: how much smaller the candidates really are
+
+Added 2026-11-11, about 12:00 Europe/Berlin. Period covered: research entries R86 and R87. This section
+changes what the report can say about cutting code, so it is the one to read first.
+
+Sections 1 to 9 are about whether code can be cut *safely*: the driver, the copies, what tests notice. They
+take the size of the cuts from the earlier experiments, which reported candidates 24% to 44% smaller. That
+size was measured in lines. When the Rust candidate was built for the first time (it compiles in place and
+the crate's 375 tests pass), its format check failed, and with both files formatted alike its reduction was
+12% instead of 40%. The density command was then changed to count syntax, and all four specimens were
+measured again.
+
+![The same candidates measured in lines and in tokens](figures/reduction-lines-and-tokens.svg)
+
+| Specimen | Fewer lines | Fewer tokens | Fewer syntax nodes |
+| --- | --- | --- | --- |
+| Rust lifecycle | 40.2% | 7.0% | 7.5% |
+| Java `CSVPrinter` | 38.5% | 5.6% | 4.4% |
+| TypeScript `degradation` | 43.8% | 18.8% | 20.9% |
+| Python lifecycle, 7 files | 22.3% | 7.5% | 8.3% |
+| Python report envelope, 6 files | 18.4% | 9.8% | 9.9% |
+
+Tokens are names, literals, operators and punctuation outside comments; layout cannot change them. By that
+measure the candidates are 6% to 19% smaller. The rest of the reported reduction was denser layout: more on
+each line. None of the four meets the threshold for a substantial reduction that was fixed before the
+re-measurement (20% fewer tokens, at least 400 removed, 10% fewer nodes).
+
+What this does and does not change:
+
+- It does not change the safety argument. The driver, its copies and its checks are as described, and the
+  candidates pass the tests there are.
+- It changes the answer to "is it worth it". The method has so far produced small reductions with behaviour
+  preserved under the available tests, not substantial ones.
+- It shows that the instrument matters as much as the method. Two instruments of this project were wrong in
+  the same direction within one day: "killed" that was never run (section 8), and "smaller" that was layout.
+  Both now measure what their names say.
+
+`deconvolute density` counts tokens and nodes from release 1.1.1 on. The question whether a model, under
+the constraints of this project, can produce reductions that are substantial by syntax is open again, and
+it can now be asked with an instrument that cannot be satisfied by reformatting.
