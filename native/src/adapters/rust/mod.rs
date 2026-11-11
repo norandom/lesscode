@@ -4,8 +4,6 @@
 //! - `.kiro/specs/rust-deconvolution-unification/design.md`
 //! - `native/src/adapter_traits.rs`
 
-pub mod metrics;
-
 use crate::adapter_traits::{
     AdverseMutantGenerator, AnalysisRequest, AnalysisResult, MutationBatch, MutationRequest,
     RunRequest, RunResult, SpecimenTraceRunner,

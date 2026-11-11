@@ -4,8 +4,6 @@
 //! - `.kiro/specs/typescript-deconvolution-adapter/design.md`
 //! - `.kiro/specs/native-deconvolution-closure/adapter-contract.md`
 
-pub mod metrics;
-
 use crate::adapter_traits::{
     AdverseMutantGenerator, AnalysisRequest, AnalysisResult, MutationBatch, MutationRequest,
     RunRequest, RunResult, SpecimenTraceRunner,

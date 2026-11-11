@@ -458,8 +458,9 @@ removed, and at least 10% fewer nodes; the thresholds are in the receipt. The pe
 earlier line and statement rule. The floor of 400 tokens stands for the earlier 50 lines at eight tokens a
 line; it was fixed here before any specimen was measured with the new command. A file that does not parse
 is refused with exit code 3. The line and keyword counters in `adapters/<lang>/metrics.rs` and
-`density.rs` are no longer used by the command; they remain in the library with their tests, and what to
-do with them is the owner's decision.
+`density.rs` are no longer used by the command; they were removed with their tests on
+2026-11-11 by the owner's decision, together with the three tests that pinned the earlier compression
+figures as "QUALIFIED".
 
 ## Contradictions and disposition
 

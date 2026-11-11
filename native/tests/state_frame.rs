@@ -7,7 +7,6 @@
 use std::collections::BTreeMap;
 
 use lesscode_core::adapter_traits::*;
-use lesscode_core::density::*;
 use lesscode_core::state_frame::*;
 
 #[test]
@@ -112,42 +111,4 @@ fn static_state_frame_analyzer_trait() {
     assert!(!res.is_valid);
     assert_eq!(res.violations.len(), 1);
     assert!(res.violations[0].contains("memory_leak.py"));
-}
-
-#[test]
-fn density_engine_canonical_lines_and_compression_gate() {
-    let source = "
-    // Header comment
-    # Python style comment
-    fn calculate() -> i32 {
-        let x = 42;
-        x
-    }
-    ";
-    let count = count_canonical_lines(source);
-    assert_eq!(count, 4);
-
-    let baseline = ScopeMetrics {
-        function_count: 69,
-        call_edge_count: 89,
-        write_site_count: 14,
-        ast_statements: 759,
-        canonical_lines: 1495,
-        pure_functions: 10,
-    };
-    let candidate = ScopeMetrics {
-        function_count: 50,
-        call_edge_count: 61,
-        write_site_count: 11,
-        ast_statements: 667,
-        canonical_lines: 1124,
-        pure_functions: 26,
-    };
-
-    let report = evaluate_density_gate(&baseline, &candidate, 10.0, 20.0);
-    assert!(report.compression_met);
-    assert!(report.structurally_consolidated);
-    assert_eq!(report.disposition, "QUALIFIED");
-    assert!((report.line_reduction_pct - 24.8).abs() < 0.2);
-    assert!((report.stmt_reduction_pct - 12.1).abs() < 0.2);
 }

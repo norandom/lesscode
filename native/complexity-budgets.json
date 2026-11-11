@@ -217,15 +217,6 @@
    "disposition": null
   },
   {
-   "path": "adapters/java/metrics.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "java-deconvolution-unification",
-   "allocation": "Java scope metrics and density scorer (task 3, REQ-JAVA-5.1..5.2)",
-   "disposition": null
-  },
-  {
    "path": "adapters/java/mod.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
@@ -244,30 +235,12 @@
    "disposition": null
   },
   {
-   "path": "adapters/rust/metrics.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "rust-deconvolution-unification",
-   "allocation": "Rust scope metrics and density scorer (task 3, REQ-RUST-5.1..5.2)",
-   "disposition": null
-  },
-  {
    "path": "adapters/rust/mod.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
    "max_fn_lines": 80,
    "owner": "rust-deconvolution-unification",
    "allocation": "Rust adapter module root and profile dispatch (task 1)",
-   "disposition": null
-  },
-  {
-   "path": "adapters/typescript/metrics.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "typescript-deconvolution-adapter",
-   "allocation": "TypeScript scope metrics and density evaluation (task 3, REQ-TS-5.1..5.2)",
    "disposition": null
   },
   {
@@ -321,15 +294,6 @@
    "owner": "capability-compression-core",
    "allocation": "brownfield baseline (cfg(test) separated)",
    "disposition": "keep-measured-ceiling; brownfield freeze; blob d43192b09fed53994188eea6b963d1039c095059"
-  },
-  {
-   "path": "density.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "native-deconvolution-closure",
-   "allocation": "Whole-scope density scorer and outcome gate (task 2, REQ-NAT-2.1..2.5)",
-   "disposition": null
   },
   {
    "path": "jsonval.rs",
