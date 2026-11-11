@@ -400,3 +400,20 @@ fn frozen_traces_replay_without_divergence() {
         "E4 frozen trace diverged"
     );
 }
+
+// Pins for the step `verdict-one-exit` (gradual-refactoring-steps, R88): the
+// order of the reasons when two checks fail at once. No test fixed it; a
+// fault that swaps two adjacent checks went unnoticed.
+#[test]
+fn verdict_lists_reasons_in_the_order_of_the_checks() {
+    let (_, reasons) = recording::verdict(0, false, 3, None);
+    assert!(
+        reasons[0].contains("replay not fresh") && reasons[1].contains("L2 differences"),
+        "{reasons:?}"
+    );
+    let (_, reasons) = recording::verdict(1, false, 0, None);
+    assert!(
+        reasons[0].contains("arm exit") && reasons[1].contains("replay not fresh"),
+        "{reasons:?}"
+    );
+}
