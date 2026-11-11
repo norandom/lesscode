@@ -4,9 +4,7 @@
 //! - `.kiro/specs/rust-deconvolution-unification/design.md`
 //! - `native/src/adapter_traits.rs`
 
-pub mod analysis;
 pub mod metrics;
-pub mod mutation;
 
 use crate::adapter_traits::{
     AdverseMutantGenerator, AnalysisRequest, AnalysisResult, ComparisonRequest, MutationBatch,
@@ -15,9 +13,6 @@ use crate::adapter_traits::{
 };
 use crate::adapters::driver::contract;
 use crate::specimen_runner::NativeSpecimenRunner;
-
-pub use analysis::RustEffectAnalyzer;
-pub use mutation::RustMutantGenerator;
 
 /// Main Rust language adapter answering the adapter traits; analysis and mutation come from the driver.
 pub struct RustAdapter {

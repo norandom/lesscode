@@ -6,7 +6,6 @@
 
 use lesscode_core::adapter_traits::*;
 use lesscode_core::adapters::typescript::metrics::*;
-use lesscode_core::adapters::typescript::mutation::TypeScriptMutantGenerator;
 use lesscode_core::adapters::typescript::TypeScriptAdapter;
 use std::path::Path;
 
@@ -34,56 +33,9 @@ fn specimen_candidate_meets_useful_compression_thresholds() {
     assert!(report.stmt_reduction_pct >= 10.0);
 }
 
-#[test]
-fn adverse_mutation_controls_kill_rate_reaches_100_percent() {
-    let generator = TypeScriptMutantGenerator::new();
-    let sample_source = r#"
-export function createNotice(input: any) {
-    const sev = "warning";
-    const slug = input.id.replace(/[^a-z0-9]+/g, "-");
-    const blocked = input.notices.filter((n) => n.severity === "blocked");
-    return { sev, slug, blocked };
-}
-"#;
-
-    let controls = vec![
-        MutationSpec {
-            id: "TS_ADV_1_Severity".into(),
-            location: "sample.ts:3".into(),
-            kind: MutationKind::MissingFailureState,
-            description: "Invert warning severity".into(),
-        },
-        MutationSpec {
-            id: "TS_ADV_2_Slugify".into(),
-            location: "sample.ts:4".into(),
-            kind: MutationKind::SilentNone,
-            description: "Drop regex sanitization".into(),
-        },
-        MutationSpec {
-            id: "TS_ADV_4_ErrorOrder".into(),
-            location: "sample.ts:5".into(),
-            kind: MutationKind::InvertedErrorOrder,
-            description: "Reverse blocked error filter order".into(),
-        },
-        MutationSpec {
-            id: "TS_ADV_3_Truncation".into(),
-            location: "sample.ts:6".into(),
-            kind: MutationKind::TruncatedStream,
-            description: "Drop stream bytes".into(),
-        },
-    ];
-
-    let mut killed_count = 0;
-    for spec in &controls {
-        let mutated = generator.apply_mutation(sample_source, spec).unwrap();
-        assert_ne!(mutated, sample_source);
-        killed_count += 1;
-    }
-
-    assert_eq!(killed_count, controls.len());
-    let kill_rate_pct = (killed_count as f64 / controls.len() as f64) * 100.0;
-    assert_eq!(kill_rate_pct, 100.0);
-}
+// The test that counted a changed text as a killed control was removed with
+// the text-matching operators (agnostic-annotation-driver task 7.3). What the
+// driver offers for the gate's controls is pinned in `driver_contract.rs`.
 
 #[test]
 fn adapter_protocol_event_execution_and_clean_exit() {

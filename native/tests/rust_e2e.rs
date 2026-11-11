@@ -6,7 +6,6 @@
 
 use lesscode_core::adapter_traits::*;
 use lesscode_core::adapters::rust::metrics::*;
-use lesscode_core::adapters::rust::mutation::RustMutantGenerator;
 use lesscode_core::adapters::rust::RustAdapter;
 use std::path::Path;
 
@@ -43,64 +42,9 @@ fn specimen_candidate_meets_useful_compression_thresholds() {
     assert!(report.stmt_reduction_pct >= 10.0);
 }
 
-#[test]
-fn adverse_mutation_controls_kill_rate_reaches_100_percent() {
-    let generator = RustMutantGenerator::new();
-    let sample_source = r#"
-pub fn run_lifecycle(arm_exit: i32, level2_ops: usize, env_key: &str) -> i32 {
-    if Instant::now() >= deadline {
-        let _ = Command::new("taskkill").args(["/F", "/T", "/PID"]).output();
-        return 124;
-    }
-    if arm_exit != 0 {
-        return 1;
-    }
-    if level2_ops > 0 {
-        return 2;
-    }
-    let env_val = std::env::var("PYTHONPATH").unwrap_or_default();
-    0
-}
-"#;
-
-    let controls = vec![
-        MutationSpec {
-            id: "RUST_ADV_1".into(),
-            location: "lifecycle.rs:4".into(),
-            kind: MutationKind::MissingFailureState,
-            description: "Omit taskkill deadline kill".into(),
-        },
-        MutationSpec {
-            id: "RUST_ADV_2".into(),
-            location: "lifecycle.rs:7".into(),
-            kind: MutationKind::InvertedCondition,
-            description: "Inverted refusal condition in verdict".into(),
-        },
-        MutationSpec {
-            id: "RUST_ADV_3".into(),
-            location: "lifecycle.rs:10".into(),
-            kind: MutationKind::InvertedErrorOrder,
-            description: "Bypassed level2 differences check".into(),
-        },
-        MutationSpec {
-            id: "RUST_ADV_4".into(),
-            location: "lifecycle.rs:13".into(),
-            kind: MutationKind::SilentNone,
-            description: "Dropped environment isolation PYTHONPATH".into(),
-        },
-    ];
-
-    let mut killed_count = 0;
-    for spec in &controls {
-        let mutated = generator.apply_mutation(sample_source, spec).unwrap();
-        assert_ne!(mutated, sample_source);
-        killed_count += 1;
-    }
-
-    assert_eq!(killed_count, controls.len());
-    let kill_rate_pct = (killed_count as f64 / controls.len() as f64) * 100.0;
-    assert_eq!(kill_rate_pct, 100.0);
-}
+// The test that counted a changed text as a killed control was removed with
+// the text-matching operators (agnostic-annotation-driver task 7.3). What the
+// driver offers for the gate's controls is pinned in `driver_contract.rs`.
 
 #[test]
 fn differential_finite_domain_cartesian_cases_reach_zero_divergences() {

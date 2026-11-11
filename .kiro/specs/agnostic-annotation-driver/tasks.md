@@ -160,7 +160,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - The experiments that cited "four of four adverse controls killed" (R49 to R53) are rerun; new figures are
     recorded beside the old ones in a dated research entry and as amendments to the cited entries.
   - _Requirements: 7.4, 9.4_
-- [ ] 7.3 Delete the six adapter files and their substring tests
+- [x] 7.3 Delete the six adapter files and their substring tests
   - Remove `adapters/{rust,java,typescript}/{analysis,mutation}.rs` and the tests that pin their text
     matching; keep the specimens as fixtures; update the budgets file.
   - Done when the suite passes and a search finds no fixed specimen substring in `native/src`.

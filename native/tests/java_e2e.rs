@@ -6,7 +6,6 @@
 
 use lesscode_core::adapter_traits::*;
 use lesscode_core::adapters::java::metrics::*;
-use lesscode_core::adapters::java::mutation::JavaMutantGenerator;
 use lesscode_core::adapters::java::JavaAdapter;
 use std::path::Path;
 
@@ -41,63 +40,9 @@ fn specimen_candidate_meets_useful_compression_thresholds() {
     assert!(report.stmt_reduction_pct >= 10.0);
 }
 
-#[test]
-fn adverse_mutation_controls_kill_rate_reaches_100_percent() {
-    let generator = JavaMutantGenerator::new();
-    let sample_source = r#"
-public class CSVPrinter {
-    public void print(Object value) {
-        format.print(value, appendable, newRecord);
-        newRecord = false;
-    }
-    public void flush() {
-        if (!newRecord) {
-            if (appendable instanceof Flushable) {
-                ((Flushable) appendable).flush();
-            }
-        }
-    }
-}
-"#;
-
-    let controls = vec![
-        MutationSpec {
-            id: "JAVA_ADV_1".into(),
-            location: "CSVPrinter.java:5".into(),
-            kind: MutationKind::MissingFailureState,
-            description: "Omit state mutation newRecord = false".into(),
-        },
-        MutationSpec {
-            id: "JAVA_ADV_2".into(),
-            location: "CSVPrinter.java:8".into(),
-            kind: MutationKind::InvertedCondition,
-            description: "Invert flush condition !newRecord".into(),
-        },
-        MutationSpec {
-            id: "JAVA_ADV_3".into(),
-            location: "CSVPrinter.java:4".into(),
-            kind: MutationKind::InvertedErrorOrder,
-            description: "Invert delimiter sequencing flag".into(),
-        },
-        MutationSpec {
-            id: "JAVA_ADV_4".into(),
-            location: "CSVPrinter.java:10".into(),
-            kind: MutationKind::SilentNone,
-            description: "Drop stream flush call".into(),
-        },
-    ];
-
-    let mut killed_count = 0;
-    for spec in &controls {
-        let mutated = generator.apply_mutation(sample_source, spec).unwrap();
-        assert_ne!(mutated, sample_source);
-        killed_count += 1;
-    }
-
-    assert_eq!(killed_count, controls.len());
-    let kill_rate_pct = (killed_count as f64 / controls.len() as f64) * 100.0;
-    assert_eq!(kill_rate_pct, 100.0);
-}
+// The test that counted a changed text as a killed control was removed with
+// the text-matching operators (agnostic-annotation-driver task 7.3). What the
+// driver offers for the gate's controls is pinned in `driver_contract.rs`.
 
 #[test]
 fn differential_finite_domain_cartesian_cases_reach_zero_divergences() {

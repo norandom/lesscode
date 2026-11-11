@@ -190,15 +190,6 @@
    "disposition": null
   },
   {
-   "path": "adapters/java/analysis.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "java-deconvolution-unification",
-   "allocation": "Java static effect and frame analyzer (task 1, REQ-JAVA-1.1..1.4)",
-   "disposition": null
-  },
-  {
    "path": "adapters/java/metrics.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
@@ -217,30 +208,12 @@
    "disposition": null
   },
   {
-   "path": "adapters/java/mutation.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "java-deconvolution-unification",
-   "allocation": "Java adverse mutation operators and generator (task 2, REQ-JAVA-3.1..3.3)",
-   "disposition": null
-  },
-  {
    "path": "adapters/mod.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
    "max_fn_lines": 80,
    "owner": "typescript-deconvolution-adapter",
    "allocation": "Multi-language runtime adapters module root (task 1)",
-   "disposition": null
-  },
-  {
-   "path": "adapters/rust/analysis.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "rust-deconvolution-unification",
-   "allocation": "Rust static effect and frame analyzer (task 1, REQ-RUST-1.1..1.4)",
    "disposition": null
   },
   {
@@ -262,24 +235,6 @@
    "disposition": null
   },
   {
-   "path": "adapters/rust/mutation.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "rust-deconvolution-unification",
-   "allocation": "Rust adverse mutation operators and generator (task 2, REQ-RUST-3.1..3.3)",
-   "disposition": null
-  },
-  {
-   "path": "adapters/typescript/analysis.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "typescript-deconvolution-adapter",
-   "allocation": "TypeScript static effect and frame analyzer (task 1, REQ-TS-1.1..1.4)",
-   "disposition": null
-  },
-  {
    "path": "adapters/typescript/metrics.rs",
    "max_physical_lines": 400,
    "max_logical_units": 300,
@@ -295,15 +250,6 @@
    "max_fn_lines": 80,
    "owner": "typescript-deconvolution-adapter",
    "allocation": "TypeScript adapter module root and profile dispatch (task 1)",
-   "disposition": null
-  },
-  {
-   "path": "adapters/typescript/mutation.rs",
-   "max_physical_lines": 400,
-   "max_logical_units": 300,
-   "max_fn_lines": 80,
-   "owner": "typescript-deconvolution-adapter",
-   "allocation": "TypeScript adverse mutation operators and generator (task 2, REQ-TS-3.1..3.3)",
    "disposition": null
   },
   {

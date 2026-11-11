@@ -243,6 +243,48 @@ fn the_specimen_controls_have_a_driver_mutant_in_five_of_twelve_cases() {
     assert_eq!(with_mutant, 5);
 }
 
+/// Requirement 7.1: no rule in the binary's source matches text taken from a
+/// specimen. The removed operators searched for these fragments and replaced
+/// the first occurrence; the driver edits syntax nodes by position.
+#[test]
+fn the_source_tree_has_no_specimen_fragment_and_no_first_occurrence_replacement() {
+    let fragments = [
+        ".replacen(",
+        "taskkill_omitted",
+        "PYTHONPATH_DROPPED",
+        "TRUNCATE_STREAM",
+        "newRecord",
+        "slugify",
+        "lock.unlock",
+        "level2_ops > 0",
+        "arm_exit != 0",
+    ];
+    // `src/recording.rs` is the code the Rust specimen was copied from and
+    // contains some of these as code; the rules lived under `src/adapters`.
+    let mut pending = vec![PathBuf::from("src/adapters")];
+    let mut files = 0;
+    while let Some(dir) = pending.pop() {
+        for entry in std::fs::read_dir(&dir).unwrap() {
+            let path = entry.unwrap().path();
+            if path.is_dir() {
+                pending.push(path);
+            } else if path.extension().is_some_and(|e| e == "rs") {
+                files += 1;
+                let text = std::fs::read_to_string(&path).unwrap();
+                for fragment in fragments {
+                    assert!(!text.contains(fragment), "{}: {fragment}", path.display());
+                }
+            }
+        }
+    }
+    assert!(files > 20, "the scan must have seen the adapters");
+    for old in ["analysis.rs", "mutation.rs"] {
+        for language in ["rust", "java", "typescript"] {
+            assert!(!PathBuf::from(format!("src/adapters/{language}/{old}")).exists());
+        }
+    }
+}
+
 fn analysis_request(path: &str, allowed: &[&str]) -> AnalysisRequest {
     AnalysisRequest {
         scope_name: "test".into(),
