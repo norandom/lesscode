@@ -143,7 +143,7 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
     recorded and passed by the guard; no refusal occurred. Outputs and patches:
     `docs/experiments/gradual-steps/steps/`.
   - _Requirements: 11.2, 11.3_
-- [ ] 6.3 Documents and the soft layer
+- [x] 6.3 Documents and the soft layer
   - README section, `docs/steps.md` complete, a skill that walks the phases and calls the commands; a check
     that could not be made mechanical is listed, not moved into the skill.
   - _Requirements: 4.3, 6.6, 11.4, 11.5_

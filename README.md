@@ -64,11 +64,14 @@ your sources, and none makes a network or model request.
 | Is this language pack fit for use? | `deconvolute admit-pack` | any pack for a compiled-in grammar |
 | Are my Rust files still within their agreed size ceilings? | `budgets` | Rust source trees |
 | Can a push be stopped when those ceilings are broken? | `deconvolute install-hook` | Any Git repository with a budgets file |
+| After this small change, do my tests still pass and still catch planted faults as often as before? | `step check`, with `step plan`, `pin`, `record`, `guard` | the same four languages, in a Git repository; after release 1.1.1, build from source |
 
-`deconvolute run` is the one command that executes your project's commands. It
-does so in copies of your source tree under a work directory you name, never in
-the tree itself, and it refuses a work directory inside or around the source.
-Everything else only reads. `analyze`, `mutate` and `run` share one engine,
+`deconvolute run` and `step plan`, `step pin` and `step check` are the commands
+that execute your project's commands. They do so in copies of your source tree
+under a work directory you name, never in the tree itself, and they refuse a
+work directory inside or around the source. `step check` and `step record`
+write three files into your repository, at the places your step declaration
+names: a verdict, an evidence file and a ledger. Everything else only reads. `analyze`, `mutate` and `run` share one engine,
 described in [the agnostic driver](docs/driver.md); what it knows about a
 language is a data file of at most 40 lines (`native/packs/`), not code.
 
@@ -285,6 +288,32 @@ Know these three things before you install it:
 `install-hook` refuses to replace an existing `pre-push` hook unless you pass
 `--force`.
 
+### 6. Refactor in checked steps
+
+Not in a release yet; build from source. A step is one small change on one
+branch with one small spec. You declare it in a file, commit the change, and
+ask:
+
+```sh
+lesscode-core step check --declaration .kiro/specs/one-exit/step.json --work ../work
+```
+
+Exit code 0 means: the change stays in the files you declared, the scope did
+not grow beyond the limit you set, your tests pass before and after, and in no
+function do more planted faults go unnoticed than before. Exit code 1 refuses
+the step and names the reason. `step record` puts an accepted step on a ledger
+in your repository, and `step guard`, as a pre-push hook or a pipeline job,
+lets a step branch through only with a verdict for exactly the committed code,
+tests and declaration.
+
+Before a change, `step plan` shows per function which planted faults your
+tests notice, and `step pin` tells you whether a new test pins one they did
+not. The tooling writes neither tests nor refactorings; it judges what a person
+or a model wrote. The whole procedure with a worked example on this repository
+is in [docs/steps.md](docs/steps.md); an agent skill that walks the phases is
+[refactor-in-steps](.agents/skills/refactor-in-steps/SKILL.md). The skill
+cannot accept a step; only the exit codes can.
+
 ## What is not checked
 
 - No command establishes that a rewrite behaves the same as the original.
@@ -314,6 +343,10 @@ Know these three things before you install it:
   and `deconvolute/*` branches but performs no additional analysis on them.
 - Receipts written with `--out` may be placed anywhere, including inside your
   source tree, and an existing file is overwritten.
+- An accepted step is not shown to behave the same. It passed your tests and
+  lost no fault sensitivity in the functions that were run. What the step
+  commands cannot check at all is listed in
+  [docs/steps.md](docs/steps.md#what-no-command-checks).
 
 The research pipeline behind the published experiments (recorded behavior,
 bounded finite-domain comparison, mutation scoring against real test suites,
@@ -366,6 +399,8 @@ equivalence proofs.
 - [Architecture and how to add a language](docs/multi-language-deconvolution.md)
 - [CI and release workflows](docs/ci-validation.md)
 - [Agent skill for deconvolution](.agents/skills/deconvolute/SKILL.md)
+- [Refactoring in checked steps](docs/steps.md), [why it works this way](docs/testability.md),
+  and the [agent skill](.agents/skills/refactor-in-steps/SKILL.md)
 
 Native checks run on Linux x86_64 and aarch64, Windows x86_64, and macOS on
 Intel and Apple Silicon. The earlier Python prototype (`lesscode-baseline`) was

@@ -1,8 +1,9 @@
 # Refactoring in checked steps
 
 Status: in development after release 1.1.1 (spec
-[gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). all commands
-below exist. It has not been used on a real step from start to finish yet.
+[gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). All commands
+below exist. Three real steps have been taken with them from start to finish, one each in Rust, Java and
+TypeScript ([examples](#examples)).
 
 Why it works this way, for readers new to the idea: [testability.md](testability.md).
 
@@ -169,12 +170,48 @@ lesscode-core step guard --branch "$BRANCH" --revision "$COMMIT"
 Use a commit or a tag as `base` in the declaration. A branch name such as `main` moves, and a verdict is
 written for one base commit.
 
-## ExampleA plan for `native/src/recording.rs` of this repository, with the tests of `tests/recording.rs` only
+## Examples
+
+Three steps taken on 2026-11-11, all accepted, recorded and passed by the guard
+([R92](research/2026-11-11/18-three-real-steps.md); declarations, verdicts, evidence and ledgers in
+`docs/experiments/gradual-steps/steps/`). The numbers are noticed / unnoticed faults in the function.
+
+| Step | Change | Function before | after | Tokens of the file | Time |
+| --- | --- | --- | --- | --- | --- |
+| `one-exit`, this repository, Rust | `verdict()` collects its reasons in one pass and returns once | 11 / 0 | 12 / 0 | 7,307 to 7,306 | 10 min |
+| `comment-start`, commons-csv, Java | `printComment` starts every comment line through one private method | 19 / 2 | 17 / 2, new method 2 / 0 | 1,420 to 1,415 | 25 min |
+| `slug-separator`, OpenUltraCode, TypeScript | `slugify` drops a condition that is always true | 9 / 1 | 8 / 0 | 1,283 to 1,277 | 4 min |
+
+The three ran at the same time on one machine. In the Java step the new method has no counterpart on the
+base, so the totals of the file were compared as well. In the TypeScript step the fault that went unnoticed
+before sat in the condition that could not be false; it is gone with the condition.
+
+A plan for `native/src/recording.rs` of this repository, with the tests of `tests/recording.rs` only
 (2026-11-11, 191 faults, 13.8 minutes with three copies; receipt in
 `docs/experiments/gradual-steps/gate2/plan-recording.json`): 91 faults noticed, 100 not. Twelve functions have
 no noticed fault, led by `replay_to_l2` (20 unnoticed) and `assemble_meta` (17); `verdict` has 11 noticed and
 none unnoticed, which is why it was the first step. A function can look unprotected because the configured
 test command does not run the tests that cover it; configure the tests you rely on.
+
+## What no command checks
+
+These could not be made mechanical. They stay with the person who takes or reviews the step; the
+[agent skill](../.agents/skills/refactor-in-steps/SKILL.md) names them and does not decide them.
+
+- **Same behaviour.** An accepted step passed the tests and lost no fault sensitivity in the functions that
+  were run. That is not a proof that it behaves the same. Where a function is pure and its inputs are few,
+  compare old and new on all of them yourself (the `verdict()` change was compared on 480 inputs in R89).
+- **What a pin asserts.** A pin is admitted when it passes on the code and fails on the fault. Whether the
+  behaviour it fixes is the wanted one is not checked.
+- **Whether the step is a good one.** Small enough, worth taking, easier to read: no check.
+- **The reason for "out of reach".** It is recorded, not verified.
+- **The reason for an override.** It must be there; nobody checks that it is a good one.
+- **The spec.** `step check` runs the commands tied to criteria; whether the criteria say what the step is
+  for, and whether a criterion without a command is met, is not checked. `kiro-cli check` audits the form of
+  the spec, in the hook, where it is installed.
+- **Fewer noticed faults.** Only unnoticed faults refuse a step. A function in which fewer faults are planted
+  after the step passes; read the numbers in the verdict.
+- **A skipped local hook.** `git push --no-verify` skips it. Only the pipeline job is a boundary.
 
 ## Limits
 
