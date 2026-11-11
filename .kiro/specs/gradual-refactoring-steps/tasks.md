@@ -83,23 +83,23 @@ Rules for every task group (owner rules of 2026-11-07 and 2026-11-10):
   - _Boundary: Plan_
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 4.1, 4.3_
 
-- [ ] 4. Pins and the step check
-- [ ] 4.1 `step pin`
+- [x] 4. Pins and the step check
+- [x] 4.1 `step pin`
   - The product path of task 1.3, with the list of unnoticed faults that remain. No threshold on them; no
     test file is written.
   - _Boundary: Pin_
   - _Requirements: 3.1, 3.2, 3.3, 3.5, 3.6, 3.7_
-- [ ] 4.2 `step check`: the checks before any fault run
+- [x] 4.2 `step check`: the checks before any fault run
   - Checks 1 to 4 of the design: declaration and revisions, files outside the scope, pins and change in one
     commit, tests on base and step.
   - _Boundary: Check_
   - _Requirements: 1.2, 3.4, 5.1, 5.9_
-- [ ] 4.3 `step check`: fault runs and comparison
+- [x] 4.3 `step check`: fault runs and comparison
   - Checks 5 to 10: functions run, faults on base and step, comparison per function and with the ledger's
     number, unmatched functions, size, frame; functions out of reach reported as unprotected.
   - _Boundary: Check_
   - _Requirements: 4.4, 5.2, 5.3, 5.4, 5.5, 5.6, 5.10, 5.11, 5.12, 7.5_
-- [ ] 4.4 Verdict and evidence
+- [x] 4.4 Verdict and evidence
   - `step/verdict.rs`: `step-verdict-v1` with sidecar, written for accepted, refused and not judged;
     `step-evidence-provisional-v0` from the commands tied to criteria.
   - Done when integration tests on fixture repositories produce an accepted verdict and one refusal for

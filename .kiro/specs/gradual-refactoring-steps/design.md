@@ -407,6 +407,24 @@ script stays under `docs/experiments/` as the record of R88.
 - **Binary.** `main.rs` was at its ceiling; its path helpers moved to `cli_paths.rs` and its ceilings were
   lowered to the measured size.
 
+### Amendment 3, 2026-11-11 (task group 4): as built
+
+- **`focus`.** New declaration field: per file, functions the step is about. A step that only adds pins
+  changes no function; without `focus` no fault would be run for it. `step pin` runs the faults of `focus`.
+- **Order of checks.** The checks without a run (scope, commits, size, frame) come first, and the runs are
+  skipped when one of them refuses. A refusal is cheap that way; the verdict then lacks the run checks.
+- **Void runs.** Requirement 5.9 says a void run refuses the step; the verdict says `not_judged` (exit 2),
+  as Requirement 5.8 and the design's table have it. For the branch the effect is the same: the guard accepts
+  only `accepted`.
+- **Tests fail or command cannot start.** The driver now reports a command that cannot be started with its
+  own reason. Failing tests refuse the step; a command that cannot start is `not_judged`.
+- **Hashes.** The verdict holds the hashes git has for the committed scope files and declaration, and one
+  SHA-256 over path and git hash of the files under the test paths.
+- **No sidecar.** Requirement 10.3 allows three files in the repository; a `.sha256` beside the verdict
+  would be a fourth. The ledger will carry the verdict's hash.
+- **Uncommitted work** in the declaration, the scope or the tests is bad input (exit 3), nothing is written.
+- **Ledger number (7.5)** is compared in task 5.1, when the ledger exists.
+
 ## Contradictions and disposition
 
 | Conflict | Authority | Disposition |

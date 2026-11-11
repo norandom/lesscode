@@ -8,7 +8,9 @@ active implementation queue.
 
 Start with the [task 34 handover](task_34_handover.md).
 
-0. **Start here:** [task 39 handover](task_39_handover.md). Task group 3 of `gradual-refactoring-steps` is
+0. **Start here:** [task 40 handover](task_40_handover.md). Task group 4 of `gradual-refactoring-steps` is
+   done (`step pin`, `step check`); next is group 5, guard and ledger.
+0. Earlier: [task 39 handover](task_39_handover.md). Task group 3 of `gradual-refactoring-steps` is
    done (`step plan` exists); next is group 4, pins and the step check.
 0. Earlier: [task 38 handover](task_38_handover.md). Task group 2 of `gradual-refactoring-steps` is
    done; next is group 3 (declaration, functions, `step plan`).
