@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" width="820" height="420" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img">
+<title>Annotation: share of named sites two runs have in common (median)</title>
+<rect width="820" height="420" fill="#fcfcfb"/>
+<text x="20.0" y="28.0" font-size="15" fill="#0b0b0b" text-anchor="start" font-weight="600">Annotation: share of named sites two runs have in common (median)</text>
+<rect x="300" y="44" width="12" height="12" rx="2" fill="#2a78d6"/>
+<text x="318.0" y="54.0" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal">two Opus runs</text>
+<rect x="421" y="44" width="12" height="12" rx="2" fill="#eb6834"/>
+<text x="439.0" y="54.0" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal">an Opus run and a Mistral run</text>
+<text x="290.0" y="89.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Rust update.rs: Opus run and Opus run</text>
+<path d="M300.0,74.0 h222.4 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-222.4 z" fill="#2a78d6"/>
+<text x="532.4" y="89.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.744 </text>
+<text x="290.0" y="119.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Rust update.rs: Opus run and Mistral run</text>
+<path d="M300.0,104.0 h200.8 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-200.8 z" fill="#eb6834"/>
+<text x="510.8" y="119.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.673 </text>
+<text x="290.0" y="149.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Python ratelimit.py: Opus run and Opus run</text>
+<path d="M300.0,134.0 h262.6 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-262.6 z" fill="#2a78d6"/>
+<text x="572.6" y="149.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.876 </text>
+<text x="290.0" y="179.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Python ratelimit.py: Opus run and Mistral run</text>
+<path d="M300.0,164.0 h178.6 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-178.6 z" fill="#eb6834"/>
+<text x="488.6" y="179.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.6 </text>
+<text x="290.0" y="209.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript state.ts: Opus run and Opus run</text>
+<path d="M300.0,194.0 h276.0 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-276.0 z" fill="#2a78d6"/>
+<text x="586.0" y="209.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.92 </text>
+<text x="290.0" y="239.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript state.ts: Opus run and Mistral run</text>
+<path d="M300.0,224.0 h215.4 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-215.4 z" fill="#eb6834"/>
+<text x="525.4" y="239.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.721 </text>
+<text x="290.0" y="269.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript verification.ts: Opus run and Opus run</text>
+<path d="M300.0,254.0 h206.0 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-206.0 z" fill="#2a78d6"/>
+<text x="516.0" y="269.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.69 </text>
+<text x="290.0" y="299.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript verification.ts: Opus run and Mistral run</text>
+<path d="M300.0,284.0 h133.0 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-133.0 z" fill="#eb6834"/>
+<text x="443.0" y="299.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.45 </text>
+<text x="290.0" y="329.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Java Lexer.java: Opus run and Opus run</text>
+<path d="M300.0,314.0 h245.9 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-245.9 z" fill="#2a78d6"/>
+<text x="555.9" y="329.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.821 </text>
+<text x="290.0" y="359.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Java Lexer.java: Opus run and Mistral run</text>
+<path d="M300.0,344.0 h81.5 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-81.5 z" fill="#eb6834"/>
+<text x="391.5" y="359.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">0.281 </text>
+<line x1="300" y1="70" x2="300" y2="374" stroke="#c3c2b7" stroke-width="1"/>
+<text x="20.0" y="406.0" font-size="11" fill="#898781" text-anchor="start" font-weight="normal">Sites both runs name, divided by sites either names; accepted annotations only. Five runs per scope and model.</text>
+</svg>

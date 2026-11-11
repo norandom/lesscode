@@ -132,7 +132,8 @@ def spend():
             ("Baseline, Mistral (R72)", ["mistral", "mistral-attempt1-crashed"]), ("GEPA search, Mistral (R74)", "optimise1-mistral"),
             ("Node kinds, Mistral, two arms (R78)", ["kinds-mistral-control", "kinds-mistral-treatment"]),
             ("Node kinds, Opus, two arms (R78)", ["kinds-opus-control", "kinds-opus-treatment"]),
-            ("MIPROv2 search and judgement, Opus (R79)", "optimise2-opus-mipro")]
+            ("MIPROv2 search and judgement, Opus (R79)", "optimise2-opus-mipro"),
+            ("Annotation baseline, Opus (R83)", "annot-opus"), ("Annotation baseline, Mistral (R83)", "annot-mistral")]
     rows, colours = [], []
     for label, names in runs:
         usd, calls, model = 0.0, 0, None
@@ -152,7 +153,54 @@ def spend():
                   rows, "USD", colours, [("claude-opus-5-5", BLUE), ("mistral-large-4", ORANGE)])
 
 
+def call_arguments():
+    rows = [("Python ratelimit.py", "python"), ("TypeScript state.ts", "ts-state"),
+            ("TypeScript verification.ts", "ts-verification"), ("Java Lexer.java", "java"), ("Rust update.rs", "rust")]
+    order = [("killed", BLUE), ("survived", ORANGE), ("invalid", AQUA)]
+    counts = {}
+    for label, name in rows:
+        mutants = json.loads((RESULTS / "native-args" / f"{name}-receipt.json").read_text(encoding="utf-8"))["mutants"]
+        new = [m["class"] for m in mutants if m["site"]["kind"] == "call_argument"]
+        counts[label] = ({key: new.count(key) for key, _ in order}, len(mutants) - len(new))
+    top = max(sum(c.values()) for c, _ in counts.values())
+    span = WIDTH - LEFT - RIGHT - 170
+    body = legend(order, 54)
+    for i, (label, _) in enumerate(rows):
+        found, earlier = counts[label]
+        y, x = 74 + i * ROW, float(LEFT)
+        body.append(text(LEFT - 10, y + 15, label, 12, INK, "end"))
+        for key, colour in order:
+            w = span * found[key] / top
+            if found[key]:
+                body.append(f'<rect x="{x:.1f}" y="{y}" width="{max(w - 2, 1):.1f}" height="20" rx="2" fill="{colour}"/>')
+                if w > 18:
+                    body.append(text(x + (w - 2) / 2, y + 14, found[key], 11, "#ffffff", "middle"))
+            x += w
+        body.append(text(x + 6, y + 15, f"{sum(found.values())} new beside {earlier}", 11, SECOND))
+    page("call-argument-mutants.svg", "Mutants added by the call-argument operators, by class",
+         "Counts of new mutants per file. Earlier kinds are unchanged. Source: receipts under results/native-args.",
+         len(rows), body)
+
+
+def annotation_agreement():
+    summary = json.loads((RESULTS / "slice-b" / "annot-opus" / "summary.json").read_text(encoding="utf-8"))
+    names = [("rust-mmhmem-setup-update", "Rust update.rs"), ("python-mvibe-ratelimit", "Python ratelimit.py"),
+             ("typescript-openultracode-state", "TypeScript state.ts"),
+             ("typescript-openultracode-verification", "TypeScript verification.ts"),
+             ("java-commons-csv-lexer", "Java Lexer.java")]
+    rows, colours = [], []
+    for key, label in names:
+        rows.append((f"{label}: Opus run and Opus run", summary["arm"][key]["median_agreement"], ""))
+        rows.append((f"{label}: Opus run and Mistral run", summary["compared_with"]["cross_arm"][key]["median_agreement"], ""))
+        colours += [BLUE, ORANGE]
+    single_series("annotation-agreement.svg", "Annotation: share of named sites two runs have in common (median)",
+                  "Sites both runs name, divided by sites either names; accepted annotations only. Five runs per scope and model.",
+                  rows, "", colours, [("two Opus runs", BLUE), ("an Opus run and a Mistral run", ORANGE)])
+
+
 if __name__ == "__main__":
+    call_arguments()
+    annotation_agreement()
     classes()
     efficiency()
     admission()

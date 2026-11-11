@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 270" width="820" height="270" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img">
+<title>Mutants added by the call-argument operators, by class</title>
+<rect width="820" height="270" fill="#fcfcfb"/>
+<text x="20.0" y="28.0" font-size="15" fill="#0b0b0b" text-anchor="start" font-weight="600">Mutants added by the call-argument operators, by class</text>
+<rect x="300" y="44" width="12" height="12" rx="2" fill="#2a78d6"/>
+<text x="318.0" y="54.0" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal">killed</text>
+<rect x="372" y="44" width="12" height="12" rx="2" fill="#eb6834"/>
+<text x="390.0" y="54.0" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal">survived</text>
+<rect x="458" y="44" width="12" height="12" rx="2" fill="#1baf7a"/>
+<text x="476.0" y="54.0" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal">invalid</text>
+<text x="290.0" y="89.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Python ratelimit.py</text>
+<rect x="300.0" y="74" width="163.7" height="20" rx="2" fill="#2a78d6"/>
+<text x="381.9" y="88.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">29</text>
+<rect x="465.7" y="74" width="95.1" height="20" rx="2" fill="#eb6834"/>
+<text x="513.3" y="88.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">17</text>
+<rect x="562.9" y="74" width="15.1" height="20" rx="2" fill="#1baf7a"/>
+<text x="586.0" y="89.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">49 new beside 197</text>
+<text x="290.0" y="119.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript state.ts</text>
+<rect x="300.0" y="104" width="95.1" height="20" rx="2" fill="#2a78d6"/>
+<text x="347.6" y="118.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">17</text>
+<rect x="397.1" y="104" width="43.7" height="20" rx="2" fill="#eb6834"/>
+<text x="419.0" y="118.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">8</text>
+<rect x="442.9" y="104" width="55.1" height="20" rx="2" fill="#1baf7a"/>
+<text x="470.4" y="118.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">10</text>
+<text x="506.0" y="119.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">35 new beside 71</text>
+<text x="290.0" y="149.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">TypeScript verification.ts</text>
+<rect x="300.0" y="134" width="55.1" height="20" rx="2" fill="#2a78d6"/>
+<text x="327.6" y="148.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">10</text>
+<rect x="357.1" y="134" width="49.4" height="20" rx="2" fill="#1baf7a"/>
+<text x="381.9" y="148.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">9</text>
+<text x="414.6" y="149.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">19 new beside 55</text>
+<text x="290.0" y="179.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Java Lexer.java</text>
+<rect x="300.0" y="164" width="9.4" height="20" rx="2" fill="#2a78d6"/>
+<rect x="311.4" y="164" width="15.1" height="20" rx="2" fill="#eb6834"/>
+<rect x="328.6" y="164" width="38.0" height="20" rx="2" fill="#1baf7a"/>
+<text x="347.6" y="178.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">7</text>
+<text x="374.6" y="179.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">12 new beside 170</text>
+<text x="290.0" y="209.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Rust update.rs</text>
+<rect x="300.0" y="194" width="9.4" height="20" rx="2" fill="#2a78d6"/>
+<rect x="311.4" y="194" width="43.7" height="20" rx="2" fill="#1baf7a"/>
+<text x="333.3" y="208.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="normal">8</text>
+<text x="363.1" y="209.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">10 new beside 64</text>
+<text x="20.0" y="256.0" font-size="11" fill="#898781" text-anchor="start" font-weight="normal">Counts of new mutants per file. Earlier kinds are unchanged. Source: receipts under results/native-args.</text>
+</svg>

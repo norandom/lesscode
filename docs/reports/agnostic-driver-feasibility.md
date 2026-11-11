@@ -5,8 +5,8 @@ gate. Composition recorded in `docs/reports/blueprints/2026-11-10-agnostic-drive
 
 - Project: Lesscode, research on making AI-generated code smaller and less entangled without changing its
   behaviour.
-- Period covered: 10 November 2026, research entries R55 to R64. Section 8, added 2026-11-11, covers R65 to R80
-  and has the figures.
+- Period covered: 10 November 2026, research entries R55 to R64. Sections 8 and 9, added 2026-11-11, cover R65 to R83
+  and have the figures.
 - Audience: the owner, who decides whether to start requirements and design for a Rust port; then the
   implementer of that port, and an adopter who wants to know whether running the tool can damage their code.
 - Status: a prototype in Python that passed its gate on the second attempt, on five files in four languages.
@@ -399,3 +399,90 @@ authoring runs costs between one and two dollars.
 - No release contains the driver.
 
 The figures are written by `docs/reports/figures/make_figures.py` from the committed receipts and ledgers.
+
+## 9. Second update, 2026-11-11: after the three changes, and the annotation layer
+
+Added 2026-11-11, about 09:50 Europe/Berlin, after the three changes announced at the top of section 8, and
+after the Slice B baseline for the annotation layer. Period covered: research entries R81 to R83. Section 8
+is left as written; where a figure there was regenerated with more rows, this section says so.
+
+### What changed in the tool
+
+| Item of "still not shown" in section 8 | State now | Entry |
+| --- | --- | --- |
+| A driver killed from outside can leave a project command running | On Ctrl-C, Ctrl-Break, a termination signal or a closing console the driver kills the command with everything it started, restores the copy and ends the run as void. Tested with a real signal on five platforms. A driver killed outright still relies on its restore journal | R81 |
+| Two library functions report success without running anything | Three were found and removed | R81 |
+| No operator for a changed argument or a changed literal in a call | A sixth site kind, the argument list of a call, with three bounded operators | R81 |
+
+### What the call-argument operators add
+
+![Mutants added by the call-argument operators](figures/call-argument-mutants.svg)
+
+| File | Mutants before | New | Killed | Survived | Invalid |
+| --- | --- | --- | --- | --- | --- |
+| Python `ratelimit.py` | 197 | 49 | 29 | 17 | 3 |
+| TypeScript `state.ts` | 71 | 35 | 17 | 8 | 10 |
+| TypeScript `verification.ts` | 55 | 19 | 10 | 0 | 9 |
+| Java `Lexer.java` | 170 | 12 | 2 | 3 | 7 |
+| Rust `update.rs` | 64 | 10 | 2 | 0 | 8 |
+
+The operators pay where calls carry literals and where argument order is not fixed by types. In the Python
+file, swapping the first two arguments of a call leaves 16 mutants that no test notices. In Java and Rust the
+same swap almost never builds (2 of 17), so there it costs a build and tells nothing; whether to switch it
+off for those two languages is an open choice. The mutants of the five earlier kinds kept their classes in
+556 of 557 cases; the exception is one Rust mutant that ran into its time limit while five batches shared the
+machine.
+
+Efficiency, in the terms of section 8: the new kind makes a run between 7% and 49% longer, in proportion to
+the mutants it adds. The wall times of these reruns are not comparable with the earlier ones, because all
+five ran at once; each took two to three times as long as alone.
+
+Of the seven hand-made controls recorded as lost, one now has a counterpart (the changed string literal in
+a call). Six remain out of reach of pack-driven operators as they stand.
+
+### The annotation layer: the second place a model's output is relied on
+
+Besides writing a language pack once, a model can be asked to name, per file, the sites worth mutating. The
+driver validates every such annotation and mutates only accepted ones, so a wrong annotation cannot make a
+run unsound. What can drift is the selection.
+
+![Annotation agreement](figures/annotation-agreement.svg)
+
+| File | Two Opus runs (median) | An Opus run and a Mistral run (median) | Sites in every Opus run / in any | Mistral runs with annotations |
+| --- | --- | --- | --- | --- |
+| Rust `update.rs` | 0.74 | 0.67 | 15 / 26 | 4 of 5 |
+| Python `ratelimit.py` | 0.88 | 0.60 | 48 / 61 | 1 of 5 |
+| TypeScript `state.ts` | 0.92 | 0.72 | 34 / 40 | 3 of 5 |
+| TypeScript `verification.ts` | 0.69 | 0.45 | 11 / 25 | 1 of 5 |
+| Java `Lexer.java` | 0.82 | 0.28 | 24 / 35 | 1 of 5 |
+
+Agreement is the number of sites both runs name divided by the number either names. Two runs of the same
+model on the same file do not select the same sites: 8% to 31% differ, and only 44% to 85% of
+all sites ever named are named every time. Across models the selections differ more, mostly because the
+second model names two to three times as many sites. And the second model often does not answer within its
+output limit at all: 15 of 25 calls ended there.
+
+The consequence for the question of this report, whether code can be cut safely with this tool, is the same
+as for packs. The parts that decide soundness are mechanical: the validator, the admission checks, the
+copies, the closing run. Where a model's choice enters, it decides how much is tried and how long it takes,
+and that choice should not be read as stable from one call.
+
+### Spend, updated
+
+![Model spend per run](figures/slice-b-spend.svg)
+
+The figure of section 8 now has two more rows: the annotation baseline cost 2.64 USD on Opus and 1.56 USD on
+Mistral. Slice B stands at 26.45 USD; the recorded total is about 29.7 of 40 USD. During the Mistral arm
+seventeen calls were made whose cost reached the ledger only afterwards, because the caller could not read
+that model's reply format; the replies were saved and were read later without a new call (R83).
+
+### What is still not shown, as of this update
+
+- The Rust specimen candidate has never been built.
+- Six of twelve hand-made controls have no pack-driven counterpart: an argument replaced by a value of
+  another form, a dropped list element, a removed chained call, what a process prints.
+- A driver killed outright cannot clean up at that moment.
+- The classes of the call-argument mutants come from one run under load.
+- For Slice B: drift of one model over time; whether sites named in every run are better targets than sites
+  named once; a second model that answers within its limit.
+- No release contains the driver. Release 1.1.0 is being prepared; the owner tags it.

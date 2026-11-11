@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 360" width="820" height="360" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img">
-<title>Slice B model spend per run at list prices: 22.25 USD in all</title>
-<rect width="820" height="360" fill="#fcfcfb"/>
-<text x="20.0" y="28.0" font-size="15" fill="#0b0b0b" text-anchor="start" font-weight="600">Slice B model spend per run at list prices: 22.25 USD in all</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" width="820" height="420" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img">
+<title>Slice B model spend per run at list prices: 26.45 USD in all</title>
+<rect width="820" height="420" fill="#fcfcfb"/>
+<text x="20.0" y="28.0" font-size="15" fill="#0b0b0b" text-anchor="start" font-weight="600">Slice B model spend per run at list prices: 26.45 USD in all</text>
 <rect x="300" y="44" width="12" height="12" rx="2" fill="#2a78d6"/>
 <text x="318.0" y="54.0" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal">claude-opus-5-5</text>
 <rect x="435" y="44" width="12" height="12" rx="2" fill="#eb6834"/>
@@ -30,6 +30,12 @@
 <text x="290.0" y="299.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">MIPROv2 search and judgement, Opus (R79)</text>
 <path d="M300.0,284.0 h246.7 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-246.7 z" fill="#2a78d6"/>
 <text x="556.7" y="299.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">5.82 USD  (85 calls)</text>
-<line x1="300" y1="70" x2="300" y2="314" stroke="#c3c2b7" stroke-width="1"/>
-<text x="20.0" y="346.0" font-size="11" fill="#898781" text-anchor="start" font-weight="normal">From the runs' ledgers. Gate attempts before Slice B (about 3.2 USD) are not shown.</text>
+<text x="290.0" y="329.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Annotation baseline, Opus (R83)</text>
+<path d="M300.0,314.0 h109.7 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-109.7 z" fill="#2a78d6"/>
+<text x="419.7" y="329.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">2.64 USD  (25 calls)</text>
+<text x="290.0" y="359.0" font-size="12" fill="#0b0b0b" text-anchor="end" font-weight="normal">Annotation baseline, Mistral (R83)</text>
+<path d="M300.0,344.0 h63.2 a4.0,4.0 0 0 1 4.0,4.0 v12.0 a4.0,4.0 0 0 1 -4.0,4.0 h-63.2 z" fill="#eb6834"/>
+<text x="373.2" y="359.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal">1.56 USD  (25 calls)</text>
+<line x1="300" y1="70" x2="300" y2="374" stroke="#c3c2b7" stroke-width="1"/>
+<text x="20.0" y="406.0" font-size="11" fill="#898781" text-anchor="start" font-weight="normal">From the runs' ledgers. Gate attempts before Slice B (about 3.2 USD) are not shown.</text>
 </svg>
