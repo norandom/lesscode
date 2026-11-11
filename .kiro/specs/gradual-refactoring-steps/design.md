@@ -1,7 +1,7 @@
 # Design: gradual refactoring in checked steps
 
-Generated 2026-11-11 (Europe/Berlin) from the approved [requirements](requirements.md). Status: generated,
-**not approved**. Evidence so far: [R88](../../../docs/research/2026-11-11/14-gradual-steps-prototype-gate.md)
+Generated 2026-11-11 (Europe/Berlin) from the approved [requirements](requirements.md). Status: **approved by the owner
+on 2026-11-11**, with the decisions under "Owner decisions". Evidence so far: [R88](../../../docs/research/2026-11-11/14-gradual-steps-prototype-gate.md)
 (prototype gate), [R89](../../../docs/research/2026-11-11/15-first-tracked-step.md) (first real step by hand),
 [R90](../../../docs/research/2026-11-11/16-budgets-count-tokens.md) (budgets in tokens).
 
@@ -26,7 +26,7 @@ Nothing here writes a refactoring or a test. The tooling judges what a person or
 
 - Generating tests, pins or refactorings. No symbolic execution, no run-time detouring.
 - Equivalence proofs. A differential check for pure units was discussed and is not in the requirements; it
-  is left out (see open points).
+  is left out (owner decision, below).
 - Judging a spec's consistency or traceability; that is `kiro-cli`.
 - Replacing the complexity budgets; they stay a separate check.
 
@@ -208,6 +208,20 @@ the scope files, the test files and the declaration, and compares them with the 
 
 ## Components and Interfaces
 
+| Component | Domain/Layer | Intent | Req Coverage | Files |
+| --- | --- | --- | --- | --- |
+| Declaration | step | Read and validate `step.json` | 1.1, 4.2, 8.1 | native/src/step/declaration.rs |
+| Revisions | step | Resolve revisions, list commits, copies from `git archive` | 1.2, 10.1, 10.2, 10.4, 10.5 | native/src/step/revisions.rs |
+| Functions | step | Changed functions, callers, faults per function, seams | 4.1, 5.2, 5.10 | native/src/step/functions.rs |
+| DriverChanges | driver | Store key with test files; function filter | 9.1, 9.2, 5.2 | native/src/adapters/driver/store.rs, native/src/adapters/driver/runner.rs, native/src/adapters/driver/config.rs |
+| Plan | step | `step plan` | 2.1 to 2.5 | native/src/step/plan.rs |
+| Pin | step | `step pin` | 3.1 to 3.7 | native/src/step/pin.rs |
+| Check | step | `step check` | 5.1 to 5.12, 1.2, 3.4, 4.4, 7.5 | native/src/step/check.rs |
+| Verdict | step | Verdict and evidence | 5.7, 5.8, 8.2, 8.3 | native/src/step/verdict.rs |
+| Ledger | step | Append, chain, ratchet, release, override | 7.1 to 7.5, 6.4 | native/src/step/ledger.rs |
+| Guard | step | `step guard`, hook, pipeline guide | 6.1 to 6.7 | native/src/step/guard.rs, docs/steps.md |
+| CommandLine | step | Dispatch and exit codes | 5.8 | native/src/step/mod.rs |
+
 ### Declaration
 
 `.kiro/specs/<step>/step.json`:
@@ -357,13 +371,13 @@ script stays under `docs/experiments/` as the record of R88.
   3. single-fault pin admission through the product path.
   If one fails, the design is revised before the remaining tasks.
 
-## Open points for the owner
+## Owner decisions, 2026-11-11
 
-1. **Callers by name.** Good enough, or should callers be left out and only changed functions be run?
-2. **Override.** Kept as required (6.4). It is the one way past the guard, and it is loud: a ledger entry.
-3. **Differential check for pure units.** Not in the requirements. Add a requirement, or leave it out?
-4. **The change refused in R89.** Within budget under R90. Take it as the first step through the finished
-   tooling, or apply it now by hand?
+1. **Callers:** changed functions plus their callers in scope, matched by name.
+2. **Override:** kept as required (6.4); it is the one way past the guard and leaves a ledger entry.
+3. **Differential check for pure units:** left out for now.
+4. **The change refused in R89:** kept for the finished tooling, as its first step (task 6.1).
+5. No release for the token budgets was asked for.
 
 ## Contradictions and disposition
 
