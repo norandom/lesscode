@@ -1,0 +1,14 @@
+{
+  "contract": "all functions declared",
+  "targets": {
+    "written_stmts_max": 6
+  },
+  "scope_files": [
+    "src/mod.py"
+  ],
+  "scope_root": "D:\\BuildArtifacts\\lesscode\\model-seam\\frozen",
+  "definitions": "total_price(items) returns the sum of price times count over all items; every item has kind, price and count.",
+  "surface_path": "D:\\BuildArtifacts\\lesscode\\model-seam\\frozen\\public-surface.json",
+  "language": "python",
+  "acceptance_command": "python -m pytest tests -q"
+}

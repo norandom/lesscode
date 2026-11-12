@@ -9,7 +9,14 @@
 - **Arm:** GLM 5.3 at "high" with repair turns and the node kind list, 20 trials, against arm B4 of R99.
 - **Claims:** at least 4 of 5 Python packs keep at least 15 of 17 call-argument findings; at least 4 of 5 TypeScript packs lack no finding; at least 18 of 20 admitted; Java and Rust unchanged.
 
-## Latest: R100 What GLM's admitted packs lack of the shipped pack's findings: almost only the call-argument kind, which the guide does not describe (2026-11-12)
+## Latest: R102 The product's model path with two other models: three live turns, three different failures (2026-11-12)
+
+[R102](2026-11-12/09-product-path-two-models.md) is a probe after the owner's statement that packs are published once and that adopters must be able to run GLM or another model behind the tool.
+- **Turns:** `regenerate run` on a ten-line Python function. GLM 5.3 on the local endpoint: HTTP 429 after 652 s, not repeated. Mistral Large on Mistral's API: HTTP 400, temperature 0 refused; with a temperature given, the answer arrived as a list of parts and was thrown away (`KeyError: 'message'`).
+- **Also:** a failed turn prints nothing; the reason is only in the receipt.
+- **Consequence:** requirements for a model seam: one client in the core, a check command for adopters, GLM and Mistral as first cases, the fence unchanged.
+
+## Prior: R100 What GLM's admitted packs lack of the shipped pack's findings: almost only the call-argument kind, which the guide does not describe (2026-11-12)
 
 [R100](2026-11-12/07-admitted-packs-gate-effect.md) takes up the open point of R99 without a model call: the 39 admitted packs joined with the classes the driver recorded for the shipped packs' mutants (R81).
 - **Measure:** a finding is a shipped-pack mutant the tests did not notice; a pack that does not produce it no longer reports it.
