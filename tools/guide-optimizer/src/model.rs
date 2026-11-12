@@ -142,7 +142,7 @@ fn retried<T>(
     let mut result = send();
     for (attempt, seconds) in WAITS.iter().enumerate() {
         match &result {
-            Err(e) if attempt == 0 || e.ends_with("HTTP 429") => {
+            Err(e) if attempt == 0 || e.contains("HTTP 429") => {
                 wait(*seconds);
                 result = send();
             }
@@ -364,7 +364,7 @@ mod retries {
     #[test]
     fn a_rate_limit_is_waited_out() {
         assert_eq!(
-            run(3, "openai transport: HTTP 429"),
+            run(3, "openai transport: HTTP 429: slow down"),
             (vec![10, 30, 60], Ok(4))
         );
         let (waits, result) = run(99, "openai transport: HTTP 429");

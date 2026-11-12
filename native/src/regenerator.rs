@@ -835,15 +835,17 @@ pub fn ureq_post(url: &str, headers: &[(String, String)], body: &[u8]) -> Result
         .send(body)
         .map_err(|e| format!("openai transport: {e}"))?;
     let status = response.status().as_u16();
-    if status >= 400 {
-        return Err(format!("openai transport: HTTP {status}"));
-    }
     let mut buf = Vec::new();
     response
         .body_mut()
         .as_reader()
         .read_to_end(&mut buf)
         .map_err(|e| format!("openai transport: {e}"))?;
+    if status >= 400 {
+        // What the endpoint said, shortened: a status alone does not say why.
+        let said: String = String::from_utf8_lossy(&buf).chars().take(300).collect();
+        return Err(format!("openai transport: HTTP {status}: {said}"));
+    }
     Ok(buf)
 }
 
