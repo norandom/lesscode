@@ -75,6 +75,20 @@ they are the same model cannot be told from here.
   A3 are the check on whether the two names behave alike, reported without a threshold.
 - The GLM arms are not affected and kept running.
 
+## Amendment: two void Mistral runs (2026-11-12, 14:12)
+
+B1 and B2 on `mistral-large-latest` ran from 13:50 to 14:07 and are void. The endpoint answered HTTP 400
+to all 60 calls of B1 and to 49 of 54 calls of B2; the tool recorded the status without the endpoint's
+message, so the reason is not known. Hand-made calls with the same model, level and limit at 14:08 were
+answered. The GLM arm running beside them had no failed call.
+
+- The folders are kept as `results/b1-void-http400/` and `results/b2-void-http400/`.
+- Seen and not used: the five calls of B2 that were answered came at the end of the run; three of those
+  first replies were admitted (Java, Python, TypeScript), one Rust reply failed a control.
+- Tool change before the rerun: a failed call now carries the first 300 characters of what the endpoint
+  said (`native/src/regenerator.rs`, `ureq_post`). The request is unchanged.
+- B1 and B2 are run again with the same settings. Thresholds unchanged.
+
 ## Evidence and results
 
 Not run.
