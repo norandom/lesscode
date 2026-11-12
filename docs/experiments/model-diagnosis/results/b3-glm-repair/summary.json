@@ -1,0 +1,49 @@
+{
+  "receipt": "slice-b-guide-judgement-v1",
+  "preregistration": "R70",
+  "dry_run": false,
+  "model": "zai-glm-5-3",
+  "repairs": 2,
+  "node_kinds": false,
+  "judged": {
+    "guide": "dc49e14bb0d6",
+    "characters": 6049,
+    "not_run": 0,
+    "languages": {
+      "java": {
+        "trials": 5,
+        "admitted": 5,
+        "first_admitted": 0,
+        "same_as_shipped": 4,
+        "distinct_behaviours": 2,
+        "mean_output_tokens": 4560
+      },
+      "python": {
+        "trials": 5,
+        "admitted": 5,
+        "first_admitted": 4,
+        "same_as_shipped": 0,
+        "distinct_behaviours": 4,
+        "mean_output_tokens": 2900
+      },
+      "rust": {
+        "trials": 5,
+        "admitted": 4,
+        "first_admitted": 0,
+        "same_as_shipped": 0,
+        "distinct_behaviours": 4,
+        "mean_output_tokens": 23747
+      },
+      "typescript": {
+        "trials": 5,
+        "admitted": 5,
+        "first_admitted": 3,
+        "same_as_shipped": 0,
+        "distinct_behaviours": 4,
+        "mean_output_tokens": 2971
+      }
+    }
+  },
+  "calls": 35,
+  "spent_usd": 14.17
+}

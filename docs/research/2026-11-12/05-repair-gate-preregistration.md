@@ -91,7 +91,10 @@ answered. The GLM arm running beside them had no failed call.
 
 ## Evidence and results
 
-Not run.
+Not run at the time of writing.
+
+Amendment, 2026-11-12, 15:51: the GLM arms ran to the end; the Mistral arms were stopped by owner decision
+("GLM only"). Result in [R99](06-repair-gate-result.md).
 
 ## Limits and interpretation
 

@@ -2,13 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Planned: R98 Packs admitted in the end with repair turns, with and without the node kind list (preregistered 2026-11-12)
+## Latest: R99 GLM 5.3 with repair turns reaches 19 and 20 of 20 admitted packs; the Mistral arms were stopped by the owner (2026-11-12)
 
-[R98](2026-11-12/05-repair-gate-preregistration.md) follows R97 and its amendment.
-- **Arms:** Mistral Large 4 and GLM 5.3 at "high" and 64,000 tokens, at most two repair turns, each with and without the grammar's node kind names; 20 trials each with the Rust judge.
-- **Asked:** does an affordable model with repair reach at least 16 of 20 admitted packs, at no more than the cost per pack of Opus (0.07 USD, R78), and does the list change the end result once the output limit no longer binds.
+[R99](2026-11-12/06-repair-gate-result.md) is the result of the preregistration [R98](2026-11-12/05-repair-gate-preregistration.md): at most two repair turns at "high" and 64,000 tokens, with and without the grammar's node kind names.
+- **GLM 5.3:** admitted in the end 19 of 20 without the list and 20 of 20 with it (threshold 16; Opus in R78: 20). First replies 7 and 13 of 20. One repair call fixes most wrong node kind names; the list moves Java into the first reply and saves a fifth of the calls.
+- **Mistral:** not judged. One attempt stopped for the model name, one void (HTTP 400), one stopped after 32 calls in 98 minutes when the owner decided for GLM.
+- **Owner decision:** GLM only. Loop: propose, judge with the tool, repair in a fresh call with the tool's reasons, at most twice.
+- **Not shown:** cost (no price for GLM here). **Open:** only 4 and 2 of the admitted packs give the shipped pack's mutants.
 
-## Latest: R97 The reasoning level helps the second model but does not close the gap; what remains is node kinds the model has to recall (2026-11-12)
+## Prior: R97 The reasoning level helps the second model but does not close the gap; what remains is node kinds the model has to recall (2026-11-12)
 
 [R97](2026-11-12/04-model-diagnosis-result.md) is the result of the preregistration [R96](2026-11-12/03-model-diagnosis-preregistration.md), which reopened the Slice B question for cost: the loops must work on a model cheaper than Opus.
 - **Arms:** Mistral Large 4 at its default reasoning level with 16,000 and 64,000 output tokens, at "high" with 64,000, and GLM 5.3 at "high"; 20 trials each with the Rust judge. Opus from R69.
