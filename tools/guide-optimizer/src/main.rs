@@ -5,6 +5,7 @@
 //! Makes real model calls unless --dry-run is given. Not part of lesscode-core.
 
 mod adapter;
+mod effect;
 mod mipro;
 mod model;
 mod task;
@@ -97,6 +98,16 @@ struct Args {
     /// With --judge-only: add the grammar's node kind names to the request.
     #[arg(long)]
     node_kinds: bool,
+    /// No model call: for the admitted packs in these trials files, what they
+    /// keep and lack of the shipped pack's classed mutants on the gate scopes.
+    #[arg(long, num_args = 1..)]
+    gate_effect: Vec<PathBuf>,
+    /// With --gate-effect: the directory of the driver's receipts for the shipped packs.
+    #[arg(
+        long,
+        default_value = "docs/experiments/annotation-driver/results/native-args"
+    )]
+    receipts: PathBuf,
     /// The repository root.
     #[arg(long, default_value = concat!(env!("CARGO_MANIFEST_DIR"), "/../.."))]
     repo: PathBuf,
@@ -210,6 +221,32 @@ fn run(args: Args) -> Result<(), String> {
         if !languages.contains_key(language) {
             return Err(format!("no fixtures for language {language}"));
         }
+    }
+    if !args.gate_effect.is_empty() {
+        let classes = effect::classes(&repo.join(&args.receipts))?;
+        let mut lines = Vec::new();
+        for path in &args.gate_effect {
+            for line in read(path)?.lines() {
+                let trial: Value = serde_json::from_str(line).map_err(|e| e.to_string())?;
+                let (language, reply) = (&trial["language"], &trial["reply"]);
+                if trial["admitted"] != true {
+                    continue;
+                }
+                let task = &languages[language.as_str().unwrap_or_default()];
+                let scopes = effect::effect(task, reply.as_str().unwrap_or_default(), &classes)?;
+                lines.push(
+                    json!({"trials": path, "language": language, "scopes": scopes}).to_string(),
+                );
+            }
+        }
+        std::fs::create_dir_all(&args.out_dir).map_err(|e| e.to_string())?;
+        std::fs::write(
+            args.out_dir.join("gate-effect.jsonl"),
+            lines.join("\n") + "\n",
+        )
+        .map_err(|e| e.to_string())?;
+        println!("{} admitted packs compared", lines.len());
+        return Ok(());
     }
     let mut banned: Vec<String> = Vec::new();
     for pack in shipped().map_err(|e| e.to_string())? {

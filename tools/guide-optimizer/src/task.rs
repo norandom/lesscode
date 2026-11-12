@@ -69,7 +69,7 @@ fn examples(language: &str) -> [&'static str; 2] {
     }
 }
 
-fn mutant_keys(pack: &Pack, source: &SourceSet) -> Result<Vec<String>, String> {
+pub fn mutant_keys(pack: &Pack, source: &SourceSet) -> Result<Vec<String>, String> {
     let mut keys = Vec::new();
     for site in eligible_sites(source, pack)? {
         let text = source.raw(&site.file)?;
