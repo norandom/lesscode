@@ -31,11 +31,30 @@ fn repo() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..")
 }
 
-fn scratch(name: &str) -> PathBuf {
+/// A directory for one test, removed when the test ends. A failed test keeps
+/// it, so that what it left can be looked at.
+struct Scratch(PathBuf);
+
+impl std::ops::Deref for Scratch {
+    type Target = PathBuf;
+    fn deref(&self) -> &PathBuf {
+        &self.0
+    }
+}
+
+impl Drop for Scratch {
+    fn drop(&mut self) {
+        if !std::thread::panicking() {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
+}
+
+fn scratch(name: &str) -> Scratch {
     let root = std::env::temp_dir().join(format!("lc-regen-{name}-{}", std::process::id()));
     let _ = fs::remove_dir_all(&root);
     fs::create_dir_all(&root).unwrap();
-    root
+    Scratch(root)
 }
 
 fn obj(pairs: &[(&str, J)]) -> J {
