@@ -2,6 +2,12 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
+## Planned: R98 Packs admitted in the end with repair turns, with and without the node kind list (preregistered 2026-11-12)
+
+[R98](2026-11-12/05-repair-gate-preregistration.md) follows R97 and its amendment.
+- **Arms:** Mistral Large 4 and GLM 5.3 at "high" and 64,000 tokens, at most two repair turns, each with and without the grammar's node kind names; 20 trials each with the Rust judge.
+- **Asked:** does an affordable model with repair reach at least 16 of 20 admitted packs, at no more than the cost per pack of Opus (0.07 USD, R78), and does the list change the end result once the output limit no longer binds.
+
 ## Latest: R97 The reasoning level helps the second model but does not close the gap; what remains is node kinds the model has to recall (2026-11-12)
 
 [R97](2026-11-12/04-model-diagnosis-result.md) is the result of the preregistration [R96](2026-11-12/03-model-diagnosis-preregistration.md), which reopened the Slice B question for cost: the loops must work on a model cheaper than Opus.
