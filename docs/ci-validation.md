@@ -74,28 +74,30 @@ describes the earlier capture time, superseded by the hosted audit.
 | macOS Intel | GitHub-hosted `macos-15-intel` |
 | Windows x86_64 | GitHub-hosted `windows-2025` |
 
-## Adopter check in containers
+## Step guard on this repository
 
-`tools/adopter-check.compose.yaml` installs the released binary in a clean
-`ubuntu:24.04` container with the published `install.sh` and runs the
-documented commands against this repository, mounted read-only
-(`tools/adopter_check.sh`). It asserts the exit codes of `density`, `analyze`
-(Rust, TypeScript, Java) and `budgets`, and prints the two R55 gaps (Python
-`analyze`, `mutate`) so that a fix shows up as changed output. The script was
-written against release 1.0.x: both gaps are closed since 1.1.0, its `mutate`
-probe names a file that no longer exists, and it does not exercise
-`deconvolute run` or the `step` commands. Read its output with that in mind
-until it is brought up to date.
+The job `Step guard` in the same workflow builds `lesscode-core` from the
+pushed commit and runs
 
-```powershell
-docker compose -f tools/adopter-check.compose.yaml up --abort-on-container-failure
-docker compose -f tools/adopter-check.compose.yaml down
+```sh
+lesscode-core step guard --branch "$BRANCH" --revision HEAD
 ```
 
-Set `INSTALLER=local` to test `scripts/install.sh` from the checkout before a
-release, or `LESSCODE_VERSION` to pin a release. The `linux-arm64` service
-(`run --rm linux-arm64`) needs arm64 emulation in the container engine. It is
-a local check; no workflow runs it.
+A branch that a step declaration names passes only with an accepted verdict,
+or an override on the ledger, for exactly the content it has
+([steps.md](steps.md#6-the-boundary-step-guard-and-the-hook)). Any other
+branch, `main` included, passes as "not a step branch". The checkout fetches
+the whole history, because the guard reads the base commit of the step. To
+make the job a boundary, mark it as a required check for `main` in the
+repository settings; the workflow alone only reports.
+
+## Adopter check: retired
+
+`tools/adopter_check.sh` and `tools/adopter-check.compose.yaml` installed a
+released binary in a clean container and ran the documented commands. They
+were written for release 1.0.x and were removed on 2026-11-12 (owner
+decision); the install check of the onboarding skill is to take their place.
+The last version is in the history before that date.
 
 ## Release binaries
 

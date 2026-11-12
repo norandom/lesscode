@@ -36,6 +36,29 @@ jobs:
           path: ${{ runner.temp }}/native-core-evidence/
           if-no-files-found: warn
           retention-days: 14
+  step-guard:
+    # The repository holds itself to its own boundary: a step branch arrives
+    # only with an accepted verdict, or an override on the ledger, for exactly
+    # the content it has. The guard runs nothing; it reads the commit. A branch
+    # that no declaration names, such as main, passes as "not a step branch".
+    name: Step guard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          # The guard reads the step's base commit, so the history is needed.
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Install pinned Rust
+        run: rustup toolchain install 1.98.1 --profile minimal
+      - name: Build lesscode-core from this commit
+        run: cargo build --locked --bins --manifest-path native/Cargo.toml
+      - name: Guard the pushed branch
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: native/target/debug/lesscode-core step guard --branch "$BRANCH" --revision HEAD
   native:
     name: Native core ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
