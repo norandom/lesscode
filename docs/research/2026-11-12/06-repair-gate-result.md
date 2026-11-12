@@ -105,6 +105,27 @@ What the trials show:
   next thing to measure before a model-written pack is used on a project.
 - Open: the guide optimiser's GEPA and MIPROv2 loops have not been run on GLM.
 
+## Amendment: cost at the owner's prices (2026-11-12, 15:55)
+
+The owner gave the prices to calculate with for GLM 5.3: 1.19 EUR per million input tokens, 0.119 EUR per
+million cached input tokens, 3.74 EUR per million output tokens. On the local endpoint the cost itself is
+not relevant; the figures are for comparison.
+
+| | Without the list (B3) | With the list (B4) |
+| --- | --- | --- |
+| Input, 90,371 and 87,240 tokens | 0.108 EUR | 0.104 EUR |
+| Output, 170,900 and 129,246 tokens | 0.639 EUR | 0.483 EUR |
+| Total for 20 trials | 0.747 EUR | 0.587 EUR |
+| Per admitted pack (19 and 20) | 0.039 EUR | 0.029 EUR |
+
+- The tool does not record cached input tokens, so all input is counted at the full price; with caching
+  the totals are lower by at most the input share (about 0.10 EUR per arm).
+- Opus in R78: 1.41 USD for 20 admitted packs, 0.07 USD per pack. The currencies differ and no rate is
+  applied here; GLM with the list is at well under half of that figure at any rate near parity.
+- The illustration under "Limits" (0.33 USD at Mistral's list price) is replaced by this table. "No price
+  for GLM is known here" and "Not shown: cost" described the state before this amendment.
+- Q6 was a claim about Mistral and stays not judged.
+
 ## COBESY check
 
 The one claim that could be judged is judged against its threshold. The five that could not are listed as

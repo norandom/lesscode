@@ -8,7 +8,7 @@
 - **GLM 5.3:** admitted in the end 19 of 20 without the list and 20 of 20 with it (threshold 16; Opus in R78: 20). First replies 7 and 13 of 20. One repair call fixes most wrong node kind names; the list moves Java into the first reply and saves a fifth of the calls.
 - **Mistral:** not judged. One attempt stopped for the model name, one void (HTTP 400), one stopped after 32 calls in 98 minutes when the owner decided for GLM.
 - **Owner decision:** GLM only. Loop: propose, judge with the tool, repair in a fresh call with the tool's reasons, at most twice.
-- **Not shown:** cost (no price for GLM here). **Open:** only 4 and 2 of the admitted packs give the shipped pack's mutants.
+- **Cost, amended the same day:** at the owner's prices (1.19 and 3.74 EUR per million input and output tokens) 0.039 EUR per admitted pack without the list and 0.029 EUR with it; Opus in R78: 0.07 USD. **Open:** only 4 and 2 of the admitted packs give the shipped pack's mutants.
 
 ## Prior: R97 The reasoning level helps the second model but does not close the gap; what remains is node kinds the model has to recall (2026-11-12)
 
