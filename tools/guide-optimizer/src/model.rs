@@ -117,16 +117,39 @@ impl Model for Live {
         self.0.model.clone()
     }
 
-    /// One request; a transport failure is retried once after ten seconds.
+    /// One request, sent again as `retried` allows.
     fn chat(&self, system: &str, user: &str, max_tokens: u64) -> Result<Reply, String> {
         let (url, headers, body) = self.request(system, user, max_tokens);
         let bytes = body.to_string().into_bytes();
-        let raw = ureq_post(&url, &headers, &bytes).or_else(|_| {
-            std::thread::sleep(std::time::Duration::from_secs(10));
-            ureq_post(&url, &headers, &bytes)
-        })?;
+        let raw = retried(
+            || ureq_post(&url, &headers, &bytes),
+            |seconds| std::thread::sleep(std::time::Duration::from_secs(seconds)),
+        )?;
         self.read(&raw)
     }
+}
+
+/// Seconds to wait before each further attempt.
+const WAITS: [u64; 5] = [10, 30, 60, 120, 240];
+
+/// Any failure is retried once. An endpoint that answers "too many requests"
+/// (HTTP 429) is asked again after each of `WAITS`, so a rate limit costs
+/// time and not a trial.
+fn retried<T>(
+    mut send: impl FnMut() -> Result<T, String>,
+    mut wait: impl FnMut(u64),
+) -> Result<T, String> {
+    let mut result = send();
+    for (attempt, seconds) in WAITS.iter().enumerate() {
+        match &result {
+            Err(e) if attempt == 0 || e.ends_with("HTTP 429") => {
+                wait(*seconds);
+                result = send();
+            }
+            _ => break,
+        }
+    }
+    result
 }
 
 const SCRIPTED_HINT: &str = "Check every field against the examples before answering.";
@@ -313,6 +336,47 @@ impl Metered {
             let _ = writeln!(file, "{row}");
         }
         result
+    }
+}
+
+#[cfg(test)]
+mod retries {
+    use super::*;
+
+    /// The waits made and the result when the endpoint fails `failures` times with `error`.
+    fn run(failures: usize, error: &str) -> (Vec<u64>, Result<usize, String>) {
+        let (mut calls, mut waits) = (0, Vec::new());
+        let result = retried(
+            || {
+                calls += 1;
+                if calls > failures {
+                    Ok(calls)
+                } else {
+                    Err(error.to_owned())
+                }
+            },
+            |seconds| waits.push(seconds),
+        );
+        (waits, result)
+    }
+
+    #[test]
+    fn a_rate_limit_is_waited_out() {
+        assert_eq!(
+            run(3, "openai transport: HTTP 429"),
+            (vec![10, 30, 60], Ok(4))
+        );
+        let (waits, result) = run(99, "openai transport: HTTP 429");
+        assert_eq!(waits, WAITS);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn another_failure_is_retried_once() {
+        assert_eq!(run(1, "openai transport: HTTP 500"), (vec![10], Ok(2)));
+        let (waits, result) = run(2, "openai transport: HTTP 500");
+        assert_eq!(waits, [10]);
+        assert_eq!(result.unwrap_err(), "openai transport: HTTP 500");
     }
 }
 
