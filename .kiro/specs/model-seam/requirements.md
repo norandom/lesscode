@@ -15,6 +15,15 @@ These were proposals when the requirements were generated. The owner approved th
 3. Repairs after a rejected answer: at most two, as measured in R99 (6.3).
 4. The check command sends one small fixed task and costs one to three calls (5.1, 5.6).
 
+**Amendment 1, 2026-11-12, 18:27 (owner decision).**
+
+The ten minutes of criterion 3.6 count the time spent on refused attempts and the pauses between them.
+The time an endpoint takes to answer a call it has accepted is not part of that limit; it has its own
+limit of sixty minutes unless the user sets another, and criterion 3.5 covers what the user is told
+meanwhile. Where the term "wait" below includes answering time, it is to be read this way in 3.6. The
+owner also allowed at most three small calls to the Anthropic endpoint for the first case of 2.7, inside
+the existing spend stop.
+
 ## Introduction
 
 An adopter who wants a model to do work behind lesscode can today use only the model the tool was built
