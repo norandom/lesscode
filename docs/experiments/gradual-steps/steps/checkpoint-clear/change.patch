@@ -1,0 +1,17 @@
+diff --git a/x_likes_exporter/checkpoint.py b/x_likes_exporter/checkpoint.py
+index cd0e26d..9a1cb04 100644
+--- a/x_likes_exporter/checkpoint.py
++++ b/x_likes_exporter/checkpoint.py
+@@ -107,10 +107,8 @@ class Checkpoint:
+ 
+     def clear(self):
+         """Remove checkpoint files"""
+-        if self.checkpoint_file.exists():
+-            self.checkpoint_file.unlink()
+-        if self.tweets_file.exists():
+-            self.tweets_file.unlink()
++        self.checkpoint_file.unlink(missing_ok=True)
++        self.tweets_file.unlink(missing_ok=True)
+         print("✓ Checkpoint cleared")
+ 
+     def get_info(self) -> dict[str, Any] | None:

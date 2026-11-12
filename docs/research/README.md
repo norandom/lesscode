@@ -2,7 +2,16 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R94 The first step in a Python project; an unpinned change that alters output is accepted (2026-11-12)
+## Latest: R95 A second Python step with a frame specification; a wrong prediction; the test suite fills the temp folder (2026-11-12)
+
+[R95](2026-11-12/02-second-python-step-frame-release.md) continues the open work from handover 43.
+- **The step:** in x_likes_scraper, `Checkpoint.clear` uses `unlink(missing_ok=True)`. Accepted with a frame specification declared: 4 noticed / 3 unnoticed before, 4 / 0 after.
+- **Wrong prediction:** a refusal was expected before the pins; the change was accepted. The Python pack plants no fault in a keyword argument.
+- **Shown on throwaway changes:** a frame refusal (5 s; reports five sites for one new write, because sites are line numbers) and a release entry. An out-of-reach mark was not needed and is still not shown.
+- **In this repository:** hook message fixed, guard job added to the pipeline (not yet run on the host), adopter check retired.
+- **Found:** the test suite had left 26,285 directories in the temp folder since 2026-11-09. The regenerator tests are fixed; 21 other test files are not.
+
+## Prior: R94 The first step in a Python project; an unpinned change that alters output is accepted (2026-11-12)
 
 [R94](2026-11-12/01-first-python-step.md) is open work from handover 43, taken up before the onboarding spec.
 - **The step:** in x_likes_scraper, `_escape_html` hands its work to `html.escape`. Accepted, recorded, passed by the guard: 0 noticed / 15 unnoticed before, 3 / 0 after.

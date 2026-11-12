@@ -1,0 +1,20 @@
+{
+  "step": "checkpoint-clear", "spec": "checkpoint-clear", "branch": "lesscode-checkpoint-clear-1",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "language": "python",
+  "scope": ["x_likes_exporter/checkpoint.py"],
+  "test_paths": ["tests/"],
+  "setup": [["uv", "sync", "--quiet"]],
+  "test": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_checkpoint.py", "-q", "-x"],
+  "run": {"timeout_floor_s": 30, "timeout_ceiling_s": 300, "exclusions": [".venv", "__pycache__"],
+          "invalid_exit_codes": [2, 3, 4, 5]},
+  "focus": {"x_likes_exporter/checkpoint.py": ["clear"]},
+  "max_token_growth": 0,
+  "frame_spec": ".kiro/specs/checkpoint-clear/frame.json",
+  "criteria": [
+    {"id": "1.2", "command": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_checkpoint.py", "-q", "-x"]}
+  ],
+  "outputs": {"verdict": ".kiro/specs/checkpoint-clear/verdict.json",
+              "evidence": ".kiro/specs/checkpoint-clear/evidence.json",
+              "ledger": ".kiro/steps/ledger.jsonl"}
+}

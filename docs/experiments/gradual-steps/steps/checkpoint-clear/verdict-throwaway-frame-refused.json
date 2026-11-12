@@ -1,0 +1,62 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "checkpoint-clear",
+  "spec": "checkpoint-clear",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "revision": "b7f96232ed497ab932ea322315d391a0907afd7c",
+  "hashes": {
+    "scope": {
+      "x_likes_exporter/checkpoint.py": "c28fd3f51d989b4485d4a2bcf66bdda07ce2d5e3"
+    },
+    "tests": "3b83192ae75aa533cc0609cdb1d0e25681f0b5e51387d4a36543f93e5496e105",
+    "declaration": "7abfe718f58754eca2fcb915fa3b134a2956fc09"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 3a214ff, step b7f9623"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "refused",
+      "detail": "x_likes_exporter/checkpoint.py:113 writes state outside the declared frame; x_likes_exporter/checkpoint.py:129 writes state outside the declared frame; x_likes_exporter/checkpoint.py:142 writes state outside the declared frame; x_likes_exporter/checkpoint.py:155 writes state outside the declared frame; x_likes_exporter/checkpoint.py:161 writes state outside the declared frame"
+    }
+  ],
+  "functions_run": {},
+  "functions": [],
+  "unmatched_functions": [],
+  "size": {
+    "tokens": [
+      632,
+      625
+    ],
+    "nodes": [
+      696,
+      690
+    ]
+  },
+  "result": "refused",
+  "reasons": [
+    "x_likes_exporter/checkpoint.py:113 writes state outside the declared frame",
+    "x_likes_exporter/checkpoint.py:129 writes state outside the declared frame",
+    "x_likes_exporter/checkpoint.py:142 writes state outside the declared frame",
+    "x_likes_exporter/checkpoint.py:155 writes state outside the declared frame",
+    "x_likes_exporter/checkpoint.py:161 writes state outside the declared frame"
+  ]
+}

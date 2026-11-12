@@ -1,5 +1,5 @@
 {
-  "step": "escape-html", "spec": "escape-html", "branch": "step/escape-html",
+  "step": "escape-html", "spec": "escape-html", "branch": "lesscode-escape-html-1",
   "base": "3a214ff13ee768535481f71258ac2b3529306870",
   "language": "python",
   "scope": ["x_likes_exporter/formatters.py"],

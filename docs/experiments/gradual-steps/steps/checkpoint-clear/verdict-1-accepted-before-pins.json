@@ -1,0 +1,94 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "checkpoint-clear",
+  "spec": "checkpoint-clear",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "revision": "1cb7c7c7a9acf221886d4c36443eb25a4d221eff",
+  "hashes": {
+    "scope": {
+      "x_likes_exporter/checkpoint.py": "9a1cb046d63f0b7239990aad3c4ab2b9bdd27922"
+    },
+    "tests": "c4319170ba358ec61c5ef004425df375d275a76a3e79a794f520d4566efd5ac2",
+    "declaration": "7abfe718f58754eca2fcb915fa3b134a2956fc09"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 3a214ff, step 1cb7c7c"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "pass",
+      "detail": "no state write outside the declared frame, or none declared"
+    },
+    {
+      "name": "tests and fault runs",
+      "result": "pass",
+      "detail": "the project's tests pass on the base and on the step"
+    },
+    {
+      "name": "planted faults",
+      "result": "pass",
+      "detail": "in no function are more faults unnoticed after the step than before"
+    },
+    {
+      "name": "evidence for criteria",
+      "result": "pass",
+      "detail": "every tied command passes"
+    }
+  ],
+  "functions_run": {
+    "x_likes_exporter/checkpoint.py": [
+      "clear"
+    ]
+  },
+  "functions": [
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "clear",
+      "before": {
+        "noticed": 4,
+        "unnoticed": 3,
+        "other": 0
+      },
+      "after": {
+        "noticed": 2,
+        "unnoticed": 2,
+        "other": 0
+      },
+      "unnoticed_after": [
+        "#3 line 112 drop_statement",
+        "#4 line 112 arg_literal:string->empty@112:14"
+      ]
+    }
+  ],
+  "unmatched_functions": [],
+  "size": {
+    "tokens": [
+      632,
+      620
+    ],
+    "nodes": [
+      696,
+      684
+    ]
+  },
+  "result": "accepted",
+  "reasons": []
+}

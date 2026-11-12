@@ -61,6 +61,25 @@ Order for the open work: item 1 (Python step), item 3 (the five things not shown
 (`step guard` in our own pipeline), then item 2 (`tools/adopter_check.sh`), which needs the published
 1.2.0 release because the script installs from a release. CI for `eec7262` is green (run 43090409481).
 
+State of the open work at 09:30 ([R94](../docs/research/2026-11-12/01-first-python-step.md),
+[R95](../docs/research/2026-11-12/02-second-python-step-frame-release.md)):
+
+- Item 1, Python step: done, twice. Branches `lesscode-escape-html-1` and `lesscode-checkpoint-clear-1`
+  in the clone `D:\BuildArtifacts\lesscode\steps-foreign\x_likes_scraper`; the owner's repository was
+  only read. Branch names follow `lesscode-<step>-<run number>` (owner).
+- Item 3: hook push, override, frame, release entry shown (the last three on throwaway changes). An
+  out-of-reach mark is still not shown on a real step.
+- Item 5: the job `Step guard` is in `native-core.yml`, not yet run on the host. Making it required is a
+  repository setting for the owner.
+- Item 2: retired; the files are removed.
+- Hook message fixed (`dc78afa`). This changes code after "prepare 1.2.0": tag after the next green run,
+  or tag `eec7262` and ship the fix as 1.2.1.
+- New: 21 test files besides `tests/regenerator.rs` use the temp folder and were not checked for
+  directories they leave behind. Old run output under `D:\BuildArtifacts` waits for the owner's approval
+  of a deletion list.
+- Decided for the new spec: `step check` refuses a change to a function no test protects, unless it is
+  pinned or marked out of reach.
+
 For the onboarding spec (not started; run `$kiro-discovery` after the open work):
 
 - Entry is `/lesscode start`, shipped as a plugin. It asks how familiar the developer is, 1 (vibe coding)

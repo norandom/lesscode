@@ -1,0 +1,33 @@
+{
+  "receipt": "step-evidence-provisional-v0",
+  "provisional": true,
+  "step": "checkpoint-clear",
+  "spec": "checkpoint-clear",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "revision": "bd32c3510a30506f25533130e2d37207cab37d60",
+  "hashes": {
+    "scope": {
+      "x_likes_exporter/checkpoint.py": "9a1cb046d63f0b7239990aad3c4ab2b9bdd27922"
+    },
+    "tests": "3b83192ae75aa533cc0609cdb1d0e25681f0b5e51387d4a36543f93e5496e105",
+    "declaration": "7abfe718f58754eca2fcb915fa3b134a2956fc09"
+  },
+  "criteria": [
+    {
+      "id": "1.2",
+      "command": [
+        "uv",
+        "run",
+        "--no-sync",
+        "python",
+        "-m",
+        "pytest",
+        "tests/test_checkpoint.py",
+        "-q",
+        "-x"
+      ],
+      "exit_code": 0,
+      "passed": true
+    }
+  ]
+}

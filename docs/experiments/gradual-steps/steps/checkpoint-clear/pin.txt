@@ -1,0 +1,14 @@
+#6 line 114 drop_statement: admitted (the tests with the pin pass on the unchanged code and fail on the fault)
+still unnoticed: #1 line 110 swap_next
+{
+  "receipt": "step-pin-v1",
+  "step": "checkpoint-clear",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "tests_of": "bd32c3510a30506f25533130e2d37207cab37d60",
+  "fault": "#6 line 114 drop_statement",
+  "result": "admitted",
+  "reason": "the tests with the pin pass on the unchanged code and fail on the fault",
+  "remaining_unnoticed": [
+    "#1 line 110 swap_next"
+  ]
+}
