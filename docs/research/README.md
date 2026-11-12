@@ -8,7 +8,15 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R106 Gates P2 and P3 of the model seam: the library builds for five targets; a wait is recognised and announced on a stub (2026-11-12)
+## Latest: R107 Gate P4 of the model seam: `regenerate run` completes on all six first cases through a second executable; the gate is assessed as proceed (2026-11-12)
+
+[R107](2026-11-12/14-model-seam-gate-p4.md) closes the prototype gate of `model-seam`.
+- **P4:** with a prototype launcher at the regenerator's transport seam, the turns that failed in R102 complete on GLM 5.3, Mistral Large, `gpt-6.1-sol`, `claude-opus-5-5` and both models of the local endpoint; 390 tests pass on the prototype branch, earlier receipts verify.
+- **Not met:** the new receipt records what was sent and still carries settings of the unused hand-written request.
+- **Gate:** proceed. Carried into implementation: one real refusal waited out; a receipt that states only what was sent.
+- **Next:** the owner's approval of the revised design, then tasks.
+
+## Prior: R106 Gates P2 and P3 of the model seam: the library builds for five targets; a wait is recognised and announced on a stub (2026-11-12)
 
 [R106](2026-11-12/13-model-seam-gate-p2-p3.md) continues the prototype gate of `model-seam`.
 - **P2 passes:** the prototype with the library builds with locked dependencies for the five release targets, with either TLS option; ten jobs, all succeeded.

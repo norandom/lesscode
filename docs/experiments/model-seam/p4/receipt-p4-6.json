@@ -1,0 +1,94 @@
+{
+ "facts": [
+  {
+   "apparatus": {
+    "regenerator.rs": "4ebd7741a1f273fad3d8e3a35be24361a186af24be76451ed758a9a7503e4a53"
+   },
+   "candidate_root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-p4-6",
+   "endpoint": {
+    "host": "127.0.0.1",
+    "model": "mistral-large-latest",
+    "model_sha256": "63b1578478dad050aa80ac9ed3cbd34be6665a212a458dd1c24f52fc1405293d",
+    "style": "openai"
+   },
+   "feedback_kind": null,
+   "frozen_scope": {
+    "src/mod.py": "6b450b456b325b6ba0e81355c773977c831cd1f7a40ab4abc31c6935e850ca6b"
+   },
+   "key": "p4-6-inputs",
+   "language": "python",
+   "preregistered_params": {
+    "effort": "high",
+    "max_tokens": 64000,
+    "rollout_id": 1,
+    "seed": null,
+    "temperature": null
+   },
+   "prompts": {
+    "system.txt": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "user.txt": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   },
+   "request": {
+    "D:\\BuildArtifacts\\lesscode\\model-seam\\request.json": "1d06538f2efb22cfda808cbddc089981bf5dd272377112ef55ea21bbe84db0dd"
+   },
+   "surface": "ab6b54e2978d53a10c1db5983b4712ee25ed937b2da8b7e3ba43f7a184da2fdb",
+   "time_utc": "2026-11-12T19:08:56.579918+00:00"
+  }
+ ],
+ "notes": [
+  {
+   "key": "p4-6-turn",
+   "time_utc": "2026-11-12T19:09:08.309895+00:00",
+   "value": {
+    "effort": "high",
+    "elapsed_s": 11.73,
+    "max_tokens": 64000,
+    "mode": "openai-json-http",
+    "model_returned": "mistral-large-latest",
+    "model_sent": "mistral-large-latest",
+    "request_sha256": "182f365cd51da893b7264a4a8766fa9fdf5149359d2aa57ba0571eb1600fbd89",
+    "response_sha256": "c6a6ddbfe7cb4cf71271f4de301431beaa342d78a5a8a53c68276367fd322f45",
+    "response_sha256_saved": "c6a6ddbfe7cb4cf71271f4de301431beaa342d78a5a8a53c68276367fd322f45",
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "stop_reason": "stop",
+    "system_sha256": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "temperature": 0.0,
+    "usage": {
+     "completion_tokens": 295,
+     "prompt_tokens": 650,
+     "seconds": 11.7,
+     "sent": {
+      "host": "127.0.0.1:8765",
+      "max_output_tokens": 64000,
+      "model": "mistral-large-latest",
+      "reasoning_level": "high",
+      "temperature": null
+     },
+     "waits": []
+    },
+    "user_sha256": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   }
+  },
+  {
+   "time_utc": "2026-11-12T19:09:08.313834+00:00",
+   "key": "p4-6-candidate",
+   "value": {
+    "root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-p4-6",
+    "files": [
+     {
+      "path": "src/mod.py",
+      "bytes": 88,
+      "sha256": "6812e71931eb3b923dbc8eebd6867ada8c23a1326c581d5384242337fc5ab24b",
+      "crlf": false
+     }
+    ],
+    "result_sha256": "06b9dacc2403b452c75a6a040d273860cedac33d4853bb3bf91069406a4ecad5",
+    "structure_counts": {
+     "pure": 1,
+     "shell": 0
+    }
+   }
+  }
+ ]
+}

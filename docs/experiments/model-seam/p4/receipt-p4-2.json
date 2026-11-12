@@ -1,0 +1,94 @@
+{
+ "facts": [
+  {
+   "apparatus": {
+    "regenerator.rs": "4ebd7741a1f273fad3d8e3a35be24361a186af24be76451ed758a9a7503e4a53"
+   },
+   "candidate_root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-p4-2",
+   "endpoint": {
+    "host": "api.mistral.ai",
+    "model": "mistral-large-latest",
+    "model_sha256": "63b1578478dad050aa80ac9ed3cbd34be6665a212a458dd1c24f52fc1405293d",
+    "style": "openai"
+   },
+   "feedback_kind": null,
+   "frozen_scope": {
+    "src/mod.py": "6b450b456b325b6ba0e81355c773977c831cd1f7a40ab4abc31c6935e850ca6b"
+   },
+   "key": "p4-2-inputs",
+   "language": "python",
+   "preregistered_params": {
+    "effort": "high",
+    "max_tokens": 64000,
+    "rollout_id": 1,
+    "seed": null,
+    "temperature": null
+   },
+   "prompts": {
+    "system.txt": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "user.txt": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   },
+   "request": {
+    "D:\\BuildArtifacts\\lesscode\\model-seam\\request.json": "1d06538f2efb22cfda808cbddc089981bf5dd272377112ef55ea21bbe84db0dd"
+   },
+   "surface": "ab6b54e2978d53a10c1db5983b4712ee25ed937b2da8b7e3ba43f7a184da2fdb",
+   "time_utc": "2026-11-12T19:08:17.850638+00:00"
+  }
+ ],
+ "notes": [
+  {
+   "key": "p4-2-turn",
+   "time_utc": "2026-11-12T19:08:35.455041+00:00",
+   "value": {
+    "effort": "high",
+    "elapsed_s": 17.6,
+    "max_tokens": 64000,
+    "mode": "openai-json-http",
+    "model_returned": "mistral-large-latest",
+    "model_sent": "mistral-large-latest",
+    "request_sha256": "182f365cd51da893b7264a4a8766fa9fdf5149359d2aa57ba0571eb1600fbd89",
+    "response_sha256": "32b5d260bd928ecf37d2f01e1022ef568995b87e369cf23c05eb46fa17dcc16c",
+    "response_sha256_saved": "32b5d260bd928ecf37d2f01e1022ef568995b87e369cf23c05eb46fa17dcc16c",
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "stop_reason": "stop",
+    "system_sha256": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "temperature": 0.0,
+    "usage": {
+     "completion_tokens": 1016,
+     "prompt_tokens": 650,
+     "seconds": 17.6,
+     "sent": {
+      "host": "api.mistral.ai",
+      "max_output_tokens": 64000,
+      "model": "mistral-large-latest",
+      "reasoning_level": "high",
+      "temperature": null
+     },
+     "waits": []
+    },
+    "user_sha256": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   }
+  },
+  {
+   "time_utc": "2026-11-12T19:08:35.460446+00:00",
+   "key": "p4-2-candidate",
+   "value": {
+    "root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-p4-2",
+    "files": [
+     {
+      "path": "src/mod.py",
+      "bytes": 132,
+      "sha256": "fc7644cec2212966bacdd03bc27a11daed87c9cdee198397077f003df71fc82c",
+      "crlf": false
+     }
+    ],
+    "result_sha256": "a98391a38447f7bc1ef900590f15a308d759e30a423e118a7c8c5ec950863620",
+    "structure_counts": {
+     "pure": 1,
+     "shell": 0
+    }
+   }
+  }
+ ]
+}

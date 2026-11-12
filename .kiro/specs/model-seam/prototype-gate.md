@@ -1,6 +1,7 @@
 # Prototype gate: model-seam
 
-Written 2026-11-12 with the provisional design. Status: **not run** except where stated. The design stays
+Written 2026-11-12 with the provisional design. Status: **proceed** (assessment at the end), run on the
+same day. The design stays
 provisional and design approval stays pending until this gate is assessed as `proceed`
 (`.kiro/steering/prototype-first.md`). Results go to dated entries under `docs/research/` and are linked
 here.
@@ -56,8 +57,6 @@ headers are reachable, licence, and the date of the latest release.
 
 ## Assessment
 
-Not assessed as a whole.
-
 - P1, 2026-11-12: **passes** for `genai` 0.7.4 on all six first cases; a refusal's status, body and
   headers are reachable. The alternative `llm` 1.3.8 completes none of the five OpenAI-style cases.
   [R105](../../../docs/research/2026-11-12/12-model-seam-gate-p1.md).
@@ -67,4 +66,11 @@ Not assessed as a whole.
 - P3, 2026-11-12: **passes on the stub** (five scripted cases). Its live condition is **not met**: no
   refusal could be provoked on the local endpoint with 38 calls at once. Kept open; to be closed when a
   long run meets a rate limit. R106.
-- P4: not run.
+- P4, 2026-11-12: **passes for the process boundary and earlier receipts**: `regenerate run` completes on
+  all six first cases through a second executable; 390 tests pass on the prototype branch
+  (`model-seam-gate-p4`, `37effda`). **Not met:** the new receipt also carries settings of the unused
+  hand-written request. [R107](../../../docs/research/2026-11-12/14-model-seam-gate-p4.md).
+
+**Gate as a whole, 2026-11-12: `proceed`.** Carried into implementation as named items, each with a task
+and a check: (1) one real refusal waited out with its announced estimate; (2) a new receipt states only
+what was sent, shown after the hand-written request has left the core.

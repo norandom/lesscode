@@ -1,0 +1,94 @@
+{
+ "facts": [
+  {
+   "apparatus": {
+    "regenerator.rs": "4ebd7741a1f273fad3d8e3a35be24361a186af24be76451ed758a9a7503e4a53"
+   },
+   "candidate_root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-p4-3",
+   "endpoint": {
+    "host": "api.openai.com",
+    "model": "gpt-6.1-sol",
+    "model_sha256": "dedfefd51120f28386c9dba78e46feb403523e23d67980cdf24514ee0b50b5ed",
+    "style": "openai"
+   },
+   "feedback_kind": null,
+   "frozen_scope": {
+    "src/mod.py": "6b450b456b325b6ba0e81355c773977c831cd1f7a40ab4abc31c6935e850ca6b"
+   },
+   "key": "p4-3-inputs",
+   "language": "python",
+   "preregistered_params": {
+    "effort": "high",
+    "max_tokens": 64000,
+    "rollout_id": 1,
+    "seed": null,
+    "temperature": null
+   },
+   "prompts": {
+    "system.txt": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "user.txt": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   },
+   "request": {
+    "D:\\BuildArtifacts\\lesscode\\model-seam\\request.json": "1d06538f2efb22cfda808cbddc089981bf5dd272377112ef55ea21bbe84db0dd"
+   },
+   "surface": "ab6b54e2978d53a10c1db5983b4712ee25ed937b2da8b7e3ba43f7a184da2fdb",
+   "time_utc": "2026-11-12T19:08:35.535713+00:00"
+  }
+ ],
+ "notes": [
+  {
+   "key": "p4-3-turn",
+   "time_utc": "2026-11-12T19:08:48.322199+00:00",
+   "value": {
+    "effort": "high",
+    "elapsed_s": 12.78,
+    "max_tokens": 64000,
+    "mode": "openai-json-http",
+    "model_returned": "gpt-6.1-sol",
+    "model_sent": "gpt-6.1-sol",
+    "request_sha256": "99b227eea15ba8a147e393dc53ff990852c42089d092694c066e665222c83e01",
+    "response_sha256": "108e5c5c593d46dd90322ad927d8568e466794a286e3acdab0c54cc692ab151f",
+    "response_sha256_saved": "108e5c5c593d46dd90322ad927d8568e466794a286e3acdab0c54cc692ab151f",
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "stop_reason": "stop",
+    "system_sha256": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "temperature": 0.0,
+    "usage": {
+     "completion_tokens": 504,
+     "prompt_tokens": 641,
+     "seconds": 12.7,
+     "sent": {
+      "host": "api.openai.com",
+      "max_output_tokens": 64000,
+      "model": "gpt-6.1-sol",
+      "reasoning_level": "medium",
+      "temperature": null
+     },
+     "waits": []
+    },
+    "user_sha256": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   }
+  },
+  {
+   "time_utc": "2026-11-12T19:08:48.329459+00:00",
+   "key": "p4-3-candidate",
+   "value": {
+    "root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-p4-3",
+    "files": [
+     {
+      "path": "src/mod.py",
+      "bytes": 132,
+      "sha256": "fc7644cec2212966bacdd03bc27a11daed87c9cdee198397077f003df71fc82c",
+      "crlf": false
+     }
+    ],
+    "result_sha256": "d30b67b763595c7e2ece9320dce4d6ad482dff04e4c7fccbdc0ab6b20eff60b5",
+    "structure_counts": {
+     "pure": 1,
+     "shell": 0
+    }
+   }
+  }
+ ]
+}

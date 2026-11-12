@@ -1,0 +1,94 @@
+{
+ "facts": [
+  {
+   "apparatus": {
+    "regenerator.rs": "4ebd7741a1f273fad3d8e3a35be24361a186af24be76451ed758a9a7503e4a53"
+   },
+   "candidate_root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-p4-4",
+   "endpoint": {
+    "host": "api.anthropic.com",
+    "model": "claude-opus-5-5",
+    "model_sha256": "005912bee6ee4543cec4404b5a02b9bcb11a6f1dcc134b6693c7ccde5fdd2f69",
+    "style": "anthropic"
+   },
+   "feedback_kind": null,
+   "frozen_scope": {
+    "src/mod.py": "6b450b456b325b6ba0e81355c773977c831cd1f7a40ab4abc31c6935e850ca6b"
+   },
+   "key": "p4-4-inputs",
+   "language": "python",
+   "preregistered_params": {
+    "effort": "high",
+    "max_tokens": 64000,
+    "rollout_id": 1,
+    "seed": null,
+    "temperature": null
+   },
+   "prompts": {
+    "system.txt": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "user.txt": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   },
+   "request": {
+    "D:\\BuildArtifacts\\lesscode\\model-seam\\request.json": "1d06538f2efb22cfda808cbddc089981bf5dd272377112ef55ea21bbe84db0dd"
+   },
+   "surface": "ab6b54e2978d53a10c1db5983b4712ee25ed937b2da8b7e3ba43f7a184da2fdb",
+   "time_utc": "2026-11-12T19:08:48.394247+00:00"
+  }
+ ],
+ "notes": [
+  {
+   "key": "p4-4-turn",
+   "time_utc": "2026-11-12T19:08:54.489858+00:00",
+   "value": {
+    "effort": "high",
+    "elapsed_s": 6.09,
+    "max_tokens": 64000,
+    "mode": "openai-json-http",
+    "model_returned": "claude-opus-5-5",
+    "model_sent": "claude-opus-5-5",
+    "request_sha256": "cda44b9e9c094a6695be3ccad8a06b2c2c400743844da6a8d2cee6e639d0cee4",
+    "response_sha256": "910754e962a5bf3abb8a70160928cff9a79a8472b8ecad0e292ca0ea1b20bbff",
+    "response_sha256_saved": "910754e962a5bf3abb8a70160928cff9a79a8472b8ecad0e292ca0ea1b20bbff",
+    "seed": null,
+    "seed_note": "endpoint exposes no seed; determinism not claimed",
+    "stop_reason": "stop",
+    "system_sha256": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "temperature": 0.0,
+    "usage": {
+     "completion_tokens": 502,
+     "prompt_tokens": 887,
+     "seconds": 6.1,
+     "sent": {
+      "host": "api.anthropic.com",
+      "max_output_tokens": 64000,
+      "model": "claude-opus-5-5",
+      "reasoning_level": null,
+      "temperature": null
+     },
+     "waits": []
+    },
+    "user_sha256": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   }
+  },
+  {
+   "time_utc": "2026-11-12T19:08:54.496169+00:00",
+   "key": "p4-4-candidate",
+   "value": {
+    "root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-p4-4",
+    "files": [
+     {
+      "path": "src/mod.py",
+      "bytes": 88,
+      "sha256": "6812e71931eb3b923dbc8eebd6867ada8c23a1326c581d5384242337fc5ab24b",
+      "crlf": false
+     }
+    ],
+    "result_sha256": "b6929d0cc65b6f587da69af15472d8edd1663ded89669bdb72a882de7e8eab37",
+    "structure_counts": {
+     "pure": 1,
+     "shell": 0
+    }
+   }
+  }
+ ]
+}

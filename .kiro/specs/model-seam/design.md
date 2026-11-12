@@ -1,8 +1,8 @@
 # Design: the model seam
 
 Generated 2026-11-12 (Europe/Berlin) from the approved [requirements](requirements.md).
-**Provisional.** Design approval is pending the [prototype gate](prototype-gate.md); no production tasks are
-generated before it is assessed as `proceed`. Discovery log: [research.md](research.md).
+Revised 2026-11-12 after the [prototype gate](prototype-gate.md) was assessed as `proceed` (R105, R106, R107).
+Awaiting the owner's approval; tasks are generated after it. Discovery log: [research.md](research.md).
 
 ## Overview
 
@@ -476,8 +476,15 @@ Each step leaves the repository working. Step 4 is the only one that changes the
 
 ## Prototype gate
 
-See [prototype-gate.md](prototype-gate.md): P1 library comparison, P2 build on five targets, P3 waiting,
-P4 process boundary and receipts. Status: not run.
+See [prototype-gate.md](prototype-gate.md). Assessed 2026-11-12 as `proceed`: P1 passed (one library on
+all six first cases), P2 passed (five targets, either TLS option), P3 passed on a stub, P4 passed for the
+process boundary and earlier receipts. Two items are carried into implementation, each as a task with
+its check: one real refusal waited out with its announced estimate (3.1 to 3.4 live), and a new receipt
+that states only what was sent (8.4), shown once the hand-written request has left the core.
+
+Found in the gate and taken into this design: the seam returns a reply's text as the model wrote it, and
+the core removes one code fence around it before parsing; the Anthropic style's address gets its version
+segment when the endpoint file leaves it out.
 
 ## Contradictions and disposition
 
