@@ -34,15 +34,41 @@ struct Policy {
 #[allow(dead_code)]
 #[derive(Debug)]
 enum Failure {
-    Refused { status: u16, said: String },
-    WaitLimit { waited: f64, limit: f64, attempts: u32 },
+    Refused {
+        status: u16,
+        said: String,
+    },
+    WaitLimit {
+        waited: f64,
+        limit: f64,
+        attempts: u32,
+    },
     Other(String),
 }
 
 struct Answer {
     text: String,
+    /// "stop", "cut_off" or the endpoint's own word.
+    stop: String,
+    input_tokens: i64,
+    output_tokens: i64,
     waits: Vec<(f64, &'static str)>,
     seconds: f64,
+}
+
+/// What a caller may set for one call; nothing else is sent.
+struct Settings {
+    max_output_tokens: u32,
+    temperature: Option<f64>,
+}
+
+impl Default for Settings {
+    fn default() -> Self {
+        Settings {
+            max_output_tokens: 64_000,
+            temperature: None,
+        }
+    }
 }
 
 /// Seconds the endpoint asks for, and where it said so.
@@ -109,13 +135,17 @@ fn call(
     user: &str,
     policy: &Policy,
     tag: &str,
+    settings: &Settings,
 ) -> Result<Answer, Failure> {
     let runtime = tokio::runtime::Builder::new_current_thread()
         .enable_all()
         .build()
         .map_err(|e| Failure::Other(e.to_string()))?;
     let client = client_for(ep).map_err(Failure::Other)?;
-    let mut options = ChatOptions::default().with_max_tokens(64_000);
+    let mut options = ChatOptions::default().with_max_tokens(settings.max_output_tokens);
+    if let Some(temperature) = settings.temperature {
+        options = options.with_temperature(temperature);
+    }
     if let Some(level) = &ep.reasoning {
         let level = level
             .parse::<ReasoningEffort>()
@@ -132,8 +162,18 @@ fn call(
             .append_message(ChatMessage::user(user));
         let error = match runtime.block_on(client.exec_chat(&ep.model, request, Some(&options))) {
             Ok(reply) => {
+                use genai::chat::StopReason;
+                let stop = match &reply.stop_reason {
+                    Some(StopReason::Completed(_)) => "stop".to_owned(),
+                    Some(StopReason::MaxTokens(_)) => "cut_off".to_owned(),
+                    Some(other) => format!("{other:?}"),
+                    None => "unknown".to_owned(),
+                };
                 return Ok(Answer {
                     text: reply.first_text().unwrap_or_default().to_owned(),
+                    stop,
+                    input_tokens: reply.usage.prompt_tokens.unwrap_or(0).into(),
+                    output_tokens: reply.usage.completion_tokens.unwrap_or(0).into(),
                     waits,
                     seconds: started.elapsed().as_secs_f64(),
                 });
@@ -204,7 +244,9 @@ fn stub(script: Script) -> (String, Arc<Mutex<usize>>) {
             let mut chunk = [0_u8; 4096];
             // Read the head, then as many body bytes as it announces.
             let body_start = loop {
-                let Ok(n) = stream.read(&mut chunk) else { break None };
+                let Ok(n) = stream.read(&mut chunk) else {
+                    break None;
+                };
                 if n == 0 {
                     break None;
                 }
@@ -213,7 +255,9 @@ fn stub(script: Script) -> (String, Arc<Mutex<usize>>) {
                     break Some(at + 4);
                 }
             };
-            let Some(body_start) = body_start else { continue };
+            let Some(body_start) = body_start else {
+                continue;
+            };
             let head = String::from_utf8_lossy(&buffer[..body_start]).to_lowercase();
             let length: usize = head
                 .lines()
@@ -221,7 +265,9 @@ fn stub(script: Script) -> (String, Arc<Mutex<usize>>) {
                 .and_then(|v| v.trim().parse().ok())
                 .unwrap_or(0);
             while buffer.len() < body_start + length {
-                let Ok(n) = stream.read(&mut chunk) else { break };
+                let Ok(n) = stream.read(&mut chunk) else {
+                    break;
+                };
                 if n == 0 {
                     break;
                 }
@@ -256,7 +302,10 @@ fn stub_cases() -> bool {
     let cases: Vec<(&str, Script, Option<Vec<f64>>, &str)> = vec![
         (
             "wait stated in a header",
-            vec![(429, "retry-after: 2\r\n", SAID_NOTHING), (200, "", OK_BODY)],
+            vec![
+                (429, "retry-after: 2\r\n", SAID_NOTHING),
+                (200, "", OK_BODY),
+            ],
             Some(vec![2.0]),
             "",
         ),
@@ -268,7 +317,11 @@ fn stub_cases() -> bool {
         ),
         (
             "no wait stated, refused twice",
-            vec![(429, "", SAID_NOTHING), (503, "", SAID_NOTHING), (200, "", OK_BODY)],
+            vec![
+                (429, "", SAID_NOTHING),
+                (503, "", SAID_NOTHING),
+                (200, "", OK_BODY),
+            ],
             Some(vec![1.0, 2.0]),
             "",
         ),
@@ -290,7 +343,7 @@ fn stub_cases() -> bool {
         let (address, seen) = stub(script);
         let ep = Configured::new("openai", &address, "stub", "not-a-key");
         let started = Instant::now();
-        let result = call(&ep, "system", "user", &policy, "stub");
+        let result = call(&ep, "system", "user", &policy, "stub", &Settings::default());
         let (ok, shown) = match (&result, &expected) {
             (Ok(answer), Some(waits)) => {
                 let got: Vec<f64> = answer.waits.iter().map(|w| w.0).collect();
@@ -330,11 +383,18 @@ fn live(env_file: &str, system: &str, user: &str, count: usize) -> Result<bool, 
         let handles: Vec<_> = (0..count)
             .map(|n| {
                 let (ep, system, user, policy) = (&ep, &system, &user, &policy);
-                scope.spawn(move || match call(ep, system, user, policy, &format!("call {n}")) {
-                    Ok(answer) => json!({"call": n, "ok": true, "seconds": answer.seconds.round(),
+                let tag = format!("call {n}");
+                scope.spawn(move || {
+                    match call(ep, system, user, policy, &tag, &Settings::default()) {
+                        Ok(answer) => {
+                            json!({"call": n, "ok": true, "seconds": answer.seconds.round(),
                         "waits": answer.waits.iter().map(|w| json!([w.0, w.1])).collect::<Vec<_>>(),
-                        "reply_chars": answer.text.chars().count()}),
-                    Err(error) => json!({"call": n, "ok": false, "failure": format!("{error:?}")}),
+                        "reply_chars": answer.text.chars().count()})
+                        }
+                        Err(error) => {
+                            json!({"call": n, "ok": false, "failure": format!("{error:?}")})
+                        }
+                    }
                 })
             })
             .collect();
@@ -349,14 +409,71 @@ fn live(env_file: &str, system: &str, user: &str, count: usize) -> Result<bool, 
     Ok(lines.iter().all(|l| l["ok"] == true))
 }
 
+/// The process protocol of gate P4: one request as JSON on standard input,
+/// one reply as JSON on standard output, notices and the reason of a failure
+/// on standard error. The endpoint is named by its file, never by its key.
+fn protocol_call(env_file: &str) -> Result<bool, String> {
+    let mut input = String::new();
+    std::io::stdin()
+        .read_to_string(&mut input)
+        .map_err(|e| e.to_string())?;
+    let request: Value = serde_json::from_str(&input).map_err(|e| format!("request: {e}"))?;
+    if request["protocol"] != 1 {
+        return Err("request: protocol 1 expected".into());
+    }
+    let text = |key: &str| request[key].as_str().unwrap_or_default().to_owned();
+    let settings = Settings {
+        max_output_tokens: request["max_output_tokens"].as_u64().unwrap_or(64_000) as u32,
+        temperature: request["temperature"].as_f64(),
+    };
+    let ep = load_endpoint(Some(Path::new(env_file)))?;
+    let policy = Policy {
+        first: 10.0,
+        total: 600.0,
+    };
+    let reply = match call(
+        &ep,
+        &text("system"),
+        &text("user"),
+        &policy,
+        "model",
+        &settings,
+    ) {
+        Ok(answer) => json!({"protocol": 1, "ok": true, "reply": {
+            "text": answer.text, "stop": answer.stop,
+            "input_tokens": answer.input_tokens, "output_tokens": answer.output_tokens,
+            "seconds": (answer.seconds * 10.0).round() / 10.0,
+            "waits": answer.waits.iter().map(|w| json!([w.0, w.1])).collect::<Vec<_>>(),
+            "sent": {"host": host_of(&ep), "model": ep.model,
+                     "max_output_tokens": settings.max_output_tokens,
+                     "temperature": settings.temperature, "reasoning_level": ep.reasoning},
+        }}),
+        Err(failure) => {
+            let reason = format!("{failure:?}");
+            eprintln!("[model] the call failed: {reason}");
+            json!({"protocol": 1, "ok": false, "error": {"reason": reason}})
+        }
+    };
+    println!("{reply}");
+    Ok(reply["ok"] == true)
+}
+
 fn main() -> std::process::ExitCode {
     let args: Vec<String> = std::env::args().collect();
     let passed = match args.iter().map(String::as_str).collect::<Vec<_>>().as_slice() {
+        [_, "call", env_file] => match protocol_call(env_file) {
+            Ok(true) => return std::process::ExitCode::SUCCESS,
+            Ok(false) => return std::process::ExitCode::from(3),
+            Err(message) => Err(message),
+        },
         [_, "stub"] => Ok(stub_cases()),
         [_, "live", env_file, system, user, count] => {
             live(env_file, system, user, count.parse().unwrap_or(1))
         }
-        _ => Err("usage: model-seam-prototype-wait stub | live ENV_FILE SYSTEM_TXT USER_TXT COUNT".into()),
+        _ => Err(
+            "usage: model-seam-prototype-wait stub | live ENV_FILE SYSTEM_TXT USER_TXT COUNT | call ENV_FILE"
+                .into(),
+        ),
     };
     match passed {
         Ok(true) => std::process::ExitCode::SUCCESS,
