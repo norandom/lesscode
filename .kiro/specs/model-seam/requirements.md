@@ -1,14 +1,13 @@
 # Requirements: the model seam
 
-Generated 2026-11-12 (Europe/Berlin) from the [brief](brief.md). Not approved.
+Generated 2026-11-12 (Europe/Berlin) from the [brief](brief.md). Approved by the owner on 2026-11-12, 18:21.
 Evidence: [R102](../../../docs/research/2026-11-12/09-product-path-two-models.md),
 [R103](../../../docs/research/2026-11-12/10-model-seam-library-prototype.md),
 [R99](../../../docs/research/2026-11-12/06-repair-gate-result.md).
 
-## Open points for the owner
+## Points decided with the approval
 
-These are proposals written into the criteria below, not decisions. Each is marked "(proposed)" where it
-appears.
+These were proposals when the requirements were generated. The owner approved them with the document.
 
 1. Reading of "estimated wait time": the tool waits and tells the user how long it expects to wait
    (Requirement 3). Not: a forecast of how long a whole run will take.
@@ -105,7 +104,7 @@ working and can decide whether to stay.
    this run.
 5. While a call has been running longer than the last estimate given, the model seam shall tell the user
    at intervals that it is still waiting and for how long so far.
-6. If the total wait for one call exceeds ten minutes (proposed) or the limit the user set, then the model
+6. If the total wait for one call exceeds ten minutes or the limit the user set, then the model
    seam shall stop, report the wait and its limit, and fail the call.
 7. When a call succeeds after a wait, the model seam shall record how long it waited and how often it
    asked.
@@ -139,7 +138,7 @@ minute whether this model can be used.
 4. If the reply does not pass the fence after the repairs allowed, then the check command shall report
    which check rejected it and end with an exit code that is not zero.
 5. The check command shall report the model that answered, the time taken, the tokens used and any wait.
-6. The check command shall make at most three calls (proposed).
+6. The check command shall make at most three calls.
 7. The check command shall change no file of the project it is run in.
 
 ### Requirement 6: Repairing a rejected answer
@@ -150,7 +149,7 @@ that a cheaper model reaches a usable answer without anything unchecked getting 
 1. When a caller's check rejects a reply, the model seam shall make a fresh call that shows the request,
    the rejected reply and the check's reasons.
 2. When no reply arrived or the reply was cut off, the model seam shall send the request again as it was.
-3. The model seam shall make at most two repairs for one request (proposed), or the number the caller
+3. The model seam shall make at most two repairs for one request, or the number the caller
    states.
 4. When a reply passes the caller's check, the model seam shall stop and return that reply.
 5. If no reply passes after the repairs allowed, then the model seam shall return the last reply marked as
