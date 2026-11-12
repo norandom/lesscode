@@ -4,6 +4,8 @@
 [![Release](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.2.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+![Before: a tired developer eats a plate of spaghetti labelled with nested loops and conditions. After lesscode: the same developer, cheerful, with a bowl of vegetables labelled with single statements.](docs/images/before-after-lesscode.png)
+
 Lesscode is for making a grown codebase smaller without losing features. Code
 that was written by hand, or by a model, often repeats what the project's
 framework, its libraries or the language already provide. Lesscode helps you
