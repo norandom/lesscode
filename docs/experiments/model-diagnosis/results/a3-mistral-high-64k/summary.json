@@ -1,0 +1,43 @@
+{
+  "receipt": "slice-b-guide-judgement-v1",
+  "preregistration": "R70",
+  "dry_run": false,
+  "model": "mistral-large-4",
+  "judged": {
+    "guide": "dc49e14bb0d6",
+    "characters": 6049,
+    "not_run": 0,
+    "languages": {
+      "java": {
+        "trials": 5,
+        "admitted": 0,
+        "same_as_shipped": 0,
+        "distinct_behaviours": 0,
+        "mean_output_tokens": 7819
+      },
+      "python": {
+        "trials": 5,
+        "admitted": 2,
+        "same_as_shipped": 0,
+        "distinct_behaviours": 2,
+        "mean_output_tokens": 7541
+      },
+      "rust": {
+        "trials": 5,
+        "admitted": 0,
+        "same_as_shipped": 0,
+        "distinct_behaviours": 0,
+        "mean_output_tokens": 9409
+      },
+      "typescript": {
+        "trials": 5,
+        "admitted": 5,
+        "same_as_shipped": 0,
+        "distinct_behaviours": 2,
+        "mean_output_tokens": 10535
+      }
+    }
+  },
+  "calls": 20,
+  "spent_usd": 0.4
+}

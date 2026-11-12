@@ -2,13 +2,17 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Planned: R96 Why the second model writes fewer admissible packs (preregistered 2026-11-12)
+## Latest: R97 The reasoning level helps the second model but does not close the gap; what remains is node kinds the model has to recall (2026-11-12)
 
-[R96](2026-11-12/03-model-diagnosis-preregistration.md) reopens the Slice B question for cost: the loops must work on a model cheaper than Opus.
+[R97](2026-11-12/04-model-diagnosis-result.md) is the result of the preregistration [R96](2026-11-12/03-model-diagnosis-preregistration.md), which reopened the Slice B question for cost: the loops must work on a model cheaper than Opus.
 - **Arms:** Mistral Large 4 at its default reasoning level with 16,000 and 64,000 output tokens, at "high" with 64,000, and GLM 5.3 at "high"; 20 trials each with the Rust judge. Opus from R69.
-- **Asked:** is the gap the reasoning level (never set in R72), the output limit, or knowledge of the grammar.
+- **Admitted first replies of 20:** 3, 2, 8 and 8, against 15 for Opus. The threshold of 10 at "high" was missed by both models.
+- **What moved it:** the reasoning level (2 to 8). The output limit removed every cut-off reply and admitted nothing more.
+- **What remains:** every rejection of Mistral at "high" names a node kind the grammar does not have. No Rust or Java pack was admitted in any arm; Java is where the cheaper models differ from Opus.
+- **Consequence:** the authoring request gets the grammar's node kind names, and a repair turn returns the invalid ones. Names are data the tool has, not something to recall.
+- **Amendment:** the endpoint refused 17 calls with HTTP 429; the tool now waits a rate limit out, and those trials were run again.
 
-## Latest: R95 A second Python step with a frame specification; a wrong prediction; the test suite fills the temp folder (2026-11-12)
+## Prior: R95 A second Python step with a frame specification; a wrong prediction; the test suite fills the temp folder (2026-11-12)
 
 [R95](2026-11-12/02-second-python-step-frame-release.md) continues the open work from handover 43.
 - **The step:** in x_likes_scraper, `Checkpoint.clear` uses `unlink(missing_ok=True)`. Accepted with a frame specification declared: 4 noticed / 3 unnoticed before, 4 / 0 after.

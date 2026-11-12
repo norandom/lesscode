@@ -56,7 +56,10 @@ an output limit of 16,000 tokens, which the model's reasoning used up in six of 
 
 ## Evidence and results
 
-Not run.
+Not run at the time of writing.
+
+Amendment, 2026-11-12, 13:20: run on the same day, 10:24 to 13:06. The result, and an amendment for calls
+the endpoint refused, is in [R97](04-model-diagnosis-result.md). The text above is unchanged.
 
 ## Limits and interpretation
 

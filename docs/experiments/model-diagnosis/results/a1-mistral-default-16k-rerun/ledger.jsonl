@@ -1,0 +1,6 @@
+{"purpose":"author","model":"mistral-large-4","input_tokens":2541,"output_tokens":8841,"ok":true}
+{"purpose":"author","model":"mistral-large-4","input_tokens":2541,"output_tokens":16000,"ok":true}
+{"purpose":"author","model":"mistral-large-4","input_tokens":2430,"output_tokens":16000,"ok":true}
+{"purpose":"author","model":"mistral-large-4","input_tokens":2513,"output_tokens":6847,"ok":true}
+{"purpose":"author","model":"mistral-large-4","input_tokens":2513,"output_tokens":8369,"ok":true}
+{"purpose":"author","model":"mistral-large-4","input_tokens":2430,"output_tokens":12286,"ok":true}
