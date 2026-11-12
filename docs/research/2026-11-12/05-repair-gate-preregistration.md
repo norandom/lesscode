@@ -61,6 +61,20 @@ decision not to adopt it is overturned for this setting.
 - Recorded per trial: every attempt with admission, stop reason, tokens and feedback; the final reply.
 - Results: `docs/experiments/model-diagnosis/results/b1…b4`.
 
+## Amendment before the Mistral arms (2026-11-12, 13:50)
+
+Owner statement during the run: the correct Mistral model on this endpoint is `mistral-large-latest`, not
+`mistral-large-4`. The endpoint lists both names and answers under the name it is asked for, so whether
+they are the same model cannot be told from here.
+
+- B1 and B2 run on `mistral-large-latest`. Their thresholds (Q1 to Q4, Q6) are unchanged.
+- B1 on `mistral-large-4` was stopped after five finished calls, before any trial was written. Its ledger
+  is kept in `results/b1-stopped-mistral-large-4/`. No verdict was seen.
+- R72, R78 and R97 ran on `mistral-large-4`. Every comparison with them now crosses the model name. Each
+  trial records whether its first reply was admitted; B1's first replies against the 8 of 20 of R97's arm
+  A3 are the check on whether the two names behave alike, reported without a threshold.
+- The GLM arms are not affected and kept running.
+
 ## Evidence and results
 
 Not run.
