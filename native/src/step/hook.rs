@@ -5,7 +5,7 @@
 
 use super::guard::{judge, pushed};
 use crate::adapters::driver::process;
-use crate::cli_deconvolute::cli_hook::{run_pre_push, PrePushArgs};
+use crate::cli_deconvolute::cli_hook::{pre_push_budgets, PrePushArgs, PASSED};
 use std::collections::BTreeMap;
 use std::io::Read;
 use std::path::{Path, PathBuf};
@@ -47,7 +47,7 @@ pub fn run_pre_push_hook(args: StepPrePushArgs) -> Result<u8, String> {
     let mut input = String::new();
     let read = std::io::stdin().read_to_string(&mut input);
     read.map_err(|e| format!("standard input: {e}"))?;
-    let budgets = run_pre_push(PrePushArgs {
+    let checked = pre_push_budgets(PrePushArgs {
         remote: args.remote,
         url: args.url,
         local_ref: None,
@@ -57,19 +57,18 @@ pub fn run_pre_push_hook(args: StepPrePushArgs) -> Result<u8, String> {
         stdin_lines: Some(input.clone()),
         skip_budgets: false,
     })?;
-    if budgets != 0 {
-        return Ok(budgets);
-    }
     let (refused, mut specs) = judge(&args.repo, &pushed(&input))?;
     if refused {
         return Ok(1);
     }
-    let Some(cli) = auditor(&args.repo) else {
-        return Ok(0);
-    };
     specs.sort();
     specs.dedup();
-    for spec in specs {
+    // Without the auditor installed, no spec is audited.
+    let cli = auditor(&args.repo);
+    for (cli, spec) in cli
+        .iter()
+        .flat_map(|cli| specs.iter().map(move |s| (cli, s)))
+    {
         let cli = cli.to_string_lossy().into_owned();
         let command = [cli, "check".into(), "--feature".into(), spec.clone()];
         let limit = Duration::from_secs(300);
@@ -78,6 +77,9 @@ pub fn run_pre_push_hook(args: StepPrePushArgs) -> Result<u8, String> {
             println!("spec {spec}: the audit does not pass\n{}", done.output);
             return Ok(1);
         }
+    }
+    if checked {
+        println!("{PASSED}");
     }
     Ok(0)
 }

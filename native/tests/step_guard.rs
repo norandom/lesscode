@@ -248,6 +248,7 @@ fn the_installed_hook_stops_a_push_without_a_matching_verdict() {
     let (pushed, said) = push("step/smaller");
     assert!(pushed, "{said}");
     assert!(said.contains("step/smaller: accepted"), "{said}");
+    assert!(said.contains("Pre-push verification passed"), "{said}");
     assert_eq!(
         on_remote("step/smaller"),
         repo.git(&["rev-parse", "step/smaller"])
@@ -261,6 +262,8 @@ fn the_installed_hook_stops_a_push_without_a_matching_verdict() {
     let (pushed, said) = push("step/smaller");
     assert!(!pushed, "{said}");
     assert!(said.contains("step/smaller: refused"), "{said}");
+    // A refused push is never announced as passed.
+    assert!(!said.contains("verification passed"), "{said}");
     assert_eq!(on_remote("step/smaller"), judged);
 }
 

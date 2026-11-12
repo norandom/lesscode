@@ -140,10 +140,22 @@ fn check_ref_target(r: &PushRef, args: &PrePushArgs) -> Result<(), String> {
     Ok(())
 }
 
+/// The line that closes a push no check refused.
+pub const PASSED: &str = "[lesscode-hook] Pre-push verification passed.";
+
 pub fn run_pre_push(args: PrePushArgs) -> Result<u8, String> {
+    if pre_push_budgets(args)? {
+        println!("{PASSED}");
+    }
+    Ok(0)
+}
+
+/// The budgets of every pushed ref. True when refs were checked and none was
+/// refused; the caller says "passed" once its own checks agree.
+pub fn pre_push_budgets(args: PrePushArgs) -> Result<bool, String> {
     if std::env::var("LESSCODE_SKIP_HOOK").ok().as_deref() == Some("1") {
         println!("[lesscode-hook] Hook skipped via LESSCODE_SKIP_HOOK=1");
-        return Ok(0);
+        return Ok(false);
     }
 
     let input = if let Some(lines) = &args.stdin_lines {
@@ -166,15 +178,13 @@ pub fn run_pre_push(args: PrePushArgs) -> Result<u8, String> {
                 check_budgets_gate(&cfg, &src)?;
             }
         }
-        return Ok(0);
+        return Ok(false);
     }
 
     for r in &refs {
         check_ref_target(r, &args)?;
     }
-
-    println!("[lesscode-hook] Pre-push verification passed.");
-    Ok(0)
+    Ok(true)
 }
 
 pub fn run_install_hook(args: InstallHookArgs) -> Result<u8, String> {
