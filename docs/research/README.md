@@ -2,6 +2,13 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
+## Planned: R101 A guide that describes the call-argument kind, judged by findings kept (preregistered 2026-11-12)
+
+[R101](2026-11-12/08-guide-v4-preregistration.md) follows R100.
+- **Change:** guide version 4 is version 3 with five table rows for the call-argument kind.
+- **Arm:** GLM 5.3 at "high" with repair turns and the node kind list, 20 trials, against arm B4 of R99.
+- **Claims:** at least 4 of 5 Python packs keep at least 15 of 17 call-argument findings; at least 4 of 5 TypeScript packs lack no finding; at least 18 of 20 admitted; Java and Rust unchanged.
+
 ## Latest: R100 What GLM's admitted packs lack of the shipped pack's findings: almost only the call-argument kind, which the guide does not describe (2026-11-12)
 
 [R100](2026-11-12/07-admitted-packs-gate-effect.md) takes up the open point of R99 without a model call: the 39 admitted packs joined with the classes the driver recorded for the shipped packs' mutants (R81).
