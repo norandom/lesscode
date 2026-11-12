@@ -56,4 +56,9 @@ headers are reachable, licence, and the date of the latest release.
 
 ## Assessment
 
-Not assessed.
+Not assessed as a whole.
+
+- P1, 2026-11-12: **passes** for `genai` 0.7.4 on all six first cases; a refusal's status, body and
+  headers are reachable. The alternative `llm` 1.3.8 completes none of the five OpenAI-style cases.
+  [R105](../../../docs/research/2026-11-12/12-model-seam-gate-p1.md).
+- P2, P3, P4: not run.

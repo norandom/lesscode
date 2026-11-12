@@ -29,10 +29,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     } else {
         AdapterKind::OpenAI
     };
-    let (base, key) = (
-        format!("{}/", ep.base_url.trim_end_matches('/')),
-        ep.api_key().to_owned(),
-    );
+    // The Anthropic style's address may be given with or without its version
+    // segment (the endpoint sample shows it without).
+    let trimmed = ep.base_url.trim_end_matches('/');
+    let base = if ep.style == "anthropic" && !trimmed.ends_with("/v1") {
+        format!("{trimmed}/v1/")
+    } else {
+        format!("{trimmed}/")
+    };
+    let key = ep.api_key().to_owned();
     let resolver = ServiceTargetResolver::from_resolver_fn(
         move |target: ServiceTarget| -> Result<ServiceTarget, genai::resolver::Error> {
             Ok(ServiceTarget {

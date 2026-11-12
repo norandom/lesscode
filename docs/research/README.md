@@ -8,7 +8,14 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R103 The same turn through an existing model client library completes on three models from three vendors (2026-11-12)
+## Latest: R105 Gate P1 of the model seam: one library completes all six first cases; the alternative fails the way our own client did (2026-11-12)
+
+[R105](2026-11-12/12-model-seam-gate-p1.md) runs the first assumption of the [prototype gate](../../.kiro/specs/model-seam/prototype-gate.md) of the spec `model-seam` (requirements approved, design provisional).
+- **`genai` 0.7.4:** GLM 5.3 and Mistral Large on Mistral's API, `gpt-6.1-sol` on OpenAI's, `claude-opus-5-5` on Anthropic's, and GLM 5.3 and Mistral Large on the local endpoint all complete the turn. A refusal's status, body and headers are reachable.
+- **`llm` 1.3.8:** cannot read replies delivered as parts, sends `max_tokens` to OpenAI, and its OpenAI backend speaks only the Responses API. `rig-core` 0.46.0 was read, not run.
+- **Open:** P2 build on five targets, P3 waiting with an estimate, P4 the core through the process boundary.
+
+## Prior: R103 The same turn through an existing model client library completes on three models from three vendors (2026-11-12)
 
 [R103](2026-11-12/10-model-seam-library-prototype.md) is a prototype after R102 and the owner's instruction to use an existing model library.
 - **Prototype:** about 80 lines of Rust on `genai` 0.7.4, endpoint from the endpoint file, no vendor-specific code of ours.
