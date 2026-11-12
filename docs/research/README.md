@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R99 GLM 5.3 with repair turns reaches 19 and 20 of 20 admitted packs; the Mistral arms were stopped by the owner (2026-11-12)
+## Latest: R100 What GLM's admitted packs lack of the shipped pack's findings: almost only the call-argument kind, which the guide does not describe (2026-11-12)
+
+[R100](2026-11-12/07-admitted-packs-gate-effect.md) takes up the open point of R99 without a model call: the 39 admitted packs joined with the classes the driver recorded for the shipped packs' mutants (R81).
+- **Measure:** a finding is a shipped-pack mutant the tests did not notice; a pack that does not produce it no longer reports it.
+- **Result:** 18 of 39 packs lack at least one finding; 193 of the 198 findings lacked are call-argument sites. Python packs lose 16 to 18 of 27 findings, TypeScript packs 0, 4 or 8 of 42, Java none, one Rust pack 2 of 21.
+- **Cause:** the guide (version 3) is older than the call-argument kind and does not describe it. Admission cannot see a missing optional kind.
+- **Consequence:** a model-written Python or TypeScript pack must not replace a shipped pack yet. Next: a guide that describes the kind, judged by findings kept. Extra mutants (Rust: 4 to 34 per pack) are counted, not classed.
+
+## Prior: R99 GLM 5.3 with repair turns reaches 19 and 20 of 20 admitted packs; the Mistral arms were stopped by the owner (2026-11-12)
 
 [R99](2026-11-12/06-repair-gate-result.md) is the result of the preregistration [R98](2026-11-12/05-repair-gate-preregistration.md): at most two repair turns at "high" and 64,000 tokens, with and without the grammar's node kind names.
 - **GLM 5.3:** admitted in the end 19 of 20 without the list and 20 of 20 with it (threshold 16; Opus in R78: 20). First replies 7 and 13 of 20. One repair call fixes most wrong node kind names; the list moves Java into the first reply and saves a fifth of the calls.
