@@ -9,7 +9,15 @@
 - **Arm:** GLM 5.3 at "high" with repair turns and the node kind list, 20 trials, against arm B4 of R99.
 - **Claims:** at least 4 of 5 Python packs keep at least 15 of 17 call-argument findings; at least 4 of 5 TypeScript packs lack no finding; at least 18 of 20 admitted; Java and Rust unchanged.
 
-## Latest: R102 The product's model path with two other models: three live turns, three different failures (2026-11-12)
+## Latest: R103 The same turn through an existing model client library completes on three models from three vendors (2026-11-12)
+
+[R103](2026-11-12/10-model-seam-library-prototype.md) is a prototype after R102 and the owner's instruction to use an existing model library.
+- **Prototype:** about 80 lines of Rust on `genai` 0.7.4, endpoint from the endpoint file, no vendor-specific code of ours.
+- **Result:** GLM 5.3 and Mistral Large on Mistral's API and `gpt-6.1-sol` on OpenAI's API each return the JSON object the turn asks for, in 1, 7 and 16 seconds. None of the four failures of R102 occurs.
+- **Cost:** 293 crates in the lock file against the core's 115, with an async runtime and a TLS stack that has a C build.
+- **Consequence:** the model seam goes into its own crate beside the core; the core and driver keep no model call. Design gate: the crate must build on the five release platforms.
+
+## Prior: R102 The product's model path with two other models: three live turns, three different failures (2026-11-12)
 
 [R102](2026-11-12/09-product-path-two-models.md) is a probe after the owner's statement that packs are published once and that adopters must be able to run GLM or another model behind the tool.
 - **Turns:** `regenerate run` on a ten-line Python function. GLM 5.3 on the local endpoint: HTTP 429 after 652 s, not repeated. Mistral Large on Mistral's API: HTTP 400, temperature 0 refused; with a temperature given, the answer arrived as a list of parts and was thrown away (`KeyError: 'message'`).

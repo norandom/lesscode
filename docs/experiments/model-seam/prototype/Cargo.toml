@@ -1,0 +1,17 @@
+[package]
+name = "model-seam-prototype"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.98.1"
+publish = false
+description = "Prototype gate for the model seam: one regenerate-like turn through an existing model client library. Not part of lesscode-core."
+license = "MIT"
+
+# Standalone: not a member of any workspace and not a dependency of the product crate.
+[workspace]
+
+[dependencies]
+lesscode-core = { path = "../../../../native" }
+genai = "=0.7.4"
+tokio = { version = "1", features = ["rt", "macros"] }
+serde_json = "=1.0.154"
