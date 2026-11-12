@@ -2,12 +2,11 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Planned: R101 A guide that describes the call-argument kind, judged by findings kept (preregistered 2026-11-12)
+## Closed: R104 The guide that describes the call-argument kind restores Python's findings and not TypeScript's (2026-11-12)
 
-[R101](2026-11-12/08-guide-v4-preregistration.md) follows R100.
-- **Change:** guide version 4 is version 3 with five table rows for the call-argument kind.
-- **Arm:** GLM 5.3 at "high" with repair turns and the node kind list, 20 trials, against arm B4 of R99.
-- **Claims:** at least 4 of 5 Python packs keep at least 15 of 17 call-argument findings; at least 4 of 5 TypeScript packs lack no finding; at least 18 of 20 admitted; Java and Rust unchanged.
+[R104](2026-11-12/11-guide-v4-result.md) is the result of [R101](2026-11-12/08-guide-v4-preregistration.md) and the closing note for pack authoring.
+- **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
+- **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
 ## Latest: R103 The same turn through an existing model client library completes on three models from three vendors (2026-11-12)
 

@@ -46,7 +46,9 @@ A finding is a mutant of the shipped pack that the tests of the gate scope did n
 
 ## Evidence and results
 
-Not run.
+Not run at the time of writing.
+
+Amendment, 2026-11-12, 17:52: run from 17:00 to 17:49. Result in [R104](11-guide-v4-result.md).
 
 ## Limits and interpretation
 
