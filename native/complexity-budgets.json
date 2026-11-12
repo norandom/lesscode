@@ -370,6 +370,15 @@
    "disposition": "keep-measured-ceiling; brownfield freeze; blob 295533fe3c89b27d8099d3072f1907224a762109"
   },
   {
+   "path": "seam.rs",
+   "max_tokens": 900,
+   "max_logical_units": 60,
+   "max_fn_tokens": 700,
+   "owner": "model-seam",
+   "allocation": "prototype gate P4: launcher that hands a model request to a second executable at the regenerator's transport seam; branch model-seam-gate-p4 only",
+   "disposition": null
+  },
+  {
    "path": "specimen_runner.rs",
    "max_logical_units": 300,
    "owner": "native-deconvolution-closure",

@@ -817,6 +817,9 @@ pub fn hash_set(kwargs: &J, response_json: &str, model_returned: &str) -> J {
 
 // --- OpenAI-compatible transport (pinned ureq) -----------------------------------
 
+#[path = "seam.rs"]
+pub mod seam;
+
 /// One POST; transport-level failures carry the frozen message prefix.
 pub type HttpTransport<'a> =
     &'a dyn Fn(&str, &[(String, String)], &[u8]) -> Result<Vec<u8>, String>;
@@ -2455,7 +2458,7 @@ pub fn default_call_fn(
         Some(params.effort.as_str()),
         params.temperature,
         params.display.as_deref(),
-        &ureq_post,
+        &seam::post,
     )
 }
 
@@ -2660,7 +2663,7 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
         Some(effort.as_str()),
         *temperature,
         thinking_display.as_deref(),
-        &ureq_post,
+        &seam::post,
     );
     let (text, mut meta) = match call_result {
         Ok(ok) => ok,
