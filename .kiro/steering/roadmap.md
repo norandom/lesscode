@@ -1,5 +1,16 @@
 # Roadmap
 
+## Next spec, owner, 2026-11-12: the model seam
+
+Adopters must be able to run GLM or another model behind the tool; the language packs are published once
+and are not regenerated; the core and the driver stay model agnostic with the fence around a model's
+output; an existing model library is used; the preferred solution is horizontal compatibility with an
+estimated wait time; the internal endpoint on localhost is included. Discovery brief:
+`.kiro/specs/model-seam/brief.md` (not approved). Evidence: R102 (the present model path fails on three
+vendors), R103 (prototype on an existing library). Order after it: a spec in which a model proposes a
+simplification and the step flow judges it, then the onboarding spec (`.kiro/handover.md`). Slice B stays
+closed; today's runs on it (R96 to R101) are recorded under `docs/research/2026-11-12/`.
+
 ## Next question, owner, 2026-11-11
 
 "Is the code healthy and working afterwards; can we support a gradual refactoring step by step, minor
