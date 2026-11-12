@@ -2,7 +2,7 @@
 
 Generated 2026-11-12 (Europe/Berlin) from the approved [requirements](requirements.md).
 Revised 2026-11-12 after the [prototype gate](prototype-gate.md) was assessed as `proceed` (R105, R106, R107).
-Awaiting the owner's approval; tasks are generated after it. Discovery log: [research.md](research.md).
+Approved by the owner on 2026-11-12, 20:16. Discovery log: [research.md](research.md).
 
 ## Overview
 
