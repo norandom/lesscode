@@ -2,6 +2,12 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
+## Planned: R96 Why the second model writes fewer admissible packs (preregistered 2026-11-12)
+
+[R96](2026-11-12/03-model-diagnosis-preregistration.md) reopens the Slice B question for cost: the loops must work on a model cheaper than Opus.
+- **Arms:** Mistral Large 4 at its default reasoning level with 16,000 and 64,000 output tokens, at "high" with 64,000, and GLM 5.3 at "high"; 20 trials each with the Rust judge. Opus from R69.
+- **Asked:** is the gap the reasoning level (never set in R72), the output limit, or knowledge of the grammar.
+
 ## Latest: R95 A second Python step with a frame specification; a wrong prediction; the test suite fills the temp folder (2026-11-12)
 
 [R95](2026-11-12/02-second-python-step-frame-release.md) continues the open work from handover 43.
