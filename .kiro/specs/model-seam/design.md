@@ -232,7 +232,21 @@ to `parse_result` and the existing checks. The receipt is written by the core as
 
 ## Components and Interfaces
 
-### Data of a call (`request.rs`)
+| Component | Domain/Layer | Intent | Req Coverage | Files |
+| --- | --- | --- | --- | --- |
+| CallData | seam | The data of one call: request, reply, what was sent | 2.1, 2.2, 2.4, 2.5 | model/src/request.rs, model/src/lib.rs |
+| Call | seam | One call through the client library, read in any shape | 1.1, 1.2, 1.3, 1.6, 1.8, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.8 | model/src/client.rs |
+| Waiting | seam | Wait out a refusal, estimate, tell the user, stop at the limits | 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8 | model/src/wait.rs, model/src/notice.rs |
+| Failures | seam | Reasons of a failed call, without the key | 1.4, 1.5, 1.7, 4.1, 4.2, 4.3, 4.5 | model/src/error.rs, model/src/notice.rs |
+| Record | seam | One line per call where the caller says | 9.1, 9.2, 9.3, 9.4 | model/src/record.rs |
+| RepairLoop | seam | Propose, check, repair with reasons | 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 7.3, 7.4 | model/src/repair.rs |
+| CheckCommand | seam, command line | Is this endpoint usable | 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 7.5 | model/src/check.rs, model/src/main.rs |
+| ProcessProtocol | seam, command line | One request in, one reply out, exit codes | 4.4 | model/src/protocol.rs, model/src/main.rs |
+| Launcher | core | Start the executable for a model request | 7.2, 8.1, 8.3, 8.4, 8.5 | native/src/seam.rs |
+
+### Call data
+
+File: `request.rs`.
 
 ```rust
 pub struct CallRequest {
@@ -272,7 +286,9 @@ pub struct Reply {
 }
 ```
 
-### Call (`client.rs`)
+### Call
+
+File: `client.rs`.
 
 ```rust
 pub struct Limits { pub wait: WaitPolicy, pub answer_seconds: u64 }
@@ -292,7 +308,9 @@ pub fn call(
 - Precondition: the endpoint is complete (`load_endpoint` succeeded). Postcondition: exactly one record
   line when `record` is given, whether the call succeeded or not.
 
-### Waiting (`wait.rs`) and notices (`notice.rs`)
+### Waiting
+
+Files: `wait.rs`, `notice.rs`.
 
 ```rust
 pub struct WaitPolicy { pub total_seconds: u64 }      // default 600
@@ -317,7 +335,9 @@ pub struct Terminal;                                   // writes to standard err
 - When the waits of one call exceed `total_seconds`: `CallError::WaitLimit`.
 - One request at a time within a call; nothing is sent in parallel to shorten a wait.
 
-### Failures (`error.rs`)
+### Failures
+
+File: `error.rs`.
 
 ```rust
 pub enum CallError {
@@ -330,13 +350,17 @@ pub enum CallError {
 impl CallError { pub fn reason(&self) -> String }      // one line; never contains the key
 ```
 
-### Record (`record.rs`)
+### Record
+
+File: `record.rs`.
 
 One JSON line per call appended to the path the caller names: time, purpose, host, model, success, the
 settings sent, tokens in and out, reasoning and cached tokens where reported, seconds, waits, and the
 reason of a failure. No key. No file is written when no path is given.
 
-### Repair loop (`repair.rs`)
+### Repair loop
+
+File: `repair.rs`.
 
 ```rust
 pub struct Verdict { pub passed: bool, pub reasons: Vec<String> }
@@ -359,7 +383,9 @@ pub fn with_repairs(
 The check is a required argument: there is no way to run the loop without one. `Accepted` is constructed
 in one place, after a `Verdict` with `passed`.
 
-### Check command (`check.rs`, `main.rs`)
+### Check command
+
+Files: `check.rs`, `main.rs`.
 
 `lesscode-model check --endpoint-env FILE [--max-wait SECONDS]`
 
@@ -371,7 +397,9 @@ in one place, after a `Verdict` with `passed`.
 - Exit codes: 0 usable; 3 the endpoint failed; 4 the reply was rejected by the check; 2 usage.
 - Writes nothing in the current directory.
 
-### Process protocol (`protocol.rs`, `main.rs`)
+### Process protocol
+
+Files: `protocol.rs`, `main.rs`.
 
 `lesscode-model call --endpoint-env FILE [--record PATH] [--max-wait SECONDS] [--answer-limit SECONDS]`
 
@@ -381,7 +409,9 @@ in one place, after a `Verdict` with `passed`.
 - Exit codes: 0 answered; 3 the call failed; 2 usage or unreadable request.
 - The protocol carries a `"protocol": 1` field in both directions; the launcher refuses another number.
 
-### Launcher in the core (`native/src/seam.rs`)
+### Launcher
+
+File: `native/src/seam.rs`, in the core.
 
 ```rust
 pub struct SeamReply { pub text: String, pub meta: J }   // meta: stop, tokens, seconds, waits, sent
