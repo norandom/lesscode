@@ -3,7 +3,7 @@
 Status: part of `lesscode-core` from release 1.2.0 (spec
 [gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). All commands
 below exist, and they work alike on Python, TypeScript, Java and Rust: the declaration names the language
-and your project's own test command. Five real steps have been taken with them from start to finish, in
+and your project's own test command. Six real steps have been taken with them from start to finish, in
 Python, TypeScript, Java and Rust projects ([examples](#examples)).
 
 Why it works this way, for readers new to the idea: [testability.md](testability.md).
@@ -79,7 +79,7 @@ Only a few fields depend on the language. These are the ones the real steps used
 
 Commands are argument vectors and are not passed through a shell. On Windows that rules out `mvn`, which
 is a script; the Java step called Maven's launcher class with `java` instead. The full declarations of
-the five steps are in `docs/experiments/gradual-steps/steps/`.
+the six steps are in `docs/experiments/gradual-steps/steps/`.
 
 Paths are relative to the repository root and commands run there, in copies of the whole repository.
 `focus` names the functions the step is about; their faults are run even when the step does not change
@@ -244,6 +244,11 @@ committed first and admitted by `step pin`, the same change was refused ("the pr
 on the step"). The change that keeps `&#39;` was accepted: 0 noticed / 15 unnoticed before, 3 / 0 after,
 seven lines removed and two added. Where the plan says "no fault noticed", an acceptance tells you nothing
 until the function is pinned.
+
+A sixth step in the same project, `checkpoint-clear`, declared a frame specification and was accepted
+([R95](research/2026-11-12/02-second-python-step-frame-release.md)). It was accepted before its pins as
+well: the change adds the argument `missing_ok=True`, and the Python pack plants no fault in a keyword
+argument. The test for a directory without files exists because a person thought of the case.
 
 Two plans. For `src/state.ts` of OpenUltraCode, a TypeScript project, with the tests of
 `tests/state.test.ts` (2026-11-11; receipt in
