@@ -1,0 +1,28 @@
+function                                      noticed  unnoticed  tokens  writes
+x_likes_exporter/parser.py: parse_tweet            52         58     681      18
+x_likes_exporter/formatters.py: export             51         42     745      46
+x_likes_exporter/formatters.py: _format_tweet       32         38     471      24
+x_likes_exporter/formatters.py: _format_tweet_html        5         32     251      17
+x_likes_exporter/formatters.py: _escape_html        0         15      74       0  no fault noticed
+x_likes_exporter/checkpoint.py: get_progress        0         14      82       4  no fault noticed
+x_likes_exporter/checkpoint.py: clear               4          3      47       3
+x_likes_exporter/checkpoint.py: load                8          3     124       5
+x_likes_exporter/cookies.py: get_auth_token         0          2      25       0  no fault noticed
+x_likes_exporter/cookies.py: get_guest_id           0          2      25       0  no fault noticed
+x_likes_exporter/checkpoint.py: get_info            2          2      71       1
+x_likes_exporter/checkpoint.py: __init__            3          2      61       4
+x_likes_exporter/checkpoint.py: save                9          2     151       4
+x_likes_exporter/parser.py: extract_cursor         27          2     191       4
+x_likes_exporter/parser.py: extract_tweets         38          2     243       7
+x_likes_exporter/formatters.py: __init__            0          1      20       1  no fault noticed
+x_likes_exporter/checkpoint.py: exists              1          1      27       0
+x_likes_exporter/formatters.py: to_dataframe        4          1     298       5
+x_likes_exporter/checkpoint.py: is_valid            4          1      39       1
+x_likes_exporter/parser.py: parse_response          0          0      38       0  no fault planted
+x_likes_exporter/formatters.py: _get_css            0          0      15       0  no fault planted
+x_likes_exporter/cookies.py: get_cookie_dict        0          0      20       0  no fault planted
+x_likes_exporter/cookies.py: get_cookie_header        0          0      42       0  no fault planted
+x_likes_exporter/cookies.py: validate               1          0      35       1
+x_likes_exporter/cookies.py: __init__               2          0      27       2
+x_likes_exporter/cookies.py: get_csrf_token         2          0      25       0
+x_likes_exporter/cookies.py: _load_cookies          4          0      67       3

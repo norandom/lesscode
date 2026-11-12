@@ -2,7 +2,15 @@
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
-## Latest: R93 A real step is refused, pinned and accepted; a reused working copy kept its old tests (2026-11-11)
+## Latest: R94 The first step in a Python project; an unpinned change that alters output is accepted (2026-11-12)
+
+[R94](2026-11-12/01-first-python-step.md) is open work from handover 43, taken up before the onboarding spec.
+- **The step:** in x_likes_scraper, `_escape_html` hands its work to `html.escape`. Accepted, recorded, passed by the guard: 0 noticed / 15 unnoticed before, 3 / 0 after.
+- **The finding:** without a pin, the naive change was accepted although it writes `&#x27;` where the old code wrote `&#39;`. The plan had marked the function "no fault noticed". With two pinning tests the same change was refused.
+- **Also shown:** a push through the installed hook (passed; refused in 0.6 s for a commit after the verdict) and an override, on a throwaway commit.
+- **Still not shown on a real step:** release entry, frame specification, out-of-reach mark.
+
+## Prior: R93 A real step is refused, pinned and accepted; a reused working copy kept its old tests (2026-11-11)
 
 [R93](2026-11-11/19-refused-pinned-accepted.md) closes what R92 left open, as preparation for release 1.2.0.
 - **The step:** in OpenUltraCode, `isPersistedWorkflowState` rewritten to one rule per statement. Refused: unnoticed faults in the function rise from 1 to 7. Nine tests admitted by `step pin`. Accepted: 3 noticed / 1 unnoticed before, 11 / 1 after.

@@ -1,0 +1,313 @@
+{
+  "receipt": "step-plan-v1",
+  "run": "D:/BuildArtifacts/lesscode/step-python/work-plan/plan-run.json",
+  "incomplete": false,
+  "functions": [
+    {
+      "file": "x_likes_exporter/parser.py",
+      "function": "parse_tweet",
+      "noticed": 52,
+      "unnoticed": 58,
+      "other": 0,
+      "tokens": 681,
+      "state_writes": 18,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "export",
+      "noticed": 51,
+      "unnoticed": 42,
+      "other": 0,
+      "tokens": 745,
+      "state_writes": 46,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "_format_tweet",
+      "noticed": 32,
+      "unnoticed": 38,
+      "other": 0,
+      "tokens": 471,
+      "state_writes": 24,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "_format_tweet_html",
+      "noticed": 5,
+      "unnoticed": 32,
+      "other": 0,
+      "tokens": 251,
+      "state_writes": 17,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "_escape_html",
+      "noticed": 0,
+      "unnoticed": 15,
+      "other": 0,
+      "tokens": 74,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "replace"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "get_progress",
+      "noticed": 0,
+      "unnoticed": 14,
+      "other": 0,
+      "tokens": 82,
+      "state_writes": 4,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "get",
+          "get_info"
+        ],
+        "state_writes": [
+          "line 156: info = self.get_info()",
+          "line 160: timestamp = info.get(\"timestamp\", \"unknown\")",
+          "line 161: total = info.get(\"total_fetched\", 0)",
+          "line 162: user_id = info.get(\"user_id\", \"unknown\")"
+        ]
+      }
+    },
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "clear",
+      "noticed": 4,
+      "unnoticed": 3,
+      "other": 0,
+      "tokens": 47,
+      "state_writes": 3,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "load",
+      "noticed": 8,
+      "unnoticed": 3,
+      "other": 0,
+      "tokens": 124,
+      "state_writes": 5,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/cookies.py",
+      "function": "get_auth_token",
+      "noticed": 0,
+      "unnoticed": 2,
+      "other": 0,
+      "tokens": 25,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "get"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "x_likes_exporter/cookies.py",
+      "function": "get_guest_id",
+      "noticed": 0,
+      "unnoticed": 2,
+      "other": 0,
+      "tokens": 25,
+      "state_writes": 0,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [
+          "get"
+        ],
+        "state_writes": []
+      }
+    },
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "get_info",
+      "noticed": 2,
+      "unnoticed": 2,
+      "other": 0,
+      "tokens": 71,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "__init__",
+      "noticed": 3,
+      "unnoticed": 2,
+      "other": 0,
+      "tokens": 61,
+      "state_writes": 4,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "save",
+      "noticed": 9,
+      "unnoticed": 2,
+      "other": 0,
+      "tokens": 151,
+      "state_writes": 4,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/parser.py",
+      "function": "extract_cursor",
+      "noticed": 27,
+      "unnoticed": 2,
+      "other": 0,
+      "tokens": 191,
+      "state_writes": 4,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/parser.py",
+      "function": "extract_tweets",
+      "noticed": 38,
+      "unnoticed": 2,
+      "other": 0,
+      "tokens": 243,
+      "state_writes": 7,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "__init__",
+      "noticed": 0,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 20,
+      "state_writes": 1,
+      "unprotected": true,
+      "reaches_out": {
+        "calls": [],
+        "state_writes": [
+          "line 123: self.media_downloader = media_downloader"
+        ]
+      }
+    },
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "exists",
+      "noticed": 1,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 27,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "to_dataframe",
+      "noticed": 4,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 298,
+      "state_writes": 5,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/checkpoint.py",
+      "function": "is_valid",
+      "noticed": 4,
+      "unnoticed": 1,
+      "other": 0,
+      "tokens": 39,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/parser.py",
+      "function": "parse_response",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 38,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "_get_css",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 15,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/cookies.py",
+      "function": "get_cookie_dict",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 20,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/cookies.py",
+      "function": "get_cookie_header",
+      "noticed": 0,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 42,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/cookies.py",
+      "function": "validate",
+      "noticed": 1,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 35,
+      "state_writes": 1,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/cookies.py",
+      "function": "__init__",
+      "noticed": 2,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 27,
+      "state_writes": 2,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/cookies.py",
+      "function": "get_csrf_token",
+      "noticed": 2,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 25,
+      "state_writes": 0,
+      "unprotected": false
+    },
+    {
+      "file": "x_likes_exporter/cookies.py",
+      "function": "_load_cookies",
+      "noticed": 4,
+      "unnoticed": 0,
+      "other": 0,
+      "tokens": 67,
+      "state_writes": 3,
+      "unprotected": false
+    }
+  ]
+}

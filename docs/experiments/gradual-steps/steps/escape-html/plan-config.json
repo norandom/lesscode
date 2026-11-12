@@ -1,0 +1,12 @@
+{
+  "language": "python",
+  "source_root": "D:/BuildArtifacts/lesscode/steps-foreign/x_likes_scraper",
+  "files": ["x_likes_exporter/parser.py", "x_likes_exporter/formatters.py", "x_likes_exporter/checkpoint.py", "x_likes_exporter/cookies.py"],
+  "test_paths": ["tests/"],
+  "setup": [["uv", "sync", "--quiet"]],
+  "test": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_parser.py", "tests/test_formatters.py", "tests/test_checkpoint.py", "tests/test_cookies.py", "-q", "-x"],
+  "exclusions": [".venv", "__pycache__"],
+  "invalid_exit_codes": [2, 3, 4, 5],
+  "timeout_floor_s": 30, "timeout_ceiling_s": 300,
+  "workers": 8
+}

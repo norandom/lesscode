@@ -75,6 +75,14 @@ For the onboarding spec (not started; run `$kiro-discovery` after the open work)
   wait locally, so CI is the likely place. To be designed.
 - Level 5: every choice is offered.
 - Wording: levels 1 and 2 hear nothing about instrumenting code or solvers; levels 4 and 5 do.
+- Hooks (corrected later the same day): no pre-commit hook. The guard runs nothing and answers in under
+  a second, so it goes into the pre-push hook and into the pipeline; `step check` takes minutes and is
+  run on request. Level 3 gets the pre-push hook, level 4 the pipeline job as the boundary.
+- Disk and cleanup: work under `D:\BuildArtifacts` had grown to several hundred GiB (lesscode work
+  directories 90 GiB, cargo targets 143 GiB, temp 52 GiB). The tool or the flow must clean up after a
+  run. Levels 1 to 3 need a requirement an ordinary machine can meet; levels 4 and 5 have space and money.
+- From R94: a function the plan marks "no fault noticed" must be pinned before it is changed; the flow
+  has to enforce or at least say that at the check.
 - "Pex and Moles" is dropped as a name. It meant mainly the check step, where the code is instrumented.
   The owner's working name is the "nobreak gate". No current guide uses a name for it yet.
 

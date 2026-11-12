@@ -3,8 +3,8 @@
 Status: part of `lesscode-core` from release 1.2.0 (spec
 [gradual-refactoring-steps](../.kiro/specs/gradual-refactoring-steps/design.md)). All commands
 below exist, and they work alike on Python, TypeScript, Java and Rust: the declaration names the language
-and your project's own test command. Four real steps have been taken with them from start to finish, in
-TypeScript, Java and Rust projects ([examples](#examples)); none in a Python project yet.
+and your project's own test command. Five real steps have been taken with them from start to finish, in
+Python, TypeScript, Java and Rust projects ([examples](#examples)).
 
 Why it works this way, for readers new to the idea: [testability.md](testability.md).
 
@@ -68,8 +68,7 @@ One file in the repository, committed on the step's branch, for example
 }
 ```
 
-Only a few fields depend on the language. These are the ones the real steps used; the Python row is the
-configuration `deconvolute run` has been used with, since no step has been taken in a Python project yet.
+Only a few fields depend on the language. These are the ones the real steps used.
 
 | `language` | `test` | Also needed |
 | --- | --- | --- |
@@ -80,7 +79,7 @@ configuration `deconvolute run` has been used with, since no step has been taken
 
 Commands are argument vectors and are not passed through a shell. On Windows that rules out `mvn`, which
 is a script; the Java step called Maven's launcher class with `java` instead. The full declarations of
-the four steps are in `docs/experiments/gradual-steps/steps/`.
+the five steps are in `docs/experiments/gradual-steps/steps/`.
 
 Paths are relative to the repository root and commands run there, in copies of the whole repository.
 `focus` names the functions the step is about; their faults are run even when the step does not change
@@ -228,6 +227,23 @@ step shape-checks: accepted
 
 Noticed / unnoticed in the function: 3 / 1 before, 11 / 1 after. The one that remains swaps two checks that
 can stand in either order. The file grew by 25 tokens, inside the 30 the step had declared.
+
+A fifth step, in a Python project, shows why the pins come first
+([R94](research/2026-11-12/01-first-python-step.md)). In x_likes_scraper, `_escape_html` replaced five
+characters with five chained `str.replace` calls; the step `escape-html` calls `html.escape` instead. The
+plan listed the function as "no fault noticed": no test called it with any of the five characters.
+
+```text
+$ lesscode-core step check --declaration .kiro/specs/escape-html/step.json --work ../work
+step escape-html: accepted
+```
+
+That acceptance was wrong for the user. `html.escape` writes `&#x27;` for an apostrophe and the old code
+wrote `&#39;`, so the export changed, and nothing noticed. With two tests that fix what the method returns,
+committed first and admitted by `step pin`, the same change was refused ("the project's tests do not pass
+on the step"). The change that keeps `&#39;` was accepted: 0 noticed / 15 unnoticed before, 3 / 0 after,
+seven lines removed and two added. Where the plan says "no fault noticed", an acceptance tells you nothing
+until the function is pinned.
 
 Two plans. For `src/state.ts` of OpenUltraCode, a TypeScript project, with the tests of
 `tests/state.test.ts` (2026-11-11; receipt in

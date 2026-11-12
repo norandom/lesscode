@@ -1,0 +1,91 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "escape-html",
+  "spec": "escape-html",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "revision": "d88015f8325b75462eb830acf557db3bf5bf0ac4",
+  "hashes": {
+    "scope": {
+      "x_likes_exporter/formatters.py": "48725abf65819b4dfe3389b845204d78dadb25f2"
+    },
+    "tests": "6011c564f6650bfb3da793cc903ab794364334a991d41adb40450eb0db2896b1",
+    "declaration": "8d08eec18d8380598ebe25c7751b1ada8a3f3d70"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 3a214ff, step d88015f"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "pass",
+      "detail": "no state write outside the declared frame, or none declared"
+    },
+    {
+      "name": "tests and fault runs",
+      "result": "pass",
+      "detail": "the project's tests pass on the base and on the step"
+    },
+    {
+      "name": "planted faults",
+      "result": "pass",
+      "detail": "in no function are more faults unnoticed after the step than before"
+    },
+    {
+      "name": "evidence for criteria",
+      "result": "pass",
+      "detail": "every tied command passes"
+    }
+  ],
+  "functions_run": {
+    "x_likes_exporter/formatters.py": [
+      "_escape_html"
+    ]
+  },
+  "functions": [
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "_escape_html",
+      "before": {
+        "noticed": 0,
+        "unnoticed": 15,
+        "other": 0
+      },
+      "after": {
+        "noticed": 15,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    }
+  ],
+  "unmatched_functions": [],
+  "size": {
+    "tokens": [
+      1936,
+      1936
+    ],
+    "nodes": [
+      2106,
+      2106
+    ]
+  },
+  "result": "accepted",
+  "reasons": []
+}

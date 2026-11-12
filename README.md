@@ -352,9 +352,8 @@ cannot accept a step; only the exit codes can.
   copies run each other's builds and the run is voided
   ([details](docs/driver.md#run-configuration)). A build tool that keeps its
   output outside the project directory needs the same care.
-- The step commands have been used on real steps in TypeScript, Java and Rust
-  projects. No step has been taken in a Python project yet; the fault runs
-  underneath have been used on Python code.
+- The step commands have been used on real steps in Python, TypeScript, Java
+  and Rust projects, one to two steps each. That is a small sample.
 - Four languages have a pack. A fifth needs its grammar compiled into the
   binary and a pack that `admit-pack` accepts.
 - The budget check reads the files in your working tree, not the commits being

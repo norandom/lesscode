@@ -1,0 +1,140 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "escape-html",
+  "spec": "escape-html",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "revision": "4d0edc50ebe2eea221b6e79df7985df427d95c34",
+  "hashes": {
+    "scope": {
+      "x_likes_exporter/formatters.py": "53bd6fd499eadb550de484fe1572ea9f13873350"
+    },
+    "tests": "c4319170ba358ec61c5ef004425df375d275a76a3e79a794f520d4566efd5ac2",
+    "declaration": "8d08eec18d8380598ebe25c7751b1ada8a3f3d70"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 3a214ff, step 4d0edc5"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "pass",
+      "detail": "no state write outside the declared frame, or none declared"
+    },
+    {
+      "name": "tests and fault runs",
+      "result": "pass",
+      "detail": "the project's tests pass on the base and on the step"
+    },
+    {
+      "name": "planted faults",
+      "result": "pass",
+      "detail": "in no function are more faults unnoticed after the step than before"
+    },
+    {
+      "name": "evidence for criteria",
+      "result": "pass",
+      "detail": "every tied command passes"
+    }
+  ],
+  "functions_run": {
+    "x_likes_exporter/formatters.py": [
+      "_escape_html",
+      "_format_tweet_html"
+    ]
+  },
+  "functions": [
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "_escape_html",
+      "before": {
+        "noticed": 0,
+        "unnoticed": 15,
+        "other": 0
+      },
+      "after": {
+        "noticed": 0,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    },
+    {
+      "file": "x_likes_exporter/formatters.py",
+      "function": "_format_tweet_html",
+      "before": {
+        "noticed": 5,
+        "unnoticed": 32,
+        "other": 0
+      },
+      "after": {
+        "noticed": 5,
+        "unnoticed": 32,
+        "other": 0
+      },
+      "unnoticed_after": [
+        "#4 line 312 drop_statement",
+        "#5 line 312 arg_literal:string->empty@312:20",
+        "#8 line 314 drop_statement",
+        "#9 line 314 arg_literal:string->empty@314:20",
+        "#10 line 315 drop_statement",
+        "#11 line 315 arg_literal:string->empty@315:20",
+        "#12 line 318 negate",
+        "#13 line 319 drop_statement",
+        "#14 line 319 arg_literal:string->empty@319:24",
+        "#15 line 321 negate",
+        "#16 line 322 negate",
+        "#17 line 323 drop_statement",
+        "#18 line 323 arg_literal:string->empty@324:28",
+        "#19 line 326 negate",
+        "#20 line 327 drop_statement",
+        "#21 line 327 arg_literal:string->empty@327:32",
+        "#22 line 328 drop_statement",
+        "#23 line 328 arg_literal:string->empty@328:24",
+        "#24 line 331 drop_statement",
+        "#25 line 331 arg_literal:string->empty@331:20",
+        "#26 line 332 drop_statement",
+        "#27 line 332 arg_literal:string->empty@332:20",
+        "#28 line 333 drop_statement",
+        "#29 line 333 arg_literal:string->empty@333:20",
+        "#30 line 334 drop_statement",
+        "#31 line 334 arg_literal:string->empty@334:20",
+        "#32 line 335 drop_statement",
+        "#33 line 335 arg_literal:string->empty@335:20",
+        "#34 line 336 drop_statement",
+        "#35 line 336 arg_literal:string->empty@336:20",
+        "#36 line 337 drop_statement",
+        "#37 line 337 arg_literal:string->empty@337:20"
+      ]
+    }
+  ],
+  "unmatched_functions": [],
+  "size": {
+    "tokens": [
+      1936,
+      1886
+    ],
+    "nodes": [
+      2106,
+      2053
+    ]
+  },
+  "result": "accepted",
+  "reasons": []
+}

@@ -1,0 +1,24 @@
+diff --git a/tests/test_formatters.py b/tests/test_formatters.py
+index eebd041..6204824 100644
+--- a/tests/test_formatters.py
++++ b/tests/test_formatters.py
+@@ -263,6 +263,19 @@ def test_html_formatter_three_divs(sample_tweets, tmp_path) -> None:
+     assert "@carol" in html
+ 
+ 
++def test_html_formatter_escapes_the_five_special_characters() -> None:
++    """Each of ``& < > " '`` is replaced, the apostrophe by ``&#39;``."""
++    escaped = HTMLFormatter()._escape_html("a & b < c > d \" e ' f")
++
++    assert escaped == "a &amp; b &lt; c &gt; d &quot; e &#39; f"
++
++
++def test_html_formatter_escapes_an_entity_once() -> None:
++    """Text that already looks like an entity is shown as typed, not decoded."""
++    assert HTMLFormatter()._escape_html("&lt;b&gt;") == "&amp;lt;b&amp;gt;"
++    assert HTMLFormatter()._escape_html("&#x27;") == "&amp;#x27;"
++
++
+ # ---------------------------------------------------------------------------
+ # PandasFormatter
+ # ---------------------------------------------------------------------------

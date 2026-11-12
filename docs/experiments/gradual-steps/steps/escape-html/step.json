@@ -1,0 +1,19 @@
+{
+  "step": "escape-html", "spec": "escape-html", "branch": "step/escape-html",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "language": "python",
+  "scope": ["x_likes_exporter/formatters.py"],
+  "test_paths": ["tests/"],
+  "setup": [["uv", "sync", "--quiet"]],
+  "test": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_formatters.py", "-q", "-x"],
+  "run": {"timeout_floor_s": 30, "timeout_ceiling_s": 300, "exclusions": [".venv", "__pycache__"],
+          "invalid_exit_codes": [2, 3, 4, 5]},
+  "focus": {"x_likes_exporter/formatters.py": ["_escape_html"]},
+  "max_token_growth": 0,
+  "criteria": [
+    {"id": "1.2", "command": ["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_formatters.py", "-q", "-x"]}
+  ],
+  "outputs": {"verdict": ".kiro/specs/escape-html/verdict.json",
+              "evidence": ".kiro/specs/escape-html/evidence.json",
+              "ledger": ".kiro/steps/ledger.jsonl"}
+}

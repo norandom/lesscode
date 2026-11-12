@@ -1,0 +1,11 @@
+#1 line 343 arg_literal:string->empty@343:25: admitted (the tests with the pin pass on the unchanged code and fail on the fault)
+{
+  "receipt": "step-pin-v1",
+  "step": "escape-html",
+  "base": "3a214ff13ee768535481f71258ac2b3529306870",
+  "tests_of": "d88015f8325b75462eb830acf557db3bf5bf0ac4",
+  "fault": "#1 line 343 arg_literal:string->empty@343:25",
+  "result": "admitted",
+  "reason": "the tests with the pin pass on the unchanged code and fail on the fault",
+  "remaining_unnoticed": []
+}

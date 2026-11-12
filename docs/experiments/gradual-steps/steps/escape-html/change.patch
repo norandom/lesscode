@@ -1,0 +1,27 @@
+diff --git a/x_likes_exporter/formatters.py b/x_likes_exporter/formatters.py
+index 48725ab..e4f9575 100644
+--- a/x_likes_exporter/formatters.py
++++ b/x_likes_exporter/formatters.py
+@@ -4,6 +4,7 @@ Export formatters for different output formats (JSON, Pandas, Markdown)
+ 
+ import json
+ from datetime import datetime
++from html import escape
+ from pathlib import Path
+ 
+ import pandas as pd
+@@ -339,13 +340,7 @@ class HTMLFormatter:
+ 
+     def _escape_html(self, text: str) -> str:
+         """Escape HTML special characters"""
+-        return (
+-            text.replace("&", "&amp;")
+-            .replace("<", "&lt;")
+-            .replace(">", "&gt;")
+-            .replace('"', "&quot;")
+-            .replace("'", "&#39;")
+-        )
++        return escape(text).replace("&#x27;", "&#39;")
+ 
+     def _get_css(self) -> str:
+         """Get CSS styles for HTML export"""
