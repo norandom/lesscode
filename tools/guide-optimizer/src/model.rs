@@ -60,7 +60,11 @@ impl Live {
             if !system.is_empty() {
                 messages.insert(0, json!({"role": "system", "content": system}));
             }
-            let body = json!({"model": ep.model, "max_tokens": max_tokens, "messages": messages});
+            let mut body =
+                json!({"model": ep.model, "max_tokens": max_tokens, "messages": messages});
+            if let Some(level) = &ep.reasoning {
+                body["reasoning_effort"] = json!(level);
+            }
             (format!("{base}/chat/completions"), headers, body)
         }
     }
@@ -309,5 +313,28 @@ impl Metered {
             let _ = writeln!(file, "{row}");
         }
         result
+    }
+}
+
+#[cfg(test)]
+mod reasoning_level {
+    use super::*;
+
+    fn body(style: &str, level: Option<&str>) -> Value {
+        let mut endpoint = Endpoint::new(style, "http://localhost:8080/v1", "m", "k");
+        endpoint.reasoning = level.map(str::to_owned);
+        Live(endpoint).request("guide", "user", 10).2
+    }
+
+    #[test]
+    fn it_is_sent_only_when_the_endpoint_names_one() {
+        assert_eq!(body("openai", Some("high"))["reasoning_effort"], "high");
+        assert!(body("openai", None).get("reasoning_effort").is_none());
+        // The other request style has no such field.
+        assert!(
+            body("anthropic", Some("high"))
+                .get("reasoning_effort")
+                .is_none()
+        );
     }
 }

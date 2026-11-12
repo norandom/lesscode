@@ -308,6 +308,25 @@ fn load_endpoint_parses_env_file_with_comments() {
     let ep = regenerator::load_endpoint(Some(&env)).unwrap();
     assert_eq!(ep.host, "api.example.com");
     assert_eq!(ep.api_key(), "sk-secret");
+    assert_eq!(ep.reasoning, None);
+}
+
+#[test]
+fn load_endpoint_reads_an_optional_reasoning_level() {
+    let work = scratch("env-reasoning");
+    let env = work.join("model.env");
+    fs::write(
+        &env,
+        "LESSCODE_MODEL_API_STYLE=openai\n\
+         LESSCODE_MODEL_BASE_URL=http://localhost:8080/v1\n\
+         LESSCODE_MODEL_NAME=model-x\n\
+         LESSCODE_MODEL_API_KEY=k\n\
+         LESSCODE_MODEL_REASONING_EFFORT=high # optional\n",
+    )
+    .unwrap();
+    let ep = regenerator::load_endpoint(Some(&env)).unwrap();
+    assert_eq!(ep.reasoning.as_deref(), Some("high"));
+    assert_eq!(ep.model, "model-x");
 }
 
 #[test]

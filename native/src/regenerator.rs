@@ -552,6 +552,9 @@ pub struct Endpoint {
     pub base_url: String,
     pub model: String,
     pub host: String,
+    /// The reasoning level to ask for, where the endpoint file or the
+    /// environment names one (`LESSCODE_MODEL_REASONING_EFFORT`).
+    pub reasoning: Option<String>,
     key: String,
 }
 
@@ -588,6 +591,7 @@ impl Endpoint {
             } else {
                 host
             },
+            reasoning: None,
             key: key.into(),
         }
     }
@@ -613,39 +617,33 @@ pub const ENV_KEYS: [&str; 4] = [
     "LESSCODE_MODEL_API_KEY",
 ];
 
+/// Optional key: the reasoning level, for endpoints that take one.
+pub const REASONING_KEY: &str = "LESSCODE_MODEL_REASONING_EFFORT";
+
 pub fn load_endpoint(path: Option<&Path>) -> Result<Endpoint, String> {
-    let home_env = |()| -> PathBuf {
-        let home = std::env::var("USERPROFILE").or_else(|_| std::env::var("HOME"));
-        match home {
-            Ok(h) => Path::new(&h).join(".lesscode").join("model.env"),
-            Err(_) => PathBuf::from(".lesscode/model.env"),
-        }
-    };
-    let path = match path {
-        Some(p) => p.to_path_buf(),
-        None => match std::env::var("LESSCODE_MODEL_ENV") {
-            Ok(p) => PathBuf::from(p),
-            Err(_) => home_env(()),
+    let var = |k: &str| std::env::var(k).ok();
+    let path = match path
+        .map(Path::to_path_buf)
+        .or(var("LESSCODE_MODEL_ENV").map(PathBuf::from))
+    {
+        Some(p) => p,
+        None => match var("USERPROFILE").or(var("HOME")) {
+            Some(h) => Path::new(&h).join(".lesscode").join("model.env"),
+            None => PathBuf::from(".lesscode/model.env"),
         },
     };
     let text = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
-    let mut vals: Vec<(String, String)> = Vec::new();
-    for line in text.lines() {
-        let body = line.split('#').next().unwrap_or("").trim();
-        if body.is_empty() || !body.contains('=') {
-            continue;
-        }
-        let (k, v) = body.split_once('=').unwrap_or((body, ""));
-        let mut entry = |k: &str, v: &str| {
-            if let Some(e) = vals.iter_mut().find(|(ek, _)| ek == k) {
-                e.1 = v.trim().to_string();
-            } else {
-                vals.push((k.trim().to_string(), v.trim().to_string()));
-            }
-        };
-        entry(k.trim(), v);
-    }
-    let get = |k: &str| vals.iter().find(|(ek, _)| ek == k).map(|(_, v)| v.clone());
+    // Key and value of every `key = value` line, comments cut; a later line wins.
+    let vals: Vec<(&str, &str)> = text
+        .lines()
+        .filter_map(|line| line.split('#').next()?.split_once('='))
+        .map(|(k, v)| (k.trim(), v.trim()))
+        .collect();
+    let get = |k: &str| {
+        vals.iter()
+            .rfind(|(ek, _)| *ek == k)
+            .map(|(_, v)| v.to_string())
+    };
     let missing: Vec<&str> = ENV_KEYS
         .iter()
         .filter(|k| get(k).filter(|v| !v.is_empty()).is_none())
@@ -668,12 +666,21 @@ pub fn load_endpoint(path: Option<&Path>) -> Result<Endpoint, String> {
             py_repr(&J::str(style.clone()))
         ));
     }
-    Ok(Endpoint::new(
+    // The model and the reasoning level can be chosen per run: a value in the
+    // process environment stands before the one in the file.
+    let chosen = |k: &str| {
+        let set = var(k).map(|v| v.trim().to_string());
+        set.filter(|v| !v.is_empty())
+            .or_else(|| get(k).filter(|v| !v.is_empty()))
+    };
+    let mut endpoint = Endpoint::new(
         &style,
         &get(ENV_KEYS[1]).unwrap_or_default(),
-        &get(ENV_KEYS[2]).unwrap_or_default(),
+        &chosen(ENV_KEYS[2]).unwrap_or_default(),
         &get(ENV_KEYS[3]).unwrap_or_default(),
-    ))
+    );
+    endpoint.reasoning = chosen(REASONING_KEY);
+    Ok(endpoint)
 }
 
 // --- Request kwargs, schema and the receipt hash set ----------------------------
