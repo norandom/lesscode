@@ -1,0 +1,49 @@
+{
+ "facts": [
+  {
+   "apparatus": {
+    "regenerator.rs": "afd9717c1c47735e890e27d1ea1b9124d814e49274de4c51b44b0331545d3553"
+   },
+   "candidate_root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-o2",
+   "endpoint": {
+    "host": "api.openai.com",
+    "model": "gpt-6.1-sol",
+    "model_sha256": "dedfefd51120f28386c9dba78e46feb403523e23d67980cdf24514ee0b50b5ed",
+    "style": "openai"
+   },
+   "feedback_kind": null,
+   "frozen_scope": {
+    "src/mod.py": "6b450b456b325b6ba0e81355c773977c831cd1f7a40ab4abc31c6935e850ca6b"
+   },
+   "key": "o2-inputs",
+   "language": "python",
+   "preregistered_params": {
+    "effort": "high",
+    "max_tokens": 64000,
+    "rollout_id": 1,
+    "seed": null,
+    "temperature": null
+   },
+   "prompts": {
+    "system.txt": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "user.txt": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   },
+   "request": {
+    "D:\\BuildArtifacts\\lesscode\\model-seam\\request.json": "1d06538f2efb22cfda808cbddc089981bf5dd272377112ef55ea21bbe84db0dd"
+   },
+   "surface": "ab6b54e2978d53a10c1db5983b4712ee25ed937b2da8b7e3ba43f7a184da2fdb",
+   "time_utc": "2026-11-12T16:28:49.851087+00:00"
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-12T16:28:50.687802+00:00",
+   "key": "o2-failed",
+   "value": {
+    "reason": "openai transport: HTTP 400: {\n  \"error\": {\n    \"message\": \"Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.\",\n    \"type\": \"invalid_request_error\",\n    \"param\": \"max_tokens\",\n    \"code\": \"unsupported_parameter\"\n  }\n}",
+    "outcome": "failed",
+    "exit": 3
+   }
+  }
+ ]
+}

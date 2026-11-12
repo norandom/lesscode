@@ -14,6 +14,7 @@
 [R102](2026-11-12/09-product-path-two-models.md) is a probe after the owner's statement that packs are published once and that adopters must be able to run GLM or another model behind the tool.
 - **Turns:** `regenerate run` on a ten-line Python function. GLM 5.3 on the local endpoint: HTTP 429 after 652 s, not repeated. Mistral Large on Mistral's API: HTTP 400, temperature 0 refused; with a temperature given, the answer arrived as a list of parts and was thrown away (`KeyError: 'message'`).
 - **Also:** a failed turn prints nothing; the reason is only in the receipt.
+- **Amendment:** GLM 5.3 on Mistral's API answers within seconds and fails on the reply shape only; OpenAI's API refuses `max_tokens`. Mistral's temperature error is a rule of that API (temperature 0 needs `top_p` 1). `mistral-large-latest` is Mistral Large 4.0.
 - **Consequence:** requirements for a model seam: one client in the core, a check command for adopters, GLM and Mistral as first cases, the fence unchanged.
 
 ## Prior: R100 What GLM's admitted packs lack of the shipped pack's findings: almost only the call-argument kind, which the guide does not describe (2026-11-12)

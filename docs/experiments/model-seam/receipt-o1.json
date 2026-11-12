@@ -1,0 +1,49 @@
+{
+ "facts": [
+  {
+   "apparatus": {
+    "regenerator.rs": "afd9717c1c47735e890e27d1ea1b9124d814e49274de4c51b44b0331545d3553"
+   },
+   "candidate_root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-o1",
+   "endpoint": {
+    "host": "api.openai.com",
+    "model": "gpt-5.4-mini",
+    "model_sha256": "d416b3a370c3fd5c7a1f98932bed7b394e0f536653bd221f53fe6702e32d725f",
+    "style": "openai"
+   },
+   "feedback_kind": null,
+   "frozen_scope": {
+    "src/mod.py": "6b450b456b325b6ba0e81355c773977c831cd1f7a40ab4abc31c6935e850ca6b"
+   },
+   "key": "o1-inputs",
+   "language": "python",
+   "preregistered_params": {
+    "effort": "high",
+    "max_tokens": 64000,
+    "rollout_id": 1,
+    "seed": null,
+    "temperature": null
+   },
+   "prompts": {
+    "system.txt": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "user.txt": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   },
+   "request": {
+    "D:\\BuildArtifacts\\lesscode\\model-seam\\request.json": "2ffbcc3eb81892e6f1b1dfec111fb5b529613e9cb4f2c6c6c8c810a0049cab20"
+   },
+   "surface": "ab6b54e2978d53a10c1db5983b4712ee25ed937b2da8b7e3ba43f7a184da2fdb",
+   "time_utc": "2026-11-12T16:27:56.862833+00:00"
+  }
+ ],
+ "notes": [
+  {
+   "time_utc": "2026-11-12T16:27:58.462416+00:00",
+   "key": "o1-failed",
+   "value": {
+    "reason": "openai transport: HTTP 400: {\n  \"error\": {\n    \"message\": \"Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.\",\n    \"type\": \"invalid_request_error\",\n    \"param\": \"max_tokens\",\n    \"code\": \"unsupported_parameter\"\n  }\n}",
+    "outcome": "failed",
+    "exit": 3
+   }
+  }
+ ]
+}

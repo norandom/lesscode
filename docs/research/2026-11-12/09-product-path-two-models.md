@@ -75,6 +75,37 @@ Requirements to write, from this evidence:
 5. Unchanged: the core and the driver make no model call; whatever a model returns is used only after the
    checks.
 
+## Amendment: three more turns, a third vendor, and the temperature error explained (2026-11-12, 17:28)
+
+The owner asked about the Mistral error, pointed out that Mistral's API also offers GLM 5.3, and gave a
+temporary key for OpenAI's API.
+
+| Turn | Model, endpoint | Result | Reason in the receipt |
+| --- | --- | --- | --- |
+| g1 | GLM 5.3, Mistral's API | failed after 17 s | `KeyError: 'message'` |
+| g2 | the same, `--temperature 0.7` | failed after 6 s | `KeyError: 'message'` |
+| o1 | `gpt-5.4-mini`, OpenAI's API | failed after 2 s | HTTP 400, "'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead." |
+
+- The temperature error of turn m1, asked directly: on Mistral's API `mistral-large-latest` refuses
+  `temperature: 0` alone, accepts it together with `top_p: 1`, and accepts a request without a temperature.
+  So it is a rule of that API for that model (temperature 0 is "greedy sampling" and needs `top_p` 1), and
+  `regenerate` trips it because it always sends a temperature and never a `top_p`. GLM 5.3 on the same API
+  accepts temperature 0.
+- GLM 5.3 on Mistral's API answers a one-line request in 1 second, against 36 seconds on the local
+  endpoint at the time. The model answered in both turns; the answer was thrown away for its shape.
+- OpenAI's API refuses the request for a parameter name. Which OpenAI model an adopter would use was not
+  the question; a small one was taken for the probe.
+- The owner then named the OpenAI model to use: `gpt-6.1-sol` at reasoning level "medium". Turn o2 with it
+  fails as o1 did, on `max_tokens`. Asked directly, the model answers a request with
+  `max_completion_tokens` and `reasoning_effort: "medium"`, and refuses `temperature: 0` ("Only the default
+  (1) value is supported"). So on this model two of the parameters `regenerate` always sends are refused.
+- `mistral-large-latest` and `mistral-large-4` are the same model: Mistral's model record names it
+  "Mistral Large 4.0" with both as aliases. The doubt stated in R98's first amendment is settled.
+
+Four kinds of failure in six turns on three vendors: a rate limit not waited out, a sampling parameter
+sent unasked, a parameter name one vendor no longer takes, and a reply shape not read. Requirement 1 above
+gains one item: the name of the output limit parameter depends on the endpoint.
+
 ## COBESY check
 
 Outcome first: three failures, each with the endpoint's or the code's own words. What was expected
