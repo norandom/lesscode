@@ -1,6 +1,8 @@
 # R97: Result. The reasoning level helps the second model but does not close the gap; what remains is node kinds the model has to recall
 
-- Report date/time and timezone: 2026-11-12, 13:20, Europe/Berlin (UTC+1)
+- Report date/time and timezone: 2026-11-12, 13:07, Europe/Berlin (UTC+1)
+  (Corrected 2026-11-12 from commit times; first written as 13:20, and the amendment below as 13:50,
+  both estimates.)
 - Execution interval: 2026-11-12, 10:24 to 13:06
 - Status: complete
 - Spec: [constraint-guided-compression](../../../.kiro/specs/constraint-guided-compression/requirements.md),
@@ -16,7 +18,7 @@ the grammar's list of node kinds for the target language, and a repair turn name
 reasoning level "high" becomes the setting for Mistral. No model is chosen yet: the same run has to be
 repeated with the kind list in the request before Mistral, GLM and Opus can be compared on what is left.
 
-Amendment, 2026-11-12, 13:50: this decision was written without reading
+Amendment, 2026-11-12, 13:27: this decision was written without reading
 [R78](../2026-11-11/04-slice-b-node-kinds-result.md), which had already tested the node kind list on this
 model and did not adopt it. The decision is withdrawn in the form above; see "Amendment after reading R78"
 at the end. The measurements and verdicts of this entry are not affected.
@@ -121,7 +123,7 @@ list in the request, for Mistral at "high" and GLM at "high". Threshold to state
 Opus level, and the remaining rejections are controls, not names. Rust stays a separate question, since
 Opus fails it as well.
 
-## Amendment after reading R78 (2026-11-12, 13:50)
+## Amendment after reading R78 (2026-11-12, 13:27)
 
 The consequence above proposes the node kind list as if it were new. It is not. R78 (2026-11-11) gave
 Mistral Large 4 the list: first replies naming a kind the grammar lacks fell from 10 to 1 of 20, first

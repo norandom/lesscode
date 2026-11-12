@@ -1,6 +1,8 @@
 # R98: Preregistration. Packs admitted in the end with repair turns, at "high" and 64,000 tokens, with and without the node kind list
 
-- Report date/time and timezone: 2026-11-12, 14:25, Europe/Berlin (UTC+1)
+- Report date/time and timezone: 2026-11-12, 13:31, Europe/Berlin (UTC+1)
+  (Corrected 2026-11-12 from the commit time; first written as 14:25, an estimate. A first start at 13:31
+  failed on the run script's arguments before any call was made.)
 - Execution interval: not run at the time of writing
 - Status: planned
 - Spec: [constraint-guided-compression](../../../.kiro/specs/constraint-guided-compression/requirements.md),
