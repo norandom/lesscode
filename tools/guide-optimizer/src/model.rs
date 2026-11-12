@@ -157,7 +157,8 @@ const SCRIPTED_HINT: &str = "Check every field against the examples before answe
 /// A stand-in that makes no call. It answers a reflection request with the
 /// current guide plus one sentence, and an authoring request with the shipped
 /// pack of the language when the guide has that sentence and with a weakened
-/// pack when it has not. For checking the plumbing only.
+/// pack when it has not; a repair request is answered with the shipped pack.
+/// For checking the plumbing only.
 pub struct Scripted {
     pub packs: PathBuf,
 }
@@ -173,11 +174,11 @@ impl Model for Scripted {
             .then(|| user.rsplit_once("Write the pack for: "))
             .flatten();
         let text = match asked {
-            Some((_, language)) => {
-                let shipped =
-                    std::fs::read_to_string(self.packs.join(format!("{}.json", language.trim())))
-                        .map_err(|e| e.to_string())?;
-                if system.contains(SCRIPTED_HINT) {
+            Some((_, rest)) => {
+                let language = rest.lines().next().unwrap_or_default().trim();
+                let shipped = std::fs::read_to_string(self.packs.join(format!("{language}.json")))
+                    .map_err(|e| e.to_string())?;
+                if system.contains(SCRIPTED_HINT) || rest.contains("Why it was rejected:") {
                     shipped
                 } else {
                     // Without the hint the stand-in forgets how failures are rewritten.

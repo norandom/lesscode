@@ -91,6 +91,12 @@ struct Args {
     /// With --judge-only: the languages to call, one entry per call; default --final-runs of each.
     #[arg(long, value_delimiter = ',')]
     judge_list: Vec<String>,
+    /// With --judge-only: repair calls allowed after a rejected first reply.
+    #[arg(long, default_value_t = 0)]
+    repairs: usize,
+    /// With --judge-only: add the grammar's node kind names to the request.
+    #[arg(long)]
+    node_kinds: bool,
     /// The repository root.
     #[arg(long, default_value = concat!(env!("CARGO_MANIFEST_DIR"), "/../.."))]
     repo: PathBuf,
@@ -138,7 +144,8 @@ fn profile(trials: &[Trial], guide: &str) -> Value {
             let behaviours: BTreeSet<&str> = rows.iter().filter_map(|t| t.record["behaviour"].as_str()).filter(|b| !b.is_empty()).collect();
             let tokens: u64 = rows.iter().map(|t| t.record["output_tokens"].as_u64().unwrap_or(0)).sum();
             let value = json!({
-                "trials": rows.len(), "admitted": count("admitted"), "same_as_shipped": count("same"),
+                "trials": rows.len(), "admitted": count("admitted"), "first_admitted": count("first_admitted"),
+                "same_as_shipped": count("same"),
                 "distinct_behaviours": behaviours.len(), "mean_output_tokens": tokens / rows.len().max(1) as u64,
             });
             (*language, value)
@@ -276,6 +283,7 @@ fn run(args: Args) -> Result<(), String> {
         };
         let mut judge = Authoring::new(metered.clone(), languages.clone(), train, val, rules);
         judge.max_tokens = (args.max_tokens[0], args.max_tokens[1]);
+        (judge.repairs, judge.node_kinds) = (args.repairs, args.node_kinds);
         let trials = judge.run("final", &guide, &list);
         let lines: Vec<String> = trials
             .iter()
@@ -290,6 +298,7 @@ fn run(args: Args) -> Result<(), String> {
         let (spent, calls) = metered.spent();
         let summary = json!({
             "receipt": "slice-b-guide-judgement-v1", "preregistration": "R70", "dry_run": args.dry_run, "model": name,
+            "repairs": args.repairs, "node_kinds": args.node_kinds,
             "judged": profile(&trials, &guide), "calls": calls, "spent_usd": (spent * 100.0).round() / 100.0,
         });
         let text = serde_json::to_string_pretty(&summary).map_err(|e| e.to_string())?;

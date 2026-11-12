@@ -378,6 +378,7 @@ dependencies = [
 name = "guide-optimizer"
 version = "0.0.0"
 dependencies = [
+ "ast-grep-core",
  "clap",
  "dsrust-gepa",
  "dsrust-tpe",

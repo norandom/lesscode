@@ -119,7 +119,20 @@ pub struct Authoring {
     pub rejected: Arc<Mutex<Vec<Value>>>,
     /// Output limits of an authoring call and of a reflection call.
     pub max_tokens: (u64, u64),
+    /// Repair calls allowed after a rejected first reply.
+    pub repairs: usize,
+    /// Whether the request carries the grammar's node kind names.
+    pub node_kinds: bool,
     last: Vec<Trial>,
+}
+
+/// The request for a repair: the first request, the rejected pack and why.
+fn repair_request(request: &str, pack: &str, feedback: &[String]) -> String {
+    format!(
+        "{request}\n\nA previous answer to this request was rejected.\n\nThe rejected pack:\n{pack}\n\n\
+         Why it was rejected:\n- {}\n\nWrite the corrected pack.",
+        feedback.join("\n- ")
+    )
 }
 
 impl Authoring {
@@ -139,52 +152,90 @@ impl Authoring {
             log: Arc::default(),
             rejected: Arc::default(),
             max_tokens: DEFAULT_MAX_TOKENS,
+            repairs: 0,
+            node_kinds: false,
             last: Vec::new(),
         }
     }
 
+    /// One authoring call and its judgement: reply, verdict, tokens, stop reason.
+    fn attempt(
+        &self,
+        guide: &str,
+        task: &Language,
+        user: &str,
+    ) -> (String, Verdict, (u64, u64), String) {
+        match self.model.chat("author", guide, user, self.max_tokens.0) {
+            Err(e) => (
+                String::new(),
+                failed(format!("no reply: {e}")),
+                (0, 0),
+                if e.starts_with("not run") {
+                    "not_run"
+                } else {
+                    "error"
+                }
+                .to_owned(),
+            ),
+            Ok(reply) if reply.stop_reason == "refusal" => (
+                reply.text,
+                failed("the request was refused".into()),
+                (reply.input_tokens, reply.output_tokens),
+                "refusal".to_owned(),
+            ),
+            Ok(reply) => {
+                let mut verdict = judge(task, &pack_text(&reply.text));
+                if matches!(reply.stop_reason.as_str(), "max_tokens" | "length") {
+                    verdict = failed("the reply was cut off before the pack was complete".into());
+                }
+                (
+                    reply.text,
+                    verdict,
+                    (reply.input_tokens, reply.output_tokens),
+                    reply.stop_reason,
+                )
+            }
+        }
+    }
+
+    /// A first call and, while the pack is rejected, at most `repairs` more.
+    /// A repair is a fresh call that shows the rejected pack and the reasons;
+    /// where no pack arrived, the request is sent again as it was.
     fn one(&self, phase: &str, guide: &str, language: &str) -> Trial {
         let task = &self.languages[language];
-        let (reply, verdict, tokens, stop) =
-            match self
-                .model
-                .chat("author", guide, &task.request, self.max_tokens.0)
-            {
-                Err(e) => (
-                    String::new(),
-                    failed(format!("no reply: {e}")),
-                    (0, 0),
-                    if e.starts_with("not run") {
-                        "not_run"
-                    } else {
-                        "error"
-                    }
-                    .to_owned(),
-                ),
-                Ok(reply) if reply.stop_reason == "refusal" => (
-                    reply.text,
-                    failed("the request was refused".into()),
-                    (reply.input_tokens, reply.output_tokens),
-                    "refusal".to_owned(),
-                ),
-                Ok(reply) => {
-                    let mut verdict = judge(task, &pack_text(&reply.text));
-                    if matches!(reply.stop_reason.as_str(), "max_tokens" | "length") {
-                        verdict =
-                            failed("the reply was cut off before the pack was complete".into());
-                    }
-                    (
-                        reply.text,
-                        verdict,
-                        (reply.input_tokens, reply.output_tokens),
-                        reply.stop_reason,
-                    )
-                }
+        let request = if self.node_kinds {
+            format!("{}\n\n{}", task.request, task.kinds)
+        } else {
+            task.request.clone()
+        };
+        let (mut reply, mut verdict, mut tokens, mut stop) = self.attempt(guide, task, &request);
+        let mut attempts = vec![json!({
+            "admitted": verdict.admitted, "stop_reason": stop, "input_tokens": tokens.0,
+            "output_tokens": tokens.1, "feedback": verdict.feedback,
+        })];
+        while !verdict.admitted
+            && attempts.len() <= self.repairs
+            && !matches!(stop.as_str(), "not_run" | "refusal")
+        {
+            let pack = pack_text(&reply);
+            let user = if pack.is_empty() || stop != "stop" && stop != "end_turn" {
+                request.clone()
+            } else {
+                repair_request(&request, &pack, &verdict.feedback)
             };
+            let (text, next, used, why) = self.attempt(guide, task, &user);
+            attempts.push(json!({
+                "admitted": next.admitted, "stop_reason": why, "input_tokens": used.0,
+                "output_tokens": used.1, "feedback": next.feedback,
+            }));
+            tokens = (tokens.0 + used.0, tokens.1 + used.1);
+            (reply, verdict, stop) = (text, next, why);
+        }
         let record = json!({
             "phase": phase, "guide": guide_id(guide), "language": language, "score": verdict.score,
             "admitted": verdict.admitted, "same": verdict.same, "behaviour": verdict.behaviour,
             "input_tokens": tokens.0, "output_tokens": tokens.1, "stop_reason": stop, "feedback": verdict.feedback,
+            "first_admitted": attempts[0]["admitted"], "attempts": attempts,
         });
         Trial {
             phase: phase.to_owned(),
@@ -330,5 +381,19 @@ impl GepaAdapter for Authoring {
             return Err(format!("the proposed guide was discarded: {reason}"));
         }
         Ok(Candidate::from([(COMPONENT.to_owned(), proposed)]))
+    }
+}
+
+#[cfg(test)]
+mod repair {
+    use super::*;
+
+    #[test]
+    fn the_request_shows_the_pack_and_every_reason() {
+        let text = repair_request("Write the pack for: java", "{}", &["a".into(), "b".into()]);
+        assert!(text.starts_with("Write the pack for: java\n"));
+        assert!(text.contains("The rejected pack:\n{}\n"));
+        // The scripted stand-in recognises a repair by this line.
+        assert!(text.contains("Why it was rejected:\n- a\n- b\n"));
     }
 }

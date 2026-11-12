@@ -3,6 +3,7 @@
 //! (the minimum barrier) and, when admitted, by whether its mutants on the
 //! gate scopes equal the shipped pack's.
 
+use ast_grep_core::tree_sitter::LanguageExt;
 use lesscode_core::adapters::driver::admission::admit;
 use lesscode_core::adapters::driver::controls::{Case, ControlFile, replay, seed_mutants};
 use lesscode_core::adapters::driver::operators::mutants;
@@ -10,9 +11,10 @@ use lesscode_core::adapters::driver::pack::Pack;
 use lesscode_core::adapters::driver::registry::embedded;
 use lesscode_core::adapters::driver::sites::eligible_sites;
 use lesscode_core::adapters::driver::source::SourceSet;
+use lesscode_core::adapters::driver::tree::grammar;
 use lesscode_core::specimen_runner::sha256_hex_bytes;
 use serde_json::{Value, json};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 
 /// One control set with its source tree; `shipped` holds the shipped pack's
@@ -28,7 +30,24 @@ pub struct Language {
     pub name: String,
     /// The user message of an authoring request, with the example packs.
     pub request: String,
+    /// The named node kinds of the language's grammar, as a paragraph that
+    /// can follow the request.
+    pub kinds: String,
     pub scopes: Vec<Scope>,
+}
+
+/// The named, visible node kinds of a compiled-in grammar, sorted.
+fn node_kinds(language: &str) -> Result<String, String> {
+    let grammar = grammar(language)?.get_ts_language();
+    let kinds: BTreeSet<&str> = (0..grammar.node_kind_count() as u16)
+        .filter(|id| grammar.node_kind_is_named(*id) && grammar.node_kind_is_visible(*id))
+        .filter_map(|id| grammar.node_kind_for_id(id))
+        .collect();
+    let names: Vec<&str> = kinds.into_iter().collect();
+    Ok(format!(
+        "The named node kinds of the {language} grammar; no other name is valid:\n{}",
+        names.join(", ")
+    ))
 }
 
 pub struct Verdict {
@@ -123,6 +142,7 @@ pub fn load_languages(repo: &Path) -> Result<BTreeMap<String, Language>, String>
                 Language {
                     name: language.to_owned(),
                     request,
+                    kinds: node_kinds(language)?,
                     scopes: Vec::new(),
                 },
             );
