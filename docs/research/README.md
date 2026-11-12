@@ -9,7 +9,7 @@
 - **Admitted first replies of 20:** 3, 2, 8 and 8, against 15 for Opus. The threshold of 10 at "high" was missed by both models.
 - **What moved it:** the reasoning level (2 to 8). The output limit removed every cut-off reply and admitted nothing more.
 - **What remains:** every rejection of Mistral at "high" names a node kind the grammar does not have. No Rust or Java pack was admitted in any arm; Java is where the cheaper models differ from Opus.
-- **Consequence:** the authoring request gets the grammar's node kind names, and a repair turn returns the invalid ones. Names are data the tool has, not something to recall.
+- **Consequence, amended the same day:** the entry first proposed the node kind list as new; R78 had tested it on this model and not adopted it (names right, controls fail). What R78 showed to work is the repair turn. Next gate: packs admitted in the end with repair turns at "high" and 64,000 tokens, with and without the list.
 - **Amendment:** the endpoint refused 17 calls with HTTP 429; the tool now waits a rate limit out, and those trials were run again.
 
 ## Prior: R95 A second Python step with a frame specification; a wrong prediction; the test suite fills the temp folder (2026-11-12)
