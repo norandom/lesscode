@@ -1,0 +1,36 @@
+{
+  "feature_name": "model-seam",
+  "created_at": "2026-11-12T17:45:00+01:00",
+  "updated_at": "2026-11-12T17:49:00+01:00",
+  "language": "en",
+  "phase": "requirements-generated",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": false
+    },
+    "design": {
+      "generated": false,
+      "approved": false
+    },
+    "tasks": {
+      "generated": false,
+      "approved": false
+    }
+  },
+  "ready_for_implementation": false,
+  "prototype_gate": "brief.md",
+  "prototype_status": "first part shown (R103); library comparison, five-platform build and wait estimate open",
+  "related": [
+    "constraint-guided-compression",
+    "deconvolution-loop",
+    "refinement-evidence-integrity",
+    "gradual-refactoring-steps"
+  ],
+  "evidence": [
+    "docs/research/2026-11-12/06-repair-gate-result.md",
+    "docs/research/2026-11-12/09-product-path-two-models.md",
+    "docs/research/2026-11-12/10-model-seam-library-prototype.md"
+  ],
+  "notes": "2026-11-12: owner statements: language packs are published once and not regenerated; adopters must be able to run GLM or another model behind the tool; core and driver model agnostic, fence because inference is not deterministic; use an existing model library; preferred solution is horizontal compatibility with an estimated wait time; include the internal endpoint on localhost. Discovery brief written and the owner said 'go ahead' to requirements. Requirements generated 2026-11-12, not approved; four open points for the owner are listed at the top of requirements.md."
+}
