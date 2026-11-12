@@ -108,8 +108,8 @@ one port (the call); the library behind it is an implementation detail.
 
 | Concern | Choice | Status |
 | --- | --- | --- |
-| Client library | `genai` 0.7.4 (MIT or Apache-2.0), pinned | candidate; gate P1 compares one alternative |
-| TLS | the library's `rustls` option, or the platform's TLS through its `native-tls` option | decided by gate P2 |
+| Client library | `genai` 0.7.4 (MIT or Apache-2.0), pinned | chosen; gate P1 passed, the alternative `llm` 1.3.8 failed (R105) |
+| TLS | the library's default (`rustls`); the platform's TLS (`native-tls`) builds as well | gate P2 (R106) |
 | Async runtime | `tokio`, current-thread, created inside the seam's blocking functions; no async in any public signature | follows from the library |
 | Process protocol | JSON on standard input and output, notices on standard error | this design |
 | Language, lints, tests | Rust 1.98.1, `clippy`, `cargo-nextest`, as the core | project standard |
@@ -308,8 +308,10 @@ pub struct Terminal;                                   // writes to standard err
 - A refusal is waited out when its status says "too many requests" or "service unavailable". Anything
   else is a failure.
 - The estimate, in this order: a wait the endpoint states in its reply's headers; a number of seconds the
-  endpoint states in its message; otherwise the next step of a schedule that starts at ten seconds and
-  doubles. An estimate is never below the longest wait that failed in this call.
+  endpoint states in its message; otherwise a first step of ten seconds. The wait actually made is the
+  larger of that and twice the wait that has just failed in this call, so a stated wait that proves
+  untrue is not repeated until the limit (shown on a stub in
+  [R106](../../../docs/research/2026-11-12/13-model-seam-gate-p2-p3.md)).
 - Before each wait: `waiting`. While an accepted call runs longer than twice the median of the earlier
   calls of this process, or longer than 60 seconds when there is none: `still_running` every 30 seconds.
 - When the waits of one call exceed `total_seconds`: `CallError::WaitLimit`.

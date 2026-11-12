@@ -8,7 +8,15 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R105 Gate P1 of the model seam: one library completes all six first cases; the alternative fails the way our own client did (2026-11-12)
+## Latest: R106 Gates P2 and P3 of the model seam: the library builds for five targets; a wait is recognised and announced on a stub (2026-11-12)
+
+[R106](2026-11-12/13-model-seam-gate-p2-p3.md) continues the prototype gate of `model-seam`.
+- **P2 passes:** the prototype with the library builds with locked dependencies for the five release targets, with either TLS option; ten jobs, all succeeded.
+- **P3 on a stub passes:** a wait stated in a header or in the message is found, otherwise a schedule; each wait is announced; the limit ends it; an ordinary refusal is not waited out. **Live part not met:** 38 calls at once to the local endpoint were all answered.
+- **Design:** the wait made is the larger of the stated wait and twice the one that just failed.
+- **Open:** P4, the core through the process boundary.
+
+## Prior: R105 Gate P1 of the model seam: one library completes all six first cases; the alternative fails the way our own client did (2026-11-12)
 
 [R105](2026-11-12/12-model-seam-gate-p1.md) runs the first assumption of the [prototype gate](../../.kiro/specs/model-seam/prototype-gate.md) of the spec `model-seam` (requirements approved, design provisional).
 - **`genai` 0.7.4:** GLM 5.3 and Mistral Large on Mistral's API, `gpt-6.1-sol` on OpenAI's, `claude-opus-5-5` on Anthropic's, and GLM 5.3 and Mistral Large on the local endpoint all complete the turn. A refusal's status, body and headers are reachable.

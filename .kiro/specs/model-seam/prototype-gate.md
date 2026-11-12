@@ -61,4 +61,10 @@ Not assessed as a whole.
 - P1, 2026-11-12: **passes** for `genai` 0.7.4 on all six first cases; a refusal's status, body and
   headers are reachable. The alternative `llm` 1.3.8 completes none of the five OpenAI-style cases.
   [R105](../../../docs/research/2026-11-12/12-model-seam-gate-p1.md).
-- P2, P3, P4: not run.
+- P2, 2026-11-12: **passes**. Five targets, each with the library's `rustls` option and with the
+  platform's TLS: ten builds, all succeeded (workflow run 43275325942 on the branch `model-seam-gate-p2`).
+  [R106](../../../docs/research/2026-11-12/13-model-seam-gate-p2-p3.md).
+- P3, 2026-11-12: **passes on the stub** (five scripted cases). Its live condition is **not met**: no
+  refusal could be provoked on the local endpoint with 38 calls at once. Kept open; to be closed when a
+  long run meets a rate limit. R106.
+- P4: not run.
