@@ -28,7 +28,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
 ## Tasks
 
 - [ ] 1. The seam crate and one call
-- [ ] 1.1 Crate, data of a call, and a call that works against a stub endpoint
+- [x] 1.1 Crate, data of a call, and a call that works against a stub endpoint
   - `model/` as its own crate with its own lock file, the client library pinned; `request.rs` and
     `client.rs` as designed; the endpoint read by the core's `load_endpoint`.
   - `tests/stub_endpoint.rs`: a local stub service scripted per test (from the gate's prototype).
