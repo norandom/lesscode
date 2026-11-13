@@ -4,6 +4,10 @@ Generated 2026-11-12 (Europe/Berlin) from the approved [requirements](requiremen
 Revised 2026-11-12 after the [prototype gate](prototype-gate.md) was assessed as `proceed` (R105, R106, R107).
 Approved by the owner on 2026-11-12, 20:16. Discovery log: [research.md](research.md).
 
+**Amendment 1, 2026-11-13 (owner decision, requirements Amendment 2).** The component Measure is added:
+an indicator of a configured model against a task set, with a verdict on whether the model is good enough
+direct, good enough with the repair loop, or not good enough as is. Nothing else in the design changes.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the
@@ -134,7 +138,10 @@ model/
     repair.rs           the repair loop around a caller's check
     check.rs            the fixed task of the check command and its judgement by the core's checks
     protocol.rs         JSON forms of the call and check commands; exit codes
-    main.rs             command line: call, check
+    measure.rs          trials over a task set, the indicator, the verdict rule
+    taskset.rs          a task set and its check; the built-in set and its files
+    main.rs             command line: call, check, measure
+  tasks/                the built-in task set: four small modules with their requests
   tests/
     stub_endpoint.rs    a local stub service for refusals, stated waits, parts, cut-off, silence
     call.rs             requirement 2 against the stub
@@ -142,6 +149,7 @@ model/
     failures.rs         requirement 4 and the key never shown
     repair.rs           requirement 6 with scripted replies
     check_command.rs    requirement 5 through the binary
+    measure.rs          requirement 10 with scripted replies and through the binary
     live.rs             the first cases, run only when an endpoint file is named in the environment
 ```
 
@@ -229,6 +237,10 @@ to `parse_result` and the existing checks. The receipt is written by the core as
 | 8.3, 8.4 | the launcher returns `Sent`; the receipt's call fact is built from it |
 | 8.6 | the functions that verify earlier receipts (`request_kwargs`, `hash_set`) stay; the replay test stays |
 | 9.1, 9.2, 9.3, 9.4 | `record.rs` |
+| 10.1, 10.2, 10.3, 10.7, 10.9, 10.12, 10.13 | `measure.rs`: trials through `repair.rs`, counts, cost per accepted answer, trials not run |
+| 10.4, 10.5, 10.6, 10.8 | `measure.rs`: the verdict rule, one function over the counts |
+| 10.10, 10.11 | `taskset.rs`: the built-in set and the form a caller supplies |
+| 10.14, 10.15 | `main.rs measure`: exit codes; trials run in a temporary directory |
 
 ## Components and Interfaces
 
@@ -243,6 +255,7 @@ to `parse_result` and the existing checks. The receipt is written by the core as
 | CheckCommand | seam, command line | Is this endpoint usable | 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 7.5 | model/src/check.rs, model/src/main.rs |
 | ProcessProtocol | seam, command line | One request in, one reply out, exit codes | 4.4 | model/src/protocol.rs, model/src/main.rs |
 | Launcher | core | Start the executable for a model request | 7.2, 8.1, 8.3, 8.4, 8.5 | native/src/seam.rs |
+| Measure | seam, command line | The indicator of a model against a task set, and its verdict | 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9, 10.10, 10.11, 10.12, 10.13, 10.14, 10.15 | model/src/measure.rs, model/src/taskset.rs, model/src/main.rs |
 
 ### Call data
 
@@ -397,6 +410,76 @@ Files: `check.rs`, `main.rs`.
 - Exit codes: 0 usable; 3 the endpoint failed; 4 the reply was rejected by the check; 2 usage.
 - Writes nothing in the current directory.
 
+### Measure
+
+Files: `measure.rs`, `taskset.rs`, `main.rs`. Added 2026-11-13 with requirements Amendment 2.
+
+The question it answers: is this model good enough for this kind of task, alone or with the repair loop,
+or does more have to be built around it. "Good enough" has no meaning without a task set and its check,
+so both are named in every report.
+
+```rust
+pub struct Task { pub id: String, pub request: CallRequest }
+pub struct TaskSet {
+    pub name: String,
+    pub check_name: String,
+    pub tasks: Vec<Task>,
+}
+
+pub struct Counts {
+    pub trials: u32,
+    pub not_run: u32,          // a call failed for a reason of the endpoint
+    pub first_passed: u32,     // the first reply passed the check
+    pub passed: u32,           // passed within the repairs allowed
+    pub calls: u32,
+    pub output_tokens: u64,
+    pub seconds: f64,          // waits included
+}
+
+pub enum Verdict {
+    GoodEnoughDirect,          // first_passed / run >= 3/4
+    GoodEnoughWithRepair,      // else passed / run >= 9/10
+    NotGoodEnoughAsIs,         // else; an optimiser around the instruction is indicated
+    // quick mode only
+    GoodEnoughSoFar,           // all five passed
+    NotGoodEnough,             // at most two passed
+    Undecided,
+    NoVerdict { why: String }, // more than one fifth of the trials not run
+}
+
+pub fn verdict(counts: &Counts, quick: bool) -> Verdict;
+
+pub fn measure(
+    call: &mut dyn FnMut(&CallRequest) -> Result<Reply, CallError>,
+    set: &TaskSet,
+    check: &mut dyn FnMut(&Task, &str) -> crate::repair::Verdict,
+    trials: u32,               // spread evenly over the tasks of the set
+    repairs: usize,
+) -> Counts;
+```
+
+- A trial is `with_repairs` on one task. Rates are taken over the trials that ran.
+- `verdict` is a pure function of the counts; the thresholds are two constants beside it, with the runs
+  they come from named in a comment.
+- The built-in set: four small Python modules, each with a request in the form of a regenerate turn and a
+  stated target, checked by the core's `parse_result`, `prepare_candidate` and `evaluate_tier1_static`.
+  Graded: one that every model tried so far passes at once (the function of R102), one with a public
+  name that must survive, one with a statement target that a careless rewrite misses, one with state
+  spread over two functions. Twenty trials are five of each.
+- A caller's set: the next spec supplies requests that ask for a simplification and the step flow as the
+  check; `measure` is the same.
+- `lesscode-model measure --endpoint-env FILE [--trials N] [--quick] [--task-set DIR] [--out FILE]`
+  prints the task set, the check, the model, the counts with their rates, calls, output tokens and time
+  per accepted answer, and the verdict; `--out` writes the same as JSON. Exit codes: 0 for the three
+  "good enough" verdicts; 4 for "not good enough", "not good enough as is" and "undecided"; 3 for no
+  verdict; 2 usage. Trials run in a temporary directory.
+- What the verdict means for "a DSPy-style algorithm around the model": the repair loop is the smallest
+  such algorithm and is always available. "Good enough direct" says it is rarely needed; "good enough
+  with the repair loop" says it is needed and sufficient; "not good enough as is" says to try an optimiser
+  around the instruction (`tools/guide-optimizer`) and to measure its result with this same command. The
+  runs of 2026-11-10 to 2026-11-12 show both outcomes of that: it lifted one model and did nothing for
+  another.
+
 ### Process protocol
 
 Files: `protocol.rs`, `main.rs`.
@@ -470,6 +553,12 @@ Monitoring is the record of calls; nothing is sent anywhere else.
 - **Check command** (`tests/check_command.rs`): through the binary against the stub: usable, refused,
   rejected; exit codes; at most three requests seen by the stub (5.6); no file in the working directory
   (5.7).
+- **Measure** (`tests/measure.rs`): the verdict rule at and around each threshold (15 and 14 of 20 first
+  replies; 18 and 17 of 20 passed; the three quick outcomes; five of twenty not run gives no verdict)
+  (10.4 to 10.6, 10.8, 10.13); with scripted replies, counts and cost per accepted answer (10.1 to 10.3),
+  an endpoint failure counted as not run (10.12); through the binary against the stub: the report names
+  task set, check, model and trials (10.9), exit codes (10.14), a supplied task set (10.11), no file in
+  the working directory (10.15).
 - **Core** (`native/tests/regenerator.rs`): `regenerate run` with a scripted executable in place of
   `lesscode-model`; the receipt states what the executable reported as sent and nothing else (8.3, 8.4);
   a failed turn's reason on standard error (8.5); the executable missing (7.2 message); the recorded

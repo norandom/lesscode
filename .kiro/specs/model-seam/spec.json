@@ -1,7 +1,7 @@
 {
   "feature_name": "model-seam",
   "created_at": "2026-11-12T17:45:00+01:00",
-  "updated_at": "2026-11-12T20:18:00+01:00",
+  "updated_at": "2026-11-13T14:20:00+01:00",
   "language": "en",
   "phase": "tasks-generated",
   "approvals": {
@@ -15,10 +15,10 @@
     },
     "tasks": {
       "generated": true,
-      "approved": false
+      "approved": true
     }
   },
-  "ready_for_implementation": false,
+  "ready_for_implementation": true,
   "prototype_gate": "prototype-gate.md",
   "prototype_status": "proceed",
   "related": [
@@ -35,5 +35,5 @@
     "docs/research/2026-11-12/13-model-seam-gate-p2-p3.md",
     "docs/research/2026-11-12/14-model-seam-gate-p4.md"
   ],
-  "notes": "2026-11-12: owner statements: language packs are published once and not regenerated; adopters must be able to run GLM or another model behind the tool; core and driver model agnostic, fence because inference is not deterministic; use an existing model library; preferred solution is horizontal compatibility with an estimated wait time; include the internal endpoint on localhost. Discovery brief written and the owner said 'go ahead' to requirements. Requirements generated 2026-11-12 and approved by the owner the same day (\"approved\"), including the four proposed points: the estimate is of a call's wait, not of a whole run; ten minutes total wait per call unless set otherwise; at most two repairs; the check command makes at most three calls. Provisional design, research log and prototype gate (P1 to P4) written the same day; design approval pending the gate; two open decisions for the owner in the design's contradiction table (rows 1 and 5), both decided as proposed. Prototype gate run the same day and assessed as proceed (R105 to R107), with two items carried into implementation. Revised design approved by the owner on 2026-11-12 (\"approved\")."
+  "notes": "2026-11-12: owner statements: language packs are published once and not regenerated; adopters must be able to run GLM or another model behind the tool; core and driver model agnostic, fence because inference is not deterministic; use an existing model library; preferred solution is horizontal compatibility with an estimated wait time; include the internal endpoint on localhost. Discovery brief written and the owner said 'go ahead' to requirements. Requirements generated 2026-11-12 and approved by the owner the same day (\"approved\"), including the four proposed points: the estimate is of a call's wait, not of a whole run; ten minutes total wait per call unless set otherwise; at most two repairs; the check command makes at most three calls. Provisional design, research log and prototype gate (P1 to P4) written the same day; design approval pending the gate; two open decisions for the owner in the design's contradiction table (rows 1 and 5), both decided as proposed. Prototype gate run the same day and assessed as proceed (R105 to R107), with two items carried into implementation. Revised design approved by the owner on 2026-11-12 (\"approved\"). 2026-11-13: owner said \"we proceed with the model seam\" (tasks approved) and asked for an indicator of the driving model's performance, a measure of inference being good enough and a way to tell whether a DSPy-style algorithm is needed around a model; decided by menu: three verdict levels, twenty trials with a quick mode of five, a generic measure with a small built-in task set. Requirement 10, the design component Measure and tasks 4.3 and 5.3 added."
 }

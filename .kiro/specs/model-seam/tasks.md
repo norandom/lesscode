@@ -1,6 +1,7 @@
 # Implementation Plan: the model seam
 
-Generated 2026-11-12. Not approved.
+Generated 2026-11-12. **Approved by the owner on 2026-11-13** ("we proceed with the model seam"), with
+tasks 4.3 and 5.3 added the same day for the indicator the owner asked for (requirements Amendment 2).
 Basis: [requirements](requirements.md) (approved 2026-11-12, with Amendment 1) and [design](design.md)
 (approved 2026-11-12); prototype gate `proceed`
 ([R105](../../../docs/research/2026-11-12/12-model-seam-gate-p1.md),
@@ -19,7 +20,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
 - Each group ends with the budgets check passing for every new file at the default ceilings (2,800 tokens,
   300 units, 560 tokens per function), a dated research entry where a result or a deviation exists, and
   `.kiro/task_N_handover.md`. A file over budget is split, not exempted.
-- The two items the gate carried forward are tasks 5.2 and 7.3. Either can fail; a failure is recorded and
+- The two items the gate carried forward are tasks 5.2 and 7.3. Task 5.3 can fail as well (a task set
+  that does not tell models apart). Either can fail; a failure is recorded and
   goes back to the design before the group is closed.
 - Groups 1 to 5 change nothing in `native/`. Group 7 is the only one that changes the core.
 
@@ -101,6 +103,20 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Depends: 3_
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 7.5_
 
+- [ ] 4.3 `measure`: is this model good enough, direct or with the repair loop
+  - `measure.rs`: trials over a task set through the repair loop, the counts, cost per accepted answer,
+    trials not run; the verdict rule as one function with its two thresholds. `taskset.rs`: the form of a
+    task set and its check, and the built-in set of four small modules under `model/tasks/`.
+  - `main.rs measure`: the report (task set, check, model, trials, counts with rates, cost, verdict),
+    `--quick`, `--trials`, a supplied task set, `--out`, exit codes; trials in a temporary directory.
+  - Done when `tests/measure.rs` passes: the rule at and around each threshold, the quick outcomes, no
+    verdict when more than a fifth of the trials did not run, an endpoint failure not counted against the
+    model, the report and exit codes through the binary against the stub, a supplied set, and no file in
+    the working directory.
+  - _Boundary: Measure_
+  - _Depends: 3, 4.2_
+  - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9, 10.10, 10.11, 10.12, 10.13, 10.14, 10.15_
+
 - [ ] 5. Live: the first cases
 - [ ] 5.1 The six first cases through `call` and `check`
   - `tests/live.rs` and a run script; each case once through `call` with the turn of R102 and once through
@@ -114,6 +130,15 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - Done when the research entry shows the announced estimate, the wait made and the answer; if no refusal
     can be provoked in one hour of trying, that is recorded and the owner decides.
   - _Requirements: 3.1, 3.2, 3.3, 3.4_
+
+- [ ] 5.3 The indicator on real models, and whether the built-in set tells them apart
+  - `measure` with twenty trials on GLM 5.3 (Mistral's API and the local endpoint), Mistral Large and
+    `gpt-6.1-sol`; the quick mode once on each, to compare its outcome with the full verdict. The
+    Anthropic endpoint is left out (no calls left for it).
+  - Done when a research entry records counts, rates, cost per accepted answer and verdict for each, and
+    states whether the set separates the models. If every model passes every first reply, the set does
+    not measure anything: it is hardened and measured again before the group closes, and that is recorded.
+  - _Requirements: 10.2, 10.3, 10.9, 10.10_
 
 - [ ] 6. The research tool on the seam
   - `tools/guide-optimizer`: `Live` calls the seam; its own request building, reply reading and wait are
@@ -164,7 +189,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Requirements: 7.2_
 - [ ] 8.3 Documentation
   - `.env.sample`, `README.md` and a page under `docs/`: the endpoint file, the check command, waiting and
-    its limits, installing the second binary, what `regenerate` says when it is missing. Humanizer pass
+    its limits, the measuring command and what its three verdicts mean, installing the second binary, what
+    `regenerate` says when it is missing. Humanizer pass
     before the push.
   - Done when a reader can configure an endpoint and run the check from the page alone; tried by following
     it on a clean directory.

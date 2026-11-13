@@ -24,6 +24,19 @@ meanwhile. Where the term "wait" below includes answering time, it is to be read
 owner also allowed at most three small calls to the Anthropic endpoint for the first case of 2.7, inside
 the existing spend stop.
 
+**Amendment 2, 2026-11-13, 14:21 (owner decision).**
+
+The owner asked for an indicator of how well the model behind the tool performs, for a measure of when
+inference is good enough, and for a way to tell whether a DSPy-style algorithm has to be wrapped around a
+model or not. Requirement 10 is added. Decided by the owner on the same day: three verdict levels (good
+enough direct, good enough with the repair loop, not good enough as is); twenty trials by default and a
+quick mode of five; a generic measure with one small built-in task set, so that the next spec can supply
+the real task and the step flow as the check. Thresholds come from the runs of 2026-11-10 to 2026-11-12:
+first replies accepted 15 of 20 for the model the tool was built against and 7 to 13 of 20 for GLM 5.3;
+accepted within two repairs 20 of 20 and 19 to 20 of 20; a model that ended at 15 of 20 with repairs was
+not improved by an optimiser (R74, R78, R99). "Which model is better or cheaper" stays out of scope: the
+indicator judges one configured model against a task set, it does not rank models.
+
 ## Introduction
 
 An adopter who wants a model to do work behind lesscode can today use only the model the tool was built
@@ -44,13 +57,16 @@ describes it. A *call* is one request to the endpoint and its reply. A *wait* is
 endpoint accepts or answers a call. The *fence* is the set of existing checks (admission, control cases,
 the step flow's verdicts) that decide whether a model's answer is used. A *repair* is a further call that
 shows the model its rejected answer and the fence's reasons. The *check command* is what an adopter runs
-to find out whether a configured endpoint can be used.
+to find out whether a configured endpoint can be used. A *task set* is a fixed list of requests with the
+check that judges their replies. A *trial* is one request of a task set taken through the check with the
+repairs allowed. The *measuring command* runs trials and reports the indicator and its verdict.
 
 ## Boundary Context
 
 - **In scope**: describing an endpoint; one call that behaves the same on every endpoint; waiting with a
   stated estimate; reasons for failures on the terminal; the check command; the repair loop around a
-  caller's own check; the existing model-driven commands using the seam; a record of every call.
+  caller's own check; the existing model-driven commands using the seam; a record of every call; an
+  indicator, per task set, of whether a configured model is good enough alone or with the repair loop.
 - **Out of scope**: what the fence checks; the language packs and how they are written; which model is
   better or cheaper; prices; what a model is asked to do with a codebase; showing a model's answer as it
   is produced; a model calling tools.
@@ -202,3 +218,40 @@ compared afterwards without calling it again.
 2. Where the endpoint reports reasoning tokens or cached input tokens, the model seam shall record them.
 3. The model seam shall record no key and no part of one.
 4. The model seam shall write its records where the caller says, and nowhere else.
+
+### Requirement 10: An indicator of whether a model is good enough
+**Objective:** As an adopter, I want a measured answer to whether my model is good enough for a kind of
+task, alone or with the repair loop, so that I know whether more has to be built around it before I rely
+on it.
+
+#### Acceptance Criteria
+1. When the user runs the measuring command, the model seam shall take each request of the task set
+   through the task set's check for the stated number of trials, with the repairs allowed.
+2. The measuring command shall report, with their counts, the share of trials whose first reply passed
+   the check and the share of trials that passed within the repairs allowed.
+3. The measuring command shall report the calls, the output tokens and the time per accepted answer, waits
+   included.
+4. When at least three quarters of the first replies passed, the measuring command shall report the
+   verdict "good enough direct".
+5. When fewer than three quarters of the first replies passed and at least nine tenths of the trials
+   passed within the repairs allowed, the measuring command shall report the verdict "good enough with
+   the repair loop".
+6. When fewer than nine tenths of the trials passed within the repairs allowed, the measuring command
+   shall report the verdict "not good enough as is" and say that an optimiser around the instruction is
+   indicated and has to be measured in the same way.
+7. The measuring command shall run twenty trials unless the user states another number.
+8. Where the user asks for the quick mode, the measuring command shall run five trials and report "good
+   enough so far" when all five passed within the repairs allowed, "not good enough" when at most two did,
+   and "undecided" otherwise.
+9. The measuring command shall state the task set, the check, the model and the number of trials beside
+   every verdict.
+10. The model seam shall ship one small built-in task set.
+11. The model seam shall accept a task set and a check supplied by a caller in place of the built-in one.
+12. If a call of a trial fails for a reason of the endpoint, then the measuring command shall count that
+    trial as not run and not against the model.
+13. If more than one fifth of the trials were not run, then the measuring command shall report no verdict
+    and say why.
+14. The measuring command shall end with exit code zero for a verdict of "good enough direct", "good
+    enough with the repair loop" or "good enough so far", and with an exit code that is not zero
+    otherwise.
+15. The measuring command shall change no file of the project it is run in.

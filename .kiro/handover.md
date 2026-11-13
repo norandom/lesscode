@@ -1,4 +1,4 @@
-# Handover: the model seam is specified, its tasks wait for approval
+# Handover: the model seam is specified and approved; implementation starts with group 1
 
 Reset 2026-11-12, 20:54 Europe/Berlin (from the clock), at the end of the day's session. This file is the
 start for the next session. The file as it stood this morning, with the onboarding decisions in full, is
@@ -17,9 +17,10 @@ start for the next session. The file as it stood this morning, with the onboardi
    [R105](../docs/research/2026-11-12/12-model-seam-gate-p1.md),
    [R103](../docs/research/2026-11-12/10-model-seam-library-prototype.md),
    [R102](../docs/research/2026-11-12/09-product-path-two-models.md).
-3. If the owner has approved the tasks: set `approvals.tasks.approved` and `ready_for_implementation` in
-   `specs/model-seam/spec.json`, write `task_44_handover.md` for this planning group, and start group 1
-   (the crate `model/`) in the foreground, one commit per task.
+3. Update of 2026-11-13: the owner approved the tasks and asked for an indicator of whether a model is
+   good enough, direct or with the repair loop (Requirement 10, tasks 4.3 and 5.3). The planning group is
+   closed in [task_44_handover.md](task_44_handover.md); read it, then start group 1 (the crate `model/`)
+   in the foreground, one commit per task.
 
 ## State
 
@@ -82,7 +83,7 @@ if the transcript is shared.
 
 ## For the owner
 
-1. Approve or change the tasks of `model-seam`.
+1. Done on 2026-11-13: the tasks of `model-seam` are approved.
 2. The tag `v1.2.0` stays yours to set; see `docs/releases/1.2.0.md`.
 3. Making the `Step guard` job required is a repository setting.
 
