@@ -45,7 +45,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - Done when tests show a met and an unmet structure against the stub.
   - _Boundary: Call_
   - _Requirements: 2.6_
-- [ ] 1.3 Failures with their reasons, and the key never shown
+- [x] 1.3 Failures with their reasons, and the key never shown
   - `error.rs`: missing file or entry, unknown style, unreachable, refused with the endpoint's shortened
     message, no answer in time; one line each. `notice.rs`: the terminal notice writes the reason.
   - Done when `tests/failures.rs` passes and a search of every output, record and error text of the test

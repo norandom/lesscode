@@ -3,7 +3,7 @@
 //! the request style picks the library's adapter, and address, model and key
 //! are data from the endpoint file.
 
-use crate::error::{CallError, shortened};
+use crate::error::{CallError, shown};
 use crate::request::{CallRequest, Reply, Sent, Stop};
 use crate::structure::has_structure;
 use genai::adapter::AdapterKind;
@@ -56,7 +56,7 @@ fn client_for(endpoint: &Endpoint) -> Result<Client, CallError> {
     Client::builder()
         .with_service_target_resolver(resolver)
         .build()
-        .map_err(|e| CallError::Config(shortened(&e.to_string())))
+        .map_err(|e| CallError::Config(shown(&e.to_string(), endpoint.api_key())))
 }
 
 /// The settings that go on the wire: the output limit always, the rest only
@@ -75,31 +75,28 @@ fn options_for(endpoint: &Endpoint, request: &CallRequest) -> Result<ChatOptions
     Ok(options)
 }
 
-fn failure(host: String, error: genai::Error) -> CallError {
+/// What a failed attempt was: not reached, refused, or answered unreadably.
+/// Text of the endpoint or the transport passes through `shown` with the key.
+fn failure(host: String, key: &str, error: genai::Error) -> CallError {
     let web = match &error {
         genai::Error::WebModelCall { webc_error, .. }
         | genai::Error::WebAdapterCall { webc_error, .. } => webc_error,
         other => {
             return CallError::Unreadable {
                 host,
-                detail: shortened(&other.to_string()),
+                detail: shown(&other.to_string(), key),
             };
         }
     };
     let Some(status) = web.status() else {
+        let detail = shown(&web.to_string(), key);
         return match web {
-            genai::webc::Error::Reqwest(_) => CallError::Unreachable {
-                host,
-                detail: shortened(&web.to_string()),
-            },
-            _ => CallError::Unreadable {
-                host,
-                detail: shortened(&web.to_string()),
-            },
+            genai::webc::Error::Reqwest(_) => CallError::Unreachable { host, detail },
+            _ => CallError::Unreadable { host, detail },
         };
     };
     let said = match web {
-        genai::webc::Error::ResponseFailedStatus { body, .. } => shortened(body),
+        genai::webc::Error::ResponseFailedStatus { body, .. } => shown(body, key),
         _ => String::new(),
     };
     let retry_after = web
@@ -138,7 +135,7 @@ pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallErr
     let started = Instant::now();
     let reply = runtime
         .block_on(client.exec_chat(&endpoint.model, chat, Some(&options)))
-        .map_err(|error| failure(host.clone(), error))?;
+        .map_err(|error| failure(host.clone(), endpoint.api_key(), error))?;
     let stop = match &reply.stop_reason {
         Some(StopReason::Completed(_)) => Stop::Complete,
         Some(StopReason::MaxTokens(_)) => Stop::CutOff,

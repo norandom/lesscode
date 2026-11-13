@@ -8,6 +8,20 @@
    "disposition": null
   },
   {
+   "path": "endpoint.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "Reading the endpoint file with a message that names the file and what is wrong (task 1.3; requirements 1.4, 1.5)",
+   "disposition": null
+  },
+  {
+   "path": "notice.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "What the user is told while a call waits, runs long or fails (tasks 1.3, 2.1, 2.2; requirements 3.2, 3.5, 4.1)",
+   "disposition": null
+  },
+  {
    "path": "error.rs",
    "max_logical_units": 300,
    "owner": "model-seam",
