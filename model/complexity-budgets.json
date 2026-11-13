@@ -36,6 +36,13 @@
    "disposition": null
   },
   {
+   "path": "record.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "One JSON line per call to the path the caller names; no key (task 1.4; requirements 9.1 to 9.4)",
+   "disposition": null
+  },
+  {
    "path": "request.rs",
    "max_logical_units": 300,
    "owner": "model-seam",

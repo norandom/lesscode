@@ -27,7 +27,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
 
 ## Tasks
 
-- [ ] 1. The seam crate and one call
+- [x] 1. The seam crate and one call
 - [x] 1.1 Crate, data of a call, and a call that works against a stub endpoint
   - `model/` as its own crate with its own lock file, the client library pinned; `request.rs` and
     `client.rs` as designed; the endpoint read by the core's `load_endpoint`.
@@ -52,7 +52,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     run finds no part of the test key.
   - _Boundary: Failures_
   - _Requirements: 1.4, 1.5, 1.7, 4.1, 4.2, 4.3, 4.5_
-- [ ] 1.4 A record of every call
+- [x] 1.4 A record of every call
   - `record.rs`: one line per call to the path the caller names, with reasoning and cached tokens where
     the endpoint reports them; nothing written without a path.
   - Done when tests show a line for a successful and for a failed call, no line without a path, and no key.
