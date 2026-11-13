@@ -21,6 +21,20 @@ them a change of what a requirement asks:
 - `client.rs` offers one attempt, `send`. The call with waiting, notices and the record is built on it in
   `wait.rs` (group 2).
 
+**Amendment 3, 2026-11-13 (as built, task 2.1).** Five points where `wait.rs` says more than the text
+below, none of them a change of what a requirement asks:
+
+- `call` lives in `wait.rs`, not `client.rs`. `call_with` is the same call with its time given
+  (`Time`: `now` and `sleep`); `call` passes the machine's (`Clock`). Tests give a time that does not
+  sleep.
+- No wait is shorter than one second. An endpoint that states a wait of nothing would otherwise be asked
+  again without a pause, and twice nothing never reaches the limit. The prototype of R106 had this gap.
+- The limit counts the time since the call began, refused attempts and pauses together, as the task says.
+  A wait that would pass the limit is not made: the call ends before it.
+- A record line that cannot be written fails the call with `CallError::Config` naming the path, so the
+  postcondition "exactly one record line" is not broken silently.
+- `Limits` holds `wait` only; `answer_seconds` comes with task 2.2.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

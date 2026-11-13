@@ -55,6 +55,13 @@
    "owner": "model-seam",
    "allocation": "Whether a reply's text has the structure asked for; one code fence removed (task 1.2; requirement 2.6)",
    "disposition": null
+  },
+  {
+   "path": "wait.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "The call with a refusal waited out: the stated wait or a first step, doubling, the limit, time injected, one record line (task 2.1; requirements 3.1 to 3.4, 3.6 to 3.8)",
+   "disposition": null
   }
  ]
 }

@@ -60,7 +60,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Requirements: 9.1, 9.2, 9.3, 9.4_
 
 - [ ] 2. Waiting with an estimate
-- [ ] 2.1 Wait out a refusal, announce each wait, stop at the limit
+- [x] 2.1 Wait out a refusal, announce each wait, stop at the limit
   - `wait.rs`: which refusals are waited out; the stated wait from a header, else from the message, else
     the first step; the wait made is the larger of that and twice the wait that just failed; the limit of
     ten minutes for refused attempts and pauses, settable. Time is injected.
