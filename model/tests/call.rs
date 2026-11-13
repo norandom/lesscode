@@ -165,3 +165,32 @@ fn the_source_names_no_model_and_holds_no_address() {
     }
     assert!(checked >= 4, "only {checked} source files were read");
 }
+
+/// Requirement 2.6: a reply in a stated structure, or the report that it has not.
+#[test]
+fn a_reply_says_whether_it_has_the_structure_asked_for() {
+    let schema = serde_json::json!({"type": "object", "required": ["files", "change_log"]});
+    let good = r#"{"files": [], "change_log": "none"}"#;
+    let fenced = format!("```json\n{good}\n```");
+    let stub = start(vec![
+        ok(chat_reply(good, "stop")),
+        ok(chat_reply(&fenced, "stop")),
+        ok(chat_reply(r#"{"files": []}"#, "stop")),
+        ok(chat_reply("Here is what I would do.", "stop")),
+        ok(chat_reply(good, "stop")),
+    ]);
+    let address = endpoint("openai", &format!("{}/v1", stub.address));
+    let mut asked = request();
+    asked.structure = Some(schema);
+    let outcomes: Vec<Option<bool>> = (0..4)
+        .map(|_| send(&address, &asked).unwrap().structured)
+        .collect();
+    assert_eq!(outcomes, [Some(true), Some(true), Some(false), Some(false)]);
+    // Nothing about the structure goes on the wire, and without a structure nothing is said.
+    assert!(
+        stub.seen()
+            .iter()
+            .all(|seen| seen.json().get("response_format").is_none())
+    );
+    assert_eq!(send(&address, &request()).unwrap().structured, None);
+}

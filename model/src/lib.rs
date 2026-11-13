@@ -4,6 +4,7 @@
 pub mod client;
 pub mod error;
 pub mod request;
+pub mod structure;
 
 pub use client::{host_of, send};
 pub use error::CallError;

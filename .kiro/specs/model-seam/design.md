@@ -8,6 +8,19 @@ Approved by the owner on 2026-11-12, 20:16. Discovery log: [research.md](researc
 an indicator of a configured model against a task set, with a verdict on whether the model is good enough
 direct, good enough with the repair loop, or not good enough as is. Nothing else in the design changes.
 
+**Amendment 2, 2026-11-13 (as built, tasks 1.1 and 1.2).** Three deviations from the text below, none of
+them a change of what a requirement asks:
+
+- Requirement 2.6: no response format is sent to the endpoint. Whether an endpoint accepts one cannot be
+  known without a rule per endpoint, and an unknown setting was the commonest refusal in R102. The reply's
+  text, with or without a code fence, is checked here against the part of JSON Schema a request uses
+  (`type`, `required`, `properties`, `items`). New file `model/src/structure.rs`, component Call.
+  `Sent` therefore has no `structure_requested` field.
+- `CallError` has a fifth kind of failure, `Unreadable`: the endpoint answered and the reply could not be
+  read. `Refused` carries the wait an endpoint stated in a header as the endpoint wrote it.
+- `client.rs` offers one attempt, `send`. The call with waiting, notices and the record is built on it in
+  `wait.rs` (group 2).
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

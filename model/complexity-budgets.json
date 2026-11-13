@@ -27,6 +27,13 @@
    "owner": "model-seam",
    "allocation": "The data of one call: request, reply, what was sent (task 1.1; requirements 2.1, 2.2, 2.4, 2.5)",
    "disposition": null
+  },
+  {
+   "path": "structure.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "Whether a reply's text has the structure asked for; one code fence removed (task 1.2; requirement 2.6)",
+   "disposition": null
   }
  ]
 }

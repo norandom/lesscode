@@ -15,7 +15,8 @@ pub struct CallRequest {
     /// Sent only when given.
     #[serde(default)]
     pub temperature: Option<f64>,
-    /// A JSON schema the reply should satisfy.
+    /// A JSON schema the reply should satisfy. It is not sent; the reply is
+    /// checked against it (`Reply::structured`).
     #[serde(default)]
     pub structure: Option<serde_json::Value>,
 }
@@ -40,7 +41,6 @@ pub struct Sent {
     pub max_output_tokens: u32,
     pub temperature: Option<f64>,
     pub reasoning_level: Option<String>,
-    pub structure_requested: bool,
 }
 
 /// Time spent before an endpoint accepted a call.

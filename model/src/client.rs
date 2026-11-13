@@ -5,6 +5,7 @@
 
 use crate::error::{CallError, shortened};
 use crate::request::{CallRequest, Reply, Sent, Stop};
+use crate::structure::has_structure;
 use genai::adapter::AdapterKind;
 use genai::chat::{ChatMessage, ChatOptions, ChatRequest, ReasoningEffort, StopReason};
 use genai::resolver::{AuthData, Endpoint as Address, ServiceTargetResolver};
@@ -148,8 +149,13 @@ pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallErr
         None => Stop::Other("not stated".to_owned()),
     };
     let usage = &reply.usage;
+    let text = reply.texts().concat();
     Ok(Reply {
-        text: reply.texts().concat(),
+        structured: request
+            .structure
+            .as_ref()
+            .map(|schema| has_structure(&text, schema)),
+        text,
         stop,
         input_tokens: count(usage.prompt_tokens),
         output_tokens: count(usage.completion_tokens),
@@ -163,7 +169,6 @@ pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallErr
             .as_ref()
             .and_then(|d| d.cached_tokens)
             .map(|n| count(Some(n))),
-        structured: None,
         seconds: started.elapsed().as_secs_f64(),
         waits: Vec::new(),
         sent: Sent {
@@ -172,7 +177,6 @@ pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallErr
             max_output_tokens: request.max_output_tokens,
             temperature: request.temperature,
             reasoning_level: endpoint.reasoning.clone(),
-            structure_requested: false,
         },
     })
 }

@@ -39,7 +39,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     model name and no address.
   - _Boundary: CallData, Call_
   - _Requirements: 1.1, 1.2, 1.3, 1.6, 1.8, 2.1, 2.2, 2.3, 2.4, 2.5, 2.8_
-- [ ] 1.2 A reply in a stated structure
+- [x] 1.2 A reply in a stated structure
   - A call may ask for a structure; the reply says whether its text has that structure, with or without a
     code fence around it.
   - Done when tests show a met and an unmet structure against the stub.
