@@ -76,7 +76,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Boundary: Waiting_
   - _Requirements: 3.5, 4.3_
 
-- [ ] 3. The repair loop around a caller's check
+- [x] 3. The repair loop around a caller's check
   - `repair.rs` as designed: a fresh call with the request, the rejected reply and the reasons; the
     request again when no reply arrived or it was cut off; at most two repairs unless the caller says
     otherwise; every attempt recorded; the loop writes no file.

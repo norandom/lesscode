@@ -51,6 +51,24 @@ requirement asks:
 - The notice comes when a request has run for the expected time and every 30 seconds after that. Its
   tests need a process each (nextest), because the expected time depends on the process's answers.
 
+**Amendment 5, 2026-11-14 (as built, task 3).** Five points where `repair.rs` says more than the text
+below, or differs from it:
+
+- `Outcome::Rejected` holds `last: Reply`, not `Option<Reply>`. The loop makes at least one call, and a
+  call that returns nothing is a `CallError` and ends in `Failed`; a rejection without a reply cannot
+  occur, so no caller has to handle one.
+- Every reply is handed to the check, a cut-off one too; the check alone decides. "No reply arrived"
+  means a reply whose text is empty. A rejected reply that is empty or did not stop as complete (cut off,
+  refused by the model, any other stop) is followed by the request as the caller stated it, not by the
+  repair request that may have preceded it. This is what the research tool did in R99.
+- A request sent again as it was counts as one of the repairs allowed, so `repairs` bounds the calls:
+  at most `repairs + 1`.
+- A call that fails ends the loop at once as `Failed`, with the attempts made before it. The loop does
+  not retry a failed call; waiting out a refusal is the call's own work.
+- `repair_request` is public. It changes the request text only: the request, the rejected reply, the
+  reasons as a list. The words are those measured in R99, with "pack" replaced by "answer". The type
+  `repair::Attempt` is not re-exported at the crate root, where `Attempt` is the request on its way.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the
