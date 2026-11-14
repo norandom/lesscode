@@ -36,6 +36,20 @@
    "disposition": null
   },
   {
+   "path": "main.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "The command line of lesscode-model: its commands, their arguments, standard input and output (task 4.1; requirement 4.4)",
+   "disposition": null
+  },
+  {
+   "path": "protocol.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "The process protocol of the call command: the request read with its protocol number, the answer, the kinds of failure, the exit codes (task 4.1; requirement 4.4)",
+   "disposition": null
+  },
+  {
    "path": "record.rs",
    "max_logical_units": 300,
    "owner": "model-seam",

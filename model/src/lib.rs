@@ -5,6 +5,7 @@ pub mod client;
 pub mod endpoint;
 pub mod error;
 pub mod notice;
+pub mod protocol;
 pub mod record;
 pub mod repair;
 pub mod request;

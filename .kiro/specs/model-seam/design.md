@@ -69,6 +69,21 @@ below, or differs from it:
   reasons as a list. The words are those measured in R99, with "pack" replaced by "answer". The type
   `repair::Attempt` is not re-exported at the crate root, where `Attempt` is the request on its way.
 
+**Amendment 6, 2026-11-14 (as built, task 4.1).** Five points where `protocol.rs` and `main.rs` say more
+than the text below, or differ from it:
+
+- `--endpoint-env` may be left out; the default endpoint file is then read, as the launcher's
+  `endpoint_file: Option<&Path>` needs.
+- A request that states no protocol number is refused like one that states another number.
+- A request that cannot be read is answered on standard output too, with
+  `{"ok": false, "error": {"kind": "request", …}}`, so a caller always reads one JSON object once the
+  command line was usable. A command line that cannot be used writes nothing to standard output.
+- The kinds of a failed call are `configuration`, `unreachable`, `refused`, `unreadable`,
+  `no_answer_in_time` and `wait_limit`. `configuration` (the endpoint file, a record that cannot be
+  written) ends with exit code 2, as the table under Error Handling says; the others with 3.
+- The arguments are read by a function of `main.rs`; `clap`, which the design allows, is not a
+  dependency.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

@@ -87,7 +87,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 7.3, 7.4_
 
 - [ ] 4. The two commands of `lesscode-model`
-- [ ] 4.1 `call`: the process protocol
+- [x] 4.1 `call`: the process protocol
   - `protocol.rs`, `main.rs`: one request on standard input, one reply on standard output, notices and the
     failure reason on standard error; protocol number checked; exit codes 0, 3 and 2.
   - Done when a test through the binary against the stub shows an answered call, a failed call with its
