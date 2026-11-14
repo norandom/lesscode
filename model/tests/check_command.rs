@@ -118,6 +118,14 @@ fn a_rejected_answer_is_repaired_and_a_fence_around_the_answer_is_no_reason() {
         "{}",
         ran.out
     );
+    // Why the first answer was rejected is said, though the repair passed.
+    let lines: Vec<&str> = ran.out.lines().collect();
+    assert_eq!(lines.len(), 3, "{}", ran.out);
+    assert!(
+        lines[1].contains("call 1: the answer is not the JSON object asked for"),
+        "{}",
+        ran.out
+    );
     assert_eq!(seen.len(), 2);
     let repair = seen[1].json()["messages"][1]["content"]
         .as_str()

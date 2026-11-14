@@ -5,7 +5,7 @@
 
 use crate::error::CallError;
 use crate::protocol::{EXIT_ANSWERED, EXIT_FAILED, EXIT_REJECTED, EXIT_USAGE};
-use crate::repair::{Outcome, REPAIRS, with_repairs};
+use crate::repair::{Attempt, Outcome, REPAIRS, with_repairs};
 use crate::request::{CallRequest, Reply};
 use crate::taskset::built_in;
 
@@ -40,6 +40,16 @@ fn answered_line(answered: &[Reply]) -> Option<String> {
     ))
 }
 
+/// One line for each answer the check rejected, with the reasons: also for
+/// an answer that a repair then put right.
+fn rejected_lines(attempts: &[Attempt]) -> impl Iterator<Item = String> {
+    attempts
+        .iter()
+        .enumerate()
+        .filter(|(_, attempt)| !attempt.passed)
+        .map(|(index, attempt)| format!("  call {}: {}", index + 1, attempt.reasons.join("; ")))
+}
+
 /// Sends the fixed task through `call` and the repair loop, at most
 /// `REPAIRS + 1` calls. The error is a temporary directory that could not be
 /// used; nothing was called then.
@@ -64,7 +74,8 @@ pub fn check(
 
     let mut lines: Vec<String> = answered_line(&answered).into_iter().collect();
     let exit = match outcome {
-        Outcome::Accepted { .. } => {
+        Outcome::Accepted { attempts, .. } => {
+            lines.extend(rejected_lines(&attempts));
             lines.push("this endpoint can be used".to_owned());
             EXIT_ANSWERED
         }
@@ -73,13 +84,7 @@ pub fn check(
                 "this endpoint cannot be used as it is: the check rejected the answer of each of {} calls",
                 attempts.len()
             ));
-            for (index, attempt) in attempts.iter().enumerate() {
-                lines.push(format!(
-                    "  call {}: {}",
-                    index + 1,
-                    attempt.reasons.join("; ")
-                ));
-            }
+            lines.extend(rejected_lines(&attempts));
             EXIT_REJECTED
         }
         Outcome::Failed { error, .. } => {
