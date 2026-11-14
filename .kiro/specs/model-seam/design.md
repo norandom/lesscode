@@ -35,6 +35,22 @@ below, none of them a change of what a requirement asks:
   postcondition "exactly one record line" is not broken silently.
 - `Limits` holds `wait` only; `answer_seconds` comes with task 2.2.
 
+**Amendment 4, 2026-11-14 (as built, task 2.2).** Five points, none of them a change of what a
+requirement asks:
+
+- `client.rs` offers a request on its way, `begin` and `Attempt`, whose answer is awaited in steps
+  (`answer_within`); `send` is one attempt awaited to its end. The seam ends a slow request itself by
+  dropping it at the limit; the library's web timeout is not set, so there is one mechanism and one
+  message.
+- `Time` has a third part, `answer_within`, which by default waits on the machine's time. A test gives
+  one that moves only its own clock.
+- The answer limit counts for one request, from the moment it is sent. `NoAnswerInTime` states the limit.
+  A refused attempt that is waited out starts a new count.
+- The earlier calls whose median counts are the answered requests of this process, each with the time
+  from sending to answer, without the waits. A request that failed is not among them.
+- The notice comes when a request has run for the expected time and every 30 seconds after that. Its
+  tests need a process each (nextest), because the expected time depends on the process's answers.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

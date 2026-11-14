@@ -59,7 +59,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Boundary: Record_
   - _Requirements: 9.1, 9.2, 9.3, 9.4_
 
-- [ ] 2. Waiting with an estimate
+- [x] 2. Waiting with an estimate
 - [x] 2.1 Wait out a refusal, announce each wait, stop at the limit
   - `wait.rs`: which refusals are waited out; the stated wait from a header, else from the message, else
     the first step; the wait made is the larger of that and twice the wait that just failed; the limit of
@@ -69,7 +69,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     requests of one call.
   - _Boundary: Waiting_
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.6, 3.7, 3.8_
-- [ ] 2.2 A slow answer: "still running" notices and the answer limit
+- [x] 2.2 A slow answer: "still running" notices and the answer limit
   - While an accepted call runs longer than expected, a notice at intervals; the answer limit of sixty
     minutes, settable, ends a call with "did not answer in time".
   - Done when tests with injected time show the notices and the limit.

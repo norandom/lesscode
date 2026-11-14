@@ -96,6 +96,7 @@ fn run(script: Vec<Answer>, total_seconds: u64, record_to: Option<&Path>) -> Out
     };
     let limits = Limits {
         wait: WaitPolicy { total_seconds },
+        ..Limits::default()
     };
     let result = call_with(&endpoint, &request(), &limits, &watch, record_to, &watch);
     assert!(

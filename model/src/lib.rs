@@ -10,7 +10,7 @@ pub mod request;
 pub mod structure;
 pub mod wait;
 
-pub use client::{host_of, send};
+pub use client::{Attempt, begin, host_of, send};
 pub use endpoint::endpoint_from;
 pub use error::CallError;
 pub use notice::{Notice, Terminal};

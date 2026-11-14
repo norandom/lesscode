@@ -7,11 +7,15 @@ use crate::error::{CallError, shown};
 use crate::request::{CallRequest, Reply, Sent, Stop};
 use crate::structure::has_structure;
 use genai::adapter::AdapterKind;
-use genai::chat::{ChatMessage, ChatOptions, ChatRequest, ReasoningEffort, StopReason};
+use genai::chat::{
+    ChatMessage, ChatOptions, ChatRequest, ChatResponse, ReasoningEffort, StopReason,
+};
 use genai::resolver::{AuthData, Endpoint as Address, ServiceTargetResolver};
 use genai::{Client, ModelIden, ServiceTarget};
 use lesscode_core::regenerator::Endpoint;
-use std::time::Instant;
+use std::future::Future;
+use std::pin::Pin;
+use std::time::{Duration, Instant};
 
 /// The host part of the endpoint's address, for messages and records.
 pub fn host_of(endpoint: &Endpoint) -> String {
@@ -116,11 +120,32 @@ fn count(tokens: Option<i32>) -> u64 {
     tokens.unwrap_or(0).max(0) as u64
 }
 
-/// One attempt: the request is sent once and the reply read. A refusal comes
-/// back as `CallError::Refused` with what the endpoint said; waiting it out
-/// is the caller's part.
-pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallError> {
-    let host = host_of(endpoint);
+/// One request on its way: sent once, its answer not yet read. Dropping it
+/// gives the request up.
+pub struct Attempt {
+    answer: Pin<Box<dyn Future<Output = Result<Reply, CallError>>>>,
+    runtime: tokio::runtime::Runtime,
+}
+
+impl Attempt {
+    /// Waits for the answer for at most `step`. `None`: it is not there yet,
+    /// and the request stays on its way.
+    pub fn answer_within(&mut self, step: Duration) -> Option<Result<Reply, CallError>> {
+        let answer = self.answer.as_mut();
+        self.runtime
+            .block_on(async { tokio::time::timeout(step, answer).await.ok() })
+    }
+
+    /// Waits for the answer however long it takes.
+    pub fn answer(self) -> Result<Reply, CallError> {
+        self.runtime.block_on(self.answer)
+    }
+}
+
+/// Starts one attempt. A refusal comes back from the attempt as
+/// `CallError::Refused` with what the endpoint said; waiting it out and
+/// deciding how long an answer may take are the caller's part.
+pub fn begin(endpoint: &Endpoint, request: &CallRequest) -> Result<Attempt, CallError> {
     let client = client_for(endpoint)?;
     let options = options_for(endpoint, request)?;
     let runtime = tokio::runtime::Builder::new_current_thread()
@@ -132,10 +157,39 @@ pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallErr
         chat = chat.with_system(request.system.as_str());
     }
     let chat = chat.append_message(ChatMessage::user(request.user.as_str()));
-    let started = Instant::now();
-    let reply = runtime
-        .block_on(client.exec_chat(&endpoint.model, chat, Some(&options)))
-        .map_err(|error| failure(host.clone(), endpoint.api_key(), error))?;
+    let sent = Sent {
+        host: host_of(endpoint),
+        model: endpoint.model.clone(),
+        max_output_tokens: request.max_output_tokens,
+        temperature: request.temperature,
+        reasoning_level: endpoint.reasoning.clone(),
+    };
+    let (key, structure) = (endpoint.api_key().to_owned(), request.structure.clone());
+    let answer = Box::pin(async move {
+        let started = Instant::now();
+        let reply = client
+            .exec_chat(&sent.model, chat, Some(&options))
+            .await
+            .map_err(|error| failure(sent.host.clone(), &key, error))?;
+        let reply = read(reply, sent);
+        Ok(Reply {
+            structured: structure
+                .as_ref()
+                .map(|schema| has_structure(&reply.text, schema)),
+            seconds: started.elapsed().as_secs_f64(),
+            ..reply
+        })
+    });
+    Ok(Attempt { answer, runtime })
+}
+
+/// One attempt, awaited to its end.
+pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallError> {
+    begin(endpoint, request)?.answer()
+}
+
+/// The reply as the seam reports it, whatever shape it arrived in.
+fn read(reply: ChatResponse, sent: Sent) -> Reply {
     let stop = match &reply.stop_reason {
         Some(StopReason::Completed(_)) => Stop::Complete,
         Some(StopReason::MaxTokens(_)) => Stop::CutOff,
@@ -147,11 +201,8 @@ pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallErr
     };
     let usage = &reply.usage;
     let text = reply.texts().concat();
-    Ok(Reply {
-        structured: request
-            .structure
-            .as_ref()
-            .map(|schema| has_structure(&text, schema)),
+    Reply {
+        structured: None,
         text,
         stop,
         input_tokens: count(usage.prompt_tokens),
@@ -166,14 +217,8 @@ pub fn send(endpoint: &Endpoint, request: &CallRequest) -> Result<Reply, CallErr
             .as_ref()
             .and_then(|d| d.cached_tokens)
             .map(|n| count(Some(n))),
-        seconds: started.elapsed().as_secs_f64(),
+        seconds: 0.0,
         waits: Vec::new(),
-        sent: Sent {
-            host,
-            model: endpoint.model.clone(),
-            max_output_tokens: request.max_output_tokens,
-            temperature: request.temperature,
-            reasoning_level: endpoint.reasoning.clone(),
-        },
-    })
+        sent,
+    }
 }

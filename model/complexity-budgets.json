@@ -4,7 +4,7 @@
    "path": "client.rs",
    "max_logical_units": 300,
    "owner": "model-seam",
-   "allocation": "One request through the client library and its reply in any shape (task 1.1; requirements 1.1 to 1.3, 1.6, 1.8, 2.1 to 2.6, 2.8)",
+   "allocation": "One request through the client library and its reply in any shape; a request on its way can be awaited in steps (tasks 1.1, 2.2;requirements 1.1 to 1.3, 1.6, 1.8, 2.1 to 2.6, 2.8)",
    "disposition": null
   },
   {
@@ -60,7 +60,7 @@
    "path": "wait.rs",
    "max_logical_units": 300,
    "owner": "model-seam",
-   "allocation": "The call with a refusal waited out: the stated wait or a first step, doubling, the limit, time injected, one record line (task 2.1; requirements 3.1 to 3.4, 3.6 to 3.8)",
+   "allocation": "The call with a refusal waited out: the stated wait or a first step, doubling, the limit, time injected, one record line; a slow answer announced at intervals and ended at its limit (tasks 2.1, 2.2; requirements 3.1 to 3.8, 4.3)",
    "disposition": null
   }
  ]
