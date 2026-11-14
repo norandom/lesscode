@@ -8,7 +8,14 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R110 The indicator on four real cases: every one is "good enough direct"; the built-in set does not tell the models apart (2026-11-14)
+## Latest: R111 The guide tool calls models through the seam: dry-run summaries unchanged, a live judgement of four trials on GLM 5.3 completes (2026-11-14)
+
+[R111](2026-11-14/04-model-seam-guide-tool-on-the-seam.md) is the check of task 6 of `model-seam`.
+- **Result:** `tools/guide-optimizer` has no client of its own; its calls go through `lesscode_model::call` and its repair turns through `with_repairs`. Both dry runs give byte-identical summaries; 3 tests pass.
+- **Live:** four trials on the local endpoint, 9 calls: first replies admitted 1 of 4, within two repairs 3 of 4; no call failed.
+- **Changed with the move:** a failed call ends the trial, a refused reply is asked again within the repairs, the repair text shows the whole reply, and the records use the seam's stop words.
+
+## Prior: R110 The indicator on four real cases: every one is "good enough direct"; the built-in set does not tell the models apart (2026-11-14)
 
 [R110](2026-11-14/03-model-seam-indicator-on-real-models.md) is the live run of task 5.3 of `model-seam`.
 - **Result:** built-in set, the core's parsing and static checks, 20 trials each: first replies accepted 19 (GLM 5.3, Mistral's API), 17 (Mistral Large), 20 (`gpt-6.1-sol`) and 19 (GLM 5.3, local endpoint) of 20; all 20 of 20 within two repairs; one verdict for all.

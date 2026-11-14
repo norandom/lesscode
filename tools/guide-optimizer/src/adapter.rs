@@ -2,19 +2,22 @@
 //! model for packs under that guide and judges them; a proposal reflects on
 //! the judged replies and must pass the verification rules to be tried.
 
-use crate::model::Metered;
+use crate::model::{Metered, NOT_RUN};
 use crate::task::{Language, Verdict, judge, pack_text};
 use gepa::Reflective;
 use gepa::{
     Candidate, EvalBatch, GepaAdapter, ReflectiveSample, extract_new_instruction, render_prompt,
 };
 use lesscode_core::specimen_runner::sha256_hex_bytes;
+use lesscode_model::repair::{self, Outcome, with_repairs};
+use lesscode_model::{CallError, CallRequest, Stop};
 use serde_json::{Value, json};
+use std::cell::Cell;
 use std::collections::BTreeMap;
 use std::sync::{Arc, Mutex};
 
 pub const COMPONENT: &str = "guide";
-pub const DEFAULT_MAX_TOKENS: (u64, u64) = (4_000, 8_000);
+pub const DEFAULT_MAX_TOKENS: (u32, u32) = (4_000, 8_000);
 const SECTIONS: [&str; 4] = ["## Fields", "## Operators", "## Rules", "## Output"];
 
 /// GEPA's reflection prompt with the limits a new guide must respect.
@@ -118,7 +121,7 @@ pub struct Authoring {
     pub log: Arc<Mutex<Vec<Trial>>>,
     pub rejected: Arc<Mutex<Vec<Value>>>,
     /// Output limits of an authoring call and of a reflection call.
-    pub max_tokens: (u64, u64),
+    pub max_tokens: (u32, u32),
     /// Repair calls allowed after a rejected first reply.
     pub repairs: usize,
     /// Whether the request carries the grammar's node kind names.
@@ -126,13 +129,22 @@ pub struct Authoring {
     last: Vec<Trial>,
 }
 
-/// The request for a repair: the first request, the rejected pack and why.
-fn repair_request(request: &str, pack: &str, feedback: &[String]) -> String {
-    format!(
-        "{request}\n\nA previous answer to this request was rejected.\n\nThe rejected pack:\n{pack}\n\n\
-         Why it was rejected:\n- {}\n\nWrite the corrected pack.",
-        feedback.join("\n- ")
-    )
+/// The word a record uses for how a reply stopped.
+fn stop_word(stop: &Stop) -> &str {
+    match stop {
+        Stop::Complete => "complete",
+        Stop::CutOff => "cut_off",
+        Stop::Refused => "refusal",
+        Stop::Other(word) => word,
+    }
+}
+
+/// One call in the record of a trial.
+fn entry(admitted: bool, stop: &str, tokens: (u64, u64), feedback: &[String]) -> Value {
+    json!({
+        "admitted": admitted, "stop_reason": stop, "input_tokens": tokens.0,
+        "output_tokens": tokens.1, "feedback": feedback,
+    })
 }
 
 impl Authoring {
@@ -158,84 +170,88 @@ impl Authoring {
         }
     }
 
-    /// One authoring call and its judgement: reply, verdict, tokens, stop reason.
-    fn attempt(
-        &self,
-        guide: &str,
-        task: &Language,
-        user: &str,
-    ) -> (String, Verdict, (u64, u64), String) {
-        match self.model.chat("author", guide, user, self.max_tokens.0) {
-            Err(e) => (
-                String::new(),
-                failed(format!("no reply: {e}")),
-                (0, 0),
-                if e.starts_with("not run") {
+    /// A first call and, while the pack is rejected, at most `repairs` more,
+    /// made by the seam's repair loop. A reply that was cut off or refused is
+    /// rejected unjudged; a call that fails ends the trial.
+    fn one(&self, phase: &str, guide: &str, language: &str) -> Trial {
+        let task = &self.languages[language];
+        let request = CallRequest {
+            purpose: "author".into(),
+            system: guide.to_owned(),
+            user: if self.node_kinds {
+                format!("{}\n\n{}", task.request, task.kinds)
+            } else {
+                task.request.clone()
+            },
+            max_output_tokens: self.max_tokens.0,
+            temperature: None,
+            structure: None,
+        };
+        // The check sees only the text; the call notes how the reply stopped.
+        let stop = Cell::new(None);
+        let mut call = |asked: &CallRequest| {
+            self.model
+                .chat(asked)
+                .inspect(|reply| stop.set(Some(reply.stop.clone())))
+        };
+        let mut judged = None;
+        let mut check = |text: &str| {
+            let verdict = match stop.take() {
+                Some(Stop::CutOff) => {
+                    failed("the reply was cut off before the pack was complete".into())
+                }
+                Some(Stop::Refused) => failed("the request was refused".into()),
+                _ => judge(task, &pack_text(text)),
+            };
+            let seen = repair::Verdict {
+                passed: verdict.admitted,
+                reasons: verdict.feedback.clone(),
+            };
+            judged = Some(verdict);
+            seen
+        };
+        let outcome = with_repairs(&mut call, &request, &mut check, self.repairs);
+        let (attempts, reply, verdict, failure) = match outcome {
+            Outcome::Accepted { reply, attempts }
+            | Outcome::Rejected {
+                last: reply,
+                attempts,
+            } => {
+                let verdict = judged.expect("the last reply was checked");
+                (attempts, reply.text, verdict, None)
+            }
+            Outcome::Failed { error, attempts } => {
+                let word = if error == CallError::Config(NOT_RUN.into()) {
                     "not_run"
                 } else {
                     "error"
-                }
-                .to_owned(),
-            ),
-            Ok(reply) if reply.stop_reason == "refusal" => (
-                reply.text,
-                failed("the request was refused".into()),
-                (reply.input_tokens, reply.output_tokens),
-                "refusal".to_owned(),
-            ),
-            Ok(reply) => {
-                let mut verdict = judge(task, &pack_text(&reply.text));
-                if matches!(reply.stop_reason.as_str(), "max_tokens" | "length") {
-                    verdict = failed("the reply was cut off before the pack was complete".into());
-                }
+                };
                 (
-                    reply.text,
-                    verdict,
-                    (reply.input_tokens, reply.output_tokens),
-                    reply.stop_reason,
+                    attempts,
+                    String::new(),
+                    failed(format!("no reply: {error}")),
+                    Some(word),
                 )
             }
-        }
-    }
-
-    /// A first call and, while the pack is rejected, at most `repairs` more.
-    /// A repair is a fresh call that shows the rejected pack and the reasons;
-    /// where no pack arrived, the request is sent again as it was.
-    fn one(&self, phase: &str, guide: &str, language: &str) -> Trial {
-        let task = &self.languages[language];
-        let request = if self.node_kinds {
-            format!("{}\n\n{}", task.request, task.kinds)
-        } else {
-            task.request.clone()
         };
-        let (mut reply, mut verdict, mut tokens, mut stop) = self.attempt(guide, task, &request);
-        let mut attempts = vec![json!({
-            "admitted": verdict.admitted, "stop_reason": stop, "input_tokens": tokens.0,
-            "output_tokens": tokens.1, "feedback": verdict.feedback,
-        })];
-        while !verdict.admitted
-            && attempts.len() <= self.repairs
-            && !matches!(stop.as_str(), "not_run" | "refusal")
-        {
-            let pack = pack_text(&reply);
-            let user = if pack.is_empty() || stop != "stop" && stop != "end_turn" {
-                request.clone()
-            } else {
-                repair_request(&request, &pack, &verdict.feedback)
-            };
-            let (text, next, used, why) = self.attempt(guide, task, &user);
-            attempts.push(json!({
-                "admitted": next.admitted, "stop_reason": why, "input_tokens": used.0,
-                "output_tokens": used.1, "feedback": next.feedback,
-            }));
-            tokens = (tokens.0 + used.0, tokens.1 + used.1);
-            (reply, verdict, stop) = (text, next, why);
+        let mut calls: Vec<Value> = attempts
+            .iter()
+            .map(|a| {
+                let tokens = (a.input_tokens, a.output_tokens);
+                entry(a.passed, stop_word(&a.stop), tokens, &a.reasons)
+            })
+            .collect();
+        if let Some(word) = failure {
+            calls.push(entry(false, word, (0, 0), &verdict.feedback));
         }
+        let tokens = attempts.iter().fold((0, 0), |(i, o), a| {
+            (i + a.input_tokens, o + a.output_tokens)
+        });
         let record = json!({
             "phase": phase, "guide": guide_id(guide), "language": language, "score": verdict.score,
             "admitted": verdict.admitted, "same": verdict.same, "behaviour": verdict.behaviour,
-            "input_tokens": tokens.0, "output_tokens": tokens.1, "stop_reason": stop, "feedback": verdict.feedback,
-            "first_admitted": attempts[0]["admitted"], "attempts": attempts,
+            "input_tokens": tokens.0, "output_tokens": tokens.1, "stop_reason": calls[calls.len() - 1]["stop_reason"],
+            "feedback": verdict.feedback, "first_admitted": calls[0]["admitted"], "attempts": calls,
         });
         Trial {
             phase: phase.to_owned(),
@@ -367,9 +383,16 @@ impl GepaAdapter for Authoring {
             .collect();
         let template =
             REFLECTION_TEMPLATE.replace("<max_chars>", &self.rules.max_chars.to_string());
-        let prompt = render_prompt(guide_of(candidate), &dataset, Some(&template));
-        let reply = self.model.chat("reflect", "", &prompt, self.max_tokens.1)?;
-        if reply.stop_reason == "refusal" {
+        let request = CallRequest {
+            purpose: "reflect".into(),
+            system: String::new(),
+            user: render_prompt(guide_of(candidate), &dataset, Some(&template)),
+            max_output_tokens: self.max_tokens.1,
+            temperature: None,
+            structure: None,
+        };
+        let reply = self.model.chat(&request).map_err(|e| e.reason())?;
+        if reply.stop == Stop::Refused {
             return Err("the reflection request was refused".into());
         }
         let proposed = extract_new_instruction(&reply.text);
@@ -385,15 +408,121 @@ impl GepaAdapter for Authoring {
 }
 
 #[cfg(test)]
-mod repair {
+mod trials {
     use super::*;
+    use crate::model::Model;
+    use lesscode_model::{Reply, Sent};
+    use std::path::{Path, PathBuf};
+
+    fn repo() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
+    }
+
+    /// Answers with the shipped Java pack, ending as stated.
+    struct Ending(Stop);
+
+    impl Model for Ending {
+        fn name(&self) -> String {
+            "scripted".into()
+        }
+
+        fn chat(&self, request: &CallRequest) -> Result<Reply, CallError> {
+            let text = std::fs::read_to_string(repo().join("native/packs/java.json"))
+                .map_err(|e| CallError::Config(e.to_string()))?;
+            Ok(Reply {
+                text,
+                stop: self.0.clone(),
+                input_tokens: 1,
+                output_tokens: 2,
+                reasoning_tokens: None,
+                cached_input_tokens: None,
+                structured: None,
+                seconds: 0.0,
+                waits: Vec::new(),
+                sent: Sent {
+                    host: "scripted".into(),
+                    model: self.name(),
+                    max_output_tokens: request.max_output_tokens,
+                    temperature: None,
+                    reasoning_level: None,
+                },
+            })
+        }
+    }
+
+    /// The record of one Java trial with one repair allowed.
+    fn trial(name: &str, stop: Stop, max_usd: f64) -> Value {
+        let ledger = std::env::temp_dir().join(format!(
+            "guide-optimizer-{name}-{}.jsonl",
+            std::process::id()
+        ));
+        let model = Metered::new(
+            Box::new(Ending(stop)),
+            (0.0, 0.0),
+            max_usd,
+            f64::INFINITY,
+            ledger.clone(),
+        );
+        // Without control sets the judge runs the admission alone.
+        let java = Language {
+            name: "java".into(),
+            request: "Write the pack for: java".into(),
+            kinds: String::new(),
+            scopes: Vec::new(),
+        };
+        let mut authoring = Authoring::new(
+            Arc::new(model),
+            Arc::new(BTreeMap::from([("java".to_owned(), java)])),
+            Vec::new(),
+            Vec::new(),
+            Arc::new(Rules::new("", Vec::new())),
+        );
+        authoring.repairs = 1;
+        let record = authoring.one("final", "guide", "java").record;
+        let _ = std::fs::remove_file(ledger);
+        record
+    }
+
+    fn calls(record: &Value) -> usize {
+        record["attempts"].as_array().map_or(0, Vec::len)
+    }
 
     #[test]
-    fn the_request_shows_the_pack_and_every_reason() {
-        let text = repair_request("Write the pack for: java", "{}", &["a".into(), "b".into()]);
-        assert!(text.starts_with("Write the pack for: java\n"));
-        assert!(text.contains("The rejected pack:\n{}\n"));
-        // The scripted stand-in recognises a repair by this line.
-        assert!(text.contains("Why it was rejected:\n- a\n- b\n"));
+    fn a_reply_that_was_cut_off_or_refused_is_never_admitted() {
+        // The same pack, complete, is admitted at once.
+        let whole = trial("complete", Stop::Complete, 1.0);
+        assert_eq!(whole["admitted"], true);
+        assert_eq!(whole["stop_reason"], "complete");
+        assert_eq!(
+            (calls(&whole), whole["output_tokens"].as_u64()),
+            (1, Some(2))
+        );
+        for (stop, word, reason) in [
+            (
+                Stop::CutOff,
+                "cut_off",
+                "the reply was cut off before the pack was complete",
+            ),
+            (Stop::Refused, "refusal", "the request was refused"),
+        ] {
+            let record = trial(word, stop, 1.0);
+            assert_eq!(record["admitted"], false);
+            assert_eq!(record["stop_reason"], word);
+            assert_eq!(record["feedback"], json!([reason]));
+            // Asked again as it was, and the tokens of both calls counted.
+            assert_eq!(
+                (calls(&record), record["output_tokens"].as_u64()),
+                (2, Some(4))
+            );
+        }
+    }
+
+    #[test]
+    fn a_call_the_budget_stops_is_recorded_as_not_run() {
+        let record = trial("not-run", Stop::Complete, -1.0);
+        assert_eq!(record["stop_reason"], "not_run");
+        assert_eq!(record["first_admitted"], false);
+        assert_eq!(calls(&record), 1);
+        assert_eq!(record["attempts"][0]["stop_reason"], "not_run");
     }
 }

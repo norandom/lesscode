@@ -1,155 +1,30 @@
-//! The model behind the optimiser: a live endpoint or a scripted stand-in,
-//! metered against a budget. The API key never leaves `Endpoint`.
+//! The model behind the optimiser: a live endpoint reached through the model
+//! seam, or a scripted stand-in, metered against a budget.
 
-use lesscode_core::regenerator::{Endpoint, ureq_post};
+use lesscode_core::regenerator::Endpoint;
+use lesscode_model::{CallError, CallRequest, Limits, Reply, Sent, Stop, Terminal};
 use serde_json::{Value, json};
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
-pub struct Reply {
-    pub text: String,
-    pub stop_reason: String,
-    pub input_tokens: u64,
-    pub output_tokens: u64,
-}
-
 pub trait Model: Send + Sync {
     fn name(&self) -> String;
-    fn chat(&self, system: &str, user: &str, max_tokens: u64) -> Result<Reply, String>;
+    fn chat(&self, request: &CallRequest) -> Result<Reply, CallError>;
 }
 
 pub struct Live(pub Endpoint);
-
-impl Live {
-    fn request(
-        &self,
-        system: &str,
-        user: &str,
-        max_tokens: u64,
-    ) -> (String, Vec<(String, String)>, Value) {
-        let ep = &self.0;
-        let base = ep.base_url.trim_end_matches('/');
-        let json_type = ("content-type".to_owned(), "application/json".to_owned());
-        let turn = json!({"role": "user", "content": user});
-        if ep.style == "anthropic" {
-            let url = if base.ends_with("/v1") {
-                format!("{base}/messages")
-            } else {
-                format!("{base}/v1/messages")
-            };
-            let headers = vec![
-                ("x-api-key".to_owned(), ep.api_key().to_owned()),
-                ("anthropic-version".to_owned(), "2023-06-01".to_owned()),
-                json_type,
-            ];
-            let mut body = json!({"model": ep.model, "max_tokens": max_tokens, "messages": [turn]});
-            if !system.is_empty() {
-                body["system"] = json!(system);
-            }
-            (url, headers, body)
-        } else {
-            let headers = vec![
-                (
-                    "Authorization".to_owned(),
-                    format!("Bearer {}", ep.api_key()),
-                ),
-                json_type,
-            ];
-            let mut messages = vec![turn];
-            if !system.is_empty() {
-                messages.insert(0, json!({"role": "system", "content": system}));
-            }
-            let mut body =
-                json!({"model": ep.model, "max_tokens": max_tokens, "messages": messages});
-            if let Some(level) = &ep.reasoning {
-                body["reasoning_effort"] = json!(level);
-            }
-            (format!("{base}/chat/completions"), headers, body)
-        }
-    }
-
-    fn read(&self, raw: &[u8]) -> Result<Reply, String> {
-        let data: Value =
-            serde_json::from_slice(raw).map_err(|e| format!("unreadable response: {e}"))?;
-        let count = |v: &Value| v.as_u64().unwrap_or(0);
-        if self.0.style == "anthropic" {
-            let blocks = data["content"].as_array().cloned().unwrap_or_default();
-            let text: String = blocks
-                .iter()
-                .filter(|b| b["type"] == "text")
-                .filter_map(|b| b["text"].as_str())
-                .collect();
-            Ok(Reply {
-                text,
-                stop_reason: data["stop_reason"].as_str().unwrap_or("").to_owned(),
-                input_tokens: count(&data["usage"]["input_tokens"]),
-                output_tokens: count(&data["usage"]["output_tokens"]),
-            })
-        } else {
-            let choice = &data["choices"][0];
-            Ok(Reply {
-                text: text_of(&choice["message"]["content"]),
-                stop_reason: choice["finish_reason"].as_str().unwrap_or("").to_owned(),
-                input_tokens: count(&data["usage"]["prompt_tokens"]),
-                output_tokens: count(&data["usage"]["completion_tokens"]),
-            })
-        }
-    }
-}
-
-/// A reply's text: a string, or the text parts of a list of content parts
-/// (a model that reasons returns its reasoning as separate parts).
-fn text_of(content: &Value) -> String {
-    match content {
-        Value::String(text) => text.clone(),
-        Value::Array(parts) => parts
-            .iter()
-            .filter(|part| part["type"] == "text")
-            .filter_map(|part| part["text"].as_str())
-            .collect(),
-        _ => String::new(),
-    }
-}
 
 impl Model for Live {
     fn name(&self) -> String {
         self.0.model.clone()
     }
 
-    /// One request, sent again as `retried` allows.
-    fn chat(&self, system: &str, user: &str, max_tokens: u64) -> Result<Reply, String> {
-        let (url, headers, body) = self.request(system, user, max_tokens);
-        let bytes = body.to_string().into_bytes();
-        let raw = retried(
-            || ureq_post(&url, &headers, &bytes),
-            |seconds| std::thread::sleep(std::time::Duration::from_secs(seconds)),
-        )?;
-        self.read(&raw)
+    /// One call through the seam, which does the waiting. The tool keeps its
+    /// own ledger, so the seam writes no record.
+    fn chat(&self, request: &CallRequest) -> Result<Reply, CallError> {
+        lesscode_model::call(&self.0, request, &Limits::default(), &Terminal, None)
     }
-}
-
-/// Seconds to wait before each further attempt.
-const WAITS: [u64; 5] = [10, 30, 60, 120, 240];
-
-/// Any failure is retried once. An endpoint that answers "too many requests"
-/// (HTTP 429) is asked again after each of `WAITS`, so a rate limit costs
-/// time and not a trial.
-fn retried<T>(
-    mut send: impl FnMut() -> Result<T, String>,
-    mut wait: impl FnMut(u64),
-) -> Result<T, String> {
-    let mut result = send();
-    for (attempt, seconds) in WAITS.iter().enumerate() {
-        match &result {
-            Err(e) if attempt == 0 || e.contains("HTTP 429") => {
-                wait(*seconds);
-                result = send();
-            }
-            _ => break,
-        }
-    }
-    result
 }
 
 const SCRIPTED_HINT: &str = "Check every field against the examples before answering.";
@@ -168,7 +43,8 @@ impl Model for Scripted {
         "scripted".into()
     }
 
-    fn chat(&self, system: &str, user: &str, _max_tokens: u64) -> Result<Reply, String> {
+    fn chat(&self, request: &CallRequest) -> Result<Reply, CallError> {
+        let (system, user) = (&request.system, &request.user);
         let asked = user
             .starts_with("Example packs:")
             .then(|| user.rsplit_once("Write the pack for: "))
@@ -177,13 +53,14 @@ impl Model for Scripted {
             Some((_, rest)) => {
                 let language = rest.lines().next().unwrap_or_default().trim();
                 let shipped = std::fs::read_to_string(self.packs.join(format!("{language}.json")))
-                    .map_err(|e| e.to_string())?;
+                    .map_err(|e| CallError::Config(e.to_string()))?;
+                // The seam's repair request names the reasons under this line.
                 if system.contains(SCRIPTED_HINT) || rest.contains("Why it was rejected:") {
                     shipped
                 } else {
                     // Without the hint the stand-in forgets how failures are rewritten.
-                    let mut weak: Value =
-                        serde_json::from_str(&shipped).map_err(|e| e.to_string())?;
+                    let mut weak: Value = serde_json::from_str(&shipped)
+                        .map_err(|e| CallError::Config(e.to_string()))?;
                     weak["operators"]["failure_state"] = json!({});
                     weak.to_string()
                 }
@@ -195,9 +72,21 @@ impl Model for Scripted {
         };
         Ok(Reply {
             text,
-            stop_reason: "end_turn".into(),
+            stop: Stop::Complete,
             input_tokens: 0,
             output_tokens: 0,
+            reasoning_tokens: None,
+            cached_input_tokens: None,
+            structured: None,
+            seconds: 0.0,
+            waits: Vec::new(),
+            sent: Sent {
+                host: "scripted".into(),
+                model: self.name(),
+                max_output_tokens: request.max_output_tokens,
+                temperature: request.temperature,
+                reasoning_level: None,
+            },
         })
     }
 }
@@ -250,6 +139,9 @@ pub fn recorded_spend(root: &Path, fallback: (f64, f64)) -> f64 {
     total
 }
 
+/// What a call that `Metered` refused says: it was not run.
+pub const NOT_RUN: &str = "not run: the budget would be passed";
+
 /// A model with a ledger and two stops: this run's maximum and the project's.
 pub struct Metered {
     pub model: Box<dyn Model>,
@@ -295,15 +187,9 @@ impl Metered {
         (state.0, state.2)
     }
 
-    /// One call, refused when it could pass a stop. Every call is written
-    /// to the ledger with its purpose.
-    pub fn chat(
-        &self,
-        purpose: &str,
-        system: &str,
-        user: &str,
-        max_tokens: u64,
-    ) -> Result<Reply, String> {
+    /// One call, refused with `NOT_RUN` when it could pass a stop. Every call
+    /// is written to the ledger with its purpose.
+    pub fn chat(&self, request: &CallRequest) -> Result<Reply, CallError> {
         {
             let mut state = self.state.lock().unwrap();
             let committed = state.0 + state.1 + self.reserve_usd;
@@ -314,11 +200,11 @@ impl Metered {
             };
             let held = *self.held_back.lock().unwrap() as f64 * per_call;
             if committed + held > self.max_usd || committed > self.project_room_usd {
-                return Err("not run: the budget would be passed".into());
+                return Err(CallError::Config(NOT_RUN.into()));
             }
             state.1 += self.reserve_usd;
         }
-        let result = self.model.chat(system, user, max_tokens);
+        let result = self.model.chat(request);
         let mut state = self.state.lock().unwrap();
         state.1 -= self.reserve_usd;
         state.2 += 1;
@@ -327,7 +213,7 @@ impl Metered {
             .map(|r| (r.input_tokens, r.output_tokens))
             .unwrap_or((0, 0));
         state.0 += cost(self.price, tokens_in, tokens_out);
-        let row = json!({"purpose": purpose, "model": self.model.name(), "input_tokens": tokens_in,
+        let row = json!({"purpose": request.purpose, "model": self.model.name(), "input_tokens": tokens_in,
                          "output_tokens": tokens_out, "ok": result.is_ok()});
         if let Ok(mut file) = std::fs::OpenOptions::new()
             .create(true)
@@ -341,65 +227,26 @@ impl Metered {
 }
 
 #[cfg(test)]
-mod retries {
+mod scripted {
     use super::*;
-
-    /// The waits made and the result when the endpoint fails `failures` times with `error`.
-    fn run(failures: usize, error: &str) -> (Vec<u64>, Result<usize, String>) {
-        let (mut calls, mut waits) = (0, Vec::new());
-        let result = retried(
-            || {
-                calls += 1;
-                if calls > failures {
-                    Ok(calls)
-                } else {
-                    Err(error.to_owned())
-                }
-            },
-            |seconds| waits.push(seconds),
-        );
-        (waits, result)
-    }
+    use lesscode_model::repair::repair_request;
 
     #[test]
-    fn a_rate_limit_is_waited_out() {
-        assert_eq!(
-            run(3, "openai transport: HTTP 429: slow down"),
-            (vec![10, 30, 60], Ok(4))
-        );
-        let (waits, result) = run(99, "openai transport: HTTP 429");
-        assert_eq!(waits, WAITS);
-        assert!(result.is_err());
-    }
-
-    #[test]
-    fn another_failure_is_retried_once() {
-        assert_eq!(run(1, "openai transport: HTTP 500"), (vec![10], Ok(2)));
-        let (waits, result) = run(2, "openai transport: HTTP 500");
-        assert_eq!(waits, [10]);
-        assert_eq!(result.unwrap_err(), "openai transport: HTTP 500");
-    }
-}
-
-#[cfg(test)]
-mod reasoning_level {
-    use super::*;
-
-    fn body(style: &str, level: Option<&str>) -> Value {
-        let mut endpoint = Endpoint::new(style, "http://localhost:8080/v1", "m", "k");
-        endpoint.reasoning = level.map(str::to_owned);
-        Live(endpoint).request("guide", "user", 10).2
-    }
-
-    #[test]
-    fn it_is_sent_only_when_the_endpoint_names_one() {
-        assert_eq!(body("openai", Some("high"))["reasoning_effort"], "high");
-        assert!(body("openai", None).get("reasoning_effort").is_none());
-        // The other request style has no such field.
-        assert!(
-            body("anthropic", Some("high"))
-                .get("reasoning_effort")
-                .is_none()
-        );
+    fn it_answers_the_seams_repair_request_with_the_shipped_pack() {
+        let packs = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../native/packs");
+        let shipped = std::fs::read_to_string(packs.join("java.json")).unwrap();
+        let model = Scripted { packs };
+        let request = CallRequest {
+            purpose: "author".into(),
+            system: "guide".into(),
+            user: "Example packs:\n\n{}\n\nWrite the pack for: java".into(),
+            max_output_tokens: 100,
+            temperature: None,
+            structure: None,
+        };
+        let first = model.chat(&request).unwrap().text;
+        assert_ne!(first, shipped);
+        let repair = repair_request(&request, &first, &["a reason".into()]);
+        assert_eq!(model.chat(&repair).unwrap().text, shipped);
     }
 }

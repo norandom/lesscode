@@ -13,6 +13,7 @@
 use crate::adapter::{Authoring, guide_id};
 use crate::task::pack_text;
 use gepa::extract_new_instruction;
+use lesscode_model::CallRequest;
 use serde_json::{Value, json};
 
 /// dsrust `grounded.rs` TIPS, in its order; the empty first entry means no tip.
@@ -101,12 +102,16 @@ fn propose(
         // dsrust draws the tip from its generator; here the seed and the
         // candidate's number choose it, which is as arbitrary and replayable.
         let tip = TIPS[(settings.seed as usize + index) % TIPS.len()];
-        let request = proposal_request(baseline, demo, tip, adapter.rules.max_chars);
+        let request = CallRequest {
+            purpose: "propose".into(),
+            system: PROPOSER.into(),
+            user: proposal_request(baseline, demo, tip, adapter.rules.max_chars),
+            max_output_tokens: adapter.max_tokens.1,
+            temperature: None,
+            structure: None,
+        };
         calls += 1;
-        let Ok(reply) = adapter
-            .model
-            .chat("propose", PROPOSER, &request, adapter.max_tokens.1)
-        else {
+        let Ok(reply) = adapter.model.chat(&request) else {
             break;
         };
         let proposed = extract_new_instruction(&reply.text);

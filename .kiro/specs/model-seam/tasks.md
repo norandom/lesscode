@@ -150,11 +150,14 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     the set is kept (design Amendment 9).
   - _Requirements: 10.2, 10.3, 10.9, 10.10_
 
-- [ ] 6. The research tool on the seam
+- [x] 6. The research tool on the seam
   - `tools/guide-optimizer`: `Live` calls the seam; its own request building, reply reading and wait are
     deleted; its repair turns use `repair.rs`.
   - Done when its tests pass, a dry run gives the same summary as before, and one live judgement of four
     trials on GLM 5.3 completes.
+  - 2026-11-14: done, [R111](../../../docs/research/2026-11-14/04-model-seam-guide-tool-on-the-seam.md).
+    Implemented by a subagent on the owner's instruction for this group; review and live run in the
+    main context.
   - _Depends: 3_
   - _Requirements: 8.2_
 

@@ -16,7 +16,7 @@ use gepa::progress::{Event, Progress};
 use gepa::{Candidate, CandidateSelection, ComponentSelection, GepaEngine};
 use lesscode_core::adapters::driver::admission::kind_names;
 use lesscode_core::adapters::driver::registry::shipped;
-use lesscode_core::regenerator::load_endpoint;
+use lesscode_model::endpoint_from;
 use model::{Live, Metered, Model, Scripted, cost, list_price, recorded_spend};
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
@@ -85,7 +85,7 @@ struct Args {
     dry_run: bool,
     /// Output limit of an authoring call and of a reflection call, in tokens.
     #[arg(long, num_args = 2, value_names = ["AUTHOR", "REFLECT"], default_values_t = [4_000, 8_000])]
-    max_tokens: Vec<u64>,
+    max_tokens: Vec<u32>,
     /// Skip optimisation and judge this guide file with fresh calls.
     #[arg(long)]
     judge_only: Option<PathBuf>,
@@ -270,7 +270,8 @@ fn run(args: Args) -> Result<(), String> {
             packs: repo.join("native/packs"),
         })
     } else {
-        Box::new(Live(load_endpoint(args.endpoint_env.as_deref())?))
+        let endpoint = endpoint_from(args.endpoint_env.as_deref()).map_err(|e| e.reason())?;
+        Box::new(Live(endpoint))
     };
     let name = model.name();
     let fallback = (15.0, 75.0);
