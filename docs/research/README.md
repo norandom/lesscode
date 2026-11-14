@@ -13,7 +13,7 @@
 [R108](2026-11-14/01-model-seam-first-cases-live.md) is the live run of task 5.1 of `model-seam`.
 - **`call`:** the turn of R102 completes on GLM 5.3, Mistral Large, `gpt-6.1-sol`, `claude-opus-5-5` and both models of the local endpoint through the built binary: exit code 0, a complete stop, the reply in the structure asked for, no wait, no key in any output or record.
 - **`check`:** five endpoints usable, four on the first reply; GLM 5.3 on the local endpoint after one repair, and the report does not say why the first reply was rejected.
-- **Not run:** `check` on the Anthropic case; the three calls the owner allowed are used. The owner decides whether to allow one to three more.
+- **Not run at first:** `check` on the Anthropic case, because the three calls the owner allowed were used. The owner approved more; it ran at 09:07 with one call and finds the endpoint usable. All six cases pass both commands.
 - **Next:** task 5.2, one real refusal waited out.
 
 ## Prior: R107 Gate P4 of the model seam: `regenerate run` completes on all six first cases through a second executable; the gate is assessed as proceed (2026-11-12)

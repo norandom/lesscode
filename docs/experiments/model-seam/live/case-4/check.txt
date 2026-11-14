@@ -1,0 +1,8 @@
+exit code: Some(0)
+seconds: 6.8
+--- standard output
+model claude-opus-5-5 at api.anthropic.com: 1 calls answered in 6.6 s, 876 tokens in, 528 tokens out, no wait
+this endpoint can be used
+
+--- standard error
+

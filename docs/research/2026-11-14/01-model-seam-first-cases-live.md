@@ -2,7 +2,7 @@
 
 - Report date/time and timezone: 2026-11-14, 08:58, Europe/Berlin (UTC+1)
 - Execution interval: 2026-11-14, 08:51:57 to 08:53:56
-- Status: completed for `call` on six cases and `check` on five; `check` on case 4 not run
+- Status: completed; `check` on case 4 was run at 09:07 after the owner's approval (amendment below)
 - Spec: [model-seam](../../../.kiro/specs/model-seam/requirements.md), requirements 2.7 and 1.6, [task 5.1](../../../.kiro/specs/model-seam/tasks.md)
 - Hypothesis ID and predecessor: the first cases of [R105](../2026-11-12/12-model-seam-gate-p1.md) and [R107](../2026-11-12/14-model-seam-gate-p4.md), now through the built binary instead of a prototype
 - Type: live check of an implemented task; the pass condition is the task's (written 2026-11-12)
@@ -16,6 +16,12 @@ specific to it.
 Task 5.1 asks for `call` and `check` on each case. `check` was not run on the Anthropic case: the owner
 allowed three calls to that endpoint, `call` used the third, and `check` needs one to three more. The task
 stays open on that one cell until the owner allows the calls or accepts the case without them.
+
+**Amendment, 2026-11-14, 09:09.** The owner approved the calls ("approved", 09:06). `check` on case 4 ran
+at 09:07:33: exit code 0, one call, 6.6 s, 876 tokens in, 528 out, no wait, "this endpoint can be used".
+All six cases now pass both commands and task 5.1 is closed. Calls to the Anthropic endpoint: four, the
+three first allowed and one of the one to three approved today. The output is in
+`live/case-4/check.txt`. The title and the text below stand as written at 08:58.
 
 ## Hypothesis and falsification
 
