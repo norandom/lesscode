@@ -8,7 +8,16 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R109 A real refusal on the local endpoint is waited out: ten calls through `lesscode-model call` announce a wait, wait and are answered (2026-11-14)
+## Latest: R110 The indicator on four real cases: every one is "good enough direct"; the built-in set does not tell the models apart (2026-11-14)
+
+[R110](2026-11-14/03-model-seam-indicator-on-real-models.md) is the live run of task 5.3 of `model-seam`.
+- **Result:** built-in set, the core's parsing and static checks, 20 trials each: first replies accepted 19 (GLM 5.3, Mistral's API), 17 (Mistral Large), 20 (`gpt-6.1-sol`) and 19 (GLM 5.3, local endpoint) of 20; all 20 of 20 within two repairs; one verdict for all.
+- **Refuted:** that the set separates the models. Twenty trials cannot distinguish 17 from 20.
+- **Cost:** on the same service Mistral Large needs about eleven times the output tokens and twenty times the seconds of GLM 5.3 per accepted answer; the verdict does not use cost.
+- **Quick mode:** agrees with the full verdict on three cases and is undecided on Mistral Large.
+- **Open with the owner:** what the indicator is meant to say. Task 5.3 is not ticked and the set is not hardened.
+
+## Prior: R109 A real refusal on the local endpoint is waited out: ten calls through `lesscode-model call` announce a wait, wait and are answered (2026-11-14)
 
 [R109](2026-11-14/02-model-seam-real-refusal-waited-out.md) is the live run of task 5.2 of `model-seam` and closes the live condition of gate P3.
 - **Result:** 16 large calls side by side (about 24,100 input tokens each) met the rate limit; ten were refused after about 130 s, announced a wait of about 1 s, waited, asked again and were answered. 26 calls in two rounds, none failed.

@@ -1,0 +1,8 @@
+task set: built-in
+check: the core's parsing and static checks on a copy (parse_result, prepare_candidate, evaluate_tier1_static)
+model: zai-glm-5-3 at 127.0.0.1:8765
+trials: 5 (quick), 0 not run
+first reply passed: 4 of 5 (80 %)
+passed within 2 repairs: 5 of 5 (100 %)
+per accepted answer: 1.2 calls, 356 output tokens, 1.8 s
+verdict: good enough so far

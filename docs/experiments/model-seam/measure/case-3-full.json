@@ -1,0 +1,17 @@
+{
+  "task_set": "built-in",
+  "check": "the core's parsing and static checks on a copy (parse_result, prepare_candidate, evaluate_tier1_static)",
+  "model": "gpt-6.1-sol",
+  "host": "api.openai.com",
+  "quick": false,
+  "repairs": 2,
+  "trials": 20,
+  "not_run": 0,
+  "first_passed": 20,
+  "passed": 20,
+  "calls": 20,
+  "output_tokens": 9505,
+  "seconds": 189.5,
+  "verdict": "good enough direct",
+  "why": null
+}

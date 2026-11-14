@@ -1,0 +1,17 @@
+{
+  "task_set": "built-in",
+  "check": "the core's parsing and static checks on a copy (parse_result, prepare_candidate, evaluate_tier1_static)",
+  "model": "zai-glm-5-3",
+  "host": "127.0.0.1:8765",
+  "quick": false,
+  "repairs": 2,
+  "trials": 20,
+  "not_run": 0,
+  "first_passed": 19,
+  "passed": 20,
+  "calls": 21,
+  "output_tokens": 10157,
+  "seconds": 37.3,
+  "verdict": "good enough direct",
+  "why": null
+}

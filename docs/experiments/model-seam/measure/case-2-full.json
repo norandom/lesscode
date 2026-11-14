@@ -1,0 +1,17 @@
+{
+  "task_set": "built-in",
+  "check": "the core's parsing and static checks on a copy (parse_result, prepare_candidate, evaluate_tier1_static)",
+  "model": "mistral-large-latest",
+  "host": "api.mistral.ai",
+  "quick": false,
+  "repairs": 2,
+  "trials": 20,
+  "not_run": 0,
+  "first_passed": 17,
+  "passed": 20,
+  "calls": 24,
+  "output_tokens": 104144,
+  "seconds": 1216.2,
+  "verdict": "good enough direct",
+  "why": null
+}

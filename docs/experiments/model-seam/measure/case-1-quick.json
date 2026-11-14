@@ -1,0 +1,17 @@
+{
+  "task_set": "built-in",
+  "check": "the core's parsing and static checks on a copy (parse_result, prepare_candidate, evaluate_tier1_static)",
+  "model": "zai-glm-5-3",
+  "host": "api.mistral.ai",
+  "quick": true,
+  "repairs": 2,
+  "trials": 5,
+  "not_run": 0,
+  "first_passed": 5,
+  "passed": 5,
+  "calls": 5,
+  "output_tokens": 1590,
+  "seconds": 8.7,
+  "verdict": "good enough so far",
+  "why": null
+}

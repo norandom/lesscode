@@ -144,6 +144,10 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - Done when a research entry records counts, rates, cost per accepted answer and verdict for each, and
     states whether the set separates the models. If every model passes every first reply, the set does
     not measure anything: it is hardened and measured again before the group closes, and that is recorded.
+  - 2026-11-14: measured, [R110](../../../docs/research/2026-11-14/03-model-seam-indicator-on-real-models.md).
+    All four cases are "good enough direct" (first replies 19, 17, 20 and 19 of 20); the set does not
+    separate the models. Not ticked and not hardened: the failure goes back to the design, and the owner
+    decides what the indicator is meant to say.
   - _Requirements: 10.2, 10.3, 10.9, 10.10_
 
 - [ ] 6. The research tool on the seam

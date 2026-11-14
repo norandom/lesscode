@@ -1,0 +1,8 @@
+task set: built-in
+check: the core's parsing and static checks on a copy (parse_result, prepare_candidate, evaluate_tier1_static)
+model: gpt-6.1-sol at api.openai.com
+trials: 5 (quick), 0 not run
+first reply passed: 5 of 5 (100 %)
+passed within 2 repairs: 5 of 5 (100 %)
+per accepted answer: 1.0 calls, 477 output tokens, 10.6 s
+verdict: good enough so far

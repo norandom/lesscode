@@ -1,0 +1,3 @@
+[model] still waiting for the answer of api.mistral.ai: 2 s so far
+[model] still waiting for the answer of api.mistral.ai: 3 s so far
+[model] still waiting for the answer of api.mistral.ai: 3 s so far

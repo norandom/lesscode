@@ -1,0 +1,8 @@
+task set: built-in
+check: the core's parsing and static checks on a copy (parse_result, prepare_candidate, evaluate_tier1_static)
+model: mistral-large-latest at api.mistral.ai
+trials: 20, 0 not run
+first reply passed: 17 of 20 (85 %)
+passed within 2 repairs: 20 of 20 (100 %)
+per accepted answer: 1.2 calls, 5207 output tokens, 60.8 s
+verdict: good enough direct

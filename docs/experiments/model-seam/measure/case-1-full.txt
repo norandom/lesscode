@@ -1,0 +1,8 @@
+task set: built-in
+check: the core's parsing and static checks on a copy (parse_result, prepare_candidate, evaluate_tier1_static)
+model: zai-glm-5-3 at api.mistral.ai
+trials: 20, 0 not run
+first reply passed: 19 of 20 (95 %)
+passed within 2 repairs: 20 of 20 (100 %)
+per accepted answer: 1.1 calls, 450 output tokens, 2.9 s
+verdict: good enough direct
