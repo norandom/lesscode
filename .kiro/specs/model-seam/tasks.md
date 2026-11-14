@@ -94,7 +94,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     reason on standard error and exit code 3, and an unreadable request with exit code 2.
   - _Boundary: ProcessProtocol_
   - _Requirements: 4.4_
-- [ ] 4.2 `check`: is this endpoint usable
+- [x] 4.2 `check`: is this endpoint usable
   - `check.rs`: the embedded task, judged by the core's parsing and static checks in a temporary
     directory, with at most two repairs; the report names model, time, tokens and waits.
   - Done when `tests/check_command.rs` shows usable, refused and rejected with exit codes 0, 3 and 4, at

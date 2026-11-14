@@ -1,6 +1,13 @@
 {
  "files": [
   {
+   "path": "check.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "The check command: one small fixed task through the repair loop, judged by the core's parsing and static checks in a temporary directory; the report and how it ends (task 4.2; requirements 5.1 to 5.7, 7.5)",
+   "disposition": null
+  },
+  {
    "path": "client.rs",
    "max_logical_units": 300,
    "owner": "model-seam",

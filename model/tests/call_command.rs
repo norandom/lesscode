@@ -1,90 +1,12 @@
 //! The process protocol of `lesscode-model call`, through the binary against
 //! a local stub endpoint (task 4.1; requirement 4.4).
 
+mod binary;
 mod stub_endpoint;
 
+use binary::{EndpointFile, KEY, run};
 use serde_json::{Value, json};
-use std::io::Write;
-use std::path::PathBuf;
-use std::process::{Command, Stdio};
 use stub_endpoint::{chat_reply, ok, start};
-
-const KEY: &str = "test-key-0123456789-do-not-show";
-
-/// An endpoint file in the temp folder that is removed when the test ends.
-struct EndpointFile(PathBuf);
-
-impl EndpointFile {
-    fn new(name: &str, address: &str) -> Self {
-        let path = std::env::temp_dir().join(format!(
-            "lesscode-model-command-{name}-{}.env",
-            std::process::id()
-        ));
-        let text = format!(
-            "LESSCODE_MODEL_API_STYLE=openai\nLESSCODE_MODEL_BASE_URL={address}/v1\n\
-             LESSCODE_MODEL_NAME=stub-model\nLESSCODE_MODEL_API_KEY={KEY}\n"
-        );
-        std::fs::write(&path, text).unwrap();
-        EndpointFile(path)
-    }
-}
-
-impl Drop for EndpointFile {
-    fn drop(&mut self) {
-        let _ = std::fs::remove_file(&self.0);
-    }
-}
-
-struct Ran {
-    code: Option<i32>,
-    out: String,
-    err: String,
-}
-
-impl Ran {
-    /// Standard output is one JSON object and nothing else.
-    fn answer(&self) -> Value {
-        serde_json::from_str(&self.out).unwrap_or_else(|problem| {
-            panic!("standard output is not JSON ({problem}): {}", self.out)
-        })
-    }
-
-    fn shows_no_key(&self) {
-        assert!(
-            !self.out.contains(KEY) && !self.err.contains(KEY),
-            "{}\n{}",
-            self.out,
-            self.err
-        );
-    }
-}
-
-/// Runs the binary with `args`, `input` on standard input, and no setting of
-/// a model or a reasoning level from the environment of the test run.
-fn run(args: &[&str], input: &str) -> Ran {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_lesscode-model"))
-        .args(args)
-        .env_remove("LESSCODE_MODEL_ENV")
-        .env_remove("LESSCODE_MODEL_NAME")
-        .env_remove("LESSCODE_MODEL_REASONING_EFFORT")
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .expect("the binary starts");
-    // A command line that cannot be used ends before it reads its input.
-    let _ = child
-        .stdin
-        .take()
-        .expect("standard input")
-        .write_all(input.as_bytes());
-    let output = child.wait_with_output().expect("the binary ends");
-    Ran {
-        code: output.status.code(),
-        out: String::from_utf8(output.stdout).expect("standard output is text"),
-        err: String::from_utf8(output.stderr).expect("standard error is text"),
-    }
-}
 
 fn request() -> String {
     json!({

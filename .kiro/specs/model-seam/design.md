@@ -84,6 +84,23 @@ than the text below, or differ from it:
 - The arguments are read by a function of `main.rs`; `clap`, which the design allows, is not a
   dependency.
 
+**Amendment 7, 2026-11-14 (as built, task 4.2).** Six points where `check.rs` says more than the text
+below, or differs from it:
+
+- The request is the one the core's `build_prompt` writes for the module of R102, with the target of
+  R102 (`written_stmts_max` 6) and an empty surface, and 8,000 output tokens.
+- One code fence around the whole reply is removed before `parse_result` (the seam's `unfenced`), so a
+  fenced answer is not a reason to reject.
+- Between `prepare_candidate` and `evaluate_tier1_static` the reply's files are written to the copy with
+  the core's `write_candidate`; a path outside the scope is a rejection with the core's message. Every
+  reply gets a copy of its own in the temporary directory, which is removed at the end.
+- The report is text on standard output: one line with model, host, calls answered, seconds, tokens and
+  waits, then the finding; for a rejection one line per call with the check that rejected it.
+- "The model that answered" is the model named in the request (`Sent::model`). `Reply` does not hold the
+  name an endpoint returns; if an endpoint answers with another model, the check does not show it.
+- `--endpoint-env` may be left out, as for `call`. An unusable endpoint file ends with exit code 2 and
+  is also stated on standard output.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

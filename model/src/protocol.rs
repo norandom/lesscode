@@ -17,6 +17,8 @@ pub const EXIT_ANSWERED: u8 = 0;
 pub const EXIT_USAGE: u8 = 2;
 /// The call was made and failed.
 pub const EXIT_FAILED: u8 = 3;
+/// The endpoint answered and the check rejected the answer.
+pub const EXIT_REJECTED: u8 = 4;
 
 /// The request on standard input: a `CallRequest` with the protocol number.
 /// The error says what is wrong with the text.
