@@ -128,6 +128,20 @@ below, or differs from it:
   with exit code 2. `--out` is the one file the command writes outside the temporary directory.
 - The command has no `--max-wait`; the default limits apply. It prints nothing between trials.
 
+**Amendment 9, 2026-11-14 (owner decisions after the live runs of group 5: R108, R109, R110).**
+
+- The indicator is a floor, not a ranking. On the built-in set, "good enough direct" and "good enough
+  with the repair loop" say that a model can do small steps through this check. The set gave four real
+  cases the same verdict (R110) and is kept as it is; it is not meant to tell capable models apart. The
+  cost per accepted answer is reported and does not enter the verdict.
+- The wait limit stays as designed: the time of refused attempts and the pauses both count. An endpoint
+  that holds a call before refusing it (about 130 s on the local endpoint, R109) uses up the limit with
+  that time.
+- `check` also prints, for an answer that a repair put right, the reasons the earlier answers were
+  rejected, one line per rejected call, before its finding.
+- Not changed: "still waiting" notices follow the answers already seen in the run and so can appear
+  after a few seconds on a fast model.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

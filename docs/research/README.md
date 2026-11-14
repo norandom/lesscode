@@ -15,7 +15,7 @@
 - **Refuted:** that the set separates the models. Twenty trials cannot distinguish 17 from 20.
 - **Cost:** on the same service Mistral Large needs about eleven times the output tokens and twenty times the seconds of GLM 5.3 per accepted answer; the verdict does not use cost.
 - **Quick mode:** agrees with the full verdict on three cases and is undecided on Mistral Large.
-- **Open with the owner:** what the indicator is meant to say. Task 5.3 is not ticked and the set is not hardened.
+- **Owner's decision, 2026-11-14:** the indicator is a floor ("good enough for small steps"), not a ranking; the set is kept, the wait limit stays as designed, and `check` now prints the reasons of a repaired answer (design Amendment 9).
 
 ## Prior: R109 A real refusal on the local endpoint is waited out: ten calls through `lesscode-model call` announce a wait, wait and are answered (2026-11-14)
 

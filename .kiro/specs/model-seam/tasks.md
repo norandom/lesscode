@@ -117,7 +117,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Depends: 3, 4.2_
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9, 10.10, 10.11, 10.12, 10.13, 10.14, 10.15_
 
-- [ ] 5. Live: the first cases
+- [x] 5. Live: the first cases
 - [x] 5.1 The six first cases through `call` and `check`
   - `tests/live.rs` and a run script; each case once through `call` with the turn of R102 and once through
     `check`. Endpoint files outside the repository.
@@ -137,7 +137,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     them was answered before the limit was met.
   - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-- [ ] 5.3 The indicator on real models, and whether the built-in set tells them apart
+- [x] 5.3 The indicator on real models, and whether the built-in set tells them apart
   - `measure` with twenty trials on GLM 5.3 (Mistral's API and the local endpoint), Mistral Large and
     `gpt-6.1-sol`; the quick mode once on each, to compare its outcome with the full verdict. The
     Anthropic endpoint is left out (no calls left for it).
@@ -146,8 +146,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     not measure anything: it is hardened and measured again before the group closes, and that is recorded.
   - 2026-11-14: measured, [R110](../../../docs/research/2026-11-14/03-model-seam-indicator-on-real-models.md).
     All four cases are "good enough direct" (first replies 19, 17, 20 and 19 of 20); the set does not
-    separate the models. Not ticked and not hardened: the failure goes back to the design, and the owner
-    decides what the indicator is meant to say.
+    separate the models. The owner decided the same day: the indicator is a floor, not a ranking, and
+    the set is kept (design Amendment 9).
   - _Requirements: 10.2, 10.3, 10.9, 10.10_
 
 - [ ] 6. The research tool on the seam

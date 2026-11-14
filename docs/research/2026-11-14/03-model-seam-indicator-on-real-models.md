@@ -20,6 +20,11 @@ the owner's decision.
 What the run does show is a difference in cost, which the verdict does not use: on the same service, Mistral Large
 needs about eleven times the output tokens and twenty times the seconds of GLM 5.3 for an accepted answer.
 
+**Amendment, 2026-11-14, 10:00.** The owner decided: the indicator is accepted as a floor. It says that a
+model is good enough for small steps through this check and does not rank models; the set is not
+hardened and cost stays a reported number. Task 5.3 is ticked with that meaning, recorded as design
+Amendment 9. The text above and below stands as written at 09:50.
+
 ## Hypothesis and falsification
 
 `measure` on the built-in set gives different verdicts, or clearly different first-reply rates, for

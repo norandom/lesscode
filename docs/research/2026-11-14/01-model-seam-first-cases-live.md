@@ -23,6 +23,10 @@ All six cases now pass both commands and task 5.1 is closed. Calls to the Anthro
 three first allowed and one of the one to three approved today. The output is in
 `live/case-4/check.txt`. The title and the text below stand as written at 08:58.
 
+**Amendment, 2026-11-14, 10:00.** By the owner's decision `check` now prints the reasons of a rejected
+answer also when a repair put it right (design Amendment 9). Case 5 was not run again, so the reason
+of its first rejection stays unknown.
+
 ## Hypothesis and falsification
 
 Each case completes the turn of R102 through `lesscode-model call` with exit code 0, a complete stop and a

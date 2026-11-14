@@ -18,6 +18,9 @@ the small turn of R102, was answered in 1.3 s at the start of the round, before 
 ten calls that waited are calls of the load. They went through the same command, so the behaviour asked
 for is shown; the owner may read the wording more strictly.
 
+**Amendment, 2026-11-14, 10:00.** The owner decided to keep the wait limit as designed: the time an
+endpoint holds a refused attempt counts against it (design Amendment 9).
+
 ## Hypothesis and falsification
 
 With enough large calls side by side, the local endpoint refuses some for its rate limit. A refused call
