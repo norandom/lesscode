@@ -8,7 +8,15 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R107 Gate P4 of the model seam: `regenerate run` completes on all six first cases through a second executable; the gate is assessed as proceed (2026-11-12)
+## Latest: R108 The six first cases through `lesscode-model call`: all answered in the stated structure; `check` finds five endpoints usable and was not run on the Anthropic case (2026-11-14)
+
+[R108](2026-11-14/01-model-seam-first-cases-live.md) is the live run of task 5.1 of `model-seam`.
+- **`call`:** the turn of R102 completes on GLM 5.3, Mistral Large, `gpt-6.1-sol`, `claude-opus-5-5` and both models of the local endpoint through the built binary: exit code 0, a complete stop, the reply in the structure asked for, no wait, no key in any output or record.
+- **`check`:** five endpoints usable, four on the first reply; GLM 5.3 on the local endpoint after one repair, and the report does not say why the first reply was rejected.
+- **Not run:** `check` on the Anthropic case; the three calls the owner allowed are used. The owner decides whether to allow one to three more.
+- **Next:** task 5.2, one real refusal waited out.
+
+## Prior: R107 Gate P4 of the model seam: `regenerate run` completes on all six first cases through a second executable; the gate is assessed as proceed (2026-11-12)
 
 [R107](2026-11-12/14-model-seam-gate-p4.md) closes the prototype gate of `model-seam`.
 - **P4:** with a prototype launcher at the regenerator's transport seam, the turns that failed in R102 complete on GLM 5.3, Mistral Large, `gpt-6.1-sol`, `claude-opus-5-5` and both models of the local endpoint; 390 tests pass on the prototype branch, earlier receipts verify.

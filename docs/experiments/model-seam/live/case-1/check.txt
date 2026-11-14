@@ -1,0 +1,8 @@
+exit code: Some(0)
+seconds: 1.4
+--- standard output
+model zai-glm-5-3 at api.mistral.ai: 1 calls answered in 1.3 s, 638 tokens in, 241 tokens out, no wait
+this endpoint can be used
+
+--- standard error
+

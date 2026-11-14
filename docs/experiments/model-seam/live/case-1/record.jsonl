@@ -1,0 +1,1 @@
+{"time_utc":"2026-11-14T07:52:01Z","purpose":"first-case","host":"api.mistral.ai","model":"zai-glm-5-3","ok":true,"sent":{"max_output_tokens":64000,"temperature":null,"reasoning_level":"high"},"seconds":2.3,"stop":"complete","input_tokens":645,"output_tokens":192,"reasoning_tokens":35,"waits":[]}

@@ -16,7 +16,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
 - Endpoints, models and keys come from endpoint files outside the repository (and the repository's `.env`
   for the local endpoint), never from code. No key in a file of the repository, a record or a message.
 - Live calls: no two runs against one upstream side by side. The Anthropic endpoint has one call left of
-  the three the owner allowed; group 5 uses it.
+  the three the owner allowed; group 5 uses it. (Used on 2026-11-14 by task 5.1; none left.)
 - Each group ends with the budgets check passing for every new file at the default ceilings (2,800 tokens,
   300 units, 560 tokens per function), a dated research entry where a result or a deviation exists, and
   `.kiro/task_N_handover.md`. A file over budget is split, not exempted.
@@ -123,6 +123,9 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     `check`. Endpoint files outside the repository.
   - Done when a research entry records all six with time, tokens and result, and any case that fails is
     named with the endpoint's words.
+  - 2026-11-14: run and recorded in [R108](../../../docs/research/2026-11-14/01-model-seam-first-cases-live.md).
+    `call` passes on all six; `check` passes on five. Not ticked: `check` was not run on the Anthropic
+    case, because the three calls the owner allowed are used. The owner decides.
   - _Requirements: 2.7, 1.6_
 - [ ] 5.2 One real refusal waited out (carried from the gate)
   - Provoke a rate limit on the local endpoint with a long run of large calls, alone on that upstream;

@@ -1,0 +1,8 @@
+exit code: Some(0)
+seconds: 3.0
+--- standard output
+model zai-glm-5-3 at 127.0.0.1:8765: 2 calls answered in 2.9 s, 1500 tokens in, 413 tokens out, no wait
+this endpoint can be used
+
+--- standard error
+

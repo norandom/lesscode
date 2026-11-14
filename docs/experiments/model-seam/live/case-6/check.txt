@@ -1,0 +1,8 @@
+exit code: Some(0)
+seconds: 11.5
+--- standard output
+model mistral-large-latest at 127.0.0.1:8765: 1 calls answered in 11.5 s, 643 tokens in, 897 tokens out, no wait
+this endpoint can be used
+
+--- standard error
+

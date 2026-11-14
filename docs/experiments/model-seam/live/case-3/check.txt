@@ -1,0 +1,8 @@
+exit code: Some(0)
+seconds: 15.0
+--- standard output
+model gpt-6.1-sol at api.openai.com: 1 calls answered in 14.9 s, 634 tokens in, 625 tokens out, no wait
+this endpoint can be used
+
+--- standard error
+

@@ -1,0 +1,1 @@
+{"time_utc":"2026-11-14T07:52:31Z","purpose":"first-case","host":"api.openai.com","model":"gpt-6.1-sol","ok":true,"sent":{"max_output_tokens":64000,"temperature":null,"reasoning_level":"medium"},"seconds":12.0,"stop":"complete","input_tokens":641,"output_tokens":432,"reasoning_tokens":303,"waits":[]}

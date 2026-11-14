@@ -1,0 +1,8 @@
+exit code: Some(0)
+seconds: 7.2
+--- standard output
+model mistral-large-latest at api.mistral.ai: 1 calls answered in 7.2 s, 643 tokens in, 880 tokens out, no wait
+this endpoint can be used
+
+--- standard error
+

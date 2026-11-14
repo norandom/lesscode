@@ -73,11 +73,26 @@ pub fn run_in(directory: Option<&Path>, args: &[&str], input: &str) -> Ran {
     if let Some(directory) = directory {
         command.current_dir(directory);
     }
-    let mut child = command
-        .args(args)
+    command
         .env_remove("LESSCODE_MODEL_ENV")
         .env_remove("LESSCODE_MODEL_NAME")
-        .env_remove("LESSCODE_MODEL_REASONING_EFFORT")
+        .env_remove("LESSCODE_MODEL_REASONING_EFFORT");
+    ran(command, args, input)
+}
+
+/// Runs the binary with the model and the reasoning level the environment
+/// sets for this run, as a user's shell would: for a live endpoint.
+pub fn run_as_set(args: &[&str], input: &str) -> Ran {
+    ran(
+        Command::new(env!("CARGO_BIN_EXE_lesscode-model")),
+        args,
+        input,
+    )
+}
+
+fn ran(mut command: Command, args: &[&str], input: &str) -> Ran {
+    let mut child = command
+        .args(args)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
