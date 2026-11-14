@@ -74,3 +74,8 @@ headers are reachable, licence, and the date of the latest release.
 **Gate as a whole, 2026-11-12: `proceed`.** Carried into implementation as named items, each with a task
 and a check: (1) one real refusal waited out with its announced estimate; (2) a new receipt states only
 what was sent, shown after the hand-written request has left the core.
+
+**Amendment, 2026-11-14.** Carried item (1) is closed: on the local endpoint ten calls through
+`lesscode-model call` were refused for the rate limit, announced a wait of about one second, waited and
+were answered. [R109](../../../docs/research/2026-11-14/02-model-seam-real-refusal-waited-out.md). Item (2)
+remains with task 7.3.

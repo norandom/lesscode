@@ -127,11 +127,14 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     `call` and `check` pass on all six. `check` on the Anthropic case ran after the owner approved
     further calls (one used; four calls to that endpoint in all).
   - _Requirements: 2.7, 1.6_
-- [ ] 5.2 One real refusal waited out (carried from the gate)
+- [x] 5.2 One real refusal waited out (carried from the gate)
   - Provoke a rate limit on the local endpoint with a long run of large calls, alone on that upstream;
     one further call through `call` must announce its estimate, wait and be answered.
   - Done when the research entry shows the announced estimate, the wait made and the answer; if no refusal
     can be provoked in one hour of trying, that is recorded and the owner decides.
+  - 2026-11-14: met, [R109](../../../docs/research/2026-11-14/02-model-seam-real-refusal-waited-out.md). Ten
+    calls of the load were refused, announced a wait, waited and were answered; the small call beside
+    them was answered before the limit was met.
   - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
 - [ ] 5.3 The indicator on real models, and whether the built-in set tells them apart

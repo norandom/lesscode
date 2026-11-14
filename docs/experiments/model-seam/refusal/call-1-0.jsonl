@@ -1,0 +1,1 @@
+{"time_utc":"2026-11-14T08:09:35Z","purpose":"refusal-probe","host":"127.0.0.1:8765","model":"zai-glm-5-3","ok":true,"sent":{"max_output_tokens":64000,"temperature":null,"reasoning_level":"high"},"seconds":17.5,"stop":"complete","input_tokens":645,"output_tokens":174,"reasoning_tokens":14,"waits":[]}
