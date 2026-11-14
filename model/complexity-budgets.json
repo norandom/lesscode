@@ -22,6 +22,20 @@
    "disposition": null
   },
   {
+   "path": "measure.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "Trials over a task set through the repair loop, the counts, the verdict rule with its thresholds, the report (task 4.3; requirements 10.1 to 10.9, 10.12 to 10.14)",
+   "disposition": null
+  },
+  {
+   "path": "taskset.rs",
+   "max_logical_units": 300,
+   "owner": "model-seam",
+   "allocation": "A task set and its check: the form on disk, the built-in set, the core's checks on a copy in a temporary directory (task 4.3; requirements 10.10, 10.11, 10.15)",
+   "disposition": null
+  },
+  {
    "path": "notice.rs",
    "max_logical_units": 300,
    "owner": "model-seam",

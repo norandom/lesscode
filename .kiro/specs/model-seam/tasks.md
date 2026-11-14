@@ -86,7 +86,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Boundary: RepairLoop_
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 7.3, 7.4_
 
-- [ ] 4. The two commands of `lesscode-model`
+- [x] 4. The two commands of `lesscode-model`
 - [x] 4.1 `call`: the process protocol
   - `protocol.rs`, `main.rs`: one request on standard input, one reply on standard output, notices and the
     failure reason on standard error; protocol number checked; exit codes 0, 3 and 2.
@@ -103,7 +103,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Depends: 3_
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 7.5_
 
-- [ ] 4.3 `measure`: is this model good enough, direct or with the repair loop
+- [x] 4.3 `measure`: is this model good enough, direct or with the repair loop
   - `measure.rs`: trials over a task set through the repair loop, the counts, cost per accepted answer,
     trials not run; the verdict rule as one function with its two thresholds. `taskset.rs`: the form of a
     task set and its check, and the built-in set of four small modules under `model/tasks/`.

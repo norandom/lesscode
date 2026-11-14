@@ -1,0 +1,5 @@
+{
+  "definitions": "total_price(items) returns the sum of price times count over all items; every item has kind, price and count.",
+  "scope_files": ["src/prices.py"],
+  "targets": {"written_stmts_max": 6}
+}

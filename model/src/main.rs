@@ -1,8 +1,11 @@
 //! The command line of `lesscode-model`.
 
 use lesscode_model::check::check;
+use lesscode_model::measure::{Measured, QUICK_TRIALS, TRIALS, measure};
 use lesscode_model::protocol::{EXIT_USAGE, answer, exit_code, read_request, unusable};
-use lesscode_model::{CallRequest, Limits, Notice, Terminal, call, endpoint_from};
+use lesscode_model::repair::REPAIRS;
+use lesscode_model::taskset::{Scratch, built_in, load};
+use lesscode_model::{CallRequest, Limits, Notice, Terminal, call, endpoint_from, host_of};
 use std::io::Read;
 use std::path::PathBuf;
 use std::process::ExitCode;
@@ -12,7 +15,11 @@ const USAGE: &str = "usage: lesscode-model call [--endpoint-env FILE] [--record 
                      \x20 reads one request as JSON on standard input and writes one answer as \
                      JSON on standard output\n\
                      usage: lesscode-model check [--endpoint-env FILE] [--max-wait SECONDS]\n\
-                     \x20 sends one small fixed task and says whether the endpoint can be used";
+                     \x20 sends one small fixed task and says whether the endpoint can be used\n\
+                     usage: lesscode-model measure [--endpoint-env FILE] [--trials N] [--quick] \
+                     [--task-set DIR] [--out FILE]\n\
+                     \x20 takes a task set through its check and says whether the model is good \
+                     enough, direct or with the repair loop";
 
 /// The value after each `--name` of `names`, in their order. Anything else
 /// on the command line is an error that names it.
@@ -30,10 +37,10 @@ fn options(args: &[String], names: &[&str]) -> Result<Vec<Option<String>>, Strin
     Ok(values)
 }
 
-fn seconds(name: &str, value: Option<&String>, otherwise: u64) -> Result<u64, String> {
+fn whole(name: &str, value: Option<&String>, otherwise: u64) -> Result<u64, String> {
     value.map_or(Ok(otherwise), |text| {
         text.parse()
-            .map_err(|_| format!("{name} needs whole seconds, got {text}"))
+            .map_err(|_| format!("{name} needs a whole number, got {text}"))
     })
 }
 
@@ -47,9 +54,8 @@ fn call_command(args: &[String]) -> ExitCode {
     let names = ["--endpoint-env", "--record", "--max-wait", "--answer-limit"];
     let mut limits = Limits::default();
     let stated = options(args, &names).and_then(|values| {
-        limits.wait.total_seconds =
-            seconds(names[2], values[2].as_ref(), limits.wait.total_seconds)?;
-        limits.answer_seconds = seconds(names[3], values[3].as_ref(), limits.answer_seconds)?;
+        limits.wait.total_seconds = whole(names[2], values[2].as_ref(), limits.wait.total_seconds)?;
+        limits.answer_seconds = whole(names[3], values[3].as_ref(), limits.answer_seconds)?;
         Ok((
             values[0].clone().map(PathBuf::from),
             values[1].clone().map(PathBuf::from),
@@ -85,8 +91,7 @@ fn check_command(args: &[String]) -> ExitCode {
     let names = ["--endpoint-env", "--max-wait"];
     let mut limits = Limits::default();
     let stated = options(args, &names).and_then(|values| {
-        limits.wait.total_seconds =
-            seconds(names[1], values[1].as_ref(), limits.wait.total_seconds)?;
+        limits.wait.total_seconds = whole(names[1], values[1].as_ref(), limits.wait.total_seconds)?;
         Ok(values[0].clone().map(PathBuf::from))
     });
     let endpoint_file = match stated {
@@ -112,11 +117,107 @@ fn check_command(args: &[String]) -> ExitCode {
     }
 }
 
+/// What `measure` was asked for: the endpoint file, the trials, whether in
+/// the quick mode, a task set in place of the built-in one, a file for the
+/// report as JSON.
+struct MeasureAsked {
+    endpoint_file: Option<PathBuf>,
+    trials: u32,
+    quick: bool,
+    task_set: Option<PathBuf>,
+    out: Option<PathBuf>,
+}
+
+fn measure_asked(args: &[String]) -> Result<MeasureAsked, String> {
+    let quick = args.iter().any(|arg| arg == "--quick");
+    let paired: Vec<String> = args
+        .iter()
+        .filter(|arg| *arg != "--quick")
+        .cloned()
+        .collect();
+    let names = ["--endpoint-env", "--trials", "--task-set", "--out"];
+    let values = options(&paired, &names)?;
+    if quick && values[1].is_some() {
+        return Err(format!(
+            "--quick runs {QUICK_TRIALS} trials; state --trials or --quick"
+        ));
+    }
+    let otherwise = if quick { QUICK_TRIALS } else { TRIALS };
+    let trials = whole(names[1], values[1].as_ref(), u64::from(otherwise))?;
+    let trials = u32::try_from(trials)
+        .ok()
+        .filter(|trials| *trials > 0)
+        .ok_or("--trials needs a number from 1")?;
+    let path = |at: usize| values[at].clone().map(PathBuf::from);
+    Ok(MeasureAsked {
+        endpoint_file: path(0),
+        trials,
+        quick,
+        task_set: path(2),
+        out: path(3),
+    })
+}
+
+/// `measure`: trials over a task set through the repair loop, the counts
+/// and the verdict.
+fn measure_command(args: &[String]) -> ExitCode {
+    let asked = match measure_asked(args) {
+        Ok(asked) => asked,
+        Err(problem) => return usage(&problem),
+    };
+    let endpoint = match endpoint_from(asked.endpoint_file.as_deref()) {
+        Ok(endpoint) => endpoint,
+        Err(error) => {
+            Terminal.failed(&error.reason());
+            return ExitCode::from(EXIT_USAGE);
+        }
+    };
+    let loaded = match &asked.task_set {
+        Some(dir) => Scratch::new().and_then(|scratch| load(dir, &dir.to_string_lossy(), scratch)),
+        None => built_in(),
+    };
+    let (set, mut core) = match loaded {
+        Ok(loaded) => loaded,
+        Err(problem) => return usage(&format!("the task set cannot be used: {problem}")),
+    };
+
+    let limits = Limits::default();
+    let mut through = |request: &CallRequest| call(&endpoint, request, &limits, &Terminal, None);
+    let counts = measure(
+        &mut through,
+        &set,
+        &mut |task, text| core.judge(task, text),
+        asked.trials,
+        REPAIRS,
+    );
+    let measured = Measured {
+        task_set: set.name,
+        check: set.check_name,
+        model: endpoint.model.clone(),
+        host: host_of(&endpoint),
+        repairs: REPAIRS,
+        quick: asked.quick,
+        counts,
+    };
+    println!("{}", measured.lines().join("\n"));
+    if let Some(out) = &asked.out
+        && let Err(problem) = std::fs::write(out, format!("{:#}\n", measured.json()))
+    {
+        eprintln!(
+            "lesscode-model: {} cannot be written: {problem}",
+            out.display()
+        );
+        return ExitCode::from(EXIT_USAGE);
+    }
+    ExitCode::from(measured.verdict().exit())
+}
+
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
     match args.first().map(String::as_str) {
         Some("call") => call_command(&args[1..]),
         Some("check") => check_command(&args[1..]),
+        Some("measure") => measure_command(&args[1..]),
         Some(other) => usage(&format!("unknown command {other}")),
         None => usage("no command"),
     }

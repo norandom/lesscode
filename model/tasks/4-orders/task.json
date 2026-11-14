@@ -1,0 +1,5 @@
+{
+  "definitions": "record_order(session, order) sets the order's total to the sum of price times count over its lines and stores the order. record_refund(session, order, amount) takes the amount off the order's total, marks the order as refunded and stores it. Storing an order is session.add(order) followed by session.commit(). Storing is to happen in one place, and what can be computed without the session is to be computed in a function that does not take it.",
+  "scope_files": ["src/orders.py"],
+  "targets": {"written_writes_max": 2}
+}

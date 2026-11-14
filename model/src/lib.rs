@@ -5,12 +5,14 @@ pub mod check;
 pub mod client;
 pub mod endpoint;
 pub mod error;
+pub mod measure;
 pub mod notice;
 pub mod protocol;
 pub mod record;
 pub mod repair;
 pub mod request;
 pub mod structure;
+pub mod taskset;
 pub mod wait;
 
 pub use client::{Attempt, begin, host_of, send};

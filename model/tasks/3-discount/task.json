@@ -1,0 +1,5 @@
+{
+  "definitions": "discount(customer, amount) is the amount times a rate. The rate depends on the customer's tier and on whether the amount is above 100: gold 0.2 above and 0.1 otherwise, silver 0.1 above and 0.05 otherwise, any other tier 0.",
+  "scope_files": ["src/discount.py"],
+  "targets": {"written_stmts_max": 4}
+}

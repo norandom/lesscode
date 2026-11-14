@@ -101,6 +101,33 @@ below, or differs from it:
 - `--endpoint-env` may be left out, as for `call`. An unusable endpoint file ends with exit code 2 and
   is also stated on standard output.
 
+**Amendment 8, 2026-11-14 (as built, task 4.3).** Nine points where `measure.rs`, `taskset.rs` and the
+`measure` command say more than the text below, or differ from it:
+
+- A task set on disk is a directory with one directory per task. A task's directory is the tree to be
+  rewritten, with `task.json` (definitions, scope files, targets; optional contract, language and output
+  tokens) and `public-surface.json` beside it. Tasks are taken in the order of their directories' names.
+  A supplied set is only read; replies are judged on copies in a temporary directory.
+- `Task` and `TaskSet` are as designed. What the core's checks need for a task is held by `CoreCheck`,
+  which `taskset::load` and `taskset::built_in` return beside the set; `CoreCheck::judge` is the check
+  handed to `measure`. A caller with another check hands in its own function.
+- The built-in set lives in `model/tasks/` and is embedded in the binary: `1-total-price` (R102),
+  `2-shipping-fee` (a private name and a constant in the surface), `3-discount` (four statements
+  allowed), `4-orders` (two writes allowed, the session not allowed in a pure function). The tests hold an
+  answer to each that passes and careless answers that the intended check rejects.
+- The check command's task is the first of the built-in set, so `check.rs` holds no task of its own. Its
+  file is `src/prices.py`; Amendment 7's first point otherwise stands.
+- Once more than a fifth of the trials have failed for a reason of the endpoint, the trials left are not
+  started and count as not run: no verdict is possible any more, and each could wait out its limit.
+- `calls`, `output_tokens` and `seconds` count every answered call of the run, the rejected ones too, so
+  the cost per accepted answer includes the answers that were not accepted.
+- Quick mode: "good enough so far" needs every trial to have passed, so a trial that did not run gives
+  "undecided" at best; "not good enough" is at most two fifths of the trials that ran. `--quick` together
+  with `--trials` is refused.
+- `--endpoint-env` may be left out. An endpoint file, task set or `--out` file that cannot be used ends
+  with exit code 2. `--out` is the one file the command writes outside the temporary directory.
+- The command has no `--max-wait`; the default limits apply. It prints nothing between trials.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

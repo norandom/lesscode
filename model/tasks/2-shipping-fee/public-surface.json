@@ -1,0 +1,5 @@
+{"modules": {"shipping": {"file": "src/shipping.py", "names": {
+  "FREE_FROM": {"kind": "constant"},
+  "_rate_for": {"kind": "function"},
+  "shipping_fee": {"kind": "function"}
+}}}}

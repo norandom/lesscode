@@ -1,0 +1,5 @@
+{
+  "definitions": "shipping_fee(order) is 0 when the order's total is at least FREE_FROM, else the rate for the order's weight. _rate_for(weight) is 4 up to a weight of 1, 7 up to 5, and 12 above. The tests import FREE_FROM and _rate_for as well as shipping_fee.",
+  "scope_files": ["src/shipping.py"],
+  "targets": {"written_stmts_max": 6}
+}

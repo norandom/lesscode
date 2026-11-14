@@ -38,7 +38,7 @@ impl Drop for Project {
 fn answer_with(path: &str, content: &str) -> String {
     json!({
         "files": [{"path": path, "content": content}],
-        "structure": {"pure": ["mod.py::total_price"], "shell": []},
+        "structure": {"pure": ["prices.py::total_price"], "shell": []},
         "change_log": "the three branches did the same",
     })
     .to_string()
@@ -46,7 +46,7 @@ fn answer_with(path: &str, content: &str) -> String {
 
 fn good() -> String {
     answer_with(
-        "src/mod.py",
+        "src/prices.py",
         "def total_price(items):\n    return sum(item[\"price\"] * item[\"count\"] for item in items)\n",
     )
 }
@@ -159,7 +159,7 @@ fn answers_the_checks_reject_end_after_three_calls_with_exit_code_4_and_the_chec
         vec![
             ok(chat_reply("Here is the function you asked for.", "stop")),
             ok(chat_reply(
-                &answer_with("src/mod.py", "def total_price(items:\n    return 0\n"),
+                &answer_with("src/prices.py", "def total_price(items:\n    return 0\n"),
                 "stop",
             )),
             ok(chat_reply(&answer_with("src/other.py", "x = 1\n"), "stop")),
