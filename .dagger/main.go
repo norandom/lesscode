@@ -32,6 +32,8 @@ func (m *LesscodeCi) Evidence(
 		WithDirectory("/workspace/tools/guide-optimizer", source.Directory("tools/guide-optimizer")).
 		WithMountedCache("/workspace/native/target", dag.CacheVolume("lesscode-native-target-1.98.1")).
 		WithEnvVariable("GITHUB_SHA", revision).
+		// The seam's own checks run in this job only; the other platforms build it once, for the optimiser.
+		WithEnvVariable("LESSCODE_CHECK_SEAM", "1").
 		WithWorkdir("/workspace").
 		WithExec([]string{"bash", "tools/check_native.sh", "/evidence"}, dagger.ContainerWithExecOpts{Expect: dagger.ReturnTypeAny}).
 		Directory("/evidence")

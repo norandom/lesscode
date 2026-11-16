@@ -55,21 +55,29 @@ caches are separate from this content-addressed execution cache.
 
 Three checks keep the core free of models (spec `model-seam`, task 7.4):
 
-- `separation-suites` runs the step flow's and the driver's suites (test
-  binaries `step_*` and `driver_*`) only after finding no `lesscode-model`:
-  `LESSCODE_MODEL_BIN` unset, none in the core's `debug` directory or its `deps`,
-  none on the search path. If one is present, the check fails before any test runs.
+- `separation-suites` runs before the core's suite, which holds the step
+  flow's and the driver's tests, and fails when it finds a `lesscode-model`:
+  `LESSCODE_MODEL_BIN` set, one in the core's `debug` directory or its `deps`,
+  or one on the search path. It runs no test itself.
 - `separation-lock` fails when `native/Cargo.lock` names `genai` (the seam's client
   library), `reqwest` or `hyper` (the HTTP client and implementation it brings),
   `ureq` (the core's client before the seam) or `lesscode-model`.
-- `separation-model-source` builds `model/` and runs only its source scan in
-  `model/tests/call.rs`, which fails on a model name of the first cases or an
+- `separation-model-source` runs the source scan in `model/tests/call.rs`
+  under its own name; it fails on a model name of the first cases or an
   address under `model/src`.
 
 The seam itself is checked by five more steps: `model-fmt`, `model-clippy`,
 `model-test` (its suite against a stub endpoint; no model is called),
 `model-doctest` and `model-budgets`, which measures `model/src` against
 `model/complexity-budgets.json` with the core built earlier in the script.
+
+These five and `separation-model-source` run in the Linux job only (owner
+decision, 2026-11-16): the Dagger container sets `LESSCODE_CHECK_SEAM=1`. The
+other four platforms compile the seam only as a dependency of the guide
+optimiser. The seam and the optimiser share one target directory
+(`model/target`), so the client library is compiled once for both. Before
+this, its dependency tree was compiled four times per platform, about eight
+of nineteen minutes on Windows (run 43903666288).
 
 The first hosted run [41333477507](https://github.com/norandom/lesscode/actions/runs/41333477507)
 passed all three jobs: Linux 103 tests, Windows 102 and macOS 103, with zero
