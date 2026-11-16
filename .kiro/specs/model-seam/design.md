@@ -170,6 +170,21 @@ differ from it:
 - Open, for the owner: the refine loop's schedule still steps an effort and records effort and display
   in its attempt notes, although neither is sent (`regenerate refine` is not implemented).
 
+**Amendment 11, 2026-11-16 (as built, group 8, with owner decisions of the same day;
+[R113](../../../docs/research/2026-11-16/02-model-seam-release-and-final-validation.md)).**
+
+- Pipeline: the seam's own steps (`model-fmt`, `model-clippy`, `model-test`, `model-doctest`,
+  `model-budgets`, `separation-model-source`) run in the Linux job only, where the Dagger container sets
+  `LESSCODE_CHECK_SEAM=1`. `separation-suites` asserts that no `lesscode-model` is present before the
+  core's suite and runs no test itself. The seam and the guide optimiser share one target directory.
+  The owner decided this after a run in which the client library was compiled four times per platform.
+- Release: one more archive per target, `lesscode-model-<target>`, with the seam's own `LICENSES.md` and
+  `THIRD_PARTY_NOTICES.txt`. `scripts/license-inventory.ps1` writes both files for either crate from
+  locked Cargo metadata. The tag follows the core's version; the seam states its own.
+- `lesscode-model --version` exists, because the release workflow runs each binary once that way.
+- The install scripts take the second binary when `LESSCODE_WITH_MODEL=1`; it is not installed by
+  default, since only `regenerate run` starts it.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

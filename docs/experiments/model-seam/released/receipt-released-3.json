@@ -1,0 +1,83 @@
+{
+ "facts": [
+  {
+   "apparatus": {
+    "regenerator.rs": "bd3232d78c4c53852964e2bb13c1ab777a04aea966d493830e2be674c8b7a61f"
+   },
+   "candidate_root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-released-3-172012",
+   "endpoint": {
+    "host": "api.openai.com",
+    "model": "gpt-6.1-sol",
+    "model_sha256": "dedfefd51120f28386c9dba78e46feb403523e23d67980cdf24514ee0b50b5ed",
+    "style": "openai"
+   },
+   "feedback_kind": null,
+   "frozen_scope": {
+    "src/mod.py": "6b450b456b325b6ba0e81355c773977c831cd1f7a40ab4abc31c6935e850ca6b"
+   },
+   "key": "released-3-inputs",
+   "language": "python",
+   "preregistered_params": {
+    "max_tokens": 64000,
+    "rollout_id": 1
+   },
+   "prompts": {
+    "system.txt": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "user.txt": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf"
+   },
+   "request": {
+    "D:\\BuildArtifacts\\lesscode\\model-seam\\request.json": "1d06538f2efb22cfda808cbddc089981bf5dd272377112ef55ea21bbe84db0dd"
+   },
+   "surface": "ab6b54e2978d53a10c1db5983b4712ee25ed937b2da8b7e3ba43f7a184da2fdb",
+   "time_utc": "2026-11-16T16:20:12.524442+00:00"
+  }
+ ],
+ "notes": [
+  {
+   "key": "released-3-turn",
+   "time_utc": "2026-11-16T16:20:28.497101+00:00",
+   "value": {
+    "mode": "seam-1",
+    "request_sha256": "a575c462142a1b21d38ae01dceaa1f09ee4710813cac7db3a527aea2108a6335",
+    "response_sha256": "575b285d0c051431ebbbd2a9e0c5ce0c8cde26ad700ef26fd92f92d38ec04c3e",
+    "response_sha256_saved": "575b285d0c051431ebbbd2a9e0c5ce0c8cde26ad700ef26fd92f92d38ec04c3e",
+    "seconds": 15.9461851,
+    "sent": {
+     "host": "api.openai.com",
+     "max_output_tokens": 64000,
+     "model": "gpt-6.1-sol",
+     "reasoning_level": "medium"
+    },
+    "stop_reason": "complete",
+    "system_sha256": "7a3719269af6d8643a2a0e5256d8e5170bec59820f24d24912c9ce94664fa6ee",
+    "usage": {
+     "input_tokens": 641,
+     "output_tokens": 507,
+     "reasoning_tokens": 375
+    },
+    "user_sha256": "e39d1f85b2c2f2e7c32f520845f8a10ec86c5c868b77355c8c3d203f39ea4bcf",
+    "waits": []
+   }
+  },
+  {
+   "time_utc": "2026-11-16T16:20:28.499573+00:00",
+   "key": "released-3-candidate",
+   "value": {
+    "root": "D:\\BuildArtifacts\\lesscode\\model-seam\\cand-released-3-172012",
+    "files": [
+     {
+      "path": "src/mod.py",
+      "bytes": 132,
+      "sha256": "fc7644cec2212966bacdd03bc27a11daed87c9cdee198397077f003df71fc82c",
+      "crlf": false
+     }
+    ],
+    "result_sha256": "1cb90b0c42c96cf35561478814c2420f829bfeca43df289a0e8f7b62ba3a7382",
+    "structure_counts": {
+     "pure": 1,
+     "shell": 0
+    }
+   }
+  }
+ ]
+}

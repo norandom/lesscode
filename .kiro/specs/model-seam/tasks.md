@@ -194,16 +194,16 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     allowed for this group; review, reruns and the last pipeline run in the main context.
   - _Requirements: 7.1, 7.2, 1.8, 2.8_
 
-- [ ] 8. Release and documentation
-- [ ] 8.1 Build and test `model/` in the pipeline
+- [x] 8. Release and documentation
+- [x] 8.1 Build and test `model/` in the pipeline
   - Format, lints, tests against the stub and the budgets for `model/` on the pipeline's platforms.
   - Done when the pipeline is green with the new jobs.
   - _Requirements: 2.8_
-- [ ] 8.2 Release `lesscode-model` for the five targets
+- [x] 8.2 Release `lesscode-model` for the five targets
   - The release workflow builds, packages and signs the second binary beside the first.
   - Done when a dry run of the workflow on a branch produces both archives for all five targets.
   - _Requirements: 7.2_
-- [ ] 8.3 Documentation
+- [x] 8.3 Documentation
   - `.env.sample`, `README.md` and a page under `docs/`: the endpoint file, the check command, waiting and
     its limits, the measuring command and what its three verdicts mean, installing the second binary, what
     `regenerate` says when it is missing. Humanizer pass
@@ -211,9 +211,13 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - Done when a reader can configure an endpoint and run the check from the page alone; tried by following
     it on a clean directory.
   - _Requirements: 1.1, 5.1, 3.2_
-- [ ] 8.4 Final validation
+- [x] 8.4 Final validation
   - The six first cases through the released form of both binaries; `kiro-cli check`; every requirement
     with its evidence in a validation report; the gate branches deleted.
   - Done when the report and a research entry are committed and the handover file is written.
+  - 2026-11-16: group 8 done, [R113](../../../docs/research/2026-11-16/02-model-seam-release-and-final-validation.md),
+    [validation report](validation-report.md) (GO), design Amendment 11. Owner decisions of the day: the
+    seam's own pipeline steps run on Linux only (8.1 said "on the pipeline's platforms"); one call for the
+    Anthropic case; the gate branches and the dry-run branch deleted. Foreground, no subagent.
   - _Depends: 5.1, 7.3, 8.2_
   - _Requirements: 2.7, 8.1, 8.2_
