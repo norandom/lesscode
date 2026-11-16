@@ -3,14 +3,17 @@
 //! and endpoints, receipt/bindings provenance, the Tier-1 ladder and
 //! adaptive schedule, the Tier-2 pinned formula and feedback boundary, the
 //! Refine/BestOfN controller with its stops and outcomes, the six adverse
-//! controls (zero runtime calls), the openai-compatible adapter through an
-//! injected transport — plus the env-gated E4 three-turn replay and the
-//! admission verification of emitted receipts (the task 8.5 done-when).
+//! controls (zero runtime calls), `regenerate run` and the loop's default
+//! call through `lesscode-model` with a scripted stand-in (spec `model-seam`
+//! task 7.2) — plus the env-gated E4 three-turn replay and the admission
+//! verification of emitted receipts (the task 8.5 done-when).
 //!
 //! Port deltas: the anthropic streaming arm, its token-count guard (the
 //! only exit-5 trigger) and `HELD_OUT_MARKERS` (unused in the Python
 //! module) do not port; evaluators take no `results` argument (always
 //! `{}` in Python).
+
+mod seam_support;
 
 use lesscode_core::receipt::{self, J};
 use lesscode_core::regenerator::{
@@ -18,6 +21,7 @@ use lesscode_core::regenerator::{
     TurnOutcome, TurnRequest,
 };
 use lesscode_core::surface;
+use seam_support::{answered, failed, scripted, Script as ModelScript};
 use serde_json::json;
 use std::collections::VecDeque;
 use std::fs;
@@ -1469,79 +1473,199 @@ fn control_feedback_leak_rejected_before_dispatch() {
     ));
 }
 
-// --- OpenAI-compatible adapter (injected transport) -----------------------------------------
+// --- The model through lesscode-model (scripted stand-in) --------------------------------------
+
+const KEY: &str = "sk-scripted-never-shown";
+
+/// An endpoint file the core reads for the receipt; the stand-in reads none of
+/// it, and nothing listens at its address.
+fn endpoint_file(work: &Path) -> PathBuf {
+    let path = work.join("model.env");
+    let text = format!(
+        "LESSCODE_MODEL_API_STYLE=openai\nLESSCODE_MODEL_BASE_URL=http://127.0.0.1:9/v1\n\
+         LESSCODE_MODEL_NAME=scripted-model\nLESSCODE_MODEL_API_KEY={KEY}\n"
+    );
+    fs::write(&path, text).unwrap();
+    path
+}
+
+struct Ran {
+    code: Option<i32>,
+    out: String,
+    err: String,
+    receipt: String,
+}
+
+impl Ran {
+    fn note(&self, key: &str) -> serde_json::Value {
+        let receipt: serde_json::Value = serde_json::from_str(&self.receipt).unwrap();
+        let notes = receipt["notes"].as_array().unwrap();
+        let note = notes.iter().find(|note| note["key"] == key);
+        note.unwrap_or_else(|| panic!("no note {key}: {}", self.receipt))["value"].clone()
+    }
+
+    fn shows_no_key(&self) {
+        for said in [&self.out, &self.err, &self.receipt] {
+            assert!(!said.contains(KEY), "{said}");
+        }
+    }
+}
+
+/// One turn of `regenerate run` (label `seam`) on the frozen tree of
+/// `frozen_tree`, with `bin` as `lesscode-model`.
+fn regenerate_run(work: &Path, bin: &Path, script: &ModelScript, extra: &[&str]) -> Ran {
+    let frozen = frozen_tree(work);
+    let request = request_path(&frozen);
+    let receipt = work.join("receipt.json");
+    let path = |p: &Path| p.to_string_lossy().into_owned();
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_lesscode-core"))
+        .args(["regenerate", "run", "--label", "seam"])
+        .args(["--request", &path(&request), "--frozen", &path(&frozen)])
+        .args([
+            "--cand",
+            &path(&work.join("cand")),
+            "--receipt",
+            &path(&receipt),
+        ])
+        .args(["--turns", &path(&work.join("turns"))])
+        .args(["--model-env", &path(&endpoint_file(work))])
+        .args(extra)
+        .env("LESSCODE_MODEL_BIN", bin)
+        .env("LESSCODE_SCRIPTED_MODEL", &script.0)
+        .env_remove("LESSCODE_MODEL_ENV")
+        .env_remove("LESSCODE_MODEL_NAME")
+        .env_remove("LESSCODE_MODEL_REASONING_EFFORT")
+        .output()
+        .unwrap();
+    Ran {
+        code: output.status.code(),
+        out: String::from_utf8_lossy(&output.stdout).into_owned(),
+        err: String::from_utf8_lossy(&output.stderr).into_owned(),
+        receipt: fs::read_to_string(&receipt).unwrap_or_default(),
+    }
+}
 
 #[test]
-fn openai_adapter_payload_and_hash_fields() {
-    let ep = Endpoint::new(
-        "openai",
-        "http://localhost:8080/v1",
-        "local-model",
-        "sk-local",
+fn regenerate_run_reaches_the_model_through_lesscode_model() {
+    let work = scratch("seam-answered");
+    let changed = "def f():\n    return 2\n";
+    let reply = format!(
+        "```json\n{}\n```",
+        response_text(&[("src/mod.py", changed)], &["f"], &[])
     );
-    type Captured = (String, Vec<(String, String)>, Vec<u8>);
-    let captured: std::cell::RefCell<Option<Captured>> = std::cell::RefCell::new(None);
-    let transport =
-        |url: &str, headers: &[(String, String)], body: &[u8]| -> Result<Vec<u8>, String> {
-            *captured.borrow_mut() = Some((url.to_string(), headers.to_vec(), body.to_vec()));
-            Ok(json!({
-            "choices": [{
-                "message": {"content": "{\"files\": [], \"structure\": {}, \"change_log\": \"\"}"},
-                "finish_reason": "stop"
-            }],
-            "usage": {"input_tokens": 10, "output_tokens": 5},
-        })
-        .to_string()
-        .into_bytes())
-        };
-    let (text, meta) = regenerator::call(
-        &ep,
-        "system text",
-        "user text",
-        512,
-        Some("low"),
-        None,
-        None,
-        &transport,
-    )
-    .unwrap();
-    let (url, headers, body) = captured.borrow().clone().expect("transport called");
-    assert_eq!(url, "http://localhost:8080/v1/chat/completions");
-    assert!(headers
-        .iter()
-        .any(|(k, v)| k == "Authorization" && v == "Bearer sk-local"));
-    let body: serde_json::Value = serde_json::from_slice(&body).unwrap();
-    assert_eq!(body["model"], "local-model");
-    assert_eq!(body["messages"][0]["role"], "system");
-    assert_eq!(body["response_format"]["type"], "json_schema");
-    assert_eq!(body["response_format"]["json_schema"]["name"], "regenerate");
-    assert_eq!(
-        body["response_format"]["json_schema"]["schema"]["additionalProperties"],
-        false
+    let notice = "lesscode-model: waiting for localhost, about 3 s\n";
+    let script = ModelScript::new(&work, "answered", &answered(&reply), notice, 0);
+    let ran = regenerate_run(&work, &scripted(), &script, &[]);
+
+    assert_eq!(ran.code, Some(0), "{}", ran.err);
+    assert!(
+        ran.err.contains(notice),
+        "notices pass through: {}",
+        ran.err
     );
     assert_eq!(
-        body["response_format"]["json_schema"]["schema"]["required"],
-        json!(["files", "structure", "change_log"])
+        fs::read_to_string(work.join("cand/src/mod.py")).unwrap(),
+        changed,
+        "one fence around the reply is removed before parsing"
     );
-    assert!(text.starts_with("{\"files\""));
-    match &meta {
-        J::Obj(pairs) => {
-            let find = |key: &str| pairs.iter().find(|(k, _)| k == key).map(|(_, v)| v);
-            assert_eq!(find("stop_reason"), Some(&J::str("stop")));
-            assert_eq!(
-                find("system_sha256"),
-                Some(&J::str(regenerator::sha256_text("system text")))
-            );
-            assert_eq!(
-                find("user_sha256"),
-                Some(&J::str(regenerator::sha256_text("user text")))
-            );
-            assert!(find("request_sha256").is_some());
-        }
-        other => panic!("{other:?}"),
-    }
-    assert!(!receipt::dumps(&meta).contains("sk-local"));
+    let turn = ran.note("seam-turn");
+    assert_eq!(turn["stop_reason"], "complete");
+    assert_eq!(turn["usage"]["input_tokens"], 120);
+    assert_eq!(turn["usage"]["output_tokens"], 30);
+    let system = fs::read_to_string(work.join("turns/seam/system.txt")).unwrap();
+    let user = fs::read_to_string(work.join("turns/seam/user.txt")).unwrap();
+    assert_eq!(turn["system_sha256"], regenerator::sha256_text(&system));
+    assert_eq!(turn["user_sha256"], regenerator::sha256_text(&user));
+    assert_eq!(turn["response_sha256"], regenerator::sha256_text(&reply));
+    let written = script.seen_request();
+    assert_eq!(turn["request_sha256"], regenerator::sha256_text(&written));
+    ran.shows_no_key();
+
+    let (args, request) = script.seen();
+    let endpoint = work.join("model.env").to_string_lossy().into_owned();
+    assert_eq!(args, ["call", "--endpoint-env", endpoint.as_str()]);
+    assert_eq!(request["system"], system.as_str());
+    assert_eq!(request["user"], user.as_str());
+    assert_eq!(request["max_output_tokens"], 64000);
+    assert!(request.get("temperature").is_none(), "{request}");
 }
+
+#[test]
+fn a_failed_call_ends_the_turn_with_its_reason_on_the_terminal_and_in_the_receipt() {
+    let work = scratch("seam-failed");
+    let reason = "localhost refused the call (status 403): not allowed";
+    let said = format!("lesscode-model: {reason}\n");
+    let script = ModelScript::new(&work, "failed", &failed("refused", reason), &said, 3);
+    let ran = regenerate_run(&work, &scripted(), &script, &[]);
+
+    assert_eq!(ran.code, Some(3), "{}", ran.err);
+    assert!(ran.err.contains("seam failed:"), "{}", ran.err);
+    assert!(ran.err.contains("(refused)"), "{}", ran.err);
+    let failure = ran.note("seam-failed");
+    assert!(failure["reason"].as_str().unwrap().contains(reason));
+    assert_eq!(failure["exit"], 3);
+    assert_eq!(
+        fs::read_to_string(work.join("cand/src/mod.py")).unwrap(),
+        GOOD
+    );
+    ran.shows_no_key();
+}
+
+#[test]
+fn regenerate_run_without_lesscode_model_says_what_is_missing() {
+    let work = scratch("seam-missing");
+    let script = ModelScript::new(&work, "missing", &answered("{}"), "", 0);
+    let missing = work.join("no-such-lesscode-model");
+    let ran = regenerate_run(&work, &missing, &script, &[]);
+
+    assert_eq!(ran.code, Some(3), "{}", ran.err);
+    assert!(ran.err.contains("need lesscode-model"), "{}", ran.err);
+    assert!(ran.err.contains("LESSCODE_MODEL_BIN"), "{}", ran.err);
+    let failure = ran.note("seam-failed");
+    assert!(failure["reason"]
+        .as_str()
+        .unwrap()
+        .contains("need lesscode-model"));
+    assert!(!script.was_called());
+}
+
+#[test]
+fn the_loops_default_call_goes_through_lesscode_model() {
+    let work = scratch("seam-default-call");
+    let script = ModelScript::new(&work, "default", &answered("{\"files\": []}"), "", 0);
+    let params = AttemptParams {
+        max_tokens: 4000,
+        effort: "high".into(),
+        temperature: Some(0.2),
+        display: None,
+        directive: None,
+    };
+    let vars = [
+        ("LESSCODE_MODEL_BIN", scripted().into_os_string()),
+        ("LESSCODE_SCRIPTED_MODEL", script.0.clone().into_os_string()),
+        ("LESSCODE_MODEL_ENV", endpoint_file(&work).into_os_string()),
+    ];
+    // cargo-nextest runs each test in its own process; nothing else here
+    // reads these variables.
+    for (key, value) in &vars {
+        std::env::set_var(key, value);
+    }
+    let called = regenerator::default_call_fn("system text", "user text", &params);
+    for (key, _) in &vars {
+        std::env::remove_var(key);
+    }
+    let (text, meta) = called.unwrap();
+
+    assert_eq!(text, "{\"files\": []}");
+    let stop = lesscode_core::jsonval::j_get(&meta, "stop_reason");
+    assert_eq!(stop, Some(&J::str("complete")));
+    let (args, request) = script.seen();
+    assert_eq!(args, ["call"], "the seam reads the default endpoint file");
+    assert_eq!(request["max_output_tokens"], 4000);
+    assert_eq!(request["temperature"], 0.2);
+}
+
+// --- Request hash of earlier receipts --------------------------------------------------------
 
 #[test]
 fn openai_request_hash_pinned_against_python_reference() {
@@ -1575,16 +1699,6 @@ fn openai_request_hash_pinned_against_python_reference() {
         }
         other => panic!("{other:?}"),
     }
-}
-
-#[test]
-fn openai_adapter_transport_error_wrapped() {
-    let ep = Endpoint::new("openai", "http://localhost:8080/v1", "m", "k");
-    let err = regenerator::call(&ep, "s", "u", 64, Some("high"), None, None, &|_, _, _| {
-        Err("openai transport: refused".into())
-    })
-    .unwrap_err();
-    assert!(err.contains("transport"), "{err}");
 }
 
 // --- E4 three-turn replay (env-gated; task 8.5 done-when) -------------------------------------

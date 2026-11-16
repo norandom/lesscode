@@ -36,16 +36,24 @@ impl Script {
         PathBuf::from(path)
     }
 
+    fn seen_value(&self) -> Value {
+        serde_json::from_slice(&fs::read(self.seen_path()).unwrap()).unwrap()
+    }
+
     /// The arguments and the request of the last call, the request parsed.
     pub fn seen(&self) -> (Vec<String>, Value) {
-        let seen: Value = serde_json::from_slice(&fs::read(self.seen_path()).unwrap()).unwrap();
+        let seen = self.seen_value();
         let args = seen["args"].as_array().unwrap();
         let args = args
             .iter()
             .map(|a| a.as_str().unwrap().to_owned())
             .collect();
-        let request = serde_json::from_str(seen["request"].as_str().unwrap()).unwrap();
-        (args, request)
+        (args, serde_json::from_str(&self.seen_request()).unwrap())
+    }
+
+    /// The request of the last call as it was written to standard input.
+    pub fn seen_request(&self) -> String {
+        self.seen_value()["request"].as_str().unwrap().to_owned()
     }
 
     pub fn was_called(&self) -> bool {

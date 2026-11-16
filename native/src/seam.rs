@@ -19,13 +19,32 @@ pub const VARIABLE: &str = "LESSCODE_MODEL_BIN";
 /// The purpose the seam writes into its record of calls.
 const PURPOSE: &str = "regenerate";
 
-/// An answered call: the text as the model wrote it, and the rest of the
-/// reply as `lesscode-model` reported it (stop, tokens, seconds, waits and
-/// what was sent).
+/// An answered call: the text as the model wrote it, and the call fact for a
+/// receipt. The fact holds what `lesscode-model` reported (stop, tokens,
+/// seconds, waits, what was sent) in the receipt's words, and the digests of
+/// the system and user texts, of the request as written and of the reply.
 #[derive(Debug)]
 pub struct SeamReply {
     pub text: String,
     pub meta: J,
+}
+
+/// The text without one code fence around the whole of it, as the seam's
+/// check reads it. Models wrap a JSON reply in a fence on some calls and not
+/// on others.
+pub fn unfenced(text: &str) -> &str {
+    let body = text.trim();
+    body.strip_prefix("```")
+        .and_then(|rest| rest.strip_suffix("```"))
+        .map(|inner| {
+            // An optional language word on the fence's first line.
+            let after_word = inner.trim_start_matches(|c: char| c.is_ascii_alphanumeric());
+            match after_word.starts_with(['\n', '\r']) {
+                true => after_word.trim(),
+                false => inner.trim(),
+            }
+        })
+        .unwrap_or(body)
 }
 
 /// The request as it is written to the executable's standard input. Only a
@@ -88,9 +107,35 @@ fn find() -> Result<PathBuf, String> {
     })
 }
 
-/// The answer on standard output: the reply of an answered call, or the
-/// reason of a failed one. The outer error says why it cannot be read.
-fn answer(stdout: &[u8]) -> Result<Result<SeamReply, String>, String> {
+/// The call fact of a receipt: the reply's fields in the receipt's words, and
+/// the digests of what went to the executable and came back.
+fn call_fact(reply: &J, crossed: [(&str, &str); 4]) -> J {
+    let field = |key: &str| j_get(reply, key).cloned().unwrap_or(J::Null);
+    let tokens = [
+        "input_tokens",
+        "output_tokens",
+        "reasoning_tokens",
+        "cached_input_tokens",
+    ];
+    let mut fact = vec![
+        ("stop_reason", field("stop")),
+        (
+            "usage",
+            J::obj(tokens.map(|key| (key, field(key))).to_vec()),
+        ),
+        ("seconds", field("seconds")),
+        ("waits", field("waits")),
+        ("sent", field("sent")),
+    ];
+    let digest = |text: &str| J::str(receipt::sha256_hex(text.as_bytes()));
+    fact.extend(crossed.map(|(key, text)| (key, digest(text))));
+    J::obj(fact)
+}
+
+/// The answer on standard output: the text and the reply of an answered
+/// call, or the reason of a failed one. The outer error says why it cannot
+/// be read.
+fn answer(stdout: &[u8]) -> Result<Result<(String, J), String>, String> {
     let value: serde_json::Value =
         serde_json::from_slice(stdout).map_err(|problem| format!("not JSON: {problem}"))?;
     let answer = from_serde(&value);
@@ -102,17 +147,10 @@ fn answer(stdout: &[u8]) -> Result<Result<SeamReply, String>, String> {
         ));
     }
     match (j_get(&answer, "ok"), j_get(&answer, "reply")) {
-        (Some(J::Bool(true)), Some(J::Obj(fields))) => {
-            let text = fields.iter().find(|(k, _)| k == "text");
-            let Some((_, J::Str(text))) = text else {
-                return Err("the reply has no text".into());
-            };
-            let rest = fields.iter().filter(|(k, _)| k != "text").cloned();
-            Ok(Ok(SeamReply {
-                text: text.clone(),
-                meta: J::Obj(rest.collect()),
-            }))
-        }
+        (Some(J::Bool(true)), Some(reply)) => match j_get(reply, "text") {
+            Some(J::Str(text)) => Ok(Ok((text.clone(), reply.clone()))),
+            _ => Err("the reply has no text".into()),
+        },
         (Some(J::Bool(false)), _) => {
             let error = j_get(&answer, "error").unwrap_or(&J::Null);
             let field = |key| j_str(j_get(error, key).unwrap_or(&J::Null));
@@ -164,7 +202,7 @@ pub fn call_through_seam(
     let output = child
         .wait_with_output()
         .map_err(|e| format!("{NAME} ({}): {e}", executable.display()))?;
-    answer(&output.stdout).unwrap_or_else(|problem| {
+    let (text, reply) = answer(&output.stdout).unwrap_or_else(|problem| {
         let unwritten = written.err().map_or(String::new(), |e| {
             format!("; the request could not be written: {e}")
         });
@@ -172,5 +210,13 @@ pub fn call_through_seam(
             "{NAME} gave an answer that cannot be read ({problem}); it ended with {}{unwritten}",
             output.status
         ))
-    })
+    })?;
+    let crossed = [
+        ("system_sha256", system),
+        ("user_sha256", user),
+        ("request_sha256", &request),
+        ("response_sha256", &text),
+    ];
+    let meta = call_fact(&reply, crossed);
+    Ok(SeamReply { text, meta })
 }

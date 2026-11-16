@@ -353,11 +353,11 @@
   },
   {
    "path": "regenerator.rs",
-   "max_tokens": 20827,
-   "max_logical_units": 862,
-   "max_fn_tokens": 2314,
+   "max_tokens": 19718,
+   "max_logical_units": 830,
+   "max_fn_tokens": 2303,
    "owner": "constraint-guided-compression",
-   "allocation": "Two-tier refine controller port: TurnRequest/prompt builder, Tier-1 ladder, Tier-2 pinned formula, BestOfN refine control, ReceiptWriter with bindings, openai adapter on ureq (task 8.5, R36); task-9.4 slim: serde bridge, accessors and Python-parity escapes delegate to jsonval; measured at slim pass; task-12 R39 oracle repairs and task-3.2 state obligation bridge",
+   "allocation": "Two-tier refine controller port: TurnRequest/prompt builder, Tier-1 ladder, Tier-2 pinned formula, BestOfN refine control, ReceiptWriter with bindings, openai adapter on ureq (task 8.5, R36); task-9.4 slim: serde bridge, accessors and Python-parity escapes delegate to jsonval; measured at slim pass; task-12 R39 oracle repairs and task-3.2 state obligation bridge; model-seam task 7.2: the openai adapter and ureq removed (1,072 tokens), calls go through the launcher seam.rs; measured after the removal",
    "disposition": null
   },
   {

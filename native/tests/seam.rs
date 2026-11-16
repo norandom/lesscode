@@ -9,7 +9,8 @@
 mod seam_support;
 
 use lesscode_core::jsonval::{j_get, J};
-use lesscode_core::seam::{call_through_seam, SeamReply};
+use lesscode_core::receipt;
+use lesscode_core::seam::{call_through_seam, unfenced, SeamReply};
 use seam_support::{answered, failed, scripted, Script};
 use std::ffi::OsString;
 use std::fs;
@@ -73,7 +74,7 @@ fn call_scripted(
 }
 
 #[test]
-fn an_answered_call_gives_the_text_and_the_rest_of_the_reply() {
+fn an_answered_call_gives_the_text_and_the_call_fact() {
     let work = dir("answered");
     let script = Script::new(&work, "answered", &answered("```json\n{}\n```"), "", 0);
     let endpoint = work.join("model.env");
@@ -83,11 +84,20 @@ fn an_answered_call_gives_the_text_and_the_rest_of_the_reply() {
         reply.text, "```json\n{}\n```",
         "the text as the model wrote it"
     );
-    assert_eq!(j_get(&reply.meta, "stop"), Some(&J::str("complete")));
-    assert_eq!(j_get(&reply.meta, "output_tokens"), Some(&J::int(30)));
-    let sent = j_get(&reply.meta, "sent").expect("what was sent");
-    assert_eq!(j_get(sent, "model"), Some(&J::str("scripted-model")));
+    let fact = |key: &str| j_get(&reply.meta, key).unwrap_or(&J::Null);
+    assert_eq!(fact("stop_reason"), &J::str("complete"));
+    assert_eq!(j_get(fact("usage"), "output_tokens"), Some(&J::int(30)));
+    assert_eq!(fact("seconds"), &J::Float(1.5));
+    assert_eq!(
+        j_get(fact("sent"), "model"),
+        Some(&J::str("scripted-model"))
+    );
     assert!(j_get(&reply.meta, "text").is_none());
+    let digest = |text: &str| J::str(receipt::sha256_hex(text.as_bytes()));
+    assert_eq!(fact("system_sha256"), &digest("system text"));
+    assert_eq!(fact("user_sha256"), &digest("user text"));
+    assert_eq!(fact("request_sha256"), &digest(&script.seen_request()));
+    assert_eq!(fact("response_sha256"), &digest("```json\n{}\n```"));
 
     let (args, request) = script.seen();
     let endpoint = endpoint.to_string_lossy().into_owned();
@@ -184,6 +194,15 @@ fn a_missing_executable_says_what_needs_it_and_where_it_was_looked_for() {
     assert!(error.contains(&beside), "{error}");
     assert!(error.contains("search path"), "{error}");
     let _ = fs::remove_dir_all(&work);
+}
+
+#[test]
+fn one_fence_around_the_whole_reply_is_removed() {
+    assert_eq!(unfenced("```json\n{\"a\": 1}\n```"), "{\"a\": 1}");
+    assert_eq!(unfenced("```\n{}\n```\n"), "{}");
+    assert_eq!(unfenced("```{\"a\": 1}```"), "{\"a\": 1}");
+    assert_eq!(unfenced(" {\"a\": \"```\"} "), "{\"a\": \"```\"}");
+    assert_eq!(unfenced("{\"a\": 1}"), "{\"a\": 1}");
 }
 
 #[test]

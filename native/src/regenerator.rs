@@ -3,30 +3,27 @@
 //! syntax, Contract-B surface, pure/shell write-sites, static targets), the
 //! Tier-2 pinned-formula runtime verdict, BestOfN refine control with
 //! preregistered retry directives, receipts with `.sha256` sidecars and
-//! `bindings.json`, and the openai-compatible HTTP adapter on pinned `ureq`.
+//! `bindings.json`. A model is reached only through `lesscode-model` (the
+//! launcher, `seam.rs`; spec `model-seam`); the core holds no HTTP client.
 //! Ports `src/lesscode_baseline/regenerator.py` (frozen `regen_turn.py`
 //! contracts: exit codes 0/2/3/4/5/6, R26 amendments 1-4).
 //!
-//! Port deltas (documented, no silent narrowing): only the openai-compatible
-//! adapter ships here (R36 dependency decision); the anthropic streaming arm
-//! and its `count_tokens` guard — the only exit-5 trigger — stay on the
+//! Port deltas (documented, no silent narrowing): the anthropic streaming
+//! arm and its `count_tokens` guard — the only exit-5 trigger — stay on the
 //! Python substrate. `run_refine_loop` evaluators drop Python's always-empty
 //! `results` argument. Receipt objects arrive through `serde_json` maps, so
 //! keys load sorted where the Python dicts preserved insertion order (same
 //! class of divergence as the 8.2 surface report loader; semantics are
 //! order-insensitive).
 
-use crate::jsonval::{
-    from_serde as j_from_value, j_get, j_str, to_serde as j_to_value,
-    write_json_str_py as write_str_py,
-};
+use crate::jsonval::{from_serde as j_from_value, j_get, j_str, write_json_str_py as write_str_py};
 use crate::measures::{self, Structure};
 use crate::receipt::{self, J};
 use crate::recording;
+use crate::seam;
 use crate::surface;
 use std::collections::BTreeSet;
 use std::fs;
-use std::io::Read as _;
 use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
@@ -813,137 +810,6 @@ pub fn hash_set(kwargs: &J, response_json: &str, model_returned: &str) -> J {
         ("seed", J::Null),
         ("seed_note", J::str(SEED_NOTE)),
     ])
-}
-
-// --- OpenAI-compatible transport (pinned ureq) -----------------------------------
-
-/// One POST; transport-level failures carry the frozen message prefix.
-pub type HttpTransport<'a> =
-    &'a dyn Fn(&str, &[(String, String)], &[u8]) -> Result<Vec<u8>, String>;
-
-pub fn ureq_post(url: &str, headers: &[(String, String)], body: &[u8]) -> Result<Vec<u8>, String> {
-    let agent = ureq::config::Config::builder()
-        .timeout_global(Some(Duration::from_secs(3600)))
-        .http_status_as_error(false)
-        .build()
-        .new_agent();
-    let mut request = agent.post(url);
-    for (name, value) in headers {
-        request = request.header(name, value);
-    }
-    let mut response = request
-        .send(body)
-        .map_err(|e| format!("openai transport: {e}"))?;
-    let status = response.status().as_u16();
-    let mut buf = Vec::new();
-    response
-        .body_mut()
-        .as_reader()
-        .read_to_end(&mut buf)
-        .map_err(|e| format!("openai transport: {e}"))?;
-    if status >= 400 {
-        // What the endpoint said, shortened: a status alone does not say why.
-        let said: String = String::from_utf8_lossy(&buf).chars().take(300).collect();
-        return Err(format!("openai transport: HTTP {status}: {said}"));
-    }
-    Ok(buf)
-}
-
-/// One OpenAI-compatible chat completion via the transport seam.
-fn openai_call(
-    ep: &Endpoint,
-    system: &str,
-    user: &str,
-    max_tokens: i64,
-    effort: Option<&str>,
-    temperature: Option<f64>,
-    transport: HttpTransport,
-) -> Result<(String, J), String> {
-    let body = serde_json::json!({
-        "model": ep.model,
-        "max_tokens": max_tokens,
-        "temperature": temperature.unwrap_or(0.0),
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user", "content": user},
-        ],
-        "response_format": {
-            "type": "json_schema",
-            "json_schema": {"name": "regenerate", "schema": j_to_value(&schema())},
-        },
-    });
-    let url = format!("{}/chat/completions", ep.base_url.trim_end_matches('/'));
-    let headers = vec![
-        (
-            "Authorization".to_string(),
-            format!("Bearer {}", ep.api_key()),
-        ),
-        ("Content-Type".to_string(), "application/json".to_string()),
-    ];
-    let t0 = Instant::now();
-    let bytes = transport(
-        &url,
-        &headers,
-        &serde_json::to_vec(&body).expect("closed body serializes"),
-    )?;
-    let payload: serde_json::Value =
-        serde_json::from_slice(&bytes).map_err(|e| format!("openai transport: {e}"))?;
-    let choice = payload
-        .get("choices")
-        .and_then(|c| c.get(0))
-        .ok_or_else(|| "KeyError: 'choices'".to_string())?;
-    let text = choice
-        .get("message")
-        .and_then(|m| m.get("content"))
-        .and_then(|c| c.as_str())
-        .ok_or_else(|| "KeyError: 'message'".to_string())?
-        .to_string();
-    let stop_reason = match choice.get("finish_reason") {
-        Some(serde_json::Value::String(s)) => J::str(s.clone()),
-        _ => J::Null,
-    };
-    let meta = J::obj(vec![
-        ("mode", J::str("openai-json-http")),
-        ("stop_reason", stop_reason),
-        (
-            "elapsed_s",
-            J::Float((t0.elapsed().as_secs_f64() * 100.0).round() / 100.0),
-        ),
-        (
-            "usage",
-            payload.get("usage").map(j_from_value).unwrap_or(J::Null),
-        ),
-        ("max_tokens", J::int(max_tokens)),
-        ("effort", effort.map(J::str).unwrap_or(J::Null)),
-        ("temperature", J::Float(temperature.unwrap_or(0.0))),
-    ]);
-    Ok((text, meta))
-}
-
-/// One request; returns the response text plus meta carrying the receipt
-/// hash set. Only the openai-compatible arm ships here (R36); the
-/// anthropic arm's token-count guard stays on the Python substrate.
-#[allow(clippy::too_many_arguments)]
-pub fn call(
-    ep: &Endpoint,
-    system: &str,
-    user: &str,
-    max_tokens: i64,
-    effort: Option<&str>,
-    temperature: Option<f64>,
-    display: Option<&str>,
-    transport: HttpTransport,
-) -> Result<(String, J), String> {
-    let (text, mut meta) =
-        openai_call(ep, system, user, max_tokens, effort, temperature, transport)?;
-    let kwargs = request_kwargs(ep, system, user, max_tokens, effort, temperature, display);
-    if let J::Obj(pairs) = &mut meta {
-        pairs.extend(match hash_set(&kwargs, &text, &ep.model) {
-            J::Obj(hs) => hs,
-            _ => unreachable!("hash_set builds an object"),
-        });
-    }
-    Ok((text, meta))
 }
 
 // --- Response parsing and candidate preparation ----------------------------------
@@ -2206,8 +2072,9 @@ pub fn run_refine_loop(
                     Ok((text, call_meta)) => {
                         meta = Some(call_meta);
                         let stop = j_get(meta.as_ref().expect("just set"), "stop_reason").cloned();
-                        let stop_ok =
-                            matches!(&stop, Some(J::Str(s)) if s == "end_turn" || s == "stop");
+                        // the seam says "complete"; scripted metas use an endpoint's word
+                        let stop_ok = matches!(&stop, Some(J::Str(s))
+                            if s == "complete" || s == "end_turn" || s == "stop");
                         if !stop_ok {
                             TurnOutcome {
                                 ok: false,
@@ -2217,7 +2084,7 @@ pub fn run_refine_loop(
                                 written: vec![],
                             }
                         } else {
-                            match parse_result(&text)
+                            match parse_result(seam::unfenced(&text))
                                 .map_err(RegenError::FailedTurn)
                                 .and_then(|result| {
                                     write_candidate(&result, cand_root, &req.scope_files)
@@ -2440,23 +2307,17 @@ pub fn run_refine_loop(
     })
 }
 
-/// Live endpoint call with the pinned transport (the loop's default `call_fn`).
+/// Live call through `lesscode-model` with its default endpoint file (the
+/// loop's default `call_fn`). The output limit and the temperature go to the
+/// seam; effort and display do not.
 pub fn default_call_fn(
     system: &str,
     user: &str,
     params: &AttemptParams,
 ) -> Result<(String, J), String> {
-    let ep = load_endpoint(None)?;
-    call(
-        &ep,
-        system,
-        user,
-        params.max_tokens,
-        Some(params.effort.as_str()),
-        params.temperature,
-        params.display.as_deref(),
-        &ureq_post,
-    )
+    let (limit, temperature) = (params.max_tokens, params.temperature);
+    let reply = seam::call_through_seam(None, system, user, limit, temperature, None)?;
+    Ok((reply.text, reply.meta))
 }
 
 // --- CLI (frozen prompt/run contract) -------------------------------------------------
@@ -2551,7 +2412,7 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
         effort,
         temperature,
         rollout_id,
-        thinking_display,
+        thinking_display: _,
     } = a
     else {
         return Err(RegenError::Usage(
@@ -2638,8 +2499,9 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
         ],
     )?;
 
-    // failed turns stay in the receipt; no retry here
+    // failed turns stay in the receipt and are said on the terminal; no retry here
     let failed = |writer: &mut ReceiptWriter, reason: &str, code: u8| -> Result<u8, RegenError> {
+        eprintln!("{label} failed: {reason}");
         writer.add_note(
             &format!("{label}-failed"),
             J::obj(vec![
@@ -2652,18 +2514,16 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
         Ok(code)
     };
 
-    let call_result = call(
-        &ep,
+    let call = seam::call_through_seam(
+        model_env.as_deref(),
         &system,
         &user,
         *max_tokens,
-        Some(effort.as_str()),
         *temperature,
-        thinking_display.as_deref(),
-        &ureq_post,
+        None,
     );
-    let (text, mut meta) = match call_result {
-        Ok(ok) => ok,
+    let (text, mut meta) = match call {
+        Ok(reply) => (reply.text, reply.meta),
         Err(e) => return failed(&mut writer, &e, EXIT_FAILED_TURN),
     };
     let saved = save(&turn_dir, "response.json", &text)?;
@@ -2681,20 +2541,12 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
             ("sidecars", J::arr(vec![J::str("response.json.sha256")])),
         ])],
     )?;
-    match j_get(&meta, "stop_reason") {
-        Some(J::Str(s)) if s == "end_turn" || s == "stop" => {}
-        _ => {
-            return failed(
-                &mut writer,
-                &format!(
-                    "stop_reason {}",
-                    py_str(j_get(&meta, "stop_reason").unwrap_or(&J::Null))
-                ),
-                EXIT_FAILED_TURN,
-            )
-        }
+    let stop = j_get(&meta, "stop_reason");
+    if stop != Some(&J::str("complete")) {
+        let reason = format!("stop_reason {}", py_str(stop.unwrap_or(&J::Null)));
+        return failed(&mut writer, &reason, EXIT_FAILED_TURN);
     }
-    let parsed = parse_result(&text).map_err(RegenError::FailedTurn);
+    let parsed = parse_result(seam::unfenced(&text)).map_err(RegenError::FailedTurn);
     let result = match parsed {
         Ok(result) => result,
         Err(e) => return failed(&mut writer, e.message(), EXIT_FAILED_TURN),
