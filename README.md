@@ -129,6 +129,11 @@ Options, set as environment variables before running the script:
 - `LESSCODE_ADD_TO_PATH=1` (Windows only) appends the directory to your user
   `PATH`. Without it the script prints the directory and leaves `PATH` alone.
   On Linux and macOS the script never edits shell profiles.
+- `LESSCODE_WITH_MODEL=1` also installs `lesscode-model`, the second binary
+  that makes the model calls, beside `lesscode-core`. You need it only for
+  `regenerate run`; no other command starts it. Releases after 1.2.0 carry it
+  as `lesscode-model-<target>`.
+  [Model endpoint](docs/model-endpoint.md) shows how to configure and check one.
 
 The Linux binaries are built on Ubuntu 24.04 and need glibc 2.39 or newer. On
 an older distribution, or on any other platform, build from source. You can
@@ -376,7 +381,9 @@ bounded finite-domain comparison, mutation scoring against real test suites,
 model-driven regeneration) lives in the library and in the `prepare`, `compare`,
 `admission`, `surface` and `regenerate` commands. Those need frozen manifests,
 recorded evidence and per-specimen setup, and `regenerate` sends prompts to a
-model endpoint you configure. Start from the
+model endpoint you configure. It does that through `lesscode-model`; the
+[model endpoint page](docs/model-endpoint.md) covers the endpoint file, the
+check command and what the tool does while an endpoint makes it wait. Start from the
 [working paired example](docs/reports/native-core-readiness.md) if you want to
 use them; they are not a one-command workflow yet.
 
@@ -427,6 +434,7 @@ equivalence proofs.
 - [Native core: build, prerequisites, licenses](native/README.md)
 - [Architecture and how to add a language](docs/multi-language-deconvolution.md)
 - [CI and release workflows](docs/ci-validation.md)
+- [Model endpoint for `regenerate`](docs/model-endpoint.md)
 - [Agent skill for deconvolution](.agents/skills/deconvolute/SKILL.md)
 - [Refactoring in checked steps](docs/steps.md), [why it works this way](docs/testability.md),
   and the [agent skill](.agents/skills/refactor-in-steps/SKILL.md)

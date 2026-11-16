@@ -11,6 +11,7 @@
 | Plant faults and see which ones your tests catch (from release 1.1.0) | [The agnostic driver](driver.md) |
 | Build from source, check prerequisites and license notices | [Native core](../native/README.md) |
 | Understand the architecture or add a language | [Multi-language deconvolution](multi-language-deconvolution.md) |
+| Configure a model endpoint, check it, and see whether a model is good enough (releases after 1.2.0) | [Model endpoint](model-endpoint.md) |
 | See how checks and releases are built | [CI and release workflows](ci-validation.md) |
 | Verify a download or set up the signing key | [Release signing](release-signing.md) |
 | Follow the experiments, including the failed ones | [Dated research log](research/README.md) |
