@@ -8,7 +8,15 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R111 The guide tool calls models through the seam: dry-run summaries unchanged, a live judgement of four trials on GLM 5.3 completes (2026-11-14)
+## Latest: R112 The core reaches a model only through `lesscode-model`; a new receipt states only what was sent; three pipeline checks fail on a planted violation (2026-11-16)
+
+[R112](2026-11-16/01-model-seam-core-on-the-seam.md) is the check of group 7 (tasks 7.1 to 7.4) of `model-seam` and closes the item carried from gate P4.
+- **Result:** the launcher `native/src/seam.rs` starts `lesscode-model call`; `ureq` and the hand-written request left the core (`regenerator.rs` 20,788 to 19,699 tokens); 400 of 400 tests pass, among them the three-turn replay; `dagger call check` passes.
+- **Receipt:** a new turn has `"mode": "seam-1"` and only the settings reported as sent; a stored receipt of gate P4 keeps its form and passes admission with a new turn added.
+- **Separation:** the step and driver suites run only where no `lesscode-model` is found; the core's lock file may name no client library; the seam's source names no model and no address. Each check failed on its plant.
+- **Not shown:** a live call through the launcher; macOS and the hosted jobs. **For the owner:** `--effort` is accepted and no longer sent or recorded; the refine loop's schedule still steps an effort that is not sent.
+
+## Prior: R111 The guide tool calls models through the seam: dry-run summaries unchanged, a live judgement of four trials on GLM 5.3 completes (2026-11-14)
 
 [R111](2026-11-14/04-model-seam-guide-tool-on-the-seam.md) is the check of task 6 of `model-seam`.
 - **Result:** `tools/guide-optimizer` has no client of its own; its calls go through `lesscode_model::call` and its repair turns through `with_repairs`. Both dry runs give byte-identical summaries; 3 tests pass.

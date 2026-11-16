@@ -142,6 +142,34 @@ below, or differs from it:
 - Not changed: "still waiting" notices follow the answers already seen in the run and so can appear
   after a few seconds on a fast model.
 
+**Amendment 10, 2026-11-16 (as built, group 7; [R112](../../../docs/research/2026-11-16/01-model-seam-core-on-the-seam.md)).**
+Points where the launcher, the receipt and the separation checks say more than the text below, or
+differ from it:
+
+- `SeamReply.meta` is the call fact in the receipt's words, not only what the executable reported: the
+  mode `seam-1`, `stop_reason`, `usage`, `seconds`, `waits`, `sent`, and the digests of the system text,
+  the user text, the request as written to the executable and the reply. `regenerator.rs` passes it on.
+  A new turn therefore does not use `request_kwargs` and `hash_set`; those stay for earlier receipts.
+- In a new turn's note `sent` is one nested object with only the settings the executable reported as
+  sent, `seconds` replaces `elapsed_s`, and `model_sent`, `model_returned`, `seed` and `seed_note` are
+  gone (`sent.model` names the model; the seam does not report a name returned by the endpoint). The
+  inputs fact lists the output limit, the rollout number, and a temperature only when one was given.
+- Every request carries `"purpose": "regenerate"`, which the built `CallRequest` requires.
+  `regenerate` asks for no structure; the core's own checks decide.
+- `regenerate run` accepts `--effort` and `--thinking-display` and neither sends nor records them. The
+  reasoning level is the endpoint file's and appears under `sent`. `--temperature` is sent only when
+  given.
+- `LESSCODE_MODEL_BIN`, when set, is the only place looked at; a value that is not a file is an error.
+- The stop word of an answered turn is the seam's `complete`. The refine loop also accepts `end_turn`
+  and `stop` from scripted calls.
+- A failed call's reason reaches the terminal twice, from `lesscode-model` and from the core.
+- Separation checks (task 7.4) are three steps of `tools/check_native.sh`: the `step_*` and `driver_*`
+  test binaries run only after no `lesscode-model` was found; `native/Cargo.lock` may name none of
+  `genai`, `reqwest`, `hyper`, `ureq`, `lesscode-model`; the source scan is the existing test in
+  `model/tests/call.rs`. The pipeline's container mounts `model/` for it.
+- Open, for the owner: the refine loop's schedule still steps an effort and records effort and display
+  in its attempt notes, although neither is sent (`regenerate refine` is not implemented).
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

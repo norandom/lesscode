@@ -161,8 +161,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
   - _Depends: 3_
   - _Requirements: 8.2_
 
-- [ ] 7. The core on the seam
-- [ ] 7.1 The launcher
+- [x] 7. The core on the seam
+- [x] 7.1 The launcher
   - `native/src/seam.rs` from the gate's prototype: find the executable (variable, beside the running
     executable, search path), write the request, read the reply, pass standard error through; a clear
     message when the executable is not installed.
@@ -170,7 +170,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     and the missing executable, and the file has its budget entry.
   - _Boundary: Launcher_
   - _Requirements: 7.2, 8.1_
-- [ ] 7.2 `regenerate` through the launcher; the hand-written request leaves the core
+- [x] 7.2 `regenerate` through the launcher; the hand-written request leaves the core
   - `default_call_fn` and `cmd_run` use the launcher; `openai_call`, the hand-written `call`, `ureq_post`
     and the `ureq` dependency are removed; one code fence around a reply is removed before parsing; a
     failed turn writes its reason to standard error as well as to the receipt.
@@ -179,16 +179,19 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-12
     its ceiling by at least the size of the removed code.
   - _Depends: 6_
   - _Requirements: 8.1, 8.5_
-- [ ] 7.3 A receipt that states only what was sent (carried from the gate)
+- [x] 7.3 A receipt that states only what was sent (carried from the gate)
   - New turns: the call fact has `"mode": "seam-1"` and the settings the executable reported as sent; no
     effort or temperature unless sent. Earlier receipts keep their form.
   - Done when a test reads a new receipt and finds no setting that the scripted executable did not report,
     and the recorded three-turn replay and the admission of stored receipts still pass.
   - _Requirements: 8.3, 8.4, 8.6_
-- [ ] 7.4 The core stays free of models, checked
+- [x] 7.4 The core stays free of models, checked
   - CI: the step flow's and the driver's suites run with no `lesscode-model` on the machine; a scan of
     `native/Cargo.lock` for the client library; the scan of `model/src` for model names and addresses.
   - Done when the three checks run in the pipeline and each fails on a planted violation.
+  - 2026-11-16: group 7 done, [R112](../../../docs/research/2026-11-16/01-model-seam-core-on-the-seam.md),
+    design Amendment 10. Tasks 7.1 to 7.3 and 7.4 were each implemented by a subagent, which the owner
+    allowed for this group; review, reruns and the last pipeline run in the main context.
   - _Requirements: 7.1, 7.2, 1.8, 2.8_
 
 - [ ] 8. Release and documentation
