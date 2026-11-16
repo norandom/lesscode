@@ -15,7 +15,7 @@ type LesscodeCi struct{}
 // Use Check to enforce the recorded result.
 func (m *LesscodeCi) Evidence(
 	// +defaultPath="/"
-	// +ignore=["**", "!native/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "native/target/**", "tools/guide-optimizer/target/**"]
+	// +ignore=["**", "!native/**", "!model/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "native/target/**", "model/target/**", "tools/guide-optimizer/target/**"]
 	source *dagger.Directory,
 	revision string,
 ) *dagger.Directory {
@@ -26,6 +26,8 @@ func (m *LesscodeCi) Evidence(
 		WithExec([]string{"bash", "/workspace/tools/install_nextest.sh"}).
 		WithMountedCache("/usr/local/cargo/registry", dag.CacheVolume("lesscode-cargo-registry-1.98.1")).
 		WithDirectory("/workspace/native", source.Directory("native")).
+		// The seam: its source scan, and the guide optimiser's dependency on it.
+		WithDirectory("/workspace/model", source.Directory("model")).
 		WithFile("/workspace/tools/check_native.sh", source.File("tools/check_native.sh")).
 		WithDirectory("/workspace/tools/guide-optimizer", source.Directory("tools/guide-optimizer")).
 		WithMountedCache("/workspace/native/target", dag.CacheVolume("lesscode-native-target-1.98.1")).
@@ -39,7 +41,7 @@ func (m *LesscodeCi) Evidence(
 func (m *LesscodeCi) Check(
 	ctx context.Context,
 	// +defaultPath="/"
-	// +ignore=["**", "!native/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "native/target/**", "tools/guide-optimizer/target/**"]
+	// +ignore=["**", "!native/**", "!model/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "native/target/**", "model/target/**", "tools/guide-optimizer/target/**"]
 	source *dagger.Directory,
 	revision string,
 ) (string, error) {
