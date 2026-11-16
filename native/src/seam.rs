@@ -13,6 +13,9 @@ use std::process::{Command, Stdio};
 
 /// The number both sides state; an answer with another number is refused.
 const PROTOCOL: i64 = 1;
+/// The mode of a call fact written through this protocol (design: Data
+/// Models). Earlier receipts say `openai-json-http`.
+const MODE: &str = "seam-1";
 const NAME: &str = "lesscode-model";
 /// Names the executable; when set, no other place is looked at.
 pub const VARIABLE: &str = "LESSCODE_MODEL_BIN";
@@ -20,9 +23,10 @@ pub const VARIABLE: &str = "LESSCODE_MODEL_BIN";
 const PURPOSE: &str = "regenerate";
 
 /// An answered call: the text as the model wrote it, and the call fact for a
-/// receipt. The fact holds what `lesscode-model` reported (stop, tokens,
-/// seconds, waits, what was sent) in the receipt's words, and the digests of
-/// the system and user texts, of the request as written and of the reply.
+/// receipt. The fact holds the mode `seam-1`, what `lesscode-model` reported
+/// (stop, tokens, seconds, waits, the settings sent) in the receipt's words,
+/// and the digests of the system and user texts, of the request as written
+/// and of the reply.
 #[derive(Debug)]
 pub struct SeamReply {
     pub text: String,
@@ -107,25 +111,36 @@ fn find() -> Result<PathBuf, String> {
     })
 }
 
-/// The call fact of a receipt: the reply's fields in the receipt's words, and
-/// the digests of what went to the executable and came back.
+/// The call fact of a receipt: the mode, the reply's fields in the receipt's
+/// words, and the digests of what went to the executable and came back. Of
+/// the settings it holds only those the executable reported as sent; a
+/// setting reported as null was not sent and is left out, as is a count the
+/// endpoint did not report.
 fn call_fact(reply: &J, crossed: [(&str, &str); 4]) -> J {
     let field = |key: &str| j_get(reply, key).cloned().unwrap_or(J::Null);
+    let stated = |pairs: Vec<(String, J)>| {
+        J::Obj(pairs.into_iter().filter(|(_, v)| *v != J::Null).collect())
+    };
     let tokens = [
         "input_tokens",
         "output_tokens",
         "reasoning_tokens",
         "cached_input_tokens",
     ];
+    let sent = match field("sent") {
+        J::Obj(pairs) => stated(pairs),
+        other => other,
+    };
     let mut fact = vec![
+        ("mode", J::str(MODE)),
         ("stop_reason", field("stop")),
         (
             "usage",
-            J::obj(tokens.map(|key| (key, field(key))).to_vec()),
+            stated(tokens.map(|key| (key.to_string(), field(key))).to_vec()),
         ),
         ("seconds", field("seconds")),
         ("waits", field("waits")),
-        ("sent", field("sent")),
+        ("sent", sent),
     ];
     let digest = |text: &str| J::str(receipt::sha256_hex(text.as_bytes()));
     fact.extend(crossed.map(|(key, text)| (key, digest(text))));

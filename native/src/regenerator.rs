@@ -2352,12 +2352,15 @@ pub enum RegenerateCommand {
         model_env: Option<PathBuf>,
         #[arg(long, default_value_t = 64_000)]
         max_tokens: i64,
+        /// Accepted and not sent: the reasoning level is the endpoint file's.
         #[arg(long, default_value = "high")]
         effort: String,
+        /// Sent through lesscode-model when given; nothing is sent otherwise.
         #[arg(long)]
         temperature: Option<f64>,
         #[arg(long, default_value_t = 1)]
         rollout_id: i64,
+        /// Accepted and not sent.
         #[arg(long)]
         thinking_display: Option<String>,
     },
@@ -2409,10 +2412,9 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
         turns,
         model_env,
         max_tokens,
-        effort,
         temperature,
         rollout_id,
-        thinking_display: _,
+        ..
     } = a
     else {
         return Err(RegenError::Usage(
@@ -2469,15 +2471,16 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
                     .unwrap_or(J::Null),
             ),
             ("language", J::str(req.language.clone())),
+            // what goes to the seam: the output limit, a temperature only when given
             (
                 "preregistered_params",
-                J::obj(vec![
-                    ("max_tokens", J::int(*max_tokens)),
-                    ("effort", J::str(effort.clone())),
-                    ("temperature", temperature.map(J::Float).unwrap_or(J::Null)),
-                    ("rollout_id", J::int(*rollout_id)),
-                    ("seed", J::Null),
-                ]),
+                J::obj(
+                    [("max_tokens", J::int(*max_tokens))]
+                        .into_iter()
+                        .chain(temperature.map(|t| ("temperature", J::Float(t))))
+                        .chain([("rollout_id", J::int(*rollout_id))])
+                        .collect(),
+                ),
             ),
             ("prompts", prompts),
         ]),

@@ -21,7 +21,7 @@ use lesscode_core::regenerator::{
     TurnOutcome, TurnRequest,
 };
 use lesscode_core::surface;
-use seam_support::{answered, failed, scripted, Script as ModelScript};
+use seam_support::{answered, answered_with, failed, scripted, Script as ModelScript};
 use serde_json::json;
 use std::collections::VecDeque;
 use std::fs;
@@ -1663,6 +1663,129 @@ fn the_loops_default_call_goes_through_lesscode_model() {
     assert_eq!(args, ["call"], "the seam reads the default endpoint file");
     assert_eq!(request["max_output_tokens"], 4000);
     assert_eq!(request["temperature"], 0.2);
+}
+
+// --- What a receipt states about a call (task 7.3) -------------------------------------------
+
+/// Every key in `value` that names a setting of a model call, with its path;
+/// an element of a list is named by its `key` where it has one.
+fn settings_named(value: &serde_json::Value, path: &str, found: &mut Vec<String>) {
+    const SETTINGS: [&str; 8] = [
+        "effort",
+        "temperature",
+        "reasoning_level",
+        "reasoning",
+        "thinking",
+        "display",
+        "seed",
+        "top_p",
+    ];
+    if let Some(map) = value.as_object() {
+        for (key, inner) in map {
+            let here = format!("{path}.{key}");
+            if SETTINGS.contains(&key.as_str()) {
+                found.push(here.clone());
+            }
+            settings_named(inner, &here, found);
+        }
+    }
+    for (at, item) in value.as_array().into_iter().flatten().enumerate() {
+        let name = item["key"].as_str().map_or(at.to_string(), str::to_owned);
+        settings_named(item, &format!("{path}[{name}]"), found);
+    }
+}
+
+#[test]
+fn a_new_receipt_states_only_the_settings_lesscode_model_reported_as_sent() {
+    let text = response_text(&[("src/mod.py", GOOD)], &[], &[]);
+    let cases = [
+        // no temperature asked for; the endpoint file's reasoning level sent
+        (
+            "level",
+            &[][..],
+            json!({"host": "localhost", "model": "scripted-model", "max_output_tokens": 64000,
+                   "temperature": null, "reasoning_level": "low"}),
+            vec![".notes[seam-turn].value.sent.reasoning_level"],
+        ),
+        // a temperature asked for and sent, no reasoning level
+        (
+            "temperature",
+            &["--temperature", "0.3"][..],
+            json!({"host": "localhost", "model": "scripted-model", "max_output_tokens": 64000,
+                   "temperature": 0.3, "reasoning_level": null}),
+            vec![
+                ".facts[seam-inputs].preregistered_params.temperature",
+                ".notes[seam-turn].value.sent.temperature",
+            ],
+        ),
+    ];
+    for (name, extra, sent, settings) in cases {
+        let work = scratch(&format!("seam-receipt-{name}"));
+        let reply = answered_with(&text, sent.clone());
+        let script = ModelScript::new(&work, name, &reply, "", 0);
+        let ran = regenerate_run(&work, &scripted(), &script, extra);
+        assert_eq!(ran.code, Some(0), "{name}: {}", ran.err);
+
+        let turn = ran.note("seam-turn");
+        assert_eq!(turn["mode"], "seam-1", "{name}");
+        let reported: serde_json::Map<_, _> = sent
+            .as_object()
+            .unwrap()
+            .iter()
+            .filter(|(_, value)| !value.is_null())
+            .map(|(key, value)| (key.clone(), value.clone()))
+            .collect();
+        assert_eq!(turn["sent"], serde_json::Value::Object(reported), "{name}");
+        let receipt: serde_json::Value = serde_json::from_str(&ran.receipt).unwrap();
+        let inputs = &receipt["facts"][0];
+        assert_eq!(inputs["key"], "seam-inputs");
+        let mut asked = json!({"max_tokens": 64000, "rollout_id": 1});
+        if !sent["temperature"].is_null() {
+            asked["temperature"] = sent["temperature"].clone();
+        }
+        assert_eq!(inputs["preregistered_params"], asked, "{name}");
+        let mut found = Vec::new();
+        settings_named(&receipt, "", &mut found);
+        found.sort();
+        assert_eq!(found, settings, "{name}: {}", ran.receipt);
+        let (_, request) = script.seen();
+        assert_eq!(
+            request.get("temperature"),
+            sent.get("temperature").filter(|t| !t.is_null())
+        );
+    }
+}
+
+#[test]
+fn an_earlier_receipt_keeps_its_form_and_verifies_when_a_new_turn_is_added() {
+    let stored = repo().join("docs/experiments/model-seam/p4/receipt-p4-3.json");
+    let work = scratch("seam-earlier-receipt");
+    fs::create_dir_all(&*work).unwrap();
+    fs::copy(&stored, work.join("receipt.json")).unwrap();
+    let text = response_text(&[("src/mod.py", GOOD)], &[], &[]);
+    let script = ModelScript::new(&work, "earlier", &answered(&text), "", 0);
+    let ran = regenerate_run(&work, &scripted(), &script, &[]);
+    assert_eq!(ran.code, Some(0), "{}", ran.err);
+
+    let before: serde_json::Value = serde_json::from_slice(&fs::read(&stored).unwrap()).unwrap();
+    let after: serde_json::Value = serde_json::from_str(&ran.receipt).unwrap();
+    for part in ["facts", "notes"] {
+        let earlier = before[part].as_array().unwrap();
+        assert_eq!(
+            &after[part].as_array().unwrap()[..earlier.len()],
+            &earlier[..],
+            "{part} written before are unchanged"
+        );
+    }
+    assert_eq!(ran.note("p4-3-turn")["mode"], "openai-json-http");
+    assert_eq!(ran.note("seam-turn")["mode"], "seam-1");
+    let code = lesscode_core::admission::cli_run(
+        &work,
+        &work.join("bindings.json"),
+        &work.join("admission.json"),
+    )
+    .expect("admission run");
+    assert_eq!(code, 0, "the receipt verifies under admission");
 }
 
 // --- Request hash of earlier receipts --------------------------------------------------------
