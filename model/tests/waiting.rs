@@ -11,7 +11,7 @@ use lesscode_model::{
 use std::cell::{Cell, RefCell};
 use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant};
-use stub_endpoint::{Answer, Stub, chat_reply, ok, start};
+use stub_endpoint::{Answer, Stub, chat_reply, ok, start_holding};
 
 const SAID_ONE: &str = r#"{"error":{"message":"Upstream rate limit persisted; retry after 1 seconds","type":"rate_limit_error"}}"#;
 const SAID_NOTHING: &str = r#"{"error":{"message":"slow down"}}"#;
@@ -75,14 +75,27 @@ struct Outcome {
     result: Result<Reply, CallError>,
     events: Vec<String>,
     requests: usize,
+    /// The most requests the stub had open at the same moment.
+    most_open: usize,
     host: String,
 }
 
 /// One call against a stub that answers from `script`, with at most
 /// `total_seconds` of waiting.
 fn run(script: Vec<Answer>, total_seconds: u64, record_to: Option<&Path>) -> Outcome {
+    run_holding(script, total_seconds, record_to, Duration::ZERO)
+}
+
+/// The same against a stub that holds every request for `hold` before it
+/// answers.
+fn run_holding(
+    script: Vec<Answer>,
+    total_seconds: u64,
+    record_to: Option<&Path>,
+    hold: Duration,
+) -> Outcome {
     let started = Instant::now();
-    let stub = start(script);
+    let stub = start_holding(script, hold);
     let endpoint = Endpoint::new(
         "openai",
         &format!("{}/v1", stub.address),
@@ -108,6 +121,7 @@ fn run(script: Vec<Answer>, total_seconds: u64, record_to: Option<&Path>) -> Out
         result,
         events: watch.events.into_inner(),
         requests: stub.seen().len(),
+        most_open: stub.most_open(),
         host: stub.address.trim_start_matches("http://").to_owned(),
     }
 }
@@ -322,4 +336,53 @@ fn a_record_that_cannot_be_written_fails_the_call_and_names_the_path() {
         Err(CallError::Config(what)) => assert!(what.contains("calls.jsonl"), "{what}"),
         other => panic!("a configuration failure was expected, got {other:?}"),
     }
+}
+
+/// Requirement 3.8: no second request is sent to shorten a wait. The stub
+/// holds every request for a moment and serves each on its own thread; two
+/// requests sent side by side would both be open.
+#[test]
+fn a_wait_never_has_a_second_request_open_beside_the_first() {
+    let outcome = run_holding(
+        vec![
+            refusal(429, "", SAID_NOTHING),
+            refusal(429, "", SAID_NOTHING),
+            ok(chat_reply("ok", "stop")),
+        ],
+        600,
+        None,
+        Duration::from_millis(40),
+    );
+    assert_eq!(waits(&outcome).len(), 2);
+    assert_eq!(outcome.requests, 3);
+    assert_eq!(outcome.most_open, 1, "requests open at the same moment");
+}
+
+/// The count the test above relies on: two requests sent side by side to a
+/// stub that holds them are seen as two open requests.
+#[test]
+fn the_stub_counts_requests_that_are_open_side_by_side() {
+    use std::io::{Read, Write};
+    let stub = start_holding(
+        vec![ok(chat_reply("ok", "stop"))],
+        Duration::from_millis(300),
+    );
+    let address = stub.address.trim_start_matches("http://").to_owned();
+    let senders: Vec<_> = (0..2)
+        .map(|_| {
+            let address = address.clone();
+            std::thread::spawn(move || {
+                let mut stream = std::net::TcpStream::connect(address).expect("the stub");
+                stream
+                    .write_all(b"POST /v1/chat/completions HTTP/1.1\r\ncontent-length: 2\r\n\r\n{}")
+                    .expect("a request");
+                let mut answer = String::new();
+                let _ = stream.read_to_string(&mut answer);
+            })
+        })
+        .collect();
+    for sender in senders {
+        sender.join().expect("a sender");
+    }
+    assert_eq!(stub.most_open(), 2);
 }
