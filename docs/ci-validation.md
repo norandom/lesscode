@@ -64,8 +64,12 @@ Three checks keep the core free of models (spec `model-seam`, task 7.4):
   `ureq` (the core's client before the seam) or `lesscode-model`.
 - `separation-model-source` builds `model/` and runs only its source scan in
   `model/tests/call.rs`, which fails on a model name of the first cases or an
-  address under `model/src`. Format, lints and the rest of the suite of `model/`
-  join the pipeline with task 8.1.
+  address under `model/src`.
+
+The seam itself is checked by five more steps: `model-fmt`, `model-clippy`,
+`model-test` (its suite against a stub endpoint; no model is called),
+`model-doctest` and `model-budgets`, which measures `model/src` against
+`model/complexity-budgets.json` with the core built earlier in the script.
 
 The first hosted run [41333477507](https://github.com/norandom/lesscode/actions/runs/41333477507)
 passed all three jobs: Linux 103 tests, Windows 102 and macOS 103, with zero

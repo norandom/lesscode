@@ -54,9 +54,17 @@ no_client_in_lock() {
 }
 run_check separation-lock no_client_in_lock
 # The seam's source names no model and holds no address (requirements 1.8, 2.8): the scan in
-# model/tests/call.rs, built and run alone. The rest of model/ enters the pipeline with task 8.1.
+# model/tests/call.rs, run alone so that its result has its own name.
 run_check separation-model-source cargo +1.98.1 nextest run --locked --manifest-path model/Cargo.toml \
   --test call --no-fail-fast -E 'test(=the_source_names_no_model_and_holds_no_address)'
+# The seam itself (task 8.1): format, lints, its suite against a stub endpoint (no model is called),
+# and its complexity budgets, measured by the core built above.
+run_check model-fmt cargo +1.98.1 fmt --manifest-path model/Cargo.toml --all -- --check
+run_check model-clippy cargo +1.98.1 clippy --locked --manifest-path model/Cargo.toml --all-targets -- -D warnings
+run_check model-test cargo +1.98.1 nextest run --locked --manifest-path model/Cargo.toml --test-threads 4 --no-fail-fast
+run_check model-doctest cargo +1.98.1 test --locked --manifest-path model/Cargo.toml --doc
+run_check model-budgets cargo +1.98.1 run --locked --manifest-path native/Cargo.toml -- budgets \
+  --config model/complexity-budgets.json --root model/src --out "$evidence/model-budgets.json"
 # Research tooling beside the product: the guide optimiser. Built and linted wherever its sources are
 # present; its dry run (a scripted stand-in, no model call) needs the repository's documents as well.
 optimizer=tools/guide-optimizer/Cargo.toml
