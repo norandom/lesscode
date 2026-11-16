@@ -178,6 +178,9 @@ differ from it:
   `LESSCODE_CHECK_SEAM=1`. `separation-suites` asserts that no `lesscode-model` is present before the
   core's suite and runs no test itself. The seam and the guide optimiser share one target directory.
   The owner decided this after a run in which the client library was compiled four times per platform.
+  By a second decision of the day the guide optimiser's steps run in that job as well, so no other
+  platform compiles the client library; the container mounts the one guide file the dry run reads.
+  A test that runs longer than five minutes is ended and named (`.config/nextest.toml` of both crates).
 - Release: one more archive per target, `lesscode-model-<target>`, with the seam's own `LICENSES.md` and
   `THIRD_PARTY_NOTICES.txt`. `scripts/license-inventory.ps1` writes both files for either crate from
   locked Cargo metadata. The tag follows the core's version; the seam states its own.

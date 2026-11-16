@@ -146,6 +146,20 @@ In run 43911624473 the Linux job ran the seam's steps (80 of 80 tests) and the c
   the simplification spec and the onboarding spec. Slice B (drift hardening) is unchanged: measured
   through R79, the next step is the owner's choice.
 
+## Amendment, 2026-11-16, 18:45 (owner decisions by menu after this entry was written)
+
+- The guide optimiser's steps move into the Linux job as well, so no other platform compiles the client
+  library. The Dagger container mounts the one guide file the dry run reads; the dry run was tried
+  with only that file and `native/` present and passed for both engines.
+- A test that runs longer than five minutes is ended and named (`.config/nextest.toml` in `native/` and
+  `model/`). The owner chose a limit per test; two minutes, as first proposed, is too close to the
+  slowest test seen on a hosted runner (115 s on macOS Intel), so the limit is five.
+- Criterion 3.8 has its test: the stub serves each request on its own thread, holds it, and counts the
+  requests open at one moment; a wait with two refusals leaves that count at one. A second test shows
+  the count reaches two when two requests are sent side by side. The seam's suite is 82 tests.
+- The pipeline's result for these changes is in the handover, not here: the entry above describes
+  `0c1686c`.
+
 ## COBESY check
 
 The title says "released in form": a dry run, no release. The ARM overrun is reported as unexplained,

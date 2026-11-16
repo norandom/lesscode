@@ -10,7 +10,7 @@ Method: `kiro-validate-impl`, run inline (no subagent). Research entry:
 binaries, the pipeline is green on all six jobs for `0c1686c`, and the release dry run produced both
 archives for the five targets.
 
-One finding (criterion 3.8) is a gap in the tests, not in the behaviour. Three points are recorded
+The one finding of the first version of this report, a missing test for criterion 3.8, is closed (see the table). Three points are recorded
 under "Open and not shown" for the owner: the cause of the ARM Linux job's two overruns was not found,
 the seam's suite runs on Linux only in the pipeline, and the publish stage was not exercised.
 
@@ -23,7 +23,7 @@ The gate branches are deleted, on the owner's word of 2026-11-16: `model-seam-ga
 | --- | --- |
 | Tasks | 1 to 8.3 ticked; 8.4 is this report |
 | `native` suite (`cargo nextest run --locked`) | 400 of 400 |
-| `model` suite | 80 of 80 |
+| `model` suite | 82 of 82 (80 when the pipeline run below was made) |
 | `tools/guide-optimizer` suite | 3 of 3 |
 | clippy `-D warnings`, `cargo fmt --check`, budgets | clean for the three crates; budgets exit 0 for `native` and `model` |
 | Spec audit, `tools\bin\kiro-cli.exe check --feature model-seam` | 73 criteria, 0 errors, 0 warnings, 37 info (files and components not cross-named in the design's plan; no topics declared) |
@@ -83,7 +83,7 @@ Tests are named by file and test; all are in the suites counted above.
 | 3.5 | `slow_answer::with_no_earlier_answer_the_user_is_told_after_a_minute_and_then_every_half_minute`, `slow_answer::the_expected_time_is_twice_the_median_of_the_earlier_answers`; seen live in case 2 of this validation |
 | 3.6 | `waiting::refused_for_good_the_limit_ends_the_call_with_its_report`, `wait::tests::the_limits_are_ten_minutes_of_waiting_and_sixty_for_an_answer` |
 | 3.7 | `waiting::the_waits_are_in_the_reply_and_in_the_one_line_of_the_record` |
-| 3.8 | **Finding.** By construction: the loop in `wait.rs` sends the next request only after the one before has ended. The design promised a test in which the stub never sees more than one open request; no test asserts that count |
+| 3.8 | `waiting::a_wait_never_has_a_second_request_open_beside_the_first`: the stub holds each request, serves each on its own thread and counts the requests open at one moment; `waiting::the_stub_counts_requests_that_are_open_side_by_side` shows that the count works. Added 2026-11-16, 18:40, after the first version of this report named the missing test as a finding |
 
 ### Requirement 4: saying why a call failed
 
@@ -219,7 +219,6 @@ optimiser.
 
 - Why the ARM Linux job overran on `5aac5a1` and `05190db`. If it returns, a time limit per test in nextest would name a hanging test.
 - The seam's suite on Windows, macOS and ARM Linux in the pipeline (owner decision).
-- Criterion 3.8 has no test of its own.
 - The install scripts' path for `lesscode-model` was syntax-checked and not run: no release carries the
   second archive yet.
 - The publish stage (signing ten archives, attestation) runs only for a tag and was not exercised.

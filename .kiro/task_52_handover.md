@@ -21,6 +21,17 @@ spec's tasks are all done.
   `docs/experiments/model-seam/run-released.ps1` with its receipts under `released/`.
 - Everything in this group ran in the main context.
 
+## Added after the owner's choices by menu (18:20 to 18:50)
+
+- The guide optimiser's steps run in the Linux job only; the Dagger container mounts the guide file its
+  dry run reads. No other platform compiles the client library.
+- `native/.config/nextest.toml` and `model/.config/nextest.toml`: a test that runs longer than five
+  minutes is ended and named.
+- Criterion 3.8 has its test (`model/tests/waiting.rs`, the stub counts open requests). `model`: 82 of 82.
+- The whole pipeline script passed locally with the Linux-only block on (372 s, every step 0). The
+  hosted result for these commits is not in this file; look at the latest run of
+  `Native core correctness`.
+
 ## Evidence
 
 - Pipeline run 43911624473 on `0c1686c`: success on six jobs. Linux ran the seam's steps (80 of 80) and
@@ -37,21 +48,18 @@ spec's tasks are all done.
 
 ## Current state
 
-- origin/main is `0c1686c`. The commit with R113, the validation report, the ticks and this handover is
-  on main and **not pushed**: a push starts the whole pipeline, and it changes documents only.
+- Everything is pushed with the commits of the section above; the documents went out with that code
+  change, as the owner chose.
 - Branches deleted on the owner's word: `model-seam-gate-p4` (`37effda`), `model-seam-gate-p2`
   (`99c394c`, local only), `model-seam-release-dry-run`.
 - Not found: why the ARM Linux job ran past its 30 minutes on `5aac5a1` and `05190db`; no log, no
   evidence. It passes in about 6 minutes on `0c1686c`.
 - Not shown: the publish stage with ten archives; the install scripts' path for the second binary; the
-  archives of the four other targets executed; a test for criterion 3.8.
+  archives of the four other targets executed.
 - Local Dagger: four of five runs in the main context were killed with exit 137. WSL has 8 GB in the
   owner's `.wslconfig`, which was not touched. Use the hosted pipeline as evidence.
 - Containers: `mvibe-proxy-proxy-1` is the owner's and runs. `dagger-engine-v0.21.11` is left running.
 - For the owner, not acted on:
-  - a time limit per test in nextest, so that a hanging test is named;
-  - the guide optimiser's steps on one platform, which removes the remaining double build of the client
-    library (macOS Intel 20 min);
   - the refine loop's schedule steps an effort that is not sent; `--effort` and `--thinking-display` are
     accepted and not sent (R112);
   - from R111: whether a refusal ends a trial of the guide tool; a reply cut off after a repair is asked
