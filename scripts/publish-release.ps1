@@ -5,9 +5,9 @@ Signs the built release archives and writes the checksum files.
 
 .DESCRIPTION
 Called by .github/workflows/release.yml in the approval-gated `release`
-environment. -Directory holds the platform archives (lesscode-core-*.tar.gz,
-lesscode-core-*.zip) and the install scripts, and nothing else that should
-not be published.
+environment. -Directory holds the platform archives of both binaries
+(lesscode-core-* and lesscode-model-*, .tar.gz or .zip) and the install
+scripts, and nothing else that should not be published.
 
 Order (the same as mmhmem):
   1. sign every archive in place (context = its published file name) and
@@ -27,7 +27,12 @@ param(
         'lesscode-core-aarch64-unknown-linux-gnu.tar.gz',
         'lesscode-core-x86_64-apple-darwin.tar.gz',
         'lesscode-core-x86_64-pc-windows-msvc.zip',
-        'lesscode-core-x86_64-unknown-linux-gnu.tar.gz'
+        'lesscode-core-x86_64-unknown-linux-gnu.tar.gz',
+        'lesscode-model-aarch64-apple-darwin.tar.gz',
+        'lesscode-model-aarch64-unknown-linux-gnu.tar.gz',
+        'lesscode-model-x86_64-apple-darwin.tar.gz',
+        'lesscode-model-x86_64-pc-windows-msvc.zip',
+        'lesscode-model-x86_64-unknown-linux-gnu.tar.gz'
     ),
     [string]$KeyList = (Join-Path $PSScriptRoot 'release-public-keys.txt')
 )

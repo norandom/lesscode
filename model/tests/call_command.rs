@@ -179,3 +179,13 @@ fn an_unusable_command_line_or_endpoint_file_ends_with_exit_code_2() {
         ran.err
     );
 }
+
+#[test]
+fn the_binary_states_its_version() {
+    let ran = binary::run(&["--version"], "");
+    assert_eq!(ran.code, Some(0), "{}", ran.err);
+    assert_eq!(
+        ran.out.trim(),
+        concat!("lesscode-model ", env!("CARGO_PKG_VERSION"))
+    );
+}

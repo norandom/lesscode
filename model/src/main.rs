@@ -218,6 +218,10 @@ fn main() -> ExitCode {
         Some("call") => call_command(&args[1..]),
         Some("check") => check_command(&args[1..]),
         Some("measure") => measure_command(&args[1..]),
+        Some("--version") => {
+            println!("lesscode-model {}", env!("CARGO_PKG_VERSION"));
+            ExitCode::SUCCESS
+        }
         Some(other) => usage(&format!("unknown command {other}")),
         None => usage("no command"),
     }

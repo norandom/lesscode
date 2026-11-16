@@ -123,15 +123,16 @@ The last version is in the history before that date.
 `.github/workflows/release.yml` builds and signs the adopter binaries. Pushing
 a tag of the form `vX.Y.Z` runs two stages:
 
-1. `build` compiles `lesscode-core` with Rust 1.98.1 and `--locked` on the same
+1. `build` compiles `lesscode-core` (`native/`) and `lesscode-model` (`model/`),
+   each from its own lock file, with Rust 1.98.1 and `--locked` on the same
    five runners as the correctness matrix, one per target:
    `x86_64-unknown-linux-gnu`, `aarch64-unknown-linux-gnu`,
    `x86_64-pc-windows-msvc`, `x86_64-apple-darwin`, `aarch64-apple-darwin`.
-   Each job runs the built binary once (`--version`), packs it with `LICENSE`,
-   `LICENSES.md` and `THIRD_PARTY_NOTICES.txt` into
-   `lesscode-core-<target>.tar.gz` (`.zip` on Windows) and keeps the unsigned
-   archive as a workflow artifact. These jobs hold no secrets and cannot write
-   to the repository.
+   Each job runs each built binary once (`--version`), packs it with `LICENSE`
+   and its crate's `LICENSES.md` and `THIRD_PARTY_NOTICES.txt` into
+   `lesscode-core-<target>.tar.gz` and `lesscode-model-<target>.tar.gz` (`.zip`
+   on Windows) and keeps the two unsigned archives as one workflow artifact.
+   These jobs hold no secrets and cannot write to the repository.
 2. `publish` runs only if all five builds succeeded, in the `release`
    environment, so it waits for the owner's approval. It checks that the tag
    equals the version in `native/Cargo.toml`, installs zipsign 0.2.2, signs
@@ -155,7 +156,15 @@ green. The Linux binaries link against the runner's glibc (2.39 on Ubuntu
 To cut a release: bump the version in `native/Cargo.toml`, `native/Cargo.lock`,
 `CITATION.cff`, `.zenodo.json` and the README badge; push; wait for green CI;
 push the tag; approve the `release` environment when asked. Zenodo archives
-the release when it is published.
+the release when it is published. The tag follows the core's version;
+`lesscode-model` states its own version from `model/Cargo.toml`.
+
+When a lock file changed, rebuild the license inventory the archives carry
+before tagging: `./scripts/license-inventory.ps1 -Crate native` and
+`-Crate model` write `LICENSES.md` and `THIRD_PARTY_NOTICES.txt` from locked
+Cargo metadata; with `-Check` the script only fails when a file would change.
+A package that publishes no license file needs its text under the crate's
+`licenses/` first; the script names it.
 
 ## Historical Python baseline (Archived)
 

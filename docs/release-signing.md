@@ -5,7 +5,7 @@ with the same Ed25519 key protect each release:
 
 | What | Signature |
 | --- | --- |
-| each archive `lesscode-core-<target>.tar.gz` / `.zip` | zipsign signature embedded in the archive, context = the published file name |
+| each archive `lesscode-core-<target>.tar.gz` / `.zip` and `lesscode-model-<target>.tar.gz` / `.zip` | zipsign signature embedded in the archive, context = the published file name |
 | `SHA256SUMS` (computed after signing, over every published file) | detached `SHA256SUMS.sig`, zipsign format (`zipsign sign separate`), context `SHA256SUMS` |
 
 A signed archive is still an ordinary `.tar.gz` or `.zip`; `tar` and
