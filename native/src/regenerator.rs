@@ -2617,7 +2617,7 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
         ])],
     )?;
     println!(
-        "{label}: end_turn, {} files written to {}",
+        "{label}: complete, {} files written to {}",
         written.len(),
         cand.display()
     );
