@@ -1758,7 +1758,9 @@ fn a_new_receipt_states_only_the_settings_lesscode_model_reported_as_sent() {
 
 #[test]
 fn an_earlier_receipt_keeps_its_form_and_verifies_when_a_new_turn_is_added() {
-    let stored = repo().join("docs/experiments/model-seam/p4/receipt-p4-3.json");
+    // A copy of docs/experiments/model-seam/p4/receipt-p4-3.json (gate P4, R107): the pipeline's
+    // container holds native/ and not docs/.
+    let stored = repo().join("native/tests/fixtures/model-seam/receipt-p4-3.json");
     let work = scratch("seam-earlier-receipt");
     fs::create_dir_all(&*work).unwrap();
     fs::copy(&stored, work.join("receipt.json")).unwrap();
