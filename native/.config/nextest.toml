@@ -1,0 +1,4 @@
+# A test that runs longer than five minutes is ended and named as timed out, so that a test that
+# hangs shows its name in the log. The slowest test took 115 s on a hosted runner (2026-11-16).
+[profile.default]
+slow-timeout = { period = "60s", terminate-after = 5 }

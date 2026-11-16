@@ -71,13 +71,18 @@ The seam itself is checked by five more steps: `model-fmt`, `model-clippy`,
 `model-doctest` and `model-budgets`, which measures `model/src` against
 `model/complexity-budgets.json` with the core built earlier in the script.
 
-These five and `separation-model-source` run in the Linux job only (owner
-decision, 2026-11-16): the Dagger container sets `LESSCODE_CHECK_SEAM=1`. The
-other four platforms compile the seam only as a dependency of the guide
-optimiser. The seam and the optimiser share one target directory
-(`model/target`), so the client library is compiled once for both. Before
-this, its dependency tree was compiled four times per platform, about eight
-of nineteen minutes on Windows (run 43903666288).
+These five, `separation-model-source` and the guide optimiser's steps
+(format, lints, two dry runs with a scripted stand-in) run in the Linux job
+only (owner decisions, 2026-11-16): the Dagger container sets
+`LESSCODE_CHECK_SEAM=1` and mounts the one guide file the dry run reads. No
+other platform compiles the client library. The seam and the optimiser share
+one target directory (`model/target`). Before this, the library's dependency
+tree was compiled four times per platform, about eight of nineteen minutes on
+Windows (run 43903666288).
+
+`native/.config/nextest.toml` and `model/.config/nextest.toml` end a test
+that runs longer than five minutes and name it as timed out. The slowest
+test took 115 seconds on a hosted runner when the limit was set.
 
 The first hosted run [41333477507](https://github.com/norandom/lesscode/actions/runs/41333477507)
 passed all three jobs: Linux 103 tests, Windows 102 and macOS 103, with zero

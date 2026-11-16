@@ -15,7 +15,7 @@ type LesscodeCi struct{}
 // Use Check to enforce the recorded result.
 func (m *LesscodeCi) Evidence(
 	// +defaultPath="/"
-	// +ignore=["**", "!native/**", "!model/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "native/target/**", "model/target/**", "tools/guide-optimizer/target/**"]
+	// +ignore=["**", "!native/**", "!model/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "!docs/experiments/annotation-driver/pack-guide-v3.md", "native/target/**", "model/target/**", "tools/guide-optimizer/target/**"]
 	source *dagger.Directory,
 	revision string,
 ) *dagger.Directory {
@@ -30,9 +30,11 @@ func (m *LesscodeCi) Evidence(
 		WithDirectory("/workspace/model", source.Directory("model")).
 		WithFile("/workspace/tools/check_native.sh", source.File("tools/check_native.sh")).
 		WithDirectory("/workspace/tools/guide-optimizer", source.Directory("tools/guide-optimizer")).
+		// The one document the optimiser's dry run reads.
+		WithFile("/workspace/docs/experiments/annotation-driver/pack-guide-v3.md", source.File("docs/experiments/annotation-driver/pack-guide-v3.md")).
 		WithMountedCache("/workspace/native/target", dag.CacheVolume("lesscode-native-target-1.98.1")).
 		WithEnvVariable("GITHUB_SHA", revision).
-		// The seam's own checks run in this job only; the other platforms build it once, for the optimiser.
+		// The seam's and the guide optimiser's checks run in this job only; no other platform compiles the client library.
 		WithEnvVariable("LESSCODE_CHECK_SEAM", "1").
 		WithWorkdir("/workspace").
 		WithExec([]string{"bash", "tools/check_native.sh", "/evidence"}, dagger.ContainerWithExecOpts{Expect: dagger.ReturnTypeAny}).
@@ -43,7 +45,7 @@ func (m *LesscodeCi) Evidence(
 func (m *LesscodeCi) Check(
 	ctx context.Context,
 	// +defaultPath="/"
-	// +ignore=["**", "!native/**", "!model/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "native/target/**", "model/target/**", "tools/guide-optimizer/target/**"]
+	// +ignore=["**", "!native/**", "!model/**", "!tools/check_native.sh", "!tools/install_nextest.sh", "!tools/guide-optimizer/**", "!docs/experiments/annotation-driver/pack-guide-v3.md", "native/target/**", "model/target/**", "tools/guide-optimizer/target/**"]
 	source *dagger.Directory,
 	revision string,
 ) (string, error) {

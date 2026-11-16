@@ -51,14 +51,13 @@ no_client_in_lock() {
   echo "native/Cargo.lock holds none of genai, reqwest, hyper, ureq, lesscode-model"
 }
 run_check separation-lock no_client_in_lock
-# The seam and the guide optimiser, which depends on it, share one target directory, so that the
-# client library is compiled once for both.
-seam_target="${LESSCODE_SEAM_TARGET_DIR:-model/target}"
-# The seam itself (tasks 7.4 and 8.1), in the one job that sets LESSCODE_CHECK_SEAM (Linux, through
-# Dagger): format, lints, its suite against a stub endpoint (no model is called), the scan that its
-# source names no model and holds no address (requirements 1.8, 2.8) under its own name, and its
-# complexity budgets, measured by the core built above.
+# Everything that needs the client library runs in the one job that sets LESSCODE_CHECK_SEAM (Linux,
+# through Dagger), in one target directory, so that the library is compiled in one job only.
 if [ "${LESSCODE_CHECK_SEAM:-}" = 1 ]; then
+  seam_target="${LESSCODE_SEAM_TARGET_DIR:-model/target}"
+  # The seam itself (tasks 7.4 and 8.1): format, lints, its suite against a stub endpoint (no model
+  # is called), the scan that its source names no model and holds no address (requirements 1.8, 2.8)
+  # under its own name, and its complexity budgets, measured by the core built above.
   run_check model-fmt cargo +1.98.1 fmt --manifest-path model/Cargo.toml --all -- --check
   run_check model-clippy cargo +1.98.1 clippy --locked --manifest-path model/Cargo.toml --target-dir "$seam_target" \
     --all-targets -- -D warnings
@@ -69,21 +68,17 @@ if [ "${LESSCODE_CHECK_SEAM:-}" = 1 ]; then
   run_check model-doctest cargo +1.98.1 test --locked --manifest-path model/Cargo.toml --target-dir "$seam_target" --doc
   run_check model-budgets cargo +1.98.1 run --locked --manifest-path native/Cargo.toml -- budgets \
     --config model/complexity-budgets.json --root model/src --out "$evidence/model-budgets.json"
-fi
-# Research tooling beside the product: the guide optimiser. Built and linted wherever its sources are
-# present; its dry run (a scripted stand-in, no model call) needs the repository's documents as well.
-optimizer=tools/guide-optimizer/Cargo.toml
-if [ -f "$optimizer" ]; then
+  # Research tooling beside the product: the guide optimiser, which depends on the seam. Its dry run
+  # (a scripted stand-in, no model call) reads the guide and the core's packs and fixtures.
+  optimizer=tools/guide-optimizer/Cargo.toml
   run_check optimizer-fmt cargo +1.98.1 fmt --manifest-path "$optimizer" -- --check
   run_check optimizer-clippy cargo +1.98.1 clippy --locked --manifest-path "$optimizer" --target-dir "$seam_target" \
     --all-targets -- -D warnings
-  if [ -f docs/experiments/annotation-driver/pack-guide-v3.md ]; then
-    for engine in gepa mipro; do
-      run_check "optimizer-dry-run-$engine" cargo +1.98.1 run --locked --manifest-path "$optimizer" \
-        --target-dir "$seam_target" -- \
-        --dry-run --engine "$engine" --max-metric-calls 24 --repo . --out-dir "$evidence/optimizer-dry-run-$engine"
-    done
-  fi
+  for engine in gepa mipro; do
+    run_check "optimizer-dry-run-$engine" cargo +1.98.1 run --locked --manifest-path "$optimizer" \
+      --target-dir "$seam_target" -- \
+      --dry-run --engine "$engine" --max-metric-calls 24 --repo . --out-dir "$evidence/optimizer-dry-run-$engine"
+  done
 fi
 printf '%s\n' "$failed" > "$evidence/overall.exit-code"
 exit "$failed"
