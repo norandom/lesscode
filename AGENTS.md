@@ -26,6 +26,16 @@ Project memory keeps persistent guidance (steering, specs notes, component docs)
 - Steering: `.kiro/steering/`
 - Specs: `.kiro/specs/`
 
+### Storage gate for task groups
+
+- Owner direction, 2026-11-17: keep disk use bounded. C: is off limits for build/cache relocation and storage cleanup; source-repository work remains in its existing location. Use D:\BuildArtifacts for generated outputs.
+- Before a task group or a substantial build, measure D: free space and lesscode-owned build caches. Default operating limits: at most 40 GiB of disposable lesscode build caches and at least 50 GiB free on D:. These are storage limits, not changes to experimental time or evidence budgets.
+- Reuse existing target directories by compatible toolchain/profile; do not create a new target directory per task or retry. Record any necessary isolated directory, its owner, purpose and cleanup point in the task handover.
+- If either limit is crossed, do not start another heavy job. Inspect and clean inactive lesscode-owned caches first, then measure again. Do not interrupt an active job solely to clean its output. If safe cleanup cannot restore the limits, report the measured shortfall before proceeding.
+- At task-group completion, remove disposable isolated build outputs and record retained paths, sizes and reasons. Preserve frozen binaries, experiment evidence and session history; count retained evidence separately and report its growth.
+- Prefer tool-native cleanup. Resolve and validate each absolute cleanup target under D:\BuildArtifacts, establish lesscode ownership and check for active users before deletion. Never clean a shared target directory wholesale; use package-specific cleanup only when it cannot affect concurrent work.
+- Other agents own non-lesscode caches. Do not prune their directories, shared Podman images/volumes or running containers as lesscode cleanup. Cleanup that requires their data or changing these limits needs a concrete owner decision.
+
 ### Steering vs Specification
 
 **Steering** (`.kiro/steering/`) - Guide AI with project-wide rules and context
