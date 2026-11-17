@@ -1,10 +1,13 @@
 //! Research census only: never an admitted simplicity evaluator or acceptance judge.
 use lesscode_core::adapters::driver::tree::{
-    ancestors, first_error, grammar, kind_is_valid, parse, walk, SgNode,
+    first_error, grammar, kind_is_valid, parse, walk, SgNode,
 };
 use lesscode_core::specimen_runner::sha256_hex_bytes;
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, fs};
+mod bindings;
+mod identity;
+mod predicates;
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -17,6 +20,8 @@ struct Profile {
     handlers: Vec<String>,
     effects: Vec<String>,
     unsupported: Vec<String>,
+    predicates: predicates::Rules,
+    bindings: bindings::Rules,
 }
 
 #[derive(Serialize, Debug, PartialEq)]
@@ -32,27 +37,6 @@ struct Fact {
 
 fn has(kinds: &[String], node: &SgNode<'_>) -> bool {
     kinds.iter().any(|kind| kind == node.kind().as_ref())
-}
-
-fn owner(node: &SgNode<'_>, profile: &Profile) -> String {
-    let mut names: Vec<_> = ancestors(node)
-        .into_iter()
-        .filter(|p| has(&profile.owners, p))
-        .map(|p| {
-            let name = p
-                .field("name")
-                .map(|n| n.text().into_owned())
-                .unwrap_or_else(|| p.kind().into_owned());
-            // Byte identity is deliberately provisional, not a cross-revision match.
-            format!("{}@{}", name, p.range().start)
-        })
-        .collect();
-    names.reverse();
-    if names.is_empty() {
-        "<module>".into()
-    } else {
-        names.join("::")
-    }
 }
 
 fn census(source: &str, profile: &Profile) -> Result<Vec<Fact>, String> {
@@ -72,17 +56,44 @@ fn census(source: &str, profile: &Profile) -> Result<Vec<Fact>, String> {
             }
         }
     }
+    let extra = profile
+        .predicates
+        .conditions
+        .iter()
+        .map(|r| &r.kind)
+        .chain(profile.predicates.boolean.iter())
+        .chain(profile.predicates.comparisons.iter())
+        .chain(profile.predicates.wrappers.iter())
+        .chain(profile.predicates.unary_roots.iter())
+        .chain(profile.bindings.assignments.iter())
+        .chain(profile.bindings.lexical_functions.iter())
+        .chain([
+            &profile.bindings.identifier,
+            &profile.bindings.global_declaration,
+            &profile.bindings.nonlocal_declaration,
+        ]);
+    for kind in extra {
+        if !kind_is_valid(lang, kind) {
+            return Err(format!("unknown grammar kind: {kind}"));
+        }
+    }
+    for rule in &profile.predicates.conditions {
+        if rule.field.is_some() == rule.named_child.is_some() {
+            return Err("condition requires exactly one selector".into());
+        }
+    }
     let tree = parse(source, lang)?;
     if let Some((line, col)) = first_error(&tree.root()) {
         return Err(format!("parse error at {line}:{col}"));
     }
     let mut facts = Vec::new();
+    let owners = identity::index(&tree.root(), profile);
     for node in walk(&tree.root()) {
         for (role, kinds) in roles {
             if has(kinds, &node) {
                 facts.push(Fact {
                     role: role.into(),
-                    owner: owner(&node, profile),
+                    owner: identity::nearest(&node, &owners),
                     kind: node.kind().into_owned(),
                     line: node.start_pos().line() + 1,
                     start: node.range().start,
@@ -105,6 +116,9 @@ fn run() -> Result<(), String> {
     let source_bytes = fs::read(&args[1]).map_err(|e| e.to_string())?;
     let source = std::str::from_utf8(&source_bytes).map_err(|e| e.to_string())?;
     let facts = census(source, &profile)?;
+    let tree = parse(source, grammar(&profile.language)?)?;
+    let predicates = predicates::measure(&tree.root(), &profile)?;
+    let bindings = bindings::classify(&tree.root(), &profile);
     let mut counts = BTreeMap::<&str, usize>::new();
     for fact in &facts {
         *counts.entry(&fact.role).or_default() += 1;
@@ -114,8 +128,10 @@ fn run() -> Result<(), String> {
         "profile_sha256": sha256_hex_bytes(&profile_bytes),
         "source_sha256": sha256_hex_bytes(&source_bytes),
         "source_path": args[1], "counts": counts, "facts": facts,
+        "predicate_count": predicates.len(), "predicates": predicates,
+        "bindings": bindings,
         "simplicity_status": "not_measurable",
-        "limits": ["Raw syntax census only; no admitted metric profile", "No binding/alias resolution or cross-revision identity", "Decision expressions are not atomic predicate counts", "All selected effects unresolved; no local/write/dispersion claim"]
+        "limits": ["Draft structural profile, not admitted for comparisons", "Attribute/subscript aliases and nonlocal bindings unresolved; declaration renames/reordering need explicit correspondence", "Predicate extraction does not resolve opaque calls or implicit iteration decisions", "Binding facts do not establish target dispersion or complete effect coverage"]
     });
     println!(
         "{}",
@@ -169,6 +185,9 @@ mod tests {
         let mut p = profile();
         p.branches.push("not_a_grammar_kind".into());
         assert!(census("x = 1", &p).is_err());
+        let mut p = profile();
+        p.predicates.conditions[0].kind = "unknown_condition_kind".into();
+        assert!(census("x = 1", &p).is_err());
     }
     #[test]
     fn same_name_methods_have_separate_owners() {
@@ -184,5 +203,23 @@ mod tests {
             .collect();
         assert_eq!(owners.len(), 2);
         assert_ne!(owners[0], owners[1]);
+    }
+
+    #[test]
+    fn lexical_owners_survive_formatting_and_disambiguate_redefinitions() {
+        let owners = |text| {
+            census(text, &profile())
+                .unwrap()
+                .into_iter()
+                .filter(|f| f.role == "unresolved_effect")
+                .map(|f| f.owner)
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(
+            owners("def f():\n x=1\n"),
+            owners("# note\ndef f():\n    renamed = 1\n")
+        );
+        let duplicate = owners("def f():\n x=1\ndef f():\n x=2\n");
+        assert_ne!(duplicate[0], duplicate[1]);
     }
 }

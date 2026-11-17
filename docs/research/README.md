@@ -8,7 +8,13 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R117 Syntax census runs; observation pins detect alias and error-order changes (2026-11-17)
+## Latest: R118 Predicate work and local rebinding separated conservatively (2026-11-17)
+
+[R118](2026-11-17/05-model-simplification-predicates-bindings.md): twelve Rust checks
+pass for predicate accounting, lexical owners and conservative bindings. Real reports
+remain not measurable; aliases, dispersion and the complete P0 freeze are unfinished.
+
+## Prior: R117 Syntax census runs; observation pins detect alias and error-order changes (2026-11-17)
 
 [R117](2026-11-17/04-model-simplification-census-pins.md): four Rust checks and 26
 unchanged-source pins pass; alias and error-order controls produce expected failures.

@@ -1,10 +1,32 @@
 {
-  "version": "syntax-census-draft-1",
+  "version": "syntax-census-draft-3",
   "language": "python",
   "owners": ["class_definition", "function_definition", "lambda"],
   "branches": ["if_statement", "elif_clause", "conditional_expression", "while_statement", "for_statement", "for_in_clause", "if_clause", "assert_statement"],
   "decisions": ["boolean_operator", "comparison_operator"],
   "handlers": ["except_clause"],
   "effects": ["assignment", "augmented_assignment", "call", "delete_statement", "global_statement", "nonlocal_statement", "yield", "await"],
-  "unsupported": ["match_statement", "exec_statement"]
+  "unsupported": ["match_statement", "exec_statement"],
+  "bindings": {
+    "assignments": ["assignment"],
+    "identifier": "identifier",
+    "target_field": "left",
+    "global_declaration": "global_statement",
+    "nonlocal_declaration": "nonlocal_statement",
+    "lexical_functions": ["function_definition", "lambda"]
+  },
+  "predicates": {
+    "conditions": [
+      {"kind": "if_statement", "field": "condition"},
+      {"kind": "elif_clause", "field": "condition"},
+      {"kind": "while_statement", "field": "condition"},
+      {"kind": "conditional_expression", "named_child": 1},
+      {"kind": "if_clause", "named_child": 0},
+      {"kind": "assert_statement", "named_child": 0}
+    ],
+    "boolean": ["boolean_operator"],
+    "comparisons": ["comparison_operator"],
+    "wrappers": ["parenthesized_expression", "not_operator"],
+    "unary_roots": ["not_operator"]
+  }
 }

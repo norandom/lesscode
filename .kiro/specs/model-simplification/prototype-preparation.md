@@ -37,3 +37,11 @@ on unchanged source and two detected known-bad controls. Measurements remain
 not measurable: binding/alias resolution and atomic predicates are not implemented.
 Remaining P0 work includes profile qualification, broader observations/controls,
 private Git step integration and the complete manifest. No model calls ran.
+
+## Predicate and binding increment
+
+[R118](../../../docs/research/2026-11-17/05-model-simplification-predicates-bindings.md)
+records twelve passing nextest checks, lexical owner identities, predicate work and
+conservative L/W/U observations. Aliases and dispersion remain unresolved; real
+reports still say not measurable. Apparatus is 542 cumulative maintained lines.
+P0 remains open; no candidate calls or production task completion are claimed.
