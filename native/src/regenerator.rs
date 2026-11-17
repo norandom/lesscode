@@ -1736,7 +1736,6 @@ const TEMPERATURE_STEPS: [f64; 3] = [0.0, 0.2, 0.4];
 /// adapting.
 #[derive(Default)]
 pub struct Adaptation {
-    pub effort: Option<String>,
     pub directive: Option<String>,
     pub temperature: Option<f64>,
     pub inject_missing_symbols: Option<Vec<String>>,
@@ -1748,8 +1747,7 @@ pub fn next_rollout_params(prev: &RewardEvaluation, attempt: i64) -> Adaptation 
     }
     let mut params = Adaptation::default();
     if prev.score == 0.00 {
-        // transport or thinking-budget stop: cheaper effort, concise output
-        params.effort = Some("medium".into());
+        // transport or thinking-budget stop: ask for concise output
         params.directive = Some(
             "Be concise: emit the JSON object directly, without extended internal monologue, within the budget."
                 .into(),
@@ -1782,9 +1780,7 @@ pub fn next_rollout_params(prev: &RewardEvaluation, attempt: i64) -> Adaptation 
 #[derive(Clone)]
 pub struct AttemptParams {
     pub max_tokens: i64,
-    pub effort: String,
     pub temperature: Option<f64>,
-    pub display: Option<String>,
     pub directive: Option<String>,
 }
 
@@ -1792,9 +1788,7 @@ impl AttemptParams {
     fn base() -> Self {
         AttemptParams {
             max_tokens: 64_000,
-            effort: "high".into(),
             temperature: Some(0.0),
-            display: None,
             directive: None,
         }
     }
@@ -1802,14 +1796,9 @@ impl AttemptParams {
     fn as_j(&self) -> J {
         let mut pairs = vec![
             ("max_tokens", J::int(self.max_tokens)),
-            ("effort", J::str(self.effort.clone())),
             (
                 "temperature",
                 self.temperature.map(J::Float).unwrap_or(J::Null),
-            ),
-            (
-                "display",
-                self.display.clone().map(J::str).unwrap_or(J::Null),
             ),
         ];
         if let Some(d) = &self.directive {
@@ -2188,9 +2177,6 @@ pub fn run_refine_loop(
                 }
                 turn_feedback = Some(static_feedback(&reward));
                 let adaptation = next_rollout_params(&reward, attempt - 1);
-                if let Some(effort) = &adaptation.effort {
-                    attempt_params.effort = effort.clone();
-                }
                 if let Some(temperature) = adaptation.temperature {
                     attempt_params.temperature = Some(temperature);
                 }
@@ -2309,7 +2295,7 @@ pub fn run_refine_loop(
 
 /// Live call through `lesscode-model` with its default endpoint file (the
 /// loop's default `call_fn`). The output limit and the temperature go to the
-/// seam; effort and display do not.
+/// seam; the reasoning level is the endpoint file's.
 pub fn default_call_fn(
     system: &str,
     user: &str,
@@ -2352,17 +2338,11 @@ pub enum RegenerateCommand {
         model_env: Option<PathBuf>,
         #[arg(long, default_value_t = 64_000)]
         max_tokens: i64,
-        /// Accepted and not sent: the reasoning level is the endpoint file's.
-        #[arg(long, default_value = "high")]
-        effort: String,
         /// Sent through lesscode-model when given; nothing is sent otherwise.
         #[arg(long)]
         temperature: Option<f64>,
         #[arg(long, default_value_t = 1)]
         rollout_id: i64,
-        /// Accepted and not sent.
-        #[arg(long)]
-        thinking_display: Option<String>,
     },
     /// Multi-turn Refine/BestOfN controller (driven by the spike, not CLI).
     Refine,
@@ -2414,7 +2394,6 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
         max_tokens,
         temperature,
         rollout_id,
-        ..
     } = a
     else {
         return Err(RegenError::Usage(

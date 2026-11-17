@@ -676,10 +676,9 @@ fn reward(score: f64, kind: Option<&str>, missing: Option<J>) -> RewardEvaluatio
 }
 
 #[test]
-fn schedule_cheaper_effort_and_concise_directive_on_zero() {
+fn schedule_concise_directive_on_zero() {
     let prev = reward(0.00, Some("stop_reason"), None);
     let params = regenerator::next_rollout_params(&prev, 0);
-    assert_eq!(params.effort.as_deref(), Some("medium"));
     assert!(params
         .directive
         .as_deref()
@@ -716,17 +715,11 @@ fn schedule_pass_needs_no_adaptation() {
         diagnostics: obj(&[]),
     };
     let Adaptation {
-        effort,
         directive,
         temperature,
         inject_missing_symbols,
     } = regenerator::next_rollout_params(&prev, 0);
-    assert!(
-        effort.is_none()
-            && directive.is_none()
-            && temperature.is_none()
-            && inject_missing_symbols.is_none()
-    );
+    assert!(directive.is_none() && temperature.is_none() && inject_missing_symbols.is_none());
 }
 
 // --- Tier-2 pinned formula ------------------------------------------------------------
@@ -1630,14 +1623,27 @@ fn regenerate_run_without_lesscode_model_says_what_is_missing() {
 }
 
 #[test]
+fn regenerate_run_refuses_a_setting_it_would_not_send() {
+    for flag in [["--effort", "high"], ["--thinking-display", "summarized"]] {
+        let work = scratch(&format!("seam-unsent{}", flag[0]));
+        let script = ModelScript::new(&work, "unsent", &answered("{}"), "", 0);
+        let ran = regenerate_run(&work, &scripted(), &script, &flag);
+
+        assert_ne!(ran.code, Some(0), "{}: {}", flag[0], ran.err);
+        let refused = format!("unexpected argument '{}'", flag[0]);
+        assert!(ran.err.contains(&refused), "{}", ran.err);
+        assert!(!script.was_called(), "{}", flag[0]);
+        assert!(ran.receipt.is_empty(), "{}: no receipt is begun", flag[0]);
+    }
+}
+
+#[test]
 fn the_loops_default_call_goes_through_lesscode_model() {
     let work = scratch("seam-default-call");
     let script = ModelScript::new(&work, "default", &answered("{\"files\": []}"), "", 0);
     let params = AttemptParams {
         max_tokens: 4000,
-        effort: "high".into(),
         temperature: Some(0.2),
-        display: None,
         directive: None,
     };
     let vars = [

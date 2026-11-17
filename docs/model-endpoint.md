@@ -197,8 +197,8 @@ reasoning level and temperature only if they were sent.
 
 - `--model-env FILE` names the endpoint file, as `--endpoint-env` does above.
 - `--temperature` is sent when you give it. Without it no temperature is sent.
-- `--effort` and `--thinking-display` are still accepted and are not sent. The
-  reasoning level comes from the endpoint file.
+- The reasoning level comes from the endpoint file. `--effort` and
+  `--thinking-display` are gone; the command refuses them.
 
 If `lesscode-model` is not installed, the command ends with exit code 3 and
 says where it looked (the line starts with the label you gave the turn, here
