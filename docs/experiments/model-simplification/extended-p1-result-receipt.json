@@ -1,0 +1,17 @@
+{
+  "schema": "h-ms1-extended-p1-result-receipt-v1",
+  "decision": "stop",
+  "qualification": "infrastructure-classification-failed",
+  "result": "D:/BuildArtifacts/lesscode/model-simplification/ms1/extended-p1-final.json",
+  "result_sha256": "D323CBF83EB126C019A233A867CD79CB39DA24455A888736171FC6C066D178C0",
+  "evidence_index": "D:/BuildArtifacts/lesscode/model-simplification/ms1/extended-p1-evidence-index.json",
+  "evidence_index_sha256": "1DFD1053A43C17BD49BDE09B12C44975352DE7E783D3079C6866C7E19472D183",
+  "evidence_files": 4792,
+  "charged_starts": 38,
+  "model_calls": 0,
+  "fix_applied": false,
+  "proposal": "D:/BuildArtifacts/lesscode/model-simplification/ms1/infrastructure-classification/proposed-correction.txt",
+  "proposal_sha256": "A14683C10CB43D696BFFDEBF15A50332A197E048CD071A2D8C3DC38E72625FA5",
+  "report": "../../research/2026-11-17/10-model-simplification-infrastructure-classification.md",
+  "production_approved": false
+}

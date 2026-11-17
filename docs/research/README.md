@@ -8,7 +8,16 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R122 Longer unchanged qualification run authorized (2026-11-17)
+## Latest: R123 Infrastructure error counted as a killed mutant (2026-11-17)
+
+[R123](2026-11-17/10-model-simplification-infrastructure-classification.md): the
+extended check finished within 40 minutes but was void after a Podman closing
+baseline failure. Its report also counts an exit-125 infrastructure failure as
+killed. The fresh retry was stopped on this mandatory classification defect.
+38/80 outer starts, zero model calls; an unapplied runner/declaration correction
+is ready for review. P1 remains unqualified.
+
+## Prior: R122 Longer unchanged qualification run authorized (2026-11-17)
 
 [R122](2026-11-17/09-model-simplification-extended-qualification.md) preregisters
 the owner's explicit 40-minute whole-check bound and fresh three-hour P1 window.

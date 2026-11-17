@@ -367,3 +367,17 @@ preregisters the fresh directories, exact clock/counter records and retained
 gates. Earlier stops remain historical evidence. Starts begin at 36/80, calls
 0/18, trials 0/6; no other cap, protection or phase approval changes. This is an
 explicit operational-budget amendment, not a third measurement implementation.
+
+## Extended P1 classification failure, 2026-11-17
+
+[R123](../../../docs/research/2026-11-17/10-model-simplification-infrastructure-classification.md)
+records a completed-but-void extended check and an actual mutant with exit 125
+classified as killed. The mandatory infrastructure control fails; the retry was
+deliberately stopped. Disposition remains **stop**, with 38/80 outer starts and
+zero model calls. No complete baseline is admitted and P1-P4 remain unchecked.
+
+The owner-approved window still ends 18:25:47.6266045 Berlin, but remaining time
+does not waive this correctness gate. The proposed runner/error-pattern correction
+requires a new explicit harness-revision decision because option 1 kept checks
+unchanged. No frozen code was patched, no third apparatus version executed and no
+production or independent-review approval is implied.

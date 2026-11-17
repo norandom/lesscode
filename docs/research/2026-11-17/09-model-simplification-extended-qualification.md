@@ -64,3 +64,27 @@ separate. No subagent execution is authorized.
 
 The changed bound, unchanged protections and explicit falsifier precede execution.
 The earlier timeout remains evidence and consumed work, not a result to overwrite.
+
+## Execution amendment, 2026-11-17, 15:50 Berlin
+
+The first extended S1 check (start 37) ended at 15:48:12.9143105 with exit 2,
+not_judged. Both fault populations returned 53 killed/11 survived, but one
+step-side closing baseline failed on a forcibly closed Podman SSH connection.
+That makes the entire result void; matching fault counts do not rescue it.
+
+Read-only Podman health and frozen-image checks then succeeded without a service
+restart. One fresh full retry is recorded under `p1-extended-retry/`, with new
+repository/work directories, unchanged checks and no cache reuse. It consumes
+start 38 and the existing clock, whose deadline is 18:25:47.6266045 Berlin.
+The remaining S2/B1/B2 checks follow only on success. A repeated infrastructure
+failure stops this batch; no repeated automatic recovery or budget reset is
+authorized by this operational retry. Raw failed logs and runtime-recovery.json
+remain under `p1-extended/`. This is not model repair or acceptance of void evidence.
+
+## Final disposition amendment
+
+[R123](10-model-simplification-infrastructure-classification.md) supersedes the
+running status. Inspection found an actual infrastructure exit 125 counted as
+killed in the first extended check. The retry was deliberately stopped at 16:03:27
+on this mandatory correctness failure, not on a second timeout or SSH failure.
+No model calls ran; correction of the frozen checks requires explicit authorization.

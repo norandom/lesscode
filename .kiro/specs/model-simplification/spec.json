@@ -1,7 +1,7 @@
 {
   "feature_name": "model-simplification",
   "created_at": "2026-11-17T11:41:23+01:00",
-  "updated_at": "2026-11-17T15:24:00+01:00",
+  "updated_at": "2026-11-17T16:12:00+01:00",
   "language": "en",
   "phase": "design-generated",
   "approvals": {
@@ -16,10 +16,10 @@
     "preparation_status": "complete",
     "preparation_evidence": "../../../docs/research/2026-11-17/06-model-simplification-p0-freeze.md",
     "preparation_receipt": "../../../docs/experiments/model-simplification/freeze-receipt.json",
-    "qualification_status": "extended-run-authorized",
+    "qualification_status": "infrastructure-classification-failed",
     "qualification_amendment": "../../../docs/research/2026-11-17/09-model-simplification-extended-qualification.md",
-    "qualification_evidence": "../../../docs/research/2026-11-17/08-model-simplification-p1-timeout.md",
-    "qualification_receipt": "../../../docs/experiments/model-simplification/p1-result-receipt.json",
+    "qualification_evidence": "../../../docs/research/2026-11-17/10-model-simplification-infrastructure-classification.md",
+    "qualification_receipt": "../../../docs/experiments/model-simplification/extended-p1-result-receipt.json",
     "gate": "prototype-gate.md",
     "proposal": "design.md",
     "prototype_execution_approved": true,
