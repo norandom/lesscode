@@ -1,5 +1,7 @@
 # Model simplification · release decision and tasks
 
+The full-length runtime qualification failed on unrelated input. Reuse that catalogue to qualify a revised runtime before opening another held-out discovery case. [R132 - runtime qualification](../../../docs/research/2026-11-17/19-full-length-inference.md)
+
 **Decision, 2026-11-17.** Keep 2.0.0 for checked refactoring. Defer discovery and simplification of implicit state machines spread across files. The concept and the fitness decision for the current tools are resolved. [Local results and evidence](../../../docs/research/2026-11-17/17-hidden-state-machine-fitness.md)
 
 | Status | Task | Decision evidence |

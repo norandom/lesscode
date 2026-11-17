@@ -1,5 +1,7 @@
 # Research log
 
+[R132 - Full-length inference qualification](2026-11-17/19-full-length-inference.md) records the connection reset on an unrelated catalogue. The next held-out case remains unused.
+
 **Current release decision.** Retain the checked-refactoring workflow and defer discovery of hidden state machines spread across files. [R130 · local fitness evidence](2026-11-17/17-hidden-state-machine-fitness.md) · [Active tasks](../../.kiro/specs/model-simplification/task-generation-readiness.md). [R131 � blind worker trial](2026-11-17/18-blind-worker-protocol.md) records the local discovery attempt. R128 remains the latest external simplification trial.
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
