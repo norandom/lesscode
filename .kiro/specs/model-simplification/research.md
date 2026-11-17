@@ -239,3 +239,11 @@ current PowerShell/no-WSL execution rules. No production tasks follow from this 
 
 The next deliverable is reviewed requirements derived from these gaps, followed by
 a provisional design and [prototype gate](../../steering/prototype-first.md).
+
+## Requirements follow-through, 2026-11-17
+
+[Requirements](requirements.md) are generated for owner review. Their
+[review record](requirements-review.md) maps the analysis to 11 requirement areas.
+Measurement formulas remain proposals for design; no experiment or new measured
+improvement accompanies this update. Phase approval and prototype qualification
+remain pending.

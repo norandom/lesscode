@@ -110,3 +110,13 @@ got simpler” using the report and retained evidence. The suspected assumption 
 challenge is that fewer reported writes or an accepted model reply proves improvement.
 Disproof is explicit; unchanged and inconclusive outcomes are valid findings.
 This analysis supports the owner's next requirements decision, not a rollout claim.
+
+## Amendment, 2026-11-17: requirements generated
+
+At the owner's request, [requirements](../../../.kiro/specs/model-simplification/requirements.md)
+were generated from this analysis: 11 areas, 83 acceptance criteria. The
+[inline requirements review](../../../.kiro/specs/model-simplification/requirements-review.md)
+passed after two bounded repair passes. The spec audit checks all 83 criteria with
+0 errors and 0 warnings; terminology and contradiction automation is unavailable
+without the repository vocabulary file. Requirements await owner approval.
+This is a document update, not an experimental result or a change to MS-H1.

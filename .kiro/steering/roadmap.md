@@ -6,10 +6,11 @@ The next feature is [model-simplification](../specs/model-simplification/brief.m
 a model proposes a bounded change through the completed model seam, the existing
 step flow judges behavior, and a separate report measures branches and scattered
 state. Owner decision in discovery: simplicity is reported separately and does not
-add an acceptance condition to the behavior verdict. The spec is initialized with
+add an acceptance condition to the behavior verdict. The spec has
 a [current-versus-desired and attribution analysis](../specs/model-simplification/research.md)
-([R114](../../docs/research/2026-11-17/01-model-simplification-measurement-attribution.md));
-requirements generation/review, design, prototype and production tasks remain pending. Onboarding
+([R114](../../docs/research/2026-11-17/01-model-simplification-measurement-attribution.md))
+and [requirements generated for review](../specs/model-simplification/requirements.md).
+Requirements approval, design, prototype and production tasks remain pending. Onboarding
 follows this feature. Slice B remains closed. The earlier entries below retain
 their historical status statements; current release state is in [the handover](../handover.md).
 

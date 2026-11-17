@@ -170,3 +170,10 @@ with acceptance criteria still pending. [research.md](research.md) compares curr
 assets with desired measures and proposes attribution controls. The dated record is
 [R114](../../../docs/research/2026-11-17/01-model-simplification-measurement-attribution.md).
 No experiment ran and no later phase was approved. Next: generate requirements for review.
+
+## Requirements update, 2026-11-17
+
+The owner requested requirements generation. [requirements.md](requirements.md)
+now contains 11 areas and 83 acceptance criteria; the [inline review](requirements-review.md)
+passed. Requirements approval remains pending, as do design and the prototype gate.
+The initialization statements above describe the earlier state.

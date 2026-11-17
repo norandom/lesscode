@@ -17,6 +17,7 @@
 - **Owner decision:** report simplicity separately, preserving the behavior verdict.
 - **Proposed:** compare original and candidate under one evaluator; separate measurement corrections, pins, model contribution, repairs, selection and adoption.
 - **Not run:** no new measurements, tests or model trials. Requirements and a bounded real-code prototype gate remain pending.
+- **Amended 2026-11-17:** requirements generated (11 areas, 83 criteria); inline review and EARS audit pass. Owner approval and prototype qualification remain pending; no experiment ran.
 
 ## Prior: R113 The model seam is released in form and validated: both binaries for five targets, six of six first cases through them, the pipeline green after its duplicate builds were cut (2026-11-16)
 

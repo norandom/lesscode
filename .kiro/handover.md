@@ -10,11 +10,14 @@ file as it stood before, written on 2026-11-12 for the start of the model seam, 
 
 1. Read [task_52_handover.md](task_52_handover.md): the last task group of `model-seam`, with everything
    added on 2026-11-17 in its dated sections.
-2. Update 2026-11-17: discovery is recorded and `model-simplification` is initialized. Read its
+2. Update 2026-11-17: discovery and analysis are recorded and `model-simplification` requirements
+   are generated for review. Read its
    [brief](specs/model-simplification/brief.md) and [analysis](specs/model-simplification/research.md).
    The owner selected simplicity reporting separate from the behavior verdict. Next:
-   `$kiro-spec-requirements model-simplification`, in the foreground. No requirements, design,
-   prototype or implementation tasks are approved yet.
+   review [requirements](specs/model-simplification/requirements.md) and the
+   [inline review record](specs/model-simplification/requirements-review.md), then provisional
+   design after owner approval, in the foreground. No requirements, design, prototype or
+   implementation tasks are approved yet.
 3. Research index: [docs/research/README.md](../docs/research/README.md). Latest entry R114 is static
    analysis of measurement and attribution; no experiment ran. Prior entry R113, with
    amendments of 2026-11-17 in R111 and R112.
