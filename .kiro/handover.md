@@ -12,7 +12,9 @@ Earlier versions: this morning's is in Git (`a416598`); older ones are
    states what the owner wants, in the owner's words.
 2. Read [R133](../docs/research/2026-11-17/20-model-simplification-closed.md) for what went wrong
    today, so it is not repeated.
-3. Ask the owner the four questions at the end of the brief. Then write requirements
+3. Read [corrective-tasks.md](corrective-tasks.md): tasks from the audit, generated and not approved.
+   Ask the owner which to start.
+4. The four questions of the brief are answered (see the brief). Then write requirements
    (`$kiro-spec-init`, `$kiro-spec-requirements`), in the foreground.
 
 Do not start from anything under `specs/model-simplification/`. Those files are a record.
