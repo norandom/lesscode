@@ -1,0 +1,9 @@
+# Task 60 handover · state-machine fitness resolved
+
+2026-11-17. The owner defined scattered state as a hidden or implicit machine spread across files and requested parallel review. Three agents tested the metric, inspected a real protocol and reviewed release fitness. The foreground replay used the installed 2.0.0 guard on this repository. [Results, receipts and replay inputs](../docs/research/2026-11-17/17-hidden-state-machine-fitness.md)
+
+**Disposition.** Keep the checked-refactoring workflow. Defer automatic discovery and simplification of cross-file machines. The frozen profile gave the same dispersion for a hidden machine and a centrally declared equivalent. The installed analyzer missed a real callback hand-off. The guard reported all five expected results. Both worker regressions passed after building their test helper. No new model trial, accepted simplification, upstream change or release occurred.
+
+**Resume** from the [roadmap](steering/roadmap.md) and [tasks](specs/model-simplification/task-generation-readiness.md). If this research is reopened, the bounded question is whether a tool given the pre-fix worker source can recover its implicit protocol and predict the known failure. A separate usefulness and behavior check would precede any release proposal. The external MS1 experiment remains stopped under [group 58's disposition](task_58_handover.md).
+
+**Storage.** Reused `D:\BuildArtifacts\cargo-target` for nextest and its example helper. Enumerated attributable footprint grew from 21.42 to 21.81 GiB, and D: had 208.08 GiB free at close. Retain `fitness60-concept`, `fitness60-local` and `fitness60-guard` under `D:\BuildArtifacts\lesscode` for replay (32,063, 141,189 and 34,100 bytes respectively, 207,352 bytes total). No isolated build target was created. Shared build products remain available for reuse.

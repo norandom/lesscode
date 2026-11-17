@@ -2,13 +2,11 @@
 
 ## Release decision for model simplification · 2026-11-17
 
-Lesscode 2.0.0 already ships checked refactoring steps and the model seam. The proposed addition would help a developer find and simplify code. Two model replies moved tweet assignments behind a setter. Neither demonstrated simpler state management or received a completed behavior verdict. [Trial results](../../docs/research/2026-11-17/15-model-simplification-checkout-preflight.md) · [2.0.0 release](../../docs/releases/2.0.0.md)
+Keep Lesscode 2.0.0 for checked refactoring. **Defer hidden-state-machine discovery and simplification.** The owner means a protocol whose states and transitions a maintainer must reconstruct across files. In a real Lesscode case the released analyzer missed the hand-off between callbacks. The research metric gave identical field-write and dispersion results for an implicit machine and its explicit counterpart. The released guard correctly distinguished all five expected dispositions in Lesscode's own step history. [Fitness results](../../docs/research/2026-11-17/17-hidden-state-machine-fitness.md) · [2.0.0 release](../../docs/releases/2.0.0.md)
 
-1. **Settle what counts as less scattered state.** Use one concrete change rule and identify every place a maintainer must keep in sync. The setter is the counterexample. The open question is whether the proposed measure recognizes a real removal within its supported scope. [Worked examples](../../docs/research/2026-11-17/16-scattered-state-release-decision.md)
-2. **If that distinction holds, use the tool on Lesscode.** Take one real maintenance task in this repository from the original code to a reviewable diff and behavior verdict. Record what the tool contributed and whether the maintainer would keep the change. [Active task list](../specs/model-simplification/task-generation-readiness.md)
-3. **Decide what earns a release.** A useful result supports a release candidate for the demonstrated scope after prototype review and design approval. Validate the installable workflow on the local case before proposing publication. If it adds no practical help, keep the current release.
+The next piece of evidence that could reopen the feature is a tool-produced transition map for a real Lesscode protocol that correctly predicts an observed failure. Only after discovery works should a proposed rewrite be judged on behavior and practical value. [Decision and tasks](../specs/model-simplification/task-generation-readiness.md)
 
-The external filter trials, further checkout repairs and onboarding are parked. The stopped experiment retains its [protocol and budgets](../specs/model-simplification/prototype-gate.md). Earlier roadmap entries below record past priorities.
+The earlier external experiment remains stopped. Checkout repair, filter trials and onboarding are parked. [Original protocol and budgets](../specs/model-simplification/prototype-gate.md). Earlier entries below record past priorities.
 
 ## Next spec, owner, 2026-11-12: the model seam
 

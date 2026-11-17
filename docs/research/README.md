@@ -1,6 +1,6 @@
 # Research log
 
-**Current release question.** Can Lesscode identify a state rule that a maintainer would have fewer places to change? [R129 · concept review on the exporter and Lesscode's recording shim](2026-11-17/16-scattered-state-release-decision.md) · [Active tasks](../../.kiro/specs/model-simplification/task-generation-readiness.md). The latest executed model trial is R128.
+**Current release decision.** Retain the checked-refactoring workflow and defer discovery of hidden state machines spread across files. [R130 · local fitness evidence](2026-11-17/17-hidden-state-machine-fitness.md) · [Active tasks](../../.kiro/specs/model-simplification/task-generation-readiness.md). R128 remains the latest model-proposal trial.
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 

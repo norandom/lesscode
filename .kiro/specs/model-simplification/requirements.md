@@ -23,6 +23,7 @@ file nor an accepted model reply establishes useful simplification.
 
 ## Terms
 
+- **Scattered state** (owner clarification, 2026-11-17): a hidden or implicit state machine spread across files. Prior events determine what a later operation can do. Its guards, transitions and observable effects have to be reconstructed across those files. Write locations and writer distribution in Requirements 2 and 3 are clues. They cannot establish the presence or simplification of this machine. The original frozen trials retain their recorded interpretation. [Fitness review](../../../docs/research/2026-11-17/17-hidden-state-machine-fitness.md)
 - **Workflow**: the model-simplification workflow described here, including its
   planning, proposal and reporting behavior.
 - **Responsibility**: the declared behavior and its owned implementation, including

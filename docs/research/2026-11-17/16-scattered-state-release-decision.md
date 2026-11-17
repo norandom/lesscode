@@ -1,5 +1,7 @@
 # R129 · What would count as simplifying scattered state?
 
+Amendment, 2026-11-17: the owner means implicit state machines spread across files. Coordinating a duplicated rule, as considered here, is only one possible symptom. [R130](17-hidden-state-machine-fitness.md) tests the clarified meaning and records the release decision.
+
 Written 2026-11-17, Europe/Berlin. Exploratory source review of Lesscode at `91e176d` and the completed MS1 records. The two model calls belong to [R126](13-model-simplification-boundary-newlines.md) and [R128](15-model-simplification-checkout-preflight.md). This review ran no experiment. [Spec and next task](../../../.kiro/specs/model-simplification/task-generation-readiness.md)
 
 **Decision.** Keep state simplification open. The prototype can locate some writes and flag unknown effects. The outstanding product question is whether it can show a maintainer which state-management decision they can remove. Validate on Lesscode itself once we can distinguish a real removal from delegation on supported code.

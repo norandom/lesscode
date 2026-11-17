@@ -2,8 +2,9 @@
 
 **Current decision (2026-11-17): stop.** Two state attempts ended incomplete. The
 reviewed disposition is in [R128](../../../docs/research/2026-11-17/15-model-simplification-checkout-preflight.md).
-The [active tasks](task-generation-readiness.md) and [concept review](../../../docs/research/2026-11-17/16-scattered-state-release-decision.md)
-describe the release question. The original protocol and dated amendments follow.
+The [fitness decision](../../../docs/research/2026-11-17/17-hidden-state-machine-fitness.md)
+defers cross-file machine discovery after separate self-validation. See the [active tasks](task-generation-readiness.md).
+The original protocol and dated amendments follow.
 
 At protocol authoring on 2026-11-17 the decision was **not-run**. Protocol proposed; execution manifest
 not yet frozen. No model call, specimen test, measurement run or useful result is

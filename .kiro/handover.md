@@ -1,6 +1,6 @@
 # Handover · model simplification
 
-Start with the [release roadmap](steering/roadmap.md) and [active tasks](specs/model-simplification/task-generation-readiness.md). The current question is whether Lesscode can identify a state-management rule a maintainer would have fewer places to change. The [latest handover](task_59_handover.md) records the concept review and the condition for trying the tool here.
+Start with the [release roadmap](steering/roadmap.md) and [active tasks](specs/model-simplification/task-generation-readiness.md). The released checker proved useful on Lesscode's own history. Discovery of implicit state machines spread across files is deferred. The [latest handover](task_60_handover.md) links the real examples and control results.
 
 The following release notes describe the 2026-11-17 morning snapshot, after 1.2.0 and 2.0.0 shipped. Earlier snapshots are archived for [17 November](handover-archive-2026-11-17.md), [12 November](handover-archive-2026-11-12.md) and [11 November](handover-archive-2026-11-11.md).
 
