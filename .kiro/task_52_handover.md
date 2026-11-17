@@ -32,6 +32,27 @@ spec's tasks are all done.
   hosted result for these commits is not in this file; look at the latest run of
   `Native core correctness`.
 
+- Hosted run 43922104983 on `d5d7d92`: success on six jobs. Linux through Dagger 8 min 14 s (it now
+  also lints and dry-runs the guide optimiser; every step 0), ARM Linux 2 min 0 s, Windows 4 min 5 s,
+  macOS 2 min 32 s, macOS Intel 7 min 46 s. Before, on `0c1686c`: 5 min 5 s, 5 min 49 s, 13 min 16 s,
+  10 min 9 s, 20 min 7 s.
+
+## Added 2026-11-17 after a second menu (design Amendment 12)
+
+- `6b72837`: `regenerate run` refuses `--effort` and `--thinking-display`; the refine schedule steps no
+  effort. `docs/model-endpoint.md` says so.
+- `43b4410`: a failed call's reason is on the terminal once (`seam::Failure` carries the kind of an
+  answered failure). The regenerator's budget ceiling is 19,591 tokens, 829 units, 2,280 in a function.
+- `8ffb096`: a reply cut off after a repair is asked again with that repair and its reasons.
+- `f027ad7`: a reply the model refused ends the repair loop (`check`, `measure`, the guide tool).
+- Local: `native` 401 of 401, `model` 84 of 84 and its doctest, `tools/guide-optimizer` 3 of 3, lints
+  and both budget checks clean. One test of `step_guard` failed once in a first full run and passed
+  alone and in the second; its message was not kept.
+- `scripts/license-inventory.ps1 -Check`: `native` 83 packages, `model` 294 packages, nothing changed.
+- Amendments to R111 and R112 record these; the items "for the owner" below are closed by them.
+- Owner's choices of the same menu: I prepare the release (checks, version files) and the owner tags;
+  the next work is the simplification spec.
+
 ## Evidence
 
 - Pipeline run 43911624473 on `0c1686c`: success on six jobs. Linux ran the seam's steps (80 of 80) and
@@ -59,7 +80,7 @@ spec's tasks are all done.
 - Local Dagger: four of five runs in the main context were killed with exit 137. WSL has 8 GB in the
   owner's `.wslconfig`, which was not touched. Use the hosted pipeline as evidence.
 - Containers: `mvibe-proxy-proxy-1` is the owner's and runs. `dagger-engine-v0.21.11` is left running.
-- For the owner, not acted on:
+- For the owner, not acted on at the time (all three closed on 2026-11-17, see the section above):
   - the refine loop's schedule steps an effort that is not sent; `--effort` and `--thinking-display` are
     accepted and not sent (R112);
   - from R111: whether a refusal ends a trial of the guide tool; a reply cut off after a repair is asked

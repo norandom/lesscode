@@ -188,6 +188,28 @@ differ from it:
 - The install scripts take the second binary when `LESSCODE_WITH_MODEL=1`; it is not installed by
   default, since only `regenerate run` starts it.
 
+**Amendment 12, 2026-11-17 (owner decisions by menu; four points that Amendments 2 and 10 and
+[R111](../../../docs/research/2026-11-14/04-model-seam-guide-tool-on-the-seam.md) had left open).**
+
+- `regenerate run` no longer accepts `--effort` and `--thinking-display`; it refuses them as unknown
+  arguments. The refine loop's schedule no longer steps an effort, and an attempt's preregistered
+  parameters name the output limit, the temperature and a directive only. This replaces the fourth and
+  the last point of Amendment 10. `request_kwargs` keeps its effort and display arguments: it describes
+  earlier receipts.
+- A failed call's reason reaches the terminal once. The launcher's failure carries the kind of a
+  failure the executable answered with (`seam::Failure`); `regenerate run` then says the label and the
+  kind, and the receipt's note keeps the whole reason. Where the executable said nothing (not found,
+  not started, an answer that cannot be read) the core says the reason. This replaces the seventh
+  point of Amendment 10.
+- Repair loop: a rejected reply that is empty or did not stop as complete is followed by the request
+  last sent, not by the request as the caller stated it. Before any repair the two are the same; after
+  a repair the request sent again is that repair, with its reasons. Requirement 6.2 ("send the request
+  again as it was") holds in both readings.
+- Repair loop: a reply the model refused to give ends the loop as rejected, whatever repairs are left.
+  The check is still handed the reply first. This applies to every caller of the loop: `check`,
+  `measure` and the guide tool. The client library reports a content filter as a refusal, so such a
+  reply also ends the loop.
+
 ## Overview
 
 The model seam is a second binary, `lesscode-model`, with its library. It is the only place in the

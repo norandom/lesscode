@@ -116,3 +116,16 @@ The live judgement (kept in `docs/experiments/model-seam/guide-tool/`), 137 s, e
 The title states what was shown and how much: four trials, three admitted. The cost figure is named as
 the tool's fallback count and not as a price paid. The behaviours that changed are listed and not
 folded into "same as before"; the summaries are the same, the tool is not.
+
+## Amendment, 2026-11-17, 10:10 (owner decisions by menu; execution 09:40 to 10:05)
+
+The two points left for the owner are decided and built; [design Amendment 12](../../../.kiro/specs/model-seam/design.md).
+
+- A refusal ends a trial again. The seam's repair loop returns a reply the model refused as rejected
+  at once; the guide tool records such a trial with its one call (`f027ad7`). Point 3 above describes
+  the behaviour before this change.
+- A reply cut off after a repair is asked again with that repair, reasons included (`8ffb096`). The
+  loop sends the request last sent where it sent the caller's first request.
+- Shown by scripted replies only: `model` 84 of 84 tests, `tools/guide-optimizer` 3 of 3. No live call
+  was made, so the Rust trial above was not repeated and nothing here says the reasons help a model
+  that runs into its output limit.

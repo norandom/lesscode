@@ -142,3 +142,17 @@ Found on the way and repaired:
 The title states what was shown and by what: scripted executables and planted violations, no live
 call. The two killed Dagger runs are reported beside the one that passed. The changes for a user and
 the differences from the design are listed and not folded into "as designed".
+
+## Amendment, 2026-11-17, 10:10 (owner decisions by menu; execution 09:15 to 09:40)
+
+Two things this entry reported as they were built are changed; [design Amendment 12](../../../.kiro/specs/model-seam/design.md).
+
+- `regenerate run` refuses `--effort` and `--thinking-display`, and the refine loop's schedule steps
+  no effort (`6b72837`). The point "for the owner" above is closed: one field of the schedule, two of an
+  attempt's parameters and one branch of the loop are gone; no setting is left that is stated and not
+  sent.
+- A failed call's reason is on the terminal once (`43b4410`): `lesscode-model` says it, the core says
+  the label and the kind. The receipt keeps the whole reason.
+- `native`: 401 of 401 tests, budgets within their ceilings (the regenerator's lowered to what it
+  measures). In the first of two full runs `step_guard::the_installed_hook_stops_a_push_without_a_matching_verdict`
+  failed once; it passed alone and in the second full run, and its message was not kept.

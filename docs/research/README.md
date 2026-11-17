@@ -15,6 +15,8 @@
 - **First cases:** `regenerate run` completes on GLM 5.3, Mistral Large, `gpt-6.1-sol`, `claude-opus-5-5` and both models of the local endpoint through the dry run's Windows binaries; every receipt says `seam-1` and states only what was sent.
 - **Pipeline:** green on six jobs after the owner cut the duplicate builds (Windows 19 min to 13 min); the seam's own steps now run on Linux only.
 - **Not found:** why the ARM Linux job ran past its 30 minutes on two commits. **Not shown:** the publish stage, the install scripts' path for the second binary, a test for criterion 3.8.
+- **Amended 2026-11-16, 18:45:** criterion 3.8 has its test; the guide optimiser's steps also run on Linux only. Run 43922104983 on `d5d7d92` is green on six jobs (Windows 13 min to 4 min, macOS Intel 20 min to 8 min, Linux through Dagger 5 min to 8 min).
+- **Amended 2026-11-17** (in [R111](2026-11-14/04-model-seam-guide-tool-on-the-seam.md) and [R112](2026-11-16/01-model-seam-core-on-the-seam.md), design Amendment 12): the unsent effort and thinking display are removed, a failed call's reason is said once, a refusal ends the repair loop, and a reply cut off after a repair is asked again with the repair's reasons. Scripted tests only.
 
 ## Prior: R112 The core reaches a model only through `lesscode-model`; a new receipt states only what was sent; three pipeline checks fail on a planted violation (2026-11-16)
 
