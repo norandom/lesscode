@@ -20,3 +20,11 @@ Still required: isolated spike, qualified measurement profile, observation pins,
 runner overlay and image identity, exact commands/model settings, scope/control
 inventories and complete freeze. Then execute the already-authorized protocol.
 No tests, builds, candidate calls or prototype trials ran during this initial preflight.
+
+## Runtime preparation, later on 2026-11-17
+
+[R116](../../../docs/research/2026-11-17/03-model-simplification-runtime-preparation.md)
+records the prepared container and 47-test offline collection. Source lock and
+pyproject hashes remain unchanged. P0 is still incomplete: the Rust spike, metric
+profile, observation pins and complete freeze remain outstanding. No task group
+completion or behavioral qualification is claimed.

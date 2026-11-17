@@ -8,7 +8,14 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R115 Isolated proposals need a separate measurement profile and observable state boundary (2026-11-17)
+## Latest: R116 Frozen specimen runtime prepared; 47 tests collect offline (2026-11-17)
+
+[R116](2026-11-17/03-model-simplification-runtime-preparation.md) records dependency
+installation, pinned runner overlay and offline collection. P0 remains incomplete:
+measurement spike, observation pins and the complete freeze are still required.
+No behavioral tests or model trials ran.
+
+## Prior: R115 Isolated proposals need a separate measurement profile and observable state boundary (2026-11-17)
 
 [R115](2026-11-17/02-model-simplification-design-gate.md) records the
 [provisional design](../../.kiro/specs/model-simplification/design.md) and
