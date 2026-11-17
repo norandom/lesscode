@@ -1,5 +1,7 @@
 # Research log
 
+**Current release question.** Can Lesscode identify a state rule that a maintainer would have fewer places to change? [R129 · concept review on the exporter and Lesscode's recording shim](2026-11-17/16-scattered-state-release-decision.md) · [Active tasks](../../.kiro/specs/model-simplification/task-generation-readiness.md). The latest executed model trial is R128.
+
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 
 ## Closed: R104 The guide that describes the call-argument kind restores Python's findings and not TypeScript's (2026-11-12)

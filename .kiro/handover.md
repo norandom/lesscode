@@ -1,30 +1,8 @@
-# Handover: releases 1.2.0 and 2.0.0 are published; the model seam is done; next is the simplification spec
+# Handover · model simplification
 
-Reset 2026-11-17, 11:20 Europe/Berlin (from the clock). This file is the start for the next session. The
-file as it stood before, written on 2026-11-12 for the start of the model seam, is
-[handover-archive-2026-11-17.md](handover-archive-2026-11-17.md); the ones before are
-[handover-archive-2026-11-12.md](handover-archive-2026-11-12.md) and
-[handover-archive-2026-11-11.md](handover-archive-2026-11-11.md). Nothing in them was changed.
+Start with the [release roadmap](steering/roadmap.md) and [active tasks](specs/model-simplification/task-generation-readiness.md). The current question is whether Lesscode can identify a state-management rule a maintainer would have fewer places to change. The [latest handover](task_59_handover.md) records the concept review and the condition for trying the tool here.
 
-## Start here
-
-1. Read [task_52_handover.md](task_52_handover.md): the last task group of `model-seam`, with everything
-   added on 2026-11-17 in its dated sections.
-2. Update 2026-11-17: discovery and analysis are recorded and `model-simplification` requirements
-   are approved by the owner. Read its
-   [brief](specs/model-simplification/brief.md) and [analysis](specs/model-simplification/research.md).
-   The owner selected simplicity reporting separate from the behavior verdict.
-   [Provisional design](specs/model-simplification/design.md) and a
-   [bounded prototype protocol](specs/model-simplification/prototype-gate.md) now exist.
-   Next prepare P0's disposable spike, observations and complete execution freeze in
-   the foreground. The owner requested tasks, but qualifying prototype evidence and
-   design approval are still missing; see the
-   [readiness checklist](specs/model-simplification/task-generation-readiness.md).
-   Design and implementation tasks remain unapproved; no prototype ran.
-3. Research index: [docs/research/README.md](../docs/research/README.md). Latest R115 records design
-   findings and the proposed gate; R114 is measurement/attribution analysis. No new
-   experiment ran. Earlier entry R113, with
-   amendments of 2026-11-17 in R111 and R112.
+The following release notes describe the 2026-11-17 morning snapshot, after 1.2.0 and 2.0.0 shipped. Earlier snapshots are archived for [17 November](handover-archive-2026-11-17.md), [12 November](handover-archive-2026-11-12.md) and [11 November](handover-archive-2026-11-11.md).
 
 ## State
 
