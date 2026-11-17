@@ -1,6 +1,6 @@
 # Task generation readiness
 
-2026-11-17, 12:19 Europe/Berlin (clock: 11:19 UTC).
+Updated 2026-11-17, 12:41 Europe/Berlin (clock: 11:41 UTC).
 Owner request: "approved, produce the tasks". Requirements approval recorded.
 Production task generation: not ready. No tasks.md was generated.
 
@@ -9,9 +9,9 @@ Production task generation: not ready. No tasks.md was generated.
 | Prerequisite | Current evidence |
 | --- | --- |
 | Approved requirements | Present: 11 areas, 83 criteria; owner approval recorded |
-| Design describing the solution and its contracts | design.md absent |
-| Frozen bounded prototype gate | prototype-gate.md absent |
-| Real-code behavioral and useful-reduction evidence | No trials for this feature; R114 is static analysis only |
+| Design describing the solution and its contracts | [Provisional design](design.md) generated; inline authoring review passed; not approved |
+| Frozen bounded prototype gate | [Protocol](prototype-gate.md) proposed with source identities, targets and budgets; complete execution manifest and runtime/pin freeze still missing |
+| Real-code behavioral and useful-reduction evidence | No trials for this feature; R114/R115 contain analysis/planning only |
 | Qualifying proceed decision and design approval | Neither exists |
 
 The [task-generation skill](../../../.agents/skills/kiro-spec-tasks/SKILL.md)
@@ -23,10 +23,10 @@ requirements does not supply missing design or empirical evidence.
 ## Bounded prerequisite checklist
 
 This is a research/design readiness checklist, not an executable production task
-plan. Items remain open. Execution cannot begin until the prototype plan has concrete
+plan. Only completed authoring is checked. Execution cannot begin until the prototype plan has concrete
 frozen inputs, targets, budgets and the authorization required by project policy.
 
-- [ ] **Prepare a provisional design and resolve contract tensions.**
+- [x] **Prepare a provisional design and resolve contract tensions.**
   Use [research.md](research.md) and the approved requirements to define the
   supported branch/state measurements, responsibility and identity matching,
   requested ranking behavior, independent report outcomes, proposal/check handoff,
@@ -44,6 +44,8 @@ frozen inputs, targets, budgets and the authorization required by project policy
   conditions. Resolve the specimen test-runtime route under current execution
   rules. Output: prototype-gate.md, initial status not-run, with an explicit review
   and execution-authorization boundary. No candidate generation before the freeze.
+  Update: the bounded protocol is now written; P0 lists the remaining runtime,
+  executable-observation and artifact identities needed to finish the freeze.
 
 - [ ] **Run the qualified disposable prototype within that gate.**
   Depends on the frozen plan and its execution authorization. Qualify measurements
@@ -72,7 +74,23 @@ frozen inputs, targets, budgets and the authorization required by project policy
 
 ## Current next action
 
-`$kiro-spec-design model-simplification` to prepare a provisional design and
-prototype gate. Requirements are already approved; do not request their approval
-again. Design/tasks remain ungenerated and unapproved. No experiment ran during
-this readiness check.
+Prepare P0 of the [prototype gate](prototype-gate.md): the disposable spike,
+observation pins, admitted profile, runtime overlay and complete execution manifest.
+Then review the frozen plan before the bounded experiment. Requirements are already
+approved; do not request their approval again. Design is generated but provisional
+and unapproved. Tasks remain ungenerated; no experiment ran. [R115](../../../docs/research/2026-11-17/02-model-simplification-design-gate.md)
+records the source findings and proposed protocol.
+
+## Phase check, 2026-11-17
+
+`kiro-spec-status` applied inline: requirements authoring 100% (11 areas/83 criteria,
+approved); design authoring 100% (provisional, approval pending); production task
+authoring 0% (no tasks to count). These are document statuses, not implementation
+completion percentages. The prototype has no executed results.
+
+Upstream contracts are the model seam, gradual steps and admitted packs. Downstream
+onboarding remains separate. Core judging stays model-free; proposal orchestration
+depends on it from the model crate. Revalidation watches plan schemas, mutation/frame
+coverage, repair behavior, sidecar consumers, historical ledgers and onboarding.
+No scope split is indicated by this bounded integration design. The missing freeze,
+real-code qualification and normal design approval are the current task prerequisites.

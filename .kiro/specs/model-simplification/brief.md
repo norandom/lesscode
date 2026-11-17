@@ -183,3 +183,10 @@ The initialization statements above describe the earlier state.
 The owner approved the requirements and requested tasks. Approval is recorded;
 production task generation awaits design and qualifying prototype evidence. The
 [readiness checklist](task-generation-readiness.md) records the bounded next steps.
+
+## Provisional design, 2026-11-17
+
+The owner said "proceed". [Design](design.md) and [prototype protocol](prototype-gate.md)
+are generated, with an [inline review](design-review.md) and [R115](../../../docs/research/2026-11-17/02-model-simplification-design-gate.md).
+Design remains provisional and unapproved. Next prepare the complete execution freeze;
+no prototype ran and production tasks still require qualifying evidence/design approval.

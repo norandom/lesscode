@@ -247,3 +247,57 @@ a provisional design and [prototype gate](../../steering/prototype-first.md).
 Measurement formulas remain proposals for design; no experiment or new measured
 improvement accompanies this update. Phase approval and prototype qualification
 remain pending.
+
+## Design discovery and synthesis, 2026-11-17
+
+Requirements have since been approved. The owner's next "proceed" continues with
+the [provisional design](design.md) and [bounded prototype protocol](prototype-gate.md).
+[R115](../../../docs/research/2026-11-17/02-model-simplification-design-gate.md) records
+the source investigation and H-MS1; no experiment ran. The earlier sections retain
+their historical phase states and candidate formulas.
+
+### Summary and research log
+
+Integration-focused discovery used the `kiro-spec-design` skill and its light
+discovery, design synthesis and review rules. Prototype-first steering supplies the
+real-code gate and contradiction review. The research entry template supplies the
+falsifiable framing. Foreground-only owner instructions govern review mode.
+
+| Investigation and source | Finding | Consequence |
+| --- | --- | --- |
+| `step/context.rs`, `declaration.rs`, `check.rs` | Checks require committed revisions/declaration; strict declarations reject new unknown fields | Private histories; separate simplicity manifest/sidecar, not changed verdict/ledger semantics |
+| Driver `pack.rs`, `analysis.rs`, `step/plan.rs` | Selection rules and mutation sites share pack data; function names are not qualified state identities | Separate admitted metric companion and qualified facts; retain grouped protection information honestly |
+| `model/repair.rs`, model CLI | Caller-owned checking is reusable; callback lacks terminal-error channel and attempts lack raw replies | One additive fallible-check API over the same loop; capture raw answers outside it |
+| Exporter source and resume tests | Four direct tweet write sites; callbacks see pre-merge state and resume uses in-place extension | Alias, callback and exception observations are mandatory, not inferred from returned lists |
+| Tools filter helpers and tests | Seven explicit if sites; type/regex/dependency error order matters | Freeze the complete four-function family; account for every replacement helper and the full module envelope |
+| Specimen pyproject/uv.lock | Python target runtime required; xdist absent from source dev lock | Pinned runner overlay in a Linux container, no WSL or new Python product apparatus |
+
+### Architecture pattern evaluation
+
+| Option | Assessment |
+| --- | --- |
+| Reuse seam, step and parser with a small comparison library | Selected provisional direction: existing execution contracts and no duplicate transport/test runner |
+| Change existing state-write mutation rules to improve the score | Rejected for this slice: could remove planted faults and invalidate old evidence |
+| Add a generalized semantic engine or repository-wide agent | Rejected: unsupported by one useful real step and outside approved scope |
+
+### Decisions and simplifications
+
+Use direct Rust functions, strict versioned data and immutable source snapshots.
+Language rules live in admitted pack data. Measurement remains deterministic and
+model-free; proposals live in the already-dependent model crate. One existing repair
+loop serves old and fallible checks. Reporting does not become an acceptance gate.
+No new production library or framework is selected.
+
+The provisional profile counts branch/predicate work and local/nonlocal/unresolved
+effects, retaining target relations. Exact definitions and comparison outcomes are
+in design. New profile admission and failure controls must qualify them; these are
+not claims that today's primitives already establish semantic state.
+
+### Risks and next evidence
+
+The main risks are effects that cannot be bounded, alias/failure behavior preventing
+state reduction, condition metrics rewarding rearrangement, and prototype cost
+exceeding the retained budget. The gate provides falsifiers, numerical targets and
+stop conditions. Its execution manifest and runtime baseline remain incomplete.
+Independent evidence review and normal design approval are future prerequisites;
+this inline authoring review does not claim either. Production tasks remain gated.

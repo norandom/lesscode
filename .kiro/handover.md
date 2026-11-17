@@ -13,13 +13,17 @@ file as it stood before, written on 2026-11-12 for the start of the model seam, 
 2. Update 2026-11-17: discovery and analysis are recorded and `model-simplification` requirements
    are approved by the owner. Read its
    [brief](specs/model-simplification/brief.md) and [analysis](specs/model-simplification/research.md).
-   The owner selected simplicity reporting separate from the behavior verdict. Next:
-   prepare provisional design and a bounded prototype gate in the foreground.
-   The owner requested tasks, but no design or qualifying prototype exists; see the
+   The owner selected simplicity reporting separate from the behavior verdict.
+   [Provisional design](specs/model-simplification/design.md) and a
+   [bounded prototype protocol](specs/model-simplification/prototype-gate.md) now exist.
+   Next prepare P0's disposable spike, observations and complete execution freeze in
+   the foreground. The owner requested tasks, but qualifying prototype evidence and
+   design approval are still missing; see the
    [readiness checklist](specs/model-simplification/task-generation-readiness.md).
    Design and implementation tasks remain unapproved; no prototype ran.
-3. Research index: [docs/research/README.md](../docs/research/README.md). Latest entry R114 is static
-   analysis of measurement and attribution; no experiment ran. Prior entry R113, with
+3. Research index: [docs/research/README.md](../docs/research/README.md). Latest R115 records design
+   findings and the proposed gate; R114 is measurement/attribution analysis. No new
+   experiment ran. Earlier entry R113, with
    amendments of 2026-11-17 in R111 and R112.
 
 ## State

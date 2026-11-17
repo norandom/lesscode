@@ -8,7 +8,16 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R114 Existing checks can support simplification; measurement and attribution still need qualification (2026-11-17)
+## Latest: R115 Isolated proposals need a separate measurement profile and observable state boundary (2026-11-17)
+
+[R115](2026-11-17/02-model-simplification-design-gate.md) records the
+[provisional design](../../.kiro/specs/model-simplification/design.md) and
+[bounded prototype protocol](../../.kiro/specs/model-simplification/prototype-gate.md).
+- **Source findings:** committed step inputs require private histories; structural write correction must preserve legacy mutation coverage; exporter callbacks and list aliases make final-output checks insufficient.
+- **Proposed gate:** both real cases, fixed structural targets, anti-gaming/behavior controls and cumulative effort/call budgets. Profile, observations and runtime still need an execution freeze.
+- **Not run:** no measurement baseline, model call, useful candidate or adoption. Requirements approved; design provisional and unapproved; production tasks remain gated.
+
+## Prior: R114 Existing checks can support simplification; measurement and attribution still need qualification (2026-11-17)
 
 [R114](2026-11-17/01-model-simplification-measurement-attribution.md) records initialization of
 [model-simplification](../../.kiro/specs/model-simplification/requirements.md) and its
@@ -18,6 +27,7 @@
 - **Proposed:** compare original and candidate under one evaluator; separate measurement corrections, pins, model contribution, repairs, selection and adoption.
 - **Not run:** no new measurements, tests or model trials. Requirements and a bounded real-code prototype gate remain pending.
 - **Amended 2026-11-17:** requirements generated (11 areas, 83 criteria); inline review and EARS audit pass. Owner approval and prototype qualification remain pending; no experiment ran.
+- **Later amendment, 2026-11-17:** owner approved requirements; R115 adds provisional design and the prototype protocol. Earlier status statements above are historical.
 
 ## Prior: R113 The model seam is released in form and validated: both binaries for five targets, six of six first cases through them, the pipeline green after its duplicate builds were cut (2026-11-16)
 
