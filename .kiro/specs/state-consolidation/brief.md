@@ -77,12 +77,23 @@ explicitly when requirements are written.
 - Small local models for the reading. Use the configured endpoints through `lesscode-model`.
 - Onboarding, release questions, and anything about 2.0.0. The release is published and stays.
 
-## Questions for the owner before requirements
+## Owner's answers, 2026-11-17 (by menu)
 
-1. Is finding (step 1) a useful result by itself, or only together with consolidation?
-2. Which solver: Z3, as in the earlier experiments?
-3. Which language first? The specimens are Python (job machine) and Rust (mutation driver).
-4. How is the place to look chosen: the owner names a directory, or the tool proposes candidates?
+1. **Find first, then consolidate.** Two stages in one spec. Stage 1 delivers the machine as a report
+   and is usable alone. Stage 2 proposes the consolidated version and checks it with the solver, and
+   starts only after stage 1 works on a real example.
+2. **Solver: "the one we already use?"** That is Z3. `docs/experiments/cegis/` calls it directly, and
+   the concolic experiments used it behind CrossHair. Both were Python programs, and the project now
+   allows no Python tooling. To be settled in the design: Z3 run as an external program on SMT-LIB text
+   written by the Rust tool, so that `lesscode-core` links nothing new. Z3 is not installed on this
+   machine's search path today.
+3. **Python first, then Rust.** The small job machine, where the right answer is known, then the
+   stale-worker case in Lesscode's own driver.
+4. **Where to look: "../Source has many options".** Read as: the owner names the place, and the real
+   examples after the two specimens come from the owner's repositories under `D:\Source` (48
+   directories on 2026-11-17, among them `mmhmem`, `mvibe`, `openidea-kiro`, `drift-rdp`). Those
+   repositories are only read; work happens on copies under `D:\BuildArtifacts`. Not yet confirmed by
+   the owner: whether the tool should also propose candidates across those repositories by itself.
 
 ## First check, proposed
 
