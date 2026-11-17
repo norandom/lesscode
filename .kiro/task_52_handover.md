@@ -60,6 +60,27 @@ spec's tasks are all done.
   `docs/releases/2.0.0.md`.
 - The next work, by the owner's choice, is the simplification spec.
 
+## Added 2026-11-17, later (third menu of the day)
+
+- Hosted run 44055400314 on `5f2363b` (2.0.0 prepared): success on six jobs.
+- `v1.2.0` is tagged at `1c2af6b` and pushed, on the owner's word: the newest commit without a change
+  under `model/`, with a green run (43432954515) and the hook fix of 2026-11-12. Against `db175e5` it
+  differs in `cli_hook.rs`, `step/hook.rs` and `regenerator.rs` (the endpoint's reasoning level, a
+  failed call's message). Release run 44056525535 built the five targets and waits for the owner's
+  approval of the `release` environment. `CITATION.cff` at that commit says 2026-11-11.
+- `v2.0.0` is not tagged. It follows when 1.2.0 is published and checked.
+- The `step_guard` test that failed once: not reproduced in six runs of the five slowest test binaries
+  side by side, nor in three full runs. Cause unknown.
+- ARM overruns of 2026-11-16: in both jobs the step `Check native correctness` never ended, no later
+  step ran (the evidence upload runs `if: always()`), no log exists, and the job ended five minutes
+  after its limit. That is how a runner that stopped responding looks, not a test that hangs; it fits
+  exhausted memory while the client library was built several times, and it proves nothing.
+- Slice B, corrected: the line "measured through R79, the next step is the owner's choice" in this
+  file and in earlier reports was stale. `.kiro/steering/roadmap.md`: closed by the owner on 2026-11-11
+  with `docs/reports/slice-b-drift-hardening.md`, reopened for cost on 2026-11-12 (R96 to R101), pack
+  authoring closed with R104. Unmeasured and named: drift of one model over time.
+  `lesscode-model measure` could repeat one task set on later days.
+
 ## Evidence
 
 - Pipeline run 43911624473 on `0c1686c`: success on six jobs. Linux ran the seam's steps (80 of 80) and
