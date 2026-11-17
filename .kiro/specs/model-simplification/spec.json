@@ -1,7 +1,7 @@
 {
   "feature_name": "model-simplification",
   "created_at": "2026-11-17T11:41:23+01:00",
-  "updated_at": "2026-11-17T16:33:00+01:00",
+  "updated_at": "2026-11-17T17:46:00+01:00",
   "language": "en",
   "phase": "design-generated",
   "approvals": {
@@ -16,10 +16,10 @@
     "preparation_status": "complete",
     "preparation_evidence": "../../../docs/research/2026-11-17/06-model-simplification-p0-freeze.md",
     "preparation_receipt": "../../../docs/experiments/model-simplification/freeze-receipt.json",
-    "qualification_status": "classification-controls-passed-requalification-pending",
+    "qualification_status": "qualified",
     "qualification_amendment": "../../../docs/research/2026-11-17/09-model-simplification-extended-qualification.md",
-    "qualification_evidence": "../../../docs/research/2026-11-17/11-model-simplification-classification-correction.md",
-    "qualification_receipt": "../../../docs/experiments/model-simplification/classification-v3-receipt.json",
+    "qualification_evidence": "../../../docs/research/2026-11-17/12-model-simplification-p1-qualified.md",
+    "qualification_receipt": "../../../docs/experiments/model-simplification/p1-v3-admission-receipt.json",
     "gate": "prototype-gate.md",
     "proposal": "design.md",
     "prototype_execution_approved": true,

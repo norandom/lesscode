@@ -1,0 +1,10 @@
+{
+  "evidence_files": 12414,
+  "evidence_index_sha256": "328769142C606AE5C5F69EF4D18F0C549520E5EF6DD836974ED75233D13EEA61",
+  "evidence_index": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\p1-v3-evidence-index.json",
+  "sha256": "5A67F9836EFCB28D07A65EA510466786E97D6818C880A2C5BDEFD71D88FA731A",
+  "outer_starts": 47,
+  "status": "P1_QUALIFIED",
+  "artifact": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\p1-v3-admission.json",
+  "model_calls": 0
+}

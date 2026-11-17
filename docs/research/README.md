@@ -8,7 +8,14 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R124 Runner classification correction passes controls (2026-11-17)
+## Latest: R125 Both responsibilities qualify (2026-11-17)
+
+[R125](2026-11-17/12-model-simplification-p1-qualified.md): all four fresh native
+checks accepted, with exact repeated mutation outcomes and 32 passing closing
+baselines. P1 is qualified; 47 starts consumed and zero model calls. Candidate
+trials and independent evidence review remain pending.
+
+## Prior: R124 Runner classification correction passes controls (2026-11-17)
 
 [R124](2026-11-17/11-model-simplification-classification-correction.md): the approved
 two-line runner correction and declaration marker distinguish injected command

@@ -216,7 +216,7 @@ request is not recorded as approval of an as-yet-unwritten execution manifest.
 
 ## P1-P4: bounded execution after the freeze
 
-- [ ] **P1, qualify the instrument and baseline.** Run both originals twice under
+- [x] **P1, qualify the instrument and baseline.** Run both originals twice under
   the frozen observations, require matching normalized outcomes and usable step
   baselines. Run all measurement, behavioral and lifecycle controls. Record old/new
   measurement and pin effects separately. Retain numeric baselines and derived
@@ -390,3 +390,12 @@ controls completed within the original 15-minute bound. P1 retains its 18:25:47.
 Berlin deadline; 43/80 starts are consumed. Apparatus including control support is
 1,358/1,400 lines; pins plus synthetic fixtures are 357/600. Full fresh qualification
 remains pending. Earlier failed evidence and phase approval states remain intact.
+
+## 2026-11-17 amendment: P1 qualified
+
+[R125](../../../docs/research/2026-11-17/12-model-simplification-p1-qualified.md)
+and its hash-linked admission receipt qualify the corrected evaluator: four
+accepted checks, matching per-mutation outcomes and 32 passing closing baselines.
+47/80 starts are charged; model calls remain zero. The numeric ceilings and
+bounded effect contracts are admitted before proposals. P2–P4 and production
+approval remain pending. Earlier failed qualification evidence is preserved.
