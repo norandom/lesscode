@@ -50,8 +50,15 @@ spec's tasks are all done.
   alone and in the second; its message was not kept.
 - `scripts/license-inventory.ps1 -Check`: `native` 83 packages, `model` 294 packages, nothing changed.
 - Amendments to R111 and R112 record these; the items "for the owner" below are closed by them.
-- Owner's choices of the same menu: I prepare the release (checks, version files) and the owner tags;
-  the next work is the simplification spec.
+- Hosted run 44052850297 on `f61118c` (these four changes): success on six jobs; Linux through Dagger
+  5 min 38 s, ARM Linux 2 min 1 s, Windows 4 min 25 s, macOS 2 min 55 s, macOS Intel 8 min 39 s.
+- Release, found while preparing it: 1.2.0 was prepared on 2026-11-11 (`db175e5`) and never tagged; the
+  latest release is v1.1.1. The owner decided: tag `v1.2.0` at `db175e5` first (run 43087717445 was
+  green there), then `v2.0.0` on main. Main is prepared as 2.0.0: `native/Cargo.toml`, the three lock
+  files, `CITATION.cff`, `.zenodo.json`, the README badge, `docs/releases/2.0.0.md`. Both license
+  checks say nothing changed. Tagging and the approval are the owner's; the steps are at the end of
+  `docs/releases/2.0.0.md`.
+- The next work, by the owner's choice, is the simplification spec.
 
 ## Evidence
 

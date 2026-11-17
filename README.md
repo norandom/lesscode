@@ -1,7 +1,7 @@
 # Lesscode
 
 [![DOI](https://zenodo.org/badge/1440672292.svg)](https://doi.org/10.5281/zenodo.23958363)
-[![Release](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v1.2.0)
+[![Release](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v2.0.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ![Before: a tired developer eats a plate of spaghetti labelled with nested loops and conditions. After lesscode: the same developer, cheerful, with a bowl of vegetables labelled with single statements.](docs/images/before-after-lesscode.png)
@@ -131,7 +131,7 @@ Options, set as environment variables before running the script:
   On Linux and macOS the script never edits shell profiles.
 - `LESSCODE_WITH_MODEL=1` also installs `lesscode-model`, the second binary
   that makes the model calls, beside `lesscode-core`. You need it only for
-  `regenerate run`; no other command starts it. Releases after 1.2.0 carry it
+  `regenerate run`; no other command starts it. Releases from 2.0.0 carry it
   as `lesscode-model-<target>`.
   [Model endpoint](docs/model-endpoint.md) shows how to configure and check one.
 

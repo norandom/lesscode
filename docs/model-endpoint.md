@@ -12,7 +12,7 @@ Sections 1 to 3 are enough to configure an endpoint and check it.
 
 ## 1. Install `lesscode-model`
 
-Releases after 1.2.0 carry a second archive per platform,
+From release 2.0.0 there is a second archive per platform,
 `lesscode-model-<target>`. The install scripts fetch it when you set
 `LESSCODE_WITH_MODEL=1`, and put it beside `lesscode-core`.
 

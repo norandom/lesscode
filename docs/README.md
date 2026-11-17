@@ -11,7 +11,7 @@
 | Plant faults and see which ones your tests catch (from release 1.1.0) | [The agnostic driver](driver.md) |
 | Build from source, check prerequisites and license notices | [Native core](../native/README.md) |
 | Understand the architecture or add a language | [Multi-language deconvolution](multi-language-deconvolution.md) |
-| Configure a model endpoint, check it, and see whether a model is good enough (releases after 1.2.0) | [Model endpoint](model-endpoint.md) |
+| Configure a model endpoint, check it, and see whether a model is good enough (from release 2.0.0) | [Model endpoint](model-endpoint.md) |
 | See how checks and releases are built | [CI and release workflows](ci-validation.md) |
 | Verify a download or set up the signing key | [Release signing](release-signing.md) |
 | Follow the experiments, including the failed ones | [Dated research log](research/README.md) |
@@ -43,7 +43,7 @@ working tree and may not be present in a fresh clone.
 | Inspect real paired replacements, including a marginal Facdrone result | [mvibe: 23 lines removed](experiments/proxy-routing-trial/README.md) and [Facdrone CSV: rejected](experiments/facdrone-csv-trial/README.md) |
 | Inspect local Rust/Python/TypeScript baselines and a rejected library shortcut | [mmhmem/mvibe measurements, versions, chart and COBESY experiment track](experiments/local-adoption/README.md) |
 | Run Rust and Python tests in parallel | [cargo-nextest and pytest-xdist](testing.md) |
-| See what a release contains and what changed | [Release 1.2.0](releases/1.2.0.md), [release 1.1.1](releases/1.1.1.md), [release 1.1.0](releases/1.1.0.md) |
+| See what a release contains and what changed | [Release 2.0.0](releases/2.0.0.md), [release 1.2.0](releases/1.2.0.md), [release 1.1.1](releases/1.1.1.md), [release 1.1.0](releases/1.1.0.md) |
 | Decide how far a model may be trusted to write a language pack or choose mutation sites | [Slice B closing summary](reports/slice-b-drift-hardening.md) |
 | Run the same Linux checks locally (native Dagger CLI with Podman) and in Actions | [Dagger pipeline and native platform evidence](ci-validation.md#rust-core-dagger-and-actions) |
 | Build and run the native comparison CLI | [Native setup](../native/README.md) and [working paired example](reports/native-core-readiness.md) |
