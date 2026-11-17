@@ -190,6 +190,31 @@ fn a_reply_that_was_cut_off_or_did_not_arrive_is_asked_again_with_the_request_as
 }
 
 #[test]
+fn a_repair_reply_that_was_cut_off_is_asked_again_with_the_same_repair_and_its_reasons() {
+    let run = run(
+        vec![
+            complete("red"),
+            Ok(reply("bl", Stop::CutOff, 100)),
+            complete("blue"),
+        ],
+        REPAIRS,
+    );
+    assert!(
+        matches!(run.outcome, Outcome::Accepted { .. }),
+        "{:?}",
+        run.outcome
+    );
+    assert_eq!(run.sent.len(), 3);
+    let repair = &run.sent[1].user;
+    assert!(repair.contains("- \"red\" is not blue\n"), "{repair}");
+    assert_eq!(json(&run.sent[2]), json(&run.sent[1]));
+    assert!(
+        !run.sent[2].user.contains("bl\n"),
+        "the cut-off text is not shown"
+    );
+}
+
+#[test]
 fn the_caller_states_how_many_repairs_are_allowed() {
     let none = run(vec![complete("red"), complete("blue")], 0);
     assert!(

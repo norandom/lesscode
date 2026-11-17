@@ -99,9 +99,9 @@ pub fn repair_request(request: &CallRequest, rejected: &str, reasons: &[String])
 
 /// A first call and, while the check rejects the reply, at most `repairs`
 /// more. A repair is a fresh call that shows the rejected reply and the
-/// reasons; where no reply arrived or it was not complete, the request goes
-/// out again as it was. `Accepted` is made in one place, after a verdict
-/// that passed.
+/// reasons; where no reply arrived or it was not complete, the request last
+/// sent goes out again as it was. `Accepted` is made in one place, after a
+/// verdict that passed.
 pub fn with_repairs(
     call: &mut dyn FnMut(&CallRequest) -> Result<Reply, CallError>,
     request: &CallRequest,
@@ -132,12 +132,11 @@ pub fn with_repairs(
                 attempts,
             };
         }
-        let whole = reply.stop == Stop::Complete && !reply.text.trim().is_empty();
-        asked = if whole {
+        // A reply that is not whole changes nothing in what is asked: after
+        // a repair the request sent again is that repair, with its reasons.
+        if reply.stop == Stop::Complete && !reply.text.trim().is_empty() {
             let reasons = &attempts[attempts.len() - 1].reasons;
-            repair_request(request, &reply.text, reasons)
-        } else {
-            request.clone()
-        };
+            asked = repair_request(request, &reply.text, reasons);
+        }
     }
 }
