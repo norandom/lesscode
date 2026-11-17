@@ -216,7 +216,7 @@ request is not recorded as approval of an as-yet-unwritten execution manifest.
 
 ## P1-P4: bounded execution after the freeze
 
-- [ ] **P1, qualify the instrument and baseline.** Run both originals twice under
+- [x] **P1, qualify the instrument and baseline.** Run both originals twice under
   the frozen observations, require matching normalized outcomes and usable step
   baselines. Run all measurement, behavioral and lifecycle controls. Record old/new
   measurement and pin effects separately. Retain numeric baselines and derived
@@ -408,3 +408,15 @@ raw CRLF/LF header comparison falsely rejects the original after newline-only
 conversion. S1 ended incomplete after one call; five trials remain unattempted.
 The one-line patch is prepared, not applied. A fourth version exceeds the current
 three-version authorization. All original deadlines/counters remain in force.
+
+## 2026-11-17 amendment: owner-authorized fourth boundary correction
+
+[R127](../../../docs/research/2026-11-17/14-model-simplification-boundary-correction.md)
+records the owner's next-group authorization, including parallel agents for
+independent controls/review. Revision four changes only raw-header CRLF comparison.
+Nine boundary controls and 21 spike tests pass; the frozen prior evidence is
+verified. No clock/counter reset, S1 retry, extra trial or production approval is
+authorized. Admission requires unchanged original facts and the linked supplement.
+Endpoint trials remain serial. Candidate checker limit remains 1,200 seconds.
+The hash-linked v4 admission supplement restores P1 after exact fresh baseline
+fact matches; earlier invalidated admissions and S1's incomplete outcome remain.

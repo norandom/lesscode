@@ -1,0 +1,8 @@
+{
+  "artifact": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\p1-v4-admission.json",
+  "sha256": "DC2F48C4D6E6FDA33884F65260E913D41B1A0B81D1A6D6CC9BECA056B0668F68",
+  "freeze_sha256": "03EC884DAA1112234D597097B7D575CFA3186E87E3BAD08DAC2C06E63A279660",
+  "status": "P1_QUALIFIED_REVISION4",
+  "outer_starts": 47,
+  "model_calls": 1
+}

@@ -30,7 +30,7 @@ fn skeleton(
     {
         let owner = owners.get(&node.range().start).ok_or("missing owner")?;
         let body = node.field("body").ok_or("missing body")?;
-        let header = source[node.range().start..body.range().start].to_string();
+        let header = source[node.range().start..body.range().start].replace("\r\n", "\n");
         signatures.insert(owner.clone(), header);
         if scope.owners.contains(owner) {
             ranges.push(body.range());

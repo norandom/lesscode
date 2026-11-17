@@ -8,7 +8,14 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R126 Newline-sensitive boundary checker stops the first trial (2026-11-17)
+## Latest: R127 Boundary newline correction passes controls (2026-11-17)
+
+[R127](2026-11-17/14-model-simplification-boundary-correction.md): owner-authorized
+revision four passes nine boundary controls and 21 spike tests. Independent review
+reproduces the defect in freeze three and verifies retained qualification evidence.
+Admission and remaining serial trials retain their original clocks and counters.
+
+## Prior: R126 Newline-sensitive boundary checker stops the first trial (2026-11-17)
 
 [R126](2026-11-17/13-model-simplification-boundary-newlines.md): the first complete
 model reply exposed raw CRLF/LF header comparison. The original with only newline
