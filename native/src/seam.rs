@@ -33,6 +33,39 @@ pub struct SeamReply {
     pub meta: J,
 }
 
+/// A call that gave no reply. `kind` is the executable's word for a failure
+/// it answered with; it has then written the reason to the terminal itself.
+/// Without a kind the executable said nothing: it was not found, did not
+/// start, or its answer cannot be read.
+#[derive(Debug)]
+pub struct Failure {
+    pub reason: String,
+    pub kind: Option<String>,
+}
+
+impl Failure {
+    /// What is left to say on the terminal: the kind alone where the
+    /// executable has said the reason, else the reason.
+    pub fn to_say(&self) -> String {
+        match &self.kind {
+            Some(kind) => format!("the call failed ({kind})"),
+            None => self.reason.clone(),
+        }
+    }
+}
+
+impl From<String> for Failure {
+    fn from(reason: String) -> Self {
+        Failure { reason, kind: None }
+    }
+}
+
+impl From<Failure> for String {
+    fn from(failure: Failure) -> Self {
+        failure.reason
+    }
+}
+
 /// The text without one code fence around the whole of it, as the seam's
 /// check reads it. Models wrap a JSON reply in a fence on some calls and not
 /// on others.
@@ -150,7 +183,7 @@ fn call_fact(reply: &J, crossed: [(&str, &str); 4]) -> J {
 /// The answer on standard output: the text and the reply of an answered
 /// call, or the reason of a failed one. The outer error says why it cannot
 /// be read.
-fn answer(stdout: &[u8]) -> Result<Result<(String, J), String>, String> {
+fn answer(stdout: &[u8]) -> Result<Result<(String, J), Failure>, String> {
     let value: serde_json::Value =
         serde_json::from_slice(stdout).map_err(|problem| format!("not JSON: {problem}"))?;
     let answer = from_serde(&value);
@@ -169,11 +202,11 @@ fn answer(stdout: &[u8]) -> Result<Result<(String, J), String>, String> {
         (Some(J::Bool(false)), _) => {
             let error = j_get(&answer, "error").unwrap_or(&J::Null);
             let field = |key| j_str(j_get(error, key).unwrap_or(&J::Null));
-            Ok(Err(format!(
-                "{NAME}: the call failed ({}): {}",
-                field("kind"),
-                field("reason")
-            )))
+            let kind = field("kind");
+            Ok(Err(Failure {
+                reason: format!("{NAME}: the call failed ({kind}): {}", field("reason")),
+                kind: Some(kind.to_string()),
+            }))
         }
         _ => Err("neither an answered call with a reply nor a failed one".into()),
     }
@@ -188,7 +221,7 @@ pub fn call_through_seam(
     max_output_tokens: i64,
     temperature: Option<f64>,
     structure: Option<&J>,
-) -> Result<SeamReply, String> {
+) -> Result<SeamReply, Failure> {
     let executable = find()?;
     let mut command = Command::new(&executable);
     command.arg("call");
@@ -221,10 +254,10 @@ pub fn call_through_seam(
         let unwritten = written.err().map_or(String::new(), |e| {
             format!("; the request could not be written: {e}")
         });
-        Err(format!(
-            "{NAME} gave an answer that cannot be read ({problem}); it ended with {}{unwritten}",
-            output.status
-        ))
+        let status = output.status;
+        Err(Failure::from(format!(
+            "{NAME} gave an answer that cannot be read ({problem}); it ended with {status}{unwritten}"
+        )))
     })?;
     let crossed = [
         ("system_sha256", system),

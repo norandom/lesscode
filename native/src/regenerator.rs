@@ -2482,8 +2482,8 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
     )?;
 
     // failed turns stay in the receipt and are said on the terminal; no retry here
-    let failed = |writer: &mut ReceiptWriter, reason: &str, code: u8| -> Result<u8, RegenError> {
-        eprintln!("{label} failed: {reason}");
+    let failed_saying = |writer: &mut ReceiptWriter, said: &str, reason: &str, code: u8| {
+        eprintln!("{label} failed: {said}");
         writer.add_note(
             &format!("{label}-failed"),
             J::obj(vec![
@@ -2493,7 +2493,10 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
             ]),
             &[],
         )?;
-        Ok(code)
+        Ok::<u8, RegenError>(code)
+    };
+    let failed = |writer: &mut ReceiptWriter, reason: &str, code: u8| {
+        failed_saying(writer, reason, reason, code)
     };
 
     let call = seam::call_through_seam(
@@ -2506,7 +2509,7 @@ fn cmd_run(a: &RegenerateCommand) -> Result<u8, RegenError> {
     );
     let (text, mut meta) = match call {
         Ok(reply) => (reply.text, reply.meta),
-        Err(e) => return failed(&mut writer, &e, EXIT_FAILED_TURN),
+        Err(e) => return failed_saying(&mut writer, &e.to_say(), &e.reason, EXIT_FAILED_TURN),
     };
     let saved = save(&turn_dir, "response.json", &text)?;
     if let J::Obj(pairs) = &mut meta {

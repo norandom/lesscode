@@ -1594,6 +1594,8 @@ fn a_failed_call_ends_the_turn_with_its_reason_on_the_terminal_and_in_the_receip
     assert_eq!(ran.code, Some(3), "{}", ran.err);
     assert!(ran.err.contains("seam failed:"), "{}", ran.err);
     assert!(ran.err.contains("(refused)"), "{}", ran.err);
+    // lesscode-model says the reason; the core does not say it a second time
+    assert_eq!(ran.err.matches(reason).count(), 1, "{}", ran.err);
     let failure = ran.note("seam-failed");
     assert!(failure["reason"].as_str().unwrap().contains(reason));
     assert_eq!(failure["exit"], 3);

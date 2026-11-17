@@ -10,7 +10,7 @@ mod seam_support;
 
 use lesscode_core::jsonval::{j_get, J};
 use lesscode_core::receipt;
-use lesscode_core::seam::{call_through_seam, unfenced, SeamReply};
+use lesscode_core::seam::{call_through_seam, unfenced, Failure, SeamReply};
 use seam_support::{answered, failed, scripted, Script};
 use std::ffi::OsString;
 use std::fs;
@@ -53,7 +53,7 @@ fn call_scripted(
     script: &Script,
     endpoint_file: Option<&Path>,
     temperature: Option<f64>,
-) -> Result<SeamReply, String> {
+) -> Result<SeamReply, Failure> {
     let vars = [
         ("LESSCODE_MODEL_BIN", Some(scripted().into_os_string())),
         (
@@ -129,8 +129,12 @@ fn a_failed_call_gives_the_kind_and_the_reason_of_the_failure() {
     let work = dir("failed");
     let reason = "localhost refused the call (status 403): not allowed";
     let script = Script::new(&work, "failed", &failed("refused", reason), reason, 3);
-    let error = call_scripted(&script, None, None).unwrap_err();
+    let Failure {
+        reason: error,
+        kind,
+    } = call_scripted(&script, None, None).unwrap_err();
 
+    assert_eq!(kind.as_deref(), Some("refused"));
     assert!(error.contains("lesscode-model"), "{error}");
     assert!(error.contains("(refused)"), "{error}");
     assert!(error.contains(reason), "{error}");
@@ -158,7 +162,11 @@ fn an_answer_that_cannot_be_read_is_an_error_that_says_so() {
     ];
     for (name, stdout, exit, says) in cases {
         let script = Script::new(&work, name, &stdout, "", exit);
-        let error = call_scripted(&script, None, None).unwrap_err();
+        let Failure {
+            reason: error,
+            kind,
+        } = call_scripted(&script, None, None).unwrap_err();
+        assert_eq!(kind, None, "{name}: the executable said nothing");
         assert!(error.contains("cannot be read"), "{name}: {error}");
         assert!(error.contains(says), "{name}: {error}");
         assert!(error.contains(&exit.to_string()), "{name}: {error}");
@@ -172,7 +180,11 @@ fn a_missing_executable_says_what_needs_it_and_where_it_was_looked_for() {
     let named = work.join("no-such-lesscode-model");
     let error = with_env(
         &[("LESSCODE_MODEL_BIN", Some(named.clone().into()))],
-        || call_through_seam(None, "s", "u", 64, None, None).unwrap_err(),
+        || {
+            call_through_seam(None, "s", "u", 64, None, None)
+                .unwrap_err()
+                .reason
+        },
     );
     assert!(error.contains("need lesscode-model"), "{error}");
     assert!(error.contains("LESSCODE_MODEL_BIN"), "{error}");
@@ -185,7 +197,9 @@ fn a_missing_executable_says_what_needs_it_and_where_it_was_looked_for() {
         ("PATH", Some(empty.into_os_string())),
     ];
     let error = with_env(&vars, || {
-        call_through_seam(None, "s", "u", 64, None, None).unwrap_err()
+        call_through_seam(None, "s", "u", 64, None, None)
+            .unwrap_err()
+            .reason
     });
     let beside = std::env::current_exe().unwrap();
     let beside = beside.parent().unwrap().display().to_string();
