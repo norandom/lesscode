@@ -215,6 +215,23 @@ fn a_repair_reply_that_was_cut_off_is_asked_again_with_the_same_repair_and_its_r
 }
 
 #[test]
+fn a_refused_reply_ends_the_loop_as_rejected_without_another_call() {
+    let refused = || Ok(reply("I cannot name a colour.", Stop::Refused, 6));
+    for before in [vec![], vec![complete("red")]] {
+        let calls = before.len() + 1;
+        let script = before.into_iter().chain([refused(), complete("blue")]);
+        let run = run(script.collect(), REPAIRS);
+        let Outcome::Rejected { last, attempts } = run.outcome else {
+            panic!("not rejected: {:?}", run.outcome);
+        };
+        assert_eq!(run.sent.len(), calls, "nothing is sent after the refusal");
+        assert_eq!(last.stop, Stop::Refused);
+        assert_eq!(attempts.len(), calls);
+        assert_eq!(run.checked.len(), calls, "the check saw the refusal");
+    }
+}
+
+#[test]
 fn the_caller_states_how_many_repairs_are_allowed() {
     let none = run(vec![complete("red"), complete("blue")], 0);
     assert!(

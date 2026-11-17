@@ -100,8 +100,9 @@ pub fn repair_request(request: &CallRequest, rejected: &str, reasons: &[String])
 /// A first call and, while the check rejects the reply, at most `repairs`
 /// more. A repair is a fresh call that shows the rejected reply and the
 /// reasons; where no reply arrived or it was not complete, the request last
-/// sent goes out again as it was. `Accepted` is made in one place, after a
-/// verdict that passed.
+/// sent goes out again as it was. A reply the model refused to give ends the
+/// loop as rejected, whatever repairs are left. `Accepted` is made in one
+/// place, after a verdict that passed.
 pub fn with_repairs(
     call: &mut dyn FnMut(&CallRequest) -> Result<Reply, CallError>,
     request: &CallRequest,
@@ -126,7 +127,8 @@ pub fn with_repairs(
         if passed {
             return Outcome::Accepted { reply, attempts };
         }
-        if attempts.len() > repairs {
+        // A model that refused the request is not asked again.
+        if attempts.len() > repairs || reply.stop == Stop::Refused {
             return Outcome::Rejected {
                 last: reply,
                 attempts,

@@ -172,7 +172,7 @@ impl Authoring {
 
     /// A first call and, while the pack is rejected, at most `repairs` more,
     /// made by the seam's repair loop. A reply that was cut off or refused is
-    /// rejected unjudged; a call that fails ends the trial.
+    /// rejected unjudged; a refusal or a call that fails ends the trial.
     fn one(&self, phase: &str, guide: &str, language: &str) -> Trial {
         let task = &self.languages[language];
         let request = CallRequest {
@@ -497,23 +497,23 @@ mod trials {
             (calls(&whole), whole["output_tokens"].as_u64()),
             (1, Some(2))
         );
-        for (stop, word, reason) in [
+        // A cut-off reply is asked again as it was, and the tokens of both
+        // calls are counted; a refusal ends the trial at its one call.
+        for (stop, word, reason, made) in [
             (
                 Stop::CutOff,
                 "cut_off",
                 "the reply was cut off before the pack was complete",
+                2,
             ),
-            (Stop::Refused, "refusal", "the request was refused"),
+            (Stop::Refused, "refusal", "the request was refused", 1),
         ] {
             let record = trial(word, stop, 1.0);
             assert_eq!(record["admitted"], false);
             assert_eq!(record["stop_reason"], word);
             assert_eq!(record["feedback"], json!([reason]));
-            // Asked again as it was, and the tokens of both calls counted.
-            assert_eq!(
-                (calls(&record), record["output_tokens"].as_u64()),
-                (2, Some(4))
-            );
+            let tokens = record["output_tokens"].as_u64();
+            assert_eq!((calls(&record), tokens), (made, Some(2 * made as u64)));
         }
     }
 
