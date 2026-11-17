@@ -4,6 +4,13 @@ Written 2026-11-17. Decision: **not-run**. Protocol proposed; execution manifest
 not yet frozen. No model call, specimen test, measurement run or useful result is
 claimed. This is a bounded research checklist, not production tasks or design approval.
 
+Owner approval, 2026-11-17: "approved" after the design/protocol delivery at
+09959f6. Preparation and bounded execution are authorized under this protocol.
+The complete freeze and mandatory controls remain prerequisites; approval does
+not establish results or authorize production implementation. The older approval
+wording below describes the protocol before this owner decision; no repeat approval
+is needed for work that remains within these approved bounds.
+
 Spec: [design](design.md), [requirements](requirements.md), [R115](../../../docs/research/2026-11-17/02-model-simplification-design-gate.md),
 [research index](../../../docs/research/README.md).
 
