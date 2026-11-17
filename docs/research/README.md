@@ -8,7 +8,14 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R116 Frozen specimen runtime prepared; 47 tests collect offline (2026-11-17)
+## Latest: R117 Syntax census runs; observation pins detect alias and error-order changes (2026-11-17)
+
+[R117](2026-11-17/04-model-simplification-census-pins.md): four Rust checks and 26
+unchanged-source pins pass; alias and error-order controls produce expected failures.
+The census remains explicitly not measurable. P0's semantic profile and full freeze
+are incomplete; no model trials or useful-result claims.
+
+## Prior: R116 Frozen specimen runtime prepared; 47 tests collect offline (2026-11-17)
 
 [R116](2026-11-17/03-model-simplification-runtime-preparation.md) records dependency
 installation, pinned runner overlay and offline collection. P0 remains incomplete:

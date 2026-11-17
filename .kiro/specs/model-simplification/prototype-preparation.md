@@ -28,3 +28,12 @@ records the prepared container and 47-test offline collection. Source lock and
 pyproject hashes remain unchanged. P0 is still incomplete: the Rust spike, metric
 profile, observation pins and complete freeze remain outstanding. No task group
 completion or behavioral qualification is claimed.
+
+## Census and initial observation pins
+
+[R117](../../../docs/research/2026-11-17/04-model-simplification-census-pins.md)
+records the research Rust census (four nextest checks), 26 passing proposed pins
+on unchanged source and two detected known-bad controls. Measurements remain
+not measurable: binding/alias resolution and atomic predicates are not implemented.
+Remaining P0 work includes profile qualification, broader observations/controls,
+private Git step integration and the complete manifest. No model calls ran.

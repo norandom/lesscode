@@ -1,0 +1,12 @@
+[package]
+name = "simplicity-spike"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[workspace]
+
+[dependencies]
+lesscode-core = { path = "../../../../native" }
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.154"
