@@ -3,7 +3,14 @@
   "created_at": "2026-11-17T11:41:23+01:00",
   "updated_at": "2026-11-17T19:03:00+01:00",
   "language": "en",
-  "phase": "design-generated",
+  "phase": "superseded",
+  "superseded": {
+    "date": "2026-11-17",
+    "by": "owner",
+    "reason": "measured write sites; the owner meant hidden state machines across files, consolidated with the solver approach",
+    "successor_brief": "../state-consolidation/brief.md",
+    "record": "../../../docs/research/2026-11-17/20-model-simplification-closed.md"
+  },
   "approvals": {
     "requirements": {
       "generated": true,

@@ -1,5 +1,7 @@
 # Requirements: model simplification
 
+> **Superseded on 2026-11-17 by the owner.** This spec measured where a field is written. The owner meant a hidden state machine spread across files, to be consolidated with the solver approach. Kept as a record; do not start work from this file. Start from [state-consolidation/brief.md](../state-consolidation/brief.md) and [R133](../../../docs/research/2026-11-17/20-model-simplification-closed.md).
+
 Generated 2026-11-17 from the [brief](brief.md) and [current-versus-desired analysis](research.md).
 Status: approved by the owner on 2026-11-17 ("approved, produce the tasks").
 No design or production tasks are approved.

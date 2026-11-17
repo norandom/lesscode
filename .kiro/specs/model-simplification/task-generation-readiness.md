@@ -1,5 +1,7 @@
 # Model simplification · release decision and tasks
 
+> **Superseded on 2026-11-17 by the owner.** This spec measured where a field is written. The owner meant a hidden state machine spread across files, to be consolidated with the solver approach. Kept as a record; do not start work from this file. Start from [state-consolidation/brief.md](../state-consolidation/brief.md) and [R133](../../../docs/research/2026-11-17/20-model-simplification-closed.md).
+
 The full-length runtime qualification failed on unrelated input. Reuse that catalogue to qualify a revised runtime before opening another held-out discovery case. [R132 - runtime qualification](../../../docs/research/2026-11-17/19-full-length-inference.md)
 
 **Decision, 2026-11-17.** Keep 2.0.0 for checked refactoring. Defer discovery and simplification of implicit state machines spread across files. The concept and the fitness decision for the current tools are resolved. [Local results and evidence](../../../docs/research/2026-11-17/17-hidden-state-machine-fitness.md)

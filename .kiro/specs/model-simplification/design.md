@@ -1,5 +1,7 @@
 # Design: model simplification
 
+> **Superseded on 2026-11-17 by the owner.** This spec measured where a field is written. The owner meant a hidden state machine spread across files, to be consolidated with the solver approach. Kept as a record; do not start work from this file. Start from [state-consolidation/brief.md](../state-consolidation/brief.md) and [R133](../../../docs/research/2026-11-17/20-model-simplification-closed.md).
+
 Status: **provisional; not approved for production**. Requirements approved
 2026-11-17. The [prototype gate](prototype-gate.md) is not run. This document
 proposes contracts; no listed new command or module exists yet.

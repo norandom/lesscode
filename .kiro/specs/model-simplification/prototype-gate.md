@@ -397,6 +397,8 @@ Berlin deadline; 43/80 starts are consumed. Apparatus including control support 
 1,358/1,400 lines; pins plus synthetic fixtures are 357/600. Full fresh qualification
 remains pending. Earlier failed evidence and phase approval states remain intact.
 
+> **Superseded on 2026-11-17 by the owner.** This spec measured where a field is written. The owner meant a hidden state machine spread across files, to be consolidated with the solver approach. Kept as a record; do not start work from this file. Start from [state-consolidation/brief.md](../state-consolidation/brief.md) and [R133](../../../docs/research/2026-11-17/20-model-simplification-closed.md).
+
 ## 2026-11-17 amendment: P1 qualified
 
 [R125](../../../docs/research/2026-11-17/12-model-simplification-p1-qualified.md)

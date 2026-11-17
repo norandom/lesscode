@@ -1,5 +1,7 @@
 # Brief: model-simplification
 
+> **Superseded on 2026-11-17 by the owner.** This spec measured where a field is written. The owner meant a hidden state machine spread across files, to be consolidated with the solver approach. Kept as a record; do not start work from this file. Start from [state-consolidation/brief.md](../state-consolidation/brief.md) and [R133](../../../docs/research/2026-11-17/20-model-simplification-closed.md).
+
 Written 2026-11-17, 11:28 Europe/Berlin (clock: 10:28 UTC). Discovery only;
 requirements, design, prototype gate and production tasks are not yet approved.
 Language: English, following project steering; spec.json is created at initialization.

@@ -1,8 +1,13 @@
 # Research log
 
-[R132 - Full-length inference qualification](2026-11-17/19-full-length-inference.md) records the connection reset on an unrelated catalogue. The next held-out case remains unused.
+## Latest: R133 The model-simplification spec answered another question than the owner's and is superseded (2026-11-17)
 
-**Current release decision.** Retain the checked-refactoring workflow and defer discovery of hidden state machines spread across files. [R130 · local fitness evidence](2026-11-17/17-hidden-state-machine-fitness.md) · [Active tasks](../../.kiro/specs/model-simplification/task-generation-readiness.md). [R131 � blind worker trial](2026-11-17/18-blind-worker-protocol.md) records the local discovery attempt. R128 remains the latest external simplification trial.
+[R133](2026-11-17/20-model-simplification-closed.md) closes R114 to R132.
+- **What the owner wants:** find a hidden state machine that is spread across files, consolidate it, and use an SMT solver as the check. No proof is required. Brief, not approved: [state-consolidation](../../.kiro/specs/state-consolidation/brief.md).
+- **What the spec did:** it measured where a field is written and scored a model's rewrite by that. On a control pair the measure gave a scattered machine and its consolidated form the same numbers ([R130](2026-11-17/17-hidden-state-machine-fitness.md)).
+- **Kept:** R130's definition of the machine, the control pair with its checker over 31 histories, and the stale-worker fault of the mutation driver as a real specimen.
+- **Not evidence about the question:** [R131](2026-11-17/18-blind-worker-protocol.md) and [R132](2026-11-17/19-full-length-inference.md); a local 8B model's runtime failed on the input length.
+- Releases 1.2.0 and 2.0.0 are published and are not affected.
 
 > **Milestone Synthesis Report:** For the comprehensive cross-subsystem synthesis synthesizing Experiments E1 through E6, breaking the Density Trap, and certifying the dual-specimen maturity gates under COBESY principles, see [`docs/reports/state-boundary-deconvolution-report.md`](../reports/state-boundary-deconvolution-report.md).
 

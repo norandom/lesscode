@@ -1,5 +1,7 @@
 # What exists, what is missing, and how to attribute improvement
 
+> **Superseded on 2026-11-17 by the owner.** This spec measured where a field is written. The owner meant a hidden state machine spread across files, to be consolidated with the solver approach. Kept as a record; do not start work from this file. Start from [state-consolidation/brief.md](../state-consolidation/brief.md) and [R133](../../../docs/research/2026-11-17/20-model-simplification-closed.md).
+
 2026-11-17, 11:41 Europe/Berlin. Static analysis at `e877da216ece0b8eea766d48befc417965865408`.
 Inputs: [brief](brief.md), current source, and the prior research below. Formal
 requirements are not generated or approved. This analysis informs them; it is not

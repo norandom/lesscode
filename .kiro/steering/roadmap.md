@@ -1,12 +1,16 @@
 # Roadmap
 
-## Release decision for model simplification · 2026-11-17
+## Next spec, owner, 2026-11-17: state consolidation
 
-Keep Lesscode 2.0.0 for checked refactoring. **Defer hidden-state-machine discovery and simplification.** The owner means a protocol whose states and transitions a maintainer must reconstruct across files. In a real Lesscode case the released analyzer missed the hand-off between callbacks. The research metric gave identical field-write and dispersion results for an implicit machine and its explicit counterpart. The released guard correctly distinguished all five expected dispositions in Lesscode's own step history. [Fitness results](../../docs/research/2026-11-17/17-hidden-state-machine-fitness.md) · [2.0.0 release](../../docs/releases/2.0.0.md)
+The owner wants to find hidden state machines that are spread across files and to consolidate them,
+building on the solver approach: an SMT solver checks the consolidated machine against the scattered one
+within stated bounds. No proof of equivalence is required or claimed. Brief, not approved:
+[state-consolidation](../specs/state-consolidation/brief.md).
 
-[The blind worker trial](../../docs/research/2026-11-17/18-blind-worker-protocol.md) produced no complete full-subsystem prediction. The evidence that could reopen the feature is a tool-produced transition map for a real Lesscode protocol that correctly predicts an observed failure. Only after discovery works should a proposed rewrite be judged on behavior and practical value. [Decision and tasks](../specs/model-simplification/task-generation-readiness.md)
-
-The earlier external experiment remains stopped. Checkout repair, filter trials and onboarding are parked. [Original protocol and budgets](../specs/model-simplification/prototype-gate.md). Earlier entries below record past priorities.
+The spec `model-simplification` of the same day is superseded: it measured where a field is written,
+which is not what the owner meant ([R133](../../docs/research/2026-11-17/20-model-simplification-closed.md)).
+Releases 1.2.0 and 2.0.0 are published and stay as they are. The onboarding spec follows after this one.
+Earlier entries below record past priorities.
 
 ## Next spec, owner, 2026-11-12: the model seam
 

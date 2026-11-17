@@ -1,123 +1,74 @@
-# Handover · model simplification
+# Handover: start the state-consolidation spec; model-simplification is superseded
 
-Start with the [release roadmap](steering/roadmap.md) and [active tasks](specs/model-simplification/task-generation-readiness.md). The released checker proved useful on Lesscode's own history. Discovery of implicit state machines spread across files is deferred. The [latest handover](task_60_handover.md) links the real examples and control results.
+Reset 2026-11-17, 21:05 Europe/Berlin (from the clock). This file is the start for the next session.
+Earlier versions: this morning's is in Git (`a416598`); older ones are
+[handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
+[handover-archive-2026-11-12.md](handover-archive-2026-11-12.md) and
+[handover-archive-2026-11-11.md](handover-archive-2026-11-11.md).
 
-The following release notes describe the 2026-11-17 morning snapshot, after 1.2.0 and 2.0.0 shipped. Earlier snapshots are archived for [17 November](handover-archive-2026-11-17.md), [12 November](handover-archive-2026-11-12.md) and [11 November](handover-archive-2026-11-11.md).
+## Start here
+
+1. Read [specs/state-consolidation/brief.md](specs/state-consolidation/brief.md). It is one page and
+   states what the owner wants, in the owner's words.
+2. Read [R133](../docs/research/2026-11-17/20-model-simplification-closed.md) for what went wrong
+   today, so it is not repeated.
+3. Ask the owner the four questions at the end of the brief. Then write requirements
+   (`$kiro-spec-init`, `$kiro-spec-requirements`), in the foreground.
+
+Do not start from anything under `specs/model-simplification/`. Those files are a record.
+
+## What the owner wants
+
+Find a hidden state machine that is spread across files (scattered state), then consolidate it into
+one place. Build on the solver approach: an SMT solver checks the consolidated machine against the
+scattered one within stated bounds.
+
+**No proof is needed.** The owner knows that a solver result within bounds is not a proof of
+equivalence and not a minimal solution, and has said so. State that once in a report. Never give it as
+a reason to stop, to defer or to hedge a result.
 
 ## State
 
-- `origin/main` is at `a5df503`. This reset is committed locally and not pushed: it is a documents-only
-  change and goes out with the next code change (owner rule of 2026-11-16).
-- **Release 1.2.0** is published (tag `v1.2.0` at `1c2af6b`, 2026-11-17). Checked from a fresh download:
-  the signature of `SHA256SUMS`, all 12 files against it, and for each of the five archives the embedded
-  signature, the `.sha256` file and the build attestation. Zenodo: `10.5281/zenodo.24304919`.
-- **Release 2.0.0** is published (tag `v2.0.0` at `5f2363b`, 2026-11-17) and is the latest. The same
-  checks pass for its 22 files and ten archives. Zenodo: `10.5281/zenodo.24305214`.
-- The install scripts of 2.0.0 were run once each with `LESSCODE_WITH_MODEL=1`: `install.ps1` on this
-  machine into a directory under `D:\BuildArtifacts`, `install.sh` in an `ubuntu:24.04` container. Both
-  installed `lesscode-core 2.0.0` and `lesscode-model 0.1.0`, and both binaries answer `--version`.
-  The macOS path of `install.sh` was not run.
-- The spec `model-seam` is complete: validation GO, design Amendments 1 to 12.
-- Pipeline: the last run on main (`5f2363b`, run 44055400314) is green on six jobs. The run for
-  `a5df503` was not looked at.
-- No container of this project is running. `mvibe-proxy-proxy-1` is the owner's and runs.
-  `dagger-engine-v0.21.11` is left as it was. No background job is running.
+- Releases 1.2.0 and 2.0.0 are published, signed and checked (2026-11-17); 2.0.0 is the latest. Nothing
+  about them is open. Details: [task_52_handover.md](task_52_handover.md).
+- `origin/main` is at `a5df503`. Local main is ahead by the commits of today (25 before this reset),
+  all documents, experiments and spec files; none changes `native/`, `model/`, `tools/` or `scripts/`.
+  Nothing is pushed. Pushing is the owner's decision.
+- The spec `model-seam` is complete. `model-simplification` is superseded (phase in its `spec.json`).
+- Handovers 53 to 62 belong to `model-simplification`. They are a record and are not needed to continue.
+- Retained evidence of today, outside the repository: `D:\BuildArtifacts\lesscode\fitness60-*`,
+  `fitness61`, `fitness62`.
 
-## Found today, not acted on
+## Useful from today
 
-- **Windows install overwrites license notices.** With `LESSCODE_WITH_MODEL=1`, `install.ps1` unpacks both
-  archives into one directory. `LICENSES.md` and `THIRD_PARTY_NOTICES.txt` have the same names in both,
-  so the second archive's files replace the first's. `install.sh` keeps them apart
-  (`~/.local/share/lesscode-core` and `.../lesscode-model`).
-- **The `step_guard` test has now failed twice.**
-  `the_installed_hook_stops_a_push_without_a_matching_verdict` failed once in a full run on 2026-11-12
-  and once on 2026-11-17, each time passing when run again. Six runs of the five slowest test binaries
-  side by side did not reproduce it. The message was not kept either time.
-- **ARM overruns of 2026-11-16.** In both jobs the check step never ended, the evidence upload that runs
-  on every outcome did not run, and no log exists. That is how a runner that stopped responding looks.
-  It fits memory exhausted by repeated builds of the client library, which no platform but Linux x86_64
-  does any more. Not proven; it has not returned in five runs.
-- `request_kwargs` and `hash_set` in `native/src/regenerator.rs` are called only by a test. A candidate
-  for the simplification work.
-- `CITATION.cff` in the 1.2.0 tag says `date-released: 2026-11-11`; the release is of 2026-11-17.
+- R130's definition of the machine (thing, event, two histories with different outcomes, where the
+  state is stored, where the guard is read, who makes the move).
+- The job machine written twice (scattered, and as one table) with a checker over 31 histories:
+  `D:\BuildArtifacts\lesscode\fitness60-concept`.
+- The stale-worker fault of the mutation driver as a real specimen: source before the fix `60f79f3`,
+  the fix `aa9d7d7`.
+- Earlier solver work to build on: R14 (automata learning on Lesscode's snapshot lifecycle), R24
+  (solver-found inputs), the spec `constraint-guided-compression`, and the untracked experiment
+  directories `docs/experiments/constraint-modeler/` and `docs/experiments/cegis/`.
 
-## For the owner
+## Rules for the next session
 
-1. Design Amendments 3, 5, 6, 7, 8, 10, 11 and 12 of `model-seam` were summarised one line each in the
-   chat on 2026-11-17 and have no answer yet. They are in
-   [specs/model-seam/design.md](specs/model-seam/design.md).
-2. The OpenAI key of 2026-11-12 was called temporary; whether it is revoked is not known here.
-3. Making the `Step guard` job required is a repository setting.
+- Define a term with the owner before building on it. "Scattered state" was read as "where a field is
+  written" for a whole day.
+- When the owner corrects the goal, stop and rewrite the requirements. Do not add the correction as an
+  amendment under requirements that contradict it.
+- One statement per fact. Replace superseded text; history is in Git and in the research entries.
+- Use the configured endpoints through `lesscode-model` for model calls. No small local models.
+- Storage gate before a task group: at least 50 GiB free on D:, at most 40 GiB of lesscode build
+  caches (`AGENTS.md`).
+- Subagents only on the owner's word. PowerShell only; nothing is run in a WSL distribution. No Python
+  tooling. Stage your own files by path. No documents-only pushes. Open items are offered as menus.
 
-## What was decided on 2026-11-16 and 2026-11-17 (owner)
+## Open, small, not part of the next spec
 
-- The build time of the pipeline was not justified: the client library is compiled in the Linux job
-  only; the seam's and the guide optimiser's steps run there and nowhere else.
-- A test that runs longer than five minutes is ended and named.
-- No documents-only pushes; documents go out with the next code change.
-- Open items are offered as menus.
-- `regenerate run` loses `--effort` and `--thinking-display`; a failed call's reason is said once; a
-  refusal ends the repair loop; a reply cut off after a repair is asked again with the repair's reasons.
-- 1.2.0 is tagged at the last commit before the seam, then 2.0.0 on main. This replaces the decision of
-  2026-11-12 to hold the tag until simplicity was shown on a real step.
-- **Slice B is closed** (owner, 2026-11-11, `docs/reports/slice-b-drift-hardening.md`; reopened for cost
-  on 2026-11-12 and closed again with R104). Reports of 2026-11-16 and 2026-11-17 that called its next
-  step open were wrong. One thing is named as unmeasured: drift of one model over time.
-  `lesscode-model measure` could repeat one task set on later days.
-
-## Order of work
-
-1. **The simplification spec.** A model proposes a simplification where branch conditions and state
-   concentrate, the step flow judges it, and the verdict reports simplicity: fewer branch conditions,
-   less scattered state, never lines or tokens removed. Generic through the language packs: fix the
-   Python pack's `state_write` rule (it counts local assignments), let `step plan` rank by branches and
-   state. Real steps on `x_likes_scraper` (`exporter.py` for state, `tools.py` for branching). The model
-   is reached through `lesscode-model`.
-2. **The onboarding spec** (`/lesscode start`, levels 1 to 5, shipped as a plugin). Its decisions are in
-   [handover-archive-2026-11-12.md](handover-archive-2026-11-12.md). Levels 3 and up use
-   `lesscode-model check`.
-
-## Endpoints (files outside the repository; never copy a key anywhere)
-
-| File | Endpoint | Model by default |
-| --- | --- | --- |
-| `D:\Source\lesscode\.env` (git-ignored) | the owner's local endpoint; needs the container `mvibe-proxy-proxy-1` | `zai-glm-5-3`, level "high" |
-| `%USERPROFILE%\.lesscode\mistral.env` | Mistral's API; also serves `zai-glm-5-3` | `mistral-large-latest`, level "high" |
-| `%USERPROFILE%\.lesscode\openai.env` | OpenAI's API, key called temporary | `gpt-6.1-sol`, level "medium" |
-| `%USERPROFILE%\.lesscode\model.env` | Anthropic's API; every call needs the owner's word | `claude-opus-5-5` |
-
-Guide for a user: [docs/model-endpoint.md](../docs/model-endpoint.md).
-
-## Open, without a spec
-
-- 21 test files besides `tests/regenerator.rs` use the temp folder and were not checked for directories
-  they leave behind.
-- An out-of-reach mark is still not shown on a real step.
-- Per-test results in the evidence file for openidea-kiro stay deferred.
-- What model-written packs that differ from the shipped pack do to a gate (R100) matters only if a fifth
-  language is added by a model.
-- The burst of HTTP 400 answers on `mistral-large-latest` through the local endpoint (R98) is unexplained.
-
-## Where things are
-
-- Release checks of today: `D:\BuildArtifacts\lesscode-release-check\` (`v1.2.0`, `v2.0.0`,
-  `install-win`). Disposable.
-- Release notes: `docs/releases/1.2.0.md`, `docs/releases/2.0.0.md`. Signing: `docs/release-signing.md`.
-- The seam's live cases and receipts: `docs/experiments/model-seam/`.
-- Spec audit: `tools\bin\kiro-cli.exe check --feature model-seam`.
-- Pipeline script: `tools/check_native.sh`; the hosted workflow `Native core correctness` is the
-  evidence. Local Dagger runs were killed with exit 137 (WSL has 8 GB; `.wslconfig` is the owner's).
-
-## Rules that caught someone out
-
-- A status carried in memory goes stale. Slice B was reported as open for two days after the roadmap
-  said closed. Read `.kiro/steering/roadmap.md` before naming a status.
-- Check that a release exists before writing "since release X". 1.2.0 was prepared and not tagged for
-  six days, and a version question was asked on the wrong premise.
-- Read the earlier research entries on a topic before proposing a change.
-- No Python. PowerShell only; nothing is run in a WSL distribution.
-- Times in documents come from the clock or the commit.
-- Do not run two jobs against one upstream at once.
-- PowerShell commands that remove something or carry nested quotes go into a `.ps1` file.
-- Before pushing README or guide text, run it through the humanizer skill.
-- Stage your own files by path; the working tree holds many untracked files of other work.
+- `install.ps1` with `LESSCODE_WITH_MODEL=1` puts both archives in one directory; the second archive's
+  license notices overwrite the first's.
+- `step_guard::the_installed_hook_stops_a_push_without_a_matching_verdict` failed once on 2026-11-12
+  and once on 2026-11-17 and passed when run again.
+- The owner has not answered on design Amendments 3, 5, 6, 7, 8, 10, 11 and 12 of `model-seam`.
+- Slice B is closed; drift of one model over time is the one thing named as unmeasured.
