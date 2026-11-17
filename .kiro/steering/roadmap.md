@@ -1,5 +1,16 @@
 # Roadmap
 
+## Current discovery, 2026-11-17: model simplification
+
+The next feature is [model-simplification](../specs/model-simplification/brief.md):
+a model proposes a bounded change through the completed model seam, the existing
+step flow judges behavior, and a separate report measures branches and scattered
+state. Owner decision in discovery: simplicity is reported separately and does not
+add an acceptance condition to the behavior verdict. Discovery brief only;
+requirements, design, prototype and production tasks remain pending. Onboarding
+follows this feature. Slice B remains closed. The earlier entries below retain
+their historical status statements; current release state is in [the handover](../handover.md).
+
 ## Next spec, owner, 2026-11-12: the model seam
 
 Adopters must be able to run GLM or another model behind the tool; the language packs are published once
