@@ -1,0 +1,7 @@
+# Task 61 handover · blind pre-fix worker trial
+
+Group 61 ran the pre-fix discovery experiment in the foreground. The released analyzer returned eleven per-file receipts. The full local-model attempt yielded no real-arm prediction and only a partial classification on the explicit control. A separate, deliberately easier source-excerpt trial completed and predicted an unsupported update to `Planned`. It missed stale tests in a reused worker. Keep cross-file discovery deferred. The historical checked-refactoring workflow stays in 2.0.0. [Results, limitations and replay hashes](../docs/research/2026-11-17/18-blind-worker-protocol.md) · [Active tasks](specs/model-simplification/task-generation-readiness.md)
+
+No behavioral rewrite or production release qualified. If the research is reopened, first qualify full-length inference on an unrelated input. Preserve the historical reference and control, and distinguish interpreting selected excerpts from locating a protocol in a subsystem. MS1 remains stopped.
+
+Storage at entry was 208.12 GiB free on D:. The enumerated footprint was 35.50 GiB, including the entire lesscode directory and its retained evidence, lesscode-release-check, lesscode-cargo-test, mutants-dogfood-density and identifiable lesscode/guide-optimizer/model-seam/toy_check/driver_run paths in the shared Cargo target. This is a broader inventory than group 60's. At close D: had 208.08 GiB free. Retain 743,885 bytes in `D:/BuildArtifacts/lesscode/fitness61/` for replay. The trial created no isolated build target or downloaded weights.

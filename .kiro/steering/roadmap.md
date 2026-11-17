@@ -4,7 +4,7 @@
 
 Keep Lesscode 2.0.0 for checked refactoring. **Defer hidden-state-machine discovery and simplification.** The owner means a protocol whose states and transitions a maintainer must reconstruct across files. In a real Lesscode case the released analyzer missed the hand-off between callbacks. The research metric gave identical field-write and dispersion results for an implicit machine and its explicit counterpart. The released guard correctly distinguished all five expected dispositions in Lesscode's own step history. [Fitness results](../../docs/research/2026-11-17/17-hidden-state-machine-fitness.md) · [2.0.0 release](../../docs/releases/2.0.0.md)
 
-The next piece of evidence that could reopen the feature is a tool-produced transition map for a real Lesscode protocol that correctly predicts an observed failure. Only after discovery works should a proposed rewrite be judged on behavior and practical value. [Decision and tasks](../specs/model-simplification/task-generation-readiness.md)
+[The blind worker trial](../../docs/research/2026-11-17/18-blind-worker-protocol.md) produced no complete full-subsystem prediction. The evidence that could reopen the feature is a tool-produced transition map for a real Lesscode protocol that correctly predicts an observed failure. Only after discovery works should a proposed rewrite be judged on behavior and practical value. [Decision and tasks](../specs/model-simplification/task-generation-readiness.md)
 
 The earlier external experiment remains stopped. Checkout repair, filter trials and onboarding are parked. [Original protocol and budgets](../specs/model-simplification/prototype-gate.md). Earlier entries below record past priorities.
 
