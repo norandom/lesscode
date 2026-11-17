@@ -8,7 +8,15 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R120 P1 baseline refused on cross-declaration scope (2026-11-17)
+## Latest: R121 Revised baseline times out; bounded H-MS1 attempt stops (2026-11-17)
+
+[R121](2026-11-17/08-model-simplification-p1-timeout.md): separate declaration
+histories remove the scope refusal, but the native comparison reaches its
+1,200-second deadline before completing. Base-side evidence is partial; P1 is
+not qualified. Two apparatus versions used, 36/80 outer starts charged, no model
+calls. The group closes as stop with retained evidence and no production approval.
+
+## Prior: R120 P1 baseline refused on cross-declaration scope (2026-11-17)
 
 [R120](2026-11-17/07-model-simplification-p1-declaration-refusal.md): the first
 frozen native check refused before tests because the shared commit changes the

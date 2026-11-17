@@ -1,0 +1,17 @@
+{
+  "schema": "h-ms1-p1-result-receipt-v1",
+  "decision": "stop",
+  "qualification": "incomplete",
+  "result": "D:/BuildArtifacts/lesscode/model-simplification/ms1/p1-v2-final.json",
+  "result_sha256": "323F97D040FE50AA663778672532323DB416C7D8BDDF460DE730C027DF4941BF",
+  "evidence_index": "D:/BuildArtifacts/lesscode/model-simplification/ms1/p1-v2-evidence-index.json",
+  "evidence_index_sha256": "9BF3EE25D4007EB28C3B515FE11CC7C34557B9C168D94689A7A95B3D3CF189D8",
+  "evidence_files": 2850,
+  "revised_freeze": "D:/BuildArtifacts/lesscode/model-simplification/ms1/freeze-2/freeze.json",
+  "revised_freeze_sha256": "3A4B12DCB89D328E0096D50D0F446A0DEE3CA5F476059E187108182FE58ABF62",
+  "charged_starts": 36,
+  "versions_used": 2,
+  "model_calls": 0,
+  "report": "../../research/2026-11-17/08-model-simplification-p1-timeout.md",
+  "production_approved": false
+}

@@ -340,3 +340,20 @@ The proposed correction uses separate case declaration histories, with new refs
 and a reviewed freeze before requalification; it is not executed or qualified.
 Starts are 32/80, calls 0/18. Preparation still ends 14:57 Berlin; the fixed P1
 deadline is 16:16:54.6075613 Berlin. Session gaps and failed checks are not refunded.
+
+## P1 final disposition amendment, 2026-11-17
+
+[R121](../../../docs/research/2026-11-17/08-model-simplification-p1-timeout.md)
+and its [receipt](../../../docs/experiments/model-simplification/p1-result-receipt.json)
+record the permitted second version and its incomplete native baseline.
+Separate declaration histories removed the scope refusal; an additional manual
+checkout was required after cloning the bundles. The native S1 comparison then
+reached its 1,200-second bound before the step-side campaign finished. Base-side
+53/64 fault detection and passing closing baselines do not complete that comparison.
+
+Disposition: **stop** for this bounded attempt. Two versions used, 36/80 outer
+starts charged, 0/18 calls, 0/6 trials attempted. P1-P4 remain unchecked and model
+efficacy untested. Conditional numeric facts are not admitted. No deadline reset,
+third revision, production approval or independent-review claim follows. Preserve
+both freezes, failures and partial evidence; further execution requires a new
+explicit protocol/budget decision.
