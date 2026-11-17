@@ -328,3 +328,15 @@ qualification and the complete adverse-control admission are still required.
 No candidate call or useful-result claim is made. H-MS1 remains **not-run** and
 production eligibility remains false. The preparation extension changes time
 alone; all other approved limits and stop conditions remain in force.
+
+## P1 failure amendment, 2026-11-17
+
+[R120](../../../docs/research/2026-11-17/07-model-simplification-p1-declaration-refusal.md)
+records the first frozen native baseline refusal: the shared declaration commit
+changes the other case's declaration outside scope. No target tests or model calls
+ran. Remaining qualification checks stopped; P1-P4 stay unchecked. Disposition is
+**revise**, not proceed; H-MS1 efficacy remains untested. Freeze-1 remains immutable.
+The proposed correction uses separate case declaration histories, with new refs
+and a reviewed freeze before requalification; it is not executed or qualified.
+Starts are 32/80, calls 0/18. Preparation still ends 14:57 Berlin; the fixed P1
+deadline is 16:16:54.6075613 Berlin. Session gaps and failed checks are not refunded.

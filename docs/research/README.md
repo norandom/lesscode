@@ -8,7 +8,15 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R119 P0 apparatus and evidence frozen; qualification remains pending (2026-11-17)
+## Latest: R120 P1 baseline refused on cross-declaration scope (2026-11-17)
+
+[R120](2026-11-17/07-model-simplification-p1-declaration-refusal.md): the first
+frozen native check refused before tests because the shared commit changes the
+other case's declaration outside scope. Qualification stopped; 32/80 starts are
+charged and no model calls ran. Separate declaration histories and a revised
+freeze are proposed within the unchanged budgets; P1 remains unqualified.
+
+## Prior: R119 P0 apparatus and evidence frozen; qualification remains pending (2026-11-17)
 
 [R119](2026-11-17/06-model-simplification-p0-freeze.md): P0 preparation is complete.
 The verified freeze contains 278 inputs and indexes 5,514 retained evidence files;
