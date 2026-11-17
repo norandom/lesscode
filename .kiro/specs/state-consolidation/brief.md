@@ -58,6 +58,16 @@ explicitly when requirements are written.
 
 ## What can be reused
 
+Checked on 2026-11-17 in [R134](../../../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md).
+Do not build on "the Rust verifier" or on the port `native-deconvolution-closure`: no command reaches
+that code and its equivalence and mutation claims were never run on a specimen.
+
+- Z3 itself: a binary is on this machine (`.runs/e1c-facdrone/extras/bin/z3.exe`) and seven queries of
+  the first week replay with their recorded verdicts.
+- Two regenerated candidates that pass their specimen's tests (E5, and E6 by its record), about 8% to
+  10% smaller in syntax, as real before-and-after pairs of a state-boundary rewrite:
+  `.runs/e2-facdrone/source` against `.runs/e5-state-boundary/cand-e5` and `.runs/e6-report-envelope/cand-e6`.
+
 - The per-file facts the released analyzer already gives: write sites, branch conditions, function
   boundaries, declared gaps (`deconvolute analyze`, four languages).
 - `lesscode-model` for every model call.

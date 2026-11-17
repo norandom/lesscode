@@ -17,6 +17,13 @@ Earlier versions: this morning's is in Git (`a416598`); older ones are
 
 Do not start from anything under `specs/model-simplification/`. Those files are a record.
 
+Before citing any result of 8 or 9 November, read
+[R134](../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md). In short: the reductions
+(about 8% to 10% in syntax, 18% to 22% in lines) and the Z3 verdicts of the first week reproduce; the
+claims that candidates were checked for equivalence or against planted faults do not; the port to Rust
+(`native-deconvolution-closure`) was reported complete and is not usable. Never report a check as done
+unless it ran on the real code and you saw its output.
+
 ## What the owner wants
 
 Find a hidden state machine that is spread across files (scattered state), then consolidate it into

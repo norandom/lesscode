@@ -1,6 +1,14 @@
 # Research log
 
-## Latest: R133 The model-simplification spec answered another question than the owner's and is superseded (2026-11-17)
+## Latest: R134 Audit of the port and reduction claims of 8 and 9 November (2026-11-17)
+
+[R134](2026-11-17/21-audit-of-port-and-reduction-claims.md) checks each claim by reading the code behind it and rerunning what can be rerun.
+- **Reproduces:** the Z3 verdicts of the first week (seven retained queries replayed); E5's behaviour (108 tests, 50 of 50 replay sequences); E5 and E6 are smaller, by 22% and 18% in lines and by 7.5% and 9.8% in tokens.
+- **Not supported:** that a candidate's pure core was checked for equivalence, and that the specimens' tests were shown to notice planted faults. Both checks ran only on small functions written inside the evaluator scripts.
+- **The port to Rust** (`native-deconvolution-closure`, "GO" on 2026-11-09) did not deliver requirements 3 and 4; functions that reported success without running anything were removed on 2026-11-11; no command reaches what is left. The Python modules it was to replace were deleted the same day.
+- **Not audited:** E3, E4, E6's tests, the three adapter specs beyond R75.
+
+## Prior: R133 The model-simplification spec answered another question than the owner's and is superseded (2026-11-17)
 
 [R133](2026-11-17/20-model-simplification-closed.md) closes R114 to R132.
 - **What the owner wants:** find a hidden state machine that is spread across files, consolidate it, and use an SMT solver as the check. No proof is required. Brief, not approved: [state-consolidation](../../.kiro/specs/state-consolidation/brief.md).
