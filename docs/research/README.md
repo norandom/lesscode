@@ -8,7 +8,16 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R127 Boundary newline correction passes controls (2026-11-17)
+## Latest: R128 Checkout preflight stops S2 (2026-11-17)
+
+[R128](2026-11-17/15-model-simplification-checkout-preflight.md): a candidate checkout
+translated three protected pins to CRLF; the controller compared against that
+checkout instead of the freeze. Actual native test-tree pins match, preserving
+earlier qualification evidence, but S2 was interrupted and remains incomplete.
+Its setter proposal is independently NotMeasurable. Four trials remain unattempted
+under the global-stop rule; no useful outcome or production approval.
+
+## Prior: R127 Boundary newline correction passes controls (2026-11-17)
 
 [R127](2026-11-17/14-model-simplification-boundary-correction.md): owner-authorized
 revision four passes nine boundary controls and 21 spike tests. Independent review

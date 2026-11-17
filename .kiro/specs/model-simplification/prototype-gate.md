@@ -227,7 +227,7 @@ request is not recorded as approval of an as-yet-unwritten execution manifest.
 - [ ] **P3, attempt branches.** Run three predeclared trials of B under the same
   shared evaluator/profile. No shared implementation or rules may change between
   P2 and P3. A required change stops this attempt; revise and requalify both cases.
-- [ ] **P4, assess evidence.** Verify artifact bytes/digests, original refs/contents,
+- [x] **P4, assess evidence.** Verify artifact bytes/digests, original refs/contents,
   all outcomes and complete-replacement accounting; obtain independent evidence
   review before a proceed decision. Owner-designated human review is possible;
   agent review requires explicit owner authorization under the foreground rule.
@@ -420,3 +420,15 @@ authorized. Admission requires unchanged original facts and the linked supplemen
 Endpoint trials remain serial. Candidate checker limit remains 1,200 seconds.
 The hash-linked v4 admission supplement restores P1 after exact fresh baseline
 fact matches; earlier invalidated admissions and S1's incomplete outcome remain.
+
+## 2026-11-17 amendment: candidate checkout preflight stops continuation
+
+[R128](../../../docs/research/2026-11-17/15-model-simplification-checkout-preflight.md)
+records the controller's insufficient frozen-byte guard: clone-time CRLF conversion
+affected three candidate-worktree pins. Actual native base/step pins and earlier
+qualification pins match the freeze; no runtime test mutation is established.
+S2 was stopped and ended incomplete/not_judged. Its U increase independently makes
+the setter extraction NotMeasurable. S3/B1/B2/B3 remain not attempted by global stop.
+Counters are 48/80 starts and 2/18 calls, with zero accepted/useful outcomes.
+P1's native/correction evidence remains valid; P4 independent review assesses the
+stop, not proceed. P2/P3 remain incomplete and production eligibility remains false.

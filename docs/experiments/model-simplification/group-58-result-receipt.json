@@ -1,0 +1,10 @@
+{
+  "artifact": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\group-58-result.json",
+  "sha256": "D61959CD2BBBDE8D3ABF2897CDB21201F530C5A093656FADC021A90F2A9FA587",
+  "evidence_index": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\group-58-evidence-index.json",
+  "evidence_index_sha256": "29631F31ED30575B9F2F2237075441520795D55994B1AECEC6149B0452E590F2",
+  "evidence_files": 2929,
+  "decision": "stop",
+  "outer_starts": 48,
+  "model_calls": 2
+}
