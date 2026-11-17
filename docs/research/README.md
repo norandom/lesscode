@@ -8,7 +8,17 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R113 The model seam is released in form and validated: both binaries for five targets, six of six first cases through them, the pipeline green after its duplicate builds were cut (2026-11-16)
+## Latest: R114 Existing checks can support simplification; measurement and attribution still need qualification (2026-11-17)
+
+[R114](2026-11-17/01-model-simplification-measurement-attribution.md) records initialization of
+[model-simplification](../../.kiro/specs/model-simplification/requirements.md) and its
+[current-versus-desired analysis](../../.kiro/specs/model-simplification/research.md).
+- **Found in source:** reusable execution and checking components; missing branch/state simplicity reporting and state-target identities. Current size gates and model acceptance are not simplicity measures.
+- **Owner decision:** report simplicity separately, preserving the behavior verdict.
+- **Proposed:** compare original and candidate under one evaluator; separate measurement corrections, pins, model contribution, repairs, selection and adoption.
+- **Not run:** no new measurements, tests or model trials. Requirements and a bounded real-code prototype gate remain pending.
+
+## Prior: R113 The model seam is released in form and validated: both binaries for five targets, six of six first cases through them, the pipeline green after its duplicate builds were cut (2026-11-16)
 
 [R113](2026-11-16/02-model-seam-release-and-final-validation.md) is the check of group 8 (tasks 8.1 to 8.4) of `model-seam`; the [validation report](../../.kiro/specs/model-seam/validation-report.md) says GO.
 - **Release:** a dry run of the release workflow produces `lesscode-core` and `lesscode-model` for the five targets, each with its license inventory; nothing was signed or published.

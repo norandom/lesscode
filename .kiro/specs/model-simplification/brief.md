@@ -157,6 +157,16 @@ The installer notice collision and intermittent guard test are separate follow-u
 - [R113: seam validation](../../../docs/research/2026-11-16/02-model-seam-release-and-final-validation.md).
 - [Prototype-first policy](../../steering/prototype-first.md).
 
-This is a discovery brief, not a new experimental result. Next: initialize this
-spec, write requirements for review, then a provisional design and bounded real-code
-prototype gate. Production task generation waits for the gate and phase approvals.
+This is a discovery brief, not a new experimental result. The discovery sequence
+was initialization, requirements review, then provisional design and a bounded
+real-code prototype gate. Production task generation waits for the gate and phase approvals.
+
+## Initialization update, 2026-11-17
+
+The owner requested initialization with an analysis of existing capabilities and
+attributable measurable improvements. [spec.json](spec.json) now records phase
+`initialized`; [requirements.md](requirements.md) contains the project description,
+with acceptance criteria still pending. [research.md](research.md) compares current
+assets with desired measures and proposes attribution controls. The dated record is
+[R114](../../../docs/research/2026-11-17/01-model-simplification-measurement-attribution.md).
+No experiment ran and no later phase was approved. Next: generate requirements for review.
