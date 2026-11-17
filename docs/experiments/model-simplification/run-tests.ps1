@@ -38,7 +38,9 @@ try {
         --rootdir /case -o pythonpath=/case @tests 2>&1 |
         Tee-Object -FilePath "$runRoot\pytest.log"
     $result = $LASTEXITCODE
+    if ($result -in @(125, 126, 127)) { [Console]::Error.WriteLine('MS1_INFRA_FAILURE') }
 } catch {
+    [Console]::Error.WriteLine('MS1_INFRA_FAILURE')
     Write-Error $_ -ErrorAction Continue
 } finally {
     if ($created) { & podman rm --force $container | Out-Null }

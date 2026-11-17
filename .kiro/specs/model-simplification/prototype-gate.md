@@ -381,3 +381,12 @@ does not waive this correctness gate. The proposed runner/error-pattern correcti
 requires a new explicit harness-revision decision because option 1 kept checks
 unchanged. No frozen code was patched, no third apparatus version executed and no
 production or independent-review approval is implied.
+
+## 2026-11-17 amendment: approved classification correction verified
+
+[R124](../../../docs/research/2026-11-17/11-model-simplification-classification-correction.md)
+records owner approval and five passing controls for frozen revision 3. Correction
+controls completed within the original 15-minute bound. P1 retains its 18:25:47.6266045
+Berlin deadline; 43/80 starts are consumed. Apparatus including control support is
+1,358/1,400 lines; pins plus synthetic fixtures are 357/600. Full fresh qualification
+remains pending. Earlier failed evidence and phase approval states remain intact.

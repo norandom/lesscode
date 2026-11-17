@@ -1,0 +1,52 @@
+{
+  "added_support_lines": 12,
+  "checks": [
+    {
+      "exit_code": 125,
+      "finished_at": "2026-11-17T16:27:06.3809558+01:00",
+      "id": "exec-125",
+      "class": "error",
+      "sha256": "27B7A6229D5FFAC00471CCBC8BCC116271E7A836FCC81B7141E304798DD842AB",
+      "incomplete": true
+    },
+    {
+      "exit_code": 126,
+      "finished_at": "2026-11-17T16:27:09.7637795+01:00",
+      "id": "exec-126",
+      "class": "error",
+      "sha256": "B66CFE8D015EAC0382E9C93CC052CC60EA37C29952FC099B26BF5EA5C494B7FF",
+      "incomplete": true
+    },
+    {
+      "exit_code": 127,
+      "finished_at": "2026-11-17T16:27:11.8747894+01:00",
+      "id": "exec-127",
+      "class": "error",
+      "sha256": "2D72CAB1081874F5BA259B364AF81D729736036D26B29F5D58F57F381650489F",
+      "incomplete": true
+    },
+    {
+      "exit_code": 125,
+      "finished_at": "2026-11-17T16:27:14.3334653+01:00",
+      "id": "setup-125",
+      "class": "error",
+      "sha256": "93E59C8ED15C80AAE798EC7926B4098BCD2D140850B92E981865CFD99492621B",
+      "incomplete": true
+    },
+    {
+      "exit_code": 1,
+      "finished_at": "2026-11-17T16:29:01.8511462+01:00",
+      "id": "real-assertion",
+      "class": "killed",
+      "sha256": "C4078B07C9A5C68CEDA1C4AC6D69CD28B40FC73A3075A5A6638A4ACFD6FEA581",
+      "incomplete": false
+    }
+  ],
+  "recorded_at": "2026-11-17T16:32:18.0765170+01:00",
+  "status": "controls passed",
+  "fixture_lines_with_structural_controls": 357,
+  "freeze_sha256": "EB22F3EB9AA93DAD8721DE7D62DE34C1E3CDC8307A261D4DCA3530C6518F85BA",
+  "model_calls": 0,
+  "apparatus_lines_with_control_support": 1358,
+  "checker_starts": 43
+}
