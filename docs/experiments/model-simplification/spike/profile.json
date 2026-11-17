@@ -1,5 +1,5 @@
 {
-  "version": "syntax-census-draft-3",
+  "version": "bounded-profile-prequalification-1",
   "language": "python",
   "owners": ["class_definition", "function_definition", "lambda"],
   "branches": ["if_statement", "elif_clause", "conditional_expression", "while_statement", "for_statement", "for_in_clause", "if_clause", "assert_statement"],
@@ -7,6 +7,13 @@
   "handlers": ["except_clause"],
   "effects": ["assignment", "augmented_assignment", "call", "delete_statement", "global_statement", "nonlocal_statement", "yield", "await"],
   "unsupported": ["match_statement", "exec_statement"],
+  "relations": {
+    "attribute": "attribute", "object_field": "object", "member_field": "attribute",
+    "receiver": "self", "class": "class_definition",
+    "function": "function_definition", "parameters_field": "parameters",
+    "call": "call", "callee_field": "function",
+    "mutators": [{"class_name": "XLikesExporter", "target": "self.tweets", "method": "extend", "contract": "S1: exact builtin list.extend on a plain XLikesExporter instance; no descriptor/rebound receiver; aliases and partial effects observed by frozen pins"}]
+  },
   "bindings": {
     "assignments": ["assignment"],
     "identifier": "identifier",

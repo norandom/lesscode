@@ -1,0 +1,49 @@
+{
+  "repository": "D:/BuildArtifacts/lesscode/model-simplification/ms1/judged",
+  "revision": "a8a3af6e65e521b2dc80dcbe2ab38266890cd81d",
+  "controls": [
+    {
+      "expected_exit": 0,
+      "id": "baseline-one"
+    },
+    {
+      "expected_exit": 0,
+      "id": "baseline-two"
+    },
+    {
+      "file": "x_likes_exporter/exporter.py",
+      "after": "self.tweets = self.tweets + unique_new",
+      "id": "alias-allocation",
+      "before": "self.tweets.extend(unique_new)",
+      "expected_exit": 1
+    },
+    {
+      "file": "x_likes_exporter/exporter.py",
+      "after": "new_tweets_batch",
+      "id": "callback-state",
+      "before": "self.tweets + new_tweets_batch",
+      "expected_exit": 1
+    },
+    {
+      "file": "x_likes_mcp/tools.py",
+      "after": "year invalid",
+      "id": "wrong-reason",
+      "before": "year must be an integer",
+      "expected_exit": 1
+    },
+    {
+      "file": "x_likes_mcp/tools.py",
+      "after": "    _validate_month_field(\"month_start\", month_start)\n    _validate_year(year)",
+      "id": "precedence",
+      "before": "    _validate_year(year)\n    _validate_month_field(\"month_start\", month_start)",
+      "expected_exit": 1
+    },
+    {
+      "file": "x_likes_mcp/tools.py",
+      "id": "wrong-return",
+      "after": "    _validate_filter_dependencies(year, month_start, month_end)\n    return 1",
+      "expected_exit": 1,
+      "before": "    _validate_filter_dependencies(year, month_start, month_end)"
+    }
+  ]
+}

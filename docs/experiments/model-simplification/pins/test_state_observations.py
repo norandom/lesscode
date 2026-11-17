@@ -1,4 +1,5 @@
 """Proposed specimen pins; admission requires unchanged-source and adverse runs."""
+
 from types import SimpleNamespace
 
 import pytest
@@ -45,7 +46,7 @@ def harness(resumed, fresh, fail_at=None):
     return exporter, events
 
 
-def test_resume_alias_and_callback_order():
+def test_resume_alias_and_callback_order(capsys):
     old = [tweet("1")]
     fresh = [tweet("1"), tweet("2"), tweet("2")]
     exporter, events = harness(old, fresh)
@@ -59,6 +60,12 @@ def test_resume_alias_and_callback_order():
     assert [t.id for t in events[1][2]] == ["1", "1", "2", "2"]
     assert [e[0] for e in events] == ["fetch", "save", "clear", "download"]
     assert events[-1][1] is result
+    assert capsys.readouterr().out == (
+        "✓ Resuming from checkpoint: 1 tweets already fetched\n"
+        "  Starting from cursor: saved...\n"
+        "✓ Added 2 new tweets (total: 3)\n"
+        "\nDownloading media from 3 tweets...\n\nDownloaded 0 media files\n"
+    )
 
 
 @pytest.mark.parametrize("failure", ["save", "fetch", "download"])

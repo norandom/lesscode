@@ -1,0 +1,20 @@
+{
+  "repository": "D:/BuildArtifacts/lesscode/model-simplification/ms1/judged",
+  "revision": "50ca5efe766404e5556bb26154d6747214651e34",
+  "controls": [
+    {
+      "file": "x_likes_mcp/tools.py",
+      "after": "    _validate_month_field(\"month_start\", month_start)\n    _validate_year(year)",
+      "id": "precedence",
+      "before": "    _validate_year(year)\n    _validate_month_field(\"month_start\", month_start)",
+      "expected_exit": 1
+    },
+    {
+      "file": "x_likes_mcp/tools.py",
+      "id": "wrong-return",
+      "after": "    _validate_filter_dependencies(year, month_start, month_end)\n    return 1",
+      "expected_exit": 1,
+      "before": "    _validate_filter_dependencies(year, month_start, month_end)"
+    }
+  ]
+}

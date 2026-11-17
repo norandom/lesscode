@@ -24,8 +24,8 @@ pub struct Rules {
 
 #[derive(Serialize, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Predicate {
-    start: usize,
-    end: usize,
+    pub start: usize,
+    pub end: usize,
     role: String,
     ordinal: usize,
 }

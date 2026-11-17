@@ -45,3 +45,23 @@ records twelve passing nextest checks, lexical owner identities, predicate work 
 conservative L/W/U observations. Aliases and dispersion remain unresolved; real
 reports still say not measurable. Apparatus is 542 cumulative maintained lines.
 P0 remains open; no candidate calls or production task completion are claimed.
+
+## P0 completion amendment, 2026-11-17
+
+[R119](../../../docs/research/2026-11-17/06-model-simplification-p0-freeze.md)
+closes preparation and input freezing. The owner added 60 minutes, giving 120 total
+and a 14:57 Europe/Berlin preparation deadline. No other cap changed.
+
+The [receipt](../../../docs/experiments/model-simplification/freeze-receipt.json)
+identifies the verified `ms1/freeze-1` manifest: 278 inputs and 5,514 indexed evidence
+files. Apparatus is 1,344 canonical maintained lines and pins are 336 lines.
+Final nextest: 21 passed. The sealed, offline, unprivileged container passes all
+96 selected tests twice and rejects five injected behavioral faults. Boundary,
+integrity and stub lifecycle controls have retained evidence. Earlier failed
+preparation attempts remain recorded; their effort is not refunded.
+
+P0 is complete; P1 is pending. The structural facts remain conditional on explicit
+contracts, not admitted measurement evidence. P1 must run the four frozen native
+step baselines, complete control qualification and retain numeric ceilings before
+any live call. No model endpoint was called. Design/tasks/production approval and
+the overall solution-unlock result remain unchanged and pending.

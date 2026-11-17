@@ -8,5 +8,6 @@ publish = false
 
 [dependencies]
 lesscode-core = { path = "../../../../native" }
+lesscode-model = { path = "../../../../model" }
 serde = { version = "=1.0.229", features = ["derive"] }
 serde_json = "=1.0.154"

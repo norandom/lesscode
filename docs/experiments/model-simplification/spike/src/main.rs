@@ -6,8 +6,12 @@ use lesscode_core::specimen_runner::sha256_hex_bytes;
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, fs};
 mod bindings;
+mod boundary;
 mod identity;
+mod lifecycle;
 mod predicates;
+mod relations;
+mod session;
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -22,6 +26,7 @@ struct Profile {
     unsupported: Vec<String>,
     predicates: predicates::Rules,
     bindings: bindings::Rules,
+    relations: relations::Rules,
 }
 
 #[derive(Serialize, Debug, PartialEq)]
@@ -71,6 +76,10 @@ fn census(source: &str, profile: &Profile) -> Result<Vec<Fact>, String> {
             &profile.bindings.identifier,
             &profile.bindings.global_declaration,
             &profile.bindings.nonlocal_declaration,
+            &profile.relations.attribute,
+            &profile.relations.class,
+            &profile.relations.function,
+            &profile.relations.call,
         ]);
     for kind in extra {
         if !kind_is_valid(lang, kind) {
@@ -108,6 +117,24 @@ fn census(source: &str, profile: &Profile) -> Result<Vec<Fact>, String> {
 
 fn run() -> Result<(), String> {
     let args: Vec<_> = std::env::args().skip(1).collect();
+    if args.first().is_some_and(|arg| arg == "drive") {
+        return session::drive(&args[1..]);
+    }
+    if args.first().is_some_and(|arg| arg == "boundary") {
+        return boundary::check(&args[1..]);
+    }
+    if args.len() == 3 && args[0] == "validate-step" {
+        let context =
+            lesscode_core::step::context::Context::open(std::path::Path::new(&args[1]), &args[2])?;
+        println!(
+            "{}",
+            serde_json::json!({
+                "base": context.revisions.base, "step": context.revisions.step,
+                "hashes": context.hashes_of(&context.step_tree)
+            })
+        );
+        return Ok(());
+    }
     if args.len() != 2 {
         return Err("usage: simplicity-spike PROFILE SOURCE".into());
     }
@@ -118,7 +145,8 @@ fn run() -> Result<(), String> {
     let facts = census(source, &profile)?;
     let tree = parse(source, grammar(&profile.language)?)?;
     let predicates = predicates::measure(&tree.root(), &profile)?;
-    let bindings = bindings::classify(&tree.root(), &profile);
+    let mut bindings = bindings::classify(&tree.root(), &profile);
+    let relations = relations::measure(&tree.root(), &profile, &mut bindings);
     let mut counts = BTreeMap::<&str, usize>::new();
     for fact in &facts {
         *counts.entry(&fact.role).or_default() += 1;
@@ -130,14 +158,53 @@ fn run() -> Result<(), String> {
         "source_path": args[1], "counts": counts, "facts": facts,
         "predicate_count": predicates.len(), "predicates": predicates,
         "bindings": bindings,
-        "simplicity_status": "not_measurable",
-        "limits": ["Draft structural profile, not admitted for comparisons", "Attribute/subscript aliases and nonlocal bindings unresolved; declaration renames/reordering need explicit correspondence", "Predicate extraction does not resolve opaque calls or implicit iteration decisions", "Binding facts do not establish target dispersion or complete effect coverage"]
+        "conditional_write_relations": relations,
+        "owner_totals": totals(&tree.root(), &profile, &facts, &predicates, &bindings),
+        "simplicity_status": "facts_only_qualification_pending",
+        "limits": ["No useful/comparable verdict is implied by raw totals", "Field/mutation W facts require the frozen plain-instance and list contracts", "Aliases, nonlocal bindings and opaque calls remain U; unsupported or newly relevant U prevents improvement", "Iteration contributes B; hidden predicate work and renamed/reordered declarations require explicit correspondence or NotMeasurable"]
     });
     println!(
         "{}",
         serde_json::to_string_pretty(&report).map_err(|e| e.to_string())?
     );
     Ok(())
+}
+
+fn totals(
+    root: &SgNode<'_>,
+    profile: &Profile,
+    facts: &[Fact],
+    predicates: &[predicates::Predicate],
+    bindings: &[bindings::Binding],
+) -> BTreeMap<String, BTreeMap<String, usize>> {
+    let mut out = BTreeMap::<String, BTreeMap<String, usize>>::new();
+    let mut add = |owner: &str, role: &str| {
+        *out.entry(owner.into())
+            .or_default()
+            .entry(role.into())
+            .or_default() += 1;
+    };
+    for fact in facts {
+        match fact.role.as_str() {
+            "branch_site" => add(&fact.owner, "B"),
+            "exception_handler" => add(&fact.owner, "E"),
+            "unsupported" => add(&fact.owner, "unsupported"),
+            _ => {}
+        }
+    }
+    let owners = identity::index(root, profile);
+    let nodes = walk(root);
+    for predicate in predicates {
+        let node = nodes
+            .iter()
+            .find(|n| n.range().start == predicate.start && n.range().end == predicate.end)
+            .expect("predicate span emitted from this tree");
+        add(&identity::nearest(node, &owners), "P");
+    }
+    for binding in bindings {
+        add(&binding.owner, &binding.class);
+    }
+    out
 }
 
 fn main() {

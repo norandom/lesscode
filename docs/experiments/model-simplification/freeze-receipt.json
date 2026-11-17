@@ -1,0 +1,29 @@
+{
+  "schema": "h-ms1-p0-receipt-v1",
+  "status": "P0-complete-P1-pending",
+  "manifest": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\freeze-1\\freeze.json",
+  "sha256": "196BA0BA948224DD370BEDD98153C1C14B58239DEE8936766A0527052E524CDC",
+  "frozen_inputs": 278,
+  "retained_evidence_files": 5514,
+  "completion_supplement": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\p0-completion\\verification.json",
+  "completion_supplement_sha256": "71F733C5DB8E8E980794E9D699B735F986FFA183B132B08A8B146ABCDD068039",
+  "apparatus_lines": 1344,
+  "apparatus_cap": 1400,
+  "pin_lines": 336,
+  "pin_cap": 600,
+  "preparation_minutes": 120,
+  "preparation_deadline": "2026-11-17T14:57:00+01:00",
+  "checker_starts_charged": 31,
+  "checker_cap": 80,
+  "model_calls": 0,
+  "validation": {
+    "nextest_passed": 21,
+    "sealed_baseline_passed": [
+      96,
+      96
+    ],
+    "injected_faults_rejected": 5
+  },
+  "report": "../../research/2026-11-17/06-model-simplification-p0-freeze.md",
+  "production_approved": false
+}

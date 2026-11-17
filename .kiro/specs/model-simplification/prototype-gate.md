@@ -252,11 +252,17 @@ prevents a scheduled trial, retain it as not attempted with the reason.
   Freeze the existing seam waiting/retry settings. Count provider requests, returned
   tokens, timeouts and charges when available; do not mistake an output ceiling for
   actual usage or an overall input-token/cost cap. No parallel endpoint trials.
-- Setup/preparation execution: at most 60 minutes; qualification: at most 90 minutes;
+- Setup/preparation execution: at most 120 minutes; qualification: at most 90 minutes;
   candidate experiment: at most four hours, with 20 minutes per checker invocation.
   At most 80 checker invocations in total, including original/control/pin/candidate
   invocations; record spent checks before starting more. These are operational limits,
   not performance benchmarks. Timeout is incomplete evidence, never a killed fault.
+
+Owner amendment, 2026-11-17: explicitly selected "Add 60 minutes (recommended)"
+during P0. Preparation increases from 60 to 120 minutes total. The recorded
+12:57 Europe/Berlin start therefore gives a 14:57 deadline, including session gaps.
+No consumed effort is refunded. Apparatus/pin caps, version limits, qualification
+time, checker limits and all model-call limits remain unchanged.
 - Stop immediately on original-tree mutation, frozen-input mismatch, escaping scope,
   unavailable required observation, budget exhaustion or an unqualified mandatory
   control. Stop the affected trial on refusal, terminal call/judge failure or accepted
@@ -301,9 +307,24 @@ The 1,400-line/two-version effort bound and independent evidence review are reta
   result remains plausible without expanding the mechanism or lowering targets.
 - **not-run**: no qualifying execution evidence. This is the current decision.
 
-## Current missing evidence
+## Missing evidence at protocol authoring
 
 No spike, runtime overlay/container digest, executable observation pins, complete
 freeze manifest, admitted measurement companion, controls, candidate or behavioral
 result exists for H-MS1 yet. P0 makes those prerequisites concrete. No production
 task list or empirical success follows from this protocol document.
+
+## P0 completion amendment, 2026-11-17
+
+[R119](../../../docs/research/2026-11-17/06-model-simplification-p0-freeze.md)
+and the [freeze receipt](../../../docs/experiments/model-simplification/freeze-receipt.json)
+supersede the preparation status above. P0 is complete: the apparatus, observation
+pins, runtime, private declarations, exact requests/commands and evidence inventory
+are frozen and verified. The actual specimen class is `XLikesExporter`; the
+earlier `TweetExporter` wording refers to that same retained-state responsibility.
+
+P1-P4 remain unchecked. Raw facts are conditional, and native step baseline
+qualification and the complete adverse-control admission are still required.
+No candidate call or useful-result claim is made. H-MS1 remains **not-run** and
+production eligibility remains false. The preparation extension changes time
+alone; all other approved limits and stop conditions remain in force.
