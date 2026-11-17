@@ -216,7 +216,7 @@ request is not recorded as approval of an as-yet-unwritten execution manifest.
 
 ## P1-P4: bounded execution after the freeze
 
-- [x] **P1, qualify the instrument and baseline.** Run both originals twice under
+- [ ] **P1, qualify the instrument and baseline.** Run both originals twice under
   the frozen observations, require matching normalized outcomes and usable step
   baselines. Run all measurement, behavioral and lifecycle controls. Record old/new
   measurement and pin effects separately. Retain numeric baselines and derived
@@ -399,3 +399,12 @@ accepted checks, matching per-mutation outcomes and 32 passing closing baselines
 47/80 starts are charged; model calls remain zero. The numeric ceilings and
 bounded effect contracts are admitted before proposals. P2–P4 and production
 approval remain pending. Earlier failed qualification evidence is preserved.
+
+## 2026-11-17 amendment: boundary newline control invalidates full admission
+
+[R126](../../../docs/research/2026-11-17/13-model-simplification-boundary-newlines.md)
+retains the four successful native checks but supersedes full P1 admission:
+raw CRLF/LF header comparison falsely rejects the original after newline-only
+conversion. S1 ended incomplete after one call; five trials remain unattempted.
+The one-line patch is prepared, not applied. A fourth version exceeds the current
+three-version authorization. All original deadlines/counters remain in force.

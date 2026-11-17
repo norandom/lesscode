@@ -1,0 +1,10 @@
+{
+  "provider_calls": 1,
+  "outer_starts": 47,
+  "evidence_index": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\candidate-stop-evidence-index.json",
+  "artifact": "D:\\BuildArtifacts\\lesscode\\model-simplification\\ms1\\candidate-stop-result.json",
+  "sha256": "DDD7A39A49C6D3695E54762138E88CB3F4E03E0549A1A27FA1CA2D69530291DE",
+  "status": "STOP_BOUNDARY_CONTROL_FAILED",
+  "evidence_index_sha256": "6F5D5B5FE62CC75B1014B7D5DB56D177D524A8E08C64CF19D771163E0ED8C87C",
+  "evidence_files": 25
+}
