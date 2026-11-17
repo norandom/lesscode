@@ -1,9 +1,9 @@
 {
   "feature_name": "native-deconvolution-closure",
   "created_at": "2026-11-09T13:00:00+01:00",
-  "updated_at": "2026-11-09T17:32:00+01:00",
+  "updated_at": "2026-11-17T21:55:00+01:00",
   "language": "en",
-  "phase": "completed",
+  "phase": "not-delivered",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -18,11 +18,22 @@
       "approved": true
     }
   },
-  "ready_for_implementation": true,
+  "ready_for_implementation": false,
   "review_amendment": "2026-11-09 revision preserved in review-amendment.md; R49 prototype gate passed with PROCEED disposition; owner authorized proceeding with generated design.",
   "requirements_approval_basis": "Owner 2026-11-09: Ok, based on the revisions can you generate the designs (aligned)?",
   "design_approval_basis": "Owner 2026-11-09: proceed with the generated design of native-deconvolution-closure; R49 prototype gate certified PROCEED.",
   "design_status": "approved",
   "prototype_status": "proceed",
-  "validation_disposition": "GO"
+  "validation_disposition": "NO-GO (audit of 2026-11-17; the GO of 2026-11-09 is withdrawn)",
+  "audit": {
+    "date": "2026-11-17",
+    "record": "../../../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md",
+    "requirement_1": "not usable: state_frame.rs compares two maps handed in by the caller; nothing observes a running program; no command reaches it",
+    "requirement_2": "not delivered as specified: density.rs no longer exists; state_contract.rs has no caller and no test",
+    "requirement_3": "not delivered: 3.2 asks to execute baseline and candidate with their language runtime; pure_verifier.rs compares two closures; a function that returned Verified without comparing was removed in 8e0e2b9 on 2026-11-11",
+    "requirement_4": "not delivered: the mutant generator reported every control as killed until 8e0e2b9; what is left takes an evaluator from the caller; no command reaches it or stream_monitor.rs",
+    "requirement_5": "partly in use: hashing and workspace helpers of specimen_runner.rs are used by the driver and the step flow; 5.1 to 5.5 were not checked",
+    "requirement_6": "not usable: token_guard.rs has tests and no caller",
+    "history": "all seven tasks were committed between 17:13 and 17:33 on 2026-11-09; the gate script compared two identical functions written inside the script"
+  }
 }

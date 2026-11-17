@@ -1,5 +1,7 @@
 # Implementation Tasks: Native Deconvolution Closure
 
+> **Audit of 2026-11-17 ([R134](../../../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md)):** the ticks below record what was reported on 2026-11-09, not what works. See `spec.json` for the finding per requirement.
+
 Status: **approved for foreground implementation**, 2026-11-09.
 Governed by [prototype-first](../../steering/prototype-first.md), [R49](../../../docs/research/2026-11-09/07-native-closure-prototype-gate.md), and [adapter-contract.md](adapter-contract.md).
 Owner rules in effect: foreground TDD execution only (no subagents), Windows PowerShell only, one commit per completed task on `main`, R41 line ceiling $\le 7,173$, and the 4 preserved owner WIP files remain strictly untouched.

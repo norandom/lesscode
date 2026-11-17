@@ -1,5 +1,7 @@
 # State-Boundary Deconvolution: Dual-Specimen Replication and Generalization Report
 
+> **Read with the audit of 2026-11-17 ([R134](../research/2026-11-17/21-audit-of-port-and-reduction-claims.md)).** The size and behaviour results reproduce, at about 8% to 10% less syntax (18% to 22% fewer lines). The statements on bounded equivalence, on "Bounded SMT", and on adverse mutants killed are not supported: those checks never ran on the rewritten code, and the verifier contains no SMT solver.
+
 Written 2026-11-09, Europe/Berlin (UTC+1), following the qualification and adoption of Experiments E5 and E6 under the `state-boundary-deconvolution` specification.
 
 - **Project:** Lesscode — empirical research on automated code deconvolution, structural consolidation, and whole-responsibility compression without semantic divergence.

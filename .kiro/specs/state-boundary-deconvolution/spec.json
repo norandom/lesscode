@@ -1,10 +1,19 @@
 {
   "feature_name": "state-boundary-deconvolution",
   "created_at": "2026-11-08T17:26:00Z",
-  "updated_at": "2026-11-09T12:36:00Z",
+  "updated_at": "2026-11-17T20:55:00Z",
   "language": "en",
-  "phase": "completed",
-  "validation_disposition": "GO",
+  "phase": "results-partly-unsupported",
+  "audit": {
+    "date": "2026-11-17",
+    "record": "../../../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md",
+    "reproduces": "E5 candidate passes 108 tests and 50 of 50 replay sequences (rerun 2026-11-17); E5 is 22.3% smaller in lines and 7.5% in tokens, E6 18.4% in lines and 9.8% in tokens (lesscode-core 2.0.0, deconvolute density); no candidate adds a helper file",
+    "not_supported": "bounded pure-core equivalence (0 counterexamples) and adverse mutant kills (4 of 4, 100%) for E5 and E6: both checks ran only on small functions written inside the evaluator scripts, never on a candidate",
+    "wrong_name": "the verifier called Bounded SMT enumerates listed values and contains no SMT solver",
+    "implementation": "src/lesscode_baseline/state_boundary/ was deleted on 2026-11-09 (4f0aed4); the port to Rust was not delivered (native-deconvolution-closure); the method runs in neither language",
+    "not_checked": "E6's tests; functions, call edges and write sites of E5 and E6"
+  },
+  "validation_disposition": "GO of 2026-11-09 limited by the audit of 2026-11-17: behaviour and size stand, equivalence and mutation claims do not",
   "prototype_gate_disposition": "PASS (R41 amended ceiling: 7,173)",
   "trial_e5_disposition": "PASS (Density trap broken; lines -24.8%, stmts -12.1%, funcs -27.5%, edges -31.5%)",
   "maturity_gate_disposition": "PASS (Capability adopted into .runs/e5-adopted-lifecycle; 50/50 sequences replayed; 0 divergences)",

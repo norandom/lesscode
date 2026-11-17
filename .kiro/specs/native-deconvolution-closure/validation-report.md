@@ -1,5 +1,7 @@
 # Feature Integration Validation: Native Deconvolution Closure
 
+> **Withdrawn on 2026-11-17 by the owner after an audit ([R134](../../../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md)).** The decision below, GO, does not stand. Requirements 3 and 4 were not delivered, functions that reported success without running anything were removed on 2026-11-11, and no command reaches the modules named in the table. The text below is kept as the record of what was reported on 2026-11-09.
+
 Executed on 2026-11-09 across the native Rust substrate and integration boundaries.
 Governed by `.kiro/specs/native-deconvolution-closure/` and `.kiro/steering/prototype-first.md`.
 

@@ -1,5 +1,7 @@
 # Feature Integration Validation Report: state-boundary-deconvolution
 
+> **Limited on 2026-11-17 by the owner after an audit ([R134](../../../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md)).** What stands: the E5 candidate passes its tests and replay, and E5 and E6 are smaller (about 8% to 10% in syntax, 18% to 22% in lines). What does not stand: every statement below about bounded equivalence of a pure core and about adverse mutants killed; those checks ran only on small functions written inside the evaluator scripts. The Python modules of this spec were deleted on 2026-11-09 and were not ported. The text below is kept as the record of what was reported.
+
 - **Spec:** `.kiro/specs/state-boundary-deconvolution/`
 - **Validation Date:** 2026-11-09T12:36:00+01:00
 - **Auditor:** Antigravity / `kiro-validate-impl` (Foreground execution)
