@@ -177,3 +177,9 @@ The owner requested requirements generation. [requirements.md](requirements.md)
 now contains 11 areas and 83 acceptance criteria; the [inline review](requirements-review.md)
 passed. Requirements approval remains pending, as do design and the prototype gate.
 The initialization statements above describe the earlier state.
+
+## Requirements approval, 2026-11-17
+
+The owner approved the requirements and requested tasks. Approval is recorded;
+production task generation awaits design and qualifying prototype evidence. The
+[readiness checklist](task-generation-readiness.md) records the bounded next steps.

@@ -9,8 +9,10 @@ state. Owner decision in discovery: simplicity is reported separately and does n
 add an acceptance condition to the behavior verdict. The spec has
 a [current-versus-desired and attribution analysis](../specs/model-simplification/research.md)
 ([R114](../../docs/research/2026-11-17/01-model-simplification-measurement-attribution.md))
-and [requirements generated for review](../specs/model-simplification/requirements.md).
-Requirements approval, design, prototype and production tasks remain pending. Onboarding
+and [requirements approved on 2026-11-17](../specs/model-simplification/requirements.md).
+The requested task generation awaits provisional design, qualifying prototype evidence
+and design approval; [readiness checklist](../specs/model-simplification/task-generation-readiness.md).
+Design, prototype and production tasks remain pending. Onboarding
 follows this feature. Slice B remains closed. The earlier entries below retain
 their historical status statements; current release state is in [the handover](../handover.md).
 

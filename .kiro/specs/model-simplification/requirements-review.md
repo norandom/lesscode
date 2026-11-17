@@ -69,3 +69,11 @@ Requirements are generated, not approved. Design and tasks are not generated or
 approved; implementation is not ready. Next: owner review of these requirements,
 then provisional design and a bounded prototype gate. Passing this review does not
 waive either the phase approval or the empirical gate.
+
+## Owner approval, 2026-11-17
+
+The owner approved the requirements and requested tasks. Requirements approval is
+recorded in spec.json. Production task generation is not ready: design.md and a
+qualifying prototype-gate.md result do not exist. The
+[task-generation readiness checklist](task-generation-readiness.md) records the
+bounded prerequisites; this is not a design approval or prototype proceed decision.

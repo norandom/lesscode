@@ -1,7 +1,8 @@
 # Requirements: model simplification
 
 Generated 2026-11-17 from the [brief](brief.md) and [current-versus-desired analysis](research.md).
-Status: generated for owner review; not approved. No design or production tasks are approved.
+Status: approved by the owner on 2026-11-17 ("approved, produce the tasks").
+No design or production tasks are approved.
 Analysis record: [R114](../../../docs/research/2026-11-17/01-model-simplification-measurement-attribution.md).
 
 ## Introduction
