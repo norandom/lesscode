@@ -8,7 +8,14 @@
 - **Result:** four of five Python packs keep all 17 call-argument findings (version 3: none); 19 of 20 admitted; Java and Rust lose nothing. Refuted: every TypeScript pack leaves out the argument swap, because the new guide row tells it to where a compiler checks types.
 - **Closed:** packs are published once with the tool; no further pack authoring. The work continues in the spec `model-seam`.
 
-## Latest: R121 Revised baseline times out; bounded H-MS1 attempt stops (2026-11-17)
+## Latest: R122 Longer unchanged qualification run authorized (2026-11-17)
+
+[R122](2026-11-17/09-model-simplification-extended-qualification.md) preregisters
+the owner's explicit 40-minute whole-check bound and fresh three-hour P1 window.
+Frozen code/checks and all admission gates remain unchanged. Earlier failed work
+and the 36/80 invocation count are retained; no qualification success is claimed.
+
+## Prior: R121 Revised baseline times out; bounded H-MS1 attempt stops (2026-11-17)
 
 [R121](2026-11-17/08-model-simplification-p1-timeout.md): separate declaration
 histories remove the scope refusal, but the native comparison reaches its

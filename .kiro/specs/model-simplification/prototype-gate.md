@@ -357,3 +357,13 @@ efficacy untested. Conditional numeric facts are not admitted. No deadline reset
 third revision, production approval or independent-review claim follows. Preserve
 both freezes, failures and partial evidence; further execution requires a new
 explicit protocol/budget decision.
+
+## Owner-approved extended P1 amendment, 2026-11-17
+
+After R121, the owner selected option 1: unchanged frozen code/checks, a
+2,400-second whole-check bound and a fresh 180-minute qualification window.
+[R122](../../../docs/research/2026-11-17/09-model-simplification-extended-qualification.md)
+preregisters the fresh directories, exact clock/counter records and retained
+gates. Earlier stops remain historical evidence. Starts begin at 36/80, calls
+0/18, trials 0/6; no other cap, protection or phase approval changes. This is an
+explicit operational-budget amendment, not a third measurement implementation.
