@@ -1,6 +1,7 @@
 //! Select Java source reachable from a public iterator protocol.
 mod citations;
 mod defaults;
+mod guard_trial;
 use lesscode_core::{
     adapters::driver::tree::{self, SgNode},
     receipt::sha256_hex,
@@ -217,13 +218,18 @@ fn save(path: &Path, value: &serde_json::Value) -> Result<()> {
 }
 fn run() -> Result<()> {
     let args: Vec<_> = env::args_os().skip(1).collect();
+    if let [cmd, left, right, z3, out] = args.as_slice() {
+        if cmd == "guard" {
+            return guard_trial::compare(left.as_ref(), right.as_ref(), z3.as_ref(), out.as_ref());
+        }
+    }
     if let [cmd, selection, answer, out] = args.as_slice() {
         if cmd == "citations" {
             return citations::run(selection.as_ref(), answer.as_ref(), out.as_ref());
         }
     }
     let [src, out] = args.as_slice() else {
-        return Err("iterator-discovery PACKAGE_DIRECTORY NEW_OUTPUT_DIRECTORY | citations SELECTION ANSWER NEW_REPORT".into());
+        return Err("iterator-discovery PACKAGE_DIRECTORY NEW_OUTPUT_DIRECTORY | citations SELECTION ANSWER NEW_REPORT | guard LEFT_PARSER RIGHT_PARSER Z3 NEW_DIRECTORY".into());
     };
     let mut files = fs::read_dir(src)?
         .map(|e| e.map(|e| e.path()))

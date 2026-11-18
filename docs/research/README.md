@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R145 Rust traced the defaults behind the CSV iterator (2026-11-18)
+## Latest · R146 Rust lowered a real Java guard and Z3 chose the exposing history (2026-11-18)
+
+Rust lowered the closure guard of the Commons CSV iterator from source. Z3 found no difference for a parentheses rewrite and returned `hasNext, close, next` for a changed guard. Fresh JVM replays matched the sealed prediction, and the census of all 121 histories agreed with every solver verdict. The rest of the transition system is still the hand-written R144 model. [R146 and replay](2026-11-18/12-commons-csv-closure-guard.md)
+
+## Prior · R145 Rust traced the defaults behind the CSV iterator (2026-11-18)
 
 Rust found the initial counter and row limit in two different Java builders. Using those values with the previously recorded iterator behavior, the harness predicted all 108 values across the original and two changed copies. Rust also located both misplaced R144 quotations in the original source packet. [R145 and replay](2026-11-18/11-commons-csv-builder-defaults.md)
 
