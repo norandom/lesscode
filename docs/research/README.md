@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R153 On the reply-checking machine today's commands find the loop's guards and miss the state (2026-11-18)
+## Latest · R154 The reply-checking machine without its hidden cell behaves the same on all 125 reply histories (2026-11-18)
+
+A hand-written version in which the check receives the whole reply, so that no cell is needed, gave the same trial record as today's adapter on every history of three replies; a planted fault was found by the solver and reproduced; the project's tests pass on it. The same runs show that only the adapter refuses a cut-off or refused reply: with a text-only check, as the two callers inside `lesscode-model` use, the loop accepts one in 62 of 125 histories. The change is kept as a patch for the owner. No tool found the machine. [R154](2026-11-18/20-reply-machine-one-place.md)
+
+## Prior · R153 On the reply-checking machine today's commands find the loop's guards and miss the state (2026-11-18)
 
 The guide adapter keeps a reply's stop reason in a cell that one closure writes and another consumes, and the repair loop calls them in order. Of the six parts R130 wrote down, `analyze` and `measure-scope` report two: the loop's three conditions and the caller's edge. The cell, its write, its read and the match arms on it are not reported, because closures are not functions for the driver, match arms are not conditions and a method call on a cell is not a write. Proposed as the first real case for find and consolidate. [R153](2026-11-18/19-reply-machine-tool-findings.md)
 
