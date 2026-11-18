@@ -62,3 +62,5 @@ All 6 implementation tasks completed in the foreground with zero test failures, 
 ## Architectural Conclusion
 
 Native deconvolution closure (Stage 1) is fully verified and integrated. The native controller provides the exact contracts and traits (`StateFrameAnalyzer`, `PureCoreVerifier`, `AdverseMutantGenerator`, `SpecimenTraceRunner`, `TokenGuard`) required for Stages 2 through 4 (`typescript-deconvolution-adapter`, `java-deconvolution-unification`, `rust-deconvolution-unification`).
+Foreground amendment, 18 November 2026. The measurement portion of requirement 2 now has a runnable prototype on E5 and E6. [R135](../../../docs/research/2026-11-18/01-rust-scope-measurements.md) records the patch and the exact Python/Rust comparison. The overall disposition remains NO-GO.
+

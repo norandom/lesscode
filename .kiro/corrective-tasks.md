@@ -54,7 +54,8 @@ side by side. **Owner** marks a decision that only the owner can take.
   - `lesscode-core deconvolute run` on the baseline and on each candidate, same pack, same tests.
   - Done when: noticed and unnoticed faults per function, baseline beside candidate, for both trials.
     This replaces "100% adverse mutant kill rate".
-- [ ] 2.2 Port the missing call-edge measurement to the Rust analyzer and rerun the scope measurements
+- [x] 2.2 Port the missing call-edge measurement to the Rust analyzer and rerun the scope measurements
+  - Prototype verified on 18 November. Both evaluators used `measure_written` for their published totals. The Rust scope command reproduced all four edge lists, and the per-file analyzer matched `measure_scope_source`. [R135 and replay evidence](../docs/research/2026-11-18/01-rust-scope-measurements.md)
   - Recover `measure_scope_source` from the parent of `4f0aed4` and trace how E5/E6 called it. Implement
     its call-occurrence counting behavior in the Rust path reached by `lesscode-core deconvolute analyze`.
   - Done when the retained patch and CLI runs reproduce the reference per file on the frozen E5/E6

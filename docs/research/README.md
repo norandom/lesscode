@@ -1,6 +1,10 @@
 # Research log
 
-## Latest: R134 Audit of the port and reduction claims of 8 and 9 November (2026-11-17)
+## Latest · R135 Rust reproduces the E5 and E6 scope measurements (2026-11-18)
+
+[R135](2026-11-18/01-rust-scope-measurements.md) reproduces the functions, edges and write sites from both trials through a Rust CLI prototype. Two planted source changes distinguish repeated calls from new edges.
+
+## Prior: R134 Audit of the port and reduction claims of 8 and 9 November (2026-11-17)
 
 [R134](2026-11-17/21-audit-of-port-and-reduction-claims.md) checks each claim by reading the code behind it and rerunning what can be rerun.
 - **Reproduces:** the Z3 verdicts of the first week (seven retained queries replayed); E5's behaviour (108 tests, 50 of 50 replay sequences); E5 and E6 are smaller, by 22% and 18% in lines and by 7.5% and 9.8% in tokens.
