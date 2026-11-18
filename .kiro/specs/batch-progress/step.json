@@ -1,0 +1,19 @@
+{
+  "step": "batch-progress", "spec": "batch-progress", "branch": "step/batch-progress",
+  "base": "6da59521f05315bfc13cca7804d8f0e9815af51b",
+  "language": "rust",
+  "scope": ["native/src/adapters/driver/runner.rs"],
+  "test_paths": ["native/tests/"],
+  "test": ["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml", "--test", "driver_run", "--test", "driver_interrupt"],
+  "env": {"CARGO_TARGET_DIR": "target"},
+  "run": {"timeout_floor_s": 180, "exclusions": ["target"]},
+  "focus": {"native/src/adapters/driver/runner.rs": ["one", "worker", "run_batch"]},
+  "max_token_growth": 80,
+  "criteria": [
+    {"id": "1.1", "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml", "--test", "driver_run", "--test", "driver_interrupt"]},
+    {"id": "1.2", "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml"]}
+  ],
+  "outputs": {"verdict": ".kiro/specs/batch-progress/verdict.json",
+              "evidence": ".kiro/specs/batch-progress/evidence.json",
+              "ledger": ".kiro/steps/ledger.jsonl"}
+}
