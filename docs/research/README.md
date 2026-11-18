@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R160 The clipboard lease of drift-rdp goes from three cells to one (2026-11-18)
+## Latest · R161 The released step flow accepts the batch runner's three locks as one value (2026-11-18)
+
+Dogfooding. `queue`, `results` and `fatal` in the driver's runner are one locked value on the branch `step/batch-progress`. `lesscode-core` 2.1.0 judged the step on its own source: refused first, rightly, because the declaration built no example program the tests start; accepted on the second run, with no token growth and no function left with more unnoticed faults. 13 faults go unnoticed before and after, one of them a transition of the machine. The finder no longer sees the machine afterwards. Four findings about the tool itself. [R161](2026-11-18/27-batch-progress-dogfood.md), [guide](../state-refactoring.md), [example](../examples/batch-progress/README.md)
+
+## R160 The clipboard lease of drift-rdp goes from three cells to one (2026-11-18)
 
 First before-and-after example on code the tool was not written for. The owner, the ticket count and each lease's validity were three cells; they are one value behind one lock, with every change of owner a method of it. Conditions in the lease part go from 5 to 3, the crate's 416 library tests pass before and after, the lease's test keeps its assertions. One registered point was missed: the finder still reports one machine afterwards, rightly. The change was made by hand on a local branch of `drift-rdp`. [R160](2026-11-18/26-clipboard-lease-consolidated.md), [example](../examples/clipboard-lease/README.md)
 

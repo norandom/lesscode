@@ -1,0 +1,176 @@
+{
+  "cells": [
+    {
+      "also_bound_at": [],
+      "cell": "queue",
+      "files_with_an_access": 1,
+      "guards": [
+        "runner.rs:264"
+      ],
+      "guards_on_a_bound_name": [
+        "runner.rs:268",
+        "runner.rs:272"
+      ],
+      "kept": "runner.rs:123",
+      "kind": "field",
+      "moved_by": [],
+      "of": "Shared",
+      "owner": null,
+      "reached_as": [],
+      "read": [
+        {
+          "at": "runner.rs:264",
+          "method": "lock",
+          "unit": "worker"
+        },
+        {
+          "at": "runner.rs:273",
+          "method": "lock",
+          "unit": "worker"
+        },
+        {
+          "at": "runner.rs:379",
+          "method": "lock",
+          "unit": "run_batch"
+        }
+      ],
+      "units": [
+        "run_batch",
+        "worker"
+      ],
+      "verdict": "machine",
+      "written": [
+        {
+          "at": "runner.rs:264",
+          "method": "lock",
+          "unit": "worker"
+        },
+        {
+          "at": "runner.rs:273",
+          "method": "lock",
+          "unit": "worker"
+        },
+        {
+          "at": "runner.rs:379",
+          "method": "lock",
+          "unit": "run_batch"
+        }
+      ]
+    },
+    {
+      "also_bound_at": [],
+      "cell": "results",
+      "files_with_an_access": 1,
+      "guards": [],
+      "guards_on_a_bound_name": [],
+      "kept": "runner.rs:124",
+      "kind": "field",
+      "moved_by": [],
+      "of": "Shared",
+      "owner": null,
+      "reached_as": [],
+      "read": [
+        {
+          "at": "runner.rs:269",
+          "method": "lock",
+          "unit": "worker"
+        },
+        {
+          "at": "runner.rs:384",
+          "method": "into_inner",
+          "unit": "run_batch"
+        }
+      ],
+      "units": [
+        "run_batch",
+        "worker"
+      ],
+      "verdict": "shared, no condition on it",
+      "written": [
+        {
+          "at": "runner.rs:269",
+          "method": "lock",
+          "unit": "worker"
+        }
+      ]
+    },
+    {
+      "also_bound_at": [],
+      "cell": "fatal",
+      "files_with_an_access": 1,
+      "guards": [
+        "runner.rs:261"
+      ],
+      "guards_on_a_bound_name": [],
+      "kept": "runner.rs:126",
+      "kind": "field",
+      "moved_by": [],
+      "of": "Shared",
+      "owner": null,
+      "reached_as": [],
+      "read": [
+        {
+          "at": "runner.rs:187",
+          "method": "lock",
+          "unit": "one"
+        },
+        {
+          "at": "runner.rs:190",
+          "method": "lock",
+          "unit": "one"
+        },
+        {
+          "at": "runner.rs:261",
+          "method": "lock",
+          "unit": "worker"
+        },
+        {
+          "at": "runner.rs:382",
+          "method": "lock",
+          "unit": "run_batch"
+        }
+      ],
+      "units": [
+        "one",
+        "run_batch",
+        "worker"
+      ],
+      "verdict": "machine",
+      "written": [
+        {
+          "at": "runner.rs:187",
+          "method": "lock",
+          "unit": "one"
+        },
+        {
+          "at": "runner.rs:190",
+          "method": "lock",
+          "unit": "one"
+        },
+        {
+          "at": "runner.rs:261",
+          "method": "lock",
+          "unit": "worker"
+        },
+        {
+          "at": "runner.rs:382",
+          "method": "lock",
+          "unit": "run_batch"
+        }
+      ]
+    }
+  ],
+  "files": 1,
+  "parameter_calls_with_a_namesake": [],
+  "receipt": "find-machine-r158",
+  "revision": 3,
+  "rules_sha256": "3f156fdbc8be392bfc7090b800332f8035d8b1b1f8aacbe18e3c9101fd6b30ae",
+  "totals": {
+    "cells": 3,
+    "in_one_unit": 0,
+    "machines": 2,
+    "parameter_calls_with_a_namesake": 0,
+    "shared_without_condition": 1
+  },
+  "unparsed": []
+}

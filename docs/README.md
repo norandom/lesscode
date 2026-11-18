@@ -8,6 +8,7 @@
 | Know what the released commands check and what they do not | [README: what is not checked](../README.md#what-is-not-checked) and [R55](research/2026-11-10/01-released-binary-adopter-dogfood.md) |
 | Try it with one reviewer before making it a gate | [Adoption guide](adoption.md) |
 | Refactor in small steps that are judged by exit code (from release 1.2.0) | [Refactoring in checked steps](steps.md), and [why it works this way](testability.md) |
+| Turn state that is spread over several places into one state machine, step by step | [Untangling scattered state](state-refactoring.md), with [worked examples](examples/README.md) |
 | Plant faults and see which ones your tests catch (from release 1.1.0) | [The agnostic driver](driver.md) |
 | Build from source, check prerequisites and license notices | [Native core](../native/README.md) |
 | Understand the architecture or add a language | [Multi-language deconvolution](multi-language-deconvolution.md) |
@@ -67,7 +68,6 @@ working tree and may not be present in a fresh clone.
 | Choose symbolic-execution and guided-input tooling per language; see which solver lesscode and openidea-kiro use where, and why | [Symbolic execution tooling assessment](symbolic-execution-tooling.md) |
 | Understand the input and run a real family prototype | [Reader-family trial plan and results](experiments/reader-family/README.md) |
 | Inspect a smaller classifier and source-derived SMT check | [Outcome hotspot and next LLM compression pass](experiments/outcome-hotspot/README.md) |
-| See a state machine spread over three cells become one value, before and after | [Clipboard lease example](examples/clipboard-lease/README.md) |
 | Inspect a real simplification of Lesscode | [Self-evaluation example and charts](examples/self-evaluation.md) |
 | Inspect solver-assisted compression, its negative control and next measurements | [Code-flow synthesis report and charts](reports/code-flow-synthesis.md) |
 | See selected Facdrone parts and the first self-application rejection | [Measured boundaries and test impact](experiments/facdrone/selected-parts.md) |

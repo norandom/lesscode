@@ -1,0 +1,54 @@
+{
+  "cells": [
+    {
+      "also_bound_at": [],
+      "cell": "progress",
+      "files_with_an_access": 1,
+      "guards": [],
+      "guards_on_a_bound_name": [],
+      "kept": "runner.rs:123",
+      "kind": "field",
+      "moved_by": [],
+      "of": "Shared",
+      "owner": null,
+      "reached_as": [],
+      "read": [
+        {
+          "at": "runner.rs:148",
+          "method": "lock",
+          "unit": "progress"
+        },
+        {
+          "at": "runner.rs:397",
+          "method": "into_inner",
+          "unit": "run_batch"
+        }
+      ],
+      "units": [
+        "progress",
+        "run_batch"
+      ],
+      "verdict": "shared, no condition on it",
+      "written": [
+        {
+          "at": "runner.rs:148",
+          "method": "lock",
+          "unit": "progress"
+        }
+      ]
+    }
+  ],
+  "files": 1,
+  "parameter_calls_with_a_namesake": [],
+  "receipt": "find-machine-r158",
+  "revision": 3,
+  "rules_sha256": "3f156fdbc8be392bfc7090b800332f8035d8b1b1f8aacbe18e3c9101fd6b30ae",
+  "totals": {
+    "cells": 1,
+    "in_one_unit": 0,
+    "machines": 0,
+    "parameter_calls_with_a_namesake": 0,
+    "shared_without_condition": 1
+  },
+  "unparsed": []
+}

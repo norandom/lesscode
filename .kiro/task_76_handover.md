@@ -88,3 +88,13 @@ On the owner's word: main pushed (`a5df503..ebeae80`, 77 commits). Hosted pipeli
 Owner's after publication: signatures, checksums and attestation of the ten archives, Zenodo; optionally a note on the 1.1.0 to 2.0.0 release pages for Linux users.
 
 Next, asked by the owner: more real, obvious cases under `docs/examples`, found and judged with the project's own tools (dogfooding).
+
+## Amendment, 19:20: dogfooding step accepted, user guide for state refactoring
+
+[R161](../docs/research/2026-11-18/27-batch-progress-dogfood.md): `queue`, `results`, `fatal` of the batch runner are one `Mutex<Progress>` on the branch `step/batch-progress` (base `6da5952`, change `165555d`, tip `9bc8478`), local, not merged, not pushed. `lesscode-core` 2.1.0: first `step check` refused (declaration built no example program), second accepted after 14 min, guard 0, ledger entry on the branch. Merging is the owner's decision.
+
+On the owner's word the flow is a user guide: `docs/state-refactoring.md`. Examples under `docs/examples`: `order-flags` (made up), `batch-progress`, `reply-side-channel`, `clipboard-lease`. `docs/steps.md` Rust row now says to add a `build` command with a `--test` filter. Humanizer scan done on the new pages.
+
+Findings about the tool, not fixed, owner decides: (1) a failing first run leaves no output in the receipt; (2) `step record` reads the committed verdict, while the skill's order and a comment in `record.rs` say otherwise; (3) `run_batch` has no noticed fault with the two driver suites; (4) the put-back of a job after a failed run is unprotected, no pin written.
+
+Storage: step work directory (6.8 GiB) removed; D: about 157 GiB free; evidence `state-consolidation\r161`. Release 2.1.0: when last looked at (18:57) the publish job waited for the owner's approval. Next research ID R162; next handover 77. Slice B unchanged (R79, owner's choice).

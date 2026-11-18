@@ -78,8 +78,12 @@ Finding them is the hard part, and that is what the research on this page's real
 
 ## Real examples
 
+How to do this yourself, with the commands: [Untangling scattered state](../state-refactoring.md).
+
 | Example | Code | What changed |
 | --- | --- | --- |
+| [Batch progress](batch-progress/README.md) | this repository, the batch runner of `lesscode-core` | Three locked fields became one value; judged and accepted by the tool's own step flow, after it refused a wrong declaration |
+| [Reply side channel](reply-side-channel/README.md) | this repository, the repair loop of `lesscode-model` | A cell that carried one fact between two closures is gone; one rule moved from one caller into the loop, for all three callers |
 | [Clipboard lease](clipboard-lease/README.md) | `drift-rdp`, a remote desktop client | Three cells that held one machine became one value; conditions 5 to 3; 416 tests pass before and after |
 
 ## Earlier

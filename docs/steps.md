@@ -75,7 +75,7 @@ Only a few fields depend on the language. These are the ones the real steps used
 | `python` | `["uv", "run", "--no-sync", "python", "-m", "pytest", "tests/test_ratelimit.py", "-q", "-x"]` | `setup` `[["uv", "sync", "--quiet"]]`; in `run`: `"invalid_exit_codes": [2, 3, 4, 5]`, `"exclusions": [".venv", "__pycache__"]` |
 | `typescript` | `["node", "--import", "tsx", "--test", "tests/state.test.ts"]` | `setup` and `build` as above; in `run`: `"exclusions": ["node_modules", "dist"]` |
 | `java` | Maven, offline, one test class: `[..., "-o", "-B", "-Dtest=CSVPrinterTest", "test"]` | `setup` that compiles the tests once; in `run`: `"exclusions": ["target"]`, `"invalid_output_patterns": ["COMPILATION ERROR", ": error:"]` |
-| `rust` | `["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml", "--test", "recording"]` | `"env": {"CARGO_TARGET_DIR": "target"}`; in `run`: `"exclusions": ["target"]` |
+| `rust` | `["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml", "--test", "recording"]` | `"env": {"CARGO_TARGET_DIR": "target"}`; in `run`: `"exclusions": ["target"]`; with a `--test` filter Cargo builds only the named test programs, so add `"build": ["cargo", "build", "--locked", "--manifest-path", "native/Cargo.toml", "--examples"]` when the tests start an example or another binary |
 
 Commands are argument vectors and are not passed through a shell. On Windows that rules out `mvn`, which
 is a script; the Java step called Maven's launcher class with `java` instead. The full declarations of
