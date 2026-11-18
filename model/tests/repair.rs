@@ -57,7 +57,8 @@ fn run(script: Vec<Result<Reply, CallError>>, repairs: usize) -> Run {
         sent.push(asked.clone());
         script.next().expect("a reply for every call")
     };
-    let mut check = |text: &str| {
+    let mut check = |reply: &Reply| {
+        let text = reply.text.as_str();
         checked.push(text.to_owned());
         Verdict {
             passed: text == "blue",

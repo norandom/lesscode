@@ -8,7 +8,7 @@
 //!
 //! ```
 //! use lesscode_model::repair::{REPAIRS, Verdict, with_repairs};
-//! use lesscode_model::{CallError, CallRequest};
+//! use lesscode_model::{CallError, CallRequest, Reply};
 //!
 //! let request = CallRequest {
 //!     purpose: "example".into(),
@@ -19,7 +19,7 @@
 //!     structure: None,
 //! };
 //! let mut call = |_: &CallRequest| Err(CallError::Config("no endpoint in an example".into()));
-//! let mut check = |text: &str| Verdict { passed: text == "ok", reasons: vec![] };
+//! let mut check = |reply: &Reply| Verdict { passed: reply.text == "ok", reasons: vec![] };
 //! with_repairs(&mut call, &request, &mut check, REPAIRS);
 //! ```
 //!
@@ -106,7 +106,7 @@ pub fn repair_request(request: &CallRequest, rejected: &str, reasons: &[String])
 pub fn with_repairs(
     call: &mut dyn FnMut(&CallRequest) -> Result<Reply, CallError>,
     request: &CallRequest,
-    check: &mut dyn FnMut(&str) -> Verdict,
+    check: &mut dyn FnMut(&Reply) -> Verdict,
     repairs: usize,
 ) -> Outcome {
     let mut attempts = Vec::new();
@@ -116,7 +116,7 @@ pub fn with_repairs(
             Ok(reply) => reply,
             Err(error) => return Outcome::Failed { error, attempts },
         };
-        let Verdict { passed, reasons } = check(&reply.text);
+        let Verdict { passed, reasons } = check(&reply);
         attempts.push(Attempt {
             passed,
             reasons,

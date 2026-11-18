@@ -68,7 +68,7 @@ pub fn check(
     let outcome = with_repairs(
         &mut counted,
         &request,
-        &mut |text| core.judge(task, text),
+        &mut |reply| core.judge(task, &reply.text),
         REPAIRS,
     );
 

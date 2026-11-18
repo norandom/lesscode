@@ -10,9 +10,8 @@ use gepa::{
 };
 use lesscode_core::specimen_runner::sha256_hex_bytes;
 use lesscode_model::repair::{self, Outcome, with_repairs};
-use lesscode_model::{CallError, CallRequest, Stop};
+use lesscode_model::{CallError, CallRequest, Reply, Stop};
 use serde_json::{Value, json};
-use std::cell::Cell;
 use std::collections::BTreeMap;
 use std::sync::{Arc, Mutex};
 
@@ -187,21 +186,13 @@ impl Authoring {
             temperature: None,
             structure: None,
         };
-        // The check sees only the text; the call notes how the reply stopped.
-        let stop = Cell::new(None);
-        let mut call = |asked: &CallRequest| {
-            self.model
-                .chat(asked)
-                .inspect(|reply| stop.set(Some(reply.stop.clone())))
-        };
+        let mut call = |asked: &CallRequest| self.model.chat(asked);
         let mut judged = None;
-        let mut check = |text: &str| {
-            let verdict = match stop.take() {
-                Some(Stop::CutOff) => {
-                    failed("the reply was cut off before the pack was complete".into())
-                }
-                Some(Stop::Refused) => failed("the request was refused".into()),
-                _ => judge(task, &pack_text(text)),
+        let mut check = |reply: &Reply| {
+            let verdict = match reply.stop {
+                Stop::CutOff => failed("the reply was cut off before the pack was complete".into()),
+                Stop::Refused => failed("the request was refused".into()),
+                _ => judge(task, &pack_text(&reply.text)),
             };
             let seen = repair::Verdict {
                 passed: verdict.admitted,
@@ -411,7 +402,7 @@ impl GepaAdapter for Authoring {
 mod trials {
     use super::*;
     use crate::model::Model;
-    use lesscode_model::{Reply, Sent};
+    use lesscode_model::Sent;
     use std::path::{Path, PathBuf};
 
     fn repo() -> PathBuf {

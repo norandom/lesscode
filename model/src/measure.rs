@@ -162,7 +162,7 @@ pub fn measure(
         let outcome = with_repairs(
             &mut counted,
             &task.request,
-            &mut |text| check(task, text),
+            &mut |reply| check(task, &reply.text),
             repairs,
         );
         match outcome {
