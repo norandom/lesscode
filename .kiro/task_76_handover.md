@@ -80,3 +80,11 @@ Cause of the exit 137: `kill -KILL -<group>` in `native/src/adapters/driver/proc
 Owner agreed to a 2.1.0 described as it is (fix, `measure-scope`, `bound-check`, stricter `lesscode-model` check; state work as examples, no command finds a machine). Prepared in `964209d`: version in `native/Cargo.toml` and three locks, `CITATION.cff`, `.zenodo.json`, README badge, `docs/README.md`, `docs/releases/2.1.0.md`. Humanizer pass done on the release notes and the two example pages. Opener example: `docs/examples/README.md` and `docs/examples/order-flags` (made up, both versions compared on 6,015 steps). Main README intro is left for later, on the owner's word.
 
 Not done, owner's: push of main, CI on five platforms, tag `v2.1.0`, approval of the release environment, signing keys. Evidence: `D:\BuildArtifacts\lesscode\native-evidence` (`linux-a096080` killed run, `linux-6912855`, `prep-2.1.0`). Slice B unchanged (R79, owner's choice). Next research ID R161; next handover 77.
+
+## Amendment, 18:57: main pushed, v2.1.0 tagged, release waits for approval
+
+On the owner's word: main pushed (`a5df503..ebeae80`, 77 commits). Hosted pipeline 44356412424 on `ebeae80` green on all six jobs (step guard, Linux through Dagger, Windows, macOS Intel and ARM, Linux ARM). Tag `v2.1.0` at `ebeae80` pushed. Release workflow 44358080653: all five builds succeeded; `Sign and publish release` waits for the owner's approval of the `release` environment. No GitHub release exists yet.
+
+Owner's after publication: signatures, checksums and attestation of the ten archives, Zenodo; optionally a note on the 1.1.0 to 2.0.0 release pages for Linux users.
+
+Next, asked by the owner: more real, obvious cases under `docs/examples`, found and judged with the project's own tools (dogfooding).
