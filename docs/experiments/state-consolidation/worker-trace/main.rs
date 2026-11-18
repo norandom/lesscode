@@ -1,3 +1,4 @@
+mod forecast;
 mod instrument;
 mod predict;
 
@@ -83,12 +84,19 @@ fn child(args: &[OsString]) -> Result<i32> {
 }
 fn run() -> Result<i32> {
     let args: Vec<_> = env::args_os().skip(1).collect();
-    match (args.first().and_then(|a|a.to_str()),args.len()){
-        (Some("overlay"),3)=>instrument::overlay(Path::new(&args[1]),Path::new(&args[2]))?,
-        (Some("predict"),5)=>predict::run(Path::new(&args[1]),Path::new(&args[2]),Path::new(&args[3]),Path::new(&args[4]))?,
-        (Some("deconvolute"),_)=>return driver(&args),
-        (Some("--file"),_)=>return child(&args),
-        _=>return Err("usage: worker-trace overlay NATIVE NEW_OVERLAY | predict SITES DRIVER_EVENTS RELATIVE_TEST NEW_REPORT".into()),
+    let usage = "worker-trace overlay NATIVE NEW_OVERLAY | predict SITES DRIVER_EVENTS RELATIVE_TEST NEW_REPORT | forecast NATIVE EARLY_INPUT NEW_REQUEST";
+    let (mode, rest) = args.split_first().ok_or(usage)?;
+    match (mode.to_str(), rest) {
+        (Some("overlay"), [native, out]) => instrument::overlay(native.as_ref(), out.as_ref())?,
+        (Some("predict"), [sites, log, test, out]) => {
+            predict::run(sites.as_ref(), log.as_ref(), test.as_ref(), out.as_ref())?
+        }
+        (Some("forecast"), [native, early, out]) => {
+            forecast::request(native.as_ref(), early.as_ref(), out.as_ref())?
+        }
+        (Some("deconvolute"), _) => return driver(&args),
+        (Some("--file"), _) => return child(&args),
+        _ => return Err(usage.into()),
     }
     Ok(0)
 }

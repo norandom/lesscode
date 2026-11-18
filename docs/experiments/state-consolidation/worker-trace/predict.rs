@@ -211,7 +211,12 @@ impl Phase {
         )
     }
 }
-pub fn run(sites: &Path, log: &Path, relative: &Path, out: &Path) -> Result<()> {
+pub(super) fn histories<'a>(
+    sites: &Path,
+    log: &Path,
+    relative: &Path,
+    names: &[&'a str],
+) -> Result<BTreeMap<&'a str, Value>> {
     ensure(
         relative
             .components()
@@ -229,7 +234,7 @@ pub fn run(sites: &Path, log: &Path, relative: &Path, out: &Path) -> Result<()> 
     }
     let mut copies = BTreeMap::new();
     let mut result = BTreeMap::new();
-    for name in PHASES {
+    for &name in names {
         let mut phase = Phase::default();
         for (i, line) in fs::read_to_string(log.join(format!("{name}.jsonl")))?
             .lines()
@@ -241,5 +246,9 @@ pub fn run(sites: &Path, log: &Path, relative: &Path, out: &Path) -> Result<()> 
         }
         result.insert(name, phase.finish()?);
     }
-    save(out, &result)
+    Ok(result)
+}
+
+pub fn run(sites: &Path, log: &Path, relative: &Path, out: &Path) -> Result<()> {
+    save(out, &histories(sites, log, relative, &PHASES)?)
 }

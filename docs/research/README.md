@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R142 Rust traces which test the worker ran (2026-11-18)
+## Latest · R143 The reviewer predicted which worker would miss the fault (2026-11-18)
+
+Given Rust source excerpts and only the two runs before a test edit, the reviewer predicted the test version, result reuse and mutation outcome in all four withheld scenarios. It distinguished the original and fixed reopened workers. The next gate is a separately selected case. [R143 and offline replay](2026-11-18/09-worker-forecast-before-edit.md)
+
+## Prior · R142 Rust traces which test the worker ran (2026-11-18)
 
 The Rust trace matched the file seen at all 69 test launches. On reopening a worker after an edit, the old driver reran five mutations using the old test. The trace located the copy that supplied the fixed worker with the edited test. Disabling that copy reproduced the missed fault. [R142 and replay](2026-11-18/08-native-worker-byte-trace.md)
 
