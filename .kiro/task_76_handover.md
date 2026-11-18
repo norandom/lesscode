@@ -42,3 +42,9 @@ Local commits stay unpushed (`origin/main` at `a5df503`); a humanizer pass on `R
 2. `match` arms as branch conditions: prototype first, in an experiment copy, before the Rust pack or its limit changes.
 3. The finder's rules become a second data file per language beside the pack.
 4. Next: the finder on a repository it was not written against. Chosen: `D:\Source\mmhmem` at `452fb7c`, preregistered in the prototype gate. Next research ID stays R157.
+
+## Amendment, 16:05: the finder does not transfer to mmhmem
+
+[R157](../docs/research/2026-11-18/23-finder-on-mmhmem.md). Unchanged finder on `D:\Source\mmhmem` at `452fb7c` (236 files, only read). Eight production cells by hand census: all eight declarations listed, accesses complete for one, three machines missed (`state` in `download_line.rs`, `stop` in `release_local.rs`, `max_scroll` in `ui/app.rs`), one machine reported that is none (`mismatch` in `release.rs`). Causes: clone under another name (3), receiver other than `self` (2), cell passed as a parameter (1), write in another file (1), condition on the lock's result (1). Six reports in test doubles are right. Evidence: `D:\BuildArtifacts\lesscode\state-consolidation\r157` (8 MiB, with `census.md`).
+
+Next: revision 3 of the finder with name following, registered before it runs, scored against that census and against R156's rows and controls. Queued behind it: the `match`-arm prototype for the Rust pack, `fatal` as second consolidation case. Next research ID: R158. D had 175.7 GiB free; no build beyond the incremental one of R156.

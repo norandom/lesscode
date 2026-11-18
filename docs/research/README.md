@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R156 A finder returns the reply-checking machine from the four files; the measures do not see what its consolidation changed (2026-11-18)
+## Latest · R157 On a repository it was not written for, the finder lists every cell and finds none of its three machines (2026-11-18)
+
+The finder of R156, unchanged, read all 236 Rust files of `mmhmem`. It lists the declaration of all eight production cells and reaches the accesses of one. The three machines among them are missed and the one it reports is not one: its condition tests whether a lock was taken. Causes are in how a cell is named where it is used: a clone, another receiver than `self`, a parameter, another file. In test doubles all six reports are right. Three of five registered predictions were wrong. Not ported as it is; name following is the proposed revision. [R157](2026-11-18/23-finder-on-mmhmem.md)
+
+## Prior · R156 A finder returns the reply-checking machine from the four files; the measures do not see what its consolidation changed (2026-11-18)
 
 A research binary with a rules file of 20 lines returned five of the six expected rows of the reply machine exactly; the sixth has two extra lines, real guards of the loop that the expected answer left out, so the registered check reads `revise`. Three controls passed. A sweep of 97 files found a machine nobody had written down (`fatal` in the driver's runner) and two budget cells. Consolidation left four conditions on the stop reason as four, in one function instead of two units in two files; `analyze` and `measure-scope` show none of it, because both the removed and the added conditions are `match` arms. [R156](2026-11-18/22-find-step-reply-machine.md)
 
