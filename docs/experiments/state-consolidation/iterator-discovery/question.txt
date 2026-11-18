@@ -1,0 +1,7 @@
+Forecast observable behavior of the parser using the numbered source excerpts. Every history starts from a fresh CSVParser.parse("oak\nelm\n", CSVFormat.DEFAULT). A and B are the results of two successive parser.iterator() calls. Record (A == B) and parser.getRecordNumber() before the first operation. After EVERY operation record its return and parser.getRecordNumber(), including when the operation throws. For next, return the first field of the returned record. Use the strings "true" or "false" for hasNext, "closed" for successful close, and "throws:SimpleExceptionClass" for an exception. Use null for a value that is unknown.
+
+H1: A.hasNext(), A.hasNext(), B.next(), A.next(), B.hasNext(), B.next()
+H2: B.next(), A.hasNext(), B.hasNext(), B.next(), A.next()
+H3: A.hasNext(), parser.close(), B.hasNext(), A.next()
+
+Return a JSON object with H1, H2, H3, state, and evidence. Each history is an object containing same (Boolean), initial (integer), and steps (ordered array of [return string, integer count] pairs). In state briefly explain the persistent entity, initialization, moves and guards, including where two objects share or have separate state. For evidence give an array of objects with file (exact supplied filename), line (integer), and quote (one exact complete source line without its number, surrounding whitespace ignored). Cite the state and relevant guard or effect across at least two production files. Explain consequential unresolved behavior. Do not use tests or other sources.

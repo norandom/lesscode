@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R143 The reviewer predicted which worker would miss the fault (2026-11-18)
+## Latest · R144 Rust located shared iterator state in Commons CSV (2026-11-18)
+
+Starting from the public iterator operations, Rust selected code across five production files. The first model request returned a wait-limit error. The identical request then produced a forecast matching all 36 JVM observations. Two of 22 citations pointed one line too early, and the source packet lacked two builder defaults. [R144 and replay](2026-11-18/10-commons-csv-iterator-discovery.md)
+
+## Prior · R143 The reviewer predicted which worker would miss the fault (2026-11-18)
 
 Given Rust source excerpts and only the two runs before a test edit, the reviewer predicted the test version, result reuse and mutation outcome in all four withheld scenarios. It distinguished the original and fixed reopened workers. The next gate is a separately selected case. [R143 and offline replay](2026-11-18/09-worker-forecast-before-edit.md)
 

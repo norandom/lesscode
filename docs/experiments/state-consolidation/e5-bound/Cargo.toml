@@ -18,6 +18,10 @@ path = "../protocol-review/main.rs"
 name = "worker-trace"
 path = "../worker-trace/main.rs"
 
+[[bin]]
+name = "iterator-discovery"
+path = "../iterator-discovery/main.rs"
+
 [dependencies]
 lesscode-core = { path = "../../../../native" }
 serde = { version = "=1.0.229", features = ["derive"] }
