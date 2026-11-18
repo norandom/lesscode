@@ -1,0 +1,71 @@
+{
+  "receipt": "step-verdict-v1",
+  "step": "batch-progress",
+  "spec": "batch-progress",
+  "base": "6da59521f05315bfc13cca7804d8f0e9815af51b",
+  "revision": "165555d28d9bff773be08611808fa63bab36da67",
+  "hashes": {
+    "scope": {
+      "native/src/adapters/driver/runner.rs": "6428c8b6b57bb7f081828e7c05a023f92c18eb71"
+    },
+    "tests": "04bca60c3f86663ba579ab9c0e820d780910def20f0c77c2f364f58fc4bae2ab",
+    "declaration": "448c89953eba6f7f34fce04a2781f0237a5f61c5"
+  },
+  "checks": [
+    {
+      "name": "declaration and revisions",
+      "result": "pass",
+      "detail": "base 6da5952, step 165555d"
+    },
+    {
+      "name": "changes stay in scope",
+      "result": "pass",
+      "detail": "only scope, tests and the step's own files change"
+    },
+    {
+      "name": "pins apart from the change",
+      "result": "pass",
+      "detail": "no commit changes tests and code under test together"
+    },
+    {
+      "name": "size",
+      "result": "pass",
+      "detail": "within the declared growth"
+    },
+    {
+      "name": "state frame",
+      "result": "pass",
+      "detail": "no state write outside the declared frame, or none declared"
+    },
+    {
+      "name": "tests and fault runs",
+      "result": "refused",
+      "detail": "the project's tests do not pass on the base"
+    }
+  ],
+  "functions_run": {
+    "native/src/adapters/driver/runner.rs": [
+      "next",
+      "one",
+      "progress",
+      "run_batch",
+      "worker"
+    ]
+  },
+  "functions": [],
+  "unmatched_functions": [],
+  "size": {
+    "tokens": [
+      2761,
+      2757
+    ],
+    "nodes": [
+      2319,
+      2305
+    ]
+  },
+  "result": "refused",
+  "reasons": [
+    "the project's tests do not pass on the base"
+  ]
+}

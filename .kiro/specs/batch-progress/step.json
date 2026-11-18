@@ -5,6 +5,7 @@
   "scope": ["native/src/adapters/driver/runner.rs"],
   "test_paths": ["native/tests/"],
   "test": ["cargo", "nextest", "run", "--locked", "--manifest-path", "native/Cargo.toml", "--test", "driver_run", "--test", "driver_interrupt"],
+  "build": ["cargo", "build", "--locked", "--manifest-path", "native/Cargo.toml", "--examples"],
   "env": {"CARGO_TARGET_DIR": "target"},
   "run": {"timeout_floor_s": 180, "exclusions": ["target"]},
   "focus": {"native/src/adapters/driver/runner.rs": ["one", "worker", "run_batch"]},
