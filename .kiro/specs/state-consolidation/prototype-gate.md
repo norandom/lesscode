@@ -180,3 +180,17 @@ Passes as a transfer when all hold: at least 16 of 24 cells have exactly the cen
 Predictions, written before the run: `REGISTRY` is not listed (a static). `pending` and `drafts` are not reported as machines, because their conditions are `ok_or` with `?` and no `if` or `match`. `owner`, `claim_sequence`, `valid`, `revision`, `publishing` and `dirty` are found. The session's plain `state` field is not seen. Lines are complete for at least 18 cells.
 
 Run on 18 November, scored at 16:30. All three bars met: 21 of 24, 8 of 9, 0 of 11 wrong. Predictions: five held, one wrong (`drafts` was reported, rightly). Assessed `proceed` for the find step on cells, on the demonstrated subset: state in the cell types of the rules file, Rust. Exclusions kept as follow-up experiments: state in plain fields, `try_lock`, statics, a census by another reader, other languages. [R159](../../../docs/research/2026-11-18/25-finder-transfer-drift-rdp.md)
+
+## Consolidating the clipboard lease of `drift-rdp` · preregistration, 18 November 2026, 17:37 Europe/Berlin
+
+Owner's decisions, 17:35: the first new before-and-after example is the clipboard lease of `drift-rdp`; examples are collected under `docs/examples`, one folder each; the change is delivered as a local branch in `drift-rdp` (this lifts the read-only rule for that repository, for a branch); the Linux exit 137 stays deferred. The owner's goal for the state work: simpler code, shown in before-and-after examples.
+
+Case: `src-tauri/src/commands/native_clipboard.rs` at `b6fbcf6` (the file is unchanged since `7eb659e`, the commit of R159). Before: three cells hold one machine: `owner` (`Mutex<Option<Arc<Lease>>>`), `claim_sequence` (`AtomicU64`) and `valid` (`AtomicBool` in each lease). Four methods and the free function `guard` write and test them.
+
+Change, written before any code: one cell, a `Mutex` around one plain value that holds the ticket count and the current lease. `valid` goes: a lease is valid exactly while it is the owner, so `guard` asks the owner. `claim_sequence` goes into the value: it is only touched under the owner's lock. Every transition is a method of that one value. The branch is made in a separate worktree so that the working tree of `drift-rdp` is not switched under another agent.
+
+Passes when all hold: (1) the crate builds and clippy with `-D warnings` is clean for the crate; (2) the existing test `native_clipboard_owner_fences_queued_and_disposed_operations` passes with its assertions unchanged, only the way `guard` is called may change; (3) the whole library suite of the crate has the same pass count as before the change; (4) the finder (revision 3, frozen) reports for this file three machines before and none after, with one shared cell in place of `owner`, `claim_sequence` and `valid`; (5) counted by reading: cells of the machine 3 to 1, and the `if` conditions on the machine's state do not increase.
+
+Predictions: all five hold. `operation` is untouched and still not seen by the finder (`try_lock`). The finder's "no machine" after the change is partly its blindness to plain fields, and is to be said so: the machine is still there, in one type.
+
+Not shown by this: equal behaviour under real concurrency (the test is single-threaded; `guard` now takes the lock for an instant where it read an atomic before), anything about Linux or macOS builds.
