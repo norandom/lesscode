@@ -29,6 +29,13 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/calls.rs",
+   "max_logical_units": 300,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Calls by name from the pack: per-file occurrences and scope edges (corrective task 2.2, R151)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/classes.rs",
    "max_logical_units": 300,
    "owner": "agnostic-annotation-driver",

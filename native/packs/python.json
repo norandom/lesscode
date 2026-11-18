@@ -15,6 +15,7 @@
     "state_write": {"nodes": ["assignment", "augmented_assignment"], "call_statements": ["call", "await"]},
     "pure_shell_boundary": {"nodes": ["function_definition"]}, "call_argument": {"nodes": ["argument_list"]}
   },
+  "calls": {"nodes": ["call"], "via": {"call": "function", "attribute": "attribute"}},
   "noop_statement": "pass",
   "statement_wrappers": ["expression_statement"],
   "operators": {

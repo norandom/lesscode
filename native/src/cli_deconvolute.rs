@@ -30,6 +30,19 @@ pub enum DeconvoluteCommand {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+    /// Count the calls among the files of a scope: per file the functions it
+    /// declares and its calls to them, and the call edges between functions.
+    MeasureScope {
+        #[arg(long)]
+        lang: String,
+        #[arg(long)]
+        root: PathBuf,
+        /// A file below the root. Repeat per file.
+        #[arg(long, required = true)]
+        file: Vec<String>,
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
     /// Write the mutants the language pack gives for a file.
     Mutate {
         #[arg(long)]
@@ -139,6 +152,12 @@ pub fn run(cmd: DeconvoluteCommand) -> Result<u8, String> {
             frame_spec.as_deref(),
             out.as_deref(),
         ),
+        DeconvoluteCommand::MeasureScope {
+            lang,
+            root,
+            file,
+            out,
+        } => driver_cli::run_measure_scope(normalize_lang(&lang)?, &root, &file, out.as_deref()),
         DeconvoluteCommand::Mutate {
             lang,
             source,

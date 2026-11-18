@@ -68,6 +68,7 @@ to a model endpoint you configure.)
 | --- | --- | --- |
 | Is this rewrite a substantial reduction or a cosmetic one? | `deconvolute density` | Python, TypeScript, Java, Rust |
 | Where does this file decide behaviour and write state? | `deconvolute analyze` | Python, TypeScript, Java, Rust |
+| Which functions of these files call which, by name? | `deconvolute measure-scope` | Python, TypeScript, Java, Rust |
 | Which small faults can be planted in this file? | `deconvolute mutate` | Python, TypeScript, Java, Rust |
 | Which of those faults do my tests catch? | `deconvolute run` | the same four, with your own build and test commands |
 | After this small change, do my tests still pass and still catch planted faults as often as before? | `step check`, with `step plan`, `pin`, `record`, `guard` | the same four, in a Git repository; from release 1.2.0 |

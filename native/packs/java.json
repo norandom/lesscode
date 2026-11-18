@@ -16,6 +16,8 @@
     "pure_shell_boundary": {"nodes": ["method_declaration", "constructor_declaration"]},
     "call_argument": {"nodes": ["argument_list"]}
   },
+  "calls": {"nodes": ["method_invocation", "object_creation_expression"],
+            "via": {"method_invocation": "name", "object_creation_expression": "type"}},
   "noop_statement": ";",
   "statement_wrappers": ["expression_statement"],
   "statement_terminator": ";",

@@ -107,6 +107,17 @@ pub struct Operators {
     pub call_argument: ArgumentOps,
 }
 
+/// How a call names what it calls.
+#[derive(Debug, Default, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct Calls {
+    /// The node kinds that are calls.
+    pub nodes: Vec<String>,
+    /// Node kind to the field that leads on to the name. The text of the
+    /// first node without an entry is the name.
+    pub via: BTreeMap<String, String>,
+}
+
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Pack {
@@ -125,6 +136,9 @@ pub struct Pack {
     #[serde(default)]
     pub statement_terminator: Option<String>,
     pub operators: Operators,
+    /// What a call is; without it calls are not counted.
+    #[serde(default)]
+    pub calls: Calls,
     /// Constructs the analysis reports as gaps.
     #[serde(default)]
     pub gaps: Vec<Gap>,

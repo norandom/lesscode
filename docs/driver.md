@@ -16,7 +16,8 @@ input, unsupported language or a void run.
 
 | Command | What it does | Writes to the source tree |
 | --- | --- | --- |
-| `analyze --lang L --source F [--frame-spec S] [--out R]` | Lists the sites of a file by kind, the state-write sites, the function boundaries and the constructs the pack declares as gaps. Exit 1 on a gap or on a write outside the frame specification | no |
+| `analyze --lang L --source F [--frame-spec S] [--out R]` | Lists the sites of a file by kind, the state-write sites, the function boundaries and the constructs the pack declares as gaps, and counts the calls the file makes to functions it declares (`call_occurrences`). Exit 1 on a gap or on a write outside the frame specification | no |
+| `measure-scope --lang L --root D --file F... [--out R]` | Counts calls by name among the files of a scope: per file the distinct function names and the calls to them, and the edges caller file, caller, callee file, callee. A repeated call counts again as an occurrence and once as an edge. Matching is by name, so an edge is not proof of a call at run time | no |
 | `mutate --lang L --source F --out-dir D [--out R] [--limit N --seed S]` | Writes every valid mutant of a file into `D`, with a receipt naming site, operator and hash. Exit 1 when there is none | no |
 | `run --config C --work W [--workers N] [--annotations A] [--no-reuse] [--only N,...] --out R` | Mutates the configured files in copies under `W`, runs the project's commands against each mutant and classes it. With `functions` in the configuration (per file, a list of function names) only sites inside those functions are mutated; `--only` runs the mutants with the given numbers of a run with the same configuration. Both from release 1.2.0. Exit 2 when errors remain, 3 when the run is void | no; only the copies change, and each is restored and verified |
 | `admit-pack --pack P --lang L [--controls K --source-root S] [--out R]` | Checks a language pack before it is used. Exit 1 when it is rejected | no |
@@ -128,7 +129,9 @@ The configurations used for the five gate scopes are in
 ## Language packs
 
 The shipped packs are `native/packs/{rust,python,typescript,java}.json`, at most 40 lines each. A pack names
-the grammar's node kinds for each site kind and gives the operator templates. `admit-pack` checks size,
+the grammar's node kinds for each site kind and gives the operator templates. Its `calls` entry names the call
+nodes (`nodes`) and, per node kind, the field that leads on to the name a call is made under (`via`); a pack
+without it gets no call counts. `admit-pack` checks size,
 shape, that every node kind exists in the grammar, the template placeholders, and, with a control file,
 that recorded annotations get their recorded outcome and that accepted ones yield a real change.
 

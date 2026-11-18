@@ -39,6 +39,123 @@ fn receipt_of(path: &std::path::Path) -> serde_json::Value {
     serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap()
 }
 
+/// Per language: a caller file, a second file, the calls the caller file
+/// makes to its own functions, and the edges of the two files together.
+/// Each caller file calls `local` twice or more and something of the other
+/// file once.
+type Scope = (
+    &'static str,
+    [(&'static str, &'static str); 2],
+    u64,
+    &'static [[&'static str; 2]],
+);
+
+const SCOPES: [Scope; 4] = [
+    (
+        "python",
+        [
+            (
+                "caller.py",
+                "def local(): pass\ndef caller():\n    (local)()\n    local()()\n    obj.remote()\n",
+            ),
+            ("other.py", "def remote(): pass\n"),
+        ],
+        2,
+        &[["caller.py", "local"], ["other.py", "remote"]],
+    ),
+    (
+        "typescript",
+        [
+            (
+                "caller.ts",
+                "function local() {}\nfunction caller() {\n  (local)();\n  this.local();\n  obj.remote();\n}\n",
+            ),
+            ("other.ts", "export const remote = () => {};\n"),
+        ],
+        2,
+        &[["caller.ts", "local"], ["other.ts", "remote"]],
+    ),
+    (
+        "java",
+        [
+            (
+                "Caller.java",
+                "class Caller {\n  void local() {}\n  void caller(Other obj) {\n    local();\n    this.local();\n    obj.remote();\n    new Other();\n  }\n}\n",
+            ),
+            ("Other.java", "class Other {\n  Other() {}\n  void remote() {}\n}\n"),
+        ],
+        2,
+        &[["Caller.java", "local"], ["Other.java", "Other"], ["Other.java", "remote"]],
+    ),
+    (
+        "rust",
+        [
+            (
+                "caller.rs",
+                "fn local<T>() {}\nfn caller(obj: &Other) {\n    local::<u8>();\n    self::local::<u8>();\n    obj.remote();\n}\n",
+            ),
+            ("other.rs", "impl Other {\n    fn remote(&self) {}\n}\n"),
+        ],
+        2,
+        &[["caller.rs", "local"], ["other.rs", "remote"]],
+    ),
+];
+
+#[test]
+fn calls_are_counted_per_file_and_as_edges_across_a_scope_for_four_languages() {
+    for (lang, files, occurrences, callees) in SCOPES {
+        let dir = temp_dir(&format!("scope-{lang}"));
+        for (name, text) in files {
+            fs::write(dir.join(name), text).unwrap();
+        }
+        let [(caller, _), (other, _)] = files;
+        let (status, stdout, err) = run_cli(&[
+            "deconvolute",
+            "analyze",
+            "--lang",
+            lang,
+            "--source",
+            dir.join(caller).to_str().unwrap(),
+        ]);
+        assert!(status.success(), "{lang}: {err}");
+        let file: serde_json::Value = serde_json::from_str(&stdout).unwrap();
+        assert_eq!(file["call_occurrences"], occurrences, "{lang}");
+
+        let scope = |second: &str| {
+            let root = dir.to_str().unwrap();
+            run_cli(&[
+                "deconvolute",
+                "measure-scope",
+                "--lang",
+                lang,
+                "--root",
+                root,
+                "--file",
+                caller,
+                "--file",
+                second,
+            ])
+        };
+        let (status, stdout, err) = scope(other);
+        assert!(status.success(), "{lang}: {err}");
+        let report: serde_json::Value = serde_json::from_str(&stdout).unwrap();
+        assert_eq!(report["receipt"], "scope-calls-v1");
+        let expected: Vec<_> = callees
+            .iter()
+            .map(|[file, name]| serde_json::json!([caller, "caller", file, name]))
+            .collect();
+        assert_eq!(report["edges"], serde_json::json!(expected), "{lang}");
+        assert_eq!(report["files"][caller]["call_occurrences"], occurrences);
+        assert_eq!(report["total"]["edges"], callees.len());
+        assert_eq!(report["total"]["module_hops"], 1, "{lang}");
+
+        assert_eq!(scope("../outside").0.code(), Some(3), "{lang}");
+        fs::write(dir.join(other), "(((").unwrap();
+        assert_eq!(scope(other).0.code(), Some(3), "{lang}");
+        fs::remove_dir_all(dir).unwrap();
+    }
+}
+
 /// One small source per language with a condition, a state write and a
 /// failure signal.
 const SAMPLES: [(&str, &str, &str); 4] = [
@@ -85,6 +202,7 @@ fn analyze_reports_sites_writes_and_boundaries_for_four_languages() {
         let receipt = receipt_of(&out);
         assert_eq!(receipt["receipt"], "deconvolution-analysis-v2");
         assert_eq!(receipt["lang"], lang);
+        assert!(receipt["call_occurrences"].is_u64(), "{lang}");
         assert_eq!(receipt["passed"], true, "{lang}");
         assert_eq!(receipt["gaps"].as_array().unwrap().len(), 0, "{lang}");
         assert_eq!(

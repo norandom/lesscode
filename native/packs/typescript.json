@@ -17,6 +17,7 @@
     "pure_shell_boundary": {"nodes": ["function_declaration", "method_definition", "arrow_function", "function_expression"]},
     "call_argument": {"nodes": ["arguments"]}
   },
+  "calls": {"nodes": ["call_expression"], "via": {"call_expression": "function", "member_expression": "property"}},
   "noop_statement": ";",
   "statement_wrappers": ["expression_statement"],
   "statement_terminator": ";",

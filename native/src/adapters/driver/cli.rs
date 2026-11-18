@@ -2,6 +2,7 @@
 
 use super::admission::admit;
 use super::analysis::{analyse, outside_frame};
+use super::calls::scope_calls;
 use super::controls::{replay, seed_mutants, ControlFile};
 use super::operators::mutants_of_sites;
 use super::pack::Pack;
@@ -102,6 +103,8 @@ struct AnalysisReceipt<'a> {
     sites: Vec<Site>,
     write_sites: Vec<String>,
     function_boundaries: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    call_occurrences: Option<usize>,
     gaps: Vec<CoverageGap>,
     violations: Vec<String>,
     passed: bool,
@@ -135,12 +138,25 @@ pub fn run_analyze(
         sites: analysis.sites,
         write_sites: analysis.write_sites,
         function_boundaries: analysis.boundaries,
+        call_occurrences: analysis.call_occurrences,
         gaps: analysis.gaps,
         violations,
         passed,
     };
     emit_json(&receipt, out)?;
     Ok(if passed { 0 } else { 1 })
+}
+
+/// `deconvolute measure-scope`: the calls among the files of a scope.
+pub fn run_measure_scope(
+    lang: &str,
+    root: &Path,
+    files: &[String],
+    out: Option<&Path>,
+) -> Result<u8, String> {
+    let pack = embedded(lang).map_err(|e| e.to_string())?;
+    emit_json(&scope_calls(pack, root, files)?, out)?;
+    Ok(0)
 }
 
 #[derive(Serialize)]

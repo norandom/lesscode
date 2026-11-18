@@ -40,6 +40,18 @@ pub fn parse(text: &str, lang: SupportLang) -> Result<SgRoot, String> {
     StrDoc::try_new(text, lang).map(AstGrep::doc)
 }
 
+/// Parse `text` as `language`. A text that does not parse is an error that
+/// says where parsing stopped; `label` names the file in it.
+pub fn parse_clean(label: &str, text: &str, language: &str) -> Result<SgRoot, String> {
+    let root = parse(text, grammar(language)?)?;
+    match first_error(&root.root()) {
+        Some((line, column)) => Err(format!(
+            "{label}:{line}:{column}: the source does not parse"
+        )),
+        None => Ok(root),
+    }
+}
+
 pub fn kind_is_valid(lang: SupportLang, kind: &str) -> bool {
     KindMatcher::try_new(kind, lang).is_ok()
 }

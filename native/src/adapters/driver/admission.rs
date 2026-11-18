@@ -200,6 +200,8 @@ pub fn kind_names(pack: &Pack) -> BTreeSet<&str> {
             .keys()
             .map(String::as_str),
     );
+    names.extend(pack.calls.nodes.iter().map(String::as_str));
+    names.extend(pack.calls.via.keys().map(String::as_str));
     for gap in &pack.gaps {
         names.extend(gap.nodes.iter().map(String::as_str));
         names.extend(gap.nodes_with_prefix.keys().map(String::as_str));

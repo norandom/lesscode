@@ -75,7 +75,7 @@ enum Command {
         #[command(subcommand)]
         cmd: regenerator::RegenerateCommand,
     },
-    /// Work on source files: density, analyze, mutate, run, admit-pack, install-hook.
+    /// Work on source files: density, analyze, measure-scope, mutate, run, admit-pack, install-hook.
     Deconvolute {
         #[command(subcommand)]
         cmd: cli_deconvolute::DeconvoluteCommand,

@@ -20,8 +20,8 @@
                     "call_statements": ["call_expression", "await_expression"]},
     "pure_shell_boundary": {"nodes": ["function_item"]}, "call_argument": {"nodes": ["arguments"]}
   },
-  "noop_statement": ";",
-  "statement_wrappers": ["expression_statement"],
+  "calls": {"nodes": ["call_expression"], "via": {"call_expression": "function", "scoped_identifier": "name", "field_expression": "field", "generic_function": "function"}},
+  "noop_statement": ";", "statement_wrappers": ["expression_statement"],
   "statement_terminator": ";",
   "operators": {
     "branch_condition": {"template": "!({text})", "exclude_kinds": ["let_condition", "let_chain"],

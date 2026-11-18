@@ -1,9 +1,10 @@
 //! Analysis of one source file: its sites, the state-write sites, the
 //! function boundaries and the constructs the pack declares as gaps.
 
+use super::calls::named;
 use super::pack::{has, Gap, Pack};
 use super::sites::{sites_of, Site, OPERATOR_KINDS};
-use super::tree::{ancestors, first_error, grammar, parse, walk, SgNode};
+use super::tree::{ancestors, parse_clean, walk, SgNode};
 use super::Kind;
 use crate::adapter_traits::{CoverageGap, FrameSpec};
 
@@ -31,6 +32,9 @@ pub struct Analysis {
     /// `label:start-end` of each function boundary.
     pub boundaries: Vec<String>,
     pub gaps: Vec<CoverageGap>,
+    /// Calls made under the name of a function the file declares; absent
+    /// when the pack does not say what a call is.
+    pub call_occurrences: Option<usize>,
 }
 
 fn is_gap(gap: &Gap, node: &SgNode<'_>) -> bool {
@@ -47,12 +51,7 @@ fn is_gap(gap: &Gap, node: &SgNode<'_>) -> bool {
 /// Analyse `text`; `label` is how the file is named in the results. A text
 /// that does not parse is an error that says where parsing stopped.
 pub fn analyse(pack: &Pack, label: &str, text: &str) -> Result<Analysis, String> {
-    let root = parse(text, grammar(&pack.language)?)?;
-    if let Some((line, column)) = first_error(&root.root()) {
-        return Err(format!(
-            "{label}:{line}:{column}: the source does not parse"
-        ));
-    }
+    let root = parse_clean(label, text, &pack.language)?;
     let mut kinds = OPERATOR_KINDS.to_vec();
     kinds.push(Kind::PureShellBoundary);
     let sites = sites_of(pack, label, text, &kinds)?;
@@ -82,5 +81,6 @@ pub fn analyse(pack: &Pack, label: &str, text: &str) -> Result<Analysis, String>
         write_sites,
         boundaries,
         gaps,
+        call_occurrences: named(pack, label, text)?.map(|n| n.occurrences()),
     })
 }

@@ -29,7 +29,11 @@ pub struct Function {
 impl Function {
     /// Whether the site starts inside this function.
     pub fn contains(&self, site: &Site) -> bool {
-        let at = (site.start_line, site.start_column);
+        self.covers((site.start_line, site.start_column))
+    }
+
+    /// Whether the line and column lie inside this function.
+    pub fn covers(&self, at: (usize, usize)) -> bool {
         (self.start_line, self.start_column) <= at && at < (self.end_line, self.end_column)
     }
 }
