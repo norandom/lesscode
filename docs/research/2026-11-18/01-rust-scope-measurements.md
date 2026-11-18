@@ -41,3 +41,5 @@ The ordinary language-pack analyzer counted 323 → 317 state-write sites for E5
 Verification used Rust 1.98.1. The pinned Windows nextest 0.9.143 run passed 402 tests. Linux Dagger passed 401 native tests and exported overall exit 0. The cross-file regression ran on both platforms. [Windows result](D:/BuildArtifacts/lesscode/corrective-audit/foreground-20261118/pinned-nextest.log) · [Linux results](D:/BuildArtifacts/lesscode/corrective-audit/foreground-20261118/dagger-evidence)
 
 The prototype establishes structural measurement on these specimens. Static name matching can bind multiple definitions across files. A recorded edge does not establish a runtime call. Production adoption remains an owner decision. The bounded solver, runtime state observation and mutation-sensitivity requirements need independent specimen evidence.
+
+Amendment, 18 November 2026. The call counts are ported into `lesscode-core` and are driven by the language packs for all four languages. The changes this prototype made to `measures.rs`, and its command that printed the `scope-measures-v1` report, were not taken over. [R151](17-pack-driven-call-counts.md)

@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R150 Six completed specs swept: one unsupported requirement, three tests that pass while skipping (2026-11-18)
+## Latest · R151 Call counts are in lesscode-core for all four languages (2026-11-18)
+
+The language packs now say what a call is. `deconvolute analyze` reports the calls a file makes to its own functions and the new `deconvolute measure-scope` gives the call edges of a scope, for Python, TypeScript, Java and Rust. On the four E5 and E6 arms and both controls the Python counts and edge lists equal R135's frozen reference. Matching is by name: of the 24 edges out of one Rust file of the driver, ten are name matches only. [R151](2026-11-18/17-pack-driven-call-counts.md)
+
+## Prior · R150 Six completed specs swept: one unsupported requirement, three tests that pass while skipping (2026-11-18)
 
 Each validation claim was asked for a command, real inputs and whether it runs today. Budgets, admission, the E4 replay and R39's nine Rust probes run and agree. The Python claims of four specs are retired with their code. Requirement 5 of the dogfood spec has no command behind it, and three `recording` tests report a pass after returning early. A stale build from a prototype copy was found in the shared target directory and removed; R148's receipts repeat byte for byte. [R150](2026-11-18/16-completed-specs-sweep.md)
 

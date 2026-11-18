@@ -62,6 +62,7 @@ side by side. **Owner** marks a decision that only the owner can take.
     This replaces "100% adverse mutant kill rate".
 - [x] 2.2 Port the missing call-edge measurement to the Rust analyzer and rerun the scope measurements
   - Prototype verified on 18 November. Both evaluators used `measure_written` for their published totals. The Rust scope command reproduced all four edge lists, and the per-file analyzer matched `measure_scope_source`. [R135 and replay evidence](../docs/research/2026-11-18/01-rust-scope-measurements.md)
+  - Ported into `lesscode-core` on 18 November (`fec7d8d`), driven by the language packs for all four languages: `deconvolute analyze` reports `call_occurrences`, `deconvolute measure-scope` the edges. Python equals the reference on all six arms. [R151](../docs/research/2026-11-18/17-pack-driven-call-counts.md)
   - Recover `measure_scope_source` from the parent of `4f0aed4` and trace how E5/E6 called it. Implement
     its call-occurrence counting behavior in the Rust path reached by `lesscode-core deconvolute analyze`.
   - Done when the retained patch and CLI runs reproduce the reference per file on the frozen E5/E6

@@ -65,4 +65,6 @@ Native deconvolution closure (Stage 1) is fully verified and integrated. The nat
 
 Foreground amendment, 18 November 2026. The measurement portion of requirement 2 now has a runnable prototype on E5 and E6. [R135](../../../docs/research/2026-11-18/01-rust-scope-measurements.md) records the patch and the exact Python/Rust comparison. The overall disposition remains NO-GO.
 
+Port, 18 November 2026. The call counts of that prototype are in `lesscode-core`, driven by the language packs for all four shipped languages. [R151](../../../docs/research/2026-11-18/17-pack-driven-call-counts.md) has the comparison with the Python reference. The overall disposition remains NO-GO.
+
 Foreground amendment, 18 November 2026. [R138](../../../docs/research/2026-11-18/04-e5-e6-specimen-faults.md) records a bounded test of requirement 4 using the released mutation driver. Four preselected faults per trial were detected on each baseline and candidate. The report identifies each reached source line and test failure. Whole-specimen sensitivity, streams and overall qualification remain open.
