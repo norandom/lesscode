@@ -1,8 +1,23 @@
 # Corrective tasks after the audit of 2026-11-17
 
 Written 2026-11-17, 22:10 Europe/Berlin (from the clock). Source: [R134](../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md)
-and [R133](../docs/research/2026-11-17/20-model-simplification-closed.md). Generated at the owner's
-request; **not approved**. Nothing here is started.
+and [R133](../docs/research/2026-11-17/20-model-simplification-closed.md). The owner approved the
+[overnight plan](overnight-plan-2026-11-17.md). Its first implementation task is the Rust prototype
+in 2.2. Items outside the overnight plan retain their existing approval state.
+
+## Delivery objective
+
+Implement the supported Python research behavior in Rust lesscode. For each Kiro requirement, trace
+the research code and specimen to a reachable Rust CLI operation. Reuse an existing operation when
+it implements the required behavior. For each gap, identify the missing behavior, implement the
+approved slice and keep a replayable comparison on real inputs. Update the spec from those results.
+
+| Capability | Work and evidence |
+| --- | --- |
+| Scope measurements | Port the historical call-count definition in 2.2. Compare per-file Rust results with the Python reference on E5 and E6. |
+| State boundaries, execution and mutation | Use R134's requirement-by-requirement findings and 1.3–1.4 to identify missing observations or runtime behavior. Exercise the released mutation driver in 2.1 before proposing replacement code. Track uncovered requirements individually through 3.1. |
+| Bounded solver check | Earlier Python experiments used Z3. The old Rust verifier compares caller-supplied closures by enumeration. Task 2.3 needs a Rust-driven solver check with explicit bounds, a real candidate and a replayed planted difference. |
+| Scattered state | Follow the state-consolidation brief in order. Locate states, transitions and guards in source, then check a consolidation against the original. Use the prepared Python specimen first and the real Rust stale-worker case next. |
 
 Rule for every task: it is done when the named command ran on the real code and its output is kept.
 A check that ran on functions written inside a script does not count. `(P)` marks tasks that can run
@@ -39,17 +54,20 @@ side by side. **Owner** marks a decision that only the owner can take.
   - `lesscode-core deconvolute run` on the baseline and on each candidate, same pack, same tests.
   - Done when: noticed and unnoticed faults per function, baseline beside candidate, for both trials.
     This replaces "100% adverse mutant kill rate".
-- [ ] 2.2 (P) Measure functions, call edges and write sites again
-  - The module that produced "69 to 50 functions, 89 to 61 edges, 12 to 11 write sites" is deleted. Use
-    `deconvolute analyze` for functions and write sites; say plainly if call edges cannot be measured
-    with what exists.
-  - Done when: the figures stand beside R42's and R45's, or are marked not reproducible.
+- [ ] 2.2 Port the missing call-edge measurement to the Rust analyzer and rerun the scope measurements
+  - Recover `measure_scope_source` from the parent of `4f0aed4` and trace how E5/E6 called it. Implement
+    its call-occurrence counting behavior in the Rust path reached by `lesscode-core deconvolute analyze`.
+  - Done when the retained patch and CLI runs reproduce the reference per file on the frozen E5/E6
+    inputs and one added matching call increases the count by one. Record function and write-site
+    counts beside R42 and R45, explaining differences in definitions. Keep any mismatch open.
 - [ ] 2.3 A bounded equivalence check that runs on candidate code
   - **Owner:** this is the first prototype of the spec `state-consolidation`, not a repair of the old
     port. It needs a decision on how Rust tooling runs Python functions of a specimen (the project
     allows no Python tooling of its own), and Z3 as an external program.
-  - Done when: one changed pure function of E5 is checked, baseline against candidate, over stated
-    bounds, with a planted difference found as a control.
+  - Once the runtime contract is settled, have Rust produce the bounded query and invoke Z3. Retain
+    the query, solver version and verdict. Replay a solver witness against both specimen versions.
+  - Done when one changed pure function of E5 is checked, baseline against candidate, over stated
+    bounds, and the planted difference is found and reproduced on the specimen.
 
 ## 3. Remove what pretends
 
@@ -108,8 +126,9 @@ side by side. **Owner** marks a decision that only the owner can take.
   work is always done by another. The validation report of `state-boundary-deconvolution` names
   "Antigravity" as its auditor; the port's commits name no agent.
 
-## Order proposed
+## Execution order
 
-1.5 and 1.1 first (an hour, they bound the damage), then 2.1 (the one real check that is missing and
-that the released tool can do today), then 3.1 and 5.2 together, then the rest of group 1. Group 4
-follows group 1. Task 2.3 starts with the requirements of `state-consolidation`.
+Start with 2.2. Use the remaining overnight time for 1.5, 1.1, 2.1 and the supporting audits in
+the approved plan. Use their results to prioritize the next Rust capability. Task 2.3 starts with
+the requirements and runtime decision for `state-consolidation`. Pair 3.1 with 5.2 after the
+owner's module decision. Group 4 records the corrections established by group 1.
