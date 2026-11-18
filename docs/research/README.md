@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R148 The three adapter specs are not delivered as specified (2026-11-18)
+## Latest · R149 The E3 and E4 figures that can be rerun reproduce (2026-11-18)
+
+Each E3 and E4 figure has a script that takes the candidate's root. Today's acceptance runs gave the recorded test counts and replays without a difference, twelve measure files came out identical and both reviewer-probe outputs matched byte for byte. The mutation runs, E3's solver step and the model turns were not rerun. [R149](2026-11-18/15-e3-e4-figure-audit.md)
+
+## Prior · R148 The three adapter specs are not delivered as specified (2026-11-18)
 
 Each requirement of the TypeScript, Java and Rust adapter specs was checked against code a command reaches. The driver covers static analysis and fault runs. Nothing covers bounded comparison or runtime observation, and all three candidates are marginal by syntax (5.6% to 18.8% fewer tokens). The three specs now say `not-delivered`. 32 remaining adapter tests passed. [R148](2026-11-18/14-adapter-specs-audit.md)
 

@@ -29,7 +29,8 @@ side by side. **Owner** marks a decision that only the owner can take.
   - [R136](../docs/research/2026-11-18/02-e6-acceptance-rerun.md) records 56 passed and one skipped on 18 November. Both runs passed the candidate import guard and exited 0.
   - `docs/experiments/deconvolution/e6-report-envelope/run_e6.py` on `.runs/e6-report-envelope/cand-e6`.
   - Done when: the pass count is recorded beside R45's "46 of 46", or the reason it cannot run.
-- [ ] 1.2 (P) Audit E3 and E4 the way E5 was audited
+- [x] 1.2 (P) Audit E3 and E4 the way E5 was audited
+  - [R149](../docs/research/2026-11-18/15-e3-e4-figure-audit.md) has the table. Every figure ran on the candidate. Acceptance, replay, measures and probes reproduce; the mutation runs, the solver step and the model turns were not rerun.
   - Read `e3-evidence-regeneration` and `e4-lifecycle`: for each reported figure, find the code that
     produced it and say whether it ran on the candidate. Rerun what still runs.
   - Done when: one table with a row per figure (reproduces, not supported, not rerun).
