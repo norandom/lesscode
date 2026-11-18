@@ -131,6 +131,17 @@ side by side. **Owner** marks a decision that only the owner can take.
   work is always done by another. The validation report of `state-boundary-deconvolution` names
   "Antigravity" as its auditor; the port's commits name no agent.
 
+## Owner decisions for the wrap-up, 18 November 2026
+
+The owner wants to close the corrections for the missing Rust ports in the real `lesscode-core`.
+
+- **Scope of ports:** all four verified prototypes go into core: 2.2 scope measurement, the 2.3 bounded Z3 check, Python state-machine discovery (R140) and the Java guard and look-ahead lowering (R146, R147).
+- **Port style, agnostic split:** core receives only the generic parts, driven by language packs and a target description file. Target-specific models stay under `docs/experiments/`: the Commons CSV class name, source hash, exact statement text and input, and the E5 row filter. No per-target rule enters core.
+- **Python-only leftovers:** make the 2.2 call counting pack-driven for all shipped languages, and replace the Python-only `check_syntax` at `native/src/surface.rs:124` with a grammar-based check.
+- **3.1:** delete all six unreachable modules with their tests, paired with 5.2. `pure_verifier.rs` goes once the 2.3 port lands. Runtime observation may return later as a new spec.
+- **Order, audits first:** 1.2, 1.3 and 1.4, then the ports (2.2, 2.3, state-machine discovery, Java lowering), then 3.1 with 5.2, then 3.2 and 3.3, group 4, and the rest of group 5. Each step is one foreground task group with its own handover.
+- **6.1:** hold the local commits until the wrap-up is done. 6.2 and 6.3 remain open.
+
 ## Execution order
 
 Start with 2.2. Use the remaining overnight time for 1.5, 1.1, 2.1 and the supporting audits in
