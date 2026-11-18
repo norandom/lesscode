@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R141 The historical Rust worker bug reproduces (2026-11-18)
+## Latest · R142 Rust traces which test the worker ran (2026-11-18)
+
+The Rust trace matched the file seen at all 69 test launches. On reopening a worker after an edit, the old driver reran five mutations using the old test. The trace located the copy that supplied the fixed worker with the edited test. Disabling that copy reproduced the missed fault. [R142 and replay](2026-11-18/08-native-worker-byte-trace.md)
+
+## Prior · R141 The historical Rust worker bug reproduces (2026-11-18)
 
 The pre-fix driver reran a strengthened test with stale test bytes and missed a fault. A fresh worker and the fixed driver caught it. The source-only model produced no prediction at either output allowance. Real-code discovery remains open. [R141](2026-11-18/07-real-rust-worker-discovery.md)
 
