@@ -1,0 +1,13 @@
+# Task 66 handover · job-machine discovery
+
+The first discovery check in the state-consolidation brief passed. Given a package path, the foreground Rust research CLI resolved the two mixins, found the initial state and the two guarded moves, and emitted source citations. On the separately supplied explicit version it located both rules in one table. The original names, tests, expected states and sibling package were absent from the extractor’s arguments. The investigator knew the synthetic fixture. [R140 and replay commands](../docs/research/2026-11-18/06-rust-job-machine-discovery.md)
+
+All 31 clean histories agreed under Z3 and model enumeration. The frozen Python suite passed 63 cases. The solver’s shortest planted witness was `finish` from the initial state. Both clean specimens refused it. The changed table accepted it. The renamed package retained its recovered structure, and the tool rejected an extra effect and an unresolved import. The reviewed research package passed three cargo-nextest tests, Rustfmt and Clippy. Review was inline. [Prototype gate](specs/state-consolidation/prototype-gate.md) · [Planted witness](D:/BuildArtifacts/lesscode/corrective-audit/task66/verified/planted-query/result.json)
+
+## Evidence and storage
+
+The 14,440,758 bytes retained in `D:\BuildArtifacts\lesscode\corrective-audit\task66` include two frozen research executables, the initial run, verified run, final replay, hashes, raw SMT, reports, specimen copies and test logs. The final executable occupies 7,018,496 bytes. The shared Cargo target was reused. Package-specific cleanup after freezing the executable removed 363.0 MiB. Compatible dependencies remain for other builds. The measured Lesscode footprint went from 28.30 to 28.32 GiB, and D: free space from 195.09 to 194.87 GiB. [Evidence directory](D:/BuildArtifacts/lesscode/corrective-audit/task66) · [Opening measurement](D:/BuildArtifacts/lesscode/corrective-audit/task66/storage-start.json) · [Closing measurement](D:/BuildArtifacts/lesscode/corrective-audit/task66/storage-close.json)
+
+## Next group
+
+Run the real-code discovery experiment on the pre-fix Rust mutation driver at `60f79f3`. Freeze the input and predictions before comparison with the later fix and regression. The current recognizer supports a narrow Python subset. The next experiment needs evidence that the tool can derive a cross-file machine and predict a distinguishing history on Rust source. Consolidation, production adoption and the separate corrective audit queue remain open. [R130 proposed evaluation](../docs/research/2026-11-17/17-hidden-state-machine-fitness.md) · [State-consolidation brief](specs/state-consolidation/brief.md)

@@ -27,3 +27,15 @@ This experiment measures verification feasibility. It proposes no additional sou
 ## Outcome · 18 November
 
 Proceed with bounded-check research on the demonstrated filter. Both clean functions returned identical reports on every assignment. Z3 identified a witness for the planted revision error, confirmed in fresh executions of all three arms. The state-consolidation feature gate awaits the discovery and compression experiments. [R139, evidence and replay](../../../docs/research/2026-11-18/05-e5-rust-z3-check.md)
+
+## Discovery on the prepared job machine · preregistration
+
+Recorded 18 November at 09:35 Europe/Berlin. Use the source and tests pinned by [R130](../../../docs/research/2026-11-17/17-hidden-state-machine-fitness.md), manifest SHA-256 `52c9fe089d40ae6a6b60f9f53e8a90541a2f4ea1b64baf22d1fffd1cdb05604f`. Read only the supplied package's Python modules during each extraction. Keep the sibling implementation, tests and oracle outside that input. The investigator has seen the fixture. The tool receives no expected names or transition map.
+
+Require a source-backed entity and field, initial value, three states, both event guards and destinations, and accepted and refused outcomes. Resolve the two mixins across imports. Distinguish independently written rules from a single table with distributed handlers. Verify a renamed version to challenge dependence on fixture names. Refuse unsupported handler effects or unresolved ownership. A count of assignments cannot pass.
+
+On the two separately extracted machines, compare initial state, returned acceptance and state after each event, for the two events and all histories of length zero through four (31). Use the pinned external Z3 from R139, at most ten seconds per query, five length queries per pair and one shortest-witness query when necessary. Replace the table’s finish precondition with the idle state in a copy. Require clean agreement, a solver witness for the changed table and replay of that history through the frozen specimen test in both clean and changed trees. Run the original oracle suite with pytest-xdist. Store source identities, extracted reports, raw queries, solver responses and test results. Any failed criterion limits the conclusion.
+
+This calibration uses a synthetic machine with a known answer. It has no rewrite or reduction target (zero additional lines removed, zero percent). A pass qualifies the recognizer for a separate real-code discovery experiment. A successful recovery on this fixture alone cannot unlock production or consolidation.
+
+The calibration passed on 18 November. The Rust report recovered both guarded moves with source lines and correctly identified the separately supplied table. The 31 clean histories agreed. The shortest planted witness, `finish` on a fresh job, reproduced through the frozen specimen test. Proceed to a separate discovery experiment on the real stale-worker case. [R140 and replay](../../../docs/research/2026-11-18/06-rust-job-machine-discovery.md)

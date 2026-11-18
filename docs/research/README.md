@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R139 Rust and Z3 check a changed E5 function (2026-11-18)
+## Latest · R140 Rust recovers the scattered job machine (2026-11-18)
+
+Rust found the entity, three states and two guarded transitions in the prepared Python package, with source locations. Its separate report located the explicit rules in one table. All 31 clean histories agreed and the specimen reproduced Z3’s one-event witness for a planted guard. [R140](2026-11-18/06-rust-job-machine-discovery.md)
+
+## Prior · R139 Rust and Z3 check a changed E5 function (2026-11-18)
 
 Rust translated E5’s row-retention guard and invoked Z3. The real baseline and candidate returned identical reports for all 81 bounded inputs. A solver witness reproduced a stale window in the planted candidate, which differed on 18 inputs. [R139](2026-11-18/05-e5-rust-z3-check.md)
 

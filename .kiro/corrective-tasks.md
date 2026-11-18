@@ -17,7 +17,7 @@ approved slice and keep a replayable comparison on real inputs. Update the spec 
 | Scope measurements | Port the historical call-count definition in 2.2. Compare per-file Rust results with the Python reference on E5 and E6. |
 | State boundaries, execution and mutation | Use R134's requirement-by-requirement findings and 1.3–1.4 to identify missing observations or runtime behavior. Exercise the released mutation driver in 2.1 before proposing replacement code. Track uncovered requirements individually through 3.1. |
 | Bounded solver check | The research CLI in 2.3 produces SMT-LIB from the E5 row filter, invokes Z3 and replays a counterexample against the real specimen. The old Rust verifier still compares caller-supplied closures by enumeration. |
-| Scattered state | Follow the state-consolidation brief in order. Locate states, transitions and guards in source, then check a consolidation against the original. Use the prepared Python specimen first and the real Rust stale-worker case next. |
+| Scattered state | Rust recovered the prepared Python machine, traced the existing table and replayed a planted guard difference. The next discovery specimen is the real Rust stale-worker case. [R140](../docs/research/2026-11-18/06-rust-job-machine-discovery.md) |
 
 Rule for every task: it is done when the named command ran on the real code and its output is kept.
 A check that ran on functions written inside a script does not count. `(P)` marks tasks that can run
