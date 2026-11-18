@@ -35,3 +35,10 @@ D had 175.8 GiB free at entry and 175.7 GiB at close. No new target directory; t
 4. Then as in handover 75: R140 as a history form of `bound-check`, the Java lowering, 3.1 with 5.2 and 3.4, 3.2 and 3.3, group 4, the rest of 5.
 
 Local commits stay unpushed (`origin/main` at `a5df503`); a humanizer pass on `README.md` and `docs/driver.md` is due before any push. Slice B drift hardening (MIPROv2/GEPA) is unchanged, measured through R79, and awaits the owner's choice. Next research ID: R157.
+
+## Amendment, 16:02: the owner's four decisions
+
+1. `repair.rs:116` and `117` are accepted into the expected answer; the find step passes on the reply machine.
+2. `match` arms as branch conditions: prototype first, in an experiment copy, before the Rust pack or its limit changes.
+3. The finder's rules become a second data file per language beside the pack.
+4. Next: the finder on a repository it was not written against. Chosen: `D:\Source\mmhmem` at `452fb7c`, preregistered in the prototype gate. Next research ID stays R157.
