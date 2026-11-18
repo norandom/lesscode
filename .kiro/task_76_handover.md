@@ -98,3 +98,11 @@ On the owner's word the flow is a user guide: `docs/state-refactoring.md`. Examp
 Findings about the tool, not fixed, owner decides: (1) a failing first run leaves no output in the receipt; (2) `step record` reads the committed verdict, while the skill's order and a comment in `record.rs` say otherwise; (3) `run_batch` has no noticed fault with the two driver suites; (4) the put-back of a job after a failed run is unprotected, no pin written.
 
 Storage: step work directory (6.8 GiB) removed; D: about 157 GiB free; evidence `state-consolidation\r161`. Release 2.1.0: when last looked at (18:57) the publish job waited for the owner's approval. Next research ID R162; next handover 77. Slice B unchanged (R79, owner's choice).
+
+## Amendment, 20:31: step merged and pushed; two tool findings fixed and pushed
+
+On the owner's word: `step/batch-progress` merged into main (`bcebda8`) and pushed. Findings 1 and 2 of R161 fixed in `fe2935b` and pushed: a failing first run names the step that failed and the end of its output (`runner.rs`; `step check` carries it into the refusal via `Ended::TestsFail(String)`), and `step record` judges the verdict on disk (`standing(.., on_disk)` in `step/guard.rs`). New test `record_judges_the_verdict_on_disk_and_the_guard_the_committed_one`. Windows: clippy clean, 410 of 410, budgets within (`runner.rs` 2,748 of 2,800 tokens; the first form of the fix exceeded the ceiling and was shortened, the ceiling was not raised). Linux through Dagger at `fe2935b`: overall 0, 409 of 409 core, 85 of 85 model. These fixes are after 2.1.0 and belong in the next release notes.
+
+A mistake corrected before the push: `git add -A native` had taken two untracked files into the commit (`native/adapters/java/lesscode/ProbeMain.class`, `native/budget-report.json.sha256`); the commit was amended without them. They are still untracked in the working tree.
+
+Open question from the owner: a heuristic for when a target is deconvoluted far enough, given that codebases differ. Answered as a proposal, not measured; a candidate for R162.
