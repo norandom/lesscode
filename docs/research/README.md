@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R151 Call counts are in lesscode-core for all four languages (2026-11-18)
+## Latest · R152 The bounded solver check is a command of lesscode-core and repeats R139 on E5 (2026-11-18)
+
+`deconvolute bound-check` takes a target file with symbols, ranges and, per version, an SMT-LIB expression and a command. On E5 it gave R139's result: unsat and 0 of 81 differing reports for the candidate, sat and the same 18 of 81 for the planted fault, with witness 9 reproduced. A model that misses the fault is reported as inconsistent. The E5 row filter stays in the experiment; the core does not derive expressions. [R152](2026-11-18/18-bound-check-in-core.md)
+
+## Prior · R151 Call counts are in lesscode-core for all four languages (2026-11-18)
 
 The language packs now say what a call is. `deconvolute analyze` reports the calls a file makes to its own functions and the new `deconvolute measure-scope` gives the call edges of a scope, for Python, TypeScript, Java and Rust. On the four E5 and E6 arms and both controls the Python counts and edge lists equal R135's frozen reference. Matching is by name: of the 24 edges out of one Rust file of the driver, ten are name matches only. [R151](2026-11-18/17-pack-driven-call-counts.md)
 

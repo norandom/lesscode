@@ -39,3 +39,5 @@ Get-Content (Join-Path $out 'result.json')
 ## Spec consequence
 
 The approved prototype runtime worked for this manually selected filter. Z3 checked row retention symbolically. Exhaustive specimen execution established whole-report agreement on the stated domain. Missing row fields, other dispositions, repeated monitors, other sequence lengths and other standing or flag values are outside that domain. The apparatus consumed an existing rewrite. It discovered no state machine and generated no compression measurement. The next feature gate is whether the tool can locate the prepared scattered job machine from source before proposing a consolidation. [State-consolidation brief](../../../.kiro/specs/state-consolidation/brief.md)
+
+Amendment, 18 November 2026. The general part of this check is ported into `lesscode-core` as `deconvolute bound-check`. The experiment crate gained two modes, `--target` and `--windows`; the original run of this entry is unchanged. [R152](18-bound-check-in-core.md)

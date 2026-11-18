@@ -70,6 +70,7 @@ side by side. **Owner** marks a decision that only the owner can take.
     counts beside R42 and R45, explaining differences in definitions. Keep any mismatch open.
 - [x] 2.3 A bounded equivalence check that runs on candidate code
   - On 18 November the owner approved the pinned CPython invocation adapter and external Z3 for this prototype. Rust found zero clean whole-report differences across 81 E5 inputs and replayed a Z3 witness for the planted change. [R139 and replay](../docs/research/2026-11-18/05-e5-rust-z3-check.md)
+  - Ported into `lesscode-core` on 18 November (`c1c76e8`) as `deconvolute bound-check`, driven by a target file. The E5 row filter stays in the experiment. The command repeats R139 on E5 and reports a model that misses the fault as inconsistent. [R152](../docs/research/2026-11-18/18-bound-check-in-core.md)
   - **Owner:** this is the first prototype of the spec `state-consolidation`, not a repair of the old
     port. It needs a decision on how Rust tooling runs Python functions of a specimen (the project
     allows no Python tooling of its own), and Z3 as an external program.
