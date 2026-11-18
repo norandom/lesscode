@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R137 Literal results in historical scripts (2026-11-18)
+## Latest · R138 Matched faults on E5 and E6 (2026-11-18)
+
+[R138](2026-11-18/04-e5-e6-specimen-faults.md) ran the released Rust driver on four preselected faults in each trial. Both baselines and both candidates detected every selected fault. All 16 mutated lines executed and the four arms passed their clean controls.
+
+## Prior · R137 Literal results in historical scripts (2026-11-18)
 
 [R137](2026-11-18/03-gate-result-literals.md) lists where five gates and two evaluators supply result values, and traces them to the reported verdicts.
 

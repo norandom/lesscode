@@ -52,7 +52,8 @@ side by side. **Owner** marks a decision that only the owner can take.
 
 ## 2. Put real checks where the unsupported ones stood
 
-- [ ] 2.1 Planted faults against E5 and E6 with the released driver
+- [x] 2.1 Planted faults against E5 and E6 with the released driver
+  - [R138](../docs/research/2026-11-18/04-e5-e6-specimen-faults.md) gives the result per selected function. All four preselected faults per trial were reached and detected on both baseline and candidate. The denominator is 16 executions across the four arms.
   - `lesscode-core deconvolute run` on the baseline and on each candidate, same pack, same tests.
   - Done when: noticed and unnoticed faults per function, baseline beside candidate, for both trials.
     This replaces "100% adverse mutant kill rate".
