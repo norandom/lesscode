@@ -168,3 +168,13 @@ Scoring on this repository: the R156 run script gives the same lines for the rep
 Any miss on a line above is reported as a miss; the rules are not adjusted after the first scored run without saying so. Prediction: the three machines are found; at most one of the eight has a missing or extra line.
 
 Run on 18 November, 16:07 to 16:15. The first scored run met every line above; nothing was adjusted after it. Read in the sweep of this repository: `queue` in the runner is a machine (right, with two wrong condition lines from the bound-name rule), `results` is shared (right), the local `shared` is no longer listed (right). Assessed `proceed` to the transfer test only: a third repository, census sealed before the finder runs. [R158](../../../docs/research/2026-11-18/24-finder-follows-names.md)
+
+## Transfer test of revision 3 on a third repository · preregistration, 18 November 2026, 16:29 Europe/Berlin
+
+Repository: `D:\Source\drift-rdp` at `7eb659e` (59 Rust files, clean), only read, copied to `D:\BuildArtifacts\lesscode\state-consolidation\r159`. Finder and rules as committed in `32fc798`, binary SHA-256 `6af3a9d1…ec85bc8`, unchanged. The finder has not been run on this repository. The census was made by hand with text search and reading and is sealed: `census.md`, SHA-256 `3bdb3ac35dc89888a568fecbc9fca580169d3b8d4a96aa899a022e76e5c75eba`. It has 24 cells of the application code, 22 of them with a verdict, nine of those machines, and names one machine that is not in a cell. The census maker also wrote the finder; that is the weak point of this test.
+
+Scored against the census: (a) declarations listed; (b) per cell, access lines in application code exactly as in the census; (c) per judged cell, the verdict; (d) every cell the finder reports as a machine in application code is read, in the census or not.
+
+Passes as a transfer when all hold: at least 16 of 24 cells have exactly the census lines; at least 6 of the 9 machines are reported as machines; at most one in three machines reported in application code is wrong. Anything less is reported as the measured shortfall, with causes.
+
+Predictions, written before the run: `REGISTRY` is not listed (a static). `pending` and `drafts` are not reported as machines, because their conditions are `ok_or` with `?` and no `if` or `match`. `owner`, `claim_sequence`, `valid`, `revision`, `publishing` and `dirty` are found. The session's plain `state` field is not seen. Lines are complete for at least 18 cells.
