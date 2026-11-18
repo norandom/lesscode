@@ -3,19 +3,19 @@
   "step": "batch-progress",
   "spec": "batch-progress",
   "base": "6da59521f05315bfc13cca7804d8f0e9815af51b",
-  "revision": "165555d28d9bff773be08611808fa63bab36da67",
+  "revision": "6b580a543b090452d34d494ee4af023bda572b21",
   "hashes": {
     "scope": {
       "native/src/adapters/driver/runner.rs": "6428c8b6b57bb7f081828e7c05a023f92c18eb71"
     },
     "tests": "04bca60c3f86663ba579ab9c0e820d780910def20f0c77c2f364f58fc4bae2ab",
-    "declaration": "448c89953eba6f7f34fce04a2781f0237a5f61c5"
+    "declaration": "966535746dfd59adce4fc7065eaa1cc3e2d49c88"
   },
   "checks": [
     {
       "name": "declaration and revisions",
       "result": "pass",
-      "detail": "base 6da5952, step 165555d"
+      "detail": "base 6da5952, step 6b580a5"
     },
     {
       "name": "changes stay in scope",
@@ -39,8 +39,18 @@
     },
     {
       "name": "tests and fault runs",
-      "result": "refused",
-      "detail": "the project's tests do not pass on the base"
+      "result": "pass",
+      "detail": "the project's tests pass on the base and on the step"
+    },
+    {
+      "name": "planted faults",
+      "result": "pass",
+      "detail": "in no function are more faults unnoticed after the step than before"
+    },
+    {
+      "name": "evidence for criteria",
+      "result": "pass",
+      "detail": "every tied command passes"
     }
   ],
   "functions_run": {
@@ -52,8 +62,95 @@
       "worker"
     ]
   },
-  "functions": [],
-  "unmatched_functions": [],
+  "functions": [
+    {
+      "file": "native/src/adapters/driver/runner.rs",
+      "function": "next",
+      "before": null,
+      "after": {
+        "noticed": 1,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    },
+    {
+      "file": "native/src/adapters/driver/runner.rs",
+      "function": "one",
+      "before": {
+        "noticed": 1,
+        "unnoticed": 5,
+        "other": 1
+      },
+      "after": {
+        "noticed": 1,
+        "unnoticed": 5,
+        "other": 1
+      },
+      "unnoticed_after": [
+        "#2 line 202 rewrite:try_expression",
+        "#3 line 204 rewrite:try_expression",
+        "#5 line 209 drop_statement",
+        "#7 line 220 negate",
+        "#8 line 233 rewrite:try_expression"
+      ]
+    },
+    {
+      "file": "native/src/adapters/driver/runner.rs",
+      "function": "progress",
+      "before": null,
+      "after": {
+        "noticed": 0,
+        "unnoticed": 0,
+        "other": 0
+      },
+      "unnoticed_after": []
+    },
+    {
+      "file": "native/src/adapters/driver/runner.rs",
+      "function": "run_batch",
+      "before": {
+        "noticed": 0,
+        "unnoticed": 3,
+        "other": 0
+      },
+      "after": {
+        "noticed": 0,
+        "unnoticed": 3,
+        "other": 0
+      },
+      "unnoticed_after": [
+        "#21 line 386 arg_literal:1->0@386:47",
+        "#22 line 394 arg_literal:string->empty@394:37",
+        "#23 line 402 drop_statement"
+      ]
+    },
+    {
+      "file": "native/src/adapters/driver/runner.rs",
+      "function": "worker",
+      "before": {
+        "noticed": 8,
+        "unnoticed": 5,
+        "other": 0
+      },
+      "after": {
+        "noticed": 7,
+        "unnoticed": 5,
+        "other": 0
+      },
+      "unnoticed_after": [
+        "#9 line 257 drop_statement",
+        "#15 line 286 drop_statement",
+        "#16 line 289 drop_statement",
+        "#17 line 290 drop_statement",
+        "#20 line 299 negate"
+      ]
+    }
+  ],
+  "unmatched_functions": [
+    "native/src/adapters/driver/runner.rs: next",
+    "native/src/adapters/driver/runner.rs: progress"
+  ],
   "size": {
     "tokens": [
       2761,
@@ -64,8 +161,6 @@
       2305
     ]
   },
-  "result": "refused",
-  "reasons": [
-    "the project's tests do not pass on the base"
-  ]
+  "result": "accepted",
+  "reasons": []
 }

@@ -1,0 +1,47 @@
+{
+  "receipt": "step-evidence-provisional-v0",
+  "provisional": true,
+  "step": "batch-progress",
+  "spec": "batch-progress",
+  "base": "6da59521f05315bfc13cca7804d8f0e9815af51b",
+  "revision": "6b580a543b090452d34d494ee4af023bda572b21",
+  "hashes": {
+    "scope": {
+      "native/src/adapters/driver/runner.rs": "6428c8b6b57bb7f081828e7c05a023f92c18eb71"
+    },
+    "tests": "04bca60c3f86663ba579ab9c0e820d780910def20f0c77c2f364f58fc4bae2ab",
+    "declaration": "966535746dfd59adce4fc7065eaa1cc3e2d49c88"
+  },
+  "criteria": [
+    {
+      "id": "1.1",
+      "command": [
+        "cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--manifest-path",
+        "native/Cargo.toml",
+        "--test",
+        "driver_run",
+        "--test",
+        "driver_interrupt"
+      ],
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "1.2",
+      "command": [
+        "cargo",
+        "nextest",
+        "run",
+        "--locked",
+        "--manifest-path",
+        "native/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "passed": true
+    }
+  ]
+}
