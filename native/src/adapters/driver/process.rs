@@ -59,9 +59,11 @@ fn kill_tree(child: &mut Child) {
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .status();
+    // `--` ends the options: without it procps 4.0.2 (Debian 12) reads a group number that starts
+    // with 1 as `-1` and kills every process the user may signal.
     #[cfg(unix)]
     let _ = Command::new("kill")
-        .args(["-KILL", &format!("-{pid}")])
+        .args(["-KILL", "--", &format!("-{pid}")])
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .status();
