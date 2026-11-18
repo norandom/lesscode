@@ -148,3 +148,21 @@ Method. (1) The finder over every tracked `.rs` file. (2) A census made without 
 Predictions. The files parse. The finder lists fewer than half of the census declarations; the misses are statics, cells reached through a clone or a parameter and not through `self.` or the local name, and cells inside `Arc`. Of the cells it reports as machines at least two in three are right. At least one reported machine misses an access. If more than one in three reported machines is wrong, the rules are not fit to be ported as they are.
 
 Run on 18 November, 15:52 to 16:04. The files parsed. All eight production declarations are listed, so the first prediction was wrong; accesses are complete for one of eight. Zero of one reported machines is right, three machines are missed. By the registered rule the rules are not fit to be ported as they are. Assessed `revise`: name following, scored against the census. [R157](../../../docs/research/2026-11-18/23-finder-on-mmhmem.md)
+
+## Finder revision 3, following a cell through its names · preregistration, 18 November 2026, 16:08 Europe/Berlin
+
+Agreed by the owner. Written before the revision exists. The revision is made knowing the census of R157, so a pass on `mmhmem` shows that the named causes are the causes; it is not a transfer test. Transfer is tested afterwards on a third repository, with this revision frozen.
+
+What changes, all as data in the rules file where it names syntax: (1) a cell is also reached under a name bound to a clone or reference of it, (2) under the parameter it is passed as, in the function called, one function resolved by name (the same file first, otherwise only if the name is unique), (3) a field through any receiver in its own file and through `self` in any file inside an `impl` of its type, (4) a local cell put into a field of a struct literal or a tuple struct is the same cell as that field, (5) a test of the handle a `lock` returns is not a condition on the value, (6) `let … else` is a condition, and a name bound inside a pattern counts as bound, (7) a struct literal that contains a cell is not a cell.
+
+Scoring on `mmhmem` at `452fb7c` against `census.md` of R157 (SHA-256 recorded in the run directory before the run):
+
+- `state` (`download_line.rs`), `stop` (`release_local.rs`) and `max_scroll` (`ui/app.rs`) are reported as machines; `mismatch`, `step` and `buf` as shared without a condition; `out` and `conn` as one unit.
+- For each of the eight, the access lines listed are exactly the census lines: none missing, none extra.
+- `db` at `storage/db.rs:110` is not listed.
+- The six test-double cells of R157 are still reported as shared, with the same lines.
+- Every cell newly reported as a machine anywhere in the repository is read. A wrong one in production code fails the run; in test code it is counted.
+
+Scoring on this repository: the R156 run script gives the same lines for the reply machine, the renamed copy and the unguarded copy, and no machine in the four files at head. In the sweep `fatal` gains line 382 and `held_back` and `state` keep their lines. Any other change in the sweep is read and reported.
+
+Any miss on a line above is reported as a miss; the rules are not adjusted after the first scored run without saying so. Prediction: the three machines are found; at most one of the eight has a missing or extra line.
