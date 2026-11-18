@@ -84,3 +84,5 @@ reply. The open gate is unchanged: a find step that returns such a machine from 
 
 Both rows of the table were predicted, including the one the command calls inconsistent, and the
 prediction is checked by count. The behaviour change is named as one. What was not run is listed.
+
+Amendment, 18 November 2026, 15:45. The Dagger run at `72e695f` was killed in the same place: exit 137 after 203 of 408 core tests, none failed, while `driver_parity mutants_equal_the_prototype_under_the_gate_packs` and its neighbours were due. Three calls, two real runs, the same point. The kernel log of the Podman machine shows no memory kill. The core's sources are those of `c1c76e8`, whose run passed at 14:20; the machine was restarted at about 14:48. The cause is not found. Linux is therefore not verified for `48010b5` and `3db7caf`; the model crate and the guide tool were tested on Windows only. Logs: `dagger-first-killed-137.log`, `dagger-second-replayed-137.log`, `dagger.log` in the run directory.
