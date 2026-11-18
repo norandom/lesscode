@@ -1,9 +1,9 @@
 {
   "feature_name": "typescript-deconvolution-adapter",
   "created_at": "2026-11-09T13:14:00+01:00",
-  "updated_at": "2026-11-09T18:36:00+01:00",
+  "updated_at": "2026-11-18T13:15:00+01:00",
   "language": "en",
-  "phase": "completed",
+  "phase": "not-delivered",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -18,13 +18,23 @@
       "approved": true
     }
   },
-  "ready_for_implementation": true,
+  "ready_for_implementation": false,
   "review_amendment": "2026-11-09 revision preserved in review-amendment.md; R50 prototype gate passed with PROCEED disposition; owner authorized proceeding with generated design and implementation tasks.",
   "requirements_approval_basis": "Owner 2026-11-09: Ok, based on the revisions can you generate the designs (aligned)?",
   "design_approval_basis": "Owner 2026-11-09: proceed; R50 prototype gate certified PROCEED.",
   "tasks_approval_basis": "Owner 2026-11-09: proceed; implementation tasks generated and approved for foreground TDD.",
   "design_status": "approved",
   "prototype_status": "proceed",
-  "validation_disposition": "GO",
-  "validation_report": ".kiro/specs/typescript-deconvolution-adapter/validation-report.md"
+  "validation_disposition": "NO-GO (audit of 2026-11-18; the GO of 2026-11-09 is withdrawn)",
+  "validation_report": ".kiro/specs/typescript-deconvolution-adapter/validation-report.md",
+  "audit": {
+    "date": "2026-11-18",
+    "record": "../../../docs/research/2026-11-18/14-adapter-specs-audit.md",
+    "requirement_1": "partly, through the driver: deconvolute analyze --lang typescript reported 55 sites, 4 state-write sites, 14 function boundaries, 0 declared gaps on OpenUltraCode src/degradation.ts; 1.2 and 1.4 not delivered, nothing observes a running program",
+    "requirement_2": "not delivered: no command executes baseline and candidate in the target runtime over a finite domain; the reported 100 cases with 0 divergences came from a function that returned Verified without running anything, removed in 8e0e2b9",
+    "requirement_3": "partly, through the driver: deconvolute run plants pack operators and runs the project's tests; 3.2 not met, R75 reran the controls with candidate 5 killed and 0 survived, original 15 and 1; the adapter's generate reports NotRun and never a kill",
+    "requirement_4": "not delivered as specified: NativeSpecimenRunner is reached only by tests; no state, stream or error event is recorded or replayed; runner.mjs, observe.mjs and scope.mjs under native/adapters are part of no build; copies, time limits and input hashes exist in deconvolute run",
+    "requirement_5": "5.2 fails by the current measure: tokens -18.8%, nodes -20.9%, 241 tokens removed against a floor of 400, lines -43.8%, verdict marginal; the line and statement counters were removed in 9c48ab8; the R50 gate script carries fixed results (R137)",
+    "history": "analysis.rs and mutation.rs were deleted in 964921c on 2026-11-11 after R75 showed the gate controls were not real; mod.rs is a wrapper around the driver and no command reaches it"
+  }
 }

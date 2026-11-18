@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R147 Rust lowered the whole CSV look-ahead (2026-11-18)
+## Latest · R148 The three adapter specs are not delivered as specified (2026-11-18)
+
+Each requirement of the TypeScript, Java and Rust adapter specs was checked against code a command reaches. The driver covers static analysis and fault runs. Nothing covers bounded comparison or runtime observation, and all three candidates are marginal by syntax (5.6% to 18.8% fewer tokens). The three specs now say `not-delivered`. 32 remaining adapter tests passed. [R148](2026-11-18/14-adapter-specs-audit.md)
+
+## Prior · R147 Rust lowered the whole CSV look-ahead (2026-11-18)
 
 Rust lowered all of `hasNext()`'s control flow and the guard of `next()` from source. Z3 found no difference for a rewritten clean copy. It returned `hasNext, hasNext` for an unconditional fill and `hasNext` for an inverted fill. Fresh JVM replays matched all four sealed traces, and the 121-history censuses agreed with every solver verdict. The reader and consumption are still the R144 model. [R147 and replay](2026-11-18/13-commons-csv-lookahead.md)
 

@@ -33,7 +33,8 @@ side by side. **Owner** marks a decision that only the owner can take.
   - Read `e3-evidence-regeneration` and `e4-lifecycle`: for each reported figure, find the code that
     produced it and say whether it ran on the candidate. Rerun what still runs.
   - Done when: one table with a row per figure (reproduces, not supported, not rerun).
-- [ ] 1.3 (P) Audit the three adapter specs against their requirements
+- [x] 1.3 (P) Audit the three adapter specs against their requirements
+  - [R148](../docs/research/2026-11-18/14-adapter-specs-audit.md) gives a finding per requirement. The driver covers static analysis and fault runs; bounded comparison and runtime observation do not exist. The three specs are `not-delivered`.
   - `typescript-deconvolution-adapter`, `java-deconvolution-unification`, `rust-deconvolution-unification`
     say `completed`, `GO`. R75 showed their gates' controls were not real; their operators were deleted in
     `964921c`. Check what of each spec's requirements exists today (`native/src/adapters/{java,rust,typescript}/mod.rs`,
