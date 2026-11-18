@@ -44,7 +44,8 @@ side by side. **Owner** marks a decision that only the owner can take.
     `efficiency-baseline`, `dogfood-self-application`, `refinement-evidence-integrity`.
   - For each validation claim: is there a command, did it run on real inputs, can it run today?
   - Done when: one table; specs with unsupported claims get the same note and status as the two of R134.
-- [ ] 1.5 Search for literal results in gate and evaluator scripts
+- [x] 1.5 Search for literal results in gate and evaluator scripts
+  - [R137](../docs/research/2026-11-18/03-gate-result-literals.md) lists all seven matching scripts with line numbers and what the values stand in for.
   - Every `run_gate.py` and `*_evaluator.py` under `.kiro/specs/` and `docs/experiments/`: values such
     as `"killed": True`, `"cases_evaluated": 21 + 8`, metrics typed in by hand.
   - Done when: a list of file, line and what the literal stands in for.

@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R136 E6 acceptance rerun (2026-11-18)
+## Latest · R137 Literal results in historical scripts (2026-11-18)
+
+[R137](2026-11-18/03-gate-result-literals.md) lists where five gates and two evaluators supply result values, and traces them to the reported verdicts.
+
+## Prior · R136 E6 acceptance rerun (2026-11-18)
 
 [R136](2026-11-18/02-e6-acceptance-rerun.md) records 56 passed and one database-dependent skip on the frozen E6 candidate. R45 reported 46 of 46.
 
