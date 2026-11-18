@@ -107,3 +107,32 @@ Use the pinned Commons CSV checkout, default format and two-record input from R1
 Freeze four disposable source arms. The clean arm writes the fill test as `(null == current)` and the return as `null != current`. The unconditional arm drops the fill test and always assigns `current = getNextRecord();`. The inverted arm tests `current != null`. Compare each arm with the original at every history length from zero to four over `hasNext`, `close` and `next`, using one handle and the pinned Z3. Steps differ if a public return, exception class or parser record count differs. The clean arm must be UNSAT at every depth. Each changed arm must yield a SAT witness, with UNSAT at all shorter depths, and Rust must seal the witness with both predicted traces before Java runs. Enumerate all 121 histories in each of the four Java builds with a new parser per history. Require a byte-identical clean census and agreement between JVM differences and the solver verdict at each depth for each changed arm. Replay each witness in fresh processes on both versions. The researcher's expectation, recorded before execution and not a gate criterion, is a one-step witness `hasNext` for the inverted arm and the two-step witness `hasNext, hasNext` for the unconditional arm. A false clean difference, any disagreement at a depth, a witness trace mismatch or an accepted refusal control fails the gate. No model calls or production rewrite. The bounded behavioral target is independent of compression and adoption.
 
 The registered gate passed on 18 November. The clean arm was UNSAT at every depth, and its census was byte-identical to the original. The unconditional arm was UNSAT up to length one, with the witness `hasNext, hasNext`. The inverted arm was UNSAT at length zero, with the witness `hasNext`. Both matched the recorded expectation. Fresh replays matched all four sealed traces, and the JVM censuses agreed with every per-depth verdict. The three registered refusal controls and an added hash-pin control were refused. An R146 replay with the refactored selector reproduced R146 exactly. The fill's reader, consumption in `next()`, the input and the counter remain the R144 model. [R147 and replay](../../../docs/research/2026-11-18/13-commons-csv-lookahead.md)
+
+## Find step on the reply machine · preregistration, 18 November 2026, 15:24 Europe/Berlin
+
+Written before the finder exists. Source of the case: `1eb106f`, the four files of R153, copied to `D:\BuildArtifacts\lesscode\state-consolidation\r156\before`. The finder is a research binary; no production code changes and no model call.
+
+The finder gets file paths and one rules file with data only: which nodes are a unit of code (functions and closures), which constructors and types make a shared cell, which method names write or read one, which nodes hold a condition (`if`, `while`, the subject and arms of a `match`), and how a call names its callee and arguments. It may not contain the words `stop`, `call`, `check`, `with_repairs` or a line number.
+
+Expected on the four files, one machine with these parts:
+
+| Part | Expected |
+| --- | --- |
+| kept | `adapter.rs:191` |
+| written | `adapter.rs:195`, inside the closure bound to `call` |
+| consumed | `adapter.rs:199`, inside the closure bound to `check` |
+| guards on the consumed state | `adapter.rs:200` and `203` |
+| who moves it | the call at `adapter.rs:213` hands both closures to `with_repairs`; that function calls the first at `repair.rs:115` and the second at `repair.rs:119` |
+| guards of the mover | `repair.rs:127`, `131`, `139` |
+
+Passes when every row is returned with exactly these lines and nothing else is reported as a machine in the four files. Fails on a missing or extra line, on a machine reported in `check.rs` or `request.rs`, or when one of the controls fails:
+
+1. Head of the repository, same four paths: no machine (the cell is gone).
+2. A copy with the cell, both closures and the mover renamed: the same parts under the new names.
+3. A copy in which the read no longer feeds a condition (`let _ = stop.take();` before an unconditional judgement): the cell is listed as shared state without a guard, not as a machine.
+
+Then, not a pass criterion but counted and each one read: every Rust source of this repository (`native/src`, `model/src`, `tools/*/src`) at head and at `1eb106f`. Prediction: the reply machine is the only local-cell machine at `1eb106f`, there is none at head, and field cells behind `Mutex` (the adapter's `log` and `rejected`, the driver's stores) appear as shared state, most without a guard.
+
+Effect on the deconvolution measures, before (`1eb106f`) against head on the four files, stated before measuring: `analyze` and `measure-scope` change little, because they did not see the cell (R153); the finder's counts fall from one cell, two closures that share it and two guards on hidden state to none. The loop gains the guard that the adapter loses, so the number of conditions on the reply's stop reason does not fall; what falls is the number of places and files that hold them. Lines and tokens are not a measure here.
+
+Run on 18 November, 15:24 to 15:31. Five rows exact; the mover's guards came back as `116, 117, 127, 131, 139`, two more than expected: the arms of the match on the call's result. Controls 1 to 3 passed. Assessed `revise`: the expected answer is to be amended or the two lines excluded by rule, by the owner. The sweep and the effect predictions are scored in the record. [R156](../../../docs/research/2026-11-18/22-find-step-reply-machine.md)

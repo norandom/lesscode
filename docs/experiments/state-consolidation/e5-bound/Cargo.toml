@@ -22,6 +22,10 @@ path = "../worker-trace/main.rs"
 name = "iterator-discovery"
 path = "../iterator-discovery/main.rs"
 
+[[bin]]
+name = "find-machine"
+path = "../machine-find/main.rs"
+
 [dependencies]
 lesscode-core = { path = "../../../../native" }
 serde = { version = "=1.0.229", features = ["derive"] }

@@ -1,0 +1,20 @@
+{
+  "language": "rust",
+  "comments": ["line_comment", "block_comment"],
+  "units": {"function_item": "name", "closure_expression": ""},
+  "binding": {"node": "let_declaration", "name": "pattern", "value": "value"},
+  "field": {"node": "field_declaration", "name": "name", "type": "type", "receiver": "self."},
+  "cells": ["Cell", "RefCell", "OnceCell", "OnceLock", "Mutex", "RwLock",
+            "AtomicBool", "AtomicUsize", "AtomicU32", "AtomicU64", "AtomicI64"],
+  "constructor": "::new(",
+  "method": {"node": "call_expression", "callee": "function", "access": "field_expression",
+             "receiver": "value", "name": "field"},
+  "writes": ["set", "replace", "take", "swap", "store", "borrow_mut", "get_mut", "lock", "write",
+             "fetch_add", "fetch_sub", "get_or_init"],
+  "reads": ["get", "take", "borrow", "load", "lock", "read", "into_inner", "get_or_init"],
+  "conditions": [["if_expression", "condition"], ["while_expression", "condition"],
+                 ["match_expression", "value"]],
+  "arms": {"of": "match_expression", "node": "match_arm", "pattern": "pattern", "open": ["_"]},
+  "call": {"node": "call_expression", "callee": "function", "arguments": "arguments"},
+  "parameters": {"field": "parameters", "name": "pattern"}
+}

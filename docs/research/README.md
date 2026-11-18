@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R155 The cell is gone, and the rule against replies that are not whole is in the loop for every caller (2026-11-18)
+## Latest · R156 A finder returns the reply-checking machine from the four files; the measures do not see what its consolidation changed (2026-11-18)
+
+A research binary with a rules file of 20 lines returned five of the six expected rows of the reply machine exactly; the sixth has two extra lines, real guards of the loop that the expected answer left out, so the registered check reads `revise`. Three controls passed. A sweep of 97 files found a machine nobody had written down (`fatal` in the driver's runner) and two budget cells. Consolidation left four conditions on the stop reason as four, in one function instead of two units in two files; `analyze` and `measure-scope` show none of it, because both the removed and the added conditions are `match` arms. [R156](2026-11-18/22-find-step-reply-machine.md)
+
+## Prior · R155 The cell is gone, and the rule against replies that are not whole is in the loop for every caller (2026-11-18)
 
 Both owner decisions on the reply-checking machine are in the repository. The check of `with_repairs` receives the reply, so the adapter needs no cell. The loop itself rejects a reply that was cut off or refused: over 125 histories a text-only check accepted one in 62 before and in none after, and the adapter's records differ in one reworded sentence only. [R155](2026-11-18/21-reply-rule-in-the-loop.md)
 
