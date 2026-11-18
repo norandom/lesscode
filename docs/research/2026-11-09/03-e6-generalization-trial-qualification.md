@@ -121,3 +121,7 @@ Both primary qualitative traps of mechanical code compression were conclusively 
 - **Negative results safe to report:** File-by-file deltas show varying reductions (e.g. `reporting_request.py` lines −6.1% vs `canonical.py` −42.0%) without smoothing or aggregation masking.
 - **Facts and interpretation separated:** Measurement tables precede methodological interpretation.
 - **No inflated claims:** Acknowledges bounded verification scope and Windows shim requirements.
+
+## Amendment, 18 November 2026
+
+[R136](../2026-11-18/02-e6-acceptance-rerun.md) reran the acceptance battery on the frozen candidate. The current runner collected 57 cases, with 56 passes and one database-dependent skip. The original 46/46 is preserved above as the historical figure.

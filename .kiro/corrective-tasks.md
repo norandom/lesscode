@@ -25,7 +25,8 @@ side by side. **Owner** marks a decision that only the owner can take.
 
 ## 1. Finish the audit, so the extent is known
 
-- [ ] 1.1 (P) Rerun E6's tests on its candidate
+- [x] 1.1 (P) Rerun E6's tests on its candidate
+  - [R136](../docs/research/2026-11-18/02-e6-acceptance-rerun.md) records 56 passed and one skipped on 18 November. Both runs passed the candidate import guard and exited 0.
   - `docs/experiments/deconvolution/e6-report-envelope/run_e6.py` on `.runs/e6-report-envelope/cand-e6`.
   - Done when: the pass count is recorded beside R45's "46 of 46", or the reason it cannot run.
 - [ ] 1.2 (P) Audit E3 and E4 the way E5 was audited
