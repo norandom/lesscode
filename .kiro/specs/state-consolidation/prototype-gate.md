@@ -196,3 +196,15 @@ Predictions: all five hold. `operation` is untouched and still not seen by the f
 Not shown by this: equal behaviour under real concurrency (the test is single-threaded; `guard` now takes the lock for an instant where it read an atomic before), anything about Linux or macOS builds.
 
 Run on 18 November, 17:37 to 17:42. Points 1, 2, 3 and 5 held: clippy clean, the lease's test with unchanged assertions, 416 of 416 before and after, cells 3 to 1, `if` conditions 5 to 3. Point 4 missed as registered: the finder reports three machines before and one after, not none; `owner` stays a machine by the condition in `guard`, which is the right reading. Branch `lesscode/clipboard-lease-machine` at `1a49d70` in `drift-rdp`, local. Made by hand; no command proposed or checked the change. Assessed `proceed` for collecting examples by hand; nothing is shown for a stage-2 tool. [R160](../../../docs/research/2026-11-18/26-clipboard-lease-consolidated.md)
+
+## Dogfooding: the batch runner's shared state as one value, judged by `step check` · preregistration, 18 November 2026, 18:59 Europe/Berlin
+
+Owner, 18:55: more real, obvious cases under `docs/examples`, and the project's own tool used on them. The finder's sweep of this repository (R158) lists seven cells and four machines; two machines are in the product: `queue` and `fatal` in `native/src/adapters/driver/runner.rs`, with `results` beside them, three `Mutex` fields of one struct.
+
+Change, written before any code: one `Mutex` around one value that holds the queue, the results and the reason the run stopped. The worker's loop asks one question, "the next job, unless the run has stopped", where it asked two under two locks. `run_batch` takes the value apart at the end.
+
+Judged by the released step flow of `lesscode-core` 2.1.0 on a branch `step/batch-progress`: declaration with `focus` on `one`, `worker` and `run_batch`, tests `driver_run` and `driver_interrupt`, `max_token_growth` 80, fixed here and not raised afterwards. Also reported: `deconvolute analyze` on the file before and after, and the finder before and after.
+
+Passes when `step check` exits 0 and `step guard` exits 0. A refusal is reported as the result, with its reasons. Counted by reading: cells 3 to 1.
+
+Predictions: accepted; the finder reports one machine where it reported two machines and a shared cell; `analyze` shows no fewer branch conditions, because the question the loop asks moves into a method and is not removed; the scope grows by some tokens, under 80. What this cannot show: equal behaviour under concurrency. The two locks of the loop become one, which closes a gap between "has the run stopped" and "take a job"; no test here observes that gap.
