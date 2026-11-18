@@ -85,3 +85,5 @@ and the test run are commands in this entry's method and can be repeated; their 
 
 Each row says how it was checked. Rows that were read and not rerun say so. "Not supported" means no
 code was found that did the thing, not that the thing would have failed.
+
+Amendment, 18 November 2026. Two of the rows marked "not supported" were run on the specimens the next day. A bounded solver check of the E5 candidate against its baseline found no difference on 81 inputs and found a planted fault ([R139](../2026-11-18/05-e5-rust-z3-check.md)); it is now the command `deconvolute bound-check` ([R152](../2026-11-18/18-bound-check-in-core.md)). Four planted faults per specimen were detected on both versions of E5 and E6 ([R138](../2026-11-18/04-e5-e6-specimen-faults.md)). The E6 candidate has no solver check. The findings above about what the reports of 8 and 9 November had run stand.

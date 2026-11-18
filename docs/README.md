@@ -15,6 +15,7 @@
 | See how checks and releases are built | [CI and release workflows](ci-validation.md) |
 | Verify a download or set up the signing key | [Release signing](release-signing.md) |
 | Follow the experiments, including the failed ones | [Dated research log](research/README.md) |
+| See how far finding a state machine spread over files has come (research, no released command) | [Reply machine found](research/2026-11-18/22-find-step-reply-machine.md), [failure on a second repository](research/2026-11-18/23-finder-on-mmhmem.md), [revision](research/2026-11-18/24-finder-follows-names.md) |
 | Judge whether the agnostic mutation driver can become part of the Rust binary | [Feasibility report](reports/agnostic-driver-feasibility.md) |
 | Use the frozen-manifest comparison (`prepare`, `compare`) | [Native workflow and scoped readiness report](reports/native-core-readiness.md) |
 

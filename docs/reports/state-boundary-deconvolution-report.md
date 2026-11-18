@@ -1,6 +1,8 @@
 # State-Boundary Deconvolution: Dual-Specimen Replication and Generalization Report
 
 > **Read with the audit of 2026-11-17 ([R134](../research/2026-11-17/21-audit-of-port-and-reduction-claims.md)).** The size and behaviour results reproduce, at about 8% to 10% less syntax (18% to 22% fewer lines). The statements on bounded equivalence, on "Bounded SMT", and on adverse mutants killed are not supported: those checks never ran on the rewritten code, and the verifier contains no SMT solver.
+>
+> **Update, 2026-11-18.** Through 17 November no solver check and no fault had been run on the rewritten code, and no tool could show a state machine spread over files. Since then: a bounded solver check of the E5 candidate found no difference on 81 inputs and found a planted fault ([R139](../research/2026-11-18/05-e5-rust-z3-check.md), now the command `deconvolute bound-check`, [R152](../research/2026-11-18/18-bound-check-in-core.md)); four planted faults per specimen were detected on both versions of E5 and E6 ([R138](../research/2026-11-18/04-e5-e6-specimen-faults.md)); one hidden state machine of Lesscode itself was put in one place and adopted ([R155](../research/2026-11-18/21-reply-rule-in-the-loop.md)); and a research finder returns such machines from source on two repositories, not yet on one it was not fitted to ([R158](../research/2026-11-18/24-finder-follows-names.md)). E6 has no solver check. The figures and claims below are those of 9 November and are not restated.
 
 Written 2026-11-09, Europe/Berlin (UTC+1), following the qualification and adoption of Experiments E5 and E6 under the `state-boundary-deconvolution` specification.
 

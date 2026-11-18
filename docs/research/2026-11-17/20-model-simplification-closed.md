@@ -70,3 +70,5 @@ proof.
 
 This entry judges documents, not code or a model. It names what it did not read. It does not say the
 day's measurements were wrong; it says they measured something the owner did not ask for.
+
+Amendment, 18 November 2026. The successor brief ran both of its stages on one real case the next day. The reply-checking machine was put in one place and adopted after a solver comparison over 125 histories ([R155](../2026-11-18/21-reply-rule-in-the-loop.md)); a finder returns it from the four files ([R156](../2026-11-18/22-find-step-reply-machine.md)). The finder failed on a second repository and was revised against a hand census ([R157](../2026-11-18/23-finder-on-mmhmem.md), [R158](../2026-11-18/24-finder-follows-names.md)). The measures this spec scored by, write sites and writers, show no change for that consolidation; `analyze` does not either, because the conditions involved are `match` arms.
