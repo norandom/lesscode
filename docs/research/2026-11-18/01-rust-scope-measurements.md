@@ -36,4 +36,8 @@ The run directory contains the exact commands in `cli.jsonl`, inputs in `referen
 
 ## Limits and next decision
 
+The ordinary language-pack analyzer counted 323 → 317 state-write sites for E5 and 302 → 271 for E6. Its function boundaries were 69 → 50 and 103 → 64 respectively. For E6, two definitions share a bare name in one file. The scope measurer deduplicates those names.
+
+Verification used Rust 1.98.1. The pinned Windows nextest 0.9.143 run passed 402 tests. Linux Dagger passed 401 native tests and exported overall exit 0. The cross-file regression ran on both platforms. [Windows result](D:/BuildArtifacts/lesscode/corrective-audit/foreground-20261118/pinned-nextest.log) · [Linux results](D:/BuildArtifacts/lesscode/corrective-audit/foreground-20261118/dagger-evidence)
+
 The prototype establishes structural measurement on these specimens. Static name matching can bind multiple definitions across files. A recorded edge does not establish a runtime call. Production adoption remains an owner decision. The bounded solver, runtime state observation and mutation-sensitivity requirements need independent specimen evidence.
