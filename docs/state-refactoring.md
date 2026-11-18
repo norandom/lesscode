@@ -196,7 +196,29 @@ protection moved with it.
 If the check refuses, read the reasons and fix the step. Do not raise the limit, narrow the tests or
 move a function out of reach to get past it; that is the owner's decision, not the author's.
 
-## Step 8: record and guard
+## Step 8: check that no routine got worse
+
+`step check` counts the tokens of the file. It does not look at single routines. For that, this
+repository uses `kiro-cli` from [OpenIDEA Kiro](https://github.com/norandom/openidea-kiro), with the
+limits declared in `.kiro/code-rules.toml`:
+
+```sh
+kiro-cli code check --changed <base>
+```
+
+It compares every changed routine with itself at the base and blocks one that is above a limit and
+got worse. On our step it did:
+
+```
+runner.rs: ERROR CODE_RATCHET routine `run_batch`: code_lines rose from 60 to 61, limit 60 (default)
+```
+
+We had already merged. `run_batch` was shortened afterwards. Run this before the record.
+
+Expect the routine that now holds the decisions to go up. That is the trade: several small deciding
+routines for one larger one, and the limit per routine keeps it honest.
+
+## Step 9: record and guard
 
 ```sh
 lesscode-core step record --declaration .kiro/specs/batch-progress/step.json
@@ -206,7 +228,7 @@ lesscode-core step guard --branch step/batch-progress
 
 The step is done when the guard exits 0 on the committed branch. Merging is a person's decision.
 
-## Step 9: count what changed
+## Step 10: count what changed
 
 | Measure | Before | After |
 | --- | --- | --- |
@@ -214,6 +236,8 @@ The step is done when the guard exits 0 on the committed branch. Merging is a pe
 | Questions a worker asks before a job | 2, under two locks | 1, under one lock |
 | `deconvolute analyze`: branch conditions in the file | 13 | 13 |
 | `deconvolute analyze`: declared gaps in the file | 3 | 1 |
+| `kiro-cli`: decisions in the file (cyclomatic sum minus routines) | 24 | 24 |
+| `kiro-cli`: cyclomatic of `worker` | 7 | 6 |
 
 The conditions did not get fewer. The check on "stopped" moved from the loop into `next`. What
 changed is that "stopped" and "nothing left" can no longer be asked apart.

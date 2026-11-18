@@ -1,0 +1,14 @@
+# Limits for `kiro-cli code check` (OpenIDEA Kiro, release 1.1.0), adopted 2026-11-18 on the owner's word.
+#
+# The built-in limits apply unchanged: per routine cyclomatic 10, nesting 3, code_lines 60,
+# statements 40, parameters 5; per type and per file as printed by `kiro-cli code config`.
+# No baseline is committed. The before side is a revision:
+#
+#   kiro-cli code check --changed <base>
+#
+# A step that untangles state is expected to pass this: no routine above a limit may get worse.
+# What such a step is meant to improve is counted per state machine, see docs/state-refactoring.md.
+
+[[ignores]]
+paths = ["docs/examples/"]
+reason = "before-and-after examples; the before sides are kept as they were"

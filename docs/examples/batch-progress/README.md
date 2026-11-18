@@ -85,6 +85,20 @@ let progress = shared.progress.into_inner().unwrap();
 | Branch conditions in the file (`deconvolute analyze`) | 13 | 13 |
 | Planted faults the tests do not notice, in the functions of the step | 13 | 13 |
 
+## Complexity before and after
+
+Measured with `kiro-cli` 1.1.0 ([R162](../../research/2026-11-18/28-complexity-before-after-kiro-cli.md)).
+
+| Measure | Before | After |
+| --- | --- | --- |
+| Decisions in the file (cyclomatic sum minus routines) | 24 | 24 |
+| Cyclomatic, `worker` | 7 | 6 |
+| Cyclomatic, new `next` | | 2 |
+| Code lines, `run_batch` (limit 60) | 60 | 61 |
+
+The last row blocked the step in `kiro-cli code check --changed`, after our own `step check` had
+accepted it. `run_batch` was shortened afterwards and is 56 lines.
+
 ## What our own tool said
 
 - The first `step check` refused the step after one minute: the tests did not pass on the unchanged

@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R161 The released step flow accepts the batch runner's three locks as one value (2026-11-18)
+## Latest · R162 Measured with kiro-cli, untangling state leaves the number of decisions as it was and moves them (2026-11-18)
+
+Exploratory, not preregistered. `kiro-cli` 1.1.0 of the owner's `openidea-kiro` measured the four examples before and after. The sum of cyclomatic complexity rose by one or two in every real example; the decisions (sum minus routines) stayed: 24 and 24, 30 and 31, 14 to 12. They move into one routine, whose number rises (`with_repairs` 7 to 9). The ratchet blocked the step our own `step check` had accepted: `run_batch` 60 to 61 code lines at a limit of 60; shortened since. `.kiro/code-rules.toml` declares the adopted limits. [R162](2026-11-18/28-complexity-before-after-kiro-cli.md)
+
+## R161 The released step flow accepts the batch runner's three locks as one value (2026-11-18)
 
 Dogfooding. `queue`, `results` and `fatal` in the driver's runner are one locked value on the branch `step/batch-progress`. `lesscode-core` 2.1.0 judged the step on its own source: refused first, rightly, because the declaration built no example program the tests start; accepted on the second run, with no token growth and no function left with more unnoticed faults. 13 faults go unnoticed before and after, one of them a transition of the machine. The finder no longer sees the machine afterwards. Four findings about the tool itself. [R161](2026-11-18/27-batch-progress-dogfood.md), [guide](../state-refactoring.md), [example](../examples/batch-progress/README.md)
 

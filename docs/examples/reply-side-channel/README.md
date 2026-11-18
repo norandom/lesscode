@@ -96,6 +96,18 @@ The released commands do not see this change. The finder does, and it is a resea
 released command. `analyze` counts no arm of a Rust `match` as a condition, and a closure writing a
 cell is not a state write it knows.
 
+## Complexity before and after
+
+Measured with `kiro-cli` 1.1.0 ([R162](../../research/2026-11-18/28-complexity-before-after-kiro-cli.md)).
+
+| Measure | Before | After |
+| --- | --- | --- |
+| Decisions in the two files (cyclomatic sum minus routines) | 30 | 31 |
+| Cyclomatic, the adapter's `one` | 7 | 6 |
+| Cyclomatic, `with_repairs` (limit 10) | 7 | 9 |
+
+The rule moved into the loop, and the loop's number went up with it. It is within the limit.
+
 ## What this does not show
 
 - The histories have three replies each. Longer ones were not run.

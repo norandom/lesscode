@@ -106,3 +106,11 @@ On the owner's word: `step/batch-progress` merged into main (`bcebda8`) and push
 A mistake corrected before the push: `git add -A native` had taken two untracked files into the commit (`native/adapters/java/lesscode/ProbeMain.class`, `native/budget-report.json.sha256`); the commit was amended without them. They are still untracked in the working tree.
 
 Open question from the owner: a heuristic for when a target is deconvoluted far enough, given that codebases differ. Answered as a proposal, not measured; a candidate for R162.
+
+## Amendment, 20:42: engineering metrics from openidea-kiro, complexity before and after
+
+Owner: the engineering metrics are declared with `openidea-kiro` and complexity is accounted before and after by its tool. `kiro-cli` 1.1.0 (release binary, checksum verified) is at `D:\BuildArtifacts\lesscode\tools\kiro-cli-1.1.0\x\kiro-cli.exe`; `D:\Source\openidea-kiro` was only read (its own debug build there is 0.1.0 and has no `code` command). [R162](../docs/research/2026-11-18/28-complexity-before-after-kiro-cli.md), exploratory: on the four examples the decisions (cyclomatic sum minus routines) stay (24/24, 30/31, 14/12, opener 11/11), the sums rise by one or two, the deciding routine grows (`with_repairs` 7 to 9).
+
+`kiro-cli code check --changed v2.1.0` blocked the merged step: `run_batch` 60 to 61 code lines at limit 60. Fixed by building the `Progress` value directly (`#[derive(Default)]`); 56 lines now; the ratchet passes with six pre-existing breaches. `.kiro/code-rules.toml` declares the adopted limits (built-in ones; `docs/examples/` ignored); no baseline committed, the before side is a revision. Guide has a new step 8 (ratchet before the record); example pages carry complexity tables.
+
+Windows: clippy clean; core suite 410 of 410 on a quiet machine. One run made while other commands ran on the repository failed `the_installed_hook_stops_a_push_without_a_matching_verdict` once (push refused in the test's own repository); it passed in three isolated runs and one full run after. Not explained. Open decisions: whether `step check` should call the ratchet; a committed baseline; registering the stopping rule as an experiment (next research ID R163).

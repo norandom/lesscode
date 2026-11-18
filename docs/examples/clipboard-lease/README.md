@@ -42,6 +42,16 @@ exactly while it is the owner, so `guard` asks the owner.
 The finder's reports are [finder-before.json](finder-before.json) and
 [finder-after.json](finder-after.json). It is a research program, not a released command.
 
+## Complexity before and after
+
+Measured with `kiro-cli` 1.1.0 ([R162](../../research/2026-11-18/28-complexity-before-after-kiro-cli.md)).
+
+| Measure | Before | After |
+| --- | --- | --- |
+| Decisions in the file (cyclomatic sum minus routines) | 14 | 12 |
+| Cyclomatic, `reserve`, `claim`, `release` | 2, 3, 2 | 1, 1, 1, with 1, 2, 2 in the methods of `Owner` |
+| Cyclomatic, largest routine | 8 | 8 |
+
 ## What this does not show
 
 - The existing test for the lease passes with the same assertions; only the way `guard` is

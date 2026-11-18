@@ -66,6 +66,9 @@ pub fn apply(self, event: Event) -> Result<Order, &'static str> {
 | States that mean something | 5 | 5 |
 | Where the rules are | 11 `if`s in 4 methods | 1 table of 8 rows |
 
+Measured with `kiro-cli`, both versions hold 11 decisions. The largest routine has 5 before and 8
+after: the decisions moved into one place.
+
 The table still decides eight cases; the rules did not get fewer. They are in one place, and a
 state that means nothing can no longer be written.
 

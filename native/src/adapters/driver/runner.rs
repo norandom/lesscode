@@ -126,6 +126,7 @@ struct Shared<'a> {
 }
 
 /// How far the batch is.
+#[derive(Default)]
 struct Progress {
     queue: VecDeque<Job>,
     results: Vec<MutantResult>,
@@ -358,11 +359,10 @@ pub fn run_batch(
     workers: usize,
     run_id: &str,
 ) -> BatchOutput {
-    let mut reused = Vec::new();
-    let mut queue = VecDeque::new();
+    let mut progress = Progress::default();
     for job in jobs {
         match store.and_then(|s| s.get(&job.key)) {
-            Some(stored) => reused.push(MutantResult {
+            Some(stored) => progress.results.push(MutantResult {
                 number: job.number,
                 site: job.site,
                 operator: job.operator,
@@ -374,17 +374,13 @@ pub fn run_batch(
                 worker: None,
                 reused_from: Some(stored.run),
             }),
-            None => queue.push_back(job),
+            None => progress.queue.push_back(job),
         }
     }
     let shared = Shared {
         config,
         work,
-        progress: Mutex::new(Progress {
-            queue,
-            results: reused,
-            fatal: None,
-        }),
+        progress: Mutex::new(progress),
         store,
         run_id,
     };
