@@ -1,6 +1,6 @@
 # Task 76 handover · The find step on the reply machine, and what consolidation changed in the measures
 
-Written 18 November 2026, 15:45 Europe/Berlin (from the clock). Start from here and from [handover 75](task_75_handover.md), whose open points still stand. The owner said at the start of this session: Linux verification later; focus on the state machine and its effect on deconvolution.
+Written 18 November 2026, 15:32 Europe/Berlin (from the clock). Start from here and from [handover 75](task_75_handover.md), whose open points still stand. The owner said at the start of this session: Linux verification later; focus on the state machine and its effect on deconvolution.
 
 ## Done
 

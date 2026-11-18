@@ -1,6 +1,6 @@
 # R156: A finder returns the reply-checking machine from the four files, and the measures of 18 November do not see what its consolidation changed
 
-- Report date/time and timezone: 2026-11-18, 15:40, Europe/Berlin (UTC+1)
+- Report date/time and timezone: 2026-11-18, 15:32, Europe/Berlin (UTC+1)
 - Execution interval: 2026-11-18, 15:24 (preregistration) to 15:31 (final replay), from the clock
 - Status: completed; registered criterion not met to the letter (two extra lines), assessed `revise`
 - Spec: [state-consolidation](../../../.kiro/specs/state-consolidation/brief.md), stage 1 (find); brief only, no requirements yet
