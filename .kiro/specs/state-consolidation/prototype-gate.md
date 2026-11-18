@@ -166,3 +166,5 @@ Scoring on `mmhmem` at `452fb7c` against `census.md` of R157 (SHA-256 recorded i
 Scoring on this repository: the R156 run script gives the same lines for the reply machine, the renamed copy and the unguarded copy, and no machine in the four files at head. In the sweep `fatal` gains line 382 and `held_back` and `state` keep their lines. Any other change in the sweep is read and reported.
 
 Any miss on a line above is reported as a miss; the rules are not adjusted after the first scored run without saying so. Prediction: the three machines are found; at most one of the eight has a missing or extra line.
+
+Run on 18 November, 16:07 to 16:15. The first scored run met every line above; nothing was adjusted after it. Read in the sweep of this repository: `queue` in the runner is a machine (right, with two wrong condition lines from the bound-name rule), `results` is shared (right), the local `shared` is no longer listed (right). Assessed `proceed` to the transfer test only: a third repository, census sealed before the finder runs. [R158](../../../docs/research/2026-11-18/24-finder-follows-names.md)

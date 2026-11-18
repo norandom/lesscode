@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R157 On a repository it was not written for, the finder lists every cell and finds none of its three machines (2026-11-18)
+## Latest · R158 Following a cell through its names, the finder matches the hand census of mmhmem on every line (2026-11-18)
+
+Revision 3 of the finder follows a cell under a clone, a parameter, another receiver and across the files of an `impl`, and no longer takes a test of a lock for a condition on the value. Its first scored run found the three machines of `mmhmem`, gave the other five cells their census verdict and listed exactly the census lines for all eight; the reply machine and its controls are unchanged. In this repository `fatal` gained its fourth place and the runner's `queue` appeared as a second machine, with two wrong condition lines. The revision was written with the census open, so this is a fit; a third repository is the transfer test. [R158](2026-11-18/24-finder-follows-names.md)
+
+## Prior · R157 On a repository it was not written for, the finder lists every cell and finds none of its three machines (2026-11-18)
 
 The finder of R156, unchanged, read all 236 Rust files of `mmhmem`. It lists the declaration of all eight production cells and reaches the accesses of one. The three machines among them are missed and the one it reports is not one: its condition tests whether a lock was taken. Causes are in how a cell is named where it is used: a clone, another receiver than `self`, a parameter, another file. In test doubles all six reports are right. Three of five registered predictions were wrong. Not ported as it is; name following is the proposed revision. [R157](2026-11-18/23-finder-on-mmhmem.md)
 
