@@ -62,3 +62,13 @@ Next: a third repository under `D:\Source`, revision 3 frozen, census by hand se
 On the owner's word the entries of 17 November (R129, R130, R133, R134), the state-boundary report and the docs index carry dated amendments saying what 18 November changed (`b1e8f7a`). The release claim stays deferred there: research binary, no released command.
 
 Owner's phase decision now open: requirements and design for the find step (gate assessed `proceed` on the demonstrated subset). Follow-up experiments: state in plain enum fields; `try_lock` and statics with a rerun of all three censuses; `fatal` and `queue` as second stage-2 case; `match`-arm prototype. Next research ID: R160.
+
+## Amendment, 17:46: owner's goal, first example, Linux still unverified
+
+Owner, 17:35: the goal of the state work is simpler code and visible before-and-after examples, smaller code bases among them; `drift-rdp` is a candidate. Decisions: first case the clipboard lease of `drift-rdp`; examples under `docs/examples`, one folder each; delivery as a branch in `drift-rdp` (read-only rule lifted for a branch); Linux exit 137 deferred again.
+
+[R160](../docs/research/2026-11-18/26-clipboard-lease-consolidated.md): `native_clipboard.rs`, three cells to one value, `if` conditions 5 to 3, 416 of 416 library tests before and after, clippy clean; registered point 4 missed (finder reports one machine after, not none). Branch `lesscode/clipboard-lease-machine` at `1a49d70` in `D:\Source\drift-rdp`, local, made in a worktree that is removed; its working tree stayed on `master`. Example: `docs/examples/clipboard-lease`. Evidence: `D:\BuildArtifacts\lesscode\state-consolidation\r160` (isolated target removed after the run).
+
+Linux: a fourth Dagger run at `a096080` was killed with exit 137 after core test 203, 24 s in, with 4.7 GiB free in the Podman machine and no memory kill in its kernel log. Memory does not look like the cause. Not finished at the kill: `driver_run` tests `time_limits_invalid_mutants_and_errors_are_told_apart` and `unsafe_work_directories_are_refused_and_interrupted_copies_recovered`. A `kill -KILL` on a missing process group in the image does not take the shell down. Log: `D:\BuildArtifacts\lesscode\native-evidence\linux-a096080` (the memory sampler there failed and holds no numbers).
+
+Next: more examples (`fatal` and `queue` in the runner; plain enum fields after a finder experiment). README link to the examples needs the humanizer pass before a push. Next research ID: R161.

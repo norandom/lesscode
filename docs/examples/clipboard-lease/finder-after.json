@@ -1,0 +1,111 @@
+{
+  "cells": [
+    {
+      "also_bound_at": [],
+      "cell": "owner",
+      "files_with_an_access": 1,
+      "guards": [
+        "native_clipboard.rs:75"
+      ],
+      "guards_on_a_bound_name": [],
+      "kept": "native_clipboard.rs:11",
+      "kind": "field",
+      "moved_by": [],
+      "of": "NativeClipboardState",
+      "owner": null,
+      "reached_as": [],
+      "read": [
+        {
+          "at": "native_clipboard.rs:57",
+          "method": "lock",
+          "unit": "reserve"
+        },
+        {
+          "at": "native_clipboard.rs:60",
+          "method": "lock",
+          "unit": "claim"
+        },
+        {
+          "at": "native_clipboard.rs:63",
+          "method": "lock",
+          "unit": "lease"
+        },
+        {
+          "at": "native_clipboard.rs:71",
+          "method": "lock",
+          "unit": "release"
+        },
+        {
+          "at": "native_clipboard.rs:75",
+          "method": "lock",
+          "unit": "guard"
+        }
+      ],
+      "units": [
+        "claim",
+        "guard",
+        "lease",
+        "release",
+        "reserve"
+      ],
+      "verdict": "machine",
+      "written": [
+        {
+          "at": "native_clipboard.rs:57",
+          "method": "lock",
+          "unit": "reserve"
+        },
+        {
+          "at": "native_clipboard.rs:60",
+          "method": "lock",
+          "unit": "claim"
+        },
+        {
+          "at": "native_clipboard.rs:63",
+          "method": "lock",
+          "unit": "lease"
+        },
+        {
+          "at": "native_clipboard.rs:71",
+          "method": "lock",
+          "unit": "release"
+        },
+        {
+          "at": "native_clipboard.rs:75",
+          "method": "lock",
+          "unit": "guard"
+        }
+      ]
+    },
+    {
+      "also_bound_at": [],
+      "cell": "operation",
+      "files_with_an_access": 0,
+      "guards": [],
+      "guards_on_a_bound_name": [],
+      "kept": "native_clipboard.rs:12",
+      "kind": "field",
+      "moved_by": [],
+      "of": "NativeClipboardState",
+      "owner": null,
+      "reached_as": [],
+      "read": [],
+      "units": [],
+      "verdict": "one unit",
+      "written": []
+    }
+  ],
+  "files": 1,
+  "parameter_calls_with_a_namesake": [],
+  "receipt": "find-machine-r158",
+  "revision": 3,
+  "rules_sha256": "3f156fdbc8be392bfc7090b800332f8035d8b1b1f8aacbe18e3c9101fd6b30ae",
+  "totals": {
+    "cells": 2,
+    "in_one_unit": 1,
+    "machines": 1,
+    "parameter_calls_with_a_namesake": 0,
+    "shared_without_condition": 0
+  },
+  "unparsed": []
+}

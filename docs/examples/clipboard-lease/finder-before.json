@@ -1,0 +1,182 @@
+{
+  "cells": [
+    {
+      "also_bound_at": [],
+      "cell": "owner",
+      "files_with_an_access": 1,
+      "guards": [],
+      "guards_on_a_bound_name": [
+        "native_clipboard.rs:28",
+        "native_clipboard.rs:38",
+        "native_clipboard.rs:61"
+      ],
+      "kept": "native_clipboard.rs:14",
+      "kind": "field",
+      "moved_by": [],
+      "of": "NativeClipboardState",
+      "owner": null,
+      "reached_as": [],
+      "read": [
+        {
+          "at": "native_clipboard.rs:26",
+          "method": "lock",
+          "unit": "reserve"
+        },
+        {
+          "at": "native_clipboard.rs:34",
+          "method": "lock",
+          "unit": "claim"
+        },
+        {
+          "at": "native_clipboard.rs:51",
+          "method": "lock",
+          "unit": "lease"
+        },
+        {
+          "at": "native_clipboard.rs:60",
+          "method": "lock",
+          "unit": "release"
+        }
+      ],
+      "units": [
+        "claim",
+        "lease",
+        "release",
+        "reserve"
+      ],
+      "verdict": "machine",
+      "written": [
+        {
+          "at": "native_clipboard.rs:26",
+          "method": "lock",
+          "unit": "reserve"
+        },
+        {
+          "at": "native_clipboard.rs:34",
+          "method": "lock",
+          "unit": "claim"
+        },
+        {
+          "at": "native_clipboard.rs:51",
+          "method": "lock",
+          "unit": "lease"
+        },
+        {
+          "at": "native_clipboard.rs:60",
+          "method": "lock",
+          "unit": "release"
+        }
+      ]
+    },
+    {
+      "also_bound_at": [],
+      "cell": "operation",
+      "files_with_an_access": 0,
+      "guards": [],
+      "guards_on_a_bound_name": [],
+      "kept": "native_clipboard.rs:15",
+      "kind": "field",
+      "moved_by": [],
+      "of": "NativeClipboardState",
+      "owner": null,
+      "reached_as": [],
+      "read": [],
+      "units": [],
+      "verdict": "one unit",
+      "written": []
+    },
+    {
+      "also_bound_at": [],
+      "cell": "claim_sequence",
+      "files_with_an_access": 1,
+      "guards": [
+        "native_clipboard.rs:35"
+      ],
+      "guards_on_a_bound_name": [],
+      "kept": "native_clipboard.rs:16",
+      "kind": "field",
+      "moved_by": [],
+      "of": "NativeClipboardState",
+      "owner": null,
+      "reached_as": [],
+      "read": [
+        {
+          "at": "native_clipboard.rs:35",
+          "method": "load",
+          "unit": "claim"
+        }
+      ],
+      "units": [
+        "claim",
+        "reserve"
+      ],
+      "verdict": "machine",
+      "written": [
+        {
+          "at": "native_clipboard.rs:27",
+          "method": "fetch_add",
+          "unit": "reserve"
+        }
+      ]
+    },
+    {
+      "also_bound_at": [],
+      "cell": "valid",
+      "files_with_an_access": 1,
+      "guards": [
+        "native_clipboard.rs:69"
+      ],
+      "guards_on_a_bound_name": [],
+      "kept": "native_clipboard.rs:22",
+      "kind": "field",
+      "moved_by": [],
+      "of": "Lease",
+      "owner": null,
+      "reached_as": [],
+      "read": [
+        {
+          "at": "native_clipboard.rs:69",
+          "method": "load",
+          "unit": "guard"
+        }
+      ],
+      "units": [
+        "claim",
+        "guard",
+        "release",
+        "reserve"
+      ],
+      "verdict": "machine",
+      "written": [
+        {
+          "at": "native_clipboard.rs:29",
+          "method": "store",
+          "unit": "reserve"
+        },
+        {
+          "at": "native_clipboard.rs:39",
+          "method": "store",
+          "unit": "claim"
+        },
+        {
+          "at": "native_clipboard.rs:64",
+          "method": "store",
+          "unit": "release"
+        }
+      ]
+    }
+  ],
+  "files": 1,
+  "parameter_calls_with_a_namesake": [],
+  "receipt": "find-machine-r158",
+  "revision": 3,
+  "rules_sha256": "3f156fdbc8be392bfc7090b800332f8035d8b1b1f8aacbe18e3c9101fd6b30ae",
+  "totals": {
+    "cells": 4,
+    "in_one_unit": 1,
+    "machines": 3,
+    "parameter_calls_with_a_namesake": 0,
+    "shared_without_condition": 0
+  },
+  "unparsed": []
+}

@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R159 The frozen finder transfers to a third repository: eight of nine machines, and none of eleven reports wrong (2026-11-18)
+## Latest · R160 The clipboard lease of drift-rdp goes from three cells to one (2026-11-18)
+
+First before-and-after example on code the tool was not written for. The owner, the ticket count and each lease's validity were three cells; they are one value behind one lock, with every change of owner a method of it. Conditions in the lease part go from 5 to 3, the crate's 416 library tests pass before and after, the lease's test keeps its assertions. One registered point was missed: the finder still reports one machine afterwards, rightly. The change was made by hand on a local branch of `drift-rdp`. [R160](2026-11-18/26-clipboard-lease-consolidated.md), [example](../examples/clipboard-lease/README.md)
+
+## R159 The frozen finder transfers to a third repository: eight of nine machines, and none of eleven reports wrong (2026-11-18)
 
 Revision 3, unchanged, ran on `drift-rdp`, which it had never read, against a hand census sealed beforehand. 21 of 24 cells have exactly the census's access lines, 8 of 9 machines are reported and all 11 machines it reports in application code are real; every registered bar was met. The misses are `try_lock`, which the rules do not know, and a `static`. The largest state machine of that application, a plain enum field assigned in about twenty places, is not in a cell and is outside what the finder looks for. The census maker also wrote the finder. [R159](2026-11-18/25-finder-transfer-drift-rdp.md)
 

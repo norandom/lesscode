@@ -67,6 +67,7 @@ working tree and may not be present in a fresh clone.
 | Choose symbolic-execution and guided-input tooling per language; see which solver lesscode and openidea-kiro use where, and why | [Symbolic execution tooling assessment](symbolic-execution-tooling.md) |
 | Understand the input and run a real family prototype | [Reader-family trial plan and results](experiments/reader-family/README.md) |
 | Inspect a smaller classifier and source-derived SMT check | [Outcome hotspot and next LLM compression pass](experiments/outcome-hotspot/README.md) |
+| See a state machine spread over three cells become one value, before and after | [Clipboard lease example](examples/clipboard-lease/README.md) |
 | Inspect a real simplification of Lesscode | [Self-evaluation example and charts](examples/self-evaluation.md) |
 | Inspect solver-assisted compression, its negative control and next measurements | [Code-flow synthesis report and charts](reports/code-flow-synthesis.md) |
 | See selected Facdrone parts and the first self-application rejection | [Measured boundaries and test impact](experiments/facdrone/selected-parts.md) |
