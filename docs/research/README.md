@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R140 Rust recovers the scattered job machine (2026-11-18)
+## Latest · R141 The historical Rust worker bug reproduces (2026-11-18)
+
+The pre-fix driver reran a strengthened test with stale test bytes and missed a fault. A fresh worker and the fixed driver caught it. The source-only model produced no prediction at either output allowance. Real-code discovery remains open. [R141](2026-11-18/07-real-rust-worker-discovery.md)
+
+## Prior · R140 Rust recovers the scattered job machine (2026-11-18)
 
 Rust found the entity, three states and two guarded transitions in the prepared Python package, with source locations. Its separate report located the explicit rules in one table. All 31 clean histories agreed and the specimen reproduced Z3’s one-event witness for a planted guard. [R140](2026-11-18/06-rust-job-machine-discovery.md)
 

@@ -48,3 +48,9 @@ $out = Join-Path 'D:/BuildArtifacts/lesscode/corrective-audit/task66' ('replay-'
 ## Decision
 
 The synthetic discovery check passed. This recognizer handles a narrow Python pattern. The result supplies a calibration for the next experiment on Lesscode’s historical Rust stale-worker case. That experiment must derive a source-backed machine and distinguishing history from pre-fix code, then check them against independently recorded behavior. General discovery, a proposed consolidation, compression and adoption remain open. [State-consolidation brief](../../../.kiro/specs/state-consolidation/brief.md)
+
+## What this result means · 18 November
+
+Agreement was the expected result on the clean pair. Imagine pressing two buttons, `begin` and `finish`. There are 31 ways to press them up to four times, including pressing neither. For every sequence, the models Rust extracted agreed on which presses succeeded and on the state after each press. The 63 specimen tests exercised both Python implementations and their original adverse control.
+
+Finding a difference was the expected result once the guard was changed. Z3 chose the simplest possible example, pressing `finish` before `begin`. Running that call on the actual code confirmed that the changed version wrongly accepted it. The progress for Lesscode is the whole chain from source to a reproducible example. Whether that chain can start from an unfamiliar, real codebase is a separate research question.
