@@ -210,3 +210,28 @@ Passes when `step check` exits 0 and `step guard` exits 0. A refusal is reported
 Predictions: accepted; the finder reports one machine where it reported two machines and a shared cell; `analyze` shows no fewer branch conditions, because the question the loop asks moves into a method and is not removed; the scope grows by some tokens, under 80. What this cannot show: equal behaviour under concurrency. The two locks of the loop become one, which closes a gap between "has the run stopped" and "take a job"; no test here observes that gap.
 
 Run on 18 November, 19:00 to 19:17. First `step check` refused after one minute: the tests did not pass on the base, because the declaration named two suites and built no example program they start. A `build` command was added; no limit was raised. Second `step check` exit 0 after 14 minutes, `step guard` exit 0, recorded on the ledger of the branch. Cells 3 to 1. Predictions: accepted held; `analyze` 13 and 13 held; the finder reports no machine afterwards, not one (wrong); the scope shrank by 4 tokens, it did not grow (wrong). Branch `step/batch-progress` not merged. Assessed `proceed` for doing consolidations through the step flow by hand. [R161](../../../docs/research/2026-11-18/27-batch-progress-dogfood.md)
+
+## A stopping rule per state machine · preregistration, 18 November 2026, 20:50 Europe/Berlin
+
+Owner's decisions, 20:50: push `4b213d4`; `step check` and the ratchet of `kiro-cli` stay separate commands; no committed `kiro-cli` baseline, the before side stays a revision; the stopping rule is registered and tested.
+
+The rule under test. A state machine is untangled far enough when all four hold: (1) its state is held in one place; (2) one routine decides on it; (3) the decisions about it are not fewer than the rows of its transition table; (4) `kiro-cli code check` against the base reports no blocking finding. Otherwise it names what is left.
+
+Counts per machine, defined before any is taken, so that a tool could take them later:
+
+- **holders**: fields, locals or cells that hold part of the machine's state. Two holders belong to one machine when one routine writes both, or one condition or two conditions that follow each other in one routine read both.
+- **writers**: routines that assign or mutate a holder.
+- **deciders**: routines with a condition on a value read from a holder.
+- **flags**: holders of a type with two values or with "none or some".
+- **decisions**: conditions and `match` arms beyond the first on a value read from a holder, over all deciders.
+- **rows**: the transitions and refusals of the machine as written down by reading, one row per distinct outcome.
+
+Machines scored: every machine of `drift-rdp` that R159 listed or read and that is not yet consolidated (`revision` and `publishing` of the credential check, `dirty`, `drafts`, `pending`, the codec policy's terminal error, the session manager's deleted connections, the library store's ready or write-blocked state), and `held_back` and `state` in this repository's guide optimiser. The three examples already consolidated are scored before and after as a check of the rule on known cases.
+
+Order of work, to keep the judgement apart from the rule: (a) for each open machine I write down, from reading alone and before counting, whether I would consolidate it and why, and seal that file by hash in the run directory; (b) then the counts are taken; (c) then the rule's answer is compared with the sealed judgement.
+
+Passes when the rule agrees with the sealed judgement on at least 8 of the 10 open machines, says "not far enough" for all three known examples before their change, and "far enough" for all three after. A disagreement is reported with the machine and the reason, and decides whether the rule or the judgement was wrong only where the code makes that plain.
+
+Predictions: the three known examples come out as required. At least half of the open machines are already far enough by the rule (one holder, one or two deciders), and the rule's weak point shows as condition (2): a flag read by two routines that is fine as it is.
+
+Weak point: the judge wrote the rule. An owner's reading of the same machines would be the stronger test. Not shown by this: anything outside Rust, state in plain enum fields that the finder does not list, whether following the rule makes code easier to change.
