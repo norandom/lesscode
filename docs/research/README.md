@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R144 Rust located shared iterator state in Commons CSV (2026-11-18)
+## Latest · R145 Rust traced the defaults behind the CSV iterator (2026-11-18)
+
+Rust found the initial counter and row limit in two different Java builders. Using those values with the previously recorded iterator behavior, the harness predicted all 108 values across the original and two changed copies. Rust also located both misplaced R144 quotations in the original source packet. [R145 and replay](2026-11-18/11-commons-csv-builder-defaults.md)
+
+## Prior · R144 Rust located shared iterator state in Commons CSV (2026-11-18)
 
 Starting from the public iterator operations, Rust selected code across five production files. The first model request returned a wait-limit error. The identical request then produced a forecast matching all 36 JVM observations. Two of 22 citations pointed one line too early, and the source packet lacked two builder defaults. [R144 and replay](2026-11-18/10-commons-csv-iterator-discovery.md)
 

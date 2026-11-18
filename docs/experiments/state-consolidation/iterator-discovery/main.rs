@@ -1,4 +1,6 @@
 //! Select Java source reachable from a public iterator protocol.
+mod citations;
+mod defaults;
 use lesscode_core::{
     adapters::driver::tree::{self, SgNode},
     receipt::sha256_hex,
@@ -14,6 +16,7 @@ use std::{
 };
 
 type Result<T> = std::result::Result<T, Box<dyn Error>>;
+type Lines = BTreeMap<String, BTreeMap<usize, String>>;
 const QUESTION: &str = include_str!("question.txt");
 const DEPTH: usize = 4;
 const MAX_METHOD_LINES: usize = 320;
@@ -44,13 +47,19 @@ struct Method {
     identifiers: BTreeSet<String>,
     span: (usize, usize),
     public: bool,
+    static_no_args: bool,
 }
 struct Field {
     owner: String,
+    scope: String,
     name: String,
     ty: String,
     file: String,
     line: usize,
+    last_line: usize,
+    initializer: Option<String>,
+    static_field: bool,
+    factories: Vec<(String, String)>,
 }
 #[derive(Default)]
 struct Index {
@@ -60,6 +69,8 @@ struct Index {
     iterable: BTreeSet<String>,
     iterators: BTreeSet<String>,
     init: Vec<(String, String, String, usize)>,
+    types: BTreeSet<String>,
+    reads: Vec<defaults::Read>,
 }
 impl Index {
     fn scan(&mut self, path: &Path) -> Result<()> {
@@ -78,6 +89,10 @@ impl Index {
                 "class_declaration" => {
                     let interfaces = field(&n, "interfaces");
                     let name = field(&n, "name");
+                    let mut enclosing = classes(&n);
+                    enclosing.reverse();
+                    enclosing.push(name.clone());
+                    self.types.insert(enclosing.join("."));
                     if public(&n)
                         && classes(&n).is_empty()
                         && interfaces
@@ -125,6 +140,8 @@ impl Index {
                         identifiers,
                         span: (line, end),
                         public: public(&n),
+                        static_no_args: defaults::modifier(&n, "static")
+                            && defaults::empty_list(&n, "parameters"),
                     });
                 }
                 "field_declaration" => {
@@ -133,10 +150,15 @@ impl Index {
                         for d in n.children().filter(|d| d.kind() == "variable_declarator") {
                             self.fields.push(Field {
                                 owner: owner.clone(),
+                                scope: owners.iter().rev().cloned().collect::<Vec<_>>().join("."),
                                 name: field(&d, "name"),
-                                ty: field(&n, "type"),
+                                ty: format!("{}{}", field(&n, "type"), field(&d, "dimensions")),
                                 file: file.clone(),
                                 line: tree::position(&d).0,
+                                last_line: tree::position(&d).2,
+                                initializer: d.field("value").map(|v| v.text().into_owned()),
+                                static_field: defaults::modifier(&n, "static"),
+                                factories: defaults::factories(&d),
                             });
                         }
                     }
@@ -147,6 +169,7 @@ impl Index {
                         .any(|p| p.kind() == "constructor_declaration") =>
                 {
                     if let Some(owner) = classes(&n).first() {
+                        self.reads.extend(defaults::reads(&n, &file));
                         let lhs = field(&n, "left");
                         self.init.push((
                             owner.clone(),
@@ -194,8 +217,13 @@ fn save(path: &Path, value: &serde_json::Value) -> Result<()> {
 }
 fn run() -> Result<()> {
     let args: Vec<_> = env::args_os().skip(1).collect();
+    if let [cmd, selection, answer, out] = args.as_slice() {
+        if cmd == "citations" {
+            return citations::run(selection.as_ref(), answer.as_ref(), out.as_ref());
+        }
+    }
     let [src, out] = args.as_slice() else {
-        return Err("iterator-discovery PACKAGE_DIRECTORY NEW_OUTPUT_DIRECTORY".into());
+        return Err("iterator-discovery PACKAGE_DIRECTORY NEW_OUTPUT_DIRECTORY | citations SELECTION ANSWER NEW_REPORT".into());
     };
     let mut files = fs::read_dir(src)?
         .map(|e| e.map(|e| e.path()))
@@ -231,7 +259,7 @@ fn run() -> Result<()> {
         }
     }
     let mut seen = BTreeSet::new();
-    let mut lines: BTreeMap<String, BTreeMap<usize, String>> = BTreeMap::new();
+    let mut lines = Lines::new();
     let mut unresolved = BTreeSet::new();
     let mut ambiguous = BTreeSet::new();
     let mut omitted = BTreeSet::new();
@@ -311,6 +339,7 @@ fn run() -> Result<()> {
                 .insert(*line, text.into());
         }
     }
+    let initializers = defaults::extend(&index, &mut lines)?;
     let mut evidence = String::new();
     for (file, body) in &lines {
         evidence.push_str(&format!("\n{file}\n"));
@@ -327,7 +356,7 @@ fn run() -> Result<()> {
         .collect();
     save(
         &dest.join("selection.json"),
-        &json!({"case":case,"hashes":hashes,"selected":picked,"unresolved":unresolved,"ambiguous":ambiguous,"omitted_at_boundary":omitted,"lines":lines}),
+        &json!({"case":case,"hashes":hashes,"selected":picked,"unresolved":unresolved,"ambiguous":ambiguous,"omitted_at_boundary":omitted,"initializers":initializers,"lines":lines}),
     )?;
     save(
         &dest.join("request.json"),
