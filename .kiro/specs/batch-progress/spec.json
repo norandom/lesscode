@@ -1,0 +1,16 @@
+{
+  "feature_name": "batch-progress",
+  "created_at": "2026-11-18T19:05:00+01:00",
+  "updated_at": "2026-11-18T19:05:00+01:00",
+  "language": "en",
+  "phase": "requirements-generated",
+  "approvals": {
+    "requirements": {"generated": true, "approved": false},
+    "design": {"generated": false, "approved": false},
+    "tasks": {"generated": false, "approved": false}
+  },
+  "ready_for_implementation": false,
+  "related": ["gradual-refactoring-steps", "state-consolidation"],
+  "evidence": [],
+  "notes": "2026-11-18: the spec of one step, asked for by the owner as dogfooding of the step flow on a state machine the finder named in this repository (R158). One struct changes, so there is no design and no task list. Merging the branch is the owner's decision."
+}
