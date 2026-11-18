@@ -3,7 +3,7 @@ use lesscode_core::adapters::driver::process;
 use serde_json::{json, Value};
 use std::{collections::BTreeMap, fs, path::Path, time::Duration};
 
-const PARSER: &str = "bfe10911dac9f3c54ae1b21a4848ede25944f87a09763f3c4fc50d7fbabf1e63";
+pub(super) const PARSER: &str = "bfe10911dac9f3c54ae1b21a4848ede25944f87a09763f3c4fc50d7fbabf1e63";
 const Z3: &str = "2bffeee10ba02a510d07be9c3fdf9c22f10ccc9724dc84201c5a40196f1a1e8f";
 const BOUND: usize = 4;
 const EVENTS: [&str; 3] = ["hasNext", "close", "next"];
@@ -16,13 +16,13 @@ const RESULTS: [&str; 6] = [
     "throws:NoSuchElementException",
 ];
 
-fn syntax<'a>(n: &SgNode<'a>) -> Vec<SgNode<'a>> {
+pub(super) fn syntax<'a>(n: &SgNode<'a>) -> Vec<SgNode<'a>> {
     n.children()
         .filter(|c| c.is_named() && !matches!(c.kind().as_ref(), "line_comment" | "block_comment"))
         .collect()
 }
 
-fn condition(n: &SgNode<'_>) -> Result<String> {
+pub(super) fn condition(n: &SgNode<'_>) -> Result<String> {
     match n.kind().as_ref() {
         "parenthesized_expression" => {
             let nodes = syntax(n);
@@ -48,11 +48,16 @@ fn condition(n: &SgNode<'_>) -> Result<String> {
                     condition(&left)?,
                     condition(&right)?
                 )),
-                "==" if left.kind() == "identifier"
-                    && left.text() == "current"
-                    && right.kind() == "null_literal" =>
+                op @ ("==" | "!=")
+                    if is_current(&left) && is_null(&right)
+                        || is_null(&left) && is_current(&right) =>
                 {
-                    Ok("(not pending)".into())
+                    Ok(if op == "==" {
+                        "(not pending)"
+                    } else {
+                        "pending"
+                    }
+                    .into())
                 }
                 _ => Err("unsupported guard operator or operands".into()),
             }
@@ -61,31 +66,67 @@ fn condition(n: &SgNode<'_>) -> Result<String> {
     }
 }
 
+fn is_current(n: &SgNode<'_>) -> bool {
+    n.kind() == "identifier" && n.text() == "current"
+}
+
+fn is_null(n: &SgNode<'_>) -> bool {
+    n.kind() == "null_literal"
+}
+
 struct Guard {
     smt: String,
     evidence: Value,
 }
 
-fn extract(path: &Path) -> Result<Guard> {
-    let source = fs::read_to_string(path)?.replace("\r\n", "\n");
-    let ast = tree::parse(&source, tree::grammar("java")?)?;
-    let root = ast.root();
-    if tree::first_error(&root).is_some() {
-        return Err("invalid Java syntax".into());
-    }
-    let methods: Vec<_> = tree::walk(&root)
+/// The public zero-argument method `name` of the pinned nested iterator.
+pub(super) fn method<'a>(root: &SgNode<'a>, name: &str) -> Result<SgNode<'a>> {
+    let methods: Vec<_> = tree::walk(root)
         .into_iter()
         .filter(|n| {
             n.kind() == "method_declaration"
-                && field(n, "name") == "next"
+                && field(n, "name") == name
                 && public(n)
                 && defaults::empty_list(n, "parameters")
                 && classes(n) == ["CSVRecordIterator", "CSVParser"]
         })
         .collect();
     let [method] = methods.as_slice() else {
-        return Err("expected one pinned iterator next method".into());
+        return Err(format!("expected one pinned iterator {name} method").into());
     };
+    Ok(method.clone())
+}
+
+pub(super) fn parse_java(path: &Path) -> Result<(String, tree::SgRoot)> {
+    let source = fs::read_to_string(path)?.replace("\r\n", "\n");
+    let ast = tree::parse(&source, tree::grammar("java")?)?;
+    if tree::first_error(&ast.root()).is_some() {
+        return Err("invalid Java syntax".into());
+    }
+    Ok((source, ast))
+}
+
+fn extract(path: &Path) -> Result<Guard> {
+    let (source, ast) = parse_java(path)?;
+    let (expr, smt, throw) = next_guard(&ast.root())?;
+    // The rest of this real parser supplies the fixed semantics used in the
+    // experiment. Refuse to extrapolate them to a different implementation.
+    let mut masked = source.clone();
+    masked.replace_range(expr.range(), "(isClosed())");
+    if sha256_hex(masked.as_bytes()) != PARSER {
+        return Err("source outside the modeled condition changed".into());
+    }
+    Ok(Guard {
+        evidence: json!({"file":path,"sha256_lf":sha256_hex(source.as_bytes()),"line":tree::position(&expr).0,
+        "condition":expr.text(),"throw":throw,"predicate":smt}),
+        smt,
+    })
+}
+
+/// The leading closure guard of `next()`: its condition node, the lowered
+/// predicate and the throw it guards.
+pub(super) fn next_guard<'a>(root: &SgNode<'a>) -> Result<(SgNode<'a>, String, String)> {
+    let method = method(root, "next")?;
     let body = method.field("body").ok_or("missing method body")?;
     let stmts = syntax(&body);
     let guard = stmts
@@ -106,18 +147,8 @@ fn extract(path: &Path) -> Result<Guard> {
     }
     let expr = guard.field("condition").ok_or("missing condition")?;
     let smt = condition(&expr)?;
-    // The rest of this real parser supplies the fixed semantics used in the
-    // experiment. Refuse to extrapolate them to a different implementation.
-    let mut masked = source.clone();
-    masked.replace_range(expr.range(), "(isClosed())");
-    if sha256_hex(masked.as_bytes()) != PARSER {
-        return Err("source outside the modeled condition changed".into());
-    }
-    Ok(Guard {
-        evidence: json!({"file":path,"sha256_lf":sha256_hex(source.as_bytes()),"line":tree::position(&expr).0,
-        "condition":expr.text(),"throw":throw.text(),"predicate":smt}),
-        smt,
-    })
+    let throw = throw.text().into_owned();
+    Ok((expr, smt, throw))
 }
 
 // The surroundings are the R144 model. The two predicates are the only
@@ -242,8 +273,15 @@ fn witness(z3: &Path, out: &Path, q: &str, n: usize) -> Result<Value> {
     Ok(json!(trace))
 }
 
-pub(super) fn compare(left: &Path, right: &Path, z3: &Path, out: &Path) -> Result<()> {
-    let (a, b) = (extract(left)?, extract(right)?);
+/// Ask the pinned Z3 for a difference at every length up to the bound and
+/// save each verdict with the witness for the shortest satisfiable length.
+pub(super) fn depths(
+    z3: &Path,
+    out: &Path,
+    left: Value,
+    right: Value,
+    query: impl Fn(usize) -> String,
+) -> Result<()> {
     let z3 = z3.canonicalize()?;
     if sha256_hex(&fs::read(&z3)?) != Z3 {
         return Err("unexpected Z3 binary".into());
@@ -253,7 +291,7 @@ pub(super) fn compare(left: &Path, right: &Path, z3: &Path, out: &Path) -> Resul
     let mut lengths = Vec::new();
     let mut first = None;
     for n in 0..=BOUND {
-        let q = query(&a, &b, n);
+        let q = query(n);
         let status = solve(&z3, &out, &format!("length-{n}"), &q)?;
         match status.as_str() {
             "sat" if first.is_none() => first = Some(witness(&z3, &out, &q, n)?),
@@ -264,7 +302,14 @@ pub(super) fn compare(left: &Path, right: &Path, z3: &Path, out: &Path) -> Resul
     }
     save(
         &out.join("result.json"),
-        &json!({"left":a.evidence,"right":b.evidence,"bound":BOUND,
+        &json!({"left":left,"right":right,"bound":BOUND,
         "events":EVENTS,"z3_sha256":Z3,"lengths":lengths,"witness":first}),
     )
+}
+
+pub(super) fn compare(left: &Path, right: &Path, z3: &Path, out: &Path) -> Result<()> {
+    let (a, b) = (extract(left)?, extract(right)?);
+    depths(z3, out, a.evidence.clone(), b.evidence.clone(), |n| {
+        query(&a, &b, n)
+    })
 }

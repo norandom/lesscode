@@ -2,6 +2,7 @@
 mod citations;
 mod defaults;
 mod guard_trial;
+mod lookahead_trial;
 use lesscode_core::{
     adapters::driver::tree::{self, SgNode},
     receipt::sha256_hex,
@@ -222,6 +223,14 @@ fn run() -> Result<()> {
         if cmd == "guard" {
             return guard_trial::compare(left.as_ref(), right.as_ref(), z3.as_ref(), out.as_ref());
         }
+        if cmd == "lookahead" {
+            return lookahead_trial::compare(
+                left.as_ref(),
+                right.as_ref(),
+                z3.as_ref(),
+                out.as_ref(),
+            );
+        }
     }
     if let [cmd, selection, answer, out] = args.as_slice() {
         if cmd == "citations" {
@@ -229,7 +238,7 @@ fn run() -> Result<()> {
         }
     }
     let [src, out] = args.as_slice() else {
-        return Err("iterator-discovery PACKAGE_DIRECTORY NEW_OUTPUT_DIRECTORY | citations SELECTION ANSWER NEW_REPORT | guard LEFT_PARSER RIGHT_PARSER Z3 NEW_DIRECTORY".into());
+        return Err("iterator-discovery PACKAGE_DIRECTORY NEW_OUTPUT_DIRECTORY | citations SELECTION ANSWER NEW_REPORT | guard|lookahead LEFT_PARSER RIGHT_PARSER Z3 NEW_DIRECTORY".into());
     };
     let mut files = fs::read_dir(src)?
         .map(|e| e.map(|e| e.path()))
