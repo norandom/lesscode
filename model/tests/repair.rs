@@ -1,7 +1,7 @@
 //! Requirement 6: repairing a rejected answer (task 3), with scripted
 //! replies. No endpoint is called and no file is written.
 
-use lesscode_model::repair::{Attempt, Outcome, REPAIRS, Verdict, with_repairs};
+use lesscode_model::repair::{Attempt, CUT_OFF, Outcome, REFUSED, REPAIRS, Verdict, with_repairs};
 use lesscode_model::{CallError, CallRequest, Reply, Sent, Stop};
 
 fn request() -> CallRequest {
@@ -228,8 +228,29 @@ fn a_refused_reply_ends_the_loop_as_rejected_without_another_call() {
         assert_eq!(run.sent.len(), calls, "nothing is sent after the refusal");
         assert_eq!(last.stop, Stop::Refused);
         assert_eq!(attempts.len(), calls);
-        assert_eq!(run.checked.len(), calls, "the check saw the refusal");
+        assert_eq!(run.checked.len(), calls - 1, "the refusal is not judged");
     }
+}
+
+/// The text of both replies would pass the check.
+#[test]
+fn a_reply_that_is_not_whole_is_never_accepted_and_never_judged() {
+    let cut_off = run(
+        vec![Ok(reply("blue", Stop::CutOff, 5)), complete("blue")],
+        REPAIRS,
+    );
+    let Outcome::Accepted { attempts, .. } = cut_off.outcome else {
+        panic!("not accepted: {:?}", cut_off.outcome);
+    };
+    assert_eq!(attempts[0].reasons, [CUT_OFF]);
+    assert_eq!((attempts.len(), cut_off.checked.len()), (2, 1));
+
+    let refused = run(vec![Ok(reply("blue", Stop::Refused, 5))], REPAIRS);
+    let Outcome::Rejected { attempts, .. } = refused.outcome else {
+        panic!("not rejected: {:?}", refused.outcome);
+    };
+    assert_eq!(attempts[0].reasons, [REFUSED]);
+    assert!(refused.checked.is_empty());
 }
 
 #[test]
@@ -282,7 +303,7 @@ fn every_attempt_is_recorded_with_its_verdict_its_stop_and_its_tokens() {
     assert_eq!(
         attempts,
         [
-            attempt(false, Some("\"bl\" is not blue"), Stop::CutOff, 100),
+            attempt(false, Some(CUT_OFF), Stop::CutOff, 100),
             attempt(false, Some("\"red\" is not blue"), Stop::Complete, 3),
             attempt(true, Some("\"blue\" is not blue"), Stop::Complete, 4),
         ]

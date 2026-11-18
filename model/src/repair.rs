@@ -1,7 +1,8 @@
 //! The repair loop around a caller's check: propose, check, and on a
 //! rejection ask afresh with the request, the rejected reply and the
-//! reasons. The check decides alone what is accepted, and it is handed every
-//! reply before the caller gets it back. The loop makes its calls through
+//! reasons. The check decides alone what is accepted among whole replies, and
+//! it is handed every one before the caller gets it back. A reply that was
+//! cut off or refused is never accepted. The loop makes its calls through
 //! the caller's `call` and writes no file.
 //!
 //! The check is a required argument:
@@ -97,8 +98,14 @@ pub fn repair_request(request: &CallRequest, rejected: &str, reasons: &[String])
     }
 }
 
-/// A first call and, while the check rejects the reply, at most `repairs`
-/// more. A repair is a fresh call that shows the rejected reply and the
+/// The reason recorded for a reply that ended at the output limit.
+pub const CUT_OFF: &str = "the reply was cut off before it was complete";
+/// The reason recorded for a reply the model refused to give.
+pub const REFUSED: &str = "the request was refused";
+
+/// A first call and, while the reply is rejected, at most `repairs` more. A
+/// reply that was cut off or refused is rejected without being shown to the
+/// check. A repair is a fresh call that shows the rejected reply and the
 /// reasons; where no reply arrived or it was not complete, the request last
 /// sent goes out again as it was. A reply the model refused to give ends the
 /// loop as rejected, whatever repairs are left. `Accepted` is made in one
@@ -116,7 +123,16 @@ pub fn with_repairs(
             Ok(reply) => reply,
             Err(error) => return Outcome::Failed { error, attempts },
         };
-        let Verdict { passed, reasons } = check(&reply);
+        // A reply that is not whole is rejected here, unjudged, for every caller.
+        let unjudged = |reason: &str| Verdict {
+            passed: false,
+            reasons: vec![reason.to_owned()],
+        };
+        let Verdict { passed, reasons } = match reply.stop {
+            Stop::CutOff => unjudged(CUT_OFF),
+            Stop::Refused => unjudged(REFUSED),
+            _ => check(&reply),
+        };
         attempts.push(Attempt {
             passed,
             reasons,

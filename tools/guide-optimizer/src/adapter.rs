@@ -189,11 +189,7 @@ impl Authoring {
         let mut call = |asked: &CallRequest| self.model.chat(asked);
         let mut judged = None;
         let mut check = |reply: &Reply| {
-            let verdict = match reply.stop {
-                Stop::CutOff => failed("the reply was cut off before the pack was complete".into()),
-                Stop::Refused => failed("the request was refused".into()),
-                _ => judge(task, &pack_text(&reply.text)),
-            };
+            let verdict = judge(task, &pack_text(&reply.text));
             let seen = repair::Verdict {
                 passed: verdict.admitted,
                 reasons: verdict.feedback.clone(),
@@ -208,7 +204,12 @@ impl Authoring {
                 last: reply,
                 attempts,
             } => {
-                let verdict = judged.expect("the last reply was checked");
+                // The loop rejects a reply that is not whole without a judgement.
+                let last = &attempts[attempts.len() - 1];
+                let verdict = match last.stop {
+                    Stop::CutOff | Stop::Refused => failed(last.reasons.join("; ")),
+                    _ => judged.expect("the last whole reply was checked"),
+                };
                 (attempts, reply.text, verdict, None)
             }
             Outcome::Failed { error, attempts } => {
@@ -494,7 +495,7 @@ mod trials {
             (
                 Stop::CutOff,
                 "cut_off",
-                "the reply was cut off before the pack was complete",
+                "the reply was cut off before it was complete",
                 2,
             ),
             (Stop::Refused, "refusal", "the request was refused", 1),
