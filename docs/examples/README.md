@@ -70,7 +70,7 @@ The table still decides eight cases; the rules did not get fewer. They are in on
 state that means nothing can no longer be written.
 
 Both versions answer alike: [check.rs](order-flags/check.rs) runs every sequence of up to six
-events (5,745 steps) through both and compares the result and the label after each step. Full
+events (6,015 steps) through both and compares the result and the label after each step. Full
 sources: [before.rs](order-flags/before.rs), [after.rs](order-flags/after.rs).
 
 Real code is rarely this tidy. The flags sit in different files, behind locks, under other names.
