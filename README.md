@@ -1,7 +1,7 @@
 # Lesscode
 
 [![DOI](https://zenodo.org/badge/1440672292.svg)](https://doi.org/10.5281/zenodo.23958363)
-[![Release](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v2.0.0)
+[![Release](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/norandom/lesscode/releases/tag/v2.1.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ![Before: a tired developer eats a plate of spaghetti labelled with nested loops and conditions. After lesscode: the same developer, cheerful, with a bowl of vegetables labelled with single statements.](docs/images/before-after-lesscode.png)

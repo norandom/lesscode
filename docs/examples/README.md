@@ -73,7 +73,7 @@ Both versions answer alike: [check.rs](order-flags/check.rs) runs every sequence
 events (6,015 steps) through both and compares the result and the label after each step. Full
 sources: [before.rs](order-flags/before.rs), [after.rs](order-flags/after.rs).
 
-Real code is rarely this tidy. The flags sit in different files, behind locks, under other names.
+Real code is rarely this tidy. The flags sit in different files and go by other names.
 Finding them is the hard part, and that is what the research on this page's real examples is about.
 
 ## Real examples
