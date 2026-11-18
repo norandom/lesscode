@@ -132,6 +132,38 @@ fn a_branch_stands_only_with_a_verdict_for_exactly_its_content() {
     assert!(said.contains("there is no verdict"), "{said}");
 }
 
+/// `step record` writes down the verdict on disk, so that is the one it
+/// judges: a refused verdict committed earlier does not answer for an
+/// accepted one written since (found on a real step, R161). The guard keeps
+/// judging what is committed.
+#[test]
+fn record_judges_the_verdict_on_disk_and_the_guard_the_committed_one() {
+    let repo = checked("record-disk");
+    let path = repo.dir.join(".kiro/specs/smaller/verdict.json");
+    let accepted = fs::read_to_string(&path).unwrap();
+    let mut refused: Value = serde_json::from_str(&accepted).unwrap();
+    refused["result"] = "refused".into();
+    fs::write(&path, refused.to_string()).unwrap();
+    repo.commit(&[], "a refused verdict, committed");
+    fs::write(&path, &accepted).unwrap();
+
+    let (code, said) = record(&repo, &[]);
+    assert_eq!(code, Some(0), "{said}");
+    assert!(said.contains("recorded as accepted"), "{said}");
+    let (code, said) = guard(&repo, "step/smaller");
+    assert_eq!(code, Some(1), "{said}");
+    assert!(said.contains("the verdict is refused"), "{said}");
+
+    // And the other way round: a refused verdict on disk is not recorded.
+    let other = checked("record-disk-refused");
+    let path = other.dir.join(".kiro/specs/smaller/verdict.json");
+    other.commit(&[], "the accepted verdict, committed");
+    fs::write(&path, refused.to_string()).unwrap();
+    let (code, said) = record(&other, &[]);
+    assert_eq!(code, Some(1), "{said}");
+    assert!(said.contains("the verdict is refused"), "{said}");
+}
+
 #[test]
 fn the_ledger_holds_the_best_number_and_cannot_be_rewritten() {
     let repo = checked("ledger");

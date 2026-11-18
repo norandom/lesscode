@@ -262,7 +262,7 @@ impl Shared<'_> {
             vec![Duration::from_secs(self.config.timeout_ceiling_s); steps(self.config).len()];
         let baseline = run_steps(self.config, &space.tree, &ceiling);
         report.baseline_s = baseline.iter().map(|(_, f)| f.seconds).collect();
-        report.stopped = unusable(&baseline, ceiling.len());
+        report.stopped = unusable(&baseline);
         if report.stopped.is_some() {
             return report;
         }
@@ -295,23 +295,29 @@ impl Shared<'_> {
         let closing = run_steps(self.config, &space.tree, &ceiling);
         report.closing_baseline_passed =
             Some(closing.len() == ceiling.len() && closing.iter().all(|(_, f)| f.passed()));
-        report.closing_failure = closing.iter().find(|(_, f)| !f.passed()).map(|(step, f)| {
-            let timed_out = if f.timed_out { ", timed out" } else { "" };
-            let output = tail(&f.output);
-            format!("{step} step, exit {:?}{timed_out}: {output}", f.exit_code)
-        });
+        report.closing_failure = failure(&closing);
         report
     }
 }
 
 /// Why a copy cannot be used after its unmutated run, if so. A command
 /// that cannot start says nothing about the project's tests.
-fn unusable(baseline: &[(&'static str, Finished)], steps: usize) -> Option<String> {
+fn unusable(baseline: &[(&'static str, Finished)]) -> Option<String> {
     if let Some(why) = baseline.iter().find_map(|(_, f)| f.launch_error.as_ref()) {
         return Some(format!("a command could not be started: {why}"));
     }
-    let failed = baseline.len() < steps || !baseline.iter().all(|(_, f)| f.passed());
-    failed.then(|| TESTS_FAIL.to_owned())
+    // A run of the steps ends at the first one that does not pass.
+    failure(baseline).map(|detail| format!("{TESTS_FAIL} ({detail})"))
+}
+
+/// The step that did not pass in a run of the unmutated commands, and the
+/// end of its output.
+fn failure(done: &[(&'static str, Finished)]) -> Option<String> {
+    done.iter().find(|(_, f)| !f.passed()).map(|(step, f)| {
+        let timed_out = if f.timed_out { ", timed out" } else { "" };
+        let output = tail(&f.output);
+        format!("{step} step, exit {:?}{timed_out}: {output}", f.exit_code)
+    })
 }
 
 /// Why nothing in a run may be relied on, if so.

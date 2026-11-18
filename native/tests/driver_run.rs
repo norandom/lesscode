@@ -228,6 +228,9 @@ fn a_run_whose_unmutated_tests_fail_is_void() {
             .contains("unmutated tests"),
         "{receipt}"
     );
+    // The receipt says which step failed and how its output ended.
+    let stopped = receipt["workers"][0]["stopped"].as_str().unwrap();
+    assert!(stopped.contains("(test step, exit "), "{stopped}");
     assert_eq!(
         receipt["mutants"].as_array().unwrap().len(),
         0,

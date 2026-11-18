@@ -86,8 +86,9 @@ fn ended(verdict: &mut Verdict, side: &str, run: &FaultRun) -> bool {
     let name = "tests and fault runs";
     match &run.ended {
         Ended::Complete => return true,
-        Ended::TestsFail => {
-            let reason = format!("the project's tests do not pass on the {side}");
+        Ended::TestsFail(detail) => {
+            let reason = format!("the project's tests do not pass on the {side} {detail}");
+            let reason = reason.trim_end().to_owned();
             verdict.settle(name, vec![reason], "");
         }
         Ended::Incomplete => {

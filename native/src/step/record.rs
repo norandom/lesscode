@@ -71,7 +71,7 @@ fn release(ledger: &Path, entries: &[Value], name: &str) -> Result<u8, String> {
 fn accepted(context: &Context, entries: &[Value], mut entry: Entry) -> Result<u8, String> {
     let declaration = &context.declaration;
     let revision = &context.revisions.step;
-    let (found, _) = standing(&context.repo, &declaration.branch, revision)?;
+    let (found, _) = standing(&context.repo, &declaration.branch, revision, true)?;
     if found != Standing::Accepted {
         let why = match found {
             Standing::Refused(why) => why,

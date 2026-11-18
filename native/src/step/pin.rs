@@ -50,7 +50,7 @@ struct PinReceipt {
 fn judged(ended: &Ended, with_pin: Option<&Fault>) -> (&'static str, String) {
     let class = with_pin.map_or("", |f| f.class.as_str());
     match (ended, class) {
-        (Ended::TestsFail, _) => (
+        (Ended::TestsFail(_), _) => (
             "rejected",
             "the tests with the pin fail on the unchanged code".into(),
         ),

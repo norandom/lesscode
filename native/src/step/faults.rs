@@ -31,8 +31,9 @@ pub enum Ended {
     Complete,
     /// Some faults could not be classed.
     Incomplete,
-    /// The project's tests fail without any fault.
-    TestsFail,
+    /// The project's tests fail without any fault; which step failed and
+    /// how its output ended, as far as the run says.
+    TestsFail(String),
     /// The run says nothing, for the reason given.
     Void(String),
 }
@@ -98,7 +99,12 @@ pub fn run(declaration: &Declaration, work: &Path, request: Request) -> Result<F
     };
     let run: Value = serde_json::from_slice(&bytes).map_err(|e| e.to_string())?;
     let ended = match (run["void"].as_str(), outcome) {
-        (Some(why), _) if why.contains(TESTS_FAIL) => Ended::TestsFail,
+        (Some(why), _) if why.contains(TESTS_FAIL) => {
+            let detail = why
+                .split_once(TESTS_FAIL)
+                .map_or("", |(_, rest)| rest.trim());
+            Ended::TestsFail(detail.to_owned())
+        }
         (Some(why), _) => Ended::Void(why.to_owned()),
         (None, Ok(0)) => Ended::Complete,
         (None, Ok(_)) => Ended::Incomplete,

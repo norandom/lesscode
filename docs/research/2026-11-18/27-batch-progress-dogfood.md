@@ -77,6 +77,12 @@ logs, `verdict.json`, `analyze-*.json`, `finder-*.json`, the binary. The work di
    do not say that. Not changed here.
 4. `run_batch` has no noticed fault at all with these two suites.
 
+Amendment, 2026-11-18, 19:55: findings 1 and 3 are fixed on main on the owner's word, after release
+2.1.0. A failing first run now gives its reason as "the unmutated tests do not pass in this copy
+(test step, exit …: end of the output)", and `step check` carries that into its refusal. `step record`
+judges the verdict on disk, which is the one it writes down; the guard still judges what is
+committed. Core suite 410 of 410 on Windows; Linux through the container pipeline at the same commit.
+
 ## Limits and interpretation
 
 - No pin was written. The step is as protected as the base, which is the tool's bar, and the base

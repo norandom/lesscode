@@ -92,11 +92,14 @@ fn stale(verdict: &Value, now: &Hashes, base: &str) -> Option<String> {
     Some(format!("{what} changed after the verdict was written"))
 }
 
-/// Judge one branch at one commit.
+/// Judge one branch at one commit. With `on_disk` the verdict file in the
+/// working tree is judged where there is one: `step record` writes down that
+/// file, and a verdict committed earlier must not answer for it.
 pub fn standing(
     repo: &Path,
     branch: &str,
     revision: &str,
+    on_disk: bool,
 ) -> Result<(Standing, Option<String>), String> {
     let revision = resolve(repo, revision)?;
     let tree = tree(repo, &revision)?;
@@ -106,7 +109,11 @@ pub fn standing(
     let spec = Some(declaration.spec.clone());
     let now = hashes(&declaration, &path, &tree);
     let base = resolve(repo, &declaration.base)?;
-    let verdict = committed_or_on_disk(repo, &tree, &declaration.outputs.verdict)?;
+    let written = std::fs::read(repo.join(&declaration.outputs.verdict)).ok();
+    let verdict = match written.filter(|_| on_disk) {
+        Some(bytes) => Some(bytes),
+        None => committed_or_on_disk(repo, &tree, &declaration.outputs.verdict)?,
+    };
     let refusal = match verdict {
         None => "there is no verdict; run step check".to_owned(),
         Some(bytes) => {
@@ -173,7 +180,7 @@ pub fn run_guard(args: GuardArgs) -> Result<u8, String> {
 pub fn judge(repo: &Path, targets: &[(String, String)]) -> Result<(bool, Vec<String>), String> {
     let (mut refused, mut specs) = (false, Vec::new());
     for (branch, revision) in targets {
-        let (found, spec) = standing(repo, branch, revision)?;
+        let (found, spec) = standing(repo, branch, revision, false)?;
         specs.extend(spec);
         match found {
             Standing::NotAStep => println!("{branch}: not a step branch"),

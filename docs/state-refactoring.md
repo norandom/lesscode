@@ -100,11 +100,14 @@ step batch-progress: refused
   the project's tests do not pass on the base
 ```
 
-That took one minute and was right. The verdict does not say why the tests failed. Run the test
-command yourself in the copy under the work directory (`base-run/w1/tree`) to see it.
+That took one minute and was right. Release 2.1.0 does not say why the tests failed; run the test
+command yourself in the copy under the work directory (`base-run/w1/tree`) to see it. After 2.1.0 the
+reason names the step that failed and the end of its output.
 
-Do not commit a refused verdict. We did, by adding the whole spec folder, and `step record` later
-answered "not recorded: the verdict is refused" until the accepted verdict was committed in its place.
+With 2.1.0, do not commit a refused verdict. We did, by adding the whole spec folder, and
+`step record` then answered "not recorded: the verdict is refused" for the accepted verdict on disk,
+until that one was committed. After 2.1.0 `step record` judges the verdict on disk, which is the one
+it writes down.
 
 ## Step 5: read what your tests do not notice
 
@@ -196,9 +199,8 @@ move a function out of reach to get past it; that is the owner's decision, not t
 ## Step 8: record and guard
 
 ```sh
-git add <verdict> <evidence> && git commit
 lesscode-core step record --declaration .kiro/specs/batch-progress/step.json
-git add <ledger> && git commit
+git add <verdict> <evidence> <ledger> && git commit
 lesscode-core step guard --branch step/batch-progress
 ```
 
