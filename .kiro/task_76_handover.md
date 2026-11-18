@@ -118,3 +118,7 @@ Windows: clippy clean; core suite 410 of 410 on a quiet machine. One run made wh
 ## Amendment, 20:50: decisions, R163 registered
 
 Owner's decisions: `4b213d4` pushed; `step check` and the `kiro-cli` ratchet stay separate commands; no committed baseline; the stopping rule is registered in the prototype gate as R163 (ten open machines, sealed judgement before counting, bar 8 of 10 plus the three known examples). Not run yet. The owner also asked what `kiro-cli` would need to take these counts; answered as a proposal (holders, writers, deciders, flags per state holder; grouping by co-written and co-tested; net decisions in the coverage line), nothing changed in `openidea-kiro`.
+
+## Closing, 20:54
+
+The day ends here on the owner's word. The start for the next session is [handover.md](handover.md), reset today. Owner's last decision: the `kiro-cli` extension comes before R163. Nothing was begun in `D:\Source\openidea-kiro`; a worktree and branch made for it were removed and that repository is unchanged. Release 2.1.0 is published (18:59). Four exited containers of an earlier lesscode batch (`lesscode-ms1-*`, exit 137, about 32 hours old) were removed.
