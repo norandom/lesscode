@@ -13,7 +13,7 @@ use super::workspace::Workspace;
 use serde::Serialize;
 use std::collections::VecDeque;
 use std::path::Path;
-use std::sync::Mutex;
+use std::sync::{Mutex, MutexGuard};
 use std::time::Duration;
 
 /// In a command's arguments: replaced by the step's time limit in seconds.
@@ -120,15 +120,34 @@ fn tail(output: &str) -> String {
 struct Shared<'a> {
     config: &'a RunConfig,
     work: &'a Path,
-    queue: Mutex<VecDeque<Job>>,
-    results: Mutex<Vec<MutantResult>>,
-    /// A failed restoration: the run stops and is void.
-    fatal: Mutex<Option<String>>,
+    progress: Mutex<Progress>,
     store: Option<&'a Store>,
     run_id: &'a str,
 }
 
+/// How far the batch is.
+struct Progress {
+    queue: VecDeque<Job>,
+    results: Vec<MutantResult>,
+    /// A failed restoration or a stop from outside: the run ends and is void.
+    fatal: Option<String>,
+}
+
+impl Progress {
+    /// The next mutant to run; none once the run has stopped.
+    fn next(&mut self) -> Option<Job> {
+        if self.fatal.is_some() {
+            return None;
+        }
+        self.queue.pop_front()
+    }
+}
+
 impl Shared<'_> {
+    fn progress(&self) -> MutexGuard<'_, Progress> {
+        self.progress.lock().unwrap()
+    }
+
     fn open_copy(&self, report: &mut WorkerReport) -> Result<Workspace, String> {
         let name = format!("w{}", report.worker);
         let (home, config) = (self.work.join(&name), self.config);
@@ -184,10 +203,10 @@ impl Shared<'_> {
             let done = run_steps(self.config, &space.tree, limits);
             space
                 .restore()
-                .inspect_err(|e| *self.fatal.lock().unwrap() = Some(e.clone()))?;
+                .inspect_err(|e| self.progress().fatal = Some(e.clone()))?;
             if interrupt::requested() {
                 // The mutant's run was cut short: it has no class.
-                *self.fatal.lock().unwrap() = Some(interrupt::STOPPED.into());
+                self.progress().fatal = Some(interrupt::STOPPED.into());
                 return Err(interrupt::STOPPED.into());
             }
             let (class, reason) = classify(self.config, &done);
@@ -258,19 +277,16 @@ impl Shared<'_> {
             .map(|s| Duration::from_secs(*s))
             .collect();
         loop {
-            if self.fatal.lock().unwrap().is_some() {
-                break;
-            }
-            let Some(job) = self.queue.lock().unwrap().pop_front() else {
+            let Some(job) = self.progress().next() else {
                 break;
             };
             match self.one(&space, &job, &limits, worker) {
                 Ok(result) => {
-                    self.results.lock().unwrap().push(result);
+                    self.progress().results.push(result);
                     report.mutants_run += 1;
                 }
                 Err(why) => {
-                    self.queue.lock().unwrap().push_front(job);
+                    self.progress().queue.push_front(job);
                     report.stopped = Some(why);
                     return report;
                 }
@@ -358,9 +374,11 @@ pub fn run_batch(
     let shared = Shared {
         config,
         work,
-        queue: Mutex::new(queue),
-        results: Mutex::new(reused),
-        fatal: Mutex::new(None),
+        progress: Mutex::new(Progress {
+            queue,
+            results: reused,
+            fatal: None,
+        }),
         store,
         run_id,
     };
@@ -376,12 +394,11 @@ pub fn run_batch(
             .map(|h| h.join().expect("a worker does not panic"))
             .collect()
     });
-    let left = shared.queue.lock().unwrap().len();
+    let progress = shared.progress.into_inner().unwrap();
     // A stop during setup or an unmutated run reaches no mutant; say so anyway.
     let stopped = interrupt::requested().then(|| interrupt::STOPPED.to_owned());
-    let fatal = stopped.or_else(|| shared.fatal.lock().unwrap().clone());
-    let void = void_reason(&reports, left, fatal);
-    let mut mutants = shared.results.into_inner().unwrap();
+    let void = void_reason(&reports, progress.queue.len(), stopped.or(progress.fatal));
+    let mut mutants = progress.results;
     mutants.sort_by_key(|m| m.number);
     BatchOutput {
         mutants,
