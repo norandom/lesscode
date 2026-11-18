@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R152 The bounded solver check is a command of lesscode-core and repeats R139 on E5 (2026-11-18)
+## Latest · R153 On the reply-checking machine today's commands find the loop's guards and miss the state (2026-11-18)
+
+The guide adapter keeps a reply's stop reason in a cell that one closure writes and another consumes, and the repair loop calls them in order. Of the six parts R130 wrote down, `analyze` and `measure-scope` report two: the loop's three conditions and the caller's edge. The cell, its write, its read and the match arms on it are not reported, because closures are not functions for the driver, match arms are not conditions and a method call on a cell is not a write. Proposed as the first real case for find and consolidate. [R153](2026-11-18/19-reply-machine-tool-findings.md)
+
+## Prior · R152 The bounded solver check is a command of lesscode-core and repeats R139 on E5 (2026-11-18)
 
 `deconvolute bound-check` takes a target file with symbols, ranges and, per version, an SMT-LIB expression and a command. On E5 it gave R139's result: unsat and 0 of 81 differing reports for the candidate, sat and the same 18 of 81 for the planted fault, with witness 9 reproduced. A model that misses the fault is reported as inconsistent. The E5 row filter stays in the experiment; the core does not derive expressions. [R152](2026-11-18/18-bound-check-in-core.md)
 
