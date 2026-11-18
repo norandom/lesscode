@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R158 Following a cell through its names, the finder matches the hand census of mmhmem on every line (2026-11-18)
+## Latest · R159 The frozen finder transfers to a third repository: eight of nine machines, and none of eleven reports wrong (2026-11-18)
+
+Revision 3, unchanged, ran on `drift-rdp`, which it had never read, against a hand census sealed beforehand. 21 of 24 cells have exactly the census's access lines, 8 of 9 machines are reported and all 11 machines it reports in application code are real; every registered bar was met. The misses are `try_lock`, which the rules do not know, and a `static`. The largest state machine of that application, a plain enum field assigned in about twenty places, is not in a cell and is outside what the finder looks for. The census maker also wrote the finder. [R159](2026-11-18/25-finder-transfer-drift-rdp.md)
+
+## Prior · R158 Following a cell through its names, the finder matches the hand census of mmhmem on every line (2026-11-18)
 
 Revision 3 of the finder follows a cell under a clone, a parameter, another receiver and across the files of an `impl`, and no longer takes a test of a lock for a condition on the value. Its first scored run found the three machines of `mmhmem`, gave the other five cells their census verdict and listed exactly the census lines for all eight; the reply machine and its controls are unchanged. In this repository `fatal` gained its fourth place and the runner's `queue` appeared as a second machine, with two wrong condition lines. The revision was written with the census open, so this is a fit; a third repository is the transfer test. [R158](2026-11-18/24-finder-follows-names.md)
 

@@ -54,3 +54,11 @@ Next: revision 3 of the finder with name following, registered before it runs, s
 [R158](../docs/research/2026-11-18/24-finder-follows-names.md), registered in `885e54e` before it was written. First scored run, nothing adjusted: three machines found, `mismatch` shared, all eight cells with exactly the census lines, reply machine and controls unchanged, `fatal` with line 382. New in this repository: `queue` (`runner.rs:123`) is a machine; lines 268 and 272 listed for it are wrong (the bound-name rule counts any later condition that mentions the name). Rules file: 30 lines, 2,008 characters. It is a fit, written with the census open.
 
 Next: a third repository under `D:\Source`, revision 3 frozen, census by hand sealed before the finder runs. Then `fatal` and `queue` as the second stage-2 case; the `match`-arm prototype stays queued. Evidence: `D:\BuildArtifacts\lesscode\state-consolidation\r158` (8 MiB). Next research ID: R159. D free 175.7 GiB; builds incremental in the shared target.
+
+## Amendment, 16:30: the transfer test passed, and the reports of 17 November are amended
+
+[R159](../docs/research/2026-11-18/25-finder-transfer-drift-rdp.md). Frozen revision 3 on `D:\Source\drift-rdp` at `7eb659e`, census sealed in `b62ac40` before the run: 21 of 24 cells with exact lines, 8 of 9 machines, 0 of 11 reported machines wrong. Misses: `try_lock` not in the rules (`operation`, `pending`), a `static` (`REGISTRY`). Outside the finder: `state: SessionState` in `rdp/session.rs`, a plain field. Evidence: `D:\BuildArtifacts\lesscode\state-consolidation\r159` (6 MiB; `census.md`, `scoring.md`).
+
+On the owner's word the entries of 17 November (R129, R130, R133, R134), the state-boundary report and the docs index carry dated amendments saying what 18 November changed (`b1e8f7a`). The release claim stays deferred there: research binary, no released command.
+
+Owner's phase decision now open: requirements and design for the find step (gate assessed `proceed` on the demonstrated subset). Follow-up experiments: state in plain enum fields; `try_lock` and statics with a rerun of all three censuses; `fatal` and `queue` as second stage-2 case; `match`-arm prototype. Next research ID: R160.
