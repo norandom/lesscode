@@ -37,3 +37,7 @@ Begin here in one foreground session. After the storage preflight, create a deta
 Checkpoint after each item and before a long command. For every attempted check keep its command, cwd, input identity, stdout/stderr, exit code and elapsed time. Keep a running morning-summary draft with completed rows, partial rows, blockers and the next exact command. Resume a partial item from its evidence. If sandbox access, storage, dependencies or a decision blocks one item, document it and take the next independent item. Use existing binaries and environments. Preserve original evidence and the owner's untracked files.
 
 Finish when the queue is exhausted or at 07:00 Europe/Berlin on 18 November, whichever comes first. Check the clock before each job and bound child runtimes by the remaining window. At close, report each task ID, what was actually run, evidence paths, retained bytes, free space, deviations and decisions for the owner. List any corrective checklist or spec edits that would follow from these findings. Return this summary as the final message for the launcher's morning-summary.md.
+
+## Foreground continuation · 18 November
+
+After the overnight window the owner selected corrective 2.3 and approved the specimen runtime for that prototype. The Rust check found agreement over all 81 E5 inputs and replayed the planted fault. [R139](../docs/research/2026-11-18/05-e5-rust-z3-check.md) · [Task 65 handover](task_65_handover.md)

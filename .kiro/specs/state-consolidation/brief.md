@@ -111,3 +111,7 @@ On the job machine: the tool, given only the scattered version, returns the thre
 moves with file and line; the solver finds no difference between the scattered version and the table
 version on all histories up to length four; and it does find the difference when one guard is made
 wrong on purpose. No model call is needed for the solver half of that check.
+
+## 18 November · Prototype runtime decision
+
+The owner approved Rust writing SMT-LIB and invoking the pinned Z3 executable, with a counted adapter to call the specimen’s CPython, for corrective 2.3. The E5 experiment found agreement over 81 inputs and reproduced a planted stale reading from a solver witness. The feature’s first discovery test remains the scattered job machine above. Production requirements, design and adoption remain open. [Experiment gate](prototype-gate.md) · [R139](../../../docs/research/2026-11-18/05-e5-rust-z3-check.md)

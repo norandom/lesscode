@@ -12,6 +12,8 @@ scripts/*.sh text eol=lf
 scripts/release-public-keys.txt text eol=lf
 # Prototype inputs are frozen by hash in the research log; keep their bytes stable.
 docs/experiments/annotation-driver/** text eol=lf
+# The E5 Rust controller embeds and hashes the counted specimen adapter.
+docs/experiments/state-consolidation/e5-bound/invoke.py text eol=lf
 # Shipped language packs are embedded and identified by hash; keep their bytes stable.
 native/packs/*.json text eol=lf
 # Parity fixtures of the agnostic driver: mutant hashes depend on the exact bytes (CRLF as at the gate).

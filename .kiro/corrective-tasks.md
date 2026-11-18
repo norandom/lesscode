@@ -16,7 +16,7 @@ approved slice and keep a replayable comparison on real inputs. Update the spec 
 | --- | --- |
 | Scope measurements | Port the historical call-count definition in 2.2. Compare per-file Rust results with the Python reference on E5 and E6. |
 | State boundaries, execution and mutation | Use R134's requirement-by-requirement findings and 1.3–1.4 to identify missing observations or runtime behavior. Exercise the released mutation driver in 2.1 before proposing replacement code. Track uncovered requirements individually through 3.1. |
-| Bounded solver check | Earlier Python experiments used Z3. The old Rust verifier compares caller-supplied closures by enumeration. Task 2.3 needs a Rust-driven solver check with explicit bounds, a real candidate and a replayed planted difference. |
+| Bounded solver check | The research CLI in 2.3 produces SMT-LIB from the E5 row filter, invokes Z3 and replays a counterexample against the real specimen. The old Rust verifier still compares caller-supplied closures by enumeration. |
 | Scattered state | Follow the state-consolidation brief in order. Locate states, transitions and guards in source, then check a consolidation against the original. Use the prepared Python specimen first and the real Rust stale-worker case next. |
 
 Rule for every task: it is done when the named command ran on the real code and its output is kept.
@@ -64,7 +64,8 @@ side by side. **Owner** marks a decision that only the owner can take.
   - Done when the retained patch and CLI runs reproduce the reference per file on the frozen E5/E6
     inputs and one added matching call increases the count by one. Record function and write-site
     counts beside R42 and R45, explaining differences in definitions. Keep any mismatch open.
-- [ ] 2.3 A bounded equivalence check that runs on candidate code
+- [x] 2.3 A bounded equivalence check that runs on candidate code
+  - On 18 November the owner approved the pinned CPython invocation adapter and external Z3 for this prototype. Rust found zero clean whole-report differences across 81 E5 inputs and replayed a Z3 witness for the planted change. [R139 and replay](../docs/research/2026-11-18/05-e5-rust-z3-check.md)
   - **Owner:** this is the first prototype of the spec `state-consolidation`, not a repair of the old
     port. It needs a decision on how Rust tooling runs Python functions of a specimen (the project
     allows no Python tooling of its own), and Z3 as an external program.
@@ -133,6 +134,6 @@ side by side. **Owner** marks a decision that only the owner can take.
 ## Execution order
 
 Start with 2.2. Use the remaining overnight time for 1.5, 1.1, 2.1 and the supporting audits in
-the approved plan. Use their results to prioritize the next Rust capability. Task 2.3 starts with
-the requirements and runtime decision for `state-consolidation`. Pair 3.1 with 5.2 after the
+the approved plan. Use their results to prioritize the next Rust capability. Task 2.3 exercised the
+approved prototype runtime for `state-consolidation`. Pair 3.1 with 5.2 after the
 owner's module decision. Group 4 records the corrections established by group 1.

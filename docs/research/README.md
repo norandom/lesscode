@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R138 Matched faults on E5 and E6 (2026-11-18)
+## Latest · R139 Rust and Z3 check a changed E5 function (2026-11-18)
+
+Rust translated E5’s row-retention guard and invoked Z3. The real baseline and candidate returned identical reports for all 81 bounded inputs. A solver witness reproduced a stale window in the planted candidate, which differed on 18 inputs. [R139](2026-11-18/05-e5-rust-z3-check.md)
+
+## Prior · R138 Matched faults on E5 and E6 (2026-11-18)
 
 [R138](2026-11-18/04-e5-e6-specimen-faults.md) ran the released Rust driver on four preselected faults in each trial. Both baselines and both candidates detected every selected fault. All 16 mutated lines executed and the four arms passed their clean controls.
 
