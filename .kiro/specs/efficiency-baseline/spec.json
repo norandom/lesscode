@@ -18,5 +18,12 @@
       "approved": true
     }
   },
-  "ready_for_implementation": true
+  "ready_for_implementation": true,
+  "audit": {
+    "date": "2026-11-18",
+    "record": "../../../docs/research/2026-11-18/16-completed-specs-sweep.md",
+    "finding": "supported when made: commands and real inputs; the feature is a Python evaluator and is retired",
+    "runs_today": "nothing in this checkout",
+    "not_runnable": "the evaluator and its 363 tests, retired in 4f0aed4, present in tags v1.0.0 to v1.0.2; docs/evidence keeps the readiness receipt and the native audit"
+  }
 }

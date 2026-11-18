@@ -41,7 +41,8 @@ side by side. **Owner** marks a decision that only the owner can take.
     `964921c`. Check what of each spec's requirements exists today (`native/src/adapters/{java,rust,typescript}/mod.rs`,
     one file each; `native/adapters/` holds candidates and probes).
   - Done when: a finding per requirement, as in `native-deconvolution-closure/spec.json`.
-- [ ] 1.4 Sweep the other specs that claim completion
+- [x] 1.4 Sweep the other specs that claim completion
+  - [R150](../docs/research/2026-11-18/16-completed-specs-sweep.md) has the table. `dogfood-self-application` is `not-delivered` for requirements 5 and 7.4. The other five keep their phase with an `audit` block; their Python claims are retired with the code.
   - `deconvolution-loop`, `deconvolution-native-core`, `capability-compression-core`,
     `efficiency-baseline`, `dogfood-self-application`, `refinement-evidence-integrity`.
   - For each validation claim: is there a command, did it run on real inputs, can it run today?
@@ -88,6 +89,12 @@ side by side. **Owner** marks a decision that only the owner can take.
   - `native/adapters/{java,rust,typescript}/` holds candidate files and a compiled `ProbeMain.class`
     that are part of no build.
   - Done when: they are under `docs/experiments/` or deleted, and nothing references them.
+- [ ] 3.4 Stop three tests from passing while they skip
+  - `e3_double_record_reproduces_frozen_lf_body_digest`, `e4_double_record_reproduces_frozen_lf_body_digest` and
+    `frozen_traces_replay_without_divergence` in `native/tests/recording.rs` return early because
+    `src/lesscode_baseline/recording.py` was retired, and report PASS (R150).
+  - Done when: they are deleted with the Rust recorder that needs the Python package, or ignored with the
+    reason, and no test in the suite returns early as a pass.
 - [ ] 3.3 Correct the steering files
   - `.kiro/steering/roadmap.md` lines 161 to 163 still say the three adapters are "completed with GO"
     with "100% adverse sensitivity". `product.md`, `tech.md` and `structure.md` are to be read for the

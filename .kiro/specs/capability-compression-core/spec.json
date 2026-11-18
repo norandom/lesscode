@@ -33,5 +33,12 @@
     "self_application": "reviewed and adopted for the supported Python capability",
     "report": "validation.md",
     "platform_evidence": "../../../docs/evidence/native-core-41333477507.json"
+  },
+  "audit": {
+    "date": "2026-11-18",
+    "record": "../../../docs/research/2026-11-18/16-completed-specs-sweep.md",
+    "finding": "supported when made: commands and real inputs; the Python workflows are retired",
+    "runs_today": "prepare and compare through the cli and workflow tests (8 and 12 pass)",
+    "not_runnable": "the Python suites and the adopted Python self-application, retired in 4f0aed4, present in tags v1.0.0 to v1.0.2; the raw artifacts of Actions run 41333477507 have expired, the audit file is kept"
   }
 }

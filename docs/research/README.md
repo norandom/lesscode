@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R149 The E3 and E4 figures that can be rerun reproduce (2026-11-18)
+## Latest · R150 Six completed specs swept: one unsupported requirement, three tests that pass while skipping (2026-11-18)
+
+Each validation claim was asked for a command, real inputs and whether it runs today. Budgets, admission, the E4 replay and R39's nine Rust probes run and agree. The Python claims of four specs are retired with their code. Requirement 5 of the dogfood spec has no command behind it, and three `recording` tests report a pass after returning early. A stale build from a prototype copy was found in the shared target directory and removed; R148's receipts repeat byte for byte. [R150](2026-11-18/16-completed-specs-sweep.md)
+
+## Prior · R149 The E3 and E4 figures that can be rerun reproduce (2026-11-18)
 
 Each E3 and E4 figure has a script that takes the candidate's root. Today's acceptance runs gave the recorded test counts and replays without a difference, twelve measure files came out identical and both reviewer-probe outputs matched byte for byte. The mutation runs, E3's solver step and the model turns were not rerun. [R149](2026-11-18/15-e3-e4-figure-audit.md)
 

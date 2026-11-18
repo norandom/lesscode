@@ -51,5 +51,14 @@
       "2026-11-07 production migration verified (tasks 1.1-4.1, commits 0c3073b, 62c2e63, 28a8650, deac232, 4fe74db, 1ab1569, f82d92f, d6a4b1f): budgets gate enforced before growth (native/complexity-budgets.json frozen with blob-hash provenance; budgets self-run exit 0; post-split admission.rs 272/72/81 + receipt.rs 150 combined 422 <= 430, disposition null); receipt serialization byte-identical to Python json.dumps(indent=1, ensure_ascii=True) incl. DEL and surrogate escapes (nextest 123/123, clippy -D warnings 0, fmt 0, doc tests 0 failures); R28 smoke reproduces 21/11/5/1/4 exit 1; proto_core.py relocated verbatim to src/lesscode_baseline/recording.py (git rename 100%, no shim, 4 adapters rebound, frozen drivers untouched); tests/test_recording.py 19/19 under pytest -n 4 --dist loadfile incl. frozen double-record identities 92a48f77/0b2e383d, E3 cand + E4 cand-turn3 round-21 acceptance exit 0, and standalone s10_controls2.py --with-pg exit 0 with all_fail_closed over exactly 9 controls; post-migration C_app 1,203 <= 1,364 (delta +10 fully attributed: scope_e3 rebind +2, admission split +7, lib.rs registration +1); Attempt-1 1,808 and Attempt-2 1,193 records retained point-in-time in results/s10-u5-measurement-2.json; evidence review results/s10-evidence-review-2.json unchanged; owner WIP (rules/evaluate.py, tests/test_rule_evaluation.py) untouched throughout"
     ],
     "frozen_identities": {}
+  },
+  "audit": {
+    "date": "2026-11-18",
+    "record": "../../../docs/research/2026-11-18/16-completed-specs-sweep.md",
+    "finding": "budgets and admission reproduce; the recording claims cannot run today",
+    "runs_today": "lesscode-core budgets (72 files, 0 exceeded); lesscode-core admission (21 / 11 / 5 / 1 / 4, exit 1)",
+    "not_runnable": "src/lesscode_baseline/recording.py, tests/test_recording.py and s10_controls2.py were retired in 4f0aed4; the kept result files remain",
+    "pretends": "three recording tests (E3 digest, E4 digest, frozen replay) return early without the Python package and report PASS; corrective task 3.4",
+    "open": "tasks.md has eleven unchecked boxes while the phase says complete"
   }
 }

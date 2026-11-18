@@ -13,5 +13,13 @@
   "corrects": "constraint-guided-compression",
   "evidence": ["docs/research/2026-11-08/06-refinement-correctness.md"],
   "concept_proposal": "concept.md",
-  "notes": "Tasks approved. Foreground implementation per owner rules (manual mode, one commit per task on main, tests via nextest and pytest-xdist, no subagents)."
+  "notes": "Tasks approved. Foreground implementation per owner rules (manual mode, one commit per task on main, tests via nextest and pytest-xdist, no subagents).",
+  "audit": {
+    "date": "2026-11-18",
+    "record": "../../../docs/research/2026-11-18/16-completed-specs-sweep.md",
+    "finding": "supported: the nine Rust probes of R39 pass against the library today",
+    "runs_today": "probe.rs as its own test crate, 9 of 9; the regenerator tests (56 pass)",
+    "not_runnable": "the five Python probes and the Python suite, retired; run.ps1 hashes Python files that no longer exist; the run at f7c254f on 2026-11-08 is kept with exit 0",
+    "open": "verification.md still says the fix is not claimed"
+  }
 }

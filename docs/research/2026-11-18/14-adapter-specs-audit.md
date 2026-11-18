@@ -105,3 +105,7 @@ density receipts, `nextest.log`, `evidence-sha256.json`; 320,807 bytes).
 
 Each row names the command or the search behind it. Figures taken from R75 are marked as not rerun.
 "Not delivered" means no command does the thing today, not that it would fail if built.
+
+## Amendment, 2026-11-18, 13:35
+
+The binary and the test binaries used above came from a stale build. The shared target directory held units compiled from a prototype copy of the crate ([R150](16-completed-specs-sweep.md)). After `cargo clean -p lesscode-core` and a rebuild from this repository, the six analysis receipts and the three density receipts were regenerated and are identical in bytes, and the same 32 tests pass within the full run of 401. The findings are unchanged. The repeated receipts are under `1.3\repo-build\`; the first test log is kept as `nextest-stale-build.log`.

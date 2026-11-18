@@ -3,7 +3,7 @@
   "created_at": "2026-11-09T20:28:00+01:00",
   "updated_at": "2026-11-09T21:14:00+01:00",
   "language": "en",
-  "phase": "completed",
+  "phase": "not-delivered",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -18,5 +18,13 @@
       "approved": true
     }
   },
-  "ready_for_implementation": true
+  "ready_for_implementation": true,
+  "audit": {
+    "date": "2026-11-18",
+    "record": "../../../docs/research/2026-11-18/16-completed-specs-sweep.md",
+    "validation_disposition": "NO-GO for requirements 5 and 7.4 (audit of 2026-11-18; the GO of 2026-11-09 is withdrawn for them); requirements 1 to 4, 6 and 7.1 to 7.3 run today",
+    "requirement_1_to_4_and_6": "in use: the deconvolute commands, path resolution, tracked fixtures and the skill; the commands were rebuilt on the pack-driven driver after 964921c and write -v2 receipts; cli_deconvolute, cli and admission tests pass",
+    "requirement_5": "not supported: the isolated target directory is set in adapters/rust/mod.rs, which no command reaches (R148); 5.3 and 5.4 have no evidence; on 2026-11-18 a copy of the crate without its own target directory supplied stale test binaries to this repository",
+    "requirement_7": "7.1 to 7.3 in use, six cli_hook tests pass; 7.4 no longer true, the extra checks for refactor and deconvolute branches were removed and a test now asserts a normal push"
+  }
 }

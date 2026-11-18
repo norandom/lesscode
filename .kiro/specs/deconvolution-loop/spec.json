@@ -38,5 +38,13 @@
     "passes": 2,
     "final_verdict": "NEEDS_FIXES (7 local findings, all applied to the draft); owner approved the repaired plan on 2026-11-04"
   },
-  "notes": "Owner approvals 2026-11-04: requirements and design ('ok, can we proceed with the spec for the next steps'), tasks ('approved'). Tasks marked 'owner go' still require an explicit answer before they start. 2026-11-07: every task including the optional owner-go 2.3 (Rust specimen detection, R32, owner go) is done and verified; owner confirmed completion and phase marked implementation-complete. Deferred items (native implementation of the loop) remain behind a future prototype gate."
+  "notes": "Owner approvals 2026-11-04: requirements and design ('ok, can we proceed with the spec for the next steps'), tasks ('approved'). Tasks marked 'owner go' still require an explicit answer before they start. 2026-11-07: every task including the optional owner-go 2.3 (Rust specimen detection, R32, owner go) is done and verified; owner confirmed completion and phase marked implementation-complete. Deferred items (native implementation of the loop) remain behind a future prototype gate.",
+  "audit": {
+    "date": "2026-11-18",
+    "record": "../../../docs/research/2026-11-18/16-completed-specs-sweep.md",
+    "finding": "supported: every E4 figure ran on the candidate and what was rerun reproduces (R149); the native three-turn replay test runs on the frozen turns",
+    "runs_today": "run_e4.py, measures4.py, review_probes.py, the regenerator tests (56 pass)",
+    "not_runnable": "the Python regenerator program and its 59 tests, retired in 4f0aed4",
+    "open": "tasks.md has three unchecked boxes while the phase says complete"
+  }
 }
