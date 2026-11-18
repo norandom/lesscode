@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R154 The reply-checking machine without its hidden cell behaves the same on all 125 reply histories (2026-11-18)
+## Latest · R155 The cell is gone, and the rule against replies that are not whole is in the loop for every caller (2026-11-18)
+
+Both owner decisions on the reply-checking machine are in the repository. The check of `with_repairs` receives the reply, so the adapter needs no cell. The loop itself rejects a reply that was cut off or refused: over 125 histories a text-only check accepted one in 62 before and in none after, and the adapter's records differ in one reworded sentence only. [R155](2026-11-18/21-reply-rule-in-the-loop.md)
+
+## Prior · R154 The reply-checking machine without its hidden cell behaves the same on all 125 reply histories (2026-11-18)
 
 A hand-written version in which the check receives the whole reply, so that no cell is needed, gave the same trial record as today's adapter on every history of three replies; a planted fault was found by the solver and reproduced; the project's tests pass on it. The same runs show that only the adapter refuses a cut-off or refused reply: with a text-only check, as the two callers inside `lesscode-model` use, the loop accepts one in 62 of 125 histories. The change is kept as a patch for the owner. No tool found the machine. [R154](2026-11-18/20-reply-machine-one-place.md)
 

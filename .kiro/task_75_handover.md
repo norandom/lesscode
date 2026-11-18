@@ -41,3 +41,9 @@ D had 190.82 GiB free at entry and 179.58 GiB at close. Each of the two Dagger e
 4. Then, as before: 3.1 with 5.2 and 3.4 (`pure_verifier.rs` can go now), 3.2 and 3.3, group 4, the rest of 5. The Python-only `check_syntax` in `surface.rs` is open; `tree::parse_clean` exists for it.
 
 Local commits stay unpushed (`origin/main` at `a5df503`); a humanizer pass on `README.md` and `docs/driver.md` is due before any push. 6.2 and 6.3 are open. Slice B drift hardening (MIPROv2/GEPA) is unchanged, measured through R79, and awaits the owner's choice. Next research ID: R155. [Corrective tasks](corrective-tasks.md)
+
+## Amendment, 15:25
+
+The owner said to proceed with both decisions on the reply machine. The one-place patch is applied (`48010b5`). The repair loop itself now rejects a reply that was cut off or refused, for every caller (`3db7caf`): a text-only check accepted one in 62 of 125 histories before and in none after; the adapter's records differ in one reworded sentence only. Three tests that stated the old behaviour were changed and one was added. [R155](../docs/research/2026-11-18/21-reply-rule-in-the-loop.md) · [Evidence](D:/BuildArtifacts/lesscode/state-consolidation/r155)
+
+For the next release notes: `lesscode-model` no longer accepts a reply that was cut off or refused, and the check passed to `with_repairs` takes the reply. D had 175.89 GiB free before the third Dagger run of the day; the builds of the model crate and the guide tool added about 3.7 GiB to the shared Cargo target, so lesscode-owned caches are near 32 GiB and should be measured before the next heavy build. Next research ID: R156.
