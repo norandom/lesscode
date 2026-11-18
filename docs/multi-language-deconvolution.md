@@ -11,7 +11,7 @@ grammars that are compiled in, for Rust, Python, TypeScript and Java.
 
 | Part | Code | Commands | What it does |
 | --- | --- | --- | --- |
-| Driver | `native/src/adapters/driver/` | `deconvolute analyze`, `measure-scope`, `mutate`, `run`, `admit-pack`, `merge-annotations` | Finds the places where a file decides behaviour, plants one small fault at a time, and runs the project's own tests against each fault in copies of the source tree. [The agnostic driver](driver.md) |
+| Driver | `native/src/adapters/driver/` | `deconvolute analyze`, `measure-scope`, `bound-check`, `mutate`, `run`, `admit-pack`, `merge-annotations` | Finds the places where a file decides behaviour, plants one small fault at a time, and runs the project's own tests against each fault in copies of the source tree. [The agnostic driver](driver.md) |
 | Steps | `native/src/step/` | `step plan`, `pin`, `check`, `record`, `guard`, `install-hook` | Judges one small change on a branch: tests before and after, faults noticed per function before and after, size, scope. Keeps a ledger. [Refactoring in checked steps](steps.md) |
 | Measures | `native/src/cli_deconvolute.rs`, `native/src/budgets.rs` | `deconvolute density`, `budgets`, `deconvolute install-hook` | Counts tokens and syntax nodes of a before and after pair; holds Rust files to size ceilings |
 | Research pipeline | `compare.rs`, `admission.rs`, `surface.rs`, `regenerator.rs`, `recording.rs` and others in `native/src/` | `prepare`, `compare`, `admission`, `surface`, `regenerate` | The frozen-manifest comparison and the regeneration experiments. They need per-specimen setup and are not a one-command workflow. [Working example](reports/native-core-readiness.md) |

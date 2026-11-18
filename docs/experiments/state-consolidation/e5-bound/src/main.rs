@@ -381,11 +381,127 @@ fn experiment(repo: &Path, out: &Path) -> Result<()> {
     )
 }
 
+/// The three arms as `(label, tree root, subject file)`; the planted copy is in `dir`.
+fn sources(repo: &Path, dir: &Path) -> [(&'static str, PathBuf, PathBuf); 3] {
+    let base = repo.join(".runs/e2-facdrone/source");
+    let clean = repo.join(".runs/e5-state-boundary/cand-e5");
+    [
+        ("baseline", base.clone(), base.join(SUBJECT)),
+        ("candidate", clean.clone(), clean.join(SUBJECT)),
+        ("planted", clean, dir.join("planted.py")),
+    ]
+}
+
+/// Write what `lesscode-core deconvolute bound-check` needs for E5 into the
+/// new directory `dir`: the planted copy, the adapter and `target.json` with
+/// the guards lowered from the three sources.
+fn describe(repo: &Path, dir: &Path) -> Result<()> {
+    let python = repo.join(".runs/e2-facdrone/venv/Scripts/python.exe");
+    let z3 = repo.join(".runs/e1c-facdrone/extras/bin/z3.exe");
+    let [(_, base, _), (_, clean, clean_source), _] = sources(repo, dir);
+    let clean_src = fs::read_to_string(&clean_source)?;
+    require(
+        clean_src.matches(FILTER).count() == 1,
+        "fault site must be unique",
+    )?;
+    fs::write(dir.join("planted.py"), clean_src.replace(FILTER, PLANTED))?;
+    fs::write(dir.join("invoke.py"), ADAPTER)?;
+    let pinned = |path: PathBuf, sha256: &str| json!({"path": path, "sha256": sha256});
+    let mut arms = Vec::new();
+    for (label, root, source) in sources(repo, dir) {
+        let guard = guard::lower(&fs::read_to_string(&source)?, label == "baseline")?;
+        let command = [
+            arg(&python),
+            "-I".into(),
+            "-S".into(),
+            "-B".into(),
+            "-X".into(),
+            "pycache_prefix={out}".into(),
+            arg(&dir.join("invoke.py")),
+            arg(&root),
+            arg(&source),
+            "{inputs}".into(),
+            "{output}".into(),
+        ];
+        arms.push(
+            json!({"label": label, "expression": guard.expression(), "command": command,
+            "identities": {
+                "source": pinned(source.clone(), &hash(&source)?),
+                "kernel": pinned(root.join(KERNEL), DOMAIN),
+                "interpreter": {"sha256": INTERPRETER}, "runtime": {"sha256": RUNTIME}}}),
+        );
+    }
+    let row = |index: usize, digest: &str, revision: &str| {
+        json!({
+            "window_id": WINDOW[index], "monitor": MONITOR[index],
+            "disposition": "within", "value": 0.03, "boundary": 0.025, "comparator": "<",
+            "units": "IC", "known_at": format!("{}T12:00:00+00:00", WINDOW[index]), "payload": {},
+            "baseline_digest": format!("d{{{digest}}}"), "rules_revision": format!("r{{{revision}}}")
+        })
+    };
+    let symbol = |name: &str| json!({"name": name, "min": 0, "max": RADIX - 1});
+    save(
+        &dir.join("target.json"),
+        &json!({
+            "solver": pinned(z3, Z3),
+            "pins": [pinned(base.join(SUBJECT), BASE), pinned(clean.join(SUBJECT), CLEAN),
+                pinned(base.join(KERNEL), DOMAIN), pinned(clean.join(KERNEL), DOMAIN), pinned(python, PYTHON)],
+            "symbols": SYMBOLS.map(symbol),
+            "arms": arms,
+            "compare": [["baseline", "candidate"], ["baseline", "planted"]],
+            "case": {"id": "{id}", "standing": {"signal": "cot", "version": 1}, "days": 14, "now": NOW,
+                "rows": [row(0, SYMBOLS[0], SYMBOLS[1]), row(1, SYMBOLS[2], SYMBOLS[3])]}
+        }),
+    )
+}
+
+/// After a bound-check run: every window list an arm reported in `run` is
+/// the one its lowered guard gives for that case.
+fn windows(repo: &Path, dir: &Path, run: &Path) -> Result<()> {
+    let mut lists = 0;
+    for (label, _, source) in sources(repo, dir) {
+        let guard = guard::lower(&fs::read_to_string(&source)?, label == "baseline")?;
+        let receipt: Value =
+            serde_json::from_slice(&fs::read(run.join(format!("all-{label}.json")))?)?;
+        for report in receipt["reports"].as_array().ok_or("missing reports")? {
+            let id = report["id"].as_u64().ok_or("missing case ID")? as usize;
+            let digit =
+                |place: u32| (id / usize::from(RADIX).pow(3 - place) % usize::from(RADIX)) as u8;
+            let rows = report["value"]["readings"]
+                .as_array()
+                .ok_or("invalid readings")?;
+            let seen: Vec<_> = rows.iter().map(|r| r["window"].as_str()).collect();
+            let kept = guard.keep([digit(0), digit(1), digit(2), digit(3)]);
+            let expected: Vec<_> = WINDOW
+                .iter()
+                .skip(usize::from(!kept))
+                .map(|w| Some(*w))
+                .collect();
+            require(
+                seen == expected,
+                &format!("model disagrees with {label} on case {id}"),
+            )?;
+            lists += 1;
+        }
+    }
+    println!("{lists} window lists agree with the lowered guards");
+    Ok(())
+}
+
 fn main() -> Result<()> {
     let args: Vec<_> = env::args_os().skip(1).collect();
+    let path = |i: usize| Path::new(&args[i]).canonicalize();
+    match (args.first().and_then(|a| a.to_str()), args.len()) {
+        (Some("--target"), 3) => {
+            fs::create_dir(&args[2])?;
+            return describe(&path(1)?, &path(2)?);
+        }
+        (Some("--windows"), 4) => return windows(&path(1)?, &path(2)?, &path(3)?),
+        _ => {}
+    }
     require(
         args.len() == 2,
-        "usage: e5-bound LESSCODE_REPO NEW_EVIDENCE_DIRECTORY",
+        "usage: e5-bound LESSCODE_REPO NEW_EVIDENCE_DIRECTORY | --target REPO NEW_TARGET_DIRECTORY | --windows REPO TARGET_DIRECTORY RUN_DIRECTORY",
     )?;
     let repo = Path::new(&args[0]).canonicalize()?;
     let out = Path::new(&args[1]);

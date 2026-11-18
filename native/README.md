@@ -8,14 +8,15 @@ is for building from source and for the license obligations.
 The executable has two groups of commands. The `deconvolute` group and
 `budgets` work on plain source files and are described, with their measured
 limits, in the project README. From release 1.1.0 the `deconvolute` commands `analyze`,
-`measure-scope`, `mutate`, `run` and `admit-pack` are served by one engine driven by language
+`measure-scope`, `bound-check`, `mutate`, `run` and `admit-pack` are served by one engine driven by language
 packs (`packs/`, compiled into the binary) for Rust, Python, TypeScript and
 Java; see [the agnostic driver](../docs/driver.md). From release 1.2.0 the
 `step` group judges one small change on a branch
 ([refactoring in checked steps](../docs/steps.md)). Only `deconvolute run` and
 `step plan`, `step pin` and `step check` execute a project's own build and test
 commands, and they do so in copies of the source tree, never in the tree
-itself. The `prepare` and
+itself. `deconvolute bound-check` runs the solver and the commands that its
+target file names, as written. The `prepare` and
 `compare` commands freeze
 reviewed capability manifests and compare supplied Python, TypeScript and TSX
 source with source-bound external behavioral evidence. They write JSON and

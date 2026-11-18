@@ -156,6 +156,40 @@ fn calls_are_counted_per_file_and_as_edges_across_a_scope_for_four_languages() {
     }
 }
 
+#[test]
+fn bound_check_refuses_a_target_it_cannot_use_before_anything_runs() {
+    let dir = temp_dir("bound-check");
+    let target = dir.join("target.json");
+    let out = dir.join("out");
+    let run = || {
+        let args = [target.to_str().unwrap(), "--out", out.to_str().unwrap()];
+        run_cli(&[&["deconvolute", "bound-check", "--target"], &args[..]].concat())
+    };
+    let (status, _, err) = run();
+    assert_eq!(status.code(), Some(3), "{err}");
+    let good = r#"{"solver": {"path": "no-such-solver", "sha256": "0"},
+        "symbols": [{"name": "a", "min": 0, "max": 1}],
+        "arms": [{"label": "old", "expression": "(= a 0)", "command": ["none"]}],
+        "compare": [["old", "old"]], "case": {"id": "{id}"}}"#;
+    for (from, to, why) in [
+        ("\"max\": 1", "\"max\": 5000", "more than"),
+        (
+            "[\"old\", \"old\"]",
+            "[\"old\", \"new\"]",
+            "no arm is called new",
+        ),
+        ("\"case\"", "\"cases\"", "not a target file"),
+        ("\"max\": 1", "\"max\": 1 ", "no-such-solver"),
+    ] {
+        fs::write(&target, good.replace(from, to)).unwrap();
+        let (status, _, err) = run();
+        assert_eq!(status.code(), Some(3), "{why}");
+        assert!(err.contains(why), "{why}: {err}");
+        let _ = fs::remove_dir_all(&out);
+    }
+    fs::remove_dir_all(dir).unwrap();
+}
+
 /// One small source per language with a condition, a state write and a
 /// failure signal.
 const SAMPLES: [(&str, &str, &str); 4] = [

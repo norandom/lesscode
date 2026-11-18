@@ -18,14 +18,18 @@ input, unsupported language or a void run.
 | --- | --- | --- |
 | `analyze --lang L --source F [--frame-spec S] [--out R]` | Lists the sites of a file by kind, the state-write sites, the function boundaries and the constructs the pack declares as gaps, and counts the calls the file makes to functions it declares (`call_occurrences`). Exit 1 on a gap or on a write outside the frame specification | no |
 | `measure-scope --lang L --root D --file F... [--out R]` | Counts calls by name among the files of a scope: per file the distinct function names and the calls to them, and the edges caller file, caller, callee file, callee. A repeated call counts again as an occurrence and once as an edge. Matching is by name, so an edge is not proof of a call at run time | no |
+| `bound-check --target T --out D` | Compares versions of one behaviour inside stated ranges. The target file gives integer symbols with ranges and, per version, an SMT-LIB expression and a command that runs the real code. A pinned external solver is asked whether two expressions can differ; every case of the ranges is run through each command; a solver witness is run again on its own. Exit 1 when a pair differs and the difference was reproduced, 2 when expressions and commands disagree about where they differ | no; it writes into the new directory `D` |
 | `mutate --lang L --source F --out-dir D [--out R] [--limit N --seed S]` | Writes every valid mutant of a file into `D`, with a receipt naming site, operator and hash. Exit 1 when there is none | no |
 | `run --config C --work W [--workers N] [--annotations A] [--no-reuse] [--only N,...] --out R` | Mutates the configured files in copies under `W`, runs the project's commands against each mutant and classes it. With `functions` in the configuration (per file, a list of function names) only sites inside those functions are mutated; `--only` runs the mutants with the given numbers of a run with the same configuration. Both from release 1.2.0. Exit 2 when errors remain, 3 when the run is void | no; only the copies change, and each is restored and verified |
 | `admit-pack --pack P --lang L [--controls K --source-root S] [--out R]` | Checks a language pack before it is used. Exit 1 when it is rejected | no |
 | `merge-annotations --config C [--min N] --out M LIST...` | Validates several annotation lists and writes the annotations of the sites that at least N lists name (default 2), for use with `run --annotations`. Exit 1 when no site is kept. From release 1.1.1 | no |
 
-`run` is the one command of this group that executes a project's commands. It refuses a work directory that
+`run` executes a project's commands. It refuses a work directory that
 is the source root, lies inside it or contains it. The `step` commands `plan`, `pin` and `check`
 ([refactoring in checked steps](steps.md), from release 1.2.0) run the same engine under the same rule.
+`bound-check` runs the solver and the commands its target file names, as they are written, with the output
+directory as working directory. It makes no copy of a source tree; a command that writes to the tree it
+reads is the target file's responsibility.
 
 ## Annotations and why to merge them
 
@@ -125,6 +129,38 @@ A JSON file. Commands are argument vectors; nothing is passed through a shell.
 
 The configurations used for the five gate scopes are in
 `docs/experiments/annotation-driver/results/native/`.
+
+## Bounded comparison
+
+`bound-check` reads a target file. Relative paths in it are relative to its directory.
+
+```json
+{"solver": {"path": "z3.exe", "sha256": "..."},
+ "pins": [{"path": "src/a.py", "sha256": "..."}],
+ "symbols": [{"name": "old", "min": 0, "max": 2}, {"name": "new", "min": 0, "max": 2}],
+ "arms": [{"label": "baseline", "expression": "(= old new)",
+           "command": ["python", "invoke.py", "{inputs}", "{output}"],
+           "identities": {"source": {"path": "src/a.py", "sha256": "..."}}}],
+ "compare": [["baseline", "candidate"]],
+ "case": {"id": "{id}", "row": "d{old}"}}
+```
+
+- `expression` is what the version does, as a term over the symbols; `sort` (default `Bool`) is its sort.
+  The driver does not derive it. Whoever writes the target file lowers it from the source.
+- `command` runs the real code. `{inputs}` is a JSON list with one filled `case` per assignment of the
+  ranges, `{output}` is where the command writes `{"reports": [{"id": ..., "value": ...}]}`, in the same
+  order. `{out}` is the output directory. Each key under `identities` must be in the command's output
+  with that hash, and with that file when a path is given.
+- In `case`, `{name}` in a string stands for a symbol's value and `{id}` for the case number; a string
+  that is nothing else becomes that number.
+- `max_cases` (default 1024) limits the cases; a larger product of ranges is refused. `timeout_seconds`
+  (default 60) limits each command.
+
+Per pair the receipt `result.json` gives the solver's verdict, the cases on which the expressions differ,
+the cases on which the reported values differ, and the cases where only one of the two shows. The verdict
+is `same`, `different` (with a witness that was run again) or `inconsistent`. `same` means no difference
+inside the ranges; it is not a proof. Every query, answer and command line is kept in the output
+directory. The solver is not shipped; the target file names it.
 
 ## Language packs
 

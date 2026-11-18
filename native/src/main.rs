@@ -12,7 +12,7 @@ use cli_paths::{create_parent, fresh_output, read_json, write_new};
 #[command(
     version,
     about = "Measure, fault-test and judge code changes; writes receipts and never changes your sources",
-    after_help = "Exit codes: 0 prepared/accepted; 1 rejected/not-demonstrated; 2 incomplete; 3 invalid input, baseline-ineligible or IO failure. Reports require fresh output outside source roots. Only `deconvolute run` and `step plan`, `pin` and `check` execute a project's own commands, in copies outside the source tree."
+    after_help = "Exit codes: 0 prepared/accepted; 1 rejected/not-demonstrated; 2 incomplete; 3 invalid input, baseline-ineligible or IO failure. Reports require fresh output outside source roots. Only `deconvolute run` and `step plan`, `pin` and `check` execute a project's own commands, in copies outside the source tree; `deconvolute bound-check` runs the solver and the commands its target file names."
 )]
 struct Args {
     #[command(subcommand)]
@@ -75,7 +75,7 @@ enum Command {
         #[command(subcommand)]
         cmd: regenerator::RegenerateCommand,
     },
-    /// Work on source files: density, analyze, measure-scope, mutate, run, admit-pack, install-hook.
+    /// Work on source files: density, analyze, measure-scope, bound-check, mutate, run, admit-pack, install-hook.
     Deconvolute {
         #[command(subcommand)]
         cmd: cli_deconvolute::DeconvoluteCommand,

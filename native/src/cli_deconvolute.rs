@@ -43,6 +43,16 @@ pub enum DeconvoluteCommand {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+    /// Compare versions of one behaviour inside stated ranges: a solver on
+    /// their modelled expressions, then their own commands on every case.
+    BoundCheck {
+        /// The target file: solver, symbols, arms and the pairs to compare.
+        #[arg(long)]
+        target: PathBuf,
+        /// A new directory for the queries, answers and the receipt.
+        #[arg(long)]
+        out: PathBuf,
+    },
     /// Write the mutants the language pack gives for a file.
     Mutate {
         #[arg(long)]
@@ -152,6 +162,9 @@ pub fn run(cmd: DeconvoluteCommand) -> Result<u8, String> {
             frame_spec.as_deref(),
             out.as_deref(),
         ),
+        DeconvoluteCommand::BoundCheck { target, out } => {
+            crate::adapters::driver::bound::run_bound_check(&target, &out)
+        }
         DeconvoluteCommand::MeasureScope {
             lang,
             root,

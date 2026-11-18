@@ -69,6 +69,7 @@ to a model endpoint you configure.)
 | Is this rewrite a substantial reduction or a cosmetic one? | `deconvolute density` | Python, TypeScript, Java, Rust |
 | Where does this file decide behaviour and write state? | `deconvolute analyze` | Python, TypeScript, Java, Rust |
 | Which functions of these files call which, by name? | `deconvolute measure-scope` | Python, TypeScript, Java, Rust |
+| Do two versions of a piece of behaviour differ inside stated ranges? | `deconvolute bound-check` | any language; you supply the expressions, the commands and an SMT solver |
 | Which small faults can be planted in this file? | `deconvolute mutate` | Python, TypeScript, Java, Rust |
 | Which of those faults do my tests catch? | `deconvolute run` | the same four, with your own build and test commands |
 | After this small change, do my tests still pass and still catch planted faults as often as before? | `step check`, with `step plan`, `pin`, `record`, `guard` | the same four, in a Git repository; from release 1.2.0 |
@@ -79,7 +80,9 @@ to a model endpoint you configure.)
 `deconvolute run` and `step plan`, `step pin` and `step check` are the commands
 that execute your project's commands. They do so in copies of your source tree
 under a work directory you name, never in the tree itself, and they refuse a
-work directory inside or around the source. `step check` and `step record`
+work directory inside or around the source. `deconvolute bound-check` runs the
+solver and the commands its target file names, as written, in a new output
+directory; it copies nothing. `step check` and `step record`
 write three files into your repository, at the places your step declaration
 names: a verdict, an evidence file and a ledger. Everything else only reads. `analyze`, `mutate` and `run` share one engine,
 described in [the agnostic driver](docs/driver.md); what it knows about a

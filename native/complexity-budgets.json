@@ -29,6 +29,20 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/bound.rs",
+   "max_logical_units": 300,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Bounded comparison of versions: solver verdict, census through the arms' commands, witness replay (corrective task 2.3, R152)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/bound_target.rs",
+   "max_logical_units": 300,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "Target file of a bounded comparison: shape, refusals, cases and SMT-LIB text (corrective task 2.3, R152)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/calls.rs",
    "max_logical_units": 300,
    "owner": "agnostic-annotation-driver",
@@ -154,6 +168,13 @@
    "max_logical_units": 300,
    "owner": "agnostic-annotation-driver",
    "allocation": "Site rules and eligible sites (task 3.1, REQ 2.1/2.2/2.6)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/solver.rs",
+   "max_logical_units": 300,
+   "owner": "agnostic-annotation-driver",
+   "allocation": "External SMT solver pinned by hash; answers read as terms and named values (corrective task 2.3, R152)",
    "disposition": null
   },
   {

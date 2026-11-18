@@ -7,6 +7,8 @@
 pub mod admission;
 pub mod analysis;
 pub mod annotations;
+pub mod bound;
+pub mod bound_target;
 pub mod calls;
 pub mod classes;
 pub mod cli;
@@ -24,6 +26,7 @@ pub mod registry;
 pub mod run_command;
 pub mod runner;
 pub mod sites;
+pub mod solver;
 pub mod source;
 pub mod store;
 pub mod sync;
