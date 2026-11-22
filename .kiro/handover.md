@@ -18,6 +18,11 @@ The version before this one is in Git (`b08adf1`, reset of 17 November); older o
   November). The clipboard file is unchanged. Scan the repository again.
 - `D:\Source\facdrone` (Python, finance code) is checked out only to adjust lesscode against a real
   project. Read only; nothing is delivered to it. It needs Python support in the command first.
+- Every example must show how much simpler the code is, before and after, as numbers a reader gets
+  by running the command. The four examples so far show this weakly: decisions stay (11 and 11, 24
+  and 24, 30 and 31, 14 to 12). What does fall is what `lesscode-metrics` has to count: places that
+  hold the state, states that can be written, routines that decide, things to remember by hand.
+  Pick further examples where these fall clearly.
 - Code from the repositories under `D:\Source` may be copied into the example folders, with the
   source repository and commit named. Not from facdrone: counts and findings in words only.
 - Say things in words. "R163" is the unrun test of a rule that says when a state machine is
