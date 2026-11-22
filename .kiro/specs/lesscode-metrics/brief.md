@@ -31,6 +31,41 @@ rework with lesscode alone, and no picture of what it did.
    or the agent driving it, edits the code there.
 7. **Examples people can run** in an examples folder.
 
+## What the page shows: three questions, six lenses
+
+Agreed with the owner on 2026-11-22 as the definition of what one rework is measured by.
+
+| Question | Lens | What is counted | Tool | Expected direction |
+| --- | --- | --- | --- | --- |
+| Is it less? | Size | tokens, statements | lesscode | falls |
+| | Structure | functions, calls, calls across files | lesscode `measure-scope` | falls |
+| Is it simpler? | State | places that hold state, places that write it, states that can be written against states that are reached, routines that decide on it | new in `lesscode-metrics`; `kiro-cli` flags one kind today | falls |
+| | Local complexity | per routine: cyclomatic, nesting, parameters, length; per type: methods, fields | `kiro-cli` | no routine above its limit gets worse |
+| Is it still safe? | Behaviour kept | the project's tests pass; decisions in total stay about the same | the project's tests, `kiro-cli` sum | stays |
+| | Protection | planted faults noticed and unnoticed per function, tests added | lesscode `step` | unnoticed faults do not rise, and fall where tests were added |
+
+- **Each lens has its own direction.** Size, structure and state should fall. Local complexity is a
+  guard: the routine that takes over the decisions grows, and its limit stops it from growing too
+  far. Decisions in total should stay; a large fall means behaviour was removed.
+- **No lens stands alone.** Fewer functions with one huge routine is not simpler; less code with
+  more unnoticed faults is not safe. The page shows all six for one rework.
+- **Cost is on the page too**: model spend and run time per rework.
+
+How the lenses map to the page:
+
+- Structure view: the bowls. Each dot gets a ring for local complexity, so the routine that grew is
+  visible, and an open part of the ring for its share of unnoticed faults.
+- State view: a grid, one cell per writable state, lit where the code can reach it.
+- Faults and tests view: one mark per planted fault per function, filled if a test notices it;
+  added tests next to the marks they filled.
+- A strip under all views: the six lenses, each with before, after, and whether it moved in its
+  expected direction.
+
+Division of work: `kiro-cli` measures routines, types and files and keeps the limits.
+`lesscode-metrics` measures the subsystem as a whole, the state and the faults, reads `kiro-cli`'s
+report for the local-complexity lens, and writes the page. Without `kiro-cli` that lens is shown as
+not measured.
+
 ## Sources
 
 - `D:\Source\drift-rdp` at its head: may be edited and its code may be copied into examples.
