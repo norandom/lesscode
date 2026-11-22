@@ -23,6 +23,16 @@ The version before this one is in Git (`b08adf1`, reset of 17 November); older o
   and 24, 30 and 31, 14 to 12). What does fall is what `lesscode-metrics` has to count: places that
   hold the state, states that can be written, routines that decide, things to remember by hand.
   Pick further examples where these fall clearly.
+- **Examples are reworks of whole subsystems, several files each** (owner, later on 22 November).
+  Single-file samples do not help. The effects of the research came from such reworks of two
+  facdrone subsystems (functions 69 to 50 and 102 to 63, call edges 89 to 61 and 145 to 101); the
+  four hand-made examples move nothing by those measures (clipboard lease: call edges 0 to 2;
+  outputs in `D:\BuildArtifacts\lesscode\state-consolidation\r164`, a diagnostic, not yet a
+  research record). The reworked code need not be published: counts and a visualization are
+  enough. For facdrone a visualization may show the conceptual finding, limited state modelling
+  leading to scattered state, or whatever is seen. An artificial spaghetti example over several
+  files is wanted as well. `lesscode-metrics` prints functions, call edges, write sites and tokens
+  before and after, with the state holders as further rows.
 - Code from the repositories under `D:\Source` may be copied into the example folders, with the
   source repository and commit named. Not from facdrone: counts and findings in words only.
 - Say things in words. "R163" is the unrun test of a rule that says when a state machine is
