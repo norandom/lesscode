@@ -45,6 +45,20 @@ The version before this one is in Git (`b08adf1`, reset of 17 November); older o
   left out): renderer 8 files, 70 functions, 91 call edges, 13 cells, 3 machines; commands 14, 112,
   94, 12, 6; store 7, 122, 250, 6, 2; rdp/folder_share 5, 87, 135, 2, 0; rdp (top level) 20, 348,
   1,046, 36, 4. My proposal for the first rework: renderer. Not decided, not begun.
+- **First visualization, published privately**: "Two Bowls",
+  https://claude.ai/artifact/6ggrijcAhxUDyiEk3gw8SY. The two facdrone reworks of 8 and 9 November
+  as bowls of noodles, before and after, drawn from the frozen measurements in
+  `D:\BuildArtifacts\lesscode\corrective-audit\foreground-20261118\*-native-scope.json`. It shows
+  facdrone's file and function names on hover, no code. Source of the page: the session scratchpad
+  (`two-bowls.template.html`, `data.json`); not in the repository.
+- **The flow the owner wants** (22 November): the tests of a target are only half good. Plant
+  faults, let the unnoticed ones drive the writing of tests, then reduce, the three hand in hand.
+- **`drift-rdp` may be edited** (owner, 22 November). There are agent skills for the rewriting
+  (`.agents/skills/deconvolute`, `lesscode-discovery`, `refactor-in-steps`); the owner wants to see
+  what lesscode itself does, and thinks it makes model calls already. Seen so far: `lesscode-model`
+  calls a model with repair turns, for writing language packs. Whether any command calls a model to
+  rewrite code is not checked. The `deconvolute` skill's description still names a bounded
+  comparison and a fault check that the audit of 17 November found not delivered.
 - Code from the repositories under `D:\Source` may be copied into the example folders, with the
   source repository and commit named. Not from facdrone: counts and findings in words only.
 - Say things in words. "R163" is the unrun test of a rule that says when a state machine is
