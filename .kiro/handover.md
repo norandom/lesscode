@@ -18,6 +18,8 @@ The version before this one is in Git (`b08adf1`, reset of 17 November); older o
   November). The clipboard file is unchanged. Scan the repository again.
 - `D:\Source\facdrone` (Python, finance code) is checked out only to adjust lesscode against a real
   project. Read only; nothing is delivered to it. It needs Python support in the command first.
+- Code from the repositories under `D:\Source` may be copied into the example folders, with the
+  source repository and commit named. Not from facdrone: counts and findings in words only.
 - Say things in words. "R163" is the unrun test of a rule that says when a state machine is
   untangled far enough. "Slice B" is the hardening against model drift: closed by the owner, only
   drift of one model over time is unmeasured. The line about it under "State" below is stale.
