@@ -7,6 +7,24 @@ The version before this one is in Git (`b08adf1`, reset of 17 November); older o
 [handover-archive-2026-11-11.md](handover-archive-2026-11-11.md). The day's detail, in order, is in
 [task_76_handover.md](task_76_handover.md).
 
+## Owner's direction of 22 November (replaces "Next" below where they differ)
+
+- `kiro-cli` stays as it is: the spec-driven tool that measures code. The state measurement is built
+  here instead, as a command `lesscode-metrics`. Nothing is to be changed in `openidea-kiro`; the
+  concept note is the starting point for the command's spec, not for an amendment there.
+- More examples are needed, and each must be runnable: a reader goes into an examples folder, runs
+  the command and gets the table.
+- `drift-rdp` has moved 91 commits past the example's base (`b6fbcf6`; head `09b4ce8` on 21
+  November). The clipboard file is unchanged. Scan the repository again.
+- `D:\Source\facdrone` (Python, finance code) is checked out only to adjust lesscode against a real
+  project. Read only; nothing is delivered to it. It needs Python support in the command first.
+- Say things in words. "R163" is the unrun test of a rule that says when a state machine is
+  untangled far enough. "Slice B" is the hardening against model drift: closed by the owner, only
+  drift of one model over time is unmeasured. The line about it under "State" below is stale.
+- Order: first cut of `lesscode-metrics` for Rust (spec and prototype check first; it must give the
+  hand-counted numbers of the four examples), runnable examples, rescan of `drift-rdp`, Python and
+  facdrone, then the stopping-rule test if the owner still wants it. Nothing of this is begun.
+
 ## Start here
 
 1. Read [the guide](../docs/state-refactoring.md) and [the examples](../docs/examples/README.md). They
