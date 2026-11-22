@@ -33,6 +33,18 @@ The version before this one is in Git (`b08adf1`, reset of 17 November); older o
   leading to scattered state, or whatever is seen. An artificial spaghetti example over several
   files is wanted as well. `lesscode-metrics` prints functions, call edges, write sites and tokens
   before and after, with the state holders as further rows.
+- **What is missing most is a result a developer likes to look at** (owner): a visualization of
+  before and after, not tables of counts alone. Proposed, not built: one HTML page per rework with
+  the subsystem's call graph before and after and the state holders marked with who writes and who
+  asks them.
+- Sources the owner named for reworks: the head of `drift-rdp`, lesscode itself, and
+  `D:\Source\ats-agent` ("vibecode"; 153 `.cjs` files, mostly under `tests` and `skills`; whether
+  the TypeScript pack reads `.cjs` is not checked).
+- Census of `drift-rdp` at `09b4ce8` with the released `measure-scope` and the research finder
+  (`D:\BuildArtifacts\lesscode\state-consolidation\r164\drift-rdp-09b4ce8\census.json`; test files
+  left out): renderer 8 files, 70 functions, 91 call edges, 13 cells, 3 machines; commands 14, 112,
+  94, 12, 6; store 7, 122, 250, 6, 2; rdp/folder_share 5, 87, 135, 2, 0; rdp (top level) 20, 348,
+  1,046, 36, 4. My proposal for the first rework: renderer. Not decided, not begun.
 - Code from the repositories under `D:\Source` may be copied into the example folders, with the
   source repository and commit named. Not from facdrone: counts and findings in words only.
 - Say things in words. "R163" is the unrun test of a rule that says when a state machine is
