@@ -7,7 +7,8 @@ November added up to `fc34c4e`); older ones are
 [handover-archive-2026-11-12.md](handover-archive-2026-11-12.md) and
 [handover-archive-2026-11-11.md](handover-archive-2026-11-11.md).
 
-**A check was still running when this was written.** See "Running" first.
+Amended 13:07: the check named under "Running" has ended and its results are recorded. Nothing
+is running.
 
 ## Start here
 
@@ -19,7 +20,13 @@ November added up to `fc34c4e`); older ones are
 3. Look at the page "Two Bowls", https://claude.ai/artifact/6ggrijcAhxUDyiEk3gw8SY (private to the
    owner). Its source is in a session scratchpad and not in the repository.
 
-## Running
+## Running (ended 13:02; kept for the record)
+
+**Outcome:** accepted at the second attempt, growth 57 tokens; recorded and guarded on the branch
+(commit `204782f`). Watched again: the tests see all 6 ways the type can now be written. 2 of 37
+planted faults go unnoticed where 4 of 42 did. All of it is in
+[R173](../docs/research/2026-11-23/10-shared-frame-rework.md). The working copies and build output
+are removed; D: had 125 GiB free at 13:07. The steps listed below are done.
 
 `lesscode-core step check` on the rework of `SharedFrame` in `drift-rdp`, second attempt, started
 12:29. Working directory `D:\BuildArtifacts\lesscode\lesscode-metrics\r173-rework\work`, log
@@ -89,7 +96,8 @@ The owner's checkout is untouched on `master`.
 | `e4d3b2c` | two tests written from the planted faults | 35 to 38 of 42 |
 | `f58b017` | the declaration of the step, growth allowed 60 tokens | |
 | `18c9043` | the rework: one value for what is pending, `dirty` gone, the lock released by the shape of the code | refused for size, 72 tokens |
-| `e02154e` | what the new value did not need, dropped | check running |
+| `e02154e` | what the new value did not need, dropped | accepted, 57 tokens; 33 noticed, 2 unnoticed of 37 |
+| `204782f` | the accepted verdict and the ledger entry | `step guard` accepts the branch |
 
 The four faults still unnoticed before the rework are, by my reading and not shown by a run, two
 that change nothing and two that keep the lock while the render thread is rung.
@@ -124,7 +132,7 @@ removes 35. No gain in size or decisions was expected or found. The gain is in t
 
 ## Next
 
-1. Finish R173 (see "Running").
+1. R173 is finished.
 2. Decide with the owner what follows. My proposal: the same loop on the renderer's next type
    whose state the tests reach, `RenderShared` with `View`, or the drawing code in `gpu.rs`, where
    the tests notice 9% of the faults and tests have to come first.
