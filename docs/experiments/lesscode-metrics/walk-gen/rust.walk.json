@@ -12,6 +12,7 @@
   "test_scope": {"node": "mod_item", "marker": "cfg(test)"},
   "derive_default": ["derive(", "Default"],
   "length": 4,
+  "budget": 5000000,
   "observe": {
     "bool": "{x}",
     "AtomicBool": "{x}.load(std::sync::atomic::Ordering::SeqCst)",

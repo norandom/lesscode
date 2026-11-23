@@ -138,6 +138,6 @@ fn reached_shapes() {
     out.push_str("  ,\n");
     report("with test-only methods", &all, &mut out);
     out.push_str("]}\n");
-    let path = std::env::var("LESSCODE_WALK_OUT").expect("LESSCODE_WALK_OUT names the output file");
-    std::fs::write(path, out).unwrap();
+    let directory = std::env::var("LESSCODE_WALK_OUT").expect("LESSCODE_WALK_OUT names the output directory");
+    std::fs::write(std::path::Path::new(&directory).join("@@TYPE@@.json"), out).unwrap();
 }

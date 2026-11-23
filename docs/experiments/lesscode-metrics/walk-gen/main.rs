@@ -82,6 +82,8 @@ struct Rules {
     /// Texts an attribute holds when the type can be built by default.
     derive_default: Vec<String>,
     length: usize,
+    /// The most sequences the largest set of calls may come to.
+    budget: u64,
     /// How a holder of this type is read as true or false; `{x}` is the place.
     observe: BTreeMap<String, String>,
     /// How to get at what a wrapper holds.
@@ -449,12 +451,18 @@ fn run() -> Result<Value, String> {
         }
     }
 
+    // As long as the rules say, shortened until the largest set stays within the budget.
+    let calls = (direct.len() + chained.len() + test_only.len()).max(1) as u64;
+    let length = (1..=rules.length)
+        .rev()
+        .find(|&l| calls.checked_pow(l as u32).is_some_and(|n| n <= rules.budget))
+        .unwrap_or(1);
     let names: Vec<String> = holders.iter().map(|(n, _)| format!("{n:?}")).collect();
     let reads: Vec<String> = holders.iter().map(|(_, e)| format!("    s.push({e});")).collect();
     let module = TEMPLATE
         .replace("@@TYPE@@", subject)
         .replace("@@SUBJECT@@", &subject_type)
-        .replace("@@LENGTH@@", &rules.length.to_string())
+        .replace("@@LENGTH@@", &length.to_string())
         .replace("@@NAMES@@", &names.join(", "))
         .replace("@@MAKE@@", &make)
         .replace("@@OBSERVE@@", &reads.join("\n"))
@@ -463,7 +471,7 @@ fn run() -> Result<Value, String> {
         .replace("@@TEST_ONLY@@", &test_only.join("\n"));
     fs::write(out_path, &module).map_err(|e| format!("{out_path}: {e}"))?;
     Ok(json!({
-        "receipt": "walk-gen-r167", "revision": 1,
+        "receipt": "walk-gen-r167", "revision": 2,
         "rules_sha256": sha256_hex(rules_text.as_bytes()),
         "source_sha256": sha256_hex(source.as_bytes()),
         "module_sha256": sha256_hex(module.as_bytes()),
@@ -471,7 +479,7 @@ fn run() -> Result<Value, String> {
         "holders": holders.iter().map(|(n, _)| n).collect::<Vec<_>>(),
         "calls": {"own": direct.len(), "of_what_they_return": chained.len(), "test_only": test_only.len()},
         "methods_called": called, "methods_not_called": not_called,
-        "length": rules.length,
+        "length": length,
     }))
 }
 
