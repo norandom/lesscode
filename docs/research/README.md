@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R167 A walk over a type's methods, generated from its source, finds the same reached shapes (2026-11-23)
+## Latest · R168 Over the 16 structs of a real subsystem the generated walk says something for one (2026-11-23)
+
+The generator of R167, unfitted, on every struct with holders in the renderer of `drift-rdp`: 3 walked, 1 walked without a call, 2 do not compile, 10 not generated. Four rows registered beforehand hold, and the count of 3 overstates it: only `SharedFrame` had its state changed by the calls. Eight types are records built field by field, four need a value of another type of the subsystem, and most records have no methods of their own, so a walk over a type's methods has nothing to call. A first attempt was void through a fault in the start script. [R168](2026-11-23/05-generated-walk-over-renderer.md)
+
+## R167 A walk over a type's methods, generated from its source, finds the same reached shapes (2026-11-23)
 
 A research program in Rust writes the test module that R166 had by hand: it builds a value, reads the holders, calls every by-reference method with values from a small table, follows a returned guard, and keeps test-only methods apart. Six rows registered beforehand hold on the first run, with nothing generated edited: the made-up `Order` reaches 5 of 8 shapes, `SharedFrame` of `drift-rdp` 4, then 6 with the guard's methods. It also reports, per holder, the calls that changed it. The shapes reached depend on the values tried; two subjects are few. [R167](2026-11-23/04-generated-walk.md)
 

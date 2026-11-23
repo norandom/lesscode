@@ -54,11 +54,12 @@ $rows = foreach ($t in $types) {
         [pscustomobject]$row; continue
     }
     Copy-Item $target (Join-Path $Out "modules\$module.rs")
-    $gen = Get-Content $report -Raw | ConvertFrom-Json
-    $row.calls = $gen.calls.own + $gen.calls.of_what_they_return + $gen.calls.test_only
-    $row.holders = @($gen.holders).Count
-    $row.not_called = @($gen.methods_not_called).Count
-    $row.length = $gen.length
+    # Not `$gen`: PowerShell does not tell it from the parameter `$Gen`.
+    $made = Get-Content $report -Raw | ConvertFrom-Json
+    $row.calls = $made.calls.own + $made.calls.of_what_they_return + $made.calls.test_only
+    $row.holders = @($made.holders).Count
+    $row.not_called = @($made.methods_not_called).Count
+    $row.length = $made.length
     $original = Get-Content $file -Raw
     Add-Content $file "`n#[cfg(test)]`nmod $module;" -Encoding utf8NoBOM
     $log = Join-Path $Out "logs\$name-build.log"
