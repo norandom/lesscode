@@ -40,6 +40,23 @@ pub const STAGES: &[StagePlan] = &[
     },
 ];
 
+/// What the person can do after a plan.
+const AFTER_A_PLAN: &[&str] = &[
+    "Read the tab Unprotected. In those functions a change can break the code without any test failing.",
+    "Write tests for a function before you change it, and run this again to see that they notice its faults.",
+    "Remove the copies when you are done: delete the directory named under Your code.",
+];
+
+/// What the person can do when nothing could be judged.
+const AFTER_NO_JUDGEMENT: &[&str] = &[
+    "Run your test command yourself in one of the copies and make it pass there.",
+    "Nothing in this run says anything about your tests or your code.",
+];
+
+fn lines(texts: &[&str]) -> Vec<String> {
+    texts.iter().map(|t| (*t).to_owned()).collect()
+}
+
 /// Milliseconds since 1970.
 pub fn now() -> u64 {
     let since = SystemTime::now().duration_since(UNIX_EPOCH);
@@ -59,6 +76,12 @@ fn class_of(class: &str) -> Class {
 pub struct PlanWatch {
     log: Mutex<RunLog>,
     functions: BTreeMap<String, FileFunctions>,
+}
+
+impl std::fmt::Debug for PlanWatch {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("PlanWatch")
+    }
 }
 
 impl PlanWatch {
@@ -106,6 +129,36 @@ impl PlanWatch {
     pub fn heart(self: &Arc<Self>, every: Duration) -> Heart {
         let watch = Arc::clone(self);
         Heart::start(every, move || watch.log().beat(now()))
+    }
+
+    /// The plan is written: what each unprotected function reaches out to,
+    /// and the end of the run with the plan's exit code.
+    pub fn close<'a>(
+        &self,
+        reaching: impl Iterator<Item = (&'a str, &'a str, &'a [String])>,
+        code: u8,
+    ) {
+        let mut log = self.log();
+        for (file, function, calls) in reaching {
+            log.reaches_out(file, function, calls.to_vec());
+        }
+        let functions = log.snapshot().faults.functions;
+        let bare = functions.iter().filter(|f| f.unprotected).count();
+        let detail = format!(
+            "{bare} of {} functions with planted faults are unprotected.",
+            functions.len()
+        );
+        let outcome = match code {
+            0 => "The plan is written",
+            _ => "The plan is written, and some faults could not be run",
+        };
+        log.finish(outcome, &detail, code, lines(AFTER_A_PLAN), now());
+    }
+
+    /// The run could not judge anything, and why.
+    pub fn failed(&self, why: &str) {
+        self.log()
+            .finish("Could not judge", why, 3, lines(AFTER_NO_JUDGEMENT), now());
     }
 
     /// The function a site lies in, by the file's functions as they are

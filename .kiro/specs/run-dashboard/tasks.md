@@ -53,7 +53,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Boundary: Snapshot_
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
 
-- [ ] 2. `step plan` tells the log
+- [x] 2. `step plan` tells the log
 - [x] 2.1 The driver reports its stages and each classed fault (can fail)
   - Done 2026-11-23. It did not fail: the function of a fault is known when it is judged, from the
     file's functions as they are before any fault (`FileFunctions::owner`), so the tree can show
@@ -87,7 +87,12 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     none after the run has ended.
   - _Boundary: RunLog_
   - _Requirements: 3.4, 3.7_
-- [ ] 2.3 Unprotected functions, and what they reach out to
+- [x] 2.3 Unprotected functions, and what they reach out to
+  - Done 2026-11-23: `step plan` ends the snapshot through `PlanWatch::close` with the plan's own
+    list of what each unprotected function calls, and through `PlanWatch::failed` when nothing could
+    be judged. Tests in `native/tests/run_page_events.rs` compare with the written plan. The plan's
+    arguments carry who listens; no option sets it yet (group 3). The plan's state writes per
+    function are not carried into the snapshot, only its calls.
   - At the end of `step plan` the snapshot carries, per function, whether no fault was noticed and
     what the plan already lists as reached outside it.
   - Done when the snapshot of a planned fixture names the same unprotected functions as the plan.

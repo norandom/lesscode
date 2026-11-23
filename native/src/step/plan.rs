@@ -4,11 +4,13 @@
 //! reach out to. Faults run in copies; the source tree is only read.
 
 use super::functions::{FileFunctions, Tally, OUTSIDE};
+use super::plan_page::PlanWatch;
 use crate::adapter_traits::FrameSpec;
 use crate::adapters::driver::analysis::{analyse, outside_frame};
 use crate::adapters::driver::cli::emit_json;
 use crate::adapters::driver::config::RunConfig;
 use crate::adapters::driver::pack::Pack;
+use crate::adapters::driver::page_watch::Watching;
 use crate::adapters::driver::registry::embedded;
 use crate::adapters::driver::run_command::{run_run, RunArgs};
 use crate::adapters::driver::source::SourceSet;
@@ -16,6 +18,7 @@ use crate::adapters::driver::Kind;
 use serde::Serialize;
 use serde_json::Value;
 use std::path::PathBuf;
+use std::sync::Arc;
 
 /// Arguments of `step plan`.
 #[derive(clap::Args, Clone, Debug)]
@@ -35,6 +38,9 @@ pub struct PlanArgs {
     /// Where to write the plan.
     #[arg(long)]
     pub out: PathBuf,
+    /// Who shows the run while it happens, if anyone.
+    #[arg(skip)]
+    pub page: Option<Arc<PlanWatch>>,
 }
 
 /// What a function with no noticed fault reaches out to.
@@ -142,6 +148,12 @@ fn rows_of(
     Ok(sizes.into_iter().map(row).collect())
 }
 
+/// For a function with no noticed fault: its file, its name and what it calls.
+fn reaching(row: &Row) -> Option<(&str, &str, &[String])> {
+    let calls = row.reaches_out.as_ref()?.calls.as_slice();
+    Some((row.file.as_str(), row.function.as_str(), calls))
+}
+
 fn print(plan: &Plan) {
     println!(
         "{:<44} {:>8} {:>10} {:>7} {:>7}",
@@ -162,6 +174,22 @@ fn print(plan: &Plan) {
     }
 }
 
+/// The fault run of the plan, told to whoever shows it while it happens.
+fn fault_run(args: &PlanArgs, out: PathBuf) -> Result<u8, String> {
+    let listening = args.page.clone().map(|page| Watching::begin(page));
+    let ran = run_run(RunArgs {
+        config: args.config.clone(),
+        work: args.work.clone(),
+        workers: args.workers,
+        annotations: None,
+        no_reuse: false,
+        only: Vec::new(),
+        out,
+    });
+    drop(listening);
+    ran.inspect_err(|why| args.page.iter().for_each(|page| page.failed(why)))
+}
+
 /// Exit 0 when the plan is complete, 2 when faults of the run have no
 /// class; a void run or bad input is an error (exit 3).
 pub fn run_plan(args: PlanArgs) -> Result<u8, String> {
@@ -176,15 +204,7 @@ pub fn run_plan(args: PlanArgs) -> Result<u8, String> {
         None => None,
     };
     let run_path = args.work.join("plan-run.json");
-    let code = run_run(RunArgs {
-        config: args.config.clone(),
-        work: args.work.clone(),
-        workers: args.workers,
-        annotations: None,
-        no_reuse: false,
-        only: Vec::new(),
-        out: run_path.clone(),
-    })?;
+    let code = fault_run(&args, run_path.clone())?;
     let bytes = std::fs::read(&run_path).map_err(|e| format!("{}: {e}", run_path.display()))?;
     let run: Value = serde_json::from_slice(&bytes).map_err(|e| e.to_string())?;
     let source = SourceSet {
@@ -201,6 +221,9 @@ pub fn run_plan(args: PlanArgs) -> Result<u8, String> {
         let key = |r: &Row| (std::cmp::Reverse(r.faults.unnoticed), r.faults.noticed);
         key(a).cmp(&key(b))
     });
+    if let Some(page) = &args.page {
+        page.close(functions.iter().filter_map(reaching), code);
+    }
     let plan = Plan {
         receipt: "step-plan-v1",
         run: run_path.to_string_lossy().replace('\\', "/"),

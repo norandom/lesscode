@@ -6,6 +6,7 @@ use lesscode_core::adapters::driver::config::RunConfig;
 use lesscode_core::adapters::driver::page_watch::{Event, Watch, Watching};
 use lesscode_core::adapters::driver::registry::embedded;
 use lesscode_core::adapters::driver::run_command::{run_run, RunArgs};
+use lesscode_core::step::plan::{run_plan, PlanArgs};
 use lesscode_core::step::plan_page::PlanWatch;
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
@@ -13,7 +14,9 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 
-const APP: &str = "def step(state, a):\n    if a > 3:\n        raise ValueError(\"big\")\n    state.total = a\n    return a\n\n\ndef other(a):\n    return a + 1\n";
+/// `step` is what the toy's test looks at; `quiet` is a function it never
+/// looks at, with a condition, a call and a write to plant faults in.
+const APP: &str = "def step(state, a):\n    if a > 3:\n        raise ValueError(\"big\")\n    state.total = a\n    return a\n\n\ndef quiet(state, a):\n    if a > 5:\n        state.count = len(a)\n    return a\n";
 
 fn toy() -> String {
     let test_binary = std::env::current_exe().unwrap();
@@ -261,4 +264,101 @@ fn the_plan_listener_counts_each_fault_under_its_function() {
         1,
         "the test command, and no setup or build in this configuration"
     );
+}
+
+/// `step plan` on the toy project with someone listening.
+fn planned(name: &str, passes: bool) -> (Result<u8, String>, Arc<PlanWatch>, PathBuf) {
+    let (dir, config_path) = project(name, passes);
+    let config = RunConfig::read(&config_path).unwrap();
+    let pack = embedded(&config.language).unwrap();
+    let watch = Arc::new(PlanWatch::new(&config, pack, &dir.join("work"), 2).unwrap());
+    let ran = run_plan(PlanArgs {
+        config: config_path,
+        work: dir.join("work"),
+        frame_spec: None,
+        workers: None,
+        out: dir.join("plan.json"),
+        page: Some(watch.clone()),
+    });
+    (ran, watch, dir)
+}
+
+#[test]
+fn the_snapshot_names_the_unprotected_functions_of_the_plan_and_what_they_reach() {
+    let (ran, watch, dir) = planned("unprotected", true);
+    assert_eq!(ran, Ok(0));
+    let plan: Value = serde_json::from_slice(&fs::read(dir.join("plan.json")).unwrap()).unwrap();
+    let rows = plan["functions"].as_array().unwrap();
+    let bare_in_plan: Vec<&str> = rows
+        .iter()
+        .filter(|r| r["unprotected"] == true)
+        .map(|r| r["function"].as_str().unwrap())
+        .collect();
+    assert!(
+        !bare_in_plan.is_empty(),
+        "the toy has a function no test looks at: {plan}"
+    );
+    let shown = watch.snapshot();
+    let mut bare_shown: Vec<&str> = shown
+        .faults
+        .functions
+        .iter()
+        .filter(|f| f.unprotected)
+        .filter_map(|f| f.function.as_deref())
+        .collect();
+    let mut expected = bare_in_plan.clone();
+    bare_shown.sort_unstable();
+    expected.sort_unstable();
+    assert_eq!(bare_shown, expected);
+    // What an unprotected function calls is the plan's list.
+    for row in rows.iter().filter(|r| r["unprotected"] == true) {
+        let name = row["function"].as_str().unwrap();
+        let calls: Vec<String> = row["reaches_out"]["calls"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|c| c.as_str().unwrap().to_owned())
+            .collect();
+        let tally = shown
+            .faults
+            .functions
+            .iter()
+            .find(|f| f.function.as_deref() == Some(name))
+            .unwrap();
+        assert_eq!(tally.reaches_out, calls, "{name}");
+    }
+    assert!(shown.ended);
+    assert_eq!(shown.exit_code, Some(0));
+    assert_eq!(shown.outcome.as_deref(), Some("The plan is written"));
+    let detail = shown.outcome_detail.unwrap();
+    assert!(
+        detail.starts_with(&format!("{} of ", expected.len())),
+        "{detail}"
+    );
+    assert!(
+        shown
+            .stages
+            .iter()
+            .all(|s| format!("{:?}", s.status) == "Ended"),
+        "nothing is going on after the end"
+    );
+    assert_eq!(shown.next.len(), 3);
+}
+
+#[test]
+fn a_plan_that_could_not_judge_ends_the_page_with_the_reason() {
+    let (ran, watch, _dir) = planned("nojudge", false);
+    let why = ran.unwrap_err();
+    let shown = watch.snapshot();
+    assert!(shown.ended);
+    assert_eq!(shown.exit_code, Some(3));
+    assert_eq!(shown.outcome.as_deref(), Some("Could not judge"));
+    assert_eq!(shown.outcome_detail.as_deref(), Some(why.as_str()));
+    assert_eq!(shown.tests.passed_unchanged, Some(false));
+    assert_eq!(shown.copies.working, 0);
+    assert!(shown
+        .stages
+        .iter()
+        .all(|s| format!("{:?}", s.status) != "GoingOn"));
+    assert_eq!(shown.faults.done, 0);
 }
