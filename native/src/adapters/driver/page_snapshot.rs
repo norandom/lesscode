@@ -162,6 +162,8 @@ pub struct Faults {
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct Example {
     pub file: String,
+    /// The function the fault lies in, where it lies in one.
+    pub function: Option<String>,
     pub line: u64,
     pub what_was_changed: String,
     pub text: String,

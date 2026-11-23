@@ -259,23 +259,28 @@ const data = /*DATA*/null;
   }
 
   function Faults(p) {
-    var f = p.s.faults || {}, e = f.example;
+    var f = p.s.faults || {}, e = things([f.example])[0];
     return html`<div>
       <h2>What a planted fault is</h2>
-      <p>To find out whether your tests would notice a mistake, lesscode makes one on purpose. It changes one small thing in a copy of your code, such as turning a <code>${'<'}</code> into a <code>${'<='}</code> or leaving a statement out, and runs your tests. If a test fails, the fault was noticed. If all tests pass, nothing would have told you.</p>
-      <p>A planted fault lives in a copy and never reaches your repository.</p>
+      <p>To find out whether your tests would notice a mistake, lesscode makes one on purpose. In a copy of your code it changes one small thing, such as turning a <code>${'<'}</code> into a <code>${'<='}</code> or leaving a statement out, and runs your tests. If a test fails, the fault was noticed. If every test passes, nothing would have told you about that mistake.</p>
+      <p>A planted fault lives in a copy. It never reaches your repository.</p>
       ${e ? html`<h3>One from this run</h3>
-        <dl class="facts"><dt>Where</dt><dd><code>${text(e.file)}</code>, line ${show(e.line)}</dd>
-        <dt>What was changed</dt><dd><code>${text(e.what_was_changed)}</code></dd>
+        <dl class="facts"><dt>Where</dt><dd><code>${text(e.file)}</code>, line ${show(e.line)}${typeof e.function === 'string' && e.function ? html`, in <code>${e.function}</code>` : ''}</dd>
         <dt>The code there</dt><dd><code>${text(e.text, 'not shown')}</code></dd>
-        <dt>Outcome</dt><dd>${text(e.outcome)}</dd></dl>` : html`<p>No fault of this run has been judged yet.</p>`}
-      <h3>What the numbers mean</h3>
+        <dt>Kind of change</dt><dd><code>${text(e.what_was_changed)}</code></dd>
+        <dt>Did your tests notice</dt><dd>${text(e.outcome)}</dd></dl>` : html`<p>No fault of this run has been judged yet.</p>`}
+      <h3>What a noticed fault shows</h3>
+      <p>Your tests are sharp at that place: they fail when the code there is wrong. It does not show that two versions of the code behave the same. A rework can pass every test and still differ where no test looks.</p>
+      <h3>What an unnoticed fault can mean</h3>
       <ul>
-        <li>A noticed fault shows that your tests are sharp at that place. It does not show that two versions of the code behave the same.</li>
-        <li>An unnoticed fault can mean three things: a test is missing; the fault changes nothing a caller can see; or it changes something your tests cannot observe.</li>
-        <li>A fault that does not build is counted apart and says nothing either way.</li>
-        ${n(f.not_compiled_here) ? html`<li>${show(f.not_compiled_here)} faults lie in code that is not built on this system. They are shown apart and tell nothing.</li>` : ''}
+        <li>A test is missing.</li>
+        <li>The fault changes nothing a caller can see.</li>
+        <li>The fault changes something your tests cannot observe, such as what is drawn on a screen.</li>
       </ul>
+      <p>The run cannot tell these three apart. The code at the place can.</p>
+      <h3>Counted apart</h3>
+      <p>A fault that does not build, or that runs over its time limit, is neither noticed nor unnoticed. It says nothing either way.</p>
+      ${n(f.not_compiled_here) ? html`<p>${show(f.not_compiled_here)} faults lie in code that is not built on this system. No test can notice them here, so they tell nothing.</p>` : ''}
     </div>`;
   }
 

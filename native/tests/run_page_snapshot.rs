@@ -104,7 +104,7 @@ fn midway_one_stage_is_going_on_with_its_count_and_no_time_for_the_rest() {
     assert_eq!(
         midway["faults"]["example"],
         json!({
-            "file": "src/a.rs", "line": 7, "what_was_changed": "negate", "text": "a < b", "outcome": "noticed: a test failed"
+            "file": "src/a.rs", "function": "one", "line": 7, "what_was_changed": "negate", "text": "a < b", "outcome": "noticed: a test failed"
         })
     );
 }

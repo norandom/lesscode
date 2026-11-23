@@ -184,6 +184,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     not, and the three readings of an unnoticed one.
   - Done when the text is in the page, the example appears with the first classed fault, and the
     owner has read the wording.
+  - 2026-11-23: the text is in the page and the example names its function as well. Not ticked:
+    the owner has not read the wording yet.
   - _Boundary: Page, Snapshot_
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.6_
 - [ ] 5.3 Faults in code the platform does not compile (can fail)

@@ -230,6 +230,7 @@ impl RunLog {
         // The first fault that is judged becomes the example the page explains with.
         let _ = self.stated.faults.example.get_or_insert_with(|| Example {
             file: fault.file.clone(),
+            function: fault.function.clone(),
             line: fault.line,
             what_was_changed: fault.operator.clone(),
             text: fault.text.clone(),
