@@ -1,6 +1,7 @@
-//! State holders of the types declared in a scope (R165, prototype): for each
-//! struct and enum, which fields hold state, in how many shapes the type can
-//! stand, and which functions write and which decide on each holder.
+//! State holders of the types declared in a scope (R165, revision 2): for
+//! each struct and enum, which fields hold state, which of them are changed
+//! after the value is built, in how many shapes the type can stand, and which
+//! functions change and which decide on each holder.
 //!
 //! A shape counts the kind of a value, not its content: `bool` has two,
 //! `Option<T>` one more than `T`, an enum one per variant, anything else one.
@@ -31,9 +32,16 @@ struct EnumRule {
     variant: String,
 }
 #[derive(Deserialize)]
+struct FunctionRule {
+    node: String,
+    name: String,
+    returns: String,
+}
+#[derive(Deserialize)]
 struct ImplRule {
     node: String,
     r#type: String,
+    own_type: String,
 }
 #[derive(Deserialize)]
 struct TestScope {
@@ -59,12 +67,25 @@ struct Method {
     callee: String,
 }
 #[derive(Deserialize)]
+struct PathRule {
+    node: String,
+    path: String,
+    name: String,
+}
+#[derive(Deserialize)]
+struct Binding {
+    node: String,
+    name: String,
+    r#type: String,
+    value: String,
+}
+#[derive(Deserialize)]
 struct Rules {
     language: String,
     r#struct: Named,
     field: FieldRule,
     r#enum: EnumRule,
-    function: Named,
+    function: FunctionRule,
     r#impl: ImplRule,
     /// Code inside such a node is test code and is left out.
     test_scope: TestScope,
@@ -79,7 +100,28 @@ struct Rules {
     access: Access,
     assignment: Assign,
     method: Method,
-    writes: Vec<String>,
+    path: PathRule,
+    literal: Named,
+    /// Node kind of a plain name.
+    name: String,
+    parameter: FieldRule,
+    binding: Binding,
+    /// Node kind that marks a binding or a reference as changeable.
+    mutable: String,
+    /// Node kinds that hand on the value of their first named child.
+    pass: Vec<String>,
+    /// Node kinds that reach into the value of their first named child.
+    reaches: Vec<String>,
+    /// Further types that hold one value, for following a type only.
+    holds: Vec<String>,
+    /// Methods that hand on what the receiver holds.
+    through: Vec<String>,
+    /// Methods that give a handle through which the value can be changed.
+    handles: Vec<String>,
+    /// Methods that put another value in place.
+    replacing: Vec<String>,
+    /// Methods that change the value in place.
+    changing: Vec<String>,
     /// Node kind, the field that is tested and, optionally, a field the node
     /// must have to be a condition at all.
     conditions: Vec<Vec<String>>,
@@ -100,6 +142,12 @@ fn has(list: &[String], item: &str) -> bool {
 fn inside(inner: &SgNode<'_>, outer: &SgNode<'_>) -> bool {
     let (i, o) = (inner.range(), outer.range());
     o.start <= i.start && i.end <= o.end
+}
+fn same(a: &SgNode<'_>, b: &SgNode<'_>) -> bool {
+    a.range() == b.range()
+}
+fn first_named<'r>(node: &SgNode<'r>) -> Option<SgNode<'r>> {
+    node.children().find(|c| c.is_named())
 }
 
 /// The first type argument of `A, B` at the top level.
@@ -144,9 +192,23 @@ struct Declared {
     variants: Option<u128>,
 }
 
+#[derive(Default)]
+struct Use {
+    changers: BTreeSet<String>,
+    deciders: BTreeSet<String>,
+    replaced: usize,
+    reached: usize,
+    conditions: usize,
+    reads: usize,
+}
+
 struct Scope<'a> {
     rules: &'a Rules,
     types: BTreeMap<String, Declared>,
+    /// Written return type of a function, by the type it is implemented for
+    /// (empty for none) and its name.
+    returns: BTreeMap<(String, String), String>,
+    uses: BTreeMap<(String, String), Use>,
 }
 
 impl Scope<'_> {
@@ -170,14 +232,33 @@ impl Scope<'_> {
             Some(Declared {
                 variants: Some(n), ..
             }) => *n,
-            Some(declared) => self.product(&declared.fields, depth + 1),
+            Some(declared) => declared.fields.iter().fold(1u128, |all, (_, w)| {
+                all.saturating_mul(self.shapes(w, depth + 1))
+            }),
             None => 1,
         }
     }
 
-    fn product(&self, fields: &[(String, String)], depth: usize) -> u128 {
-        fields.iter().fold(1u128, |all, (_, written)| {
-            all.saturating_mul(self.shapes(written, depth))
+    /// The shapes a type can move between after it is built.
+    fn changing(&self, name: &str, depth: usize) -> u128 {
+        let Some(declared) = self.types.get(name) else {
+            return 1;
+        };
+        if depth > 8 || declared.variants.is_some() {
+            return 1;
+        }
+        declared.fields.iter().fold(1u128, |all, (field, written)| {
+            let used = self.uses.get(&(name.to_owned(), field.clone()));
+            let replaced = used.is_some_and(|u| u.replaced > 0);
+            let reached = used.is_some_and(|u| u.reached > 0);
+            let inner = self.struct_of(written, None).filter(|s| self.types[s].variants.is_none());
+            let own = match inner {
+                _ if replaced => self.shapes(written, 0),
+                Some(s) => self.changing(&s, depth + 1),
+                None if reached => self.shapes(written, 0),
+                None => 1,
+            };
+            all.saturating_mul(own)
         })
     }
 
@@ -208,6 +289,118 @@ impl Scope<'_> {
             };
         }
     }
+
+    /// The type of the scope a written type holds, through wrappers.
+    fn struct_of(&self, written: &str, own: Option<&str>) -> Option<String> {
+        let r = self.rules;
+        let mut at = written;
+        for _ in 0..8 {
+            let (head, argument) = head_and_argument(at);
+            if head == r.r#impl.own_type {
+                return own.map(str::to_owned);
+            }
+            if self.types.contains_key(head) {
+                return Some(head.to_owned());
+            }
+            let wraps = has(&r.transparent, head)
+                || has(&r.cells, head)
+                || has(&r.optional, head)
+                || has(&r.holds, head);
+            at = argument.filter(|_| wraps)?;
+        }
+        None
+    }
+
+    /// The type an enclosing implementation is for.
+    fn own_type(&self, node: &SgNode<'_>) -> Option<String> {
+        ancestors(node)
+            .iter()
+            .find(|a| a.kind() == self.rules.r#impl.node.as_str())
+            .and_then(|i| i.field(&self.rules.r#impl.r#type))
+            .map(|t| head_and_argument(&text(&t)).0.to_owned())
+    }
+
+    /// The type of the scope a plain name stands for at `at`.
+    fn bound(&self, name: &str, at: &SgNode<'_>, depth: usize) -> Option<String> {
+        let r = self.rules;
+        let function = ancestors(at)
+            .into_iter()
+            .find(|a| a.kind() == r.function.node.as_str())?;
+        let own = self.own_type(at);
+        let named = |pattern: Option<SgNode<'_>>| {
+            pattern.is_some_and(|p| {
+                let written = text(&p);
+                written.strip_prefix("mut ").unwrap_or(&written).trim() == name
+            })
+        };
+        let below = walk(&function);
+        let latest = below
+            .iter()
+            .filter(|b| b.kind() == r.binding.node.as_str() && named(b.field(&r.binding.name)))
+            .filter(|b| b.range().end <= at.range().start)
+            .max_by_key(|b| b.range().start);
+        if let Some(binding) = latest {
+            if let Some(written) = binding.field(&r.binding.r#type) {
+                return self.struct_of(&text(&written), own.as_deref());
+            }
+            return self.type_of(&binding.field(&r.binding.value)?, depth + 1);
+        }
+        below
+            .iter()
+            .find(|p| p.kind() == r.parameter.node.as_str() && named(p.field(&r.parameter.name)))
+            .and_then(|p| p.field(&r.parameter.r#type))
+            .and_then(|t| self.struct_of(&text(&t), own.as_deref()))
+    }
+
+    /// The type of the scope an expression has, where it can be followed.
+    fn type_of(&self, node: &SgNode<'_>, depth: usize) -> Option<String> {
+        let r = self.rules;
+        if depth > 12 {
+            return None;
+        }
+        let kind = node.kind();
+        let own = || self.own_type(node);
+        if node.text() == r.access.own.as_str() {
+            return own();
+        }
+        if kind == r.name.as_str() {
+            return self.bound(&node.text(), node, depth);
+        }
+        if kind == r.access.node.as_str() {
+            let of = self.type_of(&node.field(&r.access.receiver)?, depth + 1)?;
+            let field = text(&node.field(&r.access.name)?);
+            let (_, written) = self.types.get(&of)?.fields.iter().find(|(f, _)| *f == field)?;
+            return self.struct_of(written, Some(&of));
+        }
+        if kind == r.method.node.as_str() {
+            let callee = node.field(&r.method.callee)?;
+            let returned = |of: String, name: String| {
+                let written = self.returns.get(&(of.clone(), name))?;
+                self.struct_of(written, Some(&of).filter(|o| !o.is_empty()).map(String::as_str))
+            };
+            if callee.kind() == r.access.node.as_str() {
+                let method = text(&callee.field(&r.access.name)?);
+                let of = self.type_of(&callee.field(&r.access.receiver)?, depth + 1)?;
+                if has(&r.through, &method) || has(&r.handles, &method) {
+                    return Some(of);
+                }
+                return returned(of, method);
+            }
+            if callee.kind() == r.path.node.as_str() {
+                let path = text(&callee.field(&r.path.path)?);
+                let of = if path == r.r#impl.own_type { own()? } else { head_and_argument(&path).0.to_owned() };
+                return returned(of, text(&callee.field(&r.path.name)?));
+            }
+            return returned(String::new(), text(&callee));
+        }
+        if kind == r.literal.node.as_str() {
+            return self.struct_of(&text(&node.field(&r.literal.name)?), own().as_deref());
+        }
+        if has(&r.pass, &kind) || has(&r.reaches, &kind) {
+            return self.type_of(&first_named(node)?, depth + 1);
+        }
+        None
+    }
 }
 
 /// The node sits in test code.
@@ -230,12 +423,23 @@ fn in_tests(rules: &Rules, node: &SgNode<'_>) -> bool {
     })
 }
 
-fn declarations(rules: &Rules, label: &str, root: &SgNode<'_>, types: &mut BTreeMap<String, Declared>, twice: &mut BTreeSet<String>) {
+fn declarations(rules: &Rules, label: &str, root: &SgNode<'_>, scope: &mut Scope<'_>, twice: &mut BTreeSet<String>) {
     for node in walk(root) {
         let kind = node.kind();
+        if in_tests(rules, &node) {
+            continue;
+        }
+        if kind == rules.function.node.as_str() {
+            let (Some(name), Some(returns)) = (node.field(&rules.function.name), node.field(&rules.function.returns)) else {
+                continue;
+            };
+            let of = scope.own_type(&node).unwrap_or_default();
+            scope.returns.insert((of, text(&name)), text(&returns));
+            continue;
+        }
         let is_struct = kind == rules.r#struct.node.as_str();
         let is_enum = kind == rules.r#enum.node.as_str();
-        if !(is_struct || is_enum) || in_tests(rules, &node) {
+        if !(is_struct || is_enum) {
             continue;
         }
         let name_field = if is_struct { &rules.r#struct.name } else { &rules.r#enum.name };
@@ -256,58 +460,95 @@ fn declarations(rules: &Rules, label: &str, root: &SgNode<'_>, types: &mut BTree
             let variants = below.iter().filter(|v| v.kind() == rules.r#enum.variant.as_str()).count();
             Declared { file: label.to_owned(), line: line(&node), fields: Vec::new(), variants: Some(variants as u128) }
         };
-        if types.insert(name.clone(), declared).is_some() {
+        if scope.types.insert(name.clone(), declared).is_some() {
             twice.insert(name);
         }
     }
 }
 
-#[derive(Default)]
-struct Use {
-    writers: BTreeSet<String>,
-    deciders: BTreeSet<String>,
-    writes: usize,
-    conditions: usize,
-    reads: usize,
-}
-
-/// The enclosing function as `Type::name`, and the type it is implemented for.
-fn unit(rules: &Rules, node: &SgNode<'_>) -> (String, Option<String>) {
-    let above = ancestors(node);
-    let function = above
+/// The enclosing function, as `Type::name` inside an implementation.
+fn unit(scope: &Scope<'_>, node: &SgNode<'_>) -> String {
+    let rules = scope.rules;
+    let function = ancestors(node)
         .iter()
         .find(|a| a.kind() == rules.function.node.as_str())
         .and_then(|f| f.field(&rules.function.name))
         .map(|n| text(&n))
         .unwrap_or_else(|| "(outside a function)".into());
-    let of = above
-        .iter()
-        .find(|a| a.kind() == rules.r#impl.node.as_str())
-        .and_then(|i| i.field(&rules.r#impl.r#type))
-        .map(|t| head_and_argument(&text(&t)).0.to_owned());
-    match &of {
-        Some(t) => (format!("{t}::{function}"), of),
-        None => (function, None),
+    match scope.own_type(node) {
+        Some(t) => format!("{t}::{function}"),
+        None => function,
     }
 }
 
-fn is_write(rules: &Rules, access: &SgNode<'_>) -> bool {
-    let assigned = ancestors(access).iter().any(|a| {
-        has(&rules.assignment.nodes, &a.kind())
-            && a.field(&rules.assignment.left).is_some_and(|l| inside(access, &l))
-    });
-    let through_method = || {
-        let Some(p) = access.parent() else { return false };
-        let receiver = p.kind() == rules.access.node.as_str()
-            && p.field(&rules.access.receiver).is_some_and(|r| r.range() == access.range());
-        let named = p.field(&rules.access.name).is_some_and(|n| has(&rules.writes, &n.text()));
-        let called = p.parent().is_some_and(|c| {
-            c.kind() == rules.method.node.as_str()
-                && c.field(&rules.method.callee).is_some_and(|f| f.range() == p.range())
-        });
-        receiver && named && called
-    };
-    assigned || through_method()
+enum Touch {
+    Read,
+    /// Another value is put in place.
+    Replaced,
+    /// The value is changed in place, or something below it is.
+    Reached,
+}
+
+/// What the code does with the holder it names at `access`.
+fn touch(rules: &Rules, access: &SgNode<'_>) -> Touch {
+    let mut at = access.clone();
+    let (mut handle, mut deeper) = (false, false);
+    while let Some(p) = at.parent() {
+        let kind = p.kind();
+        let receives = kind == rules.access.node.as_str()
+            && p.field(&rules.access.receiver).is_some_and(|r| same(&r, &at));
+        if receives {
+            let call = p.parent().filter(|c| {
+                c.kind() == rules.method.node.as_str()
+                    && c.field(&rules.method.callee).is_some_and(|f| same(&f, &p))
+            });
+            let Some(call) = call else {
+                deeper = true;
+                at = p;
+                continue;
+            };
+            let method = p.field(&rules.access.name).map(|n| text(&n)).unwrap_or_default();
+            if has(&rules.replacing, &method) {
+                return if deeper { Touch::Reached } else { Touch::Replaced };
+            }
+            if has(&rules.changing, &method) {
+                return Touch::Reached;
+            }
+            if has(&rules.handles, &method) {
+                handle = true;
+            } else if !has(&rules.through, &method) {
+                return Touch::Read;
+            }
+            at = call;
+            continue;
+        }
+        if has(&rules.assignment.nodes, &kind) {
+            let left = p.field(&rules.assignment.left).is_some_and(|l| same(&l, &at));
+            return match (left, deeper) {
+                (true, true) => Touch::Reached,
+                (true, false) => Touch::Replaced,
+                _ => Touch::Read,
+            };
+        }
+        let changeable = |n: &SgNode<'_>| n.children().any(|c| c.kind() == rules.mutable.as_str());
+        if has(&rules.pass, &kind) {
+            // `&mut x` hands the holder out to be changed.
+            if changeable(&p) {
+                return Touch::Reached;
+            }
+            at = p;
+            continue;
+        }
+        if has(&rules.reaches, &kind) && first_named(&p).is_some_and(|c| same(&c, &at)) {
+            deeper = true;
+            at = p;
+            continue;
+        }
+        let bound = kind == rules.binding.node.as_str()
+            && p.field(&rules.binding.value).is_some_and(|v| same(&v, &at));
+        return if bound && handle && changeable(&p) { Touch::Reached } else { Touch::Read };
+    }
+    Touch::Read
 }
 
 fn is_condition(rules: &Rules, access: &SgNode<'_>) -> bool {
@@ -344,22 +585,21 @@ fn run() -> Result<Value, String> {
             Err(error) => unparsed.push(error),
         }
     }
-    let mut types = BTreeMap::new();
+    let mut scope = Scope { rules: &rules, types: BTreeMap::new(), returns: BTreeMap::new(), uses: BTreeMap::new() };
     let mut twice = BTreeSet::new();
     for (label, tree) in &parsed {
-        declarations(&rules, label, &tree.root(), &mut types, &mut twice);
+        declarations(&rules, label, &tree.root(), &mut scope, &mut twice);
     }
-    let scope = Scope { rules: &rules, types };
 
     // Which types declare a field of a given name.
-    let mut owners: BTreeMap<&str, Vec<&str>> = BTreeMap::new();
+    let mut owners: BTreeMap<String, Vec<String>> = BTreeMap::new();
     for (name, declared) in &scope.types {
         for (field, _) in &declared.fields {
-            owners.entry(field.as_str()).or_default().push(name.as_str());
+            owners.entry(field.clone()).or_default().push(name.clone());
         }
     }
+    let (mut by_type, mut by_name, mut left_out) = (0usize, 0usize, 0usize);
     let mut uses: BTreeMap<(String, String), Use> = BTreeMap::new();
-    let mut ambiguous = 0usize;
     for (_, tree) in &parsed {
         for access in walk(&tree.root()) {
             if access.kind() != rules.access.node.as_str() || in_tests(&rules, &access) {
@@ -368,27 +608,39 @@ fn run() -> Result<Value, String> {
             let Some(field) = access.field(&rules.access.name).map(|n| text(&n)) else {
                 continue;
             };
-            let Some(candidates) = owners.get(field.as_str()) else {
+            let Some(candidates) = owners.get(&field) else {
                 continue;
             };
-            let (label, of) = unit(&rules, &access);
-            let own = access.field(&rules.access.receiver).is_some_and(|r| r.text() == rules.access.own.as_str());
-            // `self.x` inside an implementation of a type that has `x` is that type's field.
-            // Otherwise the field name decides, when only one type in the scope has it.
-            let owner = match (&of, candidates.as_slice()) {
-                (Some(t), _) if own && candidates.contains(&t.as_str()) => t.clone(),
-                (_, [only]) => (*only).to_owned(),
+            let followed = access
+                .field(&rules.access.receiver)
+                .and_then(|r| scope.type_of(&r, 0))
+                .filter(|t| candidates.contains(t));
+            let owner = match (followed, candidates.as_slice()) {
+                (Some(t), _) => {
+                    by_type += 1;
+                    t
+                }
+                (None, [only]) => {
+                    by_name += 1;
+                    only.clone()
+                }
                 _ => {
-                    ambiguous += 1;
+                    left_out += 1;
                     continue;
                 }
             };
+            let label = unit(&scope, &access);
             let entry = uses.entry((owner, field)).or_default();
-            if is_write(&rules, &access) {
-                entry.writes += 1;
-                entry.writers.insert(label.clone());
-            } else {
-                entry.reads += 1;
+            match touch(&rules, &access) {
+                Touch::Replaced => {
+                    entry.replaced += 1;
+                    entry.changers.insert(label.clone());
+                }
+                Touch::Reached => {
+                    entry.reached += 1;
+                    entry.changers.insert(label.clone());
+                }
+                Touch::Read => entry.reads += 1,
             }
             if is_condition(&rules, &access) {
                 entry.conditions += 1;
@@ -396,28 +648,32 @@ fn run() -> Result<Value, String> {
             }
         }
     }
+    scope.uses = uses;
 
     let shown = |n: u128| if n > MANY { json!("open") } else { json!(n) };
     let mut listed = Vec::new();
-    let (mut holders, mut flags, mut cells, mut with_holders) = (0usize, 0usize, 0usize, 0usize);
+    let (mut holders, mut changed, mut flags, mut cells, mut with_holders) = (0usize, 0usize, 0usize, 0usize, 0usize);
     for (name, declared) in &scope.types {
         let mut rows = Vec::new();
         for (field, written) in &declared.fields {
             let Some(kind) = scope.kind(written) else { continue };
-            let used = uses.get(&(name.clone(), field.clone()));
+            let used = scope.uses.get(&(name.clone(), field.clone()));
             let list = |set: Option<&BTreeSet<String>>| set.map(|s| s.iter().cloned().collect::<Vec<_>>()).unwrap_or_default();
+            let touched = used.is_some_and(|u| u.replaced + u.reached > 0);
+            changed += usize::from(touched);
             rows.push(json!({
                 "field": field, "type": written, "kind": kind,
                 "shapes": shown(scope.shapes(written, 0)),
-                "writers": list(used.map(|u| &u.writers)), "deciders": list(used.map(|u| &u.deciders)),
-                "write_sites": used.map_or(0, |u| u.writes), "condition_sites": used.map_or(0, |u| u.conditions),
-                "other_reads": used.map_or(0, |u| u.reads),
+                "changed": touched,
+                "changers": list(used.map(|u| &u.changers)), "deciders": list(used.map(|u| &u.deciders)),
+                "replaced_sites": used.map_or(0, |u| u.replaced), "reached_sites": used.map_or(0, |u| u.reached),
+                "condition_sites": used.map_or(0, |u| u.conditions), "other_reads": used.map_or(0, |u| u.reads),
             }));
         }
         let count = |k: &str| rows.iter().filter(|r| r["kind"] == k).count();
         let shapes = match declared.variants {
             Some(n) => n,
-            None => scope.product(&declared.fields, 0),
+            None => declared.fields.iter().fold(1u128, |all, (_, w)| all.saturating_mul(scope.shapes(w, 0))),
         };
         holders += rows.len();
         flags += count("flag");
@@ -426,20 +682,23 @@ fn run() -> Result<Value, String> {
         if rows.is_empty() && declared.variants.is_none() {
             continue;
         }
+        let moving = if declared.variants.is_some() { Value::Null } else { shown(scope.changing(name, 0)) };
         listed.push(json!({
             "type": name, "file": declared.file, "line": declared.line,
             "is": if declared.variants.is_some() { "enumeration" } else { "struct" },
             "fields": declared.fields.len(), "flags": count("flag"), "cells": count("cell"),
-            "writable_shapes": shown(shapes), "holders": rows,
+            "changed_holders": rows.iter().filter(|r| r["changed"] == true).count(),
+            "writable_shapes": shown(shapes), "changing_shapes": moving, "holders": rows,
         }));
     }
     Ok(json!({
-        "receipt": "state-holders-r165", "revision": 1,
+        "receipt": "state-holders-r165", "revision": 2,
         "rules_sha256": sha256_hex(rules_text.as_bytes()),
         "files": parsed.len(), "unparsed": unparsed,
         "totals": {"types_declared": scope.types.len(), "structs_with_holders": with_holders,
-                   "holders": holders, "flags": flags, "cells": cells,
-                   "accesses_left_out_as_ambiguous": ambiguous},
+                   "holders": holders, "changed_holders": changed, "flags": flags, "cells": cells,
+                   "uses_tied_by_type": by_type, "uses_tied_by_name": by_name,
+                   "uses_left_out_as_ambiguous": left_out},
         "declared_twice": twice, "types": listed,
     }))
 }

@@ -154,3 +154,32 @@ Expectations, from reading the examples on 18 November and without running anyth
 | 8 | the six rows of revision 1 | unchanged | any changes |
 
 Not predicted: which holders of the renderer are changed, and the changing shapes of `Facts`.
+
+## Amendment, 2026-11-23, 09:49 Europe/Berlin: revision 2 run; five of eight rows hold, three fail
+
+Binary SHA-256 `D5892212…19D6B4B3`; outputs in `D:\BuildArtifacts\lesscode\lesscode-metrics\r165-state-holders\rev2`.
+
+| # | Expectation | Counted | Holds |
+| --- | --- | --- | --- |
+| 1 | order: three flags changed, changing shapes 8 | three changed, 8 | yes |
+| 2 | clipboard before: `owner`, `claim_sequence`, `Lease.valid` changed; `operation` not | as expected | yes |
+| 3 | clipboard after: `owner` changed, `operation` not; `Owner.lease` changed | `owner` counted as set once; the rest as expected | **no** |
+| 4 | runner before: `queue`, `results`, `fatal` changed; `store` set once | as expected | yes |
+| 5 | runner after: `progress` changed; `Progress.fatal` changed; `store` set once | `progress` counted as set once; the rest as expected | **no** |
+| 6 | `MutantResult`: four flags set once, changing shapes 1 | as expected | yes |
+| 7 | left out: renderer at most 15, runner at most 3 | renderer 40 (was 73), runner 6 (was 11) | **no** |
+| 8 | the six rows of revision 1 unchanged | unchanged | yes |
+
+Rows 3 and 5 fail for one reason, and it is the consolidated form of both examples: the lock is
+taken and a method of the held type is called on it (`self.owner.lock()…reserve(…)`,
+`self.progress().next()`). The program knows `push` and `insert` as changing methods, not a
+method the scope itself declares with `&mut self`. So exactly the "after" side of a consolidation
+is misread as "set once". Row 7: the tying improved and missed its mark; which uses are left out is
+not yet listed by the program.
+
+Read off the renderer, unpredicted: 18 of 35 holders are changed. `Facts` falls from 216 writable
+to 12 changing shapes; `Renderer` 16 to 8; `Layer` 8 to 2; `SharedFrame` stays at 8. These
+numbers carry the error of rows 3 and 5 and are not final.
+
+Revision 3 is to fix these with the same three rows as its test: a method the scope declares with
+a changeable receiver counts as changing, and the program lists the uses it leaves out.
