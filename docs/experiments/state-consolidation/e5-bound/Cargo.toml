@@ -38,6 +38,10 @@ path = "../../lesscode-metrics/walk-gen/main.rs"
 name = "scope-walk"
 path = "../../lesscode-metrics/scope-walk/main.rs"
 
+[[bin]]
+name = "scope-watch"
+path = "../../lesscode-metrics/scope-watch/main.rs"
+
 [dependencies]
 lesscode-core = { path = "../../../../native" }
 serde = { version = "=1.0.229", features = ["derive"] }
