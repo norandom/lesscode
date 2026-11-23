@@ -1,6 +1,6 @@
 ---
 name: untangle-state
-description: Take one type or one subsystem of grown code through the loop of state, faults, tests and rework - count where state is held and in how many ways it can be written, find what the code reaches and what the tests see, write the missing tests, rework so that what is never reached cannot be written, and let `lesscode-core step` judge it. Use when a person wants scattered state made simpler in real code with numbers before and after. The skill calls commands and reads their output; it cannot accept a rework itself.
+description: Take one type or one subsystem of grown code through the loop of state, faults, tests and rework - count where state is held and in how many ways it can be written, find what the code reaches and what the tests see, write the missing tests, rework so that what is never reached cannot be written, and let `lesscode-core step` judge it. Also covers code that cannot be tested as it stands (a device, a window, a network): how to cut it into what it decides and what it does, before any test. Use when a person wants scattered state made simpler in real code with numbers before and after. The tool measures and judges, the agent writes, the person decides; the skill cannot accept a rework itself.
 ---
 
 # Untangling state: measure, test, rework, judge
@@ -11,6 +11,19 @@ type of a remote desktop client on 23 November 2026; the records are R164 to R17
 [docs/research/2026-11-23/](../../../docs/research/2026-11-23/). The step commands are described in
 [refactor-in-steps](../refactor-in-steps/SKILL.md) and [docs/steps.md](../../../docs/steps.md); this
 skill says what to measure before them and in what order.
+
+## Who does what
+
+lesscode is adopted through an agent, not through a model inside the tool.
+
+| Who | Does | Does not |
+| --- | --- | --- |
+| The tool (`lesscode-core` and the programs named below) | measures, plants faults, judges by exit code | write a test or a change; call a model |
+| The agent, following this skill | reads the measurements, writes the tests and the rework, runs the commands, reports | accept its own work; change a limit; decide for the person |
+| The person | chooses the scope, sets and changes limits, decides on public functions and merges, runs the real program where a device is needed | |
+
+The same split holds in every project: bring the binary and this skill, and the project's own test
+command. Nothing here depends on the project the loop was first run on.
 
 **What is released and what is not.** `lesscode-core` (`deconvolute measure-scope`, `step plan`,
 `step check`, `step record`, `step guard`) is released. The four programs that count and read state
@@ -142,12 +155,48 @@ Report one table, before and after, with every row filled or marked not measured
 Do not claim a gain in size or decisions unless the table shows one. On the first run the state
 went from 16 ways to 6 and the file grew by 57 tokens.
 
+## When no test can come first: the cut
+
+Some code cannot be tested as it stands: it draws, opens a window, talks to a network or a
+process. Phase 1 shows it as functions in which no fault is noticed, and the plan lists for each
+what it calls and writes outside itself. Tests cannot come first there. First the code is cut into
+what it **decides** and what it **does** to the device; then the loop runs on the deciding part.
+
+The cut is the one step in this skill that no test protects. Treat it accordingly.
+
+1. **Ask first.** Show the person the functions, their fault counts and what they reach out to,
+   and say that the cut needs one run of the real program by them. Go on only when they agree.
+2. **Sort every statement** of the function into three kinds: it decides (reads plain values and
+   chooses), it does (calls the device), it remembers (writes a field or a local that the next
+   turn of a loop reads).
+3. **Name what a decision reads** as a plain value: sizes, flags, what was remembered. No handle of
+   the device in it.
+4. **Move the decision, word for word,** into a function from that value to a plain answer that
+   names what to do. Same conditions, same order. The old function becomes: gather the values, ask,
+   do what the answer says.
+5. **For a loop that carries state in locals,** make the locals one value with one function that
+   takes what the turn observed and returns what to do and what to remember.
+6. **Change nothing else in these commits.** No better names, no merged conditions, no removed
+   case. Each commit is small enough to read in a minute, builds, and passes the tests there are.
+7. **Say what checked it, and what did not.** The compiler, the formatter, the lints, the existing
+   tests, and a diff that only moves text. Not planted faults: `step check` accepts such a step
+   because nothing was noticed before or after. Declare the functions under `out_of_reach` with the
+   reason, so that the verdict says they were unprotected on purpose.
+8. **The person runs the real program once** and looks at what you name: for a renderer, that it
+   draws, redraws on a change, survives a resize, and falls back when it should. Their word is the
+   check. Record it as theirs.
+
+After the cut the deciding functions take plain values, and Phases 1 to 7 apply to them as to any
+other code: plant faults, write the tests, rework, judge. The part that still calls the device stays
+thin. Report its faults apart, as behind the device and not testable here; do not count them as
+missing tests.
+
+If the person does not want the cut, leave the file and take a type whose state the tests already
+reach.
+
 ## When to stop and ask
 
-- **No test notices anything in the functions you want to change**, and they need a device, a
-  window or a network to run. Tests cannot come first there. The code needs a cut first that
-  separates what it decides from what it does to the device, and that cut cannot be checked by
-  tests that do not exist. Show the person the functions and their fault counts and let them decide.
+- Before the cut above.
 - The rework would change a public function.
 - A copy's unchanged tests fail and you cannot say why.
 - Storage falls below the project's limit.

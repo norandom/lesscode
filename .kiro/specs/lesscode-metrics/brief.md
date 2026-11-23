@@ -66,6 +66,16 @@ Division of work: `kiro-cli` measures routines, types and files and keeps the li
 report for the local-complexity lens, and writes the page. Without `kiro-cli` that lens is shown as
 not measured.
 
+## How it is adopted (owner, 2026-11-23)
+
+Through an agent. The tool measures and judges by exit code and contains no model. An agent that
+follows a skill reads the measurements and writes the tests and the rework. The person sets the
+limits, decides on public functions and merges, and runs the real program where a device is needed.
+The skill is [untangle-state](../../../.agents/skills/untangle-state/SKILL.md); it holds the loop as
+it was run on 23 November and, in general terms, the cut for code that cannot be tested as it
+stands. This replaces the earlier reading of "lesscode as a harness by itself" as a tool that
+writes tests and reworks through model calls of its own.
+
 ## Sources
 
 - `D:\Source\drift-rdp` at its head: may be edited and its code may be copied into examples.
