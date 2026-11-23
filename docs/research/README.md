@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R178 The run page, group 6: `step check` on the page, and its report (2026-11-23)
+## Latest · R179 The run page, group 7: a list of several reports (2026-11-23)
+
+Implementation record of the spec `run-dashboard`. `step reports` reads the run inside several reports and writes, into a new directory, a copy of each and one page that lists them: per report the project, the outcome, the date, the scope, the reasons and the rows of its lenses, every block built the same way whether accepted or refused. `--without-names-of <project>` puts a number where a file, a function or a type of that project is named, in the copy of the report and so in the list, and leaves the project's commands, written files, shapes and source line out as a whole. Nine deviations, among them that a reason of a run reads worse where a function is named like a common word. [R179](2026-11-23/16-run-page-group-7.md)
+
+## R178 The run page, group 6: `step check` on the page, and its report (2026-11-23)
 
 Implementation record of the spec `run-dashboard`. `step check` takes `--page` and `--open`; the page shows its six stages and, at the end, the report of the step: the outcome in one box, the same for accepted, refused and not judged; one row per measure of a lens with the direction expected and the command the numbers are from; the planted faults per function on both sides; a drawing of the functions and calls before and after to one scale; the shapes of a type's state. State, local complexity and shapes are not measured by the tool and are shown only from a file handed in with `--measures`, marked as handed in. The verdict is the same bytes with and without the page. Source text is left out of the page unless `--page-source` is given, also for `step plan`. Ten deviations, among them a commit with test routines over the limits because `kiro-cli` does not see files Git does not know. [R178](2026-11-23/15-run-page-group-6.md)
 

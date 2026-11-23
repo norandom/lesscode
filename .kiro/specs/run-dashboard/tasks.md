@@ -290,6 +290,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Requirements: 7.5, 7.6_
 
 - [x] 7. Several reports
+  - Record: [R179](../../../docs/research/2026-11-23/16-run-page-group-7.md).
 - [x] 7.1 A list of reports
   - Done 2026-11-23: `step reports <report>... --out <directory>` reads the run inside each report
     and writes, into a new or empty directory, a copy of each report (`report-01.html`, ...) and
