@@ -30,6 +30,10 @@ path = "../machine-find/main.rs"
 name = "state-holders"
 path = "../../lesscode-metrics/state-holders/main.rs"
 
+[[bin]]
+name = "walk-gen"
+path = "../../lesscode-metrics/walk-gen/main.rs"
+
 [dependencies]
 lesscode-core = { path = "../../../../native" }
 serde = { version = "=1.0.229", features = ["derive"] }

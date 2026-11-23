@@ -1,0 +1,46 @@
+{
+  "language": "rust",
+  "struct": {"node": "struct_item", "name": "name"},
+  "field": {"node": "field_declaration", "name": "name", "type": "type"},
+  "enum": {"node": "enum_item", "name": "name", "variant": "enum_variant", "variant_name": "name"},
+  "impl": {"node": "impl_item", "type": "type", "trait": "trait", "own_type": "Self"},
+  "function": {"node": "function_item", "name": "name", "returns": "return_type"},
+  "receiver": {"node": "self_parameter", "shared": "&", "changing": "&mut"},
+  "parameter": {"node": "parameter", "type": "type"},
+  "attribute": "attribute_item",
+  "comments": ["line_comment", "block_comment"],
+  "test_scope": {"node": "mod_item", "marker": "cfg(test)"},
+  "derive_default": ["derive(", "Default"],
+  "length": 4,
+  "observe": {
+    "bool": "{x}",
+    "AtomicBool": "{x}.load(std::sync::atomic::Ordering::SeqCst)",
+    "Option": "{x}.is_some()",
+    "OnceLock": "{x}.get().is_some()",
+    "OnceCell": "{x}.get().is_some()"
+  },
+  "enter": {
+    "Mutex": "(*{x}.lock().unwrap())",
+    "RwLock": "(*{x}.read().unwrap())",
+    "RefCell": "(*{x}.borrow())",
+    "Arc": "(*{x})",
+    "Rc": "(*{x})",
+    "Box": "(*{x})"
+  },
+  "variant": "{E}::{V} { .. } => {n}u8,",
+  "pick": "match &{x} { {arms} }",
+  "shared": ["Arc", "Rc"],
+  "wrappers": ["Arc", "Rc", "Box", "Option", "Result", "MutexGuard", "RwLockReadGuard", "RwLockWriteGuard", "Ref", "RefMut"],
+  "construct": {"names": ["new"], "default": "{T}::default()", "call": "{T}::{f}({args})"},
+  "call": "let _ = f.{m}({args});",
+  "chain": "let _ = f.{m}({args}).{n}({more});",
+  "values": {
+    "u8": ["0", "1", "4"], "u16": ["0", "1", "4"], "u32": ["0", "1", "4"], "u64": ["0", "1", "4"],
+    "usize": ["0", "1", "4"], "i32": ["0", "1", "4"], "i64": ["0", "1", "4"],
+    "bool": ["false", "true"],
+    "&[u8]": ["&[]", "&[7u8; 64]"],
+    "&str": ["\"\"", "\"a\""],
+    "String": ["String::new()", "String::from(\"a\")"]
+  },
+  "values_by_head": {"Arc": ["Default::default()"], "Option": ["None"]}
+}

@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R166 The code reaches 6 of the 8 shapes of `SharedFrame`, 4 by the calls meant for use (2026-11-23)
+## Latest · R167 A walk over a type's methods, generated from its source, finds the same reached shapes (2026-11-23)
+
+A research program in Rust writes the test module that R166 had by hand: it builds a value, reads the holders, calls every by-reference method with values from a small table, follows a returned guard, and keeps test-only methods apart. Six rows registered beforehand hold on the first run, with nothing generated edited: the made-up `Order` reaches 5 of 8 shapes, `SharedFrame` of `drift-rdp` 4, then 6 with the guard's methods. It also reports, per holder, the calls that changed it. The shapes reached depend on the values tried; two subjects are few. [R167](2026-11-23/04-generated-walk.md)
+
+## R166 The code reaches 6 of the 8 shapes of `SharedFrame`, 4 by the calls meant for use (2026-11-23)
 
 A walk runs the type's own methods in every order up to five calls, in a copy of `drift-rdp`, and writes down the shape after each. Six rows registered beforehand hold. The two shapes with `full` set and no `damage` are never reached; two more only when a caller leaves out `mark_dirty`. Outside test builds nothing sets `dirty` back. A fault in the walk's own bookkeeping was found in its first output and corrected; both outputs are kept. The walk is written by hand for this type. [R166](2026-11-23/03-reached-shapes-walk.md)
 

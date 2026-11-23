@@ -1,15 +1,17 @@
 # R167: the walk over a type's methods, generated from its source
 
 - Report date/time and timezone: 2026-11-23, 10:08 Europe/Berlin (registration, from the clock)
-- Execution interval: not run yet
-- Status: planned
+- Execution interval: 2026-11-23, 10:11:07 to 10:14:44 Europe/Berlin (from the run's own record)
+- Status: completed
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md), the state lens (a brief, not approved requirements)
 - Hypothesis ID and predecessor: [R166](03-reached-shapes-walk.md), where the walk was written by hand
 - Type: preregistered
 
 ## Decision
 
-Open.
+All six rows hold, on the first run and with nothing generated touched by hand. The reached shapes
+of a type can be measured without writing a walk for it. Two subjects, one of them made up: this is
+a prototype that works twice, not a tool.
 
 ## What is built
 
@@ -60,7 +62,44 @@ written; if it has to be touched by hand, the row fails.
 
 ## Evidence and results
 
-Not run yet.
+Generator SHA-256 `B7B2096D…104BF1AF`, rules `48F22289…CDCCEA8B`. Outputs in
+`D:\BuildArtifacts\lesscode\lesscode-metrics\r167-generated-walk`: `run.json`, and for each subject
+the generator's report (`*-gen.json`), the generated module as it was compiled (`*-state_walk.rs`),
+the test log and the result (`*-reached.json`). The build output of the copy, 4.3 GiB, was removed
+at 10:15.
+
+The generator built at the first attempt with one warning (a function I had written and not used;
+removed before the run). Both generated modules compiled and ran as written.
+
+| # | Expectation | Measured | Holds |
+| --- | --- | --- | --- |
+| 1 | `Order`: runs unedited; 5 of 8 shapes: none set; paid; paid and shipped; cancelled; paid and cancelled | those 5; 256 sequences | yes |
+| 2 | `Order`: each flag changed by one method | `paid` by `pay`, `shipped` by `ship`, `cancelled` by `cancel` | yes |
+| 3 | `SharedFrame`: runs unedited; own methods 4, with the guard's methods 6, test-only adds none; twice as many with `wake` | 4, 6, 6; with `wake` 8, 12, 12; the same shapes as R166 | yes |
+| 4 | Holders read: `wake`, `dirty`, `damage`, `full`; not `version` | `wake`, `inner.damage`, `inner.full`, `dirty` | yes |
+| 5 | Outside the test-only set nothing clears `dirty` | read lower only after `publish` | yes |
+| 6 | No by-reference method left uncalled | none left out: 4 of `Order`; 10 of `SharedFrame` and 4 of `WriteGuard` | yes |
+
+`SharedFrame` was built by `SharedFrame::new(4, 4)`. 25 calls of its own methods, 20 of the guard's
+methods on what `begin_write` returns, 1 test-only; 4,477,456 sequences of length 4 in the largest
+set, 33 seconds for the three sets in a debug build. Nothing new after two calls in any set.
+
+What the walk adds over R166, because it records it for every holder: the calls after which a
+holder read differently, as measured.
+
+| Holder | Changed by | Read lower after |
+| --- | --- | --- |
+| `wake` | `set_wake` | nothing |
+| `damage` | `update_rect`, `update_full`, `take_damage`, and the guard's `update_rect` and `update_full` | `take_damage` |
+| `full` | `update_full`, `take_damage`, the guard's `update_full` | `take_damage` |
+| `dirty` | `mark_dirty`, `update_rect`, `update_full`; in test builds also `publish` | only `publish` |
+
+This agrees with what the static count of R165 listed as changers, and settles two of its "none
+found": it names who changes a holder from what the code did.
+
+One difference from the hand-written walk: there the shortest way to "dirty with nothing pending"
+was `update_rect` with an empty rectangle; here it is `mark_dirty` alone, which the generator counts
+among the type's own methods. The generator cannot know which public methods are meant as parts.
 
 ## Limits and interpretation
 
