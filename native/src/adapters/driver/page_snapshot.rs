@@ -151,7 +151,8 @@ pub struct Faults {
     pub timed_out: u64,
     /// Faults whose run failed twice and that have no class.
     pub not_judged: u64,
-    /// Faults in code the platform does not compile; `None` while unknown.
+    /// Faults in code the platform does not compile; `None` where none was
+    /// found, which is also the case where the pack cannot tell.
     pub not_compiled_here: Option<u64>,
     pub example: Option<Example>,
     pub files: Vec<Tally>,
@@ -181,6 +182,9 @@ pub struct Tally {
     pub not_built: u64,
     pub timed_out: u64,
     pub not_judged: u64,
+    /// Faults in code that is not built on this system. They are run like
+    /// the others and counted here and in no other class.
+    pub not_compiled_here: u64,
     /// Faults not yet run.
     pub left: u64,
     /// No fault was noticed, and none is left to run.
@@ -191,6 +195,11 @@ pub struct Tally {
 
 impl Tally {
     pub fn done(&self) -> u64 {
+        self.judged() + self.not_compiled_here
+    }
+
+    /// Faults that say something about the tests, or would have.
+    pub fn judged(&self) -> u64 {
         self.noticed + self.unnoticed + self.not_built + self.timed_out + self.not_judged
     }
 }

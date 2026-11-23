@@ -164,10 +164,14 @@ directory. The solver is not shipped; the target file names it.
 
 ## Language packs
 
-The shipped packs are `native/packs/{rust,python,typescript,java}.json`, at most 40 lines each. A pack names
+The shipped packs are `native/packs/{rust,python,typescript,java}.json`, at most 50 lines and 3,200 characters each (40 and 2,500
+until 2026-11-23). A pack names
 the grammar's node kinds for each site kind and gives the operator templates. Its `calls` entry names the call
 nodes (`nodes`) and, per node kind, the field that leads on to the name a call is made under (`via`); a pack
-without it gets no call counts. `admit-pack` checks size,
+without it gets no call counts. Its `not_built_markers` entry names, per operating system, the attributes
+under which code is not built on that system; the run page counts faults under them apart. Only the Rust
+pack has it, and only whole conditions that are certain are named; the runs themselves still plant and
+count those faults as before. `admit-pack` checks size,
 shape, that every node kind exists in the grammar, the template placeholders, and, with a control file,
 that recorded annotations get their recorded outcome and that accepted ones yield a real change.
 

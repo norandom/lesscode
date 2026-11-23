@@ -44,7 +44,7 @@ button { font: inherit; color: inherit; }
 .tool svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .sep { width: 1px; height: 18px; background: var(--line); margin: 0 5px; }
 .bar { display: flex; height: 6px; background: var(--hover); }
-.bar i { display: block; height: 100%; } .bar .n { background: var(--ok); } .bar .u { background: var(--warn); } .bar .x { background: var(--off); }
+.bar i { display: block; height: 100%; } .bar .n { background: var(--ok); } .bar .u { background: var(--warn); } .bar .x { background: var(--off); } .bar .h { background: repeating-linear-gradient(45deg, var(--off) 0 2px, transparent 2px 5px); }
 .notice { padding: 6px 10px; border-bottom: 1px solid var(--line); background: var(--warn-bg); }
 .notice.bad { background: var(--bad-bg); }
 .main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(220px, 34%) minmax(0, 1fr); }
@@ -171,10 +171,14 @@ const data = /*DATA*/null;
   var MARK = { ended: ['ok', '✓', 'ended'], 'going on': ['warn', '▶', 'going on'], failed: ['bad', '✗', 'failed'],
                'not begun': ['off', '·', 'not begun'], 'left out': ['off', '–', 'left out'],
                stopped: ['bad', '■', 'was going on when the tool stopped'],
+               'not here': ['off', '–', 'not built on this system: nothing is known'],
                unnoticed: ['warn', '!', 'some faults were not noticed'], unprotected: ['bad', '✗', 'unprotected: no fault was noticed'] };
   // A file or a function: still being worked on, unprotected, partly noticed, or all noticed.
   function standing(x) {
     if (n(x.left)) return 'going on';
+    // Only faults in code that is not built here: nothing is known about it.
+    var judged = ['noticed', 'unnoticed', 'not_built', 'timed_out', 'not_judged'].some(function (k) { return n(x[k]); });
+    if (!judged && n(x.not_compiled_here)) return 'not here';
     if (x.unprotected === true || (n(x.unnoticed) && !n(x.noticed))) return 'unprotected';
     return n(x.unnoticed) ? 'unnoticed' : 'ended';
   }
@@ -285,12 +289,13 @@ const data = /*DATA*/null;
   }
 
   function Unprotected(p) {
-    var fs = things((p.s.faults || {}).functions), bare = fs.filter(function (f) { return f.unprotected === true; });
+    var all = things((p.s.faults || {}).functions), fs = all.filter(function (f) { return standing(f) !== 'not here'; }), bare = fs.filter(function (f) { return f.unprotected === true; });
     var reaching = bare.some(function (f) { return list(f.reaches_out).length > 0; });
     if (!fs.length) return html`<div><h2>Unprotected functions</h2><p>${p.s.ended === true ? 'No fault was run, so nothing is known about any function.' : 'Which functions are unprotected is known when their faults have been run.'}</p></div>`;
     return html`<div>
       <h2>${bare.length} of ${fs.length} functions are unprotected</h2>
       <p>In an unprotected function no test noticed any planted fault. You can break such a function and every test still passes. Write tests for it before you change it.</p>
+      ${all.length > fs.length ? html`<p>${all.length - fs.length} more ${all.length - fs.length === 1 ? 'lies' : 'lie'} wholly in code that is not built on this system. Nothing is known about ${all.length - fs.length === 1 ? 'it' : 'them'}.</p>` : ''}
       ${bare.length ? html`<div class="wide"><table><thead><tr><th scope="col">Function</th><th scope="col">File</th><th scope="col">Faults nobody noticed</th><th scope="col">What it reaches out to</th></tr></thead><tbody>
         ${bare.slice(0, 200).map(function (f) { return html`<tr><td><code>${text(f.function)}</code></td><td><code>${text(f.file)}</code></td><td class="num">${show(f.unnoticed)}</td><td>${list(f.reaches_out).slice(0, 8).join(', ') || 'nothing listed'}</td></tr>`; })}
         </tbody></table></div>
@@ -300,13 +305,13 @@ const data = /*DATA*/null;
   }
 
   function Result(p) {
-    var s = p.s, r = s.report, f = s.faults || {}, fs = things(f.functions);
+    var s = p.s, r = s.report, f = s.faults || {}, fs = things(f.functions).filter(function (x) { return standing(x) !== 'not here'; });
     var bare = fs.filter(function (x) { return x.unprotected === true; }).length;
     if (!s.ended) return html`<div><h2>Result</h2><p>The run has not ended.</p></div>`;
     return html`<div>
       <h2>${text(s.outcome, 'The run ended')}</h2>
       ${s.outcome_detail ? html`<p>${String(s.outcome_detail)}</p>` : ''}
-      <dl class="facts">${fs.length ? html`<dt>Unprotected functions</dt><dd>${bare} of ${fs.length} (${Math.round(bare / fs.length * 100)}%)</dd>` : ''}<dt>Faults planted</dt><dd>${show(f.total)}</dd><dt>Noticed</dt><dd>${show(f.noticed)}</dd><dt>Unnoticed</dt><dd>${show(f.unnoticed)}</dd><dt>Did not build</dt><dd>${show(f.not_built)}</dd><dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd></dl>
+      <dl class="facts">${fs.length ? html`<dt>Unprotected functions</dt><dd>${bare} of ${fs.length} (${Math.round(bare / fs.length * 100)}%)</dd>` : ''}<dt>Faults planted</dt><dd>${show(f.total)}</dd><dt>Noticed</dt><dd>${show(f.noticed)}</dd><dt>Unnoticed</dt><dd>${show(f.unnoticed)}</dd><dt>Did not build</dt><dd>${show(f.not_built)}</dd>${n(f.not_compiled_here) ? html`<dt>In code not built on this system</dt><dd>${show(f.not_compiled_here)}, counted in no line above; they tell nothing</dd>` : ''}<dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd></dl>
       ${r && things(r.lenses).length ? html`<h3>Before and after</h3><div class="wide"><table><thead><tr><th scope="col">Lens</th><th scope="col">Measure</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Expected</th><th scope="col">Moved that way</th></tr></thead><tbody>
         ${things(r.lenses).map(function (l) { return html`<tr><td>${text(l.lens)}</td><td>${text(l.measure)}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.before))}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.after))}</td><td>${text(l.expected)}</td><td>${l.measured === false ? 'not measured' : l.moved === true ? 'yes' : l.moved === false ? 'no' : 'not judged'}</td></tr>`; })}
         </tbody></table></div>` : html`<p>This run compared nothing before and after.</p>`}
@@ -329,7 +334,7 @@ const data = /*DATA*/null;
     var total = n(f.total) || 0, part = function (x) { return total ? Math.max(0, (n(x) || 0) / total * 100) + '%' : '0%'; };
     var files = things(f.files), fns = things(f.functions);
     if (ui.byUnnoticed) { files.sort(function (a, b) { return (n(b.unnoticed) || 0) - (n(a.unnoticed) || 0); }); fns.sort(function (a, b) { return (n(b.unnoticed) || 0) - (n(a.unnoticed) || 0); }); }
-    var counts = function (x) { return [ui.noticed && show(x.noticed) + ' noticed', ui.unnoticed && show(x.unnoticed) + ' unnoticed', ui.notbuilt && n(x.not_built) ? show(x.not_built) + ' not built' : null].filter(Boolean).join(' · '); };
+    var counts = function (x) { return [ui.noticed && show(x.noticed) + ' noticed', ui.unnoticed && show(x.unnoticed) + ' unnoticed', ui.notbuilt && n(x.not_built) ? show(x.not_built) + ' not built' : null, n(x.not_compiled_here) ? show(x.not_compiled_here) + ' not built here' : null].filter(Boolean).join(' · '); };
     var pill = { running: ['warn', 'Running'], quiet: ['warn', 'Quiet'], stopped: ['bad', 'The tool stopped'], ended: [s.exit_code === 0 ? 'ok' : 'warn', 'Ended'] }[state] || ['off', state];
     var dropped = things((s.copies || {}).dropped), tests = s.tests || {};
     var bare = fns.filter(function (x) { return x.unprotected === true; }).length;
@@ -365,7 +370,7 @@ const data = /*DATA*/null;
         <${Tool} icon="help" title="What a planted fault is" onClick=${function () { set({ tab: 'faults' }); }} />
         <span class="said" role="status">${ui.copied === 'yes' ? 'Copied' : ui.copied === 'no' ? 'Could not copy. The place is in the tab Your code.' : ''}</span>
       </div>
-      <div class="bar" role="img" aria-label=${show(f.noticed) + ' noticed, ' + show(f.unnoticed) + ' unnoticed, ' + show(f.not_built) + ' not built, of ' + show(f.total)}><i class="n" style=${'width:' + part(f.noticed)}></i><i class="u" style=${'width:' + part(f.unnoticed)}></i><i class="x" style=${'width:' + part(f.not_built)}></i></div>
+      <div class="bar" role="img" aria-label=${show(f.noticed) + ' noticed, ' + show(f.unnoticed) + ' unnoticed, ' + show(f.not_built) + ' not built, ' + (n(f.not_compiled_here) ? show(f.not_compiled_here) + ' in code not built on this system, ' : '') + 'of ' + show(f.total)}><i class="n" style=${'width:' + part(f.noticed)}></i><i class="u" style=${'width:' + part(f.unnoticed)}></i><i class="x" style=${'width:' + part(f.not_built)}></i><i class="h" style=${'width:' + part(f.not_compiled_here)}></i></div>
       ${state === 'stopped' && html`<div class="notice bad" role="alert"><strong>The tool stopped without finishing.</strong> Last heard at ${clock(s.heartbeat)}. What is shown is the run as it was then; nothing is going on.</div>`}
       ${state === 'quiet' && html`<div class="notice"><span role="status">No word from the tool since ${clock(s.heartbeat)}.</span> That is ${span(age())} ago. It should report every few seconds, also during a build.</div>`}
       ${tests.command_given === false && html`<div class="notice bad" role="alert"><strong>No test command was given.</strong> No fault can be noticed, and every result of this run is empty.</div>`}

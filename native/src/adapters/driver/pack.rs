@@ -130,6 +130,11 @@ pub struct Pack {
     /// Node kinds that can carry a test marker in front of an item.
     #[serde(default)]
     pub test_attribute_kinds: Vec<String>,
+    /// Per system, by the name the standard library gives it: the texts of
+    /// attributes under which code is not built on that system. Only whole
+    /// conditions that are certain belong here.
+    #[serde(default)]
+    pub not_built_markers: BTreeMap<String, Vec<String>>,
     pub kinds: BTreeMap<Kind, Rule>,
     pub noop_statement: String,
     pub statement_wrappers: Vec<String>,

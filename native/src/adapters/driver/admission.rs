@@ -11,8 +11,8 @@ use serde::Serialize;
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::Mutex;
 
-pub const MAX_LINES: usize = 40;
-pub const MAX_CHARS: usize = 2500;
+pub const MAX_LINES: usize = 50;
+pub const MAX_CHARS: usize = 3200;
 const PLACEHOLDERS: [&str; 3] = ["text", "noop", "child0"];
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]

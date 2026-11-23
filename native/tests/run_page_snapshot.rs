@@ -148,8 +148,8 @@ fn at_the_end_nothing_is_going_on_and_the_faults_are_counted_per_function() {
     assert_eq!(
         last["faults"]["functions"],
         json!([
-            {"file": "src/a.rs", "function": "one", "noticed": 1, "unnoticed": 1, "not_built": 0, "timed_out": 0, "not_judged": 0, "left": 0, "unprotected": false, "reaches_out": []},
-            {"file": "src/a.rs", "function": "two", "noticed": 0, "unnoticed": 1, "not_built": 0, "timed_out": 0, "not_judged": 0, "left": 0, "unprotected": true, "reaches_out": []}
+            {"file": "src/a.rs", "function": "one", "noticed": 1, "unnoticed": 1, "not_built": 0, "timed_out": 0, "not_judged": 0, "not_compiled_here": 0, "left": 0, "unprotected": false, "reaches_out": []},
+            {"file": "src/a.rs", "function": "two", "noticed": 0, "unnoticed": 1, "not_built": 0, "timed_out": 0, "not_judged": 0, "not_compiled_here": 0, "left": 0, "unprotected": true, "reaches_out": []}
         ])
     );
     assert_eq!(last["faults"]["files"][0]["unprotected"], false);

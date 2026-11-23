@@ -10,7 +10,7 @@ use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::page_log::{Class, Classed, RunLog, StagePlan};
 use crate::adapters::driver::page_snapshot::Snapshot;
 use crate::adapters::driver::page_watch::{Event, Heart, Watch};
-use crate::adapters::driver::sites::Site;
+use crate::adapters::driver::sites::{not_built_spans, within, Site, Span};
 use crate::adapters::driver::source::SourceSet;
 use std::collections::BTreeMap;
 use std::path::Path;
@@ -76,6 +76,19 @@ fn class_of(class: &str) -> Class {
 pub struct PlanWatch {
     log: Mutex<RunLog>,
     functions: BTreeMap<String, FileFunctions>,
+    /// Per file, the code that is not built on this system, as far as the
+    /// pack can tell.
+    not_built: BTreeMap<String, Vec<Span>>,
+}
+
+/// What became of a fault at `site`, of which the run says `class`. A fault
+/// in code that is not built here is that and nothing else: no test could
+/// have noticed it.
+pub fn class_at(not_built: &[Span], site: &Site, class: &str) -> Class {
+    match within(not_built, (site.start_line, site.start_column)) {
+        true => Class::NotCompiledHere,
+        false => class_of(class),
+    }
 }
 
 impl std::fmt::Debug for PlanWatch {
@@ -98,10 +111,12 @@ impl PlanWatch {
             files: config.files.clone(),
             test_paths: config.test_paths.clone(),
         };
-        let mut functions = BTreeMap::new();
+        let (mut functions, mut not_built) = (BTreeMap::new(), BTreeMap::new());
         for file in &config.files {
-            let read = FileFunctions::read(pack, file, &source.raw(file)?)?;
-            functions.insert(file.clone(), read);
+            let text = source.raw(file)?;
+            functions.insert(file.clone(), FileFunctions::read(pack, file, &text)?);
+            let spans = not_built_spans(pack, &text, std::env::consts::OS)?;
+            not_built.insert(file.clone(), spans);
         }
         let mut log = RunLog::new("step plan", env!("CARGO_PKG_VERSION"), STAGES, now());
         log.set_copies(&work.to_string_lossy().replace('\\', "/"), copies as u64);
@@ -112,6 +127,7 @@ impl PlanWatch {
         Ok(Self {
             log: Mutex::new(log),
             functions,
+            not_built,
         })
     }
 
@@ -142,7 +158,10 @@ impl PlanWatch {
         for (file, function, calls) in reaching {
             log.reaches_out(file, function, calls.to_vec());
         }
-        let functions = log.snapshot().faults.functions;
+        // A function whose faults all lie in code that is not built here is
+        // not one the run knows anything about.
+        let mut functions = log.snapshot().faults.functions;
+        functions.retain(|f| f.judged() > 0);
         let bare = functions.iter().filter(|f| f.unprotected).count();
         let detail = format!(
             "{bare} of {} functions with planted faults are unprotected.",
@@ -199,7 +218,13 @@ impl Watch for PlanWatch {
                         line: result.site.start_line as u64,
                         operator: result.operator.clone(),
                         text: result.site.text.clone(),
-                        class: class_of(&result.class),
+                        class: class_at(
+                            self.not_built
+                                .get(&result.site.file)
+                                .map_or(&[], Vec::as_slice),
+                            &result.site,
+                            &result.class,
+                        ),
                     },
                     at,
                 );

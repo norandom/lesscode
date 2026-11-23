@@ -26,6 +26,9 @@ pub enum Class {
     TimedOut,
     /// Its run failed twice; the run as a whole is then incomplete.
     NotJudged,
+    /// It lies in code that is not built on this system, whatever its run
+    /// gave.
+    NotCompiledHere,
 }
 
 impl Class {
@@ -36,6 +39,7 @@ impl Class {
             Self::NotBuilt => "did not build",
             Self::TimedOut => "ran over its time limit",
             Self::NotJudged => "could not be run",
+            Self::NotCompiledHere => "lies in code that is not built on this system",
         }
     }
 }
@@ -227,15 +231,18 @@ impl RunLog {
             let key = (fault.file.clone(), function.clone());
             count(self.functions.entry(key).or_default(), fault.class);
         }
-        // The first fault that is judged becomes the example the page explains with.
-        let _ = self.stated.faults.example.get_or_insert_with(|| Example {
-            file: fault.file.clone(),
-            function: fault.function.clone(),
-            line: fault.line,
-            what_was_changed: fault.operator.clone(),
-            text: fault.text.clone(),
-            outcome: fault.class.in_words().to_owned(),
-        });
+        // The first fault that is judged becomes the example the page explains
+        // with. One in code that is not built here explains nothing.
+        if fault.class != Class::NotCompiledHere {
+            let _ = self.stated.faults.example.get_or_insert_with(|| Example {
+                file: fault.file.clone(),
+                function: fault.function.clone(),
+                line: fault.line,
+                what_was_changed: fault.operator.clone(),
+                text: fault.text.clone(),
+                outcome: fault.class.in_words().to_owned(),
+            });
+        }
         // The stage that counts faults is the one going on with a total.
         let counting = |s: &&mut Stage| s.status == Status::GoingOn && s.total.is_some();
         if let Some(stage) = self.stated.stages.iter_mut().find(counting) {
@@ -294,6 +301,7 @@ impl RunLog {
             not_built: self.all.not_built,
             timed_out: self.all.timed_out,
             not_judged: self.all.not_judged,
+            not_compiled_here: Some(self.all.not_compiled_here).filter(|n| *n > 0),
             ..shown.faults
         };
         for stage in shown
@@ -323,6 +331,7 @@ fn count(tally: &mut Tally, class: Class) {
         Class::NotBuilt => tally.not_built += 1,
         Class::TimedOut => tally.timed_out += 1,
         Class::NotJudged => tally.not_judged += 1,
+        Class::NotCompiledHere => tally.not_compiled_here += 1,
     }
 }
 
@@ -338,12 +347,13 @@ fn rest(done: Option<u64>, total: Option<u64>, so_far: Option<f64>) -> Option<f6
 }
 
 /// A tally as it is shown: named, and unprotected when every fault has been
-/// run and none was noticed.
+/// run and none was noticed. Faults in code that is not built here say
+/// nothing about protection.
 fn settled(tally: &Tally, file: &str, function: Option<&String>) -> Tally {
     Tally {
         file: file.to_owned(),
         function: function.cloned(),
-        unprotected: tally.left == 0 && tally.noticed == 0 && tally.done() > 0,
+        unprotected: tally.left == 0 && tally.noticed == 0 && tally.judged() > 0,
         ..tally.clone()
     }
 }

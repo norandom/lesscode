@@ -116,6 +116,14 @@ function copyDropped() {
   one.copies.dropped = [{ copy: 2, at: ago(60), reason: 'cargo test ended with 101' }];
   return one;
 }
+// Faults in code that is not built on this system (task 5.3): one file, one function, four faults.
+function notBuiltHere() {
+  const one = run(true, 5);
+  Object.assign(one.faults, { total: 16, done: 16, not_compiled_here: 4 });
+  one.faults.files.push({ ...tally('src/wayland.rs', null, 0, 0, 0), not_compiled_here: 4 });
+  one.faults.functions.push({ ...tally('src/wayland.rs', 'attach', 0, 0, 0), not_compiled_here: 4 });
+  return one;
+}
 function refused() {
   const one = run(true, 5);
   Object.assign(one, { command: 'step check', outcome: 'Refused', outcome_detail: 'The step is not accepted as it stands.', exit_code: 1 });
@@ -158,10 +166,15 @@ const SITUATIONS = [
   { name: 'quiet', state: 'quiet', data: () => run(false, 30), shows: ['Quiet', 'No word from the tool since'] },
   { name: 'stopped', state: 'stopped', data: () => run(false, 120),
     shows: ['The tool stopped without finishing', 'Stopped after', 'was going on when the tool stopped'], hides: ['Running for', '▶'] },
-  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s'], hides: ['Running for', '▶', 'The copies take', ...Object.values(NOTICE)], folds: true,
+  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s'], hides: ['Running for', '▶', 'The copies take', 'not built here', 'not built on this system', ...Object.values(NOTICE)], folds: true,
+    signs: ['not built on this system: nothing is known', 0],
     // The share of unprotected functions comes before any other result of the faults.
     order: ['Unprotected functions', '2 of 3 (67%)', 'Faults planted'],
     tabs: { 'Your code': { shows: ['not measured', 'To remove the copies, delete the directory'] } } },
+  { name: 'not-built-here', state: 'ended', data: notBuiltHere, shows: ['4 not built here', 'In code not built on this system'],
+    signs: ['not built on this system: nothing is known', 2],
+    tabs: { 'Planted faults': { shows: ['4 faults lie in code that is not built on this system', 'they tell nothing'] },
+      Unprotected: { shows: ['2 of 3 functions are unprotected', '1 more lies wholly in code that is not built on this system'], hides: ['attach'] } } },
   { name: 'cannot-read', state: 'cannot-read', data: () => ({ schema: 99 }), shows: ['cannot read', 'version 99', 'reads version 1'] },
   { name: 'damaged', state: 'cannot-read', data: () => 'this is not a run', shows: ['cannot read', 'found a text'] },
   { name: 'sparse', state: 'running', data: () => ({ schema: 1, heartbeat: ago(1) }), shows: ['not known', 'works in copies of your project.'],
@@ -204,6 +217,7 @@ for (const size of SIZES) {
       for (const text of s.shows ?? []) await expect(page.locator('body')).toContainText(text);
       for (const text of s.hides ?? []) await expect(page.locator('body')).not.toContainText(text);
       await expect(page.locator('html')).toHaveAttribute('data-state', s.state);
+      if (s.signs) await expect(page.locator(`.mark[aria-label="${s.signs[0]}"]`)).toHaveCount(s.signs[1]);
       if (s.order) {
         const said = await page.locator('body').innerText(), at = s.order.map((text) => said.indexOf(text));
         expect(at.every((x, i) => x >= 0 && (i === 0 || x > at[i - 1])), `${s.order.join(' < ')}: ${at}`).toBeTruthy();

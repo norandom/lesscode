@@ -188,7 +188,15 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     the owner has not read the wording yet.
   - _Boundary: Page, Snapshot_
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.6_
-- [ ] 5.3 Faults in code the platform does not compile (can fail)
+- [x] 5.3 Faults in code the platform does not compile (can fail)
+  - Done 2026-11-23: the packs can. The Rust pack names, per operating system, the attributes under
+    which code is not built there; the page's log counts a fault under one apart, whatever its run
+    gave. The recorded run of R164, told to the page again, shows 66 of its 268 apart and not 64:
+    two are single statements under a condition, which R164's count by the lines of two modules took
+    for built code that did not build. The pack limit went from 40 lines and 2,500 characters to 50
+    and 3,200 by the owner's decision. The run itself and the plan still plant and count these
+    faults as before; conditions the pack does not name, and a module made conditional in another
+    file, are not found.
   - The tool does not know this today. Find out whether the language packs can mark a site that
     lies under a condition of compilation, for Rust first. If they can, such faults are counted
     apart and shown apart. If they cannot, the page says nothing about it and the research entry

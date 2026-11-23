@@ -23,7 +23,7 @@ The steps part is built on the driver. `step plan`, `pin` and `check` call the s
 
 In the driver and the step commands, nowhere in code. A test scans both module trees for language and
 project names and fails if it finds one. What the engine knows about a language is a pack:
-`native/packs/rust.json`, `python.json`, `typescript.json` and `java.json`, each at most 40 lines. A pack
+`native/packs/rust.json`, `python.json`, `typescript.json` and `java.json`, each at most 50 lines. A pack
 maps the grammar's node kinds to the site kinds of the driver (a condition, a failure signal, a state write,
 two adjacent checks, a function boundary, a call's arguments) and gives the operator templates. The packs
 are compiled into the binary and listed once, in `native/src/adapters/driver/registry.rs`.
@@ -51,7 +51,7 @@ Three structs remain under `native/src/adapters/{rust,java,typescript}/`. They i
 For the driver and the steps a new language needs no engine code.
 
 1. Enable its tree-sitter grammar as a feature of `ast-grep-language` in `native/Cargo.toml`.
-2. Write a pack of at most 40 lines under `native/packs/` and list it in
+2. Write a pack of at most 50 lines under `native/packs/` and list it in
    `native/src/adapters/driver/registry.rs`.
 3. Write a control file: annotations on real code of that language with the outcome each must get. Examples
    are in `native/tests/fixtures/driver/controls/`.

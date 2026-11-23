@@ -5,6 +5,14 @@
   "unwrap_kinds": [],
   "test_attribute_markers": ["cfg(test)", "#[test]"],
   "test_attribute_kinds": ["attribute_item", "inner_attribute_item"],
+  "not_built_markers": {
+    "windows": ["#[cfg(unix)]", "#[cfg(not(windows))]", "#[cfg(target_family = \"unix\")]", "#[cfg(not(target_os = \"windows\"))]",
+                "#[cfg(target_os = \"linux\")]", "#[cfg(target_os = \"macos\")]"],
+    "linux": ["#[cfg(windows)]", "#[cfg(not(unix))]", "#[cfg(target_family = \"windows\")]", "#[cfg(not(target_os = \"linux\"))]",
+              "#[cfg(target_os = \"windows\")]", "#[cfg(target_os = \"macos\")]"],
+    "macos": ["#[cfg(windows)]", "#[cfg(not(unix))]", "#[cfg(target_family = \"windows\")]", "#[cfg(not(target_os = \"macos\"))]",
+              "#[cfg(target_os = \"windows\")]", "#[cfg(target_os = \"linux\")]"]
+  },
   "kinds": {
     "branch_condition": {
       "field_of": [["if_expression", "condition"], ["while_expression", "condition"]],

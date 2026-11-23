@@ -133,6 +133,23 @@ pub fn next_check<'r>(first: &SgNode<'r>, rule: &Rule, skip: &[String]) -> Optio
     matches.then_some(sibling)
 }
 
+/// Whether one of the attributes directly in front of the node holds one of
+/// the markers.
+fn marked(node: &SgNode<'_>, pack: &Pack, markers: &[String]) -> bool {
+    let mut previous = node.prev();
+    while let Some(p) = previous {
+        if !has(&pack.test_attribute_kinds, &p.kind()) {
+            break;
+        }
+        let text = p.text();
+        if markers.iter().any(|m| text.contains(m.as_str())) {
+            return true;
+        }
+        previous = p.prev();
+    }
+    false
+}
+
 /// Whether the node or one of its ancestors is preceded by a test marker.
 fn in_test_region(node: &SgNode<'_>, pack: &Pack) -> bool {
     let markers = &pack.test_attribute_markers;
@@ -141,20 +158,35 @@ fn in_test_region(node: &SgNode<'_>, pack: &Pack) -> bool {
     }
     let mut candidate = Some(node.clone());
     while let Some(c) = candidate {
-        let mut previous = c.prev();
-        while let Some(p) = previous {
-            if !has(&pack.test_attribute_kinds, &p.kind()) {
-                break;
-            }
-            let text = p.text();
-            if markers.iter().any(|m| text.contains(m.as_str())) {
-                return true;
-            }
-            previous = p.prev();
+        if marked(&c, pack, markers) {
+            return true;
         }
         candidate = c.parent();
     }
     false
+}
+
+/// Start line, start column, end line, end column.
+pub type Span = (usize, usize, usize, usize);
+
+/// The code of a file that is not built on `system`: every item with one
+/// of the pack's markers for that system in front of it. Empty where the
+/// pack names none; code under a condition the pack does not name is not
+/// found, so what is found is certain and what is not found says nothing.
+pub fn not_built_spans(pack: &Pack, text: &str, system: &str) -> Result<Vec<Span>, String> {
+    let Some(markers) = pack.not_built_markers.get(system) else {
+        return Ok(Vec::new());
+    };
+    let root = parse(text, grammar(&pack.language)?)?;
+    let nodes = walk(&root.root());
+    let under = nodes.iter().filter(|n| marked(n, pack, markers));
+    Ok(under.map(position).collect())
+}
+
+/// Whether a place lies in one of the spans.
+pub fn within(spans: &[Span], at: (usize, usize)) -> bool {
+    let holds = |s: &Span| (s.0, s.1) <= at && at < (s.2, s.3);
+    spans.iter().any(holds)
 }
 
 /// The reason a node is or is not a site of `kind`, and the allowed node.
