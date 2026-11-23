@@ -34,6 +34,10 @@ path = "../../lesscode-metrics/state-holders/main.rs"
 name = "walk-gen"
 path = "../../lesscode-metrics/walk-gen/main.rs"
 
+[[bin]]
+name = "scope-walk"
+path = "../../lesscode-metrics/scope-walk/main.rs"
+
 [dependencies]
 lesscode-core = { path = "../../../../native" }
 serde = { version = "=1.0.229", features = ["derive"] }
