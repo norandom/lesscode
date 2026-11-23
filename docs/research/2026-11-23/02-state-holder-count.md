@@ -1,16 +1,20 @@
 # R165: a count of state holders and writable shapes, in Rust
 
-- Report date/time and timezone: 2026-11-23, 10:25 Europe/Berlin (registration)
-- Execution interval: not run yet
-- Status: planned
+- Report date/time and timezone: 2026-11-23, 09:27 Europe/Berlin (registration; the time of commit `e6c23db`. I first wrote 10:25 here without reading the clock; corrected at 09:35)
+- Execution interval: 2026-11-23, 09:28 (build) to 09:33 (last run), Europe/Berlin
+- Status: completed for the six registered rows; exploratory for the renderer
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md), the state lens (a brief, not approved requirements)
 - Hypothesis ID and predecessor: the hand counts in [the kiro-cli concept note](../../../.kiro/specs/state-consolidation/kiro-cli-state-metrics-concept.md)
 - Type: preregistered for the three known examples; exploratory for the renderer of drift-rdp
 
 ## Decision
 
-Open. A prototype, written while the fault run of [R164](01-renderer-baseline-faults.md) is under
-way. It is a research program, not a released command.
+All six registered rows hold. The count of holders and of writable shapes can go into the state
+view for the renderer. The lists of writers and deciders are not good enough yet: on the renderer 73
+uses of a field were left out because more than one type has a field of that name.
+
+A prototype, written while the fault run of [R164](01-renderer-baseline-faults.md) was under way.
+It is a research program, not a released command.
 
 ## What is counted
 
@@ -60,7 +64,44 @@ note; a row is not dropped.
 
 ## Evidence and results
 
-Not run yet.
+The program built at the first attempt (the experiment crate's lock file moved `lesscode-core` from
+2.0.0 to 2.1.0; built with `--offline`, since `--locked` refused that). Binary SHA-256 `F9333723…BC136D43`,
+kept with all outputs in `D:\BuildArtifacts\lesscode\lesscode-metrics\r165-state-holders`.
+
+| Input | Expected | Counted | Holds |
+| --- | --- | --- | --- |
+| order flags, before | `Order`: 3 flags, 8 shapes | 3 flags, 8 shapes | yes |
+| order flags, after | `Order`: enumeration, 5 shapes, no flags | enumeration, 5 shapes, no flags | yes |
+| clipboard lease, before | `NativeClipboardState` 3 cells; `Lease` 1 cell | 3 cells; 1 cell | yes |
+| clipboard lease, after | `NativeClipboardState` 2 cells; `Lease` 0 cells | 2 cells; `Lease` has no holder | yes |
+| `runner.rs` at `6da5952` | `Shared` 3 cells | 3 cells | yes |
+| `runner.rs` at `6b580a5` | `Shared` 1 cell | 1 cell | yes |
+
+Not predicted, and read off the same outputs:
+
+- Writable shapes fall in two of the three examples and stay in one. Order: 8 to 5. Clipboard
+  lease: `NativeClipboardState` 3 to 2, and the 2 of `Lease` are gone. Batch runner: `Shared` has 4
+  before and 4 after; the step put three locks behind one and removed no shape.
+- In `runner.rs` 11 uses of a field were left out as ambiguous, in both revisions.
+
+The renderer of `drift-rdp` at `09b4ce8`, eight files, exploratory (`renderer.json`):
+
+- 38 types declared outside test modules; 16 structs have holders; 35 holders, of them 16 flags and
+  11 cells; the rest are fields of an enumeration or compound type.
+- Largest counts of writable shapes: `Facts` 216 (three enumerations of three and three flags),
+  `Renderer` 16, `Layer` 8, `SharedFrame` 8.
+- 73 uses of a field were left out as ambiguous. For many holders the lists of writers and
+  deciders are therefore empty or short; they are not to be read as "never written".
+
+## Weaknesses found
+
+- Tying a use to its type by the field's name fails where names repeat (`full`, `geometry`,
+  `smooth` in the renderer). The lists of writers and deciders need the type of the receiver.
+- A lock taken to read counts as a write (`lock` is in the list of writing methods).
+- A field given once when the value is built and never changed is counted as a holder. `Facts` is
+  such a case: it looks like a record of findings, not a machine. Without telling "set once" from
+  "changed", 216 overstates it.
+- Setting a field in a struct literal is not counted as a write.
 
 ## Limits and interpretation
 

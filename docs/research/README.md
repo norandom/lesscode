@@ -1,5 +1,9 @@
 # Research log
 
+## Latest · R165 A count of state holders and writable shapes reproduces the six hand counts (2026-11-23)
+
+A research program in Rust lists, per struct and enum, the fields that hold state and in how many shapes the type can stand. Six rows registered beforehand hold: order flags 3 flags and 8 shapes to an enumeration of 5; clipboard lease 3 cells to 2; batch runner 3 cells to 1. Unpredicted: the batch runner's shapes stay at 4. On the renderer of `drift-rdp`: 35 holders in 16 structs. The lists of who writes and who decides are not usable yet; 73 uses were left out because field names repeat. [R165](2026-11-23/02-state-holder-count.md)
+
 ## Planned · R164 Planted faults on the renderer of drift-rdp, before any rework (2026-11-23)
 
 Preregistered, not run yet. The owner's direction of 22 November: examples are reworks of whole subsystems, measured through six lenses ([brief](../../.kiro/specs/lesscode-metrics/brief.md)). This run gives the "before" side of the protection lens for the first one, eight files of a remote desktop client, and says whether the released `step plan` carries a subsystem of several files. 268 faults can be planted; five expectations are written down. [R164](2026-11-23/01-renderer-baseline-faults.md)
