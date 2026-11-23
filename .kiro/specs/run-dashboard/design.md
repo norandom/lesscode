@@ -227,8 +227,10 @@ are added to the project.
 4. **Which commands get the page first**: `step plan` and `step check`. `deconvolute run` and
    `step pin` later.
 5. **How the snapshot travels during a run**: read again from a file, or subscribed to from the
-   tool over an event stream on `127.0.0.1`, or both with the file as the fallback. To be decided
-   after the prototype. A worker that outlives runs is a separate decision and changes the
+   tool over an event stream on `127.0.0.1`, or both with the file as the fallback. The prototype
+   says: the event stream. Reading the file again recorded a failure in two of five runs; the
+   stream recorded none and notices at once when the tool is gone. I recommend the stream during a
+   run and the page with the data inside as the report, and no data file beside the page. A worker that outlives runs is a separate decision and changes the
    requirements.
 
 ## What the prototype has to show before this is final

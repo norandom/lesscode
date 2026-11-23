@@ -1,6 +1,7 @@
 # Prototype gate: the run page
 
-Registered 2026-11-23, 15:20 Europe/Berlin, before the prototype exists. Steering:
+Registered 2026-11-23, 15:10 Europe/Berlin (the time of commit `45e4bac`; I had first written 15:20
+without reading the clock), before the prototype exists. Steering:
 [prototype-first](../../steering/prototype-first.md). The gate decides whether the
 [design](design.md) may go on to tasks, and which way the snapshot travels.
 
@@ -44,4 +45,50 @@ the browser's side was not seen.
 
 ## Results
 
-Not run yet.
+Run 2026-11-23, 15:16 to 15:25 Europe/Berlin (from the gate's own records), five times. Recorded 2026-11-23, 15:26.
+Prototype in `docs/experiments/run-dashboard/` (`page.html`, `main.rs`, `gate.ps1`); outputs in
+`D:\BuildArtifacts\lesscode\lesscode-metrics\run-page-proto\gate-1` to `gate-5`, each with `gate.json`
+and pictures. Browser: Microsoft Edge 158.0.4370.33, headless. The page and the replay program
+built and ran at the first attempt; between the first and the second run I changed two things in
+the page, neither of which touches what is measured: a mark that says what failed, and the sign
+for a function with some unnoticed faults.
+
+| # | Expectation | Measured | Holds |
+| --- | --- | --- | --- |
+| P1 | The page follows a data file that changes: at least 5 different snapshots in one session, ending in "ended" | 158 to 160 different snapshots in each of five sessions; "ended" each time | yes |
+| P2 | Putting a new data file in place does not disturb the page: no write lost, at most 2% of reads missed, no failure of the page's code | 276 rewrites per run, none lost, none retried; no read missed; **one failure in two of the five runs** (1 of about 160 reads), reported by the browser only as "Script error" | **no** |
+| P3 | The report is one file that needs nothing else | moved alone to an empty directory: "ended", with 268 planted, 72 noticed, 193 unnoticed, 3 not built; 58,738 bytes; the only address in it is the name of the SVG format, which is not fetched | yes |
+| P4 | Six fixed inputs give the six states | all six, at both sizes | yes |
+| P5 | It does not break on sparse, large, void and damaged input at 1,280 and 400 wide | no failure and no sideways scrolling in any of them; but the browser gives 1,256 and 492, not 400 | at the widths the browser gave; 400 was not seen |
+| P6 | The page can subscribe to the tool | an event stream served with the standard library alone; 196 to 198 different snapshots per session, "ended" each time, **no failure in five runs**; requests without the secret or with a wrong one get 404; when the tool goes away before the end the page says "stopped" within 2.5 seconds | yes |
+| P7 | Pictures for the owner | six per run under `pictures` | shown |
+
+### What P2 means
+
+In two of five runs one read of the data file gave the browser something it could not run. The
+page went on, kept what it had, and ended with the right counts; but its code recorded a failure,
+which the row forbids. I did not capture the damaged content: a browser hides the details of a
+failure in a script loaded from disk. The writer put the file in place by renaming a finished file
+over the old one and never had to retry, so the likeliest reading is that replacing a file is not
+one step for a reader on this system. That is a guess.
+
+So reading a file again is not sound for the live view as built here. The event stream had no
+failure in five runs, and it tells the page at once when the tool is gone, where the file needs up
+to a minute of silence to conclude the same.
+
+### What I see in the pictures
+
+The layout holds, with the toolbar, the bar, the tree and the tabs readable in light and dark. Not
+right yet: the status line says "Running for" after the run has ended; the fixed page for a void
+run still shows its stages as done, which is a fault of my fixture; the tree has no way to fold a
+single file.
+
+### What the gate did not see
+
+A width of 400; any browser but Edge; a real run; anyone using it. For P6 the browser's side was
+seen, over the browser's debugging port.
+
+## Assessment
+
+Proceed, with the event stream as the way the snapshot travels during a run and the page with the
+data inside as the report. The owner decides; see the design's decisions.
