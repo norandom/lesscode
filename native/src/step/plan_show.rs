@@ -9,7 +9,7 @@ use crate::adapters::driver::config::RunConfig;
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::page_open::{open, Opener};
 use crate::adapters::driver::page_serve::{Served, LOCAL};
-use crate::adapters::driver::page_subject::{subject, would_be_tracked};
+use crate::adapters::driver::page_subject::{space, subject, would_be_tracked, written_inside};
 use crate::adapters::driver::page_text::{live, write_report};
 use crate::adapters::driver::page_watch::{Heart, BEAT};
 use std::path::{Path, PathBuf};
@@ -67,6 +67,7 @@ fn place_of(show: &PageArgs, out: &Path) -> Result<Option<PathBuf>, String> {
 pub struct Showing {
     watch: Arc<PlanWatch>,
     place: PathBuf,
+    work: PathBuf,
     heart: Heart,
     served: Option<Served>,
 }
@@ -105,11 +106,16 @@ pub fn begin(args: &PlanArgs, config: &RunConfig, pack: &Pack) -> Result<Option<
     let copies = config.parallel(args.workers);
     let watch = Arc::new(PlanWatch::new(config, pack, &args.work, copies)?);
     watch.log().set_subject(subject(&config.source_root));
+    // What of the run's own output lies among the repository's files.
+    let written = [args.out.as_path(), place.as_path(), args.work.as_path()];
+    let inside = written_inside(&config.source_root, &written);
+    watch.log().set_writes(inside);
     let served = show.open.then(|| serve(show, &watch)).flatten();
     Ok(Some(Showing {
         heart: watch.heart(BEAT),
         watch,
         place,
+        work: args.work.clone(),
         served,
     }))
 }
@@ -123,6 +129,9 @@ impl Showing {
     /// listener ends, and the report is written and its place printed.
     pub fn end(self) {
         drop(self.heart);
+        if let Some(bytes) = space(&self.work) {
+            self.watch.log().set_space(bytes);
+        }
         drop(self.served);
         match write_report(&self.place, &self.watch.snapshot()) {
             Ok(()) => println!("The page of the run is at {}", self.place.display()),

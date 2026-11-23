@@ -168,7 +168,12 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Requirements: 1.4_
 
 - [ ] 5. What the page explains
-- [ ] 5.1 Your code
+- [x] 5.1 Your code
+  - Done 2026-11-23: a line at the top of the page for the whole run and the tab, each sentence
+    drawn from its fact. Beyond the page: the run now measures the copies at its end and names its
+    own output that lies in the repository (`page_subject.rs`, `plan_show.rs`); before, neither
+    fact was ever set. The warning on the main branch is shown whenever the run reads it; that a
+    change is judged is not in the snapshot before task 6.1.
   - The tab and the top of the page say what the tool touches, from the snapshot of task 1.2, with
     the warning on the main branch and, at the end, the space the copies take and how to remove them.
   - Done when the fixed situations show each sentence only where its fact is in the snapshot.

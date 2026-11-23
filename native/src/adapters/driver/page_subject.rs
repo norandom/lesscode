@@ -49,6 +49,41 @@ pub fn would_be_tracked(place: &Path) -> bool {
     inside && ask(beside, &["check-ignore", "--quiet", "--", name]).is_none()
 }
 
+/// Those of `places` that lie inside the repository `repo` belongs to,
+/// named from the repository's top. Empty where there is no repository.
+pub fn written_inside(repo: &Path, places: &[&Path]) -> Vec<String> {
+    let top = ask(repo, &["rev-parse", "--show-toplevel"]);
+    let Some(top) = top.and_then(|t| std::fs::canonicalize(t).ok()) else {
+        return Vec::new();
+    };
+    let named = |place: &&Path| {
+        let beside = match place.parent() {
+            Some(parent) if !parent.as_os_str().is_empty() => parent,
+            _ => Path::new("."),
+        };
+        let full = std::fs::canonicalize(beside).ok()?.join(place.file_name()?);
+        let inside = full.strip_prefix(&top).ok()?;
+        Some(inside.to_string_lossy().replace('\\', "/"))
+    };
+    places.iter().filter_map(named).collect()
+}
+
+/// The space the files under `dir` take, or `None` when it cannot be read
+/// to the end. Links are not followed.
+pub fn space(dir: &Path) -> Option<u64> {
+    let mut sum = 0;
+    for entry in std::fs::read_dir(dir).ok()? {
+        let entry = entry.ok()?;
+        let kind = entry.file_type().ok()?;
+        if kind.is_dir() {
+            sum += space(&entry.path())?;
+        } else if kind.is_file() {
+            sum += entry.metadata().ok()?.len();
+        }
+    }
+    Some(sum)
+}
+
 /// What the run reads. Every part that cannot be found out is `None`, and
 /// the page then says "not known".
 pub fn subject(repo: &Path) -> Subject {

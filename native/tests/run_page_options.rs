@@ -132,6 +132,10 @@ fn page_writes_the_report_at_the_named_place_and_opens_nothing() {
         .sum();
     assert_eq!(shown["faults"]["noticed"], noticed);
     assert!(noticed > 0, "{plan}");
+    // What the run touched (task 5.1): the copies were measured at the end,
+    // and outside a repository nothing is named as written into one.
+    assert!(shown["copies"]["bytes"].as_u64() > Some(0), "{shown}");
+    assert_eq!(shown["writes_in_repository"], json!([]));
 }
 
 #[test]
@@ -247,6 +251,11 @@ fn a_place_among_a_repositorys_files_is_refused_unless_it_is_named() {
         "{printed}"
     );
     assert_eq!(inside(&named)["ended"], true);
+    // The plan, the page and the copies lie in the repository here, and the page names them.
+    assert_eq!(
+        inside(&named)["writes_in_repository"],
+        json!(["plan.json", "plan.html", "work"])
+    );
 }
 
 #[test]

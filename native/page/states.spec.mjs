@@ -74,6 +74,19 @@ function large() {
     reaches_out: ['create_surface', 'write_texture'] }));
   return one;
 }
+// What the run touches (task 5.1): the copies measured at the end; and a run on a branch of
+// its own, with uncommitted work, whose plan and copies lie in the repository.
+function measured() {
+  const one = run(true, 5);
+  one.copies.bytes = 2684354560;
+  return one;
+}
+function onABranch() {
+  const one = run(false, 2);
+  Object.assign(one.subject, { branch: 'rework/shared-frame', on_main_branch: false, dirty: true });
+  one.writes_in_repository = ['plan.json', 'work'];
+  return one;
+}
 function noTests() {
   const one = run(true, 5);
   one.tests = { command_given: false, passed_unchanged: null, tests_run: null, reason: null };
@@ -104,14 +117,26 @@ const wrong = () => ({
 const SITUATIONS = [
   { name: 'waiting', state: 'waiting', shows: ['Waiting for lesscode'] },
   { name: 'waiting-no-answer', state: 'waiting', events: 'http://127.0.0.1:9/none/events', shows: ['The tool does not answer'] },
-  { name: 'running', state: 'running', data: () => run(false, 2), shows: ['Running for', '8 of 12 done'] },
+  { name: 'running', state: 'running', data: () => run(false, 2),
+    shows: ['Running for', '8 of 12 done', 'works in copies of your project under D:/BuildArtifacts/example/work', 'this is the main branch', 'writes nothing into your repository'],
+    hides: ['The copies take', 'uncommitted changes', 'and nothing else'],
+    tabs: { 'Your code': { shows: ['cargo test', 'in the copies only', 'reads the main branch', 'Files written into your repository'], hides: ['To remove the copies', 'Space the copies take'] } } },
+  { name: 'on-a-branch', state: 'running', data: onABranch,
+    shows: ['rework/shared-frame', 'writes plan.json, work into your repository and nothing else', 'had uncommitted changes when the run began'],
+    hides: ['main branch', 'writes nothing'],
+    tabs: { 'Your code': { shows: ['plan.json', 'the only kind of file'], hides: ['main branch'] } } },
+  { name: 'measured', state: 'ended', data: measured, shows: ['The copies take 2.5 GiB'],
+    tabs: { 'Your code': { shows: ['2.5 GiB', 'To remove the copies, delete the directory D:/BuildArtifacts/example/work'] } } },
   { name: 'quiet', state: 'quiet', data: () => run(false, 30), shows: ['Quiet', 'No word from the tool since'] },
   { name: 'stopped', state: 'stopped', data: () => run(false, 120),
     shows: ['The tool stopped without finishing', 'Stopped after', 'was going on when the tool stopped'], hides: ['Running for', '▶'] },
-  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s'], hides: ['Running for', '▶'], folds: true },
+  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s'], hides: ['Running for', '▶', 'The copies take'], folds: true,
+    tabs: { 'Your code': { shows: ['not measured', 'To remove the copies, delete the directory'] } } },
   { name: 'cannot-read', state: 'cannot-read', data: () => ({ schema: 99 }), shows: ['cannot read', 'version 99', 'reads version 1'] },
   { name: 'damaged', state: 'cannot-read', data: () => 'this is not a run', shows: ['cannot read', 'found a text'] },
-  { name: 'sparse', state: 'running', data: () => ({ schema: 1, heartbeat: ago(1) }), shows: ['not known'] },
+  { name: 'sparse', state: 'running', data: () => ({ schema: 1, heartbeat: ago(1) }), shows: ['not known', 'works in copies of your project.'],
+    hides: ['your project under', 'main branch', 'writes nothing', 'and nothing else', 'uncommitted changes', 'The copies take'],
+    tabs: { 'Your code': { shows: ['None is known', 'not known'], hides: ['main branch', 'To remove the copies', 'the only kind of file', 'Files written into your repository'] } } },
   { name: 'wrong', state: 'ended', data: wrong },
   { name: 'large', state: 'ended', data: large, folds: true },
   { name: 'void', state: 'ended', data: noTests, shows: ['Could not judge', 'No test command was given'], hides: ['✓'] },
@@ -151,6 +176,13 @@ for (const size of SIZES) {
         expect(after).toBeLessThan(before);
       }
       await picture(page, testInfo, `${s.name}-${size.width}`);
+      // What a tab says in this situation, and what it must not say.
+      for (const [name, says] of Object.entries(s.tabs ?? {})) {
+        await page.getByRole('tab', { name: new RegExp(`^${name}`) }).click();
+        for (const text of says.shows ?? []) await expect(page.getByRole('tabpanel')).toContainText(text);
+        for (const text of says.hides ?? []) await expect(page.getByRole('tabpanel')).not.toContainText(text);
+        await picture(page, testInfo, `${s.name}-${size.width}-${name.toLowerCase().replaceAll(' ', '-')}`);
+      }
       const seen = await marks(page);
       expect(seen.failures, seen.failure).toBe('0');
       expect(failures).toEqual([]);

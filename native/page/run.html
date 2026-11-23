@@ -37,6 +37,7 @@ button { font: inherit; color: inherit; }
 .pill { border-radius: 10px; padding: 1px 9px; font-weight: 600; white-space: nowrap; }
 .pill.ok { background: var(--ok-bg); color: var(--ok); } .pill.warn { background: var(--warn-bg); color: var(--warn); }
 .pill.bad { background: var(--bad-bg); color: var(--bad); } .pill.off { background: var(--hover); color: var(--quiet); }
+.touch { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; padding: 4px 10px; background: var(--panel); border-bottom: 1px solid var(--line); }
 .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; padding: 3px 8px; background: var(--panel); border-bottom: 1px solid var(--line); }
 .tool { width: 26px; height: 26px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 4px; background: none; cursor: pointer; }
 .tool:hover { background: var(--hover); } .tool[aria-pressed="true"] { background: var(--select); border-color: var(--focus); }
@@ -209,24 +210,51 @@ const data = /*DATA*/null;
     </div>`;
   }
 
+  function size(bytes) {
+    return bytes >= 1073741824 ? (bytes / 1073741824).toFixed(1) + ' GiB' : bytes >= 1048576 ? (bytes / 1048576).toFixed(1) + ' MiB' : Math.ceil(bytes / 1024) + ' KiB';
+  }
+  // What the run touches. Each sentence is said only where the snapshot holds its fact.
+  function touched(s) {
+    var sub = s.subject || {}, c = s.copies || {}, known = function (x) { return typeof x === 'string' && x ? x : null; };
+    return { directory: known(c.directory), branch: known(sub.branch), main: sub.on_main_branch === true, dirty: sub.dirty === true,
+      // The files the run writes into the repository: a list where the tool has said so and the repository is known.
+      written: Array.isArray(s.writes_in_repository) && known(sub.repository) ? s.writes_in_repository.map(String) : null,
+      bytes: s.ended === true ? n(c.bytes) : null };
+  }
+  function named(files) { return files.map(function (f, i) { return html`${i ? ', ' : ''}<code>${f}</code>`; }); }
+  // The top of the page, for the whole run.
+  function Touches(p) {
+    var t = touched(p.s);
+    return html`<div class="touch">
+      <span>lesscode works in copies of your project${t.directory ? html` under <code>${t.directory}</code>` : ''}.</span>
+      ${t.written && !t.written.length ? html`<span>It writes nothing into your repository.</span>` : ''}
+      ${t.written && t.written.length ? html`<span>It writes ${named(t.written)} into your repository and nothing else.</span>` : ''}
+      ${t.branch ? html`<span>Branch <code>${t.branch}</code>${t.main ? html` <span class="pill warn">this is the main branch</span>` : ''}</span>` : ''}
+      ${t.dirty ? html`<span>Your working tree had uncommitted changes when the run began.</span>` : ''}
+      ${t.bytes !== null ? html`<span>The copies take ${size(t.bytes)}.</span>` : ''}
+    </div>`;
+  }
+
   function YourCode(p) {
-    var s = p.s, sub = s.subject || {}, c = s.copies || {};
+    var s = p.s, sub = s.subject || {}, c = s.copies || {}, t = touched(s);
     return html`<div>
       <h2>What happens to your code</h2>
-      <p>lesscode works in copies of your project. It reads your repository and changes nothing in it${list(s.writes_in_repository).length ? ', except the files named below' : ''}.</p>
+      <p>lesscode works in copies of your project. It reads your repository${t.written && !t.written.length ? ' and writes nothing into it' : ''}. Your project's commands and every planted fault run in the copies only.</p>
       <dl class="facts">
         <dt>Repository</dt><dd><code>${text(sub.repository)}</code></dd>
-        <dt>Branch</dt><dd><code>${text(sub.branch)}</code>${sub.on_main_branch === true ? html` <span class="pill warn">this is the main branch</span>` : ''}</dd>
+        <dt>Branch</dt><dd><code>${text(sub.branch)}</code></dd>
         <dt>Commit</dt><dd><code>${text(sub.commit)}</code></dd>
         <dt>Uncommitted changes when the run began</dt><dd>${sub.dirty === true ? 'yes' : sub.dirty === false ? 'none' : 'not known'}</dd>
         <dt>Copies</dt><dd>${show(c.planned)} under <code>${text(c.directory)}</code></dd>
-        <dt>Space the copies take</dt><dd>${n(c.bytes) === null ? 'not measured yet' : (c.bytes / 1073741824).toFixed(1) + ' GiB'}</dd>
+        ${s.ended === true ? html`<dt>Space the copies take</dt><dd>${t.bytes === null ? 'not measured' : size(t.bytes)}</dd>` : ''}
       </dl>
+      ${t.main ? html`<p><strong>The run reads the main branch of the repository.</strong> Make the change you plan on a branch of its own, so that a step that is refused is not on the main branch.</p>` : ''}
       <h3>Commands of your project that are run, in the copies only</h3>
       ${list(s.commands).length ? html`<ul>${list(s.commands).map(function (c) { return html`<li><code>${list(c).join(' ')}</code></li>`; })}</ul>` : html`<p>None is known.</p>`}
-      <h3>Files written into your repository</h3>
-      ${list(s.writes_in_repository).length ? html`<ul>${list(s.writes_in_repository).map(function (f) { return html`<li><code>${String(f)}</code></li>`; })}</ul>` : html`<p>None.</p>`}
-      <p>When the run has ended you can remove the copies by deleting the directory named above.</p>
+      ${t.written ? html`<h3>Files written into your repository</h3>
+        ${t.written.length ? html`<ul>${t.written.map(function (f) { return html`<li><code>${f}</code></li>`; })}</ul>
+          <p>These are the run's own output: its result, this page, or the directory of the copies. It is the only kind of file the run writes there; no file of your project is changed.</p>` : html`<p>None.</p>`}` : ''}
+      ${s.ended === true && t.directory ? html`<h3>When you are done</h3><p>To remove the copies, delete the directory <code>${t.directory}</code>. lesscode leaves them so that a next run can use them again.</p>` : ''}
     </div>`;
   }
 
@@ -314,6 +342,7 @@ const data = /*DATA*/null;
     var tabs = [['now', 'Now'], ['code', 'Your code'], ['faults', 'Planted faults'], ['bare', 'Unprotected' + (bare ? ' (' + bare + ')' : '')], ['result', 'Result']];
     return html`
       <header class="head"><h1>lesscode</h1><span class="what"><code>${text(s.command)}</code> on <code>${text((s.subject || {}).repository)}</code> at <code>${text((s.subject || {}).commit).slice(0, 12)}</code></span><span class=${'pill ' + pill[0]} role="status">${pill[1]}</span></header>
+      <${Touches} s=${s} />
       <div class="tools" role="toolbar" aria-label="View">
         <${Tool} icon="follow" title="Follow the stage that is going on" pressed=${ui.follow} onClick=${function () { set({ follow: !ui.follow, picked: null, tab: 'now' }); }} />
         <span class="sep"></span>
