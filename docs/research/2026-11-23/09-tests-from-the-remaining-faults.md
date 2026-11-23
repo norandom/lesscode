@@ -75,3 +75,12 @@ nothing checks.
 
 Each fault is read and its expected fate written down before a test exists; the dependence on an
 unfinished run is stated at the top.
+
+## Amendment, 2026-11-23, 11:55 Europe/Berlin: before any test is written
+
+- R171 is in: the shape tests notice the dropped `mark_dirty`. The list of seven stands.
+- The tool for this run is not release 2.1.0 but a build of `lesscode-core` from this repository at
+  `9cc86fe`. Reason: in R171 two of three copies dropped out at the start because the unchanged
+  tests did not pass in them, and the release keeps no output of that. The later build names the
+  step that failed and the end of its output. The planted faults and their classes are produced by
+  the same code in both.

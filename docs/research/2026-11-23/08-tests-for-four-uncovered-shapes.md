@@ -1,15 +1,18 @@
 # R171: tests for the four shapes of `SharedFrame` that the code reaches and no test covers
 
 - Report date/time and timezone: 2026-11-23, 11:19 Europe/Berlin (registration, from the clock)
-- Execution interval: not run yet
-- Status: planned
+- Execution interval: 2026-11-23, tests written and run 11:20 to 11:23; watched again 11:23:52 to 11:26:55; planted faults 11:26:55 to 11:53:43 Europe/Berlin (from the commits and the runs' own records)
+- Status: completed
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md): faults, tests and reduction hand in hand (a brief, not approved requirements)
 - Hypothesis ID and predecessor: [R170](07-holders-read-while-the-tests-run.md) (what the tests cover), [R164](01-renderer-baseline-faults.md) (what the tests notice)
 - Type: preregistered
 
 ## Decision
 
-Open.
+All five rows hold. Four tests written from the uncovered shapes close the gap in what the tests
+cover, 8 of 12 to 12 of 12, and notice one of the eight faults the tests had missed, the one that
+has to do with these shapes. Covering a shape and noticing a fault are different things; the loop
+needs both as sources of tests.
 
 ## What is done
 
@@ -58,7 +61,37 @@ holds, the two sources of tests, shapes and faults, are both needed and neither 
 
 ## Evidence and results
 
-Not run yet.
+The tests: branch `lesscode/shared-frame-wake-tests` of `drift-rdp`, commit `08c6f9b`, in the worktree
+`D:\BuildArtifacts\drift-rdp\lesscode-shared-frame-tests`; 85 lines added to the test module of
+`shared_frame.rs`, nothing else; `cargo fmt --check` clean on the file. Local, not pushed. Outputs in
+`D:\BuildArtifacts\lesscode\lesscode-metrics\r171-shape-tests`: `watch` (the second watching),
+`plan.json`, `plan.log`, `work\plan-run.json`.
+
+| # | Expectation | Measured | Holds |
+| --- | --- | --- | --- |
+| 1 | The four tests pass on the code as it is; 540 passing tests | 540 passed, 6 skipped | yes |
+| 2 | Watched again, all 12 reached shapes are seen and none outside them | 12, the same twelve | yes |
+| 3 | Exactly one of the eight unnoticed faults is noticed: the dropped `mark_dirty` in `update_rect` | exactly that one (fault 233 of R164) | yes |
+| 4 | No fault noticed before goes unnoticed | 34 noticed before, 35 now, of 42 | yes |
+| 5 | The two faults that drop the release of the lock stay unnoticed | both unnoticed | yes |
+
+The four shapes are seen in one or two tests each. The watched suite gives the same result as the
+unwatched: 540 and 6.
+
+Still unnoticed in this file: the seven that [R172](09-tests-from-the-remaining-faults.md) takes up.
+
+### Two of three copies dropped out at the start
+
+As in R164, and worse: in two of the three copies the unchanged tests did not pass on their first
+run ("the unmutated tests do not pass in this copy"), and those copies ran no fault. The one copy
+left ran all 42, and closed with the unchanged tests passing; the result is complete. Run by hand
+in one of the dropped copies after the run, the same command passed, 540 of 540.
+
+The first runs happen while all three copies build the project at once. A test that fails under
+that load is still only my guess: release 2.1.0 keeps no output of the failed first run. What is
+shown is that it happens repeatedly on this project, that the run does not say so in its summary,
+and that it cost two thirds of the copies. R172 uses a build of the tool from after the release,
+which names the step that failed and the end of its output.
 
 ## Limits and interpretation
 

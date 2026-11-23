@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R170 Read while the project's own tests run, the holders show what the walk could not, and where tests are missing (2026-11-23)
+## Latest · R171 Four tests from uncovered shapes cover all twelve and notice one fault in eight (2026-11-23)
+
+Hand-written tests for the four shapes of `SharedFrame` that the code reaches and no test of `drift-rdp` saw, on a local branch of that project. Five rows registered beforehand hold: the suite passes with 540 tests, the tests now see all 12 reached shapes, and of the eight planted faults the tests had missed in the file exactly one is now noticed, the one that concerns these shapes. Covering a shape and noticing a fault are different things. In two of three copies of the fault run the unchanged tests did not pass at the start, for a reason release 2.1.0 does not keep. [R171](2026-11-23/08-tests-for-four-uncovered-shapes.md)
+
+## R170 Read while the project's own tests run, the holders show what the walk could not, and where tests are missing (2026-11-23)
 
 A research program adds one statement, compiled in test builds only, to each function that takes a struct of the subsystem by reference, and collects what the holders read on entry and exit. Five rows registered beforehand hold at the first revision, unedited: the 536 tests of `drift-rdp` give the same result, 7 of the 16 structs are seen, `SharedFrame` shows the same six shapes as the walks and no others, and `Facts` shows 13. The change of `RenderShared` that the walk could not make is seen in one test. Of the 12 shapes of `SharedFrame` the code reaches, the tests cover 8. A shape of a record that a test writes by hand shows what the tests feed in, not what the program gets into. [R170](2026-11-23/07-holders-read-while-the-tests-run.md)
 
