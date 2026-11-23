@@ -573,7 +573,12 @@ impl Maker<'_> {
             // The receiver must not be what is built.
             let named = self.fix(if head_and_argument(inner).0 == self.rules.shared { head_and_argument(inner).1.unwrap_or(inner) } else { inner }, own);
             let guard = format!("if w.has::<{}>() {{ return; }} ", self.kept_as(name, &named));
-            Entry { label: format!("build {} by {}", name, entries[0].label), code: guard + &assemble(&format!("{callee}{})", written(&middle, false)), Some(store)) }
+            // The largest value for every parameter: a value is built roomy (as in R167).
+            let largest: Vec<usize> = slots.iter().map(|s| s.as_ref().map_or(0, |v| v.len() - 1)).collect();
+            Entry {
+                label: format!("build {name} by {}({})", callees[0].1, written(&largest, true)),
+                code: guard + &assemble(&format!("{callee}{})", written(&largest, false)), Some(store)),
+            }
         });
         // A returned type of the scope that cannot be kept: its methods, at once.
         let mut chained = Vec::new();
@@ -805,7 +810,7 @@ fn run() -> Result<Value, String> {
         })
         .collect();
     Ok(json!({
-        "receipt": "scope-walk-r169", "revision": 2,
+        "receipt": "scope-walk-r169", "revision": 3,
         "rules_sha256": sha256_hex(rules_text.as_bytes()),
         "walk_module": {"module": target.display().to_string(), "declaration": format!("#[cfg(test)]\nmod {WALK_MODULE};"), "sha256": sha256_hex(central.as_bytes())},
         "parts": written, "types": types,
