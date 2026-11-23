@@ -33,8 +33,8 @@ Commits `aa27060`, `76c9329`, `c46ce7a` on main. Details, deviations and limits:
 
 ## Next
 
-Group 4, tasks 4.1 to 4.4: the page and its library inside the binary, the six states, the tree of
-files and functions, and the browser checks.
+Group 4, tasks 4.1 to 4.4: the page and its library inside the binary; the six states; a width of
+400 and a second browser (can fail); the toolbar, the keyboard and a screen reader.
 
 ## Storage
 
