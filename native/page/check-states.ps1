@@ -9,6 +9,9 @@ this script, with the situation's data inside, as the tool writes a report.
 The page is opened from disk, and the marks it puts on itself are read over
 the browser's debugging port: its state, failures of its code, and whether
 it scrolls sideways. Some situations are also asked for what they show.
+Where a window does not go as narrow as a size asks, the page is given that
+width over the same port, and the record says so. A picture of every page
+is kept.
 
 This is not one of the unit tests. It needs PowerShell 7 and a browser of
 the Chromium family (Edge, Chrome, Chromium). It writes states.json into
@@ -39,6 +42,8 @@ New-Item -ItemType Directory -Force $Out | Out-Null
 $Out = (Resolve-Path -LiteralPath $Out).Path
 $pages = Join-Path $Out 'pages'
 New-Item -ItemType Directory -Force $pages | Out-Null
+$pictures = Join-Path $Out 'pictures'
+New-Item -ItemType Directory -Force $pictures | Out-Null
 $browserProfile = Join-Path $Out 'browser-profile'
 $port = 9300 + (Get-Random -Maximum 400)
 
@@ -70,41 +75,80 @@ function Open-Page([string]$Address, [string]$Size) {
         "--user-data-dir=$browserProfile", "--remote-debugging-port=$port", "--window-size=$Size", $Address
 }
 function Close-Page($Process) {
+    if ($script:socket) { $script:socket.Dispose(); $script:socket = $null }
     try { $Process.Kill($true) } catch { }
     $Process.WaitForExit(5000) | Out-Null
     Start-Sleep -Milliseconds 300
 }
-# What an expression gives in the page.
-function Ask([string]$Expression) {
+# One connection to the page for as long as it is open: a width that is set
+# over the connection lasts only as long as the connection does.
+$script:socket = $null
+$script:sent = 0
+function Connect-Page {
     $target = $null
-    for ($i = 0; $i -lt 50 -and -not $target; $i++) {
+    for ($i = 0; $i -lt 80 -and -not $target; $i++) {
         try { $target = (Invoke-RestMethod "http://127.0.0.1:$port/json" -TimeoutSec 2) | Where-Object type -eq 'page' | Select-Object -First 1 } catch { }
         if (-not $target) { Start-Sleep -Milliseconds 100 }
     }
     if (-not $target) { throw 'the browser shows no page' }
-    $socket = [Net.WebSockets.ClientWebSocket]::new()
+    $script:socket = [Net.WebSockets.ClientWebSocket]::new()
+    $script:socket.ConnectAsync([Uri]$target.webSocketDebuggerUrl, [Threading.CancellationToken]::None).Wait()
+}
+# Asks the browser for one thing and gives its answer.
+function Send-Browser([string]$Method, [hashtable]$With = @{}) {
+    $script:sent++
+    $id = $script:sent
+    $ask = @{ id = $id; method = $Method; params = $With } | ConvertTo-Json -Compress -Depth 6
+    $limit = [Threading.CancellationTokenSource]::new([TimeSpan]::FromSeconds(30))
     try {
-        $socket.ConnectAsync([Uri]$target.webSocketDebuggerUrl, [Threading.CancellationToken]::None).Wait()
-        $ask = @{ id = 1; method = 'Runtime.evaluate'; params = @{ expression = $Expression; returnByValue = $true } } | ConvertTo-Json -Compress -Depth 5
-        $socket.SendAsync([ArraySegment[byte]]::new([Text.Encoding]::UTF8.GetBytes($ask)), 'Text', $true, [Threading.CancellationToken]::None).Wait()
-        $buffer = [byte[]]::new(1MB); $text = [Text.StringBuilder]::new()
-        do {
-            $got = $socket.ReceiveAsync([ArraySegment[byte]]::new($buffer), [Threading.CancellationToken]::None).Result
-            [void]$text.Append([Text.Encoding]::UTF8.GetString($buffer, 0, $got.Count))
-        } until ($got.EndOfMessage)
-        ($text.ToString() | ConvertFrom-Json).result.result.value
-    } finally { $socket.Dispose() }
+        $script:socket.SendAsync([ArraySegment[byte]]::new([Text.Encoding]::UTF8.GetBytes($ask)), 'Text', $true, $limit.Token).Wait()
+        $buffer = [byte[]]::new(1MB)
+        while ($true) {
+            $bytes = [IO.MemoryStream]::new()
+            do {
+                $got = $script:socket.ReceiveAsync([ArraySegment[byte]]::new($buffer), $limit.Token).Result
+                $bytes.Write($buffer, 0, $got.Count)
+            } until ($got.EndOfMessage)
+            $answer = [Text.Encoding]::UTF8.GetString($bytes.ToArray()) | ConvertFrom-Json
+            if ($answer.id -eq $id) {
+                if ($answer.error) { throw "$Method`: $($answer.error.message)" }
+                return $answer.result
+            }
+        }
+    } finally { $limit.Dispose() }
+}
+# What an expression gives in the page.
+function Ask([string]$Expression) {
+    (Send-Browser 'Runtime.evaluate' @{ expression = $Expression; returnByValue = $true }).result.value
+}
+# The width the page has. Where the browser's window does not go as narrow as
+# asked, the page is given the width over the debugging port, as the
+# browser's own tools for narrow screens do.
+function Set-Width([string]$Size) {
+    $width, $height = $Size -split ',' | ForEach-Object { [int]$_ }
+    $given = [int](Ask 'window.innerWidth')
+    if ($given -le $width) { return [ordered]@{ window = $given; set = $false } }
+    [void](Send-Browser 'Emulation.setDeviceMetricsOverride' @{ width = $width; height = $height; deviceScaleFactor = 1; mobile = $false })
+    # The page notes its width once a second.
+    Start-Sleep -Milliseconds 1300
+    [ordered]@{ window = $given; set = $true }
+}
+function Save-Picture([string]$Name) {
+    $picture = Send-Browser 'Page.captureScreenshot' @{ format = 'png' }
+    [IO.File]::WriteAllBytes((Join-Path $pictures "$Name.png"), [Convert]::FromBase64String($picture.data))
 }
 # The marks of the page, once it has given itself a state.
 function Marks {
-    for ($i = 0; $i -lt 40; $i++) {
-        $marks = Ask 'JSON.stringify(document.documentElement.dataset)' | ConvertFrom-Json
-        if ($marks.state) { Start-Sleep -Milliseconds 600; return (Ask 'JSON.stringify(document.documentElement.dataset)' | ConvertFrom-Json) }
+    # A page that is still loading may have no root element yet.
+    $ask = 'document.documentElement ? JSON.stringify(document.documentElement.dataset) : "{}"'
+    for ($i = 0; $i -lt 60; $i++) {
+        $marks = "$(Ask $ask)" | ConvertFrom-Json
+        if ($marks.state) { Start-Sleep -Milliseconds 600; return ("$(Ask $ask)" | ConvertFrom-Json) }
         Start-Sleep -Milliseconds 150
     }
     throw 'the page gave itself no state'
 }
-function Shown { Ask 'document.body.innerText' }
+function Shown { Ask 'document.body ? document.body.innerText : ""' }
 function Stamp([int]$SecondsAgo) { [DateTime]::UtcNow.AddSeconds(-$SecondsAgo).ToString('yyyy-MM-ddTHH:mm:ss.fffZ') }
 
 # A run of `step plan`, midway and ended, in the shape the tool writes.
@@ -198,12 +242,15 @@ $situations = @(
 $version = if ($IsWindows) { (Get-Item $Browser).VersionInfo.ProductVersion } else { (& $Browser --version) -join ' ' }
 $results = [ordered]@{ started = (Get-Date -Format o); machine = [Environment]::MachineName; system = [Runtime.InteropServices.RuntimeInformation]::OSDescription
     browser = $Browser; browser_version = $version; page_sha256 = (Get-FileHash (Join-Path $PSScriptRoot 'run.html')).Hash.ToLowerInvariant() }
+try {
 $rows = foreach ($situation in $situations) {
     foreach ($size in $Sizes) {
         # Written just before it is opened: the states depend on how old the last word is.
         $address = Write-Page $situation.name (& $situation.data) $situation.events
         $process = Open-Page $address $size
         try {
+            Connect-Page
+            [void](Marks); $width = Set-Width $size
             $marks = Marks; $shown = Shown
             # What comes a moment later, such as a stream that is refused, is waited for.
             for ($i = 0; $i -lt 8 -and @($situation.shows | Where-Object { $_ -and -not "$shown".Contains($_) }); $i++) {
@@ -214,6 +261,8 @@ $rows = foreach ($situation in $situations) {
             if ($marks.failures -ne '0') { $wrong.Add("failures $($marks.failures): $($marks.failure)") }
             if ($marks.sideways -ne 'false') { $wrong.Add('the page scrolls sideways') }
             if (-not "$shown".Trim()) { $wrong.Add('the page is blank') }
+            if ([int]$marks.width -gt [int]($size -split ',')[0]) { $wrong.Add("the page is $($marks.width) wide, asked for $size") }
+            Save-Picture "$($situation.name)-$($marks.width)"
             foreach ($text in @($situation.shows)) { if ($text -and -not "$shown".Contains($text)) { $wrong.Add("does not show: $text") } }
             foreach ($text in @($situation.hides)) { if ($text -and "$shown".Contains($text)) { $wrong.Add("shows: $text") } }
             $fold = $null
@@ -228,8 +277,8 @@ $rows = foreach ($situation in $situations) {
                 $marks = Marks
                 if ($marks.failures -ne '0') { $wrong.Add("failures after folding: $($marks.failure)") }
             }
-            [ordered]@{ page = $situation.name; asked = $size; width = $marks.width; state = $marks.state; failures = $marks.failures
-                sideways = $marks.sideways; fold = $fold; wrong = @($wrong) }
+            [ordered]@{ page = $situation.name; asked = $size; width = $marks.width; window_width = $width.window; width_set_over_the_port = $width.set
+                state = $marks.state; failures = $marks.failures; sideways = $marks.sideways; fold = $fold; wrong = @($wrong) }
         } finally { Close-Page $process }
     }
 }
@@ -238,6 +287,7 @@ $rows = foreach ($situation in $situations) {
 $address = Write-Page 'drawing-fails' (Run $true 5) $null
 $process = Open-Page $address $Sizes[0]
 try {
+    Connect-Page
     [void](Marks)
     [void](Ask 'Date.prototype.toLocaleTimeString = function () { throw new Error("made to fail by the check"); }; 1')
     Start-Sleep -Milliseconds 2500
@@ -246,16 +296,20 @@ try {
     if ($marks.state -ne 'cannot-read') { $wrong.Add("state $($marks.state), expected cannot-read") }
     if ([int]$marks.failures -lt 1) { $wrong.Add('the failure was not counted') }
     foreach ($text in 'cannot read', 'Drawing the page failed', 'made to fail by the check') { if (-not "$shown".Contains($text)) { $wrong.Add("does not show: $text") } }
-    $rows += [ordered]@{ page = 'drawing-fails'; asked = $Sizes[0]; width = $marks.width; state = $marks.state; failures = $marks.failures
-        sideways = $marks.sideways; fold = $null; wrong = @($wrong) }
+    $rows += [ordered]@{ page = 'drawing-fails'; asked = $Sizes[0]; width = $marks.width; window_width = [int]$marks.width; width_set_over_the_port = $false
+        state = $marks.state; failures = $marks.failures; sideways = $marks.sideways; fold = $null; wrong = @($wrong) }
 } finally { Close-Page $process }
+} finally {
+    # The browser's own files are of no use after the run, also when it broke off.
+    Remove-Item -LiteralPath $browserProfile -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 $results.rows = @($rows)
 $results.ended = (Get-Date -Format o)
 $bad = @($rows | Where-Object { $_.wrong.Count })
 $results.passed = -not $bad
 $results | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $Out 'states.json') -Encoding utf8NoBOM
-Remove-Item -LiteralPath $browserProfile -Recurse -Force -ErrorAction SilentlyContinue
-$rows | ForEach-Object { '{0,-18} {1,-9} width {2,-5} {3,-12} failures {4} {5}' -f $_.page, $_.asked, $_.width, $_.state, $_.failures, ($_.wrong -join '; ') }
+$rows | ForEach-Object { '{0,-18} {1,-9} width {2,-5} {3,-12} failures {4} {5}' -f $_.page, $_.asked, "$($_.width)$(if ($_.width_set_over_the_port) { '*' })", $_.state, $_.failures, ($_.wrong -join '; ') }
+if ($rows | Where-Object width_set_over_the_port) { '* the window was wider; the width was set over the debugging port' }
 "$($rows.Count) pages opened in $version; $($bad.Count) not as expected; record: $(Join-Path $Out 'states.json')"
 exit $(if ($bad) { 1 } else { 0 })

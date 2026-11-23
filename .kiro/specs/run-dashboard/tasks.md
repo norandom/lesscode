@@ -153,7 +153,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     not part of the unit tests, and the record says where it ran.
   - _Boundary: Page_
   - _Requirements: 3.1, 3.2, 3.6, 3.7, 1.4_
-- [ ] 4.3 A width of 400, and a second browser (can fail)
+- [x] 4.3 A width of 400, and a second browser (can fail)
   - The gate's browser would not go below 492. Find a way to see the page at 400, and run the fixed
     situations in one browser other than Edge.
   - Done when both were seen, or the record says what could not be seen and why.
