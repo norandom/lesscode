@@ -278,7 +278,8 @@ fn planned(name: &str, passes: bool) -> (Result<u8, String>, Arc<PlanWatch>, Pat
         frame_spec: None,
         workers: None,
         out: dir.join("plan.json"),
-        page: Some(watch.clone()),
+        show: Default::default(),
+        watch: Some(watch.clone()),
     });
     (ran, watch, dir)
 }

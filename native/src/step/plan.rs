@@ -5,6 +5,7 @@
 
 use super::functions::{FileFunctions, Tally, OUTSIDE};
 use super::plan_page::PlanWatch;
+use super::plan_show::{begin, PageArgs, Showing};
 use crate::adapter_traits::FrameSpec;
 use crate::adapters::driver::analysis::{analyse, outside_frame};
 use crate::adapters::driver::cli::emit_json;
@@ -38,9 +39,11 @@ pub struct PlanArgs {
     /// Where to write the plan.
     #[arg(long)]
     pub out: PathBuf,
-    /// Who shows the run while it happens, if anyone.
+    #[command(flatten)]
+    pub show: PageArgs,
+    /// Who is told what happens in the run, if anyone; set by `show`.
     #[arg(skip)]
-    pub page: Option<Arc<PlanWatch>>,
+    pub watch: Option<Arc<PlanWatch>>,
 }
 
 /// What a function with no noticed fault reaches out to.
@@ -176,8 +179,8 @@ fn print(plan: &Plan) {
 
 /// The fault run of the plan, told to whoever shows it while it happens.
 fn fault_run(args: &PlanArgs, out: PathBuf) -> Result<u8, String> {
-    let listening = args.page.clone().map(|page| Watching::begin(page));
-    let ran = run_run(RunArgs {
+    let _listening = args.watch.clone().map(|watch| Watching::begin(watch));
+    run_run(RunArgs {
         config: args.config.clone(),
         work: args.work.clone(),
         workers: args.workers,
@@ -185,16 +188,28 @@ fn fault_run(args: &PlanArgs, out: PathBuf) -> Result<u8, String> {
         no_reuse: false,
         only: Vec::new(),
         out,
-    });
-    drop(listening);
-    ran.inspect_err(|why| args.page.iter().for_each(|page| page.failed(why)))
+    })
 }
 
 /// Exit 0 when the plan is complete, 2 when faults of the run have no
 /// class; a void run or bad input is an error (exit 3).
-pub fn run_plan(args: PlanArgs) -> Result<u8, String> {
+pub fn run_plan(mut args: PlanArgs) -> Result<u8, String> {
     let config = RunConfig::read(&args.config)?;
     let pack = embedded(&config.language).map_err(|e| e.to_string())?;
+    let copies = config.parallel(args.workers);
+    let showing = begin(&args.show, &config, pack, &args.work, &args.out, copies)?;
+    if let Some(showing) = &showing {
+        args.watch = Some(showing.watch());
+    }
+    let ran = plan(&args, &config, pack);
+    if let (Err(why), Some(watch)) = (&ran, &args.watch) {
+        watch.failed(why);
+    }
+    showing.into_iter().for_each(Showing::end);
+    ran
+}
+
+fn plan(args: &PlanArgs, config: &RunConfig, pack: &Pack) -> Result<u8, String> {
     let frame: Option<FrameSpec> = match &args.frame_spec {
         Some(path) => {
             let bytes = std::fs::read(path)
@@ -204,7 +219,7 @@ pub fn run_plan(args: PlanArgs) -> Result<u8, String> {
         None => None,
     };
     let run_path = args.work.join("plan-run.json");
-    let code = fault_run(&args, run_path.clone())?;
+    let code = fault_run(args, run_path.clone())?;
     let bytes = std::fs::read(&run_path).map_err(|e| format!("{}: {e}", run_path.display()))?;
     let run: Value = serde_json::from_slice(&bytes).map_err(|e| e.to_string())?;
     let source = SourceSet {
@@ -221,8 +236,8 @@ pub fn run_plan(args: PlanArgs) -> Result<u8, String> {
         let key = |r: &Row| (std::cmp::Reverse(r.faults.unnoticed), r.faults.noticed);
         key(a).cmp(&key(b))
     });
-    if let Some(page) = &args.page {
-        page.close(functions.iter().filter_map(reaching), code);
+    if let Some(watch) = &args.watch {
+        watch.close(functions.iter().filter_map(reaching), code);
     }
     let plan = Plan {
         receipt: "step-plan-v1",

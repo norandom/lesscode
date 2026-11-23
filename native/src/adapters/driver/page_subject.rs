@@ -10,7 +10,7 @@ use std::process::{Command, Stdio};
 
 /// The git commands this module may start. None of them writes to the
 /// repository, and none takes a lock that another git process waits for.
-const READ_ONLY: &[&str] = &["rev-parse", "symbolic-ref", "status"];
+const READ_ONLY: &[&str] = &["rev-parse", "symbolic-ref", "status", "check-ignore"];
 
 /// Names a main branch usually has, for a repository whose remote does not
 /// say which one it is.
@@ -32,6 +32,21 @@ fn ask(repo: &Path, args: &[&str]) -> Option<String> {
         .ok()?;
     let said = String::from_utf8_lossy(&done.stdout).trim().to_owned();
     done.status.success().then_some(said)
+}
+
+/// Whether a file written at `place` would show up among a repository's
+/// files: it lies inside a repository and Git is not told to ignore it.
+pub fn would_be_tracked(place: &Path) -> bool {
+    let beside = match place.parent() {
+        Some(parent) if !parent.as_os_str().is_empty() => parent,
+        _ => Path::new("."),
+    };
+    let Some(name) = place.file_name().and_then(|n| n.to_str()) else {
+        return false;
+    };
+    let inside = ask(beside, &["rev-parse", "--show-toplevel"]).is_some();
+    // `check-ignore` succeeds when the name is ignored.
+    inside && ask(beside, &["check-ignore", "--quiet", "--", name]).is_none()
 }
 
 /// What the run reads. Every part that cannot be found out is `None`, and

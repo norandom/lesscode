@@ -410,10 +410,31 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/page_open.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "Starting the default browser with the platform's own opener, never through a shell (task 3.2; requirements 2.2, 2.3, 2.4)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/page_serve.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "The listener on the machine's own address for the length of a run: the page, the stream of snapshots, nothing else (task 3.1; requirements 1.2, 3.4, 3.7)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/page_text.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "The page as text, served and written as the report with the snapshot inside; a plain stand-in until task 4.1 (task 3.2; requirement 2.1)",
+   "disposition": null
+  },
+  {
+   "path": "step/plan_show.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "The options --page and --open of step plan: where the report goes, the refusal, the listener and the browser (task 3.2; requirements 1.5, 2.1 to 2.5)",
    "disposition": null
   },
   {

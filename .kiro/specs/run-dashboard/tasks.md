@@ -99,8 +99,12 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Boundary: Snapshot, Plan_
   - _Requirements: 6.1, 6.5, 6.6_
 
-- [ ] 3. Serving the run
-- [ ] 3.1 A listener on the machine's own address, with the standard library
+- [x] 3. Serving the run
+- [x] 3.1 A listener on the machine's own address, with the standard library
+  - Done 2026-11-23: `page_serve.rs`, tests in `native/tests/run_page_serve.rs`. The secret comes
+    from the standard library's randomly keyed hasher, 32 characters. A stream looks for a new
+    snapshot every 50 milliseconds. That a failing listener leaves the exit code alone is shown in
+    the tests of task 3.2, where a run exists.
   - Bound to `127.0.0.1` on a free port for the length of the run. The address carries a secret.
     It answers three things: the page, the stream of snapshots, and nothing for anything else.
   - Each new snapshot goes down every open stream. A stream that the page closes is dropped
@@ -110,7 +114,16 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     a failing listener (port taken, send fails) never changes the run's exit code.
   - _Boundary: Server_
   - _Requirements: 1.2, 3.4, 3.7_
-- [ ] 3.2 `--page` and `--open`
+- [x] 3.2 `--page` and `--open`
+  - Done 2026-11-23: `step/plan_show.rs`, `page_open.rs`, `page_text.rs`; tests in
+    `native/tests/run_page_options.rs`. Only `step plan` has the options so far.
+  - Deviations. (1) The page served and written is a plain stand-in that prints the snapshot; the
+    page of the design comes with task 4.1. (2) The listener starts only with `--open`; `--page`
+    alone writes the report and serves nothing. `--open` alone writes the report beside the plan.
+    (3) Among a repository's files means: inside a repository and not ignored by Git. (4) A place
+    whose directory does not exist is refused before anything runs. (5) Byte-identical is shown
+    for the plan with and without the options in the same run directory, not against a binary of
+    before this group. (6) The platform's own opener was not started by any test or by me.
   - `--page <place>` writes the report there at the end and prints the place; without a place it
     goes beside the run's outputs. `--open` starts the default browser on the served page once, at
     the start, without a shell: the platform's own opener on Windows, macOS and Linux.

@@ -157,8 +157,10 @@ impl PlanWatch {
 
     /// The run could not judge anything, and why.
     pub fn failed(&self, why: &str) {
-        self.log()
-            .finish("Could not judge", why, 3, lines(AFTER_NO_JUDGEMENT), now());
+        let mut log = self.log();
+        if !log.snapshot().ended {
+            log.finish("Could not judge", why, 3, lines(AFTER_NO_JUDGEMENT), now());
+        }
     }
 
     /// The function a site lies in, by the file's functions as they are
