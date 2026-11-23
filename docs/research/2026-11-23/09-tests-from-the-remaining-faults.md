@@ -1,8 +1,8 @@
 # R172: tests written from the planted faults the tests of `shared_frame.rs` still miss
 
 - Report date/time and timezone: 2026-11-23, 11:46 Europe/Berlin (registration, from the clock)
-- Execution interval: not run yet
-- Status: planned
+- Execution interval: 2026-11-23, tests written and run 11:56 to 11:57; planted faults 11:57:54 to 12:14:57 Europe/Berlin (from the commits and the run's output)
+- Status: completed
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md): faults, tests and reduction hand in hand (a brief, not approved requirements)
 - Hypothesis ID and predecessor: [R171](08-tests-for-four-uncovered-shapes.md) (tests from uncovered shapes), [R164](01-renderer-baseline-faults.md) (the faults)
 - Type: preregistered
@@ -14,7 +14,10 @@ written.
 
 ## Decision
 
-Open.
+All five rows hold. Two tests written from the faults notice three of the seven; the tests of
+`shared_frame.rs` now notice 38 of 42 planted faults, where they noticed 34. The four left are, by
+my reading, two that change nothing and two that change only when the lock is released. No run
+shows that reading; a run can only show that these tests do not notice them.
 
 ## The seven faults, read one by one
 
@@ -55,7 +58,45 @@ this type can see without a second thread and a way to look at the lock.
 
 ## Evidence and results
 
-Not run yet.
+The tests: second commit on the branch `lesscode/shared-frame-wake-tests` of `drift-rdp`, `e4d3b2c`,
+tests only, `cargo fmt --check` clean on the file. Local, not pushed. Tool: `lesscode-core` built
+from this repository at `a60f426` (the sources of the tool are those of `4b213d4`), SHA-256
+`FDD0C660…B36FDA74`. Outputs in `D:\BuildArtifacts\lesscode\lesscode-metrics\r172-fault-tests`:
+`plan.json`, `plan.log`, `work\plan-run.json`. The three working copies and the worktree's build
+output are removed.
+
+| # | Expectation | Measured | Holds |
+| --- | --- | --- | --- |
+| 1 | Three faults noticed: 198, 199, 207 | those three | yes |
+| 2 | 202 and 217 stay unnoticed | both unnoticed | yes |
+| 3 | 228 and 232 stay unnoticed | both unnoticed | yes |
+| 4 | The new tests pass on the code as it is; 542 passing tests | 542 passed, 6 skipped | yes |
+| 5 | No fault noticed before goes unnoticed | 35 noticed before, 38 now, of 42 | yes |
+
+The file over the three steps, 42 planted faults each time:
+
+| Tests | Noticed | Unnoticed | Shapes of `SharedFrame` the tests see, of 12 reached |
+| --- | --- | --- | --- |
+| as found (R164, R170) | 34 | 8 | 8 |
+| with four tests from uncovered shapes (R171) | 35 | 7 | 12 |
+| with two tests from the faults (this) | 38 | 4 | not read again |
+
+### The four that are left
+
+- 202 and 217: I read them as the same program written differently. For 202 the row just below
+  the picture is refused by the check on the buffer two lines on; for 217 every byte of the grown
+  buffer is overwritten in the next statement.
+- 228 and 232: without the explicit release, the lock is held until the function returns, so the
+  render thread is rung while the writer still holds it. Results are the same; the order of two
+  events between two threads is not. Nothing in the type's interface lets a test on one thread see
+  that. The rule "release, then ring" is in the code as two `drop(guard)` lines and is checked by
+  nothing.
+
+### The copies
+
+All three copies ran this time, 14 faults each, and closed with the unchanged tests passing; the
+run took 17 minutes. So this run says nothing about why copies dropped out in R164 and R171. That
+stays unexplained.
 
 ## Limits and interpretation
 

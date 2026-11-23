@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R171 Four tests from uncovered shapes cover all twelve and notice one fault in eight (2026-11-23)
+## Latest · R172 Two tests from the planted faults notice three of seven; the four left are not calls for a test (2026-11-23)
+
+Each of the seven faults the tests of `shared_frame.rs` still missed was read and its fate written down before a test existed. Five rows hold: two hand-written tests notice exactly the three expected, the suite passes with 542 tests, nothing regressed. The file went from 34 to 38 noticed of 42 over two steps, and from 8 to 12 covered shapes of 12 reached. Of the four left, two change nothing, and two change only the order of releasing a lock and ringing a thread, which no test on one thread sees. That reading is argued, not shown by a run. [R172](2026-11-23/09-tests-from-the-remaining-faults.md)
+
+## R171 Four tests from uncovered shapes cover all twelve and notice one fault in eight (2026-11-23)
 
 Hand-written tests for the four shapes of `SharedFrame` that the code reaches and no test of `drift-rdp` saw, on a local branch of that project. Five rows registered beforehand hold: the suite passes with 540 tests, the tests now see all 12 reached shapes, and of the eight planted faults the tests had missed in the file exactly one is now noticed, the one that concerns these shapes. Covering a shape and noticing a fault are different things. In two of three copies of the fault run the unchanged tests did not pass at the start, for a reason release 2.1.0 does not keep. [R171](2026-11-23/08-tests-for-four-uncovered-shapes.md)
 
