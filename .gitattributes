@@ -24,3 +24,5 @@ native/tests/fixtures/driver/gate-packs/*.json text eol=lf
 native/tests/fixtures/driver/controls/** text eol=lf
 # Copied third-party sources of the research tool: keep them byte-identical to the published crates.
 tools/guide-optimizer/vendor/** -text
+# The run page and its view library are embedded; the library is identified by hash. Keep their bytes as they are.
+native/page/** -text

@@ -12,6 +12,11 @@ it depends on, where a file `<prefix>-<WORD>.txt` serves every package whose
 name starts with <prefix>; the longest prefix decides. A package with neither
 stops the run, and so does one that states no license.
 
+A file of another project that is kept in the repository and taken into the
+build is listed in bundled.json of its crate, with its source address, its
+SHA-256 and its license files. It gets a row and a section too. A file whose
+hash is not the stated one stops the run.
+
 With -Check nothing is written; the run fails when a file would change.
 
 .EXAMPLE
@@ -62,7 +67,41 @@ foreach ($package in $packages) {
         [void]$notices.Append("--- $($file.Name) ---`n$text`n")
     }
 }
+
+# Files of other projects kept in the repository and taken into the build:
+# bundled.json of this crate and of every crate of the repository it depends on.
+$bundled = [Collections.Generic.List[string]]::new()
+foreach ($local in @($all | Where-Object { -not $_.source } | Sort-Object -Property name)) {
+    $dir = Split-Path $local.manifest_path
+    $list = Join-Path $dir 'bundled.json'
+    if (-not (Test-Path -LiteralPath $list)) { continue }
+    foreach ($item in @(Get-Content -LiteralPath $list -Raw | ConvertFrom-Json)) {
+        $label = "$($item.name) $($item.version)"
+        $hash = (Get-FileHash -LiteralPath (Join-Path $dir $item.file) -Algorithm SHA256).Hash.ToLowerInvariant()
+        if ($hash -cne $item.sha256) { $problems.Add("${label}: $($item.file) has the hash $hash, bundled.json states $($item.sha256)"); continue }
+        if (-not $item.license -or -not $item.license_files) { $problems.Add("$label states no license or no license file"); continue }
+        $bundled.Add("| $($item.name) | $($item.version) | $($item.license) | $($item.file) of $($local.name) | $($item.source) | ``$hash`` |")
+        [void]$notices.Append("========== $label [$($item.license)] ==========`n")
+        [void]$notices.Append("File: $($item.file) of $($local.name)`nSource: $($item.source)`nSHA-256: $hash`n$($item.note)`n")
+        foreach ($name in $item.license_files) {
+            $text = [IO.File]::ReadAllText((Join-Path $dir $name)) -replace "`r`n", "`n"
+            [void]$notices.Append("--- $(Split-Path $name -Leaf) ---`n$text`n")
+        }
+    }
+}
 if ($problems) { throw ("License inventory of ${Crate}:`n" + ($problems -join "`n")) }
+if ($bundled) {
+    $heading = @(
+        ''
+        '## Files kept in the repository and taken into the build'
+        ''
+        'Listed in `bundled.json` of the crate that holds them. The hash is checked when this inventory is written, and by a test of that crate.'
+        ''
+        '| Component | Version | SPDX expression | File | Source | SHA-256 |'
+        '| --- | --- | --- | --- | --- | --- |'
+    )
+    foreach ($line in $heading + $bundled) { $rows.Add($line) }
+}
 
 $inventory = @(
     '# Third-party license inventory'

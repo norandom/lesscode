@@ -87,3 +87,11 @@ Generated from locked Cargo metadata; includes target-specific and optional lock
 | windows-sys | 0.61.2 | MIT OR Apache-2.0 |
 | winnow | 1.0.4 | MIT |
 | zmij | 1.0.23 | MIT |
+
+## Files kept in the repository and taken into the build
+
+Listed in `bundled.json` of the crate that holds them. The hash is checked when this inventory is written, and by a test of that crate.
+
+| Component | Version | SPDX expression | File | Source | SHA-256 |
+| --- | --- | --- | --- | --- | --- |
+| htm with preact, standalone build | 3.1.1 | Apache-2.0 AND MIT | page/htm-preact-standalone.umd.js of lesscode-core | https://unpkg.com/htm@3.1.1/preact/standalone.umd.js | `62c4ffea400078c0eda7f435b22726b4961ebdf74c8506f188e92bec41d8ac51` |
