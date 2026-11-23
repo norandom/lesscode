@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R168 Over the 16 structs of a real subsystem the generated walk says something for one (2026-11-23)
+## Latest · R169 A walk over a subsystem's functions runs, and still changes the state of one type in sixteen (2026-11-23)
+
+A research program writes test modules into each file of the renderer of `drift-rdp` and one that keeps a world of values, calls 53 of 74 functions in every order and reads all holders after each call. It compiled unedited at the first attempt; no call panicked or failed to return; `SharedFrame` shows its 12 shapes again, and one change made from another type is found. Two registered rows fail: 72% of the functions are called where I expected at most half, and 1 of the 16 structs has its state changed where I expected 2 to 4. The state of this subsystem is changed from outside it or sits behind a device. Reached shapes for a subsystem have to come from elsewhere. [R169](2026-11-23/06-walk-over-a-subsystems-functions.md)
+
+## R168 Over the 16 structs of a real subsystem the generated walk says something for one (2026-11-23)
 
 The generator of R167, unfitted, on every struct with holders in the renderer of `drift-rdp`: 3 walked, 1 walked without a call, 2 do not compile, 10 not generated. Four rows registered beforehand hold, and the count of 3 overstates it: only `SharedFrame` had its state changed by the calls. Eight types are records built field by field, four need a value of another type of the subsystem, and most records have no methods of their own, so a walk over a type's methods has nothing to call. A first attempt was void through a fault in the start script. [R168](2026-11-23/05-generated-walk-over-renderer.md)
 
