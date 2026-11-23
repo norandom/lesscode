@@ -20,9 +20,9 @@ A walk runs the type's own methods in every order up to five calls, in a copy of
 
 A research program in Rust lists, per struct and enum, the fields that hold state and in how many shapes the type can stand. Six rows registered beforehand hold: order flags 3 flags and 8 shapes to an enumeration of 5; clipboard lease 3 cells to 2; batch runner 3 cells to 1. Unpredicted: the batch runner's shapes stay at 4. On the renderer of `drift-rdp`: 35 holders in 16 structs. Revision 3 tells a holder that is set once from one that is changed and ties uses to types: 18 of the 35 are changed, and `Facts` falls from 216 writable to 12 changing shapes. One registered row fails: 24 uses in the renderer are still left out (the mark was 15), 2 of them on a holder. [R165](2026-11-23/02-state-holder-count.md)
 
-## Planned · R164 Planted faults on the renderer of drift-rdp, before any rework (2026-11-23)
+## R164 On the renderer of drift-rdp the tests notice 72 of 204 planted faults (2026-11-23)
 
-Preregistered, not run yet. The owner's direction of 22 November: examples are reworks of whole subsystems, measured through six lenses ([brief](../../.kiro/specs/lesscode-metrics/brief.md)). This run gives the "before" side of the protection lens for the first one, eight files of a remote desktop client, and says whether the released `step plan` carries a subsystem of several files. 268 faults can be planted; five expectations are written down. [R164](2026-11-23/01-renderer-baseline-faults.md)
+Preregistered. The released `step plan` carried a subsystem of seven files: 268 faults in 1 hour 43 minutes. 64 of them lie in code compiled only on Linux and say nothing on Windows; of the 204 in code compiled here the tests notice 35%, from 81% in the frame bookkeeping to 9% in the drawing code. Four of five rows hold; in one of three copies the unchanged tests did not pass at the start, for a reason the release does not keep. A claim of mine before the run, that the tool plants faults in test code, was wrong and is corrected in the record. [R164](2026-11-23/01-renderer-baseline-faults.md)
 
 ## R162 Measured with kiro-cli, untangling state leaves the number of decisions as it was and moves them (2026-11-18)
 
