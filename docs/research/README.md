@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R165 A count of state holders and writable shapes reproduces the six hand counts (2026-11-23)
+## Latest · R166 The code reaches 6 of the 8 shapes of `SharedFrame`, 4 by the calls meant for use (2026-11-23)
+
+A walk runs the type's own methods in every order up to five calls, in a copy of `drift-rdp`, and writes down the shape after each. Six rows registered beforehand hold. The two shapes with `full` set and no `damage` are never reached; two more only when a caller leaves out `mark_dirty`. Outside test builds nothing sets `dirty` back. A fault in the walk's own bookkeeping was found in its first output and corrected; both outputs are kept. The walk is written by hand for this type. [R166](2026-11-23/03-reached-shapes-walk.md)
+
+## R165 A count of state holders and writable shapes reproduces the six hand counts (2026-11-23)
 
 A research program in Rust lists, per struct and enum, the fields that hold state and in how many shapes the type can stand. Six rows registered beforehand hold: order flags 3 flags and 8 shapes to an enumeration of 5; clipboard lease 3 cells to 2; batch runner 3 cells to 1. Unpredicted: the batch runner's shapes stay at 4. On the renderer of `drift-rdp`: 35 holders in 16 structs. Revision 3 tells a holder that is set once from one that is changed and ties uses to types: 18 of the 35 are changed, and `Facts` falls from 216 writable to 12 changing shapes. One registered row fails: 24 uses in the renderer are still left out (the mark was 15), 2 of them on a holder. [R165](2026-11-23/02-state-holder-count.md)
 

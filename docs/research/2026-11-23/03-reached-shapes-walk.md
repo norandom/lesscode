@@ -1,15 +1,17 @@
 # R166: which shapes of `SharedFrame` the code reaches, by a walk over its own methods
 
 - Report date/time and timezone: 2026-11-23, 09:54 Europe/Berlin (registration, from the clock)
-- Execution interval: not run yet
-- Status: planned
+- Execution interval: 2026-11-23, 09:55:51 to 09:59:03 (first run, from its start and end records); corrected walk rerun ended 09:59:59 (from the command's output), Europe/Berlin
+- Status: completed
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md), the state lens (a brief, not approved requirements)
 - Hypothesis ID and predecessor: [R165](02-state-holder-count.md), which counts the shapes that can be written
 - Type: preregistered
 
 ## Decision
 
-Open.
+All six rows hold. Of the 8 shapes that can be written, the code reaches 6, and 4 through the calls
+meant for use. The grid on the page is lit for this type. The walk was written by hand; whether one
+can be generated for a type is the next question.
 
 ## What is done
 
@@ -61,7 +63,47 @@ Why 4: outside test builds nothing clears `dirty`.
 
 ## Evidence and results
 
-Not run yet.
+Outputs in `D:\BuildArtifacts\lesscode\lesscode-metrics\r166-reached-walk`: `start.json`, `end.json`,
+`walk.log`, `reached.json` (first run), `walk-2.log`, `reached-2.json` (corrected walk). The copy's
+build output, 4.3 GiB, was removed at 10:00; the copy of the sources is kept.
+
+**A fault in my walk, found in its first output and corrected.** The first run reported that the
+last length added 6 and 10 new shapes, which would have rejected row 6. It was the instrument: the
+walk kept the first sequence it met that reached a shape, in the order it counted through them,
+not the shortest one. The reached sets were right; the lengths and the "by" sequences were not. The
+corrected walk keeps the shortest (SHA-256 `D5E2BD71…87159B01`, first version `01B7DB4B…8CF451D9`)
+and was rerun in the same copy with the same command. Both outputs are kept. The rows below are
+judged on the second.
+
+| # | Expectation | Measured | Holds |
+| --- | --- | --- | --- |
+| 1 | A reaches 4 of 8 | 4: nothing pending and not dirty; dirty with nothing pending; dirty with damage; dirty with damage and full | yes |
+| 2 | B reaches 6 of 8, all but the two with `full` and no `damage` | those 6 | yes |
+| 3 | C reaches the same 6 | the same 6 | yes |
+| 4 | In A and B no call clears `dirty` | none; in C only `publish` | yes |
+| 5 | With `wake`: A 8 of 16, B and C 12 of 16 | 8, 12, 12 | yes |
+| 6 | The last length adds no shape | new shapes by length, B: 1, 6, 5, 0, 0, 0 (with `wake`); nothing after two calls | yes |
+
+Sequences run: A 16,807; B 100,000; C 161,051. The test took under a second; building the project
+in the copy took 3 minutes 10 seconds.
+
+The shortest ways there, without `wake`:
+
+| dirty | damage | full | Reached by |
+| --- | --- | --- | --- |
+| no | none | no | a new frame |
+| no | some | no | a write through `begin_write` that is not followed by `mark_dirty` (B only) |
+| no | some | yes | a full write through `begin_write` that is not followed by `mark_dirty` (B only) |
+| yes | none | no | `update_rect` with an empty rectangle |
+| yes | some | no | `update_rect` |
+| yes | some | yes | `update_full` |
+| no | none | yes | never |
+| yes | none | yes | never |
+
+Not predicted: one call of `update_rect` with an empty rectangle leaves the frame dirty with
+nothing pending, so the render thread is woken for nothing.
+
+Seen in reading and confirmed by row 4: outside test builds nothing sets `dirty` back.
 
 ## Limits and interpretation
 

@@ -83,9 +83,9 @@ fn walk(calls: &[Call]) -> Seen {
             if before.dirty && !after.dirty && !seen.cleared_dirty.contains(&name) {
                 seen.cleared_dirty.push(name);
             }
-            if !seen.reached.contains_key(&after) {
+            // Keep the shortest way there, whatever order the sequences come in.
+            if seen.reached.get(&after).is_none_or(|how| how.len() > step + 1) {
                 seen.reached.insert(after, choice[..=step].iter().map(|&c| calls[c].0).collect());
-                seen.new_at[step + 1] += 1;
             }
             before = after;
         }
@@ -94,6 +94,10 @@ fn walk(calls: &[Call]) -> Seen {
         let mut digit = LENGTH;
         loop {
             if digit == 0 {
+                seen.new_at = vec![0; LENGTH + 1];
+                for how in seen.reached.values() {
+                    seen.new_at[how.len()] += 1;
+                }
                 return seen;
             }
             digit -= 1;
