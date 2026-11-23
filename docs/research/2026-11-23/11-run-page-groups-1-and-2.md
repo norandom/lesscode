@@ -64,7 +64,7 @@ receipt's total.
 - The first fixture for task 2.3 had no unprotected function, so the test could not show what it
   was written for. The fixture has one now.
 - This record first said 27 new tests and 410 before the feature. Counted in the files it is 25,
-  and 437 less 25 is 412. Corrected at 16:25.
+  and 437 less 25 is 412. Corrected at 16:22 (from the clock).
 - A date arithmetic exists twice: in the step ledger and in the snapshot. The driver may not reach
   up into the step commands, and I did not change the ledger.
 
