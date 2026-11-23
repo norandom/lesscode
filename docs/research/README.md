@@ -2,7 +2,7 @@
 
 ## Latest · R165 A count of state holders and writable shapes reproduces the six hand counts (2026-11-23)
 
-A research program in Rust lists, per struct and enum, the fields that hold state and in how many shapes the type can stand. Six rows registered beforehand hold: order flags 3 flags and 8 shapes to an enumeration of 5; clipboard lease 3 cells to 2; batch runner 3 cells to 1. Unpredicted: the batch runner's shapes stay at 4. On the renderer of `drift-rdp`: 35 holders in 16 structs. The lists of who writes and who decides are not usable yet; 73 uses were left out because field names repeat. [R165](2026-11-23/02-state-holder-count.md)
+A research program in Rust lists, per struct and enum, the fields that hold state and in how many shapes the type can stand. Six rows registered beforehand hold: order flags 3 flags and 8 shapes to an enumeration of 5; clipboard lease 3 cells to 2; batch runner 3 cells to 1. Unpredicted: the batch runner's shapes stay at 4. On the renderer of `drift-rdp`: 35 holders in 16 structs. Revision 3 tells a holder that is set once from one that is changed and ties uses to types: 18 of the 35 are changed, and `Facts` falls from 216 writable to 12 changing shapes. One registered row fails: 24 uses in the renderer are still left out (the mark was 15), 2 of them on a holder. [R165](2026-11-23/02-state-holder-count.md)
 
 ## Planned · R164 Planted faults on the renderer of drift-rdp, before any rework (2026-11-23)
 

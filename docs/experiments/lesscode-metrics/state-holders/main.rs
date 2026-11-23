@@ -36,6 +36,9 @@ struct FunctionRule {
     node: String,
     name: String,
     returns: String,
+    body: String,
+    /// Node kind of the receiver among the parameters.
+    receiver: String,
 }
 #[derive(Deserialize)]
 struct ImplRule {
@@ -150,18 +153,24 @@ fn first_named<'r>(node: &SgNode<'r>) -> Option<SgNode<'r>> {
     node.children().find(|c| c.is_named())
 }
 
-/// The first type argument of `A, B` at the top level.
+/// The first type argument of `'a, A, B` at the top level; a lifetime is none.
 fn first_argument(inner: &str) -> &str {
-    let mut depth = 0usize;
+    let (mut depth, mut from) = (0usize, 0usize);
     for (at, c) in inner.char_indices() {
         match c {
             '<' | '(' | '[' => depth += 1,
             '>' | ')' | ']' => depth = depth.saturating_sub(1),
-            ',' if depth == 0 => return inner[..at].trim(),
+            ',' if depth == 0 => {
+                let argument = inner[from..at].trim();
+                if !argument.starts_with('\'') {
+                    return argument;
+                }
+                from = at + 1;
+            }
             _ => {}
         }
     }
-    inner.trim()
+    inner[from..].trim()
 }
 
 /// The last name of the type's path, and its first argument.
@@ -208,6 +217,11 @@ struct Scope<'a> {
     /// Written return type of a function, by the type it is implemented for
     /// (empty for none) and its name.
     returns: BTreeMap<(String, String), String>,
+    /// Whether a function the scope declares may change its receiver.
+    declared: BTreeMap<(String, String), bool>,
+    /// Functions that hand out a field of their receiver: the field, and
+    /// whether what they hand out is a handle.
+    accessors: BTreeMap<(String, String), (String, bool)>,
     uses: BTreeMap<(String, String), Use>,
 }
 
@@ -423,6 +437,37 @@ fn in_tests(rules: &Rules, node: &SgNode<'_>) -> bool {
     })
 }
 
+/// The field of its receiver a function hands out as its value, and whether
+/// through a handle: `fn progress(&self) -> … { self.progress.lock().unwrap() }`.
+fn handed_out(rules: &Rules, function: &SgNode<'_>) -> Option<(String, bool)> {
+    let body = function.field(&rules.function.body)?;
+    let mut at = body.children().filter(|c| c.is_named()).last()?;
+    let mut handle = false;
+    loop {
+        if at.kind() == rules.method.node.as_str() {
+            let callee = at.field(&rules.method.callee)?;
+            if callee.kind() != rules.access.node.as_str() {
+                return None;
+            }
+            let method = text(&callee.field(&rules.access.name)?);
+            if has(&rules.handles, &method) {
+                handle = true;
+            } else if !has(&rules.through, &method) {
+                return None;
+            }
+            at = callee.field(&rules.access.receiver)?;
+            continue;
+        }
+        if has(&rules.pass, &at.kind()) {
+            at = first_named(&at)?;
+            continue;
+        }
+        let own = at.kind() == rules.access.node.as_str()
+            && at.field(&rules.access.receiver).is_some_and(|r| r.text() == rules.access.own.as_str());
+        return own.then(|| Some((text(&at.field(&rules.access.name)?), handle))).flatten();
+    }
+}
+
 fn declarations(rules: &Rules, label: &str, root: &SgNode<'_>, scope: &mut Scope<'_>, twice: &mut BTreeSet<String>) {
     for node in walk(root) {
         let kind = node.kind();
@@ -430,11 +475,21 @@ fn declarations(rules: &Rules, label: &str, root: &SgNode<'_>, scope: &mut Scope
             continue;
         }
         if kind == rules.function.node.as_str() {
-            let (Some(name), Some(returns)) = (node.field(&rules.function.name), node.field(&rules.function.returns)) else {
+            let Some(name) = node.field(&rules.function.name).map(|n| text(&n)) else {
                 continue;
             };
             let of = scope.own_type(&node).unwrap_or_default();
-            scope.returns.insert((of, text(&name)), text(&returns));
+            let changes = walk(&node).iter().any(|p| {
+                p.kind() == rules.function.receiver.as_str()
+                    && p.children().any(|c| c.kind() == rules.mutable.as_str())
+            });
+            scope.declared.insert((of.clone(), name.clone()), changes);
+            if let Some(returns) = node.field(&rules.function.returns) {
+                scope.returns.insert((of.clone(), name.clone()), text(&returns));
+            }
+            if let Some(handed) = handed_out(rules, &node) {
+                scope.accessors.insert((of, name), handed);
+            }
             continue;
         }
         let is_struct = kind == rules.r#struct.node.as_str();
@@ -489,10 +544,12 @@ enum Touch {
     Reached,
 }
 
-/// What the code does with the holder it names at `access`.
-fn touch(rules: &Rules, access: &SgNode<'_>) -> Touch {
+/// What the code does with the holder it names at `access`. `handle` says
+/// that `access` already is a handle on the holder.
+fn touch(scope: &Scope<'_>, access: &SgNode<'_>, mut handle: bool) -> Touch {
+    let rules = scope.rules;
     let mut at = access.clone();
-    let (mut handle, mut deeper) = (false, false);
+    let mut deeper = false;
     while let Some(p) = at.parent() {
         let kind = p.kind();
         let receives = kind == rules.access.node.as_str()
@@ -508,6 +565,13 @@ fn touch(rules: &Rules, access: &SgNode<'_>) -> Touch {
                 continue;
             };
             let method = p.field(&rules.access.name).map(|n| text(&n)).unwrap_or_default();
+            // A method the scope declares for what is held: its receiver says whether it changes it.
+            let own = scope.type_of(&at, 0).and_then(|of| scope.declared.get(&(of, method.clone())));
+            match own {
+                Some(true) => return Touch::Reached,
+                Some(false) => return Touch::Read,
+                None => {}
+            }
             if has(&rules.replacing, &method) {
                 return if deeper { Touch::Reached } else { Touch::Replaced };
             }
@@ -546,7 +610,21 @@ fn touch(rules: &Rules, access: &SgNode<'_>) -> Touch {
         }
         let bound = kind == rules.binding.node.as_str()
             && p.field(&rules.binding.value).is_some_and(|v| same(&v, &at));
-        return if bound && handle && changeable(&p) { Touch::Reached } else { Touch::Read };
+        if !(bound && handle && changeable(&p)) {
+            return Touch::Read;
+        }
+        // `let mut held = x.lock()…; *held = …` puts another value in place.
+        let name = p.field(&rules.binding.name).map(|n| text(&n)).unwrap_or_default();
+        let whole = format!("*{name}");
+        let function = ancestors(&p).into_iter().find(|a| a.kind() == rules.function.node.as_str());
+        let replaced = function.is_some_and(|f| {
+            walk(&f).iter().any(|a| {
+                has(&rules.assignment.nodes, &a.kind())
+                    && a.range().start >= p.range().end
+                    && a.field(&rules.assignment.left).is_some_and(|l| l.text() == whole.as_str())
+            })
+        });
+        return if replaced { Touch::Replaced } else { Touch::Reached };
     }
     Touch::Read
 }
@@ -585,7 +663,14 @@ fn run() -> Result<Value, String> {
             Err(error) => unparsed.push(error),
         }
     }
-    let mut scope = Scope { rules: &rules, types: BTreeMap::new(), returns: BTreeMap::new(), uses: BTreeMap::new() };
+    let mut scope = Scope {
+        rules: &rules,
+        types: BTreeMap::new(),
+        returns: BTreeMap::new(),
+        declared: BTreeMap::new(),
+        accessors: BTreeMap::new(),
+        uses: BTreeMap::new(),
+    };
     let mut twice = BTreeSet::new();
     for (label, tree) in &parsed {
         declarations(&rules, label, &tree.root(), &mut scope, &mut twice);
@@ -598,40 +683,55 @@ fn run() -> Result<Value, String> {
             owners.entry(field.clone()).or_default().push(name.clone());
         }
     }
-    let (mut by_type, mut by_name, mut left_out) = (0usize, 0usize, 0usize);
+    let (mut by_type, mut by_name) = (0usize, 0usize);
+    let mut left_out = Vec::new();
     let mut uses: BTreeMap<(String, String), Use> = BTreeMap::new();
-    for (_, tree) in &parsed {
+    for (file, tree) in &parsed {
         for access in walk(&tree.root()) {
             if access.kind() != rules.access.node.as_str() || in_tests(&rules, &access) {
                 continue;
             }
-            let Some(field) = access.field(&rules.access.name).map(|n| text(&n)) else {
+            let Some(named) = access.field(&rules.access.name).map(|n| text(&n)) else {
                 continue;
             };
-            let Some(candidates) = owners.get(&field) else {
-                continue;
-            };
-            let followed = access
-                .field(&rules.access.receiver)
-                .and_then(|r| scope.type_of(&r, 0))
-                .filter(|t| candidates.contains(t));
-            let owner = match (followed, candidates.as_slice()) {
-                (Some(t), _) => {
-                    by_type += 1;
-                    t
-                }
-                (None, [only]) => {
-                    by_name += 1;
-                    only.clone()
-                }
-                _ => {
-                    left_out += 1;
+            let receiver = access.field(&rules.access.receiver).and_then(|r| scope.type_of(&r, 0));
+            let call = access.parent().filter(|c| {
+                c.kind() == rules.method.node.as_str()
+                    && c.field(&rules.method.callee).is_some_and(|f| same(&f, &access))
+            });
+            // A call is a use only of the field its function hands out.
+            let (owner, field, start, handle) = if let Some(call) = call {
+                let handed = receiver.and_then(|of| Some((scope.accessors.get(&(of.clone(), named))?.clone(), of)));
+                let Some(((field, handle), of)) = handed else {
                     continue;
-                }
+                };
+                by_type += 1;
+                (of, field, call, handle)
+            } else {
+                let Some(candidates) = owners.get(&named) else {
+                    continue;
+                };
+                let owner = match (receiver.filter(|t| candidates.contains(t)), candidates.as_slice()) {
+                    (Some(t), _) => {
+                        by_type += 1;
+                        t
+                    }
+                    (None, [only]) => {
+                        by_name += 1;
+                        only.clone()
+                    }
+                    _ => {
+                        left_out.push(json!({"file": file, "line": line(&access), "text": text(&access),
+                                             "types_with_the_field": candidates}));
+                        continue;
+                    }
+                };
+                (owner, named, access.clone(), false)
             };
+            let access = start;
             let label = unit(&scope, &access);
             let entry = uses.entry((owner, field)).or_default();
-            match touch(&rules, &access) {
+            match touch(&scope, &access, handle) {
                 Touch::Replaced => {
                     entry.replaced += 1;
                     entry.changers.insert(label.clone());
@@ -692,14 +792,14 @@ fn run() -> Result<Value, String> {
         }));
     }
     Ok(json!({
-        "receipt": "state-holders-r165", "revision": 2,
+        "receipt": "state-holders-r165", "revision": 3,
         "rules_sha256": sha256_hex(rules_text.as_bytes()),
         "files": parsed.len(), "unparsed": unparsed,
         "totals": {"types_declared": scope.types.len(), "structs_with_holders": with_holders,
                    "holders": holders, "changed_holders": changed, "flags": flags, "cells": cells,
                    "uses_tied_by_type": by_type, "uses_tied_by_name": by_name,
-                   "uses_left_out_as_ambiguous": left_out},
-        "declared_twice": twice, "types": listed,
+                   "uses_left_out_as_ambiguous": left_out.len()},
+        "declared_twice": twice, "types": listed, "left_out": left_out,
     }))
 }
 

@@ -183,3 +183,50 @@ numbers carry the error of rows 3 and 5 and are not final.
 
 Revision 3 is to fix these with the same three rows as its test: a method the scope declares with
 a changeable receiver counts as changing, and the program lists the uses it leaves out.
+
+## Amendment, 2026-11-23, 09:52 Europe/Berlin: revision 3 run; rows 3 and 5 now hold, row 7 still fails
+
+Binary SHA-256 `75BB283D…3829427C`, rules `B4B041AA…`; outputs in
+`D:\BuildArtifacts\lesscode\lesscode-metrics\r165-state-holders\rev3`. Built three times in this
+revision; the outputs kept are those of the last build. What changed against revision 2:
+
+- A method the scope declares counts by its receiver: `&mut self` changes what it is called on,
+  `&self` does not.
+- A function that hands out a field of its receiver (`fn progress(&self) -> … { self.progress.lock().unwrap() }`)
+  makes each call of it a use of that field. Revision 2 had also counted such a call as a read of a
+  field of the same name; that is gone.
+- A lifetime is no longer taken for the type a wrapper holds (`MutexGuard<'a, T>`).
+- `let mut held = x.lock()…; *held = …` counts as putting another value in place.
+- The program lists the uses it leaves out.
+
+| # | Expectation | Counted | Holds |
+| --- | --- | --- | --- |
+| 1 | order: three flags changed, changing shapes 8 | three changed, 8 | yes |
+| 2 | clipboard before: `owner`, `claim_sequence`, `Lease.valid` changed; `operation` not | as expected | yes |
+| 3 | clipboard after: `owner` changed, `operation` not; `Owner.lease` changed | as expected | yes |
+| 4 | runner before: `queue`, `results`, `fatal` changed; `store` set once | as expected | yes |
+| 5 | runner after: `progress` changed; `Progress.fatal` changed; `store` set once | as expected | yes |
+| 6 | `MutantResult`: four flags set once, changing shapes 1 | as expected | yes |
+| 7 | left out: renderer at most 15, runner at most 3 | renderer 24, runner 5 | **no** |
+| 8 | the six rows of revision 1 unchanged | unchanged | yes |
+
+Row 7 stays failed. What is left out is listed now: names bound by a closure parameter, a loop or
+a pattern (`d.width`, `job.number`, `layer.geometry`), whose type the program does not follow.
+Counted afterwards, and not registered: of the 24 left out in the renderer, 2 are on a field that is
+a holder in one of the candidate types (`layer.geometry`, `layer.wake`); of the 5 in the runner,
+none. The rest are sizes and coordinates.
+
+The three examples, by this count (unregistered, read off the outputs):
+
+| Example | Before | After |
+| --- | --- | --- |
+| Order flags | `Order`: 3 changed flags, 8 shapes | an enumeration of 5 |
+| Clipboard lease | `NativeClipboardState` 3 changing shapes, and `Lease` 2 | `NativeClipboardState` 2 (`Owner` 2 inside it) |
+| Batch runner | `Shared` 2 changing shapes | `Shared` 2 |
+
+The renderer of `drift-rdp`: 35 holders, 18 of them changed. Changing shapes, with writable in
+brackets: `Facts` 12 (216), `Renderer` 8 (16), `SharedFrame` 8 (8), `RenderShared` 4 (4),
+`SharedFrameInner` 4 (4), `Layer` 2 (8), `State` 2 (2). 229 uses tied by type, 23 by name.
+
+Still open: names bound by closures, loops and patterns; locals and statics; a collection that is
+empty or not; and "reached" as against "can be written", which needs a solver or a walk.
