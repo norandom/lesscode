@@ -157,3 +157,18 @@ a fault run on a subsystem, which the brief names as an open question.
 
 Expectations and their rejection are written before the run; the correction of my own count is
 stated; the tool's gaps are named.
+
+## Amendment, 2026-11-23, 19:00 Europe/Berlin: 66 faults lie in code not built on Windows, not 64
+
+The text above is kept as it was. [R177](14-run-page-group-5.md) told this run's record to the run
+page again, with a pack that names the conditions under which code is not built on a system. It
+finds 66 of the 268 faults in such code. The 64 above were counted by the lines of two modules. The
+two more are single statements under a condition: `gpu.rs` line 474 (`#[cfg(not(windows))]`) and
+`display_path.rs` line 484 (`#[cfg(target_os = "linux")]`). Above they are the "2 of the 204" that
+did not build.
+
+Corrected: 202 faults lie in code built on Windows, of which 72 are noticed (36%), 130 unnoticed
+and none failed to build. Of the 66, the run reported 63 unnoticed and 3 as not building. 16 of 38
+functions have faults in built code and none noticed; the 21 above included functions that are
+built on Linux only. The table by file above is unchanged but for `gpu.rs` (91 faults) and
+`display_path.rs` (10 faults), one fewer each; I did not recompute its shares.

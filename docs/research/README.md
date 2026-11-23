@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R176 The run page, group 4: the page of the design in the binary, its six states, and a walk by keyboard (2026-11-23)
+## Latest · R177 The run page, group 5: what the page explains, and faults in code that is not built here (2026-11-23)
+
+Implementation record of the spec `run-dashboard`. The page says at its top and in a tab what the run touches, explains a planted fault with one of the run, and gives its notices where tests are missing or do not pass; each sentence only where the snapshot holds its fact. A language pack can now name the code that is not built on a system, and the page counts a fault there apart. Told again to the page, the recorded run of R164 has 66 such faults of 268 and not 64; R164 carries an amendment. The pack limit rose to 50 lines and 3,200 characters by the owner's decision. The run and the plan still plant and count those faults. Task 5.2 waits for the owner to read its wording. [R177](2026-11-23/14-run-page-group-5.md)
+
+## R176 The run page, group 4: the page of the design in the binary, its six states, and a walk by keyboard (2026-11-23)
 
 Implementation record of the spec `run-dashboard`. The page of the prototype and its view library (htm with preact, 13 KiB, named in the third-party notices with its hash) are inside the binary. For thirteen fixed situations the page gives itself the state the design names, at 1,280 and at 400 wide, and a drawing made to fail gives "cannot read" instead of a blank page; every control is reached and used by keyboard, and the walk is written down. The check runs through Playwright. Seen in one browser engine on Windows; Firefox, Safari and a screen reader were not seen. Ten deviations, among them a Node package for the check where the design adds no package manager. [R176](2026-11-23/13-run-page-group-4.md)
 

@@ -168,6 +168,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Requirements: 1.4_
 
 - [ ] 5. What the page explains
+  - Record: [R177](../../../docs/research/2026-11-23/14-run-page-group-5.md). Open: 5.2 waits for
+    the owner to read the wording.
 - [x] 5.1 Your code
   - Done 2026-11-23: a line at the top of the page for the whole run and the tab, each sentence
     drawn from its fact. Beyond the page: the run now measures the copies at its end and names its
