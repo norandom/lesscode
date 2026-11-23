@@ -1,0 +1,82 @@
+# R167: the walk over a type's methods, generated from its source
+
+- Report date/time and timezone: 2026-11-23, 10:08 Europe/Berlin (registration, from the clock)
+- Execution interval: not run yet
+- Status: planned
+- Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md), the state lens (a brief, not approved requirements)
+- Hypothesis ID and predecessor: [R166](03-reached-shapes-walk.md), where the walk was written by hand
+- Type: preregistered
+
+## Decision
+
+Open.
+
+## What is built
+
+A research program in Rust, `walk-gen`. From a source file, the name of a type and a rules file it
+writes a Rust test module that:
+
+- builds a value of the type, through an associated function that returns it (one named `new`
+  first), or through `Default` when the type derives it;
+- reads the holders of the type as a list of small numbers: a flag, an optional, a cell that is
+  filled once, an enumeration by its variant, and the same through a lock or a wrapper into a
+  struct of the same file;
+- calls every method of the type that takes its receiver by reference, with values for the
+  parameters taken from a small table in the rules file (numbers 0, 1 and 4; an empty and a filled
+  slice; and so on). One call uses the middle value for every parameter; further calls change one
+  parameter at a time;
+- where a method returns another type of the file (a guard, say), also calls that type's methods on
+  what was returned, in one expression;
+- keeps methods that exist only in test builds apart.
+
+The generated module runs every sequence of these calls up to a length on a fresh value, and
+writes the shapes it saw, the shortest way to each, and for each holder the calls that changed it.
+
+It names no project. Which syntax means what, and which values to try, is in the rules file.
+
+## Hypothesis and falsification
+
+Written before the generator exists. "Unedited" means the generated file is compiled and run as
+written; if it has to be touched by hand, the row fails.
+
+| # | Subject | Expectation | Rejected when |
+| --- | --- | --- | --- |
+| 1 | `Order` in `docs/examples/order-flags/before.rs` (made up; changed through `&mut self`, built by `Default`) | compiles and runs unedited; reaches 5 of 8 shapes of (`paid`, `shipped`, `cancelled`): none set; paid; paid and shipped; cancelled; paid and cancelled | otherwise |
+| 2 | `Order` | `paid` is changed only by `pay`, `shipped` only by `ship`, `cancelled` only by `cancel` | otherwise |
+| 3 | `SharedFrame` in `drift-rdp` at `09b4ce8` (real; shared behind `Arc`, built by `new`) | compiles and runs unedited; its own methods reach the 4 shapes R166 found for the whole calls, with the guard's methods the 6, and the test-only method adds none; twice as many with `wake` | otherwise |
+| 4 | `SharedFrame` | the holders read are `wake`, `dirty`, and behind the lock `damage` and `full`; the counter `version` is not one | otherwise |
+| 5 | `SharedFrame` | outside the test-only set no call takes `dirty` from set to not set | such a call is listed |
+| 6 | both | no method that takes its receiver by reference is left uncalled | one is left out |
+
+## Frozen inputs and method
+
+- Generator and rules: `docs/experiments/lesscode-metrics/walk-gen/` (`main.rs`, `rust.walk.json`),
+  a binary of the experiment crate `e5-bound`.
+- `Order`: the file is copied into a throwaway crate as its library root.
+- `SharedFrame`: `drift-rdp` is copied as in R166, and the generated module is placed beside
+  `shared_frame.rs` in the copy, with one line added to declare it. The project is only read.
+- Sequences up to length 4.
+- Output: `D:\BuildArtifacts\lesscode\lesscode-metrics\r167-generated-walk`.
+
+## Evidence and results
+
+Not run yet.
+
+## Limits and interpretation
+
+- The shapes reached depend on the values tried. A shape that needs a particular argument the
+  table does not hold is missed. What is reported is a lower bound on what is reached.
+- One thread.
+- A parameter whose type has no entry in the table makes its method uncallable; the generator
+  lists such methods.
+- Two subjects are few. One of them is made up.
+
+## Tool/spec consequence and next gate
+
+If the rows hold: the reached shapes of a type can be measured without writing a walk by hand, and
+the state view of the page can be filled for the changing types of the renderer.
+
+## COBESY check
+
+Expectations and their rejection are written before the generator exists; the limit that matters
+most, the dependence on the values tried, is stated first.
