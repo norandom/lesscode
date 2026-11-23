@@ -2,13 +2,14 @@
 # tests, and collect what they noted.
 #   ./run.ps1 -Watch <scope-watch.exe> -Out <new directory under D:\BuildArtifacts\lesscode> [-Tree <existing copy>]
 # drift-rdp is only read. With -Tree the copy's renderer sources are put back first.
-param([Parameter(Mandatory)][string]$Watch, [Parameter(Mandatory)][string]$Out, [string]$Tree, [int]$LimitSeconds = 900)
+param([Parameter(Mandatory)][string]$Watch, [Parameter(Mandatory)][string]$Out, [string]$Tree, [string]$Subject, [int]$LimitSeconds = 900)
 $ErrorActionPreference = 'Stop'
 if (Test-Path -LiteralPath $Out) { throw "$Out exists" }
 if ($Out -notmatch '^D:\\BuildArtifacts\\lesscode\\') { throw 'output must be under D:\BuildArtifacts\lesscode' }
 $rules = Join-Path $PSScriptRoot 'rust.watch.json'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..\..')).Path
-$subject = (Resolve-Path (Join-Path $repo '..\drift-rdp')).Path
+# The checkout to read: drift-rdp beside this repository, or another worktree of it (-Subject).
+$subject = if ($Subject) { (Resolve-Path $Subject).Path } else { (Resolve-Path (Join-Path $repo '..\drift-rdp')).Path }
 $files = 'display_path.rs', 'frame_stores.rs', 'gpu.rs', 'native_layer.rs', 'native_layer/dcomp.rs', 'shared_frame.rs', 'yuv.rs'
 New-Item -ItemType Directory -Force $Out | Out-Null
 if (-not $Tree) {
