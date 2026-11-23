@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R174 The run page, groups 1 and 2: a run can tell what happens in it, and step plan keeps it (2026-11-23)
+## Latest · R175 The run page, group 3: a listener for the length of a run, and --page and --open (2026-11-23)
+
+Implementation record of the spec `run-dashboard`. `step plan --page` writes a report of the run at its end; `--open` also serves the run on `127.0.0.1` behind a secret and starts the default browser once. 14 new tests; the core suite is at 451 of 451 on Windows and 450 of 450 on Linux. Six deviations, each for a stated reason: above all, the page shown is a plain stand-in until the page of the design is in the binary. No browser was started by a test or by the author. The Linux run left open in R174 passed. [R175](2026-11-23/12-run-page-group-3.md)
+
+## R174 The run page, groups 1 and 2: a run can tell what happens in it, and step plan keeps it (2026-11-23)
 
 Implementation record of the spec `run-dashboard`. The snapshot the page will draw from, the batch runner telling a listener, a sign of life, and `step plan` ending the snapshot with its unprotected functions: 25 new tests, the core suite at 437 of 437 on Windows. Six deviations from the tasks, each for a stated reason; the item marked "can fail" did not fail. Four faults of mine were found by the checks and corrected. `runner.rs` is one token under its ceiling and must be split before its next change. No command sets a listener yet. [R174](2026-11-23/11-run-page-groups-1-and-2.md)
 
