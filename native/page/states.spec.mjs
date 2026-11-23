@@ -6,7 +6,7 @@
 //
 // Run with verification/playwright.config.mjs; see there.
 import { test, expect } from '../../verification/node_modules/@playwright/test/index.mjs';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -134,6 +134,67 @@ function refused() {
     refusal: { reasons: ['the scope grows from 4495 to 4567 tokens; the declaration allows 60 more'] } };
   return one;
 }
+// A run of `step check` (tasks 6.1 and 6.2) in the shape the tool writes: accepted, refused by
+// what the commits show before anything ran, or refused by the faults of its two runs.
+const BASE = 'e4d3b2c0aa11bb22cc33dd44ee55ff6677889900';
+function checked(kind) {
+  const one = run(true, 5), early = kind === 'refused-early', accepted = kind === 'accepted';
+  const reasons = early ? ['the scope grows from 4495 to 4567 tokens; the declaration allows 60 more']
+    : ['src/frame.rs: take_damage: unnoticed faults rise from 1 to 3: #7 line 41 negate, #9 line 44 drop_statement'];
+  Object.assign(one, { command: 'step check', outcome: accepted ? 'Accepted' : 'Refused', exit_code: accepted ? 0 : 1,
+    outcome_detail: accepted ? 'Every check passed. In no function are more faults unnoticed after the step than before. No test noticed any fault before the step in: mark_all. There the acceptance means only that nothing got worse; nothing was protected before.' : reasons.join('; '),
+    next: accepted ? ['Put the step on the ledger with `step record`.', 'Tests come first: write tests for the functions named above before another step changes them.'] : ['Change the step so that the reasons no longer hold, and run this again. Fix the step, not the limit.'] });
+  Object.assign(one.subject, { branch: 'step/shared-frame-pending', on_main_branch: false, compared_with: BASE });
+  one.writes_in_repository = ['.kiro/specs/shared-frame-pending/verdict.json'];
+  const status = (i) => (early ? (i === 0 ? 'failed' : 'left out') : 'ended');
+  one.stages = [['checks', 'Check what the commits of the step show'], ['tests-before', 'Copy the code before the step and run your tests on it'],
+    ['faults-before', 'Plant faults in the code before the step'], ['tests-after', 'Copy the code after the step and run your tests on it'],
+    ['faults-after', 'Plant faults in the code after the step'], ['verdict', 'Compare and write the verdict']]
+    .map(([id, title], i) => ({ ...stage(id, title, status(i), null, null, 12), reason: early && i === 0 ? reasons[0] : null }));
+  const sided = (side, row) => ({ ...row, side });
+  one.faults = early ? { total: 0, done: 0, noticed: 0, unnoticed: 0, not_built: 0, timed_out: 0, not_judged: 0, not_compiled_here: null, example: null, files: [], functions: [] } : {
+    total: 30, done: 30, noticed: 20, unnoticed: 10, not_built: 0, timed_out: 0, not_judged: 0, not_compiled_here: null,
+    // No source text unless the person asked for it.
+    example: { file: 'src/frame.rs', function: 'take_damage', line: 41, what_was_changed: 'negate', text: '', outcome: 'noticed: a test failed' },
+    files: [sided('before', tally('src/frame.rs', null, 11, 5, 0)), sided('after', tally('src/frame.rs', null, 9, 5, 0))],
+    functions: [sided('before', tally('src/frame.rs', 'take_damage', 11, 1, 0)), sided('before', tally('src/frame.rs', 'mark_all', 0, 3, 0)), sided('before', tally('src/frame.rs', 'release', 0, 1, 0)),
+      sided('after', tally('src/frame.rs', 'take_damage', 9, accepted ? 1 : 3, 0)), sided('after', tally('src/frame.rs', 'mark_all', 0, accepted ? 3 : 1, 0))] };
+  const lens = (name, measure, before, after, expected, moved, command) => ({ lens: name, measure, before, after, expected, moved, measured: true, command, handed_in: false, note: null });
+  const none = (name, measure, expected, note) => ({ lens: name, measure, before: null, after: null, expected, moved: null, measured: false, command: null, handed_in: false, note });
+  const handIn = 'This run does not measure it. Numbers measured elsewhere are shown when a file with them is named with --measures.';
+  one.report = {
+    lenses: [
+      lens('Size', 'tokens of the files in scope', 4495, early ? 4567 : 4452, 'falls', !early, 'lesscode-core step check'),
+      lens('Structure', 'functions', 15, 17, 'falls', false, 'lesscode-core deconvolute measure-scope'),
+      accepted ? { ...lens('State', 'ways SharedFrame can be written', 16, 6, 'falls', true, 'state-holders --type SharedFrame'), handed_in: true }
+        : none('State', 'ways the state can be written, is reached and is seen by the tests', 'falls', handIn),
+      none('Local complexity', 'per routine: decisions, nesting, parameters and length', 'no routine above its limit gets worse', handIn),
+      early ? none('Behaviour kept', 'your tests on the code, with no fault planted', 'stays', 'The tests were not run, or could not be run.')
+        : lens('Behaviour kept', 'your tests on the code, with no fault planted', 'pass', 'pass', 'stays', true, 'cargo test --lib'),
+      early ? none('Protection', 'planted faults in the functions of the step: noticed; unnoticed; neither', 'unnoticed faults do not rise in any function', 'The faults of the two sides were not compared.')
+        : lens('Protection', 'planted faults in the functions of the step: noticed; unnoticed; neither', '11; 5; 0', accepted ? '9; 4; 1' : '9; 4; 0', 'unnoticed faults do not rise in any function', accepted, 'lesscode-core step check')],
+    functions: early ? [] : [
+      { file: 'src/frame.rs', function: 'take_damage', before: { noticed: 11, unnoticed: 1, neither: 0 }, after: { noticed: 9, unnoticed: accepted ? 1 : 3, neither: 0 }, out_of_reach: null },
+      { file: 'src/frame.rs', function: 'mark_all', before: { noticed: 0, unnoticed: 3, neither: 0 }, after: { noticed: 0, unnoticed: accepted ? 3 : 1, neither: 0 }, out_of_reach: 'needs a window to be tested' },
+      { file: 'src/frame.rs', function: 'release', before: { noticed: 0, unnoticed: 1, neither: 0 }, after: null, out_of_reach: null }],
+    refusal: accepted ? null : { reasons } };
+  return one;
+}
+// The tests fail after the step: the faults of that side were planned and never run.
+function checkedTestsFailAfter() {
+  const one = checked('refused');
+  one.stages = one.stages.map((s, i) => ({ ...s, status: i < 3 ? 'ended' : i === 3 ? 'failed' : 'left out', reason: i === 3 ? 'the project\'s tests do not pass on the step' : null }));
+  const unrun = (row) => (row.side === 'after' ? { ...row, noticed: 0, unnoticed: 0, left: 4, unprotected: false } : row);
+  one.faults.files = one.faults.files.map(unrun);
+  one.faults.functions = one.faults.functions.map(unrun);
+  return one;
+}
+function checkedOnMain() {
+  const one = checked('accepted');
+  Object.assign(one.subject, { branch: 'main', on_main_branch: true });
+  return one;
+}
+const LENSES = ['Size', 'Structure', 'State', 'Local complexity', 'Behaviour kept', 'Protection'];
 // Every field of another kind than the page expects.
 const wrong = () => ({
   schema: 1, heartbeat: 7, ended: true, tool: 'a text', command: [1, 2], seconds: 'long', exit_code: 'none', subject: 'a text',
@@ -193,6 +254,30 @@ const SITUATIONS = [
     hides: [NOTICE.command, NOTICE.none, NOTICE.fail],
     tabs: { Unprotected: { shows: ['1 of 3 functions are unprotected', 'every test still passes'], hides: ['tests cannot come first'] } } },
   { name: 'refused', state: 'ended', data: refused, shows: ['Refused', 'Fix the step'] },
+  // The report of a judged step (task 6.2): each lens or "not measured", what was compared and by
+  // which command; the faults of each side under the stage of that side.
+  { name: 'check-accepted', state: 'ended', data: () => checked('accepted'), folds: true,
+    shows: ['Accepted', 'The change that is judged is on branch step/shared-frame-pending', 'nothing was protected before', ...LENSES, 'not measured',
+      'lesscode-core deconvolute measure-scope', 'cargo test --lib', 'state-holders --type SharedFrame handed in, not measured by this run', 'named with --measures',
+      BASE, 'lesscode-core 2.1.0', 'Nothing was protected before. Left unprotected on purpose: needs a window to be tested', 'not there',
+      'Unprotected functions after the change', '1 of 2 (50%)', 'Faults planted, on both sides'],
+    hides: ['Refused', 'Fix the step', 'this is the main branch', 'compared nothing', 'Did not build'],
+    order: ['Accepted', 'What was compared', 'Before and after', 'Planted faults per function', 'Unprotected functions after the change', 'What to do next'],
+    tabs: { 'Your code': { shows: ['Compared with commit', BASE, 'verdict.json', 'the only kind of file'], hides: ['main branch'] },
+      'Planted faults': { shows: ['One from this run', 'src/frame.rs, line 41, in take_damage', 'left out', '--page-source'] },
+      Unprotected: { shows: ['1 of 2 functions are unprotected after the change', 'mark_all'], hides: ['release'] } } },
+  { name: 'check-on-main', state: 'ended', data: checkedOnMain, shows: ['this is the main branch'],
+    tabs: { 'Your code': { shows: ['The change that is judged is on the main branch', 'A change belongs on a branch of its own'], hides: ['Make the change you plan'] } } },
+  { name: 'check-refused-early', state: 'ended', data: () => checked('refused-early'),
+    shows: ['Refused', 'the declaration allows 60 more', 'Fix the step', ...LENSES, 'The tests were not run', 'The faults of the two sides were not compared'],
+    hides: ['Accepted', 'Planted faults per function', 'Unprotected functions'],
+    signs: ['failed', 1],
+    order: ['Refused', 'the scope grows from 4495 to 4567', 'Fix the step', 'What was compared', 'Before and after', 'What to do next'] },
+  { name: 'check-refused', state: 'ended', data: () => checked('refused'),
+    shows: ['Refused', 'unnoticed faults rise from 1 to 3', ...LENSES, '1 of 2 (50%)'], hides: ['Accepted', 'handed in'],
+    order: ['Refused', 'unnoticed faults rise', 'What was compared', 'Before and after', 'Planted faults per function'] },
+  // After the end nothing is shown as going on: faults that were never run were left out.
+  { name: 'check-tests-fail-after', state: 'ended', data: checkedTestsFailAfter, shows: ['Refused'], hides: ['▶', 'Unprotected functions'], signs: ['going on', 0] },
 ];
 
 const marks = (page) => page.evaluate(() => ({ ...document.documentElement.dataset }));
@@ -250,6 +335,56 @@ for (const size of SIZES) {
     });
   }
 }
+
+// Requirement 7.7: a refusal is shown as prominently as an acceptance. The outcome is the first
+// thing of the result in both, at the same place, in the same type.
+test('a refusal stands where an acceptance stands, in the same size', async ({ page }, testInfo) => {
+  await page.setViewportSize(SIZES[0]);
+  const outcome = async (kind) => {
+    await open(page, testInfo, `prominence-${kind}`, checked(kind));
+    const panel = page.getByRole('tabpanel'), verdict = panel.locator('.verdict'), head = verdict.locator('h2');
+    await expect(verdict).toHaveCount(1);
+    const first = await panel.evaluate((el) => el.querySelector(':scope > div > :first-child').className);
+    const type = await head.evaluate((el) => { const s = getComputedStyle(el); return `${s.fontSize} ${s.fontWeight}`; });
+    const at = await verdict.boundingBox();
+    return { said: await head.innerText(), first, type, x: at.x, y: at.y, width: at.width };
+  };
+  const yes = await outcome('accepted'), no = await outcome('refused-early');
+  expect([yes.said, no.said]).toEqual(['Accepted', 'Refused']);
+  expect(yes.first).toContain('verdict');
+  expect(no.first).toContain('verdict');
+  expect({ ...no, said: '', first: '' }).toEqual({ ...yes, said: '', first: '' });
+});
+
+// Reports the tool itself wrote, for the fixture steps of native/tests/run_page_check.rs (task
+// 6.2). LESSCODE_CHECK_REPORTS names a directory of such pages; without it this is not run.
+const reports = process.env.LESSCODE_CHECK_REPORTS;
+test('the reports the tool wrote for the fixture steps show each lens or "not measured"', async ({ page }, testInfo) => {
+  test.skip(!reports, 'LESSCODE_CHECK_REPORTS names no directory of reports');
+  await page.setViewportSize(SIZES[0]);
+  const files = readdirSync(reports).filter((file) => file.endsWith('.html')), outcomes = [];
+  expect(files.length).toBeGreaterThan(0);
+  const failures = [];
+  page.on('pageerror', (error) => failures.push(String(error)));
+  for (const file of files) {
+    await page.goto(pathToFileURL(join(reports, file)).href);
+    await expect(page.locator('html')).toHaveAttribute('data-state', 'ended');
+    const panel = page.getByRole('tabpanel'), verdict = panel.locator('.verdict');
+    for (const lens of LENSES) await expect(panel).toContainText(lens);
+    await expect(panel).toContainText('not measured');
+    await expect(panel).toContainText('What was compared');
+    await expect(verdict).toHaveCount(1);
+    const said = await verdict.locator('h2').innerText();
+    expect(await verdict.getAttribute('class')).toContain({ Accepted: 'ok', Refused: 'bad', 'Not judged': 'warn' }[said]);
+    if (said === 'Refused') await expect(verdict.locator('li').first()).not.toBeEmpty();
+    outcomes.push(said);
+    expect((await marks(page)).failures).toBe('0');
+    await picture(page, testInfo, `report-${file.replace(/\.html$/, '')}`);
+  }
+  expect(failures).toEqual([]);
+  // A refusal and an acceptance are both among them.
+  expect(outcomes).toEqual(expect.arrayContaining(['Accepted', 'Refused']));
+});
 
 test('drawing that fails gives the state "cannot read", not a blank page', async ({ page }, testInfo) => {
   await page.setViewportSize(SIZES[0]);

@@ -396,6 +396,13 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/page_report.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "The report part of the snapshot: one row per measure of a lens before and after, the faults per function on both sides, the refusal (task 6.2; requirements 7.2 to 7.4, 7.7)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/page_snapshot.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
@@ -578,7 +585,21 @@
    "path": "step/check_page.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
-   "allocation": "step check as the run page shows it: the listener that turns the check and its two fault runs into the snapshot, the stages, the end with the verdict's result and reasons, and the options --page and --open of step check (task 6.1; requirements 3.1, 4.5, 6.4, 7.7)",
+   "allocation": "step check as the run page shows it: the listener that turns the check and its two fault runs into the snapshot, the stages, the end with the verdict's result and reasons (task 6.1; requirements 3.1, 6.4, 7.7)",
+   "disposition": null
+  },
+  {
+   "path": "step/check_show.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "The options --page and --open of step check: where the report goes, what the check reads and what it writes into the repository (task 6.1; requirements 2.5, 4.4, 4.5)",
+   "disposition": null
+  },
+  {
+   "path": "step/check_report.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "What step check found, as rows of lenses before and after the step: size, structure, behaviour kept and protection from the verdict and the commits; state and local complexity only from a file handed in (task 6.2; requirements 7.2 to 7.4, 7.7, 7.8)",
    "disposition": null
   },
   {

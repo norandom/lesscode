@@ -12,6 +12,7 @@ use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::page_log::RunLog;
 use crate::adapters::driver::page_open::{open, Opener};
 use crate::adapters::driver::page_serve::{Served, LOCAL};
+use crate::adapters::driver::page_snapshot::Snapshot;
 use crate::adapters::driver::page_subject::{space, subject, would_be_tracked, written_inside};
 use crate::adapters::driver::page_text::{live, write_report};
 use crate::adapters::driver::page_watch::{Heart, BEAT};
@@ -27,6 +28,9 @@ pub struct PageArgs {
     /// Show the run in the default browser while it happens, and write the page as with --page.
     #[arg(long)]
     pub open: bool,
+    /// Show the line of code of the example fault on the page; without this the page has names and no source text.
+    #[arg(long = "page-source")]
+    pub source: bool,
     /// The address to listen on; this machine's own on a free port when absent.
     #[arg(skip)]
     pub listen: Option<String>,
@@ -84,14 +88,26 @@ pub struct Showing<W> {
     work: PathBuf,
     heart: Heart,
     served: Option<Served>,
+    /// Whether the person asked for source text on the page.
+    source: bool,
+}
+
+/// The snapshot as the page gets it: the names of files and functions, and
+/// source text only where the person asked for it (requirement 7.9).
+fn shown<W: Shown>(watch: &W, source: bool) -> Snapshot {
+    let mut snapshot = watch.log().snapshot();
+    if let (false, Some(example)) = (source, &mut snapshot.faults.example) {
+        example.text.clear();
+    }
+    snapshot
 }
 
 /// The listener and the browser. Neither can stop the run: what fails is
 /// said, and the run goes on.
 fn serve<W: Shown>(show: &PageArgs, watch: &Arc<W>) -> Option<Served> {
-    let from = Arc::clone(watch);
+    let (from, source) = (Arc::clone(watch), show.source);
     let latest = move || {
-        let snapshot = from.log().snapshot();
+        let snapshot = shown(&*from, source);
         let text = serde_json::to_string(&snapshot).unwrap_or_default();
         (snapshot.sequence, text)
     };
@@ -144,6 +160,7 @@ impl<W: Shown> Showing<W> {
             place,
             work: work.to_path_buf(),
             served,
+            source: show.source,
         }
     }
 
@@ -159,7 +176,7 @@ impl<W: Shown> Showing<W> {
             self.watch.log().set_space(bytes);
         }
         drop(self.served);
-        let snapshot = self.watch.log().snapshot();
+        let snapshot = shown(&*self.watch, self.source);
         match write_report(&self.place, &snapshot) {
             Ok(()) => println!("The page of the run is at {}", self.place.display()),
             Err(why) => eprintln!("The page of the run could not be written ({why})."),

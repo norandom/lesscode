@@ -2,8 +2,9 @@
 //! first; the project's tests and the planted faults follow only if those
 //! pass. Every check is in the verdict with its result.
 
-use super::check_page::{begin, CheckWatch};
+use super::check_page::CheckWatch;
 use super::check_runs::judge_by_runs;
+use super::check_show::begin;
 use super::context::Context;
 use super::plan_show::{PageArgs, Showing};
 use super::trees::{changed_paths, commit_changes};
@@ -33,6 +34,9 @@ pub struct CheckArgs {
     pub workers: Option<usize>,
     #[command(flatten)]
     pub show: PageArgs,
+    /// Numbers of the state and local-complexity lenses, measured elsewhere, to show on the page.
+    #[arg(long, value_name = "FILE")]
+    pub measures: Option<PathBuf>,
 }
 
 fn short(hash: &str) -> &str {
@@ -163,7 +167,7 @@ fn check(
     }
     verdict.write(context)?;
     if let Some(watch) = watch {
-        watch.close(&verdict);
+        watch.close(context, &verdict);
     }
     println!("step {}: {}", verdict.step, verdict.result);
     for reason in &verdict.reasons {

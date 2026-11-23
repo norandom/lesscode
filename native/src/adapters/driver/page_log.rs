@@ -4,9 +4,10 @@
 //! here: every moment is handed in as milliseconds since 1970, so that a
 //! test can replay a run exactly.
 
+use super::page_report::Report;
 use super::page_snapshot::{
-    stamp, Copies, Dropped, Example, Faults, Report, Snapshot, Stage, Status, Subject, Tally,
-    Tests, Tool, FEW, SCHEMA,
+    stamp, Copies, Dropped, Example, Faults, Snapshot, Stage, Status, Subject, Tally, Tests, Tool,
+    FEW, SCHEMA,
 };
 use std::collections::BTreeMap;
 

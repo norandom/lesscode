@@ -239,7 +239,21 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - Done when a refused and an accepted fixture step each give the snapshot expected for them.
   - _Boundary: Step, RunLog_
   - _Requirements: 3.1, 6.4, 7.7_
-- [ ] 6.2 The report: the page with the data inside
+- [x] 6.2 The report: the page with the data inside
+  - Done 2026-11-23: the report of a check has one row per measure of a lens
+    (`adapters/driver/page_report.rs`, built in `step/check_report.rs`): size and structure from
+    the two commits, structure counted as `deconvolute measure-scope` counts it; behaviour kept
+    from how the two stages of the tests ended; protection from the verdict, as a row and per
+    function. State and local complexity say "not measured" unless `--measures <file>` hands in
+    rows for them, which are then marked as handed in, with the command they are from. Each row
+    names its command; the result names the two commits and the tool's version. The outcome stands
+    in one box at the top of the result, the same for accepted, refused and not judged, with the
+    reasons of a refusal inside it. The line of code of the example fault is left out unless
+    `--page-source` is given, also for `step plan`. The faults of each side are under the stage
+    of that side, and the unprotected functions are those after the change. In a browser: four
+    fixed situations of a check, the box of a refusal against that of an acceptance, and the six
+    reports the tool wrote for the fixture steps (`LESSCODE_CHECK_REPORTS`). The options of the
+    check moved to `step/check_show.rs`. A check that ends with an error has no report rows.
   - Written once when the run has ended, readable without the tool. For a judged step it shows the
     lenses the tool has: size, protection per function, behaviour kept. Structure is measured with
     `deconvolute measure-scope` on both sides. State and local complexity are marked as not

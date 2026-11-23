@@ -4,15 +4,15 @@
 //! and nothing here changes a verdict or an exit code.
 
 use super::check::CheckArgs;
+use super::check_report::{read_handed, report};
 use super::context::Context;
 use super::functions::FileFunctions;
 use super::plan_page::{class_at, now};
-use super::plan_show::{place_of, Showing, Shown};
+use super::plan_show::Shown;
 use super::verdict::{FunctionRow, Verdict, ACCEPTED, REFUSED};
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::page_log::{Classed, RunLog, StagePlan};
-use crate::adapters::driver::page_snapshot::{Refusal, Report};
-use crate::adapters::driver::page_subject::{change, written_inside};
+use crate::adapters::driver::page_report::Lens;
 use crate::adapters::driver::page_watch::{Event, Watch, Watching};
 use crate::adapters::driver::sites::{not_built_spans, Site, Span};
 use std::collections::BTreeMap;
@@ -23,13 +23,13 @@ const CHECKS: &str = "checks";
 const VERDICT: &str = "verdict";
 
 /// One side of the step: its name in the snapshot, and its two stages.
-struct Side {
+pub(super) struct Side {
     name: &'static str,
-    tests: &'static str,
+    pub(super) tests: &'static str,
     faults: &'static str,
 }
 
-const SIDES: [Side; 2] = [
+pub(super) const SIDES: [Side; 2] = [
     Side {
         name: "before",
         tests: "tests-before",
@@ -109,6 +109,8 @@ pub struct CheckWatch {
     copies: (String, u64),
     /// What reads the code of the step's language.
     pack: &'static Pack,
+    /// Rows of lenses measured elsewhere, for the report.
+    handed: Vec<Lens>,
 }
 
 fn lines(texts: &[&str]) -> Vec<String> {
@@ -177,6 +179,7 @@ impl CheckWatch {
             turn: Mutex::new(turn),
             copies,
             pack,
+            handed: read_handed(args.measures.as_deref())?,
         })
     }
 
@@ -241,8 +244,8 @@ impl CheckWatch {
     }
 
     /// The verdict is written: the end of the run, with the verdict's
-    /// result, its reasons and its exit code.
-    pub fn close(&self, verdict: &Verdict) {
+    /// result, its reasons and its exit code, and the report.
+    pub fn close(&self, context: &Context, verdict: &Verdict) {
         let (turn, at) = (self.turn(), now());
         let mut log = self.log();
         let reasons = verdict.reasons.join("; ");
@@ -251,18 +254,14 @@ impl CheckWatch {
             true => log.end(VERDICT, at),
             false => log.fail_what_goes_on(&reasons, at),
         }
+        let stages = log.snapshot().stages;
+        log.set_report(report(context, self.pack, verdict, &self.handed, &stages));
         let (outcome, detail, mut next) = match verdict.result {
             ACCEPTED => {
                 let (detail, next) = accepted(verdict);
                 ("Accepted", detail, next)
             }
             REFUSED => {
-                let refusal = Refusal {
-                    reasons: verdict.reasons.clone(),
-                };
-                log.set_report(Report {
-                    refusal: Some(refusal),
-                });
                 let next = "Change the step so that the reasons no longer hold, and run this again. Fix the step, not the limit.";
                 ("Refused", reasons, lines(&[next]))
             }
@@ -350,36 +349,4 @@ impl Watch for CheckWatch {
             }
         }
     }
-}
-
-/// Begins showing a check if the options ask for it. An `Err` is a refusal
-/// before anything ran. Without a named place the page would go beside the
-/// verdict, among the repository's files, and that is refused.
-pub fn begin(
-    args: &CheckArgs,
-    context: &Context,
-    pack: &'static Pack,
-) -> Result<Option<Showing<CheckWatch>>, String> {
-    let declaration = &context.declaration;
-    let verdict = context.repo.join(&declaration.outputs.verdict);
-    let Some(place) = place_of(&args.show, &verdict)? else {
-        return Ok(None);
-    };
-    let watch = Arc::new(CheckWatch::new(context, args, pack)?);
-    let (branch, revisions) = (&declaration.branch, &context.revisions);
-    let subject = change(&context.repo, branch, &revisions.step, &revisions.base);
-    // The verdict, the evidence where criteria are tied, and what of the
-    // page and the copies lies among the repository's files.
-    let mut written = vec![declaration.outputs.verdict.clone()];
-    if !declaration.criteria.is_empty() {
-        written.push(declaration.outputs.evidence.clone());
-    }
-    let own = [place.as_path(), args.work.as_path()];
-    written.extend(written_inside(&context.repo, &own));
-    {
-        let mut log = watch.log();
-        log.set_subject(subject);
-        log.set_writes(written);
-    }
-    Ok(Some(Showing::start(&args.show, watch, place, &args.work)))
 }

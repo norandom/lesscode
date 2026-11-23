@@ -120,11 +120,40 @@ fn read(root: &Path, file: &str) -> Result<String, String> {
     std::fs::read_to_string(&path).map_err(|e| format!("Cannot read {}: {e}", path.display()))
 }
 
+/// The edges from one function of `file`: a call written in it, under
+/// another name than its own, to each file that declares that name.
+fn edges_from<'a>(
+    file: &'a str,
+    caller: &'a Function,
+    calls: &'a [Call],
+    declared: &'a BTreeMap<&str, Vec<&str>>,
+) -> impl Iterator<Item = [String; 4]> + 'a {
+    let inside = move |call: &&Call| caller.covers(call.at) && call.name != caller.name;
+    calls.iter().filter(inside).flat_map(move |call| {
+        let targets = declared.get(call.name.as_str()).into_iter().flatten();
+        targets.map(move |target| [file, &caller.name, *target, &call.name].map(str::to_owned))
+    })
+}
+
 /// Count the calls among `files`, which are named relative to `root`.
 pub fn scope_calls(pack: &Pack, root: &Path, files: &[String]) -> Result<ScopeCalls, String> {
-    let mut facts = BTreeMap::new();
+    let mut texts = Vec::new();
     for file in files {
-        let named = named(pack, file, &read(root, file)?)?
+        texts.push((file.clone(), read(root, file)?));
+    }
+    calls_among(pack, &root.to_string_lossy(), &texts)
+}
+
+/// Count the calls among files given as name and text; `root` says where
+/// they are from.
+pub fn calls_among(
+    pack: &Pack,
+    root: &str,
+    texts: &[(String, String)],
+) -> Result<ScopeCalls, String> {
+    let mut facts = BTreeMap::new();
+    for (file, text) in texts {
+        let named = named(pack, file, text)?
             .ok_or_else(|| format!("the {} pack does not say what a call is", pack.language))?;
         facts.insert(file.replace('\\', "/"), named);
     }
@@ -137,13 +166,7 @@ pub fn scope_calls(pack: &Pack, root: &Path, files: &[String]) -> Result<ScopeCa
     let mut edges = BTreeSet::new();
     for (file, named) in &facts {
         for caller in &named.functions {
-            let inside = |call: &&Call| caller.covers(call.at) && call.name != caller.name;
-            for call in named.calls.iter().filter(inside) {
-                for target in declared.get(call.name.as_str()).into_iter().flatten() {
-                    let edge = [file.as_str(), &caller.name, *target, &call.name];
-                    edges.insert(edge.map(str::to_owned));
-                }
-            }
+            edges.extend(edges_from(file, caller, &named.calls, &declared));
         }
     }
     let files: BTreeMap<String, FileCalls> = facts
@@ -168,7 +191,7 @@ pub fn scope_calls(pack: &Pack, root: &Path, files: &[String]) -> Result<ScopeCa
         receipt: "scope-calls-v1",
         lang: pack.language.clone(),
         pack_sha256: pack.digest.clone(),
-        root: root.to_string_lossy().into_owned(),
+        root: root.to_owned(),
         files,
         total,
         edges,

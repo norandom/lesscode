@@ -74,6 +74,9 @@ button { font: inherit; color: inherit; }
 table { border-collapse: collapse; width: 100%; } th, td { text-align: left; padding: 3px 10px 3px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { color: var(--quiet); font-weight: 500; } td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .wide { overflow-x: auto; }
+/* The outcome of a run: accepted, refused and not judged stand alike. */
+.verdict { border-left: 4px solid var(--off); background: var(--hover); padding: 8px 12px 2px; margin: 0 0 12px; max-width: 74ch; }
+.verdict.ok { border-color: var(--ok); background: var(--ok-bg); } .verdict.bad { border-color: var(--bad); background: var(--bad-bg); } .verdict.warn { border-color: var(--warn); background: var(--warn-bg); }
 .foot { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 3px 10px; background: var(--panel); border-top: 1px solid var(--line); color: var(--quiet); font-size: 12px; }
 .big { padding: 40px 20px; max-width: 70ch; margin: 0 auto; }
 @media (max-width: 640px) { .main { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, 38%) minmax(0, 1fr); } .tree { border-right: 0; border-bottom: 1px solid var(--line); } }
@@ -182,8 +185,9 @@ const data = /*DATA*/null;
     if (x.unprotected === true || (n(x.unnoticed) && !n(x.noticed))) return 'unprotected';
     return n(x.unnoticed) ? 'unnoticed' : 'ended';
   }
-  // When the tool has stopped, nothing is shown as going on.
-  function seenAs(status, state) { return status === 'going on' && state === 'stopped' ? 'stopped' : status; }
+  // When the tool has stopped, nothing is shown as going on; when the run has ended, what was
+  // still to do was left out.
+  function seenAs(status, state) { return status !== 'going on' ? status : state === 'stopped' ? 'stopped' : state === 'ended' ? 'left out' : status; }
   function mark(status) { var m = MARK[status] || ['off', '?', 'not known']; return html`<span class=${'mark ' + m[0]} role="img" title=${m[2]} aria-label=${m[2]}>${m[1]}</span>`; }
 
   var ICON = {
@@ -221,6 +225,8 @@ const data = /*DATA*/null;
   function touched(s) {
     var sub = s.subject || {}, c = s.copies || {}, known = function (x) { return typeof x === 'string' && x ? x : null; };
     return { directory: known(c.directory), branch: known(sub.branch), main: sub.on_main_branch === true, dirty: sub.dirty === true,
+      // A run that judges a change says which commit it compares the change with.
+      from: known(sub.compared_with),
       // The files the run writes into the repository: a list where the tool has said so and the repository is known.
       written: Array.isArray(s.writes_in_repository) && known(sub.repository) ? s.writes_in_repository.map(String) : null,
       bytes: s.ended === true ? n(c.bytes) : null };
@@ -233,7 +239,7 @@ const data = /*DATA*/null;
       <span>lesscode works in copies of your project${t.directory ? html` under <code>${t.directory}</code>` : ''}.</span>
       ${t.written && !t.written.length ? html`<span>It writes nothing into your repository.</span>` : ''}
       ${t.written && t.written.length ? html`<span>It writes ${named(t.written)} into your repository and nothing else.</span>` : ''}
-      ${t.branch ? html`<span>Branch <code>${t.branch}</code>${t.main ? html` <span class="pill warn">this is the main branch</span>` : ''}</span>` : ''}
+      ${t.branch ? html`<span>${t.from ? 'The change that is judged is on branch ' : 'Branch '}<code>${t.branch}</code>${t.main ? html` <span class="pill warn">this is the main branch</span>` : ''}</span>` : ''}
       ${t.dirty ? html`<span>Your working tree had uncommitted changes when the run began.</span>` : ''}
       ${t.bytes !== null ? html`<span>The copies take ${size(t.bytes)}.</span>` : ''}
     </div>`;
@@ -248,11 +254,13 @@ const data = /*DATA*/null;
         <dt>Repository</dt><dd><code>${text(sub.repository)}</code></dd>
         <dt>Branch</dt><dd><code>${text(sub.branch)}</code></dd>
         <dt>Commit</dt><dd><code>${text(sub.commit)}</code></dd>
+        ${t.from ? html`<dt>Compared with commit</dt><dd><code>${t.from}</code></dd>` : ''}
         <dt>Uncommitted changes when the run began</dt><dd>${sub.dirty === true ? 'yes' : sub.dirty === false ? 'none' : 'not known'}</dd>
         <dt>Copies</dt><dd>${show(c.planned)} under <code>${text(c.directory)}</code></dd>
         ${s.ended === true ? html`<dt>Space the copies take</dt><dd>${t.bytes === null ? 'not measured' : size(t.bytes)}</dd>` : ''}
       </dl>
-      ${t.main ? html`<p><strong>The run reads the main branch of the repository.</strong> Make the change you plan on a branch of its own, so that a step that is refused is not on the main branch.</p>` : ''}
+      ${t.main && !t.from ? html`<p><strong>The run reads the main branch of the repository.</strong> Make the change you plan on a branch of its own, so that a step that is refused is not on the main branch.</p>` : ''}
+      ${t.main && t.from ? html`<p><strong>The change that is judged is on the main branch of the repository.</strong> If it is refused, it is on the main branch already. A change belongs on a branch of its own until it is accepted.</p>` : ''}
       <h3>Commands of your project that are run, in the copies only</h3>
       ${list(s.commands).length ? html`<ul>${list(s.commands).map(function (c) { return html`<li><code>${list(c).join(' ')}</code></li>`; })}</ul>` : html`<p>None is known.</p>`}
       ${t.written ? html`<h3>Files written into your repository</h3>
@@ -270,7 +278,7 @@ const data = /*DATA*/null;
       <p>A planted fault lives in a copy. It never reaches your repository.</p>
       ${e ? html`<h3>One from this run</h3>
         <dl class="facts"><dt>Where</dt><dd><code>${text(e.file)}</code>, line ${show(e.line)}${typeof e.function === 'string' && e.function ? html`, in <code>${e.function}</code>` : ''}</dd>
-        <dt>The code there</dt><dd><code>${text(e.text, 'not shown')}</code></dd>
+        <dt>The code there</dt><dd>${typeof e.text === 'string' && e.text ? html`<code>${e.text}</code>` : html`left out: the page shows names and no source text unless the run is started with <code>--page-source</code>`}</dd>
         <dt>Kind of change</dt><dd><code>${text(e.what_was_changed)}</code></dd>
         <dt>Did your tests notice</dt><dd>${text(e.outcome)}</dd></dl>` : html`<p>No fault of this run has been judged yet.</p>`}
       <h3>What a noticed fault shows</h3>
@@ -288,12 +296,17 @@ const data = /*DATA*/null;
     </div>`;
   }
 
+  // The functions as they are now. Where the run judges a change, its faults carry the side they
+  // were planted on, and the functions that count are those after the change.
+  function nowFns(s) { return things((s.faults || {}).functions).filter(function (f) { return f.side !== 'before'; }); }
+  function judges(s) { var from = (s.subject || {}).compared_with; return typeof from === 'string' && !!from; }
+
   function Unprotected(p) {
-    var all = things((p.s.faults || {}).functions), fs = all.filter(function (f) { return standing(f) !== 'not here'; }), bare = fs.filter(function (f) { return f.unprotected === true; });
+    var all = nowFns(p.s), after = judges(p.s) ? ' after the change' : '', fs = all.filter(function (f) { return standing(f) !== 'not here'; }), bare = fs.filter(function (f) { return f.unprotected === true; });
     var reaching = bare.some(function (f) { return list(f.reaches_out).length > 0; });
     if (!fs.length) return html`<div><h2>Unprotected functions</h2><p>${p.s.ended === true ? 'No fault was run, so nothing is known about any function.' : 'Which functions are unprotected is known when their faults have been run.'}</p></div>`;
     return html`<div>
-      <h2>${bare.length} of ${fs.length} functions are unprotected</h2>
+      <h2>${bare.length} of ${fs.length} functions are unprotected${after}</h2>
       <p>In an unprotected function no test noticed any planted fault. You can break such a function and every test still passes. Write tests for it before you change it.</p>
       ${all.length > fs.length ? html`<p>${all.length - fs.length} more ${all.length - fs.length === 1 ? 'lies' : 'lie'} wholly in code that is not built on this system. Nothing is known about ${all.length - fs.length === 1 ? 'it' : 'them'}.</p>` : ''}
       ${bare.length ? html`<div class="wide"><table><thead><tr><th scope="col">Function</th><th scope="col">File</th><th scope="col">Faults nobody noticed</th><th scope="col">What it reaches out to</th></tr></thead><tbody>
@@ -305,20 +318,56 @@ const data = /*DATA*/null;
   }
 
   function Result(p) {
-    var s = p.s, r = s.report, f = s.faults || {}, fs = things(f.functions).filter(function (x) { return standing(x) !== 'not here'; });
+    var s = p.s, r = s.report !== null && typeof s.report === 'object' ? s.report : null, f = s.faults || {}, change = judges(s);
+    // Of a function whose faults were not all run, nothing is said.
+    var fs = nowFns(s).filter(function (x) { return standing(x) !== 'not here' && !n(x.left); });
     var bare = fs.filter(function (x) { return x.unprotected === true; }).length;
+    var refused = r && r.refusal ? list(r.refusal.reasons) : null, sub = s.subject || {};
     if (!s.ended) return html`<div><h2>Result</h2><p>The run has not ended.</p></div>`;
+    // An acceptance, a refusal and a run that could not judge stand in the same place, in the same size.
     return html`<div>
-      <h2>${text(s.outcome, 'The run ended')}</h2>
-      ${s.outcome_detail ? html`<p>${String(s.outcome_detail)}</p>` : ''}
-      <dl class="facts">${fs.length ? html`<dt>Unprotected functions</dt><dd>${bare} of ${fs.length} (${Math.round(bare / fs.length * 100)}%)</dd>` : ''}<dt>Faults planted</dt><dd>${show(f.total)}</dd><dt>Noticed</dt><dd>${show(f.noticed)}</dd><dt>Unnoticed</dt><dd>${show(f.unnoticed)}</dd><dt>Did not build</dt><dd>${show(f.not_built)}</dd>${n(f.not_compiled_here) ? html`<dt>In code not built on this system</dt><dd>${show(f.not_compiled_here)}, counted in no line above; they tell nothing</dd>` : ''}<dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd></dl>
-      ${r && things(r.lenses).length ? html`<h3>Before and after</h3><div class="wide"><table><thead><tr><th scope="col">Lens</th><th scope="col">Measure</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Expected</th><th scope="col">Moved that way</th></tr></thead><tbody>
-        ${things(r.lenses).map(function (l) { return html`<tr><td>${text(l.lens)}</td><td>${text(l.measure)}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.before))}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.after))}</td><td>${text(l.expected)}</td><td>${l.measured === false ? 'not measured' : l.moved === true ? 'yes' : l.moved === false ? 'no' : 'not judged'}</td></tr>`; })}
-        </tbody></table></div>` : html`<p>This run compared nothing before and after.</p>`}
-      ${r && r.refusal ? html`<h3>Refused</h3><ul>${list(r.refusal.reasons).map(function (x) { return html`<li>${String(x)}</li>`; })}</ul><p>Fix the step. Raising the limit is the decision of whoever owns the code.</p>` : ''}
+      <div class=${'verdict ' + (s.exit_code === 0 ? 'ok' : refused ? 'bad' : 'warn')}>
+        <h2>${text(s.outcome, 'The run ended')}</h2>
+        ${refused ? html`<ul>${refused.map(function (x) { return html`<li>${String(x)}</li>`; })}</ul><p>Fix the step. Raising the limit is the decision of whoever owns the code.</p>` : s.outcome_detail ? html`<p>${String(s.outcome_detail)}</p>` : ''}
+      </div>
+      ${change ? html`<h3>What was compared</h3>
+        <dl class="facts"><dt>Before</dt><dd>commit <code>${text(sub.compared_with)}</code></dd><dt>After</dt><dd>commit <code>${text(sub.commit)}</code> on branch <code>${text(sub.branch)}</code></dd>
+        <dt>By</dt><dd><code>${text((s.tool || {}).name, 'lesscode')} ${text((s.tool || {}).version, '')}</code>, command <code>${text(s.command)}</code></dd></dl>` : ''}
+      ${r && things(r.lenses).length ? html`<${Lenses} lenses=${things(r.lenses)} />` : ''}
+      ${r && things(r.functions).length ? html`<${PerFunction} rows=${things(r.functions)} />` : ''}
+      ${change || r ? html`<h3>The run</h3>` : ''}
+      <dl class="facts">${fs.length ? html`<dt>Unprotected functions${change ? ' after the change' : ''}</dt><dd>${bare} of ${fs.length} (${Math.round(bare / fs.length * 100)}%)</dd>` : ''}${change ? html`<dt>Faults planted, on both sides</dt><dd>${show(f.total)}</dd><dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd>` : html`<${Counted} s=${s} />`}</dl>
+      ${r && things(r.lenses).length ? '' : html`<p>This run compared nothing before and after.</p>`}
       <h3>What to do next</h3>
       <ul>${list(s.next).length ? list(s.next).map(function (x) { return html`<li>${String(x)}</li>`; }) : html`<li>Nothing is proposed.</li>`}</ul>
     </div>`;
+  }
+  // A number or a text of a lens; a side that was not run has neither.
+  function value(x) { return n(x) !== null ? show(x) : typeof x === 'string' && x ? x : 'not run'; }
+  // One row per measure of a lens. A lens nobody measured is a row that says so, and why.
+  function Lenses(p) {
+    return html`<h3>Before and after</h3><div class="wide"><table><thead><tr><th scope="col">Lens</th><th scope="col">Measure</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Expected</th><th scope="col">Moved that way</th><th scope="col">Measured by</th></tr></thead><tbody>
+      ${p.lenses.map(function (l) {
+        var none = l.measured !== true, by = typeof l.command === 'string' && l.command ? l.command : null, note = typeof l.note === 'string' ? l.note : '';
+        return html`<tr><td>${text(l.lens)}</td><td>${text(l.measure)}</td><td class="num">${none ? 'not measured' : value(l.before)}</td><td class="num">${none ? 'not measured' : value(l.after)}</td><td>${text(l.expected)}</td>
+          <td>${none ? 'not measured' : l.moved === true ? 'yes' : l.moved === false ? 'no' : 'not judged'}</td>
+          <td>${by ? html`<code>${by}</code>` : ''}${l.handed_in === true ? ' handed in, not measured by this run' : ''}${by && note ? '. ' : ''}${note}</td></tr>`; })}
+      </tbody></table></div>`;
+  }
+  // The planted faults of each function the change was judged on, on both sides.
+  function PerFunction(p) {
+    var side = function (c) { return c !== null && typeof c === 'object' ? show(c.noticed) + ' noticed, ' + show(c.unnoticed) + ' unnoticed' + (n(c.neither) ? ', ' + show(c.neither) + ' neither' : '') : 'not there'; };
+    var bare = function (c) { return c !== null && typeof c === 'object' && n(c.noticed) === 0 && (n(c.unnoticed) || n(c.neither)); };
+    return html`<h3>Planted faults per function, before and after</h3><div class="wide"><table><thead><tr><th scope="col">Function</th><th scope="col">File</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Note</th></tr></thead><tbody>
+      ${p.rows.slice(0, 200).map(function (x) { return html`<tr><td><code>${text(x.function)}</code></td><td><code>${text(x.file)}</code></td><td>${side(x.before)}</td><td>${side(x.after)}</td>
+        <td>${bare(x.before) ? 'Nothing was protected before. ' : ''}${typeof x.out_of_reach === 'string' && x.out_of_reach ? 'Left unprotected on purpose: ' + x.out_of_reach : ''}</td></tr>`; })}
+      </tbody></table></div>
+      ${p.rows.length > 200 ? html`<p>${p.rows.length - 200} more are in the verdict.</p>` : ''}`;
+  }
+  // The faults of a run on one state of the code, counted by what the tests made of them.
+  function Counted(p) {
+    var s = p.s, f = s.faults || {};
+    return html`<dt>Faults planted</dt><dd>${show(f.total)}</dd><dt>Noticed</dt><dd>${show(f.noticed)}</dd><dt>Unnoticed</dt><dd>${show(f.unnoticed)}</dd><dt>Did not build</dt><dd>${show(f.not_built)}</dd>${n(f.not_compiled_here) ? html`<dt>In code not built on this system</dt><dd>${show(f.not_compiled_here)}, counted in no line above; they tell nothing</dd>` : ''}<dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd>`;
   }
 
   function Run(p) {
@@ -337,7 +386,7 @@ const data = /*DATA*/null;
     var counts = function (x) { return [ui.noticed && show(x.noticed) + ' noticed', ui.unnoticed && show(x.unnoticed) + ' unnoticed', ui.notbuilt && n(x.not_built) ? show(x.not_built) + ' not built' : null, n(x.not_compiled_here) ? show(x.not_compiled_here) + ' not built here' : null].filter(Boolean).join(' · '); };
     var pill = { running: ['warn', 'Running'], quiet: ['warn', 'Quiet'], stopped: ['bad', 'The tool stopped'], ended: [s.exit_code === 0 ? 'ok' : 'warn', 'Ended'] }[state] || ['off', state];
     var dropped = things((s.copies || {}).dropped), tests = s.tests || {};
-    var bare = fns.filter(function (x) { return x.unprotected === true; }).length;
+    var bare = fns.filter(function (x) { return x.unprotected === true && x.side !== 'before'; }).length;
     var copy = function () {
       var d = text((s.copies || {}).directory, ''), no = function () { set({ copied: 'no' }); };
       if (navigator.clipboard && d) navigator.clipboard.writeText(d).then(function () { set({ copied: 'yes' }); }, no); else no();
@@ -380,8 +429,8 @@ const data = /*DATA*/null;
       <div class="main">
         <nav class="tree" aria-label="Stages and files">
           ${stages.map(function (x) { return html`<button class="row" type="button" aria-current=${String(current === x)} onClick=${function () { set({ picked: x.id, follow: false, tab: 'now' }); }}>${mark(seenAs(x.status, state))}<span class="name">${text(x.title)}</span><span class="count">${n(x.total) ? show(x.done) + ' / ' + show(x.total) : ''}</span></button>
-            ${x.id === 'faults' && files.map(function (file) { var key = text(file.file), shut = folded(key); return html`<button class="row d1" type="button" aria-expanded=${String(!shut)} onClick=${function () { flip(key); }}><span class="fold" aria-hidden="true">${shut ? '▸' : '▾'}</span>${mark(seenAs(standing(file), state))}<span class="name mono" title=${key}>${key.split('/').pop()}</span><span class="count">${counts(file)}</span></button>
-              ${!shut && fns.filter(function (fn) { return fn.file === file.file; }).slice(0, 400).map(function (fn) { return html`<div class="row d2">${mark(seenAs(standing(fn), state))}<span class="name mono" title=${text(fn.function)}>${text(fn.function)}</span><span class="count">${counts(fn)}</span></div>`; })}`; })}`; })}
+            ${files.filter(function (file) { return x.id === 'faults' + (typeof file.side === 'string' ? '-' + file.side : ''); }).map(function (file) { var name = text(file.file), key = (typeof file.side === 'string' ? file.side + ' ' : '') + name, shut = folded(key); return html`<button class="row d1" type="button" aria-expanded=${String(!shut)} onClick=${function () { flip(key); }}><span class="fold" aria-hidden="true">${shut ? '▸' : '▾'}</span>${mark(seenAs(standing(file), state))}<span class="name mono" title=${name}>${name.split('/').pop()}</span><span class="count">${counts(file)}</span></button>
+              ${!shut && fns.filter(function (fn) { return fn.file === file.file && fn.side === file.side; }).slice(0, 400).map(function (fn) { return html`<div class="row d2">${mark(seenAs(standing(fn), state))}<span class="name mono" title=${text(fn.function)}>${text(fn.function)}</span><span class="count">${counts(fn)}</span></div>`; })}`; })}`; })}
           ${!stages.length && html`<div class="row"><span class="name">No stage is known yet.</span></div>`}
         </nav>
         <section class="pane" aria-label="The run in detail">

@@ -146,6 +146,7 @@ fn open_starts_the_browser_once_on_the_served_page() {
         page: Some(Some(place.clone())),
         open: true,
         listen: None,
+        source: false,
         opener: Some(browser),
     };
     assert_eq!(run_plan(arguments(&dir, &config, show)), Ok(0));
@@ -174,6 +175,7 @@ fn a_browser_that_cannot_be_started_does_not_change_the_run() {
         page: Some(Some(place.clone())),
         open: true,
         listen: None,
+        source: false,
         opener: Some(no_browser),
     };
     assert_eq!(run_plan(arguments(&dir, &config, show)), Ok(0));
@@ -190,6 +192,7 @@ fn a_listener_that_cannot_start_does_not_change_the_run() {
         page: Some(Some(place.clone())),
         open: true,
         listen: Some(taken.local_addr().unwrap().to_string()),
+        source: false,
         opener: Some(browser),
     };
     assert_eq!(run_plan(arguments(&dir, &config, show)), Ok(0));

@@ -23,6 +23,7 @@ pub mod operators;
 pub mod pack;
 pub mod page_log;
 pub mod page_open;
+pub mod page_report;
 pub mod page_serve;
 pub mod page_snapshot;
 pub mod page_subject;

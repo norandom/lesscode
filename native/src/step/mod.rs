@@ -7,7 +7,9 @@
 
 pub mod check;
 pub mod check_page;
+mod check_report;
 mod check_runs;
+mod check_show;
 pub mod context;
 pub mod declaration;
 pub mod faults;

@@ -11,6 +11,9 @@ pub const ACCEPTED: &str = "accepted";
 pub const REFUSED: &str = "refused";
 pub const NOT_JUDGED: &str = "not_judged";
 
+/// The name of the check that compares the planted faults of the two sides.
+pub const PLANTED_FAULTS: &str = "planted faults";
+
 #[derive(Debug, Serialize)]
 pub struct Check {
     pub name: &'static str,

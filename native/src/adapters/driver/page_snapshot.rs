@@ -2,6 +2,7 @@
 //! the snapshot). The page draws from it and from nothing else, so every
 //! number and every sentence about the run is here and not in the page.
 
+use super::page_report::Report;
 use serde::Serialize;
 
 /// The version of this shape. A page reads only the version it was made for.
@@ -65,17 +66,6 @@ pub struct Snapshot {
     pub report: Option<Report>,
     /// What the person can do next, for this outcome.
     pub next: Vec<String>,
-}
-
-#[derive(Debug, Clone, Default, PartialEq, Serialize)]
-pub struct Report {
-    pub refusal: Option<Refusal>,
-}
-
-/// Why a change was refused, in the command's own words.
-#[derive(Debug, Clone, PartialEq, Serialize)]
-pub struct Refusal {
-    pub reasons: Vec<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize)]

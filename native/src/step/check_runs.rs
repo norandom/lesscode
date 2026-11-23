@@ -9,7 +9,7 @@ use super::faults::{run, Ended, Fault, FaultRun, Request};
 use super::functions::{changed, FileFunctions, Tally};
 use super::ledger::{last_accepted, read};
 use super::trees::{fresh_copy, Tree};
-use super::verdict::{CriterionEvidence, FunctionRow, Verdict};
+use super::verdict::{CriterionEvidence, FunctionRow, Verdict, PLANTED_FAULTS};
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::process;
 use serde_json::Value;
@@ -287,7 +287,7 @@ pub fn judge_by_runs(
         reasons.extend(compare(context, file, names, sides, &ledger, verdict));
     }
     verdict.settle(
-        "planted faults",
+        PLANTED_FAULTS,
         reasons,
         "in no function are more faults unnoticed after the step than before",
     );
