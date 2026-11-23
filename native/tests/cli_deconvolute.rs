@@ -139,7 +139,14 @@ fn calls_are_counted_per_file_and_as_edges_across_a_scope_for_four_languages() {
         let (status, stdout, err) = scope(other);
         assert!(status.success(), "{lang}: {err}");
         let report: serde_json::Value = serde_json::from_str(&stdout).unwrap();
-        assert_eq!(report["receipt"], "scope-calls-v1");
+        assert_eq!(report["receipt"], "scope-calls-v2");
+        // The names of the functions a file declares are listed, and counted.
+        let names = report["files"][caller]["names"].as_array().unwrap();
+        assert!(
+            names.contains(&serde_json::json!("caller")),
+            "{lang}: {names:?}"
+        );
+        assert_eq!(report["files"][caller]["functions"], names.len(), "{lang}");
         let expected: Vec<_> = callees
             .iter()
             .map(|[file, name]| serde_json::json!([caller, "caller", file, name]))

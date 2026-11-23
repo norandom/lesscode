@@ -1,5 +1,5 @@
 {
-  "note": "SharedFrame in drift-rdp (src-tauri/src/renderer/shared_frame.rs). The graph: the file at e4d3b2c and at e02154e, edges by lesscode-core deconvolute measure-scope, function names read from the same two files. The shapes: the first run on the type, of its holders dirty, damage and full, at 09b4ce8 (R166 for what the code reaches, R170 for what the tests see).",
+  "note": "SharedFrame in drift-rdp (src-tauri/src/renderer/shared_frame.rs). The graph: the file at e4d3b2c and at e02154e, function names and edges as lesscode-core deconvolute measure-scope lists them. The shapes: the first run on the type, of its holders dirty, damage and full, at 09b4ce8 (R166 for what the code reaches, R170 for what the tests see).",
   "graph": {
     "before": {
       "files": [

@@ -85,6 +85,8 @@ pub struct FileCalls {
     /// Distinct names of the functions the file declares.
     pub functions: usize,
     pub call_occurrences: usize,
+    /// Those names, in order. Functions without a name are not listed.
+    pub names: Vec<String>,
 }
 
 #[derive(Serialize)]
@@ -175,6 +177,7 @@ pub fn calls_among(
             let counts = FileCalls {
                 functions: named.names().len(),
                 call_occurrences: named.occurrences(),
+                names: named.names().into_iter().map(str::to_owned).collect(),
             };
             (file.clone(), counts)
         })
@@ -188,7 +191,7 @@ pub fn calls_among(
         module_hops: hops.len(),
     };
     Ok(ScopeCalls {
-        receipt: "scope-calls-v1",
+        receipt: "scope-calls-v2",
         lang: pack.language.clone(),
         pack_sha256: pack.digest.clone(),
         root: root.to_owned(),

@@ -10,8 +10,7 @@ use super::context::Context;
 use super::functions::Tally;
 use super::trees::Tree;
 use super::verdict::{Verdict, PLANTED_FAULTS, REFUSED};
-use crate::adapters::driver::calls::{calls_among, ScopeTotal};
-use crate::adapters::driver::functions::functions_of;
+use crate::adapters::driver::calls::{calls_among, FileCalls, ScopeTotal};
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::page_report::{
     Calls, Counts, FileNames, Graph, Lens, Protection, Refusal, Report, BEHAVIOUR, LOCAL,
@@ -19,7 +18,6 @@ use crate::adapters::driver::page_report::{
 };
 use crate::adapters::driver::page_snapshot::{Stage, Status};
 use serde_json::Value;
-use std::collections::BTreeSet;
 
 /// The commands the numbers are from, as a person would run them.
 const CHECK: &str = "lesscode-core step check";
@@ -44,27 +42,23 @@ fn calls_at(
     tree: &Tree,
     commit: &str,
 ) -> Result<(ScopeTotal, Calls), String> {
-    let (mut texts, mut files) = (Vec::new(), Vec::new());
+    let mut texts = Vec::new();
     for file in &context.declaration.scope {
         let text = context.text(tree, file)?;
-        if text.is_empty() {
-            continue;
+        if !text.is_empty() {
+            texts.push((file.clone(), text));
         }
-        let functions = functions_of(pack, file, &text)?;
-        let names: BTreeSet<String> = functions
-            .into_iter()
-            .filter(|f| !f.anonymous)
-            .map(|f| f.name)
-            .collect();
-        files.push(FileNames {
-            file: file.clone(),
-            functions: names.into_iter().collect(),
-        });
-        texts.push((file.clone(), text));
     }
     let counted = calls_among(pack, commit, &texts)?;
-    let edges = counted.edges.into_iter().collect();
-    Ok((counted.total, Calls { files, edges }))
+    let named = |(file, calls): (String, FileCalls)| FileNames {
+        file,
+        functions: calls.names,
+    };
+    let drawn = Calls {
+        files: counted.files.into_iter().map(named).collect(),
+        edges: counted.edges.into_iter().collect(),
+    };
+    Ok((counted.total, drawn))
 }
 
 /// Functions and calls of the scope, counted as `measure-scope` counts
