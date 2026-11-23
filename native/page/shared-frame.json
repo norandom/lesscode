@@ -1,0 +1,228 @@
+{
+  "note": "SharedFrame in drift-rdp (src-tauri/src/renderer/shared_frame.rs). The graph: the file at e4d3b2c and at e02154e, edges by lesscode-core deconvolute measure-scope, function names read from the same two files. The shapes: the first run on the type, of its holders dirty, damage and full, at 09b4ce8 (R166 for what the code reaches, R170 for what the tests see).",
+  "graph": {
+    "before": {
+      "files": [
+        {
+          "file": "src-tauri/src/renderer/shared_frame.rs",
+          "functions": [
+            "begin_write",
+            "copy_region",
+            "dimensions",
+            "height",
+            "mark_dirty",
+            "new",
+            "publish",
+            "set_wake",
+            "take_damage",
+            "take_full",
+            "union",
+            "update_full",
+            "update_rect",
+            "version",
+            "width"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "publish",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "new"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "take_damage",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "copy_region"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "take_full",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "copy_region"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_full",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "begin_write"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_full",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "mark_dirty"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_rect",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "begin_write"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_rect",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "mark_dirty"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_rect",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "union"
+        ]
+      ]
+    },
+    "after": {
+      "files": [
+        {
+          "file": "src-tauri/src/renderer/shared_frame.rs",
+          "functions": [
+            "begin_write",
+            "copy_region",
+            "dimensions",
+            "height",
+            "mark_dirty",
+            "new",
+            "publish",
+            "set_wake",
+            "take_damage",
+            "take_full",
+            "union",
+            "update_full",
+            "update_rect",
+            "version",
+            "whole",
+            "width",
+            "with"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "publish",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "new"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "publish",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "version"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "take_damage",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "copy_region"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "take_damage",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "whole"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "take_full",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "copy_region"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "take_full",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "whole"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_full",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "begin_write"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_full",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "mark_dirty"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_rect",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "begin_write"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_rect",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "mark_dirty"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "update_rect",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "with"
+        ],
+        [
+          "src-tauri/src/renderer/shared_frame.rs",
+          "with",
+          "src-tauri/src/renderer/shared_frame.rs",
+          "union"
+        ]
+      ]
+    }
+  },
+  "shapes": [
+    {
+      "type": "SharedFrame",
+      "side": "before",
+      "command": "the walk of the type's methods (R166) and the watch of the project's tests (R170), research programs",
+      "cells": [
+        {
+          "shape": "dirty no, damage none, full no",
+          "reached": true,
+          "seen": true
+        },
+        {
+          "shape": "dirty no, damage none, full yes",
+          "reached": false,
+          "seen": false
+        },
+        {
+          "shape": "dirty no, damage some, full no",
+          "reached": true,
+          "seen": true
+        },
+        {
+          "shape": "dirty no, damage some, full yes",
+          "reached": true,
+          "seen": true
+        },
+        {
+          "shape": "dirty yes, damage none, full no",
+          "reached": true,
+          "seen": true
+        },
+        {
+          "shape": "dirty yes, damage none, full yes",
+          "reached": false,
+          "seen": false
+        },
+        {
+          "shape": "dirty yes, damage some, full no",
+          "reached": true,
+          "seen": true
+        },
+        {
+          "shape": "dirty yes, damage some, full yes",
+          "reached": true,
+          "seen": true
+        }
+      ]
+    }
+  ]
+}

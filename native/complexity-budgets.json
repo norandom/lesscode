@@ -596,6 +596,13 @@
    "disposition": null
   },
   {
+   "path": "step/check_handed.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "The file named with --measures: rows of the state and local-complexity lenses and the shapes of a type's state, measured elsewhere and marked as handed in (tasks 6.2, 6.3; requirements 7.3, 7.6)",
+   "disposition": null
+  },
+  {
    "path": "step/check_report.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",

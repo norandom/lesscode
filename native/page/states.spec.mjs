@@ -177,7 +177,14 @@ function checked(kind) {
       { file: 'src/frame.rs', function: 'take_damage', before: { noticed: 11, unnoticed: 1, neither: 0 }, after: { noticed: 9, unnoticed: accepted ? 1 : 3, neither: 0 }, out_of_reach: null },
       { file: 'src/frame.rs', function: 'mark_all', before: { noticed: 0, unnoticed: 3, neither: 0 }, after: { noticed: 0, unnoticed: accepted ? 3 : 1, neither: 0 }, out_of_reach: 'needs a window to be tested' },
       { file: 'src/frame.rs', function: 'release', before: { noticed: 0, unnoticed: 1, neither: 0 }, after: null, out_of_reach: null }],
-    refusal: accepted ? null : { reasons } };
+    refusal: accepted ? null : { reasons }, graph: null, shapes: [] };
+  return one;
+}
+// The two drawings (task 6.3), from the numbers of SharedFrame: see shared-frame.json beside this file.
+const sharedFrame = JSON.parse(readFileSync(join(here, 'shared-frame.json'), 'utf8'));
+function checkedWithDrawings() {
+  const one = checked('accepted');
+  Object.assign(one.report, { graph: sharedFrame.graph, shapes: sharedFrame.shapes });
   return one;
 }
 // The tests fail after the step: the faults of that side were planned and never run.
@@ -276,6 +283,16 @@ const SITUATIONS = [
   { name: 'check-refused', state: 'ended', data: () => checked('refused'),
     shows: ['Refused', 'unnoticed faults rise from 1 to 3', ...LENSES, '1 of 2 (50%)'], hides: ['Accepted', 'handed in'],
     order: ['Refused', 'unnoticed faults rise', 'What was compared', 'Before and after', 'Planted faults per function'] },
+  // The two drawings (task 6.3): shown where their numbers are in the snapshot, and "not measured" where not.
+  { name: 'check-drawings', state: 'ended', data: checkedWithDrawings,
+    shows: ['Functions and calls', 'Before: 15 functions, 8 calls, 0 of them across files', 'After: 17 functions, 12 calls, 0 of them across files', 'drawn to one scale', 'need not happen when the code runs',
+      'Shapes of the state', 'SharedFrame, before the change', 'Can be written: 8. Reached by the code: 6. Seen by the tests: 6.', 'dirty no, damage none, full yes', 'never reached', 'seen by no test',
+      'research programs, handed in, not measured by this run'],
+    hides: ['Not measured: the functions and calls', 'is counted outside this run'],
+    order: ['Before and after', 'Planted faults per function', 'Functions and calls', 'Shapes of the state', 'What to do next'] },
+  { name: 'check-no-drawings', state: 'ended', data: () => checked('refused'),
+    shows: ['Functions and calls', 'Not measured: the functions and calls of the scope were not counted in this run', 'Shapes of the state', 'is counted outside this run', '--measures'],
+    hides: ['drawn to one scale', 'Can be written:'] },
   // After the end nothing is shown as going on: faults that were never run were left out.
   { name: 'check-tests-fail-after', state: 'ended', data: checkedTestsFailAfter, shows: ['Refused'], hides: ['▶', 'Unprotected functions'], signs: ['going on', 0] },
 ];
@@ -356,6 +373,32 @@ test('a refusal stands where an acceptance stands, in the same size', async ({ p
   expect({ ...no, said: '', first: '' }).toEqual({ ...yes, said: '', first: '' });
 });
 
+// Task 6.3: both sides of the drawing of functions and calls have every function and every call of
+// their side, and are drawn to one scale; the grid has one cell per shape that can be written.
+test('the two drawings show what was counted, to one scale', async ({ page }, testInfo) => {
+  await page.setViewportSize(SIZES[0]);
+  await open(page, testInfo, 'drawings', checkedWithDrawings());
+  const panel = page.getByRole('tabpanel'), bowls = panel.locator('.bowl svg');
+  await expect(bowls).toHaveCount(2);
+  const drawn = await bowls.evaluateAll((all) => all.map((svg) => ({ box: svg.getAttribute('viewBox'), name: svg.getAttribute('aria-label'),
+    dots: [...svg.querySelectorAll('.fn')].map((d) => [d.getAttribute('cx'), d.getAttribute('cy'), d.querySelector('title').textContent]), calls: svg.querySelectorAll('.call').length,
+    rim: svg.querySelector('.rim').getAttribute('r'), wide: svg.getBoundingClientRect().width })));
+  expect(drawn.map((d) => [d.dots.length, d.calls])).toEqual([[15, 8], [17, 12]]);
+  expect(drawn[0].name).toContain('Before: 15 functions');
+  // One scale: the same frame, the same rim, the same width on the screen, and a function that is
+  // on both sides at the same place of its file takes the same place on the rim.
+  expect([drawn[1].box, drawn[1].rim, drawn[1].wide]).toEqual([drawn[0].box, drawn[0].rim, drawn[0].wide]);
+  expect(drawn[1].dots[0]).toEqual(drawn[0].dots[0]);
+  expect(drawn[0].dots[0][2]).toBe('src-tauri/src/renderer/shared_frame.rs: begin_write');
+  await expect(panel.locator('.cell')).toHaveCount(8);
+  await expect(panel.locator('.cell.on')).toHaveCount(6);
+  await picture(page, testInfo, 'drawings');
+  await panel.locator('.bowls').scrollIntoViewIfNeeded();
+  await picture(page, testInfo, 'drawings-bowls');
+  await panel.locator('.cells').scrollIntoViewIfNeeded();
+  await picture(page, testInfo, 'drawings-grid');
+});
+
 // Reports the tool itself wrote, for the fixture steps of native/tests/run_page_check.rs (task
 // 6.2). LESSCODE_CHECK_REPORTS names a directory of such pages; without it this is not run.
 const reports = process.env.LESSCODE_CHECK_REPORTS;
@@ -373,6 +416,9 @@ test('the reports the tool wrote for the fixture steps show each lens or "not me
     for (const lens of LENSES) await expect(panel).toContainText(lens);
     await expect(panel).toContainText('not measured');
     await expect(panel).toContainText('What was compared');
+    // Task 6.3: the functions and calls of the two commits are drawn; the shapes only where handed in.
+    await expect(panel.locator('.bowl svg')).toHaveCount(2);
+    await expect(panel).toContainText('Shapes of the state');
     await expect(verdict).toHaveCount(1);
     const said = await verdict.locator('h2').innerText();
     expect(await verdict.getAttribute('class')).toContain({ Accepted: 'ok', Refused: 'bad', 'Not judged': 'warn' }[said]);

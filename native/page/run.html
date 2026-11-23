@@ -74,6 +74,16 @@ button { font: inherit; color: inherit; }
 table { border-collapse: collapse; width: 100%; } th, td { text-align: left; padding: 3px 10px 3px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { color: var(--quiet); font-weight: 500; } td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .wide { overflow-x: auto; }
+/* The two drawings of the report: functions and calls on a rim, and the shapes of a type's state. */
+.bowls { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 10px; max-width: 900px; }
+.bowl { margin: 0; min-width: 0; } .bowl svg { display: block; width: 100%; height: auto; } .bowl figcaption { color: var(--quiet); }
+.rim { fill: none; stroke: var(--line); } .fn { fill: var(--ink); } .bowl text { font: 9px var(--ui); fill: var(--quiet); }
+.call { fill: none; stroke: var(--focus); stroke-width: .8; opacity: .75; } .call.out { stroke: var(--warn); stroke-dasharray: 3 2; }
+.body h4 { font-size: 13px; font-weight: 600; margin: 10px 0 4px; }
+.body ul.cells { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; padding: 0; max-width: 900px; }
+.cell { border: 1px dashed var(--line); border-radius: 4px; padding: 5px 7px; color: var(--quiet); }
+.cell b { display: block; color: var(--ink); font-weight: 600; overflow-wrap: anywhere; } .cell span { display: block; }
+.cell.part { border-style: solid; border-color: var(--warn); } .cell.on { border-style: solid; border-color: var(--ok); background: var(--ok-bg); color: var(--ink); }
 /* The outcome of a run: accepted, refused and not judged stand alike. */
 .verdict { border-left: 4px solid var(--off); background: var(--hover); padding: 8px 12px 2px; margin: 0 0 12px; max-width: 74ch; }
 .verdict.ok { border-color: var(--ok); background: var(--ok-bg); } .verdict.bad { border-color: var(--bad); background: var(--bad-bg); } .verdict.warn { border-color: var(--warn); background: var(--warn-bg); }
@@ -335,6 +345,9 @@ const data = /*DATA*/null;
         <dt>By</dt><dd><code>${text((s.tool || {}).name, 'lesscode')} ${text((s.tool || {}).version, '')}</code>, command <code>${text(s.command)}</code></dd></dl>` : ''}
       ${r && things(r.lenses).length ? html`<${Lenses} lenses=${things(r.lenses)} />` : ''}
       ${r && things(r.functions).length ? html`<${PerFunction} rows=${things(r.functions)} />` : ''}
+      ${change ? html`<h3>Functions and calls</h3>${r && r.graph !== null && typeof r.graph === 'object' ? html`<${Graph} graph=${r.graph} />` : html`<p>Not measured: the functions and calls of the scope were not counted in this run.</p>`}
+        <h3>Shapes of the state</h3>${r && things(r.shapes).length ? things(r.shapes).map(function (t) { return html`<${Shapes} of=${t} />`; })
+          : html`<p>Not measured. Which shapes the state of a type can be written in, which of them the code reaches and which the tests see, is counted outside this run. A file with those numbers is named with <code>--measures</code>.</p>`}` : ''}
       ${change || r ? html`<h3>The run</h3>` : ''}
       <dl class="facts">${fs.length ? html`<dt>Unprotected functions${change ? ' after the change' : ''}</dt><dd>${bare} of ${fs.length} (${Math.round(bare / fs.length * 100)}%)</dd>` : ''}${change ? html`<dt>Faults planted, on both sides</dt><dd>${show(f.total)}</dd><dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd>` : html`<${Counted} s=${s} />`}</dl>
       ${r && things(r.lenses).length ? '' : html`<p>This run compared nothing before and after.</p>`}
@@ -363,6 +376,57 @@ const data = /*DATA*/null;
         <td>${bare(x.before) ? 'Nothing was protected before. ' : ''}${typeof x.out_of_reach === 'string' && x.out_of_reach ? 'Left unprotected on purpose: ' + x.out_of_reach : ''}</td></tr>`; })}
       </tbody></table></div>
       ${p.rows.length > 200 ? html`<p>${p.rows.length - 200} more are in the verdict.</p>` : ''}`;
+  }
+  // One side of the drawing of functions and calls: the files along a rim, a dot for each
+  // function, a line for each call. `step` is the part of the rim one function takes, the same
+  // on both sides, so that the two are drawn to one scale.
+  function Bowl(p) {
+    var at = {}, slot = 0, dots = [], names = [], turn = function (i) { return -Math.PI / 2 + i * p.step; };
+    var fix = function (v) { return v.toFixed(1); };
+    things(p.calls.files).forEach(function (f) {
+      var first = slot, file = text(f.file);
+      list(f.functions).map(String).forEach(function (name) {
+        var d = { file: file, name: name, x: 100 * Math.cos(turn(slot + 0.5)), y: 100 * Math.sin(turn(slot + 0.5)) };
+        at[file + '\n' + name] = d; dots.push(d); slot += 1;
+      });
+      var mid = turn((first + slot) / 2);
+      names.push({ said: file.split('/').pop().slice(0, 22), x: 110 * Math.cos(mid), y: 110 * Math.sin(mid) + 2 });
+      slot += 1;
+    });
+    var edges = list(p.calls.edges).filter(Array.isArray).map(function (e) { return { from: at[e[0] + '\n' + e[1]], to: at[e[2] + '\n' + e[3]], out: e[0] !== e[2] }; })
+      .filter(function (e) { return e.from && e.to; });
+    var said = p.label + ': ' + show(dots.length) + ' functions, ' + show(edges.length) + ' calls, ' + show(edges.filter(function (e) { return e.out; }).length) + ' of them across files';
+    return html`<figure class="bowl"><svg viewBox="-190 -128 380 256" role="img" aria-label=${said}>
+      <circle class="rim" r="100" />
+      ${edges.map(function (e) { return html`<path class=${e.out ? 'call out' : 'call'} d=${'M' + fix(e.from.x) + ' ' + fix(e.from.y) + 'Q0 0 ' + fix(e.to.x) + ' ' + fix(e.to.y)} />`; })}
+      ${dots.map(function (d) { return html`<circle class="fn" cx=${fix(d.x)} cy=${fix(d.y)} r="2.6"><title>${d.file + ': ' + d.name}</title></circle>`; })}
+      ${names.map(function (l) { return html`<text x=${fix(l.x)} y=${fix(l.y)} text-anchor=${l.x > 12 ? 'start' : l.x < -12 ? 'end' : 'middle'}>${l.said}</text>`; })}
+    </svg><figcaption>${said}</figcaption></figure>`;
+  }
+  function Graph(p) {
+    var side = function (x) { return x !== null && typeof x === 'object' ? x : {}; }, b = side(p.graph.before), a = side(p.graph.after);
+    var count = function (c) { return things(c.files).reduce(function (sum, f) { return sum + list(f.functions).length; }, 0); };
+    var most = Math.max(count(b), count(a)), files = Math.max(things(b.files).length, things(a.files).length), calls = Math.max(list(b.edges).length, list(a.edges).length);
+    if (!most) return html`<p>No function was found in the files of the scope.</p>`;
+    if (most > 400 || calls > 2500) return html`<p>The scope is too large to draw here: up to ${show(most)} functions and ${show(calls)} calls on a side. The numbers are in the rows of the lens Structure.</p>`;
+    var step = 2 * Math.PI / (most + files);
+    return html`<div class="bowls"><${Bowl} label="Before" calls=${b} step=${step} /><${Bowl} label="After" calls=${a} step=${step} /></div>
+      <p>Every dot is a function and every line a call from one function to another; a dashed line is a call across files. Both sides are drawn to one scale. A call is found by name in the source: it need not happen when the code runs.</p>`;
+  }
+  // The shapes the state of one type can be written in: which the code reaches, which the tests see.
+  function Shapes(p) {
+    var t = p.of, cells = things(t.cells), side = t.side === 'before' || t.side === 'after' ? ', ' + t.side + ' the change' : '';
+    var count = function (key) {
+      var known = cells.filter(function (c) { return typeof c[key] === 'boolean'; });
+      return known.length ? show(known.filter(function (c) { return c[key]; }).length) + (known.length < cells.length ? ' of the ' + show(known.length) + ' that were looked at' : '') : 'not measured';
+    };
+    var word = function (v, yes, no, none) { return v === true ? yes : v === false ? no : none; };
+    return html`<h4><code>${text(t.type)}</code>${side}</h4>
+      <p>Can be written: ${show(cells.length)}. Reached by the code: ${count('reached')}. Seen by the tests: ${count('seen')}.</p>
+      <ul class="cells">${cells.slice(0, 256).map(function (c) { return html`<li class=${'cell' + (c.reached === true ? (c.seen === true ? ' on' : ' part') : '')}><b>${text(c.shape)}</b>
+        <span>${word(c.reached, 'reached by the code', 'never reached', 'reached: not measured')}</span><span>${word(c.seen, 'seen by the tests', 'seen by no test', 'seen: not measured')}</span></li>`; })}</ul>
+      ${cells.length > 256 ? html`<p>${cells.length - 256} more shapes are not shown.</p>` : ''}
+      <p>Counted by <code>${text(t.command)}</code>, handed in, not measured by this run.</p>`;
   }
   // The faults of a run on one state of the code, counted by what the tests made of them.
   function Counted(p) {

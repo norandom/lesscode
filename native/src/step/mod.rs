@@ -6,6 +6,7 @@
 //! 2 not judged because a run is incomplete, 3 bad input or a void run.
 
 pub mod check;
+mod check_handed;
 pub mod check_page;
 mod check_report;
 mod check_runs;

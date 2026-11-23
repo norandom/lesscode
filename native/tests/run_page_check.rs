@@ -28,9 +28,15 @@ fn inside(report: &Path) -> Value {
 /// into the directory `LESSCODE_CHECK_REPORTS` names, where the check of
 /// the page in a browser (`native/page/states.spec.mjs`) reads the reports.
 fn place(repo: &Repo, step: &str) -> PathBuf {
-    let kept = std::env::var_os("LESSCODE_CHECK_REPORTS").map(PathBuf::from);
-    let beside = || repo.dir.parent().unwrap().to_path_buf();
-    kept.unwrap_or_else(beside).join(format!("{step}.html"))
+    let root = repo.dir.parent().unwrap();
+    let Some(kept) = std::env::var_os("LESSCODE_CHECK_REPORTS") else {
+        return root.join(format!("{step}.html"));
+    };
+    // The repository's name without the number of the process, so that
+    // two tests with a step of the same name keep two pages.
+    let name = root.file_name().unwrap().to_string_lossy();
+    let test = name.trim_end_matches(|c: char| c.is_ascii_digit() || c == '-');
+    PathBuf::from(kept).join(format!("{test}-{step}.html"))
 }
 
 fn verdict_path(repo: &Repo, step: &str) -> PathBuf {
@@ -273,10 +279,33 @@ fn measures(repo: &Repo, state: &str) -> PathBuf {
          "expected": "falls", "command": "state-holders --type Frame"},
         {"lens": "Local complexity", "measure": "step: decisions", "before": 1, "after": 3,
          "expected": "no routine above its limit gets worse", "moved": true,
-         "command": "kiro-cli code check"}]});
+         "command": "kiro-cli code check"}],
+      "shapes": [{"type": "Frame", "side": "before", "command": "state-walk --type Frame",
+         "cells": [{"shape": "flag no", "reached": true, "seen": false},
+                   {"shape": "flag yes", "reached": false}]}]});
     let path = repo.dir.parent().unwrap().join("measures.json");
     fs::write(&path, handed.to_string()).unwrap();
     path
+}
+
+/// Task 6.3: the functions and calls of both sides as the tool counts
+/// them, and the shapes as they were handed in.
+fn the_drawings_have_their_numbers(report: &Value) {
+    let file = |side: &str| &report["graph"][side]["files"][0];
+    for side in ["before", "after"] {
+        assert_eq!(file(side)["file"], "src/app.py", "{side}");
+        assert_eq!(file(side)["functions"], json!(["helper", "step"]));
+        assert_eq!(report["graph"][side]["edges"], json!([]), "{side}");
+    }
+    let shapes = &report["shapes"];
+    assert_eq!(shapes.as_array().unwrap().len(), 1);
+    assert_eq!(shapes[0]["type"], "Frame");
+    assert_eq!(shapes[0]["side"], "before");
+    assert_eq!(shapes[0]["command"], "state-walk --type Frame");
+    let cells = shapes[0]["cells"].as_array().unwrap();
+    assert_eq!(cells.len(), 2);
+    assert_eq!(cells[0]["seen"], false);
+    assert_eq!(cells[1]["seen"], Value::Null, "not measured stays so");
 }
 
 #[test]
@@ -298,6 +327,7 @@ fn numbers_handed_in_and_source_text_are_shown_only_when_asked_for() {
     assert_eq!(local["measured"], true);
     assert_eq!(local["moved"], true, "as the file says");
     assert_eq!(lens(&run.shown, "Size", TOKENS)["handed_in"], false);
+    the_drawings_have_their_numbers(&run.shown["report"]);
 
     // A file that hands in a lens the run measures itself, and a file
     // without the page, are bad input: nothing runs.
@@ -311,6 +341,46 @@ fn numbers_handed_in_and_source_text_are_shown_only_when_asked_for() {
     let (code, _, stderr) = repo.step("check", "smaller", &handed);
     assert_eq!(code, Some(3), "{stderr}");
     assert!(stderr.contains("--page"), "{stderr}");
+}
+
+#[test]
+fn shapes_without_a_cell_or_on_no_side_are_bad_input() {
+    let repo = Repo::new("page-shapes");
+    accepted_step(&repo);
+    let place = place(&repo, "smaller");
+    let file = repo.dir.parent().unwrap().join("shapes.json");
+    let cell = json!({"shape": "flag no", "reached": true});
+    let cases = [
+        (
+            json!({"type": "Frame", "command": "walk", "cells": []}),
+            "no shape is listed",
+        ),
+        (
+            json!({"type": "Frame", "side": "sideways", "command": "walk", "cells": [cell]}),
+            "before or after",
+        ),
+        (
+            json!({"type": "Frame", "command": " ", "cells": [cell]}),
+            "the command that counted them",
+        ),
+    ];
+    for (shapes, why) in cases {
+        let handed = json!({"schema": 1, "shapes": [shapes]});
+        fs::write(&file, handed.to_string()).unwrap();
+        let options = [
+            "--page",
+            place.to_str().unwrap(),
+            "--measures",
+            file.to_str().unwrap(),
+        ];
+        let (code, _, stderr) = repo.step("check", "smaller", &options);
+        assert_eq!(code, Some(3), "{stderr}");
+        assert!(stderr.contains(why), "{why}: {stderr}");
+        assert!(
+            !verdict_path(&repo, "smaller").exists(),
+            "nothing was judged"
+        );
+    }
 }
 
 #[test]
@@ -345,6 +415,10 @@ fn the_report_of_an_early_refusal(shown: &Value) {
         assert!(!row["note"].as_str().unwrap().is_empty(), "{name}");
     }
     assert_eq!(shown["report"]["functions"], json!([]));
+    // The drawing of functions and calls needs no run; no shapes were handed in.
+    let functions = &shown["report"]["graph"]["after"]["files"][0]["functions"];
+    assert_eq!(functions, &json!(["helper", "step"]));
+    assert_eq!(shown["report"]["shapes"], json!([]));
 }
 
 #[test]

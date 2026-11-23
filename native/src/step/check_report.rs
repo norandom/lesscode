@@ -4,20 +4,22 @@
 //! only from a file the person hands in. Everything here is read from the
 //! verdict and the commits; nothing is judged again.
 
+use super::check_handed::Handed;
 use super::check_page::SIDES;
 use super::context::Context;
 use super::functions::Tally;
 use super::trees::Tree;
 use super::verdict::{Verdict, PLANTED_FAULTS, REFUSED};
-use crate::adapters::driver::calls::{calls_among, ScopeCalls, ScopeTotal};
+use crate::adapters::driver::calls::{calls_among, ScopeTotal};
+use crate::adapters::driver::functions::functions_of;
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::page_report::{
-    Counts, Lens, Protection, Refusal, Report, BEHAVIOUR, LOCAL, PROTECTION, SIZE, STATE, STRUCTURE,
+    Calls, Counts, FileNames, Graph, Lens, Protection, Refusal, Report, BEHAVIOUR, LOCAL,
+    PROTECTION, SIZE, STATE, STRUCTURE,
 };
 use crate::adapters::driver::page_snapshot::{Stage, Status};
-use serde::Deserialize;
 use serde_json::Value;
-use std::path::Path;
+use std::collections::BTreeSet;
 
 /// The commands the numbers are from, as a person would run them.
 const CHECK: &str = "lesscode-core step check";
@@ -25,86 +27,6 @@ const SCOPE: &str = "lesscode-core deconvolute measure-scope";
 
 const NOT_HANDED_IN: &str =
     "This run does not measure it. Numbers measured elsewhere are shown when a file with them is named with --measures.";
-
-/// One measure of a lens the tool does not measure itself.
-#[derive(Deserialize)]
-#[serde(deny_unknown_fields)]
-struct HandedLens {
-    lens: String,
-    measure: String,
-    before: Value,
-    after: Value,
-    /// `falls`, `rises` or `stays`, or the direction in other words.
-    expected: String,
-    /// Whether it moved that way, where the direction is in other words.
-    #[serde(default)]
-    moved: Option<bool>,
-    /// The command that produced the numbers.
-    command: String,
-}
-
-/// Numbers measured elsewhere, for the report.
-#[derive(Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Handed {
-    schema: u32,
-    #[serde(default)]
-    lenses: Vec<HandedLens>,
-}
-
-fn handed_lens(row: HandedLens) -> Result<Lens, String> {
-    if ![STATE, LOCAL].contains(&row.lens.as_str()) {
-        return Err(format!(
-            "lens {:?}: only {STATE:?} and {LOCAL:?} can be handed in; the run measures the others itself",
-            row.lens
-        ));
-    }
-    let plain = |v: &Value| v.is_number() || v.is_string();
-    if !plain(&row.before) || !plain(&row.after) {
-        return Err(format!(
-            "{}: before and after are a number or a text",
-            row.measure
-        ));
-    }
-    if row.measure.trim().is_empty() || row.command.trim().is_empty() {
-        return Err("a row needs its measure and the command that produced its numbers".into());
-    }
-    let numbers = row.before.as_f64().zip(row.after.as_f64());
-    let moved = match (row.expected.as_str(), numbers) {
-        ("falls", Some((before, after))) => Some(after < before),
-        ("rises", Some((before, after))) => Some(after > before),
-        ("stays", _) => Some(row.before == row.after),
-        _ => row.moved,
-    };
-    Ok(Lens {
-        lens: row.lens,
-        measure: row.measure,
-        before: Some(row.before),
-        after: Some(row.after),
-        expected: row.expected,
-        moved,
-        measured: true,
-        command: Some(row.command),
-        handed_in: true,
-        note: None,
-    })
-}
-
-/// The rows of the file named with `--measures`; none without a file. A
-/// file that cannot be read as such rows is bad input.
-pub fn read_handed(path: Option<&Path>) -> Result<Vec<Lens>, String> {
-    let Some(path) = path else {
-        return Ok(Vec::new());
-    };
-    let named = |why: String| format!("{}: {why}", path.display());
-    let bytes = std::fs::read(path).map_err(|e| named(e.to_string()))?;
-    let handed: Handed = serde_json::from_slice(&bytes).map_err(|e| named(e.to_string()))?;
-    if handed.schema != 1 {
-        return Err(named("schema must be 1".into()));
-    }
-    let rows = handed.lenses.into_iter().map(handed_lens);
-    rows.collect::<Result<_, _>>().map_err(named)
-}
 
 /// The rows handed in for a lens, or the one row that says it was not measured.
 fn handed_or_not(handed: &[Lens], lens: &str, measure: &str, expected: &str) -> Vec<Lens> {
@@ -121,41 +43,56 @@ fn calls_at(
     pack: &Pack,
     tree: &Tree,
     commit: &str,
-) -> Result<ScopeCalls, String> {
-    let mut texts = Vec::new();
+) -> Result<(ScopeTotal, Calls), String> {
+    let (mut texts, mut files) = (Vec::new(), Vec::new());
     for file in &context.declaration.scope {
         let text = context.text(tree, file)?;
-        if !text.is_empty() {
-            texts.push((file.clone(), text));
+        if text.is_empty() {
+            continue;
         }
+        let functions = functions_of(pack, file, &text)?;
+        let names: BTreeSet<String> = functions
+            .into_iter()
+            .filter(|f| !f.anonymous)
+            .map(|f| f.name)
+            .collect();
+        files.push(FileNames {
+            file: file.clone(),
+            functions: names.into_iter().collect(),
+        });
+        texts.push((file.clone(), text));
     }
-    calls_among(pack, commit, &texts)
+    let counted = calls_among(pack, commit, &texts)?;
+    let edges = counted.edges.into_iter().collect();
+    Ok((counted.total, Calls { files, edges }))
 }
 
-/// Functions and calls of the scope, counted as `measure-scope` counts them.
-fn structure(context: &Context, pack: &Pack) -> Vec<Lens> {
+/// Functions and calls of the scope, counted as `measure-scope` counts
+/// them: the rows of the lens, and what the page draws.
+fn structure(context: &Context, pack: &Pack) -> (Vec<Lens>, Option<Graph>) {
     let revisions = &context.revisions;
     let before = calls_at(context, pack, &context.base_tree, &revisions.base);
     let after = calls_at(context, pack, &context.step_tree, &revisions.step);
-    let (before, after) = match (before, after) {
-        (Ok(before), Ok(after)) => (before.total, after.total),
+    let ((before, drawn_before), (after, drawn_after)) = match (before, after) {
+        (Ok(before), Ok(after)) => (before, after),
         (Err(why), _) | (_, Err(why)) => {
-            return vec![Lens::not_measured(
-                STRUCTURE,
-                "functions and calls",
-                "falls",
-                &why,
-            )]
+            let none = Lens::not_measured(STRUCTURE, "functions and calls", "falls", &why);
+            return (vec![none], None);
         }
     };
     let row = |measure: &str, of: fn(&ScopeTotal) -> usize| {
         Lens::falls(STRUCTURE, measure, SCOPE, [of(&before), of(&after)])
     };
-    vec![
+    let rows = vec![
         row("functions", |t| t.functions),
         row("calls from one function to another", |t| t.edges),
         row("pairs of files with a call between them", |t| t.module_hops),
-    ]
+    ];
+    let graph = Graph {
+        before: drawn_before,
+        after: drawn_after,
+    };
+    (rows, Some(graph))
 }
 
 /// Whether the project's tests pass with no fault planted, on each side,
@@ -247,7 +184,7 @@ pub fn report(
     context: &Context,
     pack: &Pack,
     verdict: &Verdict,
-    handed: &[Lens],
+    handed: &Handed,
     stages: &[Stage],
 ) -> Report {
     let (protection, functions) = protection(verdict);
@@ -261,14 +198,15 @@ pub fn report(
             size.nodes,
         ),
     ];
-    lenses.extend(structure(context, pack));
+    let (structure, graph) = structure(context, pack);
+    lenses.extend(structure);
     let state = "ways the state can be written, is reached and is seen by the tests";
-    lenses.extend(handed_or_not(handed, STATE, state, "falls"));
+    lenses.extend(handed_or_not(&handed.lenses, STATE, state, "falls"));
     let (local, limit) = (
         "per routine: decisions, nesting, parameters and length",
         "no routine above its limit gets worse",
     );
-    lenses.extend(handed_or_not(handed, LOCAL, local, limit));
+    lenses.extend(handed_or_not(&handed.lenses, LOCAL, local, limit));
     lenses.push(behaviour(context, verdict, stages));
     lenses.push(protection);
     let refused = verdict.result == REFUSED;
@@ -278,5 +216,7 @@ pub fn report(
         refusal: refused.then(|| Refusal {
             reasons: verdict.reasons.clone(),
         }),
+        graph,
+        shapes: handed.shapes.clone(),
     }
 }

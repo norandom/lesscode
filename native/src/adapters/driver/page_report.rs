@@ -4,7 +4,7 @@
 //! was expected. A lens nobody measured is a row that says so. The page
 //! shows these rows and judges nothing.
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 /// The lenses of a rework, as the page names them.
@@ -21,6 +21,60 @@ pub struct Report {
     /// The planted faults of each function the change was judged on.
     pub functions: Vec<Protection>,
     pub refusal: Option<Refusal>,
+    /// The functions and calls of the scope on both sides, where they were
+    /// counted.
+    pub graph: Option<Graph>,
+    /// Per type, the shapes its state can take, where someone counted them.
+    pub shapes: Vec<TypeShapes>,
+}
+
+/// The functions and calls of the scope before and after the change.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Graph {
+    pub before: Calls,
+    pub after: Calls,
+}
+
+/// The functions of each file, by name, and the calls among them: caller
+/// file, caller, callee file, callee. Found by name in the source; a call
+/// drawn here need not happen when the code runs.
+#[derive(Debug, Clone, Default, PartialEq, Serialize)]
+pub struct Calls {
+    pub files: Vec<FileNames>,
+    pub edges: Vec<[String; 4]>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct FileNames {
+    pub file: String,
+    pub functions: Vec<String>,
+}
+
+/// The shapes the state of one type can be written in, and which of them
+/// the code reaches and the tests see. Counted outside the run and handed
+/// to it.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TypeShapes {
+    #[serde(rename = "type")]
+    pub name: String,
+    /// `before` or `after`, where it was counted on one side of a change.
+    #[serde(default)]
+    pub side: Option<String>,
+    /// The command that produced the numbers.
+    pub command: String,
+    pub cells: Vec<Cell>,
+}
+
+/// One shape that can be written. `None` where it was not measured.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Cell {
+    pub shape: String,
+    #[serde(default)]
+    pub reached: Option<bool>,
+    #[serde(default)]
+    pub seen: Option<bool>,
 }
 
 /// Why a change was refused, in the command's own words.

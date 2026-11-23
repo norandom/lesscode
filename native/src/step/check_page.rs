@@ -4,7 +4,8 @@
 //! and nothing here changes a verdict or an exit code.
 
 use super::check::CheckArgs;
-use super::check_report::{read_handed, report};
+use super::check_handed::{read_handed, Handed};
+use super::check_report::report;
 use super::context::Context;
 use super::functions::FileFunctions;
 use super::plan_page::{class_at, now};
@@ -12,7 +13,6 @@ use super::plan_show::Shown;
 use super::verdict::{FunctionRow, Verdict, ACCEPTED, REFUSED};
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::page_log::{Classed, RunLog, StagePlan};
-use crate::adapters::driver::page_report::Lens;
 use crate::adapters::driver::page_watch::{Event, Watch, Watching};
 use crate::adapters::driver::sites::{not_built_spans, Site, Span};
 use std::collections::BTreeMap;
@@ -110,7 +110,7 @@ pub struct CheckWatch {
     /// What reads the code of the step's language.
     pack: &'static Pack,
     /// Rows of lenses measured elsewhere, for the report.
-    handed: Vec<Lens>,
+    handed: Handed,
 }
 
 fn lines(texts: &[&str]) -> Vec<String> {

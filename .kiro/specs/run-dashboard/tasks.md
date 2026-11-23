@@ -264,7 +264,20 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     prominently as an acceptance.
   - _Boundary: Report writer, Page_
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.7, 7.8, 7.9_
-- [ ] 6.3 The drawing of functions and calls, and the grid of shapes
+- [x] 6.3 The drawing of functions and calls, and the grid of shapes
+  - Done 2026-11-23: `report.graph` has the functions of each file and the calls among them on
+    both sides, from the two commits, as `measure-scope` finds them; `report.shapes` has per type
+    the shapes that can be written and, for each, whether the code reaches it and the tests see
+    it, only from the file named with `--measures` (`step/check_handed.rs`), each of the two
+    marked "not measured" where it is absent. The page draws the two sides on one rim each, a
+    function taking the same part of the rim on both, a call across files dashed, and the shapes
+    as cells that say in words what was reached and seen. In a browser: the numbers of
+    `SharedFrame` in drift-rdp (`native/page/shared-frame.json`: the file at `e4d3b2c` and at
+    `e02154e`, 15 functions and 8 calls against 17 and 12; the 8 shapes of the first run, 6
+    reached, 6 seen) show both drawings; a report without them shows neither and says "not
+    measured" twice. A scope of more than 400 functions or 2,500 calls is not drawn. Not drawn
+    from the page "Two Bowls": the ring for local complexity and the mark for state writes; the
+    snapshot has no numbers for them.
   - The two drawings of the page "Two Bowls", from the snapshot: functions and calls before and
     after to one scale; per type the shapes that can be written, are reached and are seen. Each
     only where its numbers are in the snapshot.
