@@ -1,7 +1,7 @@
 # R165: a count of state holders and writable shapes, in Rust
 
-- Report date/time and timezone: 2026-11-23, 09:27 Europe/Berlin (registration; the time of commit `e6c23db`. I first wrote 10:25 here without reading the clock; corrected at 09:35)
-- Execution interval: 2026-11-23, 09:28 (build) to 09:33 (last run), Europe/Berlin
+- Report date/time and timezone: 2026-11-23, 09:27 Europe/Berlin (registration; the time of commit `e6c23db`. I first wrote 10:25 here without reading the clock; corrected at 09:30, from the clock)
+- Execution interval: 2026-11-23, 09:28 (build start, from the build output) to before 09:30 (last run; the clock read 09:30 after it), Europe/Berlin
 - Status: completed for the six registered rows; exploratory for the renderer
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md), the state lens (a brief, not approved requirements)
 - Hypothesis ID and predecessor: the hand counts in [the kiro-cli concept note](../../../.kiro/specs/state-consolidation/kiro-cli-state-metrics-concept.md)

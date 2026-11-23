@@ -1,6 +1,6 @@
 # R164: planted faults on the renderer of drift-rdp, before any rework
 
-- Report date/time and timezone: 2026-11-23, 09:20 Europe/Berlin (registration; the time of commit `ec4ca6a`. I first wrote 09:40 here without reading the clock; corrected at 09:35)
+- Report date/time and timezone: 2026-11-23, 09:20 Europe/Berlin (registration; the time of commit `ec4ca6a`. I first wrote 09:40 here without reading the clock; corrected at 09:30, from the clock)
 - Execution interval: not run yet
 - Status: planned
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md) (a brief, not approved requirements)
