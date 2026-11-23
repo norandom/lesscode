@@ -22,6 +22,7 @@ pub mod merge;
 pub mod operators;
 pub mod pack;
 pub mod page_log;
+pub mod page_serve;
 pub mod page_snapshot;
 pub mod page_subject;
 pub mod page_watch;
