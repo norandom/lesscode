@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R172 Two tests from the planted faults notice three of seven; the four left are not calls for a test (2026-11-23)
+## Latest · R173 SharedFrame reworked: 16 ways to be written become 6; the released flow refused it once, then accepted (2026-11-23)
+
+The first turn of the whole loop on real code, on a local branch of `drift-rdp`: after six tests from uncovered shapes and from planted faults, `damage` and `full` become one value with three cases, a flag the shipped program never read goes, and the lock is released by the shape of the code. `step check` refused the first attempt in a second for size, 72 tokens where 60 were allowed; the limit stayed and what the new code did not need went. Accepted at 57. All 6 ways the type can now be written are reached and seen by the 542 unchanged tests; the two faults about the lock have no place left; 2 of 37 planted faults go unnoticed where 4 of 42 did. The file is larger by 57 tokens and two functions. [R173](2026-11-23/10-shared-frame-rework.md)
+
+## R172 Two tests from the planted faults notice three of seven; the four left are not calls for a test (2026-11-23)
 
 Each of the seven faults the tests of `shared_frame.rs` still missed was read and its fate written down before a test existed. Five rows hold: two hand-written tests notice exactly the three expected, the suite passes with 542 tests, nothing regressed. The file went from 34 to 38 noticed of 42 over two steps, and from 8 to 12 covered shapes of 12 reached. Of the four left, two change nothing, and two change only the order of releasing a lock and ringing a thread, which no test on one thread sees. That reading is argued, not shown by a run. [R172](2026-11-23/09-tests-from-the-remaining-faults.md)
 

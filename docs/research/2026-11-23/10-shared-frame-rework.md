@@ -1,15 +1,21 @@
 # R173: `SharedFrame` reworked so that what cannot be reached cannot be written
 
 - Report date/time and timezone: 2026-11-23, 12:21 Europe/Berlin (registration, from the clock)
-- Execution interval: not run yet
-- Status: planned
+- Execution interval: 2026-11-23, change written 12:22 to 12:27; first check 12:27:29 to 12:27:30 (refused); second check 12:29:22 to 13:02:06 (accepted); watched again to 13:06:25 Europe/Berlin (from the commits and the commands' output)
+- Status: completed
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md): faults, tests and reduction hand in hand (a brief, not approved requirements)
 - Hypothesis ID and predecessor: [R172](09-tests-from-the-remaining-faults.md); the state of the type from [R165](02-state-holder-count.md) to [R170](07-holders-read-while-the-tests-run.md)
 - Type: preregistered
 
 ## Decision
 
-Open.
+The rework stands and the released flow accepts it, at the second attempt. The first was refused
+in one second for size: 72 tokens more where I had allowed 60. The limit stayed; what the new code
+did not need went. Two rows therefore hold only with that said: the change is two commits, not
+one, and the acceptance is of the second. The state of the type goes from 16 ways to be written to
+6, all 6 seen by the tests; the two faults about releasing the lock have no place left; the file
+is 57 tokens larger and has two more functions. This is the first before-and-after on real code
+with every lens filled, on one type.
 
 ## What the measurements say about the type as it is
 
@@ -67,7 +73,74 @@ to 6, not in size.
 
 ## Evidence and results
 
-Not run yet.
+Branch `lesscode/shared-frame-wake-tests` of `drift-rdp`, worktree
+`D:\BuildArtifacts\drift-rdp\lesscode-shared-frame-tests`, on `09b4ce8`, local, not pushed:
+
+| Commit | What |
+| --- | --- |
+| `08c6f9b`, `e4d3b2c` | the six tests (R171, R172) |
+| `f58b017` | the declaration of the step: base `e4d3b2c`, growth allowed 60 tokens |
+| `18c9043` | the rework |
+| `e02154e` | what the new value did not need, dropped |
+| `204782f` | the accepted verdict and the ledger entry |
+
+Outputs in `D:\BuildArtifacts\lesscode\lesscode-metrics\r173-rework`: `verdict-1-refused.json`,
+`check-1-refused.log`, `check.log`, `work\base-run.json` and `work\step-run.json` (every planted
+fault on both sides), `holders-after.json`, `scope-after.json`, `watch`. The verdict itself is on the
+branch. Working copies and build output are removed.
+
+| # | Expectation | Measured | Holds |
+| --- | --- | --- | --- |
+| 1 | One commit, one file, no test; 542 tests pass as they are | one file, no test, 542 passed and 6 skipped; but two commits, the second after the refusal | in part |
+| 2 | `step check` accepts, growth up to 60 tokens | refused at 72; accepted at 57 after the second commit; `step record` and `step guard` accept | at the second attempt |
+| 3 | Writable shapes of `SharedFrame` by the program: 8 to 3 | 8 to 3 (with `wake` by hand, 16 to 6) | yes |
+| 4 | The tests see 6 shapes, and 6 is all that can be written | 6 of 6 | yes |
+| 5 | At most 3 faults unnoticed after; the two about the lock have no place | 2 unnoticed; no fault of that kind is planted any more | yes |
+| 6 | Functions and calls in the file | 15 to 17 functions, 8 to 11 call edges | reported |
+| 7 | Size | 4,495 to 4,552 tokens, 3,359 to 3,411 syntax nodes | reported |
+
+### The refusal
+
+```
+step shared-frame-pending: refused
+  the scope grows from 4495 to 4567 tokens; the declaration allows 60 more
+```
+
+The four things that went in the second commit: three derives on the new value that nothing used;
+a default that one `replace` makes unnecessary; a load of the version where the frame's own
+`version()` does it; a match arm that returns the value it has. The tests, the formatting check and
+the project's lints were run again before the second check.
+
+### The six lenses, before and after
+
+| Lens | Measure | Before | After |
+| --- | --- | --- | --- |
+| Size | tokens of the file | 4,495 | 4,552 |
+| Structure | functions; call edges | 15; 8 | 17; 11 |
+| State | ways the type can be written, with `wake` | 16 | 6 |
+| | of them reached by the code | 12 | 6 |
+| | of them seen by the tests | 12 (8 before the tests of R171) | 6 |
+| | holders the shipped program sets and never reads | 1 (`dirty`) | 0 |
+| Local complexity (`kiro-cli` 1.1.0) | `take_damage`: cyclomatic; lines | 1; 6 | 3; 8, within the limits; nothing blocks |
+| | statements and lines over the routines it pairs | | 6 statements fewer, 2 lines more |
+| Behaviour kept | the crate's library tests, unchanged | 542 pass | 542 pass |
+| Protection | planted faults in the functions of the step: noticed; unnoticed; do not build | 37; 4; 1 | 33; 2; 2 |
+
+Fewer faults can be planted after, 37 against 42: the flag and the two releases are gone. In no
+function do more faults go unnoticed than before. The two still unnoticed are the two I read in
+R172 as changing nothing: the fill value of the grown buffer, and the row just below the picture.
+
+### What the watching shows after
+
+(`wake`, pending) with pending as nothing, rectangle, whole: all six combinations, in 34, 13, 11,
+6, 2 and 2 tests. Eleven changes, each a function with the shape before and after. The two shapes
+that were passed through between the write and the mark are gone as shapes of the type: what is
+pending no longer needs a second flag to agree with it. The moment itself is still there for a
+caller that writes through `begin_write` and marks later; it is now "pending, not yet rung".
+
+### All copies ran
+
+Three copies on each side, none dropped out.
 
 ## Limits and interpretation
 
