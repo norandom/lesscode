@@ -193,4 +193,4 @@ fault run makes three. I removed them after every run so far. Retained, small:
 modules, frozen binaries under `…-bin`), and the sources of one copy of `drift-rdp` without build
 output under `…\r169-scope-walk\try1\tree`, reused by the watching script.
 
-Next research record: R178. Task handovers: [task_77_handover.md](task_77_handover.md) (the run page, groups 1 and 2), [task_78_handover.md](task_78_handover.md) (group 3), [task_79_handover.md](task_79_handover.md) (group 4), [task_80_handover.md](task_80_handover.md) (group 5); the next is `task_81_handover.md`.
+Next research record: R179. Task handovers: [task_77_handover.md](task_77_handover.md) (the run page, groups 1 and 2), [task_78_handover.md](task_78_handover.md) (group 3), [task_79_handover.md](task_79_handover.md) (group 4), [task_80_handover.md](task_80_handover.md) (group 5), [task_81_handover.md](task_81_handover.md) (group 6); the next is `task_82_handover.md`.

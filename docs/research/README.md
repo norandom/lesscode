@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R177 The run page, group 5: what the page explains, and faults in code that is not built here (2026-11-23)
+## Latest · R178 The run page, group 6: `step check` on the page, and its report (2026-11-23)
+
+Implementation record of the spec `run-dashboard`. `step check` takes `--page` and `--open`; the page shows its six stages and, at the end, the report of the step: the outcome in one box, the same for accepted, refused and not judged; one row per measure of a lens with the direction expected and the command the numbers are from; the planted faults per function on both sides; a drawing of the functions and calls before and after to one scale; the shapes of a type's state. State, local complexity and shapes are not measured by the tool and are shown only from a file handed in with `--measures`, marked as handed in. The verdict is the same bytes with and without the page. Source text is left out of the page unless `--page-source` is given, also for `step plan`. Ten deviations, among them a commit with test routines over the limits because `kiro-cli` does not see files Git does not know. [R178](2026-11-23/15-run-page-group-6.md)
+
+## R177 The run page, group 5: what the page explains, and faults in code that is not built here (2026-11-23)
 
 Implementation record of the spec `run-dashboard`. The page says at its top and in a tab what the run touches, explains a planted fault with one of the run, and gives its notices where tests are missing or do not pass; each sentence only where the snapshot holds its fact. A language pack can now name the code that is not built on a system, and the page counts a fault there apart. Told again to the page, the recorded run of R164 has 66 such faults of 268 and not 64; R164 carries an amendment. The pack limit rose to 50 lines and 3,200 characters by the owner's decision. The run and the plan still plant and count those faults. Task 5.2 waits for the owner to read its wording. [R177](2026-11-23/14-run-page-group-5.md)
 

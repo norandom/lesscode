@@ -167,9 +167,9 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Boundary: Page_
   - _Requirements: 1.4_
 
-- [ ] 5. What the page explains
-  - Record: [R177](../../../docs/research/2026-11-23/14-run-page-group-5.md). Open: 5.2 waits for
-    the owner to read the wording.
+- [x] 5. What the page explains
+  - Record: [R177](../../../docs/research/2026-11-23/14-run-page-group-5.md). The owner read the
+    wording of 5.2 on 2026-11-23 and let it stand ("ok").
 - [x] 5.1 Your code
   - Done 2026-11-23: a line at the top of the page for the whole run and the tab, each sentence
     drawn from its fact. Beyond the page: the run now measures the copies at its end and names its
@@ -181,7 +181,9 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - Done when the fixed situations show each sentence only where its fact is in the snapshot.
   - _Boundary: Page_
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
-- [ ] 5.2 What a planted fault is, with one from this run
+- [x] 5.2 What a planted fault is, with one from this run
+  - Read by the owner 2026-11-23, 20:10, in the conversation of group 6, with the line "The code
+    there" as it is since task 6.2 (left out unless `--page-source` is given); answer: "ok".
   - The explanation, the first classed fault as the example, what a noticed fault shows and does
     not, and the three readings of an unnoticed one.
   - Done when the text is in the page, the example appears with the first classed fault, and the
@@ -219,7 +221,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Boundary: Page_
   - _Requirements: 6.1, 6.2, 6.3, 6.5, 6.6_
 
-- [ ] 6. `step check` and the report
+- [x] 6. `step check` and the report
+  - Record: [R178](../../../docs/research/2026-11-23/15-run-page-group-6.md).
 - [x] 6.1 `step check` tells the log
   - Done 2026-11-23: `step check` takes `--page` and `--open` (`step/check_page.rs`; the showing in
     `plan_show.rs` now serves any command). Six stages, in the order things happen: the checks
