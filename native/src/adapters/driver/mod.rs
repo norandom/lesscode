@@ -21,6 +21,8 @@ pub mod measure;
 pub mod merge;
 pub mod operators;
 pub mod pack;
+pub mod page_log;
+pub mod page_snapshot;
 pub mod process;
 pub mod registry;
 pub mod run_command;

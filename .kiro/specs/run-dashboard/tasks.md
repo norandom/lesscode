@@ -26,7 +26,11 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
 ## Tasks
 
 - [ ] 1. The snapshot
-- [ ] 1.1 The value the page shows, and how it is built from what a run tells
+- [x] 1.1 The value the page shows, and how it is built from what a run tells
+  - Done 2026-11-23: `native/src/adapters/driver/page_snapshot.rs` and `page_log.rs`, tests in
+    `native/tests/run_page_snapshot.rs`. Not a module of its own at the top of the crate, as the task
+    says: `lib.rs` is at its frozen ceiling, and a directory under the driver breaks a guard test
+    that reads the driver's directory as flat. So the two files sit in the driver beside the runner.
   - A module of its own in the core: the snapshot with `schema: 1` as in the design, and a log that
     takes events (a stage begins or ends, the unchanged tests ended in a copy, a fault was classed,
     a copy dropped out, the run ended) and keeps the snapshot. No input or output in it.

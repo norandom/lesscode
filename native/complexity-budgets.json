@@ -389,6 +389,20 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/page_log.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "What a run tells about itself, kept as the snapshot the page shows; no input or output (task 1.1; requirements 3.1, 3.2, 3.5, 3.6, 3.8, 6.2, 6.3)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/page_snapshot.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "The one value the run page shows, version 1, and how a moment is written (task 1.1; design: the snapshot)",
+   "disposition": null
+  },
+  {
    "path": "scope.rs",
    "max_tokens": 5682,
    "max_logical_units": 300,
