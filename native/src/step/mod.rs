@@ -6,6 +6,7 @@
 //! 2 not judged because a run is incomplete, 3 bad input or a void run.
 
 pub mod check;
+pub mod check_page;
 mod check_runs;
 pub mod context;
 pub mod declaration;

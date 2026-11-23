@@ -3,6 +3,7 @@
 //! and in their callers, and the commands tied to acceptance criteria.
 
 use super::check::CheckArgs;
+use super::check_page::CheckWatch;
 use super::context::Context;
 use super::faults::{run, Ended, Fault, FaultRun, Request};
 use super::functions::{changed, FileFunctions, Tally};
@@ -14,6 +15,7 @@ use crate::adapters::driver::process;
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
+use std::sync::Arc;
 use std::time::Duration;
 
 type Names = BTreeMap<String, Vec<String>>;
@@ -218,12 +220,31 @@ fn evidence(context: &Context, tree: &Path, verdict: &mut Verdict) -> Result<(),
     verdict.write_evidence(context, rows)
 }
 
+/// The two sides of a step, as the copies and the verdict name them.
+const SIDES: [&str; 2] = ["base", "step"];
+
+/// The tests and the faults of one side, in a fresh copy of its revision.
+/// Whoever shows the check listens for as long as the run lasts.
+fn run_side(
+    context: &Context,
+    args: &CheckArgs,
+    index: usize,
+    request: Request,
+    watch: Option<&Arc<CheckWatch>>,
+) -> Result<FaultRun, String> {
+    let revision = [&context.revisions.base, &context.revisions.step][index];
+    fresh_copy(&context.repo, revision, request.copy)?;
+    let _listening = watch.map(|w| w.side(index, context));
+    run(&context.declaration, &args.work, request)
+}
+
 /// Tests and faults on both revisions, the comparison, the evidence.
 pub fn judge_by_runs(
     context: &Context,
     pack: &Pack,
     args: &CheckArgs,
     verdict: &mut Verdict,
+    watch: Option<&Arc<CheckWatch>>,
 ) -> Result<(), String> {
     let before = functions_at(context, pack, &context.base_tree)?;
     let after = functions_at(context, pack, &context.step_tree)?;
@@ -235,26 +256,23 @@ pub fn judge_by_runs(
         .collect();
 
     let mut runs = Vec::new();
-    let sides = [
-        ("base", &context.revisions.base, &before),
-        ("step", &context.revisions.step, &after),
-    ];
-    for (side, revision, functions) in sides {
-        let copy = args.work.join(side);
-        fresh_copy(&context.repo, revision, &copy)?;
+    for (index, functions) in [&before, &after].into_iter().enumerate() {
+        let copy = args.work.join(SIDES[index]);
         let request = Request {
-            name: side,
+            name: SIDES[index],
             copy: &copy,
             functions: &present(&wanted, functions),
             only: Vec::new(),
             workers: args.workers,
         };
-        let done = run(&context.declaration, &args.work, request)?;
-        if !ended(verdict, side, &done) {
+        let done = run_side(context, args, index, request, watch)?;
+        if !ended(verdict, SIDES[index], &done) {
             return Ok(());
         }
         runs.push(done);
+        watch.into_iter().for_each(|w| w.side_done());
     }
+    watch.into_iter().for_each(|w| w.judging());
     verdict.pass(
         "tests and fault runs",
         "the project's tests pass on the base and on the step",

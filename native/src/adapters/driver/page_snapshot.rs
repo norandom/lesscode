@@ -59,8 +59,23 @@ pub struct Snapshot {
     pub tests: Tests,
     pub stages: Vec<Stage>,
     pub faults: Faults,
+    /// What the run found about a change; absent where it judges none or
+    /// has nothing to say yet.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub report: Option<Report>,
     /// What the person can do next, for this outcome.
     pub next: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Serialize)]
+pub struct Report {
+    pub refusal: Option<Refusal>,
+}
+
+/// Why a change was refused, in the command's own words.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Refusal {
+    pub reasons: Vec<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize)]
@@ -78,6 +93,10 @@ pub struct Subject {
     /// Uncommitted changes to tracked files when the run began.
     pub dirty: Option<bool>,
     pub on_main_branch: Option<bool>,
+    /// The commit a change is compared with; present only where the run
+    /// judges a change. `branch` and `commit` are then those of the change.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub compared_with: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Serialize)]
@@ -177,6 +196,10 @@ pub struct Tally {
     pub file: String,
     /// Absent for a file.
     pub function: Option<String>,
+    /// `before` or `after`, where a run plants faults on both sides of a
+    /// change; absent where it plants them in one state of the code.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub side: Option<String>,
     pub noticed: u64,
     pub unnoticed: u64,
     pub not_built: u64,

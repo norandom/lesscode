@@ -2,18 +2,21 @@
 //! `--page` writes the report of the run at its end, `--open` also shows
 //! the run in the default browser while it happens. Without either, a run
 //! is what it was. Nothing here changes what a run returns once it began.
+//! The options and the showing are the same for every command that has the
+//! page; `begin` is that of `step plan`.
 
 use super::plan::PlanArgs;
-use super::plan_page::PlanWatch;
+use super::plan_page::{now, PlanWatch};
 use crate::adapters::driver::config::RunConfig;
 use crate::adapters::driver::pack::Pack;
+use crate::adapters::driver::page_log::RunLog;
 use crate::adapters::driver::page_open::{open, Opener};
 use crate::adapters::driver::page_serve::{Served, LOCAL};
 use crate::adapters::driver::page_subject::{space, subject, would_be_tracked, written_inside};
 use crate::adapters::driver::page_text::{live, write_report};
 use crate::adapters::driver::page_watch::{Heart, BEAT};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
+use std::sync::{Arc, MutexGuard};
 
 /// The options that ask for the page.
 #[derive(clap::Args, Clone, Debug, Default)]
@@ -35,7 +38,7 @@ pub struct PageArgs {
 /// Where the report goes, or `None` when the page was not asked for.
 /// `out` is the run's other output; the page goes beside it unless a place
 /// is named.
-fn place_of(show: &PageArgs, out: &Path) -> Result<Option<PathBuf>, String> {
+pub fn place_of(show: &PageArgs, out: &Path) -> Result<Option<PathBuf>, String> {
     let place = match show.page.as_ref().and_then(Option::as_ref) {
         Some(place) => place.clone(),
         None if show.page.is_none() && !show.open => return Ok(None),
@@ -62,10 +65,21 @@ fn place_of(show: &PageArgs, out: &Path) -> Result<Option<PathBuf>, String> {
     }
 }
 
+/// What listens to a run of some command and keeps its log.
+pub trait Shown: Send + Sync + 'static {
+    fn log(&self) -> MutexGuard<'_, RunLog>;
+}
+
+impl Shown for PlanWatch {
+    fn log(&self) -> MutexGuard<'_, RunLog> {
+        PlanWatch::log(self)
+    }
+}
+
 /// A run that is shown: the log, its sign of life, the listener if the
 /// person asked to see the run, and where the report goes.
-pub struct Showing {
-    watch: Arc<PlanWatch>,
+pub struct Showing<W> {
+    watch: Arc<W>,
     place: PathBuf,
     work: PathBuf,
     heart: Heart,
@@ -74,10 +88,10 @@ pub struct Showing {
 
 /// The listener and the browser. Neither can stop the run: what fails is
 /// said, and the run goes on.
-fn serve(show: &PageArgs, watch: &Arc<PlanWatch>) -> Option<Served> {
+fn serve<W: Shown>(show: &PageArgs, watch: &Arc<W>) -> Option<Served> {
     let from = Arc::clone(watch);
     let latest = move || {
-        let snapshot = from.snapshot();
+        let snapshot = from.log().snapshot();
         let text = serde_json::to_string(&snapshot).unwrap_or_default();
         (snapshot.sequence, text)
     };
@@ -98,7 +112,11 @@ fn serve(show: &PageArgs, watch: &Arc<PlanWatch>) -> Option<Served> {
 
 /// Begins showing a run of `step plan` if the options ask for it. An
 /// `Err` is a refusal before anything ran.
-pub fn begin(args: &PlanArgs, config: &RunConfig, pack: &Pack) -> Result<Option<Showing>, String> {
+pub fn begin(
+    args: &PlanArgs,
+    config: &RunConfig,
+    pack: &Pack,
+) -> Result<Option<Showing<PlanWatch>>, String> {
     let show = &args.show;
     let Some(place) = place_of(show, &args.out)? else {
         return Ok(None);
@@ -110,18 +128,26 @@ pub fn begin(args: &PlanArgs, config: &RunConfig, pack: &Pack) -> Result<Option<
     let written = [args.out.as_path(), place.as_path(), args.work.as_path()];
     let inside = written_inside(&config.source_root, &written);
     watch.log().set_writes(inside);
-    let served = show.open.then(|| serve(show, &watch)).flatten();
-    Ok(Some(Showing {
-        heart: watch.heart(BEAT),
-        watch,
-        place,
-        work: args.work.clone(),
-        served,
-    }))
+    Ok(Some(Showing::start(show, watch, place, &args.work)))
 }
 
-impl Showing {
-    pub fn watch(&self) -> Arc<PlanWatch> {
+impl<W: Shown> Showing<W> {
+    /// Shows the run that `watch` listens to: the listener and the browser
+    /// if the person asked to see it, and signs of life from now on. The
+    /// report goes to `place`; the copies are under `work`.
+    pub fn start(show: &PageArgs, watch: Arc<W>, place: PathBuf, work: &Path) -> Self {
+        let served = show.open.then(|| serve(show, &watch)).flatten();
+        let alive = Arc::clone(&watch);
+        Self {
+            heart: Heart::start(BEAT, move || alive.log().beat(now())),
+            watch,
+            place,
+            work: work.to_path_buf(),
+            served,
+        }
+    }
+
+    pub fn watch(&self) -> Arc<W> {
         Arc::clone(&self.watch)
     }
 
@@ -133,7 +159,8 @@ impl Showing {
             self.watch.log().set_space(bytes);
         }
         drop(self.served);
-        match write_report(&self.place, &self.watch.snapshot()) {
+        let snapshot = self.watch.log().snapshot();
+        match write_report(&self.place, &snapshot) {
             Ok(()) => println!("The page of the run is at {}", self.place.display()),
             Err(why) => eprintln!("The page of the run could not be written ({why})."),
         }

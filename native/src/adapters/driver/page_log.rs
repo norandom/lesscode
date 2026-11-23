@@ -5,8 +5,8 @@
 //! test can replay a run exactly.
 
 use super::page_snapshot::{
-    stamp, Copies, Dropped, Example, Faults, Snapshot, Stage, Status, Subject, Tally, Tests, Tool,
-    FEW, SCHEMA,
+    stamp, Copies, Dropped, Example, Faults, Report, Snapshot, Stage, Status, Subject, Tally,
+    Tests, Tool, FEW, SCHEMA,
 };
 use std::collections::BTreeMap;
 
@@ -61,10 +61,13 @@ pub struct RunLog {
     started: u64,
     last: u64,
     begun: BTreeMap<String, u64>,
-    /// The faults of the whole run, of each file and of each function.
+    /// The side of a change the faults told from now on belong to.
+    side: Option<String>,
+    /// The faults of the whole run, and of each file and each function on
+    /// each side.
     all: Tally,
-    files: BTreeMap<String, Tally>,
-    functions: BTreeMap<(String, String), Tally>,
+    files: BTreeMap<(Option<String>, String), Tally>,
+    functions: BTreeMap<(Option<String>, String, String), Tally>,
 }
 
 impl RunLog {
@@ -103,6 +106,7 @@ impl RunLog {
             tests: Tests::default(),
             stages: stages.iter().map(stage).collect(),
             faults: Faults::default(),
+            report: None,
             next: Vec::new(),
         };
         Self {
@@ -110,6 +114,7 @@ impl RunLog {
             started: now,
             last: now,
             begun: BTreeMap::new(),
+            side: None,
             all: Tally::default(),
             files: BTreeMap::new(),
             functions: BTreeMap::new(),
@@ -151,20 +156,39 @@ impl RunLog {
         self.stated.copies.bytes = Some(bytes);
     }
 
+    /// The faults told from now on are those of one side of a change,
+    /// `before` or `after`; of no side where the run judges no change.
+    pub fn set_side(&mut self, side: Option<&str>) {
+        self.side = side.map(str::to_owned);
+    }
+
+    /// What the run found about the change it judges.
+    pub fn set_report(&mut self, report: Report) {
+        self.stated.report = Some(report);
+    }
+
+    fn of_file(&mut self, file: &str) -> &mut Tally {
+        let key = (self.side.clone(), file.to_owned());
+        self.files.entry(key).or_default()
+    }
+
+    fn of_function(&mut self, file: &str, function: &str) -> &mut Tally {
+        let key = (self.side.clone(), file.to_owned(), function.to_owned());
+        self.functions.entry(key).or_default()
+    }
+
     /// Faults that will be planted in a file, and in a function where known.
     pub fn expect(&mut self, file: &str, function: Option<&str>, faults: u64) {
         self.stated.faults.total += faults;
-        self.files.entry(file.to_owned()).or_default().left += faults;
+        self.of_file(file).left += faults;
         if let Some(function) = function {
-            let key = (file.to_owned(), function.to_owned());
-            self.functions.entry(key).or_default().left += faults;
+            self.of_function(file, function).left += faults;
         }
     }
 
     /// What a function calls and writes outside itself.
     pub fn reaches_out(&mut self, file: &str, function: &str, what: Vec<String>) {
-        let key = (file.to_owned(), function.to_owned());
-        self.functions.entry(key).or_default().reaches_out = what;
+        self.of_function(file, function).reaches_out = what;
     }
 
     /// A stage begins; `total` is given where it has items to count.
@@ -199,37 +223,41 @@ impl RunLog {
     /// The unchanged tests ended in one copy: how many ran, where that is
     /// known, or why the copy drops out.
     pub fn unchanged_tests(&mut self, copy: u64, outcome: Result<Option<u64>, String>, now: u64) {
-        let (copies, tests) = (&mut self.stated.copies, &mut self.stated.tests);
+        let tests = &mut self.stated.tests;
         match outcome {
             Ok(ran) => {
                 tests.passed_unchanged = Some(true);
                 tests.tests_run = ran.or(tests.tests_run);
+                self.changed(now);
             }
             Err(reason) => {
-                copies.working = copies.working.saturating_sub(1);
-                if copies.working == 0 {
+                if self.stated.copies.working <= 1 {
                     tests.passed_unchanged = Some(false);
                     tests.reason = Some(reason.clone());
                 }
-                copies.dropped.push(Dropped {
-                    copy,
-                    at: stamp(now),
-                    reason,
-                });
+                self.copy_dropped(copy, reason, now);
             }
         }
+    }
+
+    /// A copy drops out of the run, for the reason given. This says nothing
+    /// about the tests on the unchanged code.
+    pub fn copy_dropped(&mut self, copy: u64, reason: String, now: u64) {
+        let copies = &mut self.stated.copies;
+        copies.working = copies.working.saturating_sub(1);
+        copies.dropped.push(Dropped {
+            copy,
+            at: stamp(now),
+            reason,
+        });
         self.changed(now);
     }
 
     pub fn classed(&mut self, fault: Classed, now: u64) {
         count(&mut self.all, fault.class);
-        count(
-            self.files.entry(fault.file.clone()).or_default(),
-            fault.class,
-        );
+        count(self.of_file(&fault.file), fault.class);
         if let Some(function) = &fault.function {
-            let key = (fault.file.clone(), function.clone());
-            count(self.functions.entry(key).or_default(), fault.class);
+            count(self.of_function(&fault.file, function), fault.class);
         }
         // The first fault that is judged becomes the example the page explains
         // with. One in code that is not built here explains nothing.
@@ -272,16 +300,11 @@ impl RunLog {
         next: Vec<String>,
         now: u64,
     ) {
-        let open: Vec<String> = self.stated.stages.iter().map(|s| s.id.clone()).collect();
-        for id in open {
-            let status = self.stage(&id).map(|s| s.status);
-            match status {
-                Some(Status::GoingOn) if exit_code == 0 => self.end(&id, now),
-                Some(Status::GoingOn) => self.fail(&id, detail, now),
-                Some(Status::NotBegun) => self.close(&id, Status::LeftOut, None, now),
-                _ => {}
-            }
+        if exit_code != 0 {
+            self.fail_what_goes_on(detail, now);
         }
+        self.all_that_are(Status::GoingOn, Status::Ended, None, now);
+        self.all_that_are(Status::NotBegun, Status::LeftOut, None, now);
         self.stated.ended = true;
         self.stated.outcome = Some(outcome.to_owned());
         self.stated.outcome_detail = Some(detail.to_owned());
@@ -313,12 +336,29 @@ impl RunLog {
             stage.seconds_so_far = so_far;
             stage.seconds_left = rest(stage.done, stage.total, so_far);
         }
-        let file = |(file, tally): (&String, &Tally)| settled(tally, file, None);
-        shown.faults.files = self.files.iter().map(file).collect();
-        let function =
-            |((file, name), tally): (&(String, String), &Tally)| settled(tally, file, Some(name));
-        shown.faults.functions = self.functions.iter().map(function).collect();
+        let files = self.files.iter();
+        shown.faults.files = files
+            .map(|((side, file), tally)| settled(tally, side, file, None))
+            .collect();
+        let functions = self.functions.iter();
+        shown.faults.functions = functions
+            .map(|((side, file, name), tally)| settled(tally, side, file, Some(name)))
+            .collect();
         shown
+    }
+
+    /// Every stage that is going on fails, for the reason given.
+    pub fn fail_what_goes_on(&mut self, reason: &str, now: u64) {
+        self.all_that_are(Status::GoingOn, Status::Failed, Some(reason), now);
+    }
+
+    /// Every stage that is `from` becomes `to`, in the order of the stages.
+    fn all_that_are(&mut self, from: Status, to: Status, reason: Option<&str>, now: u64) {
+        let stages = self.stated.stages.iter().filter(|s| s.status == from);
+        let ids: Vec<String> = stages.map(|s| s.id.clone()).collect();
+        for id in ids {
+            self.close(&id, to, reason, now);
+        }
     }
 }
 
@@ -349,10 +389,11 @@ fn rest(done: Option<u64>, total: Option<u64>, so_far: Option<f64>) -> Option<f6
 /// A tally as it is shown: named, and unprotected when every fault has been
 /// run and none was noticed. Faults in code that is not built here say
 /// nothing about protection.
-fn settled(tally: &Tally, file: &str, function: Option<&String>) -> Tally {
+fn settled(tally: &Tally, side: &Option<String>, file: &str, function: Option<&String>) -> Tally {
     Tally {
         file: file.to_owned(),
         function: function.cloned(),
+        side: side.clone(),
         unprotected: tally.left == 0 && tally.noticed == 0 && tally.judged() > 0,
         ..tally.clone()
     }

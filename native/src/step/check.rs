@@ -2,8 +2,10 @@
 //! first; the project's tests and the planted faults follow only if those
 //! pass. Every check is in the verdict with its result.
 
+use super::check_page::{begin, CheckWatch};
 use super::check_runs::judge_by_runs;
 use super::context::Context;
+use super::plan_show::{PageArgs, Showing};
 use super::trees::{changed_paths, commit_changes};
 use super::verdict::{Verdict, ACCEPTED};
 use crate::adapter_traits::FrameSpec;
@@ -12,6 +14,7 @@ use crate::adapters::driver::measure::measure;
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::registry::embedded;
 use std::path::PathBuf;
+use std::sync::Arc;
 
 /// Arguments of `step check`.
 #[derive(clap::Args, Clone, Debug)]
@@ -28,6 +31,8 @@ pub struct CheckArgs {
     /// Copies to run at once.
     #[arg(long)]
     pub workers: Option<usize>,
+    #[command(flatten)]
+    pub show: PageArgs,
 }
 
 fn short(hash: &str) -> &str {
@@ -113,7 +118,24 @@ fn outside_the_frame(context: &Context, pack: &Pack) -> Result<Vec<String>, Stri
 pub fn run_check(args: CheckArgs) -> Result<u8, String> {
     let context = Context::open(&args.repo, &args.declaration)?;
     let pack = embedded(&context.declaration.language).map_err(|e| e.to_string())?;
-    let mut verdict = Verdict::new(&context);
+    let showing = begin(&args, &context, pack)?;
+    let watch = showing.as_ref().map(Showing::watch);
+    let ran = check(&args, &context, pack, watch.as_ref());
+    if let (Err(why), Some(watch)) = (&ran, &watch) {
+        watch.failed(why);
+    }
+    showing.into_iter().for_each(Showing::end);
+    ran
+}
+
+/// The check itself. Whoever shows the run is told what happens in it.
+fn check(
+    args: &CheckArgs,
+    context: &Context,
+    pack: &Pack,
+    watch: Option<&Arc<CheckWatch>>,
+) -> Result<u8, String> {
+    let mut verdict = Verdict::new(context);
     let (base, step) = (&context.revisions.base, &context.revisions.step);
     verdict.pass(
         "declaration and revisions",
@@ -121,25 +143,28 @@ pub fn run_check(args: CheckArgs) -> Result<u8, String> {
     );
     verdict.settle(
         "changes stay in scope",
-        outside_scope(&context),
+        outside_scope(context),
         "only scope, tests and the step's own files change",
     );
     verdict.settle(
         "pins apart from the change",
-        mixed_commits(&context)?,
+        mixed_commits(context)?,
         "no commit changes tests and code under test together",
     );
-    let grown = size(&context, pack, &mut verdict)?;
+    let grown = size(context, pack, &mut verdict)?;
     verdict.settle("size", grown, "within the declared growth");
     verdict.settle(
         "state frame",
-        outside_the_frame(&context, pack)?,
+        outside_the_frame(context, pack)?,
         "no state write outside the declared frame, or none declared",
     );
     if verdict.result == ACCEPTED {
-        judge_by_runs(&context, pack, &args, &mut verdict)?;
+        judge_by_runs(context, pack, args, &mut verdict, watch)?;
     }
-    verdict.write(&context)?;
+    verdict.write(context)?;
+    if let Some(watch) = watch {
+        watch.close(&verdict);
+    }
     println!("step {}: {}", verdict.step, verdict.result);
     for reason in &verdict.reasons {
         println!("  {reason}");

@@ -575,6 +575,13 @@
    "disposition": null
   },
   {
+   "path": "step/check_page.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "step check as the run page shows it: the listener that turns the check and its two fault runs into the snapshot, the stages, the end with the verdict's result and reasons, and the options --page and --open of step check (task 6.1; requirements 3.1, 4.5, 6.4, 7.7)",
+   "disposition": null
+  },
+  {
    "path": "step/plan_page.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",

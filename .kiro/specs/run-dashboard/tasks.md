@@ -220,7 +220,19 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Requirements: 6.1, 6.2, 6.3, 6.5, 6.6_
 
 - [ ] 6. `step check` and the report
-- [ ] 6.1 `step check` tells the log
+- [x] 6.1 `step check` tells the log
+  - Done 2026-11-23: `step check` takes `--page` and `--open` (`step/check_page.rs`; the showing in
+    `plan_show.rs` now serves any command). Six stages, in the order things happen: the checks
+    without a run, tests and faults before the step, tests and faults after it, the comparison.
+    The faults of a file and of a function carry their side (`before`, `after`); the subject is
+    the step's branch and commit and names the commit it is compared with; the verdict and the
+    evidence are named as written into the repository. A refusal carries the verdict's reasons
+    (`report.refusal`), and an acceptance of functions in which no test noticed a fault before
+    says that nothing was protected before. Tests in `native/tests/run_page_check.rs`: an
+    accepted step, a step refused before any run, steps refused or not judged by their runs; the
+    verdict is the same bytes with and without the page. The page itself does not read the new
+    fields yet (task 6.2). When the tests do not pass before the step, the check refuses and the
+    page's notice says the run cannot judge: both are shown, the check was not changed.
   - Its stages: the checks that need no run, the unchanged tests on the base and on the step, the
     faults on both sides, the verdict. A refusal before any run ends the page at once, with the
     reasons.

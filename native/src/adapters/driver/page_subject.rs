@@ -84,11 +84,9 @@ pub fn space(dir: &Path) -> Option<u64> {
     Some(sum)
 }
 
-/// What the run reads. Every part that cannot be found out is `None`, and
-/// the page then says "not known".
-pub fn subject(repo: &Path) -> Subject {
-    // A commit checked out without a branch answers `HEAD`.
-    let branch = ask(repo, &["rev-parse", "--abbrev-ref", "HEAD"]).filter(|b| b != "HEAD");
+/// Whether `branch` is the repository's main branch: the one its remote
+/// names, or one of the usual names where the remote does not say.
+fn is_main(repo: &Path, branch: &str) -> bool {
     let remote = [
         "symbolic-ref",
         "--quiet",
@@ -96,16 +94,36 @@ pub fn subject(repo: &Path) -> Subject {
         "refs/remotes/origin/HEAD",
     ];
     let named = ask(repo, &remote).and_then(|r| r.split_once('/').map(|(_, b)| b.to_owned()));
-    let is_main = |branch: &String| match &named {
+    match named {
         Some(main) => branch == main,
-        None => USUAL.contains(&branch.as_str()),
-    };
+        None => USUAL.contains(&branch),
+    }
+}
+
+/// What the run reads. Every part that cannot be found out is `None`, and
+/// the page then says "not known".
+pub fn subject(repo: &Path) -> Subject {
+    // A commit checked out without a branch answers `HEAD`.
+    let branch = ask(repo, &["rev-parse", "--abbrev-ref", "HEAD"]).filter(|b| b != "HEAD");
     let changes = ["status", "--porcelain", "--untracked-files=no"];
     Subject {
         repository: ask(repo, &["rev-parse", "--show-toplevel"]),
-        on_main_branch: branch.as_ref().map(is_main),
+        on_main_branch: branch.as_ref().map(|b| is_main(repo, b)),
         branch,
         commit: ask(repo, &["rev-parse", "HEAD"]),
         dirty: ask(repo, &changes).map(|listed| !listed.is_empty()),
+        compared_with: None,
+    }
+}
+
+/// What a run that judges a change reads: the change's branch and commit,
+/// whatever is checked out, and the commit it is compared with.
+pub fn change(repo: &Path, branch: &str, commit: &str, compared_with: &str) -> Subject {
+    Subject {
+        on_main_branch: Some(is_main(repo, branch)),
+        branch: Some(branch.to_owned()),
+        commit: Some(commit.to_owned()),
+        compared_with: Some(compared_with.to_owned()),
+        ..subject(repo)
     }
 }
