@@ -22,7 +22,7 @@ const out = outputRoot();
 
 export default defineConfig({
   testDir: '../native/page',
-  testMatch: 'states.spec.mjs',
+  testMatch: ['states.spec.mjs', 'list.spec.mjs'],
   workers: 1,
   retries: 0,
   reporter: [['line'], ['json', { outputFile: join(out, 'states.json') }]],

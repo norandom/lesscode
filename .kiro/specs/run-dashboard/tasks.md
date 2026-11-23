@@ -289,8 +289,21 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Boundary: Page_
   - _Requirements: 7.5, 7.6_
 
-- [ ] 7. Several reports
-- [ ] 7.1 A list of reports
+- [x] 7. Several reports
+- [x] 7.1 A list of reports
+  - Done 2026-11-23: `step reports <report>... --out <directory>` reads the run inside each report
+    and writes, into a new or empty directory, a copy of each report (`report-01.html`, ...) and
+    `index.html`, the list (`native/page/list.html`, drawn from `page_list.rs`). Each report is one
+    block built the same way: the project (the name of the repository's directory, the link), the
+    outcome with a mark and a word, the date, the scope, the two commits, the reasons or the last
+    sentence of the run, and the rows of its lenses. `--without-names-of <project>` puts a number
+    where a file, a function or a type is named (`page_names.rs`), in the copy of the report and
+    so in the list; the project's commands, the files the run wrote, the shapes of a type and the
+    line of source are left out as a whole; a project no report is of is an error. In a browser:
+    the list of an accepted step and two refused ones at 1,280 and at 400, each link, and the
+    list and its three reports without names, tab by tab. The fixture has two refusals, not one.
+    A name is not looked for in the tool's own sentences; in a reason of the run a function named
+    like a common word takes that word out too.
   - A subcommand that reads the data inside several reports and writes one page that lists them,
     links to each, and shows refused and worsened ones like the others; with an option that leaves
     the names of files and functions of a named project out.

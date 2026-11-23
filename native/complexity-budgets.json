@@ -396,6 +396,20 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/page_list.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "The list of several reports: per report the project, the scope, the date, the outcome and the rows of its lenses, taken from the run inside it (task 7.1; requirements 8.1 to 8.3)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/page_names.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "Leaving the names of a project's files, functions and types out of the run inside a report: a number per name, commands and written files left out as a whole (task 7.1; requirement 8.4)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/page_report.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
@@ -593,6 +607,13 @@
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "The options --page and --open of step check: where the report goes, what the check reads and what it writes into the repository (task 6.1; requirements 2.5, 4.4, 4.5)",
+   "disposition": null
+  },
+  {
+   "path": "step/reports.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "step reports: reads several reports, writes a copy of each and one page that lists them into a new directory; --without-names-of leaves a project's names out (task 7.1; requirement 8)",
    "disposition": null
   },
   {

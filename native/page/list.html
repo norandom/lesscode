@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lesscode reports</title>
+<style>
+/* A list of reports: one block per report, each built the same way, whatever its outcome. The colours and type are those of the run page. */
+:root {
+  --bg: #f7f8fa; --panel: #ffffff; --line: #d3d5db; --ink: #1f2329; --quiet: #5c6370; --hover: #e9ebf0;
+  --focus: #3574f0; --ok: #1f8a4c; --warn: #b26a00; --bad: #c9352b; --off: #8c93a0;
+  --ok-bg: #dff3e6; --warn-bg: #fdefd3; --bad-bg: #fbe1df;
+  --ui: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, "DejaVu Sans Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1e1f22; --panel: #2b2d30; --line: #43454a; --ink: #dfe1e5; --quiet: #9da0a8; --hover: #393b40;
+  --focus: #548af7; --ok: #5fad65; --warn: #d6a24a; --bad: #e0685f; --off: #7a7e85;
+  --ok-bg: #263b2b; --warn-bg: #45381f; --bad-bg: #4a2a28; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #1e1f22; --panel: #2b2d30; --line: #43454a; --ink: #dfe1e5; --quiet: #9da0a8; --hover: #393b40;
+  --focus: #548af7; --ok: #5fad65; --warn: #d6a24a; --bad: #e0685f; --off: #7a7e85;
+  --ok-bg: #263b2b; --warn-bg: #45381f; --bad-bg: #4a2a28; color-scheme: dark }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 13px/1.45 var(--ui); }
+code, .mono { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
+a { color: var(--focus); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 8px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.head h1 { font-size: 15px; font-weight: 600; margin: 0; }
+.head span { color: var(--quiet); }
+.list { max-width: 1100px; margin: 0 auto; padding: 16px; display: grid; gap: 16px; }
+.card { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+.card header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0 0 8px; }
+.card h2 { font-size: 15px; margin: 0; overflow-wrap: anywhere; }
+.card h3 { font-size: 13px; margin: 12px 0 4px; }
+.card p { margin: 0 0 8px; max-width: 74ch; } .card ul { margin: 0 0 8px; padding-left: 18px; max-width: 74ch; }
+.pill { border-radius: 10px; padding: 1px 9px; font-weight: 600; white-space: nowrap; }
+.pill.ok { background: var(--ok-bg); color: var(--ok); } .pill.warn { background: var(--warn-bg); color: var(--warn); } .pill.bad { background: var(--bad-bg); color: var(--bad); }
+.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 14px; margin: 0 0 10px; }
+.facts dt { color: var(--quiet); } .facts dd { margin: 0; overflow-wrap: anywhere; }
+/* The outcome of a run: accepted, refused and not judged stand alike. */
+.verdict { border-left: 4px solid var(--off); background: var(--hover); padding: 8px 12px 2px; margin: 0 0 10px; max-width: 74ch; overflow-wrap: anywhere; }
+.verdict.ok { border-color: var(--ok); background: var(--ok-bg); } .verdict.bad { border-color: var(--bad); background: var(--bad-bg); } .verdict.warn { border-color: var(--warn); background: var(--warn-bg); }
+table { border-collapse: collapse; width: 100%; } th, td { text-align: left; padding: 3px 10px 3px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--quiet); font-weight: 500; } td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wide { overflow-x: auto; }
+.big { padding: 40px 20px; max-width: 70ch; margin: 0 auto; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*LIB*/</script>
+<script>
+// Filled by the tool: the list of reports.
+const data = /*DATA*/null;
+</script>
+<script>
+(function () {
+  'use strict';
+  var P = window.htmPreact, html = P.html;
+  var root = document.documentElement, failures = 0, problem = null;
+  function note() { root.dataset.state = problem ? 'cannot-read' : 'list'; root.dataset.failures = String(failures); }
+  window.addEventListener('error', function (e) { failures += 1; root.dataset.failure = String(e && e.message); note(); });
+
+  // What the page was given. Drawn from this and from nothing else.
+  if (data === null || typeof data !== 'object' || Array.isArray(data)) problem = 'The page was written without a list of reports inside.';
+  else if (data.schema !== 1) problem = (data.schema === undefined ? 'The data states no version' : 'The data was written for version ' + String(data.schema) + ' of the page') + '; this page reads version 1.';
+
+  // Small helpers: every field may be missing.
+  function n(x) { return typeof x === 'number' && isFinite(x) ? x : null; }
+  function list(x) { return Array.isArray(x) ? x : []; }
+  function things(x) { return list(x).filter(function (y) { return y !== null && typeof y === 'object'; }); }
+  function text(x, otherwise) { return typeof x === 'string' && x ? x : (otherwise || 'not known'); }
+  function when(t) { var d = new Date(t); return isNaN(d) ? 'not known' : d.toLocaleString('en-GB'); }
+  function short(x) { return typeof x === 'string' && x ? x.slice(0, 10) : 'not known'; }
+  // A number or a text of a lens; a side that was not run has neither.
+  function value(x) { return n(x) !== null ? x.toLocaleString('en') : typeof x === 'string' && x ? x : 'not run'; }
+
+  // One row per measure of a lens, in the words of the report.
+  function Lenses(p) {
+    return html`<div class="wide"><table><thead><tr><th scope="col">Lens</th><th scope="col">Measure</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Expected</th><th scope="col">Moved that way</th></tr></thead><tbody>
+      ${p.lenses.map(function (l) {
+        var none = l.measured !== true;
+        return html`<tr><td>${text(l.lens)}</td><td>${text(l.measure)}</td><td class="num">${none ? 'not measured' : value(l.before)}</td><td class="num">${none ? 'not measured' : value(l.after)}</td><td>${text(l.expected)}</td>
+          <td>${none ? 'not measured' : l.moved === true ? 'yes' : l.moved === false ? 'no' : 'not judged'}${l.handed_in === true ? ' (handed in)' : ''}</td></tr>`; })}
+      </tbody></table></div>`;
+  }
+
+  // One report. An acceptance, a refusal and a run that could not judge are built alike.
+  function Report(p) {
+    var r = p.r, reasons = list(r.reasons), refused = reasons.length > 0, scope = list(r.scope), lenses = things(r.lenses);
+    var kind = r.exit_code === 0 ? 'ok' : refused ? 'bad' : 'warn', mark = kind === 'ok' ? '✓' : kind === 'bad' ? '✗' : '!';
+    var tool = r.tool !== null && typeof r.tool === 'object' ? r.tool : {};
+    return html`<article class="card" data-outcome=${kind}>
+      <header><h2><a href=${text(r.link, '#')}>${text(r.project)}</a></h2><span class=${'pill ' + kind}><span aria-hidden="true">${mark} </span>${text(r.outcome, 'The run ended')}</span><span>${when(r.date)}</span></header>
+      <dl class="facts">
+        <dt>Scope</dt><dd>${scope.length ? scope.map(function (f, i) { return html`${i ? ', ' : ''}<code>${String(f)}</code>`; }) : 'not known'}${r.names_left_out === true ? html` (the names of files and functions of this project are left out)` : ''}</dd>
+        <dt>Compared</dt><dd>${typeof r.compared_with === 'string' ? html`commit <code>${short(r.compared_with)}</code> with commit <code>${short(r.commit)}</code> on branch <code>${text(r.branch)}</code>` : html`nothing; the run read commit <code>${short(r.commit)}</code> on branch <code>${text(r.branch)}</code>`}</dd>
+        <dt>By</dt><dd><code>${text(tool.name, 'lesscode')} ${text(tool.version, '')}</code>, command <code>${text(r.command)}</code></dd>
+      </dl>
+      <div class=${'verdict ' + kind}>
+        ${refused ? html`<ul>${reasons.map(function (x) { return html`<li>${String(x)}</li>`; })}</ul>` : html`<p>${text(r.outcome_detail, 'The run said nothing more about its outcome.')}</p>`}
+      </div>
+      <h3>Before and after</h3>
+      ${lenses.length ? html`<${Lenses} lenses=${lenses} />` : html`<p>This run compared nothing before and after.</p>`}
+      <p><a href=${text(r.link, '#')}>Open the report of ${text(r.project)}, ${when(r.date)}</a></p>
+    </article>`;
+  }
+
+  function CannotRead(p) {
+    return html`<div class="big" role="alert"><h2>This page cannot read its list of reports</h2><p>${p.why}</p><p>Write the list again with the version of lesscode that wrote this page. The reports themselves are not affected.</p></div>`;
+  }
+  function App() {
+    if (problem) return html`<${CannotRead} why=${problem} />`;
+    var reports = things(data.reports), tool = data.tool !== null && typeof data.tool === 'object' ? data.tool : {};
+    return html`<header class="head"><h1>lesscode reports</h1><span>${reports.length} ${reports.length === 1 ? 'report' : 'reports'}, in the order they were named</span><span>Written ${when(data.written)} by ${text(tool.name, 'lesscode')} ${text(tool.version, '')}</span></header>
+      <main class="list">${reports.length ? reports.map(function (r) { return html`<${Report} r=${r} />`; }) : html`<p>The list has no report.</p>`}</main>`;
+  }
+  // Drawing must not leave a blank page.
+  function Guard() {}
+  Guard.prototype = Object.create(P.Component.prototype);
+  Guard.prototype.componentDidCatch = function (error) { failures += 1; problem = 'Drawing the page failed: ' + String(error && error.message || error); this.setState({}); note(); };
+  Guard.prototype.render = function () { return html`<${App} />`; };
+  P.render(html`<${Guard} />`, document.getElementById('app'));
+  note();
+})();
+</script>
+</body>
+</html>

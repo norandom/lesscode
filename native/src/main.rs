@@ -80,7 +80,7 @@ enum Command {
         #[command(subcommand)]
         cmd: cli_deconvolute::DeconvoluteCommand,
     },
-    /// Refactoring in checked steps: plan, pin, check, record, guard, install-hook.
+    /// Refactoring in checked steps: plan, pin, check, record, guard, reports, install-hook.
     Step {
         #[command(subcommand)]
         cmd: step::StepCommand,
