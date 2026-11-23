@@ -17,7 +17,7 @@
   "default_trait": "Default",
   "length": 4,
   "budget": 3000000,
-  "seconds": 120,
+  "seconds": 240,
   "rounds": 4,
   "observe": {
     "bool": "{x}",

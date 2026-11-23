@@ -12,11 +12,14 @@ use std::panic::{catch_unwind, AssertUnwindSafe};
 
 pub(crate) struct World {
     slots: BTreeMap<TypeId, Box<dyn Any>>,
+    /// How many values of a type the world has been given, so that a value
+    /// put in place of another is told from one that changed.
+    given: BTreeMap<TypeId, u8>,
 }
 
 impl World {
     fn new() -> Self {
-        Self { slots: BTreeMap::new() }
+        Self { slots: BTreeMap::new(), given: BTreeMap::new() }
     }
     pub(crate) fn has<T: Any>(&self) -> bool {
         self.slots.contains_key(&TypeId::of::<T>())
@@ -24,10 +27,21 @@ impl World {
     pub(crate) fn get<T: Any>(&self) -> Option<&T> {
         self.slots.get(&TypeId::of::<T>()).and_then(|b| b.downcast_ref())
     }
+    /// Never 0 for a type the world holds.
+    pub(crate) fn given<T: Any>(&self) -> u8 {
+        if self.has::<T>() { self.given.get(&TypeId::of::<T>()).copied().unwrap_or(1) } else { 0 }
+    }
     pub(crate) fn take<T: Any>(&mut self) -> Option<T> {
         self.slots.remove(&TypeId::of::<T>()).and_then(|b| b.downcast().ok()).map(|b| *b)
     }
+    /// A new value, in place of any the world held.
     pub(crate) fn put<T: Any>(&mut self, value: T) {
+        let count = self.given.entry(TypeId::of::<T>()).or_insert(0);
+        *count = if *count == u8::MAX { 1 } else { *count + 1 };
+        self.slots.insert(TypeId::of::<T>(), Box::new(value));
+    }
+    /// The value that was taken out for a call, back in.
+    pub(crate) fn put_back<T: Any>(&mut self, value: T) {
         self.slots.insert(TypeId::of::<T>(), Box::new(value));
     }
 }
@@ -73,8 +87,10 @@ fn make(build: &[Call]) -> World {
     w
 }
 
-/// Every call once, by itself, its name written down before it runs.
-fn probe(build: &[Call], all: &[Call], skip: &BTreeSet<String>, directory: &std::path::Path) -> BTreeSet<&'static str> {
+/// Every call once, by itself, its name written down before it runs. Returns
+/// the calls that panicked and how long each call took, in microseconds.
+fn probe(build: &[Call], all: &[Call], skip: &BTreeSet<String>, directory: &std::path::Path) -> (BTreeSet<&'static str>, Vec<(u128, &'static str)>) {
+    let mut took = Vec::new();
     let mut log = std::fs::File::create(directory.join("probe.log")).unwrap();
     let mut note = |text: &str| {
         writeln!(log, "{text}").unwrap();
@@ -85,7 +101,9 @@ fn probe(build: &[Call], all: &[Call], skip: &BTreeSet<String>, directory: &std:
         for (name, b) in build {
             if !skip.contains(*name) {
                 note(name);
+                let started = std::time::Instant::now();
                 b(&mut w);
+                took.push((started.elapsed().as_micros(), *name));
             }
         }
     }
@@ -96,12 +114,15 @@ fn probe(build: &[Call], all: &[Call], skip: &BTreeSet<String>, directory: &std:
         }
         note(name);
         let mut w = make(build);
+        let started = std::time::Instant::now();
         if catch_unwind(AssertUnwindSafe(|| call(&mut w))).is_err() {
             panicked.insert(*name);
         }
+        took.push((started.elapsed().as_micros(), *name));
     }
     note("(every call returned)");
-    panicked
+    took.sort_by(|a, b| b.cmp(a));
+    (panicked, took)
 }
 
 struct Seen {
@@ -110,7 +131,15 @@ struct Seen {
     changed_by: Vec<BTreeSet<&'static str>>,
     panicked_in_a_sequence: BTreeSet<&'static str>,
     sequences: u64,
-    complete: bool,
+    /// The longest length of which every sequence was run.
+    complete_to: usize,
+}
+
+/// A type's part of the shape, with "which value" reduced to "a value".
+fn part_of(shape: &[u8], range: &std::ops::Range<usize>) -> Vec<u8> {
+    let mut part = shape[range.clone()].to_vec();
+    part[0] = part[0].min(1);
+    part
 }
 
 /// The parts of the shape that belong to one type, as ranges.
@@ -133,58 +162,65 @@ fn walk(build: &[Call], all: &[Call], length: usize) -> Seen {
         changed_by: vec![BTreeSet::new(); h.len()],
         panicked_in_a_sequence: BTreeSet::new(),
         sequences: 0,
-        complete: true,
+        complete_to: 0,
     };
     let first = observe(&make(build));
     for (t, (_, range)) in parts.iter().enumerate() {
-        seen.reached[t].insert(first[range.clone()].to_vec(), Vec::new());
+        seen.reached[t].insert(part_of(&first, range), Vec::new());
     }
-    if all.is_empty() || length == 0 {
+    if all.is_empty() {
         return seen;
     }
     let started = std::time::Instant::now();
-    let mut choice = vec![0usize; length];
-    loop {
-        let mut w = make(build);
-        let mut before = observe(&w);
-        for (step, &at) in choice.iter().enumerate() {
-            let (name, call) = all[at];
-            if catch_unwind(AssertUnwindSafe(|| call(&mut w))).is_err() {
-                seen.panicked_in_a_sequence.insert(name);
-                break;
-            }
-            let after = observe(&w);
-            for i in 0..h.len() {
-                if after[i] != before[i] {
-                    seen.changed_by[i].insert(name);
+    // Shorter sequences first, so that a time limit cuts the longest.
+    for this in 1..=length {
+        let mut choice = vec![0usize; this];
+        'sequences: loop {
+            let mut w = make(build);
+            let mut before = observe(&w);
+            for (step, &at) in choice.iter().enumerate() {
+                let (name, call) = all[at];
+                if catch_unwind(AssertUnwindSafe(|| call(&mut w))).is_err() {
+                    seen.panicked_in_a_sequence.insert(name);
+                    break;
                 }
-            }
-            for (t, (_, range)) in parts.iter().enumerate() {
-                let part = &after[range.clone()];
-                if seen.reached[t].get(part).is_none_or(|how| how.len() > step + 1) {
-                    seen.reached[t].insert(part.to_vec(), choice[..=step].iter().map(|&c| all[c].0).collect());
+                let after = observe(&w);
+                for (t, (_, range)) in parts.iter().enumerate() {
+                    // Another value in its place is not a change of the value.
+                    if after[range.start] != before[range.start] {
+                        seen.changed_by[range.start].insert(name);
+                    } else {
+                        for i in range.clone().filter(|&i| after[i] != before[i]) {
+                            seen.changed_by[i].insert(name);
+                        }
+                    }
+                    let part = part_of(&after, range);
+                    if seen.reached[t].get(&part).is_none_or(|how| how.len() > step + 1) {
+                        seen.reached[t].insert(part, choice[..=step].iter().map(|&c| all[c].0).collect());
+                    }
                 }
+                before = after;
             }
-            before = after;
-        }
-        seen.sequences += 1;
-        if started.elapsed().as_secs() >= SECONDS {
-            seen.complete = false;
-            return seen;
-        }
-        let mut digit = length;
-        loop {
-            if digit == 0 {
+            seen.sequences += 1;
+            if started.elapsed().as_secs() >= SECONDS {
                 return seen;
             }
-            digit -= 1;
-            choice[digit] += 1;
-            if choice[digit] < all.len() {
-                break;
+            let mut digit = this;
+            loop {
+                if digit == 0 {
+                    break 'sequences;
+                }
+                digit -= 1;
+                choice[digit] += 1;
+                if choice[digit] < all.len() {
+                    break;
+                }
+                choice[digit] = 0;
             }
-            choice[digit] = 0;
         }
+        seen.complete_to = this;
     }
+    seen
 }
 
 #[test]
@@ -198,7 +234,7 @@ fn walk_the_scope() {
     let build: Vec<Call> = builders().into_iter().filter(|(n, _)| !skip.contains(*n)).collect();
     let everything = calls();
     std::panic::set_hook(Box::new(|_| {}));
-    let panicked = probe(&build, &everything, &skip, &directory);
+    let (panicked, took) = probe(&build, &everything, &skip, &directory);
     let all: Vec<Call> = everything.iter().copied().filter(|(n, _)| !skip.contains(*n) && !panicked.contains(n)).collect();
     // As long as asked, shortened until the number of sequences stays within the budget.
     let length = (1..=LENGTH).rev().find(|&l| (all.len().max(1) as u64).checked_pow(l as u32).is_some_and(|n| n <= @@BUDGET@@)).unwrap_or(1);
@@ -208,7 +244,9 @@ fn walk_the_scope() {
     let h = holders();
     let parts = types(&h);
     let mut out = String::from("{\n");
-    writeln!(out, " \"calls\": {}, \"calls_walked\": {}, \"length\": {length}, \"sequences\": {}, \"complete\": {},", everything.len(), all.len(), seen.sequences, seen.complete).unwrap();
+    writeln!(out, " \"calls\": {}, \"calls_walked\": {}, \"length\": {length}, \"sequences\": {}, \"every_sequence_up_to_length\": {},", everything.len(), all.len(), seen.sequences, seen.complete_to).unwrap();
+    let slowest: Vec<String> = took.iter().take(8).map(|(micros, name)| format!("[{micros}, {name:?}]")).collect();
+    writeln!(out, " \"slowest_calls_microseconds\": [{}],", slowest.join(", ")).unwrap();
     writeln!(out, " \"panicked_alone\": {:?},", panicked.iter().collect::<Vec<_>>()).unwrap();
     writeln!(out, " \"panicked_in_a_sequence\": {:?},", seen.panicked_in_a_sequence.iter().collect::<Vec<_>>()).unwrap();
     writeln!(out, " \"skipped\": {:?},", skip.iter().collect::<Vec<_>>()).unwrap();

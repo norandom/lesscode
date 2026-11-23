@@ -546,7 +546,7 @@ impl Maker<'_> {
         let assemble = |expression: &str, store: Option<&str>| {
             let mut code = String::new();
             for (i, (kept_as, _, _)) in world.iter().enumerate() {
-                let back: String = (0..i).map(|j| format!("w.put(a{j}); ")).collect();
+                let back: String = (0..i).map(|j| format!("w.put_back(a{j}); ")).collect();
                 code.push_str(&format!("let Some(mut a{i}) = w.take::<{kept_as}>() else {{ {back}return; }}; "));
             }
             code.push_str(&match store {
@@ -555,7 +555,7 @@ impl Maker<'_> {
             });
             for (i, (_, _, used_up)) in world.iter().enumerate() {
                 if !used_up {
-                    code.push_str(&format!("w.put(a{i}); "));
+                    code.push_str(&format!("w.put_back(a{i}); "));
                 }
             }
             code.push_str(store.unwrap_or_default());
@@ -750,9 +750,9 @@ fn run() -> Result<Value, String> {
             }
             let reach = if maker.shared.contains(name) { "&**x" } else { "x" };
             let pushes: String = holders.iter().map(|(_, e)| format!("s.push({e}); ")).collect();
+            let kept_as = maker.kept_as(name, name);
             reads.push(format!(
-                "    match w.get::<{}>() {{\n        Some(x) => {{ let f: &{name} = {reach}; s.push(1); {pushes}}}\n        None => s.extend([0u8; {}]),\n    }}",
-                maker.kept_as(name, name),
+                "    match w.get::<{kept_as}>() {{\n        Some(x) => {{ let f: &{name} = {reach}; s.push(w.given::<{kept_as}>()); {pushes}}}\n        None => s.extend([0u8; {}]),\n    }}",
                 holders.len() + 1
             ));
             names.push(format!("    ({name:?}, \"(held)\"),"));
@@ -805,7 +805,7 @@ fn run() -> Result<Value, String> {
         })
         .collect();
     Ok(json!({
-        "receipt": "scope-walk-r169", "revision": 1,
+        "receipt": "scope-walk-r169", "revision": 2,
         "rules_sha256": sha256_hex(rules_text.as_bytes()),
         "walk_module": {"module": target.display().to_string(), "declaration": format!("#[cfg(test)]\nmod {WALK_MODULE};"), "sha256": sha256_hex(central.as_bytes())},
         "parts": written, "types": types,
