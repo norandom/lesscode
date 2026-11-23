@@ -144,7 +144,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     address on another machine, and is under 150 KiB without data.
   - _Boundary: Page_
   - _Requirements: 1.1, 1.2, 1.3_
-- [ ] 4.2 The six states, and drawing that cannot leave a blank page
+- [x] 4.2 The six states, and drawing that cannot leave a blank page
   - As in the design's table. The page draws from the snapshot alone; every field may be missing.
   - Fix what the gate's pictures showed: the status line after the end; folding one file in the
     tree.

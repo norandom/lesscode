@@ -51,7 +51,8 @@ button { font: inherit; color: inherit; }
 .row .count { color: var(--quiet); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .mark { width: 14px; flex: none; text-align: center; font-weight: 700; }
 .mark.ok { color: var(--ok); } .mark.warn { color: var(--warn); } .mark.bad { color: var(--bad); } .mark.off { color: var(--off); }
-.d1 { padding-left: 24px; } .d2 { padding-left: 42px; }
+.d1 { padding-left: 20px; } .d2 { padding-left: 54px; cursor: default; }
+.fold { width: 10px; flex: none; color: var(--quiet); }
 .pane { min-width: 0; display: flex; flex-direction: column; min-height: 0; }
 .tabs { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--line); background: var(--panel); }
 .tab { border: 0; border-bottom: 2px solid transparent; background: none; padding: 6px 12px; cursor: pointer; color: var(--quiet); }
@@ -110,9 +111,10 @@ const data = /*DATA*/null;
   function take(value) {
     seen.reads += 1;
     if (value === null || typeof value !== 'object' || Array.isArray(value)) {
-      store.problem = 'The data is not a description of a run.';
+      var found = value === null ? 'nothing' : Array.isArray(value) ? 'a list' : typeof value === 'string' ? 'a text' : 'a ' + typeof value;
+      store.problem = 'The data is not a description of a run: the page found ' + found + ' where the run should be. This page reads version 1 of the data.';
     } else if (value.schema !== 1) {
-      store.problem = 'The data was written for version ' + String(value.schema) + ' of the page; this page reads version 1.';
+      store.problem = (value.schema === undefined ? 'The data states no version' : 'The data was written for version ' + String(value.schema) + ' of the page') + '; this page reads version 1.';
     } else {
       var mark = String(value.heartbeat) + '|' + String(value.sequence);
       if (mark !== seen.last) { seen.different += 1; seen.last = mark; }
@@ -135,11 +137,16 @@ const data = /*DATA*/null;
   }
 
   // How the snapshot travels: inside the page, or over the tool's stream.
+  var opened = Date.now();
   if (data !== null) take(data);
   if (events && window.EventSource) {
     var stream = new EventSource(events);
     stream.onopen = function () { store.linked = true; tell(); };
-    stream.onmessage = function (e) { try { take(JSON.parse(e.data)); } catch (x) { take(null); } };
+    stream.onmessage = function (e) {
+      var value;
+      try { value = JSON.parse(e.data); } catch (x) { seen.reads += 1; store.problem = 'A message of the tool could not be read as data. This page reads version 1 of the data.'; tell(); return; }
+      take(value);
+    };
     stream.onerror = function () { store.linked = false; stream.close(); tell(); };
   }
   setInterval(tell, 1000);
@@ -148,6 +155,8 @@ const data = /*DATA*/null;
   function n(x) { return typeof x === 'number' && isFinite(x) ? x : null; }
   function show(x, unit) { return n(x) === null ? 'not known' : x.toLocaleString('en') + (unit || ''); }
   function list(x) { return Array.isArray(x) ? x : []; }
+  // A list of records. What is not a record is left out, so that drawing never meets one.
+  function things(x) { return list(x).filter(function (y) { return y !== null && typeof y === 'object'; }); }
   function text(x, otherwise) { return typeof x === 'string' && x ? x : (otherwise || 'not known'); }
   function span(seconds) {
     if (n(seconds) === null) return 'not known';
@@ -157,6 +166,7 @@ const data = /*DATA*/null;
   function clock(t) { var d = new Date(t); return isNaN(d) ? 'not known' : d.toLocaleTimeString('en-GB'); }
   var MARK = { ended: ['ok', '✓', 'ended'], 'going on': ['warn', '▶', 'going on'], failed: ['bad', '✗', 'failed'],
                'not begun': ['off', '·', 'not begun'], 'left out': ['off', '–', 'left out'],
+               stopped: ['bad', '■', 'was going on when the tool stopped'],
                unnoticed: ['warn', '!', 'some faults were not noticed'], unprotected: ['bad', '✗', 'unprotected: no fault was noticed'] };
   // A file or a function: still being worked on, unprotected, partly noticed, or all noticed.
   function standing(x) {
@@ -164,6 +174,8 @@ const data = /*DATA*/null;
     if (x.unprotected === true || (n(x.unnoticed) && !n(x.noticed))) return 'unprotected';
     return n(x.unnoticed) ? 'unnoticed' : 'ended';
   }
+  // When the tool has stopped, nothing is shown as going on.
+  function seenAs(status, state) { return status === 'going on' && state === 'stopped' ? 'stopped' : status; }
   function mark(status) { var m = MARK[status] || ['off', '?', 'not known']; return html`<span class=${'mark ' + m[0]} title=${m[2]} aria-label=${m[2]}>${m[1]}</span>`; }
 
   var ICON = {
@@ -178,14 +190,15 @@ const data = /*DATA*/null;
   }
 
   function Stage(p) {
-    var s = p.stage, done = n(s.done), total = n(s.total);
+    var s = p.stage, done = n(s.done), total = n(s.total), status = seenAs(s.status, p.state);
     var counted = done !== null && total !== null && total > 0;
     return html`<div>
       <h2>${text(s.title, 'A stage')}</h2>
       <p>${text(s.what, '')}</p>
-      ${s.status === 'going on' && counted && html`<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax=${total} aria-valuenow=${done}><i style=${'width:' + Math.min(100, done / total * 100) + '%'}></i></div>
+      ${status === 'stopped' && html`<p><strong>This stage was going on when the tool stopped.</strong> ${counted ? show(done) + ' of ' + show(total) + ' were done.' : ''}</p>`}
+      ${status === 'going on' && counted && html`<div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax=${total} aria-valuenow=${done}><i style=${'width:' + Math.min(100, done / total * 100) + '%'}></i></div>
         <p>${show(done)} of ${show(total)} done. ${done >= 5 && n(s.seconds_left) !== null ? 'About ' + span(s.seconds_left) + ' for the rest.' : 'Too early to say how long the rest takes.'}</p>`}
-      ${s.status === 'going on' && !counted && html`<div class="meter busy" role="progressbar" aria-label="working, nothing to count"><i></i></div>
+      ${status === 'going on' && !counted && html`<div class="meter busy" role="progressbar" aria-label="working, nothing to count"><i></i></div>
         <p>There is nothing to count in this stage. Going on for ${span(n(s.seconds_so_far))}.</p>`}
       ${s.status === 'ended' && html`<p>Ended after ${span(n(s.seconds))}.</p>`}
       ${s.status === 'failed' && html`<p><strong>Failed.</strong> ${text(s.reason, 'The tool gave no reason.')}</p>`}
@@ -236,7 +249,7 @@ const data = /*DATA*/null;
   }
 
   function Unprotected(p) {
-    var fs = list((p.s.faults || {}).functions), bare = fs.filter(function (f) { return f && f.unprotected === true; });
+    var fs = things((p.s.faults || {}).functions), bare = fs.filter(function (f) { return f.unprotected === true; });
     if (!fs.length) return html`<div><h2>Unprotected functions</h2><p>Which functions are unprotected is known when their faults have been run.</p></div>`;
     return html`<div>
       <h2>${bare.length} of ${fs.length} functions are unprotected</h2>
@@ -256,8 +269,8 @@ const data = /*DATA*/null;
       <h2>${text(s.outcome, 'The run ended')}</h2>
       ${s.outcome_detail ? html`<p>${String(s.outcome_detail)}</p>` : ''}
       <dl class="facts"><dt>Faults planted</dt><dd>${show(f.total)}</dd><dt>Noticed</dt><dd>${show(f.noticed)}</dd><dt>Unnoticed</dt><dd>${show(f.unnoticed)}</dd><dt>Did not build</dt><dd>${show(f.not_built)}</dd><dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd></dl>
-      ${r && list(r.lenses).length ? html`<h3>Before and after</h3><div class="wide"><table><thead><tr><th>Lens</th><th>Measure</th><th>Before</th><th>After</th><th>Expected</th><th>Moved that way</th></tr></thead><tbody>
-        ${list(r.lenses).map(function (l) { return html`<tr><td>${text(l.lens)}</td><td>${text(l.measure)}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.before))}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.after))}</td><td>${text(l.expected)}</td><td>${l.measured === false ? 'not measured' : l.moved === true ? 'yes' : l.moved === false ? 'no' : 'not judged'}</td></tr>`; })}
+      ${r && things(r.lenses).length ? html`<h3>Before and after</h3><div class="wide"><table><thead><tr><th>Lens</th><th>Measure</th><th>Before</th><th>After</th><th>Expected</th><th>Moved that way</th></tr></thead><tbody>
+        ${things(r.lenses).map(function (l) { return html`<tr><td>${text(l.lens)}</td><td>${text(l.measure)}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.before))}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.after))}</td><td>${text(l.expected)}</td><td>${l.measured === false ? 'not measured' : l.moved === true ? 'yes' : l.moved === false ? 'no' : 'not judged'}</td></tr>`; })}
         </tbody></table></div>` : html`<p>This run compared nothing before and after.</p>`}
       ${r && r.refusal ? html`<h3>Refused</h3><ul>${list(r.refusal.reasons).map(function (x) { return html`<li>${String(x)}</li>`; })}</ul><p>Fix the step. Raising the limit is the decision of whoever owns the code.</p>` : ''}
       <h3>What to do next</h3>
@@ -266,18 +279,22 @@ const data = /*DATA*/null;
   }
 
   function Run(p) {
-    var s = p.s, state = p.state, f = s.faults || {}, stages = list(s.stages);
-    var going = stages.filter(function (x) { return x && x.status === 'going on'; })[0];
-    var st = useState({ tab: 'now', follow: true, picked: null, open: true, noticed: true, unnoticed: true, notbuilt: true, byUnnoticed: true, copied: false });
+    var s = p.s, state = p.state, f = s.faults || {}, stages = things(s.stages);
+    var going = stages.filter(function (x) { return x.status === 'going on'; })[0];
+    // A file's functions are hidden when all are shut and it was not opened, or when it was shut alone.
+    var st = useState({ tab: 'now', follow: true, picked: null, shut: false, flipped: {}, noticed: true, unnoticed: true, notbuilt: true, byUnnoticed: true, copied: false });
     var ui = st[0], set = function (change) { st[1](Object.assign({}, ui, change)); };
-    var current = ui.follow || !ui.picked ? (going || stages[stages.length - 1]) : stages.filter(function (x) { return x && x.id === ui.picked; })[0];
+    var current = ui.follow || !ui.picked ? (going || stages[stages.length - 1]) : stages.filter(function (x) { return x.id === ui.picked; })[0];
+    var folded = function (key) { return ui.shut !== (ui.flipped[key] === true); };
+    var flip = function (key) { var next = Object.assign({}, ui.flipped); next[key] = !next[key]; set({ flipped: next }); };
+    var over = state === 'ended' || state === 'stopped';
     var total = n(f.total) || 0, part = function (x) { return total ? Math.max(0, (n(x) || 0) / total * 100) + '%' : '0%'; };
-    var files = list(f.files).slice(), fns = list(f.functions).slice();
+    var files = things(f.files), fns = things(f.functions);
     if (ui.byUnnoticed) { files.sort(function (a, b) { return (n(b.unnoticed) || 0) - (n(a.unnoticed) || 0); }); fns.sort(function (a, b) { return (n(b.unnoticed) || 0) - (n(a.unnoticed) || 0); }); }
     var counts = function (x) { return [ui.noticed && show(x.noticed) + ' noticed', ui.unnoticed && show(x.unnoticed) + ' unnoticed', ui.notbuilt && n(x.not_built) ? show(x.not_built) + ' not built' : null].filter(Boolean).join(' · '); };
     var pill = { running: ['warn', 'Running'], quiet: ['warn', 'No word for ' + span(age())], stopped: ['bad', 'The tool stopped'], ended: [s.exit_code === 0 ? 'ok' : 'warn', 'Ended'] }[state] || ['off', state];
-    var dropped = list((s.copies || {}).dropped), tests = s.tests || {};
-    var bare = fns.filter(function (x) { return x && x.unprotected === true; }).length;
+    var dropped = things((s.copies || {}).dropped), tests = s.tests || {};
+    var bare = fns.filter(function (x) { return x.unprotected === true; }).length;
     var copy = function () { var d = text((s.copies || {}).directory, ''); if (navigator.clipboard && d) navigator.clipboard.writeText(d).then(function () { set({ copied: true }); }, function () {}); };
     var tabs = [['now', 'Now'], ['code', 'Your code'], ['faults', 'Planted faults'], ['bare', 'Unprotected' + (bare ? ' (' + bare + ')' : '')], ['result', 'Result']];
     return html`
@@ -285,8 +302,8 @@ const data = /*DATA*/null;
       <div class="tools" role="toolbar" aria-label="View">
         <${Tool} icon="follow" title="Follow the stage that is going on" pressed=${ui.follow} onClick=${function () { set({ follow: !ui.follow, picked: null, tab: 'now' }); }} />
         <span class="sep"></span>
-        <${Tool} icon="expand" title="Expand all" onClick=${function () { set({ open: true }); }} />
-        <${Tool} icon="collapse" title="Collapse all" onClick=${function () { set({ open: false }); }} />
+        <${Tool} icon="expand" title="Show the functions of every file" onClick=${function () { set({ shut: false, flipped: {} }); }} />
+        <${Tool} icon="collapse" title="Hide the functions of every file" onClick=${function () { set({ shut: true, flipped: {} }); }} />
         <span class="sep"></span>
         <${Tool} icon="noticed" title="Show noticed faults" pressed=${ui.noticed} onClick=${function () { set({ noticed: !ui.noticed }); }} />
         <${Tool} icon="unnoticed" title="Show unnoticed faults" pressed=${ui.unnoticed} onClick=${function () { set({ unnoticed: !ui.unnoticed }); }} />
@@ -304,15 +321,15 @@ const data = /*DATA*/null;
       ${dropped.map(function (d) { return html`<div class="notice" role="status"><strong>Copy ${show(d.copy)} dropped out</strong> at ${clock(d.at)}: ${text(d.reason, 'no reason given')}. ${show((s.copies || {}).working)} of ${show((s.copies || {}).planned)} copies are still working.</div>`; })}
       <div class="main">
         <nav class="tree" aria-label="Stages and files">
-          ${stages.map(function (x) { return html`<button class="row" type="button" aria-current=${String(current === x)} onClick=${function () { set({ picked: x.id, follow: false, tab: 'now' }); }}>${mark(x.status)}<span class="name">${text(x.title)}</span><span class="count">${n(x.total) ? show(x.done) + ' / ' + show(x.total) : ''}</span></button>
-            ${x.id === 'faults' && ui.open && files.map(function (file) { return html`<div class="row d1">${mark(standing(file))}<span class="name mono" title=${text(file.file)}>${text(file.file).split('/').pop()}</span><span class="count">${counts(file)}</span></div>
-              ${fns.filter(function (fn) { return fn && fn.file === file.file; }).slice(0, 400).map(function (fn) { return html`<div class="row d2">${mark(standing(fn))}<span class="name mono" title=${text(fn.function)}>${text(fn.function)}</span><span class="count">${counts(fn)}</span></div>`; })}`; })}`; })}
+          ${stages.map(function (x) { return html`<button class="row" type="button" aria-current=${String(current === x)} onClick=${function () { set({ picked: x.id, follow: false, tab: 'now' }); }}>${mark(seenAs(x.status, state))}<span class="name">${text(x.title)}</span><span class="count">${n(x.total) ? show(x.done) + ' / ' + show(x.total) : ''}</span></button>
+            ${x.id === 'faults' && files.map(function (file) { var key = text(file.file), shut = folded(key); return html`<button class="row d1" type="button" aria-expanded=${String(!shut)} onClick=${function () { flip(key); }}><span class="fold" aria-hidden="true">${shut ? '▸' : '▾'}</span>${mark(seenAs(standing(file), state))}<span class="name mono" title=${key}>${key.split('/').pop()}</span><span class="count">${counts(file)}</span></button>
+              ${!shut && fns.filter(function (fn) { return fn.file === file.file; }).slice(0, 400).map(function (fn) { return html`<div class="row d2">${mark(seenAs(standing(fn), state))}<span class="name mono" title=${text(fn.function)}>${text(fn.function)}</span><span class="count">${counts(fn)}</span></div>`; })}`; })}`; })}
           ${!stages.length && html`<div class="row"><span class="name">No stage is known yet.</span></div>`}
         </nav>
         <section class="pane">
           <div class="tabs" role="tablist">${tabs.map(function (t) { return html`<button class="tab" type="button" role="tab" aria-selected=${String(ui.tab === t[0])} onClick=${function () { set({ tab: t[0] }); }}>${t[1]}</button>`; })}</div>
           <div class="body" role="tabpanel">
-            ${ui.tab === 'now' && (state === 'ended' ? html`<${Result} s=${s} />` : current ? html`<${Stage} stage=${current} />` : html`<p>Nothing has begun yet.</p>`)}
+            ${ui.tab === 'now' && (state === 'ended' ? html`<${Result} s=${s} />` : current ? html`<${Stage} stage=${current} state=${state} />` : html`<p>Nothing has begun yet.</p>`)}
             ${ui.tab === 'code' && html`<${YourCode} s=${s} />`}
             ${ui.tab === 'faults' && html`<${Faults} s=${s} />`}
             ${ui.tab === 'bare' && html`<${Unprotected} s=${s} />`}
@@ -320,11 +337,11 @@ const data = /*DATA*/null;
           </div>
         </section>
       </div>
-      <footer class="foot"><span>Last heard from the tool: ${clock(s.heartbeat)}</span><span>Copies working: ${show((s.copies || {}).working)} of ${show((s.copies || {}).planned)}</span><span>Running for ${span(n(s.seconds))}</span><span>${text((s.tool || {}).name, 'lesscode')} ${text((s.tool || {}).version, '')}</span></footer>`;
+      <footer class="foot"><span>Last heard from the tool: ${clock(s.heartbeat)}</span><span>${over ? 'Copies that worked' : 'Copies working'}: ${show((s.copies || {}).working)} of ${show((s.copies || {}).planned)}</span><span>${state === 'ended' ? 'Took ' : state === 'stopped' ? 'Stopped after ' : 'Running for '}${span(n(s.seconds))}</span><span>${text((s.tool || {}).name, 'lesscode')} ${text((s.tool || {}).version, '')}</span></footer>`;
   }
 
   function Waiting() {
-    return html`<div class="big"><h2>Waiting for lesscode to send its first data</h2><p>This page shows a run of lesscode and has heard nothing from it yet.</p><p>If no run is going on, start one with the option that opens this page. Your code is not touched by opening this page.</p></div>`;
+    return html`<div class="big"><h2>Waiting for lesscode to send its first data</h2><p>This page shows a run of lesscode. It has heard nothing from it for ${span((Date.now() - opened) / 1000)}. ${events ? 'It listens to the tool on this machine.' : 'It was written without a run inside and without a tool to listen to.'}</p>${store.linked === false && html`<p><strong>The tool does not answer.</strong> It may have ended before it sent anything. The report of a run is at the place the tool printed.</p>`}<p>If no run is going on, start one with the option that opens this page. Your code is not touched by opening this page.</p></div>`;
   }
   function CannotRead(p) {
     return html`<div class="big" role="alert"><h2>This page cannot read the run's data</h2><p>${p.why}</p><p>Write the page again with the version of lesscode that made the data. The run itself is not affected: its result is its exit code and its receipt.</p></div>`;
