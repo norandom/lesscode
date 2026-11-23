@@ -239,3 +239,30 @@ See the [prototype gate](prototype-gate.md): that a page opened from disk follow
 changes; that putting a new data file in place does not disturb a page that reads it; that the
 page with the data inside needs nothing else; that the states above are what the page shows for
 their inputs; and that the page does not break on an empty run, a large one and a damaged one.
+
+## Decided by the owner, 2026-11-23, 15:35
+
+"approved, event stream, write the tasks." The five decisions above are decided as proposed, and
+the fifth as the prototype recommended. Where the text above differs, this section holds.
+
+1. **One file.** During a run there is no data file beside the page. The tool serves the page and
+   its data; when the run has ended it writes the page once, with the data inside. Requirement 1.1
+   is met by that file.
+2. **The view library** is Preact with htm, one file in the repository with its licence and hash,
+   named in the third-party notices.
+3. **Thresholds**: a sign of life at least every 5 seconds; "quiet" after 15 seconds without one;
+   "stopped" after 60, or at once when the stream ends before the run has.
+4. **First commands**: `step plan` and `step check`.
+5. **The snapshot travels over an event stream** on `127.0.0.1`, served by the tool with the
+   standard library for the length of the run. The address carries a secret; a request without it
+   gets no content. Nothing is served after the run.
+
+What this changes in the parts: the Writer becomes a **Server** (listener, page, stream) and a
+**Report writer** (the page with the data inside, at the end). `--page <place>` names where the
+report is written; `--open` opens the served page at the start. With `--page` and without a
+browser the run behaves as before and leaves the report.
+
+Still open after the gate, and carried into the tasks as things that can fail: a width of 400 was
+not seen; no browser but Edge was tried; the tool does not yet know which code the platform leaves
+uncompiled (Requirement 5.5); whether the driver knows the function of a fault at the moment it is
+classed, which the tree needs while the run goes on.

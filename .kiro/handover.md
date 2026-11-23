@@ -141,7 +141,18 @@ removes 35. No gain in size or decisions was expected or found. The gain is in t
    instead of by hand. The owner asked whether Rust can embed a web page as Go can: `include_str!`.
 4. `lesscode-metrics` as a command: the brief names what it prints. Nothing of the research
    programs is in `native/` yet; that needs a spec and the prototype gate.
-5. Not done from 22 November: a made-up spaghetti example over several files; Python and facdrone;
+5. **The run page** (spec [run-dashboard](specs/run-dashboard/tasks.md), 23 November): a page inside
+   the binary that shows a run while it happens and is its report afterwards. Requirements and
+   design approved by the owner; the prototype gate ran five times and decided for an event stream
+   on `127.0.0.1` over rereading a file; tasks are written and wait for the owner's approval.
+   Nothing of it is in `native/` yet. The prototype is under `docs/experiments/run-dashboard/`.
+   The owner wants `https://github.com/jamesaphoenix/diff-core` recommended in the documentation
+   later; I have not read that project.
+6. **How lesscode is adopted** (owner, 23 November): through an agent that follows a skill. The
+   skill is `.agents/skills/untangle-state`; it holds the loop and, in general terms, the cut for
+   code no test can reach. `gpu.rs` of `drift-rdp` is such code; the cut there needs the owner's
+   run of the application and was not begun.
+7. Not done from 22 November: a made-up spaghetti example over several files; Python and facdrone;
    `ats-agent` (`.cjs`, not checked whether a pack reads it).
 
 ## Open, for the owner
