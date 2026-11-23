@@ -135,7 +135,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Boundary: Options, Opener_
   - _Requirements: 1.5, 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [ ] 4. The page
+- [x] 4. The page
 - [x] 4.1 The page and its library inside the binary
   - The page from the prototype as one file in the crate, taken in with `include_str!`; the view
     library as one file with its licence, its source address and its hash, named in the
@@ -159,7 +159,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - Done when both were seen, or the record says what could not be seen and why.
   - _Boundary: Page_
   - _Requirements: 1.3, 1.4_
-- [ ] 4.4 The toolbar, the keyboard and a screen reader
+- [x] 4.4 The toolbar, the keyboard and a screen reader
   - Every control reachable and usable by keyboard, with a visible focus and a name; no meaning
     carried by colour alone; reduced motion respected.
   - Done when a written walk through the page by keyboard is in the research entry, with what

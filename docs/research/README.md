@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R175 The run page, group 3: a listener for the length of a run, and --page and --open (2026-11-23)
+## Latest · R176 The run page, group 4: the page of the design in the binary, its six states, and a walk by keyboard (2026-11-23)
+
+Implementation record of the spec `run-dashboard`. The page of the prototype and its view library (htm with preact, 13 KiB, named in the third-party notices with its hash) are inside the binary. For thirteen fixed situations the page gives itself the state the design names, at 1,280 and at 400 wide, and a drawing made to fail gives "cannot read" instead of a blank page; every control is reached and used by keyboard, and the walk is written down. The check runs through Playwright. Seen in one browser engine on Windows; Firefox, Safari and a screen reader were not seen. Ten deviations, among them a Node package for the check where the design adds no package manager. [R176](2026-11-23/13-run-page-group-4.md)
+
+## R175 The run page, group 3: a listener for the length of a run, and --page and --open (2026-11-23)
 
 Implementation record of the spec `run-dashboard`. `step plan --page` writes a report of the run at its end; `--open` also serves the run on `127.0.0.1` behind a secret and starts the default browser once. 14 new tests; the core suite is at 451 of 451 on Windows and 450 of 450 on Linux. Six deviations, each for a stated reason: above all, the page shown is a plain stand-in until the page of the design is in the binary. No browser was started by a test or by the author. The Linux run left open in R174 passed. [R175](2026-11-23/12-run-page-group-3.md)
 
