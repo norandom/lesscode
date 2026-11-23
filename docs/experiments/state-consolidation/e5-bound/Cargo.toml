@@ -26,6 +26,10 @@ path = "../iterator-discovery/main.rs"
 name = "find-machine"
 path = "../machine-find/main.rs"
 
+[[bin]]
+name = "state-holders"
+path = "../../lesscode-metrics/state-holders/main.rs"
+
 [dependencies]
 lesscode-core = { path = "../../../../native" }
 serde = { version = "=1.0.229", features = ["derive"] }

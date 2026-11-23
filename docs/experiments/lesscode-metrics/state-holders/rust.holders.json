@@ -1,0 +1,22 @@
+{
+  "language": "rust",
+  "struct": {"node": "struct_item", "name": "name"},
+  "field": {"node": "field_declaration", "name": "name", "type": "type"},
+  "enum": {"node": "enum_item", "name": "name", "variant": "enum_variant"},
+  "function": {"node": "function_item", "name": "name"},
+  "impl": {"node": "impl_item", "type": "type"},
+  "test_scope": {"node": "mod_item", "attribute": "attribute_item", "marker": "cfg(test)"},
+  "counted": {"bool": 2, "AtomicBool": 2},
+  "optional": ["Option"],
+  "transparent": ["Arc", "Rc", "Box"],
+  "cells": ["Cell", "RefCell", "OnceCell", "OnceLock", "Mutex", "RwLock",
+            "AtomicBool", "AtomicUsize", "AtomicU8", "AtomicU16", "AtomicU32", "AtomicU64",
+            "AtomicI32", "AtomicI64", "AtomicIsize"],
+  "access": {"node": "field_expression", "receiver": "value", "name": "field", "own": "self"},
+  "assignment": {"nodes": ["assignment_expression", "compound_assignment_expr"], "left": "left"},
+  "method": {"node": "call_expression", "callee": "function"},
+  "writes": ["set", "replace", "take", "swap", "store", "borrow_mut", "get_mut", "lock", "write",
+             "fetch_add", "fetch_sub", "get_or_init", "insert"],
+  "conditions": [["if_expression", "condition"], ["while_expression", "condition"],
+                 ["match_expression", "value"], ["let_declaration", "value", "alternative"]]
+}
