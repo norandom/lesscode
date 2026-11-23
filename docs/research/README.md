@@ -2,7 +2,7 @@
 
 ## Latest · R174 The run page, groups 1 and 2: a run can tell what happens in it, and step plan keeps it (2026-11-23)
 
-Implementation record of the spec `run-dashboard`. The snapshot the page will draw from, the batch runner telling a listener, a sign of life, and `step plan` ending the snapshot with its unprotected functions: 27 new tests, the core suite at 437 of 437 on Windows. Six deviations from the tasks, each for a stated reason; the item marked "can fail" did not fail. Four faults of mine were found by the checks and corrected. `runner.rs` is one token under its ceiling and must be split before its next change. No command sets a listener yet. [R174](2026-11-23/11-run-page-groups-1-and-2.md)
+Implementation record of the spec `run-dashboard`. The snapshot the page will draw from, the batch runner telling a listener, a sign of life, and `step plan` ending the snapshot with its unprotected functions: 25 new tests, the core suite at 437 of 437 on Windows. Six deviations from the tasks, each for a stated reason; the item marked "can fail" did not fail. Four faults of mine were found by the checks and corrected. `runner.rs` is one token under its ceiling and must be split before its next change. No command sets a listener yet. [R174](2026-11-23/11-run-page-groups-1-and-2.md)
 
 ## R173 SharedFrame reworked: 16 ways to be written become 6; the released flow refused it once, then accepted (2026-11-23)
 

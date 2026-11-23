@@ -22,7 +22,7 @@ so nothing a user runs has changed. Group 3 (serving the run, and the options) i
 | `native/src/adapters/driver/page_subject.rs` | repository, branch, commit, uncommitted work, main branch, asked from Git with three read-only commands |
 | `native/src/adapters/driver/page_watch.rs` | the events the batch runner tells, one listener for the process, and a heart |
 | `native/src/step/plan_page.rs` | the listener of `step plan`: each fault under its function, the stages, the end |
-| `native/tests/run_page_*.rs` | 27 tests in four files |
+| `native/tests/run_page_*.rs` | 25 tests in four files |
 
 Changed in existing code: three lines in the batch runner and one in the run command that tell the
 listener; `step plan` hands the fault run a listener when its arguments carry one, and ends the
@@ -63,6 +63,8 @@ receipt's total.
   two hook tests failed with it. The fault run moved into a function of its own.
 - The first fixture for task 2.3 had no unprotected function, so the test could not show what it
   was written for. The fixture has one now.
+- This record first said 27 new tests and 410 before the feature. Counted in the files it is 25,
+  and 437 less 25 is 412. Corrected at 16:25.
 - A date arithmetic exists twice: in the step ledger and in the snapshot. The driver may not reach
   up into the step commands, and I did not change the ledger.
 
@@ -70,7 +72,7 @@ receipt's total.
 
 | Check | Result |
 | --- | --- |
-| Core suite on Windows, `cargo nextest`, at `84e380b` | 437 of 437 (410 before the feature) |
+| Core suite on Windows, `cargo nextest`, at `84e380b` | 437 of 437 (412 before the feature) |
 | Lints with warnings as errors | clean |
 | Format check | clean |
 | Size budgets | pass; `runner.rs` 2,799 of 2,800 tokens, `run_run` 552 of 560 |
