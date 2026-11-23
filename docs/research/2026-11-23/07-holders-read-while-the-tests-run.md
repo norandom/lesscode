@@ -1,15 +1,19 @@
 # R170: the holders of a subsystem, read while the project's own tests run
 
 - Report date/time and timezone: 2026-11-23, 11:08 Europe/Berlin (registration, from the clock)
-- Execution interval: not run yet
-- Status: planned
+- Execution interval: 2026-11-23, 11:11:37 to 11:14:43 Europe/Berlin (from the run's own record)
+- Status: completed
 - Spec: [lesscode-metrics brief](../../../.kiro/specs/lesscode-metrics/brief.md), the state lens (a brief, not approved requirements)
 - Hypothesis ID and predecessor: [R169](06-walk-over-a-subsystems-functions.md): a walk cannot reach state that is changed from outside the subsystem
 - Type: preregistered
 
 ## Decision
 
-Open.
+All five judged rows hold, at the first revision of the program and with no hand edit. Reading the
+holders while the project's own tests run works, does not disturb the tests, and sees what the
+walk could not: 7 of the 16 structs, among them the change of `RenderShared` that needs a caller
+the walk cannot build. Put next to the walk it shows where tests are missing: of the 12 shapes of
+`SharedFrame` the code reaches, the tests cover 8.
 
 ## Why
 
@@ -84,7 +88,65 @@ the readings are not trusted.
 
 ## Evidence and results
 
-Not run yet.
+Program revision 1, SHA-256 in `run.json`. Outputs in
+`D:\BuildArtifacts\lesscode\lesscode-metrics\r170-scope-watch\try1`: `run.json`, `gen.json` (types,
+holders, the 31 functions watched), `renderer-with-statements` (the sources as compiled),
+`tests-unchanged.*`, `tests-watched.*`, `noted` (what each test process wrote), `seen.json` (the
+collected report). The copy's build output is removed.
+
+| # | Expectation | Measured | Holds |
+| --- | --- | --- | --- |
+| 1 | Compiles unedited within 3 general revisions | at revision 1 | yes |
+| 2 | Same test result with the statements: 536 pass, 6 skipped | unchanged 536 and 6; watched 536 and 6 | yes |
+| 3 | 5 to 9 of the 16 structs seen in a test | 7: `SharedFrame`, `SharedFrameInner`, `Facts`, `RenderShared`, `View`, `Params`, `YuvFrame` | yes |
+| 4 | `SharedFrame`: 4 to 6 of the 8 shapes, all among the walks' six | the same six; the two with `full` and no `damage` are not seen | yes |
+| 5 | `Facts`: at least 4 shapes | 13 | yes |
+| 6 | Readings that found a lock held | 35, all on `SharedFrame` | counted |
+
+31 of 74 functions carry a statement; one was left out (`collect`, compiled only under a
+condition). 44 test processes noted something, 176 notes in all. Not seen: `Damage`,
+`DisplayPathInfo`, `LayerTarget`, `Renderer`; the other five of the sixteen have no holder the
+program reads or are compiled elsewhere.
+
+### `SharedFrame`, read as (`wake`, `damage`, `full`, `dirty`)
+
+| Shape | Tests | Seen at |
+| --- | --- | --- |
+| 0000 | 28 | nearly every function |
+| 0001 | 7 | `begin_write`, `mark_dirty`, `take_damage`, `update_rect`, `version` |
+| 0100 | 12 | `begin_write`, `mark_dirty` |
+| 0101 | 12 | `begin_write`, `mark_dirty`, `take_damage`, `take_full`, `update_full`, `update_rect` |
+| 0110 | 9 | `begin_write`, `mark_dirty`, `take_damage` |
+| 0111 | 11 | `begin_write`, `mark_dirty`, `take_damage`, `update_full`, `dimensions`, `version` |
+| 1000 | 2 | `FrameStores::register`, `mark_dirty`, `set_wake` |
+| 1001 | 1 | `mark_dirty` |
+
+Thirteen changes were seen, each a function with the shape before and after; among them
+`FrameStores::register` 0000 to 1000, which the walk of R169 had also found.
+
+Two things this adds to what the walks said:
+
+- **The shapes with damage and without `dirty` are not only misuse.** R166 reached them only by a
+  write that leaves out `mark_dirty`. The tests see them at the entry of `mark_dirty`, inside every
+  ordinary update: the write is done, the flag is not yet set. On two threads that is a moment the
+  reader can look.
+- **Where tests are missing.** With `wake` the code reaches 12 shapes (R167, R169). The tests see 8.
+  The four with `wake` set and damage pending are reached and covered by no test. `wake` is set in
+  three tests at all.
+
+### The others
+
+- `RenderShared`: (`session`, `smooth`) seen as 00 and 10, and the change 00 to 10 at `set_view`, in
+  one test. This is the change the walk could not make for want of a different `View`.
+- `Facts`: 13 shapes at `choose`, `precondition` and `worth_trying_gpu`, every one written by a test
+  of `display_path`. 216 can be written (R165). These are what the tests feed in, not what the
+  program gets into; on Windows the program fills `Facts` in a function that is compiled elsewhere.
+- `YuvFrame`: 3 of 4 shapes. `SharedFrameInner`: 2 of 4, at `copy_region`. `Params`, `View`: one each.
+
+### What did not go wrong
+
+No test changed its result, none failed to end, and the suite took 9.4 seconds watched against
+10.3 unchanged. `drift-rdp` itself is untouched.
 
 ## Limits and interpretation
 

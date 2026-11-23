@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R169 A walk over a subsystem's functions runs, and still changes the state of one type in sixteen (2026-11-23)
+## Latest · R170 Read while the project's own tests run, the holders show what the walk could not, and where tests are missing (2026-11-23)
+
+A research program adds one statement, compiled in test builds only, to each function that takes a struct of the subsystem by reference, and collects what the holders read on entry and exit. Five rows registered beforehand hold at the first revision, unedited: the 536 tests of `drift-rdp` give the same result, 7 of the 16 structs are seen, `SharedFrame` shows the same six shapes as the walks and no others, and `Facts` shows 13. The change of `RenderShared` that the walk could not make is seen in one test. Of the 12 shapes of `SharedFrame` the code reaches, the tests cover 8. A shape of a record that a test writes by hand shows what the tests feed in, not what the program gets into. [R170](2026-11-23/07-holders-read-while-the-tests-run.md)
+
+## R169 A walk over a subsystem's functions runs, and still changes the state of one type in sixteen (2026-11-23)
 
 A research program writes test modules into each file of the renderer of `drift-rdp` and one that keeps a world of values, calls 53 of 74 functions in every order and reads all holders after each call. It compiled unedited at the first attempt; no call panicked or failed to return; `SharedFrame` shows its 12 shapes again, and one change made from another type is found. Two registered rows fail: 72% of the functions are called where I expected at most half, and 1 of the 16 structs has its state changed where I expected 2 to 4. The state of this subsystem is changed from outside it or sits behind a device. Reached shapes for a subsystem have to come from elsewhere. [R169](2026-11-23/06-walk-over-a-subsystems-functions.md)
 
