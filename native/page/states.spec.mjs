@@ -47,7 +47,7 @@ function run(ended, heardSecondsAgo) {
   return {
     schema: 1, sequence: 14, tool: { name: 'lesscode-core', version: '2.1.0' }, command: 'step plan',
     started: ago(heardSecondsAgo + 90), heartbeat: ago(heardSecondsAgo), ended,
-    outcome: ended ? 'The plan is written' : null, outcome_detail: ended ? '1 of 3 functions with planted faults are unprotected.' : null,
+    outcome: ended ? 'The plan is written' : null, outcome_detail: ended ? '2 of 3 functions with planted faults are unprotected.' : null,
     exit_code: ended ? 0 : null, seconds: 90.5,
     subject: { repository: 'D:/Source/example', branch: 'main', commit: '0123456789abcdef0123456789abcdef01234567', dirty: false, on_main_branch: true },
     copies: { directory: 'D:/BuildArtifacts/example/work', planned: 2, working: 2, dropped: [], bytes: null },
@@ -95,6 +95,27 @@ function noTests() {
   one.faults = { total: 0, done: 0, noticed: 0, unnoticed: 0, not_built: 0, files: [], functions: [] };
   return one;
 }
+// Without tests nothing is protected (task 5.4): a test command that runs no test, tests that
+// fail on the unchanged code in every copy, and one copy of two that drops out.
+function noTestRan() {
+  const one = noTests();
+  one.tests = { command_given: true, passed_unchanged: true, tests_run: 0, reason: null };
+  one.outcome_detail = 'The test command ran no test, so nothing below was measured.';
+  return one;
+}
+function testsFail() {
+  const one = noTests();
+  one.tests = { command_given: true, passed_unchanged: false, tests_run: null, reason: 'cargo test ended with 101: test parse::tests::empty ... FAILED' };
+  one.copies.working = 0;
+  one.outcome_detail = 'Your tests do not pass on the unchanged code, so nothing below was measured.';
+  return one;
+}
+function copyDropped() {
+  const one = run(false, 2);
+  one.copies.working = 1;
+  one.copies.dropped = [{ copy: 2, at: ago(60), reason: 'cargo test ended with 101' }];
+  return one;
+}
 function refused() {
   const one = run(true, 5);
   Object.assign(one, { command: 'step check', outcome: 'Refused', outcome_detail: 'The step is not accepted as it stands.', exit_code: 1 });
@@ -112,6 +133,9 @@ const wrong = () => ({
   stages: [null, 5, 'x', {}, { id: 'faults', status: 7, done: 'x' }],
   faults: { total: 'many', files: [null, {}, { file: 9 }], functions: 'none', example: 7 },
   report: { lenses: [null, 3, {}], refusal: 'yes' }, next: 'x', outcome: 5, outcome_detail: {} });
+
+// The four notices on tests and copies; a situation shows its own and no other.
+const NOTICE = { command: 'No test command was given', none: 'ran no test', fail: 'do not pass on the unchanged code', dropped: 'dropped out' };
 
 // The state expected, the data inside, the address of a stream, and what the page must and must not show.
 const SITUATIONS = [
@@ -134,7 +158,9 @@ const SITUATIONS = [
   { name: 'quiet', state: 'quiet', data: () => run(false, 30), shows: ['Quiet', 'No word from the tool since'] },
   { name: 'stopped', state: 'stopped', data: () => run(false, 120),
     shows: ['The tool stopped without finishing', 'Stopped after', 'was going on when the tool stopped'], hides: ['Running for', '▶'] },
-  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s'], hides: ['Running for', '▶', 'The copies take'], folds: true,
+  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s'], hides: ['Running for', '▶', 'The copies take', ...Object.values(NOTICE)], folds: true,
+    // The share of unprotected functions comes before any other result of the faults.
+    order: ['Unprotected functions', '2 of 3 (67%)', 'Faults planted'],
     tabs: { 'Your code': { shows: ['not measured', 'To remove the copies, delete the directory'] } } },
   { name: 'cannot-read', state: 'cannot-read', data: () => ({ schema: 99 }), shows: ['cannot read', 'version 99', 'reads version 1'] },
   { name: 'damaged', state: 'cannot-read', data: () => 'this is not a run', shows: ['cannot read', 'found a text'] },
@@ -143,8 +169,16 @@ const SITUATIONS = [
     tabs: { 'Your code': { shows: ['None is known', 'not known'], hides: ['main branch', 'To remove the copies', 'the only kind of file', 'Files written into your repository'] },
       'Planted faults': { shows: ['makes one on purpose', 'never reaches your repository', 'No fault of this run has been judged yet', 'A test is missing'], hides: ['One from this run'] } } },
   { name: 'wrong', state: 'ended', data: wrong, tabs: { 'Planted faults': { shows: ['No fault of this run has been judged yet'], hides: ['One from this run'] } } },
-  { name: 'large', state: 'ended', data: large, folds: true },
-  { name: 'void', state: 'ended', data: noTests, shows: ['Could not judge', 'No test command was given'], hides: ['✓'] },
+  { name: 'large', state: 'ended', data: large, folds: true,
+    tabs: { Unprotected: { shows: ['create_surface, write_texture', 'tests cannot come first'] } } },
+  { name: 'void', state: 'ended', data: noTests, shows: ['Could not judge', 'No test command was given', 'every result of this run is empty'],
+    hides: ['✓', NOTICE.none, NOTICE.fail, NOTICE.dropped, 'Unprotected functions'],
+    tabs: { Unprotected: { shows: ['No fault was run'], hides: ['is known when their faults have been run'] } } },
+  { name: 'no-test-ran', state: 'ended', data: noTestRan, shows: [NOTICE.none, 'every result of this run is empty'], hides: [NOTICE.command, NOTICE.fail, NOTICE.dropped] },
+  { name: 'tests-fail', state: 'ended', data: testsFail, shows: [NOTICE.fail, 'cannot judge anything', 'test parse::tests::empty ... FAILED'], hides: [NOTICE.command, NOTICE.none, NOTICE.dropped] },
+  { name: 'copy-dropped', state: 'running', data: copyDropped, shows: ['Copy 2 dropped out', 'cargo test ended with 101', '1 of 2 copies are still working'],
+    hides: [NOTICE.command, NOTICE.none, NOTICE.fail],
+    tabs: { Unprotected: { shows: ['1 of 3 functions are unprotected', 'every test still passes'], hides: ['tests cannot come first'] } } },
   { name: 'refused', state: 'ended', data: refused, shows: ['Refused', 'Fix the step'] },
 ];
 
@@ -170,6 +204,10 @@ for (const size of SIZES) {
       for (const text of s.shows ?? []) await expect(page.locator('body')).toContainText(text);
       for (const text of s.hides ?? []) await expect(page.locator('body')).not.toContainText(text);
       await expect(page.locator('html')).toHaveAttribute('data-state', s.state);
+      if (s.order) {
+        const said = await page.locator('body').innerText(), at = s.order.map((text) => said.indexOf(text));
+        expect(at.every((x, i) => x >= 0 && (i === 0 || x > at[i - 1])), `${s.order.join(' < ')}: ${at}`).toBeTruthy();
+      }
       if (s.folds) {
         // Folding one file: its functions go, the other files keep theirs.
         const before = await page.locator('.d2').count();

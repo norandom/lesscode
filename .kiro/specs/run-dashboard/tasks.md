@@ -197,7 +197,11 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     the failure.
   - _Boundary: Pack, Snapshot, Page_
   - _Requirements: 5.5_
-- [ ] 5.4 Without tests, nothing is protected
+- [x] 5.4 Without tests, nothing is protected
+  - Done 2026-11-23: four notices, each shown alone in its fixed situation; the share of
+    unprotected functions is the first line of the result; the sentence on devices only where a
+    function's reaching out is listed. The notice for a test command that runs no test is in the
+    page, but `step plan` does not count the tests that ran, so a real run never shows it.
   - The notices for no test command, for tests that do not pass on the unchanged code, and for a
     copy that drops out; the share of unprotected functions before any other result; the sentence
     on code that needs a device.
