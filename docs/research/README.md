@@ -12,7 +12,7 @@ A research program in Rust lists, per struct and enum, the fields that hold stat
 
 Preregistered, not run yet. The owner's direction of 22 November: examples are reworks of whole subsystems, measured through six lenses ([brief](../../.kiro/specs/lesscode-metrics/brief.md)). This run gives the "before" side of the protection lens for the first one, eight files of a remote desktop client, and says whether the released `step plan` carries a subsystem of several files. 268 faults can be planted; five expectations are written down. [R164](2026-11-23/01-renderer-baseline-faults.md)
 
-## Latest · R162 Measured with kiro-cli, untangling state leaves the number of decisions as it was and moves them (2026-11-18)
+## R162 Measured with kiro-cli, untangling state leaves the number of decisions as it was and moves them (2026-11-18)
 
 Exploratory, not preregistered. `kiro-cli` 1.1.0 of the owner's `openidea-kiro` measured the four examples before and after. The sum of cyclomatic complexity rose by one or two in every real example; the decisions (sum minus routines) stayed: 24 and 24, 30 and 31, 14 to 12. They move into one routine, whose number rises (`with_repairs` 7 to 9). The ratchet blocked the step our own `step check` had accepted: `run_batch` 60 to 61 code lines at a limit of 60; shortened since. `.kiro/code-rules.toml` declares the adopted limits. [R162](2026-11-18/28-complexity-before-after-kiro-cli.md)
 
