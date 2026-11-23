@@ -54,7 +54,19 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
 
 - [ ] 2. `step plan` tells the log
-- [ ] 2.1 The driver reports its stages and each classed fault (can fail)
+- [x] 2.1 The driver reports its stages and each classed fault (can fail)
+  - Done 2026-11-23. It did not fail: the function of a fault is known when it is judged, from the
+    file's functions as they are before any fault (`FileFunctions::owner`), so the tree can show
+    functions while the run goes on. `page_watch.rs` holds the events and one listener for the
+    process; `step/plan_page.rs` turns them into the snapshot; tests in
+    `native/tests/run_page_events.rs` compare what is told with the receipt, fault by fault.
+  - Deviations. The runner tells three things, not every stage: the faults planned, the unchanged
+    tests of a copy, each judged fault. Copying and the first run of the tests are one stage on the
+    page, because nothing tells them apart while they happen. A copy that fails before its tests
+    run is not told while the run goes on; it is in the receipt at the end. The listener is one
+    for the process and not a parameter: `runner.rs` had 63 tokens left under its ceiling and
+    now has 1, so the next change to that file needs it split first.
+  - A class was added that task 1.1 lacked: a fault whose run failed twice and has no class.
   - Where the batch runner prints progress or adds to its receipt, it also tells the log, behind
     one trait, so that a run without a page has an empty implementation.
   - Establish whether the function of a fault is known when it is classed. If it is, the snapshot

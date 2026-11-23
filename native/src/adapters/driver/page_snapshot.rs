@@ -149,6 +149,8 @@ pub struct Faults {
     pub unnoticed: u64,
     pub not_built: u64,
     pub timed_out: u64,
+    /// Faults whose run failed twice and that have no class.
+    pub not_judged: u64,
     /// Faults in code the platform does not compile; `None` while unknown.
     pub not_compiled_here: Option<u64>,
     pub example: Option<Example>,
@@ -176,6 +178,7 @@ pub struct Tally {
     pub unnoticed: u64,
     pub not_built: u64,
     pub timed_out: u64,
+    pub not_judged: u64,
     /// Faults not yet run.
     pub left: u64,
     /// No fault was noticed, and none is left to run.
@@ -186,7 +189,7 @@ pub struct Tally {
 
 impl Tally {
     pub fn done(&self) -> u64 {
-        self.noticed + self.unnoticed + self.not_built + self.timed_out
+        self.noticed + self.unnoticed + self.not_built + self.timed_out + self.not_judged
     }
 }
 

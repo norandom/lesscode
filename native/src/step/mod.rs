@@ -16,6 +16,7 @@ pub mod hook;
 pub mod ledger;
 pub mod pin;
 pub mod plan;
+pub mod plan_page;
 pub mod record;
 pub mod revisions;
 pub mod trees;

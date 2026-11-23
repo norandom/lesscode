@@ -56,35 +56,43 @@ fn shown(snapshot: &Snapshot) -> Value {
     serde_json::to_value(snapshot).unwrap()
 }
 
+fn statuses(snapshot: &Value) -> Vec<&str> {
+    let stages = snapshot["stages"].as_array().unwrap();
+    stages
+        .iter()
+        .map(|s| s["status"].as_str().unwrap())
+        .collect()
+}
+
 #[test]
-fn a_short_run_is_shown_from_its_first_moment_to_its_end() {
-    let mut log = begun();
-    let first = shown(&log.snapshot());
+fn a_run_that_has_only_begun_shows_every_stage_as_not_begun() {
+    let first = shown(&begun().snapshot());
     assert_eq!(first["schema"], 1);
     assert_eq!(first["ended"], false);
     assert_eq!(first["started"], "2026-11-23T14:20:00.000Z");
-    let statuses: Vec<&str> = first["stages"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|s| s["status"].as_str().unwrap())
-        .collect();
-    assert_eq!(statuses, ["not begun"; 4]);
+    assert_eq!(statuses(&first), ["not begun"; 4]);
+}
 
+/// A short run after two of its three faults.
+fn midway_through() -> RunLog {
+    let mut log = begun();
     log.begin("copy", None, at(1));
     log.end("copy", at(3));
     log.begin("tests", None, at(3));
-    log.unchanged_tests(1, Ok(12), at(60));
-    log.unchanged_tests(2, Ok(12), at(61));
+    log.unchanged_tests(1, Ok(Some(12)), at(60));
+    log.unchanged_tests(2, Ok(Some(12)), at(61));
     log.end("tests", at(61));
     log.expect("src/a.rs", Some("one"), 2);
     log.expect("src/a.rs", Some("two"), 1);
     log.begin("faults", Some(3), at(61));
     log.classed(fault("src/a.rs", "one", 7, Class::Noticed), at(70));
     log.classed(fault("src/a.rs", "one", 9, Class::Unnoticed), at(80));
+    log
+}
 
-    // Midway: one stage is going on, with its count, and no time for the rest yet.
-    let midway = shown(&log.snapshot());
+#[test]
+fn midway_one_stage_is_going_on_with_its_count_and_no_time_for_the_rest() {
+    let midway = shown(&midway_through().snapshot());
     assert_eq!(
         midway["stages"][2],
         json!({
@@ -99,7 +107,11 @@ fn a_short_run_is_shown_from_its_first_moment_to_its_end() {
             "file": "src/a.rs", "line": 7, "what_was_changed": "negate", "text": "a < b", "outcome": "noticed: a test failed"
         })
     );
+}
 
+#[test]
+fn at_the_end_nothing_is_going_on_and_the_faults_are_counted_per_function() {
+    let mut log = midway_through();
     log.classed(fault("src/a.rs", "two", 20, Class::Unnoticed), at(90));
     log.end("faults", at(90));
     log.begin("close", None, at(90));
@@ -123,13 +135,7 @@ fn a_short_run_is_shown_from_its_first_moment_to_its_end() {
         last["copies"],
         json!({"directory": "D:/work", "planned": 2, "working": 2, "dropped": [], "bytes": null})
     );
-    let statuses: Vec<&str> = last["stages"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|s| s["status"].as_str().unwrap())
-        .collect();
-    assert_eq!(statuses, ["ended"; 4], "nothing is going on after the end");
+    assert_eq!(statuses(&last), ["ended"; 4]);
     assert_eq!(last["stages"][0]["seconds"], 2.0);
     assert_eq!(last["faults"]["total"], 3);
     assert_eq!(
@@ -142,8 +148,8 @@ fn a_short_run_is_shown_from_its_first_moment_to_its_end() {
     assert_eq!(
         last["faults"]["functions"],
         json!([
-            {"file": "src/a.rs", "function": "one", "noticed": 1, "unnoticed": 1, "not_built": 0, "timed_out": 0, "left": 0, "unprotected": false, "reaches_out": []},
-            {"file": "src/a.rs", "function": "two", "noticed": 0, "unnoticed": 1, "not_built": 0, "timed_out": 0, "left": 0, "unprotected": true, "reaches_out": []}
+            {"file": "src/a.rs", "function": "one", "noticed": 1, "unnoticed": 1, "not_built": 0, "timed_out": 0, "not_judged": 0, "left": 0, "unprotected": false, "reaches_out": []},
+            {"file": "src/a.rs", "function": "two", "noticed": 0, "unnoticed": 1, "not_built": 0, "timed_out": 0, "not_judged": 0, "left": 0, "unprotected": true, "reaches_out": []}
         ])
     );
     assert_eq!(last["faults"]["files"][0]["unprotected"], false);
@@ -176,7 +182,7 @@ fn a_copy_that_drops_out_is_named_and_the_run_goes_on() {
     let mut log = begun();
     log.begin("tests", None, at(0));
     log.unchanged_tests(1, Err("the test step failed, exit 100".into()), at(30));
-    log.unchanged_tests(2, Ok(12), at(31));
+    log.unchanged_tests(2, Ok(Some(12)), at(31));
     log.end("tests", at(31));
     let seen = shown(&log.snapshot());
     assert_eq!(seen["copies"]["working"], 1);

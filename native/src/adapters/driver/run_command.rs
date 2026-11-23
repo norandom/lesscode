@@ -6,6 +6,7 @@ use super::config::RunConfig;
 use super::functions::select;
 use super::operators::mutants_of_sites;
 use super::pack::Pack;
+use super::page_watch::{tell, Event};
 use super::registry::embedded;
 use super::runner::{run_batch, BatchOutput, Job, MutantResult, ERROR};
 use super::sites::{eligible_sites, Site};
@@ -203,6 +204,7 @@ pub fn run_run(args: RunArgs) -> Result<u8, String> {
         texts,
     } = planned(&source, &sites, pack, &identity)?;
     let (jobs, mutants_not_selected) = only(jobs, &args.only)?;
+    tell(Event::Planned(&jobs));
     let store = match args.no_reuse {
         true => None,
         false => Some(Store::open(&args.work.join("outcomes"))?),

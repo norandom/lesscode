@@ -24,6 +24,7 @@ pub mod pack;
 pub mod page_log;
 pub mod page_snapshot;
 pub mod page_subject;
+pub mod page_watch;
 pub mod process;
 pub mod registry;
 pub mod run_command;

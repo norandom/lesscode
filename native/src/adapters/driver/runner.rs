@@ -5,6 +5,7 @@
 pub use super::classes::{classify, ERROR, INVALID, KILLED, SURVIVED, TIMEOUT};
 use super::config::RunConfig;
 use super::interrupt;
+use super::page_watch::{tell, Event};
 use super::process::{run, Finished};
 use super::sites::Site;
 use super::store::{Store, Stored};
@@ -264,6 +265,7 @@ impl Shared<'_> {
         let baseline = run_steps(self.config, &space.tree, &ceiling);
         report.baseline_s = baseline.iter().map(|(_, f)| f.seconds).collect();
         report.stopped = unusable(&baseline);
+        tell(Event::Unchanged(&report));
         if report.stopped.is_some() {
             return report;
         }
@@ -283,6 +285,7 @@ impl Shared<'_> {
             };
             match self.one(&space, &job, &limits, worker) {
                 Ok(result) => {
+                    tell(Event::Classed(&result));
                     self.progress().results.push(result);
                     report.mutants_run += 1;
                 }
@@ -377,6 +380,8 @@ pub fn run_batch(
             None => progress.queue.push_back(job),
         }
     }
+    let found = progress.results.iter();
+    found.for_each(|reused| tell(Event::Classed(reused)));
     let shared = Shared {
         config,
         work,

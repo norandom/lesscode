@@ -410,6 +410,13 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/page_watch.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "Where a run says what happens in it: the events the batch runner tells and the one listener of the process (task 2.1; requirements 3.1, 3.3, 3.5)",
+   "disposition": null
+  },
+  {
    "path": "scope.rs",
    "max_tokens": 5682,
    "max_logical_units": 300,
@@ -537,6 +544,13 @@
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
    "allocation": "step plan: faults, size and seams per function (design: Plan, REQ 2.1 to 2.5, 4.1)",
+   "disposition": null
+  },
+  {
+   "path": "step/plan_page.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "step plan as the run page shows it: the listener that turns the runner's events into the snapshot, with each fault under its function (task 2.1; requirements 3.1, 3.3, 3.5)",
    "disposition": null
   },
   {

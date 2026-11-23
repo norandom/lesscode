@@ -24,6 +24,8 @@ pub enum Class {
     Unnoticed,
     NotBuilt,
     TimedOut,
+    /// Its run failed twice; the run as a whole is then incomplete.
+    NotJudged,
 }
 
 impl Class {
@@ -33,6 +35,7 @@ impl Class {
             Self::Unnoticed => "not noticed: every test passed",
             Self::NotBuilt => "did not build",
             Self::TimedOut => "ran over its time limit",
+            Self::NotJudged => "could not be run",
         }
     }
 }
@@ -54,6 +57,8 @@ pub struct RunLog {
     started: u64,
     last: u64,
     begun: BTreeMap<String, u64>,
+    /// The faults of the whole run, of each file and of each function.
+    all: Tally,
     files: BTreeMap<String, Tally>,
     functions: BTreeMap<(String, String), Tally>,
 }
@@ -101,6 +106,7 @@ impl RunLog {
             started: now,
             last: now,
             begun: BTreeMap::new(),
+            all: Tally::default(),
             files: BTreeMap::new(),
             functions: BTreeMap::new(),
         }
@@ -186,14 +192,14 @@ impl RunLog {
         self.close(id, Status::Failed, Some(reason), now);
     }
 
-    /// The unchanged tests ended in one copy: how many ran, or why the copy
-    /// drops out.
-    pub fn unchanged_tests(&mut self, copy: u64, outcome: Result<u64, String>, now: u64) {
+    /// The unchanged tests ended in one copy: how many ran, where that is
+    /// known, or why the copy drops out.
+    pub fn unchanged_tests(&mut self, copy: u64, outcome: Result<Option<u64>, String>, now: u64) {
         let (copies, tests) = (&mut self.stated.copies, &mut self.stated.tests);
         match outcome {
             Ok(ran) => {
                 tests.passed_unchanged = Some(true);
-                tests.tests_run = Some(ran);
+                tests.tests_run = ran.or(tests.tests_run);
             }
             Err(reason) => {
                 copies.working = copies.working.saturating_sub(1);
@@ -212,44 +218,34 @@ impl RunLog {
     }
 
     pub fn classed(&mut self, fault: Classed, now: u64) {
-        let count = |tally: &mut Tally| {
-            tally.left = tally.left.saturating_sub(1);
-            match fault.class {
-                Class::Noticed => tally.noticed += 1,
-                Class::Unnoticed => tally.unnoticed += 1,
-                Class::NotBuilt => tally.not_built += 1,
-                Class::TimedOut => tally.timed_out += 1,
-            }
-        };
-        count(self.files.entry(fault.file.clone()).or_default());
+        count(&mut self.all, fault.class);
+        count(
+            self.files.entry(fault.file.clone()).or_default(),
+            fault.class,
+        );
         if let Some(function) = &fault.function {
             let key = (fault.file.clone(), function.clone());
-            count(self.functions.entry(key).or_default());
-        }
-        let faults = &mut self.stated.faults;
-        faults.done += 1;
-        match fault.class {
-            Class::Noticed => faults.noticed += 1,
-            Class::Unnoticed => faults.unnoticed += 1,
-            Class::NotBuilt => faults.not_built += 1,
-            Class::TimedOut => faults.timed_out += 1,
+            count(self.functions.entry(key).or_default(), fault.class);
         }
         // The first fault that is judged becomes the example the page explains with.
-        if faults.example.is_none() {
-            faults.example = Some(Example {
-                file: fault.file.clone(),
-                line: fault.line,
-                what_was_changed: fault.operator.clone(),
-                text: fault.text.clone(),
-                outcome: fault.class.in_words().to_owned(),
-            });
-        }
+        let _ = self.stated.faults.example.get_or_insert_with(|| Example {
+            file: fault.file.clone(),
+            line: fault.line,
+            what_was_changed: fault.operator.clone(),
+            text: fault.text.clone(),
+            outcome: fault.class.in_words().to_owned(),
+        });
         // The stage that counts faults is the one going on with a total.
         let counting = |s: &&mut Stage| s.status == Status::GoingOn && s.total.is_some();
         if let Some(stage) = self.stated.stages.iter_mut().find(counting) {
             stage.done = stage.done.map(|d| d + 1);
         }
         self.changed(now);
+    }
+
+    /// Faults judged so far, and faults in all.
+    pub fn counted(&self) -> (u64, u64) {
+        (self.all.done(), self.stated.faults.total)
     }
 
     /// A sign of life while nothing else changes.
@@ -290,6 +286,15 @@ impl RunLog {
         let mut shown = self.stated.clone();
         shown.heartbeat = stamp(self.last);
         shown.seconds = seconds(self.started, self.last);
+        shown.faults = Faults {
+            done: self.all.done(),
+            noticed: self.all.noticed,
+            unnoticed: self.all.unnoticed,
+            not_built: self.all.not_built,
+            timed_out: self.all.timed_out,
+            not_judged: self.all.not_judged,
+            ..shown.faults
+        };
         for stage in shown
             .stages
             .iter_mut()
@@ -305,6 +310,18 @@ impl RunLog {
             |((file, name), tally): (&(String, String), &Tally)| settled(tally, file, Some(name));
         shown.faults.functions = self.functions.iter().map(function).collect();
         shown
+    }
+}
+
+/// One more judged fault in a tally.
+fn count(tally: &mut Tally, class: Class) {
+    tally.left = tally.left.saturating_sub(1);
+    match class {
+        Class::Noticed => tally.noticed += 1,
+        Class::Unnoticed => tally.unnoticed += 1,
+        Class::NotBuilt => tally.not_built += 1,
+        Class::TimedOut => tally.timed_out += 1,
+        Class::NotJudged => tally.not_judged += 1,
     }
 }
 
