@@ -403,6 +403,13 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/page_subject.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "What a run reads, asked from Git with read-only commands: repository, branch, commit, uncommitted work, main branch (task 1.2; requirements 4.2, 4.5)",
+   "disposition": null
+  },
+  {
    "path": "scope.rs",
    "max_tokens": 5682,
    "max_logical_units": 300,

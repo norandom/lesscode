@@ -25,7 +25,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
 
 ## Tasks
 
-- [ ] 1. The snapshot
+- [x] 1. The snapshot
 - [x] 1.1 The value the page shows, and how it is built from what a run tells
   - Done 2026-11-23: `native/src/adapters/driver/page_snapshot.rs` and `page_log.rs`, tests in
     `native/tests/run_page_snapshot.rs`. Not a module of its own at the top of the crate, as the task
@@ -40,7 +40,11 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     run without a test command, and each matches a written expectation.
   - _Boundary: Snapshot, RunLog_
   - _Requirements: 3.1, 3.2, 3.5, 3.6, 3.8, 6.2, 6.3_
-- [ ] 1.2 What the run says about the person's code
+- [x] 1.2 What the run says about the person's code
+  - Done 2026-11-23: `native/src/adapters/driver/page_subject.rs` asks Git with three read-only
+    commands; tests in `native/tests/run_page_subject.rs` on temporary repositories. The copies, the
+    commands and the files written are set on the log by the run; filling them from a real run's
+    configuration is group 2.
   - The snapshot's `subject`, `copies`, `commands` and `writes_in_repository`, filled from the run's
     configuration and from Git: repository, branch, commit, uncommitted changes, whether the branch
     is the main branch.
