@@ -3,6 +3,7 @@
 //! the run in the default browser while it happens. Without either, a run
 //! is what it was. Nothing here changes what a run returns once it began.
 
+use super::plan::PlanArgs;
 use super::plan_page::PlanWatch;
 use crate::adapters::driver::config::RunConfig;
 use crate::adapters::driver::pack::Pack;
@@ -96,18 +97,13 @@ fn serve(show: &PageArgs, watch: &Arc<PlanWatch>) -> Option<Served> {
 
 /// Begins showing a run of `step plan` if the options ask for it. An
 /// `Err` is a refusal before anything ran.
-pub fn begin(
-    show: &PageArgs,
-    config: &RunConfig,
-    pack: &Pack,
-    work: &Path,
-    out: &Path,
-    copies: usize,
-) -> Result<Option<Showing>, String> {
-    let Some(place) = place_of(show, out)? else {
+pub fn begin(args: &PlanArgs, config: &RunConfig, pack: &Pack) -> Result<Option<Showing>, String> {
+    let show = &args.show;
+    let Some(place) = place_of(show, &args.out)? else {
         return Ok(None);
     };
-    let watch = Arc::new(PlanWatch::new(config, pack, work, copies)?);
+    let copies = config.parallel(args.workers);
+    let watch = Arc::new(PlanWatch::new(config, pack, &args.work, copies)?);
     watch.log().set_subject(subject(&config.source_root));
     let served = show.open.then(|| serve(show, &watch)).flatten();
     Ok(Some(Showing {

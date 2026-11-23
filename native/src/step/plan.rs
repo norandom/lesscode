@@ -196,8 +196,7 @@ fn fault_run(args: &PlanArgs, out: PathBuf) -> Result<u8, String> {
 pub fn run_plan(mut args: PlanArgs) -> Result<u8, String> {
     let config = RunConfig::read(&args.config)?;
     let pack = embedded(&config.language).map_err(|e| e.to_string())?;
-    let copies = config.parallel(args.workers);
-    let showing = begin(&args.show, &config, pack, &args.work, &args.out, copies)?;
+    let showing = begin(&args, &config, pack)?;
     if let Some(showing) = &showing {
         args.watch = Some(showing.watch());
     }
