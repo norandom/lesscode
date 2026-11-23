@@ -1,6 +1,6 @@
 # Implementation Plan: the run page
 
-Generated 2026-11-23, 15:35 (Europe/Berlin). Not approved yet.
+Generated 2026-11-23, 15:35 (Europe/Berlin). **Approved by the owner on 2026-11-23** ("approved, push main and start with group 1").
 Basis: [requirements](requirements.md) (approved 2026-11-23), [design](design.md) (approved
 2026-11-23, with the section "Decided by the owner"), [prototype gate](prototype-gate.md) (run five
 times; assessed as proceed with the event stream; row P2 failed and decided the way the data

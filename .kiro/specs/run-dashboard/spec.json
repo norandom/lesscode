@@ -15,13 +15,13 @@
     },
     "tasks": {
       "generated": true,
-      "approved": false
+      "approved": true
     }
   },
-  "ready_for_implementation": false,
+  "ready_for_implementation": true,
   "prototype_gate": "prototype-gate.md",
   "prototype_status": "proceed, with the event stream; one row failed (P2) and decided how the data travels",
-  "owner_decisions": "2026-11-23, 15:35: design approved with all five decisions as proposed and the event stream for the fifth (\"approved, event stream, write the tasks\"). The owner also wants https://github.com/jamesaphoenix/diff-core recommended in the documentation later, as something that should suit developers; that is task 8.2 and its wording is the owner's to approve.",
+  "owner_decisions": "2026-11-23, 15:35: design approved with all five decisions as proposed and the event stream for the fifth (\"approved, event stream, write the tasks\"). The owner also wants https://github.com/jamesaphoenix/diff-core recommended in the documentation later, as something that should suit developers; that is task 8.2 and its wording is the owner's to approve. Tasks approved by the owner the same day (\"approved, push main and start with group 1\").",
   "related": [
     "lesscode-metrics",
     "gradual-refactoring-steps",
