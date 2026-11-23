@@ -1,174 +1,177 @@
-# Handover: state machines are found and untangled by hand, in checked steps; next is the kiro-cli extension
+# Handover: the loop of state, faults, tests and rework has run once on real code; a subsystem is still to do
 
-Reset 2026-11-18, 20:55 Europe/Berlin (from the clock). This file is the start for the next session.
-The version before this one is in Git (`b08adf1`, reset of 17 November); older ones are
+Reset 2026-11-23, 12:57 Europe/Berlin (from the clock). This file is the start for the next session.
+The version before this one is in Git (`a064849`, reset of 18 November, with the notes of 22
+November added up to `fc34c4e`); older ones are
 [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 [handover-archive-2026-11-12.md](handover-archive-2026-11-12.md) and
-[handover-archive-2026-11-11.md](handover-archive-2026-11-11.md). The day's detail, in order, is in
-[task_76_handover.md](task_76_handover.md).
+[handover-archive-2026-11-11.md](handover-archive-2026-11-11.md).
 
-## Owner's direction of 22 November (replaces "Next" below where they differ)
-
-- `kiro-cli` stays as it is: the spec-driven tool that measures code. The state measurement is built
-  here instead, as a command `lesscode-metrics`. Nothing is to be changed in `openidea-kiro`; the
-  concept note is the starting point for the command's spec, not for an amendment there.
-- More examples are needed, and each must be runnable: a reader goes into an examples folder, runs
-  the command and gets the table.
-- `drift-rdp` has moved 91 commits past the example's base (`b6fbcf6`; head `09b4ce8` on 21
-  November). The clipboard file is unchanged. Scan the repository again.
-- `D:\Source\facdrone` (Python, finance code) is checked out only to adjust lesscode against a real
-  project. Read only; nothing is delivered to it. It needs Python support in the command first.
-- Every example must show how much simpler the code is, before and after, as numbers a reader gets
-  by running the command. The four examples so far show this weakly: decisions stay (11 and 11, 24
-  and 24, 30 and 31, 14 to 12). What does fall is what `lesscode-metrics` has to count: places that
-  hold the state, states that can be written, routines that decide, things to remember by hand.
-  Pick further examples where these fall clearly.
-- **Examples are reworks of whole subsystems, several files each** (owner, later on 22 November).
-  Single-file samples do not help. The effects of the research came from such reworks of two
-  facdrone subsystems (functions 69 to 50 and 102 to 63, call edges 89 to 61 and 145 to 101); the
-  four hand-made examples move nothing by those measures (clipboard lease: call edges 0 to 2;
-  outputs in `D:\BuildArtifacts\lesscode\state-consolidation\r164`, a diagnostic, not yet a
-  research record). The reworked code need not be published: counts and a visualization are
-  enough. For facdrone a visualization may show the conceptual finding, limited state modelling
-  leading to scattered state, or whatever is seen. An artificial spaghetti example over several
-  files is wanted as well. `lesscode-metrics` prints functions, call edges, write sites and tokens
-  before and after, with the state holders as further rows.
-- **What is missing most is a result a developer likes to look at** (owner): a visualization of
-  before and after, not tables of counts alone. Proposed, not built: one HTML page per rework with
-  the subsystem's call graph before and after and the state holders marked with who writes and who
-  asks them.
-- Sources the owner named for reworks: the head of `drift-rdp`, lesscode itself, and
-  `D:\Source\ats-agent` ("vibecode"; 153 `.cjs` files, mostly under `tests` and `skills`; whether
-  the TypeScript pack reads `.cjs` is not checked).
-- Census of `drift-rdp` at `09b4ce8` with the released `measure-scope` and the research finder
-  (`D:\BuildArtifacts\lesscode\state-consolidation\r164\drift-rdp-09b4ce8\census.json`; test files
-  left out): renderer 8 files, 70 functions, 91 call edges, 13 cells, 3 machines; commands 14, 112,
-  94, 12, 6; store 7, 122, 250, 6, 2; rdp/folder_share 5, 87, 135, 2, 0; rdp (top level) 20, 348,
-  1,046, 36, 4. My proposal for the first rework: renderer. Not decided, not begun.
-- **First visualization, published privately**: "Two Bowls",
-  https://claude.ai/artifact/6ggrijcAhxUDyiEk3gw8SY. The two facdrone reworks of 8 and 9 November
-  as bowls of noodles, before and after, drawn from the frozen measurements in
-  `D:\BuildArtifacts\lesscode\corrective-audit\foreground-20261118\*-native-scope.json`. It shows
-  facdrone's file and function names on hover, no code. Source of the page: the session scratchpad
-  (`two-bowls.template.html`, `data.json`); not in the repository.
-- **The flow the owner wants** (22 November): the tests of a target are only half good. Plant
-  faults, let the unnoticed ones drive the writing of tests, then reduce, the three hand in hand.
-- **`drift-rdp` may be edited** (owner, 22 November). There are agent skills for the rewriting
-  (`.agents/skills/deconvolute`, `lesscode-discovery`, `refactor-in-steps`); the owner wants to see
-  what lesscode itself does, and thinks it makes model calls already. Seen so far: `lesscode-model`
-  calls a model with repair turns, for writing language packs. Whether any command calls a model to
-  rewrite code is not checked. The `deconvolute` skill's description still names a bounded
-  comparison and a fault check that the audit of 17 November found not delivered.
-- Code from the repositories under `D:\Source` may be copied into the example folders, with the
-  source repository and commit named. Not from facdrone: counts and findings in words only.
-- Say things in words. "R163" is the unrun test of a rule that says when a state machine is
-  untangled far enough. "Slice B" is the hardening against model drift: closed by the owner, only
-  drift of one model over time is unmeasured. The line about it under "State" below is stale.
-- Order: first cut of `lesscode-metrics` for Rust (spec and prototype check first; it must give the
-  hand-counted numbers of the four examples), runnable examples, rescan of `drift-rdp`, Python and
-  facdrone, then the stopping-rule test if the owner still wants it. Nothing of this is begun.
+**A check was still running when this was written.** See "Running" first.
 
 ## Start here
 
-1. Read [the guide](../docs/state-refactoring.md) and [the examples](../docs/examples/README.md). They
-   are what the owner wanted to be able to show.
-2. Read [specs/state-consolidation/kiro-cli-state-metrics-concept.md](specs/state-consolidation/kiro-cli-state-metrics-concept.md).
-   The owner's last decision of the day: **the kiro-cli extension comes first**, before the test of
-   the stopping rule.
-3. For anything about 8 or 9 November, [R134](../docs/research/2026-11-17/21-audit-of-port-and-reduction-claims.md)
-   still stands: never report a check as done unless it ran on the real code and you saw its output.
+1. Read [the brief](specs/lesscode-metrics/brief.md). It holds what the owner wants and the six
+   lenses a rework is measured by.
+2. Read the research index, entries R164 to R173, all under
+   [docs/research/2026-11-23/](../docs/research/2026-11-23/). Each has its expectations written
+   before the run, and what failed.
+3. Look at the page "Two Bowls", https://claude.ai/artifact/6ggrijcAhxUDyiEk3gw8SY (private to the
+   owner). Its source is in a session scratchpad and not in the repository.
 
-## What the owner wants
+## Running
 
-Simpler code through the state work, shown in before-and-after examples that are visible in `docs`,
-smaller codebases among them. The refactoring lives by the step-by-step flow, and the user guide
-says so. Engineering metrics are declared with `openidea-kiro`, the owner's other project, and
-complexity is accounted before and after by its tool. No proof is needed; a solver result within
-bounds is said once to be no proof and is never a reason to hedge.
+`lesscode-core step check` on the rework of `SharedFrame` in `drift-rdp`, second attempt, started
+12:29. Working directory `D:\BuildArtifacts\lesscode\lesscode-metrics\r173-rework\work`, log
+`…\r173-rework\check.log`, verdict written to
+`D:\BuildArtifacts\drift-rdp\lesscode-shared-frame-tests\.kiro\specs\shared-frame-pending\verdict.json`.
+The first attempt was refused in one second: the file grew by 72 tokens where 60 were allowed
+(kept as `…\r173-rework\verdict-1-refused.json`). The limit was not raised; a second commit dropped
+what the new code did not need.
 
-## State at the end of 18 November
+When it has ended:
 
-- **Release 2.1.0 is published** (tag `v2.1.0` at `ebeae80`, published 18:59 Europe/Berlin). Its
-  headline is a fix: on Linux a command that ran over its time limit could end all of a user's
-  processes (`kill` without `--`; releases 1.1.0 to 2.0.0). Not checked by me after publication:
-  signatures, checksums, attestation, Zenodo.
-- `origin/main` is at `4b213d4`; the hosted pipeline on it was still running at 20:53. Local main is
-  ahead by the preregistration of R163, the concept note and this handover. Pushing them is the
-  owner's decision.
-- After 2.1.0, on main and for the next release notes: the batch runner's progress in one value
-  (step `batch-progress`, merged); a failing first run says which step failed and how its output
-  ended; `step record` judges the verdict on disk; `run_batch` shortened.
-- Last checks of the code as it is: Linux through Dagger at `4b213d4` overall 0, core 409 of 409;
-  Windows core 410 of 410, clippy clean.
-- Research today: R156 to R162 under `docs/research/2026-11-18/` (find step, transfer to two
-  repositories, three consolidations, complexity before and after).
-- Slice B is unchanged: measured through R79, the next step is the owner's choice.
+- read the verdict; if refused, read why and fix the step, never the limit;
+- then, not at the same time, watch the tests again with `scope-watch` (row 4 of R173) and read the
+  planted faults of the file from the check's run (row 5);
+- write the results into [R173](../docs/research/2026-11-23/10-shared-frame-rework.md), update the
+  research index, commit;
+- remove the working copies under `…\r173-rework\work` (three or more copies of about 4.3 GiB) and
+  the worktree's `target`.
 
-## What exists, and what does not
+## What the owner wants (22 and 23 November)
 
-- A finder for state kept in cell types, in Rust, as a research program
-  (`docs/experiments/state-consolidation/machine-find/`). On a repository it had not read it found 8
-  of 9 machines and reported none wrongly (R159). It is not a released command, it does not see state
-  in plain fields, and after two of the consolidations it no longer sees the machine.
-- Four examples under `docs/examples`: a made-up opener, the batch runner and the reply side channel
-  from this repository, the clipboard lease from `drift-rdp`. All consolidations were made by hand.
-- Measured on all four (R162): the number of decisions stays, the sum of cyclomatic complexity rises
-  by one or two, the routine that now decides grows. The per-machine counts are the goal; the limits
-  and ratchet of `kiro-cli` are the guard. `.kiro/code-rules.toml` declares the limits; no baseline is
-  committed; `step check` and the ratchet stay separate commands (owner's decisions).
-- No command says "this target is untangled far enough". A rule for it is registered and not run
-  (R163, in the prototype gate of state-consolidation).
+- lesscode is to be a capable harness by itself, in Rust throughout. Long runs go through the Rust
+  commands only; where one is incomplete, name the gap to the owner before any substitute. A
+  PowerShell loop that starts the Rust binaries and collects their output is fine.
+- Examples are reworks of whole subsystems, measured before and after, shown side by side with a
+  graph and the measures, "a little artsy". Single files do not help. The reworked code need not be
+  published.
+- Faults, tests and reduction go hand in hand: plant faults, let the unnoticed ones drive the
+  writing of tests, then reduce.
+- `kiro-cli` of `openidea-kiro` stays as it is and may be used for the measures of routines and
+  types. The state measurement is built here, as a command `lesscode-metrics`. Not built yet.
+- `drift-rdp` may be edited: lesscode or the agent edits the checked-out code, the developer makes
+  the branch. `facdrone` is read only and nothing of its source goes into lesscode. Code from other
+  repositories under `D:\Source` may be copied into examples.
+- Reporting matters most. Say things in words, not in record numbers. Never report a check as done
+  unless it ran and its output was seen. Take times from the clock.
+
+## What was built on 23 November, all as research programs in Rust
+
+All are binaries of the experiment crate `docs/experiments/state-consolidation/e5-bound`; sources
+under `docs/experiments/lesscode-metrics/`. None is a released command.
+
+| Program | What it does | Where it stands |
+| --- | --- | --- |
+| `state-holders` | per struct: the fields that hold state, which are changed after the value is built, the shapes it can be written in, who changes and who decides | revision 3; reproduces six hand counts; one registered row failed: uses of fields through closure parameters, loops and patterns are not followed |
+| `walk-gen` | writes a test that calls one type's methods in every order and notes the shapes | works on two types; over the 16 structs of a subsystem it says something for one |
+| `scope-walk` | the same over all functions of a subsystem, with a world of values | compiles and runs unedited; changes the state of 1 type in 16, because the state is changed from outside or sits behind a device |
+| `scope-watch` | adds one statement, in test builds only, to each function that takes a struct by reference, and reads the holders while the project's own tests run | all rows held at the first revision; the tests give the same result with it |
+
+## What was measured on `drift-rdp` (renderer, at `09b4ce8`)
+
+- Planted faults, released `step plan`: 268 faults in 1 hour 43 minutes; 64 lie in code compiled
+  only on Linux and say nothing on Windows; of the 204 compiled here the tests notice 72 (35%), from
+  81% in the frame bookkeeping to 9% in the drawing code.
+- State: 35 holders in 16 structs, 18 changed after construction.
+- `SharedFrame`: 16 shapes can be written (with `wake`), the code reaches 12, the tests saw 8.
+
+## The first turn of the loop, on `SharedFrame`
+
+On the local branch `lesscode/shared-frame-wake-tests` of `drift-rdp`, in the worktree
+`D:\BuildArtifacts\drift-rdp\lesscode-shared-frame-tests`. Five commits on `09b4ce8`, none pushed.
+The owner's checkout is untouched on `master`.
+
+| Commit | What | Measured |
+| --- | --- | --- |
+| `08c6f9b` | four tests for the reached shapes no test saw | the tests see 12 of 12; faults noticed in the file 34 to 35 of 42 |
+| `e4d3b2c` | two tests written from the planted faults | 35 to 38 of 42 |
+| `f58b017` | the declaration of the step, growth allowed 60 tokens | |
+| `18c9043` | the rework: one value for what is pending, `dirty` gone, the lock released by the shape of the code | refused for size, 72 tokens |
+| `e02154e` | what the new value did not need, dropped | check running |
+
+The four faults still unnoticed before the rework are, by my reading and not shown by a run, two
+that change nothing and two that keep the lock while the render thread is rung.
+
+Counted on the reworked file: writable shapes of `SharedFrame` 8 to 3 by the program (16 to 6 with
+`wake` by hand); functions 15 to 17, call edges 8 to 11; the first rework commit adds 57 lines and
+removes 35. No gain in size or decisions was expected or found. The gain is in the state.
+
+## What I got wrong on 23 November, each corrected in its record
+
+- Twice I miscounted the faults inside a test module, and told the owner the tool plants faults in
+  test code. It does not. It plants them in code compiled only on another platform.
+- Times in two records were estimates, not clock readings.
+- A walk kept the first sequence that reached a shape, not the shortest.
+- Two start scripts had faults of their own: a variable `$gen` beside a parameter `$Gen`; a count
+  from a field that does not exist.
+- The four examples of 18 November were measured by a count that cannot move when behaviour is kept.
+
+## Open findings about the tool
+
+- `step plan` and `step check` plant faults in code the platform does not compile and count them
+  as unnoticed.
+- When the unchanged tests fail in a copy at the start, the run goes on with the other copies and
+  ends with "not incomplete"; that a copy dropped out is only in the list of workers. It happened
+  in one of three copies, then in two of three, then in none. By hand the same tests passed each
+  time. Not explained; a test that fails while three copies build at once is a guess.
+- `step check` counts the tests that sit inside a scope file as scope; a step must take the commit
+  after the tests as its base.
+- `state-holders` reads named fields only: a state kept as a pair inside a lock in a struct without
+  field names is missed (`DisplayPathState`). It counts a cell that is filled once as one shape.
+- A fault costs about 47 seconds on `drift-rdp`, most of it the rebuild.
 
 ## Next
 
-1. **The kiro-cli extension**, in `D:\Source\openidea-kiro`, on a feature branch in a separate
-   worktree, not pushed. I had read the code and begun nothing; a worktree and branch made for it
-   were removed again, and that repository is as it was (`6f66d5a`, clean).
-   - Its owning spec is `code-locality-data` (approved, tasks generated). The repository works by
-     requirements, design, tasks, then implementation, with the owner's review of each phase; ask
-     whether the concept note is to become an amendment of that spec first.
-   - Smallest first cut, as read from the code: two type metrics, `flags` and `cells`, for Rust.
-     `crates/kiro-code/src/measure.rs` counts fields in `count_member` into `Members`; the language
-     `Profile` would name the type heads that make a field a flag or a cell. Metric names are in
-     `crates/kiro-core/src/code/facts.rs`, built-in limits in `code/config.rs` (`built_in`), hint
-     texts in `code/evaluate.rs`. Tests that list every metric and the golden outputs will change.
-   - Later cuts: `shared_locals`, `deciders`, the rule `CODE_STATE_SPREAD`, net decisions in the
-     coverage line; then calibration on that project's five repositories.
-   - The released binary for measuring is at `D:\BuildArtifacts\lesscode\tools\kiro-cli-1.1.0\x\kiro-cli.exe`.
-     The debug build inside that repository is 0.1.0 and has no `code` command.
-2. **R163**, the stopping rule: ten open machines, my judgement of each written and sealed before any
-   count is taken, bar 8 of 10 plus the three known examples.
-3. Further examples: `held_back` and `state` in the guide optimiser; the session state of
-   `drift-rdp`, which needs the finder or `kiro-cli` to see plain enum fields first.
+1. Finish R173 (see "Running").
+2. Decide with the owner what follows. My proposal: the same loop on the renderer's next type
+   whose state the tests reach, `RenderShared` with `View`, or the drawing code in `gpu.rs`, where
+   the tests notice 9% of the faults and tests have to come first.
+3. The page: the bowls show the two facdrone reworks, the grid shows `SharedFrame`. It needs the
+   renderer's own bowls, the faults-and-tests view (data now exists), and to be written by a command
+   instead of by hand. The owner asked whether Rust can embed a web page as Go can: `include_str!`.
+4. `lesscode-metrics` as a command: the brief names what it prints. Nothing of the research
+   programs is in `native/` yet; that needs a spec and the prototype gate.
+5. Not done from 22 November: a made-up spaghetti example over several files; Python and facdrone;
+   `ats-agent` (`.cjs`, not checked whether a pack reads it).
 
 ## Open, for the owner
 
-- The branch `lesscode/clipboard-lease-machine` (`1a49d70`) in `D:\Source\drift-rdp` is local and not
-  merged. `guard` there takes the owner's lock where it read an atomic; built and tested on Windows
-  only.
-- In the batch runner, putting a job back after a failed run is not protected by any test, and
-  `run_batch` has no noticed fault with the two driver suites. No pin was written.
-- One Windows run of the core suite, made while other commands ran on the repository, failed
-  `the_installed_hook_stops_a_push_without_a_matching_verdict` once. It passed in four runs after.
-  Not explained.
-- A note on the release pages of 1.1.0 to 2.0.0 that points Linux users to 2.1.0.
-- The main README's introduction with the opener: later, on the owner's word. A humanizer pass is due
-  before any further push of README or guides.
-- Two untracked files under `native` that I once committed by mistake and took out again before
-  pushing: `adapters/java/lesscode/ProbeMain.class` and `budget-report.json.sha256`. Left as they are.
-- From earlier handovers and still open: the `measures.rs` parenthesized-callee fix; removal of the
-  prototype worktree `corrective-audit\foreground-20261118\prototype`; the R140 history form of
-  `bound-check`; Java lowering; `match` arms as branch conditions in the Rust pack (prototype first).
+- Whether the branch `lesscode/shared-frame-wake-tests` is wanted in `drift-rdp`, in whole or the
+  tests alone. Whether `dirty` may go: the shipped program set it and never read it.
+- The branch `lesscode/clipboard-lease-machine` (`1a49d70`) in `drift-rdp`, from 18 November, is
+  still local and not merged.
+- A caller of `SharedFrame` that writes through `begin_write` can call `mark_dirty` while it holds
+  the guard. Closing that changes the interface.
+- Release 2.1.0: signatures, checksums, attestation and Zenodo were not checked by me after
+  publication. A note on the release pages of 1.1.0 to 2.0.0 that points Linux users to 2.1.0.
+- The main README's introduction; a humanizer pass before any push of README or guides.
+- The test of a rule that says when a state machine is untangled far enough is registered and not
+  run. The owner found it unclear; it can be dropped.
+- From earlier and still open: the `measures.rs` parenthesized-callee fix; removal of the prototype
+  worktree `corrective-audit\foreground-20261118\prototype`; the history form of `bound-check`;
+  Java lowering; `match` arms as branch conditions in the Rust pack.
+- The hardening against model drift is closed by the owner; only the drift of one model over time
+  is unmeasured.
+
+## State of the repositories
+
+- lesscode: `origin/main` at `93ff83d`, in sync when this was written; this handover is the next
+  commit. Release 2.1.0 is the published version; what is on main after it is for the next release
+  notes (see the handover of 18 November in Git).
+- `drift-rdp`: `master` at `09b4ce8`, 230 ahead of its origin, untouched by me. Worktrees of mine:
+  `D:\BuildArtifacts\drift-rdp\lesscode-shared-frame-tests`. A copy of its ignored `dist` folder is
+  in that worktree so that it builds.
+- `openidea-kiro`: untouched.
 
 ## Storage
 
-D: has 142.6 GiB free, measured at 20:53; it was 175 GiB at the start of the day. Most of the
-difference is in the Podman machine's disk after seven Dagger runs, which this project cannot prune,
-and in the shared Cargo target. Measure the lesscode-owned caches before the next heavy build; they
-were near 32 GiB this morning and the limit is 40. Removed today: the isolated target of the
-`drift-rdp` build (4.2 GiB) and the step's work directory (6.8 GiB). Retained evidence, small:
-`D:\BuildArtifacts\lesscode\state-consolidation\r156` to `r162`, `native-evidence\`, and the
-`kiro-cli` binary.
+D: had 95.9 GiB free at 12:57, with the check's copies building; 125 GiB at 12:15 with nothing
+running. The limit is 50 GiB free. Each copy of `drift-rdp` that builds takes about 4.3 GiB; a
+fault run makes three. I removed them after every run so far. Retained, small:
+`D:\BuildArtifacts\lesscode\lesscode-metrics\r164-…` to `r173-…` (receipts, reports, generated
+modules, frozen binaries under `…-bin`), and the sources of one copy of `drift-rdp` without build
+output under `…\r169-scope-walk\try1\tree`, reused by the watching script.
 
-Next research ID: R163 is taken by the registered test; the one after is R164. Next handover file:
-`task_77_handover.md`.
+Next research record: R174. Next handover file: `task_77_handover.md`.
