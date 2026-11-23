@@ -76,7 +76,11 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     same faults, same classes, same dropped copies.
   - _Boundary: Driver, RunLog_
   - _Requirements: 3.1, 3.3, 3.5_
-- [ ] 2.2 A sign of life during stages that count nothing
+- [x] 2.2 A sign of life during stages that count nothing
+  - Done 2026-11-23: `Heart` in `page_watch.rs` and `PlanWatch::heart`; tests in
+    `native/tests/run_page_heart.rs`. Deviation: the tests use an interval of 100 milliseconds on the
+    log itself and measure against it, not a command that sleeps for more than five seconds. No
+    command starts a heart yet; that comes with the options of group 3.
   - A timer that marks the snapshot at least every five seconds while the tool lives, also while a
     copy builds.
   - Done when a test with a command that sleeps shows marks no more than five seconds apart, and

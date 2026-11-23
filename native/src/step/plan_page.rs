@@ -9,13 +9,13 @@ use crate::adapters::driver::config::RunConfig;
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::page_log::{Class, Classed, RunLog, StagePlan};
 use crate::adapters::driver::page_snapshot::Snapshot;
-use crate::adapters::driver::page_watch::{Event, Watch};
+use crate::adapters::driver::page_watch::{Event, Heart, Watch};
 use crate::adapters::driver::sites::Site;
 use crate::adapters::driver::source::SourceSet;
 use std::collections::BTreeMap;
 use std::path::Path;
-use std::sync::{Mutex, MutexGuard};
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::sync::{Arc, Mutex, MutexGuard};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 const PREPARE: &str = "prepare";
 const FAULTS: &str = "faults";
@@ -100,6 +100,12 @@ impl PlanWatch {
 
     pub fn snapshot(&self) -> Snapshot {
         self.log().snapshot()
+    }
+
+    /// Signs of life every `every`, until what is returned is dropped.
+    pub fn heart(self: &Arc<Self>, every: Duration) -> Heart {
+        let watch = Arc::clone(self);
+        Heart::start(every, move || watch.log().beat(now()))
     }
 
     /// The function a site lies in, by the file's functions as they are
