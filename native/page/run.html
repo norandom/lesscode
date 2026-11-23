@@ -28,6 +28,9 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 13px/1.45 var(
 code, .mono { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+/* Inside the tree, the tabs and the pane an outline outside the box would be cut off. */
+.row:focus-visible, .tab:focus-visible, .body:focus-visible { outline-offset: -2px; }
+.said { margin-left: 6px; color: var(--quiet); }
 .head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 6px 10px; background: var(--panel); border-bottom: 1px solid var(--line); }
 .head h1 { font-size: 13px; font-weight: 600; margin: 0; }
 .head .what { color: var(--quiet); min-width: 0; overflow-wrap: anywhere; }
@@ -176,7 +179,7 @@ const data = /*DATA*/null;
   }
   // When the tool has stopped, nothing is shown as going on.
   function seenAs(status, state) { return status === 'going on' && state === 'stopped' ? 'stopped' : status; }
-  function mark(status) { var m = MARK[status] || ['off', '?', 'not known']; return html`<span class=${'mark ' + m[0]} title=${m[2]} aria-label=${m[2]}>${m[1]}</span>`; }
+  function mark(status) { var m = MARK[status] || ['off', '?', 'not known']; return html`<span class=${'mark ' + m[0]} role="img" title=${m[2]} aria-label=${m[2]}>${m[1]}</span>`; }
 
   var ICON = {
     follow: 'M8 1v3M8 12v3M1 8h3M12 8h3M8 5.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5z',
@@ -254,7 +257,7 @@ const data = /*DATA*/null;
     return html`<div>
       <h2>${bare.length} of ${fs.length} functions are unprotected</h2>
       <p>In an unprotected function no test noticed any planted fault. You can break such a function and every test still passes. Write tests for it before you change it.</p>
-      ${bare.length ? html`<div class="wide"><table><thead><tr><th>Function</th><th>File</th><th>Faults nobody noticed</th><th>What it reaches out to</th></tr></thead><tbody>
+      ${bare.length ? html`<div class="wide"><table><thead><tr><th scope="col">Function</th><th scope="col">File</th><th scope="col">Faults nobody noticed</th><th scope="col">What it reaches out to</th></tr></thead><tbody>
         ${bare.slice(0, 200).map(function (f) { return html`<tr><td><code>${text(f.function)}</code></td><td><code>${text(f.file)}</code></td><td class="num">${show(f.unnoticed)}</td><td>${list(f.reaches_out).slice(0, 8).join(', ') || 'nothing listed'}</td></tr>`; })}
         </tbody></table></div>
         ${bare.length > 200 ? html`<p>${bare.length - 200} more are in the run's receipt.</p>` : ''}
@@ -269,7 +272,7 @@ const data = /*DATA*/null;
       <h2>${text(s.outcome, 'The run ended')}</h2>
       ${s.outcome_detail ? html`<p>${String(s.outcome_detail)}</p>` : ''}
       <dl class="facts"><dt>Faults planted</dt><dd>${show(f.total)}</dd><dt>Noticed</dt><dd>${show(f.noticed)}</dd><dt>Unnoticed</dt><dd>${show(f.unnoticed)}</dd><dt>Did not build</dt><dd>${show(f.not_built)}</dd><dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd></dl>
-      ${r && things(r.lenses).length ? html`<h3>Before and after</h3><div class="wide"><table><thead><tr><th>Lens</th><th>Measure</th><th>Before</th><th>After</th><th>Expected</th><th>Moved that way</th></tr></thead><tbody>
+      ${r && things(r.lenses).length ? html`<h3>Before and after</h3><div class="wide"><table><thead><tr><th scope="col">Lens</th><th scope="col">Measure</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Expected</th><th scope="col">Moved that way</th></tr></thead><tbody>
         ${things(r.lenses).map(function (l) { return html`<tr><td>${text(l.lens)}</td><td>${text(l.measure)}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.before))}</td><td class="num">${l.measured === false ? 'not measured' : text(String(l.after))}</td><td>${text(l.expected)}</td><td>${l.measured === false ? 'not measured' : l.moved === true ? 'yes' : l.moved === false ? 'no' : 'not judged'}</td></tr>`; })}
         </tbody></table></div>` : html`<p>This run compared nothing before and after.</p>`}
       ${r && r.refusal ? html`<h3>Refused</h3><ul>${list(r.refusal.reasons).map(function (x) { return html`<li>${String(x)}</li>`; })}</ul><p>Fix the step. Raising the limit is the decision of whoever owns the code.</p>` : ''}
@@ -292,10 +295,22 @@ const data = /*DATA*/null;
     var files = things(f.files), fns = things(f.functions);
     if (ui.byUnnoticed) { files.sort(function (a, b) { return (n(b.unnoticed) || 0) - (n(a.unnoticed) || 0); }); fns.sort(function (a, b) { return (n(b.unnoticed) || 0) - (n(a.unnoticed) || 0); }); }
     var counts = function (x) { return [ui.noticed && show(x.noticed) + ' noticed', ui.unnoticed && show(x.unnoticed) + ' unnoticed', ui.notbuilt && n(x.not_built) ? show(x.not_built) + ' not built' : null].filter(Boolean).join(' · '); };
-    var pill = { running: ['warn', 'Running'], quiet: ['warn', 'No word for ' + span(age())], stopped: ['bad', 'The tool stopped'], ended: [s.exit_code === 0 ? 'ok' : 'warn', 'Ended'] }[state] || ['off', state];
+    var pill = { running: ['warn', 'Running'], quiet: ['warn', 'Quiet'], stopped: ['bad', 'The tool stopped'], ended: [s.exit_code === 0 ? 'ok' : 'warn', 'Ended'] }[state] || ['off', state];
     var dropped = things((s.copies || {}).dropped), tests = s.tests || {};
     var bare = fns.filter(function (x) { return x.unprotected === true; }).length;
-    var copy = function () { var d = text((s.copies || {}).directory, ''); if (navigator.clipboard && d) navigator.clipboard.writeText(d).then(function () { set({ copied: true }); }, function () {}); };
+    var copy = function () {
+      var d = text((s.copies || {}).directory, ''), no = function () { set({ copied: 'no' }); };
+      if (navigator.clipboard && d) navigator.clipboard.writeText(d).then(function () { set({ copied: 'yes' }); }, no); else no();
+    };
+    // The tabs as one stop for the keyboard: the arrows move between them.
+    var pick = function (e) {
+      var at = tabs.map(function (t) { return t[0]; }).indexOf(ui.tab), to = { ArrowRight: at + 1, ArrowLeft: at - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (to === undefined) return;
+      e.preventDefault();
+      var next = tabs[(to + tabs.length) % tabs.length][0], el = document.getElementById('tab-' + next);
+      set({ tab: next });
+      if (el) el.focus();
+    };
     var tabs = [['now', 'Now'], ['code', 'Your code'], ['faults', 'Planted faults'], ['bare', 'Unprotected' + (bare ? ' (' + bare + ')' : '')], ['result', 'Result']];
     return html`
       <header class="head"><h1>lesscode</h1><span class="what"><code>${text(s.command)}</code> on <code>${text((s.subject || {}).repository)}</code> at <code>${text((s.subject || {}).commit).slice(0, 12)}</code></span><span class=${'pill ' + pill[0]} role="status">${pill[1]}</span></header>
@@ -310,12 +325,13 @@ const data = /*DATA*/null;
         <${Tool} icon="notbuilt" title="Show faults that did not build" pressed=${ui.notbuilt} onClick=${function () { set({ notbuilt: !ui.notbuilt }); }} />
         <${Tool} icon="sort" title="Sort by unnoticed faults" pressed=${ui.byUnnoticed} onClick=${function () { set({ byUnnoticed: !ui.byUnnoticed }); }} />
         <span class="sep"></span>
-        <${Tool} icon="copy" title=${ui.copied ? 'Copied the place of the copies' : 'Copy the place of the copies'} onClick=${copy} />
+        <${Tool} icon="copy" title="Copy the place of the copies" onClick=${copy} />
         <${Tool} icon="help" title="What a planted fault is" onClick=${function () { set({ tab: 'faults' }); }} />
+        <span class="said" role="status">${ui.copied === 'yes' ? 'Copied' : ui.copied === 'no' ? 'Could not copy. The place is in the tab Your code.' : ''}</span>
       </div>
       <div class="bar" role="img" aria-label=${show(f.noticed) + ' noticed, ' + show(f.unnoticed) + ' unnoticed, ' + show(f.not_built) + ' not built, of ' + show(f.total)}><i class="n" style=${'width:' + part(f.noticed)}></i><i class="u" style=${'width:' + part(f.unnoticed)}></i><i class="x" style=${'width:' + part(f.not_built)}></i></div>
       ${state === 'stopped' && html`<div class="notice bad" role="alert"><strong>The tool stopped without finishing.</strong> Last heard at ${clock(s.heartbeat)}. What is shown is the run as it was then; nothing is going on.</div>`}
-      ${state === 'quiet' && html`<div class="notice" role="status">No word from the tool for ${span(age())}. It should report every few seconds, also during a build.</div>`}
+      ${state === 'quiet' && html`<div class="notice"><span role="status">No word from the tool since ${clock(s.heartbeat)}.</span> That is ${span(age())} ago. It should report every few seconds, also during a build.</div>`}
       ${tests.command_given === false && html`<div class="notice bad" role="alert"><strong>No test command was given.</strong> No fault can be noticed, and every result of this run is empty.</div>`}
       ${tests.passed_unchanged === false && html`<div class="notice bad" role="alert"><strong>Your tests do not pass on the unchanged code.</strong> The run cannot judge anything. ${text(tests.reason, '')}</div>`}
       ${dropped.map(function (d) { return html`<div class="notice" role="status"><strong>Copy ${show(d.copy)} dropped out</strong> at ${clock(d.at)}: ${text(d.reason, 'no reason given')}. ${show((s.copies || {}).working)} of ${show((s.copies || {}).planned)} copies are still working.</div>`; })}
@@ -326,9 +342,9 @@ const data = /*DATA*/null;
               ${!shut && fns.filter(function (fn) { return fn.file === file.file; }).slice(0, 400).map(function (fn) { return html`<div class="row d2">${mark(seenAs(standing(fn), state))}<span class="name mono" title=${text(fn.function)}>${text(fn.function)}</span><span class="count">${counts(fn)}</span></div>`; })}`; })}`; })}
           ${!stages.length && html`<div class="row"><span class="name">No stage is known yet.</span></div>`}
         </nav>
-        <section class="pane">
-          <div class="tabs" role="tablist">${tabs.map(function (t) { return html`<button class="tab" type="button" role="tab" aria-selected=${String(ui.tab === t[0])} onClick=${function () { set({ tab: t[0] }); }}>${t[1]}</button>`; })}</div>
-          <div class="body" role="tabpanel">
+        <section class="pane" aria-label="The run in detail">
+          <div class="tabs" role="tablist" aria-label="What to show" onKeyDown=${pick}>${tabs.map(function (t) { return html`<button class="tab" type="button" role="tab" id=${'tab-' + t[0]} aria-controls="panel" aria-selected=${String(ui.tab === t[0])} tabindex=${ui.tab === t[0] ? 0 : -1} onClick=${function () { set({ tab: t[0] }); }}>${t[1]}</button>`; })}</div>
+          <div class="body" role="tabpanel" id="panel" tabindex="0" aria-labelledby=${'tab-' + ui.tab}>
             ${ui.tab === 'now' && (state === 'ended' ? html`<${Result} s=${s} />` : current ? html`<${Stage} stage=${current} state=${state} />` : html`<p>Nothing has begun yet.</p>`)}
             ${ui.tab === 'code' && html`<${YourCode} s=${s} />`}
             ${ui.tab === 'faults' && html`<${Faults} s=${s} />`}

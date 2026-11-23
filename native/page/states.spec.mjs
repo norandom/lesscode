@@ -105,7 +105,7 @@ const SITUATIONS = [
   { name: 'waiting', state: 'waiting', shows: ['Waiting for lesscode'] },
   { name: 'waiting-no-answer', state: 'waiting', events: 'http://127.0.0.1:9/none/events', shows: ['The tool does not answer'] },
   { name: 'running', state: 'running', data: () => run(false, 2), shows: ['Running for', '8 of 12 done'] },
-  { name: 'quiet', state: 'quiet', data: () => run(false, 30), shows: ['No word from the tool for'] },
+  { name: 'quiet', state: 'quiet', data: () => run(false, 30), shows: ['Quiet', 'No word from the tool since'] },
   { name: 'stopped', state: 'stopped', data: () => run(false, 120),
     shows: ['The tool stopped without finishing', 'Stopped after', 'was going on when the tool stopped'], hides: ['Running for', '▶'] },
   { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s'], hides: ['Running for', '▶'], folds: true },
@@ -172,4 +172,106 @@ test('drawing that fails gives the state "cannot read", not a blank page', async
   for (const text of ['cannot read', 'Drawing the page failed', 'made to fail by the check']) await expect(page.locator('body')).toContainText(text);
   expect(Number((await marks(page)).failures)).toBeGreaterThanOrEqual(1);
   await picture(page, testInfo, 'drawing-fails');
+});
+
+// The walk through the page by keyboard (task 4.4). What is met is written
+// down as it goes, into walk.txt of the record, and the tree a screen reader
+// is given into aria.txt. No screen reader is run here.
+const focused = (page) => page.evaluate(() => {
+  const el = document.activeElement;
+  if (!el || el === document.body) return null;
+  const style = getComputedStyle(el), say = (name) => el.getAttribute(name);
+  return { what: say('role') || el.tagName.toLowerCase(), name: say('aria-label') || el.innerText.replace(/\s+/g, ' ').trim().slice(0, 70),
+    labelled: say('aria-labelledby'), pressed: say('aria-pressed'), expanded: say('aria-expanded'), selected: say('aria-selected'),
+    outline: `${style.outlineStyle} ${style.outlineWidth}` };
+});
+const line = (at) => `${at.what} "${at.name}"` + ['pressed', 'expanded', 'selected'].filter((k) => at[k] !== null).map((k) => `, ${k} ${at[k]}`).join('') + `, focus ${at.outline}`;
+
+test('a walk through the page by keyboard', async ({ page }, testInfo) => {
+  const out = testInfo.config.metadata.out, walk = [];
+  await page.setViewportSize(SIZES[0]);
+  await open(page, testInfo, 'walk', run(true, 5));
+
+  walk.push('Tab from the top of the page, one press per line:');
+  const stops = [];
+  for (let i = 0; i < 60; i++) {
+    await page.keyboard.press('Tab');
+    const at = await focused(page);
+    if (!at) break;
+    stops.push(at);
+    walk.push(`${String(stops.length).padStart(3)}. ${line(at)}`);
+  }
+  // Nine tools, three stages with two files between them, the tabs as one stop, and the pane.
+  expect(stops.map((s) => s.what)).toEqual([...Array(14).fill('button'), 'tab', 'tabpanel']);
+  for (const stop of stops) {
+    expect(stop.outline, stop.name).toBe('solid 2px');
+    expect(stop.name || stop.labelled, 'every stop has a name').toBeTruthy();
+  }
+  // Every control of the page is one of the stops, or a tab that the arrows reach.
+  expect(await page.locator('button:not([role=tab])').count()).toBe(14);
+
+  const press = async (key, note) => { await page.keyboard.press(key); const at = await focused(page); walk.push(`   ${key}: ${line(at)}${note ? `; ${note}` : ''}`); return at; };
+  walk.push('', 'The first tool, Follow, with Space and with Enter:');
+  await page.getByRole('button', { name: 'Follow the stage that is going on' }).focus();
+  expect((await press('Space')).pressed).toBe('false');
+  expect((await press('Enter')).pressed).toBe('true');
+
+  walk.push('', 'A file of the tree, with Enter and with Space:');
+  await page.locator('button.d1').first().focus();
+  const rows = await page.locator('.d2').count();
+  expect((await press('Enter', 'its functions are hidden')).expanded).toBe('false');
+  expect(await page.locator('.d2').count()).toBeLessThan(rows);
+  expect((await press('Space', 'they are shown again')).expanded).toBe('true');
+  expect(await page.locator('.d2').count()).toBe(rows);
+
+  walk.push('', 'A stage of the tree, with Enter:');
+  await page.locator('button.row:not(.d1)').first().focus();
+  await press('Enter', 'the stage is the current one and Follow is switched off');
+  await expect(page.locator('button.row:not(.d1)').first()).toHaveAttribute('aria-current', 'true');
+  await expect(page.getByRole('button', { name: 'Follow the stage that is going on' })).toHaveAttribute('aria-pressed', 'false');
+
+  walk.push('', 'The tabs, with the arrows, End and Home:');
+  await page.getByRole('tab', { selected: true }).focus();
+  expect((await press('ArrowRight')).name).toBe('Your code');
+  await expect(page.getByRole('tabpanel')).toContainText('What happens to your code');
+  expect((await press('End')).name).toBe('Result');
+  expect((await press('Home')).name).toBe('Now');
+  expect((await press('ArrowLeft', 'from the first tab the arrow goes round to the last')).name).toBe('Result');
+  expect((await press('Tab', 'one press leaves the tabs for the pane')).what).toBe('tabpanel');
+  expect((await press('Shift+Tab', 'and one goes back to the tab that is shown')).name).toBe('Result');
+
+  walk.push('', 'The tool Copy, with Enter:');
+  await page.getByRole('button', { name: 'Copy the place of the copies' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.said')).toHaveText(/Copied|Could not copy/);
+  walk.push(`   Enter: the page says "${await page.locator('.said').innerText()}"`);
+
+  walk.push('', 'The tool for the explanation, with Enter:');
+  await page.getByRole('button', { name: 'What a planted fault is' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('tab', { selected: true })).toHaveText('Planted faults');
+  walk.push('   Enter: the tab "Planted faults" is shown');
+
+  // Names for a screen reader, and no meaning by colour alone: every mark is a sign with a name.
+  const signs = await page.locator('.mark').evaluateAll((all) => all.map((m) => ({ sign: m.innerText.trim(), name: m.getAttribute('aria-label'), role: m.getAttribute('role') })));
+  expect(signs.length).toBeGreaterThan(0);
+  for (const sign of signs) expect(sign.sign && sign.name && sign.role === 'img', JSON.stringify(sign)).toBeTruthy();
+  expect((await page.locator('.pill').first().innerText()).trim()).not.toBe('');
+  walk.push('', `Marks in the tree: ${[...new Set(signs.map((m) => `${m.sign} = ${m.name}`))].join('; ')}`);
+
+  writeFileSync(join(out, 'walk.txt'), walk.join('\n') + '\n');
+  writeFileSync(join(out, 'aria.txt'), await page.locator('body').ariaSnapshot() + '\n');
+  await picture(page, testInfo, 'walk-end');
+  expect(Number((await marks(page)).failures)).toBe(0);
+});
+
+test('reduced motion stops the moving bar', async ({ page }, testInfo) => {
+  const building = run(false, 2);
+  building.stages[0].status = 'going on';
+  building.stages[1].status = 'not begun';
+  await open(page, testInfo, 'building', building);
+  const moving = () => page.locator('.meter.busy i').evaluate((bar) => getComputedStyle(bar).animationName);
+  expect(await moving()).toBe('slide');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  expect(await moving()).toBe('none');
 });
