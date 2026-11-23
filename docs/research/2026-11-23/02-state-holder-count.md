@@ -120,3 +120,37 @@ writable shapes only. The next gate is the count of reached shapes.
 ## COBESY check
 
 Expectations written before the build; what is not predicted is said; limits are listed.
+
+## Amendment, 2026-11-23, 09:47 Europe/Berlin: revision 2, registered before it is written
+
+On the owner's word the two weaknesses that decide whether the state view can be trusted are
+fixed first: telling a holder that is set once from one that is changed, and tying a use to its
+type.
+
+- **Tying**: the type of the receiver is followed through `self`, parameters and `let` bindings
+  with a written type or a value whose type can be followed, fields, struct literals, the declared
+  return type of a method of the scope, and methods that hand on what the receiver holds
+  (`lock`, `unwrap` and the like). Only where that fails does the field's name decide, and only if
+  one type of the scope has it.
+- **Changed**: a holder is changed when a function assigns it, calls a replacing method on it
+  (`store`, `take`, `set` and the like), calls a changing method on it or on what a handle gives
+  (`push`, `insert`, `clear` and the like), binds a handle on it with `let mut`, or takes
+  `&mut` of it. A lock that is only taken is no change. Filling a field when the value is built is
+  no change.
+- **Changing shapes** of a type: the product over its changed holders only; a field of a struct
+  type of the scope that is not replaced as a whole counts with that struct's changing shapes.
+
+Expectations, from reading the examples on 18 November and without running anything:
+
+| # | Input | Expectation | Rejected when |
+| --- | --- | --- | --- |
+| 1 | order flags, before | all three flags changed; changing shapes of `Order` 8 | otherwise |
+| 2 | clipboard lease, before | `owner`, `claim_sequence` and `Lease.valid` changed; `operation` not changed | otherwise |
+| 3 | clipboard lease, after | `owner` changed, `operation` not; `Owner.lease` changed | otherwise |
+| 4 | runner at `6da5952` | `queue`, `results`, `fatal` changed; `store` set once | otherwise |
+| 5 | runner at `6b580a5` | `progress` changed; `Progress.fatal` changed; `store` set once | otherwise |
+| 6 | runner, both | the four flags of `MutantResult` are set once; its changing shapes are 1 | otherwise |
+| 7 | uses left out as ambiguous | renderer at most 15 (was 73); runner at most 3 (was 11) | more |
+| 8 | the six rows of revision 1 | unchanged | any changes |
+
+Not predicted: which holders of the renderer are changed, and the changing shapes of `Facts`.
