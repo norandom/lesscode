@@ -50,6 +50,50 @@ The owner, after the plan of the prototype, chose one review at the end over an 
 the tests and one per write-off. Changed below: 2.5, 4.3, 4.4 and 7.3. Before the change 2.5
 forbade a test before the spec was approved, and 7.3 named three stops.
 
+## Amended 2026-11-24, 18:35: the whole scope by default, and what holds the stage back
+
+**Proposed, not yet approved by the owner.** It comes from task 5.1 ([R188](../../../docs/research/2026-11-24/09-protect-stage-yuv.md)).
+That run spent eleven of the owner's approvals on debug labels and wrote one test. The owner, in
+their own words: "we do the fail injection brownfielding because we want a better reach for
+lesscode" and "the idea of lesscode isn't per function scoping". They chose "whole scope by
+default". Asked "whether a fault injection that is successful must always prevent us", they chose
+three cases:
+
+- a missed fault that a caller sees, in code the reduction changes, holds the stage back;
+- a missed fault no caller can see is not planted;
+- a missed fault a caller sees, outside the code the reduction changes, is reported and does not
+  hold the stage back.
+
+The stage runs before the reduction, so it cannot know which code the reduction will change. The
+chosen functions stand for that code. By default they are every function with an unnoticed fault,
+so every missed fault a caller sees holds the stage back. Only when the person names functions
+does the third case apply, to the functions they did not name. Whether the reduction later stays
+inside the chosen functions is judged by `step check` of the reduction, as today.
+
+The changes, each with the text it replaces:
+
+- **1.1** now reads: "When the stage begins on a plan, the stage shall take as chosen every function
+  of the plan that has an unnoticed fault; where the person names functions, the stage shall take
+  those functions only. It shall list for each chosen function its noticed and unnoticed faults,
+  each unnoticed fault with its place and what was changed." It replaces: "When the person names
+  functions of a plan, the stage shall take those functions as the chosen functions and shall list
+  …".
+- **1.2** now reads: "Where the person names functions, the stage shall list every other function of
+  the plan with an unnoticed fault as reported, with the number of its unnoticed faults from the
+  plan. It shall say that these do not hold the stage back and that a reduction of them is not
+  covered." It replaces: "… that it is left alone and that nothing has to be done about it."
+- **5.10** is new: "When the stage says whether the chosen functions are protected enough, the stage
+  shall also list the reported functions of 1.2 with their numbers from the plan, and shall not let
+  them change the outcome."
+- **7.1** now reads: "The stage shall let an agent choose nothing. The scope comes from the plan the
+  person asked for, and only the person narrows it to named functions." It replaces: "… the chosen
+  functions come from the person."
+- **Not planted, outside this spec.** A missed fault no caller can see is a matter for the language
+  pack that plants it. The boundary below keeps "how faults are planted" out of scope. So the
+  second case is met by a change to the pack of the spec `agnostic-annotation-driver`, recorded in
+  the design: the Rust pack plants no empty string in a struct field named `label`. Requirement 4
+  (writing a fault off) stays as it is for whatever is still planted.
+
 ## Introduction
 
 lesscode works an existing codebase into less code. A reduction is only as safe as the tests that

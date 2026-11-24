@@ -64,6 +64,52 @@ Round nodes are a person. Nothing after `step plan` runs a fault except `step pi
 6. **A test that contradicts the code costs one more run**, since a copy tries its first run again
    (R183). That is accepted.
 
+## Amended 2026-11-24, 18:40: the whole scope by default, reported functions, no label faults
+
+**Proposed, not yet approved by the owner.** It follows the amendment of the same time in the
+[requirements](requirements.md) (1.1, 1.2, 5.10, 7.1), which comes from task 5.1
+([R188](../../../docs/research/2026-11-24/09-protect-stage-yuv.md)). The sections below this one
+still say what was approved at 13:15; where they differ, this section holds.
+
+1. **`--function` is optional in `step protect begin`.** In `BeginArgs`
+   (`native/src/step/protect_begin.rs`) the argument loses `required = true`. Without it, the
+   chosen functions are every function of the plan with at least one unnoticed fault, less those of
+   1.6 (`left_out`, not built here). The output says that the whole scope was taken, and how to
+   narrow it. If nothing is unnoticed, `begin` writes nothing and exits 0 with "every function of the
+   plan is protected; there is nothing to begin". The refusals stay as they are; "a named function is
+   not in the plan" applies only when functions are named.
+2. **`left_alone` becomes `reported`.** In `stage.json` the list keeps its place and gains each
+   function's unnoticed count from the plan:
+   `"reported": [{"file": "src/a.rs", "function": "collect", "unnoticed": 2}]`. Only functions with an
+   unnoticed fault are listed. The receipt name stays `step-stage-v1`, because the field is new and a
+   stage begun before this change has no reported functions to show. `begin` prints them as
+   "reported: not chosen, does not hold the stage back, a reduction of it is not covered" (1.2).
+3. **`step protect result` lists the reported functions** after the chosen ones, with their
+   numbers from the plan, and writes them into `protection.json` as `reported`. They do not enter
+   the exit code (5.10). Their faults are not run again: `focus` stays the chosen functions (5.2).
+4. **No label faults in the Rust pack (outside this spec's boundary).** Planting belongs to the
+   spec `agnostic-annotation-driver`. The pack's `call_argument` gains a list `skip_string_in_fields`
+   and the kind of a field initializer (`field_initializer` and its `name` in Rust). `argument_edits`
+   in `native/src/adapters/driver/operators.rs` plants no `string->empty` when the call's
+   argument list is the value of a field initializer whose name is in the list. The Rust pack
+   sets `["label"]`. This covers `label: Some("yuv-convert")`. A plain `label: "x"` is not a call
+   argument and was never planted. The other packs set nothing and are unchanged. A planned fault
+   set changes only for Rust code with such fields. Plans made before this change keep their
+   numbers. A test on a toy file and a plan of `yuv.rs` show the eleven faults gone and the twelfth
+   kept.
+5. **The skill and the guide.** Phase 2 of the skill reads: "the person may name functions to
+   narrow the scope; by default it is every function with an unnoticed fault". The findings of 5.1
+   go into the skill and `docs/steps.md`:
+   - the first pin with a test builds its own copies, and they stand beside the base run's, so
+     `begin`'s disk figure is per pair of copies, twice at once;
+   - the time estimate runs 1.3 to 1.4 times low, so `begin` multiplies its figure by 1.4 and
+     says so;
+   - a project may ignore `*.log`, so keep the pin's log with the evidence;
+   - a file copied into a built copy keeps its old time, so count the tests;
+   - `begin` prints mixed path separators, so it prints `/`.
+
+   `docs/releases/2.2.0.md` names the change, as it is not tagged yet.
+
 ## Boundary Commitments
 
 **This spec owns**

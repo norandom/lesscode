@@ -161,11 +161,50 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     tests live in files of their own and no joining line is needed.
   - Done when the research entry says whether anything of the stage had to be done differently
     for that language.
-  - _Depends: 5.1_
+  - _Depends: 5.1, 6.4_
   - _Requirements: 3.8_
 - [ ] 5.3 Validation and handover
   - The suites on Windows and through Dagger on Linux; budgets; lints; `kiro-cli code check`; a
     validation report; the handover.
   - Done when the validation report says GO or names what stands against it.
-  - _Depends: 5.2_
+  - _Depends: 5.2, 6.4_
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 7.4, 7.5_
+
+- [ ] 6. The whole scope by default (amendment of 2026-11-24, 18:35; **proposed, not approved**)
+
+  The owner chose the order: the code first, then a full run, then 5.2 and 5.3.
+- [ ] 6.1 `--function` optional, and reported functions
+  - `step protect begin` without `--function` chooses every function of the plan with an unnoticed
+    fault, less `left_out`. With nothing unnoticed it writes nothing and exits 0. `left_alone`
+    becomes `reported` with the unnoticed count. `step protect result` lists the reported functions,
+    writes them into `protection.json`, and leaves them out of the exit code. `begin` prints `/`.
+  - Done when tests on the toy repository show: the whole scope without `--function`; a narrowed
+    scope with reported functions in `stage.json`, in the output and in `protection.json`; exit 0
+    with nothing written when nothing is unnoticed; the earlier refusals unchanged.
+  - _Boundary: protect_begin.rs, protect_stage.rs, protect_write.rs, protect_says.rs,
+    protect_numbers.rs, protect_receipt.rs_
+  - _Requirements: 1.1, 1.2, 5.10, 7.1_
+- [ ] 6.2 No empty-string fault in a Rust `label` field (pack of `agnostic-annotation-driver`)
+  - `skip_string_in_fields` and the field initializer's kind in the pack's `call_argument`;
+    `argument_edits` skips `string->empty` there; the Rust pack sets `["label"]`.
+  - Done when a driver test shows `label: Some("x")` unplanted and `name: Some("x")` and
+    `f("x")` still planted. A plan of `yuv.rs` in the clone has no `string->empty` on a `label`
+    field and keeps the twelfth unnoticed fault. The expected count is 19 where it was 30; any other
+    difference is named.
+  - _Boundary: native/src/adapters/driver/operators.rs, pack.rs, native/packs/rust.json_
+  - _Requirements: amendment of 18:35, the second case_
+- [ ] 6.3 The skill, the guide and the release notes
+  - Phase 2 of `protect-before-reduce` and `docs/steps.md` with the whole scope by default and the
+    reported functions; the five findings of 5.1; an entry in `docs/releases/2.2.0.md`. Humanizer
+    pass.
+  - Done when the owner has read the changed sections.
+  - _Depends: 6.1, 6.2_
+  - _Requirements: 1.1, 1.2, 6.2, 6.3, 7.1_
+- [ ] 6.4 A full run where the stage gets tests written, on another file of drift-rdp (can fail)
+  - I propose a file with the numbers of its plan (several unnoticed faults a caller can see), and
+    the owner approves it before the run. Then the stage runs with the whole scope by default, from
+    the plan to `step protect result`, built from the code of 6.1 and 6.2 and frozen.
+  - Done when a preregistered research entry gives the tests written, the four numbers per
+    function, the reported functions, the times against `begin`'s figure, and what the owner said.
+  - _Depends: 6.1, 6.2, 6.3_
+  - _Requirements: 1.1, 3.1, 5.3, 5.4, 5.10_
