@@ -638,6 +638,13 @@
    "disposition": null
   },
   {
+   "path": "step/protect_numbers.rs",
+   "max_logical_units": 300,
+   "owner": "brownfield-test-stage",
+   "allocation": "The four numbers of a stage per chosen function (noticed before, noticed now, written off, waiting) from the verdict, stage.json and write-offs.json; a fault matched by file, line and operator; split from protect_result.rs to keep it within its size (task 2.2; requirements 4.1 to 4.4, 4.6, 5.3 to 5.6)",
+   "disposition": null
+  },
+  {
    "path": "step/protect_result.rs",
    "max_logical_units": 300,
    "owner": "brownfield-test-stage",

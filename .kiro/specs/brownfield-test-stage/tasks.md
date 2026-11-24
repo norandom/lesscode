@@ -78,7 +78,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     that changed a code file, each with its sentence and without a `protection.json`.
   - _Boundary: protect_result.rs_
   - _Requirements: 3.6, 5.1, 5.7, 7.4_
-- [ ] 2.2 The four numbers, and the exit code
+- [x] 2.2 The four numbers, and the exit code
   - Per chosen function, from the verdict and `write-offs.json`: noticed before, noticed now,
     written off, waiting. A write-off counts with one of the two kinds, a reason, an approver and a
     date; without approval its fault is waiting; a kind that is not one of the two is bad input

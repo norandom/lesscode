@@ -306,6 +306,26 @@ plain operators, so the id `<operator>@<line>:<column>` cannot be read from the 
 (finding 1 of R185). Decided by the owner on 2026-11-24: the result matches such a fault by file,
 line and operator, from committed files only, and says so when two faults cannot be told apart.
 
+**Amended 2026-11-24, with tasks 2.1 and 2.2.** `protect_result.rs` would have gone over the size
+budget with the numbers in it, so one file was added, with its entry in the budgets and its own
+tests in `native/tests/step_protect_numbers.rs`:
+
+| File | New or changed | Responsibility |
+| --- | --- | --- |
+| `native/src/step/protect_numbers.rs` | new | `write-offs.json`; the four numbers per function; a fault matched by file, line and operator |
+| `native/src/step/guard.rs` | changed | the comparison of the hashes split out of `stale` as `moved`, for `step protect result` to reuse; the guard behaves as before |
+
+`protect_result.rs` keeps the arguments, the verdict it may use, the output and the exit code.
+Two faults of a function with the same line and operator wait together or are written off
+together: a write-off for one of them does not say that it is the unnoticed one. A fault the
+verdict calls unnoticed that the stage did not begin with waits and cannot be written off. A
+write-off for a fault the stage does not have is bad input (exit 3), like a wrong kind.
+
+Open, for the owner: the verdict, `stage.json` and `write-offs.json` are the files that are
+committed with the stage spec, and the command reads the copy in the working tree where there is
+one, else the committed one (as `step record` does for a verdict). In a pipeline the two are the
+same. Under a person an approval that is written but not committed already counts.
+
 ## Testing Strategy
 
 On the toy repository of `native/tests/step_support` (Python, tests in a file of their own):

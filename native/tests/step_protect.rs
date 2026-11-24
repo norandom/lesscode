@@ -413,6 +413,114 @@ impl Planned {
     }
 }
 
+impl Planned {
+    /// Write `write-offs.json` with one entry for the fault of `helper`.
+    fn write_off(&self, kind: &str, approved: bool) {
+        let by = |who: &str| approved.then(|| who.to_owned());
+        let offs = json!({ "schema": 1, "base": "", "write_offs": [{
+            "file": "src/app.py", "function": "helper", "fault": "drop_statement@9:4",
+            "kind": kind, "reason": "Nothing reads the count.", "proposed_by": "agent",
+            "approved_by": by("the owner"), "approved_at": by("2026-11-24"),
+        }]});
+        let path = format!("{STAGE}/write-offs.json");
+        self.repo.write(&path, &offs.to_string());
+    }
+
+    /// The result has this exit code and these words.
+    fn results_in(&self, code: i32, words: &[&str]) {
+        let (found, said) = self.result();
+        assert_eq!(found, Some(code), "{said}");
+        for word in words {
+            assert!(said.contains(word), "{word:?} is not in: {said}");
+        }
+    }
+}
+
+#[test]
+fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
+    let planned = Planned::staged("result-waiting");
+    let repo = &planned.repo;
+    let (code, out, err) = repo.step("check", "protect-toy", &[]);
+    assert_eq!(code, Some(0), "{out}\n{err}");
+    let numbers = "src/app.py: helper  noticed before 0, noticed now 0";
+
+    // Left without a proposal: it waits, and is named.
+    planned.results_in(
+        1,
+        &[
+            &format!("{numbers}, written off 0, waiting 1"),
+            "waiting: drop_statement@9:4: no test notices it and no write-off is proposed",
+            "Not protected enough: 1 fault(s) wait.",
+        ],
+    );
+    // A proposal nobody approved: it still waits.
+    planned.write_off("nothing_a_caller_sees", false);
+    planned.results_in(
+        1,
+        &[
+            &format!("{numbers}, written off 0, waiting 1"),
+            "waiting: drop_statement@9:4: its write-off is not approved",
+        ],
+    );
+    // Approved: written off, with its reason.
+    planned.write_off("nothing_a_caller_sees", true);
+    planned.results_in(
+        0,
+        &[
+            &format!("{numbers}, written off 1, waiting 0"),
+            "written off: drop_statement@9:4: Nothing reads the count.",
+            "Protected enough: nothing waits in any chosen function.",
+        ],
+    );
+    // A kind that is not one of the two is bad input, approved or not.
+    planned.write_off("too_hard", true);
+    planned.results_in(
+        3,
+        &[
+            "the kind `too_hard` of the write-off for src/app.py drop_statement@9:4",
+            "nothing_a_caller_sees, not_testable_as_it_stands",
+        ],
+    );
+
+    // A verdict that refused because unnoticed faults rose: not protected
+    // enough, whatever is written off. Refused for another reason: no result.
+    planned.write_off("nothing_a_caller_sees", true);
+    let verdict = repo.dir.join(STAGE).join("verdict.json");
+    let refused = |check: &str| json!([{"name": check, "result": "refused", "detail": "why"}]);
+    Planned::edit(&verdict, "result", json!("refused"));
+    Planned::edit(&verdict, "checks", refused("planted faults"));
+    planned.results_in(
+        1,
+        &["`step check` refused the branch because unnoticed faults rose"],
+    );
+    Planned::edit(&verdict, "checks", refused("size"));
+    planned.results_in(
+        2,
+        &["Not judged: `step check` refused protect/protect-toy for a reason other than faults: size: why."],
+    );
+}
+
+#[test]
+fn a_fault_a_test_notices_is_noticed_also_where_it_has_a_write_off() {
+    let planned = Planned::staged("result-noticed");
+    let repo = &planned.repo;
+    let expected = "if a > 3:\n    state.count = b\n";
+    repo.commit(&[("tests/expect.txt", expected)], "a test for helper");
+    let (code, out, err) = repo.step("check", "protect-toy", &[]);
+    assert_eq!(code, Some(0), "{out}\n{err}");
+    let numbers = "src/app.py: helper  noticed before 0, noticed now 1, written off 0, waiting 0";
+    planned.results_in(0, &[numbers, "Protected enough"]);
+
+    planned.write_off("not_testable_as_it_stands", true);
+    planned.results_in(
+        0,
+        &[
+            numbers,
+            "noticed: drop_statement@9:4 has a write-off, and a test notices it now",
+        ],
+    );
+}
+
 #[test]
 fn a_stage_without_a_verdict_is_not_judged() {
     let planned = Planned::staged("result-no-verdict");
