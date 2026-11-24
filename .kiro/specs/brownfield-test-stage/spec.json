@@ -1,7 +1,7 @@
 {
   "feature_name": "brownfield-test-stage",
   "created_at": "2026-11-24T11:09:46+01:00",
-  "updated_at": "2026-11-24T13:25:00+01:00",
+  "updated_at": "2026-11-24T13:35:00+01:00",
   "language": "en",
   "phase": "tasks-generated",
   "approvals": {
@@ -15,11 +15,11 @@
     },
     "tasks": {
       "generated": true,
-      "approved": false
+      "approved": true
     }
   },
-  "ready_for_implementation": false,
-  "owner_decisions": "2026-11-24: the stage is a spec, worked with Kiro, whose product is the tests (\"there I'd simply refer to the browdfield and make a spec to produce the tests\"; \"kiro allows this. we can use this\"). The spec lives in the project under work. A function is protected enough when every planted fault is noticed or written off; the agent proposes a reason and the owner approves it. The first run of the stage is watched by the owner. On starting the spec: \"since we copy from kiro and re-use the tdd it should be relatively straight forward\". Requirements approved by the owner on 2026-11-24 (\"approved, go on to the design\"). After the plan of the prototype: all five proposed functions, try the faults a plain test cannot reach and note the rest, one review at the end (\"all we want is better tests to ensure our lesscode transformations are not causing problems. we brownfield onbaord the codebase with a tdd workflow\"). At the review: all four tests accepted, all three write-offs approved, the first pin's time accepted \"and say it up front\". Design approved by the owner on 2026-11-24 (\"approved, push and write the tasks\").",
+  "ready_for_implementation": true,
+  "owner_decisions": "2026-11-24: the stage is a spec, worked with Kiro, whose product is the tests (\"there I'd simply refer to the browdfield and make a spec to produce the tests\"; \"kiro allows this. we can use this\"). The spec lives in the project under work. A function is protected enough when every planted fault is noticed or written off; the agent proposes a reason and the owner approves it. The first run of the stage is watched by the owner. On starting the spec: \"since we copy from kiro and re-use the tdd it should be relatively straight forward\". Requirements approved by the owner on 2026-11-24 (\"approved, go on to the design\"). After the plan of the prototype: all five proposed functions, try the faults a plain test cannot reach and note the rest, one review at the end (\"all we want is better tests to ensure our lesscode transformations are not causing problems. we brownfield onbaord the codebase with a tdd workflow\"). At the review: all four tests accepted, all three write-offs approved, the first pin's time accepted \"and say it up front\". Design approved by the owner on 2026-11-24 (\"approved, push and write the tasks\"). Tasks approved by the owner on 2026-11-24 (\"ok\", in answer to \"If you approve, I start with group 1\").",
   "related": [
     "gradual-refactoring-steps",
     "run-dashboard",

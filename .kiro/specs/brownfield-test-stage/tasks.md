@@ -1,6 +1,6 @@
 # Implementation Plan: the brownfield test stage
 
-Generated 2026-11-24, 13:25 (Europe/Berlin). **Not approved yet.**
+Generated 2026-11-24, 13:25 (Europe/Berlin). **Approved by the owner on 2026-11-24** ("ok").
 Basis: [requirements](requirements.md) (approved 2026-11-24, amended the same day to one review),
 [design](design.md) (approved by the owner on 2026-11-24: "approved, push and write the tasks"),
 [prototype gate](prototype-gate.md) (`proceed`, [R184](../../../docs/research/2026-11-24/05-brownfield-stage-prototype.md)).

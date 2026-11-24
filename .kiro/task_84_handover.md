@@ -156,3 +156,14 @@ groups, twelve tasks. 1 `step protect begin`; 2 `step protect result`; 3 the ski
 templates; 4 the guide; 5 closing, with the stage run by its commands on another renderer file and
 on a project that is not Rust, both marked "can fail". Next: the owner's approval of the tasks,
 then group 1 in the foreground with explicit task numbers.
+
+## Amended 2026-11-24, 13:35: tasks approved; this is where the next session starts
+
+The owner approved the tasks ("ok"). The spec `brownfield-test-stage` is ready for implementation.
+**Start with group 1** of [tasks.md](specs/brownfield-test-stage/tasks.md), tasks 1.1 to 1.3
+(`step protect begin`), in the foreground with explicit task numbers, one commit per task. Read
+first: the [design](specs/brownfield-test-stage/design.md), especially "What the prototype
+changed", and [R184](../docs/research/2026-11-24/05-brownfield-stage-prototype.md). The stage spec
+and the declaration written by hand in the prototype are the model for what the command writes:
+`D:\BuildArtifacts\drift-rdp\lesscode-brownfield-stage\.kiro\specs\protect-display-path`.
+Local and not pushed: the commits after `9f6aab7`.
