@@ -287,6 +287,24 @@ Requirements 2.5 and 7.1 to 7.3 rest on the skill and on a person. That is said 
 
 `runner.rs` and `page_log.rs` are not touched. No file under `adapters/driver` changes.
 
+**Amended 2026-11-24, 14:00, with group 1 ([R185](../../../docs/research/2026-11-24/06-step-protect-begin.md)).**
+`protect_begin.rs` alone went over the size budget of a file, so three files were added, each with
+its entry in the budgets:
+
+| File | New or changed | Responsibility |
+| --- | --- | --- |
+| `native/src/step/protect_stage.rs` | new | the shape of `stage.json`, the faults of a plan's run per function, the id of a fault |
+| `native/src/step/protect_write.rs` | new | `step.json` and `stage.json` from what the checks left; the writing |
+| `native/src/step/protect_says.rs` | new | what `step protect begin` prints |
+
+`protect_begin.rs` keeps the arguments and the checks. Beside the allowed dependencies named above
+the new code reads `step/functions.rs` (which function a fault belongs to) and
+`adapters/driver/sites.rs` (the code not built on this system), as `step plan` does.
+
+Open for task 2.1: the verdict's label of a fault is `#N line L <operator>`, without a column for
+plain operators, so the id `<operator>@<line>:<column>` cannot be read from the verdict alone
+(finding 1 of R185).
+
 ## Testing Strategy
 
 On the toy repository of `native/tests/step_support` (Python, tests in a file of their own):

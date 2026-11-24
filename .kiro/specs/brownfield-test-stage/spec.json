@@ -30,7 +30,8 @@
     "docs/research/2026-11-23/08-tests-for-four-uncovered-shapes.md",
     "docs/research/2026-11-23/09-tests-from-the-remaining-faults.md",
     "docs/research/2026-11-24/02-run-page-a-real-run-watched.md",
-    "docs/research/2026-11-24/05-brownfield-stage-prototype.md"
+    "docs/research/2026-11-24/05-brownfield-stage-prototype.md",
+    "docs/research/2026-11-24/06-step-protect-begin.md"
   ],
   "notes": "Initialised and requirements generated on 2026-11-24 from brief.md (discovery of the same day). The templates under .kiro/settings/templates are empty in this repository; the documents follow the form of the spec run-dashboard. Research-bearing: the design has to pass the prototype gate of steering/prototype-first.md on real code before tasks. Provisional design, research log and prototype gate written the same day; the design is not approved and cannot be before the gate says proceed. Open contradiction 1 of the design: Rust keeps unit tests inside the file of the code, and step pin carries only files under test_paths.",
   "prototype_gate": "prototype-gate.md",

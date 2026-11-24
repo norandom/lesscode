@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R184 The brownfield test stage by hand: six of nine unnoticed faults noticed by four tests, no code changed (2026-11-24)
+## Latest · R185 `step protect begin` is built: it refuses what it should and `step check` reads what it writes, on the toy repository (2026-11-24)
+
+Implementation record of group 1 of the spec `brownfield-test-stage`. The first command of the stage reads a plan, the receipt of its run, the run configuration and the code; refuses with exit 3 before anything is written; writes `step.json` and `stage.json` into the stage spec's directory only; and says what is chosen, what is left alone and what running the faults again costs. It opens no page and asks nothing, after the owner's direction that the page stays off by default and the flows run in a pipeline. Shown on the toy repository, core suite 487 of 487 on Windows; not shown on a real project. One finding for group 2: the verdict names no column for faults with a plain operator, so the design's fault id cannot be read from the verdict alone. [Entry](2026-11-24/06-step-protect-begin.md).
+
+## R184 The brownfield test stage by hand: six of nine unnoticed faults noticed by four tests, no code changed (2026-11-24)
 
 Prototype gate of the spec `brownfield-test-stage`, preregistered. On five functions of `display_path.rs` in the renderer of drift-rdp the existing commands carried the stage: a plan, four tests written first against planted faults and admitted by `step pin`, and `step check` with before and now per function. Six of nine unnoticed faults are noticed; the owner wrote the other three off in one review. Two adverse controls were rejected. Rust needed a test file of its own, joined by one line committed before the plan. One limit of the gate was passed: the first pin took 17 min 50 s against ten minutes, because it runs the base once; the owner accepted that with a change of the design. Everything the two planned commands and the skill would do was done by hand. [Entry](2026-11-24/05-brownfield-stage-prototype.md).
 
