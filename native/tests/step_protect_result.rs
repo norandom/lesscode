@@ -1,6 +1,7 @@
 //! `step protect result` through the binary (brownfield-test-stage, group 2).
 //! A stage is begun from a real plan of the toy repository and committed on
-//! its branch; the verdict is the one `step check` writes.
+//! its branch; the verdict is the one `step check` writes. The result reads
+//! committed files only, so the verdict and each write-off are committed.
 
 mod step_support;
 
@@ -27,6 +28,13 @@ impl Planned {
         self
     }
 
+    /// `step check` accepts the branch, and its verdict is committed.
+    fn checked(&self) {
+        let (code, out, err) = self.repo.step("check", "protect-toy", &[]);
+        assert_eq!(code, Some(0), "{out}\n{err}");
+        self.repo.commit(&[], "the verdict");
+    }
+
     fn result(&self) -> (Option<i32>, String) {
         let declaration = format!("{STAGE}/step.json");
         let args = ["protect", "result", "--declaration", &declaration];
@@ -48,8 +56,9 @@ impl Planned {
 }
 
 impl Planned {
-    /// Write `write-offs.json` with one entry for the fault of `helper`.
-    fn write_off(&self, kind: &str, approved: bool) {
+    /// Write `write-offs.json` with one entry for the fault of `helper`, and
+    /// leave it uncommitted.
+    fn written(&self, kind: &str, approved: bool) {
         let by = |who: &str| approved.then(|| who.to_owned());
         let offs = json!({ "schema": 1, "base": "", "write_offs": [{
             "file": "src/app.py", "function": "helper", "fault": "drop_statement@9:4",
@@ -58,6 +67,12 @@ impl Planned {
         }]});
         let path = format!("{STAGE}/write-offs.json");
         self.repo.write(&path, &offs.to_string());
+    }
+
+    /// The same, committed.
+    fn write_off(&self, kind: &str, approved: bool) {
+        self.written(kind, approved);
+        self.repo.commit(&[], "a write-off");
     }
 
     /// The result has this exit code and these words.
@@ -74,8 +89,7 @@ impl Planned {
 fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
     let planned = Planned::staged("result-waiting");
     let repo = &planned.repo;
-    let (code, out, err) = repo.step("check", "protect-toy", &[]);
-    assert_eq!(code, Some(0), "{out}\n{err}");
+    planned.checked();
     let numbers = "src/app.py: helper  noticed before 0, noticed now 0";
 
     // Left without a proposal: it waits, and is named.
@@ -96,7 +110,13 @@ fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
             "waiting: drop_statement@9:4: its write-off is not approved",
         ],
     );
-    // Approved: written off, with its reason.
+    // An approval that is written and not committed does not count.
+    planned.written("nothing_a_caller_sees", true);
+    planned.results_in(
+        1,
+        &["waiting: drop_statement@9:4: its write-off is not approved"],
+    );
+    // Approved and committed: written off, with its reason.
     planned.write_off("nothing_a_caller_sees", true);
     planned.results_in(
         0,
@@ -124,11 +144,13 @@ fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
     let refused = |check: &str| json!([{"name": check, "result": "refused", "detail": "why"}]);
     Planned::edit(&verdict, "result", json!("refused"));
     Planned::edit(&verdict, "checks", refused("planted faults"));
+    repo.commit(&[], "a verdict that refused");
     planned.results_in(
         1,
         &["`step check` refused the branch because unnoticed faults rose"],
     );
     Planned::edit(&verdict, "checks", refused("size"));
+    repo.commit(&[], "a verdict that refused otherwise");
     planned.results_in(
         2,
         &["Not judged: `step check` refused protect/protect-toy for a reason other than faults: size: why."],
@@ -141,8 +163,7 @@ fn a_fault_a_test_notices_is_noticed_also_where_it_has_a_write_off() {
     let repo = &planned.repo;
     let expected = "if a > 3:\n    state.count = b\n";
     repo.commit(&[("tests/expect.txt", expected)], "a test for helper");
-    let (code, out, err) = repo.step("check", "protect-toy", &[]);
-    assert_eq!(code, Some(0), "{out}\n{err}");
+    planned.checked();
     let numbers = "src/app.py: helper  noticed before 0, noticed now 1, written off 0, waiting 0";
     planned.results_in(0, &[numbers, "Protected enough"]);
 
@@ -170,8 +191,7 @@ fn three(name: &str, third_approved: bool) -> (Planned, Value) {
     let tested = format!("{expect}    state.first = a\n");
     let repo = &planned.repo;
     repo.commit(&[("tests/expect.txt", &tested)], "a test for the first");
-    let (code, out, err) = repo.step("check", "protect-toy", &[]);
-    assert_eq!(code, Some(0), "{out}\n{err}");
+    planned.checked();
     let approved = |yes: bool| yes.then_some("2026-11-24");
     let off = |line: usize, kind: &str, reason: &str, yes: bool| {
         json!({
@@ -190,7 +210,8 @@ fn three(name: &str, third_approved: bool) -> (Planned, Value) {
         third_approved,
     );
     let offs = json!({"schema": 1, "base": "", "write_offs": [second, third]});
-    repo.write(&format!("{STAGE}/write-offs.json"), &offs.to_string());
+    let path = format!("{STAGE}/write-offs.json");
+    repo.commit(&[(&path, &offs.to_string())], "the write-offs");
     (planned, second)
 }
 
@@ -278,8 +299,8 @@ fn a_protected_stage_names_the_next_step_and_writes_where_it_is_asked_to() {
 fn a_stage_without_a_verdict_is_not_judged() {
     let planned = Planned::staged("result-no-verdict");
     planned.not_judged(&[
-        "Not judged: there is no verdict at .kiro/specs/protect-toy/verdict.json.",
-        "Run `step check` on protect/protect-toy first.",
+        "Not judged: there is no committed verdict at .kiro/specs/protect-toy/verdict.json.",
+        "Run `step check` on protect/protect-toy and commit its verdict first.",
     ]);
 }
 
@@ -287,8 +308,7 @@ fn a_stage_without_a_verdict_is_not_judged() {
 fn a_verdict_for_other_content_than_the_branch_has_is_not_judged() {
     let planned = Planned::staged("result-other-content");
     let repo = &planned.repo;
-    let (code, out, err) = repo.step("check", "protect-toy", &[]);
-    assert_eq!(code, Some(0), "{out}\n{err}");
+    planned.checked();
     // The verdict is the one for the branch as it is: there is a result.
     let (code, said) = planned.result();
     assert_ne!(code, Some(2), "{said}");
@@ -318,6 +338,7 @@ fn a_branch_that_changed_a_code_file_is_not_judged() {
     let (_, out, err) = repo.step("check", "protect-toy", &[]);
     let verdict = repo.dir.join(STAGE).join("verdict.json");
     assert!(verdict.is_file(), "{out}\n{err}");
+    repo.commit(&[], "the verdict");
     planned.not_judged(&[
         "src/app.py differs between the base and protect/protect-toy",
         "the result does not hold for the functions of that file",

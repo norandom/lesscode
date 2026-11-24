@@ -339,6 +339,14 @@ committed with the stage spec, and the command reads the copy in the working tre
 one, else the committed one (as `step record` does for a verdict). In a pipeline the two are the
 same. Under a person an approval that is written but not committed already counts.
 
+**Decided by the owner on 2026-11-24, about 15:00 ("committed only").** The command reads the
+verdict, `stage.json` and `write-offs.json` as they are committed on the branch and no other copy.
+A verdict or an approval that is written and not committed does not count: without a committed
+verdict the result is exit 2, and a write-off whose approval is not committed waits. The reading
+of the working tree is removed from `protect_result.rs`, and the tests of the result commit the
+verdict and each write-off. The skill says so in the phases of the check, the review and the
+result.
+
 ## Testing Strategy
 
 On the toy repository of `native/tests/step_support` (Python, tests in a file of their own):

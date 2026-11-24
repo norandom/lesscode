@@ -41,14 +41,10 @@ pub enum Found {
     NotJudged(String),
 }
 
-/// A file of the stage: the one in the working tree where there is one, as
-/// `step record` takes a verdict, else the one committed on the branch.
-/// Which content a verdict speaks for is decided by its hashes, not by
-/// where it lies.
+/// A file of the stage as it is committed on the branch, and no other copy
+/// (the owner's decision of 2026-11-24): a verdict or an approval that is
+/// written and not committed does not count.
 fn on_branch(context: &Context, path: &str) -> Result<Option<Vec<u8>>, String> {
-    if let Ok(bytes) = std::fs::read(context.repo.join(path)) {
-        return Ok(Some(bytes));
-    }
     let committed = context.step_tree.get(path);
     committed.map(|hash| blob(&context.repo, hash)).transpose()
 }
@@ -79,7 +75,8 @@ pub fn found(context: &Context) -> Result<Found, String> {
     let branch = &context.declaration.branch;
     let Some(bytes) = on_branch(context, path)? else {
         return Ok(Found::NotJudged(format!(
-            "there is no verdict at {path}. Run `step check` on {branch} first."
+            "there is no committed verdict at {path}. Run `step check` on {branch} and commit \
+             its verdict first."
         )));
     };
     let verdict: Value =
