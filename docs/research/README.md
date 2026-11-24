@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R188 The brownfield test stage with its two commands on `yuv.rs` of the renderer: protected enough, but 11 of 12 gaps were debug labels (2026-11-24)
+## Latest · R189 The stage over the whole scope of `shared_frame.rs`, where tests get written (2026-11-24, running)
+
+Task 6.4 of the spec `brownfield-test-stage`, preregistered: the first run of the stage after the amendment (whole scope by default, reported functions, no label faults in Rust), on a file of drift-rdp's renderer whose tests miss 8 of 42 planted faults, four of them visible to a caller when read in the code. Eleven expectations are written before the plan, among them that three tests or more get written and that the four visible faults end noticed. [Entry](2026-11-24/10-protect-stage-shared-frame.md).
+
+## R188 The brownfield test stage with its two commands on `yuv.rs` of the renderer: protected enough, but 11 of 12 gaps were debug labels (2026-11-24)
 
 Task 5.1 of the spec `brownfield-test-stage`, preregistered: the skill `protect-before-reduce` with `step protect begin` and `step protect result` in place of what R184 did by hand, on a second file of drift-rdp's renderer that the owner named. The stage ran from plan to result with no step done by hand. `step protect result` ended with exit 0 after the owner's one review, and eight of ten expectations hold. Two fail. Of the twelve faults the tests missed, one ends noticed, by one new test for NV12 frames. The other eleven blank wgpu debug labels that no caller can see and were written off. The first pin with a test also took 11 min 21 s, because it built its own copies. Decided by the owner: the Rust pack stops planting faults in `label` fields; the stage covers the whole scope by default; the owner still has to see one run where the stage gets several tests written, which will be on another drift-rdp file. On what blocks, the owner chose three cases: a missed fault blocks only where a caller can see it and the reduction changes that code. [Entry](2026-11-24/09-protect-stage-yuv.md).
 
