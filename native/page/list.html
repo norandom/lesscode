@@ -45,6 +45,12 @@ a { color: var(--focus); }
 table { border-collapse: collapse; width: 100%; } th, td { text-align: left; padding: 3px 10px 3px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { color: var(--quiet); font-weight: 500; } td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .wide { overflow-x: auto; }
+/* Short first: one tile per lens; every measure can be opened. */
+.card ul.tiles { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; padding: 0; margin: 0 0 10px; max-width: none; }
+.tile { border: 1px solid var(--line); border-left: 4px solid var(--off); border-radius: 4px; padding: 5px 8px; }
+.tile.ok { border-left-color: var(--ok); } .tile.warn { border-left-color: var(--warn); }
+.tile b, .tile span { display: block; } .tile span { color: var(--quiet); } .tile .verd { color: var(--ink); font-weight: 600; } .tile .num { color: var(--ink); }
+.card details { border-top: 1px solid var(--line); margin: 0 0 8px; } .card summary { cursor: pointer; padding: 5px 0; font-weight: 600; }
 .big { padding: 40px 20px; max-width: 70ch; margin: 0 auto; }
 </style>
 </head>
@@ -87,6 +93,21 @@ const data = /*DATA*/null;
       </tbody></table></div>`;
   }
 
+  // A lens in plain words.
+  var GLOSS = { Size: 'How much code there is', Structure: 'How many functions there are, and calls between them', State: 'In how many ways the data can be set',
+                'Local complexity': 'How tangled single routines are', 'Behaviour kept': 'Whether your tests still pass', Protection: 'Whether your tests still notice faults' };
+  // One tile per lens, as on the report: whether its measures moved as expected, and the first of its numbers.
+  function Tiles(p) {
+    var names = [], of = Object.create(null), gloss = function (name) { return Object.prototype.hasOwnProperty.call(GLOSS, name) ? GLOSS[name] : ''; };
+    p.lenses.forEach(function (l) { var name = text(l.lens); if (!of[name]) { of[name] = []; names.push(name); } of[name].push(l); });
+    return html`<ul class="tiles">${names.map(function (name) {
+      var rows = of[name], had = rows.filter(function (l) { return l.measured === true; }), no = had.filter(function (l) { return l.moved === false; }).length, first = had[0];
+      var kind = !had.length ? 'off' : no ? 'warn' : had.every(function (l) { return l.moved === true; }) ? 'ok' : 'off';
+      var said = !had.length ? '– not measured' : no ? '! did not move as expected' + (had.length > 1 ? ' in ' + no + ' of ' + had.length + ' measures' : '') : kind === 'ok' ? '✓ moved as expected' : 'not judged';
+      return html`<li class=${'tile ' + kind}><b>${name}</b><span>${gloss(name)}</span><span class="verd">${said}</span>
+        ${first ? html`<span class="num">${value(first.before)} to ${value(first.after)}</span><span>${text(first.measure)}</span>` : ''}</li>`; })}</ul>`;
+  }
+
   // One report. An acceptance, a refusal and a run that could not judge are built alike.
   function Report(p) {
     var r = p.r, reasons = list(r.reasons), refused = reasons.length > 0, scope = list(r.scope), lenses = things(r.lenses);
@@ -102,8 +123,10 @@ const data = /*DATA*/null;
       <div class=${'verdict ' + kind}>
         ${refused ? html`<ul>${reasons.map(function (x) { return html`<li>${String(x)}</li>`; })}</ul>` : html`<p>${text(r.outcome_detail, 'The run said nothing more about its outcome.')}</p>`}
       </div>
-      <h3>Before and after</h3>
-      ${lenses.length ? html`<${Lenses} lenses=${lenses} />` : html`<p>This run compared nothing before and after.</p>`}
+      <h3>In short</h3>
+      ${lenses.length ? html`<${Tiles} lenses=${lenses} />` : html`<p>This run compared nothing before and after.</p>`}
+      <details><summary>Every measure, before and after${lenses.length ? ' (' + lenses.length + ')' : ''}</summary>
+        ${lenses.length ? html`<${Lenses} lenses=${lenses} />` : html`<p>There is none.</p>`}</details>
       <p><a href=${text(r.link, '#')}>Open the report of ${text(r.project)}, ${when(r.date)}</a></p>
     </article>`;
   }

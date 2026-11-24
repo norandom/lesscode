@@ -47,6 +47,11 @@ for (const size of SIZES) {
       await expect(card.locator('thead th')).toHaveText(['Lens', 'Measure', 'Before', 'After', 'Expected', 'Moved that way']);
       for (const lens of ['Size', 'Structure', 'State', 'Local complexity', 'Behaviour kept', 'Protection']) await expect(card.locator('tbody')).toContainText(lens);
       await expect(card.locator('tbody')).toContainText('not measured');
+      // Short first: one tile per lens; the rows of the measures are closed until they are opened.
+      await expect(card.locator('.tile b')).toHaveText(['Size', 'Structure', 'State', 'Local complexity', 'Behaviour kept', 'Protection']);
+      await expect(card.locator('.tile').first()).toContainText('How much code there is');
+      expect(await card.locator('details').evaluate((d) => d.open)).toBe(false);
+      await expect(card.locator('table')).toBeHidden();
       // The outcome has a mark and a word, not a colour alone.
       const kind = await card.getAttribute('data-outcome'), said = await card.locator('.pill').innerText();
       expect({ ok: '✓ Accepted', bad: '✗ Refused' }[kind]).toBe(said.trim());
@@ -58,9 +63,18 @@ for (const size of SIZES) {
     expect(await cards.evaluateAll((all) => all.map((card) => card.dataset.outcome))).toEqual(['ok', 'bad', 'bad']);
     await expect(cards.nth(1).locator('.verdict li').first()).toContainText('unnoticed faults rise');
     await expect(cards.nth(2).locator('tbody tr').first()).toContainText('no');
+    await expect(cards.nth(0).locator('.tile').first()).toContainText('✓ moved as expected');
+    await expect(cards.nth(2).locator('.tile').first()).toContainText('! did not move as expected in 2 of 2 measures');
+    await expect(cards.nth(2).locator('.tile').last()).toContainText('– not measured');
     expect(await sideways(page)).toBeLessThanOrEqual(1);
     expect(await page.evaluate(() => window.innerWidth)).toBe(size.width);
     await picture(page, testInfo, `list-${size.width}`);
+    // The measures of a report open by keyboard.
+    await cards.nth(1).locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect(cards.nth(1).locator('table')).toBeVisible();
+    expect(await sideways(page)).toBeLessThanOrEqual(1);
+    await picture(page, testInfo, `list-${size.width}-measures`);
     expect((await marks(page)).failures).toBe('0');
     expect(failures).toEqual([]);
   });

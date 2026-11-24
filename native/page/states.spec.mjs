@@ -218,11 +218,11 @@ const SITUATIONS = [
   { name: 'waiting', state: 'waiting', shows: ['Waiting for lesscode'] },
   { name: 'waiting-no-answer', state: 'waiting', events: 'http://127.0.0.1:9/none/events', shows: ['The tool does not answer'] },
   { name: 'running', state: 'running', data: () => run(false, 2),
-    shows: ['Running for', '8 of 12 done', 'works in copies of your project under D:/BuildArtifacts/example/work', 'this is the main branch', 'writes nothing into your repository'],
+    shows: ['Running for', '8 of 12 done', 'Which of your functions do your tests protect?', 'No file of your project is changed', 'Of 12 faults planted in the copies', '4 still to run', 'Nothing is needed from you', 'Your functions so far', 'going on now', 'works in copies of your project under D:/BuildArtifacts/example/work', 'this is the main branch', 'writes nothing into your repository'],
     hides: ['The copies take', 'uncommitted changes', 'and nothing else'],
     tabs: { 'Your code': { shows: ['cargo test', 'in the copies only', 'reads the main branch', 'Files written into your repository'], hides: ['To remove the copies', 'Space the copies take'] },
       // The explanation, with the first fault the run judged (task 5.2).
-      'Planted faults': { shows: ['makes one on purpose', 'never reaches your repository', 'One from this run', 'src/app.rs, line 2, in step', 'a < b', 'negate',
+      'Planted faults': { shows: ['makes one on purpose', 'One mistake, on purpose', 'An unnoticed fault can mean three things', 'never reaches your repository', 'One from this run', 'src/app.rs, line 2, in step', 'a < b', 'negate',
         'noticed: a test failed', 'sharp at that place', 'does not show that two versions of the code behave the same',
         'A test is missing', 'changes nothing a caller can see', 'your tests cannot observe'], hides: ['No fault of this run has been judged yet'] } } },
   { name: 'on-a-branch', state: 'running', data: onABranch,
@@ -234,7 +234,7 @@ const SITUATIONS = [
   { name: 'quiet', state: 'quiet', data: () => run(false, 30), shows: ['Quiet', 'No word from the tool since'] },
   { name: 'stopped', state: 'stopped', data: () => run(false, 120),
     shows: ['The tool stopped without finishing', 'Stopped after', 'was going on when the tool stopped'], hides: ['Running for', '▶'] },
-  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s'], hides: ['Running for', '▶', 'The copies take', 'not built here', 'not built on this system', ...Object.values(NOTICE)], folds: true,
+  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s', '3 functions: 2 unprotected, 1 with some faults unnoticed.', 'Of 12 faults planted in the copies'], hides: ['Running for', '▶', 'still to run', 'Nothing is needed from you', 'The copies take', 'not built here', 'not built on this system', ...Object.values(NOTICE)], folds: true,
     signs: ['not built on this system: nothing is known', 0],
     // The share of unprotected functions comes before any other result of the faults.
     order: ['Unprotected functions', '2 of 3 (67%)', 'Faults planted'],
@@ -264,12 +264,12 @@ const SITUATIONS = [
   // The report of a judged step (task 6.2): each lens or "not measured", what was compared and by
   // which command; the faults of each side under the stage of that side.
   { name: 'check-accepted', state: 'ended', data: () => checked('accepted'), folds: true,
-    shows: ['Accepted', 'The change that is judged is on branch step/shared-frame-pending', 'nothing was protected before', ...LENSES, 'not measured',
+    shows: ['Accepted', 'Does this change keep what your tests protect?', 'How much code there is', '✓ moved as expected', '! did not move as expected', '4,495 to 4,452', 'The change that is judged is on branch step/shared-frame-pending', 'nothing was protected before', ...LENSES, 'not measured',
       'lesscode-core deconvolute measure-scope', 'cargo test --lib', 'state-holders --type SharedFrame handed in, not measured by this run', 'named with --measures',
       BASE, 'lesscode-core 2.1.0', 'Nothing was protected before. Left unprotected on purpose: needs a window to be tested', 'not there',
       'Unprotected functions after the change', '1 of 2 (50%)', 'Faults planted, on both sides'],
     hides: ['Refused', 'Fix the step', 'this is the main branch', 'compared nothing', 'Did not build'],
-    order: ['Accepted', 'What was compared', 'Before and after', 'Planted faults per function', 'Unprotected functions after the change', 'What to do next'],
+    order: ['Accepted', 'What to do next', 'In short', 'What was compared', 'Before and after', 'Planted faults per function', 'Unprotected functions after the change'],
     tabs: { 'Your code': { shows: ['Compared with commit', BASE, 'verdict.json', 'the only kind of file'], hides: ['main branch'] },
       'Planted faults': { shows: ['One from this run', 'src/frame.rs, line 41, in take_damage', 'left out', '--page-source'] },
       Unprotected: { shows: ['1 of 2 functions are unprotected after the change', 'mark_all'], hides: ['release'] } } },
@@ -279,7 +279,7 @@ const SITUATIONS = [
     shows: ['Refused', 'the declaration allows 60 more', 'Fix the step', ...LENSES, 'The tests were not run', 'The faults of the two sides were not compared'],
     hides: ['Accepted', 'Planted faults per function', 'Unprotected functions'],
     signs: ['failed', 1],
-    order: ['Refused', 'the scope grows from 4495 to 4567', 'Fix the step', 'What was compared', 'Before and after', 'What to do next'] },
+    order: ['Refused', 'the scope grows from 4495 to 4567', 'Fix the step', 'What to do next', 'In short', 'What was compared', 'Before and after'] },
   { name: 'check-refused', state: 'ended', data: () => checked('refused'),
     shows: ['Refused', 'unnoticed faults rise from 1 to 3', ...LENSES, '1 of 2 (50%)'], hides: ['Accepted', 'handed in'],
     order: ['Refused', 'unnoticed faults rise', 'What was compared', 'Before and after', 'Planted faults per function'] },
@@ -289,7 +289,7 @@ const SITUATIONS = [
       'Shapes of the state', 'SharedFrame, before the change', 'Can be written: 8. Reached by the code: 6. Seen by the tests: 6.', 'dirty no, damage none, full yes', 'never reached', 'seen by no test',
       'research programs, handed in, not measured by this run'],
     hides: ['Not measured: the functions and calls', 'is counted outside this run'],
-    order: ['Before and after', 'Planted faults per function', 'Functions and calls', 'Shapes of the state', 'What to do next'] },
+    order: ['What to do next', 'Before and after', 'Planted faults per function', 'Functions and calls', 'Shapes of the state'] },
   { name: 'check-no-drawings', state: 'ended', data: () => checked('refused'),
     shows: ['Functions and calls', 'Not measured: the functions and calls of the scope were not counted in this run', 'Shapes of the state', 'is counted outside this run', '--measures'],
     hides: ['drawn to one scale', 'Can be written:'] },
@@ -371,6 +371,52 @@ test('a refusal stands where an acceptance stands, in the same size', async ({ p
   expect(yes.first).toContain('verdict');
   expect(no.first).toContain('verdict');
   expect({ ...no, said: '', first: '' }).toEqual({ ...yes, said: '', first: '' });
+});
+
+// Task 9.1: short first. The answer and what to do stand before the numbers; a lens has a tile in
+// plain words; a function has a square; the marks of the tree are explained; what explains more
+// is closed until it is opened.
+test('the short version stands first, and what explains more can be opened', async ({ page }, testInfo) => {
+  await page.setViewportSize(SIZES[0]);
+  await open(page, testInfo, 'short-check', checked('accepted'));
+  const panel = page.getByRole('tabpanel');
+  // The outcome is the name of the run at the top, in the colour of the result.
+  await expect(page.locator('.head .pill')).toHaveText('Accepted');
+  await expect(page.locator('.head .pill')).toHaveClass(/ok/);
+  const tiles = panel.locator('.tile');
+  await expect(tiles).toHaveCount(LENSES.length);
+  expect(await tiles.evaluateAll((all) => all.map((t) => [t.querySelector('b').innerText, t.className.replace('tile ', ''), t.querySelector('.verd').innerText])))
+    .toEqual([['Size', 'ok', '✓ moved as expected'], ['Structure', 'warn', '! did not move as expected'], ['State', 'ok', '✓ moved as expected'],
+      ['Local complexity', 'off', '– not measured'], ['Behaviour kept', 'ok', '✓ moved as expected'], ['Protection', 'ok', '✓ moved as expected']]);
+  // The functions after the change, one square each, with what the squares say in a sentence.
+  await expect(panel.locator('.strip i')).toHaveText(['!', '✗']);
+  await expect(panel.locator('.strip')).toHaveAttribute('aria-label', 'One square per function. 2 functions: 1 unprotected, 1 with some faults unnoticed.');
+  // Only the marks the tree shows are explained under it.
+  await expect(page.locator('.key div')).toHaveText(['✓done', '!some faults were not noticed', '✗unprotected: no fault was noticed']);
+  await picture(page, testInfo, 'short-check');
+
+  await open(page, testInfo, 'short-refused', checked('refused'));
+  await expect(page.locator('.head .pill')).toHaveText('Refused');
+  await expect(page.locator('.head .pill')).toHaveClass(/bad/);
+
+  // While a run goes on: one sentence on the stage, the functions so far, and the four steps closed.
+  await open(page, testInfo, 'short-running', run(false, 2));
+  await expect(panel.locator('.lead')).toHaveText('What the stage faults does.');
+  await expect(panel.locator('.strip i')).toHaveText(['!', '✗', '▶']);
+  const how = panel.locator('details');
+  await expect(how).toHaveCount(1);
+  expect(await how.evaluate((d) => d.open)).toBe(false);
+  await expect(panel.locator('.how li').first()).toBeHidden();
+  await how.locator('summary').focus();
+  await page.keyboard.press('Enter');
+  await expect(panel.locator('.how li')).toHaveCount(4);
+  await expect(panel.locator('.how li').first()).toBeVisible();
+  await picture(page, testInfo, 'short-running-how');
+  await page.getByRole('tab', { name: /^Planted faults/ }).click();
+  await expect(panel.locator('.how li').first()).toBeVisible();
+  expect(await panel.locator('details').evaluateAll((all) => all.map((d) => d.open))).toEqual([true, false, false]);
+  await picture(page, testInfo, 'short-planted-faults');
+  expect((await marks(page)).failures).toBe('0');
 });
 
 // Task 6.3: both sides of the drawing of functions and calls have every function and every call of

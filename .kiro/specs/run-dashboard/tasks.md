@@ -313,6 +313,26 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Boundary: Gallery writer_
   - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
+- [x] 9. Short first (owner's request, 2026-11-24, done before group 8)
+  - Record: [R180](../../../docs/research/2026-11-24/01-run-page-short-first.md).
+- [x] 9.1 The flow of the page and its descriptions
+  - The owner, 2026-11-24: developers need the page short and simple at first, with a way to go
+    deeper; they are heavily loaded, and a new tool that changes their code needs explainers and
+    pictures. Worked out with the skill `cobesy`; the page only, the snapshot is unchanged.
+  - Done 2026-11-24: the head says what the run asks, in the person's words, and names an ended
+    run by its outcome. "No file of your project is changed" stands first in the line on what
+    the run touches. The bar of faults has its numbers in words under it, and the tree the
+    meaning of the marks it shows. A stage says one sentence first, what is needed from the
+    person (nothing), the functions so far as one square each, and, closed, the four steps of a
+    planted fault. The result says the outcome, then what to do next, then one tile per lens in
+    plain words, then the functions as squares, then the numbers as before. The tab "Planted
+    faults" is one sentence, the four steps, the example, and three parts that open. The list of
+    reports shows the tiles and opens the rows of a report's measures on request.
+  - Done when the browser check shows the outcome, what to do next and the tiles before the rows
+    of the measures, and the four steps closed while a run goes on and open by keyboard.
+  - _Boundary: Page_
+  - _Requirements: 3.1, 5.1, 5.2, 7.2, 7.3, 7.7, 8.1_
+
 - [ ] 8. Closing
 - [ ] 8.1 A real run, watched
   - `step plan --page --open` on a subsystem of a real project, with the owner looking at the page
