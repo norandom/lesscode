@@ -7,7 +7,7 @@
 //! configuration and the code; it runs nothing.
 
 use super::functions::{FileFunctions, OUTSIDE};
-use super::protect_says::says;
+use super::protect_says::{run_of, says};
 use super::protect_stage::{planted, Named, Planted};
 use super::protect_write::{declaration_of, stage_of, write};
 use super::revisions::resolve;
@@ -82,15 +82,7 @@ fn plan_with_result(path: &Path) -> Result<(Value, Value), String> {
             path.display()
         ));
     }
-    // The plan names its run as the path it was written to; where that was
-    // relative, the receipt is also looked for beside the plan.
-    let named = PathBuf::from(plan["run"].as_str().unwrap_or_default());
-    let beside = path.parent().unwrap_or(Path::new(".")).join(&named);
-    let run_path = match named.is_file() {
-        true => named,
-        false => beside,
-    };
-    let run = json(&run_path, "the run receipt of the plan")?;
+    let run = json(&run_of(path, &plan), "the run receipt of the plan")?;
     if let Some(why) = run["void"].as_str() {
         return Err(format!(
             "The run of the plan {} was void ({why}). {PLAN_FIRST}",
@@ -345,7 +337,8 @@ pub fn run_begin(args: BeginArgs) -> Result<u8, String> {
     let declaration = declaration_of(&args, &begun, &base)?;
     write(&begun.dir, &declaration, &stage)?;
     let branch = declaration["branch"].as_str().unwrap_or_default();
-    println!("{}", says(&stage, branch, &begun.run));
+    let receipt = run_of(&args.plan, &begun.plan);
+    println!("{}", says(&stage, branch, &begun.run, &receipt));
     println!(
         "\nWritten: step.json and stage.json in {}",
         begun.dir.display()

@@ -106,7 +106,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Requirements: 4.5, 4.7, 5.8, 6.4, 6.5_
 
 - [ ] 3. The skill `protect-before-reduce`
-- [ ] 3.1 The walk
+- [x] 3.1 The walk
   - `.agents/skills/protect-before-reduce/SKILL.md`, in lesscode's own words (no text of Kiro's
     skills): the eleven phases of the design with their gates. It says: the person names the
     functions; the base runs once first and how long; where tests live inside the file of the code

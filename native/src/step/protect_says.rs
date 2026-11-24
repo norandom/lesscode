@@ -1,10 +1,65 @@
 //! What `step protect begin` says before anything runs: the functions that
 //! were chosen with the faults no test noticed, the unprotected functions
 //! that are left alone, and what running the faults again will cost, from
-//! the seconds of the plan (requirements 1.1, 1.2, 1.7 and 5.9).
+//! the seconds of the plan (requirements 1.1, 1.2, 1.7 and 5.9), and what one
+//! copy of the plan takes on disk.
 
 use super::protect_stage::{Chosen, Stage};
 use serde_json::Value;
+use std::path::{Path, PathBuf};
+
+/// Where the receipt of a plan's run lies. The plan names it as the path it
+/// was written to; where that was relative, it is also looked for beside
+/// the plan.
+pub fn run_of(plan_path: &Path, plan: &Value) -> PathBuf {
+    let named = PathBuf::from(plan["run"].as_str().unwrap_or_default());
+    match named.is_file() {
+        true => named,
+        false => plan_path.parent().unwrap_or(Path::new(".")).join(named),
+    }
+}
+
+/// The bytes of everything under a directory. What cannot be read counts
+/// nothing, and a link is not followed.
+fn bytes_under(dir: &Path) -> u64 {
+    let Ok(entries) = std::fs::read_dir(dir) else {
+        return 0;
+    };
+    let of = |entry: std::fs::DirEntry| match entry.file_type() {
+        Ok(kind) if kind.is_dir() => bytes_under(&entry.path()),
+        _ => entry.metadata().map_or(0, |m| m.len()),
+    };
+    entries.flatten().map(of).sum()
+}
+
+/// The first copy of a plan's run, beside its receipt, and what it takes on
+/// disk with what its commands built in it; nothing where the copy is gone.
+fn first_copy(receipt: &Path) -> Option<(PathBuf, u64)> {
+    let copy = receipt.parent().unwrap_or(Path::new(".")).join("w1");
+    let bytes = copy.is_dir().then(|| bytes_under(&copy))?;
+    Some((copy, bytes))
+}
+
+/// A size as a person reads it: `4.3 GiB`, `12.0 MiB`, `900 bytes`.
+fn size(bytes: u64) -> String {
+    let units = [("GiB", 1u64 << 30), ("MiB", 1 << 20), ("KiB", 1 << 10)];
+    match units.iter().find(|(_, unit)| bytes >= *unit) {
+        Some((name, unit)) => format!("{:.1} {name}", bytes as f64 / *unit as f64),
+        None => format!("{bytes} bytes"),
+    }
+}
+
+/// What the copies of the stage will take, from the plan's first copy.
+fn disk(copy: Option<(PathBuf, u64)>) -> String {
+    match copy {
+        Some((path, bytes)) => format!(
+            "One copy of the plan takes {} on disk ({}). The base run, the pins and the check build copies of that size; remove the plan's copies before the first pin.",
+            size(bytes),
+            path.display()
+        ),
+        None => "The copies of the plan are gone, so what one copy takes on disk is not known here.".to_owned(),
+    }
+}
 
 /// A time as a person reads it: `40 s`, `17 min 50 s`, `3 h 2 min`.
 pub fn about(seconds: f64) -> String {
@@ -68,7 +123,7 @@ fn cost(stage: &Stage, run: &Value) -> Vec<String> {
 }
 
 /// Everything `step protect begin` says once the stage is written.
-pub fn says(stage: &Stage, branch: &str, run: &Value) -> String {
+pub fn says(stage: &Stage, branch: &str, run: &Value, receipt: &Path) -> String {
     let short: String = stage.base.chars().take(12).collect();
     let mut lines = vec![
         format!(
@@ -99,5 +154,6 @@ pub fn says(stage: &Stage, branch: &str, run: &Value) -> String {
     }
     lines.push(String::new());
     lines.extend(cost(stage, run));
+    lines.push(disk(first_copy(receipt)));
     lines.join("\n")
 }

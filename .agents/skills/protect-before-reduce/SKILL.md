@@ -58,7 +58,8 @@ that nothing was judged.
 - A work directory outside the repository and not a drive root. Use two directories under it:
   `<work>/plan` for the plan and `<work>/stage` for everything after it.
 - Disk. Every copy is a full build of the project. On the renderer eight copies took 34.5 GiB.
-  Measure the free space before the plan and say what one copy takes once the plan has built one.
+  Measure the free space before the plan. `step protect begin` says what one copy of the plan
+  takes; the base run, the pins and the check build copies of that size.
 - Where the project keeps its specs. If it has Kiro's directories (`.kiro/specs`, steering), use
   them, the language its other specs are written in, and its own habit of approval. If it has none,
   ask the person for a directory and pass it as `--specs-dir`; install nothing in the project.
@@ -129,8 +130,10 @@ lesscode-core step protect begin --plan plan.json --config run.json \
 The file is named as the plan names it. The command writes `step.json` (the declaration the other
 commands take) and `stage.json` (what is to be protected) into `<specs-dir>/<name>/` and nowhere
 else. It prints the chosen functions with their unnoticed faults, the unprotected functions that
-are left alone, any chosen function that is left out because none of its code is built here, and
-how many faults will be run again and about how long that takes.
+are left alone, any chosen function that is left out because none of its code is built here, how
+many faults will be run again and about how long that takes, and what one copy of the plan takes
+on disk. Tell the person the time and the size before you go on. The size is read from the plan's
+first copy, so run this command before you remove the plan's copies.
 
 Exit 3 says what is wrong: a function the plan does not have (the ones it has are listed), a plan
 without a result, a file that changed since the plan (plan again), a stage that was begun there

@@ -235,6 +235,7 @@ fn a_function_in_code_not_built_here_is_left_out_and_named() {
 #[test]
 fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
     let planned = Planned::new("protect-says", "python", "src/app.py");
+    let copy = planned.run.parent().unwrap().join("w1");
     let (code, said) = planned.begin(&["src/app.py:helper"]);
     assert_eq!(code, Some(0), "{said}");
 
@@ -259,6 +260,8 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
             noticed + unnoticed + other
         ),
         "The base run comes first: the first `step pin` of the stage runs it, once, before any test is judged.".to_owned(),
+        "One copy of the plan takes ".to_owned(),
+        "w1). The base run, the pins and the check build copies of that size".to_owned(),
         "Written: step.json and stage.json in ".to_owned(),
     ];
     let mut rest = said.as_str();
@@ -287,4 +290,12 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
         !said.contains("Left alone") && !said.contains("Left out"),
         "{said}"
     );
+
+    // With the plan's copies removed, the size of one is not known, and said.
+    fs::remove_dir_all(&copy).unwrap();
+    fs::remove_dir_all(planned.repo.dir.join(".kiro/specs/protect-toy")).unwrap();
+    let (code, said) = planned.begin(&["src/app.py:helper"]);
+    assert_eq!(code, Some(0), "{said}");
+    let gone = "The copies of the plan are gone, so what one copy takes on disk is not known here.";
+    assert!(said.contains(gone), "{said}");
 }
