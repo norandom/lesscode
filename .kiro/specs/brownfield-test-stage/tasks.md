@@ -132,13 +132,14 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: the skill's templates_
   - _Requirements: 2.2, 2.3, 2.4, 3.9_
 
-- [ ] 4. The path in the guide
+- [x] 4. The path in the guide
   - `docs/steps.md`: the two commands with their exit codes and files, and the path in three
     parts, see what is protected, protect what you will change, make it less; what the stage
     costs. `docs/state-refactoring.md`: where the stage comes in the walk. One paragraph each in
     the skills `untangle-state` and `refactor-in-steps`. The run page already refers to the stage.
     An entry in the release notes. Humanizer pass before a push.
   - Done when the owner has read the section.
+  - Done 2026-11-24 (`b16826e`); the owner read it: "read it, ok".
   - _Depends: 1.3, 2.3, 3.1_
   - _Requirements: 6.1, 6.2, 6.3_
 
