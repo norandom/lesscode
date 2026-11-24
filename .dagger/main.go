@@ -34,6 +34,13 @@ func (m *LesscodeCi) Evidence(
 		WithFile("/workspace/docs/experiments/annotation-driver/pack-guide-v3.md", source.File("docs/experiments/annotation-driver/pack-guide-v3.md")).
 		WithMountedCache("/workspace/native/target", dag.CacheVolume("lesscode-native-target-1.98.1")).
 		WithEnvVariable("GITHUB_SHA", revision).
+		// Cargo decides by a file's time whether to build again, and the files of a source directory
+		// arrive here without the time of their change. With the kept target directory a changed
+		// test or source file was then not built, and the binaries of an earlier run were tested
+		// (seen 2026-11-24: "Finished in 0.10s", and two new tests missing from the log). The
+		// core's own files get the time of this run, so the core is built in every run; its
+		// dependencies stay built.
+		WithExec([]string{"find", "/workspace/native", "-path", "/workspace/native/target", "-prune", "-o", "-type", "f", "-exec", "touch", "{}", "+"}).
 		// The seam's and the guide optimiser's checks run in this job only; no other platform compiles the client library.
 		WithEnvVariable("LESSCODE_CHECK_SEAM", "1").
 		WithWorkdir("/workspace").
