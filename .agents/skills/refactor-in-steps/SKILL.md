@@ -39,6 +39,13 @@ protected by the configured tests at all: either configure the tests that cover 
 leave it out. For such a function the receipt lists what it calls and writes; that is where a test needs a
 fake. Propose one function and one change to the person; keep it small enough to review in a minute.
 
+When the function to be reduced has more unnoticed faults than one or two pins can take, or the person
+names several functions, protect them first with [protect-before-reduce](../protect-before-reduce/SKILL.md):
+a stage on a branch of its own that adds tests, changes no code, and ends with `step protect result`.
+Declare the step here only after its exit 0, with the commit after the stage's merge as the base. Exit 1
+means a fault still waits and exit 2 that nothing was judged; say so, and do not call the function
+protected. The stage advises: a step that begins without it is judged as any other.
+
 ## Phase 2: declare it
 
 1. Create the branch `step/<name>` from the base.

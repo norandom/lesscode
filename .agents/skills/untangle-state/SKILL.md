@@ -123,6 +123,15 @@ unnoticed fault and write down which of three it is, before you write a test:
 Use both sources. On the first run, four tests from shapes covered every reached shape and noticed
 one fault in eight. Two tests from faults then noticed three more.
 
+Where the person has named the functions the rework will change, the second source can be walked as
+a stage of its own with [protect-before-reduce](../protect-before-reduce/SKILL.md): `step protect
+begin` from the plan, one test per behaviour shown by `step pin`, `step check`, and
+`step protect result`, which answers by exit code whether anything in those functions still waits.
+The stage asks the owner of the code to approve, in a committed file, each fault no test should
+chase: one that changes nothing a caller sees, or one that is not testable as the code stands. The
+second kind is what the cut below is for. Its `protection.json` then tells the reader of the step
+what was protected before the rework began.
+
 ## Phase 5: declare the step, then rework
 
 1. Commit the declaration by itself. Take the commit after the tests as `base`, because tests that

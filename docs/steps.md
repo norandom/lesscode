@@ -15,6 +15,19 @@ at least as often as before. It writes no test and no refactoring; it judges wha
 Exit codes of every `step` command: 0 accepted or done, 1 refused or rejected, 2 not judged because a run
 is incomplete, 3 bad input or a void run.
 
+## The path in three parts
+
+1. See what is protected. `step plan` runs your tests against planted faults and says, per function,
+   how many they notice ([section 1](#1-see-where-a-step-would-help-step-plan)).
+2. Protect what you will change. For the functions you are going to make smaller, the brownfield test
+   stage adds tests until nothing in them waits. It changes no code
+   ([`step protect`](#protect-what-you-will-change-step-protect)).
+3. Make it less. Each reduction is a step of its own: declared, pinned where needed, judged and
+   recorded ([sections 2 to 6](#2-declare-the-step)).
+
+Skip the middle part where the plan shows the functions protected already. Nothing refuses a step because
+the stage was skipped: the stage advises, and the step is judged as any other.
+
 ## 1. See where a step would help: `step plan`
 
 ```sh
@@ -40,8 +53,10 @@ For a function with no noticed fault the receipt (`step-plan-v1`) lists what it 
 it calls and its state writes. That is where a test needs a fake, or where the function stays out of the
 step.
 
-What to do with a plan: pick a function with few unnoticed faults, write tests that turn them into noticed
-ones (pins), and only then change the code.
+What to do with a plan: name the functions you are going to change. Where they have unnoticed faults,
+write tests that turn them into noticed ones, and only then change the code. For one or two faults a pin
+of the step does it ([section 3](#3-pin-before-you-cut-step-pin)); for more, or for several functions,
+the [brownfield test stage](#protect-what-you-will-change-step-protect).
 
 ### Watch the run in a browser: `--page` and `--open`
 
@@ -70,8 +85,9 @@ your project is changed, then shows the steps of the run in one row and where th
 | unprotected | a function in which no fault was noticed |
 
 An unprotected function is not wrong. It has no test that would tell you if it broke. Leave it alone if
-you do not plan to change it. If you do, protect it first: make a spec whose tasks are the tests for it,
-have it worked, and run the plan again. If it talks to a device, a window or a network, a test cannot
+you do not plan to change it. If you do, protect it first: that is the
+[brownfield test stage](#protect-what-you-will-change-step-protect), a small spec whose tasks are the
+tests for it. If it talks to a device, a window or a network, a test cannot
 come first; separate what it decides from what it does and test the part that decides.
 
 Every run of your commands in a copy is a build, and builds side by side can take more memory than the
@@ -92,6 +108,139 @@ answers "not judged" and does not say that your tests fail.
 
 The report is a single file and can be kept or sent. It holds the names of your files and functions; see
 [`step reports`](#several-reports-on-one-page-step-reports) for a copy without them.
+
+## Protect what you will change: `step protect`
+
+Status: in `lesscode-core` from release 2.2.0 (spec
+[brownfield-test-stage](../.kiro/specs/brownfield-test-stage/design.md)). The stage was walked once by
+hand, on a renderer ([R184](research/2026-11-24/05-brownfield-stage-prototype.md)). It has not yet been
+walked on a real project with these two commands.
+
+The brownfield test stage comes between a plan and a reduction. You name the functions of the plan you
+are going to make smaller. The stage adds tests until each of them is protected enough, and it changes no
+line of the code. Two commands begin and end it; in between are the commands of a step, `step pin` and
+`step check`. An agent walks it with the skill
+[protect-before-reduce](../.agents/skills/protect-before-reduce/SKILL.md), which says who does what and
+where it waits for you.
+
+| Word | Meaning |
+| --- | --- |
+| written off | the owner of the code approved a reason why no test is to notice a fault |
+| waiting | unnoticed, and not written off |
+| protected enough | nothing in the function is waiting |
+
+### Begin: `step protect begin`
+
+```sh
+lesscode-core step protect begin --plan plan.json --config run.json \
+    --function <file>:<name> [--function <file>:<name> ...] --spec <name> \
+    [--specs-dir .kiro/specs] [--branch protect/<name>]
+```
+
+Run it on the commit the plan was made from, with nothing uncommitted. It runs nothing. It reads the plan,
+the receipt of the plan's run, the run configuration and the code, and writes two files into
+`<specs-dir>/<name>/` and nowhere else:
+
+- `step.json`, a declaration as in [section 2](#2-declare-the-step). Its scope is the files of the chosen
+  functions, its `focus` the functions, and `max_token_growth` is 0. The stage's `step pin`,
+  `step check` and `step protect result` take it.
+- `stage.json`: what is to be protected. Per chosen function, every fault the plan planted in it, by an
+  id that stays the same between runs (`negate@68:11`: operator, line and column in the file).
+
+Before it ends it prints:
+
+- the chosen functions, each with its unnoticed faults and the line they are in;
+- the unprotected functions you did not name ("left alone"), and any named function that lies wholly in
+  code not built on this system ("left out");
+- how many faults will be run again, and about how long each of the two runs of them takes, from the
+  seconds they took in the plan;
+- what one copy of the plan takes on disk, measured on the plan's first copy. Run the command before you
+  remove the plan's copies; afterwards it says that the size is not known.
+
+| Exit | Meaning |
+| --- | --- |
+| 0 | the stage is begun; the two files are written |
+| 3 | refused, and nothing is written: a function the plan does not have (the ones it has are listed), a plan without a result, a file that changed since the plan, a stage already begun there, a test path without a file, a specs directory outside the repository |
+
+Then make the branch the command named. All the stage's work goes there.
+
+Where the tests of a file live inside the file of the code (Rust unit tests of private items), the stage
+needs a test file of its own and one line in the code file that joins it, such as
+`#[cfg(test)] mod protect;`. That line changes the code. Commit it, with the empty test file, before the
+plan, so that it is part of the base.
+
+### Between: one test per task, then the check
+
+The stage spec beside the two files says, per chosen function, what could change unseen there, and has one
+task per test. The skill has templates for both. Then, for each task:
+
+1. Write the test, in a test file only, and commit it by itself.
+2. Ask `step pin` for each fault the task names. Exit 0: the test passes on the unchanged code and fails on
+   the fault.
+
+The first `step pin` of a stage runs the faults of the chosen functions on the unchanged code: the base
+run. It is the long run, and `step protect begin` said how long it takes. Run it once before any test
+exists, with `--fault 1`. Without a test the answer is exit 1, and that is expected there.
+
+A fault that no test should chase is proposed for writing off, in `write-offs.json` beside the
+declaration. There are two kinds: `nothing_a_caller_sees`, and `not_testable_as_it_stands`, a test cannot
+reach it without a change of the code. A proposal has a reason a person can check in the code, and
+`approved_by` and `approved_at` set to `null`. Only the owner of the code fills those two fields, and
+commits the file.
+
+Last, `step check` runs the faults of the chosen functions again with the new tests in place. Commit the
+verdict it writes.
+
+### End: `step protect result`
+
+```sh
+lesscode-core step protect result --declaration .kiro/specs/<name>/step.json [--out <file>]
+```
+
+It runs nothing. It reads the verdict of `step check`, `stage.json` and `write-offs.json` **as they are
+committed on the branch, and no other copy**. A verdict or an approval that is written and not committed
+does not count. A test file committed after the check makes the verdict one for other content: run the
+check again.
+
+| Exit | Meaning |
+| --- | --- |
+| 0 | every chosen function is protected enough |
+| 1 | a fault waits, or the check refused because unnoticed faults rose; each is named |
+| 2 | not judged: no committed verdict, a verdict for other content, a code file the branch changed, or a check that did not judge. Never a pass |
+| 3 | bad input, such as a write-off for a fault the stage does not have, or of another kind |
+
+Per chosen function it prints four numbers: noticed before, noticed now, written off, waiting. It names
+every write-off with its reason, who approved it and when. For a fault written off as not testable as it
+stands, it says what the function reaches out to: a reduction has to keep the behaviour there by other
+means. On exit 0 it names the next step: declare the reduction of a chosen function as a step
+([section 2](#2-declare-the-step)), on a branch of its own.
+
+On exit 0 and 1 it writes `protection.json` beside the declaration (`step-protection-v1`): the four
+numbers, the write-offs, the faults that wait, the base, the revision and the hash of the verdict. Commit
+it with the stage. A later reader finds there what was protected, what was written off and why, and what
+still waits, without the run.
+
+### What the stage costs
+
+- Time: one run of your project's commands, a build and the tests, for every planted fault that is run
+  again. The faults of the chosen functions run twice, once in the base run and once in the check, and
+  each pin runs the tests once on the unchanged code and once on its fault. `step protect begin` prints how many faults and about how long. On the
+  renderer of R184 the base run took 17 min 50 s, each later pin between 90 and 143 s, and the whole
+  stage 1 h 15 min.
+- Disk: every copy is a full build. `step protect begin` prints what one copy takes; it leaves out
+  what a project builds outside the copy. On the renderer eight copies took 34.5 GiB. Remove the copies
+  as the stage goes.
+- A person is needed three times: you name the functions, the owner of the code reviews once, and the owner
+  merges the tests. Nothing else waits for a person.
+
+### In a pipeline
+
+Both commands open no page, start no listener and ask nothing; everything they need is in arguments and
+files. Leave `--open` away from `step plan` and `step check`. Make `step protect result` the job that
+gates: exit 0 passes, exit 1 means a fault waits, exit 2 is never a pass. Because the result reads
+committed files only, a pipeline and a person at a checkout get the same answer for the same commit, and
+an approval reaches the pipeline only by the owner's commit. A pipeline cannot name the functions, review
+or merge. A run without the owner ends at exit 1 with the proposals named as waiting.
 
 ## 2. Declare the step
 
@@ -360,6 +509,11 @@ These could not be made mechanical. They stay with the person who takes or revie
 - Only unnoticed faults refuse a step. A function in which fewer faults are planted afterwards passes, so
   read the numbers in the verdict.
 - `git push --no-verify` skips the local hook. The pipeline job is the boundary that holds.
+- `step protect result` sees a name and a date in `approved_by` and `approved_at`. It cannot know that
+  the owner of the code wrote them, so it prints every approver and date where a false one is seen. That
+  the reason for a write-off is true is the owner's to judge.
+- A stage's test is admitted when it fails on the fault. Whether the behaviour it fixes is one worth
+  keeping is the review's, as for a pin.
 
 ## Limits
 

@@ -61,6 +61,16 @@ That is one value with three parts and one question, "the next job, unless the r
 Take one machine per step. Make a branch `step/<name>` and a small spec that says what stays the same
 and what gets simpler. Keep the change small enough to review in a minute.
 
+Before that branch, see what the tests protect. Run `step plan` on the file and read the functions
+that set or ask the state. Where they have unnoticed faults a change could hide behind, protect them
+first, on a branch of their own: the
+[brownfield test stage](steps.md#protect-what-you-will-change-step-protect) adds tests for the
+functions you name, changes no code, and ends with `step protect result`, which says by exit code
+whether anything in them still waits. Take the commit after its tests are merged as the base of the
+step. A fault the stage writes off as not testable as it stands sits behind a device, a window or a
+network; cutting that code so it can be tested is a step of its own
+([the cut](../.agents/skills/untangle-state/SKILL.md#when-no-test-can-come-first-the-cut)).
+
 ## Step 3: declare the step, and build what the tests need
 
 The declaration names the file, the functions and the project's own test command
@@ -126,7 +136,8 @@ failed run goes unnoticed.
 
 This is where a pin belongs: a test that fails on that fault, committed by itself before the change
 ([`step pin`](steps.md#3-pin-before-you-cut-step-pin)). We did not write one for this step, and say
-so: the put-back is as unprotected after the step as it was before.
+so: the put-back is as unprotected after the step as it was before. With several such faults in the
+functions you will change, protect them in a stage before the step (Step 2), not one pin at a time.
 
 ## Step 6: make the change, in a commit that touches no test
 

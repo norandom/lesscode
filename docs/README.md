@@ -8,6 +8,7 @@
 | Know what the released commands check and what they do not | [README: what is not checked](../README.md#what-is-not-checked) and [R55](research/2026-11-10/01-released-binary-adopter-dogfood.md) |
 | Try it with one reviewer before making it a gate | [Adoption guide](adoption.md) |
 | Refactor in small steps that are judged by exit code (from release 1.2.0) | [Refactoring in checked steps](steps.md), and [why it works this way](testability.md) |
+| Add tests to the functions you are about to make smaller, before any of their code changes (from release 2.2.0) | [Protect what you will change](steps.md#protect-what-you-will-change-step-protect), and the skill [protect-before-reduce](../.agents/skills/protect-before-reduce/SKILL.md) |
 | Turn state that is spread over several places into one state machine, step by step | [Untangling scattered state](state-refactoring.md), with [worked examples](examples/README.md) |
 | Plant faults and see which ones your tests catch (from release 1.1.0) | [The agnostic driver](driver.md) |
 | Build from source, check prerequisites and license notices | [Native core](../native/README.md) |
