@@ -58,7 +58,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Depends: 1.1_
   - _Boundary: protect_begin.rs_
   - _Requirements: 1.1, 1.2, 1.7, 2.1, 2.4, 2.8, 3.8, 5.2_
-- [ ] 1.3 What it says before anything runs
+- [x] 1.3 What it says before anything runs
   - Prints the chosen functions with their unnoticed faults, the unprotected functions that are
     left alone and that nothing has to be done about them, and the cost: how many faults the base
     run and the check will run, about how long each takes from the seconds of the plan, and that

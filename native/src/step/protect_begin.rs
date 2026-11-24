@@ -7,6 +7,7 @@
 //! configuration and the code; it runs nothing.
 
 use super::functions::{FileFunctions, OUTSIDE};
+use super::protect_says::says;
 use super::protect_stage::{planted, Named, Planted};
 use super::protect_write::{declaration_of, stage_of, write};
 use super::revisions::resolve;
@@ -50,6 +51,8 @@ pub struct BeginArgs {
 pub struct Begun {
     pub config: RunConfig,
     pub plan: Value,
+    /// The receipt of the plan's fault run.
+    pub run: Value,
     pub chosen: Vec<Named>,
     /// Per chosen function, every fault the plan's run planted in it.
     pub planted: BTreeMap<Named, Vec<Planted>>,
@@ -327,6 +330,7 @@ pub fn begin(args: &BeginArgs) -> Result<Begun, String> {
     Ok(Begun {
         config,
         plan,
+        run,
         chosen,
         planted,
         left_out,
@@ -340,15 +344,11 @@ pub fn run_begin(args: BeginArgs) -> Result<u8, String> {
     let stage = stage_of(&args, &begun, &base)?;
     let declaration = declaration_of(&args, &begun, &base)?;
     write(&begun.dir, &declaration, &stage)?;
-    println!("Written: {}", begun.dir.join("step.json").display());
-    println!("Written: {}", begun.dir.join("stage.json").display());
-    for one in &begun.chosen {
-        println!("Chosen: {one}");
-    }
-    for one in &begun.left_out {
-        println!(
-            "Left out: {one} lies wholly in code that is not built on this system. Nothing is known about it here."
-        );
-    }
+    let branch = declaration["branch"].as_str().unwrap_or_default();
+    println!("{}", says(&stage, branch, &begun.run));
+    println!(
+        "\nWritten: step.json and stage.json in {}",
+        begun.dir.display()
+    );
     Ok(0)
 }

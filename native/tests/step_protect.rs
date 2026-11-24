@@ -102,11 +102,7 @@ fn named_functions_of_the_plan_are_chosen_and_nothing_is_asked() {
     // Standard input is empty and closed: the command asks nothing.
     let (code, said) = planned.begin(&["src/app.py:helper", "src/app.py:helper"]);
     assert_eq!(code, Some(0), "{said}");
-    assert_eq!(
-        said.matches("Chosen: src/app.py: helper").count(),
-        1,
-        "{said}"
-    );
+    assert!(said.contains("Chosen (1):"), "{said}");
     assert!(!said.contains("src/app.py: step"), "{said}");
 
     // What is new in the repository is the two files of the stage.
@@ -287,10 +283,15 @@ fn a_function_in_code_not_built_here_is_left_out_and_named() {
 
     let (code, said) = planned.begin(&[elsewhere, "src/lib.rs:everywhere"]);
     assert_eq!(code, Some(0), "{said}");
-    assert!(said.contains("Chosen: src/lib.rs: everywhere"), "{said}");
-    let left_out = format!("Left out: {} lies wholly", elsewhere.replace(':', ": "));
+    assert!(
+        said.contains("  src/lib.rs: everywhere  (noticed 0,"),
+        "{said}"
+    );
+    let left_out = format!(
+        "Left out (1): wholly in code that is not built on this system. Nothing is known about them here.\n  {}\n",
+        elsewhere.replace(':', ": ")
+    );
     assert!(said.contains(&left_out), "{said}");
-    assert!(said.contains("Nothing is known about it here"), "{said}");
 
     let dir = planned.repo.dir.join(".kiro/specs/protect-toy");
     let stage = planned.repo.json(&dir.join("stage.json"));
@@ -312,5 +313,64 @@ fn a_function_in_code_not_built_here_is_left_out_and_named() {
     assert_eq!(
         stage["left_alone"],
         json!([{"file": "src/lib.rs", "function": "only_linux"}])
+    );
+    let left_alone = "Left alone (1): unprotected in the plan and not named. Nothing has to be done about them.\n  src/lib.rs: only_linux\n";
+    assert!(said.contains(left_alone), "{said}");
+}
+
+#[test]
+fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
+    let planned = Planned::new("protect-says", "python", "src/app.py");
+    let (code, said) = planned.begin(&["src/app.py:helper"]);
+    assert_eq!(code, Some(0), "{said}");
+
+    // The numbers are the plan's.
+    let plan = planned.repo.json(&planned.plan);
+    let rows = plan["functions"].as_array().unwrap();
+    let helper = rows.iter().find(|r| r["function"] == "helper").unwrap();
+    let count = |key: &str| helper[key].as_u64().unwrap();
+    let (noticed, unnoticed, other) = (count("noticed"), count("unnoticed"), count("other"));
+    let base = planned.repo.git(&["rev-parse", "HEAD"]);
+    let lines = [
+        format!(
+            "The stage protect-toy begins from {}, on the branch protect/protect-toy.",
+            &base[..12]
+        ),
+        "Chosen (1):".to_owned(),
+        format!("  src/app.py: helper  (noticed {noticed}, unnoticed {unnoticed}, other {other})"),
+        "    drop_statement@9:4  line 9: state.count = b".to_owned(),
+        "    it writes state at: line 9: state.count = b".to_owned(),
+        format!(
+            "Faults to run again: {}. The base run and the check each run them, and no others.",
+            noticed + unnoticed + other
+        ),
+        "The base run comes first: the first `step pin` of the stage runs it, once, before any test is judged.".to_owned(),
+        "Written: step.json and stage.json in ".to_owned(),
+    ];
+    let mut rest = said.as_str();
+    for line in &lines {
+        let at = rest.find(line.as_str());
+        let at =
+            at.unwrap_or_else(|| panic!("{line:?} is missing, or out of its order, in:\n{said}"));
+        rest = &rest[at + line.len()..];
+    }
+    // The time is the plan's: the seconds of the faults, and the copies it ran.
+    let run = planned.repo.json(&planned.run);
+    let copies = run["workers"].as_array().unwrap().len();
+    let took = format!(
+        "In the plan they took {} s one after another. With {copies} copies at once",
+        {
+            let of_helper = run["mutants"].as_array().unwrap().iter();
+            let seconds: f64 = of_helper
+                .filter(|m| m["site"]["start_line"].as_u64() >= Some(8))
+                .map(|m| m["seconds"].as_f64().unwrap())
+                .sum();
+            ((seconds * 10.0).round() / 10.0).round()
+        }
+    );
+    assert!(said.contains(&took), "{took:?} is not in:\n{said}");
+    assert!(
+        !said.contains("Left alone") && !said.contains("Left out"),
+        "{said}"
     );
 }
