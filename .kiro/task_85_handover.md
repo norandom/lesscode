@@ -54,6 +54,10 @@ place. Two ways for `step protect result`:
 
 Recommended: 1, because it keeps the result computable from committed files.
 
+**Decided by the owner on 2026-11-24, 14:15: way 1.** `step protect result` matches a fault with a
+plain operator by file, line and operator, and says so when two faults cannot be told apart. The
+commits stay local; the owner pushes when they choose.
+
 ## Deviations and limits (all in R185)
 
 - `result` is not yet a command; no stub was committed.

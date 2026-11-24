@@ -303,7 +303,8 @@ the new code reads `step/functions.rs` (which function a fault belongs to) and
 
 Open for task 2.1: the verdict's label of a fault is `#N line L <operator>`, without a column for
 plain operators, so the id `<operator>@<line>:<column>` cannot be read from the verdict alone
-(finding 1 of R185).
+(finding 1 of R185). Decided by the owner on 2026-11-24: the result matches such a fault by file,
+line and operator, from committed files only, and says so when two faults cannot be told apart.
 
 ## Testing Strategy
 
