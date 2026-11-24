@@ -354,6 +354,26 @@ fn call_arguments_get_bounded_literal_and_swap_mutants() {
     assert!(argument_mutants("python", "def f():\n    go()\n    # send(True)\n").is_empty());
 }
 
+/// Added 2026-11-24 (brownfield-test-stage 6.2, R188): a string in a Rust
+/// field named `label` is a debug name no caller sees, so it is not emptied.
+/// Every other string argument still is, and so is the rest of a label's
+/// call.
+#[test]
+fn a_string_in_a_rust_label_field_is_not_emptied() {
+    let text = "fn f() {\n    let a = D { label: Some(\"yuv-y\"), size: 4 };\n    let b = D { name: Some(\"yuv-y\") };\n    send(\"yuv-y\");\n    let c = D { label: pick(\"x\", true) };\n}\n";
+    let rust = argument_mutants("rust", text);
+    let lines: Vec<&str> = rust.iter().map(|(_, line)| line.as_str()).collect();
+    assert_eq!(
+        lines,
+        [
+            "let b = D { name: Some(\"\") };",
+            "send(\"\");",
+            "let c = D { label: pick(\"x\", false) };",
+        ],
+        "{rust:?}"
+    );
+}
+
 /// A pack without the optional kind is still admitted and gives no
 /// call-argument site.
 #[test]

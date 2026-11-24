@@ -191,9 +191,29 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: protect_begin.rs, protect_stage.rs, protect_write.rs, protect_says.rs,
     protect_numbers.rs, protect_receipt.rs_
   - _Requirements: 1.1, 1.2, 5.10, 7.1_
-- [ ] 6.2 No empty-string fault in a Rust `label` field (pack of `agnostic-annotation-driver`)
+- [x] 6.2 No empty-string fault in a Rust `label` field (pack of `agnostic-annotation-driver`)
   - `skip_string_in_fields` and the field initializer's kind in the pack's `call_argument`;
     `argument_edits` skips `string->empty` there; the Rust pack sets `["label"]`.
+  - Done 2026-11-24, with one difference named:
+    - **Built as** `skip_strings_in: {"kind", "names"}`, without a second field name: a child of the
+      node whose text is a name names the field.
+    - **Where the code sits.** The check is `ArgumentOps::empty_for` in `pack.rs`. `operators.rs`
+      calls it once, and two `_, _` patterns became `..`, so it stays at its ceiling (3,022 of
+      3,024 tokens).
+    - **Pack size.** The quiet kind is checked against the grammar at admission. The Rust pack is
+      3,173 of 3,200 characters; its operator lines were indented less to make room.
+    - **Checks.** The test was red first. Then the whole native suite passed (505), as did the
+      doctests, `fmt`, Clippy with `-D warnings` and the budgets.
+    - **The plan of `yuv.rs`.** Run on `stage-base/yuv` (`4fff14f`) with a frozen release binary of
+      this code (`stage-6\bin`, SHA-256 `0B3E529E…A903`), 18:55:35 to 19:09:37, exit 0. Copy 2
+      failed its first run once and got through on the second.
+    - **Result: 23 faults, not 19.** 18 noticed as before, 5 unnoticed: `drop_statement@114:8`
+      (NV12) kept, and the five label faults of `new` and two of `convert` gone. Four remain in
+      `convert` (`@296:12`, `@305:20`, `@312:20`, `@322:20`). They are labels too, but passed as
+      the first argument of the local helper `plane("yuv-y", …)`, which puts them into `label:`
+      in its own body. A rule that reads the syntax only does not see that.
+    - **Where the evidence is.** `D:\BuildArtifacts\lesscode\brownfield-test-stage\stage-6\`:
+      `plan-yuv.{json,log,times}` and the run receipt; the copies are removed.
   - Done when a driver test shows `label: Some("x")` unplanted and `name: Some("x")` and
     `f("x")` still planted. A plan of `yuv.rs` in the clone has no `string->empty` on a `label`
     field and keeps the twelfth unnoticed fault. The expected count is 19 where it was 30; any other

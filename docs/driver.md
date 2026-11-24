@@ -49,7 +49,7 @@ selection does not vary.
 | `state_write` | An assignment, an in-place update, or a call that stands alone as a statement | drop the statement |
 | `error_order` | A check that is directly followed by another check | swap the two |
 | `pure_shell_boundary` | A function or method definition | none; reported by `analyze` |
-| `call_argument` | The argument list of a call (a pack may leave this kind out) | swap a literal argument for its partner; empty a string argument; swap the first two arguments (Python and TypeScript packs only: in Java and Rust the swap rarely builds). At most two literal changes and one swap per call |
+| `call_argument` | The argument list of a call (a pack may leave this kind out) | swap a literal argument for its partner; empty a string argument; swap the first two arguments (Python and TypeScript packs only: in Java and Rust the swap rarely builds). At most two literal changes and one swap per call. A pack may name fields no caller sees (`skip_strings_in`: the node kind that gives a field its value, and the names); a string argument of a call that is the value of such a field is not emptied. The Rust pack names `label`, the debug name of wgpu and egui descriptors (from release 2.2.0, R188) |
 
 A mutant that does not parse, or differs from the original only in comments or white space, is not written
 and not run. A swap that says the same as the negation at the same site is left out.

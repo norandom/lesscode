@@ -175,9 +175,9 @@ fn argument_edits<'r>(pack: &Pack, list: &SgNode<'r>) -> Vec<Labelled<'r>> {
     let arguments = named_children(list, &pack.comment_kinds);
     let mut found = Vec::new();
     for argument in &arguments {
-        let (line, column, _, _) = position(argument);
+        let (line, column, ..) = position(argument);
         let old = argument.text().into_owned();
-        let change = match (partner.get(&old), &ops.empty_string) {
+        let change = match (partner.get(&old), ops.empty_for(list)) {
             (Some(new), _) => Some((format!("{old}->{new}"), new.clone())),
             (None, Some(empty)) if has(&pack.string_kinds, &argument.kind()) && old != *empty => {
                 Some(("string->empty".to_owned(), empty.clone()))
@@ -195,7 +195,7 @@ fn argument_edits<'r>(pack: &Pack, list: &SgNode<'r>) -> Vec<Labelled<'r>> {
     if let [first, second, ..] = arguments.as_slice() {
         let (a, b) = (first.text().into_owned(), second.text().into_owned());
         if ops.swap_first_two && a != b {
-            let (line, column, _, _) = position(first);
+            let (line, column, ..) = position(first);
             let edits = vec![(first.clone(), b), (second.clone(), a)];
             found.push((format!("arg_swap@{line}:{column}"), edits));
         }

@@ -3,6 +3,7 @@
 //! Deserialising is the shape check: an unknown key, a missing required key
 //! or a value of the wrong type fails loading.
 
+use super::tree::SgNode;
 use super::Kind;
 use crate::specimen_runner::sha256_hex_bytes;
 use serde::Deserialize;
@@ -95,6 +96,41 @@ pub struct ArgumentOps {
     pub empty_string: Option<String>,
     /// Swap the first two arguments.
     pub swap_first_two: bool,
+    /// Fields whose strings no caller sees: a call that is the value of
+    /// such a field keeps its string arguments.
+    pub skip_strings_in: Option<QuietFields>,
+}
+
+/// Fields of a struct or object that only debuggers show, picked by name.
+#[derive(Debug, Default, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct QuietFields {
+    /// The node kind that gives a field its value.
+    pub kind: String,
+    /// The names; a child of the node with one of them as its text names it.
+    pub names: Vec<String>,
+}
+
+impl ArgumentOps {
+    /// The empty string a string argument of this list becomes; none where
+    /// the list is quiet.
+    pub fn empty_for(&self, list: &SgNode<'_>) -> Option<&String> {
+        self.empty_string.as_ref().filter(|_| !self.quiet(list))
+    }
+
+    /// The call of an argument list is the value of a quiet field, as a
+    /// debug label is: a name no caller sees.
+    fn quiet(&self, list: &SgNode<'_>) -> bool {
+        let Some(fields) = &self.skip_strings_in else {
+            return false;
+        };
+        let holder = list.parent().and_then(|call| call.parent());
+        let holder = holder.filter(|h| h.kind() == fields.kind.as_str());
+        holder.is_some_and(|h| {
+            h.children()
+                .any(|c| fields.names.iter().any(|n| *n == c.text()))
+        })
+    }
 }
 
 #[derive(Debug, Default, Deserialize)]
