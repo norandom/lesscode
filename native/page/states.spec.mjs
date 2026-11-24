@@ -234,7 +234,7 @@ const SITUATIONS = [
   { name: 'quiet', state: 'quiet', data: () => run(false, 30), shows: ['Quiet', 'No word from the tool since'] },
   { name: 'stopped', state: 'stopped', data: () => run(false, 120),
     shows: ['The tool stopped without finishing', 'Stopped after', 'was going on when the tool stopped'], hides: ['Running for', '▶'] },
-  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s', '3 functions: 2 unprotected, 1 with some faults unnoticed.', 'Of 12 faults planted in the copies'], hides: ['Running for', '▶', 'still to run', 'Nothing is needed from you', 'The copies take', 'not built here', 'not built on this system', ...Object.values(NOTICE)], folds: true,
+  { name: 'ended', state: 'ended', data: () => run(true, 5), shows: ['The plan is written', 'Took 1 min 31 s', '3 functions: 2 unprotected, 1 with some faults unnoticed.', 'Done. All 12 planted faults were run:'], hides: ['Running for', '▶', 'still to run', 'Nothing is needed from you', 'The copies take', 'not built here', 'not built on this system', ...Object.values(NOTICE)], folds: true,
     signs: ['not built on this system: nothing is known', 0],
     // The share of unprotected functions comes before any other result of the faults.
     order: ['Unprotected functions', '2 of 3 (67%)', 'Faults planted'],

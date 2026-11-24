@@ -94,7 +94,7 @@ th { color: var(--quiet); font-weight: 500; } td.num { font-variant-numeric: tab
 .body summary { cursor: pointer; padding: 5px 0; font-weight: 600; }
 .legend { display: flex; flex-wrap: wrap; gap: 2px 14px; padding: 3px 10px; background: var(--panel); border-bottom: 1px solid var(--line); color: var(--quiet); font-size: 12px; }
 .sw { display: inline-block; width: 9px; height: 9px; margin-right: 5px; border-radius: 2px; border: 1px solid var(--line); background: var(--hover); }
-.sw.n { background: var(--ok); border-color: var(--ok); } .sw.u { background: var(--warn); border-color: var(--warn); } .sw.x { background: var(--off); border-color: var(--off); }
+.sw.n { background: var(--ok); border-color: var(--ok); } .sw.u { background: var(--warn); border-color: var(--warn); } .sw.x { background: var(--off); border-color: var(--off); } .sw.h { background: repeating-linear-gradient(45deg, var(--off) 0 2px, transparent 2px 5px); }
 .key { margin-top: 8px; padding: 6px 8px 2px; border-top: 1px solid var(--line); color: var(--quiet); font-size: 12px; }
 .key div { display: flex; align-items: baseline; gap: 6px; }
 .sign { width: 14px; flex: none; text-align: center; font-weight: 700; }
@@ -563,6 +563,9 @@ const data = /*DATA*/null;
     };
     var ask = typeof s.command === 'string' && Object.prototype.hasOwnProperty.call(ASKS, s.command) ? ASKS[s.command] : '';
     var left = n(f.total) !== null && n(f.done) !== null && !over ? Math.max(0, f.total - f.done) : 0;
+    // The bar is the split of the faults, not a measure of progress: at the end its line says that nothing is left to do.
+    var unrun = n(f.total) !== null && n(f.done) !== null ? Math.max(0, f.total - f.done) : 0, unjudged = (n(f.timed_out) || 0) + (n(f.not_judged) || 0);
+    var lead = !over ? 'Of ' + show(f.total) + ' faults planted in the copies:' : unrun ? show(unrun) + ' of ' + show(f.total) + ' planted faults were not run. Of the others:' : 'Done. All ' + show(f.total) + ' planted faults were run:';
     // The marks the tree shows now, and no other, are explained under it.
     var shown = {};
     stages.forEach(function (x) { shown[seenAs(x.status, state)] = true; });
@@ -606,7 +609,7 @@ const data = /*DATA*/null;
         <span class="said" role="status">${ui.copied === 'yes' ? 'Copied' : ui.copied === 'no' ? 'Could not copy. The place is in the tab Your code.' : ''}</span>
       </div>
       <div class="bar" role="img" aria-label=${show(f.noticed) + ' noticed, ' + show(f.unnoticed) + ' unnoticed, ' + show(f.not_built) + ' not built, ' + (n(f.not_compiled_here) ? show(f.not_compiled_here) + ' in code not built on this system, ' : '') + 'of ' + show(f.total)}><i class="n" style=${'width:' + part(f.noticed)}></i><i class="u" style=${'width:' + part(f.unnoticed)}></i><i class="x" style=${'width:' + part(f.not_built)}></i><i class="h" style=${'width:' + part(f.not_compiled_here)}></i></div>
-      ${total ? html`<div class="legend"><span>Of ${show(f.total)} faults planted in the copies:</span><span><i class="sw n"></i>${show(f.noticed)} noticed, a test failed</span><span><i class="sw u"></i>${show(f.unnoticed)} unnoticed, every test passed</span>${n(f.not_built) ? html`<span><i class="sw x"></i>${show(f.not_built)} not built</span>` : ''}${left ? html`<span><i class="sw"></i>${show(left)} still to run</span>` : ''}</div>` : html`<div class="legend"><span>${over ? 'No fault was planted in this run.' : 'No fault has been planted yet.'}</span></div>`}
+      ${total ? html`<div class="legend"><span>${lead}</span><span><i class="sw n"></i>${show(f.noticed)} noticed, a test failed</span><span><i class="sw u"></i>${show(f.unnoticed)} unnoticed, every test passed</span>${n(f.not_built) ? html`<span><i class="sw x"></i>${show(f.not_built)} not built</span>` : ''}${n(f.not_compiled_here) ? html`<span><i class="sw h"></i>${show(f.not_compiled_here)} in code not built on this system: they tell nothing</span>` : ''}${unjudged ? html`<span><i class="sw"></i>${show(unjudged)} not judged</span>` : ''}${left ? html`<span><i class="sw"></i>${show(left)} still to run</span>` : ''}</div>` : html`<div class="legend"><span>${over ? 'No fault was planted in this run.' : 'No fault has been planted yet.'}</span></div>`}
       ${state === 'stopped' && html`<div class="notice bad" role="alert"><strong>The tool stopped without finishing.</strong> Last heard at ${clock(s.heartbeat)}. What is shown is the run as it was then; nothing is going on.</div>`}
       ${state === 'quiet' && html`<div class="notice"><span role="status">No word from the tool since ${clock(s.heartbeat)}.</span> That is ${span(age())} ago. It should report every few seconds, also during a build.</div>`}
       ${tests.command_given === false && html`<div class="notice bad" role="alert"><strong>No test command was given.</strong> No fault can be noticed, and every result of this run is empty.</div>`}
