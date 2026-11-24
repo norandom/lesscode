@@ -424,9 +424,11 @@ const data = /*DATA*/null;
     var names = [], of = Object.create(null), gloss = function (name) { return Object.prototype.hasOwnProperty.call(GLOSS, name) ? GLOSS[name] : ''; };
     p.lenses.forEach(function (l) { var name = text(l.lens); if (!of[name]) { of[name] = []; names.push(name); } of[name].push(l); });
     return html`<ul class="tiles">${names.map(function (name) {
-      var rows = of[name], had = rows.filter(function (l) { return l.measured === true; }), no = had.filter(function (l) { return l.moved === false; }).length, first = had[0];
-      var kind = !had.length ? 'off' : no ? 'warn' : had.every(function (l) { return l.moved === true; }) ? 'ok' : 'off';
-      var said = !had.length ? '– not measured' : no ? '! did not move as expected' + (had.length > 1 ? ' in ' + no + ' of ' + had.length + ' measures' : '') : kind === 'ok' ? '✓ moved as expected' : 'not judged';
+      var rows = of[name], had = rows.filter(function (l) { return l.measured === true; }), first = had[0], yes = had.filter(function (l) { return l.moved === true; }).length;
+      // A measure that did not move as expected and has the same value on both sides is unchanged, not worse.
+      var same = had.filter(function (l) { return l.moved === false && l.before === l.after; }).length, no = had.filter(function (l) { return l.moved === false; }).length - same;
+      var kind = !had.length ? 'off' : no ? 'warn' : yes ? 'ok' : 'off', of_all = had.length > 1 ? ' in ' : '';
+      var said = !had.length ? '– not measured' : no ? '! did not move as expected' + (of_all && of_all + no + ' of ' + had.length + ' measures') : yes ? '✓ moved as expected' + (yes < had.length ? of_all + yes + ' of ' + had.length + ' measures' : '') : same ? '= unchanged' : 'not judged';
       return html`<li class=${'tile ' + kind}><b>${name}</b><span>${gloss(name)}</span><span class="verd">${said}</span>
         ${first ? html`<span class="num">${value(first.before)} to ${value(first.after)}</span><span>${text(first.measure)}</span>` : ''}</li>`; })}</ul>`;
   }

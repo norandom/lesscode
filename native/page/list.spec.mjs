@@ -66,6 +66,9 @@ for (const size of SIZES) {
     await expect(cards.nth(0).locator('.tile').first()).toContainText('✓ moved as expected');
     await expect(cards.nth(2).locator('.tile').first()).toContainText('! did not move as expected in 2 of 2 measures');
     await expect(cards.nth(2).locator('.tile').last()).toContainText('– not measured');
+    // Two functions before and two after: the same on both sides is unchanged, not a warning.
+    await expect(cards.nth(0).locator('.tile').nth(1)).toContainText('= unchanged');
+    await expect(cards.nth(0).locator('.tile').nth(1)).toHaveClass('tile off');
     expect(await sideways(page)).toBeLessThanOrEqual(1);
     expect(await page.evaluate(() => window.innerWidth)).toBe(size.width);
     await picture(page, testInfo, `list-${size.width}`);
