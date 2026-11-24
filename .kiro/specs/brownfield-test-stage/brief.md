@@ -165,4 +165,5 @@ Nothing is open. The answers are requirements for the spec.
 
 ## Related
 
+- The spec that follows this brief: [requirements.md](requirements.md), generated 2026-11-24.
 - The run and the owner's words this brief comes from: [R181](../../../docs/research/2026-11-24/02-run-page-a-real-run-watched.md).

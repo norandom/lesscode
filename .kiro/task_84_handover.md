@@ -100,3 +100,15 @@ or written off**, and a fault is written off when **the agent proposes the reaso
 approves it**; the changed page is watched **with the first run of that stage**. All four are in
 the [brief](specs/brownfield-test-stage/brief.md), which has no open question left. Under "Next",
 point 1 is settled except for the tag.
+
+## Amended 2026-11-24, 11:15: the spec of the brownfield test stage is begun
+
+`origin/main` was pushed at `dd053ee`. The owner: "push it, then start the brownfield spec. since we
+copy from kiro and re-use the tdd it should be relatively straight forward". Written:
+[spec.json](specs/brownfield-test-stage/spec.json) and
+[requirements.md](specs/brownfield-test-stage/requirements.md), seven requirements and five points
+proposed for approval. **The requirements are not approved.** The next step is the owner's
+approval, then the design with its prototype gate on the renderer of drift-rdp, which the owner
+watches. How Kiro's test-first protocol is reused: the planted fault stands where the missing
+implementation stands in Kiro, so "red" is the test failing on the code with the fault and "green"
+is the test passing on the unchanged code.

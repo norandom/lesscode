@@ -1,0 +1,35 @@
+{
+  "feature_name": "brownfield-test-stage",
+  "created_at": "2026-11-24T11:09:46+01:00",
+  "updated_at": "2026-11-24T11:09:46+01:00",
+  "language": "en",
+  "phase": "requirements-generated",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": false
+    },
+    "design": {
+      "generated": false,
+      "approved": false
+    },
+    "tasks": {
+      "generated": false,
+      "approved": false
+    }
+  },
+  "ready_for_implementation": false,
+  "owner_decisions": "2026-11-24: the stage is a spec, worked with Kiro, whose product is the tests (\"there I'd simply refer to the browdfield and make a spec to produce the tests\"; \"kiro allows this. we can use this\"). The spec lives in the project under work. A function is protected enough when every planted fault is noticed or written off; the agent proposes a reason and the owner approves it. The first run of the stage is watched by the owner. On starting the spec: \"since we copy from kiro and re-use the tdd it should be relatively straight forward\".",
+  "related": [
+    "gradual-refactoring-steps",
+    "run-dashboard",
+    "lesscode-metrics"
+  ],
+  "evidence": [
+    "docs/research/2026-11-23/01-renderer-baseline-faults.md",
+    "docs/research/2026-11-23/08-tests-for-four-uncovered-shapes.md",
+    "docs/research/2026-11-23/09-tests-from-the-remaining-faults.md",
+    "docs/research/2026-11-24/02-run-page-a-real-run-watched.md"
+  ],
+  "notes": "Initialised and requirements generated on 2026-11-24 from brief.md (discovery of the same day). The templates under .kiro/settings/templates are empty in this repository; the documents follow the form of the spec run-dashboard. Research-bearing: the design has to pass the prototype gate of steering/prototype-first.md on real code before tasks."
+}
