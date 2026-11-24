@@ -245,6 +245,7 @@ fn receipt_while_one_waits(planned: &Planned, second: Value) {
                                 "why": "its write-off is not approved"}],
             "noticed_write_offs": [],
         }],
+        "reported": [],
     });
     assert_eq!(receipt, expected, "{receipt:#}");
 }
@@ -297,6 +298,39 @@ fn a_protected_stage_names_the_next_step_and_writes_where_it_is_asked_to() {
     assert!(
         !beside.exists(),
         "--out was given, and the receipt is also beside the declaration"
+    );
+}
+
+#[test]
+fn reported_functions_are_listed_and_do_not_change_the_result() {
+    let planned = Planned::staged("result-reported");
+    planned.checked();
+    planned.write_off("nothing_a_caller_sees", true);
+    let plan = planned.repo.json(&planned.plan);
+    let rows = plan["functions"].as_array().unwrap();
+    let step = rows.iter().find(|r| r["function"] == "step").unwrap();
+    let unnoticed = step["unnoticed"].as_u64().unwrap();
+    assert!(unnoticed > 0, "step has no unnoticed fault in the toy plan");
+
+    planned.results_in(
+        0,
+        &[
+            "Reported (1), not chosen; they do not count in the result:",
+            &format!("  src/app.py: step  unnoticed {unnoticed} in the plan, not run again"),
+            "Protected enough: nothing waits in any chosen function.",
+        ],
+    );
+    let receipt = planned
+        .repo
+        .json(&planned.repo.dir.join(STAGE).join("protection.json"));
+    assert_eq!(
+        receipt["reported"],
+        json!([{"file": "src/app.py", "function": "step", "unnoticed": unnoticed}])
+    );
+    let functions = receipt["functions"].as_array().unwrap();
+    assert!(
+        functions.iter().all(|f| f["function"] == "helper"),
+        "{receipt:#}"
     );
 }
 

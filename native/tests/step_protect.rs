@@ -17,7 +17,8 @@ fn named_functions_of_the_plan_are_chosen_and_nothing_is_asked() {
     let (code, said) = planned.begin(&["src/app.py:helper", "src/app.py:helper"]);
     assert_eq!(code, Some(0), "{said}");
     assert!(said.contains("Chosen (1):"), "{said}");
-    assert!(!said.contains("src/app.py: step"), "{said}");
+    // `step` is not chosen: it is reported, without the counts of a chosen one.
+    assert!(!said.contains("src/app.py: step  (noticed"), "{said}");
 
     // What is new in the repository is the two files of the stage.
     let after = planned.repo.state();
@@ -69,7 +70,8 @@ fn the_stage_file_holds_the_plan_the_base_and_each_unnoticed_fault() {
             "faults": [{"id": "drop_statement@9:4", "line": 9, "column": 4,
                         "operator": "drop_statement", "text": "state.count = b", "seconds": 0}],
         }],
-        "left_alone": [],
+        "reported": [{"file": "src/app.py", "function": "step",
+                      "unnoticed": unnoticed_in(&planned).iter().find(|(f, _)| f == "step").map_or(0, |r| r.1)}],
         "left_out": [],
         "to_run_again": {"faults": 1, "seconds": 0},
     });
@@ -218,18 +220,114 @@ fn a_function_in_code_not_built_here_is_left_out_and_named() {
     let step = planned.repo.json(&dir.join("step.json"));
     assert_eq!(step["focus"], json!({"src/lib.rs": ["everywhere"]}));
 
-    // The stand-in test reads the text of `only_windows` and no other
-    // function: an unprotected function that is not named is left alone.
+    // A function with an unnoticed fault that is not named is reported,
+    // with its number from the plan, and does not hold the stage back.
     fs::remove_dir_all(&dir).unwrap();
     let (code, said) = planned.begin(&["src/lib.rs:everywhere"]);
     assert_eq!(code, Some(0), "{said}");
     let stage = planned.repo.json(&dir.join("stage.json"));
-    assert_eq!(
-        stage["left_alone"],
-        json!([{"file": "src/lib.rs", "function": "only_linux"}])
+    let others: Vec<(String, u64)> = unnoticed_in(&planned)
+        .into_iter()
+        .filter(|(function, _)| function != "everywhere")
+        .collect();
+    assert!(
+        !others.is_empty(),
+        "the plan has no other function to report"
     );
-    let left_alone = "Left alone (1): unprotected in the plan and not named. Nothing has to be done about them.\n  src/lib.rs: only_linux\n";
-    assert!(said.contains(left_alone), "{said}");
+    let rows: Vec<Value> = others
+        .iter()
+        .map(|(f, n)| json!({"file": "src/lib.rs", "function": f, "unnoticed": n}))
+        .collect();
+    assert_eq!(stage["reported"], json!(rows), "{stage:#}");
+    assert!(stage.get("left_alone").is_none(), "{stage:#}");
+    let mut reported = format!(
+        "Reported ({}): unnoticed faults in the plan, not chosen. They do not hold the stage back, and a reduction of them is not covered.\n",
+        others.len()
+    );
+    for (function, n) in &others {
+        reported += &format!("  src/lib.rs: {function}  (unnoticed {n})\n");
+    }
+    assert!(said.contains(&reported), "{reported}\nis not in:\n{said}");
+}
+
+/// The functions of the plan with an unnoticed fault, with that number, in
+/// the plan's order.
+fn unnoticed_in(planned: &Planned) -> Vec<(String, u64)> {
+    let plan = planned.repo.json(&planned.plan);
+    let rows = plan["functions"].as_array().unwrap().iter();
+    let with = rows.filter(|r| r["function"] != "(outside any function)");
+    let counted = with.map(|r| {
+        (
+            r["function"].as_str().unwrap().to_owned(),
+            r["unnoticed"].as_u64().unwrap(),
+        )
+    });
+    counted.filter(|(_, n)| *n > 0).collect()
+}
+
+#[test]
+fn without_a_named_function_the_whole_scope_is_chosen() {
+    let planned = Planned::new("protect-whole", "python", "src/app.py");
+    let (code, said) = planned.begin(&[]);
+    assert_eq!(code, Some(0), "{said}");
+    let expected: Vec<String> = unnoticed_in(&planned).into_iter().map(|(f, _)| f).collect();
+    assert!(expected.len() >= 2, "the toy plan has {expected:?}");
+
+    let dir = planned.repo.dir.join(".kiro/specs/protect-toy");
+    let stage = planned.repo.json(&dir.join("stage.json"));
+    let chosen: Vec<&str> = stage["chosen"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| c["function"].as_str().unwrap())
+        .collect();
+    assert_eq!(chosen, expected, "{stage:#}");
+    assert_eq!(stage["reported"], json!([]));
+    let step = planned.repo.json(&dir.join("step.json"));
+    assert_eq!(step["focus"], json!({"src/app.py": expected}));
+    for line in [
+        format!("Chosen ({}):", expected.len()),
+        "The whole scope was taken: every function of the plan with an unnoticed fault. Name functions with --function to narrow it.".to_owned(),
+    ] {
+        assert!(said.contains(&line), "{line:?} is not in:\n{said}");
+    }
+    assert!(!said.contains("Reported ("), "{said}");
+}
+
+#[test]
+fn a_plan_with_nothing_unnoticed_begins_nothing_and_writes_nothing() {
+    let planned = Planned::new("protect-nothing", "python", "src/app.py");
+    let mut plan = planned.repo.json(&planned.plan);
+    for row in plan["functions"].as_array_mut().unwrap() {
+        let unnoticed = row["unnoticed"].as_u64().unwrap();
+        row["noticed"] = json!(row["noticed"].as_u64().unwrap() + unnoticed);
+        row["unnoticed"] = json!(0);
+    }
+    fs::write(&planned.plan, plan.to_string()).unwrap();
+    let before = planned.repo.state();
+    let (code, said) = planned.begin(&[]);
+    assert_eq!(code, Some(0), "{said}");
+    assert!(
+        said.contains("No function of the plan has an unnoticed fault, so there is nothing to begin. Nothing was written."),
+        "{said}"
+    );
+    assert_eq!(planned.repo.state(), before, "something was written");
+    // A named function is still taken as named.
+    let (code, said) = planned.begin(&["src/app.py:helper"]);
+    assert_eq!(code, Some(0), "{said}");
+}
+
+#[test]
+fn begin_prints_paths_with_forward_slashes() {
+    let planned = Planned::new("protect-slashes", "python", "src/app.py");
+    let (code, said) = planned.begin(&["src/app.py:helper"]);
+    assert_eq!(code, Some(0), "{said}");
+    for line in said
+        .lines()
+        .filter(|l| l.contains("w1)") || l.starts_with("Written:"))
+    {
+        assert!(!line.contains('\\'), "a backslash in: {line}");
+    }
 }
 
 #[test]

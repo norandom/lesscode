@@ -7,7 +7,7 @@
 
 use super::declaration::Revisions;
 use super::protect_numbers::{Row, WriteOff};
-use super::protect_stage::{Chosen, Stage};
+use super::protect_stage::{Chosen, Reported, Stage};
 use serde::Serialize;
 
 pub const RECEIPT: &str = "step-protection-v1";
@@ -34,6 +34,9 @@ pub struct Protection {
     /// The verdict refused because unnoticed faults rose.
     pub unnoticed_rose: bool,
     pub functions: Vec<Row>,
+    /// Functions with unnoticed faults that were not chosen, with the
+    /// plan's numbers. They do not enter `result`.
+    pub reported: Vec<Reported>,
 }
 
 impl Protection {
@@ -59,6 +62,7 @@ impl Protection {
             },
             unnoticed_rose,
             functions,
+            reported: stage.reported.clone(),
         }
     }
 
@@ -153,6 +157,19 @@ fn of_write_off(w: &WriteOff, stage: &Stage) -> Vec<String> {
 pub fn says(stage: &Stage, branch: &str, protection: &Protection, offs: &[WriteOff]) -> String {
     let mut lines = vec![format!("The stage {} on {branch}:", stage.spec)];
     lines.extend(protection.functions.iter().flat_map(of_row));
+    if !protection.reported.is_empty() {
+        lines.push(format!(
+            "Reported ({}), not chosen; they do not count in the result:",
+            protection.reported.len()
+        ));
+        let one = |r: &Reported| {
+            format!(
+                "  {}: {}  unnoticed {} in the plan, not run again",
+                r.file, r.function, r.unnoticed
+            )
+        };
+        lines.extend(protection.reported.iter().map(one));
+    }
     if !offs.is_empty() {
         lines.push(format!("Write-offs ({}):", offs.len()));
         lines.extend(offs.iter().flat_map(|w| of_write_off(w, stage)));

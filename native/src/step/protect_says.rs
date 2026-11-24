@@ -1,12 +1,14 @@
 //! What `step protect begin` says before anything runs: the functions that
-//! were chosen with the faults no test noticed, the unprotected functions
-//! that are left alone, and what running the faults again will cost, from
+//! were chosen with the faults no test noticed, the functions with
+//! unnoticed faults that are reported, and what running the faults again will cost, from
 //! the seconds of the plan (requirements 1.1, 1.2, 1.7 and 5.9), and what one
 //! copy of the plan takes on disk.
 
-use super::protect_stage::{Chosen, Stage};
+use super::protect_stage::{slashed, Chosen, Reported, Stage};
 use serde_json::Value;
 use std::path::{Path, PathBuf};
+
+const WHOLE: &str = "The whole scope was taken: every function of the plan with an unnoticed fault. Name functions with --function to narrow it.";
 
 /// Where the receipt of a plan's run lies. The plan names it as the path it
 /// was written to; where that was relative, it is also looked for beside
@@ -55,7 +57,7 @@ fn disk(copy: Option<(PathBuf, u64)>) -> String {
         Some((path, bytes)) => format!(
             "One copy of the plan takes {} on disk ({}). The base run, the pins and the check build copies of that size; remove the plan's copies before the first pin.",
             size(bytes),
-            path.display()
+            slashed(&path)
         ),
         None => "The copies of the plan are gone, so what one copy takes on disk is not known here.".to_owned(),
     }
@@ -123,7 +125,7 @@ fn cost(stage: &Stage, run: &Value) -> Vec<String> {
 }
 
 /// Everything `step protect begin` says once the stage is written.
-pub fn says(stage: &Stage, branch: &str, run: &Value, receipt: &Path) -> String {
+pub fn says(stage: &Stage, branch: &str, whole_scope: bool, run: &Value, receipt: &Path) -> String {
     let short: String = stage.base.chars().take(12).collect();
     let mut lines = vec![
         format!(
@@ -133,14 +135,19 @@ pub fn says(stage: &Stage, branch: &str, run: &Value, receipt: &Path) -> String 
         String::new(),
         format!("Chosen ({}):", stage.chosen.len()),
     ];
+    if whole_scope {
+        lines.push(WHOLE.to_owned());
+    }
     lines.extend(stage.chosen.iter().flat_map(chosen));
-    if !stage.left_alone.is_empty() {
+    if !stage.reported.is_empty() {
         lines.push(String::new());
         lines.push(format!(
-            "Left alone ({}): unprotected in the plan and not named. Nothing has to be done about them.",
-            stage.left_alone.len()
+            "Reported ({}): unnoticed faults in the plan, not chosen. They do not hold the stage back, and a reduction of them is not covered.",
+            stage.reported.len()
         ));
-        lines.extend(stage.left_alone.iter().map(|one| format!("  {one}")));
+        let one =
+            |r: &Reported| format!("  {}: {}  (unnoticed {})", r.file, r.function, r.unnoticed);
+        lines.extend(stage.reported.iter().map(one));
     }
     if !stage.left_out.is_empty() {
         lines.push(String::new());

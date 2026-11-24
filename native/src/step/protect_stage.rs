@@ -4,7 +4,7 @@
 //! does not depend on the run. `step protect begin` writes it; the result
 //! of the stage and the stage spec are read against it.
 
-use super::functions::FileFunctions;
+use super::functions::{FileFunctions, OUTSIDE};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::BTreeMap;
@@ -108,6 +108,15 @@ pub struct Chosen {
     pub faults: Vec<Fault>,
 }
 
+/// A function with unnoticed faults that the person did not name: its
+/// number is the plan's, and its faults are not run again.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Reported {
+    pub file: String,
+    pub function: String,
+    pub unnoticed: usize,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LeftOut {
     pub file: String,
@@ -138,13 +147,49 @@ pub struct Stage {
     pub plan: PlanRef,
     pub test: Vec<String>,
     pub chosen: Vec<Chosen>,
-    /// Unprotected functions of the plan that were not chosen.
-    pub left_alone: Vec<Named>,
+    /// Functions of the plan with an unnoticed fault that were not chosen.
+    /// They do not hold the stage back. A stage begun before this list
+    /// existed has none.
+    #[serde(default)]
+    pub reported: Vec<Reported>,
     pub left_out: Vec<LeftOut>,
     pub to_run_again: RunAgain,
 }
 
 pub const NOT_BUILT: &str = "not built on this system";
+
+/// The number of unnoticed faults a plan's row gives a function.
+pub fn unnoticed(row: &Value) -> usize {
+    row["unnoticed"].as_u64().unwrap_or(0) as usize
+}
+
+/// The functions of a plan whose rows pass `keep`, in its order; code
+/// outside any function is not one.
+fn functions_where(plan: &Value, keep: impl Fn(&Value) -> bool) -> Vec<Named> {
+    let rows = plan["functions"].as_array().map(Vec::as_slice);
+    let text = |v: &Value| v.as_str().unwrap_or_default().to_owned();
+    let kept = rows.unwrap_or(&[]).iter().filter(|row| keep(row));
+    let named = kept.map(|row| Named {
+        file: text(&row["file"]),
+        function: text(&row["function"]),
+    });
+    named.filter(|n| n.function != OUTSIDE).collect()
+}
+
+/// The functions the plan has, in its order.
+pub fn functions_of(plan: &Value) -> Vec<Named> {
+    functions_where(plan, |_| true)
+}
+
+/// The functions of the plan with an unnoticed fault, in its order.
+pub fn with_unnoticed(plan: &Value) -> Vec<Named> {
+    functions_where(plan, |row| unnoticed(row) > 0)
+}
+
+/// A path as the stage prints it: with forward slashes on every system.
+pub fn slashed(path: &std::path::Path) -> String {
+    path.to_string_lossy().replace('\\', "/")
+}
 
 /// The row of a chosen function: the plan's counts, and its unnoticed
 /// faults from the run in the order of the code.

@@ -3,8 +3,11 @@
 //! directory of the stage spec and nowhere else.
 
 use super::declaration::Declaration;
-use super::protect_begin::{functions_of, json, BeginArgs, Begun};
-use super::protect_stage::{chosen, run_again, LeftOut, Named, PlanRef, Stage, NOT_BUILT, RECEIPT};
+use super::protect_begin::{json, BeginArgs, Begun};
+use super::protect_stage::{
+    chosen, run_again, unnoticed, with_unnoticed, LeftOut, Named, PlanRef, Reported, Stage,
+    NOT_BUILT, RECEIPT,
+};
 use crate::specimen_runner::sha256_hex_bytes;
 use serde_json::{json, Map, Value};
 use std::collections::BTreeMap;
@@ -22,10 +25,11 @@ pub fn stage_of(args: &BeginArgs, begun: &Begun, base: &str) -> Result<Stage, St
         |row: &Value, one: &Named| row["file"] == *one.file && row["function"] == *one.function;
     let row_of = |one: &Named| rows.iter().find(|row| is(row, one)).unwrap_or(&Value::Null);
     let faults = |one: &Named| begun.planted.get(one).map_or(&[][..], Vec::as_slice);
-    let named = functions_of(&begun.plan);
-    let alone = |one: &&Named| {
-        let taken = begun.chosen.contains(one) || begun.left_out.contains(one);
-        row_of(one)["unprotected"] == true && !taken
+    let not_taken = |one: &&Named| !begun.chosen.contains(one) && !begun.left_out.contains(one);
+    let report = |one: &Named| Reported {
+        file: one.file.clone(),
+        function: one.function.clone(),
+        unnoticed: unnoticed(row_of(one)),
     };
     let out = |one: &Named| LeftOut {
         file: one.file.clone(),
@@ -45,7 +49,11 @@ pub fn stage_of(args: &BeginArgs, begun: &Begun, base: &str) -> Result<Stage, St
         chosen: rows_of_chosen
             .map(|one| chosen(row_of(one), one, faults(one)))
             .collect(),
-        left_alone: named.iter().filter(alone).cloned().collect(),
+        reported: with_unnoticed(&begun.plan)
+            .iter()
+            .filter(not_taken)
+            .map(report)
+            .collect(),
         left_out: begun.left_out.iter().map(out).collect(),
         to_run_again: run_again(begun.planted.values()),
     })

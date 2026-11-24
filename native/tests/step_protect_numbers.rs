@@ -13,6 +13,7 @@ fn stage() -> Stage {
         json!({"id": format!("negate@5:{column}"), "line": 5, "column": column,
                "operator": "negate", "text": "a && b", "seconds": 0.1})
     };
+    // The form of a stage begun before `reported`: `left_alone` is read past.
     serde_json::from_value(json!({
         "receipt": "step-stage-v1", "spec": "s", "base": "b",
         "plan": {"file": "plan.json", "sha256": ""}, "test": [],

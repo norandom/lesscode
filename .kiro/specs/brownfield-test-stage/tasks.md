@@ -173,7 +173,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 - [ ] 6. The whole scope by default (amendment of 2026-11-24, 18:35; approved by the owner the same day)
 
   The owner chose the order: the code first, then a full run, then 5.2 and 5.3.
-- [ ] 6.1 `--function` optional, and reported functions
+- [x] 6.1 `--function` optional, and reported functions
   - `step protect begin` without `--function` chooses every function of the plan with an unnoticed
     fault, less `left_out`. With nothing unnoticed it writes nothing and exits 0. `left_alone`
     becomes `reported` with the unnoticed count. `step protect result` lists the reported functions,
@@ -181,6 +181,13 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - Done when tests on the toy repository show: the whole scope without `--function`; a narrowed
     scope with reported functions in `stage.json`, in the output and in `protection.json`; exit 0
     with nothing written when nothing is unnoticed; the earlier refusals unchanged.
+  - Done 2026-11-24. Test first: six tests red, then green. The whole native suite passed (504,
+    nextest), as did the doctests, `fmt --check`, Clippy with `-D warnings` and the budgets. To stay
+    under its token ceiling, `protect_begin.rs` gave the two plan readers to `protect_stage.rs`.
+    `result` also prints `/`. A `stage.json` from before keeps working: `left_alone` is read past.
+    On the real plan of `yuv.rs` (frozen inputs of R188), `begin` without `--function` chose
+    `convert`, `new` and `uniform_bytes` with the same 28 faults as the owner's choice; the output
+    was removed.
   - _Boundary: protect_begin.rs, protect_stage.rs, protect_write.rs, protect_says.rs,
     protect_numbers.rs, protect_receipt.rs_
   - _Requirements: 1.1, 1.2, 5.10, 7.1_

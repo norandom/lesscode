@@ -6,9 +6,9 @@
 //! The command reads the plan, the receipt of its run, the run
 //! configuration and the code; it runs nothing.
 
-use super::functions::{FileFunctions, OUTSIDE};
+use super::functions::FileFunctions;
 use super::protect_says::{run_of, says};
-use super::protect_stage::{planted, Named, Planted};
+use super::protect_stage::{functions_of, planted, slashed, with_unnoticed, Named, Planted};
 use super::protect_write::{declaration_of, stage_of, write};
 use super::revisions::resolve;
 use crate::adapters::driver::config::RunConfig;
@@ -30,8 +30,9 @@ pub struct BeginArgs {
     /// The run configuration the plan was made with; its source root is the repository.
     #[arg(long)]
     pub config: PathBuf,
-    /// A function to protect, as <file>:<name> with the file as the plan names it. Repeat for several.
-    #[arg(long = "function", required = true, value_name = "FILE:NAME")]
+    /// A function to protect, as <file>:<name> with the file as the plan names it. Repeat for
+    /// several. Without it, every function of the plan with an unnoticed fault is protected.
+    #[arg(long = "function", value_name = "FILE:NAME")]
     pub functions: Vec<String>,
     /// The name of the stage spec; its directory is <specs-dir>/<name>.
     #[arg(long, value_name = "NAME")]
@@ -54,6 +55,8 @@ pub struct Begun {
     /// The receipt of the plan's fault run.
     pub run: Value,
     pub chosen: Vec<Named>,
+    /// No function was named, so the whole scope was taken.
+    pub whole_scope: bool,
     /// Per chosen function, every fault the plan's run planted in it.
     pub planted: BTreeMap<Named, Vec<Planted>>,
     /// Named functions that lie wholly in code not built on this system.
@@ -92,19 +95,12 @@ fn plan_with_result(path: &Path) -> Result<(Value, Value), String> {
     Ok((plan, run))
 }
 
-/// The functions the plan has, in its order.
-pub fn functions_of(plan: &Value) -> Vec<Named> {
-    let rows = plan["functions"].as_array().map(Vec::as_slice);
-    let text = |v: &Value| v.as_str().unwrap_or_default().to_owned();
-    let named = rows.unwrap_or(&[]).iter().map(|row| Named {
-        file: text(&row["file"]),
-        function: text(&row["function"]),
-    });
-    named.filter(|n| n.function != OUTSIDE).collect()
-}
-
-/// The functions the person named, each once, each one of the plan's.
+/// The functions the person named, each once, each one of the plan's; or,
+/// where none is named, every function of the plan with an unnoticed fault.
 fn named(args: &BeginArgs, plan: &Value) -> Result<Vec<Named>, String> {
+    if args.functions.is_empty() {
+        return Ok(with_unnoticed(plan));
+    }
     let has = functions_of(plan);
     let mut chosen: Vec<Named> = Vec::new();
     for text in &args.functions {
@@ -287,10 +283,15 @@ fn faults_of_file(
 }
 
 /// Every check of `step protect begin`, in the order of what is cheapest to
-/// put right. Nothing is written.
-pub fn begin(args: &BeginArgs) -> Result<Begun, String> {
+/// put right. Nothing is written. `None` where no function is named and no
+/// function of the plan has an unnoticed fault: there is nothing to begin.
+pub fn begin(args: &BeginArgs) -> Result<Option<Begun>, String> {
     let (plan, run) = plan_with_result(&args.plan)?;
+    let whole_scope = args.functions.is_empty();
     let mut chosen = named(args, &plan)?;
+    if chosen.is_empty() {
+        return Ok(None);
+    }
     let dir = stage_dir(args)?;
     let config = config_of(args)?;
     let pack = embedded(&config.language).map_err(|e| e.to_string())?;
@@ -314,34 +315,45 @@ pub fn begin(args: &BeginArgs) -> Result<Begun, String> {
     chosen.retain(|n| !left_out.contains(n));
     if chosen.is_empty() {
         let names: Vec<String> = left_out.iter().map(Named::to_string).collect();
+        let which = match whole_scope {
+            true => "Every function of the plan with an unnoticed fault",
+            false => "Every named function",
+        };
         return Err(format!(
-            "Every named function lies wholly in code that is not built on this system ({}). Nothing is known about them here, so there is nothing to protect.",
+            "{which} lies wholly in code that is not built on this system ({}). Nothing is known about them here, so there is nothing to protect.",
             names.join("; ")
         ));
     }
-    Ok(Begun {
+    Ok(Some(Begun {
         config,
         plan,
         run,
         chosen,
+        whole_scope,
         planted,
         left_out,
         dir,
-    })
+    }))
 }
 
 pub fn run_begin(args: BeginArgs) -> Result<u8, String> {
-    let begun = begin(&args)?;
+    let Some(begun) = begin(&args)? else {
+        println!("No function of the plan has an unnoticed fault, so there is nothing to begin. Nothing was written.");
+        return Ok(0);
+    };
     let base = resolve(&args.repo, "HEAD")?;
     let stage = stage_of(&args, &begun, &base)?;
     let declaration = declaration_of(&args, &begun, &base)?;
     write(&begun.dir, &declaration, &stage)?;
     let branch = declaration["branch"].as_str().unwrap_or_default();
     let receipt = run_of(&args.plan, &begun.plan);
-    println!("{}", says(&stage, branch, &begun.run, &receipt));
+    println!(
+        "{}",
+        says(&stage, branch, begun.whole_scope, &begun.run, &receipt)
+    );
     println!(
         "\nWritten: step.json and stage.json in {}",
-        begun.dir.display()
+        slashed(&begun.dir)
     );
     Ok(0)
 }

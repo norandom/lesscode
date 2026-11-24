@@ -11,7 +11,7 @@ use super::context::Context;
 use super::guard::moved;
 use super::protect_numbers::{numbers, write_offs, WriteOff};
 use super::protect_receipt::{says, Protection};
-use super::protect_stage::Stage;
+use super::protect_stage::{slashed, Stage};
 use super::revisions::blob;
 use super::verdict::{NOT_JUDGED, PLANTED_FAULTS, REFUSED};
 use crate::adapters::driver::cli::emit_json;
@@ -182,6 +182,6 @@ pub fn run_result(args: ResultArgs) -> Result<u8, String> {
     };
     let out = args.out.unwrap_or_else(beside);
     emit_json(&protection, Some(&out))?;
-    println!("Written: {}", out.display());
+    println!("Written: {}", slashed(&out));
     Ok(u8::from(!protection.enough()))
 }
