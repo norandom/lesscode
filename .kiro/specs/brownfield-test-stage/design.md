@@ -2,8 +2,8 @@
 
 Written 2026-11-24, about 11:30 Europe/Berlin, from the approved [requirements](requirements.md)
 and the [research log](research.md); revised at 13:15 around what the
-[prototype gate](prototype-gate.md) showed (`proceed`, R184). **Not approved yet.** The revisions
-are listed under "What the prototype changed".
+[prototype gate](prototype-gate.md) showed (`proceed`, R184). **Approved by the owner on 2026-11-24**
+("approved, push and write the tasks"). The revisions are listed under "What the prototype changed".
 
 ## Overview
 

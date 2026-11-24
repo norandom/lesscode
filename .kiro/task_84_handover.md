@@ -147,3 +147,12 @@ Not merged anywhere: the clone's branch. Whether its tests go into drift-rdp is 
 Storage: the prototype's copies took 34.5 GiB and are removed; D: has 120.1 GiB free; kept
 `D:\BuildArtifacts\lesscode\brownfield-test-stage\prototype-1` (16.1 MiB) and the clone. Next research
 record R185; next handover `task_85_handover.md`.
+
+## Amended 2026-11-24, 13:30: design approved, tasks written
+
+`origin/main` was pushed at `9f6aab7`. The owner approved the design ("approved, push and write the
+tasks"). [tasks.md](specs/brownfield-test-stage/tasks.md) is written and **not approved**: five
+groups, twelve tasks. 1 `step protect begin`; 2 `step protect result`; 3 the skill and its
+templates; 4 the guide; 5 closing, with the stage run by its commands on another renderer file and
+on a project that is not Rust, both marked "can fail". Next: the owner's approval of the tasks,
+then group 1 in the foreground with explicit task numbers.
