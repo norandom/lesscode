@@ -43,6 +43,44 @@ step.
 What to do with a plan: pick a function with few unnoticed faults, write tests that turn them into noticed
 ones (pins), and only then change the code.
 
+### Watch the run in a browser: `--page` and `--open`
+
+A plan of a subsystem can take an hour, because every planted fault costs a build and a test run. Two
+options of `step plan` and `step check` show what is happening.
+
+| Option | What it does |
+| --- | --- |
+| `--open` | Starts your default browser on a page that follows the run while it goes on. The page is served from this machine only (`127.0.0.1`). At the end the report is written as with `--page`. |
+| `--page [place]` | Writes the report of the run as one HTML file when the run ends and prints where. Without a place it goes beside the other output. Nothing is served. |
+| `--page-source` | Shows the line of code of the example fault on the page. Without it the page has names and no source text. |
+
+```sh
+lesscode-core step plan --config run.json --work ../work --out plan.json --open
+```
+
+The page answers one question per command. For `step plan`: which of your functions do your tests
+protect? For `step check`: does this change keep what your tests protect? It says first that no file of
+your project is changed, then shows the steps of the run in one row and where the run is.
+
+| Word on the page | Meaning |
+| --- | --- |
+| planted fault | one small mistake made on purpose in a copy of your code, such as a `<` turned into a `<=` |
+| noticed | a test failed on the fault |
+| unnoticed | every test passed although the fault was there |
+| unprotected | a function in which no fault was noticed |
+
+An unprotected function is not wrong. It has no test that would tell you if it broke. Leave it alone if
+you do not plan to change it. If you do, protect it first: make a spec whose tasks are the tests for it,
+have it worked, and run the plan again. If it talks to a device, a window or a network, a test cannot
+come first; separate what it decides from what it does and test the part that decides.
+
+If a working copy stops, the page says so and the run goes on with the others. When no copy gets through
+its first build and test run, the run cannot judge anything. On a machine short of memory that happens
+when several copies build at once; run again with `--workers 1`.
+
+The report is a single file and can be kept or sent. It holds the names of your files and functions; see
+[`step reports`](#several-reports-on-one-page-step-reports) for a copy without them.
+
 ## 2. Declare the step
 
 One file in the repository, committed on the step's branch, for example
@@ -187,6 +225,33 @@ lesscode-core step guard --branch "$BRANCH" --revision "$COMMIT"
 
 Use a commit or a tag as `base` in the declaration. A branch name such as `main` moves, and a verdict is
 written for one base commit.
+
+## Several reports on one page: `step reports`
+
+```sh
+lesscode-core step reports plan.html check.html --out ../reports [--without-names-of my-project]
+```
+
+Takes reports that runs wrote with `--page` and writes a copy of each and `index.html`, one page that
+lists them, into a new or empty directory. Each report is one block of the list, built the same way
+whether the run was accepted or refused.
+
+`--without-names-of <project>` writes numbers where that project's names stand, in the copies and in
+the list. A project is named as its repository's directory is, for example `my-project` for
+`D:\Source\my-project`. Left out are files, functions and types, the shapes of the state, the project's
+commands, the files it wrote and the source line of the example fault. Kept are the branch, the
+commits and the directory of the copies. Repeat the option for several projects.
+
+For `step check`, `--measures <file>` puts numbers of the state and local-complexity lenses on the
+page that were measured elsewhere.
+
+### Reading the change itself
+
+The report says whether a change kept what the tests protect. It does not help you read the diff. For
+that we recommend [diffcore](https://github.com/jamesaphoenix/diff-core), a separate project (MIT): it
+groups the changed files of a diff into ranked flows, from syntax trees and call graphs, so that a
+large change is read in an order that makes sense. It has a command line, a desktop app and a VS Code
+extension.
 
 ## Examples
 

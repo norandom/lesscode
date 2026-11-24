@@ -242,6 +242,36 @@ The step is done when the guard exits 0 on the committed branch. Merging is a pe
 The conditions did not get fewer. The check on "stopped" moved from the loop into `next`. What
 changed is that "stopped" and "nothing left" can no longer be asked apart.
 
+## The same on a page
+
+The step above was read from the terminal. After release 2.1.0, `step plan` and `step check` can show
+a run in the browser: add `--open` to follow it while it goes on, or `--page` to get the report as one
+HTML file at the end ([the options](steps.md#watch-the-run-in-a-browser---page-and---open)).
+
+The page asks the question of the command. For `step plan` it is "Which of your functions do your
+tests protect?", for `step check` "Does this change keep what your tests protect?". It says first
+that no file of your project is changed. Under that the steps of the run stand in one row, with the
+one that is going on marked, and the result as the last.
+
+How the tool finds out what your tests protect, as the page tells it in four steps:
+
+1. Your project is copied. Everything that follows happens in the copy.
+2. One small thing is changed on purpose, such as a `<` into a `<=`, or a statement is left out.
+   That is a planted fault.
+3. Your tests run, the ones you already have, as they are.
+4. If a test fails, the fault was noticed. If every test passes, it went unnoticed, and nothing
+   would have told you about that mistake.
+
+A function in which no fault was noticed is called unprotected. The table of step 5 above is on the
+page as one square per function, and `run_batch`, with 0 noticed and 3 unnoticed, would be in the tab
+"Unprotected". The page says there what to do with such a function: leave it if you do not plan to
+change it; protect it first if you do, with a spec whose tasks are the tests; and where it talks to a
+device, a window or a network, separate what it decides from what it does and test the part that
+decides.
+
+For `step check` the result lists the outcome, what to do next, and a tile per lens (size, structure,
+state, local complexity, behaviour kept, protection) that says whether it moved as expected.
+
 ## What no command checked
 
 - That the two versions behave the same. Planted faults measure how sharp the tests are.

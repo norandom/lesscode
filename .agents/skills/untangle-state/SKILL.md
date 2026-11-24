@@ -59,6 +59,11 @@ Run the project's own tests against planted faults for the files of the subsyste
 lesscode-core step plan --config run.json --work <work> --out plan.json
 ```
 
+When a person is at the screen, add `--open`: it opens a page in their browser that follows the run
+and ends as the report. Tell them it is there and that no file of their project is changed. Without a
+person watching, add `--page` and give them the place it prints. If a copy stops at its first build
+on a machine short of memory, run again with `--workers 1`.
+
 Read per file how many faults the tests notice. Two things can spoil that share:
 
 - The tool plants faults in code the platform does not compile, such as a module under `cfg` for

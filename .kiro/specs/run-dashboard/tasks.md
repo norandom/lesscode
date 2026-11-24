@@ -344,7 +344,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     a brief for a brownfield test stage. The owner saw the changed page in pictures, not following a run.
     Record: [R181](../../../docs/research/2026-11-24/02-run-page-a-real-run-watched.md).
   - _Requirements: 3, 4, 5, 6_
-- [ ] 8.2 The documentation
+- [x] 8.2 The documentation
   - The guide gets a section on the page; `docs/steps.md` the two options; the skill
     `untangle-state` a line telling an agent to open the page for the person. The owner's wish of
     2026-11-23: recommend `https://github.com/jamesaphoenix/diff-core` in the documentation, as
@@ -352,6 +352,10 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     sentence that is true of it; the wording is the owner's to approve. A humanizer pass before the
     push.
   - Done when the owner has read the section.
+  - Done 2026-11-24: `docs/steps.md` (the options, `step reports`, the recommendation of diffcore, whose
+    sentence the owner approved), `docs/state-refactoring.md` ("The same on a page"), the skill
+    `untangle-state`. The owner read them: "docs are fine". Humanizer pass done; one list lost its bold
+    headers.
   - _Requirements: 2.1_
 - [ ] 8.3 Validation and release notes
   - The suites on Windows and through Dagger on Linux; budgets; lints; the opener and the listener
