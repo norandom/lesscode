@@ -14,6 +14,11 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 - The new code runs no fault. `step plan`, `step pin`, `step check`, the declaration and the run
   page keep their behaviour, exit codes and receipts; every group ends with the existing suites
   passing unchanged, on Windows and through Dagger on Linux.
+- Owner's direction of 2026-11-24, after the approval ("the web dash is off by default and
+  existing flows can be automated on ci cd"): the two new commands open no page, start no listener
+  and ask nothing; everything they need is in arguments and files, and what they found is in the
+  exit code. `--page` and `--open` of `step plan` and `step check` stay options that are off unless
+  given. The skill and the guide say how the stage runs in a pipeline, without `--open`.
 - Every new file gets its entry in `native/complexity-budgets.json` at the default ceilings. A file
   over budget is split, not exempted. `runner.rs` and `page_log.rs` are not touched.
 - Each group ends with a dated research entry where a result or a deviation exists, and
@@ -26,7 +31,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 ## Tasks
 
 - [ ] 1. From a plan to the start of a stage: `step protect begin`
-- [ ] 1.1 The command, and what it refuses
+- [x] 1.1 The command, and what it refuses
   - `native/src/step/protect.rs` (arguments of `protect begin` and `protect result`, dispatch) and
     `protect_begin.rs`; the subcommand in `step/mod.rs`. Reads a plan, its run receipt and the run
     configuration.

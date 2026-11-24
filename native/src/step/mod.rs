@@ -22,6 +22,8 @@ pub mod pin;
 pub mod plan;
 pub mod plan_page;
 pub mod plan_show;
+pub mod protect;
+pub mod protect_begin;
 pub mod record;
 pub mod reports;
 pub mod revisions;
@@ -37,6 +39,11 @@ pub enum StepCommand {
     Pin(pin::PinArgs),
     /// Judge a step: tests on base and step, planted faults before and after.
     Check(check::CheckArgs),
+    /// Protect named functions with tests before they are made less: begin.
+    Protect {
+        #[command(subcommand)]
+        cmd: protect::ProtectCommand,
+    },
     /// Accept a step branch only with a verdict for exactly its content.
     Guard(guard::GuardArgs),
     /// Put an accepted step, an override or a release on the ledger.
@@ -54,6 +61,7 @@ pub fn run(command: StepCommand) -> Result<u8, String> {
         StepCommand::Plan(args) => plan::run_plan(args),
         StepCommand::Pin(args) => pin::run_pin(args),
         StepCommand::Check(args) => check::run_check(args),
+        StepCommand::Protect { cmd } => protect::run(cmd),
         StepCommand::Guard(args) => guard::run_guard(args),
         StepCommand::Record(args) => record::run_record(args),
         StepCommand::Reports(args) => reports::run_reports(args),
