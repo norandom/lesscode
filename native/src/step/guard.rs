@@ -73,6 +73,13 @@ fn stale(verdict: &Value, now: &Hashes, base: &str) -> Option<String> {
         let result = verdict["result"].as_str().unwrap_or("unreadable");
         return Some(format!("the verdict is {result}"));
     }
+    moved(verdict, now, base)
+}
+
+/// What is another now than when a verdict was written, if anything: the
+/// base, a scope file, the tests or the declaration. Whatever the verdict
+/// says, it says it for the content its hashes name.
+pub(super) fn moved(verdict: &Value, now: &Hashes, base: &str) -> Option<String> {
     let Ok(then) = serde_json::from_value::<Hashes>(verdict["hashes"].clone()) else {
         return Some("the verdict has no hashes".into());
     };

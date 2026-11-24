@@ -638,6 +638,13 @@
    "disposition": null
   },
   {
+   "path": "step/protect_result.rs",
+   "max_logical_units": 300,
+   "owner": "brownfield-test-stage",
+   "allocation": "step protect result: the verdict a result may be read from (the one for the committed content, by the hashes step guard compares, with the code left as it was), else exit 2 (task 2.1; requirements 3.6, 5.1, 5.7, 7.4)",
+   "disposition": null
+  },
+  {
    "path": "step/protect_says.rs",
    "max_logical_units": 300,
    "owner": "brownfield-test-stage",

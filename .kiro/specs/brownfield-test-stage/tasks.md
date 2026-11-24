@@ -69,7 +69,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Requirements: 1.1, 1.2, 5.9_
 
 - [ ] 2. Protected enough: `step protect result`
-- [ ] 2.1 The verdict it may use
+- [x] 2.1 The verdict it may use
   - `native/src/step/protect_result.rs`. Takes the verdict only when it is the one for the
     committed content, by the hashes `step guard` compares; otherwise exit 2 and nothing written.
   - If a scope file differs between the base and the branch: exit 2, and the sentence that the

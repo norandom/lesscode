@@ -11,16 +11,20 @@
 //! a pipeline.
 
 use super::protect_begin::{run_begin, BeginArgs};
+use super::protect_result::{run_result, ResultArgs};
 
 /// The commands of `lesscode-core step protect`.
 #[derive(clap::Subcommand)]
 pub enum ProtectCommand {
     /// Begin a stage: check a plan and the named functions against the code as it is.
     Begin(BeginArgs),
+    /// Say whether the chosen functions are protected enough, from the verdict of `step check`.
+    Result(ResultArgs),
 }
 
 pub fn run(command: ProtectCommand) -> Result<u8, String> {
     match command {
         ProtectCommand::Begin(args) => run_begin(args),
+        ProtectCommand::Result(args) => run_result(args),
     }
 }

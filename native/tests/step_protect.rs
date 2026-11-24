@@ -374,3 +374,89 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
         "{said}"
     );
 }
+
+// `step protect result` (group 2). The stage of `helper` is begun and
+// committed on its branch; the verdict is the one `step check` writes.
+
+const STAGE: &str = ".kiro/specs/protect-toy";
+
+impl Planned {
+    /// A toy repository with a stage for `helper`, committed on its branch.
+    fn staged(name: &str) -> Planned {
+        let planned = Planned::new(name, "python", "src/app.py");
+        let (code, said) = planned.begin(&["src/app.py:helper"]);
+        assert_eq!(code, Some(0), "{said}");
+        let repo = &planned.repo;
+        repo.git(&["checkout", "-q", "-b", "protect/protect-toy"]);
+        repo.git(&["add", "-A"]);
+        repo.git(&["commit", "-q", "-m", "begin the stage"]);
+        planned
+    }
+
+    fn result(&self) -> (Option<i32>, String) {
+        let declaration = format!("{STAGE}/step.json");
+        let args = ["protect", "result", "--declaration", &declaration];
+        self.repo.cli(&args, "")
+    }
+
+    /// The result is exit 2 with these words, and nothing is written.
+    fn not_judged(&self, words: &[&str]) {
+        let before = self.repo.state();
+        let (code, said) = self.result();
+        assert_eq!(code, Some(2), "{said}");
+        for word in words {
+            assert!(said.contains(word), "{word:?} is not in: {said}");
+        }
+        assert_eq!(self.repo.state(), before, "exit 2 wrote something");
+        let receipt = self.repo.dir.join(STAGE).join("protection.json");
+        assert!(!receipt.exists(), "exit 2 left a protection.json");
+    }
+}
+
+#[test]
+fn a_stage_without_a_verdict_is_not_judged() {
+    let planned = Planned::staged("result-no-verdict");
+    planned.not_judged(&[
+        "Not judged: there is no verdict at .kiro/specs/protect-toy/verdict.json.",
+        "Run `step check` on protect/protect-toy first.",
+    ]);
+}
+
+#[test]
+fn a_verdict_for_other_content_than_the_branch_has_is_not_judged() {
+    let planned = Planned::staged("result-other-content");
+    let repo = &planned.repo;
+    let (code, out, err) = repo.step("check", "protect-toy", &[]);
+    assert_eq!(code, Some(0), "{out}\n{err}");
+    // The verdict is the one for the branch as it is: there is a result.
+    let (code, said) = planned.result();
+    assert_ne!(code, Some(2), "{said}");
+    assert!(!said.contains("Not judged"), "{said}");
+
+    // A test file is added after the verdict was written.
+    repo.commit(&[("tests/more.txt", "more\n")], "one more test file");
+    planned.not_judged(&[
+        "is not the one for what protect/protect-toy has committed",
+        "a test file changed after the verdict was written",
+        "Run `step check` again.",
+    ]);
+}
+
+#[test]
+fn a_branch_that_changed_a_code_file_is_not_judged() {
+    let planned = Planned::staged("result-code-changed");
+    let repo = &planned.repo;
+    let code = fs::read_to_string(repo.dir.join("src/app.py")).unwrap();
+    repo.commit(
+        &[("src/app.py", &format!("{code}\n# a note\n"))],
+        "change the code",
+    );
+    // Whatever the check makes of the change, its verdict is for this content.
+    let (_, out, err) = repo.step("check", "protect-toy", &[]);
+    let verdict = repo.dir.join(STAGE).join("verdict.json");
+    assert!(verdict.is_file(), "{out}\n{err}");
+    planned.not_judged(&[
+        "src/app.py differs between the base and protect/protect-toy",
+        "the result does not hold for the functions of that file",
+    ]);
+}
