@@ -1,0 +1,23 @@
+{
+  "language": "rust",
+  "source_root": "../../../../../drift-rdp",
+  "files": [
+    "src-tauri/src/renderer/display_path.rs",
+    "src-tauri/src/renderer/frame_stores.rs",
+    "src-tauri/src/renderer/gpu.rs",
+    "src-tauri/src/renderer/native_layer.rs",
+    "src-tauri/src/renderer/native_layer/dcomp.rs",
+    "src-tauri/src/renderer/shared_frame.rs",
+    "src-tauri/src/renderer/yuv.rs"
+  ],
+  "test_paths": ["src-tauri/tests/"],
+  "test": ["cargo", "nextest", "run", "--locked", "--manifest-path", "src-tauri/Cargo.toml", "--lib", "--no-fail-fast"],
+  "exclusions": ["target", "node_modules", ".git"],
+  "timeout_floor_s": 300,
+  "timeout_ceiling_s": 1800,
+  "invalid_output_patterns": ["could not compile", "error[E"],
+  "error_output_patterns": ["memory allocation of", "found invalid metadata files", "paging file is too small"],
+  "runner_evidence_patterns": ["Starting ", "Summary ["],
+  "workers": 3,
+  "env": {"CARGO_TARGET_DIR": "target"}
+}

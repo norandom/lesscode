@@ -49,8 +49,9 @@ const AFTER_A_PLAN: &[&str] = &[
 
 /// What the person can do when nothing could be judged.
 const AFTER_NO_JUDGEMENT: &[&str] = &[
-    "Run your test command yourself in one of the copies and make it pass there.",
     "Nothing in this run says anything about your tests or your code.",
+    "If the build was ended by the system, the machine ran short of memory: run again with fewer copies (--workers 1) or with other programs closed.",
+    "If a test failed: run your test command yourself in one of the copies and make it pass there.",
 ];
 
 fn lines(texts: &[&str]) -> Vec<String> {

@@ -211,7 +211,7 @@ const wrong = () => ({
   report: { lenses: [null, 3, {}], refusal: 'yes' }, next: 'x', outcome: 5, outcome_detail: {} });
 
 // The four notices on tests and copies; a situation shows its own and no other.
-const NOTICE = { command: 'No test command was given', none: 'ran no test', fail: 'do not pass on the unchanged code', dropped: 'dropped out' };
+const NOTICE = { command: 'No test command was given', none: 'ran no test', fail: 'did not get through on your unchanged code', dropped: 'of your project stopped' };
 
 // The state expected, the data inside, the address of a stream, and what the page must and must not show.
 const SITUATIONS = [
@@ -251,15 +251,15 @@ const SITUATIONS = [
       'Planted faults': { shows: ['makes one on purpose', 'never reaches your repository', 'No fault of this run has been judged yet', 'A test is missing'], hides: ['One from this run'] } } },
   { name: 'wrong', state: 'ended', data: wrong, tabs: { 'Planted faults': { shows: ['No fault of this run has been judged yet'], hides: ['One from this run'] } } },
   { name: 'large', state: 'ended', data: large, folds: true,
-    tabs: { Unprotected: { shows: ['create_surface, write_texture', 'tests cannot come first'] } } },
+    tabs: { Unprotected: { shows: ['create_surface, write_texture', 'a test cannot come first', 'What to do with them', 'You do not plan to change it', 'the brownfield test stage', 'make a spec whose tasks are the tests'] } } },
   { name: 'void', state: 'ended', data: noTests, shows: ['Could not judge', 'No test command was given', 'every result of this run is empty'],
     hides: ['✓', NOTICE.none, NOTICE.fail, NOTICE.dropped, 'Unprotected functions'],
     tabs: { Unprotected: { shows: ['No fault was run'], hides: ['is known when their faults have been run'] } } },
   { name: 'no-test-ran', state: 'ended', data: noTestRan, shows: [NOTICE.none, 'every result of this run is empty'], hides: [NOTICE.command, NOTICE.fail, NOTICE.dropped] },
-  { name: 'tests-fail', state: 'ended', data: testsFail, shows: [NOTICE.fail, 'cannot judge anything', 'test parse::tests::empty ... FAILED'], hides: [NOTICE.command, NOTICE.none, NOTICE.dropped] },
-  { name: 'copy-dropped', state: 'running', data: copyDropped, shows: ['Copy 2 dropped out', 'cargo test ended with 101', '1 of 2 copies are still working'],
+  { name: 'tests-fail', state: 'ended', data: testsFail, shows: [NOTICE.fail, 'no planted fault could be judged', 'test parse::tests::empty ... FAILED'], hides: [NOTICE.command, NOTICE.none, NOTICE.dropped] },
+  { name: 'copy-dropped', state: 'running', data: copyDropped, shows: ['Working copy 2 of your project stopped', 'cargo test ended with 101', 'The run goes on with 1 of 2 copies', 'Your repository is not affected'],
     hides: [NOTICE.command, NOTICE.none, NOTICE.fail],
-    tabs: { Unprotected: { shows: ['1 of 3 functions are unprotected', 'every test still passes'], hides: ['tests cannot come first'] } } },
+    tabs: { Unprotected: { shows: ['1 of 3 functions are unprotected', 'every test still passes', 'What to do with them', 'leave it'], hides: ['a test cannot come first'] } } },
   { name: 'refused', state: 'ended', data: refused, shows: ['Refused', 'Fix the step'] },
   // The report of a judged step (task 6.2): each lens or "not measured", what was compared and by
   // which command; the faults of each side under the stage of that side.
@@ -402,7 +402,8 @@ test('the short version stands first, and what explains more can be opened', asy
   // While a run goes on: one sentence on the stage, the functions so far, and the four steps closed.
   await open(page, testInfo, 'short-running', run(false, 2));
   await expect(panel.locator('.lead')).toHaveText('What the stage faults does.');
-  await expect(panel.locator('.strip i')).toHaveText(['!', '✗', '▶']);
+  // A function in which no fault was judged yet has not begun; it is not shown as going on.
+  await expect(panel.locator('.strip i')).toHaveText(['!', '✗', '·']);
   const how = panel.locator('details');
   await expect(how).toHaveCount(1);
   expect(await how.evaluate((d) => d.open)).toBe(false);
@@ -517,14 +518,14 @@ test('a walk through the page by keyboard', async ({ page }, testInfo) => {
     stops.push(at);
     walk.push(`${String(stops.length).padStart(3)}. ${line(at)}`);
   }
-  // Nine tools, three stages with two files between them, the tabs as one stop, and the pane.
-  expect(stops.map((s) => s.what)).toEqual([...Array(14).fill('button'), 'tab', 'tabpanel']);
+  // The lane of three stages and the result, nine tools, the files of the faults and the two files, the tabs as one stop, and the pane.
+  expect(stops.map((s) => s.what)).toEqual([...Array(16).fill('button'), 'tab', 'tabpanel']);
   for (const stop of stops) {
     expect(stop.outline, stop.name).toBe('solid 2px');
     expect(stop.name || stop.labelled, 'every stop has a name').toBeTruthy();
   }
   // Every control of the page is one of the stops, or a tab that the arrows reach.
-  expect(await page.locator('button:not([role=tab])').count()).toBe(14);
+  expect(await page.locator('button:not([role=tab])').count()).toBe(16);
 
   const press = async (key, note) => { await page.keyboard.press(key); const at = await focused(page); walk.push(`   ${key}: ${line(at)}${note ? `; ${note}` : ''}`); return at; };
   walk.push('', 'The first tool, Follow, with Space and with Enter:');
@@ -540,10 +541,10 @@ test('a walk through the page by keyboard', async ({ page }, testInfo) => {
   expect((await press('Space', 'they are shown again')).expanded).toBe('true');
   expect(await page.locator('.d2').count()).toBe(rows);
 
-  walk.push('', 'A stage of the tree, with Enter:');
-  await page.locator('button.row:not(.d1)').first().focus();
+  walk.push('', 'A step of the lane, with Enter:');
+  await page.locator('.lane .stop').first().focus();
   await press('Enter', 'the stage is the current one and Follow is switched off');
-  await expect(page.locator('button.row:not(.d1)').first()).toHaveAttribute('aria-current', 'true');
+  await expect(page.locator('.lane .stop').first()).toHaveAttribute('aria-current', 'true');
   await expect(page.getByRole('button', { name: 'Follow the stage that is going on' })).toHaveAttribute('aria-pressed', 'false');
 
   walk.push('', 'The tabs, with the arrows, End and Home:');
@@ -578,6 +579,67 @@ test('a walk through the page by keyboard', async ({ page }, testInfo) => {
   writeFileSync(join(out, 'walk.txt'), walk.join('\n') + '\n');
   writeFileSync(join(out, 'aria.txt'), await page.locator('body').ariaSnapshot() + '\n');
   await picture(page, testInfo, 'walk-end');
+  expect(Number((await marks(page)).failures)).toBe(0);
+});
+
+// Group 8, from the owner's watching of a real run: the steps as a lane, and nothing shown as going on
+// before it has begun.
+test('the steps of a run stand in one row, and what has not begun says so', async ({ page }, testInfo) => {
+  await page.setViewportSize(SIZES[0]);
+  const waiting = run(false, 2);
+  Object.assign(waiting.stages[0], { status: 'going on', seconds: null, seconds_so_far: 61 });
+  Object.assign(waiting.stages[1], { status: 'not begun', done: 0, seconds_so_far: null, seconds_left: null });
+  waiting.faults = { ...waiting.faults, done: 0, noticed: 0, unnoticed: 0, example: null,
+    files: [tally('src/app.rs', null, 0, 0, 8), tally('src/draw.rs', null, 0, 0, 4)],
+    functions: [tally('src/app.rs', 'step', 0, 0, 6), tally('src/app.rs', 'parse', 0, 0, 2), tally('src/draw.rs', 'paint', 0, 0, 4)] };
+  await open(page, testInfo, 'lane-waiting', waiting);
+  const stops = page.locator('.lane .stop');
+  await expect(stops).toHaveText([/1. Copy the project and run your tests on the unchanged codes*going on for 1 min 1 s/, /2. Plant faultss*not begun yet/,
+    /3. Check the copies and write the plans*not begun yet/, /4. Results*when the run has ended/]);
+  // One thing is going on: the first step. No file and no function is.
+  await expect(page.locator('.mark[aria-label="going on"]')).toHaveCount(1);
+  await expect(page.getByRole('tabpanel').locator('.strip')).toHaveAttribute('aria-label', 'One square per function. 3 functions: 3 not begun.');
+  // The files of a step that has not begun are shut, and open on request.
+  const group = page.locator('button.grp');
+  await expect(group).toContainText('Plant faults: 2 files');
+  await expect(group).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('button.d1')).toHaveCount(0);
+  await group.click();
+  await expect(group).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('button.d1')).toHaveCount(2);
+  await expect(page.locator('.d2 .count')).toHaveText(['6 to run', '2 to run', '4 to run']);
+  await picture(page, testInfo, 'lane-waiting');
+  expect(Number((await marks(page)).failures)).toBe(0);
+
+  // Once the faults are being planted their files are open, and the lane counts them.
+  await open(page, testInfo, 'lane-running', run(false, 2));
+  await expect(page.locator('button.grp')).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('.lane .stop').nth(1)).toContainText('8 of 12 done');
+  await expect(page.locator('.lane .stop').first()).toContainText('done in 30 s');
+  await page.locator('.lane .stop').last().click();
+  await expect(page.getByRole('tab', { selected: true })).toHaveText('Result');
+  await picture(page, testInfo, 'lane-running');
+  expect(Number((await marks(page)).failures)).toBe(0);
+
+  // At its end the run stands at the result; a step that is picked is shown, and Follow goes back.
+  await open(page, testInfo, 'lane-ended', run(true, 5));
+  await expect(page.locator('.lane .stop').last()).toHaveAttribute('aria-current', 'true');
+  await expect(page.locator('.lane .stop[aria-current="true"]')).toHaveCount(1);
+  await page.locator('.lane .stop').nth(1).click();
+  await expect(page.locator('.lane .stop').nth(1)).toHaveAttribute('aria-current', 'true');
+  await expect(page.getByRole('tabpanel').locator('h2')).toHaveText('Plant faults');
+  await page.getByRole('button', { name: 'Follow the stage that is going on' }).click();
+  await expect(page.getByRole('tabpanel').locator('h2').first()).toHaveText('The plan is written');
+
+  // A run that never planted a fault: the files are shut, and a function says how many faults were not run.
+  const never = run(true, 5);
+  never.stages[1].status = 'left out'; never.stages[2].status = 'left out'; never.stages[0].status = 'failed';
+  never.exit_code = 3; never.outcome = 'Could not judge';
+  never.faults = { ...never.faults, done: 0, noticed: 0, unnoticed: 0, files: [tally('src/app.rs', null, 0, 0, 8)], functions: [tally('src/app.rs', 'step', 0, 0, 8)] };
+  await open(page, testInfo, 'lane-never', never);
+  await expect(page.locator('button.grp')).toHaveAttribute('aria-expanded', 'false');
+  await page.locator('button.grp').click();
+  await expect(page.locator('.d2 .count')).toHaveText(['8 not run']);
   expect(Number((await marks(page)).failures)).toBe(0);
 });
 

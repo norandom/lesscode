@@ -334,11 +334,15 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Requirements: 3.1, 5.1, 5.2, 7.2, 7.3, 7.7, 8.1_
 
 - [ ] 8. Closing
-- [ ] 8.1 A real run, watched
+- [x] 8.1 A real run, watched
   - `step plan --page --open` on a subsystem of a real project, with the owner looking at the page
     while it runs.
   - Done when the research entry says what the owner saw, in the owner's words, and what was
     changed because of it.
+  - Done 2026-11-24 on the renderer of drift-rdp. The first attempt was void (three copies, out of
+    memory); the second ran to its end on two. Nine remarks of the owner, seven changes of the page, and
+    a brief for a brownfield test stage. The owner saw the changed page in pictures, not following a run.
+    Record: [R181](../../../docs/research/2026-11-24/02-run-page-a-real-run-watched.md).
   - _Requirements: 3, 4, 5, 6_
 - [ ] 8.2 The documentation
   - The guide gets a section on the page; `docs/steps.md` the two options; the skill

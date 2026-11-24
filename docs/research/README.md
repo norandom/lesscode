@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R180 The run page, short first: the flow of the page and its descriptions (2026-11-24)
+## Latest · R181 The run page on a real run, watched by the owner (2026-11-24)
+
+Observation and implementation record of the spec `run-dashboard`, task 8.1. `step plan --page --open` ran on the renderer of drift-rdp while the owner looked at the page. The first attempt was void after six minutes: three copies building at once ran out of memory, and the page told the owner that the tests do not pass ("tests don't pass - why? they worked before"). The second, on two copies, gave the numbers of R164: 72 of 268 planted faults noticed. From the owner's nine remarks the page got a lane of the run's steps, files that stay shut until their stage begins, "not begun" where it had said "going on", plain words for a copy that stops, and an answer to what to do with an unprotected function. The owner asked for a brownfield test stage; it has a brief (`.kiro/specs/brownfield-test-stage`). Not shown: that the changed page is understood. [Entry](2026-11-24/02-run-page-a-real-run-watched.md).
+
+## R180 The run page, short first: the flow of the page and its descriptions (2026-11-24)
 
 Implementation record of the spec `run-dashboard`, on the owner's request and reasoned with the skill `cobesy`. The page answers three questions before any table: what is this, what did it find, what do I do. The head is the developer's question and, at the end, the outcome; "No file of your project is changed" stands first; "What to do next" follows the outcome; each lens has a tile in plain words and each function a square; the bar and the marks are explained in words; the four steps of a planted fault are a picture that opens. Only the page changed, not the data. Eight deviations, among them that nobody of the audience was asked. [R180](2026-11-24/01-run-page-short-first.md)
 
