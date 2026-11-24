@@ -45,7 +45,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     writes nothing.
   - _Boundary: protect.rs, protect_begin.rs_
   - _Requirements: 1.3, 1.4, 1.5, 1.6_
-- [ ] 1.2 The declaration and `stage.json`
+- [x] 1.2 The declaration and `stage.json`
   - Writes, into `<specs-dir>/<name>/` only: `step.json` (scope the files of the chosen functions,
     `focus` the chosen functions, `max_token_growth` 0, base the commit at `HEAD`, branch as named
     or `protect/<name>`, commands, test paths and run settings of the configuration) and

@@ -7,6 +7,9 @@
 //! configuration and the code; it runs nothing.
 
 use super::functions::{FileFunctions, OUTSIDE};
+use super::protect_stage::{planted, Named, Planted};
+use super::protect_write::{declaration_of, stage_of, write};
+use super::revisions::resolve;
 use crate::adapters::driver::config::RunConfig;
 use crate::adapters::driver::pack::Pack;
 use crate::adapters::driver::registry::embedded;
@@ -14,7 +17,7 @@ use crate::adapters::driver::sites::{not_built_spans, within};
 use crate::adapters::driver::source::SourceSet;
 use crate::specimen_runner::sha256_hex_bytes;
 use serde_json::Value;
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Component, Path, PathBuf};
 
 /// Arguments of `step protect begin`.
@@ -43,26 +46,13 @@ pub struct BeginArgs {
     pub repo: PathBuf,
 }
 
-/// A function of a file, as the plan names it.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Named {
-    pub file: String,
-    pub function: String,
-}
-
-impl std::fmt::Display for Named {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}: {}", self.file, self.function)
-    }
-}
-
 /// What the checks leave to begin a stage with.
 pub struct Begun {
     pub config: RunConfig,
     pub plan: Value,
-    /// The receipt of the plan's fault run.
-    pub run: Value,
     pub chosen: Vec<Named>,
+    /// Per chosen function, every fault the plan's run planted in it.
+    pub planted: BTreeMap<Named, Vec<Planted>>,
     /// Named functions that lie wholly in code not built on this system.
     pub left_out: Vec<Named>,
     /// The directory of the stage spec.
@@ -71,7 +61,7 @@ pub struct Begun {
 
 const PLAN_FIRST: &str = "A plan with a result is needed first: run `step plan` again.";
 
-fn json(path: &Path, what: &str) -> Result<Value, String> {
+pub fn json(path: &Path, what: &str) -> Result<Value, String> {
     let said = |e: &dyn std::fmt::Display| format!("Cannot read {what} {}: {e}", path.display());
     let bytes = std::fs::read(path).map_err(|e| said(&e))?;
     serde_json::from_slice(&bytes).map_err(|e| said(&e))
@@ -108,7 +98,7 @@ fn plan_with_result(path: &Path) -> Result<(Value, Value), String> {
 }
 
 /// The functions the plan has, in its order.
-fn functions_of(plan: &Value) -> Vec<Named> {
+pub fn functions_of(plan: &Value) -> Vec<Named> {
     let rows = plan["functions"].as_array().map(Vec::as_slice);
     let text = |v: &Value| v.as_str().unwrap_or_default().to_owned();
     let named = rows.unwrap_or(&[]).iter().map(|row| Named {
@@ -276,38 +266,29 @@ fn tests_have_a_place(config: &RunConfig) -> Result<(), String> {
     }
 }
 
-/// Of the functions chosen in one file, those whose faults all lie in code
-/// that is not built on this system.
-fn not_built_here(
+/// A chosen function with the faults planted in it, or `None`.
+type OfFile = (Named, Option<Vec<Planted>>);
+
+/// The faults of the functions chosen in one file. A function whose faults
+/// all lie in code that is not built on this system comes back with `None`:
+/// nothing is known about it here.
+fn faults_of_file(
     pack: &Pack,
     file: &str,
     text: &str,
     run: &Value,
     chosen: &[Named],
-) -> Result<Vec<Named>, String> {
+) -> Result<Vec<OfFile>, String> {
     let functions = FileFunctions::read(pack, file, text)?;
     let spans = not_built_spans(pack, text, std::env::consts::OS)?;
-    let number = |v: &Value| v.as_u64().unwrap_or(0) as usize;
-    let mutants = run["mutants"].as_array().map(Vec::as_slice).unwrap_or(&[]);
-    let places: Vec<(usize, usize)> = mutants
-        .iter()
-        .filter(|m| m["site"]["file"] == file)
-        .map(|m| {
-            (
-                number(&m["site"]["start_line"]),
-                number(&m["site"]["start_column"]),
-            )
-        })
-        .collect();
-    let wholly = |n: &&Named| {
-        let mut own = places
-            .iter()
-            .filter(|at| functions.owner(**at) == n.function)
-            .peekable();
-        own.peek().is_some() && own.all(|at| within(&spans, *at))
+    let mut table = planted(&functions, file, run);
+    let own = |one: &Named| {
+        let faults = table.remove(&one.function).unwrap_or_default();
+        let elsewhere = !faults.is_empty() && faults.iter().all(|p| within(&spans, p.at));
+        (one.clone(), (!elsewhere).then_some(faults))
     };
     let of_file = chosen.iter().filter(|n| n.file == file);
-    Ok(of_file.filter(wholly).cloned().collect())
+    Ok(of_file.map(own).collect())
 }
 
 /// Every check of `step protect begin`, in the order of what is cheapest to
@@ -324,10 +305,15 @@ pub fn begin(args: &BeginArgs) -> Result<Begun, String> {
         test_paths: config.test_paths.clone(),
     };
     let files: BTreeSet<&str> = chosen.iter().map(|n| n.file.as_str()).collect();
-    let mut left_out = Vec::new();
+    let (mut left_out, mut planted) = (Vec::new(), BTreeMap::new());
     for file in files {
         let text = unchanged(&source, &run, file)?;
-        left_out.extend(not_built_here(pack, file, &text, &run, &chosen)?);
+        for (one, faults) in faults_of_file(pack, file, &text, &run, &chosen)? {
+            match faults {
+                Some(faults) => drop(planted.insert(one, faults)),
+                None => left_out.push(one),
+            }
+        }
     }
     tests_have_a_place(&config)?;
     chosen.retain(|n| !left_out.contains(n));
@@ -341,8 +327,8 @@ pub fn begin(args: &BeginArgs) -> Result<Begun, String> {
     Ok(Begun {
         config,
         plan,
-        run,
         chosen,
+        planted,
         left_out,
         dir,
     })
@@ -350,6 +336,12 @@ pub fn begin(args: &BeginArgs) -> Result<Begun, String> {
 
 pub fn run_begin(args: BeginArgs) -> Result<u8, String> {
     let begun = begin(&args)?;
+    let base = resolve(&args.repo, "HEAD")?;
+    let stage = stage_of(&args, &begun, &base)?;
+    let declaration = declaration_of(&args, &begun, &base)?;
+    write(&begun.dir, &declaration, &stage)?;
+    println!("Written: {}", begun.dir.join("step.json").display());
+    println!("Written: {}", begun.dir.join("stage.json").display());
     for one in &begun.chosen {
         println!("Chosen: {one}");
     }

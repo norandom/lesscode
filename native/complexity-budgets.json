@@ -638,6 +638,20 @@
    "disposition": null
   },
   {
+   "path": "step/protect_stage.rs",
+   "max_logical_units": 300,
+   "owner": "brownfield-test-stage",
+   "allocation": "stage.json (step-stage-v1): its shape, the faults of a plan's run per function, and the id of a fault (task 1.2; requirements 1.1, 1.7, 2.4)",
+   "disposition": null
+  },
+  {
+   "path": "step/protect_write.rs",
+   "max_logical_units": 300,
+   "owner": "brownfield-test-stage",
+   "allocation": "What step protect begin writes: the declaration of the stage (step.json) and stage.json, into the stage spec's directory only; split from protect_begin.rs to keep it within its size (task 1.2; requirements 2.1, 2.8, 5.2)",
+   "disposition": null
+  },
+  {
    "path": "step/reports.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",

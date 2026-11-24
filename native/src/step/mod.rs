@@ -24,6 +24,8 @@ pub mod plan_page;
 pub mod plan_show;
 pub mod protect;
 pub mod protect_begin;
+pub mod protect_stage;
+mod protect_write;
 pub mod record;
 pub mod reports;
 pub mod revisions;
