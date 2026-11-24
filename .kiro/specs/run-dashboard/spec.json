@@ -1,9 +1,9 @@
 {
   "feature_name": "run-dashboard",
   "created_at": "2026-11-23T14:56:02+01:00",
-  "updated_at": "2026-11-23T15:35:30+01:00",
+  "updated_at": "2026-11-24T09:57:00+01:00",
   "language": "en",
-  "phase": "tasks-generated",
+  "phase": "implementation-complete",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -29,7 +29,10 @@
   ],
   "evidence": [
     "docs/research/2026-11-23/01-renderer-baseline-faults.md",
-    "docs/research/2026-11-23/10-shared-frame-rework.md"
+    "docs/research/2026-11-23/10-shared-frame-rework.md",
+    "docs/research/2026-11-24/02-run-page-a-real-run-watched.md",
+    "docs/research/2026-11-24/03-run-page-closing.md"
   ],
-  "notes": "2026-11-23: owner asked for the dashboards to be built inside lesscode in the manner of go:embed, to open during runs and show progress step by step with progress bars and friendly guidance, to assure the developer that work happens on a branch and nothing is messed up, to explain fault injection, and to make clear that without tests things will break. Brief and requirements written the same day; requirements await approval. Five points are proposed for approval with the document. Requirements approved by the owner on 2026-11-23 (\"approved, go on to the design and its prototype\"), with the wish for a mature JavaScript approach and buttons typical of the IDEA IDE; then: \"not like an AI slop UI which breaks easily. we need to think a little about exceptions, waiting time and flows\"; then: \"is it possible to have a rust worker and the UI subscribes to the tools?\". Provisional design and prototype gate written the same day. The design must pass a prototype gate before tasks (steering prototype-first): how the page gets fresh data during a run is the question to prototype."
+  "notes": "2026-11-23: owner asked for the dashboards to be built inside lesscode in the manner of go:embed, to open during runs and show progress step by step with progress bars and friendly guidance, to assure the developer that work happens on a branch and nothing is messed up, to explain fault injection, and to make clear that without tests things will break. Brief and requirements written the same day; requirements await approval. Five points are proposed for approval with the document. Requirements approved by the owner on 2026-11-23 (\"approved, go on to the design and its prototype\"), with the wish for a mature JavaScript approach and buttons typical of the IDEA IDE; then: \"not like an AI slop UI which breaks easily. we need to think a little about exceptions, waiting time and flows\"; then: \"is it possible to have a rust worker and the UI subscribes to the tools?\". Provisional design and prototype gate written the same day. The design must pass a prototype gate before tasks (steering prototype-first): how the page gets fresh data during a run is the question to prototype.",
+  "validation": "validation.md: GO on 2026-11-24, with six things named that stand against it"
 }

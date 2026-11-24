@@ -1,0 +1,26 @@
+# run-dashboard task 8.3: `step plan --open` on Linux, in a container, with a stand-in for the
+# browser's opener (`xdg-open`). The source is mounted read-only; the build stays in a volume of
+# the Linux side.
+#
+#   $env:OUT_DIR = 'D:\BuildArtifacts\lesscode\run-dashboard\linux-open'   # a new, empty directory
+#   docker compose -f docs/experiments/run-dashboard/linux-open/compose.yaml run --rm check
+#   docker compose -f docs/experiments/run-dashboard/linux-open/compose.yaml down --volumes
+name: lesscode-run-dashboard-linux-open
+
+services:
+  check:
+    image: rust:1.98.1-bookworm
+    working_dir: /src/native
+    volumes:
+      - ../../../../native:/src/native:ro
+      - ./check.sh:/check.sh:ro
+      - ${OUT_DIR:?set OUT_DIR to a new directory under D:\BuildArtifacts\lesscode}:/out
+      - target:/target
+      - cargo-registry:/usr/local/cargo/registry
+    environment:
+      CARGO_TARGET_DIR: /target
+    command: ["sh", "/check.sh"]
+
+volumes:
+  target:
+  cargo-registry:

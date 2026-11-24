@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R181 The run page on a real run, watched by the owner (2026-11-24)
+## Latest · R182 The run page closed: documentation, the opener on Linux, the validation (2026-11-24)
+
+Implementation record of the spec `run-dashboard`, tasks 8.2 and 8.3. The guide and `docs/steps.md` describe the page in its own words and recommend diffcore; the owner read them. In a Linux container `step plan --open` started a stand-in for `xdg-open` once, on an address of the machine with a secret, and the run went on without an opener (eleven of eleven). Windows 471 of 471, Linux through Dagger 470 of 470, the pages in a browser 67 of 67. The validation report says GO and names six things that stand against calling the page finished; the first is that nobody has watched the changed page follow a run. [Entry](2026-11-24/03-run-page-closing.md).
+
+## R181 The run page on a real run, watched by the owner (2026-11-24)
 
 Observation and implementation record of the spec `run-dashboard`, task 8.1. `step plan --page --open` ran on the renderer of drift-rdp while the owner looked at the page. The first attempt was void after six minutes: three copies building at once ran out of memory, and the page told the owner that the tests do not pass ("tests don't pass - why? they worked before"). The second, on two copies, gave the numbers of R164: 72 of 268 planted faults noticed. From the owner's nine remarks the page got a lane of the run's steps, files that stay shut until their stage begins, "not begun" where it had said "going on", plain words for a copy that stops, and an answer to what to do with an unprotected function. The owner asked for a brownfield test stage; it has a brief (`.kiro/specs/brownfield-test-stage`). Not shown: that the changed page is understood. [Entry](2026-11-24/02-run-page-a-real-run-watched.md).
 

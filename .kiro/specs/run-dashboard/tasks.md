@@ -333,7 +333,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - _Boundary: Page_
   - _Requirements: 3.1, 5.1, 5.2, 7.2, 7.3, 7.7, 8.1_
 
-- [ ] 8. Closing
+- [x] 8. Closing
 - [x] 8.1 A real run, watched
   - `step plan --page --open` on a subsystem of a real project, with the owner looking at the page
     while it runs.
@@ -357,9 +357,13 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
     `untangle-state`. The owner read them: "docs are fine". Humanizer pass done; one list lost its bold
     headers.
   - _Requirements: 2.1_
-- [ ] 8.3 Validation and release notes
+- [x] 8.3 Validation and release notes
   - The suites on Windows and through Dagger on Linux; budgets; lints; the opener and the listener
     on Linux in a container (the opener with a stand-in); a validation report; an entry for the
     next release notes.
   - Done when the validation report says GO or names what stands against it.
+  - Done 2026-11-24: [validation.md](validation.md) says GO and names six things that stand against
+    it. Windows 471 of 471, Linux through Dagger 470 of 470, Playwright 67 of 67; the opener with a
+    stand-in in a Linux container, eleven of eleven; `docs/releases/next.md`. Record:
+    [R182](../../../docs/research/2026-11-24/03-run-page-closing.md).
   - _Requirements: all_
