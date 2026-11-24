@@ -220,11 +220,17 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     difference is named.
   - _Boundary: native/src/adapters/driver/operators.rs, pack.rs, native/packs/rust.json_
   - _Requirements: amendment of 18:35, the second case_
-- [ ] 6.3 The skill, the guide and the release notes
+- [x] 6.3 The skill, the guide and the release notes
   - Phase 2 of `protect-before-reduce` and `docs/steps.md` with the whole scope by default and the
     reported functions; the five findings of 5.1; an entry in `docs/releases/2.2.0.md`. Humanizer
     pass.
   - Done when the owner has read the changed sections.
+  - Done 2026-11-24 (`33a6273`). The owner read a summary of the changes, section by section, in
+    the conversation: "read it, ok". Also in that commit, from design point 5: `begin` says how
+    long to allow (1.4 times its figure) and what twice the plan's copies take on disk, with a
+    test. The suite passed (505), as did the doctests, `fmt`, Clippy and the budgets. The owner
+    decided the same day to accept the four labels passed through a helper as write-offs and not
+    to extend the rule.
   - _Depends: 6.1, 6.2_
   - _Requirements: 1.1, 1.2, 6.2, 6.3, 7.1_
 - [ ] 6.4 A full run where the stage gets tests written, on another file of drift-rdp (can fail)
