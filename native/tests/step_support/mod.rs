@@ -3,6 +3,8 @@
 //! `tests/expect.txt`: a test file a step can add pins to.
 #![allow(dead_code)]
 
+pub mod planned;
+
 use serde_json::{json, Value};
 use std::fs;
 use std::path::{Path, PathBuf};

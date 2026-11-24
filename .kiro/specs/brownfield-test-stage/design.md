@@ -315,7 +315,20 @@ tests in `native/tests/step_protect_numbers.rs`:
 | `native/src/step/protect_numbers.rs` | new | `write-offs.json`; the four numbers per function; a fault matched by file, line and operator |
 | `native/src/step/guard.rs` | changed | the comparison of the hashes split out of `stale` as `moved`, for `step protect result` to reuse; the guard behaves as before |
 
-`protect_result.rs` keeps the arguments, the verdict it may use, the output and the exit code.
+With task 2.3 the output and `protection.json` went into a file of their own for the same reason,
+and the tests of the result into theirs, with the toy plan they share in the support module:
+
+| File | New or changed | Responsibility |
+| --- | --- | --- |
+| `native/src/step/protect_receipt.rs` | new | what `step protect result` says; `protection.json` |
+| `native/tests/step_protect_result.rs` | new | `step protect result` on the toy repository |
+| `native/tests/step_support/planned.rs` | new | a toy repository with a real plan, shared by the two test files |
+
+`protection.json` is written on exit 0 and on exit 1, beside the declaration or where `--out`
+names, and not on exit 2 or 3. It holds `result` (`protected_enough` or `not_protected_enough`)
+and `unnoticed_rose` beside what the design lists.
+
+`protect_result.rs` keeps the arguments, the verdict it may use and the exit code.
 Two faults of a function with the same line and operator wait together or are written off
 together: a write-off for one of them does not say that it is the unnoticed one. A fault the
 verdict calls unnoticed that the stage did not begin with waits and cannot be written off. A

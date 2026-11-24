@@ -9,10 +9,13 @@
 
 use super::context::Context;
 use super::guard::moved;
-use super::protect_numbers::{numbers, write_offs, Row, WriteOff};
+use super::protect_numbers::{numbers, write_offs, WriteOff};
+use super::protect_receipt::{says, Protection};
 use super::protect_stage::Stage;
 use super::revisions::blob;
 use super::verdict::{NOT_JUDGED, PLANTED_FAULTS, REFUSED};
+use crate::adapters::driver::cli::emit_json;
+use crate::specimen_runner::sha256_hex_bytes;
 use serde_json::Value;
 use std::path::PathBuf;
 
@@ -25,12 +28,15 @@ pub struct ResultArgs {
     /// The repository.
     #[arg(long, default_value = ".")]
     pub repo: PathBuf,
+    /// Where the result is written; protection.json beside the declaration when absent.
+    #[arg(long)]
+    pub out: Option<PathBuf>,
 }
 
 /// What there is to read a result from.
 pub enum Found {
-    /// The verdict for the committed content of the branch.
-    Verdict(Value),
+    /// The verdict for the committed content of the branch, and its hash.
+    Verdict(Value, String),
     /// Why there is no result.
     NotJudged(String),
 }
@@ -119,13 +125,18 @@ pub fn found(context: &Context) -> Result<Found, String> {
             otherwise.join("; ")
         )));
     }
-    Ok(Found::Verdict(verdict))
+    Ok(Found::Verdict(verdict, sha256_hex_bytes(&bytes)))
+}
+
+/// The directory of the stage spec: where the declaration lies.
+fn stage_dir(context: &Context) -> &str {
+    context.path.rsplit_once('/').map_or("", |(dir, _)| dir)
 }
 
 /// `stage.json` and the entries of `write-offs.json`, both beside the
 /// declaration. A stage without write-offs has none.
 fn stage_of(context: &Context) -> Result<(Stage, Vec<WriteOff>), String> {
-    let dir = context.path.rsplit_once('/').map_or("", |(dir, _)| dir);
+    let dir = stage_dir(context);
     let path = format!("{dir}/stage.json");
     let not_a_stage = || format!("{path} is not there: this is not a stage of `step protect`.");
     let bytes = on_branch(context, &path)?.ok_or_else(not_a_stage)?;
@@ -138,49 +149,19 @@ fn stage_of(context: &Context) -> Result<(Stage, Vec<WriteOff>), String> {
     Ok((stage, offs))
 }
 
-/// What the result says of one function: its four numbers, then each fault
-/// that waits, is written off, or has a write-off and is noticed.
-fn says(row: &Row) -> String {
-    let mut lines = vec![format!(
-        "  {}: {}  noticed before {}, noticed now {}, written off {}, waiting {}",
-        row.file, row.function, row.noticed_before, row.noticed_now, row.written_off, row.waiting
-    )];
-    for w in &row.waiting_faults {
-        let name = match w.faults.len() {
-            0 => format!("{} at line {}", w.operator, w.line),
-            1 => w.faults[0].clone(),
-            _ => format!(
-                "one of {} (the verdict cannot tell them apart: same line, same operator)",
-                w.faults.join(", ")
-            ),
-        };
-        lines.push(format!("    waiting: {name}: {}", w.why));
-    }
-    for w in &row.write_offs {
-        let reason = w.reason.as_deref().unwrap_or_default();
-        lines.push(format!("    written off: {}: {reason}", w.fault));
-    }
-    for w in &row.noticed_write_offs {
-        let fault = &w.fault;
-        lines.push(format!(
-            "    noticed: {fault} has a write-off, and a test notices it now"
-        ));
-    }
-    lines.join("\n")
-}
-
-/// Exit 0 when nothing waits in any chosen function, 1 otherwise, 2 where
-/// there is no result to read. Bad input, including a declaration that is
-/// not committed on its branch, is an error (exit 3).
+/// Exit 0 when nothing waits in any chosen function, 1 otherwise; either
+/// way the result is said and left in `protection.json`. Exit 2 where there
+/// is no result to read, and nothing is written. Bad input, including a
+/// declaration that is not committed on its branch, is an error (exit 3).
 pub fn run_result(args: ResultArgs) -> Result<u8, String> {
     let context = Context::open(&args.repo, &args.declaration)?;
     let not_judged = |why: String| {
         println!("Not judged: {why}");
         Ok(2)
     };
-    let verdict = match found(&context)? {
+    let (verdict, sha256) = match found(&context)? {
         Found::NotJudged(why) => return not_judged(why),
-        Found::Verdict(verdict) => verdict,
+        Found::Verdict(verdict, sha256) => (verdict, sha256),
     };
     let (stage, offs) = stage_of(&context)?;
     let rows = match numbers(&stage, &verdict, &offs) {
@@ -190,22 +171,20 @@ pub fn run_result(args: ResultArgs) -> Result<u8, String> {
             return not_judged(format!("{why} {function}. Run `step check` again."));
         }
     };
-    println!(
-        "The stage {} on {}:",
-        stage.spec, context.declaration.branch
-    );
-    for row in &rows {
-        println!("{}", says(row));
-    }
-    let waiting: usize = rows.iter().map(|r| r.waiting).sum();
     let rose = verdict["result"] == REFUSED;
-    if rose {
-        println!("`step check` refused the branch because unnoticed faults rose: a test that noticed a fault at the base does not notice it now.");
-    }
-    if waiting == 0 && !rose {
-        println!("Protected enough: nothing waits in any chosen function.");
-        return Ok(0);
-    }
-    println!("Not protected enough: {waiting} fault(s) wait.");
-    Ok(1)
+    let protection = Protection::new(&stage, &context.revisions, sha256, rows, rose);
+    println!(
+        "{}",
+        says(&stage, &context.declaration.branch, &protection, &offs)
+    );
+    let beside = || {
+        context
+            .repo
+            .join(stage_dir(&context))
+            .join("protection.json")
+    };
+    let out = args.out.unwrap_or_else(beside);
+    emit_json(&protection, Some(&out))?;
+    println!("Written: {}", out.display());
+    Ok(u8::from(!protection.enough()))
 }

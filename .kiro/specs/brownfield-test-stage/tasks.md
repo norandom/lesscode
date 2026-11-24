@@ -92,7 +92,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Depends: 2.1_
   - _Boundary: protect_result.rs_
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.6, 5.3, 5.4, 5.5, 5.6, 7.5_
-- [ ] 2.3 What it says and what it leaves
+- [x] 2.3 What it says and what it leaves
   - The output names every write-off with its reason, approver and date; for one that cannot be
     tested as the code stands it repeats what the function reaches out to and that a reduction has
     to keep the behaviour there by other means. It says that the stage advises. On exit 0 it names

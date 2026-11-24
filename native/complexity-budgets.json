@@ -645,6 +645,13 @@
    "disposition": null
   },
   {
+   "path": "step/protect_receipt.rs",
+   "max_logical_units": 300,
+   "owner": "brownfield-test-stage",
+   "allocation": "What step protect result says (every write-off with reason, approver and date; what a function reaches out to; that the stage advises; the next step) and protection.json (step-protection-v1); split from protect_result.rs to keep it within its size (task 2.3; requirements 4.5, 4.7, 5.8, 6.4, 6.5)",
+   "disposition": null
+  },
+  {
    "path": "step/protect_result.rs",
    "max_logical_units": 300,
    "owner": "brownfield-test-stage",

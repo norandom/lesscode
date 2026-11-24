@@ -25,6 +25,7 @@ pub mod plan_show;
 pub mod protect;
 pub mod protect_begin;
 pub mod protect_numbers;
+pub mod protect_receipt;
 pub mod protect_result;
 mod protect_says;
 pub mod protect_stage;

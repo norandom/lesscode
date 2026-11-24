@@ -1,0 +1,325 @@
+//! `step protect result` through the binary (brownfield-test-stage, group 2).
+//! A stage is begun from a real plan of the toy repository and committed on
+//! its branch; the verdict is the one `step check` writes.
+
+mod step_support;
+
+use serde_json::{json, Value};
+use std::fs;
+use step_support::planned::Planned;
+
+const STAGE: &str = ".kiro/specs/protect-toy";
+
+impl Planned {
+    /// A toy repository with a stage for `helper`, committed on its branch.
+    fn staged(name: &str) -> Planned {
+        Planned::new(name, "python", "src/app.py").stage("src/app.py:helper")
+    }
+
+    /// Begin the stage for one function and commit it on its branch.
+    fn stage(self, function: &str) -> Planned {
+        let (code, said) = self.begin(&[function]);
+        assert_eq!(code, Some(0), "{said}");
+        let repo = &self.repo;
+        repo.git(&["checkout", "-q", "-b", "protect/protect-toy"]);
+        repo.git(&["add", "-A"]);
+        repo.git(&["commit", "-q", "-m", "begin the stage"]);
+        self
+    }
+
+    fn result(&self) -> (Option<i32>, String) {
+        let declaration = format!("{STAGE}/step.json");
+        let args = ["protect", "result", "--declaration", &declaration];
+        self.repo.cli(&args, "")
+    }
+
+    /// The result is exit 2 with these words, and nothing is written.
+    fn not_judged(&self, words: &[&str]) {
+        let before = self.repo.state();
+        let (code, said) = self.result();
+        assert_eq!(code, Some(2), "{said}");
+        for word in words {
+            assert!(said.contains(word), "{word:?} is not in: {said}");
+        }
+        assert_eq!(self.repo.state(), before, "exit 2 wrote something");
+        let receipt = self.repo.dir.join(STAGE).join("protection.json");
+        assert!(!receipt.exists(), "exit 2 left a protection.json");
+    }
+}
+
+impl Planned {
+    /// Write `write-offs.json` with one entry for the fault of `helper`.
+    fn write_off(&self, kind: &str, approved: bool) {
+        let by = |who: &str| approved.then(|| who.to_owned());
+        let offs = json!({ "schema": 1, "base": "", "write_offs": [{
+            "file": "src/app.py", "function": "helper", "fault": "drop_statement@9:4",
+            "kind": kind, "reason": "Nothing reads the count.", "proposed_by": "agent",
+            "approved_by": by("the owner"), "approved_at": by("2026-11-24"),
+        }]});
+        let path = format!("{STAGE}/write-offs.json");
+        self.repo.write(&path, &offs.to_string());
+    }
+
+    /// The result has this exit code and these words.
+    fn results_in(&self, code: i32, words: &[&str]) {
+        let (found, said) = self.result();
+        assert_eq!(found, Some(code), "{said}");
+        for word in words {
+            assert!(said.contains(word), "{word:?} is not in: {said}");
+        }
+    }
+}
+
+#[test]
+fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
+    let planned = Planned::staged("result-waiting");
+    let repo = &planned.repo;
+    let (code, out, err) = repo.step("check", "protect-toy", &[]);
+    assert_eq!(code, Some(0), "{out}\n{err}");
+    let numbers = "src/app.py: helper  noticed before 0, noticed now 0";
+
+    // Left without a proposal: it waits, and is named.
+    planned.results_in(
+        1,
+        &[
+            &format!("{numbers}, written off 0, waiting 1"),
+            "waiting: drop_statement@9:4: no test notices it and no write-off is proposed",
+            "Not protected enough: 1 fault(s) wait.",
+        ],
+    );
+    // A proposal nobody approved: it still waits.
+    planned.write_off("nothing_a_caller_sees", false);
+    planned.results_in(
+        1,
+        &[
+            &format!("{numbers}, written off 0, waiting 1"),
+            "waiting: drop_statement@9:4: its write-off is not approved",
+        ],
+    );
+    // Approved: written off, with its reason.
+    planned.write_off("nothing_a_caller_sees", true);
+    planned.results_in(
+        0,
+        &[
+            &format!("{numbers}, written off 1, waiting 0"),
+            "written off: drop_statement@9:4",
+            "src/app.py drop_statement@9:4 (nothing_a_caller_sees): Nothing reads the count. Approved by the owner on 2026-11-24.",
+            "Protected enough: nothing waits in any chosen function.",
+        ],
+    );
+    // A kind that is not one of the two is bad input, approved or not.
+    planned.write_off("too_hard", true);
+    planned.results_in(
+        3,
+        &[
+            "the kind `too_hard` of the write-off for src/app.py drop_statement@9:4",
+            "nothing_a_caller_sees, not_testable_as_it_stands",
+        ],
+    );
+
+    // A verdict that refused because unnoticed faults rose: not protected
+    // enough, whatever is written off. Refused for another reason: no result.
+    planned.write_off("nothing_a_caller_sees", true);
+    let verdict = repo.dir.join(STAGE).join("verdict.json");
+    let refused = |check: &str| json!([{"name": check, "result": "refused", "detail": "why"}]);
+    Planned::edit(&verdict, "result", json!("refused"));
+    Planned::edit(&verdict, "checks", refused("planted faults"));
+    planned.results_in(
+        1,
+        &["`step check` refused the branch because unnoticed faults rose"],
+    );
+    Planned::edit(&verdict, "checks", refused("size"));
+    planned.results_in(
+        2,
+        &["Not judged: `step check` refused protect/protect-toy for a reason other than faults: size: why."],
+    );
+}
+
+#[test]
+fn a_fault_a_test_notices_is_noticed_also_where_it_has_a_write_off() {
+    let planned = Planned::staged("result-noticed");
+    let repo = &planned.repo;
+    let expected = "if a > 3:\n    state.count = b\n";
+    repo.commit(&[("tests/expect.txt", expected)], "a test for helper");
+    let (code, out, err) = repo.step("check", "protect-toy", &[]);
+    assert_eq!(code, Some(0), "{out}\n{err}");
+    let numbers = "src/app.py: helper  noticed before 0, noticed now 1, written off 0, waiting 0";
+    planned.results_in(0, &[numbers, "Protected enough"]);
+
+    planned.write_off("not_testable_as_it_stands", true);
+    planned.results_in(
+        0,
+        &[
+            numbers,
+            "noticed: drop_statement@9:4 has a write-off, and a test notices it now",
+        ],
+    );
+}
+
+/// A function with three statements a fault can be planted in.
+const THREE: &str = "def three(state, a):\n    state.first = a\n    state.second = a\n    state.third = a\n    return a\n";
+
+/// A stage for `three` with one fault of each standing: the first has a
+/// test, the second an approved write-off, the third a write-off that is
+/// approved or not.
+fn three(name: &str, third_approved: bool) -> (Planned, Value) {
+    let expect = "def three(state, a):\n";
+    let files = [("src/three.py", THREE), ("tests/expect.txt", expect)];
+    let planned = Planned::with(name, "python", "src/three.py", &files);
+    let planned = planned.stage("src/three.py:three");
+    let tested = format!("{expect}    state.first = a\n");
+    let repo = &planned.repo;
+    repo.commit(&[("tests/expect.txt", &tested)], "a test for the first");
+    let (code, out, err) = repo.step("check", "protect-toy", &[]);
+    assert_eq!(code, Some(0), "{out}\n{err}");
+    let approved = |yes: bool| yes.then_some("2026-11-24");
+    let off = |line: usize, kind: &str, reason: &str, yes: bool| {
+        json!({
+            "file": "src/three.py", "function": "three",
+            "fault": format!("drop_statement@{line}:4"), "kind": kind, "reason": reason,
+            "proposed_by": "agent", "approved_by": approved(yes).map(|_| "the owner"),
+            "approved_at": approved(yes),
+        })
+    };
+    let reason = "The second is read by code we cannot run.";
+    let second = off(3, "not_testable_as_it_stands", reason, true);
+    let third = off(
+        4,
+        "nothing_a_caller_sees",
+        "Nobody reads the third.",
+        third_approved,
+    );
+    let offs = json!({"schema": 1, "base": "", "write_offs": [second, third]});
+    repo.write(&format!("{STAGE}/write-offs.json"), &offs.to_string());
+    (planned, second)
+}
+
+/// The receipt of the stage of `three` while its third fault waits: the
+/// four numbers, the write-off, the waiting fault, and which content and
+/// which verdict they are for.
+fn receipt_while_one_waits(planned: &Planned, second: Value) {
+    let repo = &planned.repo;
+    let mut receipt = repo.json(&repo.dir.join(STAGE).join("protection.json"));
+    assert_eq!(receipt["base"], repo.git(&["rev-parse", "main"]));
+    assert_eq!(receipt["revision"], repo.git(&["rev-parse", "HEAD"]));
+    assert_eq!(receipt["verdict_sha256"].as_str().unwrap().len(), 64);
+    for key in ["base", "revision", "verdict_sha256"] {
+        receipt[key] = Value::Null;
+    }
+    let expected = json!({
+        "receipt": "step-protection-v1", "spec": "protect-toy",
+        "base": null, "revision": null, "verdict_sha256": null,
+        "result": "not_protected_enough", "unnoticed_rose": false,
+        "functions": [{
+            "file": "src/three.py", "function": "three",
+            "noticed_before": 0, "noticed_now": 1, "written_off": 1, "waiting": 1,
+            "write_offs": [second],
+            "waiting_faults": [{"faults": ["drop_statement@4:4"], "line": 4,
+                                "operator": "drop_statement",
+                                "why": "its write-off is not approved"}],
+            "noticed_write_offs": [],
+        }],
+    });
+    assert_eq!(receipt, expected, "{receipt:#}");
+}
+
+#[test]
+fn the_result_names_each_standing_and_leaves_a_receipt() {
+    let (planned, second) = three("result-says", false);
+    planned.results_in(1, &[
+        "The stage protect-toy on protect/protect-toy:",
+        "  src/three.py: three  noticed before 0, noticed now 1, written off 1, waiting 1",
+        "    waiting: drop_statement@4:4: its write-off is not approved",
+        "    written off: drop_statement@3:4",
+        "Write-offs (2):",
+        "  src/three.py drop_statement@3:4 (not_testable_as_it_stands): The second is read by code we cannot run. Approved by the owner on 2026-11-24.",
+        "    three reaches out: writes state at line 2: state.first = a, line 3: state.second = a, line 4: state.third = a. A reduction has to keep the behaviour there by other means.",
+        "  src/three.py drop_statement@4:4 (nothing_a_caller_sees): Nobody reads the third. Not approved.",
+        "Not protected enough: 1 fault(s) wait.",
+        "The stage advises: a reduction that begins without it is judged as any other.",
+        "Written: ",
+    ]);
+    receipt_while_one_waits(&planned, second);
+}
+
+#[test]
+fn a_protected_stage_names_the_next_step_and_writes_where_it_is_asked_to() {
+    let (planned, _) = three("result-next", true);
+    let repo = &planned.repo;
+    let out = repo.dir.parent().unwrap().join("elsewhere.json");
+    let (declaration, out_arg) = (format!("{STAGE}/step.json"), out.to_string_lossy());
+    let args = [
+        "protect",
+        "result",
+        "--declaration",
+        &declaration,
+        "--out",
+        &out_arg,
+    ];
+    let (code, said) = repo.cli(&args, "");
+    assert_eq!(code, Some(0), "{said}");
+    for line in [
+        "written off 2, waiting 0",
+        "Protected enough: nothing waits in any chosen function.",
+        "Next: declare the reduction of a chosen function as a step.",
+        "The stage advises:",
+    ] {
+        assert!(said.contains(line), "{line:?} is not in:\n{said}");
+    }
+    assert_eq!(repo.json(&out)["result"], "protected_enough");
+    let beside = repo.dir.join(STAGE).join("protection.json");
+    assert!(
+        !beside.exists(),
+        "--out was given, and the receipt is also beside the declaration"
+    );
+}
+
+#[test]
+fn a_stage_without_a_verdict_is_not_judged() {
+    let planned = Planned::staged("result-no-verdict");
+    planned.not_judged(&[
+        "Not judged: there is no verdict at .kiro/specs/protect-toy/verdict.json.",
+        "Run `step check` on protect/protect-toy first.",
+    ]);
+}
+
+#[test]
+fn a_verdict_for_other_content_than_the_branch_has_is_not_judged() {
+    let planned = Planned::staged("result-other-content");
+    let repo = &planned.repo;
+    let (code, out, err) = repo.step("check", "protect-toy", &[]);
+    assert_eq!(code, Some(0), "{out}\n{err}");
+    // The verdict is the one for the branch as it is: there is a result.
+    let (code, said) = planned.result();
+    assert_ne!(code, Some(2), "{said}");
+    assert!(!said.contains("Not judged"), "{said}");
+
+    // A test file is added after the verdict was written. The result that
+    // was left for the content before it is taken away first.
+    fs::remove_file(repo.dir.join(STAGE).join("protection.json")).unwrap();
+    repo.commit(&[("tests/more.txt", "more\n")], "one more test file");
+    planned.not_judged(&[
+        "is not the one for what protect/protect-toy has committed",
+        "a test file changed after the verdict was written",
+        "Run `step check` again.",
+    ]);
+}
+
+#[test]
+fn a_branch_that_changed_a_code_file_is_not_judged() {
+    let planned = Planned::staged("result-code-changed");
+    let repo = &planned.repo;
+    let code = fs::read_to_string(repo.dir.join("src/app.py")).unwrap();
+    repo.commit(
+        &[("src/app.py", &format!("{code}\n# a note\n"))],
+        "change the code",
+    );
+    // Whatever the check makes of the change, its verdict is for this content.
+    let (_, out, err) = repo.step("check", "protect-toy", &[]);
+    let verdict = repo.dir.join(STAGE).join("verdict.json");
+    assert!(verdict.is_file(), "{out}\n{err}");
+    planned.not_judged(&[
+        "src/app.py differs between the base and protect/protect-toy",
+        "the result does not hold for the functions of that file",
+    ]);
+}
