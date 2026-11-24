@@ -112,3 +112,17 @@ approval, then the design with its prototype gate on the renderer of drift-rdp, 
 watches. How Kiro's test-first protocol is reused: the planted fault stands where the missing
 implementation stands in Kiro, so "red" is the test failing on the code with the fault and "green"
 is the test passing on the unchanged code.
+
+## Amended 2026-11-24, 11:50: requirements approved, a provisional design and its gate written
+
+The owner approved the requirements ("approved, go on to the design"). Written:
+[design.md](specs/brownfield-test-stage/design.md) (provisional),
+[research.md](specs/brownfield-test-stage/research.md) and
+[prototype-gate.md](specs/brownfield-test-stage/prototype-gate.md) (not run). The design: the stage
+is a step that adds tests and changes no code; `step plan`, `step pin` and `step check` with a
+declaration's `focus` carry it (as in the step `escape-html`, R94/R95); to build are two small
+commands (`step protect begin`, `step protect result`) and a skill. **One open contradiction
+blocks approval**: Rust keeps unit tests inside the file of the code, and `step pin` carries only
+files under `test_paths` into its copy. The gate tries two placements of the tests on
+`display_path.rs` of the renderer, in an isolated clone, with the owner watching the first plan
+and naming the functions. Next: the owner at the screen, then the prototype (R184).

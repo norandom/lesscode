@@ -1,6 +1,7 @@
 # Requirements: the brownfield test stage
 
-Generated 2026-11-24, 11:10 (Europe/Berlin) from the [brief](brief.md). Not approved yet.
+Generated 2026-11-24, 11:10 (Europe/Berlin) from the [brief](brief.md). Approved by the owner on
+2026-11-24 ("approved, go on to the design"), with the five points below.
 Evidence: [R164](../../../docs/research/2026-11-23/01-renderer-baseline-faults.md) (on the renderer
 of drift-rdp the tests notice 72 of 268 planted faults),
 [R171](../../../docs/research/2026-11-23/08-tests-for-four-uncovered-shapes.md) and
