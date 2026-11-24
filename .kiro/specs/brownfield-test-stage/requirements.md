@@ -44,6 +44,12 @@ approved.
    the first plan of the stage. That is the prototype gate of the design and the look at the
    changed page that the validation of `run-dashboard` names as missing.
 
+## Amended 2026-11-24, 13:10: one review
+
+The owner, after the plan of the prototype, chose one review at the end over an approval before
+the tests and one per write-off. Changed below: 2.5, 4.3, 4.4 and 7.3. Before the change 2.5
+forbade a test before the spec was approved, and 7.3 named three stops.
+
 ## Introduction
 
 lesscode works an existing codebase into less code. A reduction is only as safe as the tests that
@@ -108,8 +114,8 @@ before any test is written, so that the tests fix behaviour I want kept.
    notice.
 4. The stage spec shall name the plan it was made from, the commit of the code, and the command
    that runs the project's tests.
-5. The stage shall not write a protection test before the owner of the code has approved the
-   requirements and the tasks of the stage spec.
+5. The stage shall put the stage spec, the protection tests and the proposals to write faults off
+   before the owner of the code in one review, and shall count nothing as approved before it.
 6. Where the project under work has its own way of keeping specs in Kiro's form, the stage shall
    use it; where it has none, the stage shall write the stage spec in that form without installing
    anything in the project.
@@ -149,8 +155,9 @@ chase, so that the stage ends without tests that fix nothing worth keeping.
 2. The stage shall take one of two kinds of reason: the fault changes nothing a caller can see, or
    the fault cannot be tested as the code stands.
 3. The stage shall count a fault as written off only when the owner of the code has approved the
-   proposal, and shall record who approved it and when.
-4. While a proposal is not approved, the stage shall count its fault as waiting.
+   proposal in the review, and shall record who approved it and when.
+4. While a proposal is not approved, the stage shall count its fault as waiting, and shall not
+   call its function protected enough.
 5. The stage shall go on showing a written-off fault as written off, with its reason, in every
    later result of the stage.
 6. If a test notices a fault that was written off, then the stage shall show the fault as noticed.
@@ -206,8 +213,8 @@ own and what waits for me, so that I can let it work.
 1. The stage shall let an agent choose nothing: the chosen functions come from the person.
 2. The stage shall let an agent write the stage spec, write protection tests and propose faults for
    writing off.
-3. The stage shall wait for the owner of the code at three points: the approval of the stage
-   spec, the approval of each proposal to write a fault off, and the merge of the protection tests.
+3. The stage shall wait for the owner of the code at two points: the one review of the stage
+   spec, the protection tests and the proposals to write faults off; and the merge of the tests.
 4. If a command of the stage ends without a judgement, then the stage shall say that nothing was
    judged and shall not report the function as protected.
 5. The stage shall not report a function as protected enough on an agent's reading of the code.

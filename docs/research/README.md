@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R183 A copy says why it stopped, tries again, and the copies take turns by free memory (2026-11-24)
+## Latest · R184 The brownfield test stage by hand: six of nine unnoticed faults noticed by four tests, no code changed (2026-11-24)
+
+Prototype gate of the spec `brownfield-test-stage`, preregistered. On five functions of `display_path.rs` in the renderer of drift-rdp the existing commands carried the stage: a plan, four tests written first against planted faults and admitted by `step pin`, and `step check` with before and now per function. Six of nine unnoticed faults are noticed; the owner wrote the other three off in one review. Two adverse controls were rejected. Rust needed a test file of its own, joined by one line committed before the plan. One limit of the gate was passed: the first pin took 17 min 50 s against ten minutes, because it runs the base once; the owner accepted that with a change of the design. Everything the two planned commands and the skill would do was done by hand. [Entry](2026-11-24/05-brownfield-stage-prototype.md).
+
+## R183 A copy says why it stopped, tries again, and the copies take turns by free memory (2026-11-24)
 
 Implementation record after the owner's "make the four tool changes". A first run that fails says whether the commands ended before any test ran or a test did not pass, keeps its whole output in a file, and is tried once more when no other copy is in its first run. Runs take turns by the memory the system has free. My first version held back only the first build of each copy; three copies on the renderer of drift-rdp were void again after nine minutes, because builds with a planted fault take memory too. With turns for every run the same three copies ran to their end. Core suite 478 of 478 on Windows. Not shown: that three copies are faster than one on this machine. [Entry](2026-11-24/04-turns-by-memory.md).
 

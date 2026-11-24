@@ -126,3 +126,24 @@ blocks approval**: Rust keeps unit tests inside the file of the code, and `step 
 files under `test_paths` into its copy. The gate tries two placements of the tests on
 `display_path.rs` of the renderer, in an isolated clone, with the owner watching the first plan
 and naming the functions. Next: the owner at the screen, then the prototype (R184).
+
+## Amended 2026-11-24, 13:15: the prototype of the brownfield test stage has run; the design waits for approval
+
+[R184](../docs/research/2026-11-24/05-brownfield-stage-prototype.md). In an isolated clone
+(`D:\BuildArtifacts\drift-rdp\lesscode-brownfield-stage`, branch `protect/display-path` at
+`4da65d8`; the checkout of drift-rdp is untouched) four tests in a file of their own turned six of
+nine unnoticed faults of five functions of `display_path.rs` into noticed ones; the owner accepted
+the tests and wrote the other three off, in one review. The gate says `proceed`; its limit of ten
+minutes per pin was passed once (17 min 50 s, the base's run) and the owner accepted that. The
+design is revised in six points and requirements 2.5, 4.3, 4.4 and 7.3 are amended to one review.
+**Next: the owner approves the design; then `kiro-spec-tasks`.**
+
+For run-dashboard, chosen by the owner and not done: when a run ends, an end screen, and the tool
+opens the saved report so that the tab that stays survives a reload ("once the process is down,
+current report info is lost"). Done at `b52718a`: the line over the bar says when all faults were
+run.
+
+Not merged anywhere: the clone's branch. Whether its tests go into drift-rdp is the owner's.
+Storage: the prototype's copies took 34.5 GiB and are removed; D: has 120.1 GiB free; kept
+`D:\BuildArtifacts\lesscode\brownfield-test-stage\prototype-1` (16.1 MiB) and the clone. Next research
+record R185; next handover `task_85_handover.md`.

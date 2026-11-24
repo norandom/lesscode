@@ -1,6 +1,7 @@
 # Prototype gate: brownfield-test-stage
 
-Written 2026-11-24, 11:45 Europe/Berlin, before any run. **Decision: `not-run`.**
+Written 2026-11-24, about 11:35 Europe/Berlin, before any run. **Decision: `proceed`**, since 13:10, with one limit
+passed and accepted by the owner (see Result).
 Rule: [prototype-first](../../steering/prototype-first.md). Design: [design.md](design.md),
 provisional until this gate says `proceed`.
 
@@ -85,6 +86,46 @@ None of these is a capability the prototype shows. They are what the production 
   clone's working copies, which are removed at the end).
 - The copies take turns by free memory since R183; no build is started beside the run.
 
+## Amended 2026-11-24, 12:10, before any test was written
+
+The owner, asked for choices after the plan ("I don't understand the problem. all we want is better
+tests to ensure our lesscode transformations are not causing problems. we brownfield onbaord the
+codebase with a tdd workflow"), chose:
+
+- all five proposed functions;
+- for faults a plain test cannot reach: try, then note the rest for one decision;
+- **one review at the end**, of the tests and of the faults no test reaches, in place of an
+  approval before the tests and one per write-off.
+
+That changes G7. It now reads: nothing is merged and no write-off counts before the owner's one
+review at the end. The requirements 2.5, 4.3 and 7.3 name three stops; they have to be amended to
+the one the owner chose before the design is approved.
+
+Two more things were settled before the plan. Placement (b) of G2 was ruled out by reading: the
+module `renderer` is private in `lib.rs` and the test command runs library tests only, so a test
+under `src-tauri/tests` cannot reach these functions and would not be run. The owner approved the
+joining line of placement (a); it is commit `72507e1` of the clone and the base of the stage.
+
 ## Result
 
-Not run.
+Run 2026-11-24, 11:47 to 13:02. Record: [R184](../../../docs/research/2026-11-24/05-brownfield-stage-prototype.md).
+
+| # | Outcome |
+| --- | --- |
+| G1 | **holds.** Seven calls of `step pin` and one of `step check` ended with a judgement. |
+| G2 | **holds for placement (a).** Tests in `display_path/protect.rs`, joined by one line in the base, were admitted. Placement (b) was ruled out by reading. |
+| G3 | **holds.** 6 of 9 unnoticed faults built on Windows are noticed; the other 3 have proposals, and the owner approved them. |
+| G4 | **holds.** The branch changes the stage spec and `protect.rs`; the scope file has 3,095 tokens before and after. |
+| G5 | **holds.** "the tests with the pin pass on the fault" for the test that asserts nothing; "the tests with the pin fail on the unchanged code" for the one that contradicts the code. |
+| G6 | **one limit passed.** The whole took 1 h 15 min of 3 h. The first `step pin` took 17 min 50 s against a limit of ten minutes: it runs the base's faults once. The others took 90 to 143 seconds. I did not stop the run at that point, as the gate asked. |
+| G7 (as amended) | **holds.** One review at the end; nothing is merged. |
+| G8 | **holds.** Four tests, six faults. |
+
+By the gate as written the decision was `revise` on G6. The owner was given three ways to treat it
+and chose: "Accept, and say it up front". The prototype counts as passed; the design is changed so
+that the stage runs the base once, on its own, and says before it starts how long that takes. No
+target was lowered without the owner: the limit of ten minutes stays as it was written, and it was
+passed once.
+
+Not shown by this gate: another language; a project without a Kiro setup; the two commands and the
+skill, which do not exist; more than one file.

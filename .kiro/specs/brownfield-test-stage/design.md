@@ -1,10 +1,9 @@
 # Design: the brownfield test stage
 
-**Provisional.** Written 2026-11-24, 11:40 Europe/Berlin, from the approved
-[requirements](requirements.md) and the [research log](research.md). This design is research-bearing
-and has not passed its [prototype gate](prototype-gate.md). Design approval stays pending until the
-gate says `proceed`; no production tasks before that
-([prototype-first](../../steering/prototype-first.md)).
+Written 2026-11-24, about 11:30 Europe/Berlin, from the approved [requirements](requirements.md)
+and the [research log](research.md); revised at 13:15 around what the
+[prototype gate](prototype-gate.md) showed (`proceed`, R184). **Not approved yet.** The revisions
+are listed under "What the prototype changed".
 
 ## Overview
 
@@ -39,6 +38,31 @@ flowchart LR
 
 Round nodes are a person. Nothing after `step plan` runs a fault except `step pin` and
 `step check`.
+
+## What the prototype changed
+
+1. **The base runs once, first, and is announced.** The first `step pin` of a stage ran the
+   faults of the chosen functions on the base: 17 min 50 s on the renderer, where later pins took
+   about two minutes. `step protect begin` says how long that run will take, from the seconds
+   of the plan, and the skill runs it as a step of its own (a `step pin` for the first fault)
+   before any other.
+2. **One review.** Phases 5 and 8 of the skill are one: the owner of the code reviews the stage
+   spec, the tests and the proposals together, after the check. Until then nothing counts as
+   approved and `step protect result` ends with 1.
+3. **Rust needs a joining line before the plan.** Where tests live inside the file of the code,
+   the stage needs a test file of its own under a test path and one line that joins it
+   (`#[cfg(test)] mod protect;`), committed before the plan so that it is part of the base. The
+   skill says so and asks the person; `step protect begin` refuses a run configuration whose
+   test paths hold no file. Tests under the crate's test directory do not reach private modules.
+4. **Fault numbers are the verdict's, not a count of unnoticed faults.** `step pin --fault`
+   takes the number the base's run gave a fault; a fault that did not build keeps its number (7 of
+   10 here). `stage.json` carries that number beside the id once the base has run; the skill takes
+   the numbers from the list `step pin` prints.
+5. **Disk.** Eight working copies of the crate, for the plan, the base, the pins and the step, took
+   34.5 GiB. The skill removes the plan's copies before the pins and all copies at the end, and
+   `step protect begin` says how much one copy took in the plan.
+6. **A test that contradicts the code costs one more run**, since a copy tries its first run again
+   (R183). That is accepted.
 
 ## Boundary Commitments
 
@@ -182,11 +206,11 @@ Phases, each gated on an exit code or on the person:
 | 2 | person | names the functions to be reduced (7.1) | the person |
 | 3 | agent | `step protect begin` | exit 0 |
 | 4 | agent | writes `requirements.md`, `tasks.md` and `spec.json` of the stage spec from `stage.json`, in Kiro's form and the project's spec language (2.2 to 2.4, 2.6, 2.7) | none |
-| 5 | owner of the code | approves requirements and tasks (2.5, 7.3) | the person |
+| 5 | agent | runs the base once: `step pin` for the first fault, after saying how long it takes | exit 0 or 1 |
 | 6 | agent | per task: writes the test, commits it alone, runs `step pin` for each fault the task names, keeps the receipt beside the task (3.1 to 3.5, 3.7) | exit 0 per pin |
 | 7 | agent | proposes write-offs for faults no test is to notice, or that a task had to give up on (3.6, 4.1) | none |
-| 8 | owner of the code | approves each write-off by filling its two fields (4.3, 7.3) | the person |
-| 9 | agent | `step check` on the branch, with `--page` | exit 0 |
+| 8 | agent | `step check` on the branch, with `--page` | exit 0 |
+| 9 | owner of the code | one review: the stage spec, the tests with the sentence of each, and the proposals; approves a write-off by filling its two fields (2.5, 4.3, 7.3) | the person |
 | 10 | agent | `step protect result`; reports its output and nothing of its own reading (7.5) | exit code |
 | 11 | owner of the code | merges the tests (7.3) | the person |
 
@@ -214,7 +238,7 @@ person names and installs nothing (2.6, point 3).
 | 2.1, 2.8 | `step protect begin` writes into the stage spec's directory only |
 | 2.2, 2.3, 2.6, 2.7 | the skill, phase 4, and the two templates |
 | 2.4 | `stage.json` (`plan`, `base`, `test`); the requirements template repeats them |
-| 2.5 | the skill, phase 5; no command enforces it |
+| 2.5 | the skill, phase 9; `step protect result` counts nothing as written off before it |
 | 3.1 to 3.4 | `step pin`, kept receipt per task |
 | 3.5 | `step pin` runs the configured tests with the new test on the unchanged code; `step check` runs them on the branch |
 | 3.6 | the skill, phase 7; `step protect result` rule 2 catches a changed code file |
@@ -231,17 +255,16 @@ person names and installs nothing (2.6, point 3).
 | 7.1 to 7.3, 7.5 | the skill's phases and gates |
 | 7.4 | exit 2 of `step protect result` |
 
-Requirements 2.5 and 7.1 to 7.3 rest on the skill and on a person. The tool does not enforce an
-approval before a test is written. That is said in the guide.
+Requirements 2.5 and 7.1 to 7.3 rest on the skill and on a person. That is said in the guide.
 
 ## Contradictions and disposition
 
 | # | Conflict | Authority | Disposition | Affects |
 | --- | --- | --- | --- | --- |
-| 1 | Point 1 of the requirements: no file of the code to be reduced is changed. Rust keeps unit tests inside that file, and `step pin` carries only files under `test_paths` into its copy. | requirements (approved); `pin.rs`, `trees.rs` | **Open, empirical: prototype blocker.** Three candidates: (a) tests in a file of their own, joined by one line `#[cfg(test)] mod …;` that is committed, with the owner's approval, before the plan, so that it is part of the base; (b) tests under the crate's test path against what is public; (c) the tool learns to treat a test module inside a scope file as test. The prototype tries (a) and (b) on the renderer. (c) changes `step pin` and is outside this spec's boundary; if neither (a) nor (b) holds, the gate says `revise`. | requirement 3.6, 3.7; the declaration's `max_token_growth` |
+| 1 | Point 1 of the requirements: no file of the code to be reduced is changed. Rust keeps unit tests inside that file, and `step pin` carries only files under `test_paths` into its copy. | requirements (approved); `pin.rs`, `trees.rs` | **Closed by the prototype (R184): candidate (a) holds.** One joining line, approved by the owner and committed before the plan, is part of the base; the stage itself changes no code file. (b) cannot reach private modules. (c) is not needed. As first written: Three candidates: (a) tests in a file of their own, joined by one line `#[cfg(test)] mod …;` that is committed, with the owner's approval, before the plan, so that it is part of the base; (b) tests under the crate's test path against what is public; (c) the tool learns to treat a test module inside a scope file as test. The prototype tries (a) and (b) on the renderer. (c) changes `step pin` and is outside this spec's boundary; if neither (a) nor (b) holds, the gate says `revise`. | requirement 3.6, 3.7; the declaration's `max_token_growth` |
 | 2 | The brief said a test counts "when `step pin` admits it"; requirement 5.1 says the outcome of the run after the tasks counts, not the tasks. | requirements (later, approved) | Both hold: `step pin` is the evidence of a task, `step check` is the judgement of the stage. | none |
 | 3 | The brief of lesscode-metrics wants "a command that writes tests for unnoticed faults". | owner's decision of 2026-11-23: no model in the tool | Superseded there; an agent writes the tests. | lesscode-metrics brief |
-| 4 | Requirement 2.5: no test before approval. Nothing in the tool enforces it. | requirements | Accepted as a rule of the skill; named as a limit. Enforcing it would need a record of approval that the tool trusts, which this design does not have (see "What the tool cannot know"). | 7.3 |
+| 4 | Requirement 2.5 as first approved: no test before approval. The owner chose one review at the end. | the owner, 2026-11-24 | Requirements 2.5, 4.3, 4.4 and 7.3 amended; the skill has one review. | 7.3 |
 | 5 | "Kiro's form is copied": the Kiro skills in this repository are untracked and their licence is not recorded here. | point 3 of the requirements | The form (file names, numbered requirements, tasks with boundary) is used; no text of Kiro's skills is copied into lesscode's skill. | the skill |
 
 ## File Structure Plan
