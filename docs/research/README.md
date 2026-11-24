@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R187 The skill `protect-before-reduce` and its two templates are written; the result reads committed files only (2026-11-24)
+## Latest · R188 The brownfield test stage with its two commands on `yuv.rs` of the renderer (2026-11-24, running)
+
+Task 5.1 of the spec `brownfield-test-stage`, preregistered: the skill `protect-before-reduce` with `step protect begin` and `step protect result` in place of what R184 did by hand, on a second file of drift-rdp's renderer that the owner named. Ten expectations are written before the plan, among them that the base run takes about what `step protect begin` announces and that its disk figure holds. [Entry](2026-11-24/09-protect-stage-yuv.md).
+
+## R187 The skill `protect-before-reduce` and its two templates are written; the result reads committed files only (2026-11-24)
 
 Implementation record of group 3 of the spec `brownfield-test-stage`. The walk an agent follows through the stage exists as a skill in eleven phases with their gates, with the forms of the stage spec's requirements and tasks. Two decisions of the owner are built into the commands: `step protect result` reads the verdict, `stage.json` and `write-offs.json` as committed on the branch and no other copy, so an approval that is written and not committed does not count; and `step protect begin` says what one copy of the plan takes on disk. The skill was read against the prototype (R184) and every step taken by hand there has its line. No agent has followed it yet; that is task 5.1. [Entry](2026-11-24/08-protect-skill.md).
 
