@@ -120,7 +120,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     there by hand has its line, and the owner has read it.
   - _Boundary: the skill_
   - _Requirements: 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 4.1, 7.1, 7.2, 7.3_
-- [ ] 3.2 The form of the stage spec
+- [x] 3.2 The form of the stage spec
   - Two templates in the skill: `requirements.md` (the plan, the base and the test command at the
     top; what is left alone; one requirement per chosen function that says what could change
     unseen there, with its faults by id) and `tasks.md` (one task per test with the sentence of
