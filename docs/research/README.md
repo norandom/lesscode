@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R185 `step protect begin` is built: it refuses what it should and `step check` reads what it writes, on the toy repository (2026-11-24)
+## Latest · R186 `step protect result` is built: four numbers per function, the exit code and the receipt, on the toy repository (2026-11-24)
+
+Implementation record of group 2 of the spec `brownfield-test-stage`. The second command of the stage says whether the chosen functions are protected enough, from the verdict of `step check`, `stage.json` and `write-offs.json`: per function the faults noticed before, noticed now, written off and waiting. Exit 0 when nothing waits, 1 when a fault waits or unnoticed faults rose, 2 when there is no verdict for exactly the committed content or the branch changed the code, 3 for bad input. It prints every write-off with reason, approver and date and leaves `protection.json`. It runs nothing, opens nothing and asks nothing. Shown on the toy repository, core suite 498 of 498 on Windows; not shown on a real project. Open for the owner: the command reads a file's copy in the working tree before the committed one, so an approval that is written and not committed already counts. [Entry](2026-11-24/07-step-protect-result.md).
+
+## R185 `step protect begin` is built: it refuses what it should and `step check` reads what it writes, on the toy repository (2026-11-24)
 
 Implementation record of group 1 of the spec `brownfield-test-stage`. The first command of the stage reads a plan, the receipt of its run, the run configuration and the code; refuses with exit 3 before anything is written; writes `step.json` and `stage.json` into the stage spec's directory only; and says what is chosen, what is left alone and what running the faults again costs. It opens no page and asks nothing, after the owner's direction that the page stays off by default and the flows run in a pipeline. Shown on the toy repository, core suite 487 of 487 on Windows; not shown on a real project. One finding for group 2: the verdict names no column for faults with a plain operator, so the design's fault id cannot be read from the verdict alone. [Entry](2026-11-24/06-step-protect-begin.md).
 

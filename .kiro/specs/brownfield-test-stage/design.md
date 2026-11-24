@@ -306,7 +306,7 @@ plain operators, so the id `<operator>@<line>:<column>` cannot be read from the 
 (finding 1 of R185). Decided by the owner on 2026-11-24: the result matches such a fault by file,
 line and operator, from committed files only, and says so when two faults cannot be told apart.
 
-**Amended 2026-11-24, with tasks 2.1 and 2.2.** `protect_result.rs` would have gone over the size
+**Amended 2026-11-24, with group 2 ([R186](../../../docs/research/2026-11-24/07-step-protect-result.md)).** `protect_result.rs` would have gone over the size
 budget with the numbers in it, so one file was added, with its entry in the budgets and its own
 tests in `native/tests/step_protect_numbers.rs`:
 
