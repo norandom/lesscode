@@ -147,17 +147,21 @@ Considered and not proposed:
 - Token budgets of `runner.rs` and `page_log.rs` are at their limits; new code goes into new
   modules.
 
-## Open questions for the owner
+## Decided by the owner on 2026-11-24
 
-1. What "protected enough" is before the reduction may begin: every fault of a chosen function
-   noticed or written off by a person, or a share (for example 80% noticed).
-2. Who may say that a fault is no call for a test: the person only, or the agent with a reason the
-   person can overrule.
+Nothing is open. The answers are requirements for the spec.
 
-Decided by the owner on 2026-11-24:
-
-- The spec of the stage lives in the project under work, in its own `.kiro/specs`.
-- This spec is worked after run-dashboard group 8 is closed.
+- **Protected enough**: a function may be reduced when every planted fault in it is noticed by a
+  test or written off with a reason. A share of the faults is not enough, and neither is leaving
+  the list of unprotected functions.
+- **Who writes a fault off**: the agent proposes the reason, in the spec; it counts when the owner
+  of the code has approved it. A fault is written off as "changes nothing a caller can see" or as
+  "cannot be tested as the code stands".
+- **Where the spec lives**: in the project under work, in its own `.kiro/specs`.
+- **When**: after run-dashboard group 8, which is closed.
+- **The first run of the stage is watched**: the stage starts with a plan on the renderer of
+  drift-rdp, and the owner watches the run page follow it. That is the look at the changed page
+  that the validation of run-dashboard names as missing.
 
 ## Related
 

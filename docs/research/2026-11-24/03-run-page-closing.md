@@ -34,7 +34,7 @@ The first is that nobody has watched the changed page follow a run.
   core suite 470 of 470, 1 skipped (`D:BuildArtifactslesscode
 ative-evidencelinux-1f1325b`).
   Playwright 67 of 67. Lints, format, doctests, size budgets, `kiro-cli code check` pass.
-- **Release notes (8.3).** [docs/releases/next.md](../../releases/next.md), with the known limits.
+- **Release notes (8.3).** [docs/releases/2.2.0.md](../../releases/2.2.0.md), with the known limits.
   The version and the tag are the owner's.
 
 ## Limits

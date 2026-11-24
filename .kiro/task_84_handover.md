@@ -15,7 +15,7 @@ Group 8, on `main`, local:
 - **8.2** (`1f1325b`): the page in `docs/steps.md`, `docs/state-refactoring.md` and the skill
   `untangle-state`; `step reports` documented; diffcore recommended, sentence approved by the owner.
 - **8.3** (this commit): [validation.md](specs/run-dashboard/validation.md) says GO and names six
-  things that stand against it; `docs/releases/next.md`; the opener with a stand-in in a Linux
+  things that stand against it; `docs/releases/2.2.0.md`; the opener with a stand-in in a Linux
   container. [R182](../docs/research/2026-11-24/03-run-page-closing.md).
 
 ## State
@@ -90,3 +90,13 @@ tool's own copies; a build of yours beside a run is still not counted by the too
 Windows 478 of 478; the pages 67 of 67. Next research record R184. Kept in addition under
 `D:\BuildArtifacts\lesscode\run-dashboard\`: `first-run-renderer-1`, `first-run-renderer-2`,
 `first-run-smoke`, `states-g10-1`, `budgets-g10.json`; their working copies are removed.
+
+## Amended 2026-11-24, 11:05: the open decisions are made
+
+The owner chose from choices: the next release is **2.2.0** (notes in
+[docs/releases/2.2.0.md](../docs/releases/2.2.0.md); `native/Cargo.toml` is not bumped and nothing is
+tagged); for the brownfield test stage a function is protected enough when **every fault is noticed
+or written off**, and a fault is written off when **the agent proposes the reason and the owner
+approves it**; the changed page is watched **with the first run of that stage**. All four are in
+the [brief](specs/brownfield-test-stage/brief.md), which has no open question left. Under "Next",
+point 1 is settled except for the tag.

@@ -91,3 +91,8 @@ commands ended before any test ran or a test did not pass, keeps its whole outpu
 once more, and the copies take turns by free memory. Windows 478 of 478, the pages 67 of 67. The
 gap named under requirements 3.5 and 6.2 is closed where the configuration has
 `runner_evidence_patterns`. The other five points stand.
+
+## Amended 2026-11-24, 11:05
+
+The owner decided that the changed page is watched with the first run of the brownfield test stage
+(point 1), and that the next release is 2.2.0 ([notes](../../../docs/releases/2.2.0.md)).

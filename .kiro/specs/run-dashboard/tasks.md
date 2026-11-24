@@ -364,6 +364,6 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-23
   - Done when the validation report says GO or names what stands against it.
   - Done 2026-11-24: [validation.md](validation.md) says GO and names six things that stand against
     it. Windows 471 of 471, Linux through Dagger 470 of 470, Playwright 67 of 67; the opener with a
-    stand-in in a Linux container, eleven of eleven; `docs/releases/next.md`. Record:
+    stand-in in a Linux container, eleven of eleven; `docs/releases/2.2.0.md`. Record:
     [R182](../../../docs/research/2026-11-24/03-run-page-closing.md).
   - _Requirements: all_
