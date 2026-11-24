@@ -13,14 +13,15 @@ Not approved yet: the owner of the code reviews once, at the end.
 
 A planted fault is one small mistake made on purpose in a copy of the code. Where every test still
 passes with the mistake in place, nothing would tell us if a later change made the same mistake.
-<Who> chose <n> function(s) to be reduced. Each requirement says what could change unseen there
+<The stage protects every function of the plan with an unnoticed fault: <n> function(s).> or
+<<Who> named <n> function(s) to be reduced.> Each requirement says what could change unseen there
 today.
 
-Guide: the three lines below come from `left_alone`, `left_out` and the plan. Leave a line out
+Guide: the three lines below come from `reported`, `left_out` and the plan. Leave a line out
 where there is nothing to name.
 
-Left alone: <unprotected functions of the plan that were not chosen>. Nothing has to be done about
-them.
+Reported: `<function>` (<n> unnoticed in the plan), not named. It does not hold the stage back, and
+a reduction of it is not covered.
 
 Left out: `<function>` (<n> faults, all in code that is not built on this system; nothing is known
 about it here).

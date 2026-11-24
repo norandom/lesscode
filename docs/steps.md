@@ -113,11 +113,12 @@ The report is a single file and can be kept or sent. It holds the names of your 
 
 Status: in `lesscode-core` from release 2.2.0 (spec
 [brownfield-test-stage](../.kiro/specs/brownfield-test-stage/design.md)). The stage was walked once by
-hand, on a renderer ([R184](research/2026-11-24/05-brownfield-stage-prototype.md)). It has not yet been
-walked on a real project with these two commands.
+hand, on a renderer ([R184](research/2026-11-24/05-brownfield-stage-prototype.md)), and once with these
+two commands on another file of it ([R188](research/2026-11-24/09-protect-stage-yuv.md)).
 
-The brownfield test stage comes between a plan and a reduction. You name the functions of the plan you
-are going to make smaller. The stage adds tests until each of them is protected enough, and it changes no
+The brownfield test stage comes between a plan and a reduction. By default it protects every function of
+the plan in which the tests missed a planted fault; you can narrow it to the functions you are going to
+make smaller. The stage adds tests until each chosen function is protected enough, and it changes no
 line of the code. Two commands begin and end it; in between are the commands of a step, `step pin` and
 `step check`. An agent walks it with the skill
 [protect-before-reduce](../.agents/skills/protect-before-reduce/SKILL.md), which says who does what and
@@ -128,14 +129,20 @@ where it waits for you.
 | written off | the owner of the code approved a reason why no test is to notice a fault |
 | waiting | unnoticed, and not written off |
 | protected enough | nothing in the function is waiting |
+| chosen | protected by the stage: every function with an unnoticed fault, or the ones you named |
+| reported | a function with unnoticed faults that you did not name; listed, and does not hold the stage back |
 
 ### Begin: `step protect begin`
 
 ```sh
-lesscode-core step protect begin --plan plan.json --config run.json \
-    --function <file>:<name> [--function <file>:<name> ...] --spec <name> \
-    [--specs-dir .kiro/specs] [--branch protect/<name>]
+lesscode-core step protect begin --plan plan.json --config run.json --spec <name> \
+    [--function <file>:<name> ...] [--specs-dir .kiro/specs] [--branch protect/<name>]
 ```
+
+Without `--function` the stage takes the whole scope: every function of the plan with an unnoticed fault.
+With it, the functions you name, and the others with unnoticed faults are reported. A missed fault holds
+the stage back only in a chosen function. The stage runs before the reduction and cannot know which code
+the reduction will change, so the chosen functions stand for that code.
 
 Run it on the commit the plan was made from, with nothing uncommitted. It runs nothing. It reads the plan,
 the receipt of the plan's run, the run configuration and the code, and writes two files into
@@ -150,16 +157,18 @@ the receipt of the plan's run, the run configuration and the code, and writes tw
 Before it ends it prints:
 
 - the chosen functions, each with its unnoticed faults and the line they are in;
-- the unprotected functions you did not name ("left alone"), and any named function that lies wholly in
-  code not built on this system ("left out");
+- the functions with unnoticed faults you did not name ("reported"), and any chosen function that lies
+  wholly in code not built on this system ("left out");
 - how many faults will be run again, and about how long each of the two runs of them takes, from the
-  seconds they took in the plan;
-- what one copy of the plan takes on disk, measured on the plan's first copy. Run the command before you
-  remove the plan's copies; afterwards it says that the size is not known.
+  seconds they took in the plan, and how long to allow, because runs of the stage have taken up to 1.4
+  times as long;
+- what one copy of the plan takes on disk, measured on the plan's first copy, and what twice the plan's
+  copies take, since the first pin with a test builds its own copies beside the base run's. Run the
+  command before you remove the plan's copies; afterwards it says that the size is not known.
 
 | Exit | Meaning |
 | --- | --- |
-| 0 | the stage is begun; the two files are written |
+| 0 | the stage is begun and the two files are written; or, without `--function`, no function of the plan has an unnoticed fault, and nothing is written |
 | 3 | refused, and nothing is written: a function the plan does not have (the ones it has are listed), a plan without a result, a file that changed since the plan, a stage already begun there, a test path without a file, a specs directory outside the repository |
 
 Then make the branch the command named. All the stage's work goes there.
@@ -180,7 +189,14 @@ task per test. The skill has templates for both. Then, for each task:
 
 The first `step pin` of a stage runs the faults of the chosen functions on the unchanged code: the base
 run. It is the long run, and `step protect begin` said how long it takes. Run it once before any test
-exists, with `--fault 1`. Without a test the answer is exit 1, and that is expected there.
+exists, with `--fault 1`. Without a test the answer is exit 1, and that is expected there. The first pin
+with a test after it builds copies of its own beside the base run's, so it is long too: 11 min 21 s on
+`yuv.rs`, where later pins take about two minutes.
+
+Before you pin a test, run your own tests once with it and count the tests that ran. A file copied into
+a copy that is built already keeps its old time, and Cargo then builds nothing and runs the old tests
+only. Where your project ignores `*.log` files, keep the pin's log with your evidence outside the
+repository rather than forcing it in.
 
 A fault that no test should chase is proposed for writing off, in `write-offs.json` beside the
 declaration. There are two kinds: `nothing_a_caller_sees`, and `not_testable_as_it_stands`, a test cannot
@@ -212,11 +228,13 @@ check again.
 Per chosen function it prints four numbers: noticed before, noticed now, written off, waiting. It names
 every write-off with its reason, who approved it and when. For a fault written off as not testable as it
 stands, it says what the function reaches out to: a reduction has to keep the behaviour there by other
-means. On exit 0 it names the next step: declare the reduction of a chosen function as a step
-([section 2](#2-declare-the-step)), on a branch of its own.
+means. After the chosen functions it lists the reported ones with their number from the plan; their
+faults are not run again and do not change the exit code. On exit 0 it names the next step: declare the
+reduction of a chosen function as a step ([section 2](#2-declare-the-step)), on a branch of its own.
 
 On exit 0 and 1 it writes `protection.json` beside the declaration (`step-protection-v1`): the four
-numbers, the write-offs, the faults that wait, the base, the revision and the hash of the verdict. Commit
+numbers, the write-offs, the faults that wait, the reported functions, the base, the revision and the
+hash of the verdict. Commit
 it with the stage. A later reader finds there what was protected, what was written off and why, and what
 still waits, without the run.
 
@@ -226,12 +244,14 @@ still waits, without the run.
   again. The faults of the chosen functions run twice, once in the base run and once in the check, and
   each pin runs the tests once on the unchanged code and once on its fault. `step protect begin` prints how many faults and about how long. On the
   renderer of R184 the base run took 17 min 50 s, each later pin between 90 and 143 s, and the whole
-  stage 1 h 15 min.
+  stage 1 h 15 min. On `yuv.rs` (R188) the base run and the check took 1.40 and 1.32 times what
+  `step protect begin` had said.
 - Disk: every copy is a full build. `step protect begin` prints what one copy takes; it leaves out
-  what a project builds outside the copy. On the renderer eight copies took 34.5 GiB. Remove the copies
-  as the stage goes.
-- A person is needed three times: you name the functions, the owner of the code reviews once, and the owner
-  merges the tests. Nothing else waits for a person.
+  what a project builds outside the copy. On the renderer eight copies took 34.5 GiB; on `yuv.rs` the
+  base run's copies and the first pin's stood side by side, four copies and 17.2 GiB at once. Remove the
+  copies as the stage goes.
+- A person is needed three times: you say the scope (the whole plan, or the functions you name), the owner
+  of the code reviews once, and the owner merges the tests. Nothing else waits for a person.
 
 ### In a pipeline
 
@@ -239,8 +259,8 @@ Both commands open no page, start no listener and ask nothing; everything they n
 files. Leave `--open` away from `step plan` and `step check`. Make `step protect result` the job that
 gates: exit 0 passes, exit 1 means a fault waits, exit 2 is never a pass. Because the result reads
 committed files only, a pipeline and a person at a checkout get the same answer for the same commit, and
-an approval reaches the pipeline only by the owner's commit. A pipeline cannot name the functions, review
-or merge. A run without the owner ends at exit 1 with the proposals named as waiting.
+an approval reaches the pipeline only by the owner's commit. Without `--function` a pipeline can begin a
+stage for the whole plan; it cannot review or merge. A run without the owner ends at exit 1 with the proposals named as waiting.
 
 ## 2. Declare the step
 

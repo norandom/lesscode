@@ -356,9 +356,11 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
             "Faults to run again: {}. The base run and the check each run them, and no others.",
             noticed + unnoticed + other
         ),
+        "for each of the two runs. Runs of the stage have taken up to 1.4 times as long, so allow about ".to_owned(),
         "The base run comes first: the first `step pin` of the stage runs it, once, before any test is judged.".to_owned(),
         "One copy of the plan takes ".to_owned(),
-        "w1). The base run, the pins and the check build copies of that size".to_owned(),
+        "w1). The base run, the pins and the check build copies of that size, 2 at a time. The first pin with a test builds its own beside the base run's, so allow for 4 copies at once, about ".to_owned(),
+        "Remove the plan's copies before the first pin.".to_owned(),
         "Written: step.json and stage.json in ".to_owned(),
     ];
     let mut rest = said.as_str();

@@ -51,13 +51,17 @@ fn size(bytes: u64) -> String {
     }
 }
 
-/// What the copies of the stage will take, from the plan's first copy.
-fn disk(copy: Option<(PathBuf, u64)>) -> String {
+/// What the copies of the stage will take, from the plan's first copy. The
+/// first pin with a test builds its own copies beside the base run's
+/// (R188), so twice the plan's copies stand at once.
+fn disk(copy: Option<(PathBuf, u64)>, copies: usize) -> String {
     match copy {
         Some((path, bytes)) => format!(
-            "One copy of the plan takes {} on disk ({}). The base run, the pins and the check build copies of that size; remove the plan's copies before the first pin.",
+            "One copy of the plan takes {} on disk ({}). The base run, the pins and the check build copies of that size, {copies} at a time. The first pin with a test builds its own beside the base run's, so allow for {} copies at once, about {}. Remove the plan's copies before the first pin.",
             size(bytes),
-            slashed(&path)
+            slashed(&path),
+            2 * copies,
+            size(2 * copies as u64 * bytes)
         ),
         None => "The copies of the plan are gone, so what one copy takes on disk is not known here.".to_owned(),
     }
@@ -100,13 +104,22 @@ fn chosen(one: &Chosen) -> Vec<String> {
     lines
 }
 
+/// The copies the plan's run used.
+fn copies_of(run: &Value) -> usize {
+    run["workers"].as_array().map_or(0, Vec::len).max(1)
+}
+
+/// Runs of a stage took 1.40 and 1.32 times what the plan's seconds said
+/// (R188), so the figure is given with that room.
+const SLOWER: f64 = 1.4;
+
 /// The cost of running the faults of the chosen functions again, from the
 /// plan's run: its seconds, its copies, and its run of the tests alone.
 fn cost(stage: &Stage, run: &Value) -> Vec<String> {
     let workers = run["workers"].as_array().map(Vec::as_slice).unwrap_or(&[]);
     let alone = |w: &Value| w["baseline_s"][0].as_f64().unwrap_or(0.0);
     let tests = workers.iter().map(alone).fold(0.0, f64::max);
-    let copies = workers.len().max(1);
+    let copies = copies_of(run);
     let again = &stage.to_run_again;
     let at_once = again.seconds / copies as f64 + tests;
     vec![
@@ -115,10 +128,11 @@ fn cost(stage: &Stage, run: &Value) -> Vec<String> {
             again.faults
         ),
         format!(
-            "In the plan they took {} one after another. With {copies} copies at once, as the plan ran, and the tests once without a fault ({}), that is about {} for each of the two runs.",
+            "In the plan they took {} one after another. With {copies} copies at once, as the plan ran, and the tests once without a fault ({}), that is about {} for each of the two runs. Runs of the stage have taken up to {SLOWER} times as long, so allow about {}.",
             about(again.seconds),
             about(tests),
-            about(at_once)
+            about(at_once),
+            about(at_once * SLOWER)
         ),
         "The base run comes first: the first `step pin` of the stage runs it, once, before any test is judged.".to_owned(),
     ]
@@ -161,6 +175,6 @@ pub fn says(stage: &Stage, branch: &str, whole_scope: bool, run: &Value, receipt
     }
     lines.push(String::new());
     lines.extend(cost(stage, run));
-    lines.push(disk(first_copy(receipt)));
+    lines.push(disk(first_copy(receipt), copies_of(run)));
     lines.join("\n")
 }

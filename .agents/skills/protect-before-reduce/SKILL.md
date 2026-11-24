@@ -1,6 +1,6 @@
 ---
 name: protect-before-reduce
-description: Protect the functions a person is about to make smaller, before any of their code changes. From a plan of `lesscode-core step plan` and the functions the person names, write a small spec in the project, write one test per behaviour that a planted fault shows to be unwatched, let `step pin` show each test failing on the fault and passing on the code as it is, propose the faults no test should chase for writing off, and let `step protect result` say by exit code whether the functions are protected enough. Use between a plan and a reduction, when the plan shows functions whose tests notice little. The stage adds tests and changes no code. The tool measures and judges, the agent writes, the owner of the code decides; the skill cannot call a function protected itself.
+description: Protect the code a person is about to make smaller, before any of it changes. From a plan of `lesscode-core step plan`, by default every function in which the tests missed a planted fault, or only the functions the person names, write a small spec in the project, write one test per behaviour that a planted fault shows to be unwatched, let `step pin` show each test failing on the fault and passing on the code as it is, propose the faults no test should chase for writing off, and let `step protect result` say by exit code whether the functions are protected enough. Use between a plan and a reduction, when the plan shows functions whose tests notice little. The stage adds tests and changes no code. The tool measures and judges, the agent writes, the owner of the code decides; the skill cannot call a function protected itself.
 ---
 
 # Protect before you reduce
@@ -12,7 +12,11 @@ from `lesscode-core step protect result`.
 
 The stage was first walked by hand on five functions of a renderer on 24 November 2026: four tests
 turned six of nine unnoticed faults into noticed ones, the owner wrote the other three off, and no
-line of the code changed. The step commands are described in [docs/steps.md](../../../docs/steps.md)
+line of the code changed. With its two commands it was walked on `yuv.rs` of the same renderer
+(R188): one test, eleven debug labels written off, "protected enough". Since then the stage takes
+the whole scope of the plan unless the person names functions, and the Rust pack no longer empties
+a string written in a `label` field. A label passed through a helper is still planted; propose it
+for writing off as `nothing_a_caller_sees`. The step commands are described in [docs/steps.md](../../../docs/steps.md)
 and in [refactor-in-steps](../refactor-in-steps/SKILL.md).
 
 ## Who does what
@@ -21,11 +25,11 @@ and in [refactor-in-steps](../refactor-in-steps/SKILL.md).
 | --- | --- | --- |
 | The tool (`lesscode-core`) | plants faults, runs the project's tests, counts, answers by exit code | write a test or a spec; call a model |
 | The agent | runs the commands, writes the stage spec and the tests, proposes write-offs, reports what the commands said | choose the functions; change the code to be reduced; approve anything; call a function protected on its own reading |
-| The person | names the functions | |
+| The person | asks for the plan, and may narrow the stage to named functions | |
 | The owner of the code | reviews once, approves each write-off by their own hand, merges | |
 
 The person and the owner of the code are often one person. The stage waits for them at three
-places: the choice of functions (phase 2), the one review (phase 9) and the merge (phase 11).
+places: the scope (phase 2), the one review (phase 9) and the merge (phase 11).
 Nowhere else do you stop to ask, and nowhere do you go past one of these three.
 
 **The stage advises.** Nothing in lesscode refuses a reduction because the stage was skipped. Say
@@ -35,7 +39,10 @@ so when you report; do not present the result as a lock.
 
 - *Planted fault*: one small mistake made on purpose in a copy of the code, such as a `<` turned
   into a `<=`. *Noticed*: a test failed on it. *Unnoticed*: every test passed although it was there.
-- *Chosen function*: a function of the plan that the person wants to reduce.
+- *Chosen function*: a function the stage protects. By default that is every function of the
+  plan with an unnoticed fault; where the person names functions, it is those.
+- *Reported function*: a function with unnoticed faults that the person did not name. The stage
+  lists it with the plan's number and does not hold back for it; a reduction of it is not covered.
 - *Stage spec*: the directory this walk writes into the project, `<specs-dir>/<name>/`.
 - *Written off*: the owner of the code approved a reason why no test is to notice a fault.
 - *Waiting*: unnoticed, and not written off.
@@ -59,7 +66,9 @@ that nothing was judged.
   `<work>/plan` for the plan and `<work>/stage` for everything after it.
 - Disk. Every copy is a full build of the project. On the renderer eight copies took 34.5 GiB.
   Measure the free space before the plan. `step protect begin` says what one copy of the plan
-  takes; the base run, the pins and the check build copies of that size.
+  takes; the base run, the pins and the check build copies of that size. The first pin with a test
+  builds its own copies, and they stand beside the base run's: on `yuv.rs` four copies took
+  17.2 GiB at once.
 - Where the project keeps its specs. If it has Kiro's directories (`.kiro/specs`, steering), use
   them, the language its other specs are written in, and its own habit of approval. If it has none,
   ask the person for a directory and pass it as `--specs-dir`; install nothing in the project.
@@ -81,7 +90,7 @@ that nothing was judged.
 | Phase | Who | What | Gate |
 | --- | --- | --- | --- |
 | 1 | agent | the plan | exit 0 |
-| 2 | person | names the functions | the person |
+| 2 | person | the scope: the whole plan, or named functions | the person |
 | 3 | agent | `step protect begin` | exit 0 |
 | 4 | agent | writes the stage spec | none |
 | 5 | agent | runs the base once, after saying how long it takes | exit 0 or 1 |
@@ -105,11 +114,13 @@ a compiled language can take a quarter of an hour or more; say so before you sta
 A plan that is incomplete, or whose run judged nothing, is no ground for a stage. Find out why and
 plan again.
 
-### Phase 2: the person names the functions
+### Phase 2: the scope
 
-Show the person the plan's table: per function, noticed and unnoticed faults. Say in plain words
-what the choice is: "Which of these functions are you going to make smaller? Tests are written for
-those and for no others." Do not describe the stage by its gates, and do not ask several open
+Show the person the plan's table: per function, noticed and unnoticed faults. By default the stage
+protects every function in it with an unnoticed fault, and that is what to offer first. Say in plain
+words what the choice is: "The stage writes tests for every function where the tests missed a
+fault. Or name the functions you are going to make smaller, and tests are written for those only;
+the others are reported." Do not describe the stage by its gates, and do not ask several open
 questions at once; offer choices.
 
 The choice is the person's. Do not choose, extend or trim it. You may say what the plan shows: a
@@ -117,23 +128,28 @@ function that is protected already, a function whose faults all lie in code that
 this system, a function that reaches out to a device, a window or a network and will be hard to
 test as it stands.
 
+A function the person did not name, with faults a caller can see, is reported and does not hold
+the stage back. The stage runs before the reduction and cannot know which code the reduction will
+change; the chosen functions stand for that code.
+
 ### Phase 3: begin the stage
 
 On the commit the plan was made from, with nothing uncommitted:
 
 ```sh
-lesscode-core step protect begin --plan plan.json --config run.json \
-    --function <file>:<name> [--function <file>:<name> ...] --spec <name> \
-    [--specs-dir <dir>] [--branch <branch>]
+lesscode-core step protect begin --plan plan.json --config run.json --spec <name> \
+    [--function <file>:<name> ...] [--specs-dir <dir>] [--branch <branch>]
 ```
 
-The file is named as the plan names it. The command writes `step.json` (the declaration the other
-commands take) and `stage.json` (what is to be protected) into `<specs-dir>/<name>/` and nowhere
-else. It prints the chosen functions with their unnoticed faults, the unprotected functions that
-are left alone, any chosen function that is left out because none of its code is built here, how
-many faults will be run again and about how long that takes, and what one copy of the plan takes
-on disk. Tell the person the time and the size before you go on. The size is read from the plan's
-first copy, so run this command before you remove the plan's copies.
+Leave `--function` out for the whole scope. Where the person named functions, pass each, the file
+named as the plan names it. The command writes `step.json` (the declaration the other commands
+take) and `stage.json` (what is to be protected) into `<specs-dir>/<name>/` and nowhere else. It
+prints the chosen functions with their unnoticed faults, the reported functions, any chosen
+function that is left out because none of its code is built here, how many faults will be run again
+and about how long that takes, and what the copies take on disk. Tell the person the time and the
+size before you go on. The size is read from the plan's first copy, so run this command before you
+remove the plan's copies. If no function of the plan has an unnoticed fault, the command says so,
+writes nothing and ends with 0: there is no stage to walk.
 
 Exit 3 says what is wrong: a function the plan does not have (the ones it has are listed), a plan
 without a result, a file that changed since the plan (plan again), a stage that was begun there
@@ -149,7 +165,7 @@ chosen functions. Use the forms in [templates/requirements.md](templates/require
 [templates/tasks.md](templates/tasks.md), in the language the project writes its specs in.
 
 - `requirements.md`: at the top the plan, the base commit and the test command, all from
-  `stage.json`; what is left alone and left out; then **one requirement per chosen function**. A
+  `stage.json`; what is reported and left out; then **one requirement per chosen function**. A
   requirement says in words what could change unseen in that function today, and names the faults
   it comes from by id. Write what a caller would see go wrong, not what the operator did to the
   text.
@@ -182,6 +198,10 @@ No test exists yet, so the answer is exit 1, "the tests with the pin pass on the
 expected here and only here. If number 1 is not an unnoticed fault the command ends with 3 and
 lists the ones that are; that list serves as well.
 
+The first pin with a test after the base run builds copies of its own, a full build each, beside
+the base run's copies. On `yuv.rs` that pin took 11 min 21 s where later pins take two minutes.
+Say so before it starts, and measure the free space.
+
 Take from the output the list of unnoticed faults with their numbers (`#N line L operator`). Match
 each to its id in `stage.json` by line and operator, and note the number beside the id in
 `tasks.md`. A fault that did not build keeps its number, so the numbers have gaps; never count
@@ -192,7 +212,10 @@ them off yourself. Report how long the run took against what was announced.
 For each task of `tasks.md`, in order:
 
 1. Write the test, in a test file only. Run the project's own test command once yourself; the new
-   test and all the old ones have to pass on the code as it is.
+   test and all the old ones have to pass on the code as it is. **Count the tests that ran.** A
+   file copied into a copy that is built already keeps its old time, and a build tool such as
+   Cargo then builds nothing and runs only the old tests. Set the file's time to now, or run in
+   the checkout itself.
 2. Commit the test in a commit that touches no file of the code.
 3. For each fault the task names:
 
@@ -202,7 +225,9 @@ For each task of `tasks.md`, in order:
    ```
 
 4. Keep the receipt and what the command printed (`pins/pin-<n>.log`) as the evidence of the task,
-   and mark the task done only when every fault it names was admitted.
+   and mark the task done only when every fault it names was admitted. Where the project ignores
+   `*.log` files, as drift-rdp does, do not force the log in; keep it with the evidence outside the
+   repository and say where in the task.
 
 What the answers mean:
 
@@ -276,7 +301,7 @@ receipts; they are small and make a repeated run short.
 
 Stop here and hand the owner of the code one thing to read, in this order:
 
-1. what was chosen and what was left alone;
+1. what was chosen and what was reported;
 2. each test with its sentence, the faults it was admitted for, and the file it is in;
 3. each proposal to write off, with its kind and reason, and for `not_testable_as_it_stands` what
    the function reaches out to;
@@ -352,6 +377,6 @@ Say these to the owner of the code; do not fill them with your own judgement:
 - That a reason for a write-off is true.
 - That the reduction will behave the same. Planted faults measure how much the tests notice, not
   equivalence.
-- Anything about a function that was left alone or left out.
+- Anything about a function that was reported or left out.
 - A test that depends on the machine (a GPU, an environment variable, a clock) is admitted on the
   machine it ran on. Say what it depends on.
