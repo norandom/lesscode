@@ -640,6 +640,18 @@ test('the steps of a run stand in one row, and what has not begun says so', asyn
   await expect(page.locator('button.grp')).toHaveAttribute('aria-expanded', 'false');
   await page.locator('button.grp').click();
   await expect(page.locator('.d2 .count')).toHaveText(['8 not run']);
+
+  // A copy that stopped: the tool's sentence is read at once, the end of the output behind a line that opens.
+  never.copies.dropped = [{ copy: 2, at: ago(20), reason: 'the unmutated run ended before any test ran in this copy (test step, exit Some(101), ended by the system as happens when memory runs out; the whole output is in D:/work/first-run-w2-2.log)\nerror: could not compile `windows_numerics`' }];
+  never.copies.working = 0;
+  await open(page, testInfo, 'lane-never-why', never);
+  const notice = page.locator('.notice', { hasText: 'Working copy 2 of your project stopped' });
+  await expect(notice).toContainText('The tool says: the unmutated run ended before any test ran in this copy');
+  await expect(notice).toContainText('first-run-w2-2.log');
+  await expect(notice.locator('details')).toHaveCount(1);
+  expect(await notice.locator('details').evaluate((d) => d.open)).toBe(false);
+  await expect(notice.locator('.raw')).toHaveText('error: could not compile `windows_numerics`');
+  await picture(page, testInfo, 'lane-never-why');
   expect(Number((await marks(page)).failures)).toBe(0);
 });
 

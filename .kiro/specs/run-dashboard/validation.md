@@ -82,3 +82,12 @@ None of these is a failed check. They are what the checks did not cover.
 | `…\run-dashboard\linux-open` | under 1 MiB | the opener and listener on Linux |
 | `…\run-dashboard\budgets-g8.json` | | the size budgets |
 | `D:\BuildArtifacts\lesscode\native-evidence\linux-1f1325b` | 0.5 MiB | the Linux run through Dagger |
+
+## Amended 2026-11-24, 10:45
+
+Point 3 of "What stands against it" is answered in the tool
+([R183](../../../docs/research/2026-11-24/04-turns-by-memory.md)): a copy that stops says whether its
+commands ended before any test ran or a test did not pass, keeps its whole output in a file, tries
+once more, and the copies take turns by free memory. Windows 478 of 478, the pages 67 of 67. The
+gap named under requirements 3.5 and 6.2 is closed where the configuration has
+`runner_evidence_patterns`. The other five points stand.

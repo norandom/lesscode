@@ -61,8 +61,9 @@ lesscode-core step plan --config run.json --work <work> --out plan.json
 
 When a person is at the screen, add `--open`: it opens a page in their browser that follows the run
 and ends as the report. Tell them it is there and that no file of their project is changed. Without a
-person watching, add `--page` and give them the place it prints. If a copy stops at its first build
-on a machine short of memory, run again with `--workers 1`.
+person watching, add `--page` and give them the place it prints. If a copy stops at its first run, the
+tool says whether a build ended or a test failed and names the file with the whole output
+(`first-run-w<copy>-<attempt>.log` under the work directory); read that file before anything else.
 
 Read per file how many faults the tests notice. Two things can spoil that share:
 

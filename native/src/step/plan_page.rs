@@ -50,7 +50,8 @@ const AFTER_A_PLAN: &[&str] = &[
 /// What the person can do when nothing could be judged.
 const AFTER_NO_JUDGEMENT: &[&str] = &[
     "Nothing in this run says anything about your tests or your code.",
-    "If the build was ended by the system, the machine ran short of memory: run again with fewer copies (--workers 1) or with other programs closed.",
+    "Read the file with the whole output that the reason names (first-run-w<copy>-<attempt>.log in the directory of the copies).",
+    "If a build was ended by the system, the machine ran short of memory: close other programs and run again.",
     "If a test failed: run your test command yourself in one of the copies and make it pass there.",
 ];
 

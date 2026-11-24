@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R182 The run page closed: documentation, the opener on Linux, the validation (2026-11-24)
+## Latest · R183 A copy says why it stopped, tries again, and the copies take turns by free memory (2026-11-24)
+
+Implementation record after the owner's "make the four tool changes". A first run that fails says whether the commands ended before any test ran or a test did not pass, keeps its whole output in a file, and is tried once more when no other copy is in its first run. Runs take turns by the memory the system has free. My first version held back only the first build of each copy; three copies on the renderer of drift-rdp were void again after nine minutes, because builds with a planted fault take memory too. With turns for every run the same three copies ran to their end. Core suite 478 of 478 on Windows. Not shown: that three copies are faster than one on this machine. [Entry](2026-11-24/04-turns-by-memory.md).
+
+## R182 The run page closed: documentation, the opener on Linux, the validation (2026-11-24)
 
 Implementation record of the spec `run-dashboard`, tasks 8.2 and 8.3. The guide and `docs/steps.md` describe the page in its own words and recommend diffcore; the owner read them. In a Linux container `step plan --open` started a stand-in for `xdg-open` once, on an address of the machine with a secret, and the run went on without an opener (eleven of eleven). Windows 471 of 471, Linux through Dagger 470 of 470, the pages in a browser 67 of 67. The validation report says GO and names six things that stand against calling the page finished; the first is that nobody has watched the changed page follow a run. [Entry](2026-11-24/03-run-page-closing.md).
 

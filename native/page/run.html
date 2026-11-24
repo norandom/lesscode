@@ -528,9 +528,13 @@ const data = /*DATA*/null;
     return html`<dt>Faults planted</dt><dd>${show(f.total)}</dd><dt>Noticed</dt><dd>${show(f.noticed)}</dd><dt>Unnoticed</dt><dd>${show(f.unnoticed)}</dd><dt>Did not build</dt><dd>${show(f.not_built)}</dd>${n(f.not_compiled_here) ? html`<dt>In code not built on this system</dt><dd>${show(f.not_compiled_here)}, counted in no line above; they tell nothing</dd>` : ''}<dt>Time</dt><dd>${span(n(s.seconds))}</dd><dt>Exit code</dt><dd>${show(s.exit_code)}</dd>`;
   }
 
-  // What a command printed last, as the tool kept it: behind a line that opens.
+  // Why the tool says a copy or a stage stopped: its sentence, and what a command printed last behind a line that opens.
   function Raw(p) {
-    return typeof p.of === 'string' && p.of ? html`<details><summary>What the tool recorded</summary><div class="raw">${p.of}</div></details>` : html` The tool gave no reason.`;
+    if (!(typeof p.of === 'string' && p.of)) return html` The tool gave no reason.`;
+    // The tool's sentence is its first line; the end of what the command printed follows it.
+    var cut = p.of.indexOf('\n'), first = cut < 0 ? p.of : p.of.slice(0, cut), rest = cut < 0 ? '' : p.of.slice(cut + 1);
+    if (!rest && first.length > 240) { rest = first; first = ''; }
+    return html`${first ? html` <span>The tool says: ${first}.</span>` : ''}${rest ? html`<details><summary>What the tool recorded</summary><div class="raw">${rest}</div></details>` : ''}`;
   }
 
   function Run(p) {

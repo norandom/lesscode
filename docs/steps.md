@@ -74,9 +74,21 @@ you do not plan to change it. If you do, protect it first: make a spec whose tas
 have it worked, and run the plan again. If it talks to a device, a window or a network, a test cannot
 come first; separate what it decides from what it does and test the part that decides.
 
-If a working copy stops, the page says so and the run goes on with the others. When no copy gets through
-its first build and test run, the run cannot judge anything. On a machine short of memory that happens
-when several copies build at once; run again with `--workers 1`.
+Every run of your commands in a copy is a build, and builds side by side can take more memory than the
+machine has. The copies therefore take turns where memory asks for it. The first build of a copy and
+the first build with a planted fault each run alone once, and the tool notes how much memory they took.
+After that a run starts beside others only when the memory that was free with nothing running holds
+all of them, with a quarter to spare. The tool says so when a copy waits. On a system that does not
+tell how much memory is free (macOS), nothing is held back.
+
+If the first run of a copy does not get through, the tool says which of two things happened: the
+commands ended before any test ran (a build failed or was ended by the system), or a test did not
+pass. It tells them apart by `runner_evidence_patterns` in the configuration, the fragments of output
+that show your test runner ran; without them it cannot. The whole output is kept under the work
+directory as `first-run-w<copy>-<attempt>.log`. The copy tries once more when no other copy is in its
+first run. If that fails too, the copy stops, the page says so, and the run goes on with the others.
+When no copy gets through, the run cannot judge anything; where no test ran at all, `step check`
+answers "not judged" and does not say that your tests fail.
 
 The report is a single file and can be kept or sent. It holds the names of your files and functions; see
 [`step reports`](#several-reports-on-one-page-step-reports) for a copy without them.

@@ -85,6 +85,13 @@
    "disposition": null
   },
   {
+   "path": "adapters/driver/first_run.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "The first run of a copy: whether the build or a test failed, its whole output kept, one second attempt, and turns by free memory (after task 8.1, R183; requirements 3.5, 6.2)",
+   "disposition": null
+  },
+  {
    "path": "adapters/driver/functions.rs",
    "max_logical_units": 300,
    "owner": "gradual-refactoring-steps",
@@ -103,6 +110,13 @@
    "max_logical_units": 300,
    "owner": "agnostic-annotation-driver",
    "allocation": "Size of a source text by syntax, for the density command (design Amendment 6)",
+   "disposition": null
+  },
+  {
+   "path": "adapters/driver/memory.rs",
+   "max_logical_units": 300,
+   "owner": "run-dashboard",
+   "allocation": "Memory the system can still hand out, read from the system (after task 8.1, R183)",
    "disposition": null
   },
   {

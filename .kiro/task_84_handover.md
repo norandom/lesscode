@@ -77,3 +77,16 @@ The Dagger engine and the Podman machine are shared and stay.
 Kept under `D:\BuildArtifacts\lesscode\run-dashboard\`: `real-run-8.1` (0.9 MiB), `states-g8-1`
 (11.6 MiB), `linux-open` (0.2 MiB), `budgets-g8.json`; and what the earlier handovers name. Linux
 evidence: `…\native-evidence\linux-1f1325b` (0.5 MiB). Evidence grew by about 13 MiB in this group.
+
+## Amended 2026-11-24, 10:45: the four changes of the tool are made
+
+The owner: "push main, then make the four tool changes". `origin/main` was pushed at `3fe351b`.
+The changes are in [R183](../docs/research/2026-11-24/04-turns-by-memory.md): new files
+`first_run.rs` and `memory.rs` under `native/src/adapters/driver`; a copy says whether a build
+ended or a test failed, keeps the whole output (`first-run-w<copy>-<attempt>.log`), tries once
+more; every run of the project's commands waits for its turn by free memory. "Proposed, not
+agreed" above no longer holds. "Do not run a build beside a fault run" no longer holds for the
+tool's own copies; a build of yours beside a run is still not counted by the tool.
+Windows 478 of 478; the pages 67 of 67. Next research record R184. Kept in addition under
+`D:\BuildArtifacts\lesscode\run-dashboard\`: `first-run-renderer-1`, `first-run-renderer-2`,
+`first-run-smoke`, `states-g10-1`, `budgets-g10.json`; their working copies are removed.

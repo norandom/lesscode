@@ -4,6 +4,8 @@
 
 pub use super::classes::{classify, ERROR, INVALID, KILLED, SURVIVED, TIMEOUT};
 use super::config::RunConfig;
+pub use super::first_run::TESTS_FAIL;
+use super::first_run::{self, tail, Turns};
 use super::interrupt;
 use super::page_watch::{tell, Event};
 use super::process::{run, Finished};
@@ -19,8 +21,6 @@ use std::time::Duration;
 
 /// In a command's arguments: replaced by the step's time limit in seconds.
 pub const LIMIT_PLACEHOLDER: &str = "{limit_s}";
-/// Why a copy stops when the project's tests fail before any mutant.
-pub const TESTS_FAIL: &str = "the unmutated tests do not pass in this copy";
 
 /// One mutant to run.
 #[derive(Debug, Clone)]
@@ -63,6 +63,9 @@ pub struct WorkerReport {
     pub closing_failure: Option<String>,
     /// Why the worker stopped early, if it did.
     pub stopped: Option<String>,
+    /// What the first attempt of the unmutated run said, where a second was made.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retried: Option<String>,
 }
 
 #[derive(Debug, Serialize)]
@@ -106,17 +109,6 @@ fn run_steps(
     done
 }
 
-/// The end of a command's output, for a message.
-fn tail(output: &str) -> String {
-    let skip = output.chars().count().saturating_sub(400);
-    output
-        .chars()
-        .skip(skip)
-        .collect::<String>()
-        .trim()
-        .to_owned()
-}
-
 /// What the workers share.
 struct Shared<'a> {
     config: &'a RunConfig,
@@ -124,6 +116,7 @@ struct Shared<'a> {
     progress: Mutex<Progress>,
     store: Option<&'a Store>,
     run_id: &'a str,
+    turns: Turns,
 }
 
 /// How far the batch is.
@@ -202,7 +195,8 @@ impl Shared<'_> {
         let mut outcome = (ERROR, None, None, 0.0);
         for _attempt in 0..2 {
             space.plant(&job.site.file, &job.text)?;
-            let done = run_steps(self.config, &space.tree, limits);
+            let planted = || run_steps(self.config, &space.tree, limits);
+            let done = self.turns.later_run(worker, planted);
             space
                 .restore()
                 .inspect_err(|e| self.progress().fatal = Some(e.clone()))?;
@@ -262,9 +256,11 @@ impl Shared<'_> {
         };
         let ceiling =
             vec![Duration::from_secs(self.config.timeout_ceiling_s); steps(self.config).len()];
-        let baseline = run_steps(self.config, &space.tree, &ceiling);
-        report.baseline_s = baseline.iter().map(|(_, f)| f.seconds).collect();
-        report.stopped = unusable(&baseline);
+        let evidence = &self.config.runner_evidence_patterns;
+        let unchanged = || run_steps(self.config, &space.tree, &ceiling);
+        let first = self.turns.first_run(evidence, self.work, worker, unchanged);
+        (report.baseline_s, report.stopped, report.retried) =
+            (first.seconds, first.stopped, first.retried);
         tell(Event::Unchanged(&report));
         if report.stopped.is_some() {
             return report;
@@ -296,22 +292,12 @@ impl Shared<'_> {
                 }
             }
         }
-        let closing = run_steps(self.config, &space.tree, &ceiling);
+        let closing = self.turns.later_run(worker, unchanged);
         report.closing_baseline_passed =
             Some(closing.len() == ceiling.len() && closing.iter().all(|(_, f)| f.passed()));
         report.closing_failure = failure(&closing);
         report
     }
-}
-
-/// Why a copy cannot be used after its unmutated run, if so. A command
-/// that cannot start says nothing about the project's tests.
-fn unusable(baseline: &[(&'static str, Finished)]) -> Option<String> {
-    if let Some(why) = baseline.iter().find_map(|(_, f)| f.launch_error.as_ref()) {
-        return Some(format!("a command could not be started: {why}"));
-    }
-    // A run of the steps ends at the first one that does not pass.
-    failure(baseline).map(|detail| format!("{TESTS_FAIL} ({detail})"))
 }
 
 /// The step that did not pass in a run of the unmutated commands, and the
@@ -332,7 +318,7 @@ fn void_reason(reports: &[WorkerReport], left: usize, fatal: Option<String>) -> 
     if reports.iter().all(|r| r.limits_s.is_empty()) {
         let reasons: Vec<&str> = reports
             .iter()
-            .filter_map(|r| r.stopped.as_deref())
+            .filter_map(|r| r.stopped.as_deref().map(first_run::sentence))
             .collect();
         return Some(format!(
             "no working copy could run the unmutated tests: {}",
@@ -388,6 +374,7 @@ pub fn run_batch(
         progress: Mutex::new(progress),
         store,
         run_id,
+        turns: Turns::default(),
     };
     let reports: Vec<WorkerReport> = std::thread::scope(|scope| {
         let handles: Vec<_> = (1..=workers.max(1))
