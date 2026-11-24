@@ -347,7 +347,7 @@ of the working tree is removed from `protect_result.rs`, and the tests of the re
 verdict and each write-off. The skill says so in the phases of the check, the review and the
 result.
 
-**Amended 2026-11-24, with group 3.** Point 5 of "What the prototype changed" says that
+**Amended 2026-11-24, with group 3 ([R187](../../../docs/research/2026-11-24/08-protect-skill.md)).** Point 5 of "What the prototype changed" says that
 `step protect begin` says how much one copy took in the plan. Groups 1 and 2 had not built that;
 the owner asked for it ("print the disk figure"). The command now measures the plan's first copy,
 the directory `w1` beside the run receipt, and prints its size with its path; where the copies are

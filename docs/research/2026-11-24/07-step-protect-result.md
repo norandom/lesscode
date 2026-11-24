@@ -110,6 +110,10 @@ or where `--out` names. Nothing is written on exit 2 or 3.
 Group 3, the skill. It has to say how the stage runs in a pipeline, without `--open`, and how
 finding 1 is decided.
 
+**Amendment, 2026-11-24, about 15:00.** Finding 1 is decided by the owner: committed files only.
+The command no longer reads the working tree (`d8d1d1d`). What is written above about "working
+tree first" describes the command as it was at `de723dc`. See [R187](08-protect-skill.md).
+
 ## COBESY check
 
 The outcome and its limit come first. A reader can replay with

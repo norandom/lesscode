@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R186 `step protect result` is built: four numbers per function, the exit code and the receipt, on the toy repository (2026-11-24)
+## Latest · R187 The skill `protect-before-reduce` and its two templates are written; the result reads committed files only (2026-11-24)
+
+Implementation record of group 3 of the spec `brownfield-test-stage`. The walk an agent follows through the stage exists as a skill in eleven phases with their gates, with the forms of the stage spec's requirements and tasks. Two decisions of the owner are built into the commands: `step protect result` reads the verdict, `stage.json` and `write-offs.json` as committed on the branch and no other copy, so an approval that is written and not committed does not count; and `step protect begin` says what one copy of the plan takes on disk. The skill was read against the prototype (R184) and every step taken by hand there has its line. No agent has followed it yet; that is task 5.1. [Entry](2026-11-24/08-protect-skill.md).
+
+## R186 `step protect result` is built: four numbers per function, the exit code and the receipt, on the toy repository (2026-11-24)
 
 Implementation record of group 2 of the spec `brownfield-test-stage`. The second command of the stage says whether the chosen functions are protected enough, from the verdict of `step check`, `stage.json` and `write-offs.json`: per function the faults noticed before, noticed now, written off and waiting. Exit 0 when nothing waits, 1 when a fault waits or unnoticed faults rose, 2 when there is no verdict for exactly the committed content or the branch changed the code, 3 for bad input. It prints every write-off with reason, approver and date and leaves `protection.json`. It runs nothing, opens nothing and asks nothing. Shown on the toy repository, core suite 498 of 498 on Windows; not shown on a real project. Open for the owner: the command reads a file's copy in the working tree before the committed one, so an approval that is written and not committed already counts. [Entry](2026-11-24/07-step-protect-result.md).
 
