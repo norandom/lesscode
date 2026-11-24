@@ -241,5 +241,11 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     function, the reported functions, the times against `begin`'s figure, and what the owner said.
   - The owner chose `shared_frame.rs` and approved its joining line (clone `a8f3442`) on
     2026-11-24. Preregistered as [R189](../../../docs/research/2026-11-24/10-protect-stage-shared-frame.md).
+  - Run 2026-11-24 up to the owner's review. Three tests were written and admitted, and four
+    unnoticed faults ended noticed. The result is exit 1: three proposals wait for approval. The
+    fourth fault, #6, is one the plan wrongly counted noticed, so it is not in `stage.json` and
+    cannot be written off. The owner decided to fix that in the tool the next day (the base run
+    sets the stage's unnoticed faults), together with two gaps of the skill: `--page` in phase 8,
+    and removing the pins' copies before the check. Open until then.
   - _Depends: 6.1, 6.2, 6.3_
   - _Requirements: 1.1, 3.1, 5.3, 5.4, 5.10_

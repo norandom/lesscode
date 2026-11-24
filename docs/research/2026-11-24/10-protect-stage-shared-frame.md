@@ -132,6 +132,22 @@ Run in progress; the numbers below are read from the outputs as they came. Logs 
 - Storage: the copies are removed; 0.02 GiB is left in the stage's work directory, and D: has
   119.7 GiB free.
 
+### The owner's decisions at the review (2026-11-24, about 22:05)
+
+Shown the review in the skill's order, with the defect of #6 and three ways to handle it, the
+owner chose to fix it in the tool, tomorrow, and to wrap up for the day:
+
+- `step protect result` is to treat a fault that the base run of the check found unnoticed as one
+  of the stage's, so that it can be tested or written off by its id. Then this stage is finished
+  with a new result and no new check.
+- The two gaps of the skill are fixed with that change. Phase 8 gives `--page` a place outside the
+  repository, and the pins' copies are removed before the check. `begin`'s disk figure is to say
+  so.
+
+The three proposals are not approved yet. The receipt of the first result is kept with the
+evidence (`sf-protection-1.json`), not in the clone. The clone is clean on
+`protect/protect-shared-frame` at `23f1ce9`.
+
 ## Limits and interpretation
 
 Written after the run.
