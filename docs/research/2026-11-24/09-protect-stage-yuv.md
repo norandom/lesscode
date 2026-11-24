@@ -177,10 +177,13 @@ functions are all of `yuv.rs` with unnoticed faults. The design is amended after
   before it starts.
 - The owner asked: "the question is whether a fault injection that is successful must always
   prevent us", meaning whether every fault the tests miss must block. I proposed three cases for
-  the design amendment, and the owner has not decided yet:
+  the design amendment. Asked at about 18:27, the owner chose these three cases over "block only
+  in changed code" and "keep: every miss blocks":
   - a fault a caller sees, in code the reduction changes, blocks;
   - a fault no caller can see is not planted, or is set aside without a review;
   - a fault a caller sees, outside the code the reduction changes, is reported and does not block.
+- The owner counted the one review as approving the stage spec's requirements and tasks too
+  (clone `a6dfc71`), and chose the order: the code changes first, then the file for the full run.
 
 ## Limits and interpretation
 
@@ -201,8 +204,7 @@ functions are all of `yuv.rs` with unnoticed faults. The design is amended after
 Task 5.1 is done. Before 5.2:
 
 1. A dated design amendment: the whole planned scope by default, `--function` optional
-   (`native/src/step/protect_begin.rs`, `BeginArgs`); the owner's question about what blocks, as
-   the three cases above, once the owner decides.
+   (`native/src/step/protect_begin.rs`, `BeginArgs`); what blocks, as the three cases above.
 2. The Rust pack plants no empty string in a `label` field.
 3. The skill, `docs/steps.md` and `docs/releases/2.2.0.md` reworded, with the findings of this
    run:
@@ -219,5 +221,5 @@ Then 5.2 (a project that is not Rust, named by the owner) and 5.3.
 
 The outcome stands first, with the two failed expectations named and what caused each. The
 approvals the owner first reported were not yet in the clone. That is recorded as found, with what
-I did: nothing until the commit was there. The owner's question about what blocks is recorded as open,
-with my proposal marked as mine.
+I did: nothing until the commit was there. The three cases of what blocks were my proposal, and the
+owner chose them from three offered ways.
