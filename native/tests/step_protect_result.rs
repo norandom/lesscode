@@ -88,7 +88,6 @@ impl Planned {
 #[test]
 fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
     let planned = Planned::staged("result-waiting");
-    let repo = &planned.repo;
     planned.checked();
     let numbers = "src/app.py: helper  noticed before 0, noticed now 0";
 
@@ -136,9 +135,15 @@ fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
             "nothing_a_caller_sees, not_testable_as_it_stands",
         ],
     );
+}
 
-    // A verdict that refused because unnoticed faults rose: not protected
-    // enough, whatever is written off. Refused for another reason: no result.
+/// A verdict that refused because unnoticed faults rose: not protected
+/// enough, whatever is written off. Refused for another reason: no result.
+#[test]
+fn a_verdict_that_refused_is_not_protected_enough_or_not_judged() {
+    let planned = Planned::staged("result-refused");
+    let repo = &planned.repo;
+    planned.checked();
     planned.write_off("nothing_a_caller_sees", true);
     let verdict = repo.dir.join(STAGE).join("verdict.json");
     let refused = |check: &str| json!([{"name": check, "result": "refused", "detail": "why"}]);

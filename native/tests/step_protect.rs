@@ -235,7 +235,6 @@ fn a_function_in_code_not_built_here_is_left_out_and_named() {
 #[test]
 fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
     let planned = Planned::new("protect-says", "python", "src/app.py");
-    let copy = planned.run.parent().unwrap().join("w1");
     let (code, said) = planned.begin(&["src/app.py:helper"]);
     assert_eq!(code, Some(0), "{said}");
 
@@ -290,10 +289,12 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
         !said.contains("Left alone") && !said.contains("Left out"),
         "{said}"
     );
+}
 
-    // With the plan's copies removed, the size of one is not known, and said.
-    fs::remove_dir_all(&copy).unwrap();
-    fs::remove_dir_all(planned.repo.dir.join(".kiro/specs/protect-toy")).unwrap();
+#[test]
+fn begin_says_that_the_size_of_a_copy_is_not_known_where_the_copies_are_gone() {
+    let planned = Planned::new("protect-gone", "python", "src/app.py");
+    fs::remove_dir_all(planned.run.parent().unwrap().join("w1")).unwrap();
     let (code, said) = planned.begin(&["src/app.py:helper"]);
     assert_eq!(code, Some(0), "{said}");
     let gone = "The copies of the plan are gone, so what one copy takes on disk is not known here.";
