@@ -66,7 +66,7 @@ Round nodes are a person. Nothing after `step plan` runs a fault except `step pi
 
 ## Amended 2026-11-24, 18:40: the whole scope by default, reported functions, no label faults
 
-**Proposed, not yet approved by the owner.** It follows the amendment of the same time in the
+**Approved by the owner on 2026-11-24** ("approved, start with 6.1"). It follows the amendment of the same time in the
 [requirements](requirements.md) (1.1, 1.2, 5.10, 7.1), which comes from task 5.1
 ([R188](../../../docs/research/2026-11-24/09-protect-stage-yuv.md)). The sections below this one
 still say what was approved at 13:15; where they differ, this section holds.

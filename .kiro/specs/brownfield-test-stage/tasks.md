@@ -170,7 +170,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Depends: 5.2, 6.4_
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 7.4, 7.5_
 
-- [ ] 6. The whole scope by default (amendment of 2026-11-24, 18:35; **proposed, not approved**)
+- [ ] 6. The whole scope by default (amendment of 2026-11-24, 18:35; approved by the owner the same day)
 
   The owner chose the order: the code first, then a full run, then 5.2 and 5.3.
 - [ ] 6.1 `--function` optional, and reported functions

@@ -52,7 +52,7 @@ forbade a test before the spec was approved, and 7.3 named three stops.
 
 ## Amended 2026-11-24, 18:35: the whole scope by default, and what holds the stage back
 
-**Proposed, not yet approved by the owner.** It comes from task 5.1 ([R188](../../../docs/research/2026-11-24/09-protect-stage-yuv.md)).
+**Approved by the owner on 2026-11-24** ("approved, start with 6.1"). It comes from task 5.1 ([R188](../../../docs/research/2026-11-24/09-protect-stage-yuv.md)).
 That run spent eleven of the owner's approvals on debug labels and wrote one test. The owner, in
 their own words: "we do the fail injection brownfielding because we want a better reach for
 lesscode" and "the idea of lesscode isn't per function scoping". They chose "whole scope by
