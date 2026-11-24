@@ -10,6 +10,18 @@ are [task_84](task_84_handover.md) to [task_87](task_87_handover.md); the next i
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-24, 18:25:** task 5.1 is done. The owner approved the eleven write-offs
+(`6602eb1` in the clone). `step protect result` exited 0, and its result is committed in the clone
+as `2557598`. R188 is completed. Steps 1 and 2 of "What the next session does" below are done.
+The owner decided:
+
+- the Rust pack plants no empty string in a `label` field;
+- the full run where tests get written is on another drift-rdp file that I propose with plan
+  numbers.
+
+Still open: the owner's question whether every fault the tests miss must block. My proposal of
+three cases is in R188.
+
 ## Start here
 
 1. Read [the stage spec's tasks](specs/brownfield-test-stage/tasks.md). Groups 1 to 4 are done;

@@ -1,8 +1,8 @@
 # Research log
 
-## Latest · R188 The brownfield test stage with its two commands on `yuv.rs` of the renderer (2026-11-24, running)
+## Latest · R188 The brownfield test stage with its two commands on `yuv.rs` of the renderer: protected enough, but 11 of 12 gaps were debug labels (2026-11-24)
 
-Task 5.1 of the spec `brownfield-test-stage`, preregistered: the skill `protect-before-reduce` with `step protect begin` and `step protect result` in place of what R184 did by hand, on a second file of drift-rdp's renderer that the owner named. Ten expectations are written before the plan, among them that the base run takes about what `step protect begin` announces and that its disk figure holds. [Entry](2026-11-24/09-protect-stage-yuv.md).
+Task 5.1 of the spec `brownfield-test-stage`, preregistered: the skill `protect-before-reduce` with `step protect begin` and `step protect result` in place of what R184 did by hand, on a second file of drift-rdp's renderer that the owner named. The stage ran from plan to result with no step done by hand. `step protect result` ended with exit 0 after the owner's one review, and eight of ten expectations hold. Two fail. Of the twelve faults the tests missed, one ends noticed, by one new test for NV12 frames. The other eleven blank wgpu debug labels that no caller can see and were written off. The first pin with a test also took 11 min 21 s, because it built its own copies. Decided by the owner: the Rust pack stops planting faults in `label` fields; the stage covers the whole scope by default; the owner still has to see one run where the stage gets several tests written, which will be on another drift-rdp file. Still open: whether every fault the tests miss must block. [Entry](2026-11-24/09-protect-stage-yuv.md).
 
 ## R187 The skill `protect-before-reduce` and its two templates are written; the result reads committed files only (2026-11-24)
 

@@ -144,13 +144,16 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Requirements: 6.1, 6.2, 6.3_
 
 - [ ] 5. Closing
-- [ ] 5.1 The stage with its commands on another file of the renderer (can fail)
+- [x] 5.1 The stage with its commands on another file of the renderer (can fail)
   - The whole skill, with `step protect begin` and `step protect result` in place of what was done
     by hand in R184, on a renderer file the owner names (proposed: `yuv.rs`: `convert` 8 noticed
     and 6 unnoticed, `new` 4 and 5, `uniform_bytes` 4 and 1). In an isolated clone; the owner
     watches the first run on the page and does the one review.
   - Done when the research entry gives the four numbers per function from `protection.json`, the
     times against what `step protect begin` announced, and what the owner said.
+  - Done 2026-11-24 ([R188](../../../docs/research/2026-11-24/09-protect-stage-yuv.md)): `step
+    protect result` exit 0 after the owner approved eleven label write-offs; eight of ten
+    expectations hold. E8 (1 of 12 noticed) and E9 (first pin 11 min 21 s) fail.
   - _Depends: 1.3, 2.3, 3.2_
   - _Requirements: 1.1, 2.5, 3.1, 4.3, 5.3, 5.4, 5.9, 7.3_
 - [ ] 5.2 The stage in a project that is not Rust (can fail)
