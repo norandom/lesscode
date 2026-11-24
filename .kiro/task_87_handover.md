@@ -41,8 +41,11 @@ dated, under its file plan.
 - Linux through Dagger, the code of `22630db` with the module of `38d337e`: overall 0; core
   suite 499 of 499, 1 skipped (`linux-g3c`). `linux-g3` and `linux-g3b` are the two runs that
   built nothing; they are kept as the evidence of the defect and are not results.
-- Earlier Linux results through Dagger: `linux-g2` shows that it built. The logs of earlier groups
-  and specs were not checked for a build that finished in a fraction of a second.
+- Earlier Linux results (checked at 15:50 on the owner's word, amendment of R187): all 27 earlier
+  Linux runs kept under `D:\BuildArtifacts\lesscode` built the core; none is stale. The two stale
+  runs of today most likely came from a run of mine that was started before an edit and stopped,
+  and built the older tests after the newer files were saved. Do not edit files of `native/` while
+  a Dagger run is going, and do not stop one half-way.
 - Nothing was run on a real project, and no agent has followed the skill. That is task 5.1.
 - `origin/main` is at `9f6aab7`. Local and not pushed: everything after it. Push only on the
   owner's word.

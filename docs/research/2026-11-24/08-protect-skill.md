@@ -114,6 +114,32 @@ The owner has read the skill with these named.
    (`the_installed_hook_stops_a_push_without_a_matching_verdict`, in a run beside a second build).
    It is the hook test that fails under load, carried since handover 85.
 
+## Amendment, 2026-11-24, 15:50: the earlier Linux logs were checked, and finding 1 has another cause
+
+The owner asked for the check. All 43 kept evidence directories under `D:\BuildArtifacts\lesscode`
+that hold a `test.log` and an `overall.exit-code` were read for `Compiling lesscode-core`, the
+seconds of the test build and the number of tests.
+
+- **Every earlier Linux run built the core**: 27 runs from 10 to 24 November (Dagger on this
+  machine and the pipeline's Linux runners), each with `Compiling lesscode-core` and a test build
+  of 13 to 56 seconds. The number of tests rises with the commits, 351 to 497. No earlier Linux
+  result is stale.
+- The only runs that built nothing are the two of today, `linux-g3` and `linux-g3b`, and two local
+  Windows runs of 16 November (`task-8.1\local-evidence`, `task-8.5\local-evidence-184059`), which
+  ran in the developer's own target directory right after a build there and are as they should be.
+
+So the cause written in finding 1 is wrong: files do not arrive without the time of their change,
+or 27 runs would not have built. What fits the times is a run of mine. I started a Linux run at
+about 15:19 from the tree of `8d4b68b`, then edited two test files (committed 15:18 to 15:19 as
+`22630db`) while it ran, and stopped it. The engine went on and built the older tests after the
+newer files were saved. The kept target directory then held binaries newer than the files they
+lacked, and the two next runs took them as up to date. I did not replay this; it is the reading
+that fits the clock and the 497 tests those runs had.
+
+The change `38d337e` stays useful against exactly that, a run overlapping an edit or a stopped
+run, and costs one build of the core per run (about 20 seconds here). Whether to keep it is the
+owner's. The comment in `.dagger/main.go` now names this cause.
+
 ## Limits
 
 - Why cargo built in the run of group 2 and not today was not found out; the change does not
