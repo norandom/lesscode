@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R179 The run page, group 7: a list of several reports (2026-11-23)
+## Latest · R180 The run page, short first: the flow of the page and its descriptions (2026-11-24)
+
+Implementation record of the spec `run-dashboard`, on the owner's request and reasoned with the skill `cobesy`. The page answers three questions before any table: what is this, what did it find, what do I do. The head is the developer's question and, at the end, the outcome; "No file of your project is changed" stands first; "What to do next" follows the outcome; each lens has a tile in plain words and each function a square; the bar and the marks are explained in words; the four steps of a planted fault are a picture that opens. Only the page changed, not the data. Eight deviations, among them that nobody of the audience was asked. [R180](2026-11-24/01-run-page-short-first.md)
+
+## R179 The run page, group 7: a list of several reports (2026-11-23)
 
 Implementation record of the spec `run-dashboard`. `step reports` reads the run inside several reports and writes, into a new directory, a copy of each and one page that lists them: per report the project, the outcome, the date, the scope, the reasons and the rows of its lenses, every block built the same way whether accepted or refused. `--without-names-of <project>` puts a number where a file, a function or a type of that project is named, in the copy of the report and so in the list, and leaves the project's commands, written files, shapes and source line out as a whole. Nine deviations, among them that a reason of a run reads worse where a function is named like a common word. [R179](2026-11-23/16-run-page-group-7.md)
 
