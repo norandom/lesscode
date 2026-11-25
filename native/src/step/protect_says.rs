@@ -109,30 +109,42 @@ fn copies_of(run: &Value) -> usize {
     run["workers"].as_array().map_or(0, Vec::len).max(1)
 }
 
-/// Runs of a stage took 1.40 and 1.32 times what the plan's seconds said
-/// (R188), so the figure is given with that room.
+/// Counted as a run spends its time, the runs of three stages took up to
+/// 1.05 times the figure (R191); the room is for a machine busy with other
+/// work.
 const SLOWER: f64 = 1.4;
 
 /// The cost of running the faults of the chosen functions again, from the
 /// plan's run: its seconds, its copies, and its run of the tests alone.
+///
+/// A run takes the tests alone in its first copy, then in the other copies,
+/// and in every copy once more at the end; the first fault also runs alone
+/// (`first_run.rs`). With one copy nothing waits for a turn. The check runs
+/// the tests on the base as often again and takes the faults' results there
+/// from the base run.
 fn cost(stage: &Stage, run: &Value) -> Vec<String> {
     let workers = run["workers"].as_array().map(Vec::as_slice).unwrap_or(&[]);
     let alone = |w: &Value| w["baseline_s"][0].as_f64().unwrap_or(0.0);
     let tests = workers.iter().map(alone).fold(0.0, f64::max);
     let copies = copies_of(run);
     let again = &stage.to_run_again;
-    let at_once = again.seconds / copies as f64 + tests;
+    let times = if copies > 1 { 3.0 } else { 2.0 };
+    let first = again.seconds / again.faults.max(1) as f64;
+    let base = times * tests + first + (again.seconds - first) / copies as f64;
+    let check = base + times * tests;
     vec![
         format!(
-            "Faults to run again: {}. The base run and the check each run them, and no others.",
+            "Faults to run again: {}. The base run runs them on the base. The check runs the tests on the base again, takes the faults' results there from the base run in the same work directory, and runs the faults on the step.",
             again.faults
         ),
         format!(
-            "In the plan they took {} one after another. With {copies} copies at once, as the plan ran, and the tests once without a fault ({}), that is about {} for each of the two runs. Runs of the stage have taken up to {SLOWER} times as long, so allow about {}.",
+            "In the plan they took {} one after another. With {copies} copies at once, as the plan ran, the tests without a fault ({}) {times} times, as a run makes them, and the first fault alone, that is about {} for the base run and {} for the check. Allow {SLOWER} times as long on a busy machine: about {} and {}.",
             about(again.seconds),
             about(tests),
-            about(at_once),
-            about(at_once * SLOWER)
+            about(base),
+            about(check),
+            about(base * SLOWER),
+            about(check * SLOWER)
         ),
         "The base run comes first: the first `step pin` of the stage runs it, once, before any test is judged.".to_owned(),
     ]

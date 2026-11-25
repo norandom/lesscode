@@ -314,12 +314,22 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
       `fmt`, Clippy with `-D warnings` and the budgets passed.
   - _Boundary: native/src/adapters/driver/pack.rs, operators.rs, admission.rs, native/packs/python.json_
   - _Requirements: amendment of the afternoon of 2026-11-25, point 1_
-- [ ] 7.2 `begin`'s time figure counts the tests as a run makes them
+- [x] 7.2 `begin`'s time figure counts the tests as a run makes them
   - The base run's figure is `3T + S/n + (S - S/n)/c`, or `2T + S` with one copy. The check's
     figure is that plus `3T`. Both are printed, each with the room of 1.4.
   - Done when the test of what `begin` says names both figures. On the frozen plans of R188,
     R189 and R190, `begin` prints the figures that R191 computed. R191 gives the measured runs
     against the old and the new figures.
+  - Done 2026-11-25. Test first: the test of what `begin` says was red on the new wording, then
+    green. It now also computes both figures from the toy plan's run and finds them in the output.
+    - **The frozen plans.** `begin` was run on the plans of R188, R189 and R190, at the bases those
+      stages began from, and exited 0 each time. Its figures differ from R191's table by 0 to 3 s,
+      because R191 used the rounded numbers `begin` had printed. R191's "After the code" gives them.
+      The base runs took 0.91 to 1.00 of the new figure and the checks 0.45 to 1.05.
+    - **Clones.** What `begin` wrote was removed, and both clones are back on their branches,
+      clean.
+    - **Checks.** The suite passed (510), as did the doctests, `fmt`, Clippy with `-D warnings`
+      and the budgets (`protect_says.rs` 1,471 of 2,800 tokens).
   - _Boundary: native/src/step/protect_says.rs, native/tests/step_protect.rs_
   - _Requirements: 5.9; amendment of the afternoon of 2026-11-25, point 2_
 - [ ] 7.3 The guides and the release notes

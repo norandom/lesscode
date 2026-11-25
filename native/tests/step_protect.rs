@@ -353,10 +353,13 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
         "    drop_statement@9:4  line 9: state.count = b".to_owned(),
         "    it writes state at: line 9: state.count = b".to_owned(),
         format!(
-            "Faults to run again: {}. The base run and the check each run them, and no others.",
+            "Faults to run again: {}. The base run runs them on the base. The check runs the tests on the base again, takes the faults' results there from the base run in the same work directory, and runs the faults on the step.",
             noticed + unnoticed + other
         ),
-        "for each of the two runs. Runs of the stage have taken up to 1.4 times as long, so allow about ".to_owned(),
+        "the tests without a fault (".to_owned(),
+        ") 3 times, as a run makes them, and the first fault alone, that is about ".to_owned(),
+        " for the base run and ".to_owned(),
+        " for the check. Allow 1.4 times as long on a busy machine: about ".to_owned(),
         "The base run comes first: the first `step pin` of the stage runs it, once, before any test is judged.".to_owned(),
         "One copy of the plan takes ".to_owned(),
         "w1). The base run, the pins and the check build copies of that size, 2 at a time. The first pin with a test builds its own beside the base run's, so allow for 4 copies at once, about ".to_owned(),
@@ -385,6 +388,31 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
         }
     );
     assert!(said.contains(&took), "{took:?} is not in:\n{said}");
+    // A run takes the tests alone in its first copy, then in the others, and
+    // once more at the end, and the first fault alone (R191). The check runs
+    // the tests on the base three times more.
+    let of_helper: Vec<f64> = run["mutants"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|m| m["site"]["start_line"].as_u64() >= Some(8))
+        .map(|m| m["seconds"].as_f64().unwrap())
+        .collect();
+    let (seconds, faults) = (of_helper.iter().sum::<f64>(), of_helper.len() as f64);
+    let tests = run["workers"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|w| w["baseline_s"][0].as_f64().unwrap())
+        .fold(0.0, f64::max);
+    let first = seconds / faults;
+    let base = 3.0 * tests + first + (seconds - first) / copies as f64;
+    let figures = format!(
+        "that is about {} s for the base run and {} s for the check.",
+        base.round(),
+        (base + 3.0 * tests).round()
+    );
+    assert!(said.contains(&figures), "{figures:?} is not in:\n{said}");
     assert!(
         !said.contains("Left alone") && !said.contains("Left out"),
         "{said}"

@@ -164,7 +164,7 @@ their text: 5.9 asks for the time "from the times of the plan", and it still is.
    the step. On the base it takes the faults' results that the base run stored in the same work
    directory, so the base side costs about `3T` and the check `3T` more than the base run. `begin`
    prints the two figures apart, each with the room of 1.4. Measured against the evidence of R188
-   to R190, the base runs took 0.91 to 0.99 of the new figure, where they took 1.32 to 1.73 of the
+   to R190, the base runs took 0.91 to 1.00 of the new figure, where they took 1.32 to 1.73 of the
    old one. The checks took 0.45 to 1.05 of it, where they took up to 2.7 of the old one
    ([R191](../../../docs/research/2026-11-25/02-begin-time-figure.md)). The room of 1.4 stays.
    The check's figure is high where the step leaves the tests unchanged, because then the step's

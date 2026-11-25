@@ -5,7 +5,7 @@
 - Execution interval: the measured runs are those of R188 (2026-11-24, 16:30 to 17:17), R189
   (2026-11-24, 20:07 to 21:05, and 2026-11-25, 08:50 to 09:02) and R190 (2026-11-25, 10:54 to
   11:53). Nothing was run again for this entry.
-- Status: running
+- Status: completed
 - Spec: [brownfield-test-stage](../../../.kiro/specs/brownfield-test-stage/tasks.md), task 7.2, from
   the amendment of the afternoon of 2026-11-25 in the
   [design](../../../.kiro/specs/brownfield-test-stage/design.md)
@@ -96,7 +96,23 @@ the three stages check the numbers. The next stage run checks the figure again.
 
 ## After the code
 
-(Added when task 7.2 is done.)
+Added 2026-11-25, about 13:40 Europe/Berlin. `step protect begin` built from task 7.2 was run on the
+three frozen plans and configurations, at the base each stage began from: drift-rdp's clone at
+`stage-base/yuv` with the three functions of R188, at `stage-base/shared-frame` over the whole
+scope, and scitools-hook's clone over the whole scope. Each exited 0. What they wrote was removed,
+and both clones were returned to their branches, clean. Logs: `begin-r188.log`, `begin-r189.log`
+and `begin-r190.log` in `D:\BuildArtifacts\lesscode\brownfield-test-stage\group-7\`.
+
+| Stage | printed, base run | printed, check | allow, base run | allow, check |
+|---|---|---|---|---|
+| R188 | 18 min 37 s (1,117 s) | 27 min 47 s (1,667 s) | 26 min 4 s | 38 min 54 s |
+| R189 | 17 min 41 s (1,061 s) | 25 min 34 s (1,534 s) | 24 min 45 s | 35 min 48 s |
+| R190 | 14 min 26 s (866 s) | 21 min 25 s (1,285 s) | 20 min 13 s | 29 min 59 s |
+
+The code reads the plan's seconds unrounded, so its figures differ from the table above by 0 to
+3 s. Measured against them, the ratios are the same to two places but one: R190's base run took
+1.00 of the figure, not 0.99. The base runs took 0.91 to 1.00, the checks 0.45 to 1.05. The model
+is not rejected.
 
 ## COBESY check
 

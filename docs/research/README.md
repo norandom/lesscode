@@ -2,7 +2,7 @@
 
 ## Latest · R191 `begin`'s time figure, counted as a run spends its time (2026-11-25, retrospective)
 
-Task 7.2 of the spec `brownfield-test-stage`, from the owner's decision on point 3 of handover 88. `begin`'s figure counted one run of the tests without a fault, where a run makes three (the first copy alone, the others after it, all once more at the end), and let the first fault run beside the others, where it runs alone. It also gave the check the base run's figure, where the check runs the base and the step. Counted that way, the base runs of R188 to R190 took 0.91 to 0.99 of the figure, where they took 1.32 to 1.73 of the old one; the checks took 0.45 to 1.05, where R190's took 2.7 of the old one. The room of 1.4 stays. This revises R190's reading that the container's start made the gap. [Entry](2026-11-25/02-begin-time-figure.md).
+Task 7.2 of the spec `brownfield-test-stage`, from the owner's decision on point 3 of handover 88. `begin`'s figure counted one run of the tests without a fault, where a run makes three (the first copy alone, the others after it, all once more at the end), and let the first fault run beside the others, where it runs alone. It also gave the check the base run's figure, where the check runs the base and the step. Counted that way, the base runs of R188 to R190 took 0.91 to 1.00 of the figure, where they took 1.32 to 1.73 of the old one; the checks took 0.45 to 1.05, where R190's took 2.7 of the old one. The room of 1.4 stays. This revises R190's reading that the container's start made the gap. [Entry](2026-11-25/02-begin-time-figure.md).
 
 ## R190 The brownfield test stage in a Python project: nothing of the stage differs, the test command needs Linux (2026-11-25)
 
