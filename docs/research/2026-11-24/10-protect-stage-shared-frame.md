@@ -144,7 +144,9 @@ owner chose to fix it in the tool, tomorrow, and to wrap up for the day:
   repository, and the pins' copies are removed before the check. `begin`'s disk figure is to say
   so.
 
-The three proposals are not approved yet. The receipt of the first result is kept with the
+The owner approved the three proposals the next morning by running the approval script
+themselves: commit `0b5fe69` in the clone, 2026-11-25 08:37, all three "Marius Ciepluch",
+2026-11-25. The receipt of the first result is kept with the
 evidence (`sf-protection-1.json`), not in the clone. The clone is clean on
 `protect/protect-shared-frame` at `23f1ce9`.
 

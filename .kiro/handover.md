@@ -68,10 +68,8 @@ Nothing is running. All working copies are removed.
 
    The guide `docs/steps.md` says the same.
 3. **Finish the stage.**
-   - The owner approves the three proposals by running
-     `D:\BuildArtifacts\Temp\claude\1388d6fe5280a805\e4a58001-5441-42e3-9220-fe69dbe49e10\scratchpad\approve-shared-frame.ps1`
-     with forward slashes in a `!` command. If the scratchpad is gone, they edit
-     `write-offs.json` by hand.
+   - Done: the owner approved the three proposals by running the approval script themselves,
+     commit `0b5fe69` in the clone (2026-11-25, 08:37).
    - Propose #6 as `nothing_a_caller_sees`: the bounds check below skips the row. The agent never
      writes `approved_by` or `approved_at`.
    - Run `step protect result` with the new build; no new check is needed. Then commit
