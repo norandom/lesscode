@@ -154,6 +154,11 @@ their text: 5.9 asks for the time "from the times of the plan", and it still is.
    crosses into the pack of `agnostic-annotation-driver`, as 6.2 did. The two arguments are still
    evaluated in the other order. Where both have side effects whose order counts, the dropped
    fault would have been visible; R190 had none.
+
+   *Extended by the owner the same day, after task 7.1* ("Extend the rule now"): the swap is also
+   not planted when the *second* argument is of a named kind. Then the swap puts a keyword argument
+   before a positional one. The grammar parses that, but Python refuses to compile it, so the fault
+   cost a run of the tests and was counted as noticed (task 7.5).
 2. **`begin`'s time figure counts the tests as a run makes them.** The figure was the faults'
    seconds over the copies plus one run of the tests without a fault. A run makes more than that:
    the first run of the tests goes alone and is measured, the other copies run theirs after it,

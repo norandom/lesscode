@@ -100,7 +100,7 @@ pub struct ArgumentOps {
     /// such a field keeps its string arguments.
     pub skip_strings_in: Option<QuietFields>,
     /// Kinds of argument bound by name, as a keyword argument is: the
-    /// first two arguments are not swapped when the first is one of them.
+    /// first two arguments are not swapped when either is one of them.
     pub named_kinds: Vec<String>,
 }
 
@@ -122,11 +122,13 @@ impl ArgumentOps {
     }
 
     /// The arguments of a call whose first two may change places: none
-    /// where the pack swaps nothing, or where the first is bound by name,
-    /// since then the swap means the same.
+    /// where the pack swaps nothing, or where one of the two is bound by
+    /// name. With the first, the swap means the same; with the second, it
+    /// puts a named argument before a positional one, which a grammar may
+    /// parse and the language still refuse.
     pub fn swappable<'a, 'r>(&self, arguments: &'a [SgNode<'r>]) -> &'a [SgNode<'r>] {
-        let named = |first: &SgNode<'r>| self.named_kinds.iter().any(|k| *k == first.kind());
-        match self.swap_first_two && !arguments.first().is_some_and(named) {
+        let named = |a: &SgNode<'r>| self.named_kinds.iter().any(|k| *k == a.kind());
+        match self.swap_first_two && !arguments.iter().take(2).any(named) {
             true => arguments,
             false => &[],
         }

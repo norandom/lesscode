@@ -376,10 +376,10 @@ fn a_string_in_a_rust_label_field_is_not_emptied() {
 
 /// Added 2026-11-25 (brownfield-test-stage 7.1, R190): arguments bound by
 /// name mean the same in either order, so the Python pack does not swap
-/// the first two when the first is a keyword argument. A call whose first
-/// argument is positional is swapped as before, even where the second is a
-/// keyword argument: the grammar parses `log(level=2, text)`, which Python
-/// itself refuses to compile.
+/// the first two when the first is a keyword argument. Since 7.5 it does
+/// not swap them either when the second is one: the grammar parses
+/// `log(level=2, text)`, which Python itself refuses to compile. Two
+/// positional arguments are swapped as before.
 #[test]
 fn a_python_call_does_not_swap_keyword_arguments() {
     let text =
@@ -390,11 +390,7 @@ fn a_python_call_does_not_swap_keyword_arguments() {
         .filter(|(operator, _)| operator.starts_with("arg_swap@"))
         .map(|(_, line)| line.as_str())
         .collect();
-    assert_eq!(
-        swaps,
-        ["send(False, name)", "log(level=2, text)"],
-        "{python:?}"
-    );
+    assert_eq!(swaps, ["send(False, name)"], "{python:?}");
 }
 
 /// A pack that names a kind of argument its grammar does not have is

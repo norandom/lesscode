@@ -330,15 +330,41 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
       clean.
     - **Checks.** The suite passed (510), as did the doctests, `fmt`, Clippy with `-D warnings`
       and the budgets (`protect_says.rs` 1,471 of 2,800 tokens).
+    - **After the check of 7.4.** `kiro-cli code check` failed on its ratchet: the test of what
+      `begin` says had grown from 56 to 81 code lines, over the limit of 60. The figures moved into
+      a test of their own, `begin_gives_the_base_run_and_the_check_their_own_figures` (`719ee6b`).
+      The suite then passed (511).
   - _Boundary: native/src/step/protect_says.rs, native/tests/step_protect.rs_
   - _Requirements: 5.9; amendment of the afternoon of 2026-11-25, point 2_
-- [ ] 7.3 The guides and the release notes
+- [x] 7.3 The guides and the release notes
   - `docs/driver.md` (`named_kinds`), `docs/steps.md` and the skill (the two figures),
     `docs/releases/2.2.0.md` (both changes, and its known limit that the stage was walked in Rust
     only, which R190 ended). Humanizer pass.
   - Done when the owner has read the changed sections.
+  - Done 2026-11-25 (`add72d0`), humanizer pass done. The owner was shown a summary of each changed
+    section and answered "Accept as written".
   - _Depends: 7.1, 7.2_
+- [x] 7.5 No swap that puts a keyword argument first (owner decision of 2026-11-25, after 7.3)
+  - Found in 7.1: the grammar parses `log(level=2, text)`, which Python refuses to compile, so
+    the swap of a positional argument with a keyword argument after it is planted and counted as
+    noticed. The owner chose "Extend the rule now": the first two arguments are not swapped when
+    either of them is of a named kind.
+  - Done when the test of 7.1 shows no swap for `log(text, level=2)` and still one for
+    `send(name, False)`. The faults of `cycles.py` at `73a736e` are made again, and any change
+    against the 21 of 7.1 is named. `docs/driver.md` and the 2.2.0 notes say so, and that known
+    limit is removed.
+  - Done 2026-11-25. Test first: red on `log(level=2, text)`, then green. `swappable` now looks
+    at both of the first two arguments. The first wording of its comment named Python, and
+    `the_engine_names_no_language_or_project` refused it. The comment no longer names a language.
+    - **The faults of `cycles.py`.** Still 21, the same as in 7.1: none of its swaps has a keyword
+      argument second.
+    - **Checks.** The suite passed (511), as did the doctests, `fmt`, Clippy with `-D warnings`
+      and the budgets. `kiro-cli code check --changed ada2bb6^` passed, with its 3 pre-existing
+      errors.
+  - _Boundary: native/src/adapters/driver/pack.rs, native/tests/driver_contract.rs, docs/driver.md,
+    docs/releases/2.2.0.md_
+  - _Depends: 7.1_
 - [ ] 7.4 Validation and handover
   - The suites on Windows and through Dagger on Linux; budgets; lints; format; doctests; an addition
     to the validation report; `task_89_handover.md`.
-  - _Depends: 7.1, 7.2, 7.3_
+  - _Depends: 7.1, 7.2, 7.3, 7.5_
