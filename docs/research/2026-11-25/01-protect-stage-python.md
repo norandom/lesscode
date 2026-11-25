@@ -152,3 +152,12 @@ Logs and receipts: `D:\BuildArtifacts\lesscode\brownfield-test-stage\stage-5.2\`
 The outcome stands first, separated from the work the project's test command needed. The void
 first plan is recorded as my configuration error, with its logs. The failed expectation is named
 with its cause.
+
+## Amendment, 2026-11-25, about 13:00 Europe/Berlin
+
+The owner accepted both points left to decide (handover 88, points 2 and 3), and they became task
+group 7 of the spec. The reading above, that the container's start and copy made `begin`'s figure
+low, is revised by [R191](02-begin-time-figure.md). The container starts in every run of the tests,
+so the tests' seconds already hold that. The figure counted one run of the tests where a run makes
+three, and it gave the check the base run's figure, where the check runs both the base and the step.
+The text above is kept as it was written.

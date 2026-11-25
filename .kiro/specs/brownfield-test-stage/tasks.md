@@ -284,3 +284,36 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: verdict.rs, check_runs.rs, protect_numbers.rs, protect_result.rs,
     protect_receipt.rs, protect_says.rs; the skill and docs/steps.md_
   - _Requirements: 4.1, 4.3, 5.3, 5.5_
+
+- [ ] 7. No swap of keyword arguments, and a time figure that counts the tests (amendment of 2026-11-25, afternoon; approved by the owner the same day)
+
+  Points 2 and 3 of handover 88. The owner kept `38d337e` of `.dagger/main.go` as it is.
+- [ ] 7.1 No swap of keyword arguments in the Python pack (pack of `agnostic-annotation-driver`)
+  - `named_kinds` in the pack's `call_argument` operators; the first two arguments are not swapped
+    when the first is of a named kind; admission checks the kinds against the grammar; the Python
+    pack names `keyword_argument`.
+  - Done when tests show:
+    - `Finding(kind=k, rule=r)` gets no `arg_swap`, and `send(name, False)` still does;
+    - a pack whose `named_kinds` names a kind the grammar lacks is refused.
+  - Also: the faults of R190's `cycles.py` at its base, made with the new pack and not run, lack
+    `arg_swap@138:8` and keep `arg_swap@145:25`. Any other difference is named.
+  - _Boundary: native/src/adapters/driver/pack.rs, operators.rs, admission.rs, native/packs/python.json_
+  - _Requirements: amendment of the afternoon of 2026-11-25, point 1_
+- [ ] 7.2 `begin`'s time figure counts the tests as a run makes them
+  - The base run's figure is `3T + S/n + (S - S/n)/c`, or `2T + S` with one copy. The check's
+    figure is that plus `3T`. Both are printed, each with the room of 1.4.
+  - Done when the test of what `begin` says names both figures. On the frozen plans of R188,
+    R189 and R190, `begin` prints the figures that R191 computed. R191 gives the measured runs
+    against the old and the new figures.
+  - _Boundary: native/src/step/protect_says.rs, native/tests/step_protect.rs_
+  - _Requirements: 5.9; amendment of the afternoon of 2026-11-25, point 2_
+- [ ] 7.3 The guides and the release notes
+  - `docs/driver.md` (`named_kinds`), `docs/steps.md` and the skill (the two figures),
+    `docs/releases/2.2.0.md` (both changes, and its known limit that the stage was walked in Rust
+    only, which R190 ended). Humanizer pass.
+  - Done when the owner has read the changed sections.
+  - _Depends: 7.1, 7.2_
+- [ ] 7.4 Validation and handover
+  - The suites on Windows and through Dagger on Linux; budgets; lints; format; doctests; an addition
+    to the validation report; `task_89_handover.md`.
+  - _Depends: 7.1, 7.2, 7.3_

@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R190 The brownfield test stage in a Python project: nothing of the stage differs, the test command needs Linux (2026-11-25)
+## Latest · R191 `begin`'s time figure, counted as a run spends its time (2026-11-25, retrospective)
+
+Task 7.2 of the spec `brownfield-test-stage`, from the owner's decision on point 3 of handover 88. `begin`'s figure counted one run of the tests without a fault, where a run makes three (the first copy alone, the others after it, all once more at the end), and let the first fault run beside the others, where it runs alone. It also gave the check the base run's figure, where the check runs the base and the step. Counted that way, the base runs of R188 to R190 took 0.91 to 0.99 of the figure, where they took 1.32 to 1.73 of the old one; the checks took 0.45 to 1.05, where R190's took 2.7 of the old one. The room of 1.4 stays. This revises R190's reading that the container's start made the gap. [Entry](2026-11-25/02-begin-time-figure.md).
+
+## R190 The brownfield test stage in a Python project: nothing of the stage differs, the test command needs Linux (2026-11-25)
 
 Task 5.2 of the spec `brownfield-test-stage`, preregistered, on scitools-hook's `analysis/structure/cycles.py`, which the owner chose. The commands, the stage spec, the pins, the check and the skill held as written for Python, and no joining line was needed. One test was written and admitted, the one fault left is a swap of keyword arguments (equivalent) and the owner wrote it off, and `step protect result` ended with exit 0. The project's suite is written for POSIX, so it ran in a Linux container on Docker Desktop. That setup, not the stage, took the work, and a first plan was void through my own configuration. Six of eight expectations hold. `begin`'s time figure ran 1.7 to 2.7 times low, because it leaves out the container's start. [Entry](2026-11-25/01-protect-stage-python.md).
 

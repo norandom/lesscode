@@ -136,6 +136,42 @@ stage could not end with 0.
    bare `--page` is refused there. The pins' copies are removed before the check. `begin`'s disk
    line says that otherwise a third pair stands beside the others (25.92 GiB in R189).
 
+## Amended 2026-11-25, afternoon: no swap of keyword arguments, and a time figure that counts the tests
+
+**Approved by the owner on 2026-11-25** ("accept 2 and 3, keep 5, start the task group"), on
+points 2 and 3 of [handover 88](../../task_88_handover.md). Both come from task 5.2
+([R190](../../../docs/research/2026-11-25/01-protect-stage-python.md)). The requirements keep
+their text: 5.9 asks for the time "from the times of the plan", and it still is.
+
+1. **The Python pack does not swap keyword arguments.** In R190 the one fault left was
+   `arg_swap@138:8`, which swaps `kind=` and `rule=` of a call. Arguments bound by name do not
+   change their meaning when they change places, so the fault cost a review for nothing. The
+   pack's `call_argument` operators gain `named_kinds`, the argument kinds bound by name. The first
+   two arguments are not swapped when the first is of such a kind. The Python pack names
+   `keyword_argument`. After a keyword argument Python allows only further keyword arguments and
+   unpacked `*` and `**` arguments, and none of them binds differently when the two change places.
+   A swap whose first argument is positional is planted as before. Admission checks the kinds against the grammar, as it checks `skip_strings_in`. This
+   crosses into the pack of `agnostic-annotation-driver`, as 6.2 did. The two arguments are still
+   evaluated in the other order. Where both have side effects whose order counts, the dropped
+   fault would have been visible; R190 had none.
+2. **`begin`'s time figure counts the tests as a run makes them.** The figure was the faults'
+   seconds over the copies plus one run of the tests without a fault. A run makes more than that:
+   the first run of the tests goes alone and is measured, the other copies run theirs after it,
+   the first fault goes alone too, and every copy runs the tests once more at the end
+   (`first_run.rs`, `runner.rs`). With `S` the plan's seconds of the faults to run again, `n`
+   their number, `T` the plan's run of the tests without a fault and `c` the copies, the base run
+   takes about `3T + S/n + (S - S/n)/c`. With one copy it is `2T + S`. The check runs the base and
+   the step. On the base it takes the faults' results that the base run stored in the same work
+   directory, so the base side costs about `3T` and the check `3T` more than the base run. `begin`
+   prints the two figures apart, each with the room of 1.4. Measured against the evidence of R188
+   to R190, the base runs took 0.91 to 0.99 of the new figure, where they took 1.32 to 1.73 of the
+   old one. The checks took 0.45 to 1.05 of it, where they took up to 2.7 of the old one
+   ([R191](../../../docs/research/2026-11-25/02-begin-time-figure.md)). The room of 1.4 stays.
+   The check's figure is high where the step leaves the tests unchanged, because then the step's
+   faults are stored as well.
+3. **The guides.** `docs/driver.md` names `named_kinds`. `docs/steps.md` and the skill give the
+   two figures. `docs/releases/2.2.0.md` names both changes, as the release is not tagged yet.
+
 ## Boundary Commitments
 
 **This spec owns**
