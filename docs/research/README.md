@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R193 `step protect result` counts only signed approvals; the task order left its tests failing between two tasks (2026-11-25)
+## Latest · R194 The receipt shows every approval with its key or its refusal; the eleven cases hold on Windows and Linux (2026-11-25)
+
+Tasks 3.2 and 3.3 of the spec `signed-approvals`. The receipt of `step protect result` names each counted approval by key title, fingerprint, account, commit and date. Each approval that does not count stands beside them with its reason, commit, key and repair. One line names the signer list's account and how many of its keys are on the forge. `protection.json` gains `signers` and a `refusal` on each waiting fault; nothing was removed. The eleven cases of the design pass through the library entry with the stand-in forge, each with its exit code and words. At `0b11aa1`: Windows 550 of 550, Linux through Dagger 549 of 549, model 85 of 85. A finding about the tests, not the tool: Git for Windows signed the tests' commits with its MSYS `ssh-keygen`, which sometimes failed to start under parallel load; the test support now names the `ssh-keygen` the tool uses. Not seen yet: a real signed approval against the real forge. [Entry](2026-11-25/05-signed-approvals-receipt-cases.md).
+
+## R193 `step protect result` counts only signed approvals; the task order left its tests failing between two tasks (2026-11-25)
 
 Tasks 2.1, 2.2 and 3.1 of the spec `signed-approvals`. A write-off counts only when it is marked `"approved": true` and the commit that last changed it carries a good SSH signature by a key in the branch's signer list and among the account's signing keys on GitHub. The judge reads the list and asks the forge at most once, and only when a good signature needs them. Approvals through `approved_by`/`approved_at` wait as "approved the old way". The plan assumed each task group ends with the suites passing. That failed for group 2: from 2.1 on, five tests of the result approved through the old fields and failed until 3.1 wired in the judge. The owner chose to carry 3.1 into the group. At `bf24fb8`: Windows 537 of 537, Linux through Dagger 536 of 536, model 85 of 85. Not seen yet: a real signed approval judged against the real forge. [Entry](2026-11-25/04-signed-approvals-judge.md).
 
