@@ -388,9 +388,23 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
         }
     );
     assert!(said.contains(&took), "{took:?} is not in:\n{said}");
-    // A run takes the tests alone in its first copy, then in the others, and
-    // once more at the end, and the first fault alone (R191). The check runs
-    // the tests on the base three times more.
+    assert!(
+        !said.contains("Left alone") && !said.contains("Left out"),
+        "{said}"
+    );
+}
+
+/// Added 2026-11-25 (brownfield-test-stage 7.2, R191): a run takes the tests
+/// alone in its first copy, then in the others, and once more at the end,
+/// and the first fault alone. The check runs the tests on the base three
+/// times more, so it gets a figure of its own.
+#[test]
+fn begin_gives_the_base_run_and_the_check_their_own_figures() {
+    let planned = Planned::new("protect-figures", "python", "src/app.py");
+    let (code, said) = planned.begin(&["src/app.py:helper"]);
+    assert_eq!(code, Some(0), "{said}");
+    let run = planned.repo.json(&planned.run);
+    let copies = run["workers"].as_array().unwrap().len();
     let of_helper: Vec<f64> = run["mutants"]
         .as_array()
         .unwrap()
@@ -413,10 +427,6 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
         (base + 3.0 * tests).round()
     );
     assert!(said.contains(&figures), "{figures:?} is not in:\n{said}");
-    assert!(
-        !said.contains("Left alone") && !said.contains("Left out"),
-        "{said}"
-    );
 }
 
 #[test]
