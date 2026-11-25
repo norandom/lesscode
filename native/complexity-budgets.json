@@ -680,6 +680,13 @@
    "disposition": null
   },
   {
+   "path": "step/signers.rs",
+   "max_logical_units": 300,
+   "owner": "signed-approvals",
+   "allocation": "The signer list .lesscode/allowed_signers on the branch (task 1.3; requirements 2.1, 2.3)",
+   "disposition": null
+  },
+  {
    "path": "step/sshsig.rs",
    "max_logical_units": 300,
    "owner": "signed-approvals",
