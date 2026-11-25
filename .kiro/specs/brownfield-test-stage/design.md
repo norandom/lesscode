@@ -110,6 +110,32 @@ still say what was approved at 13:15; where they differ, this section holds.
 
    `docs/releases/2.2.0.md` names the change, as it is not tagged yet.
 
+## Amended 2026-11-25: the base run of the check sets the stage's unnoticed faults
+
+**Approved by the owner on 2026-11-25** ("ok, go on with the fix", and of two ways offered:
+"Verdict names base misses"). It comes from task 6.4
+([R189](../../../docs/research/2026-11-24/10-protect-stage-shared-frame.md)). There the plan
+counted an equivalent fault as noticed, most likely because a flaky test of the project aborted
+during its run. `stage.json` comes from the plan and did not have the fault. The check then found
+it unnoticed, and the result could neither count a test for it nor take a write-off, so the
+stage could not end with 0.
+
+1. **`step check` names what the base run did not notice.** Each row of the verdict's
+   `functions` gains `unnoticed_before`, the labels of the faults unnoticed on the base, as
+   `unnoticed_after` has them after the step. The field is additive. It crosses this spec's
+   boundary into `step check` (spec `gradual-refactoring-steps`); nothing that reads a verdict
+   today changes.
+2. **`step protect result` takes such a fault into the stage.** A fault the verdict lists as
+   unnoticed both before and after, in a chosen function, and that `stage.json` does not have by
+   line and operator, becomes one of the stage's. Its id is the operator where the operator names
+   its place (`swap:>=->>@100:18`), and otherwise `<operator>@<line>`, because the verdict gives no
+   column. It can then be written off by that id, and it waits until it is. The result names each
+   such fault, and `protection.json` lists them as `from_the_base_run`. A verdict without
+   `unnoticed_before`, from before this change, behaves as before.
+3. **The skill and the guide.** Phase 8 gives `--page` a place outside the repository, because a
+   bare `--page` is refused there. The pins' copies are removed before the check. `begin`'s disk
+   line says that otherwise a third pair stands beside the others (25.92 GiB in R189).
+
 ## Boundary Commitments
 
 **This spec owns**

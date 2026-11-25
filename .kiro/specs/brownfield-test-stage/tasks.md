@@ -249,3 +249,20 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     and removing the pins' copies before the check. Open until then.
   - _Depends: 6.1, 6.2, 6.3_
   - _Requirements: 1.1, 3.1, 5.3, 5.4, 5.10_
+- [ ] 6.5 The base run of the check sets the stage's unnoticed faults (amendment of 2026-11-25)
+  - `step check` writes `unnoticed_before` per function. `step protect result` takes into the
+    stage each fault unnoticed before and after that `stage.json` lacks, accepts a write-off for
+    it by id, and names it (`from_the_base_run` in `protection.json`). In the skill, phase 8
+    gives `--page` a place, and the pins' copies are removed before the check. `begin`'s disk
+    line says why.
+  - Done when tests show:
+    - the verdict's `unnoticed_before`;
+    - a fault missed before and after but absent from `stage.json` waits, can be written off by
+      its id, and ends in exit 0 once approved;
+    - a fault missed only after does not join the stage;
+    - a verdict without the field behaves as before.
+  - Then R189's stage is finished with a new check and result.
+  - _Depends: 6.4_
+  - _Boundary: verdict.rs, check_runs.rs, protect_numbers.rs, protect_result.rs,
+    protect_receipt.rs, protect_says.rs; the skill and docs/steps.md_
+  - _Requirements: 4.1, 4.3, 5.3, 5.5_
