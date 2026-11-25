@@ -211,7 +211,18 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: docs/approvals.md_
   - _Requirements: 4.1, 4.4, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 8.1_
 
-- [ ] 4.2 (P) The steps guide, the skill, the release notes, the stage spec
+- [x] 4.2 (P) The steps guide, the skill, the release notes, the stage spec
+  - *Done 2026-11-25. `docs/steps.md`: proposals carry no mark, the owner approves in a signed
+    commit (link to the guide), the result's approval and refusal lines, exit 2 for a missing list
+    or GitHub not reached, GitHub needed in a pipeline that judges a signed approval, and the limit
+    rewritten. Skill: role table (the agent does not sign, set up or change signing, or script an
+    approval), phase 7 without the mark, phase 9 with the signed commit and the signer list, phases
+    10 and 11, the pipeline and "what no command checks". The skill's `templates/tasks.md` names
+    the key and commit in place of a name and date. `docs/releases/2.2.0.md`: a "What is new"
+    entry, a "Changed" entry for earlier approvals, the known limit, and a missing line break
+    fixed. A dated note at requirement 4.3 of `brownfield-test-stage`. `approved_by`/`approved_at`
+    remain only as fields that are still read and decide nothing. The brownfield-test-stage design
+    still describes the old fields as it was approved; it is left as a record.*
   - `docs/steps.md` (protect result: approvals by signed commit, link to the owner's guide), the
     skill `protect-before-reduce` (role table; phase 7 proposes with `"approved"` absent or false;
     phase 9 stops for the owner's signed commit; the agent never signs, sets up signing or writes

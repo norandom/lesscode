@@ -205,8 +205,13 @@ repository rather than forcing it in.
 A fault that no test should chase is proposed for writing off, in `write-offs.json` beside the
 declaration. There are two kinds: `nothing_a_caller_sees`, and `not_testable_as_it_stands`, a test cannot
 reach it without a change of the code. A proposal has a reason a person can check in the code, and
-`approved_by` and `approved_at` set to `null`. Only the owner of the code fills those two fields, and
-commits the file.
+no `"approved"` mark (or `"approved": false`). Only the owner of the code approves: they set
+`"approved": true` on the entries they accept and commit the file **signed with their own SSH key**.
+[Approving write-offs](approvals.md) sets up the key once and shows the one command. An approval in
+an unsigned commit, or one signed with a key that is not both in the project's signer list
+`.lesscode/allowed_signers` and among the account's signing keys on GitHub, does not count. The
+older fields `approved_by` and `approved_at` are still read, so older files parse, but they approve
+nothing.
 
 Last, `step check` runs the faults of the chosen functions again with the new tests in place. Commit the
 verdict it writes. Remove the pins' copies first, or three pairs of copies stand at once (25.92 GiB on
@@ -233,11 +238,16 @@ check again.
 | --- | --- |
 | 0 | every chosen function is protected enough |
 | 1 | a fault waits, or the check refused because unnoticed faults rose; each is named |
-| 2 | not judged: no committed verdict, a verdict for other content, a code file the branch changed, or a check that did not judge. Never a pass |
+| 2 | not judged: no committed verdict, a verdict for other content, a code file the branch changed, or a check that did not judge; for a signed approval, a missing signer list, or GitHub not reached. Never a pass |
 | 3 | bad input, such as a write-off for a fault the stage does not have, or of another kind |
 
 Per chosen function it prints four numbers: noticed before, noticed now, written off, waiting. It names
-every write-off with its reason, who approved it and when. For a fault written off as not testable as it
+every write-off with its reason and its approval: the key's title and fingerprint, the account, the
+signed commit and its date. An approval that does not count stands beside them with its reason (not
+signed, does not verify, key not in the signer list, key not on GitHub) and the repair; its fault
+waits. One line gives the account of the signer list and how many of its keys GitHub lists. GitHub
+is asked once per run, without a token, and only when a signed approval by a listed key needs it.
+For a fault written off as not testable as it
 stands, it says what the function reaches out to: a reduction has to keep the behaviour there by other
 means. After the chosen functions it lists the reported ones with their number from the plan; their
 faults are not run again and do not change the exit code. On exit 0 it names the next step: declare the
@@ -270,7 +280,8 @@ Both commands open no page, start no listener and ask nothing; everything they n
 files. Leave `--open` away from `step plan` and `step check`. Make `step protect result` the job that
 gates: exit 0 passes, exit 1 means a fault waits, exit 2 is never a pass. Because the result reads
 committed files only, a pipeline and a person at a checkout get the same answer for the same commit, and
-an approval reaches the pipeline only by the owner's commit. Without `--function` a pipeline can begin a
+an approval reaches the pipeline only by the owner's signed commit. A job that judges a signed
+approval needs to reach `api.github.com`; without it the answer is exit 2. Without `--function` a pipeline can begin a
 stage for the whole plan; it cannot review or merge. A run without the owner ends at exit 1 with the proposals named as waiting.
 
 ## 2. Declare the step
@@ -540,8 +551,9 @@ These could not be made mechanical. They stay with the person who takes or revie
 - Only unnoticed faults refuse a step. A function in which fewer faults are planted afterwards passes, so
   read the numbers in the verdict.
 - `git push --no-verify` skips the local hook. The pipeline job is the boundary that holds.
-- `step protect result` sees a name and a date in `approved_by` and `approved_at`. It cannot know that
-  the owner of the code wrote them, so it prints every approver and date where a false one is seen. That
+- `step protect result` counts an approval signed with the owner's key. It does not stop a key held
+  unlocked in an SSH agent, a passphrase typed where an agent can read it, or programs replaced on the
+  owner's machine ([what the check does not stop](approvals.md#what-the-check-does-not-stop)). That
   the reason for a write-off is true is the owner's to judge.
 - A stage's test is admitted when it fails on the fault. Whether the behaviour it fixes is one worth
   keeping is the review's, as for a pin.

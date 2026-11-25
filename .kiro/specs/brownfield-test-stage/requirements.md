@@ -200,6 +200,11 @@ chase, so that the stage ends without tests that fix nothing worth keeping.
    the fault cannot be tested as the code stands.
 3. The stage shall count a fault as written off only when the owner of the code has approved the
    proposal in the review, and shall record who approved it and when.
+   *(Note of 2026-11-25: made stricter by [signed-approvals](../signed-approvals/requirements.md),
+   requirements 1 and 6. An approval now counts only in a commit signed with a key that is in the
+   project's signer list and on the owner's GitHub account. Who approved and when are taken from
+   that key and commit; the fields `approved_by` and `approved_at` decide nothing. The wording
+   above is kept as approved on 2026-11-24.)*
 4. While a proposal is not approved, the stage shall count its fault as waiting, and shall not
    call its function protected enough.
 5. The stage shall go on showing a written-off fault as written off, with its reason, in every

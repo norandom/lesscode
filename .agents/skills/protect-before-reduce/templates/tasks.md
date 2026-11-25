@@ -46,8 +46,9 @@ the one review. Until then leave the line "Not judged yet." Give the exit code a
 | --- | --- | --- | --- | --- |
 | `<function>` | <n> of <n> | <n> of <n> | <n> | <n> |
 
-Written off, with the owner's approval (`write-offs.json`): `<id>` (<kind>): <reason>. Approved by
-<name> on <date>.
+Written off, with the owner's approval (`write-offs.json`): `<id>` (<kind>): <reason>. Approved
+with the key "<title>" (<fingerprint>) of github.com/<account>, in <commit> on <date>, as the
+result says.
 
 Waiting: `<id>`: <why it waits, as the result says>.
 

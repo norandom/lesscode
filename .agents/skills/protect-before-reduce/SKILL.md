@@ -24,9 +24,9 @@ and in [refactor-in-steps](../refactor-in-steps/SKILL.md).
 | Who | Does | Does not |
 | --- | --- | --- |
 | The tool (`lesscode-core`) | plants faults, runs the project's tests, counts, answers by exit code | write a test or a spec; call a model |
-| The agent | runs the commands, writes the stage spec and the tests, proposes write-offs, reports what the commands said | choose the functions; change the code to be reduced; approve anything; call a function protected on its own reading |
+| The agent | runs the commands, writes the stage spec and the tests, proposes write-offs, reports what the commands said | choose the functions; change the code to be reduced; approve anything; sign a commit, set up or change signing, or write a script that approves; call a function protected on its own reading |
 | The person | asks for the plan, and may narrow the stage to named functions | |
-| The owner of the code | reviews once, approves each write-off by their own hand, merges | |
+| The owner of the code | reviews once, approves the write-offs in one commit signed with their own key, merges | |
 
 The person and the owner of the code are often one person. The stage waits for them at three
 places: the scope (phase 2), the one review (phase 9) and the merge (phase 11).
@@ -256,7 +256,7 @@ For every fault of a chosen function that no admitted test notices, write an ent
     { "file": "src/a.rs", "function": "decide", "fault": "negate@68:11",
       "kind": "not_testable_as_it_stands",
       "reason": "The condition is fixed at build time; on this system the other branch is not built.",
-      "proposed_by": "agent", "approved_by": null, "approved_at": null } ] }
+      "proposed_by": "agent" } ] }
 ```
 
 `kind` is one of two, and no third exists:
@@ -271,9 +271,11 @@ The reason is one or two sentences a person can check in the code. Where two fau
 share line and operator, propose both or neither: the result cannot tell them apart and treats
 them together. An entry for a fault the stage does not have, or with another kind, is bad input.
 
-**`approved_by` and `approved_at` stay `null`.** You never fill them: not from an answer in the
-conversation, not "as instructed", not marked as filled in on someone's behalf. Only the owner of
-the code writes them. Commit the proposals.
+**A proposal has no `"approved"` mark, or `"approved": false`.** You never set it to `true` in a
+commit of yours: not from an answer in the conversation, not "as instructed", not on someone's
+behalf. An approval counts only in a commit signed with the owner's key, so a mark you commit only
+makes the fault wait with "not signed". Do not write `approved_by` or `approved_at`; they approve
+nothing any more. Commit the proposals.
 
 ### Phase 8: the check
 
@@ -324,11 +326,24 @@ Stop here and hand the owner of the code one thing to read, in this order:
    sessions are moved to the canvas");
 5. the output of `step protect result` as it stands now, which is exit 1 while proposals wait.
 
-The owner approves a write-off by writing their name into `approved_by` and the date into
-`approved_at` of that entry, and **committing the file on the branch**. An approval that is written
-and not committed does not count. The owner may instead ask for a test, change a sentence, or
-refuse a proposal; then go back to phase 6 or 7, and through phase 8 again where a test file
-changed.
+The owner approves by setting `"approved": true` on the entries they accept and committing
+`write-offs.json` **in one commit signed with their own SSH key**, after reading the change. Point
+them to [Approving write-offs](../../../docs/approvals.md), which sets up the key and gives the one
+command. Where the owner asks, you may set the marks in the working tree and leave them
+uncommitted; the owner reads the diff and makes the signed commit. You do not:
+
+- sign a commit, make or touch a key, change Git's signing settings or `gh`'s scopes;
+- prepare a script, alias or hook that commits an approval;
+- ask for the passphrase, or run the signing command in a terminal you drive.
+
+A project's first signed approval needs the signer list `.lesscode/allowed_signers` on the branch,
+with the owner's public key; the guide says how. You may commit that list for the owner, with the
+public key they give you. It counts nothing on its own: a key counts only where the list and the
+owner's account on GitHub both name it.
+
+An approval that is written and not committed, or committed without the owner's signature, does
+not count. The owner may instead ask for a test, change a sentence, or refuse a proposal; then go
+back to phase 6 or 7, and through phase 8 again where a test file changed.
 
 Say what you could not judge yourself: whether each sentence names a behaviour the owner wants
 kept, and whether the tests you wrote are the ones you would have accepted from someone else. You
@@ -344,11 +359,13 @@ lesscode-core step protect result --declaration <specs-dir>/<name>/step.json
 | --- | --- | --- |
 | 0 | every chosen function is protected enough | report the output; it names the next step |
 | 1 | a fault waits, or the check refused because unnoticed faults rose; each is named | report the output; back to phase 6, 7 or 9 |
-| 2 | not judged: no committed verdict, a verdict for other content, a code file the branch changed, a check that did not judge | report that nothing was judged, and why |
+| 2 | not judged: no committed verdict, a verdict for other content, a code file the branch changed, a check that did not judge; for a signed approval, a missing signer list or GitHub not reached | report that nothing was judged, and why |
 | 3 | bad input | report it and put the input right |
 
 Per chosen function the output gives four numbers: noticed before, noticed now, written off,
-waiting. It names every write-off with its reason, approver and date. **Report that output and
+waiting. It names every write-off with its reason and the key, account, commit and date of its
+approval, and every approval that does not count with its reason and repair. Where an approval is
+"not signed", give the owner the repair the output names; do not run it yourself. **Report that output and
 nothing of your own reading.** Do not round it, do not add a function it does not list, and do not
 say "protected" for exit 1 or 2.
 
@@ -364,7 +381,7 @@ branch.
 
 Merging the tests is the owner's. Before it, remove what is left of the copies and say what is
 kept and how large it is. The merge is the last place where an approval that was not the owner's
-would be seen: the result prints every approver and date for that reason.
+would be seen: the result names the key and commit of every approval for that reason.
 
 ## In a pipeline
 
@@ -377,8 +394,8 @@ and may stay. The dashboard is off unless someone asks for it.
 - `step protect result` is the job that gates: exit 0 passes, exit 1 means a fault waits, exit 2
   means nothing was judged and must not be read as a pass.
 - The result reads committed files only, so a pipeline and a person at a checkout get the same
-  answer for the same commit. An approval reaches a pipeline by the owner's commit and by no other
-  way.
+  answer for the same commit. An approval reaches a pipeline by the owner's signed commit and by no
+  other way. A job that judges a signed approval needs to reach `api.github.com`.
 - A pipeline cannot do phases 2, 9 and 11. A run without the owner ends at exit 1 with the
   proposals named as waiting; that is the correct end, not a failure to be worked round.
 
@@ -386,7 +403,9 @@ and may stay. The dashboard is off unless someone asks for it.
 
 Say these to the owner of the code; do not fill them with your own judgement:
 
-- That a person wrote `approved_by`. The tool sees a name and a date.
+- That the owner's key was used by the owner. The tool sees a good signature by a key in the list
+  and on GitHub; a key held unlocked in an SSH agent, or a passphrase typed where an agent reads
+  it, would give the same.
 - That the sentence of a test names a behaviour worth keeping. A test is admitted when it fails on
   the fault; it can still fix a behaviour nobody wants.
 - That a reason for a write-off is true.
