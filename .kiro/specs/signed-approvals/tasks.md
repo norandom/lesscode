@@ -109,7 +109,13 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     and a new test shows each of the three waiting texts.
   - _Requirements: 1.3, 1.4, 1.5, 6.1_
 
-- [ ] 2.2 The judge
+- [x] 2.2 The judge
+  - *Done 2026-11-25 (`native/tests/step_protect_judge.rs`, 7 library tests on a step branch of
+    the toy repository with the stand-in forge). Beside the design: `Judged` also carries
+    `on_forge` (how many listed keys the forge has), which the receipt's signer-list line of 3.2
+    needs; `last_changes` reads the history once for all marked entries, and `last_change` (1.5)
+    is its one-entry case. `judge` was split into `signatures` and `against_forge` to stay within
+    the per-function budget of 560 tokens (821 at first).*
   - For every marked write-off: its last change (1.5), the signature (1.2), the signer list read
     once when a good signature needs it (1.3), the forge asked once when a listed key needs it
     (1.4). The date is the commit's committer date.

@@ -683,7 +683,7 @@
    "path": "step/approvals.rs",
    "max_logical_units": 300,
    "owner": "signed-approvals",
-   "allocation": "Approvals of write-offs in signed commits: the commit that last changed an entry (task 1.5; requirements 1.1, 1.2, 1.6)",
+   "allocation": "Approvals of write-offs in signed commits: the commit that last changed an entry (task 1.5; requirements 1.1, 1.2, 1.6); the judged approval or refusal and the judge (signature, signer list once, forge once) (tasks 2.1, 2.2; requirements 1.1 to 1.6, 2.1 to 2.5, 4.2)",
    "disposition": null
   },
   {
