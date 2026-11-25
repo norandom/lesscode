@@ -10,8 +10,9 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
-**Update 2026-11-25, about 15:45: task group 3 of `signed-approvals` is done.** Start at
-[task_92_handover.md](task_92_handover.md). Next is group 4 (the guides and the skill).
+**Update 2026-11-25, about 17:45: task group 4 of `signed-approvals` is done.** Start at
+[task_93_handover.md](task_93_handover.md). Next is group 5 (validation, the owner's key, the
+re-approval).
 
 **Update 2026-11-25, about 15:08: task group 2 of `signed-approvals` is done, with 3.1 carried
 in.** Start at [task_91_handover.md](task_91_handover.md). Next is group 3 (3.2 and 3.3).

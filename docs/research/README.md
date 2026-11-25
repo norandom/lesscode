@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R194 The receipt shows every approval with its key or its refusal; the eleven cases hold on Windows and Linux (2026-11-25)
+## Latest · R195 The owner's guide holds when its commands are run; the real forge refuses a key it does not list (2026-11-25)
+
+Tasks 4.1 and 4.2 of the spec `signed-approvals`. [docs/approvals.md](../approvals.md) sets up the owner's signing key, GitHub, the signer list and Git, and gives the one command that approves, the two repairs and the key's replacement. Its commands were run once with throwaway keys on a scratch clone of the `cycles.py` stage, except the `gh` steps, which are the owner's. The built tool asked the real GitHub for the first time and refused the throwaway key as not on the account (0 of 1); both repairs made the signature found. The steps guide, the skill `protect-before-reduce`, the 2.2.0 notes and the stage spec now say that an approval is the owner's signed commit. Not seen yet: the passphrase prompt in a person's terminal (`ssh-keygen` waited for it) and a counted approval against the real forge, both in task 5.2. [Entry](2026-11-25/06-signed-approvals-guides.md).
+
+## R194 The receipt shows every approval with its key or its refusal; the eleven cases hold on Windows and Linux (2026-11-25)
 
 Tasks 3.2 and 3.3 of the spec `signed-approvals`. The receipt of `step protect result` names each counted approval by key title, fingerprint, account, commit and date. Each approval that does not count stands beside them with its reason, commit, key and repair. One line names the signer list's account and how many of its keys are on the forge. `protection.json` gains `signers` and a `refusal` on each waiting fault; nothing was removed. The eleven cases of the design pass through the library entry with the stand-in forge, each with its exit code and words. At `0b11aa1`: Windows 550 of 550, Linux through Dagger 549 of 549, model 85 of 85. A finding about the tests, not the tool: Git for Windows signed the tests' commits with its MSYS `ssh-keygen`, which sometimes failed to start under parallel load; the test support now names the `ssh-keygen` the tool uses. Not seen yet: a real signed approval against the real forge. [Entry](2026-11-25/05-signed-approvals-receipt-cases.md).
 
