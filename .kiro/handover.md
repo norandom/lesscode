@@ -10,6 +10,10 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-25, about 14:25: the spec `signed-approvals` is written and approved, and its task
+group 1 is done.** Start at [task_90_handover.md](task_90_handover.md). Next is group 2 (judging
+approvals).
+
 **Update 2026-11-25, about 13:55: task group 7 of `brownfield-test-stage` is done**, from the
 owner's decisions on handover 88. The validation addition says GO. Start at
 [task_89_handover.md](task_89_handover.md): it lists the owner's decisions of the afternoon (signed
