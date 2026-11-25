@@ -1,6 +1,7 @@
 # Design: approvals an agent cannot make
 
-Written 2026-11-25, about 14:30 (Europe/Berlin). **Not approved.** Prototype gate: **proceed**
+Written 2026-11-25, about 13:59 (Europe/Berlin). **Approved by the owner on 2026-11-25** ("approved,
+both proposals as written, write the tasks"); C1 and C2 resolved as proposed. Prototype gate: **proceed**
 ([prototype-gate.md](prototype-gate.md), record [R192](../../../docs/research/2026-11-25/03-signed-approvals-prototype.md)).
 Discovery and the options weighed: [research.md](research.md). Requirements: [requirements.md](requirements.md)
 (approved 2026-11-25).
@@ -396,8 +397,8 @@ no WSL); handover 89; R192.
 
 | # | Conflict | Authority | Resolution | Status |
 | --- | --- | --- | --- | --- |
-| C1 | Requirement 2.3 says "no signer list → not judged" without a condition. Taken literally, every stage without write-offs would need a list and the network. | requirements (owner, 2026-11-25) | Read as "when an approval is to be judged": the list and the forge are consulted only when an entry is marked approved and its signature is good. A stage with no marked entry is judged as today. | **open decision**: the owner confirms the reading at design approval |
-| C2 | Requirement 6.2 says "one signed commit per clone". The drift-rdp clone has three stage branches with approvals (`protect/protect-yuv` `6602eb1`, `protect/protect-shared-frame` `39e09d4`, the prototype's `protect/display-path` `4da65d8`) plus two adverse-control branches, none an ancestor of another. scitools-hook has one (`protect/protect-cycles`). | requirements; facts of the clones | Proposed: one signed commit per stage branch that is to be merged (yuv, shared-frame, cycles: three). The prototype's and the adverse controls' branches stay as they are, as records of their time; re-run today they would read "not signed". | **open decision** |
+| C1 | Requirement 2.3 says "no signer list → not judged" without a condition. Taken literally, every stage without write-offs would need a list and the network. | requirements (owner, 2026-11-25) | Read as "when an approval is to be judged": the list and the forge are consulted only when an entry is marked approved and its signature is good. A stage with no marked entry is judged as today. | resolved: approved by the owner 2026-11-25; requirement 2.3 amended |
+| C2 | Requirement 6.2 says "one signed commit per clone". The drift-rdp clone has three stage branches with approvals (`protect/protect-yuv` `6602eb1`, `protect/protect-shared-frame` `39e09d4`, the prototype's `protect/display-path` `4da65d8`) plus two adverse-control branches, none an ancestor of another. scitools-hook has one (`protect/protect-cycles`). | requirements; facts of the clones | Proposed: one signed commit per stage branch that is to be merged (yuv, shared-frame, cycles: three). The prototype's and the adverse controls' branches stay as they are, as records of their time; re-run today they would read "not signed". | resolved: approved by the owner 2026-11-25; requirement 6.2 amended |
 | C3 | The core has "No HTTP client" on purpose; the forge needs HTTP. | `native/Cargo.toml` comment (model-seam spec) | `curl` as an outside program, like `git`. No crate added; the comment stays true. | resolved |
 | C4 | brownfield-test-stage 4.3: "record who approved it and when", from fields. | requirement 1.4 of this spec, which says it replaces that | `approved_by`/`approved_at` are no longer read for a decision; a dated note at 4.3 points here. | resolved |
 | C5 | `revisions.rs` allows read-only Git only. | existing design | Only `log` and `cat-file` are added uses; both are already on the list. Test helpers that commit live in `native/tests`. | resolved |

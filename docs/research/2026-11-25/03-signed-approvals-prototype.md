@@ -1,7 +1,7 @@
 # R192: An approval signed with an SSH key can be checked the same way on Windows and Linux, against the project's list and GitHub
 
-- Report date/time and timezone: 2026-11-25, about 14:10 Europe/Berlin.
-- Execution interval: 2026-11-25, 13:50 to 14:00 Europe/Berlin (from the commit times of the
+- Report date/time and timezone: 2026-11-25, about 13:57 Europe/Berlin.
+- Execution interval: 2026-11-25, about 13:51 to 13:56 Europe/Berlin (the end from the commit times of the
   prototype's repositories and the shell).
 - Status: completed.
 - Spec: [signed-approvals](../../../.kiro/specs/signed-approvals/requirements.md), requirements

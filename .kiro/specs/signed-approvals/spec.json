@@ -1,9 +1,9 @@
 {
   "feature_name": "signed-approvals",
   "created_at": "2026-11-25T13:48:00+01:00",
-  "updated_at": "2026-11-25T14:35:00+01:00",
+  "updated_at": "2026-11-25T14:03:04+01:00",
   "language": "en",
-  "phase": "design-generated",
+  "phase": "tasks-generated",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -11,19 +11,19 @@
     },
     "design": {
       "generated": true,
-      "approved": false
+      "approved": true
     },
     "tasks": {
-      "generated": false,
+      "generated": true,
       "approved": false
     }
   },
   "ready_for_implementation": false,
-  "owner_decisions": "2026-11-25, after handover 88: approvals an agent cannot make are to be \"Signed commits\". 2026-11-25, 13:44: \"Write the signed-approvals spec; should be via the ssh key, which pub key part we add to github via gh\". 2026-11-25, 13:58, asked before the requirements, each answer as recommended: a key counts only when it is both in a signer list committed in the project and among the signing keys of the owner's GitHub account; approvals made by script stop counting and are approved again in one signed commit per clone; a signing key of its own with a passphrase, never held in the SSH agent (~/.ssh/id_ed25519 stays as it is); write-off approvals only, not spec.json phases. Requirements approved by the owner on 2026-11-25 (\"approved, go on to the design\").",
+  "owner_decisions": "2026-11-25, after handover 88: approvals an agent cannot make are to be \"Signed commits\". 2026-11-25, about 13:45: \"Write the signed-approvals spec; should be via the ssh key, which pub key part we add to github via gh\". 2026-11-25, about 13:48, asked before the requirements, each answer as recommended: a key counts only when it is both in a signer list committed in the project and among the signing keys of the owner's GitHub account; approvals made by script stop counting and are approved again in one signed commit per clone; a signing key of its own with a passphrase, never held in the SSH agent (~/.ssh/id_ed25519 stays as it is); write-off approvals only, not spec.json phases. Requirements approved by the owner on 2026-11-25 (\"approved, go on to the design\"). Design approved by the owner on 2026-11-25, about 14:02 (\"approved, both proposals as written, write the tasks\"): C1, the signer list and the forge only when an approval is to be judged (2.3 amended); C2, one signed re-approval per stage branch to be merged, drift-rdp protect/protect-yuv and protect/protect-shared-frame, scitools-hook protect/protect-cycles (6.2 amended).",
   "related": [
     "brownfield-test-stage"
   ],
-  "notes": "Initialised 2026-11-25 from task_89_handover.md, open point 1, and the owner's instruction of 13:44. No brief: the handover and the owner's words give who has the problem, the situation and the change. Facts found at initialisation: the local key ~/.ssh/id_ed25519.pub is on neither of the account's key lists on GitHub; the account norandom already has four signing keys there, one titled \"GitHub Actions Signing Key - observability-k8s\"; the gh session lacks the scope admin:ssh_signing_key; Git has no signing configuration; OpenSSH for Windows 9.5 is installed. Research-bearing: the design has to pass the prototype gate of steering/prototype-first.md before tasks. Design generated 2026-11-25 with two open decisions for the owner (C1: the signer list and the forge are consulted only when an approval is to be judged; C2: re-approval one signed commit per stage branch to be merged, three in all, not one per clone).",
+  "notes": "Initialised 2026-11-25 from task_89_handover.md, open point 1, and the owner's instruction of about 13:45. No brief: the handover and the owner's words give who has the problem, the situation and the change. Facts found at initialisation: the local key ~/.ssh/id_ed25519.pub is on neither of the account's key lists on GitHub; the account norandom already has four signing keys there, one titled \"GitHub Actions Signing Key - observability-k8s\"; the gh session lacks the scope admin:ssh_signing_key; Git has no signing configuration; OpenSSH for Windows 9.5 is installed. Research-bearing: the design has to pass the prototype gate of steering/prototype-first.md before tasks. Design generated 2026-11-25 with two open decisions for the owner (C1: the signer list and the forge are consulted only when an approval is to be judged; C2: re-approval one signed commit per stage branch to be merged, three in all, not one per clone).",
   "prototype_gate": "prototype-gate.md",
   "prototype_status": "proceed (R192): signatures checked alike on OpenSSH 9.2, 9.5 and 10.6 without host Git settings; GitHub signing keys without a token; five cases on a copy of the real cycles.py stage as expected; G9 (the owner's passphrase prompt) not run, left to the re-approval task",
   "evidence": [

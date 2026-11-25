@@ -1,6 +1,6 @@
 # Research and design decisions: signed approvals
 
-Written 2026-11-25, about 14:20 (Europe/Berlin), with the design. Discovery: light (an extension
+Written 2026-11-25, about 13:58 (Europe/Berlin), with the design. Discovery: light (an extension
 of `step protect result`). Prototype record: [R192](../../../docs/research/2026-11-25/03-signed-approvals-prototype.md).
 
 ## Summary

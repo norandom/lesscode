@@ -1,6 +1,6 @@
 # chain.ps1 on a copy of scitools-hook's stage branch protect/protect-cycles (b885391),
 # cloned to the scratch directory; the clone at D:\BuildArtifacts\scitools-hook\lesscode-stage
-# was only read (R4) and stayed clean. Run 2026-11-25, about 13:55 to 14:00 Europe/Berlin.
+# was only read (R4) and stayed clean. Run 2026-11-25, about 13:54 to 13:56 Europe/Berlin.
 # The copy got commit 746e6cb (approved: true added, signed with the throwaway "owner" key)
 # and, before R5, 1c463dd (the reason changed, unsigned). Signer lists name
 # github.com/norandom; "standin.json" is the real forge answer plus the two throwaway keys.

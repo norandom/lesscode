@@ -1,7 +1,7 @@
 # Requirements: approvals an agent cannot make
 
-Generated 2026-11-25, 14:05 (Europe/Berlin), from the project description below and the owner's
-four answers of 13:58. Approved by the owner on 2026-11-25 ("approved, go on to the design").
+Generated 2026-11-25, about 13:49 (Europe/Berlin), from the project description below and the owner's
+four answers of about 13:48. Approved by the owner on 2026-11-25 ("approved, go on to the design").
 Related spec: [brownfield-test-stage](../brownfield-test-stage/requirements.md),
 whose requirement 4.3 this spec makes stricter.
 
@@ -25,7 +25,7 @@ account as a signing key with `gh` (owner, 2026-11-25: "should be via the ssh ke
 part we add to github via gh"). An agent with shell access but without the owner's key can still
 propose a write-off. It cannot make one count.
 
-## The owner's answers of 2026-11-25, 13:58
+## The owner's answers of 2026-11-25, about 13:48
 
 Asked before these requirements were written, each chosen as recommended:
 
@@ -40,6 +40,25 @@ Asked before these requirements were written, each chosen as recommended:
 3. **A signing key of its own.** A new key with a passphrase, never held in the SSH agent, so that
    each signature needs the owner to type it. `~/.ssh/id_ed25519` stays as it is.
 4. **Write-offs only.** The approvals of a Kiro spec's phases in `spec.json` stay as they are.
+
+## Amended 2026-11-25, about 14:02: the owner's two decisions at the design's approval
+
+The owner approved the design with "both proposals as written" (its contradictions C1 and C2).
+The changes, each with the text it replaces:
+
+- **2.3** now reads: "If a write-off is marked approved and its commit carries a good signature,
+  and the project has no signer list or the list names no account, then `step protect result`
+  shall not judge (exit 2) and shall say what is missing. A stage with no such write-off is judged
+  without the list." It replaces: "If the project has no signer list, or the list names no
+  account, then `step protect result` shall not judge (exit 2) and shall say what is missing."
+- **6.2** now reads: "The re-approval shall be one signed commit by the owner per stage branch that
+  is to be merged: drift-rdp's `protect/protect-yuv` and `protect/protect-shared-frame`, and
+  scitools-hook's `protect/protect-cycles`. After it, `step protect result` exits on each as it did
+  before. The prototype's branch `protect/display-path` and the two adverse-control branches stay
+  as they are, as records of their time." It replaces: "The re-approval in the clones of drift-rdp
+  and scitools-hook shall be one signed commit per clone, made by the owner, after which `step
+  protect result` exits as it did before in each." The owner's answer 2 above ("one signed commit
+  per clone") is read the same way.
 
 ## Words
 
@@ -96,8 +115,10 @@ account both name it, so that neither an edited file nor a key held by a CI job 
 2. If a key is in the signer list but not among the account's signing keys on the forge, then
    `step protect result` shall not count approvals signed with it, and shall name the key by its
    fingerprint.
-3. If the project has no signer list, or the list names no account, then `step protect result`
-   shall not judge (exit 2) and shall say what is missing.
+3. If a write-off is marked approved and its commit carries a good signature, and the project has
+   no signer list or the list names no account, then `step protect result` shall not judge
+   (exit 2) and shall say what is missing. A stage with no such write-off is judged without the
+   list. *(Amended 2026-11-25.)*
 4. If the forge cannot be reached or does not answer, then `step protect result` shall not judge
    (exit 2) and shall say so. It shall never count an approval without the forge's answer.
 5. When the owner removes a key from the account on the forge, `step protect result` shall stop
@@ -160,8 +181,11 @@ to be made again by signing, so that no stage stands on an approval an agent cou
 #### Acceptance Criteria
 1. When this change is in place, `step protect result` shall no longer count an approval that
    came in an unsigned commit, whenever it was made.
-2. The re-approval in the clones of drift-rdp and scitools-hook shall be one signed commit per
-   clone, made by the owner, after which `step protect result` exits as it did before in each.
+2. The re-approval shall be one signed commit by the owner per stage branch that is to be merged:
+   drift-rdp's `protect/protect-yuv` and `protect/protect-shared-frame`, and scitools-hook's
+   `protect/protect-cycles`. After it, `step protect result` exits on each as it did before. The
+   prototype's branch `protect/display-path` and the two adverse-control branches stay as they
+   are, as records of their time. *(Amended 2026-11-25.)*
 3. The research record of this spec shall list the earlier approvals by clone and commit, and the
    commit that approved each again.
 

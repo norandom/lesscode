@@ -1,6 +1,6 @@
 # Prototype gate: signed approvals
 
-Written 2026-11-25, about 14:10 (Europe/Berlin), after the runs. Record:
+Written 2026-11-25, about 13:57 (Europe/Berlin), after the runs. Record:
 [R192](../../../docs/research/2026-11-25/03-signed-approvals-prototype.md).
 
 **Decision: proceed.** All five cases on the real stage and all adverse controls behaved as
