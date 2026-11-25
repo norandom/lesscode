@@ -92,7 +92,12 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 
 ## 2. Judging approvals
 
-- [ ] 2.1 The mark and the judged state of a write-off
+- [x] 2.1 The mark and the judged state of a write-off
+  - *Done 2026-11-25 (7 of 7 numbers tests pass, 1 new). Finding: from this task on, the 5 tests
+    of `step_protect_result.rs` that approve through `approved_by`/`approved_at` exit 1 where they
+    expected 0, because those approvals now wait "the old way" (6.1) and the command judges no
+    signed approval before 3.1. The task order leaves them failing until 3.1 moves them to signed
+    commits.*
   - A write-off carries the mark `"approved": true`; the judged approval (key title, fingerprint,
     account, commit, date) or refusal (one of the four kinds, commit, key, repair) is filled in by
     the judge, never read from the file. `approved_by` and `approved_at` are still read, so older

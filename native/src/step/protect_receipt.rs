@@ -121,17 +121,17 @@ fn reaches_out(chosen: &Chosen) -> String {
     }
 }
 
-/// One write-off with its reason, approver and date. For one that cannot
-/// be tested as the code stands: what its function reaches out to.
+/// One write-off with its reason and the signed commit that approved it.
+/// For one that cannot be tested as the code stands: what its function
+/// reaches out to.
 fn of_write_off(w: &WriteOff, stage: &Stage) -> Vec<String> {
     let text = |v: &Option<String>| v.clone().unwrap_or_default();
-    let signed = match w.approved() {
-        true => format!(
-            "Approved by {} on {}.",
-            text(&w.approved_by),
-            text(&w.approved_at)
+    let signed = match (&w.approval, w.approved()) {
+        (Some(a), true) => format!(
+            "Approved with the key \"{}\" ({}) of github.com/{}, in {} on {}.",
+            a.title, a.fingerprint, a.account, a.commit, a.date
         ),
-        false => "Not approved.".to_owned(),
+        _ => "Not approved.".to_owned(),
     };
     let reason = match text(&w.reason).trim() {
         "" => "No reason is given.".to_owned(),

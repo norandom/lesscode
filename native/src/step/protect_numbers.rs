@@ -8,6 +8,7 @@
 //! an operator the verdict cannot tell them apart: they are then written
 //! off together or wait together, and the result says so.
 
+use super::approvals::{Refusal, Signed};
 use super::protect_stage::{Chosen, Fault, Stage};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -17,6 +18,8 @@ pub const KINDS: [&str; 2] = ["nothing_a_caller_sees", "not_testable_as_it_stand
 
 const NOT_PROPOSED: &str = "no test notices it and no write-off is proposed";
 const NOT_APPROVED: &str = "its write-off is not approved";
+const THE_OLD_WAY: &str =
+    "approved the old way, which no longer counts: approve it in a signed commit";
 const NOT_OF_THE_STAGE: &str = "it is not among the unnoticed faults the stage began with";
 
 /// One entry of `write-offs.json`: a fault no test is asked to notice.
@@ -32,17 +35,41 @@ pub struct WriteOff {
     pub reason: Option<String>,
     #[serde(default)]
     pub proposed_by: Option<String>,
+    /// The mark of an approval; it counts only as `approval` says.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub approved: Option<bool>,
+    /// The fields of approvals before signed commits: still read, so older
+    /// files parse; they decide nothing.
     #[serde(default)]
     pub approved_by: Option<String>,
     #[serde(default)]
     pub approved_at: Option<String>,
+    /// The judged approval, filled in by the judge and never read from the file.
+    #[serde(default, skip_deserializing, skip_serializing_if = "Option::is_none")]
+    pub approval: Option<Signed>,
+    /// Why the marked approval does not count, filled in by the judge.
+    #[serde(default, skip_deserializing, skip_serializing_if = "Option::is_none")]
+    pub refusal: Option<Refusal>,
+}
+
+fn given(v: &Option<String>) -> bool {
+    v.as_deref().is_some_and(|t| !t.trim().is_empty())
 }
 
 impl WriteOff {
-    /// It counts with a reason, an approver and a date.
+    /// Whether it is marked `"approved": true`.
+    pub fn marked(&self) -> bool {
+        self.approved == Some(true)
+    }
+
+    /// It counts with a reason and an approval the judge counted.
     pub fn approved(&self) -> bool {
-        let given = |v: &Option<String>| v.as_deref().is_some_and(|t| !t.trim().is_empty());
-        given(&self.reason) && given(&self.approved_by) && given(&self.approved_at)
+        self.approval.is_some() && given(&self.reason)
+    }
+
+    /// Approved only by the fields of before signed commits.
+    fn the_old_way(&self) -> bool {
+        !self.marked() && (given(&self.approved_by) || given(&self.approved_at))
     }
 }
 
@@ -86,7 +113,19 @@ pub struct Waiting {
     pub faults: Vec<String>,
     pub line: usize,
     pub operator: String,
-    pub why: &'static str,
+    pub why: String,
+}
+
+/// Why a fault of the stage waits, from the write-offs of the faults it
+/// can be: a refused approval first, then one approved the old way.
+fn why_waiting(entries: &[&WriteOff]) -> String {
+    let refused = entries.iter().find_map(|w| w.refusal.as_ref());
+    match refused {
+        Some(refusal) => refusal.words(),
+        None if entries.iter().any(|w| w.the_old_way()) => THE_OLD_WAY.to_owned(),
+        None if entries.is_empty() => NOT_PROPOSED.to_owned(),
+        None => NOT_APPROVED.to_owned(),
+    }
 }
 
 /// The standing of one chosen function.
@@ -134,10 +173,9 @@ fn stand(row: &mut Row, label: &str, faults: &[Fault], offs: &[WriteOff]) -> Vec
         row.write_offs.extend(new);
         return ids;
     }
-    let why = match (ids.is_empty(), ids.iter().any(|id| of(id).next().is_some())) {
-        (true, _) => NOT_OF_THE_STAGE,
-        (false, true) => NOT_APPROVED,
-        (false, false) => NOT_PROPOSED,
+    let why = match ids.is_empty() {
+        true => NOT_OF_THE_STAGE.to_owned(),
+        false => why_waiting(&ids.iter().flat_map(of).collect::<Vec<_>>()),
     };
     row.waiting += 1;
     row.waiting_faults.push(Waiting {

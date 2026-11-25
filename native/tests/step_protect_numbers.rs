@@ -3,6 +3,7 @@
 //! begin with, and a write-off for a fault the stage does not have
 //! (brownfield-test-stage, task 2.2; the owner's decision of 2026-11-24).
 
+use lesscode_core::step::approvals::{Refusal, RefusalKind, Signed};
 use lesscode_core::step::protect_numbers::{from_the_base_run, numbers, write_offs, Row, WriteOff};
 use lesscode_core::step::protect_stage::Stage;
 use serde_json::{json, Value};
@@ -33,16 +34,35 @@ fn verdict(unnoticed_after: &[&str]) -> Value {
     }]})
 }
 
+/// What the judge fills in for an approval it counted (signed-approvals 2.1).
+fn signed() -> Signed {
+    Signed {
+        account: "owner".into(),
+        title: "lesscode approvals".into(),
+        fingerprint: "SHA256:abc".into(),
+        commit: "0123456789abcdef".into(),
+        date: "2026-11-25T14:00:00+01:00".into(),
+    }
+}
+
+/// The entries of a `write-offs.json`, marked approved, each counted.
+fn judged(entries: Vec<Value>, stage: &Stage) -> Vec<WriteOff> {
+    let file = json!({"schema": 1, "write_offs": entries});
+    let mut offs = write_offs(file.to_string().as_bytes(), stage).unwrap();
+    for w in &mut offs {
+        assert!(w.marked() && w.approval.is_none(), "read from the file");
+        w.approval = Some(signed());
+    }
+    offs
+}
+
 /// Approved write-offs for the faults at these columns of line 5.
 fn approved(columns: &[usize]) -> Vec<WriteOff> {
     let entry = |column: &usize| {
         json!({"file": "src/a.rs", "function": "decide", "fault": format!("negate@5:{column}"),
-               "kind": "nothing_a_caller_sees", "reason": "r",
-               "approved_by": "the owner", "approved_at": "2026-11-24"})
+               "kind": "nothing_a_caller_sees", "reason": "r", "approved": true})
     };
-    let entries: Vec<Value> = columns.iter().map(entry).collect();
-    let file = json!({"schema": 1, "write_offs": entries});
-    write_offs(file.to_string().as_bytes(), &stage()).unwrap()
+    judged(columns.iter().map(entry).collect(), &stage())
 }
 
 fn row(unnoticed_after: &[&str], offs: &[WriteOff]) -> Row {
@@ -132,11 +152,12 @@ fn a_fault_the_base_run_also_missed_joins_the_stage_and_can_be_written_off() {
     // And a write-off by their ids is taken.
     let entry = |fault: &str| {
         json!({"file": "src/a.rs", "function": "decide", "fault": fault,
-               "kind": "nothing_a_caller_sees", "reason": "r",
-               "approved_by": "the owner", "approved_at": "2026-11-25"})
+               "kind": "nothing_a_caller_sees", "reason": "r", "approved": true})
     };
-    let file = json!({"write_offs": [entry("drop_statement@8"), entry("swap:<-><=@12:4")]});
-    let offs = write_offs(file.to_string().as_bytes(), &stage).unwrap();
+    let offs = judged(
+        vec![entry("drop_statement@8"), entry("swap:<-><=@12:4")],
+        &stage,
+    );
     let done = &numbers(&stage, &verdict, &offs).unwrap()[0];
     assert_eq!((done.written_off, done.waiting), (2, 0));
 }
@@ -153,6 +174,101 @@ fn a_fault_missed_only_after_the_step_does_not_join_the_stage() {
     );
     // A verdict without `unnoticed_before` adds nothing either.
     assert!(from_the_base_run(&mut stage, &verdict(&["#7 line 8 drop_statement"])).is_empty());
+}
+
+/// One write-off for both faults of line 5, as these fields have it.
+fn both_as(fields: Value, judge: impl Fn(&mut WriteOff)) -> Vec<WriteOff> {
+    let entry = |column: usize| {
+        let mut entry = json!({"file": "src/a.rs", "function": "decide",
+                               "fault": format!("negate@5:{column}"),
+                               "kind": "nothing_a_caller_sees", "reason": "r"});
+        entry
+            .as_object_mut()
+            .unwrap()
+            .extend(fields.as_object().unwrap().clone());
+        entry
+    };
+    let file = json!({"schema": 1, "write_offs": [entry(3), entry(9)]});
+    let mut offs = write_offs(file.to_string().as_bytes(), &stage()).unwrap();
+    offs.iter_mut().for_each(judge);
+    offs
+}
+
+fn why(offs: &[WriteOff]) -> String {
+    let waits = row(&["#2 line 5 negate"], offs);
+    assert_eq!((waits.written_off, waits.waiting), (0, 1));
+    waits.waiting_faults[0].why.clone()
+}
+
+/// signed-approvals 2.1: a fault waits with the refusal's words, with the
+/// words for an approval of before signed commits, or as before.
+#[test]
+fn a_fault_waits_with_its_refusal_the_old_way_or_as_before() {
+    let refused = Refusal {
+        kind: RefusalKind::NotSigned,
+        commit: "0123456789abcdef".into(),
+        key: None,
+        repair: Some("sign it with `git commit --amend -S --no-edit`".into()),
+    };
+    let marked = both_as(json!({"approved": true}), |w| {
+        w.refusal = Some(refused.clone())
+    });
+    assert_eq!(
+        why(&marked),
+        "its approval in 0123456789ab is not signed: sign it with `git commit --amend -S --no-edit`"
+    );
+
+    // The fields of before decide nothing: neither mark nor approval.
+    let old = both_as(
+        json!({"approved_by": "the owner", "approved_at": "2026-11-24"}),
+        |_| {},
+    );
+    assert!(old.iter().all(|w| !w.marked() && !w.approved()));
+    assert_eq!(
+        why(&old),
+        "approved the old way, which no longer counts: approve it in a signed commit"
+    );
+
+    // Unmarked, or marked and not judged: as before this spec.
+    assert_eq!(
+        why(&both_as(json!({}), |_| {})),
+        "its write-off is not approved"
+    );
+    let unjudged = both_as(json!({"approved": true}), |_| {});
+    assert_eq!(why(&unjudged), "its write-off is not approved");
+    assert_eq!(why(&[]), "no test notices it and no write-off is proposed");
+
+    // The judged state is never read from the file.
+    let forged = both_as(
+        json!({"approved": true, "approval": {"account": "x", "title": "t",
+               "fingerprint": "f", "commit": "c", "date": "d"}}),
+        |_| {},
+    );
+    assert!(forged.iter().all(|w| w.approval.is_none()));
+
+    // Each of the other three refusals gives its words, with the key.
+    let words = |kind: RefusalKind| {
+        let refusal = Refusal {
+            kind,
+            key: Some("SHA256:k".into()),
+            repair: None,
+            ..refused.clone()
+        };
+        why(&both_as(json!({"approved": true}), |w| {
+            w.refusal = Some(refusal.clone())
+        }))
+    };
+    assert_eq!(
+        words(RefusalKind::DoesNotVerify),
+        "the signature of its approval in 0123456789ab does not verify"
+    );
+    assert_eq!(
+        words(RefusalKind::NotListed),
+        "its approval in 0123456789ab is signed with SHA256:k, which is not in the signer list"
+    );
+    assert!(words(RefusalKind::NotOnForge).ends_with(
+        "signed with SHA256:k, which is not among the account's signing keys on the forge"
+    ));
 }
 
 #[test]
