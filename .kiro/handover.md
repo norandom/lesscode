@@ -10,6 +10,39 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-25, about 19:30, end of the day: task 5.1 of `signed-approvals` is done; 5.2
+waits for the owner.** Start tomorrow at [task_93_handover.md](task_93_handover.md) for group 5,
+then [R196](../docs/research/2026-11-25/07-signed-approvals-validation.md) for 5.1. No group
+handover yet: group 5 ends with 5.3, and `task_94_handover.md` is written then.
+
+- **5.1, validation of the tool.** At `1dc83bf`: Windows 551 of 551 (1 skipped), doctests,
+  format, Clippy, budgets; Linux through Dagger all 23 steps 0, core 550 of 550, model 85 of 85;
+  `kiro-cli code check --changed 09c3076` passes with its 2 pre-existing errors (`step_guard.rs`).
+  At the group-4 commit `8dfaf9d` the suites passed but `kiro-cli` refused two routines the spec
+  had added (`against_forge` with 6 parameters, a result test of 69 lines); `1dc83bf` cuts them
+  down without a change of behaviour. Record: `f59ef16`.
+- **Next, 5.2, the owner's act:** follow [docs/approvals.md](../docs/approvals.md), make the key
+  with a passphrase, grant `gh` the signing-key scope, add the public key as a signing key, take
+  the scope back. The agent runs none of the `gh` steps. Note whether Git asks for the passphrase
+  when signing (gate row G9, never seen so far). Then the agent checks the forge's list,
+  `gh auth status` and one signed commit in a scratch repository with lesscode's check. After it,
+  5.3: the re-approval on drift-rdp `protect/protect-yuv` and `protect/protect-shared-frame` and
+  scitools-hook `protect/protect-cycles`.
+- **State.** lesscode `main` at this update's commit; `origin/main` at `9f6aab7`, not pushed
+  (push only on the owner's word). Clones untouched: drift-rdp
+  (`D:\BuildArtifacts\drift-rdp\lesscode-brownfield-stage`) on `protect/protect-shared-frame`,
+  scitools-hook (`D:\BuildArtifacts\scitools-hook\lesscode-stage`) on `protect/protect-cycles`.
+  Nothing running of lesscode's; the shared Dagger engine container was left running.
+- **Storage.** D: 111.9 GiB free (139.7 at the start of 5.1). Most of the drop is Docker
+  Desktop's disk `D:\Docker\disk\docker_data.vhdx` (89.3 GiB), where the shared Dagger engine's
+  cache volume holds 60.6 GB; shared, not pruned. lesscode's own caches: `lesscode-cargo-test`
+  15.5 GiB, `native\target` 7.5 GiB (inactive since 2026-11-07, removal waits for the owner's
+  word, handover 89 item 4). Both limits hold. New evidence is small: `signed-approvals\` logs and
+  `native-evidence\linux-8dfaf9d`, `linux-1dc83bf`.
+- **Still open from handover 89:** merging the protection tests into drift-rdp and scitools-hook,
+  the tag of 2.2.0, the push. Drift hardening (Slice B) stays closed by the owner (R104); only
+  the drift of one model over time is unmeasured.
+
 **Update 2026-11-25, about 17:45: task group 4 of `signed-approvals` is done.** Start at
 [task_93_handover.md](task_93_handover.md). Next is group 5 (validation, the owner's key, the
 re-approval).
