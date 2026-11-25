@@ -14,6 +14,7 @@ mod check_show;
 pub mod context;
 pub mod declaration;
 pub mod faults;
+pub mod forge;
 pub mod functions;
 pub mod guard;
 pub mod hook;

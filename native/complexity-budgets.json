@@ -680,6 +680,13 @@
    "disposition": null
   },
   {
+   "path": "step/forge.rs",
+   "max_logical_units": 300,
+   "owner": "signed-approvals",
+   "allocation": "The signing keys of a GitHub account through curl; the Forge seam for tests (task 1.4; requirements 2.4 to 2.6)",
+   "disposition": null
+  },
+  {
    "path": "step/signers.rs",
    "max_logical_units": 300,
    "owner": "signed-approvals",

@@ -6,6 +6,8 @@
 //! is switched on with `-c` for one commit, and the SSH agent is kept out.
 
 use super::Repo;
+use lesscode_core::step::forge::{Forge, ForgeError, ForgeKey};
+use std::cell::Cell;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
@@ -151,29 +153,43 @@ fn without_signature(object: &str) -> String {
     }
 }
 
-/// One key as GitHub lists it: `<type> <base64>` and its title.
-#[derive(Clone, Debug)]
-pub struct ListedKey {
-    pub key: String,
-    pub title: String,
-}
-
-/// What the stand-in forge answers for an account: its signing keys, or
-/// that it cannot be reached. It is the forge of the library entry in the
-/// tests; the command itself has no way to name it.
-#[derive(Clone, Debug)]
-pub enum StandIn {
-    Keys(Vec<ListedKey>),
-    Unreachable,
+/// What the stand-in forge answers for any account: these signing keys, or
+/// that it cannot be reached. It counts how often it was asked. It is the
+/// forge of the library entry in the tests; the command has no way to name it.
+#[derive(Debug, Default)]
+pub struct StandIn {
+    keys: Option<Vec<ForgeKey>>,
+    pub asked: Cell<usize>,
 }
 
 impl StandIn {
     /// The forge lists exactly these keys, each under its title.
     pub fn listing(keys: &[(&Key, &str)]) -> StandIn {
-        let listed = |(key, title): &(&Key, &str)| ListedKey {
+        let listed = |(key, title): &(&Key, &str)| ForgeKey {
             key: key.public_key(),
             title: (*title).to_owned(),
         };
-        StandIn::Keys(keys.iter().map(listed).collect())
+        StandIn {
+            keys: Some(keys.iter().map(listed).collect()),
+            asked: Cell::new(0),
+        }
+    }
+
+    /// The forge cannot be reached.
+    pub fn unreachable() -> StandIn {
+        StandIn::default()
+    }
+
+    /// The keys it lists, for a test to look at.
+    pub fn keys(&self) -> &[ForgeKey] {
+        self.keys.as_deref().unwrap_or(&[])
+    }
+}
+
+impl Forge for StandIn {
+    fn signing_keys(&self, _account: &str) -> Result<Vec<ForgeKey>, ForgeError> {
+        self.asked.set(self.asked.get() + 1);
+        let unreachable = || ForgeError::Unreachable("the stand-in is unreachable".into());
+        self.keys.clone().ok_or_else(unreachable)
     }
 }

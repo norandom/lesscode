@@ -3,6 +3,7 @@
 
 mod step_support;
 
+use lesscode_core::step::forge::{Forge, ForgeError};
 use std::process::Command;
 use step_support::signing::{Key, StandIn};
 use step_support::Repo;
@@ -62,9 +63,10 @@ fn the_support_makes_signed_unsigned_and_grafted_commits() {
 fn the_stand_in_forge_lists_keys_under_their_titles() {
     let dir = std::env::temp_dir().join(format!("lc-standin-{}", std::process::id()));
     let owner = Key::new(&dir, "owner");
-    let StandIn::Keys(keys) = StandIn::listing(&[(&owner, "lesscode approvals")]) else {
-        panic!("a listing is keys");
-    };
+    let forge = StandIn::listing(&[(&owner, "lesscode approvals")]);
+    let keys = forge.signing_keys("norandom").unwrap();
+    assert_eq!(forge.asked.get(), 1);
+    assert_eq!(keys, forge.keys());
     assert_eq!(keys.len(), 1);
     assert_eq!(keys[0].title, "lesscode approvals");
     assert!(keys[0].key.starts_with("ssh-ed25519 "), "{}", keys[0].key);
@@ -72,5 +74,7 @@ fn the_stand_in_forge_lists_keys_under_their_titles() {
         !keys[0].key.contains("owner"),
         "the comment is not part of the key"
     );
+    let unreachable = StandIn::unreachable().signing_keys("norandom");
+    assert!(matches!(unreachable, Err(ForgeError::Unreachable(_))));
     let _ = std::fs::remove_dir_all(dir);
 }
