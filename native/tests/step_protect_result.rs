@@ -97,7 +97,16 @@ fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
             "Nothing reads the count. Not counted: its approval in ",
         ],
     );
-    // Approved the old way, by fields that no longer decide: it waits.
+}
+
+/// Approved the old way, by fields that no longer decide: it waits. Then
+/// approved in a signed commit: written off. A kind that is not one of the
+/// two is bad input, approved or not.
+#[test]
+fn only_a_signed_approval_writes_off_an_unnoticed_fault() {
+    let planned = Planned::staged("result-signed");
+    planned.checked();
+    let numbers = "src/app.py: helper  noticed before 0, noticed now 0";
     let path = format!("{STAGE}/write-offs.json");
     let old = json!({"approved_by": "the owner", "approved_at": "2026-11-24"});
     let old = offs_of("nothing_a_caller_sees", old);

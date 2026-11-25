@@ -255,13 +255,13 @@ fn signatures(
 /// of them is counted with the key's title, any other refused by its
 /// fingerprint. How many listed keys the forge has, and how many counted.
 fn against_forge(
-    repo: &Path,
-    head: &str,
+    context: &Context,
     list: &SignerList,
     good: Vec<Good>,
     offs: &mut [WriteOff],
     forge: &dyn Forge,
 ) -> Result<Result<(usize, usize), String>, String> {
+    let (repo, head) = (&context.repo, &context.revisions.step);
     let titles = match forge.signing_keys(&list.account) {
         Ok(keys) => titles(&keys),
         Err(why) => return Ok(Err(why.to_string())),
@@ -322,7 +322,7 @@ pub fn judge(context: &Context, path: &str, offs: &mut [WriteOff], forge: &dyn F
     }
     let mut judged = Judged::default();
     if !good.is_empty() {
-        match against_forge(repo, head, &list, good, offs, forge)? {
+        match against_forge(context, &list, good, offs, forge)? {
             Ok((on_forge, counted)) => {
                 (judged.on_forge, judged.counted) = (Some(on_forge), counted)
             }
