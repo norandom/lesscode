@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R189 The stage over the whole scope of `shared_frame.rs`: three tests written, protected enough after one fix of the tool (2026-11-24 and 25)
+## Latest · R190 The brownfield test stage in a Python project, on scitools-hook (2026-11-25, running)
+
+Task 5.2 of the spec `brownfield-test-stage`, preregistered: does anything of the stage have to be done differently for a language that is not Rust? The owner chose scitools-hook and its `analysis/structure/cycles.py` (22 planted faults). The project's suite is written for POSIX, so its tests run in a Linux container on Docker Desktop, where all 5,330 pass. Eight expectations are written before the plan. [Entry](2026-11-25/01-protect-stage-python.md).
+
+## R189 The stage over the whole scope of `shared_frame.rs`: three tests written, protected enough after one fix of the tool (2026-11-24 and 25)
 
 Task 6.4 of the spec `brownfield-test-stage`, preregistered: the first run of the stage after the amendment (whole scope by default, reported functions, no label faults in Rust), on a file of drift-rdp's renderer whose tests missed 8 of 42 planted faults. `begin` without `--function` chose the two functions with missed faults. The agent wrote three tests, each admitted by `step pin`, and four missed faults are noticed now. The owner wrote off the four that change nothing a caller sees, and `step protect result` ended with exit 0. On the way, a flaky test of the project made the plan count an equivalent fault as noticed, which the stage could neither test nor write off. Task 6.5 fixed that: the check names the base run's missed faults, and the result takes such a fault into the stage. Eight of eleven expectations hold; disk ran over because the skill did not say to remove the pins' copies before the check, which is now fixed. [Entry](2026-11-24/10-protect-stage-shared-frame.md).
 
