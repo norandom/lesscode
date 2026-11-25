@@ -214,6 +214,9 @@ fn signatures(
     offs: &mut [WriteOff],
 ) -> Result<Result<Vec<Good>, String>, String> {
     let marked: Vec<usize> = (0..offs.len()).filter(|&i| offs[i].marked()).collect();
+    if marked.is_empty() {
+        return Ok(Ok(Vec::new()));
+    }
     let wanted: Vec<(&str, &str)> = marked
         .iter()
         .map(|&i| (offs[i].file.as_str(), offs[i].fault.as_str()))

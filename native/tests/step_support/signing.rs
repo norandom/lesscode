@@ -32,6 +32,16 @@ impl Key {
         Key { private, public }
     }
 
+    /// The pair `<dir>/<name>` made earlier in the test, else a new one.
+    pub fn kept(dir: &Path, name: &str) -> Key {
+        let private = dir.join(name);
+        let public = PathBuf::from(format!("{}.pub", private.display()));
+        match public.exists() {
+            true => Key { private, public },
+            false => Key::new(dir, name),
+        }
+    }
+
     /// `<type> <base64>`, without the comment.
     pub fn public_key(&self) -> String {
         let line = fs::read_to_string(&self.public).unwrap();

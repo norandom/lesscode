@@ -5,9 +5,13 @@
 //! where that verdict does: for exactly the scope, the tests and the
 //! declaration the branch has committed, and for code the stage left as it
 //! was. Where it does not hold the command says why, exits 2 and writes
-//! nothing. It runs nothing.
+//! nothing. It runs no test. A write-off marked approved counts only when
+//! the judge of `approvals` finds it signed by an allowed key; for that it
+//! starts `git`, `ssh-keygen` and `curl` (spec signed-approvals).
 
+use super::approvals::judge;
 use super::context::Context;
+use super::forge::{Forge, GitHub};
 use super::guard::moved;
 use super::protect_numbers::{from_the_base_run, numbers, write_offs, Joined, WriteOff};
 use super::protect_receipt::{says, Protection};
@@ -17,6 +21,7 @@ use super::verdict::{NOT_JUDGED, PLANTED_FAULTS, REFUSED};
 use crate::adapters::driver::cli::emit_json;
 use crate::specimen_runner::sha256_hex_bytes;
 use serde_json::Value;
+use std::io::Write;
 use std::path::PathBuf;
 
 /// Arguments of `step protect result`.
@@ -155,39 +160,56 @@ fn stage_of(
 /// way the result is said and left in `protection.json`. Exit 2 where there
 /// is no result to read, and nothing is written. Bad input, including a
 /// declaration that is not committed on its branch, is an error (exit 3).
+/// The forge is GitHub; the command has no way to name another.
 pub fn run_result(args: ResultArgs) -> Result<u8, String> {
+    run_result_with(args, &GitHub, &mut std::io::stdout())
+}
+
+/// `step protect result` with the forge the signing keys are read from,
+/// saying the result to `out`: the library entry, for the tests' stand-in.
+pub fn run_result_with(
+    args: ResultArgs,
+    forge: &dyn Forge,
+    out: &mut dyn Write,
+) -> Result<u8, String> {
     let context = Context::open(&args.repo, &args.declaration)?;
-    let not_judged = |why: String| {
-        println!("Not judged: {why}");
-        Ok(2)
-    };
+    let mut say = |text: String| writeln!(out, "{text}").map_err(|e| e.to_string());
     let (verdict, sha256) = match found(&context)? {
-        Found::NotJudged(why) => return not_judged(why),
+        Found::NotJudged(why) => return say(format!("Not judged: {why}")).map(|_| 2),
         Found::Verdict(verdict, sha256) => (verdict, sha256),
     };
-    let (stage, joined, offs) = stage_of(&context, &verdict)?;
+    let (stage, joined, mut offs) = stage_of(&context, &verdict)?;
+    let path = format!("{}/write-offs.json", stage_dir(&context));
+    if let Err(why) = judge(&context, &path, &mut offs, forge)? {
+        return say(format!("Not judged: {why}")).map(|_| 2);
+    }
     let rows = match numbers(&stage, &verdict, &offs) {
         Ok(rows) => rows,
         Err(function) => {
             let why = "the verdict has no numbers before and after for";
-            return not_judged(format!("{why} {function}. Run `step check` again."));
+            return say(format!(
+                "Not judged: {why} {function}. Run `step check` again."
+            ))
+            .map(|_| 2);
         }
     };
     let rose = verdict["result"] == REFUSED;
     let mut protection = Protection::new(&stage, &context.revisions, sha256, rows, rose);
     protection.from_the_base_run = joined;
-    println!(
-        "{}",
-        says(&stage, &context.declaration.branch, &protection, &offs)
-    );
+    say(says(
+        &stage,
+        &context.declaration.branch,
+        &protection,
+        &offs,
+    ))?;
     let beside = || {
         context
             .repo
             .join(stage_dir(&context))
             .join("protection.json")
     };
-    let out = args.out.unwrap_or_else(beside);
-    emit_json(&protection, Some(&out))?;
-    println!("Written: {}", slashed(&out));
+    let written = args.out.unwrap_or_else(beside);
+    emit_json(&protection, Some(&written))?;
+    say(format!("Written: {}", slashed(&written)))?;
     Ok(u8::from(!protection.enough()))
 }

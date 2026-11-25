@@ -129,7 +129,15 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 
 ## 3. The command, the receipt and the result file
 
-- [ ] 3.1 `step protect result` with the judge
+- [x] 3.1 `step protect result` with the judge
+  - *Done 2026-11-25, carried into task group 2 by the owner's choice ("Carry 3.1 in"), so that
+    the group ends with the suites passing. `run_result_with(args, forge, out)` is the library
+    entry; `run_result` passes `GitHub` and stdout. The approving tests of `step_protect_result.rs`
+    commit `"approved": true` and a signer list in a commit signed with a test key and run through
+    the library entry with the stand-in; the binary keeps the unsigned approval (with the amend
+    repair), the old way, the uncommitted approval and bad input. New test: `--help` has exactly
+    `--declaration`, `--repo`, `--out`, `--help` and names neither forge nor GitHub. The judge now
+    reads no history when no write-off is marked.*
   - The result runs the judge between reading the stage and counting; a library entry takes the
     forge, and the command always passes GitHub. "Not judged" is exit 2 and bad input exit 3, and
     neither writes anything, as today. The command gains no option for the forge.
