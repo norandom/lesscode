@@ -235,7 +235,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 
 ## 5. Validation and the owner's re-approval
 
-- [ ] 5.1 Validation of the tool
+- [x] 5.1 Validation of the tool
   - Windows: the full nextest suite, doctests, format, Clippy, budgets. Linux: the Dagger run on the
     task's commit. `kiro-cli code check`.
   - Done when all pass, with the evidence directory named in the group's handover.

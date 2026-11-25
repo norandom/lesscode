@@ -1,7 +1,7 @@
 {
   "feature_name": "signed-approvals",
   "created_at": "2026-11-25T13:48:00+01:00",
-  "updated_at": "2026-11-25T17:45:00+01:00",
+  "updated_at": "2026-11-25T18:30:00+01:00",
   "language": "en",
   "phase": "tasks-approved",
   "approvals": {
@@ -30,6 +30,7 @@
     "docs/research/2026-11-25/03-signed-approvals-prototype.md",
     "docs/research/2026-11-25/04-signed-approvals-judge.md",
     "docs/research/2026-11-25/05-signed-approvals-receipt-cases.md",
-    "docs/research/2026-11-25/06-signed-approvals-guides.md"
+    "docs/research/2026-11-25/06-signed-approvals-guides.md",
+    "docs/research/2026-11-25/07-signed-approvals-validation.md"
   ]
 }
