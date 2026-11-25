@@ -187,8 +187,8 @@ phase 9.
 
 The first `step pin` of a stage runs the faults of the chosen functions on the code as it is. That
 is the long run: 17 min 50 s on the renderer, where each later pin took about two minutes. Say
-first how long it will take, with the number `step protect begin` printed, then run it as a step
-of its own, before any test is written:
+first how long it will take, with the base run's figure `step protect begin` printed, then run it
+as a step of its own, before any test is written:
 
 ```sh
 lesscode-core step pin --declaration <specs-dir>/<name>/step.json --fault 1 --work <work>/stage
@@ -289,8 +289,10 @@ lesscode-core step check --declaration <specs-dir>/<name>/step.json --work <work
 Give `--page` a place outside the repository. A bare `--page` would write the page beside the
 verdict, inside the repository, and the command refuses that with exit 3.
 
-It runs the faults of the chosen functions again, and no others, with the new tests in place. This
-is the judgement of the stage; the pins were the evidence of the tasks. Exit 0: accepted. Exit 1:
+It runs the faults of the chosen functions again, and no others, with the new tests in place. On
+the base it runs the tests only and takes the faults' results from the base run, which is why it
+gets the same `--work`. Say first how long it will take: `step protect begin` printed a figure for
+the check apart from the base run's. This is the judgement of the stage; the pins were the evidence of the tasks. Exit 0: accepted. Exit 1:
 read the reasons. A stage that changed a code file, or a test committed together with code, is a
 stage done wrong; put that right and do not touch the declaration's limits. Exit 2: not judged.
 

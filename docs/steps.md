@@ -159,9 +159,13 @@ Before it ends it prints:
 - the chosen functions, each with its unnoticed faults and the line they are in;
 - the functions with unnoticed faults you did not name ("reported"), and any chosen function that lies
   wholly in code not built on this system ("left out");
-- how many faults will be run again, and about how long each of the two runs of them takes, from the
-  seconds they took in the plan, and how long to allow, because runs of the stage have taken up to 1.4
-  times as long;
+- how many faults will be run again, and about how long the base run and the check take, from the
+  plan's seconds. Both figures count what a run does besides the faults. It runs the tests without a
+  fault alone in its first copy, then in the other copies, and once more at the end, and it runs the
+  first fault alone. The check also runs the tests on the base again and takes the faults' results
+  there from the base run, so give it the same `--work`. Each figure comes with a second one, 1.4
+  times as long, to allow on a busy machine. In three stages no run took more than 1.05 times its
+  figure;
 - what one copy of the plan takes on disk, measured on the plan's first copy, and what twice the plan's
   copies take, since the first pin with a test builds its own copies beside the base run's. Run the
   command before you remove the plan's copies; afterwards it says that the size is not known.
