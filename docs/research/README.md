@@ -1,8 +1,8 @@
 # Research log
 
-## Latest · R190 The brownfield test stage in a Python project, on scitools-hook (2026-11-25, running)
+## Latest · R190 The brownfield test stage in a Python project: nothing of the stage differs, the test command needs Linux (2026-11-25)
 
-Task 5.2 of the spec `brownfield-test-stage`, preregistered: does anything of the stage have to be done differently for a language that is not Rust? The owner chose scitools-hook and its `analysis/structure/cycles.py` (22 planted faults). The project's suite is written for POSIX, so its tests run in a Linux container on Docker Desktop, where all 5,330 pass. Eight expectations are written before the plan. [Entry](2026-11-25/01-protect-stage-python.md).
+Task 5.2 of the spec `brownfield-test-stage`, preregistered, on scitools-hook's `analysis/structure/cycles.py`, which the owner chose. The commands, the stage spec, the pins, the check and the skill held as written for Python, and no joining line was needed. One test was written and admitted, the one fault left is a swap of keyword arguments (equivalent) and the owner wrote it off, and `step protect result` ended with exit 0. The project's suite is written for POSIX, so it ran in a Linux container on Docker Desktop. That setup, not the stage, took the work, and a first plan was void through my own configuration. Six of eight expectations hold. `begin`'s time figure ran 1.7 to 2.7 times low, because it leaves out the container's start. [Entry](2026-11-25/01-protect-stage-python.md).
 
 ## R189 The stage over the whole scope of `shared_frame.rs`: three tests written, protected enough after one fix of the tool (2026-11-24 and 25)
 

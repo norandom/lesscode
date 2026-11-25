@@ -156,11 +156,15 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     expectations hold. E8 (1 of 12 noticed) and E9 (first pin 11 min 21 s) fail.
   - _Depends: 1.3, 2.3, 3.2_
   - _Requirements: 1.1, 2.5, 3.1, 4.3, 5.3, 5.4, 5.9, 7.3_
-- [ ] 5.2 The stage in a project that is not Rust (can fail)
+- [x] 5.2 The stage in a project that is not Rust (can fail)
   - The same on one Python or TypeScript project from `D:\Source` that the owner names, where
     tests live in files of their own and no joining line is needed.
   - Done when the research entry says whether anything of the stage had to be done differently
     for that language.
+  - Done 2026-11-25 ([R190](../../../docs/research/2026-11-25/01-protect-stage-python.md)), on
+    scitools-hook's `analysis/structure/cycles.py`, chosen by the owner. Nothing of the stage
+    differed for Python; the project's test command runs in a Linux container. One test was
+    written and one fault written off, and `step protect result` exited 0.
   - _Depends: 5.1, 6.4_
   - _Requirements: 3.8_
 - [ ] 5.3 Validation and handover
