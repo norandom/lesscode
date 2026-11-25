@@ -59,6 +59,20 @@ impl Key {
     }
 }
 
+/// The `ssh-keygen` on this process's PATH: the one the tool starts. Git
+/// signs with it too, by `gpg.ssh.program`; Git for Windows would otherwise
+/// start its own MSYS copy first on the PATH it gives its children, which
+/// fails to start now and then when many tests sign at once ("failed to
+/// write commit object" with no other words).
+pub fn ssh_keygen_program() -> PathBuf {
+    let name = format!("ssh-keygen{}", std::env::consts::EXE_SUFFIX);
+    let path = std::env::var_os("PATH").unwrap_or_default();
+    std::env::split_paths(&path)
+        .map(|dir| dir.join(&name))
+        .find(|candidate| candidate.is_file())
+        .unwrap_or_else(|| PathBuf::from(name))
+}
+
 /// Run `ssh-keygen` with these arguments and stdin; its stdout, or a panic
 /// with what it said.
 pub fn ssh_keygen(args: &[&str], stdin: Option<&[u8]>) -> String {
@@ -99,7 +113,20 @@ impl Repo {
             self.write(path, text);
         }
         self.git(&["add", "-A"]);
+        self.signing(key, &["commit", "-q", "-S", "-m", message])
+    }
+
+    /// The repair the result names for an unsigned approval on the head:
+    /// `git commit --amend -S --no-edit`, signed with `key`; returns the commit.
+    pub fn amended_signed(&self, key: &Key) -> String {
+        self.signing(key, &["commit", "-q", "--amend", "-S", "--no-edit"])
+    }
+
+    /// A Git command with signing by `key` switched on for it only; the head
+    /// after it.
+    fn signing(&self, key: &Key, args: &[&str]) -> String {
         let signing_key = format!("user.signingkey={}", key.private.display());
+        let program = format!("gpg.ssh.program={}", ssh_keygen_program().display());
         let out = Command::new("git")
             .arg("-C")
             .arg(&self.dir)
@@ -109,14 +136,14 @@ impl Repo {
                 "-c",
                 "user.email=test@example.invalid",
             ])
-            .args(["-c", "gpg.format=ssh", "-c", &signing_key])
-            .args(["commit", "-q", "-S", "-m", message])
+            .args(["-c", "gpg.format=ssh", "-c", &signing_key, "-c", &program])
+            .args(args)
             .env_remove("SSH_AUTH_SOCK")
             .stdin(Stdio::null())
             .output()
             .unwrap();
         let said = String::from_utf8_lossy(&out.stderr);
-        assert!(out.status.success(), "signed commit: {said}");
+        assert!(out.status.success(), "signed {args:?}: {said}");
         self.git(&["rev-parse", "HEAD"])
     }
 

@@ -5,124 +5,13 @@
 
 mod step_support;
 
-use lesscode_core::step::protect_result::{run_result_with, ResultArgs};
 use serde_json::{json, Value};
 use std::fs;
-use std::path::PathBuf;
 use step_support::planned::Planned;
-use step_support::signing::{Key, StandIn};
-
-const STAGE: &str = ".kiro/specs/protect-toy";
-const LIST: &str = ".lesscode/allowed_signers";
-const TITLE: &str = "lesscode approvals";
-const OLD_WAY: &str = "approved the old way, which no longer counts: approve it in a signed commit";
-
-/// A `write-offs.json` with one entry for the fault of `helper`, with these
-/// fields added.
-fn offs_of(kind: &str, fields: Value) -> String {
-    let mut entry = json!({
-        "file": "src/app.py", "function": "helper", "fault": "drop_statement@9:4",
-        "kind": kind, "reason": "Nothing reads the count.", "proposed_by": "agent",
-    });
-    for (key, value) in fields.as_object().unwrap() {
-        entry[key] = value.clone();
-    }
-    json!({ "schema": 1, "base": "", "write_offs": [entry] }).to_string()
-}
-
-/// Signed approvals (signed-approvals, task 3.1): the binary never reaches
-/// the forge in these tests; a counted approval is judged through the
-/// library entry, with a stand-in forge that lists the owner's key.
-impl Planned {
-    /// The owner's signing key, made once per test beside the repository.
-    fn owner(&self) -> Key {
-        Key::kept(&self.repo.dir.parent().unwrap().join("keys"), "owner")
-    }
-
-    /// Commit the files and a signer list naming the owner's key, signed
-    /// with that key; returns the commit.
-    fn signed(&self, files: &[(&str, &str)], message: &str) -> String {
-        let owner = self.owner();
-        let list = format!(
-            "github.com/owner namespaces=\"git\" {}\n",
-            owner.public_key()
-        );
-        let mut all = files.to_vec();
-        all.push((LIST, &list));
-        self.repo.signed_commit(&owner, &all, message)
-    }
-
-    /// The write-off of `helper` approved in a signed commit.
-    fn signed_write_off(&self, kind: &str) -> String {
-        let path = format!("{STAGE}/write-offs.json");
-        let offs = offs_of(kind, json!({"approved": true}));
-        self.signed(&[(&path, &offs)], "the approval, signed")
-    }
-
-    /// The result through the library entry, the forge listing the owner's
-    /// key under its title.
-    fn result_with_forge(&self, out: Option<PathBuf>) -> (Option<i32>, String) {
-        let forge = StandIn::listing(&[(&self.owner(), TITLE)]);
-        let args = ResultArgs {
-            declaration: format!("{STAGE}/step.json"),
-            repo: self.repo.dir.clone(),
-            out,
-        };
-        let mut said = Vec::new();
-        let code = run_result_with(args, &forge, &mut said);
-        let mut said = String::from_utf8_lossy(&said).into_owned();
-        match code {
-            Ok(code) => (Some(i32::from(code)), said),
-            Err(error) => {
-                said.push_str(&format!("error: {error}"));
-                (Some(3), said)
-            }
-        }
-    }
-
-    /// The same as `results_in`, through the library entry.
-    fn signed_results_in(&self, code: i32, words: &[&str]) {
-        let (found, said) = self.result_with_forge(None);
-        assert_eq!(found, Some(code), "{said}");
-        for word in words {
-            assert!(said.contains(word), "{word:?} is not in: {said}");
-        }
-    }
-
-    /// What the receipt says of a write-off approved in `commit`.
-    fn approved_in(&self, commit: &str) -> String {
-        let date = self.repo.git(&["log", "-1", "--format=%cI", commit]);
-        format!(
-            "Approved with the key \"{TITLE}\" ({}) of github.com/owner, in {commit} on {date}.",
-            self.owner().fingerprint()
-        )
-    }
-}
+use step_support::protect::{offs_of, three, OLD_WAY, STAGE, TITLE};
+use step_support::signing::Key;
 
 impl Planned {
-    /// A toy repository with a stage for `helper`, committed on its branch.
-    fn staged(name: &str) -> Planned {
-        Planned::new(name, "python", "src/app.py").stage("src/app.py:helper")
-    }
-
-    /// Begin the stage for one function and commit it on its branch.
-    fn stage(self, function: &str) -> Planned {
-        let (code, said) = self.begin(&[function]);
-        assert_eq!(code, Some(0), "{said}");
-        let repo = &self.repo;
-        repo.git(&["checkout", "-q", "-b", "protect/protect-toy"]);
-        repo.git(&["add", "-A"]);
-        repo.git(&["commit", "-q", "-m", "begin the stage"]);
-        self
-    }
-
-    /// `step check` accepts the branch, and its verdict is committed.
-    fn checked(&self) {
-        let (code, out, err) = self.repo.step("check", "protect-toy", &[]);
-        assert_eq!(code, Some(0), "{out}\n{err}");
-        self.repo.commit(&[], "the verdict");
-    }
-
     fn result(&self) -> (Option<i32>, String) {
         let declaration = format!("{STAGE}/step.json");
         let args = ["protect", "result", "--declaration", &declaration];
@@ -291,43 +180,6 @@ fn a_fault_a_test_notices_is_noticed_also_where_it_has_a_write_off() {
             "noticed: drop_statement@9:4 has a write-off, and a test notices it now",
         ],
     );
-}
-
-/// A function with three statements a fault can be planted in.
-const THREE: &str = "def three(state, a):\n    state.first = a\n    state.second = a\n    state.third = a\n    return a\n";
-
-/// A stage for `three` with one fault of each standing: the first has a
-/// test, the second an approved write-off, the third a write-off that is
-/// approved or not; approved in one signed commit, which is returned.
-fn three(name: &str, third_approved: bool) -> (Planned, Value, String) {
-    let expect = "def three(state, a):\n";
-    let files = [("src/three.py", THREE), ("tests/expect.txt", expect)];
-    let planned = Planned::with(name, "python", "src/three.py", &files);
-    let planned = planned.stage("src/three.py:three");
-    let tested = format!("{expect}    state.first = a\n");
-    let repo = &planned.repo;
-    repo.commit(&[("tests/expect.txt", &tested)], "a test for the first");
-    planned.checked();
-    let off = |line: usize, kind: &str, reason: &str, yes: bool| {
-        json!({
-            "file": "src/three.py", "function": "three",
-            "fault": format!("drop_statement@{line}:4"), "kind": kind, "reason": reason,
-            "proposed_by": "agent", "approved": yes,
-            "approved_by": null, "approved_at": null,
-        })
-    };
-    let reason = "The second is read by code we cannot run.";
-    let second = off(3, "not_testable_as_it_stands", reason, true);
-    let third = off(
-        4,
-        "nothing_a_caller_sees",
-        "Nobody reads the third.",
-        third_approved,
-    );
-    let offs = json!({"schema": 1, "base": "", "write_offs": [second, third]});
-    let path = format!("{STAGE}/write-offs.json");
-    let commit = planned.signed(&[(&path, &offs.to_string())], "the write-offs");
-    (planned, second, commit)
 }
 
 /// The receipt of the stage of `three` while its third fault waits: the

@@ -167,7 +167,16 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - Done when tests read each of these from the printed receipt and from `protection.json`.
   - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-- [ ] 3.3 The cases through the library entry
+- [x] 3.3 The cases through the library entry
+  - *Done 2026-11-25. The eleven cases are tests of `step_protect_signed.rs`, each with its exit
+    code and words, through `run_result_with` and the stand-in on the stage of `helper` (case 8 on
+    the stage of `three`). Case 2 also applies the repair it names (`git commit --amend -S
+    --no-edit`) and finds it counted. The stage helpers moved from `step_protect_result.rs` to
+    `tests/step_support/protect.rs` for both files. Finding: Git for Windows signed the tests'
+    commits with its own MSYS `ssh-keygen`, which now and then failed to start under parallel load
+    ("failed to write commit object", 2 of 5 runs of the three suites); the test support now sets
+    `gpg.ssh.program` to the `ssh-keygen` on the test's PATH, the one the tool starts (4 of 4 runs
+    green after). The tool's own code is unchanged by this. Linux evidence: handover 92.*
   - The eleven cases of the design's testing strategy on the toy stage, each with its exit code
     and words: counted; unsigned with the amend repair; signature that does not verify; key not
     listed; key not on the forge; key removed from the forge between two runs; unsigned change
