@@ -1,7 +1,8 @@
 # Requirements: approvals an agent cannot make
 
 Generated 2026-11-25, 14:05 (Europe/Berlin), from the project description below and the owner's
-four answers of 13:58. Not approved yet. Related spec: [brownfield-test-stage](../brownfield-test-stage/requirements.md),
+four answers of 13:58. Approved by the owner on 2026-11-25 ("approved, go on to the design").
+Related spec: [brownfield-test-stage](../brownfield-test-stage/requirements.md),
 whose requirement 4.3 this spec makes stricter.
 
 ## Project description

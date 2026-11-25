@@ -1,0 +1,8 @@
+name: lesscode-signed-approvals-proto
+services:
+  linux:
+    image: buildpack-deps:bookworm-scm
+    network_mode: none
+    volumes:
+      - ./proto.sh:/proto/proto.sh:ro
+    command: ["bash", "/proto/proto.sh", "/tmp/work"]

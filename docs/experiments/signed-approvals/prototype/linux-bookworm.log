@@ -1,0 +1,32 @@
+== tools
+OpenSSH_9.2p1 Debian-2+deb12u10, OpenSSL 3.0.22 25 Aug 2026
+git version 2.39.5
+/usr/bin/ssh-keygen
+== fingerprints
+256 SHA256:WxIhxaL7BoeRMK2WC/WxDIv5VbTYw5YvdoMzuE8ZHOI owner-test (ED25519)
+256 SHA256:X1MvNo15tly7r8EOd2KSIAPaVxcbTeOZ73e5mv5+cIg agent-test (ED25519)
+== P1 owner-signed commit (HEAD~1)
+Good "git" signature with ED25519 key SHA256:WxIhxaL7BoeRMK2WC/WxDIv5VbTYw5YvdoMzuE8ZHOI
+exit 0
+== P2 agent-signed commit (HEAD): good signature, other key
+Good "git" signature with ED25519 key SHA256:X1MvNo15tly7r8EOd2KSIAPaVxcbTeOZ73e5mv5+cIg
+exit 0
+== P3 unsigned commit (HEAD~2): signature bytes
+0
+== A1 tampered payload of HEAD~1
+Signature verification failed: incorrect signature
+Could not verify signature.
+exit 255
+== A2 wrong namespace
+Couldn't verify signature: namespace does not match
+Could not verify signature.
+exit 255
+== C1 git's own verdict with an allowed-signers file naming the owner only
+746d992 U SHA256:X1MvNo15tly7r8EOd2KSIAPaVxcbTeOZ73e5mv5+cIg change, signed by agent key
+37ec8b6 G SHA256:WxIhxaL7BoeRMK2WC/WxDIv5VbTYw5YvdoMzuE8ZHOI approval, signed by owner
+60a4be3 N  proposal, unsigned
+== C2 a signing that needs a passphrase cannot run without a terminal
+error: Enter passphrase: Load key "/tmp/work/pp": incorrect passphrase supplied to decrypt private key?
+
+fatal: failed to write commit object
+exit 128

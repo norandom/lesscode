@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R191 `begin`'s time figure, counted as a run spends its time (2026-11-25, retrospective)
+## Latest · R192 An approval signed with an SSH key can be checked the same way on Windows and Linux, against the project's list and GitHub (2026-11-25)
+
+Prototype gate of the spec `signed-approvals`, whose requirements the owner approved the same day. `ssh-keygen -Y check-novalidate` checked commit signatures without any Git setting of the host, the same in OpenSSH 9.2 (Linux, the CI image's base), 9.5 and 10.6 (Windows); a changed commit and a wrong namespace failed, and a key with a passphrase could not sign without a terminal. GitHub lists an account's signing keys without a token. On a copy of scitools-hook's stage for `cycles.py` the whole check gave the expected verdict in five cases, among them the approval made by script (`421c1ef`: not signed) and an unsigned change after a signed approval. Not seen yet: the owner's passphrase prompt in a real terminal. Decision: proceed, with `ssh-keygen` and `curl` as outside programs and no new crate. [Entry](2026-11-25/03-signed-approvals-prototype.md).
+
+## R191 `begin`'s time figure, counted as a run spends its time (2026-11-25, retrospective)
 
 Task 7.2 of the spec `brownfield-test-stage`, from the owner's decision on point 3 of handover 88. `begin`'s figure counted one run of the tests without a fault, where a run makes three (the first copy alone, the others after it, all once more at the end), and let the first fault run beside the others, where it runs alone. It also gave the check the base run's figure, where the check runs the base and the step. Counted that way, the base runs of R188 to R190 took 0.91 to 1.00 of the figure, where they took 1.32 to 1.73 of the old one; the checks took 0.45 to 1.05, where R190's took 2.7 of the old one. The room of 1.4 stays. This revises R190's reading that the container's start made the gap. [Entry](2026-11-25/02-begin-time-figure.md).
 

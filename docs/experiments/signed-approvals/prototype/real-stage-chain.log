@@ -1,0 +1,50 @@
+# chain.ps1 on a copy of scitools-hook's stage branch protect/protect-cycles (b885391),
+# cloned to the scratch directory; the clone at D:\BuildArtifacts\scitools-hook\lesscode-stage
+# was only read (R4) and stayed clean. Run 2026-11-25, about 13:55 to 14:00 Europe/Berlin.
+# The copy got commit 746e6cb (approved: true added, signed with the throwaway "owner" key)
+# and, before R5, 1c463dd (the reason changed, unsigned). Signer lists name
+# github.com/norandom; "standin.json" is the real forge answer plus the two throwaway keys.
+# Windows' own ssh-keygen (C:\WINDOWS\System32\OpenSSH, 9.5p2) was the one on PATH.
+
+== R1 signed by a key not on GitHub, real forge list
+entry arg_swap@138:8 last changed by: 746e6cb proto: the owner approves the write-off, signed
+marked approved: True
+signature verifies, key SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU
+signer list: 1 key(s); forge: 4 key(s)
+verdict: does not count - the key SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU is not among the account's signing keys on the forge
+exit 1
+== R2 same commit, forge stand-in lists the key
+entry arg_swap@138:8 last changed by: 746e6cb proto: the owner approves the write-off, signed
+marked approved: True
+signature verifies, key SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU
+signer list: 1 key(s); forge: 6 key(s)
+verdict: counts - signed by 'proto owner (stand-in)' SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU in 746e6cb on 2026-11-25T13:54:00+01:00
+exit 0
+== R3 signer list names another key
+entry arg_swap@138:8 last changed by: 746e6cb proto: the owner approves the write-off, signed
+marked approved: True
+signature verifies, key SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU
+signer list: 1 key(s); forge: 6 key(s)
+verdict: does not count - the key SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU is not in the signer list
+exit 1
+== R4 the original clone: approval made by script
+entry arg_swap@138:8 last changed by: 421c1ef spec(protect-cycles): the owner approves the write-off
+marked approved: False
+verdict: does not count - the commit is not signed
+exit 1
+== R5 unsigned change after the signed approval
+entry arg_swap@138:8 last changed by: 1c463dd proto: an unsigned change of the reason after the approval
+marked approved: True
+verdict: does not count - the commit is not signed
+exit 1
+
+# The forge, read with Windows' curl.exe the same minute:
+#   GET https://api.github.com/users/norandom/ssh_signing_keys?per_page=100 -> 200, 4 keys,
+#   X-RateLimit-Limit 60 (no token). Fingerprints by ssh-keygen -l:
+#   SHA256:XWnFnHsrIGlcBugd/aj0NIsR6T0rqMUBJ8mNG9F2UdE (ED25519), SHA256:bwSFwSyfzx+9jp9lBQqoXDZLPmZK+NBNS9r2fphOvcQ (RSA),
+#   SHA256:aFtQU+s+kBgMULRyv0s/OsHmDlW6oP6GDGjdTksKmQ4 (ED25519), SHA256:C030rdoZLuWRSXpZoOTA+EgIG6ocj448l68IF1KzVB4 (ED25519)
+#   https://api.github.invalid/...                          -> curl exit 6 (cannot resolve)
+#   .../users/this-account-should-not-exist-lesscode-9f3/... -> curl exit 22 (HTTP 404)
+# Windows' System32 ssh-keygen (9.5p2) on the commits of windows-gitbash.log:
+#   HEAD~1 Good "git" signature with ED25519 key SHA256:bBia50n0...WXpU, exit 0
+#   HEAD   Good "git" signature with ED25519 key SHA256:zdmz751x...1gbU, exit 0

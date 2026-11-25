@@ -1,0 +1,36 @@
+== tools
+OpenSSH_10.6p1, OpenSSL 3.5.9 29 Sep 2026
+git version 2.56.0.windows.3
+/usr/bin/ssh-keygen
+warning: in the working copy of 'w.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'w.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'w.json', LF will be replaced by CRLF the next time Git touches it
+== fingerprints
+256 SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU owner-test (ED25519)
+256 SHA256:zdmz751xy4bBQt3Pg8JwBEngbVzSBpYMgk47kPj1gbU agent-test (ED25519)
+== P1 owner-signed commit (HEAD~1)
+Good "git" signature with ED25519 key SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU
+exit 0
+== P2 agent-signed commit (HEAD): good signature, other key
+Good "git" signature with ED25519 key SHA256:zdmz751xy4bBQt3Pg8JwBEngbVzSBpYMgk47kPj1gbU
+exit 0
+== P3 unsigned commit (HEAD~2): signature bytes
+0
+== A1 tampered payload of HEAD~1
+Signature verification failed: incorrect signature
+Could not verify signature.
+exit 255
+== A2 wrong namespace
+Couldn't verify signature: namespace does not match
+Could not verify signature.
+exit 255
+== C1 git's own verdict with an allowed-signers file naming the owner only
+87c996e U SHA256:zdmz751xy4bBQt3Pg8JwBEngbVzSBpYMgk47kPj1gbU change, signed by agent key
+8aff086 U SHA256:bBia50n0TXt0e2aTbXVSUJkF+ULPG0rRtt8O4KkWXpU approval, signed by owner
+50bcafe N  proposal, unsigned
+== C2 a signing that needs a passphrase cannot run without a terminal
+warning: in the working copy of 'x', LF will be replaced by CRLF the next time Git touches it
+error: Enter passphrase for "D:/BuildArtifacts/Temp/claude/1388d6fe5280a805/aff3fb56-acf3-41e7-a638-71ea294b763c/scratchpad/proto/win/pp": Load key "D:/BuildArtifacts/Temp/claude/1388d6fe5280a805/aff3fb56-acf3-41e7-a638-71ea294b763c/scratchpad/proto/win/pp": incorrect passphrase supplied to decrypt private key?
+
+fatal: failed to write commit object
+exit 128
