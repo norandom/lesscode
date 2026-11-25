@@ -360,7 +360,7 @@ fn begin_says_what_is_chosen_and_what_running_the_faults_again_costs() {
         "The base run comes first: the first `step pin` of the stage runs it, once, before any test is judged.".to_owned(),
         "One copy of the plan takes ".to_owned(),
         "w1). The base run, the pins and the check build copies of that size, 2 at a time. The first pin with a test builds its own beside the base run's, so allow for 4 copies at once, about ".to_owned(),
-        "Remove the plan's copies before the first pin.".to_owned(),
+        "Remove the plan's copies before the first pin, and the pins' copies before the check: otherwise a third pair stands beside the others.".to_owned(),
         "Written: step.json and stage.json in ".to_owned(),
     ];
     let mut rest = said.as_str();

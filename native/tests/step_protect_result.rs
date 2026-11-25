@@ -246,6 +246,7 @@ fn receipt_while_one_waits(planned: &Planned, second: Value) {
             "noticed_write_offs": [],
         }],
         "reported": [],
+        "from_the_base_run": [],
     });
     assert_eq!(receipt, expected, "{receipt:#}");
 }
@@ -331,6 +332,63 @@ fn reported_functions_are_listed_and_do_not_change_the_result() {
     assert!(
         functions.iter().all(|f| f["function"] == "helper"),
         "{receipt:#}"
+    );
+}
+
+/// Added 2026-11-25 (task 6.5, R189): the plan counted a fault noticed, so
+/// `stage.json` lacks it, and the base run of the check does not notice it.
+#[test]
+fn a_fault_the_plan_missed_but_the_base_run_did_not_notice_can_be_written_off() {
+    let planned = Planned::new("result-base-run", "python", "src/app.py");
+    let (code, said) = planned.begin(&["src/app.py:helper"]);
+    assert_eq!(code, Some(0), "{said}");
+    let repo = &planned.repo;
+    let path = repo.dir.join(STAGE).join("stage.json");
+    let mut stage = repo.json(&path);
+    stage["chosen"][0]["faults"] = json!([]);
+    fs::write(&path, stage.to_string()).unwrap();
+    repo.git(&["checkout", "-q", "-b", "protect/protect-toy"]);
+    repo.git(&["add", "-A"]);
+    repo.git(&[
+        "commit",
+        "-q",
+        "-m",
+        "begin the stage, as a plan that miscounted",
+    ]);
+    planned.checked();
+
+    // The verdict names what the base run did not notice.
+    let verdict = repo.json(&repo.dir.join(STAGE).join("verdict.json"));
+    let rows = verdict["functions"].as_array().unwrap();
+    let helper = rows.iter().find(|r| r["function"] == "helper").unwrap();
+    let before = helper["unnoticed_before"].as_array().unwrap();
+    assert_eq!(before.len(), 1, "{helper:#}");
+    assert!(before[0]
+        .as_str()
+        .unwrap()
+        .ends_with(" line 9 drop_statement"));
+
+    planned.results_in(
+        1,
+        &[
+            "From the base run (the plan counted them noticed): src/app.py: helper drop_statement@9",
+            "waiting: drop_statement@9: no test notices it and no write-off is proposed",
+        ],
+    );
+    let offs = json!({ "schema": 1, "base": "", "write_offs": [{
+        "file": "src/app.py", "function": "helper", "fault": "drop_statement@9",
+        "kind": "nothing_a_caller_sees", "reason": "Nothing reads the count.",
+        "proposed_by": "agent", "approved_by": "the owner", "approved_at": "2026-11-25",
+    }]});
+    repo.commit(
+        &[(&format!("{STAGE}/write-offs.json"), &offs.to_string())],
+        "a write-off",
+    );
+    planned.results_in(0, &["written off: drop_statement@9", "Protected enough"]);
+    let receipt = repo.json(&repo.dir.join(STAGE).join("protection.json"));
+    assert_eq!(
+        receipt["from_the_base_run"],
+        json!([{"file": "src/app.py", "function": "helper", "fault": "drop_statement@9"}])
     );
 }
 

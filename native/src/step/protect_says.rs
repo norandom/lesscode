@@ -57,7 +57,7 @@ fn size(bytes: u64) -> String {
 fn disk(copy: Option<(PathBuf, u64)>, copies: usize) -> String {
     match copy {
         Some((path, bytes)) => format!(
-            "One copy of the plan takes {} on disk ({}). The base run, the pins and the check build copies of that size, {copies} at a time. The first pin with a test builds its own beside the base run's, so allow for {} copies at once, about {}. Remove the plan's copies before the first pin.",
+            "One copy of the plan takes {} on disk ({}). The base run, the pins and the check build copies of that size, {copies} at a time. The first pin with a test builds its own beside the base run's, so allow for {} copies at once, about {}. Remove the plan's copies before the first pin, and the pins' copies before the check: otherwise a third pair stands beside the others.",
             size(bytes),
             slashed(&path),
             2 * copies,

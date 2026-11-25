@@ -175,6 +175,7 @@ fn compare(
             before: was,
             after: is,
             out_of_reach: out_of_reach.map(|o| o.reason.clone()),
+            unnoticed_before: before.unnoticed(name),
             unnoticed_after,
         });
     }

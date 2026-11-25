@@ -249,7 +249,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     and removing the pins' copies before the check. Open until then.
   - _Depends: 6.1, 6.2, 6.3_
   - _Requirements: 1.1, 3.1, 5.3, 5.4, 5.10_
-- [ ] 6.5 The base run of the check sets the stage's unnoticed faults (amendment of 2026-11-25)
+- [x] 6.5 The base run of the check sets the stage's unnoticed faults (amendment of 2026-11-25)
   - `step check` writes `unnoticed_before` per function. `step protect result` takes into the
     stage each fault unnoticed before and after that `stage.json` lacks, accepts a write-off for
     it by id, and names it (`from_the_base_run` in `protection.json`). In the skill, phase 8
@@ -262,6 +262,16 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     - a fault missed only after does not join the stage;
     - a verdict without the field behaves as before.
   - Then R189's stage is finished with a new check and result.
+  - Done 2026-11-25. Test first: three tests red, then green.
+    - Unit tests of the numbers: a fault joins by id, a fault missed only after does not join,
+      and a verdict without the field adds nothing.
+    - One test on the toy repository: `stage.json` without its fault, the check, exit 1 with
+      "From the base run", a write-off by `drop_statement@9`, then exit 0 with
+      `from_the_base_run` in `protection.json`.
+    - `begin`'s disk line says to remove the pins' copies before the check.
+    - The suite passed (508), as did the doctests, `fmt`, Clippy and the budgets.
+    - The skill (phases 1 and 8: `--page <place>`, the pins' copies, the miscounted fault),
+      `docs/steps.md` and the 2.2.0 notes are updated.
   - _Depends: 6.4_
   - _Boundary: verdict.rs, check_runs.rs, protect_numbers.rs, protect_result.rs,
     protect_receipt.rs, protect_says.rs; the skill and docs/steps.md_

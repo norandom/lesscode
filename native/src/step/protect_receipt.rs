@@ -6,7 +6,7 @@
 //! write-off with who approved it and when, so that a false one is seen.
 
 use super::declaration::Revisions;
-use super::protect_numbers::{Row, WriteOff};
+use super::protect_numbers::{Joined, Row, WriteOff};
 use super::protect_stage::{Chosen, Reported, Stage};
 use serde::Serialize;
 
@@ -37,6 +37,9 @@ pub struct Protection {
     /// Functions with unnoticed faults that were not chosen, with the
     /// plan's numbers. They do not enter `result`.
     pub reported: Vec<Reported>,
+    /// Faults the plan counted noticed that the base run of the check did
+    /// not notice; they are the stage's like any other.
+    pub from_the_base_run: Vec<Joined>,
 }
 
 impl Protection {
@@ -63,6 +66,7 @@ impl Protection {
             unnoticed_rose,
             functions,
             reported: stage.reported.clone(),
+            from_the_base_run: Vec::new(),
         }
     }
 
@@ -156,6 +160,13 @@ fn of_write_off(w: &WriteOff, stage: &Stage) -> Vec<String> {
 /// Everything the result says, in its order.
 pub fn says(stage: &Stage, branch: &str, protection: &Protection, offs: &[WriteOff]) -> String {
     let mut lines = vec![format!("The stage {} on {branch}:", stage.spec)];
+    let joined = protection.from_the_base_run.iter();
+    lines.extend(joined.map(|j| {
+        format!(
+            "From the base run (the plan counted them noticed): {}: {} {}",
+            j.file, j.function, j.fault
+        )
+    }));
     lines.extend(protection.functions.iter().flat_map(of_row));
     if !protection.reported.is_empty() {
         lines.push(format!(

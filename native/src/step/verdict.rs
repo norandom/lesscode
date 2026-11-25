@@ -32,6 +32,8 @@ pub struct FunctionRow {
     /// The reason the declaration gives for leaving it unprotected.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub out_of_reach: Option<String>,
+    /// The faults the tests do not notice on the base.
+    pub unnoticed_before: Vec<String>,
     /// The faults the tests do not notice after the step.
     pub unnoticed_after: Vec<String>,
 }

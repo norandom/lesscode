@@ -149,6 +149,72 @@ fn stand(row: &mut Row, label: &str, faults: &[Fault], offs: &[WriteOff]) -> Vec
     ids
 }
 
+/// A fault the plan counted noticed that the base run of the check did not
+/// notice: it joined the stage from the verdict.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Joined {
+    pub file: String,
+    pub function: String,
+    pub fault: String,
+}
+
+/// The labels of a verdict row's list `key`.
+fn labels<'v>(found: &'v Value, key: &str) -> Vec<&'v str> {
+    let list = found[key].as_array().map(Vec::as_slice).unwrap_or(&[]);
+    list.iter().filter_map(Value::as_str).collect()
+}
+
+/// Every fault the verdict calls unnoticed before and after the step, in a
+/// chosen function, that `stage.json` lacks, joins the stage. Its id is the
+/// operator where that names its place, else `<operator>@<line>`: the
+/// verdict gives no column. A verdict without `unnoticed_before` adds none.
+pub fn from_the_base_run(stage: &mut Stage, verdict: &Value) -> Vec<Joined> {
+    let rows = verdict["functions"]
+        .as_array()
+        .map(Vec::as_slice)
+        .unwrap_or(&[]);
+    let mut joined = Vec::new();
+    for chosen in &mut stage.chosen {
+        let is = |r: &&Value| {
+            r["file"] == chosen.file.as_str() && r["function"] == chosen.function.as_str()
+        };
+        let Some(found) = rows.iter().find(is) else {
+            continue;
+        };
+        let before = labels(found, "unnoticed_before");
+        for label in labels(found, "unnoticed_after")
+            .into_iter()
+            .filter(|l| before.contains(l))
+        {
+            let Some((line, operator)) = place(label) else {
+                continue;
+            };
+            let known = |f: &Fault| f.line == line && f.operator == operator;
+            if chosen.faults.iter().any(known) {
+                continue;
+            }
+            let id = match operator.contains('@') {
+                true => operator.to_owned(),
+                false => format!("{operator}@{line}"),
+            };
+            chosen.faults.push(Fault {
+                id: id.clone(),
+                line,
+                column: 0,
+                operator: operator.to_owned(),
+                text: String::new(),
+                seconds: 0.0,
+            });
+            joined.push(Joined {
+                file: chosen.file.clone(),
+                function: chosen.function.clone(),
+                fault: id,
+            });
+        }
+    }
+    joined
+}
+
 /// The numbers of one chosen function, if the verdict has them.
 fn row(chosen: &Chosen, verdict: &Value, offs: &[WriteOff]) -> Option<Row> {
     let rows = verdict["functions"].as_array()?;

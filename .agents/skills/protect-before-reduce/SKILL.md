@@ -104,7 +104,7 @@ that nothing was judged.
 ### Phase 1: the plan
 
 ```sh
-lesscode-core step plan --config run.json --work <work>/plan --out plan.json --page
+lesscode-core step plan --config run.json --work <work>/plan --out plan.json --page <work>/plan.html
 ```
 
 Add `--open` only when a person is at the screen and wants to watch; it starts their browser on a
@@ -277,11 +277,17 @@ the code writes them. Commit the proposals.
 
 ### Phase 8: the check
 
-With everything committed:
+With everything committed, first remove the pins' copies (`<work>/stage/pin-run/w*`). Otherwise
+they stand beside the base run's and the check's: three pairs, 25.92 GiB on `shared_frame.rs`.
+Then:
 
 ```sh
-lesscode-core step check --declaration <specs-dir>/<name>/step.json --work <work>/stage --page
+lesscode-core step check --declaration <specs-dir>/<name>/step.json --work <work>/stage \
+    --page <work>/check.html
 ```
+
+Give `--page` a place outside the repository. A bare `--page` would write the page beside the
+verdict, inside the repository, and the command refuses that with exit 3.
 
 It runs the faults of the chosen functions again, and no others, with the new tests in place. This
 is the judgement of the stage; the pins were the evidence of the tasks. Exit 0: accepted. Exit 1:
@@ -296,6 +302,13 @@ again.
 
 Then remove the copies under `<work>/stage`. Keep its `outcomes` directory and the `.json`
 receipts; they are small and make a repeated run short.
+
+**A fault the plan counted noticed by mistake.** A flaky test can fail during a fault's run in the
+plan, and the fault then counts as noticed though it is not. The base run of the stage finds it
+unnoticed. It is not in `stage.json`, but the verdict names it under `unnoticed_before`, and
+`step protect result` takes it into the stage. It says "From the base run (the plan counted them
+noticed)". Treat it like any other: a test, or a proposal by the id the result prints
+(`<operator>@<line>` where the operator does not name its place).
 
 ### Phase 9: the one review
 

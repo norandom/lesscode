@@ -9,7 +9,7 @@
 
 use super::context::Context;
 use super::guard::moved;
-use super::protect_numbers::{numbers, write_offs, WriteOff};
+use super::protect_numbers::{from_the_base_run, numbers, write_offs, Joined, WriteOff};
 use super::protect_receipt::{says, Protection};
 use super::protect_stage::{slashed, Stage};
 use super::revisions::blob;
@@ -130,20 +130,25 @@ fn stage_dir(context: &Context) -> &str {
     context.path.rsplit_once('/').map_or("", |(dir, _)| dir)
 }
 
-/// `stage.json` and the entries of `write-offs.json`, both beside the
+/// `stage.json`, with the faults the verdict's base run did not notice and
+/// the plan did, and the entries of `write-offs.json`, both beside the
 /// declaration. A stage without write-offs has none.
-fn stage_of(context: &Context) -> Result<(Stage, Vec<WriteOff>), String> {
+fn stage_of(
+    context: &Context,
+    verdict: &Value,
+) -> Result<(Stage, Vec<Joined>, Vec<WriteOff>), String> {
     let dir = stage_dir(context);
     let path = format!("{dir}/stage.json");
     let not_a_stage = || format!("{path} is not there: this is not a stage of `step protect`.");
     let bytes = on_branch(context, &path)?.ok_or_else(not_a_stage)?;
-    let stage: Stage =
+    let mut stage: Stage =
         serde_json::from_slice(&bytes).map_err(|e| format!("{path} is not a stage: {e}"))?;
+    let joined = from_the_base_run(&mut stage, verdict);
     let offs = match on_branch(context, &format!("{dir}/write-offs.json"))? {
         Some(bytes) => write_offs(&bytes, &stage)?,
         None => Vec::new(),
     };
-    Ok((stage, offs))
+    Ok((stage, joined, offs))
 }
 
 /// Exit 0 when nothing waits in any chosen function, 1 otherwise; either
@@ -160,7 +165,7 @@ pub fn run_result(args: ResultArgs) -> Result<u8, String> {
         Found::NotJudged(why) => return not_judged(why),
         Found::Verdict(verdict, sha256) => (verdict, sha256),
     };
-    let (stage, offs) = stage_of(&context)?;
+    let (stage, joined, offs) = stage_of(&context, &verdict)?;
     let rows = match numbers(&stage, &verdict, &offs) {
         Ok(rows) => rows,
         Err(function) => {
@@ -169,7 +174,8 @@ pub fn run_result(args: ResultArgs) -> Result<u8, String> {
         }
     };
     let rose = verdict["result"] == REFUSED;
-    let protection = Protection::new(&stage, &context.revisions, sha256, rows, rose);
+    let mut protection = Protection::new(&stage, &context.revisions, sha256, rows, rose);
+    protection.from_the_base_run = joined;
     println!(
         "{}",
         says(&stage, &context.declaration.branch, &protection, &offs)

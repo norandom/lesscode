@@ -205,7 +205,14 @@ reach it without a change of the code. A proposal has a reason a person can chec
 commits the file.
 
 Last, `step check` runs the faults of the chosen functions again with the new tests in place. Commit the
-verdict it writes.
+verdict it writes. Remove the pins' copies first, or three pairs of copies stand at once (25.92 GiB on
+`shared_frame.rs`). With `--page`, give a place outside the repository: a bare `--page` writes beside the
+verdict, and the command refuses that.
+
+A flaky test can make the plan count a fault noticed that is not. The base run finds it unnoticed, and
+the verdict names it under `unnoticed_before`. `step protect result` then takes it into the stage and
+says "From the base run (the plan counted them noticed)". Test it or propose it by the id the result
+prints.
 
 ### End: `step protect result`
 
@@ -233,8 +240,8 @@ faults are not run again and do not change the exit code. On exit 0 it names the
 reduction of a chosen function as a step ([section 2](#2-declare-the-step)), on a branch of its own.
 
 On exit 0 and 1 it writes `protection.json` beside the declaration (`step-protection-v1`): the four
-numbers, the write-offs, the faults that wait, the reported functions, the base, the revision and the
-hash of the verdict. Commit
+numbers, the write-offs, the faults that wait, the reported functions, the faults taken from the base
+run (`from_the_base_run`), the base, the revision and the hash of the verdict. Commit
 it with the stage. A later reader finds there what was protected, what was written off and why, and what
 still waits, without the run.
 
