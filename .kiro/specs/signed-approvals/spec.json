@@ -27,6 +27,7 @@
   "prototype_gate": "prototype-gate.md",
   "prototype_status": "proceed (R192): signatures checked alike on OpenSSH 9.2, 9.5 and 10.6 without host Git settings; GitHub signing keys without a token; five cases on a copy of the real cycles.py stage as expected; G9 (the owner's passphrase prompt) not run, left to the re-approval task",
   "evidence": [
-    "docs/research/2026-11-25/03-signed-approvals-prototype.md"
+    "docs/research/2026-11-25/03-signed-approvals-prototype.md",
+    "docs/research/2026-11-25/04-signed-approvals-judge.md"
   ]
 }

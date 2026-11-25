@@ -10,6 +10,9 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-25, about 15:08: task group 2 of `signed-approvals` is done, with 3.1 carried
+in.** Start at [task_91_handover.md](task_91_handover.md). Next is group 3 (3.2 and 3.3).
+
 **Update 2026-11-25, about 14:25: the spec `signed-approvals` is written and approved, and its task
 group 1 is done.** Start at [task_90_handover.md](task_90_handover.md). Next is group 2 (judging
 approvals).

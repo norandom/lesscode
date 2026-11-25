@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R192 An approval signed with an SSH key can be checked the same way on Windows and Linux, against the project's list and GitHub (2026-11-25)
+## Latest · R193 `step protect result` counts only signed approvals; the task order left its tests failing between two tasks (2026-11-25)
+
+Tasks 2.1, 2.2 and 3.1 of the spec `signed-approvals`. A write-off counts only when it is marked `"approved": true` and the commit that last changed it carries a good SSH signature by a key in the branch's signer list and among the account's signing keys on GitHub. The judge reads the list and asks the forge at most once, and only when a good signature needs them. Approvals through `approved_by`/`approved_at` wait as "approved the old way". The plan assumed each task group ends with the suites passing. That failed for group 2: from 2.1 on, five tests of the result approved through the old fields and failed until 3.1 wired in the judge. The owner chose to carry 3.1 into the group. At `bf24fb8`: Windows 537 of 537, Linux through Dagger 536 of 536, model 85 of 85. Not seen yet: a real signed approval judged against the real forge. [Entry](2026-11-25/04-signed-approvals-judge.md).
+
+## R192 An approval signed with an SSH key can be checked the same way on Windows and Linux, against the project's list and GitHub (2026-11-25)
 
 Prototype gate of the spec `signed-approvals`, whose requirements the owner approved the same day. `ssh-keygen -Y check-novalidate` checked commit signatures without any Git setting of the host, the same in OpenSSH 9.2 (Linux, the CI image's base), 9.5 and 10.6 (Windows); a changed commit and a wrong namespace failed, and a key with a passphrase could not sign without a terminal. GitHub lists an account's signing keys without a token. On a copy of scitools-hook's stage for `cycles.py` the whole check gave the expected verdict in five cases, among them the approval made by script (`421c1ef`: not signed) and an unsigned change after a signed approval. Not seen yet: the owner's passphrase prompt in a real terminal. Decision: proceed, with `ssh-keygen` and `curl` as outside programs and no new crate. [Entry](2026-11-25/03-signed-approvals-prototype.md).
 
