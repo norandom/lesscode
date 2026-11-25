@@ -30,7 +30,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 
 ## Tasks
 
-- [ ] 1. From a plan to the start of a stage: `step protect begin`
+- [x] 1. From a plan to the start of a stage: `step protect begin`
 - [x] 1.1 The command, and what it refuses
   - `native/src/step/protect.rs` (arguments of `protect begin` and `protect result`, dispatch) and
     `protect_begin.rs`; the subcommand in `step/mod.rs`. Reads a plan, its run receipt and the run
@@ -68,7 +68,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: protect_begin.rs_
   - _Requirements: 1.1, 1.2, 5.9_
 
-- [ ] 2. Protected enough: `step protect result`
+- [x] 2. Protected enough: `step protect result`
 - [x] 2.1 The verdict it may use
   - `native/src/step/protect_result.rs`. Takes the verdict only when it is the one for the
     committed content, by the hashes `step guard` compares; otherwise exit 2 and nothing written.
@@ -105,7 +105,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: protect_result.rs_
   - _Requirements: 4.5, 4.7, 5.8, 6.4, 6.5_
 
-- [ ] 3. The skill `protect-before-reduce`
+- [x] 3. The skill `protect-before-reduce`
 - [x] 3.1 The walk
   - `.agents/skills/protect-before-reduce/SKILL.md`, in lesscode's own words (no text of Kiro's
     skills): the eleven phases of the design with their gates. It says: the person names the
@@ -143,7 +143,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Depends: 1.3, 2.3, 3.1_
   - _Requirements: 6.1, 6.2, 6.3_
 
-- [ ] 5. Closing
+- [x] 5. Closing
 - [x] 5.1 The stage with its commands on another file of the renderer (can fail)
   - The whole skill, with `step protect begin` and `step protect result` in place of what was done
     by hand in R184, on a renderer file the owner names (proposed: `yuv.rs`: `convert` 8 noticed
@@ -167,10 +167,11 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     written and one fault written off, and `step protect result` exited 0.
   - _Depends: 5.1, 6.4_
   - _Requirements: 3.8_
-- [ ] 5.3 Validation and handover
+- [x] 5.3 Validation and handover
   - The suites on Windows and through Dagger on Linux; budgets; lints; `kiro-cli code check`; a
     validation report; the handover.
   - Done when the validation report says GO or names what stands against it.
+  - Done 2026-11-25: [validation.md](validation.md), GO, with seven points named that stand against it; [task_88_handover.md](../../task_88_handover.md).
   - _Depends: 5.2, 6.4_
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 7.4, 7.5_
 

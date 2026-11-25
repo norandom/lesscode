@@ -1,9 +1,9 @@
 {
   "feature_name": "brownfield-test-stage",
   "created_at": "2026-11-24T11:09:46+01:00",
-  "updated_at": "2026-11-24T18:45:00+01:00",
+  "updated_at": "2026-11-25T12:35:00+01:00",
   "language": "en",
-  "phase": "tasks-generated",
+  "phase": "implementation-complete",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -31,9 +31,13 @@
     "docs/research/2026-11-23/09-tests-from-the-remaining-faults.md",
     "docs/research/2026-11-24/02-run-page-a-real-run-watched.md",
     "docs/research/2026-11-24/05-brownfield-stage-prototype.md",
-    "docs/research/2026-11-24/06-step-protect-begin.md"
+    "docs/research/2026-11-24/06-step-protect-begin.md",
+    "docs/research/2026-11-24/09-protect-stage-yuv.md",
+    "docs/research/2026-11-24/10-protect-stage-shared-frame.md",
+    "docs/research/2026-11-25/01-protect-stage-python.md"
   ],
   "notes": "Initialised and requirements generated on 2026-11-24 from brief.md (discovery of the same day). The templates under .kiro/settings/templates are empty in this repository; the documents follow the form of the spec run-dashboard. Research-bearing: the design has to pass the prototype gate of steering/prototype-first.md on real code before tasks. Provisional design, research log and prototype gate written the same day; the design is not approved and cannot be before the gate says proceed. Open contradiction 1 of the design: Rust keeps unit tests inside the file of the code, and step pin carries only files under test_paths.",
   "prototype_gate": "prototype-gate.md",
-  "prototype_status": "proceed (R184): 6 of 9 unnoticed faults of five functions noticed by four tests, three written off by the owner; one limit of the gate passed (a first pin of 17 min 50 s against ten minutes) and accepted by the owner with a change of the design"
+  "prototype_status": "proceed (R184): 6 of 9 unnoticed faults of five functions noticed by four tests, three written off by the owner; one limit of the gate passed (a first pin of 17 min 50 s against ten minutes) and accepted by the owner with a change of the design",
+  "validation": "validation.md: GO on 2026-11-25 (Windows 508/508, Linux Dagger 23/23 steps, kiro-cli code check pass); handover task_88_handover.md"
 }

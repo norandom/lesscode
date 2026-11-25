@@ -10,6 +10,13 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-25, about 12:35: the spec `brownfield-test-stage` is finished.** Every task is
+ticked, and the validation says GO
+([validation.md](specs/brownfield-test-stage/validation.md)). The group handover is
+[task_88_handover.md](task_88_handover.md): start there. It lists the open decisions of the owner
+and the state of the repositories. The rest of this file is the state of the morning, kept for
+its history.
+
 **Update 2026-11-25, about 09:10:** task group 6 is done. Task 6.5 (`7f0324a`) is the fix the owner
 chose: `step check` names the base run's unnoticed faults, and `step protect result` takes such a
 fault into the stage. With it come the two fixes of the skill. Then the second check of
