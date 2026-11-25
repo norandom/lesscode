@@ -1,8 +1,8 @@
 # Research log
 
-## Latest · R189 The stage over the whole scope of `shared_frame.rs`, where tests get written (2026-11-24, running)
+## Latest · R189 The stage over the whole scope of `shared_frame.rs`: three tests written, protected enough after one fix of the tool (2026-11-24 and 25)
 
-Task 6.4 of the spec `brownfield-test-stage`, preregistered: the first run of the stage after the amendment (whole scope by default, reported functions, no label faults in Rust), on a file of drift-rdp's renderer whose tests miss 8 of 42 planted faults, four of them visible to a caller when read in the code. Eleven expectations are written before the plan, among them that three tests or more get written and that the four visible faults end noticed. [Entry](2026-11-24/10-protect-stage-shared-frame.md).
+Task 6.4 of the spec `brownfield-test-stage`, preregistered: the first run of the stage after the amendment (whole scope by default, reported functions, no label faults in Rust), on a file of drift-rdp's renderer whose tests missed 8 of 42 planted faults. `begin` without `--function` chose the two functions with missed faults. The agent wrote three tests, each admitted by `step pin`, and four missed faults are noticed now. The owner wrote off the four that change nothing a caller sees, and `step protect result` ended with exit 0. On the way, a flaky test of the project made the plan count an equivalent fault as noticed, which the stage could neither test nor write off. Task 6.5 fixed that: the check names the base run's missed faults, and the result takes such a fault into the stage. Eight of eleven expectations hold; disk ran over because the skill did not say to remove the pins' copies before the check, which is now fixed. [Entry](2026-11-24/10-protect-stage-shared-frame.md).
 
 ## R188 The brownfield test stage with its two commands on `yuv.rs` of the renderer: protected enough, but 11 of 12 gaps were debug labels (2026-11-24)
 

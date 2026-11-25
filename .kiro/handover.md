@@ -10,6 +10,15 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-25, about 09:10:** task group 6 is done. Task 6.5 (`7f0324a`) is the fix the owner
+chose: `step check` names the base run's unnoticed faults, and `step protect result` takes such a
+fault into the stage. With it come the two fixes of the skill. Then the second check of
+`shared_frame.rs` was accepted. The owner approved all four write-offs (`0b5fe69`, `39e09d4`), and
+`step protect result` exited 0 (clone `cd9e2cd`). R189 is completed. The owner switched from
+Podman to Docker Desktop: the old images are gone, and D: has 208 GiB free. Next: task 5.2, the
+stage in a project that is not Rust, which the owner names. Then 5.3 and `task_88_handover.md`.
+Items 1 to 3 of "What the next session does" below are done.
+
 ## Start here
 
 1. Read [the stage spec's tasks](specs/brownfield-test-stage/tasks.md). Groups 1 to 4, task 5.1

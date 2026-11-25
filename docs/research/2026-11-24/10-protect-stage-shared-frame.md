@@ -2,8 +2,11 @@
 
 - Report date/time and timezone: 2026-11-24, written before the plan of the stage at about 19:45
   Europe/Berlin (from the clock).
-- Execution interval: not run yet
-- Status: running
+- Execution interval: 2026-11-24 19:45:08 to 21:05, and 2026-11-25 08:50:24 to 09:02:42
+  (second check and result, after the fix of task 6.5). The sections "Decision", "Limits",
+  "Tool/spec consequence" and "COBESY check" were written on 2026-11-25 at about 09:10, after
+  the run.
+- Status: completed
 - Spec: [brownfield-test-stage](../../../.kiro/specs/brownfield-test-stage/tasks.md), task 6.4 (can fail)
 - Hypothesis ID and predecessor: [R188](09-protect-stage-yuv.md) (the stage on `yuv.rs`: one test,
   eleven labels written off), [R184](05-brownfield-stage-prototype.md) (by hand)
@@ -11,7 +14,21 @@
 
 ## Decision
 
-Not reached yet.
+The stage carried a file from the plan to "protected enough" over the whole scope, and wrote tests
+on the way. `begin` without `--function` chose the two functions with unnoticed faults. The agent
+wrote three tests, each admitted by `step pin`, and four faults the tests had missed are noticed
+now. The four that are left change nothing a caller sees and were written off by the owner.
+`step protect result` ended with exit 0.
+
+It took one fix of the tool on the way (task 6.5). A flaky test of the project made the plan
+count an equivalent fault as noticed. The stage took its list from the plan, so that fault could
+be neither tested nor written off. Now the check names the base run's unnoticed faults, and the
+result takes such a fault into the stage.
+
+Eight of eleven expectations hold. E1, E4 and part of E6 fail; each failure is a finding about
+the tool or the skill, not about the tests.
+
+This permits closing task 6.4 and going on to 5.2.
 
 ## Hypothesis and falsification
 
@@ -150,14 +167,66 @@ themselves: commit `0b5fe69` in the clone, 2026-11-25 08:37, all three "Marius C
 evidence (`sf-protection-1.json`), not in the clone. The clone is clean on
 `protect/protect-shared-frame` at `23f1ce9`.
 
+### After the fix (2026-11-25)
+
+- **Task 6.5** (`7f0324a`, amendment `d7a46b2`; the owner chose "Verdict names base misses" of two
+  ways). `step check` writes `unnoticed_before` per function. `step protect result` takes into
+  the stage a fault unnoticed before and after that `stage.json` lacks. Tool frozen at
+  `...\stage-6\bin-6.5\lesscode-core.exe`, release of `7f0324a`, SHA-256
+  `F6F83C73B7CC54A63EB1622E8CEA586EC6CF3FA144648F1277D2B11FDEB9EB3F`.
+- I proposed #6 as `nothing_a_caller_sees` by its id `swap:>=->>@100:18` (`66ed029`).
+- **Second check**, with the pins' copies removed first: 08:50:24 to 09:01:51, 11 min 27 s, exit 0,
+  accepted. At most 17.05 GiB at once. Copy 1 failed its first run once again, and the second
+  attempt passed. The verdict (`1d381f1`) lists #6 under `unnoticed_before` and `unnoticed_after`
+  of `update_rect`.
+- The owner approved #6 at 08:52 by running the second approval script (`39e09d4`). The owner also
+  asked why approvals come through PowerShell. Answered: the agent may never write the two fields;
+  the script only spares editing JSON. Four stronger ways were offered for later: by hand, a
+  command the owner runs, a review in the forge, or signed commits.
+- **`step protect result`**, 09:02:42: **exit 0** in 806 ms, "Protected enough: nothing waits in
+  any chosen function" (**second half of E8 holds**). It printed "From the base run (the plan
+  counted them noticed): … update_rect swap:>=->>@100:18". Per function: `update_rect` 8, 11, 2,
+  0; `update_full` 14, 15, 2, 0, the same as the verdict. `protection.json`, the result in the
+  stage's `tasks.md` and `spec.json` committed in the clone as `cd9e2cd`. `git diff --name-only
+  a8f3442..HEAD` still names the stage spec and `shared_frame/protect.rs` only.
+- **E10 holds**: the two commits with values in `approved_by` are the owner's (`0b5fe69`,
+  `39e09d4`).
+- **E6, final.** The four visible faults are noticed. The three equivalent faults of `stage.json`
+  and #6 are written off with the owner's approval. Before the fix #6 could not get a proposal, so
+  E6 stays rejected as preregistered; after it, nothing waits.
+- Storage: all copies removed, 0.05 GiB of evidence kept with three binaries, and D: 208.0 GiB
+  free after the owner's switch from Podman to Docker Desktop.
+
 ## Limits and interpretation
 
-Written after the run.
+- One file, two functions as the plan names them (four methods), 30 faults run again, one language,
+  one machine.
+- Three tests for four faults is a small yield in absolute terms. But it is all the file had: the
+  other faults change nothing a caller sees. The earlier tests of the file already noticed 34 of
+  42.
+- The plan names functions by name only, so two impls with one method name are one row, and the
+  stage cannot choose one of them.
+- The flaky GPU test of drift-rdp aborted in a first run of every plan and check here but one. Its
+  cause is not lesscode's. It shows that a flaky test can make a fault look noticed, and lesscode
+  does not run a noticed fault again to confirm it. The fix of 6.5 catches the case where the
+  base run disagrees with the plan, not a false kill that repeats in both.
+- The agent wrote the tests and also judged the four faults to be equivalent. The owner approved
+  the write-offs by running a script. The owner did not read the test file at the review, and did
+  not say so either way.
 
 ## Tool/spec consequence and next gate
 
-Written after the run.
+- Task 6.5 is done, and 6.4 can be ticked.
+- For later, as the owner's choice: an approval that an agent cannot make (a review in the forge or
+  signed commits) in place of two fields anyone can write.
+- For later: `step plan` could confirm a noticed fault by a second run where a project has flaky
+  tests. This was not chosen; the base run now catches the disagreement.
+- For drift-rdp, not lesscode: the GPU test aborts (`0xc0000409`) when two copies run at once.
+- Next: task 5.2, the stage in a project that is not Rust, which the owner names.
 
 ## COBESY check
 
-Written after the run.
+The outcome stands first, with what it took to get there. The three expectations that failed are
+named with their causes, which are a flaky test, a gap of the skill about copies, and a gap of the
+tool. The fix was the owner's choice between two ways, recorded in their words. The owner's
+question about approvals by script is recorded with the answer and the stronger ways offered.

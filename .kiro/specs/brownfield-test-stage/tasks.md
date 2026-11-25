@@ -170,7 +170,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Depends: 5.2, 6.4_
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 7.4, 7.5_
 
-- [ ] 6. The whole scope by default (amendment of 2026-11-24, 18:35; approved by the owner the same day)
+- [x] 6. The whole scope by default (amendment of 2026-11-24, 18:35; approved by the owner the same day)
 
   The owner chose the order: the code first, then a full run, then 5.2 and 5.3.
 - [x] 6.1 `--function` optional, and reported functions
@@ -233,7 +233,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     to extend the rule.
   - _Depends: 6.1, 6.2_
   - _Requirements: 1.1, 1.2, 6.2, 6.3, 7.1_
-- [ ] 6.4 A full run where the stage gets tests written, on another file of drift-rdp (can fail)
+- [x] 6.4 A full run where the stage gets tests written, on another file of drift-rdp (can fail)
   - I propose a file with the numbers of its plan (several unnoticed faults a caller can see), and
     the owner approves it before the run. Then the stage runs with the whole scope by default, from
     the plan to `step protect result`, built from the code of 6.1 and 6.2 and frozen.
@@ -247,6 +247,9 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     cannot be written off. The owner decided to fix that in the tool the next day (the base run
     sets the stage's unnoticed faults), together with two gaps of the skill: `--page` in phase 8,
     and removing the pins' copies before the check. Open until then.
+  - Done 2026-11-25, after 6.5. The second check was accepted, the owner approved the write-off of
+    #6, and `step protect result` exited 0 (clone `cd9e2cd`). Three tests were written and four
+    faults written off. Eight of eleven expectations of R189 hold.
   - _Depends: 6.1, 6.2, 6.3_
   - _Requirements: 1.1, 3.1, 5.3, 5.4, 5.10_
 - [x] 6.5 The base run of the check sets the stage's unnoticed faults (amendment of 2026-11-25)
