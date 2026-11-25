@@ -285,7 +285,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     protect_receipt.rs, protect_says.rs; the skill and docs/steps.md_
   - _Requirements: 4.1, 4.3, 5.3, 5.5_
 
-- [ ] 7. No swap of keyword arguments, and a time figure that counts the tests (amendment of 2026-11-25, afternoon; approved by the owner the same day)
+- [x] 7. No swap of keyword arguments, and a time figure that counts the tests (amendment of 2026-11-25, afternoon; approved by the owner the same day)
 
   Points 2 and 3 of handover 88. The owner kept `38d337e` of `.dagger/main.go` as it is.
 - [x] 7.1 No swap of keyword arguments in the Python pack (pack of `agnostic-annotation-driver`)
@@ -364,7 +364,9 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: native/src/adapters/driver/pack.rs, native/tests/driver_contract.rs, docs/driver.md,
     docs/releases/2.2.0.md_
   - _Depends: 7.1_
-- [ ] 7.4 Validation and handover
+- [x] 7.4 Validation and handover
   - The suites on Windows and through Dagger on Linux; budgets; lints; format; doctests; an addition
     to the validation report; `task_89_handover.md`.
+  - Done 2026-11-25: the [validation](validation.md) addition says GO;
+    [task_89_handover.md](../../task_89_handover.md).
   - _Depends: 7.1, 7.2, 7.3, 7.5_

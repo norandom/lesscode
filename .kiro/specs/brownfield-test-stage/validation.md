@@ -130,3 +130,39 @@ None of these is a failed check; they are what the checks did not cover, or what
 
 The Docker image `lesscode-stage/scitools-hook-tests:2026-11-25` is kept on Docker Desktop for a
 repeat of R190. It is lesscode's, and `docker image rm` removes it.
+
+## Addition 2026-11-25, about 13:50 Europe/Berlin: task group 7
+
+Task group 7 came from the owner's decisions after handover 88: the Python pack does not swap
+keyword arguments (7.1, extended in 7.5), and `begin`'s time figure counts the tests as a run makes
+them, with a figure of its own for the check (7.2, R191). 7.3 updated the guides. Validated inline
+by the agent that wrote the code. Code at `8b41287`.
+
+- DECISION: **GO**.
+- **Tests, Windows: PASS.** nextest, 511 of 511, 1 skipped (exit 0); doctests exit 0. In two
+  full runs during 7.1, `the_installed_hook_stops_a_push_without_a_matching_verdict` failed under
+  load, as handovers 52, 75, 76 and 87 record. It passed alone and in every full run since.
+- **Tests, Linux: PASS.** `dagger call evidence --source . --revision 8b41287… export --path
+  D:\BuildArtifacts\lesscode\native-evidence\linux-8b41287`, exit 0, each of its 23 steps 0,
+  359 s. Core 510 of 510, 1 skipped; model 85 of 85. Two earlier runs of the group, at `add72d0`
+  and `719ee6b`, also passed; they were before the last code change.
+- **Lints and format: PASS.** Clippy with `-D warnings` on all targets; `fmt --check`.
+- **Size budgets: PASS.** 103 files: 96 within, 7 disposed. `operators.rs` 3,020 of 3,024 tokens
+  (was 3,022); `protect_says.rs` 1,471 of 2,800.
+- **`tools\bin\kiro-cli.exe code check --changed ada2bb6^`: PASS**, with its 3 pre-existing errors.
+  Its first run failed on its ratchet, a test grown to 81 code lines. The figure check moved into
+  a test of its own (`719ee6b`).
+- **Behaviour on real code.**
+  - The faults of R190's `cycles.py` at `73a736e`: 21 where the plan had 22, without
+    `arg_swap@138:8`, the same after 7.5.
+  - `begin` on the frozen plans of R188 to R190: base runs took 0.91 to 1.00 of the new figure,
+    and checks 0.45 to 1.05 (R191).
+- **Point 4 of "What stands against it", second half, is resolved**: the Python pack no longer
+  swaps keyword arguments. Rust labels passed through a helper are still planted.
+- **Also decided by the owner:** the phases of `protect-cycles` are approved (clone `b885391`;
+  `step protect result` still exits 0). Approvals are to move to signed commits, in a spec of
+  their own, not yet written.
+
+Evidence: `D:\BuildArtifacts\lesscode\brownfield-test-stage\group-7\` (mutate receipts, `begin` on
+the three frozen plans, the suite logs of 7.1 and 7.2, the result in the clone) and
+`...\validation-7.4\` (the logs of this addition).

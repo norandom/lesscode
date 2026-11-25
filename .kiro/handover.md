@@ -10,6 +10,11 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-25, about 13:55: task group 7 of `brownfield-test-stage` is done**, from the
+owner's decisions on handover 88. The validation addition says GO. Start at
+[task_89_handover.md](task_89_handover.md): it lists the owner's decisions of the afternoon (signed
+approvals chosen, a spec still to write) and the state of the repositories.
+
 **Update 2026-11-25, about 12:35: the spec `brownfield-test-stage` is finished.** Every task is
 ticked, and the validation says GO
 ([validation.md](specs/brownfield-test-stage/validation.md)). The group handover is
