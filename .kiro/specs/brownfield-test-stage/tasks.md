@@ -288,7 +288,7 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 - [ ] 7. No swap of keyword arguments, and a time figure that counts the tests (amendment of 2026-11-25, afternoon; approved by the owner the same day)
 
   Points 2 and 3 of handover 88. The owner kept `38d337e` of `.dagger/main.go` as it is.
-- [ ] 7.1 No swap of keyword arguments in the Python pack (pack of `agnostic-annotation-driver`)
+- [x] 7.1 No swap of keyword arguments in the Python pack (pack of `agnostic-annotation-driver`)
   - `named_kinds` in the pack's `call_argument` operators; the first two arguments are not swapped
     when the first is of a named kind; admission checks the kinds against the grammar; the Python
     pack names `keyword_argument`.
@@ -297,6 +297,21 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     - a pack whose `named_kinds` names a kind the grammar lacks is refused.
   - Also: the faults of R190's `cycles.py` at its base, made with the new pack and not run, lack
     `arg_swap@138:8` and keep `arg_swap@145:25`. Any other difference is named.
+  - Done 2026-11-25. Test first: both tests red, then green.
+    - **Where the code sits.** The check is `ArgumentOps::swappable` in `pack.rs`; `operators.rs`
+      asks it for the arguments it may swap, which leaves that file at 3,020 of 3,024 tokens.
+    - **The faults of `cycles.py`.** `deconvolute mutate` at `73a736e` with this code made 21
+      faults where R190's plan had 22. The one missing is `arg_swap@138:8`. `arg_swap@145:25`
+      and the other three swaps are still there, and nothing else differs. Receipt and suite log:
+      `D:\BuildArtifacts\lesscode\brownfield-test-stage\group-7\`.
+    - **Found on the way, not changed.** The grammar also parses a swap that puts a keyword
+      argument before a positional one (`log(level=2, text)`), which Python refuses to compile.
+      Such a fault is planted and counted as noticed. The test records that, and the owner
+      decides whether the rule should cover it.
+    - **Checks.** The suite passed (510) once. In the two runs before it,
+      `the_installed_hook_stops_a_push_without_a_matching_verdict` failed, as handovers 52, 75,
+      76 and 87 record for runs under load. It passed alone and in the third run. The doctests,
+      `fmt`, Clippy with `-D warnings` and the budgets passed.
   - _Boundary: native/src/adapters/driver/pack.rs, operators.rs, admission.rs, native/packs/python.json_
   - _Requirements: amendment of the afternoon of 2026-11-25, point 1_
 - [ ] 7.2 `begin`'s time figure counts the tests as a run makes them

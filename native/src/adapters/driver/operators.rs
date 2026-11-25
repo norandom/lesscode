@@ -192,9 +192,9 @@ fn argument_edits<'r>(pack: &Pack, list: &SgNode<'r>) -> Vec<Labelled<'r>> {
             break;
         }
     }
-    if let [first, second, ..] = arguments.as_slice() {
+    if let [first, second, ..] = ops.swappable(&arguments) {
         let (a, b) = (first.text().into_owned(), second.text().into_owned());
-        if ops.swap_first_two && a != b {
+        if a != b {
             let (line, column, ..) = position(first);
             let edits = vec![(first.clone(), b), (second.clone(), a)];
             found.push((format!("arg_swap@{line}:{column}"), edits));

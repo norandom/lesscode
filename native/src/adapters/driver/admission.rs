@@ -204,6 +204,8 @@ pub fn kind_names(pack: &Pack) -> BTreeSet<&str> {
     names.extend(pack.calls.via.keys().map(String::as_str));
     let quiet = &pack.operators.call_argument.skip_strings_in;
     names.extend(quiet.iter().map(|fields| fields.kind.as_str()));
+    let named = &pack.operators.call_argument.named_kinds;
+    names.extend(named.iter().map(String::as_str));
     for gap in &pack.gaps {
         names.extend(gap.nodes.iter().map(String::as_str));
         names.extend(gap.nodes_with_prefix.keys().map(String::as_str));

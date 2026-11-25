@@ -374,6 +374,50 @@ fn a_string_in_a_rust_label_field_is_not_emptied() {
     );
 }
 
+/// Added 2026-11-25 (brownfield-test-stage 7.1, R190): arguments bound by
+/// name mean the same in either order, so the Python pack does not swap
+/// the first two when the first is a keyword argument. A call whose first
+/// argument is positional is swapped as before, even where the second is a
+/// keyword argument: the grammar parses `log(level=2, text)`, which Python
+/// itself refuses to compile.
+#[test]
+fn a_python_call_does_not_swap_keyword_arguments() {
+    let text =
+        "def f():\n    Finding(kind=k, rule=r)\n    send(name, False)\n    log(text, level=2)\n";
+    let python = argument_mutants("python", text);
+    let swaps: Vec<&str> = python
+        .iter()
+        .filter(|(operator, _)| operator.starts_with("arg_swap@"))
+        .map(|(_, line)| line.as_str())
+        .collect();
+    assert_eq!(
+        swaps,
+        ["send(False, name)", "log(level=2, text)"],
+        "{python:?}"
+    );
+}
+
+/// A pack that names a kind of argument its grammar does not have is
+/// refused, as any other unknown kind is.
+#[test]
+fn a_named_kind_the_grammar_lacks_is_refused() {
+    use lesscode_core::adapters::driver::admission::admit;
+    use lesscode_core::adapters::driver::registry::shipped_texts;
+    let text = shipped_texts()
+        .iter()
+        .find(|t| t.contains("\"language\": \"python\""))
+        .unwrap();
+    let mut pack: serde_json::Value = serde_json::from_str(text).unwrap();
+    pack["operators"]["call_argument"]["named_kinds"] = serde_json::json!(["named_argument"]);
+    let result = admit(&pack.to_string(), "python").unwrap();
+    assert!(!result.admitted, "{:?}", result.feedback());
+    assert!(
+        format!("{:?}", result.feedback()).contains("named_argument"),
+        "{:?}",
+        result.feedback()
+    );
+}
+
 /// A pack without the optional kind is still admitted and gives no
 /// call-argument site.
 #[test]

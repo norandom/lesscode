@@ -99,6 +99,9 @@ pub struct ArgumentOps {
     /// Fields whose strings no caller sees: a call that is the value of
     /// such a field keeps its string arguments.
     pub skip_strings_in: Option<QuietFields>,
+    /// Kinds of argument bound by name, as a keyword argument is: the
+    /// first two arguments are not swapped when the first is one of them.
+    pub named_kinds: Vec<String>,
 }
 
 /// Fields of a struct or object that only debuggers show, picked by name.
@@ -116,6 +119,17 @@ impl ArgumentOps {
     /// the list is quiet.
     pub fn empty_for(&self, list: &SgNode<'_>) -> Option<&String> {
         self.empty_string.as_ref().filter(|_| !self.quiet(list))
+    }
+
+    /// The arguments of a call whose first two may change places: none
+    /// where the pack swaps nothing, or where the first is bound by name,
+    /// since then the swap means the same.
+    pub fn swappable<'a, 'r>(&self, arguments: &'a [SgNode<'r>]) -> &'a [SgNode<'r>] {
+        let named = |first: &SgNode<'r>| self.named_kinds.iter().any(|k| *k == first.kind());
+        match self.swap_first_two && !arguments.first().is_some_and(named) {
+            true => arguments,
+            false => &[],
+        }
     }
 
     /// The call of an argument list is the value of a quiet field, as a
