@@ -4,6 +4,7 @@
 #![allow(dead_code)]
 
 pub mod planned;
+pub mod signing;
 
 use serde_json::{json, Value};
 use std::fs;

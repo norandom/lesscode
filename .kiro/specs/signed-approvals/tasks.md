@@ -26,7 +26,13 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 
 ## 1. Reading signatures, signer lists and the forge
 
-- [ ] 1.1 Test support for signed approvals
+- [x] 1.1 Test support for signed approvals
+  - *Done 2026-11-25 (`native/tests/step_support/signing.rs`, `native/tests/step_protect_signed.rs`,
+    2 tests pass on Windows). Two deviations: the test checks the commits with Git's own
+    `verify-commit` against an allowed-signers file set with `-c` (it accepts the signed commit and
+    rejects the unsigned one, the grafted one and the other key), not with `check-novalidate`, which
+    the unit tests of 1.2 use; and the stand-in forge is the answer as data (`StandIn`), because the
+    forge's trait comes with 1.4, which makes `StandIn` implement it.*
   - A test can make an SSH key pair without a passphrase, commit with a signature from it, commit
     without one, and graft a signature from another commit into a commit object.
   - A stand-in forge answers with a given list of keys, or with "unreachable", for the library
