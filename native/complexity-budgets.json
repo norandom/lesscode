@@ -680,6 +680,13 @@
    "disposition": null
   },
   {
+   "path": "step/approvals.rs",
+   "max_logical_units": 300,
+   "owner": "signed-approvals",
+   "allocation": "Approvals of write-offs in signed commits: the commit that last changed an entry (task 1.5; requirements 1.1, 1.2, 1.6)",
+   "disposition": null
+  },
+  {
    "path": "step/forge.rs",
    "max_logical_units": 300,
    "owner": "signed-approvals",

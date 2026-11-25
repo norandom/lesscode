@@ -41,7 +41,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     `ssh-keygen -Y check-novalidate` accepts the first; the helpers set no global Git setting.
   - _Requirements: 7.2, 7.3, 7.4_
 
-- [ ] 1.2 (P) Splitting a commit and checking its signature
+- [x] 1.2 (P) Splitting a commit and checking its signature
+  - *Done 2026-11-25 (`0ea39e8`; 5 unit tests). Deviation: the guard test `only_the_revisions_module_starts_git` allowed no file but `revisions.rs` to start a program, which the design missed. It now names the one program each module may start (`revisions.rs` git, `sshsig.rs` ssh-keygen, `forge.rs` curl) and still fails for any other file or program (design, contradiction C9).*
   - Split a raw commit object into the signed payload and the signature, for `gpgsig` and
     `gpgsig-sha256`, searching the header block only; a non-SSH signature counts as not signed
     with an SSH key.
@@ -55,7 +56,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: sshsig_
   - _Requirements: 1.1, 1.3, 7.1, 7.2_
 
-- [ ] 1.3 (P) The signer list
+- [x] 1.3 (P) The signer list
+  - *Done 2026-11-25 (`81ad577`; 4 unit tests).*
   - Read `.lesscode/allowed_signers` as committed on the branch, in Git's allowed-signers form: one
     `github.com/<account>` principal per line, the same account on every line, other principals
     allowed and ignored; `namespaces` must include `git`, any other option is bad input.
@@ -65,7 +67,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: signers_
   - _Requirements: 2.1, 2.3, 5.5_
 
-- [ ] 1.4 (P) The forge
+- [x] 1.4 (P) The forge
+  - *Done 2026-11-25 (`5e0ad5c`; 3 unit tests, 1 test of the stand-in). Deviation: the recorded answer of R192 is inlined in the test, not read from `docs/experiments`, because the Dagger run copies only `native/` and a few files. The stand-in now implements `Forge` and counts how often it is asked.*
   - A forge answers the signing keys of an account, with each key's title. GitHub is asked through
     `curl` with the fixed GET of the design, page by page until a page has fewer than 100 keys.
   - The account name is checked before `curl` starts; curl's exit 6, 7 and 28 are "unreachable",
@@ -76,7 +79,8 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Boundary: forge_
   - _Requirements: 2.4, 2.5, 2.6_
 
-- [ ] 1.5 The commit that last changed a write-off
+- [x] 1.5 The commit that last changed a write-off
+  - *Done 2026-11-25 (3 integration tests: a signature made by Git split and checked, the last change per entry including a reformatting that is no change, and a merge). History is read along the first-parent line (`git log --first-parent`), so a merge that brought a change is itself the last change. Group 1 on Windows: 528 of 528 tests, doctests, format, Clippy, budgets.*
   - Read the history of `write-offs.json` on the branch, newest first, with parents, and the raw
     commit object, through the existing read-only Git commands.
   - For one entry (file and fault): the newest commit whose entry differs from its first parent's;

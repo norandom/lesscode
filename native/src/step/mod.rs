@@ -5,6 +5,7 @@
 //! Exit codes of every command: 0 accepted or done, 1 refused or rejected,
 //! 2 not judged because a run is incomplete, 3 bad input or a void run.
 
+pub mod approvals;
 pub mod check;
 mod check_handed;
 pub mod check_page;

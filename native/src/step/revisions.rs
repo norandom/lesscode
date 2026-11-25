@@ -224,3 +224,50 @@ pub fn commits(repo: &Path, base: &str, step: &str) -> Result<Vec<String>, Strin
     let text = String::from_utf8_lossy(&out);
     Ok(text.lines().map(str::to_owned).collect())
 }
+
+/// The commits on the first-parent line of `revision` that changed `path`,
+/// newest first, each with its first parent (none for a root commit). A
+/// merge that brought a change is listed itself.
+pub fn history(
+    repo: &Path,
+    revision: &str,
+    path: &str,
+) -> Result<Vec<(String, Option<String>)>, String> {
+    let args = [
+        "log",
+        "--first-parent",
+        "--format=%H %P",
+        revision,
+        "--",
+        path,
+    ];
+    let (_, out) = output(repo, &args)?;
+    let text = String::from_utf8_lossy(&out);
+    let commit = |line: &str| {
+        let mut hashes = line.split_whitespace().map(str::to_owned);
+        Some((hashes.next()?, hashes.next()))
+    };
+    Ok(text.lines().filter_map(commit).collect())
+}
+
+/// The raw object of a commit, as Git stores it.
+pub fn commit_object(repo: &Path, hash: &str) -> Result<Vec<u8>, String> {
+    let (found, out) = output(repo, &["cat-file", "commit", hash])?;
+    match found {
+        true => Ok(out),
+        false => Err(format!("git has no commit {hash}")),
+    }
+}
+
+/// A committed file at a revision; none where the revision does not have it.
+pub fn file_at(repo: &Path, revision: &str, path: &str) -> Result<Option<Vec<u8>>, String> {
+    let found = entries(repo, revision, path)?;
+    let file = found.iter().find(|e| e.path == path && e.is_plain_file());
+    file.map(|e| blob(repo, &e.hash)).transpose()
+}
+
+/// The committer date of a commit, strict ISO 8601.
+pub fn committer_date(repo: &Path, hash: &str) -> Result<String, String> {
+    let (_, out) = output(repo, &["log", "-1", "--format=%cI", hash])?;
+    Ok(String::from_utf8_lossy(&out).trim().to_owned())
+}
