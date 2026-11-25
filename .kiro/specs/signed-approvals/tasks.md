@@ -187,7 +187,19 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
 
 ## 4. The guides and the skill
 
-- [ ] 4.1 (P) The owner's guide `docs/approvals.md`
+- [x] 4.1 (P) The owner's guide `docs/approvals.md`
+  - *Done 2026-11-25. Every command except the `gh` ones was run once on this machine with
+    throwaway keys, on a scratch clone of scitools-hook's `protect/protect-cycles` (`b885391`), with
+    the test binary of `0b11aa1`. Seen there: the result before any mark showed the "old way" wait.
+    The signer list and the three `git config --local` lines went in, and the signed commit of the
+    mark was made. The result then asked the real forge, and the commit was refused as "not among
+    the account's signing keys on the forge" (0 of 1). A forgotten `-S` showed the amend repair,
+    and after the amend the signature was found again. With a later commit on top it showed the
+    two-commit repair, which worked. Deviations: the key with a passphrase only showed that
+    `ssh-keygen -Y sign` waits for it (stopped after 120 s; the same command with a key without a
+    passphrase signed at once), so the signed commits used a second throwaway key without a
+    passphrase. The prompt itself is gate row G9, in 5.2. The guide sets `gpg.ssh.program` on
+    Windows (handover 92). A row in `docs/README.md` points to the guide.*
   - A signing key of its own with a passphrase, kept out of the SSH agent, and how to check that it
     asks on every signature; `gh auth refresh -h github.com -s admin:ssh_signing_key`, `gh ssh-key
     add --type signing`, and `gh auth refresh -r admin:ssh_signing_key` with the reason; the line in
