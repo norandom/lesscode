@@ -3,7 +3,7 @@
   "created_at": "2026-11-25T13:48:00+01:00",
   "updated_at": "2026-11-25T14:03:04+01:00",
   "language": "en",
-  "phase": "tasks-generated",
+  "phase": "tasks-approved",
   "approvals": {
     "requirements": {
       "generated": true,
@@ -15,11 +15,11 @@
     },
     "tasks": {
       "generated": true,
-      "approved": false
+      "approved": true
     }
   },
-  "ready_for_implementation": false,
-  "owner_decisions": "2026-11-25, after handover 88: approvals an agent cannot make are to be \"Signed commits\". 2026-11-25, about 13:45: \"Write the signed-approvals spec; should be via the ssh key, which pub key part we add to github via gh\". 2026-11-25, about 13:48, asked before the requirements, each answer as recommended: a key counts only when it is both in a signer list committed in the project and among the signing keys of the owner's GitHub account; approvals made by script stop counting and are approved again in one signed commit per clone; a signing key of its own with a passphrase, never held in the SSH agent (~/.ssh/id_ed25519 stays as it is); write-off approvals only, not spec.json phases. Requirements approved by the owner on 2026-11-25 (\"approved, go on to the design\"). Design approved by the owner on 2026-11-25, about 14:02 (\"approved, both proposals as written, write the tasks\"): C1, the signer list and the forge only when an approval is to be judged (2.3 amended); C2, one signed re-approval per stage branch to be merged, drift-rdp protect/protect-yuv and protect/protect-shared-frame, scitools-hook protect/protect-cycles (6.2 amended).",
+  "ready_for_implementation": true,
+  "owner_decisions": "2026-11-25, after handover 88: approvals an agent cannot make are to be \"Signed commits\". 2026-11-25, about 13:45: \"Write the signed-approvals spec; should be via the ssh key, which pub key part we add to github via gh\". 2026-11-25, about 13:48, asked before the requirements, each answer as recommended: a key counts only when it is both in a signer list committed in the project and among the signing keys of the owner's GitHub account; approvals made by script stop counting and are approved again in one signed commit per clone; a signing key of its own with a passphrase, never held in the SSH agent (~/.ssh/id_ed25519 stays as it is); write-off approvals only, not spec.json phases. Requirements approved by the owner on 2026-11-25 (\"approved, go on to the design\"). Design approved by the owner on 2026-11-25, about 14:02 (\"approved, both proposals as written, write the tasks\"): C1, the signer list and the forge only when an approval is to be judged (2.3 amended); C2, one signed re-approval per stage branch to be merged, drift-rdp protect/protect-yuv and protect/protect-shared-frame, scitools-hook protect/protect-cycles (6.2 amended). Tasks approved by the owner on 2026-11-25 (\"approved, start with 1.1\").",
   "related": [
     "brownfield-test-stage"
   ],

@@ -1,6 +1,6 @@
 # Implementation Plan: approvals an agent cannot make
 
-Generated 2026-11-25, about 14:03 (Europe/Berlin). **Not approved.**
+Generated 2026-11-25, about 14:03 (Europe/Berlin). **Approved by the owner on 2026-11-25** ("approved, start with 1.1").
 Basis: [requirements](requirements.md) (approved 2026-11-25, 2.3 and 6.2 amended at the design's
 approval), [design](design.md) (approved by the owner on 2026-11-25: "approved, both proposals as
 written, write the tasks"), [prototype gate](prototype-gate.md) (`proceed`,
