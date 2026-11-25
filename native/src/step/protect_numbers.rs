@@ -18,7 +18,7 @@ pub const KINDS: [&str; 2] = ["nothing_a_caller_sees", "not_testable_as_it_stand
 
 const NOT_PROPOSED: &str = "no test notices it and no write-off is proposed";
 const NOT_APPROVED: &str = "its write-off is not approved";
-const THE_OLD_WAY: &str =
+pub const THE_OLD_WAY: &str =
     "approved the old way, which no longer counts: approve it in a signed commit";
 const NOT_OF_THE_STAGE: &str = "it is not among the unnoticed faults the stage began with";
 
@@ -68,7 +68,7 @@ impl WriteOff {
     }
 
     /// Approved only by the fields of before signed commits.
-    fn the_old_way(&self) -> bool {
+    pub fn the_old_way(&self) -> bool {
         !self.marked() && (given(&self.approved_by) || given(&self.approved_at))
     }
 }
@@ -114,18 +114,22 @@ pub struct Waiting {
     pub line: usize,
     pub operator: String,
     pub why: String,
+    /// The approval of its write-off that does not count, where it was marked.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub refusal: Option<Refusal>,
 }
 
 /// Why a fault of the stage waits, from the write-offs of the faults it
 /// can be: a refused approval first, then one approved the old way.
-fn why_waiting(entries: &[&WriteOff]) -> String {
-    let refused = entries.iter().find_map(|w| w.refusal.as_ref());
-    match refused {
+fn why_waiting(entries: &[&WriteOff]) -> (String, Option<Refusal>) {
+    let refused = entries.iter().find_map(|w| w.refusal.clone());
+    let why = match &refused {
         Some(refusal) => refusal.words(),
         None if entries.iter().any(|w| w.the_old_way()) => THE_OLD_WAY.to_owned(),
         None if entries.is_empty() => NOT_PROPOSED.to_owned(),
         None => NOT_APPROVED.to_owned(),
-    }
+    };
+    (why, refused)
 }
 
 /// The standing of one chosen function.
@@ -173,8 +177,8 @@ fn stand(row: &mut Row, label: &str, faults: &[Fault], offs: &[WriteOff]) -> Vec
         row.write_offs.extend(new);
         return ids;
     }
-    let why = match ids.is_empty() {
-        true => NOT_OF_THE_STAGE.to_owned(),
+    let (why, refusal) = match ids.is_empty() {
+        true => (NOT_OF_THE_STAGE.to_owned(), None),
         false => why_waiting(&ids.iter().flat_map(of).collect::<Vec<_>>()),
     };
     row.waiting += 1;
@@ -183,6 +187,7 @@ fn stand(row: &mut Row, label: &str, faults: &[Fault], offs: &[WriteOff]) -> Vec
         line,
         operator: operator.to_owned(),
         why,
+        refusal,
     });
     ids
 }

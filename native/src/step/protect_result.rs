@@ -14,7 +14,7 @@ use super::context::Context;
 use super::forge::{Forge, GitHub};
 use super::guard::moved;
 use super::protect_numbers::{from_the_base_run, numbers, write_offs, Joined, WriteOff};
-use super::protect_receipt::{says, Protection};
+use super::protect_receipt::{says, Protection, Signers};
 use super::protect_stage::{slashed, Stage};
 use super::revisions::blob;
 use super::verdict::{NOT_JUDGED, PLANTED_FAULTS, REFUSED};
@@ -180,9 +180,10 @@ pub fn run_result_with(
     };
     let (stage, joined, mut offs) = stage_of(&context, &verdict)?;
     let path = format!("{}/write-offs.json", stage_dir(&context));
-    if let Err(why) = judge(&context, &path, &mut offs, forge)? {
-        return say(format!("Not judged: {why}")).map(|_| 2);
-    }
+    let judged = match judge(&context, &path, &mut offs, forge)? {
+        Ok(judged) => judged,
+        Err(why) => return say(format!("Not judged: {why}")).map(|_| 2),
+    };
     let rows = match numbers(&stage, &verdict, &offs) {
         Ok(rows) => rows,
         Err(function) => {
@@ -196,6 +197,7 @@ pub fn run_result_with(
     let rose = verdict["result"] == REFUSED;
     let mut protection = Protection::new(&stage, &context.revisions, sha256, rows, rose);
     protection.from_the_base_run = joined;
+    protection.signers = Signers::of(&judged);
     say(says(
         &stage,
         &context.declaration.branch,

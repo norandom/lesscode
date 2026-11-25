@@ -148,7 +148,16 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
     a stage with no marked write-off gives the same result and receipt as before this spec.
   - _Requirements: 1.5, 1.7, 2.3, 2.4, 2.6, 7.4_
 
-- [ ] 3.2 The receipt and `protection.json`
+- [x] 3.2 The receipt and `protection.json`
+  - *Done 2026-11-25. A write-off whose approval does not count reads "Not counted: <the
+    refusal's words>." (or the old-way words) beside "Approved with the key …"; an unmarked one
+    stays "Not approved.". The line "Signer list: github.com/<account>, <n> of <m> listed key(s)
+    on the forge." follows the write-offs; where no listed key signed an approval the forge is not
+    asked and the line says so (`on_forge` is then null). `protection.json` gains top-level
+    `signers` and `refusal` on each waiting fault whose write-off was refused (`approval` was
+    already there). Tests in `step_protect_result.rs`: a stranger's signed change refused beside
+    the owner's counted approval, read from the receipt and from `protection.json`; a list whose
+    keys signed nothing.*
   - The receipt shows each counted approval with the key's title, fingerprint, account, commit and
     date; one line with the account and how many of the listed keys are on the forge; each refused
     approval with its reason, commit, key and repair, beside the counted ones. The module comment

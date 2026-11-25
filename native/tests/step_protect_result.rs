@@ -205,7 +205,7 @@ fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
         &[
             "waiting: drop_statement@9:4: its approval in ",
             " is not signed: sign it with `git commit --amend -S --no-edit`",
-            "Nothing reads the count. Not approved.",
+            "Nothing reads the count. Not counted: its approval in ",
         ],
     );
     // Approved the old way, by fields that no longer decide: it waits.
@@ -215,7 +215,13 @@ fn an_unnoticed_fault_waits_until_its_write_off_is_approved() {
     planned
         .repo
         .commit(&[(&path, &old)], "approved the old way");
-    planned.results_in(1, &[&format!("waiting: drop_statement@9:4: {OLD_WAY}")]);
+    planned.results_in(
+        1,
+        &[
+            &format!("waiting: drop_statement@9:4: {OLD_WAY}"),
+            &format!("Nothing reads the count. Not counted: {OLD_WAY}."),
+        ],
+    );
     // Approved in a signed commit by a key the list and the forge have:
     // written off, with its reason, key and commit.
     let commit = planned.signed_write_off("nothing_a_caller_sees");
@@ -355,6 +361,7 @@ fn receipt_while_one_waits(planned: &Planned, mut second: Value, commit: &str) {
         }],
         "reported": [],
         "from_the_base_run": [],
+        "signers": {"account": "owner", "listed": 1, "on_forge": 1},
     });
     assert_eq!(receipt, expected, "{receipt:#}");
 }
@@ -375,11 +382,88 @@ fn the_result_names_each_standing_and_leaves_a_receipt() {
         &approved,
         "    three reaches out: writes state at line 2: state.first = a, line 3: state.second = a, line 4: state.third = a. A reduction has to keep the behaviour there by other means.",
         "  src/three.py drop_statement@4:4 (nothing_a_caller_sees): Nobody reads the third. Not approved.",
+        "Signer list: github.com/owner, 1 of 1 listed key(s) on the forge.",
         "Not protected enough: 1 fault(s) wait.",
         "The stage advises: a reduction that begins without it is judged as any other.",
         "Written: ",
     ]);
     receipt_while_one_waits(&planned, second, &commit);
+}
+
+/// signed-approvals 3.2 (requirements 3.1 to 3.4): an approval that does not
+/// count stands beside the one that does, in the receipt and in
+/// `protection.json`, with its reason, commit and key; the signer list is
+/// named with how many of its keys the forge has.
+#[test]
+fn the_receipt_shows_each_refusal_beside_the_counted_approvals_and_the_signer_list() {
+    let (planned, second, commit) = three("result-refusal", true);
+    let repo = &planned.repo;
+    // A key the list does not name changes the third write-off and signs it.
+    let stranger = Key::kept(&repo.dir.parent().unwrap().join("keys"), "stranger");
+    let path = format!("{STAGE}/write-offs.json");
+    let mut offs = repo.json(&repo.dir.join(&path));
+    offs["write_offs"][1]["reason"] = json!("Nobody reads the third, as far as we know.");
+    let by_stranger = repo.signed_commit(&stranger, &[(&path, &offs.to_string())], "by a stranger");
+    let refused = format!(
+        "its approval in {} is signed with {}, which is not in the signer list",
+        &by_stranger[..12],
+        stranger.fingerprint()
+    );
+    planned.signed_results_in(1, &[
+        &format!(
+            "  src/three.py drop_statement@3:4 (not_testable_as_it_stands): The second is read by code we cannot run. {}",
+            planned.approved_in(&commit)
+        ),
+        &format!(
+            "  src/three.py drop_statement@4:4 (nothing_a_caller_sees): Nobody reads the third, as far as we know. Not counted: {refused}."
+        ),
+        &format!("    waiting: drop_statement@4:4: {refused}"),
+        "Signer list: github.com/owner, 1 of 1 listed key(s) on the forge.",
+        "Not protected enough: 1 fault(s) wait.",
+    ]);
+    let receipt = repo.json(&repo.dir.join(STAGE).join("protection.json"));
+    assert_eq!(receipt["receipt"], "step-protection-v1");
+    assert_eq!(
+        receipt["signers"],
+        json!({"account": "owner", "listed": 1, "on_forge": 1})
+    );
+    let row = &receipt["functions"][0];
+    assert_eq!(row["write_offs"][0]["fault"], second["fault"]);
+    assert_eq!(row["write_offs"][0]["approval"]["commit"], commit.as_str());
+    assert_eq!(
+        row["write_offs"][0]["approval"]["fingerprint"],
+        planned.owner().fingerprint()
+    );
+    assert_eq!(
+        row["waiting_faults"][0]["refusal"],
+        json!({
+            "kind": "not_listed", "commit": by_stranger,
+            "key": stranger.fingerprint(), "repair": null,
+        })
+    );
+    assert_eq!(row["waiting_faults"][0]["why"], refused.as_str());
+}
+
+/// A list whose keys signed no approval: the forge is not asked, and the
+/// receipt says so.
+#[test]
+fn a_signer_list_whose_keys_signed_nothing_is_named_without_the_forge() {
+    let (planned, _, _) = three("result-unlisted-only", false);
+    let repo = &planned.repo;
+    let stranger = Key::kept(&repo.dir.parent().unwrap().join("keys"), "stranger");
+    let path = format!("{STAGE}/write-offs.json");
+    let mut offs = repo.json(&repo.dir.join(&path));
+    offs["write_offs"][0]["reason"] = json!("Read by code we cannot run, as we found.");
+    repo.signed_commit(&stranger, &[(&path, &offs.to_string())], "by a stranger");
+    planned.signed_results_in(1, &[
+        "Signer list: github.com/owner, 1 listed key(s); the forge was not asked, since no approval is signed with a listed key.",
+        "Not protected enough: 2 fault(s) wait.",
+    ]);
+    let receipt = repo.json(&repo.dir.join(STAGE).join("protection.json"));
+    assert_eq!(
+        receipt["signers"],
+        json!({"account": "owner", "listed": 1, "on_forge": null})
+    );
 }
 
 #[test]

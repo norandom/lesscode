@@ -1,12 +1,17 @@
 //! What `step protect result` says and what it leaves: the standing of
-//! every chosen function, every write-off with its reason, approver and
-//! date, and `protection.json`, which a later reader finds without the run.
+//! every chosen function, every write-off with its reason and the approval
+//! that counts or why it does not, the signer list, and `protection.json`,
+//! which a later reader finds without the run.
 //!
-//! The tool cannot know that a person wrote an approval. It prints every
-//! write-off with who approved it and when, so that a false one is seen.
+//! An approval counts only when its commit is signed with a key that the
+//! branch's signer list names and the account has on the forge (`approvals`).
+//! The receipt names that key, its account, the commit and its date, and
+//! every approval that does not count beside them, so that an approval the
+//! owner did not make is seen.
 
+use super::approvals::Judged;
 use super::declaration::Revisions;
-use super::protect_numbers::{Joined, Row, WriteOff};
+use super::protect_numbers::{Joined, Row, WriteOff, THE_OLD_WAY};
 use super::protect_stage::{Chosen, Reported, Stage};
 use serde::Serialize;
 
@@ -40,6 +45,43 @@ pub struct Protection {
     /// Faults the plan counted noticed that the base run of the check did
     /// not notice; they are the stage's like any other.
     pub from_the_base_run: Vec<Joined>,
+    /// The signer list, where an approval needed it.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub signers: Option<Signers>,
+}
+
+/// The signer list as the judge read it: its account, how many keys it
+/// lists, and how many of them the account has on the forge, where the
+/// forge was asked.
+#[derive(Debug, Serialize)]
+pub struct Signers {
+    pub account: String,
+    pub listed: usize,
+    pub on_forge: Option<usize>,
+}
+
+impl Signers {
+    pub fn of(judged: &Judged) -> Option<Signers> {
+        judged.list.as_ref().map(|list| Signers {
+            account: list.account.clone(),
+            listed: list.keys.len(),
+            on_forge: judged.on_forge,
+        })
+    }
+
+    /// The receipt's line.
+    fn says(&self) -> String {
+        let (account, listed) = (&self.account, self.listed);
+        match self.on_forge {
+            Some(n) => format!(
+                "Signer list: github.com/{account}, {n} of {listed} listed key(s) on the forge."
+            ),
+            None => format!(
+                "Signer list: github.com/{account}, {listed} listed key(s); the forge was not \
+                 asked, since no approval is signed with a listed key."
+            ),
+        }
+    }
 }
 
 impl Protection {
@@ -67,6 +109,7 @@ impl Protection {
             functions,
             reported: stage.reported.clone(),
             from_the_base_run: Vec::new(),
+            signers: None,
         }
     }
 
@@ -121,16 +164,18 @@ fn reaches_out(chosen: &Chosen) -> String {
     }
 }
 
-/// One write-off with its reason and the signed commit that approved it.
-/// For one that cannot be tested as the code stands: what its function
-/// reaches out to.
+/// One write-off with its reason and the signed commit that approved it,
+/// or why its approval does not count. For one that cannot be tested as the
+/// code stands: what its function reaches out to.
 fn of_write_off(w: &WriteOff, stage: &Stage) -> Vec<String> {
     let text = |v: &Option<String>| v.clone().unwrap_or_default();
-    let signed = match (&w.approval, w.approved()) {
-        (Some(a), true) => format!(
+    let signed = match (&w.approval, &w.refusal) {
+        (Some(a), _) if w.approved() => format!(
             "Approved with the key \"{}\" ({}) of github.com/{}, in {} on {}.",
             a.title, a.fingerprint, a.account, a.commit, a.date
         ),
+        (_, Some(refusal)) => format!("Not counted: {}.", refusal.words()),
+        _ if w.the_old_way() => format!("Not counted: {THE_OLD_WAY}."),
         _ => "Not approved.".to_owned(),
     };
     let reason = match text(&w.reason).trim() {
@@ -185,6 +230,7 @@ pub fn says(stage: &Stage, branch: &str, protection: &Protection, offs: &[WriteO
         lines.push(format!("Write-offs ({}):", offs.len()));
         lines.extend(offs.iter().flat_map(|w| of_write_off(w, stage)));
     }
+    lines.extend(protection.signers.as_ref().map(Signers::says));
     if protection.unnoticed_rose {
         lines.push(ROSE.to_owned());
     }
