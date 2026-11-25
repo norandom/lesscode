@@ -299,18 +299,43 @@ fn the_installed_hook_stops_a_push_without_a_matching_verdict() {
     assert_eq!(on_remote("step/smaller"), judged);
 }
 
+/// The programs a file of the step tooling starts itself: the literal named
+/// in each `Command::new(…)`, or `?` where it is not a literal.
+fn programs_started(text: &str) -> Vec<String> {
+    let starts = text.split("Command::new(").skip(1);
+    let literal = |rest: &str| {
+        let rest = rest.strip_prefix('"')?;
+        Some(rest[..rest.find('"')?].to_owned())
+    };
+    starts
+        .map(|rest| literal(rest).unwrap_or_else(|| "?".into()))
+        .collect()
+}
+
 /// The step tooling starts git only through the module that lists the
-/// reading commands, and starts nothing else itself.
+/// reading commands. Two other modules each start one program of their own
+/// (signed-approvals, 2026-11-25): `sshsig.rs` only `ssh-keygen`, to check a
+/// signature, and `forge.rs` only `curl`, to read GitHub's signing keys.
+/// No other file starts anything itself.
 #[test]
 fn only_the_revisions_module_starts_git() {
     let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/step");
+    let own = [
+        ("revisions.rs", "git"),
+        ("sshsig.rs", "ssh-keygen"),
+        ("forge.rs", "curl"),
+    ];
     let mut scanned = 0;
     for entry in fs::read_dir(&dir).unwrap() {
         let path = entry.unwrap().path();
         let text = fs::read_to_string(&path).unwrap();
-        let starts = text.contains("Command::new");
-        let is_revisions = path.file_name().is_some_and(|n| n == "revisions.rs");
-        assert_eq!(starts, is_revisions, "{}", path.display());
+        let name = path.file_name().unwrap().to_string_lossy().into_owned();
+        let may = own.iter().find(|(file, _)| *file == name).map(|(_, p)| *p);
+        for program in programs_started(&text) {
+            assert_eq!(Some(program.as_str()), may, "{}", path.display());
+        }
+        let starts_own = may.is_some_and(|p| programs_started(&text).iter().any(|s| s == p));
+        assert_eq!(starts_own, may.is_some(), "{}", path.display());
         // Other programs run only where the project's own commands are
         // run in a copy, and for the spec audit of the hook.
         let runs = text.contains("process::run");

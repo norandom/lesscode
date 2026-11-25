@@ -33,6 +33,7 @@ mod protect_write;
 pub mod record;
 pub mod reports;
 pub mod revisions;
+pub mod sshsig;
 pub mod trees;
 pub mod verdict;
 
