@@ -10,6 +10,47 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-26, about 16:40: the release and the two merges are done, on the owner's word.**
+
+- **lesscode 2.2.0.** Pushed `main` (`9f6aab7..5583488`) and the annotated tag `v2.2.0` on
+  `5583488`. The preparation, `f4bbd89`, followed `964209d` for 2.1.0: the version in the crate,
+  the three lock files, `CITATION.cff`, `.zenodo.json` (with R1 to R198) and the README badge.
+  The notes now say the release is out and list two fixes and one limit:
+  - `step check` and a deleted scope file (`a20ecd5`);
+  - the page's sign of life (`84a3a46`);
+  - no approval has been judged yet with the owner's own key, which has no passphrase.
+
+  The release workflow (run `45847414249`) builds, and then its publish job waits for the owner to
+  approve the `release` environment on GitHub. The agent does not approve it. Zenodo archives the
+  release once it is published.
+- **lesscode CI had been red on GitHub since 2026-11-24; it is green on `84a3a46`, on all six
+  jobs.**
+  - Two run-page tests made their places under `CARGO_TARGET_TMPDIR`. On GitHub that directory is
+    inside the checkout, because the target directory is `native/target` there. `0a5c49b` moves
+    them to the system's temporary directory.
+  - On macOS Intel, the sign-of-life test saw 4 beats where 5 were asked for. That was a defect in
+    the tool: the heart added up the naps it asked for instead of reading the clock, and a nap
+    lasts about twice as long there, so with the real 5 s a sign of life came about every 11 s.
+    `84a3a46` fixes it.
+  - `b585d57` had first widened the test's interval. That was a wrong diagnosis: the gap grew with
+    the interval. `84a3a46` returns the test to its first form.
+- **drift-rdp:** `protect/protect-yuv` merged onto `fork/master` (`8b254d3`, no conflicts) and
+  pushed to `fork` (`2cc0c3d..8b254d3`).
+  - 560 library tests pass, the GPU test for NV12 included.
+  - fmt is clean. Clippy shows one warning more under `--all-targets`: `let_and_return` in the
+    approved test `yuv/protect.rs:84`. CI's clippy does not lint tests, and the pinned test was
+    left as approved.
+  - CI on `8b254d3` passed, all jobs. The macOS job on `2cc0c3d` had been cancelled after waiting
+    15 minutes for a runner, with no step run.
+- **scitools-hook:** `protect/protect-cycles` merged onto `main` (`a72f1cc`) and pushed to
+  `origin` (`norandom/scitools-hook`, `73a736e..a72f1cc`). In the stage's test image: the stage's
+  command passed 5332 tests with 2 skipped. The CI gate's command (pytest with branch coverage
+  of at least 85%) passed 5332 with 257 skipped, at 97.83% coverage. No workflow ran on the push.
+- **Left running:** Docker Desktop. The agent started it for the scitools-hook tests; it was off
+  before. No container of lesscode's is left.
+- **Next:** the facdrone visualization (decision 4 below). Decision 3 stands: `signed-approvals`
+  is closed at 5.2.
+
 **Update 2026-11-26, about 15:45: drift-rdp merged and pushed; the owner's decisions for the
 next session.**
 
