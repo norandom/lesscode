@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}</style></head><body>
+<title>Lesscode Progress Report</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column for the argument; charts, tables and drawings break out to a wider measure. */
+:root {
+  --bg: #eef1f0; --panel: #f9fbfa; --rim: #cdd6d3; --ink: #1b242d; --quiet: #55626d;
+  --s1: #2a78d6; --s2: #eb6834; --edge: #184f95; --gone: #b9c3c0;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12181e; --panel: #1b232b; --rim: #33404b; --ink: #e8edf0; --quiet: #9aa8b3;
+  --s1: #3987e5; --s2: #d95926; --edge: #0d366b; --gone: #46535e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12181e; --panel: #1b232b; --rim: #33404b; --ink: #e8edf0; --quiet: #9aa8b3;
+  --s1: #3987e5; --s2: #d95926; --edge: #0d366b; --gone: #46535e; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 64px; }
+main { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+section { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 5vw, 50px); line-height: 1.04; letter-spacing: -0.02em; margin: 0; text-wrap: balance; max-width: 20ch; }
+h2 { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 3vw, 28px); line-height: 1.15; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 500; font-size: 18px; margin: 8px 0 0; }
+p, ul, ol { margin: 0; max-width: 68ch; }
+ul, ol { padding-left: 1.2em; display: grid; gap: 6px; }
+.meta { font: 13px var(--mono); color: var(--quiet); }
+.lede { font-size: 18px; max-width: 62ch; }
+.quiet { color: var(--quiet); font-size: 14px; }
+code { font: 0.9em var(--mono); overflow-wrap: anywhere; }
+.answer { border: 1px solid var(--rim); background: var(--panel); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; }
+.answer ol { max-width: 70ch; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 640px; }
+th { text-align: left; font-weight: 500; color: var(--quiet); padding: 6px 12px 6px 0; border-bottom: 1px solid var(--rim); vertical-align: bottom; }
+td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rim); vertical-align: top; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td b { font-weight: 600; }
+.arrow { font: 500 14px var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.key { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--quiet); margin: 0; padding: 0; list-style: none; max-width: none; }
+.key i { display: inline-block; width: 22px; height: 8px; border-radius: 3px; vertical-align: middle; margin-right: 6px; }
+.key i.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ink); }
+.key i.ring { width: 9px; height: 9px; border-radius: 50%; background: var(--panel); border: 2px solid var(--ink); }
+.faults { display: grid; gap: 9px; }
+.frow { display: grid; grid-template-columns: minmax(0, 12.5em) minmax(0, 1fr) 8.5em; gap: 4px 14px; align-items: center; }
+.frow .what { font: 13px var(--mono); overflow-wrap: anywhere; }
+.frow .bar { display: flex; gap: 2px; height: 14px; min-width: 0; }
+.frow .bar span { display: block; height: 100%; min-width: 2px; }
+.frow .bar .a { background: var(--s1); border-radius: 0 4px 4px 0; }
+.frow .bar .b { background: var(--s2); border-radius: 0 4px 4px 0; }
+.frow .num { font: 500 13px var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.frow.sum { border-top: 1px solid var(--rim); padding-top: 9px; }
+@media (max-width: 560px) { .frow { grid-template-columns: minmax(0, 1fr) 8.5em; } .frow .what { grid-column: 1 / -1; } }
+.steps { display: grid; gap: 0; padding: 0; list-style: none; max-width: 78ch; }
+.steps li { display: grid; grid-template-columns: 6.2em minmax(0, 1fr); gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--rim); }
+.steps time { font: 13px var(--mono); color: var(--quiet); padding-top: 2px; }
+.pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.pick button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--rim); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+.pick button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.pick button:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+.bowls { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; }
+.bowl { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.bowl canvas { width: 100%; aspect-ratio: 1; max-width: 100%; display: block; touch-action: manipulation; }
+.say { font: 13px var(--mono); color: var(--quiet); min-height: 3em; margin: 0; overflow-wrap: anywhere; }
+.pair { display: grid; gap: 8px; }
+.prow { display: grid; grid-template-columns: minmax(0, 13em) minmax(0, 1fr) 7em; gap: 4px 14px; align-items: center; }
+.prow .bars { display: grid; gap: 2px; min-width: 0; }
+.prow .bars span { display: block; height: 8px; border-radius: 0 4px 4px 0; min-width: 2px; }
+.prow .bars .x { background: var(--gone); } .prow .bars .y { background: var(--s1); }
+.prow .num { font: 500 13px var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.prow .num small { display: block; color: var(--quiet); font-size: 12px; }
+@media (max-width: 560px) { .prow { grid-template-columns: minmax(0, 1fr) 7em; } .prow .what { grid-column: 1 / -1; } }
+.states { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px; align-items: start; }
+.states > div { min-width: 0; display: grid; gap: 8px; }
+.cells { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; max-width: none; }
+.cells.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cells.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cells li { border: 1.5px solid var(--s1); border-radius: 8px; background: var(--panel); padding: 8px 9px; font: 12px/1.4 var(--body); color: var(--ink); min-width: 0; overflow-wrap: anywhere; }
+.cells li b { display: block; font: 500 11px var(--mono); color: var(--quiet); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+.cells li.never { border: 1.5px dashed var(--s2); color: var(--quiet); }
+.cells li.pass { border-style: dashed; }
+.lab { font: 500 13px var(--mono); color: var(--quiet); text-transform: uppercase; letter-spacing: 0.05em; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 18px 28px; }
+.cols > div { min-width: 0; display: grid; gap: 8px; align-content: start; }
+</style>
+<main>
+  <header style="display:grid;gap:12px">
+    <p class="meta">Lesscode research · written 26 November 2026, Europe/Berlin · covers 18 to 26 November</p>
+    <h1>Tests first, then the rework: what the last eight days showed</h1>
+    <p class="lede">Lesscode is a research tool for making code smaller and less entangled without changing what it does. This report says what changed since the reports of 9 and 11 November, adds the measures that are new, and shows six reworks in three projects before and after.</p>
+    <p class="quiet">Numbers like R164 point to entries in the research log (<code>docs/research</code> in the repository). They are pointers, not names.</p>
+  </header>
+
+  <section>
+    <div class="answer">
+      <h2>The answer first</h2>
+      <p>The report of 9 November claimed that the reworked code was checked by planted faults and by a solver. An audit on 17 November found that neither check had run on the reworked code. Since then:</p>
+      <ol>
+        <li><b>Planted faults run on real code and decide.</b> The released tool planted 268 faults in a seven-file subsystem of a real application. A rework is now refused when any function it touches ends with more faults that the tests do not notice.</li>
+        <li><b>State is counted.</b> For a type, the tool's research programs count the places that hold state, the ways the type can be written, the ways the code reaches, and the ways the tests see.</li>
+        <li><b>Tests come before the rework.</b> A new stage has an agent write tests for the faults the existing tests miss. What cannot be tested is written off by the owner, and only a signed commit of the owner counts.</li>
+      </ol>
+      <p>With these in place, two reworks of a real application were judged by the released tool and accepted: one type went from 16 ways to be written to 6, and one decision that was held in two places that could disagree is now one value. Neither made the code smaller in any way that matters. The gain is in the state.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Against the earlier reports</h2>
+    <p>Two reports came before this one: the state-boundary report of 9 November (amended 18 November) on two subsystems of a Python finance application, and the driver report of 10 and 11 November on planting faults in four languages.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Question</th><th>Said then</th><th>What stands on 26 November</th></tr></thead>
+      <tbody>
+        <tr><td>How much smaller are the two reworked subsystems?</td><td>23.8% fewer lines</td><td>8% to 10% less syntax. Lines depend on how the code is laid out and are no longer reported (R134).</td></tr>
+        <tr><td>Do the tests notice faults planted in the reworked code?</td><td>"100%, 8 of 8"</td><td>That check had not run on the reworked code (R134). Since then four planted faults per subsystem were detected on both versions (R138).</td></tr>
+        <tr><td>Was behaviour compared by a solver?</td><td>"0 counterexamples"</td><td>The verifier held no solver (R134). Since then a bounded solver check of the first subsystem found no difference on 81 inputs and found a planted fault (R139). The second subsystem has no solver check.</td></tr>
+        <tr><td>Can a tool find state that is scattered over files?</td><td>No tool could</td><td>A research finder, run unchanged on a repository it had never read, reported 8 of 9 such state machines, and none of its 11 reports was wrong (R159).</td></tr>
+        <tr><td>Is fault planting available as one program?</td><td>A Python prototype, one file per language</td><td>One Rust binary, released as 2.1.0 and used on a seven-file subsystem (R164). Version 2.2.0 is tagged and built; publishing waits for the owner's approval.</td></tr>
+        <tr><td>Drift of model output (the second work package of the driver research)</td><td>Closed by the owner</td><td>Unchanged: closed (R104). Only the drift of one model over time is unmeasured.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>The measures, and which are new</h2>
+    <p>A rework is now read through six lenses. The first two existed on 9 November. The other four are new or were only claimed then.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Lens</th><th>What is counted</th><th>Since</th></tr></thead>
+      <tbody>
+        <tr><td><b>Size</b></td><td>Tokens and syntax nodes of the files in scope. Used as a limit on growth, not as the result.</td><td>before</td></tr>
+        <tr><td><b>Structure</b></td><td>Functions, calls between them, calls that cross a file.</td><td>before</td></tr>
+        <tr><td><b>State</b></td><td>Places that hold state; ways the type can be written; ways the code reaches; ways the tests see; holders that are set and never read.</td><td>23 November (R165 to R170)</td></tr>
+        <tr><td><b>Decisions</b></td><td>Conditions per routine, measured with <code>kiro-cli</code> of the owner's project openidea-kiro.</td><td>18 November (R162)</td></tr>
+        <tr><td><b>Behaviour kept</b></td><td>The project's own tests, unchanged, before and after.</td><td>before</td></tr>
+        <tr><td><b>Protection</b></td><td>Planted faults per function: noticed by the tests, not noticed, written off by the owner.</td><td>run on real code since 23 November (R164)</td></tr>
+      </tbody>
+    </table></div>
+    <p>One finding about the decisions lens changed how results are stated. Untangling state does not remove decisions. It moves them into one routine: across the examples the counts were 24 and 24, 30 and 31, and 14 to 12 (R162). So this report does not claim fewer branches where there are not fewer.</p>
+  </section>
+
+  <section>
+    <h2>Fault injection: from a claim to a gate</h2>
+    <p>A planted fault is a small deliberate bug: a negated condition, a dropped statement, two arguments swapped. The tool plants one at a time in a copy of the code and runs the project's tests. If a test fails, the fault was noticed.</p>
+    <ol class="steps">
+      <li><time>10–11 Nov</time><span>A Python prototype plants 66 faults in one Rust file of another project; the tests notice 45 (R64).</span></li>
+      <li><time>17 Nov</time><span>The audit finds that the "100% noticed" of the 9 November report was never run on the reworked code (R134).</span></li>
+      <li><time>18 Nov</time><span>Four planted faults per subsystem are detected on both versions of the two Python subsystems (R138).</span></li>
+      <li><time>23 Nov</time><span>The released binary plants 268 faults over the seven files of a renderer in 1 hour 43 minutes (R164). The chart below is that run.</span></li>
+      <li><time>23 Nov</time><span>A rework is judged by faults per function for the first time: refused once for size, then accepted (R173).</span></li>
+      <li><time>24 Nov</time><span>The stage that protects code before it is reduced gets two commands and a skill an agent follows (R184 to R187).</span></li>
+      <li><time>24–25 Nov</time><span>The stage runs on three real files in two languages (R188 to R190).</span></li>
+      <li><time>25–26 Nov</time><span>A write-off counts only as the owner's signed commit, checked against the project's signer list and GitHub (R192 to R197).</span></li>
+      <li><time>26 Nov</time><span>A rework over six files is judged and accepted. On the way the tool could not judge a step that deletes a file; that defect is fixed and has a test (R198).</span></li>
+    </ol>
+
+    <h3>What the tests of a real renderer notice</h3>
+    <p>The renderer of drift-rdp, a remote desktop client written in Rust, with its own 536 tests. Each row is one file; the bar is the faults planted in code that is built on Windows.</p>
+    <ul class="key"><li><i style="background:var(--s1)"></i>noticed by the tests</li><li><i style="background:var(--s2)"></i>not noticed</li></ul>
+    <div class="faults" id="faults"></div>
+    <p class="quiet">R164, 23 November. 268 faults were planted in all. The 204 here are those counted as built on Windows; a later recount puts 66 of the 268, not 64, in code that is not built there (R177). The bookkeeping of frames is well protected. The code that draws is not.</p>
+
+    <h3>The stage that closes the gaps before a rework</h3>
+    <p>For each fault the tests miss, an agent writes a test and the tool admits it only if it fails on the fault. A fault that changes nothing a caller can see is proposed for write-off, and the owner decides.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>File</th><th>Project</th><th class="n">Missed before</th><th class="n">Noticed by new tests</th><th class="n">Written off</th><th class="n">Waiting</th><th>Entry</th></tr></thead>
+      <tbody>
+        <tr><td><code>display_path.rs</code>, five functions</td><td>drift-rdp, Rust</td><td class="n">9</td><td class="n">6</td><td class="n">3</td><td class="n">0</td><td>R184, by hand</td></tr>
+        <tr><td><code>yuv.rs</code></td><td>drift-rdp, Rust</td><td class="n">12</td><td class="n">1</td><td class="n">11</td><td class="n">0</td><td>R188</td></tr>
+        <tr><td><code>shared_frame.rs</code></td><td>drift-rdp, Rust</td><td class="n">8</td><td class="n">4</td><td class="n">4</td><td class="n">0</td><td>R189</td></tr>
+        <tr><td><code>cycles.py</code></td><td>scitools-hook, Python</td><td class="n">2</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>R190</td></tr>
+      </tbody>
+    </table></div>
+    <p>The second row changed the tool. Eleven of the twelve gaps in <code>yuv.rs</code> were debug labels of the graphics library that no caller can see. The tool no longer plants faults there, and the stage now covers the whole scope of a plan by default.</p>
+  </section>
+
+  <section>
+    <h2>Before and after, across projects</h2>
+    <p>Six reworks in three projects and two languages. State comes first in the table because that is where the reworks differ. Size is in the last column only to show that it did not move.</p>
+    <div class="scroll"><table style="min-width:900px">
+      <thead><tr><th>Rework</th><th>State</th><th>Decisions</th><th>Structure</th><th>Tests and planted faults</th><th>Size</th></tr></thead>
+      <tbody>
+        <tr><td><b>Lifecycle monitors</b><br><span class="quiet">Python finance application, 7 files</span></td><td>places that write stored state <span class="arrow">12 → 11</span></td><td>not measured</td><td>functions <span class="arrow">69 → 50</span><br>calls <span class="arrow">89 → 61</span><br>across files <span class="arrow">12 → 9</span></td><td>the subsystem's tests pass; 4 planted faults detected on both versions; solver check on 81 inputs</td><td>7.5% and 9.8% fewer tokens, the two subsystems</td></tr>
+        <tr><td><b>Report envelope</b><br><span class="quiet">Python finance application, 6 files</span></td><td>places that write stored state <span class="arrow">4 → 4</span></td><td>not measured</td><td>functions <span class="arrow">102 → 63</span><br>calls <span class="arrow">145 → 101</span><br>across files <span class="arrow">10 → 10</span></td><td>the subsystem's tests pass; 4 planted faults detected on both versions; no solver check</td><td>7.5% and 9.8% fewer tokens, the two subsystems</td></tr>
+        <tr><td><b>Clipboard lease</b><br><span class="quiet">drift-rdp, Rust (R160)</span></td><td>cells holding the lease <span class="arrow">3 → 1</span></td><td>conditions <span class="arrow">5 → 3</span></td><td>not reported</td><td>416 tests pass before and after</td><td>not reported</td></tr>
+        <tr><td><b>Batch progress</b><br><span class="quiet">lesscode itself, Rust (R161)</span></td><td>locked fields <span class="arrow">3 → 1</span></td><td>not reported</td><td>not reported</td><td>accepted by the tool's own check on the second run; 13 faults unnoticed before and after</td><td>no growth</td></tr>
+        <tr><td><b>SharedFrame</b><br><span class="quiet">drift-rdp, Rust, one type (R173)</span></td><td>ways to be written <span class="arrow">16 → 6</span><br>reached by the code <span class="arrow">12 → 6</span><br>set and never read <span class="arrow">1 → 0</span></td><td>one routine <span class="arrow">1 → 3</span></td><td>functions <span class="arrow">15 → 17</span><br>calls <span class="arrow">8 → 11</span></td><td>542 unchanged tests pass; unnoticed faults <span class="arrow">4 → 2</span>; two faults about a lock have no place left</td><td>57 tokens more</td></tr>
+        <tr><td><b>Display path</b><br><span class="quiet">drift-rdp, Rust, 6 files (R198)</span></td><td>places holding the path <span class="arrow">5 → 4</span><br>shapes of the value <span class="arrow">4 → 3</span></td><td>readings of the path in <code>connect</code> <span class="arrow">2 → 1</span></td><td>files <span class="arrow">7 → 6</span><br>calls <span class="arrow">91 → 92</span><br>across files <span class="arrow">25 → 22</span></td><td>544 tests pass; no function has more unnoticed faults; 3 faults in glue code stay untested</td><td>8 tokens fewer</td></tr>
+      </tbody>
+    </table></div>
+    <p class="quiet">The two Python reworks were written by a model in early November and are from a project that is only read: nothing is delivered to it, and it is shown here by counts alone. The four Rust reworks were written after tests and judged by the lenses above.</p>
+
+    <h3>Functions and calls, drawn to one scale</h3>
+    <p>Every dot is a function and every line is one function calling another, found by name in the source. The files sit around the rim. A slot keeps its angle in both drawings, so a file that lost functions shows a gap.</p>
+    <div class="pick" id="pick" role="group" aria-label="Subsystem"></div>
+    <div class="bowls">
+      <div class="bowl"><span class="lab">Before</span><canvas id="c0" role="img"></canvas><p class="say" id="s0" aria-live="polite"></p></div>
+      <div class="bowl"><span class="lab">After</span><canvas id="c1" role="img"></canvas><p class="say" id="s1" aria-live="polite"></p></div>
+    </div>
+    <ul class="key">
+      <li><i style="background:var(--s1)"></i>call inside one file</li>
+      <li><i style="background:var(--s2)"></i>call across files</li>
+      <li><i class="dot"></i>function</li>
+      <li><i class="ring"></i>function that writes stored state (Python subsystems only)</li>
+    </ul>
+    <div class="pair" id="pair"></div>
+    <p class="quiet" id="bowlnote"></p>
+
+    <h3>State, drawn as the ways a value can be written</h3>
+    <p>This is what the drawings above cannot show. In both reworks the functions and calls barely move. What goes is a way to write the value that meant nothing.</p>
+    <div class="states">
+      <div>
+        <span class="lab">SharedFrame · before · 8 ways</span>
+        <ul class="cells">
+          <li><b>reached</b>clean, nothing pending</li>
+          <li class="never"><b>never</b>clean, whole frame, no region</li>
+          <li class="pass"><b>in passing</b>clean, region pending</li>
+          <li class="pass"><b>in passing</b>clean, whole frame pending</li>
+          <li><b>reached</b>dirty, nothing pending</li>
+          <li class="never"><b>never</b>dirty, whole frame, no region</li>
+          <li><b>reached</b>dirty, region pending</li>
+          <li><b>reached</b>dirty, whole frame pending</li>
+        </ul>
+        <span class="lab">after · 3 ways, all reached</span>
+        <ul class="cells three">
+          <li><b>reached</b>nothing pending</li>
+          <li><b>reached</b>a rectangle pending</li>
+          <li><b>reached</b>the whole frame pending</li>
+        </ul>
+        <p class="quiet">The picture the decoder hands to the drawing code. Three places changed while it lived: a flag <code>dirty</code>, an optional region, and a flag for the whole frame. Counted with the fourth holder, the wake handle, it is 16 ways before and 6 after, and the tests see all 6 (R166, R173).</p>
+      </div>
+      <div>
+        <span class="lab">Display path · before · 4 ways</span>
+        <ul class="cells two">
+          <li><b>meant</b>GPU layer, no session yet</li>
+          <li><b>meant</b>GPU layer, with its sessions</li>
+          <li><b>meant</b>web canvas, with its reason</li>
+          <li class="never"><b>could happen</b>web canvas, with sessions still registered on the layer</li>
+        </ul>
+        <span class="lab">after · 3 ways</span>
+        <ul class="cells three">
+          <li><b>meant</b>GPU layer, no session yet</li>
+          <li><b>meant</b>GPU layer, with its sessions</li>
+          <li><b>meant</b>web canvas, with its reason</li>
+        </ul>
+        <p class="quiet">Which path draws the remote picture was held by two values that could disagree for a moment, and <code>connect</code> read the path a second time only to cover that. Now a fallback drops the sessions under the same lock that registers them, and the fourth way cannot be written (R198).</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What is not shown</h2>
+    <div class="cols">
+      <div>
+        <h3>About the reworks</h3>
+        <ul>
+          <li>Three planted faults in the display-path rework sit in glue code that no test of the project can reach. The owner chose to rework with them reported, not protected.</li>
+          <li>To stay within a growth of zero tokens, a two-case enumeration became a tuple. It is smaller and names its cases less clearly. The size limit caused that.</li>
+          <li>Nobody has been asked whether the reworked types are easier to read. The state counts say a meaningless shape is gone, not that a reader is faster.</li>
+          <li>The second Python subsystem has no solver check.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>About the tool</h3>
+        <ul>
+          <li>The state counts come from research programs, not from the released tool. The released check shows them only when they are handed in.</li>
+          <li>The finder of scattered state does not see a plain field assigned in many places, which was the largest state machine of drift-rdp.</li>
+          <li>Faults in code built only on Linux were not run on Windows.</li>
+          <li>One copy of drift-rdp's tests fails its first run on a fresh copy and passes the second. That was not investigated.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>About approvals</h3>
+        <ul>
+          <li>No signed approval has yet been counted against the real GitHub. The owner stopped that task.</li>
+          <li>The owner's approval key has no passphrase, by the owner's decision. Anything that can read the key file can sign.</li>
+          <li>Version 2.2.0 is not published. Its publish job waits for the owner.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How this is meant to be taken up</h2>
+    <p>The same three questions the method asks of any knowledge that should become practice: where does it land, what is the message, and through whom does it spread.</p>
+    <div class="cols">
+      <div>
+        <h3>Where it lands</h3>
+        <p>A developer who is asked to let a tool near working code expects damage. So the first sentence is always that no file of the project is changed: faults are planted in copies. The roles are fixed. The tool measures and judges, an agent following a skill writes, and the person decides, with a signed commit.</p>
+      </div>
+      <div>
+        <h3>The message</h3>
+        <p>One action: before reducing a file, run the plan, let the stage write the missing tests, and review the write-offs once. Four commands carry it: <code>step plan</code>, <code>step protect begin</code>, <code>step protect result</code>, <code>step check</code>. Each answers by exit code, so it runs in a pipeline.</p>
+      </div>
+      <div>
+        <h3>Through whom</h3>
+        <p>So far only the owner's own projects: drift-rdp, scitools-hook, and lesscode itself. The next step that would say something is a project with its own tests and another maintainer. This part is a proposal, not a result.</p>
+      </div>
+    </div>
+    <h3>We are wrong if</h3>
+    <ul>
+      <li>a step the check accepted later turns out to have changed behaviour that one of the project's tests should have caught;</li>
+      <li>on a project the tool was not developed against, the stage needs a step done by hand;</li>
+      <li>readers of a reworked type do not find the answer to "what can this value be" faster than before.</li>
+    </ul>
+  </section>
+</main>
+<script>
+const BOWLS = {"e5-before":{"files":[{"n":"file 1","c":14,"k":14},{"n":"file 2","c":17,"k":16},{"n":"file 3","c":9,"k":9},{"n":"file 4","c":11,"k":9},{"n":"file 5","c":9,"k":9},{"n":"file 6","c":5,"k":5},{"n":"file 7","c":4,"k":3}],"edges":[[3,0,3,1],[3,2,3,4],[3,6,3,2],[3,6,3,3],[3,6,1,13],[3,7,3,6],[3,7,3,8],[3,7,5,3],[3,8,3,0],[2,4,1,8],[2,5,1,8],[2,6,3,5],[2,6,3,7],[2,6,2,0],[2,6,2,1],[2,6,2,2],[2,6,2,3],[2,6,0,11],[2,6,1,13],[2,7,1,8],[2,8,6,1],[2,8,1,9],[2,8,1,11],[2,8,1,12],[2,8,1,14],[0,0,0,11],[0,1,0,10],[0,2,0,1],[0,2,0,4],[0,4,0,6],[0,6,0,5],[0,6,0,8],[0,7,0,9],[0,10,0,8],[0,13,0,2],[0,13,0,3],[0,13,0,7],[0,13,0,12],[4,1,4,6],[4,4,4,7],[4,6,4,7],[4,8,4,0],[4,8,4,1],[4,8,4,2],[4,8,4,3],[4,8,4,4],[4,8,4,5],[6,0,0,11],[6,0,4,8],[6,0,6,1],[6,0,6,2],[6,0,1,11],[6,0,1,13],[6,0,1,14],[6,1,4,8],[6,1,6,2],[6,1,1,13],[6,2,1,9],[5,0,5,1],[5,0,1,11],[5,1,3,5],[5,1,3,6],[5,1,3,8],[5,1,5,3],[5,1,1,7],[5,1,1,8],[5,2,3,6],[5,2,3,8],[5,2,5,3],[5,4,3,5],[5,4,1,7],[1,0,1,10],[1,1,1,15],[1,3,1,0],[1,4,1,5],[1,5,1,2],[1,6,1,15],[1,7,6,1],[1,7,1,14],[1,8,1,1],[1,9,1,0],[1,11,1,0],[1,12,1,11],[1,14,1,0],[1,15,6,1],[1,15,1,3],[1,15,1,4],[1,15,1,5],[1,15,1,14]],"w":[[0,9],[0,1],[1,10],[1,7],[1,11],[1,13],[1,5],[3,0]],"total":{"funcs":69,"edges":89,"hops":12,"writes":12}},"e5-after":{"files":[{"n":"file 1","c":10,"k":10},{"n":"file 2","c":12,"k":11},{"n":"file 3","c":8,"k":8},{"n":"file 4","c":10,"k":8},{"n":"file 5","c":3,"k":3},{"n":"file 6","c":4,"k":4},{"n":"file 7","c":3,"k":2}],"edges":[[3,0,3,1],[3,2,3,3],[3,5,3,2],[3,5,1,8],[3,6,3,5],[3,6,3,7],[3,7,3,0],[2,3,1,3],[2,4,1,3],[2,5,3,4],[2,5,3,6],[2,5,2,0],[2,5,2,1],[2,5,2,2],[2,5,0,7],[2,5,1,8],[2,6,1,3],[2,7,1,4],[2,7,1,6],[2,7,1,7],[2,7,1,9],[0,0,0,7],[0,1,0,6],[0,2,0,1],[0,2,0,4],[0,2,0,6],[0,9,0,2],[0,9,0,3],[0,9,0,5],[0,9,0,8],[4,0,4,1],[4,2,4,0],[4,2,4,1],[6,0,0,7],[6,0,4,2],[6,0,6,1],[6,0,1,6],[6,0,1,8],[6,0,1,9],[6,1,1,4],[5,0,5,1],[5,0,1,6],[5,1,3,4],[5,1,3,5],[5,1,3,7],[5,1,1,2],[5,1,1,3],[5,2,3,5],[5,2,3,7],[5,3,3,4],[5,3,1,2],[1,1,1,0],[1,2,1,9],[1,3,1,10],[1,4,1,5],[1,6,1,5],[1,7,1,6],[1,9,1,5],[1,10,1,1],[1,10,1,5],[1,10,1,9]],"w":[[0,5],[0,1],[1,5],[1,2],[1,6],[1,8],[1,1],[3,0]],"total":{"funcs":50,"edges":61,"hops":9,"writes":11}},"e6-before":{"files":[{"n":"file 1","c":23,"k":22},{"n":"file 2","c":9,"k":8},{"n":"file 3","c":11,"k":10},{"n":"file 4","c":21,"k":19},{"n":"file 5","c":3,"k":2},{"n":"file 6","c":35,"k":22}],"edges":[[5,0,5,4],[5,1,5,6],[5,2,5,4],[5,3,5,4],[5,5,5,12],[5,7,5,8],[5,7,5,9],[5,7,5,10],[5,7,5,11],[5,8,5,7],[5,9,5,15],[5,10,5,7],[5,11,5,7],[5,11,5,13],[5,11,5,18],[5,14,5,17],[5,16,5,17],[5,19,5,4],[5,20,5,5],[5,21,5,7],[3,0,4,0],[3,3,5,19],[3,3,5,20],[3,3,4,0],[3,3,3,15],[3,4,3,12],[3,6,3,4],[3,7,3,10],[3,9,3,17],[3,10,3,18],[3,11,4,0],[3,11,3,0],[3,16,4,0],[3,16,3,0],[0,0,3,1],[0,0,3,17],[0,0,3,18],[0,0,0,11],[0,0,0,12],[0,0,0,13],[0,0,0,14],[0,0,0,15],[0,1,0,9],[0,3,4,0],[0,4,3,9],[0,4,3,10],[0,4,3,13],[0,5,3,4],[0,5,3,5],[0,5,3,10],[0,5,3,13],[0,6,4,0],[0,6,3,2],[0,6,3,4],[0,6,3,7],[0,6,3,10],[0,6,3,13],[0,6,3,14],[0,6,3,15],[0,6,0,4],[0,6,0,5],[0,6,0,7],[0,6,0,8],[0,7,3,4],[0,7,3,5],[0,7,3,10],[0,7,3,13],[0,7,3,15],[0,8,3,10],[0,9,0,1],[0,9,0,16],[0,10,5,20],[0,11,0,19],[0,12,3,1],[0,14,3,18],[0,15,3,1],[0,15,3,12],[0,16,5,20],[0,17,5,19],[0,17,0,20],[0,18,5,19],[0,18,5,20],[0,18,3,9],[0,18,3,13],[0,18,3,15],[0,18,0,3],[0,18,0,6],[0,18,0,9],[0,19,5,20],[0,19,0,20],[0,20,5,19],[0,20,0,2],[0,21,5,20],[0,21,0,10],[0,21,0,17],[1,0,3,17],[1,1,4,0],[1,1,0,18],[1,2,4,1],[1,3,4,0],[1,3,3,15],[1,4,4,0],[1,4,3,16],[1,5,4,0],[1,5,1,1],[1,5,1,2],[1,5,1,3],[1,6,4,0],[1,6,0,21],[1,6,1,1],[1,6,1,2],[1,6,1,3],[1,7,3,3],[1,7,3,9],[1,7,3,11],[1,7,0,18],[1,7,1,4],[2,0,4,0],[2,0,3,11],[2,0,3,16],[2,0,2,2],[2,0,2,4],[2,0,2,6],[2,0,2,7],[2,0,2,8],[2,0,2,9],[2,1,4,0],[2,2,4,0],[2,2,3,3],[2,2,3,4],[2,2,3,6],[2,2,3,7],[2,2,3,8],[2,2,3,9],[2,2,3,10],[2,2,3,13],[2,3,4,0],[2,4,4,0],[2,5,3,1],[2,5,2,3],[2,6,4,0],[2,7,4,0],[2,7,3,16],[2,9,2,1],[2,9,2,5]],"w":[[1,5],[1,6]],"total":{"funcs":102,"edges":145,"hops":10,"writes":4}},"e6-after":{"files":[{"n":"file 1","c":13,"k":12},{"n":"file 2","c":8,"k":7},{"n":"file 3","c":10,"k":9},{"n":"file 4","c":20,"k":19},{"n":"file 5","c":3,"k":2},{"n":"file 6","c":9,"k":8}],"edges":[[5,2,5,3],[5,2,5,4],[5,5,5,0],[5,6,5,1],[5,7,5,2],[3,0,4,0],[3,3,5,5],[3,3,5,6],[3,3,4,0],[3,3,3,15],[3,4,3,12],[3,6,3,4],[3,7,3,10],[3,9,3,17],[3,10,3,18],[3,11,4,0],[3,11,3,0],[3,16,4,0],[3,16,3,0],[0,0,3,1],[0,0,3,12],[0,0,3,17],[0,0,3,18],[0,0,0,9],[0,2,4,0],[0,3,4,0],[0,3,3,2],[0,3,3,4],[0,3,3,5],[0,3,3,7],[0,3,3,9],[0,3,3,10],[0,3,3,13],[0,3,3,14],[0,3,3,15],[0,4,0,6],[0,5,5,6],[0,6,5,6],[0,7,5,5],[0,7,0,10],[0,8,5,5],[0,8,5,6],[0,8,3,9],[0,8,3,13],[0,8,3,15],[0,8,0,2],[0,8,0,3],[0,8,0,4],[0,9,5,6],[0,9,0,10],[0,10,5,5],[0,10,0,1],[0,11,5,6],[0,11,0,5],[0,11,0,7],[1,0,3,17],[1,1,4,0],[1,1,3,15],[1,1,0,8],[1,2,4,1],[1,3,4,0],[1,3,3,16],[1,4,4,0],[1,4,1,1],[1,4,1,2],[1,5,4,0],[1,5,0,11],[1,5,1,1],[1,5,1,2],[1,6,3,3],[1,6,3,9],[1,6,3,11],[1,6,0,8],[1,6,1,3],[2,0,4,0],[2,0,3,11],[2,0,3,16],[2,0,2,1],[2,0,2,2],[2,0,2,4],[2,0,2,5],[2,0,2,6],[2,0,2,7],[2,0,2,8],[2,1,4,0],[2,2,4,0],[2,2,3,3],[2,2,3,4],[2,2,3,6],[2,2,3,7],[2,2,3,8],[2,2,3,9],[2,2,3,10],[2,2,3,13],[2,3,4,0],[2,4,4,0],[2,5,3,1],[2,5,2,3],[2,6,4,0],[2,7,4,0],[2,7,3,16]],"w":[[1,4],[1,5]],"total":{"funcs":63,"edges":101,"hops":10,"writes":4}},"rd-before":{"files":[{"n":"display_path.rs","c":18,"k":15,"names":["choose","collect","current","decide","fall_back","from_env_or","get_display_path","info","layer_backends","new","parse","precondition","runtime_fallback","try_gpu","worth_trying_gpu"]},{"n":"frame_stores.rs","c":3,"k":3,"names":["get","register","wake"]},{"n":"gpu.rs","c":15,"k":15,"names":["bytes","configure","count_present","create_picture","draw","native_frames","native_view","new","presented","run","set_view","spawn","upload","upload_source","view"]},{"n":"native_layer.rs","c":8,"k":6,"names":["attach","buffer_size","find_webview","notify","update","wait"]},{"n":"native_layer/dcomp.rs","c":4,"k":4,"names":["apply","attach","client_geometry","visual"]},{"n":"shared_frame.rs","c":15,"k":13,"names":["begin_write","copy_region","height","mark_dirty","new","publish","set_wake","take_damage","take_full","union","update_full","update_rect","width"]},{"n":"yuv.rs","c":7,"k":7,"names":["chroma_size","coefficients","convert","new","reference_rgba","sample","uniform_bytes"]}],"edges":[[0,0,0,11],[0,3,0,0],[0,3,0,1],[0,3,0,2],[0,3,0,5],[0,3,0,13],[0,3,0,14],[0,5,0,10],[0,6,0,7],[0,12,0,4],[0,12,0,7],[0,12,2,11],[0,13,0,8],[0,13,0,9],[0,13,2,7],[0,13,5,4],[0,13,6,3],[0,14,0,11],[1,1,5,6],[2,1,4,0],[2,4,0,9],[2,4,2,0],[2,4,2,7],[2,4,5,4],[2,4,6,3],[2,5,2,8],[2,6,2,10],[2,7,0,8],[2,7,4,3],[2,8,1,0],[2,9,0,10],[2,9,1,0],[2,9,2,1],[2,9,2,2],[2,9,2,4],[2,9,2,12],[2,9,2,14],[2,9,3,3],[2,9,3,5],[2,9,5,7],[2,9,5,8],[2,10,1,2],[2,10,3,3],[2,11,0,9],[2,11,2,7],[2,11,2,9],[2,11,5,4],[2,11,6,3],[2,12,2,3],[2,13,0,9],[2,13,2,3],[2,13,2,7],[2,13,2,12],[2,13,5,4],[2,13,6,2],[2,13,6,3],[3,0,0,9],[3,0,2,7],[3,0,3,2],[3,0,3,4],[3,0,5,4],[3,0,6,3],[3,4,3,1],[3,4,3,3],[3,4,5,2],[3,4,5,12],[4,1,0,9],[4,1,2,7],[4,1,3,3],[4,1,4,2],[4,1,5,4],[4,1,6,3],[5,3,1,0],[5,3,3,3],[5,5,0,9],[5,5,2,7],[5,5,5,4],[5,5,6,3],[5,7,5,1],[5,8,5,1],[5,10,5,0],[5,10,5,3],[5,11,5,0],[5,11,5,3],[5,11,5,9],[6,2,2,4],[6,2,6,0],[6,2,6,6],[6,4,6,1],[6,4,6,5],[6,6,6,1]],"w":[],"total":{"funcs":70,"edges":91,"hops":25}},"rd-after":{"files":[{"n":"display_path.rs","c":21,"k":19,"names":["choose","collect","current","decide","fall_back","from_env_or","get","get_display_path","info","layer_backends","new","parse","path","precondition","register","runtime_fallback","try_gpu","wake","worth_trying_gpu"]},{"n":"gpu.rs","c":15,"k":15,"names":["bytes","configure","count_present","create_picture","draw","native_frames","native_view","new","presented","run","set_view","spawn","upload","upload_source","view"]},{"n":"native_layer.rs","c":8,"k":6,"names":["attach","buffer_size","find_webview","notify","update","wait"]},{"n":"native_layer/dcomp.rs","c":4,"k":4,"names":["apply","attach","client_geometry","visual"]},{"n":"shared_frame.rs","c":15,"k":13,"names":["begin_write","copy_region","height","mark_dirty","new","publish","set_wake","take_damage","take_full","union","update_full","update_rect","width"]},{"n":"yuv.rs","c":7,"k":7,"names":["chroma_size","coefficients","convert","new","reference_rgba","sample","uniform_bytes"]}],"edges":[[0,0,0,13],[0,3,0,0],[0,3,0,1],[0,3,0,2],[0,3,0,5],[0,3,0,16],[0,3,0,18],[0,5,0,11],[0,7,0,8],[0,12,0,8],[0,14,4,6],[0,15,0,4],[0,15,0,8],[0,15,1,11],[0,16,0,9],[0,16,0,10],[0,16,1,7],[0,16,4,4],[0,16,5,3],[0,18,0,13],[1,1,3,0],[1,4,0,10],[1,4,1,0],[1,4,1,7],[1,4,4,4],[1,4,5,3],[1,5,1,8],[1,6,1,10],[1,7,0,9],[1,7,3,3],[1,8,0,6],[1,9,0,6],[1,9,0,11],[1,9,1,1],[1,9,1,2],[1,9,1,4],[1,9,1,12],[1,9,1,14],[1,9,2,3],[1,9,2,5],[1,9,4,7],[1,9,4,8],[1,10,0,17],[1,10,2,3],[1,11,0,10],[1,11,1,7],[1,11,1,9],[1,11,4,4],[1,11,5,3],[1,12,1,3],[1,13,0,10],[1,13,1,3],[1,13,1,7],[1,13,1,12],[1,13,4,4],[1,13,5,2],[1,13,5,3],[2,0,0,10],[2,0,1,7],[2,0,2,2],[2,0,2,4],[2,0,4,4],[2,0,5,3],[2,4,2,1],[2,4,2,3],[2,4,4,2],[2,4,4,12],[3,1,0,10],[3,1,1,7],[3,1,2,3],[3,1,3,2],[3,1,4,4],[3,1,5,3],[4,3,0,6],[4,3,2,3],[4,5,0,10],[4,5,1,7],[4,5,4,4],[4,5,5,3],[4,7,4,1],[4,8,4,1],[4,10,4,0],[4,10,4,3],[4,11,4,0],[4,11,4,3],[4,11,4,9],[5,2,1,4],[5,2,5,0],[5,2,5,6],[5,4,5,1],[5,4,5,5],[5,6,5,1]],"w":[],"total":{"funcs":70,"edges":92,"hops":22}}};
+const FAULTS = [['shared_frame.rs', 42, 34], ['frame_stores.rs', 4, 4], ['native_layer.rs', 6, 4], ['yuv.rs', 30, 18], ['native_layer/dcomp.rs', 19, 3], ['display_path.rs', 11, 1], ['gpu.rs', 92, 8]];
+(function () {
+  const top = Math.max(...FAULTS.map(f => f[1]));
+  const row = (name, n, k, cls) => `<div class="frow ${cls || ''}" title="${name}: ${k} of ${n} planted faults noticed, ${n - k} not noticed"><span class="what">${name}</span><span class="bar"><span class="a" style="width:${k / top * 100}%"></span>${n - k ? `<span class="b" style="width:${(n - k) / top * 100}%"></span>` : ''}</span><span class="num">${k} of ${n} · ${Math.round(k / n * 100)}%</span></div>`;
+  document.getElementById('faults').innerHTML = FAULTS.map(f => row(f[0], f[1], f[2])).join('') +
+    `<div class="frow sum"><span class="what">all seven files</span><span class="bar"></span><span class="num">72 of 204 · 35%</span></div>`;
+})();
+
+const TRIALS = [
+  { id: 'rd', name: 'Renderer of drift-rdp, 7 to 6 files', note: 'Measured before and after the display-path rework (R198). The file frame_stores.rs is gone and its three functions sit in display_path.rs. Functions stay at 70; calls that cross a file fall from 25 to 22.' },
+  { id: 'e5', name: 'Lifecycle monitors, 7 files', note: 'A subsystem of the Python finance application, shown without names. The rework was written by a model in early November; the counts were reproduced later with a second program.' },
+  { id: 'e6', name: 'Report envelope, 6 files', note: 'A subsystem of the Python finance application, shown without names. Calls that cross a file and places that write stored state did not change.' },
+];
+const ROWS = [['Functions', 'funcs'], ['Calls between functions', 'edges'], ['Calls that cross a file', 'hops'], ['Places that write stored state', 'writes']];
+let trial = 0, hover = [null, null];
+function rnd(seed) { const x = Math.sin(seed * 12.9898) * 43758.5453; return x - Math.floor(x); }
+function model(key) {
+  const d = BOWLS[key], nodes = [], first = [];
+  const writers = new Set(d.w.map(w => w[0] + ':' + w[1]));
+  d.files.forEach((f, fi) => { first[fi] = nodes.length; for (let i = 0; i < f.c; i++) nodes.push({ file: fi, name: f.names ? (f.names[i] || null) : null, linked: i < f.k, writes: writers.has(fi + ':' + i) }); });
+  return { files: d.files, nodes, edges: d.edges.map(e => [first[e[0]] + e[1], first[e[2]] + e[3]]), total: d.total };
+}
+function place(m, slots, R) {
+  const gap = 0.09, step = (Math.PI * 2 - gap * 7) / slots;
+  let a = -Math.PI / 2, f = -1; m.arcs = [];
+  m.nodes.forEach(n => {
+    if (n.file !== f) { if (f >= 0) { m.arcs[f].to = a; a += gap; } f = n.file; m.arcs[f] = { from: a, to: a }; }
+    n.a = a + step / 2; n.x = Math.cos(n.a) * R; n.y = Math.sin(n.a) * R; a += step;
+  });
+  if (f >= 0) m.arcs[f].to = a;
+}
+function draw(side) {
+  const id = TRIALS[trial].id, arms = [model(id + '-before'), model(id + '-after')];
+  const slots = Math.max(arms[0].nodes.length, arms[1].nodes.length);
+  const m = arms[side], cv = document.getElementById('c' + side), css = getComputedStyle(document.documentElement);
+  const v = n => css.getPropertyValue(n).trim();
+  const w = cv.clientWidth; if (!w) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = cv.height = Math.round(w * dpr);
+  const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.translate(w / 2, w / 2);
+  const R = w * 0.37; place(m, slots, R); cv._m = m;
+  g.beginPath(); g.arc(0, 0, w * 0.475, 0, 7); g.fillStyle = v('--panel'); g.fill(); g.lineWidth = 1.5; g.strokeStyle = v('--rim'); g.stroke();
+  g.lineCap = 'round';
+  m.arcs.forEach(a => { if (!a) return; g.beginPath(); g.arc(0, 0, R + 13, a.from + 0.01, Math.max(a.from + 0.012, a.to - 0.01)); g.lineWidth = 4; g.strokeStyle = v('--rim'); g.stroke(); });
+  const hot = hover[side];
+  m.edges.forEach((e, i) => {
+    const A = m.nodes[e[0]], B = m.nodes[e[1]]; if (!A || !B) return;
+    const far = A.file !== B.file, lit = hot === null || e[0] === hot || e[1] === hot;
+    const pull = far ? 0.05 + rnd(i + 1) * 0.5 : 0.55 + rnd(i + 7) * 0.3, tw = (rnd(i + 3) - 0.5) * R * 0.5;
+    const mx = (A.x + B.x) / 2 * pull - (A.y - B.y) / R * tw, my = (A.y + B.y) / 2 * pull + (A.x - B.x) / R * tw;
+    g.beginPath(); g.moveTo(A.x, A.y); g.quadraticCurveTo(mx, my, B.x, B.y);
+    g.globalAlpha = lit ? (far ? 0.95 : 0.8) : 0.1; g.lineWidth = 2; g.strokeStyle = far ? v('--s2') : v('--s1'); g.stroke(); g.globalAlpha = 1;
+  });
+  m.nodes.forEach((n, i) => {
+    g.globalAlpha = hot === null || hot === i ? 1 : 0.45;
+    g.beginPath(); g.arc(n.x, n.y, n.writes ? 4.5 : 3.2, 0, 7);
+    if (n.writes) { g.fillStyle = v('--panel'); g.fill(); g.lineWidth = 2; g.strokeStyle = v('--ink'); g.stroke(); } else { g.fillStyle = v('--ink'); g.fill(); }
+    g.globalAlpha = 1;
+    if (hot === i) { g.lineWidth = 2; g.strokeStyle = v('--ink'); g.beginPath(); g.arc(n.x, n.y, 8, 0, 7); g.stroke(); }
+  });
+  const t = m.total;
+  cv.setAttribute('aria-label', `${side ? 'After' : 'Before'}: ${t.funcs} functions in ${m.files.length} files, ${t.edges} calls between them, ${t.hops} of them across files.`);
+  const say = document.getElementById('s' + side);
+  if (hot === null) say.textContent = `${t.funcs} functions in ${m.files.length} files, ${t.edges} calls, ${t.hops} across files. Point at a dot.`;
+  else { const n = m.nodes[hot], out = m.edges.filter(e => e[0] === hot).length, inn = m.edges.filter(e => e[1] === hot).length;
+    say.textContent = `${m.files[n.file].n} · ${n.name || (n.linked ? 'a function' : 'a function that calls nothing here and is not called here')}${n.writes ? ' · writes stored state' : ''}${n.linked ? ` · calls ${out}, called by ${inn}` : ''}`; }
+}
+function pair() {
+  const id = TRIALS[trial].id, b = BOWLS[id + '-before'].total, a = BOWLS[id + '-after'].total;
+  document.getElementById('pair').innerHTML = ROWS.filter(r => r[1] in b).map(([label, k]) => {
+    const x = b[k], y = a[k], top = Math.max(x, y, 1), pct = x ? Math.round((y - x) / x * 100) : 0;
+    return `<div class="prow" title="${label}: ${x} before, ${y} after"><span class="what">${label}</span><span class="bars"><span class="x" style="width:${x / top * 100}%"></span><span class="y" style="width:${y / top * 100}%"></span></span><span class="num">${x} → ${y}<small>${pct === 0 ? (x === y ? 'unchanged' : 'under 1%') : (pct > 0 ? '+' : '') + pct + '%'}</small></span></div>`;
+  }).join('');
+  document.getElementById('bowlnote').textContent = TRIALS[trial].note;
+}
+function all() { draw(0); draw(1); pair(); }
+function pick() {
+  document.getElementById('pick').innerHTML = TRIALS.map((t, i) => `<button type="button" id="t${i}" aria-pressed="${i === trial}">${t.name}</button>`).join('');
+  TRIALS.forEach((t, i) => document.getElementById('t' + i).onclick = () => { trial = i; hover = [null, null]; pick(); all(); });
+}
+[0, 1].forEach(side => {
+  const cv = document.getElementById('c' + side);
+  const find = ev => {
+    const r = cv.getBoundingClientRect(), x = ev.clientX - r.left - r.width / 2, y = ev.clientY - r.top - r.height / 2;
+    let best = null, d = 18 * 18;
+    (cv._m ? cv._m.nodes : []).forEach((n, i) => { const q = (n.x - x) ** 2 + (n.y - y) ** 2; if (q < d) { d = q; best = i; } });
+    if (best !== hover[side]) { hover[side] = best; draw(side); }
+  };
+  cv.addEventListener('pointermove', find); cv.addEventListener('pointerdown', find);
+  cv.addEventListener('pointerleave', () => { if (hover[side] !== null) { hover[side] = null; draw(side); } });
+});
+pick(); all();
+window.addEventListener('resize', all);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', all);
+new MutationObserver(all).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
+</script>
+
+</body></html>
