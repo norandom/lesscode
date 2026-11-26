@@ -1,5 +1,16 @@
 # Roadmap
 
+## Next spec, owner, 2026-11-26: a report of several reworks from the tool
+
+After the progress report of 26 November ([R199](../../docs/research/2026-11-26/03-progress-report.md)),
+which was put together by hand, the owner wants such a report from the tool: one self-contained JSON
+file that holds a set of reworks across projects, drawn by the page inside the binary, with an export
+to PDF. Decided by the owner the same day: one format for a set of reworks; the command writes the
+JSON and the page, and the page also opens a file; a print layout plus a command that drives an
+installed browser headless. Brief, not approved: [report-set](../specs/report-set/brief.md). Drift
+hardening, the second work package of the driver research, stays closed by the owner (R104); only
+the drift of one model over time is unmeasured.
+
 ## Next spec, owner, 2026-11-17: state consolidation
 
 The owner wants to find hidden state machines that are spread across files and to consolidate them,
