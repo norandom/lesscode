@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R196 The tool passes on Windows and Linux; kiro-cli refused two routines of the spec until they were cut down (2026-11-25)
+## Latest · R197 The owner's approval key is on GitHub and the signing scope is gone; the key has no passphrase, by the owner's decision (2026-11-26)
+
+Task 5.2 of the spec `signed-approvals`. The owner followed sections 1 and 2 of [docs/approvals.md](../approvals.md): GitHub lists the key "lesscode approvals" (id 1368810), it equals the local public key, and `gh` no longer has the signing-key scope. The guide's check showed that the key signs without a prompt, so it has no passphrase; the owner kept it so and closed the task without the scratch test commit. Consequence: anything that can read the key file can sign an approval the check counts; only the skill's rule keeps the agent from it. The passphrase prompt through Git (G9) stays unseen. The first signed approval against the real forge comes in 5.3. [Entry](2026-11-26/01-signed-approvals-owner-key.md).
+
+## R196 The tool passes on Windows and Linux; kiro-cli refused two routines of the spec until they were cut down (2026-11-25)
 Task 5.1 of the spec `signed-approvals`. At the end of group 4 (`8dfaf9d`) the suites passed on both platforms, but `kiro-cli code check` against the commit before the spec refused two routines the spec had added: `against_forge` took 6 parameters (limit 5), and one test of `step protect result` had grown to 69 code lines (limit 60). `1dc83bf` passes the context instead of two of its fields and splits the test in two, with no change of behaviour. At `1dc83bf`: Windows 551 of 551, Linux through Dagger 550 of 550 with all 23 steps 0, model 85 of 85, `kiro-cli` passing with its 2 pre-existing errors. The groups had run the suites but not `kiro-cli`, so the limits were found a group late. Not seen yet: a real signed approval against the real forge (tasks 5.2 and 5.3). [Entry](2026-11-25/07-signed-approvals-validation.md).
 ## R195 The owner's guide holds when its commands are run; the real forge refuses a key it does not list (2026-11-25)
 

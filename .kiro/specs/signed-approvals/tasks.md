@@ -241,7 +241,11 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - Done when all pass, with the evidence directory named in the group's handover.
   - _Requirements: 7.1, 7.4_
 
-- [ ] 5.2 The owner's key (owner's act, guided) — can fail
+- [x] 5.2 The owner's key (owner's act, guided) — can fail
+  - *Done 2026-11-26, [R197](../../../docs/research/2026-11-26/01-signed-approvals-owner-key.md).
+    The forge lists "lesscode approvals" (id 1368810), equal to the local public key; the scope is
+    gone. The key has no passphrase, by the owner's decision; G9 and the scratch test commit were
+    waived by the owner. The first signed approval against the real forge is 5.3's.*
   - The owner follows `docs/approvals.md`: makes the key, grants the scope, adds the public key to
     GitHub as a signing key, takes the scope back. The agent runs none of the `gh` steps and never
     sees the passphrase. The agent then reads the forge's list and checks that the new key is on
