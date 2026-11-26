@@ -1,7 +1,7 @@
 # Requirements: the report set
 
 Generated 2026-11-26, 18:20 (Europe/Berlin) from the [brief](brief.md) and the owner's three
-decisions of that day. Not approved yet.
+decisions of that day. Approved by the owner on 2026-11-26, with the six points below.
 Evidence: [R199](../../../docs/research/2026-11-26/03-progress-report.md) (a report of six reworks in
 three projects, put together by hand), [R178](../../../docs/research/2026-11-23/15-run-page-group-6.md)
 (the report of one step on the page, with handed-in measures),
