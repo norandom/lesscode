@@ -548,13 +548,15 @@ None. The commands print what they wrote and why they refused, on standard error
 Not a target of this project. One bound is checked at the gate (G7): the page with six steps inside
 is at most 400 KiB. No limit on the number of steps is designed in.
 
-## Open decisions for the owner
+## Decisions of the owner, 2026-11-26, about 19:05
 
-| # | Decision | Recommendation |
+All three were decided as recommended.
+
+| # | Decision | Decided |
 | --- | --- | --- |
-| D1 | A rework the tool once judged, of which no report page exists (R173, R161), enters a set through a step file and is marked "not judged in this set", with `outcome_from` naming the verdict. Alternative: verdict files as a third kind of input | The step file. One reader fewer, and the mark is true of the set |
-| D2 | The commands are `step set` and `step set-pdf` | These names; `step reports` keeps its own |
-| D3 | The checks on Linux need a Chromium in the container that runs them | The Playwright image the page checks already use; no browser in the Dagger build image |
+| D1 | A rework the tool once judged, of which no report page exists (R173, R161), enters a set through a step file and is marked "not judged in this set", with `outcome_from` naming the verdict. Alternative: verdict files as a third kind of input | The step file, marked |
+| D2 | The commands are `step set` and `step set-pdf` | `step set` and `step set-pdf` |
+| D3 | The checks on Linux need a Chromium in the container that runs them | The PDF on Linux is shown once in a Linux container with a Chromium (see C4); the page's own checks stay Playwright on the host |
 
 ## Contradictions and disposition
 
@@ -565,11 +567,11 @@ Checked: [requirements](requirements.md), [brief](brief.md), `product.md`, `tech
 | # | Competing claims | Authority | Resolution | Status |
 | --- | --- | --- | --- | --- |
 | C1 | Requirement 2.7 (the same inputs give the same set) against 4.8 (the page says when the set was made) | both approved 2026-11-26 | "When it was made" is `as_of`, the end of the newest input's run. The set holds no reading of the clock | resolved in this design; the owner sees it here |
-| C2 | Requirement 2.4 (a step from handed-in numbers is marked as not judged by the tool) against the fact that two of R199's reworks were judged by the tool and have no report page | requirements point 1; R173, R161 | The mark reads "not judged in this set", and the step may name its verdict in `outcome_from` | open decision D1 |
+| C2 | Requirement 2.4 (a step from handed-in numbers is marked as not judged by the tool) against the fact that two of R199's reworks were judged by the tool and have no report page | requirements point 1; R173, R161 | The mark reads "not judged in this set", and the step may name its verdict in `outcome_from` | resolved by the owner, 2026-11-26: the step file, marked |
 | C3 | The brief leaves open whether the set page is a second page or a mode of an existing one; `run-dashboard` is complete and its page is checked | brief, 2026-11-26; `run-dashboard` validation | A mode of `run.html`. Its own checks run unchanged in the first task that touches it | resolved; revalidation named |
-| C4 | Owner's memory rule that a browser check runs through Playwright and never in a container, against Requirement 7.8 (the PDF on Linux) | owner rules; requirement 7.8 | The page's checks stay Playwright on the host. The PDF command on Linux is the tool's own behaviour and is shown once in a Linux container with a Chromium, as the opener of the run page was (R182) | open: the owner confirms that this is not the browser-in-a-container the rule forbids |
+| C4 | Owner's memory rule that a browser check runs through Playwright and never in a container, against Requirement 7.8 (the PDF on Linux) | owner rules; requirement 7.8 | The page's checks stay Playwright on the host. The PDF command on Linux is the tool's own behaviour and is shown once in a Linux container with a Chromium, as the opener of the run page was (R182) | resolved by the owner, 2026-11-26: once in a container |
 | C5 | Requirement 7.2 (every drawing in the PDF) against a browser that may print before the page's script has drawn | requirement 7.2 | Not resolvable on paper | open empirical risk, gate G5; `not-run` |
 | C6 | Requirement 6.3 (nothing cut across sheets) has no check | requirement 6.3 | Read by a person in the example's PDF; said under Testing Strategy | resolved as a stated limit |
 | C7 | `tech.md` on new dependencies against the browser | `tech.md` | No crate is added. The browser is a program the person already has, as `ssh-keygen` and `curl` are for `signed-approvals` | resolved |
 
-C4 and D1 are the owner's. C5 keeps this design provisional until the gate is run.
+C5 keeps this design provisional until the gate is run. Nothing else is open.

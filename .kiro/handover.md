@@ -10,6 +10,49 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-26, about 19:10: a progress report, and the spec `report-set` up to a provisional
+design. Start here.**
+
+- **Progress report, R199 (`ceef3f3`).** [docs/reports/progress-2026-11-26.md](../docs/reports/progress-2026-11-26.md)
+  with [its page of drawings](../docs/reports/figures/progress-2026-11-26.html), a synthesis of R158
+  to R198 with no new measurement. Also a private page of the owner,
+  `https://claude.ai/artifact/P9mEU65RdF22e9QbK8WoeZ`. Before-and-after maps of files and imports
+  (Floorplan) were tried on the owner's suggestion and dropped by the owner: 84 files and 185
+  imports to 83 and 184 show nothing of a rework whose gain is in the state. Understand Anything
+  was read and not run. Both are in
+  [the entry](../docs/research/2026-11-26/03-progress-report.md).
+- **Spec `report-set`** ([brief](specs/report-set/brief.md),
+  [requirements](specs/report-set/requirements.md), [design](specs/report-set/design.md),
+  [research](specs/report-set/research.md), [prototype gate](specs/report-set/prototype-gate.md)).
+  The owner wants such a report from the tool: one self-contained JSON file that holds a set of
+  reworks across projects, drawn by the page inside the binary, with an export to PDF.
+  - Requirements: approved by the owner, with six points (among them: a step may enter a set from
+    handed-in numbers alone; cost is run time only; notes are plain text).
+  - Design: generated, **provisional, not approved**. A step of a set is a run as a report page
+    already holds it; inputs are report pages, step files and a notes file; the set page is a third
+    mode of `native/page/run.html`; the PDF is printed by an installed Chrome, Chromium or Edge
+    started headless; no new crate.
+  - Decided by the owner at about 19:05: a judged rework without a report page enters through a
+    step file, marked "not judged in this set"; the PDF on Linux is shown once in a Linux container
+    with a Chromium, and the page's own checks stay Playwright on the host; the commands are
+    `step set` and `step set-pdf`.
+  - **Prototype gate: registered, not run.** Eight expectations, G1 to G8, on the six reworks of
+    R199. The one most likely to fail is G5: a headless browser that prints before the page's
+    script has drawn. If it fails on both systems the PDF command is cut and the owner decides.
+- **Next, in this order:** run the gate under `D:\BuildArtifacts\lesscode\report-set\` (a research
+  program in Rust outside `native/src`, a copy of the page, a PowerShell start script; no Python),
+  record it as R200, put the design to the owner, then `kiro-spec-tasks report-set`. No production
+  task before the gate says `proceed`.
+- **Kept outside the repository:** `D:\BuildArtifacts\lesscode\progress-report\` (the one-off script
+  that joined R199's drawing data, the page's template, two screenshots; under 1 MiB). The
+  Floorplan copies are removed.
+- **Unchanged from the update below:** release 2.2.0 waits for the owner's approval of the
+  `release` environment; the agent does not approve it. Docker Desktop is running. Drift hardening,
+  the second work package of the driver research, stays closed by the owner (R104); only the drift
+  of one model over time is unmeasured.
+- This was not a task group, so no `task_N_handover.md` was written; the next is still
+  `task_95_handover.md`.
+
 **Update 2026-11-26, about 16:40: the release and the two merges are done, on the owner's word.**
 
 - **lesscode 2.2.0.** Pushed `main` (`9f6aab7..5583488`) and the annotated tag `v2.2.0` on
