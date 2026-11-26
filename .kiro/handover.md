@@ -10,6 +10,32 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-26, about 15:45: drift-rdp merged and pushed; the owner's decisions for the
+next session.**
+
+- **Done.** `lesscode/renderer-rework` was merged onto `fork/master` (`14dc5a1`, 7 commits newer
+  than the branch's base). The merge is `424973b`, with one conflict in `lib.rs`: `RenderShared`
+  is built from the display path state, under the `cfg` that now includes macOS. It is followed by
+  `2cc0c3d`, which only applies rustfmt to the protection tests of `shared_frame.rs`, so CI's
+  `fmt` passes. On the merge: 559 library tests pass, 7 skipped; Clippy shows the 9 warnings that
+  were there before; `fmt` is clean. `D:\Source\drift-rdp` master was fast-forwarded and pushed to
+  `fork` (`norandom/1-1`, `14dc5a1..2cc0c3d`). Nothing was pushed to `origin` (CREVIOS, the
+  upstream project, which local master is 230 commits ahead of). CI was queued on `2cc0c3d` at
+  14:33 UTC; its result is not in this file. The merge brought the protection branches
+  `protect/display-path` and `protect/protect-shared-frame` with it. The macOS paths of the fork
+  were read by hand, not built: they call `attach` with the same `Arc<Wake>`.
+- **The owner's decisions, 2026-11-26 about 15:40, in this order:**
+  1. lesscode: push `main` (80 commits ahead of `origin/main`) and tag `v2.2.0`. The tag starts
+     the release workflow and the Zenodo deposit. Package signing (zipsign) still waits for the
+     owner's key, so check what the workflow does without it before tagging.
+  2. Merge and push the two protection branches left: drift-rdp `protect/protect-yuv` (onto
+     `fork/master`, push to `fork` only) and scitools-hook `protect/protect-cycles` (find its
+     owner's remote first). Use today's procedure: merge, then tests, fmt and Clippy, then push.
+  3. `signed-approvals` is closed at 5.2 by the owner. The earlier approvals stay unsigned. The
+     next stage that needs an approval uses a signed one from the start.
+  4. Next topic: a visualization of facdrone, the Python calibration subject. It is read only, and
+     its counts go to lesscode, nothing to facdrone.
+
 **Update 2026-11-26, about 15:10: start at [task_94_handover.md](task_94_handover.md).** The
 owner closed signed approvals at 5.2 (R197); 5.3 was stopped. drift-rdp's display path is held in one
 value, and `step check` accepted it with growth 0 (R198). The step is recorded on the local branch

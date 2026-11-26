@@ -54,7 +54,11 @@ approvals 5.2) and [R198](../docs/research/2026-11-26/02-display-path-rework.md)
 
 ## Next steps, all on the owner's word
 
-- Merge `lesscode/renderer-rework`, and the protection branches it carries, into drift-rdp; push.
+The owner's decisions of about 15:40 are in [handover.md](handover.md), under the update of
+15:45. They supersede this list.
+
+- Done at about 15:35: `lesscode/renderer-rework` merged into drift-rdp (`424973b`, `2cc0c3d`)
+  and pushed to `fork`.
 - lesscode: tag 2.2.0 and push. These were open from before. `native\target` (7.5 GiB, inactive
   since 2026-11-08) was removed on the owner's word, 2026-11-26 about 15:20, with `cargo clean
   --manifest-path native/Cargo.toml --target-dir native/target`. D: then had 116.1 GiB free.
