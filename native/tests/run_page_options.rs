@@ -26,7 +26,9 @@ fn toy() -> String {
 
 /// A toy project whose test passes, and its run configuration.
 fn project(name: &str) -> (PathBuf, PathBuf) {
-    let dir = Path::new(env!("CARGO_TARGET_TMPDIR")).join(format!("run_page_options_{name}"));
+    // Outside every repository, wherever the target dir is.
+    let dir =
+        std::env::temp_dir().join(format!("lc-run-page-options-{name}-{}", std::process::id()));
     let _ = fs::remove_dir_all(&dir);
     fs::create_dir_all(dir.join("project/src")).unwrap();
     fs::write(dir.join("project/src/app.py"), APP).unwrap();

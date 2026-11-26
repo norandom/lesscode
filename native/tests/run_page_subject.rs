@@ -115,10 +115,12 @@ fn a_commit_without_a_branch_has_no_branch_to_judge() {
 
 #[test]
 fn a_place_that_is_no_repository_is_not_known() {
-    let place = Path::new(env!("CARGO_TARGET_TMPDIR")).join("run_page_subject_none");
+    let none = format!("lc-run-page-subject-none-{}", std::process::id());
+    let place = std::env::temp_dir().join(none);
     let _ = fs::remove_dir_all(&place);
     fs::create_dir_all(&place).unwrap();
-    // The directory Cargo gives tests lies outside every repository.
+    // The system's temporary directory lies outside every repository; the one
+    // Cargo gives tests is inside this repository when the target dir is.
     let seen = subject(&place);
     assert_eq!(
         (
