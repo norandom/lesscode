@@ -1,6 +1,10 @@
 # Research log
 
-## Latest · R197 The owner's approval key is on GitHub and the signing scope is gone; the key has no passphrase, by the owner's decision (2026-11-26)
+## Latest · R198 The display path of drift-rdp's renderer held in one value, so that a fallback and a new session cannot cross (2026-11-26, registered)
+
+Which path draws the remote picture, GPU layer or web canvas, is held in five places of five files. Two of them, `DisplayPathState` and the `FrameStores` registry, can disagree, and `connect` reads the path a second time only to cover that race. Registered before the code changes: `FrameStores` goes into `DisplayPathState` as one value with two cases (the layer with its stores, or the canvas), `register` refuses after a fallback under the same lock, and the second reading goes. The plan found the functions the rework changes protected already; three faults in Tauri glue stay untested, by the owner's choice. Eight expectations, among them places holding the path 5 to 4, shapes of the value 4 to 3, and `step check` accepting with no growth. [Entry](2026-11-26/02-display-path-rework.md).
+
+## R197 The owner's approval key is on GitHub and the signing scope is gone; the key has no passphrase, by the owner's decision (2026-11-26)
 
 Task 5.2 of the spec `signed-approvals`. The owner followed sections 1 and 2 of [docs/approvals.md](../approvals.md): GitHub lists the key "lesscode approvals" (id 1368810), it equals the local public key, and `gh` no longer has the signing-key scope. The guide's check showed that the key signs without a prompt, so it has no passphrase; the owner kept it so and closed the task without the scratch test commit. Consequence: anything that can read the key file can sign an approval the check counts; only the skill's rule keeps the agent from it. The passphrase prompt through Git (G9) stays unseen. The first signed approval against the real forge comes in 5.3. [Entry](2026-11-26/01-signed-approvals-owner-key.md).
 
