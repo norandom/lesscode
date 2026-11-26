@@ -10,7 +10,7 @@ use super::runner::{Job, MutantResult, WorkerReport};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, RwLock};
 use std::thread::{sleep, spawn, JoinHandle};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 /// A sign of life at least this often while the tool lives, also while a
 /// copy builds and nothing else changes.
@@ -27,16 +27,17 @@ impl Heart {
     pub fn start(every: Duration, beat: impl Fn() + Send + 'static) -> Self {
         let stop = Arc::new(AtomicBool::new(false));
         let asked = Arc::clone(&stop);
-        // Short naps, so that dropping does not wait a whole interval.
+        // Short naps, so that dropping does not wait a whole interval. The
+        // time is read from the clock: a nap can last twice as long as asked
+        // (macOS Intel runners), and summing the naps then halved the beats.
         let nap = every.min(Duration::from_millis(50));
         let thread = spawn(move || {
-            let mut waited = Duration::ZERO;
+            let mut last = Instant::now();
             while !asked.load(Ordering::Acquire) {
                 sleep(nap);
-                waited += nap;
-                if waited >= every && !asked.load(Ordering::Acquire) {
+                if last.elapsed() >= every && !asked.load(Ordering::Acquire) {
                     beat();
-                    waited = Duration::ZERO;
+                    last = Instant::now();
                 }
             }
         });

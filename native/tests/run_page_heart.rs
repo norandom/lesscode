@@ -39,15 +39,12 @@ fn the_interval_of_a_run_is_five_seconds() {
 
 #[test]
 fn signs_of_life_come_while_nothing_else_happens_and_never_far_apart() {
-    // Long enough that a shared CI machine's pauses of a few hundred
-    // milliseconds stay within the gap allowed below (macOS Intel had them).
-    const EVERY: Duration = Duration::from_millis(250);
     let watch = watch("alive");
     let heart = watch.heart(EVERY);
-    // Look often, for ten intervals, and keep the moment of each new sign of life.
+    // Look often, and keep the moment of each sign of life that is new.
     let (mut seen, mut last) = (Vec::new(), watch.snapshot().sequence);
     let began = Instant::now();
-    while began.elapsed() < EVERY * 10 {
+    while began.elapsed() < Duration::from_millis(1_000) {
         sleep(Duration::from_millis(10));
         let now = watch.snapshot().sequence;
         if now != last {
@@ -58,7 +55,7 @@ fn signs_of_life_come_while_nothing_else_happens_and_never_far_apart() {
     drop(heart);
     assert!(
         seen.len() >= 5,
-        "about ten in ten intervals, at least five: {seen:?}"
+        "about ten in a second, at least five: {seen:?}"
     );
     let widest = seen.windows(2).map(|pair| pair[1] - pair[0]).max().unwrap();
     assert!(
@@ -67,7 +64,7 @@ fn signs_of_life_come_while_nothing_else_happens_and_never_far_apart() {
     );
     let shown = watch.snapshot();
     assert!(
-        shown.seconds > (EVERY * 5).as_secs_f64(),
+        shown.seconds > 0.5,
         "the run's time moves with them: {}",
         shown.seconds
     );
