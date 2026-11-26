@@ -257,6 +257,9 @@ Rules for every task group (owner rules of 2026-11-07, 2026-11-10 and 2026-11-17
   - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
 - [ ] 5.3 Re-approval on the three stage branches — can fail
+  - *Stopped 2026-11-26 by the owner ("skip this whole thing, back to topic"). Not run. The built
+    check stays as it is; the three stage branches still hold approvals "the old way", which no
+    longer count with the current build.*
   - On drift-rdp's `protect/protect-yuv` and `protect/protect-shared-frame` and on scitools-hook's
     `protect/protect-cycles`: first, without the signer list, `step protect result` shows the
     earlier approvals waiting as "approved the old way". Then the agent commits
