@@ -55,6 +55,11 @@ approvals 5.2) and [R198](../docs/research/2026-11-26/02-display-path-rework.md)
 ## Next steps, all on the owner's word
 
 - Merge `lesscode/renderer-rework`, and the protection branches it carries, into drift-rdp; push.
-- lesscode: tag 2.2.0, push, and remove `native/target`. These were open from before.
+- lesscode: tag 2.2.0 and push. These were open from before. `native\target` (7.5 GiB, inactive
+  since 2026-11-08) was removed on the owner's word, 2026-11-26 about 15:20, with `cargo clean
+  --manifest-path native/Cargo.toml --target-dir native/target`. D: then had 116.1 GiB free.
+  Docs and skills that name `native/target/debug/lesscode-core.exe` as a default path now find no
+  binary there. Builds on this machine go to `D:\BuildArtifacts\cargo-target`. CI and Dagger use
+  their own container caches.
 - Drift hardening (Slice B), meaning the measurement of one model's drift over time, stays closed
   by the owner (R104).

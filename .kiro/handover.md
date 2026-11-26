@@ -14,7 +14,8 @@ Nothing is running. All working copies are removed.
 owner closed signed approvals at 5.2 (R197); 5.3 was stopped. drift-rdp's display path is held in one
 value, and `step check` accepted it with growth 0 (R198). The step is recorded on the local branch
 `lesscode/renderer-rework`, not merged or pushed. lesscode `a20ecd5` fixed `step check` for a
-step that deletes a scope file. Nothing is running. Merge, tag and push wait for the owner.
+step that deletes a scope file. Nothing is running. `native\target` was removed on the owner's word
+(7.5 GiB). Merge, tag and push wait for the owner.
 
 **Update 2026-11-25, about 19:30, end of the day: task 5.1 of `signed-approvals` is done; 5.2
 waits for the owner.** Start tomorrow at [task_93_handover.md](task_93_handover.md) for group 5,
