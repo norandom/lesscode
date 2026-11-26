@@ -105,6 +105,31 @@ agree, and a race that has no place left, not size.
   `D:\BuildArtifacts\lesscode\renderer-rework\` (`run.json`, `plan.json`, `plan.log`, `before\`).
 - Declaration: `.kiro/specs/display-path-in-force/step.json` on the branch.
 
+## Amendment, 2026-11-26 about 13:45, before any verdict: the tool could not judge a deleted file
+
+The fourth `step check` (12:22:43 to 13:20:02) passed the size gate and finished the fault run on
+the base, then stopped with exit 3 and no verdict: `cannot read …\check\step\src-tauri/src/renderer/frame_stores.rs`.
+The rework deletes that file, and `step check` gave every scope file to the fault run of each side,
+whether that side has the file or not. That is a defect of lesscode, not of the step: a step that
+removes a file of its scope could never be judged.
+
+The fix, in lesscode, does two things. The fault run of a side is given only the scope files that
+side has. The functions to run are given only for those files. Nothing in the comparison changes:
+a function of the deleted file has no counterpart after the step, is listed among the functions that
+could not be matched, and counts towards its file's totals as before. A new test,
+`a_step_that_deletes_a_scope_file_is_judged` (`native/tests/step_check.rs`), failed before the fix
+with the same message and exit 3, and passes after it.
+
+Of six runs of lesscode's whole suite with the fix, four passed and two failed one test,
+`begin_gives_the_base_run_and_the_check_their_own_figures`. That test compares a rounded time
+estimate. The same test passed alone three times, and the one run without the fix passed. The test
+works from a plan's run, where every scope file exists, so the fix gives that run the same
+configuration as before. The failure is reported here, not explained, and not attributed to the
+fix.
+
+The declaration, its base and its growth allowance are unchanged. The check is run again with
+`lesscode-core` rebuilt with the fix. The binary is named in the results. The earlier binary is kept.
+
 ## Evidence and results
 
 Pending.

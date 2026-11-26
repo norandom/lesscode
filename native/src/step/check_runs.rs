@@ -70,17 +70,21 @@ fn functions_to_run(
     Ok(wanted)
 }
 
-/// The wanted functions that exist at one revision.
+/// The wanted functions that exist on a side, in the files it has.
 fn present(
     wanted: &BTreeMap<String, BTreeSet<String>>,
     at: &BTreeMap<String, FileFunctions>,
+    context: &Context,
+    side: usize,
 ) -> Names {
+    let tree = [&context.base_tree, &context.step_tree][side];
     let of_file = |(file, names): (&String, &BTreeSet<String>)| {
         let bodies = at[file].bodies();
         let there = names.iter().filter(|n| bodies.contains_key(n.as_str()));
         (file.clone(), there.cloned().collect())
     };
-    wanted.iter().map(of_file).collect()
+    let has = |(file, _): &(&String, &BTreeSet<String>)| tree.contains_key(file.as_str());
+    wanted.iter().filter(has).map(of_file).collect()
 }
 
 /// What a run that did not end complete means for the verdict.
@@ -262,7 +266,7 @@ pub fn judge_by_runs(
         let request = Request {
             name: SIDES[index],
             copy: &copy,
-            functions: &present(&wanted, functions),
+            functions: &present(&wanted, functions, context, index),
             only: Vec::new(),
             workers: args.workers,
         };

@@ -72,7 +72,11 @@ fn fault(m: &Value) -> Fault {
 /// Run the faults of `request` in copies under `work/<name>-run`. Bad input
 /// is an error; a void run is a result.
 pub fn run(declaration: &Declaration, work: &Path, request: Request) -> Result<FaultRun, String> {
-    let config = declaration.run_config_json(request.copy, request.functions)?;
+    let mut config = declaration.run_config_json(request.copy, request.functions)?;
+    // A scope file this revision does not have, one the step deletes or adds,
+    // hosts no faults on it.
+    let there = |f: &&String| request.copy.join(f.as_str()).is_file();
+    config["files"] = declaration.scope.iter().filter(there).cloned().collect();
     let config_path = work.join(format!("{}-config.json", request.name));
     let receipt = format!("{}-run.json", request.name);
     let out = work.join(&receipt);

@@ -123,6 +123,30 @@ fn a_step_with_pins_first_and_a_smaller_change_is_accepted() {
 }
 
 #[test]
+fn a_step_that_deletes_a_scope_file_is_judged() {
+    let repo = Repo::new("deletes");
+    let extra = "def twice(state, b):\n    state.count = b * 2\n    return b\n";
+    repo.commit(&[("src/extra.py", extra)], "a second file");
+    repo.begin(
+        "deletes",
+        json!({"scope": ["src/app.py", "src/extra.py"],
+               "focus": {"src/app.py": ["step"], "src/extra.py": ["twice"]}}),
+    );
+    std::fs::remove_file(repo.dir.join("src/extra.py")).unwrap();
+    repo.commit(&[], "the change");
+
+    let (code, verdict, said) = check(&repo, "deletes");
+    assert_eq!(code, Some(0), "{said}\n{verdict}");
+    assert_eq!(verdict["result"], "accepted", "{}", reasons(&verdict));
+    let run = &verdict["functions_run"];
+    assert_eq!(run["src/extra.py"], json!(["twice"]), "{run}");
+    // Faults ran in the deleted file on the base only; its function has
+    // nothing to be matched with after the step.
+    let unmatched = verdict["unmatched_functions"].to_string();
+    assert!(unmatched.contains("src/extra.py: twice"), "{unmatched}");
+}
+
+#[test]
 fn a_step_is_refused_for_what_it_leaves_unprotected_or_breaks() {
     let repo = Repo::new("refused");
     let more = APP.replace("    return a\n", "    state.seen = True\n    return a\n");
