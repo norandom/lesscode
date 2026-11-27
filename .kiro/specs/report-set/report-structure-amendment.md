@@ -207,6 +207,32 @@ another) stood in the earlier report only in the tiles and rows of each rework; 
 did not say them. The PDF has 17 sheets, against 14 before: the appendices repeat the rows in full
 and add the glossary.
 
+### Second look of the owner, 2026-11-27
+
+The owner rejected the first rebuilt PDF and named what was missing: the project name, the author,
+the tool's name and version, horizontal bar charts of the metrics, and a summary that opens with
+the key numbers. Added to the prototype:
+
+- A head on the first sheet: projects, author, tool and version, date. The author is stated by hand
+  in the notes file (`author`) and carried by the set; a set without one says "not stated". The
+  tool is the one that measured (here `lesscode-core 2.1.0`); the research program that wrote the
+  set is named beside it. Each refactoring names its project, verdict, evidence and revisions in the
+  same form.
+- The summary opens with six headline numbers as tiles: refactorings, simplicity improved, tests
+  pass before and after, accepted by lesscode, values measured by lesscode, functions with no
+  killed mutant.
+- Horizontal bars, before and after, for every metric with two numbers: under the summary, summed
+  over the refactorings that have the metric (custom metrics are in no sum), and in each
+  refactoring for Simplicity, Safety and Cost. They replace the tables in the body; the tables are
+  appendix A. Each metric is drawn to its own scale, because the metrics have different units, and
+  the figure says so. One hue in two steps (before lighter, after darker), checked with the
+  palette validator of the dataviz skill for the light and the dark scheme; a result is a coloured
+  mark beside its words, not coloured text.
+- The row per refactoring in "Results" no longer repeats the numbers: it gives the overall result
+  of each group and the count of metrics behind it.
+
+The PDF has 19 sheets.
+
 Not done, and to be said when the prototype is judged:
 
 - The gate's checks were not run on the new page: the browser checks of `checks\set.spec.mjs`, the
