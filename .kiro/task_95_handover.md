@@ -56,6 +56,7 @@ the two, a check fails instead of skipping.
   nothing was cleaned, because the shared directory is not ours to clean wholesale and the
   model-seam builds are named in an earlier handover. **The owner may want to decide whether the
   model-seam prototype builds can go.**
+- Where the 21.4 GiB of D: went during the group, as far as measured: `lesscode-cargo-test` grew 6.9 GiB (the builds, test builds and Clippy of the moved crate, in the reused directory). Docker Desktop's disk image `D:\Docker\disk\docker_data.vhdx` is 89.3 GiB; inside it the shared Dagger engine's volume is 21.6 GB after two check runs. The image was not measured at the start, so its share of the drop is not known; it does not shrink by itself. The engine and its volume are shared and were not pruned. D: stays above 50 GiB; lesscode's caches, counted as before, are 28.1 of 40 GiB.
 - End of the group: D: 106,3 GiB free; `lesscode-cargo-test` 22,37 GiB, `D:\BuildArtifacts\lesscode` 5,74 GiB. No isolated build directory was made. The two copies of the
   binary in the evidence directory (19 MiB each) and the pages are removed at the end; the logs,
   hashes, budgets files and scripts are kept (under 1 MiB).
