@@ -31,7 +31,7 @@ are defined once in a vocabulary, and to let the owner judge again. Rejected whe
 
 - The prototype of the gate, `D:\BuildArtifacts\lesscode\report-set` (outside the repository, not
   part of the tool): the research program `proto\src\main.rs` (sha256 `092f589feeebb383…`), the copy
-  of the run page `page\run.html` (`2cdc01aa014b94d2…`, set mode only; the run mode is untouched),
+  of the run page `page\run.html` (`053e21469a672aa5…`, set mode only; the run mode is untouched),
   the start script `look.ps1` (`4a782cd431a3fb00…`).
 - The vocabulary `.kiro/vocabulary.toml` (`f3c56a9dcaf39774…`), in the format of openidea-kiro,
   schema version 2: 54 terms in 2 topics. `kiro-cli vocab validate` of kiro-cli 1.1.0 reports no
@@ -60,9 +60,13 @@ What the accepted reports are, in `out-restructure\`:
 
 | Report | Set | PDF | Sheets |
 | --- | --- | --- | --- |
-| across projects, 6 refactorings in 3 projects | `across-projects.json` (`e82e5cc7c29ae0ed…`) | `across-projects.pdf` (`2e057f499854cd53…`) | 19 |
-| one project, 3 refactorings | `project-drift-rdp.json` (`3ea73a22e63be09c…`) | `project-drift-rdp.pdf` (`e314a312c649d121…`) | 15 |
-| one run | `run-display-path.json` (`0f625f272f0df4d4…`) | `run-display-path.pdf` (`01e2a622b490ffaf…`) | 10 |
+| across projects, 6 refactorings in 3 projects | `across-projects.json` (`e82e5cc7c29ae0ed…`) | `across-projects.pdf` (`6a0a23442d7307d7…`) | 19 |
+| one project, 3 refactorings | `project-drift-rdp.json` (`3ea73a22e63be09c…`) | `project-drift-rdp.pdf` (`35a73bf0d8d4d98e…`) | 15 |
+| one run | `run-display-path.json` (`0f625f272f0df4d4…`) | `run-display-path.pdf` (`d67477f3f92da58d…`) | 10 |
+
+After the fourth look one thing was changed, on the owner's remark that not simplifying is natural: the
+mark beside "mixed" is neutral, no longer the colour of a warning. The page and the three PDFs were
+written again with it; the hashes above are of those. The sets did not change.
 
 Each of the three pages was opened in a headless Chromium (Playwright of `verification/`) in the
 print layout and drew without a script error.
