@@ -12,6 +12,12 @@ that keeps names out cannot be a plain search; the page's part for one run's res
 reused for a stated step. The check for G3 was changed during the run, and R200 says how. The
 text below is as registered.
 
+Amendment, 2026-11-27 about 13:00 Europe/Berlin: G8 is judged. The owner rejected the look of
+R200's PDF. The page was rebuilt on a vocabulary and to a new structure, and the owner accepted it
+at the fourth look ([R202](../../../docs/research/2026-11-27/03-report-structure-and-vocabulary.md),
+[proposal](report-structure-amendment.md)). G3, G4 and G5 are shown for R200's page; they were not
+run again on the rebuilt one. Requirements, design and tasks are to be amended before task group 2.
+
 This feature adds no compression mechanism, so the steering's reduction targets do not apply. The
 gate is kept because three assumptions of the design can fail on real inputs, and each would change
 the design.

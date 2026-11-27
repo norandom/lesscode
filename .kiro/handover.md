@@ -10,8 +10,46 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-27, about 13:10: the owner rejected the look of the report set's PDF; the page was
+rebuilt on a vocabulary and the owner accepted the structure. The spec `report-set` must be amended
+before group 2 starts. Start here.**
+
+- Read first: the [proposal](specs/report-set/report-structure-amendment.md) (diagnosis, skeleton,
+  the owner's decisions in section 7, the prototype and the owner's looks in section 8) and
+  [R202](../docs/research/2026-11-27/03-report-structure-and-vocabulary.md). The terms are
+  `.kiro/vocabulary.toml` (54 terms, openidea-kiro's format). Validate with
+  `D:\BuildArtifacts\lesscode\tools\kiro-cli-1.1.0\x\kiro-cli.exe --project D:\Source\lesscode vocab validate`.
+- **Next step: amend requirements, then design, then tasks of `report-set`, each for the owner's
+  approval.** Requirements 4.3 and 4.4 are contradicted. New requirements: the vocabulary and the
+  glossary; metrics named by term in a set and in a step file; the head (projects, author, tool and
+  version, date) and the code a report is about (branch, both commits, uncommitted changes); the
+  headline numbers and the bars before and after; one report format for one run, one project and
+  across projects; an anonymized project withholds its repository and its branch. Tasks touched:
+  2.1, 2.3, 4.2, 4.3 (author in the notes file), 6.x (narrowing to a project or a run), 8.1, and a
+  new task for the vocabulary and its check; `spec.json` gets `topics`. Open for the design: where
+  the report of one run takes the project's name and the refactoring's title from.
+- The owner's decisions: the ontology is `vocabulary.toml`; only the set page and its PDF take the
+  new terms in this spec (run page, `step check`, README and documents follow in a separate spec;
+  requirement 8 stays); one change is a "Refactoring"; the groups are Simplicity, Safety, Cost.
+  A refactoring that does not simplify is natural: "mixed" and "unchanged" are findings, not
+  failures.
+- The prototype is `D:\BuildArtifacts\lesscode\report-set` (15 MiB, kept as evidence of R202).
+  `pwsh look.ps1` there makes the three reports into `out-restructure\` (across projects, project
+  drift-rdp, one run). It builds the research program in the reused target directory
+  `D:\BuildArtifacts\lesscode-cargo-test`. The earlier outputs of R200 in `out\` are untouched.
+- Not done: the gate's checks on the rebuilt page (browser checks, the search for names of the
+  anonymized project, the Linux PDF); they expect the earlier wording and belong to group 2. Five
+  definitions are marked "verify" in the vocabulary; three measures have no term.
+- Done on the owner's word today: `main` was pushed up to `b004fd1`; the inactive builds
+  `D:\BuildArtifacts\cargo-target\model-seam-prototype*` (8.4 GiB) were deleted, so the scripts
+  `docs/experiments/model-seam/run-p4.ps1` and `prototype/run.ps1` need their binaries built again
+  before they run. Release 2.2.0: the owner said "not yet".
+- Storage at 13:00: D: 112.2 GiB free; `lesscode-cargo-test` 22.43 GiB (reused, no new target
+  directory); `D:\BuildArtifacts\lesscode` grew by the prototype's outputs only.
+- The commits of this work are on `main` and not pushed. Nothing is running.
+
 **Update 2026-11-27, about 11:10: the owner approved the tasks ("proceed"); task group 1 of
-`report-set` is done. Start here, then [task_95_handover.md](task_95_handover.md).**
+`report-set` is done. Then [task_95_handover.md](task_95_handover.md).**
 
 - Group 1: the ten run-page files are `native/src/dashboard/` now, a pure move (same page bytes,
   same suite), with a test that keeps the border. `lib.rs` needed one line over its ceiling; the

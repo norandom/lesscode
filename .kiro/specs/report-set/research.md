@@ -152,3 +152,7 @@
   on 2026-11-27. It contradicts two findings above: a report page does not hold everything a step
   of a set needs (the project's name and the step's title are missing), and searching the written
   set for every collected name refuses sets whose names are everyday words.
+- [R202](../../../docs/research/2026-11-27/03-report-structure-and-vocabulary.md): the owner's
+  judgment of the look (G8), on 2026-11-27. The structure and the wording of the set page that this
+  document and the requirements assume were rejected; the accepted ones are in the
+  [proposal](report-structure-amendment.md) and rest on `.kiro/vocabulary.toml`.

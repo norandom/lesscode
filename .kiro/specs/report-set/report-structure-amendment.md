@@ -1,6 +1,13 @@
 # Report set: structure and vocabulary of the report (proposal)
 
-Status: proposal, written 2026-11-27. Not approved. It answers the open point G8 of the prototype
+Status, 2026-11-27 about 13:00 Europe/Berlin: the structure is accepted by the owner at the fourth
+look ("good structure"), on the rebuilt prototype of section 8. Evidence:
+[R202](../../../docs/research/2026-11-27/03-report-structure-and-vocabulary.md). Requirements, design
+and tasks are not amended yet; that is the next step and needs the owner's approval phase by phase.
+The owner's last remark is a rule for the wording: a refactoring that does not simplify is natural;
+"mixed" and "unchanged" are findings, not failures.
+
+As first written: proposal, written 2026-11-27. Not approved. It answers the open point G8 of the prototype
 gate ("How does it look on paper?"): the owner read `set-windows.pdf` and `base-windows.pdf` and
 rejected them. The owner's words: the report is a data dump, it is not comprehensible, its language
 is not suited for programmers, and it must be grounded in an ontology.
