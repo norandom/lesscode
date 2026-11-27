@@ -1,0 +1,408 @@
+# The vocabulary of lesscode's reports, in the format of openidea-kiro (docs/vocabulary.md there).
+# Hand-authored. Every word a report set prints for a dimension, a metric, a verdict or a kind of
+# evidence is the label of a term in this file. The words the tool used before are alt_labels, so
+# that an old word and a new one resolve to the same term.
+#
+# A definition says what the tool computes. Terms marked "verify" are written from the tool's
+# output and are not yet checked against the code that computes the number.
+
+schema_version = "2"
+
+[topics.refactoring-report]
+label = "Refactoring report"
+description = "What a report set is about: refactorings, their revisions, verdicts and evidence."
+
+[topics.code-metric]
+label = "Code metric"
+description = "The groups, dimensions and metrics a refactoring is measured by."
+
+# ------------------------------------------------------------------ topic: refactoring-report
+
+[terms.report-set]
+topic = "refactoring-report"
+label = "Report set"
+kind = "entity"
+definition = "One file that holds several refactorings with their metrics at both revisions."
+alt_labels = ["set"]
+
+[terms.refactoring]
+topic = "refactoring-report"
+label = "Refactoring"
+kind = "entity"
+definition = "One change to a named scope of code that is meant to preserve behaviour. It is compared at two revisions: before and after."
+alt_labels = ["step", "rework"]
+
+[terms.scope]
+topic = "refactoring-report"
+label = "Scope"
+kind = "entity"
+definition = "The files a refactoring may change. Every metric is taken on these files."
+alt_labels = ["files in scope"]
+
+[terms.revision]
+topic = "refactoring-report"
+label = "Revision"
+kind = "enum"
+values = ["before", "after"]
+definition = "The state of the scope a value was taken from: before the refactoring or after it."
+
+[terms.dimension]
+topic = "refactoring-report"
+label = "Dimension"
+kind = "entity"
+definition = "A group of metrics that answer one question about the code, for example mutable state or test strength."
+alt_labels = ["lens"]
+
+[terms.metric]
+topic = "refactoring-report"
+label = "Metric"
+kind = "entity"
+definition = "A property of the scope at one revision that can be counted or checked. Every metric belongs to one dimension."
+alt_labels = ["measure"]
+
+[terms.custom-metric]
+topic = "refactoring-report"
+label = "Custom metric"
+kind = "entity"
+definition = "A metric that is not in this vocabulary. The author of a refactoring states it in their own words; it has no shared definition and cannot be compared across refactorings."
+
+[terms.expected-change]
+topic = "refactoring-report"
+label = "Expected change"
+kind = "enum"
+values = ["decrease", "no change", "no increase", "no increase above limit"]
+definition = "The change a metric must show from before to after for the refactoring to count as an improvement. no increase above limit: no function that is above its limit gets worse."
+alt_labels = ["expected", "falls", "stays", "does not rise"]
+
+[terms.metric-result]
+topic = "refactoring-report"
+label = "Result"
+kind = "enum"
+values = ["as expected", "not as expected", "unchanged", "not judged", "not measured"]
+definition = "How a metric changed against its expected change. unchanged: a decrease was expected and the value is the same at both revisions. not judged: there are values but no rule was applied to them. not measured: there is no value."
+alt_labels = ["moved that way", "moved as expected"]
+
+[terms.overall-result]
+topic = "refactoring-report"
+label = "Overall result"
+kind = "enum"
+values = ["improved", "mixed", "worse", "unchanged", "not measured"]
+definition = "The results of all metrics of one group for one refactoring, taken together. improved: at least one metric changed as expected and none against. mixed: some changed as expected and some against. worse: none as expected and at least one against. unchanged: no metric changed."
+
+[terms.evidence-source]
+topic = "refactoring-report"
+label = "Evidence"
+kind = "enum"
+values = ["measured", "reported"]
+definition = "Where a value is from. measured: lesscode ran the command named as the source. reported: the author of the refactoring supplied the value and lesscode did not check it."
+alt_labels = ["measured by", "handed in", "stated"]
+
+[terms.verdict]
+topic = "refactoring-report"
+label = "Verdict"
+kind = "enum"
+values = ["accepted", "rejected", "not judged"]
+definition = "The decision of lesscode's check on a refactoring. accepted: every check passed. rejected: at least one check failed. not judged: lesscode did not run its check; the values are reported by the author."
+alt_labels = ["outcome"]
+
+[terms.rejection-reason]
+topic = "refactoring-report"
+label = "Rejection reason"
+kind = "entity"
+definition = "The check that failed when a refactoring was rejected, with the values it failed on."
+alt_labels = ["refusal"]
+
+[terms.anonymized-project]
+topic = "refactoring-report"
+label = "Anonymized project"
+kind = "bool"
+definition = "A project whose file and function names are removed from the report. Only its numbers are shown."
+alt_labels = ["counts only", "project shown by counts only"]
+
+# ------------------------------------------------------------------ topic: code-metric, the groups
+
+[terms.simplicity]
+topic = "code-metric"
+label = "Simplicity"
+kind = "entity"
+definition = "The group of dimensions that say whether the code is simpler: mutable state, function complexity and the call graph."
+
+[terms.safety]
+topic = "code-metric"
+label = "Safety"
+kind = "entity"
+definition = "The group of dimensions that say whether behaviour is preserved: behaviour preservation and test strength."
+
+[terms.cost]
+topic = "code-metric"
+label = "Cost"
+kind = "entity"
+definition = "The group that says what the refactoring cost in size. Size is a guard: it is not the aim of a refactoring."
+
+# ------------------------------------------------------------------ simplicity: mutable state
+
+[terms.mutable-state]
+topic = "code-metric"
+label = "Mutable state"
+kind = "entity"
+definition = "The dimension of state that can change while the program runs: where it is written and how many states it can take."
+broader = ["simplicity"]
+alt_labels = ["State"]
+
+[terms.state-space]
+topic = "code-metric"
+label = "State space of a type"
+kind = "entity"
+definition = "All representable states of one type, each marked as reachable or not and as covered by tests or not."
+broader = ["mutable-state"]
+alt_labels = ["shapes of the state"]
+
+# verify
+[terms.state-write-sites]
+topic = "code-metric"
+label = "State write sites"
+kind = "int"
+min = 0
+definition = "Number of places in the scope's source that assign to state which outlives the call."
+broader = ["mutable-state"]
+alt_labels = ["places that write stored state"]
+
+[terms.representable-states]
+topic = "code-metric"
+label = "Representable states"
+kind = "int"
+min = 0
+definition = "Number of distinct states the fields of one type can encode: every combination of values the fields allow."
+broader = ["mutable-state"]
+alt_labels = ["ways the state can be written"]
+
+[terms.reachable-states]
+topic = "code-metric"
+label = "Reachable states"
+kind = "int"
+min = 0
+definition = "Number of representable states that the code of the type can produce."
+broader = ["mutable-state"]
+alt_labels = ["ways reached by the code"]
+
+[terms.tested-states]
+topic = "code-metric"
+label = "States covered by tests"
+kind = "int"
+min = 0
+definition = "Number of reachable states that occurred while the project's tests ran."
+broader = ["mutable-state"]
+alt_labels = ["ways seen by the tests"]
+
+[terms.write-only-fields]
+topic = "code-metric"
+label = "Write-only fields"
+kind = "int"
+min = 0
+definition = "Number of fields that are assigned and never read."
+broader = ["mutable-state"]
+alt_labels = ["holders set and never read"]
+
+# verify
+[terms.lock-guarded-fields]
+topic = "code-metric"
+label = "Lock-guarded fields"
+kind = "int"
+min = 0
+definition = "Number of fields that are read and written under a lock."
+broader = ["mutable-state"]
+alt_labels = ["locked fields"]
+
+# ------------------------------------------------------------------ simplicity: function complexity
+
+[terms.function-complexity]
+topic = "code-metric"
+label = "Function complexity"
+kind = "entity"
+definition = "The dimension of how complex single functions are: branches, nesting, parameters and length."
+broader = ["simplicity"]
+alt_labels = ["Local complexity"]
+
+# verify
+[terms.branch-count]
+topic = "code-metric"
+label = "Branches per function"
+kind = "int"
+min = 0
+definition = "Number of branch points in one function: its cyclomatic complexity minus one."
+broader = ["function-complexity"]
+alt_labels = ["decisions", "decisions of one routine"]
+
+[terms.nesting-depth]
+topic = "code-metric"
+label = "Nesting depth"
+kind = "int"
+min = 0
+definition = "Deepest nesting of control structures in one function."
+broader = ["function-complexity"]
+alt_labels = ["nesting"]
+
+[terms.parameter-count]
+topic = "code-metric"
+label = "Parameter count"
+kind = "int"
+min = 0
+definition = "Number of parameters of one function."
+broader = ["function-complexity"]
+alt_labels = ["parameters"]
+
+# verify
+[terms.function-length]
+topic = "code-metric"
+label = "Function length"
+kind = "int"
+min = 0
+definition = "Length of the body of one function."
+broader = ["function-complexity"]
+alt_labels = ["length"]
+
+# ------------------------------------------------------------------ simplicity: call graph
+
+[terms.call-graph]
+topic = "code-metric"
+label = "Call graph"
+kind = "entity"
+definition = "The dimension of how the functions of the scope depend on each other. Functions are the nodes, calls the edges. The graph is static: an edge says that a call is written in the source, found by name, not that it happens when the code runs."
+broader = ["simplicity"]
+alt_labels = ["Structure", "functions and calls"]
+
+[terms.function-count]
+topic = "code-metric"
+label = "Functions"
+kind = "int"
+min = 0
+definition = "Number of functions defined in the files of the scope."
+broader = ["call-graph"]
+
+[terms.call-edges]
+topic = "code-metric"
+label = "Call-graph edges"
+kind = "int"
+min = 0
+definition = "Number of pairs of functions in the scope where one calls the other."
+broader = ["call-graph"]
+alt_labels = ["calls from one function to another", "calls"]
+
+[terms.cross-file-call-edges]
+topic = "code-metric"
+label = "Cross-file call edges"
+kind = "int"
+min = 0
+definition = "Number of call-graph edges whose two functions are in different files."
+broader = ["call-graph"]
+alt_labels = ["calls across files"]
+
+[terms.coupled-file-pairs]
+topic = "code-metric"
+label = "Coupled file pairs"
+kind = "int"
+min = 0
+definition = "Number of pairs of files in the scope with at least one call-graph edge between them."
+broader = ["call-graph"]
+alt_labels = ["pairs of files with a call between them"]
+
+# ------------------------------------------------------------------ safety: behaviour preservation
+
+[terms.behaviour-preservation]
+topic = "code-metric"
+label = "Behaviour preservation"
+kind = "entity"
+definition = "The dimension of whether the code does the same after the refactoring as before, as far as the tests can tell."
+broader = ["safety"]
+alt_labels = ["Behaviour kept"]
+
+[terms.test-result]
+topic = "code-metric"
+label = "Test suite result"
+kind = "enum"
+values = ["pass", "fail"]
+definition = "Result of the project's test command on the unmodified code of one revision."
+broader = ["behaviour-preservation"]
+alt_labels = ["your tests on the code, with no fault planted"]
+
+# ------------------------------------------------------------------ safety: test strength
+
+[terms.test-strength]
+topic = "code-metric"
+label = "Test strength"
+kind = "entity"
+definition = "The dimension of how well the tests detect faults in the scope, measured by mutation testing."
+broader = ["safety"]
+alt_labels = ["Protection"]
+
+[terms.mutant]
+topic = "code-metric"
+label = "Mutant"
+kind = "entity"
+definition = "A copy of the code with one small deliberate fault. It is built and tested to see whether the tests detect the fault."
+broader = ["test-strength"]
+alt_labels = ["planted fault"]
+
+[terms.mutants-killed]
+topic = "code-metric"
+label = "Mutants killed"
+kind = "int"
+min = 0
+definition = "Number of mutants for which at least one test failed: the tests detect that fault."
+broader = ["test-strength"]
+alt_labels = ["noticed planted faults", "planted faults detected"]
+
+[terms.mutants-survived]
+topic = "code-metric"
+label = "Mutants survived"
+kind = "int"
+min = 0
+definition = "Number of mutants for which every test passed: the tests do not detect that fault."
+broader = ["test-strength"]
+alt_labels = ["unnoticed planted faults"]
+
+# verify
+[terms.mutants-not-judged]
+topic = "code-metric"
+label = "Mutants not judged"
+kind = "int"
+min = 0
+definition = "Number of mutants that are neither killed nor survived, for example because they did not build. They say nothing about the tests."
+broader = ["test-strength"]
+alt_labels = ["planted faults neither noticed nor unnoticed"]
+
+[terms.functions-without-killed-mutant]
+topic = "code-metric"
+label = "Functions with no killed mutant"
+kind = "int"
+min = 0
+definition = "Number of functions in which mutants were run and none was killed: no test detects a fault there. For such a function an unchanged result shows only that the refactoring made nothing worse."
+broader = ["test-strength"]
+alt_labels = ["unprotected functions"]
+
+# ------------------------------------------------------------------ cost: size
+
+[terms.size]
+topic = "code-metric"
+label = "Size"
+kind = "entity"
+definition = "The dimension of how much code the scope holds."
+broader = ["cost"]
+
+[terms.token-count]
+topic = "code-metric"
+label = "Tokens"
+kind = "int"
+min = 0
+definition = "Number of lexical tokens in the files of the scope."
+broader = ["size"]
+alt_labels = ["tokens of the files in scope"]
+
+[terms.ast-node-count]
+topic = "code-metric"
+label = "AST nodes"
+kind = "int"
+min = 0
+definition = "Number of syntax-tree nodes in the files of the scope."
+broader = ["size"]
+alt_labels = ["syntax nodes of the files in scope"]
