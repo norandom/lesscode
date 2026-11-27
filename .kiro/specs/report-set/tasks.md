@@ -1,6 +1,6 @@
 # Implementation Plan: the report set
 
-Generated 2026-11-27 (Europe/Berlin). **Not approved.**
+Generated 2026-11-27 (Europe/Berlin). **Approved by the owner on 2026-11-27** ("proceed").
 Basis: [requirements](requirements.md) (approved 2026-11-26; criterion 3.5 amended by the owner on
 2026-11-27), [design](design.md) (approved by the owner on 2026-11-27, with the decisions D1 to D6,
 and amended the same day by D7 to D9: the dashboard code is a module of its own),
