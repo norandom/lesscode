@@ -6,7 +6,7 @@ says `proceed` ([R200](../../../docs/research/2026-11-27/01-report-set-prototype
 this text to be wrong at three points. They were corrected on 2026-11-27 as the owner decided that
 day (D4 to D6 below): a report page's project name and step title come from the notes file; the
 rule for names searches only the project's own texts and refuses on distinctive names; the set
-section is built from the page's smaller parts. **Put forward for approval; not approved.**
+section is built from the page's smaller parts. **Approved by the owner on 2026-11-27** ("approved"). Tasks: [tasks.md](tasks.md).
 Discovery and decisions: [research.md](research.md).
 
 ## Overview

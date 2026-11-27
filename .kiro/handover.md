@@ -10,8 +10,22 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-27, about 09:50: the owner approved the design; the tasks of `report-set` are
+generated and wait for the owner's approval. Start here.**
+
+- [tasks.md](specs/report-set/tasks.md): 8 groups, 21 sub-tasks and one closing task, every
+  requirement mapped. The sanity review was inline, verdict PASS. Not approved; no implementation
+  before that.
+- Group 1 is the page (the tool's own page changed in place, which the gate did not show), then
+  the set as a file, the inputs, counts only, `step set`, the PDF by command, the example and the
+  documentation, and last the gate's expectations run on the tool itself.
+- Still open with the owner: the look of the two PDFs (G8; remarks go into task 1.3), and whether
+  to push. `main` is ahead of `origin/main` by the commits of today.
+- **Next:** the owner approves the tasks, then `kiro-impl report-set 1.1` in the foreground. The
+  group's handover will be `task_95_handover.md`.
+
 **Update 2026-11-27, later that morning: the owner decided the three corrections, `design.md` is
-corrected and waits for the owner's approval. Start here.**
+corrected and waits for the owner's approval.**
 
 - Decided by the owner, all as recommended (D4 to D6 in the design): project name and title of a
   report page come from `labels` in the notes file; names are searched only in the project's own
