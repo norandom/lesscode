@@ -10,8 +10,42 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-27, about 09:40: the prototype gate of `report-set` is run and says proceed; the
+design needs three corrections before the owner sees it. Start here.**
+
+- **The gate, R200** ([entry](../docs/research/2026-11-27/01-report-set-prototype-gate.md),
+  [gate file](specs/report-set/prototype-gate.md)). G1 to G7 hold on the six reworks of R199: one
+  checked JSON file, one page that shows it and takes another, a PDF by Edge on Windows and by
+  Chromium in a Linux container in under 2 seconds with every drawing, no process left. G8, how the
+  PDF looks, is the owner's: `D:\BuildArtifacts\lesscode\report-set\out\set-windows.pdf` and
+  `set-linux.pdf`. Nothing of `native/src` was run or changed.
+- **Wrong in the design, not corrected in `design.md` yet** (its head says so):
+  1. A report page holds no project name and no title for its step. The prototype took them from a
+     `labels` part in the notes file.
+  2. The rule that keeps names out cannot be a plain search: five of the Python project's 180 names
+     are everyday words, one of them the name of a part of every step. The note "The first run of
+     the tests took longer." was refused.
+  3. The page's `Result` cannot draw a stated step (no commit, no exit code). The set section calls
+     the smaller parts itself.
+- **Next, in this order:** the owner's word on the three corrections (a proposal for each is in the
+  session's last message and in R200), correct `design.md`, the owner's approval of the design,
+  then `kiro-spec-tasks report-set`. The first task after approval: the tool's own page, changed in
+  place, still passes the checks of the run page.
+- **R199 amended:** its "across files" is the tool's "pairs of files with a call between them".
+- **Kept outside the repository:** `D:\BuildArtifacts\lesscode\report-set\` (11 MiB: the research
+  program's source, the page, the checks, `gate.ps1`, the step files, `out\` with both PDFs and
+  `gate.json`). Removed: the container image, the build output, and the inputs that hold names of
+  the Python project, so `gate.ps1` needs the Two Bowls page read again before it can rerun.
+- **Storage:** D: 133 GiB free before, 128.7 GiB after; lesscode caches about 6 GiB.
+- **Left running:** Docker Desktop. It was off; the agent started it for the Linux leg. No
+  container, network or image of this gate is left.
+- **Unchanged:** release 2.2.0 waits for the owner's approval of the `release` environment; the
+  agent does not approve it. Drift hardening stays closed by the owner (R104); only the drift of
+  one model over time is unmeasured. This was not a task group; the next group handover is still
+  `task_95_handover.md`.
+
 **Update 2026-11-26, about 19:10: a progress report, and the spec `report-set` up to a provisional
-design. Start here.**
+design.**
 
 - **Progress report, R199 (`ceef3f3`).** [docs/reports/progress-2026-11-26.md](../docs/reports/progress-2026-11-26.md)
   with [its page of drawings](../docs/reports/figures/progress-2026-11-26.html), a synthesis of R158

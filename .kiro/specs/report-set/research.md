@@ -148,3 +148,7 @@
 - [R178](../../../docs/research/2026-11-23/15-run-page-group-6.md),
   [R179](../../../docs/research/2026-11-23/16-run-page-group-7.md),
   [R199](../../../docs/research/2026-11-26/03-progress-report.md)
+- [R200](../../../docs/research/2026-11-27/01-report-set-prototype-gate.md): the prototype gate, run
+  on 2026-11-27. It contradicts two findings above: a report page does not hold everything a step
+  of a set needs (the project's name and the step's title are missing), and searching the written
+  set for every collected name refuses sets whose names are everyday words.

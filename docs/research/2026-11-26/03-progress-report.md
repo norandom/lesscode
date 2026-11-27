@@ -86,3 +86,16 @@ this report as its data.
 - Replay: every number names its entry; the drawing data is committed.
 - Disproof: three "we are wrong if" lines close the report.
 - Negative results: the dropped maps are recorded here with their counts.
+
+## Amendment, 2026-11-27: "across files" names the wrong thing
+
+Found while running the prototype gate of the report set
+([R200](../2026-11-27/01-report-set-prototype-gate.md)). The report's table of six reworks gives
+"across files 12 to 9", "10 to 10" and "25 to 22". Those numbers are `module_hops` of
+`measure-scope`, which the tool's own report calls "pairs of files with a call between them". Calls
+that cross a file, as the drawings count them, are 34 to 28 and 80 to 65 for the two Python
+subsystems. The numbers stand; their label was wrong. The report has a note under its table. The
+owner's private page has the same label and is not changed.
+
+The same run showed that the fixture `native/page/shared-frame.json` has 12 calls after the
+`SharedFrame` rework where the table says 11. Which is right was not looked into.

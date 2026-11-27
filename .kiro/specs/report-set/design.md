@@ -1,9 +1,14 @@
 # Design: the report set
 
 Generated 2026-11-26, about 18:50 (Europe/Berlin) from the approved
-[requirements](requirements.md). **Provisional**: the [prototype gate](prototype-gate.md) is
-registered and not run. This design is not put forward for approval until the gate says `proceed`,
-and `-y` does not replace that. Discovery and decisions: [research.md](research.md).
+[requirements](requirements.md). **Provisional**: the [prototype gate](prototype-gate.md) was run on
+2026-11-27 and says `proceed`
+([R200](../../../docs/research/2026-11-27/01-report-set-prototype-gate.md)), but it showed this text
+to be wrong at three points that are **not corrected here yet**: where a report page's project name
+and step title come from; the rule for names in notes and the last check on a written set
+(`page_set_names`); and the set section calling `Result`. It is not put forward for approval before
+they are corrected, and `-y` does not replace that. Discovery and decisions:
+[research.md](research.md).
 
 ## Overview
 

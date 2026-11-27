@@ -4,7 +4,13 @@ Registered 2026-11-26, about 18:45 Europe/Berlin, before the prototype exists. S
 [prototype-first](../../steering/prototype-first.md). The gate decides whether the provisional
 [design](design.md) may be put to the owner for approval and go on to tasks.
 
-Status: **not-run**.
+Status: **proceed**, assessed 2026-11-27 about 09:35 Europe/Berlin. Evidence:
+[R200](../../../docs/research/2026-11-27/01-report-set-prototype-gate.md). G1 to G7 hold; G8 is the
+owner's to judge. The run showed the design to be wrong at three points, which are corrected in it
+before it is put forward: a report page holds no project name and no title for its step; the rule
+that keeps names out cannot be a plain search; the page's part for one run's result cannot be
+reused for a stated step. The check for G3 was changed during the run, and R200 says how. The
+text below is as registered.
 
 This feature adds no compression mechanism, so the steering's reduction targets do not apply. The
 gate is kept because three assumptions of the design can fail on real inputs, and each would change
