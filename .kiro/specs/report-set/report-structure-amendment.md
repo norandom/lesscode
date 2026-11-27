@@ -233,6 +233,37 @@ the key numbers. Added to the prototype:
 
 The PDF has 19 sheets.
 
+### Third look of the owner, 2026-11-27
+
+"Much better." Still missing up front: the revision (git hash), the branch and the like. And the
+same report is wanted at three widths: for one run, for one project, and across projects. Added:
+
+- Which code a report is about, directly under the head. A report of one run names repository,
+  branch, commit before, commit after and uncommitted changes in its head. A report of several
+  refactorings has a table with a row per refactoring: branch, commit before, commit after,
+  uncommitted changes. A run of the tool already records all of it (`Subject` of the run's data); a
+  step file may now state a `branch` beside its two commits. What is not recorded reads "not
+  stated".
+- An anonymized project withholds its repository and its branch as well as its names: a path or a
+  branch name can carry the project's name. The research program removes both from the set, and
+  the page says "withheld".
+- Three widths from the same inputs and the same page: every input (across projects),
+  `--only-project <name>` (one project), `--only-step <n>` (one run). The page reads the width from
+  what the set holds. One run: the head carries the run's code, the tiles are the run's own
+  (verdict, simplicity, test suite result, mutants killed, values measured, functions with no
+  killed mutant), and there is no table of results and no sum. One project: the title and the
+  tiles name the project; the column of projects is gone. A narrowed report numbers its
+  refactorings from 1 and does not carry the notes about the whole set.
+- Eight terms were added to the vocabulary for the head: project, run, repository, branch, commit,
+  uncommitted changes, author, tool (54 terms; `kiro-cli vocab validate` reports no finding).
+
+`look.ps1` writes the three reports into `out-restructure\`: `across-projects.pdf` (19 sheets),
+`project-drift-rdp.pdf` (15), `run-display-path.pdf` (10).
+
+To be settled in the spec: the report of one run is a set of one refactoring made from the run's
+report page, so the run page itself stays as it is (decision 2). A report page holds neither the
+project's name nor a title for the refactoring; today both come from the notes file.
+
 Not done, and to be said when the prototype is judged:
 
 - The gate's checks were not run on the new page: the browser checks of `checks\set.spec.mjs`, the

@@ -116,8 +116,60 @@ alt_labels = ["refusal"]
 topic = "refactoring-report"
 label = "Anonymized project"
 kind = "bool"
-definition = "A project whose file and function names are removed from the report. Only its numbers are shown."
+definition = "A project whose file and function names are removed from the report, with its repository and its branch. Only its numbers are shown."
 alt_labels = ["counts only", "project shown by counts only"]
+
+# What a report says up front: whose code, which state of it, who answers for it, what measured it.
+
+[terms.project]
+topic = "refactoring-report"
+label = "Project"
+kind = "entity"
+definition = "The code base a refactoring belongs to. A report is about one run, one project or several projects."
+
+[terms.run]
+topic = "refactoring-report"
+label = "Run"
+kind = "entity"
+definition = "One execution of lesscode's check on one refactoring. A run records the repository, the branch, both commits, whether there were uncommitted changes, and the tool's version."
+
+[terms.repository]
+topic = "refactoring-report"
+label = "Repository"
+kind = "entity"
+definition = "The git repository the run was made in, as a path on the machine of the run."
+
+[terms.branch]
+topic = "refactoring-report"
+label = "Branch"
+kind = "entity"
+definition = "The git branch that held the refactoring when it was measured."
+
+[terms.commit]
+topic = "refactoring-report"
+label = "Commit"
+kind = "entity"
+definition = "A git commit, named by its hash. A refactoring has two: the commit before it and the commit after it."
+alt_labels = ["git hash", "revision hash"]
+
+[terms.uncommitted-changes]
+topic = "refactoring-report"
+label = "Uncommitted changes"
+kind = "bool"
+definition = "Whether tracked files had changes that were not committed when the run began. If so, the commit after does not fully name the code that was measured."
+alt_labels = ["dirty"]
+
+[terms.author]
+topic = "refactoring-report"
+label = "Author"
+kind = "entity"
+definition = "The person who answers for a report. Stated by hand by whoever makes the report."
+
+[terms.tool]
+topic = "refactoring-report"
+label = "Tool"
+kind = "entity"
+definition = "The program that measured, with its version."
 
 # ------------------------------------------------------------------ topic: code-metric, the groups
 
