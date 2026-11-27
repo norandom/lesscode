@@ -1,5 +1,12 @@
 # Design: the run page
 
+> **Note of 2026-11-27 (spec `report-set`, task 1.2; owner's decisions D7 to D9):** the files this
+> design and its records place in `native/src/adapters/driver/` as `page_list.rs`, `page_log.rs`,
+> `page_names.rs`, `page_open.rs`, `page_report.rs`, `page_serve.rs`, `page_snapshot.rs`,
+> `page_subject.rs`, `page_text.rs` and `page_watch.rs` are now `native/src/dashboard/` without the
+> prefix (`list.rs`, `log.rs`, …), in a module of their own apart from core. Their behaviour did
+> not change. The text below and the earlier records are not rewritten.
+
 Provisional. Written 2026-11-23 after the owner approved the [requirements](requirements.md)
 ("approved, go on to the design and its prototype"). It becomes final only after the
 [prototype gate](prototype-gate.md) has been run and the owner has decided the points in

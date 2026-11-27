@@ -261,7 +261,11 @@ fn the_source_tree_has_no_specimen_fragment_and_no_first_occurrence_replacement(
     ];
     // `src/recording.rs` is the code the Rust specimen was copied from and
     // contains some of these as code; the rules lived under `src/adapters`.
-    let mut pending = vec![PathBuf::from("src/adapters")];
+    // `src/dashboard` held part of the driver until 2026-11-27 and stays under the same rule.
+    let mut pending = vec![
+        PathBuf::from("src/adapters"),
+        PathBuf::from("src/dashboard"),
+    ];
     let mut files = 0;
     while let Some(dir) = pending.pop() {
         for entry in std::fs::read_dir(&dir).unwrap() {

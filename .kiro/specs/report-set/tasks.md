@@ -42,8 +42,16 @@ Every task from group 2 on writes its dashboard code in that directory and nowhe
 
 ## Tasks
 
-- [ ] 1. The dashboard as a module of its own
-- [ ] 1.1 The ten files of the run page move into the dashboard directory (can fail)
+- [x] 1. The dashboard as a module of its own
+- [x] 1.1 The ten files of the run page move into the dashboard directory (can fail)
+  - Done 2026-11-27, `2db0f8d`. The "can fail" point fired as foreseen: `lib.rs` came to 198
+    logical units against 197 (tokens fit, 4,112 of 4,127). The owner chose one more
+    registration-only line for it (ceiling 197 to 198, recorded in its budget entry). Evidence in
+    `D:\BuildArtifacts\lesscode\dashboard-move\`: before and after, 552 tests pass; the 67 browser
+    checks pass with their fixture reports written (none skipped); the 8 pages `step reports`
+    writes from three real reports are the same bytes from the binaries before and after (the
+    list's moment masked); budgets 101 within, 7 disposed, 0 exceeded; Dagger on Linux, "All
+    native checks passed" in 707 s.
   - A pure move: the files that build the snapshot and its log, the report types, the page's text,
     the list, the removal of names, the subject, the listener, the opener and the watch leave the
     driver's directory and become the dashboard module, without their prefix. Their content
@@ -60,7 +68,14 @@ Every task from group 2 on writes its dashboard code in that directory and nowhe
     written after it from the same fixture run are the same bytes.
   - _Boundary: dashboard, adapters::driver, step_
   - _Requirements: 8.3, 8.4_
-- [ ] 1.2 The border between core and dashboard, kept by a test
+- [x] 1.2 The border between core and dashboard, kept by a test
+  - Done 2026-11-27: `native/tests/dashboard_border.rs`, three tests; the fragment scan of
+    `driver_contract.rs` reads `src/dashboard` too; notes in `structure.md` and the `run-dashboard`
+    design. Trials, each undone: an import of the report types in `compare.rs` failed the first
+    test naming `compare.rs`; an import of `step` in `dashboard/list.rs` failed the second; an
+    empty `adapters/driver/page_trial.rs` failed the third. 555 tests pass, fmt, Clippy and
+    budgets pass. The commands under `step` may name the dashboard; that is the design, not a
+    crossing.
   - A test reads the source tree and fails when a file of core other than the runner and the
     command runner names the dashboard, when a file of the dashboard names `step`, or when a file
     with the old prefix appears in the driver's directory again.

@@ -24,6 +24,7 @@ Approved baseline implementation locations are detailed in its design File Struc
 - `skills/deconvolute/`: planned optional product skill, distinct from Kiro authoring skills; not yet implemented.
 - `src/lesscode_baseline/`: historical Python baseline package, formally retired on 2026-11-09 in favor of the native Rust substrate (`native/`). All files preserved in Git history at commit `fd0b5b9` (indexed in `docs/archive/preserved-python-baseline.md`).
 - `native/`: unified compiled native library and CLI (`lesscode-core`), hosting the multi-language deconvolution controller and target-runtime adapters across Python, TypeScript, Java, and Rust.
+- `native/src/dashboard/` (owner decision, 2026-11-27, spec `report-set` D7 to D9): everything that shows a run or a set of runs, and nothing else; the page itself is the text under `native/page/`. Core (everything else under `native/src/` except `step/`) measures, plants faults, runs and judges and holds no page logic. The commands under `step/` decide what to show and call into the dashboard; the dashboard never names `step`. Of core, only the batch runner and the command runner name the dashboard, to tell its watch what happens. `native/tests/dashboard_border.rs` keeps these rules. Until 2026-11-27 these files were `native/src/adapters/driver/page_*.rs`.
 - `tests/fixtures/`: synthetic and adversarial behavior fixtures.
 - `benchmarks/`: licensed corpus manifests and fixed evaluator definitions.
 
