@@ -6,7 +6,7 @@ says `proceed` ([R200](../../../docs/research/2026-11-27/01-report-set-prototype
 this text to be wrong at three points. They were corrected on 2026-11-27 as the owner decided that
 day (D4 to D6 below): a report page's project name and step title come from the notes file; the
 rule for names searches only the project's own texts and refuses on distinctive names; the set
-section is built from the page's smaller parts. **Approved by the owner on 2026-11-27** ("approved"). Tasks: [tasks.md](tasks.md).
+section is built from the page's smaller parts. **Approved by the owner on 2026-11-27** ("approved"), and amended the same day in its structure: the dashboard code is a module of its own (D7 to D9). Tasks: [tasks.md](tasks.md).
 Discovery and decisions: [research.md](research.md).
 
 ## Overview
@@ -47,6 +47,28 @@ filled. No existing command changes its output, exit codes or receipts.
 - The section on sets in `docs/steps.md`, `docs/report-set.md`, and the example under
   `docs/examples/report-set/`.
 
+- The module `dashboard`: one directory, `native/src/dashboard/`, that holds everything that shows
+  a run or a set and nothing else (decided by the owner on 2026-11-27, D7 to D9). The ten existing
+  files of the run page move there from `adapters/driver/` in a first task group, with no change
+  of behaviour; the new files of this spec are written there.
+
+### The border between core and dashboard
+- **Dashboard** is what turns results into something to look at: the snapshot and its log, the
+  report types, the page's text and markers, the list, the removal of names, the subject, the
+  listener, the opener, the watch, and from this spec the set, its names and the PDF.
+- **Core** is everything that measures, plants faults, runs and judges. Core holds no drawing, no
+  page text and no knowledge of a set.
+- **`step` decides, the dashboard shows.** The command files stay under `step` (`check_page`,
+  `plan_page`, `reports`, and the new `set`, `set_inputs`, `set_pdf`): arguments, checks in order,
+  exit codes. They call into `dashboard` and hold no page logic.
+- **One crossing exists today and stays, named:** the runner and the command runner in
+  `adapters/driver/` tell the dashboard's watch what happens (`tell`, `Event`), and the watch reads
+  three of the runner's types. No other file of core names `dashboard`. A test reads the source
+  tree and fails when another one does.
+- The page's own files stay in `native/page/`; they are text the dashboard takes in.
+- Same crate, same binary. The paths `adapters::driver::page_*` of 2.2.0 are gone after the move;
+  nothing outside this repository is known to use them, and the release notes say so.
+
 ### Out of Boundary
 - What a run measures, judges or writes into its snapshot (`run-dashboard`,
   `gradual-refactoring-steps`).
@@ -57,16 +79,18 @@ filled. No existing command changes its output, exit codes or receipts.
 - The research programs that count holders and shapes.
 
 ### Allowed Dependencies
-- `adapters::driver::page_report` (the types `Report`, `Lens`, `Protection`, `Graph`, `Calls`,
-  `TypeShapes`), `page_snapshot::Snapshot`, `page_text` (`data_of`, the markers), `page_names`
+- `dashboard::report` (the types `Report`, `Lens`, `Protection`, `Graph`, `Calls`,
+  `TypeShapes`), `dashboard::snapshot::Snapshot`, `dashboard::text` (`data_of`, the markers), `dashboard::names`
   (`leave_out`), `adapters::driver::process` for running a program under a time limit.
 - `serde`, `serde_json`, `sha2`, `clap`: already in the crate. No new crate.
 - The page's view library as it is in the binary.
 - A Chromium-based browser on the machine, for `step set-pdf` only.
 - Playwright in `verification/`, for the checks only.
 
-Dependency direction: `step::set*` → `adapters::driver::page_set` → `page_report`, `page_snapshot`,
-`page_names`, `page_text`. Nothing in `adapters::driver` depends on `step`.
+Dependency direction: `step::set*` → `dashboard::set` → `dashboard::report`, `dashboard::snapshot`,
+`dashboard::names`, `dashboard::text`. Nothing in `dashboard` or in `adapters::driver` depends on
+`step`. `dashboard::pdf` uses `adapters::driver::process`; that is the dashboard using core, which
+is the allowed direction.
 
 ### Revalidation Triggers
 - A change of `Snapshot` or `Report` that removes or renames a field: sets of version 1 must still
@@ -81,9 +105,9 @@ Dependency direction: `step::set*` → `adapters::driver::page_set` → `page_re
 ### Existing Architecture Analysis
 
 - `step plan --page` and `step check --page` build a `Snapshot` and write `run.html` with it at the
-  marker `/*DATA*/null` (`page_text::report`).
-- `page_text::data_of` takes the run out of a written page of any version.
-- `step reports` reads pages, optionally calls `page_names::leave_out` on each run, writes copies
+  marker `/*DATA*/null` (`dashboard::text::report`).
+- `dashboard::text::data_of` takes the run out of a written page of any version.
+- `step reports` reads pages, optionally calls `dashboard::names::leave_out` on each run, writes copies
   and `list.html`.
 - `step check --measures` reads lenses and shapes measured elsewhere (`step::check_handed`) and puts
   them into the `Report` marked `handed_in`.
@@ -97,13 +121,13 @@ flowchart LR
     stepfiles["step files (.json)"] --> inputs
     notes["notes file (.json)"] --> inputs
     inputs["step::set_inputs<br/>read, check, order"] --> build
-    build["driver::page_set<br/>build, leave names out, check"] --> set["set.json"]
-    build --> text["driver::page_text::set"]
+    build["driver::dashboard::set<br/>build, leave names out, check"] --> set["set.json"]
+    build --> text["driver::dashboard::text::set"]
     text --> page["set page (.html)"]
     set -. "picked or dropped" .-> page
     set --> pdfcmd["step::set_pdf"]
     pdfcmd --> text
-    pdfcmd --> browser["driver::page_pdf<br/>find and drive a browser"]
+    pdfcmd --> browser["driver::dashboard::pdf<br/>find and drive a browser"]
     browser --> pdf["report.pdf"]
     page -. "control: save as PDF" .-> print["browser's print"]
 ```
@@ -134,13 +158,26 @@ native/
 │   ├── set.spec.mjs                  # new: the set page in a browser
 │   └── set-six.json                  # new: fixed set for the browser checks
 ├── src/
+│   ├── lib.rs                        # modified: one line, `pub mod dashboard;`
 │   ├── adapters/driver/
-│   │   ├── page_set.rs               # new: the set's types, reader, checker, builder
-│   │   ├── page_set_names.rs         # new: names out of a set; one number per name; note check
-│   │   ├── page_pdf.rs               # new: find a browser, drive it, time limit
-│   │   ├── page_text.rs              # modified: `set()`, the marker for a set
-│   │   ├── page_names.rs             # modified: `leave_out` gives back the names it took
-│   │   └── mod.rs                    # modified: three module lines
+│   │   ├── mod.rs                    # modified: the ten `page_*` module lines go
+│   │   ├── runner.rs                 # modified: one import, `dashboard::watch`
+│   │   └── run_command.rs            # modified: one import, `dashboard::watch`
+│   ├── dashboard/                    # new directory: everything that shows a run or a set
+│   │   ├── mod.rs                    # new: the module lines, and what the border is
+│   │   ├── snapshot.rs               # moved from adapters/driver/page_snapshot.rs
+│   │   ├── log.rs                    # moved from page_log.rs
+│   │   ├── report.rs                 # moved from page_report.rs
+│   │   ├── subject.rs                # moved from page_subject.rs
+│   │   ├── watch.rs                  # moved from page_watch.rs
+│   │   ├── serve.rs                  # moved from page_serve.rs
+│   │   ├── open.rs                   # moved from page_open.rs
+│   │   ├── list.rs                   # moved from page_list.rs
+│   │   ├── text.rs                   # moved from page_text.rs; then modified: `set()`, the marker
+│   │   ├── names.rs                  # moved from page_names.rs; then modified: gives back the names
+│   │   ├── set.rs                    # new: the set's types, reader, checker, builder
+│   │   ├── set_names.rs              # new: names out of a set; one number per name; the last search
+│   │   └── pdf.rs                    # new: find a browser, drive it, time limit
 │   └── step/
 │       ├── set.rs                    # new: `step set`, arguments and outcome
 │       ├── set_inputs.rs             # new: a page, a step file, a notes file → inputs
@@ -161,9 +198,18 @@ verification/playwright.config.mjs    # modified: one more test file
 ### Modified Files
 - `native/page/run.html`: a third marker `/*SET*/null`; the part `Set`; the load control; the rules
   for print; `App` chooses `Set` when a set is present. With no set the page behaves as before.
-- `native/src/adapters/driver/page_text.rs`: `set(&ReportSet) -> Result<String, String>`.
-- `native/src/adapters/driver/page_names.rs`: `leave_out` returns the names it replaced, with their
-  numbers. `step::reports` ignores the result.
+- The move: the ten `page_*.rs` files of `native/src/adapters/driver/` become the files of
+  `native/src/dashboard/` without their prefix. Their content changes only in the paths they
+  import and in the three `include_str!` paths to `native/page/`. Every file that imports them
+  changes its import and nothing else: eight files under `step`, two in the driver, and the test
+  files that import them, which keep their names.
+- `native/src/lib.rs` gets one line. It is at its size ceiling in the budgets file; whether the
+  line fits is found in the first task. If it does not, the owner decides between one more line
+  for `lib.rs` and another place for the directory.
+- `native/src/dashboard/text.rs`: `set(&ReportSet) -> Result<String, String>`.
+- `native/src/dashboard/names.rs`: `leave_out` returns the names it replaced, with their numbers.
+  `step::reports` ignores the result.
+- The budgets file: the ten moved files are listed under their new paths with the same ceilings.
 - `native/src/step/mod.rs`: `StepCommand::Set`, `StepCommand::SetPdf`.
 - `verification/playwright.config.mjs`: `set.spec.mjs` in `testMatch`.
 - `docs/steps.md`.
@@ -177,7 +223,7 @@ sequenceDiagram
     participant P as person or pipeline
     participant S as step set
     participant I as set_inputs
-    participant B as page_set
+    participant B as dashboard::set
     P->>S: inputs in order, --out, [--notes] [--page] [--without-names-of]
     S->>I: read each input
     I-->>S: runs, step files, notes, or the first that cannot be read
@@ -195,7 +241,7 @@ Nothing is written unless every check has passed. The set is written first, then
 sequenceDiagram
     participant P as pipeline
     participant C as step set-pdf
-    participant D as page_pdf
+    participant D as dashboard::pdf
     participant X as browser
     P->>C: set.json, --out report.pdf
     C->>C: read and check the set (exit 3 on refusal)
@@ -211,20 +257,20 @@ sequenceDiagram
 
 | Requirement | Summary | Components | Interfaces | Flows |
 | --- | --- | --- | --- | --- |
-| 1.1, 1.2, 1.9 | one file; what a step holds; versions and inputs | `page_set` | `ReportSet`, `Step`, `Input` | Making a set |
-| 1.3, 1.4 | where a number is from; not measured is said | `page_set`, `page_report` | `Lens.command`, `Lens.handed_in`, `Lens.measured`, `Snapshot.tool` | |
-| 1.5, 1.6, 1.7, 1.8 | faults, drawing, shapes, time | `page_set` | `Report.functions`, `Report.graph`, `Report.shapes`, `Snapshot.seconds` | |
-| 1.10 | refusing a file that is not a set of this version | `page_set` | `read` | both |
+| 1.1, 1.2, 1.9 | one file; what a step holds; versions and inputs | `dashboard::set` | `ReportSet`, `Step`, `Input` | Making a set |
+| 1.3, 1.4 | where a number is from; not measured is said | `dashboard::set`, `dashboard::report` | `Lens.command`, `Lens.handed_in`, `Lens.measured`, `Snapshot.tool` | |
+| 1.5, 1.6, 1.7, 1.8 | faults, drawing, shapes, time | `dashboard::set` | `Report.functions`, `Report.graph`, `Report.shapes`, `Snapshot.seconds` | |
+| 1.10 | refusing a file that is not a set of this version | `dashboard::set` | `read` | both |
 | 2.1, 2.2, 2.10 | one step per input, in order; a set of one; refused steps alike | `set`, `set_inputs` | `SetArgs.inputs`, `build` | Making a set |
-| 2.3, 2.4 | handed-in numbers; a step from them alone | `set_inputs`, `page_set` | `StepFile`, `Step.judged` | Making a set |
-| 2.5 | notes at the set or at a step | `set_inputs`, `page_set` | `NotesFile`, `Note` | Making a set |
+| 2.3, 2.4 | handed-in numbers; a step from them alone | `set_inputs`, `dashboard::set` | `StepFile`, `Step.judged` | Making a set |
+| 2.5 | notes at the set or at a step | `set_inputs`, `dashboard::set` | `NotesFile`, `Note` | Making a set |
 | 2.6 | runs nothing, changes no project | `set`, `set_inputs` | reads only; writes at `--out` and `--page` | |
-| 2.7 | same inputs, same set | `page_set` | `as_of`; no clock; ordered maps | |
+| 2.7 | same inputs, same set | `dashboard::set` | `as_of`; no clock; ordered maps | |
 | 2.8, 2.9 | refusals by exit code; no overwrite | `set`, `set_inputs` | `Refused`, `--force` | Making a set |
-| 3.1, 3.2, 3.3, 3.4 | names out of the set; counts kept; one number per name; said per project | `page_set_names`, `page_names` | `without_names`, `Project.counts_only` | Making a set |
-| 3.5, as amended 2026-11-27 | a note that names what was left out: refused for a distinctive name, warned for an everyday word | `page_set_names` | `names_in`, `Found` | Making a set |
+| 3.1, 3.2, 3.3, 3.4 | names out of the set; counts kept; one number per name; said per project | `dashboard::set_names`, `dashboard::names` | `without_names`, `Project.counts_only` | Making a set |
+| 3.5, as amended 2026-11-27 | a note that names what was left out: refused for a distinctive name, warned for an everyday word | `dashboard::set_names` | `names_in`, `Found` | Making a set |
 | 3.6 | page and PDF show only what the set holds | `run.html` | the page draws from the set alone | |
-| 4.1, 4.10 | the page written with the set, only when asked | `set`, `page_text` | `--page`, `page_text::set` | Making a set |
+| 4.1, 4.10 | the page written with the set, only when asked | `set`, `dashboard::text` | `--page`, `dashboard::text::set` | Making a set |
 | 4.2 | from disk, no request | `run.html` | no address in set mode | |
 | 4.3, 4.4, 4.6 | steps side by side; each step as a report; refused alike | `run.html` | `Set`, `SetStep`, `Tiles`, `Lenses`, `PerFunction`, `Graph`, `Shapes` | |
 | 4.5, 4.7, 4.8 | marks; notes as text; versions and inputs | `run.html` | `Set`, text nodes only | |
@@ -233,12 +279,12 @@ sequenceDiagram
 | 5.4 | nothing is sent | `run.html` | no fetch, no address | |
 | 6.1, 6.2, 6.3, 6.4, 6.6, 6.7 | the layout for paper | `run.html` | rules under `@media print`; the mark `print` | |
 | 6.5 | one control that saves as PDF | `run.html` | `savePdf` | |
-| 7.1, 7.2, 7.7 | the PDF file; what it holds; no overwrite | `set_pdf`, `page_pdf` | `SetPdfArgs`, `print` | The PDF by command |
-| 7.3, 7.4 | no window, no question, no network, no install; browsers named | `page_pdf`, `docs/steps.md` | `find`, `--browser`, `LESSCODE_BROWSER` | |
-| 7.5, 7.6 | no browser; time limit; nothing left running | `page_pdf`, `set_pdf` | `NoBrowser`, `NotPrinted`, exit 2 | The PDF by command |
-| 7.8 | Windows and Linux | `page_pdf`, `report_set_pdf.rs` | | |
+| 7.1, 7.2, 7.7 | the PDF file; what it holds; no overwrite | `set_pdf`, `dashboard::pdf` | `SetPdfArgs`, `print` | The PDF by command |
+| 7.3, 7.4 | no window, no question, no network, no install; browsers named | `dashboard::pdf`, `docs/steps.md` | `find`, `--browser`, `LESSCODE_BROWSER` | |
+| 7.5, 7.6 | no browser; time limit; nothing left running | `dashboard::pdf`, `set_pdf` | `NoBrowser`, `NotPrinted`, exit 2 | The PDF by command |
+| 7.8 | Windows and Linux | `dashboard::pdf`, `report_set_pdf.rs` | | |
 | 8.1, 8.2, 8.5 | arguments only; says where it wrote; writes only there | `set`, `set_pdf` | | |
-| 8.3, 8.4 | no set unless asked; old reports and list the same | `run.html`, `page_text` | existing tests and `states.spec.mjs`, `list.spec.mjs` unchanged | |
+| 8.3, 8.4 | no set unless asked; old reports and list the same | `run.html`, `dashboard::text` | existing tests and `states.spec.mjs`, `list.spec.mjs` unchanged | |
 | 9.1, 9.2 | how to; the formats | `docs/steps.md`, `docs/report-set.md` | | |
 | 9.3, 9.4 | the example, kept true by the checks | `docs/examples/report-set/`, `report_set.rs`, `report_set_pdf.rs` | | |
 
@@ -246,17 +292,17 @@ sequenceDiagram
 
 | Component | Layer | Intent | Requirements | Depends on | Contracts |
 | --- | --- | --- | --- | --- | --- |
-| `page_set` | driver | the set: types, reading, checking, building | 1, 2.1 to 2.5, 2.7, 2.10 | `page_report`, `page_snapshot` | Service, State |
-| `page_set_names` | driver | counts only | 3 | `page_names`, `page_set` | Service |
-| `set_inputs` | step | files to inputs | 2.3 to 2.5, 2.8 | `page_text::data_of`, `page_set` | Service |
-| `set` | step | the command `step set` | 2, 4.1, 4.10, 8 | the three above, `page_text` | Batch |
-| `page_pdf` | driver | a browser, found and driven | 7.3 to 7.8 | `process` | Service |
-| `set_pdf` | step | the command `step set-pdf` | 7, 8 | `page_set`, `page_text`, `page_pdf` | Batch |
+| `dashboard::set` | dashboard | the set: types, reading, checking, building | 1, 2.1 to 2.5, 2.7, 2.10 | `dashboard::report`, `dashboard::snapshot` | Service, State |
+| `dashboard::set_names` | dashboard | counts only | 3 | `dashboard::names`, `dashboard::set` | Service |
+| `set_inputs` | step | files to inputs | 2.3 to 2.5, 2.8 | `dashboard::text::data_of`, `dashboard::set` | Service |
+| `set` | step | the command `step set` | 2, 4.1, 4.10, 8 | the three above, `dashboard::text` | Batch |
+| `dashboard::pdf` | dashboard | a browser, found and driven | 7.3 to 7.8 | `process` | Service |
+| `set_pdf` | step | the command `step set-pdf` | 7, 8 | `dashboard::set`, `dashboard::text`, `dashboard::pdf` | Batch |
 | set mode of `run.html` | page | show, load, print | 3.6, 4, 5, 6 | the page's parts | State |
 
-### Driver
+### Dashboard
 
-#### `page_set`
+#### `dashboard::set`
 
 | Field | Detail |
 | --- | --- |
@@ -313,7 +359,7 @@ pub fn write(set: &ReportSet) -> Result<String, String>;   // the same bytes for
   format does not know, `steps[2].run` that is not a run.
 - Maps are written in a fixed order so that the same set gives the same bytes.
 
-#### `page_set_names`
+#### `dashboard::set_names`
 
 | Field | Detail |
 | --- | --- |
@@ -329,7 +375,7 @@ pub struct Found { pub place: String, pub word: String, pub everyday: bool }
 /// notes of the set. Never in the names of the format's parts, never in another project's steps.
 pub fn names_in(set: &ReportSet, project: &str, names: &[String], page: &str) -> Vec<Found>;
 ```
-- `without_names` calls `page_names::leave_out` per run and then makes the numbers agree across the
+- `without_names` calls `dashboard::names::leave_out` per run and then makes the numbers agree across the
   steps of the project: the same name gets the same number in every step.
 - A name is searched as a whole word: `run` is not found in `runtime`.
 - A name is **everyday** when it stands as a whole word in the text of the page inside the binary
@@ -348,7 +394,7 @@ pub fn names_in(set: &ReportSet, project: &str, names: &[String], page: &str) ->
 - The names of the input files stand in the head of a set. For a project shown by counts only they
   are searched like a note.
 
-#### `page_pdf`
+#### `dashboard::pdf`
 
 | Field | Detail |
 | --- | --- |
@@ -377,7 +423,7 @@ pub fn print(browser: &Path, page: &Path, pdf: &Path, seconds: u64) -> Result<()
 #### `set_inputs`
 
 **Responsibilities**: turns one named file into one input. A file is a report page when
-`page_text::data_of` reads it, a step file or a notes file when its `kind` says so.
+`dashboard::text::data_of` reads it, a step file or a notes file when its `kind` says so.
 
 ```rust
 pub enum StepInput { Run { name: String, sha256: String, run: Snapshot, label: Label }, Stated { name: String, sha256: String, step: StepFile } }
@@ -463,7 +509,7 @@ lesscode-core step set-pdf <set.json> --out <report.pdf> [--browser <path>] [--s
 - **State**: `shown`: the set written in, or a loaded one with its file name; `message`: why the
   last file was not taken. Nothing is kept between openings (5.6).
 - **Loading**: a file input and a drop on the page give a file to `load`. `checkSet` applies the
-  same rules as `page_set::read` for the head: `kind`, `schema` not above the page's, the required
+  same rules as `dashboard::set::read` for the head: `kind`, `schema` not above the page's, the required
   parts. A file that fails leaves `shown` as it was and sets `message` with the part's name.
 - **Print**: rules under `@media print` take the light scheme's values, hide the controls, and keep
   figures and table rows whole. The control `savePdf`, the browser's own print, and the address
@@ -527,15 +573,15 @@ None. The commands print what they wrote and why they refused, on standard error
 ## Testing Strategy
 
 ### Unit tests (in the modules)
-- `page_set::read` refuses a newer `schema`, a missing `steps`, an unknown field in the head and a
+- `dashboard::set::read` refuses a newer `schema`, a missing `steps`, an unknown field in the head and a
   step whose `run` is not a run, each naming the part (1.10).
-- `page_set::build` gives `as_of` as the newest end, steps in the order of the inputs, and the same
+- `dashboard::set::build` gives `as_of` as the newest end, steps in the order of the inputs, and the same
   bytes when called twice (2.1, 2.7).
-- `page_set_names::without_names` gives one number per name across two steps of one project (3.3).
-- `page_set_names::names_in` finds a distinctive name in a note and in a text of the project's
+- `dashboard::set_names::without_names` gives one number per name across two steps of one project (3.3).
+- `dashboard::set_names::names_in` finds a distinctive name in a note and in a text of the project's
   step; marks a name that is a word of the page as everyday; finds nothing in the names of the
   format's parts, in another project's step, or inside a longer word (3.5).
-- `page_pdf::find` takes `--browser` before the variable and the variable before the search path,
+- `dashboard::pdf::find` takes `--browser` before the variable and the variable before the search path,
   and lists what it looked for when it finds none (7.4, 7.5).
 
 ### Integration tests (`native/tests/`)
@@ -611,6 +657,18 @@ All three were decided as recommended. Evidence for each:
 | D5 | The rule that keeps the names of a counts-only project out. Alternatives: refuse on every name unless the word is listed as allowed; check the steps and leave notes unchecked | Search only that project's steps and the notes; refuse on distinctive names, warn on everyday words. Requirement 3.5 is amended to this |
 | D6 | How the set page draws a step. Alternative: change `Result` so that it draws stated steps too | The set section composes the smaller parts; `Result` stays |
 
+## Decisions of the owner, 2026-11-27, after the design was approved
+
+The owner asked that the dashboard and visualization code be a module of its own, easy to tell
+from lesscode's core. All three were decided as recommended. This amends the approved design in its
+structure only; no format, command or behaviour changes.
+
+| # | Decision | Decided |
+| --- | --- | --- |
+| D7 | How separate. Alternatives: a crate of its own in a workspace; naming only | A module directory of its own inside the crate, `native/src/dashboard/` |
+| D8 | Whether the run page's ten existing files move too. Alternatives: only the new files; new now and the move after the last group | All move, as the first task group, before anything of this spec is built |
+| D9 | Where the commands that write pages live. Alternative: move them with the module | They stay under `step`; `step` decides, the dashboard shows |
+
 ## Contradictions and disposition
 
 Checked: [requirements](requirements.md), [brief](brief.md), `product.md`, `tech.md`,
@@ -631,6 +689,9 @@ Checked: [requirements](requirements.md), [brief](brief.md), `product.md`, `tech
 | C9 | Goal "the same parts of the page draw a step in a run's report and in a set" against `Result`, which cannot draw a stated step | this design; R200 | The shared parts are `Tiles`, `Lenses`, `PerFunction`, `Graph` and `Shapes`. The outcome block is the set's own | resolved by the owner, 2026-11-27 (D6) |
 | C10 | Research finding "a report page already holds its whole run … nothing new is needed" against the gate: the page holds no project name and no step title | research.md; R200 | Both are handed in with the notes file | resolved by the owner, 2026-11-27 (D4) |
 
+| C11 | The `run-dashboard` design and its handovers place the run page's files in `adapters/driver/`, against the owner's wish of 2026-11-27 for a module of its own | `run-dashboard` design; owner, 2026-11-27 | The files move to `native/src/dashboard/` in the first task group. The `run-dashboard` spec gets a dated note with the new paths; its records are not rewritten | resolved by the owner, 2026-11-27 (D7, D8) |
+| C12 | "No new crate" in this design against a separation the compiler enforces | this design; owner, 2026-11-27 | One crate. The border is kept by a test that reads the source tree | resolved by the owner, 2026-11-27 (D7) |
+
 Nothing is open. Not shown by the gate and left to the first task: the tool's own page, changed in
-place, still passes `states.spec.mjs` and `list.spec.mjs`; and `page_names::leave_out`, which the
+place, still passes `states.spec.mjs` and `list.spec.mjs`; and `dashboard::names::leave_out`, which the
 prototype did not run, gives numbers that can be made to agree across two steps.

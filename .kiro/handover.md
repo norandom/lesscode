@@ -13,13 +13,22 @@ Nothing is running. All working copies are removed.
 **Update 2026-11-27, about 09:50: the owner approved the design; the tasks of `report-set` are
 generated and wait for the owner's approval. Start here.**
 
-- [tasks.md](specs/report-set/tasks.md): 8 groups, 21 sub-tasks and one closing task, every
-  requirement mapped. The sanity review was inline, verdict PASS. Not approved; no implementation
-  before that.
-- Group 1 is the page (the tool's own page changed in place, which the gate did not show), then
+- **The owner then asked for the dashboard and visualization code as a module of its own**, easy
+  to tell from core, and decided (D7 to D9 in the design): a directory `native/src/dashboard/`
+  inside the crate, not a crate of its own; the ten existing `page_*.rs` files of the run page
+  move there from `adapters/driver/` as the first task group; the command files stay under `step`.
+  The design is amended in its structure only. One crossing between core and dashboard exists and
+  stays: the runner and the command runner tell the dashboard's watch what happens.
+- [tasks.md](specs/report-set/tasks.md): 9 groups, 23 sub-tasks and one closing task, every
+  requirement mapped. The sanity review was inline, verdict PASS, done again after group 1 was
+  added. Not approved; no implementation before that.
+- Group 1 is the move (a pure move, guarded by the existing suites and browser checks, then a test
+  that keeps the border). Not known before task 1.1: whether `lib.rs`, which is at its size
+  ceiling, can take one more line. If not, the owner decides; no ceiling is raised without that.
+- Group 2 is the page (the tool's own page changed in place, which the gate did not show), then
   the set as a file, the inputs, counts only, `step set`, the PDF by command, the example and the
   documentation, and last the gate's expectations run on the tool itself.
-- Still open with the owner: the look of the two PDFs (G8; remarks go into task 1.3), and whether
+- Still open with the owner: the look of the two PDFs (G8; remarks go into task 2.3), and whether
   to push. `main` is ahead of `origin/main` by the commits of today.
 - **Next:** the owner approves the tasks, then `kiro-impl report-set 1.1` in the foreground. The
   group's handover will be `task_95_handover.md`.
