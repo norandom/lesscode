@@ -10,8 +10,18 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-27, about 11:10: the owner approved the tasks ("proceed"); task group 1 of
+`report-set` is done. Start here, then [task_95_handover.md](task_95_handover.md).**
+
+- Group 1: the ten run-page files are `native/src/dashboard/` now, a pure move (same page bytes,
+  same suite), with a test that keeps the border. `lib.rs` needed one line over its ceiling; the
+  owner granted it. Record: [R201](../docs/research/2026-11-27/02-dashboard-module.md).
+- Next: group 2, task 2.1 (the set page in the tool's own page). Open with the owner: the look of
+  the gate's PDFs, push, and whether the inactive model-seam prototype builds (8.4 GiB) may go.
+- The next group handover is `task_96_handover.md`.
+
 **Update 2026-11-27, about 09:50: the owner approved the design; the tasks of `report-set` are
-generated and wait for the owner's approval. Start here.**
+generated and wait for the owner's approval.**
 
 - **The owner then asked for the dashboard and visualization code as a module of its own**, easy
   to tell from core, and decided (D7 to D9 in the design): a directory `native/src/dashboard/`
