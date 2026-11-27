@@ -4,7 +4,7 @@
 //! about, whether work was uncommitted, and whether the branch is the
 //! repository's main branch.
 
-use super::page_snapshot::Subject;
+use super::snapshot::Subject;
 use std::path::Path;
 use std::process::{Command, Stdio};
 

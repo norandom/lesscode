@@ -3,8 +3,8 @@
 //! use a short one and measure against it.
 
 use lesscode_core::adapters::driver::config::RunConfig;
-use lesscode_core::adapters::driver::page_watch::{Heart, BEAT};
 use lesscode_core::adapters::driver::registry::embedded;
+use lesscode_core::dashboard::watch::{Heart, BEAT};
 use lesscode_core::step::plan_page::PlanWatch;
 use serde_json::json;
 use std::fs;

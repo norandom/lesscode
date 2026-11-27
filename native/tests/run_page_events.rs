@@ -3,9 +3,9 @@
 //! the example `toy_check`, as in the driver's own suites.
 
 use lesscode_core::adapters::driver::config::RunConfig;
-use lesscode_core::adapters::driver::page_watch::{Event, Watch, Watching};
 use lesscode_core::adapters::driver::registry::embedded;
 use lesscode_core::adapters::driver::run_command::{run_run, RunArgs};
+use lesscode_core::dashboard::watch::{Event, Watch, Watching};
 use lesscode_core::step::plan::{run_plan, PlanArgs};
 use lesscode_core::step::plan_page::PlanWatch;
 use serde_json::{json, Value};

@@ -8,10 +8,10 @@
 //! is written unless every report could be read.
 
 use super::plan_page::now;
-use crate::adapters::driver::page_list::{list, project_of, row};
-use crate::adapters::driver::page_names::leave_out;
-use crate::adapters::driver::page_snapshot::{stamp, SCHEMA};
-use crate::adapters::driver::page_text;
+use crate::dashboard::list::{list, project_of, row};
+use crate::dashboard::names::leave_out;
+use crate::dashboard::snapshot::{stamp, SCHEMA};
+use crate::dashboard::text;
 use serde_json::Value;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -44,7 +44,7 @@ fn said(place: &Path, error: impl std::fmt::Display) -> String {
 /// Reads one report; leaves the names out where its project is named.
 fn listed(place: &Path, at: usize, without: &[String]) -> Result<Listed, String> {
     let page = fs::read_to_string(place).map_err(|e| said(place, e))?;
-    let mut run = page_text::data_of(&page).map_err(|e| said(place, e))?;
+    let mut run = text::data_of(&page).map_err(|e| said(place, e))?;
     if run.get("schema") != Some(&Value::from(SCHEMA)) {
         let found = run.get("schema").cloned().unwrap_or_default();
         let why = format!("its data has version {found}; this tool reads version {SCHEMA}");
@@ -54,7 +54,7 @@ fn listed(place: &Path, at: usize, without: &[String]) -> Result<Listed, String>
     let left_out = without.contains(&project);
     let page = if left_out {
         leave_out(&mut run);
-        page_text::with_data(&page, &run).map_err(|e| said(place, e))?
+        text::with_data(&page, &run).map_err(|e| said(place, e))?
     } else {
         page
     };
@@ -106,7 +106,7 @@ pub fn run_reports(args: ReportsArgs) -> Result<u8, String> {
     all_named(&reports, without)?;
     let rows = reports.iter().map(|r| r.row.clone()).collect();
     let index = list(env!("CARGO_PKG_VERSION"), stamp(now()), rows);
-    let index = page_text::list(&index)?;
+    let index = text::list(&index)?;
 
     fs::create_dir_all(&args.out).map_err(|e| said(&args.out, e))?;
     for report in &reports {

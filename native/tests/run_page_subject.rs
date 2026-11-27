@@ -2,8 +2,8 @@
 //! (`.kiro/specs/run-dashboard`, task 1.2). Each test makes a small
 //! repository of its own.
 
-use lesscode_core::adapters::driver::page_log::{RunLog, StagePlan};
-use lesscode_core::adapters::driver::page_subject::subject;
+use lesscode_core::dashboard::log::{RunLog, StagePlan};
+use lesscode_core::dashboard::subject::subject;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;

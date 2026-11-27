@@ -2,7 +2,7 @@
 //! (`.kiro/specs/run-dashboard`, task 3.2). The browser is a stand-in that
 //! notes the address it was given and reads the page from it.
 
-use lesscode_core::adapters::driver::page_serve::LOCAL;
+use lesscode_core::dashboard::serve::LOCAL;
 use lesscode_core::step::plan::{run_plan, PlanArgs};
 use lesscode_core::step::plan_show::PageArgs;
 use serde_json::{json, Value};

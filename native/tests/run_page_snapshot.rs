@@ -2,8 +2,8 @@
 //! (`.kiro/specs/run-dashboard`, task 1.1). Each test replays a small run
 //! with stated moments and compares the snapshot with a written expectation.
 
-use lesscode_core::adapters::driver::page_log::{Class, Classed, RunLog, StagePlan};
-use lesscode_core::adapters::driver::page_snapshot::Snapshot;
+use lesscode_core::dashboard::log::{Class, Classed, RunLog, StagePlan};
+use lesscode_core::dashboard::snapshot::Snapshot;
 use serde_json::{json, Value};
 
 const STAGES: &[StagePlan] = &[

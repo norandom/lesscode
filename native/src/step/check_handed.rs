@@ -11,7 +11,7 @@
 //!              "cells": [{"shape": "flag no, region none", "reached": true, "seen": false}]}]}
 //! ```
 
-use crate::adapters::driver::page_report::{Lens, TypeShapes, LOCAL, STATE};
+use crate::dashboard::report::{Lens, TypeShapes, LOCAL, STATE};
 use serde::Deserialize;
 use serde_json::Value;
 use std::path::Path;

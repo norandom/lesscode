@@ -2,8 +2,8 @@
 //! (`.kiro/specs/run-dashboard`, task 4.1). The page is looked at as text;
 //! no browser is started here.
 
-use lesscode_core::adapters::driver::page_log::RunLog;
-use lesscode_core::adapters::driver::page_text::{live, report};
+use lesscode_core::dashboard::log::RunLog;
+use lesscode_core::dashboard::text::{live, report};
 use sha2::{Digest, Sha256};
 use std::fs;
 use std::path::PathBuf;

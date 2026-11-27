@@ -7,7 +7,7 @@ use super::check_page::CheckWatch;
 use super::context::Context;
 use super::plan_show::{place_of, Showing, Shown};
 use crate::adapters::driver::pack::Pack;
-use crate::adapters::driver::page_subject::{change, written_inside};
+use crate::dashboard::subject::{change, written_inside};
 use std::sync::Arc;
 
 /// Begins showing a check if the options ask for it. An `Err` is a refusal

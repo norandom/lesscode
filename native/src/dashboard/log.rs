@@ -4,8 +4,8 @@
 //! here: every moment is handed in as milliseconds since 1970, so that a
 //! test can replay a run exactly.
 
-use super::page_report::Report;
-use super::page_snapshot::{
+use super::report::Report;
+use super::snapshot::{
     stamp, Copies, Dropped, Example, Faults, Snapshot, Stage, Status, Subject, Tally, Tests, Tool,
     FEW, SCHEMA,
 };

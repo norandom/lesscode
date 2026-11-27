@@ -10,7 +10,7 @@
 //! The tool's own sentences are not searched: a function named like a common
 //! word would otherwise take that word out of them.
 
-use super::page_list::project_of;
+use super::list::project_of;
 use serde_json::{json, Value};
 use std::collections::{BTreeSet, HashMap};
 

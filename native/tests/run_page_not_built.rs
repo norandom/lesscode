@@ -2,10 +2,10 @@
 //! (`.kiro/specs/run-dashboard`, task 5.3). The pack names the conditions
 //! that are certain for a system; a fault under one of them is counted apart.
 
-use lesscode_core::adapters::driver::page_log::{Class, Classed, RunLog};
-use lesscode_core::adapters::driver::page_text::write_report;
 use lesscode_core::adapters::driver::registry::embedded;
 use lesscode_core::adapters::driver::sites::{file_sites, not_built_spans, within, Site};
+use lesscode_core::dashboard::log::{Class, Classed, RunLog};
+use lesscode_core::dashboard::text::write_report;
 use lesscode_core::step::functions::FileFunctions;
 use lesscode_core::step::plan_page::{class_at, STAGES};
 use serde_json::Value;

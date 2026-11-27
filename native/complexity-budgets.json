@@ -312,10 +312,10 @@
   {
    "path": "lib.rs",
    "max_tokens": 4127,
-   "max_logical_units": 197,
+   "max_logical_units": 198,
    "max_fn_tokens": 2027,
    "owner": "capability-compression-core",
-   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split) + pub mod state_contract (task 3.3) + pub mod adapter_traits (task 1) + pub mod density (task 2) + pub mod state_frame (task 2) + pub mod pure_verifier (task 3) + pub mod mutant_generator (task 4) + pub mod stream_monitor (task 4) + pub mod specimen_runner (task 5) + pub mod token_guard (task 6) + pub mod adapters (task 1) + pub mod seam (model-seam task 7.1; +1 registration-only line, zero domain logic)",
+   "allocation": "registration allowance: pub mod budgets (applied) + pub mod receipt (applied, task 2) + pub mod surface (applied, task 8.2) + pub mod measures (applied, task 8.3) + pub mod recording (applied, task 8.4; R36-enumerated registration hunks count toward U5) + pub mod regenerator (applied, task 8.5; +1 registration-only line, zero domain logic) + pub mod jsonval (applied, task 9.3; +1 registration-only line, zero domain logic, R37 defect-7 split) + pub mod state_contract (task 3.3) + pub mod adapter_traits (task 1) + pub mod density (task 2) + pub mod state_frame (task 2) + pub mod pure_verifier (task 3) + pub mod mutant_generator (task 4) + pub mod stream_monitor (task 4) + pub mod specimen_runner (task 5) + pub mod token_guard (task 6) + pub mod adapters (task 1) + pub mod seam (model-seam task 7.1; +1 registration-only line, zero domain logic) + pub mod dashboard (report-set task 1.1; +1 registration-only line, zero domain logic; ceiling 197 to 198 by the owner, 2026-11-27)",
    "disposition": "keep-measured-ceiling; +5 registration-only allowance (physical + units), zero domain logic (U7 rule 2); blob b18559b22d2b29d360bbad17948b96f393557077"
   },
   {
@@ -403,63 +403,63 @@
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_log.rs",
+   "path": "dashboard/log.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "What a run tells about itself, kept as the snapshot the page shows; no input or output (task 1.1; requirements 3.1, 3.2, 3.5, 3.6, 3.8, 6.2, 6.3)",
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_list.rs",
+   "path": "dashboard/list.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "The list of several reports: per report the project, the scope, the date, the outcome and the rows of its lenses, taken from the run inside it (task 7.1; requirements 8.1 to 8.3)",
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_names.rs",
+   "path": "dashboard/names.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "Leaving the names of a project's files, functions and types out of the run inside a report: a number per name, commands and written files left out as a whole (task 7.1; requirement 8.4)",
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_report.rs",
+   "path": "dashboard/report.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "The report part of the snapshot: one row per measure of a lens before and after, the faults per function on both sides, the refusal (task 6.2; requirements 7.2 to 7.4, 7.7)",
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_snapshot.rs",
+   "path": "dashboard/snapshot.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "The one value the run page shows, version 1, and how a moment is written (task 1.1; design: the snapshot)",
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_subject.rs",
+   "path": "dashboard/subject.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "What a run reads, asked from Git with read-only commands: repository, branch, commit, uncommitted work, main branch (task 1.2; requirements 4.2, 4.5)",
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_open.rs",
+   "path": "dashboard/open.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "Starting the default browser with the platform's own opener, never through a shell (task 3.2; requirements 2.2, 2.3, 2.4)",
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_serve.rs",
+   "path": "dashboard/serve.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "The listener on the machine's own address for the length of a run: the page, the stream of snapshots, nothing else (task 3.1; requirements 1.2, 3.4, 3.7)",
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_text.rs",
+   "path": "dashboard/text.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "The page as text, served and written as the report with the snapshot inside; a plain stand-in until task 4.1 (task 3.2; requirement 2.1)",
@@ -473,10 +473,17 @@
    "disposition": null
   },
   {
-   "path": "adapters/driver/page_watch.rs",
+   "path": "dashboard/watch.rs",
    "max_logical_units": 300,
    "owner": "run-dashboard",
    "allocation": "Where a run says what happens in it: the events the batch runner tells and the one listener of the process (task 2.1; requirements 3.1, 3.3, 3.5)",
+   "disposition": null
+  },
+  {
+   "path": "dashboard/mod.rs",
+   "max_logical_units": 300,
+   "owner": "report-set",
+   "allocation": "The dashboard module root: its module lines and what belongs in it; everything that shows a run or a set, apart from core (task 1.1; owner's decisions D7 to D9)",
    "disposition": null
   },
   {

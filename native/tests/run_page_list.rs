@@ -5,8 +5,8 @@
 
 mod step_support;
 
-use lesscode_core::adapters::driver::page_names::leave_out;
-use lesscode_core::adapters::driver::page_text::data_of;
+use lesscode_core::dashboard::names::leave_out;
+use lesscode_core::dashboard::text::data_of;
 use serde_json::{json, Value};
 use std::fs;
 use std::path::{Path, PathBuf};

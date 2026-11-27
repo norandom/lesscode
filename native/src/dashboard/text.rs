@@ -6,14 +6,14 @@
 //! are taken into the binary here. `bundled.json` names the library, where
 //! it comes from and its hash.
 
-use super::page_snapshot::Snapshot;
+use super::snapshot::Snapshot;
 use serde_json::Value;
 use std::path::Path;
 use std::sync::LazyLock;
 
-const TEMPLATE: &str = include_str!("../../../page/run.html");
-const LIST: &str = include_str!("../../../page/list.html");
-const LIBRARY: &str = include_str!("../../../page/htm-preact-standalone.umd.js");
+const TEMPLATE: &str = include_str!("../../page/run.html");
+const LIST: &str = include_str!("../../page/list.html");
+const LIBRARY: &str = include_str!("../../page/htm-preact-standalone.umd.js");
 
 const LIBRARY_PLACE: &str = "/*LIB*/";
 const EVENTS: &str = "/*EVENTS*/null";

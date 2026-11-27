@@ -11,6 +11,7 @@ pub mod admission;
 pub mod budgets;
 pub mod cli_deconvolute;
 pub mod compare;
+pub mod dashboard;
 pub mod jsonval;
 pub mod measures;
 pub mod metrics;

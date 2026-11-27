@@ -6,7 +6,7 @@
 //! One listener for the process, set for the length of a run. The driver's
 //! own tests run one test per process, so two runs never share it.
 
-use super::runner::{Job, MutantResult, WorkerReport};
+use crate::adapters::driver::runner::{Job, MutantResult, WorkerReport};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, RwLock};
 use std::thread::{sleep, spawn, JoinHandle};

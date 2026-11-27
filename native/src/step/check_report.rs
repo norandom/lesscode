@@ -12,11 +12,11 @@ use super::trees::Tree;
 use super::verdict::{Verdict, PLANTED_FAULTS, REFUSED};
 use crate::adapters::driver::calls::{calls_among, FileCalls, ScopeTotal};
 use crate::adapters::driver::pack::Pack;
-use crate::adapters::driver::page_report::{
+use crate::dashboard::report::{
     Calls, Counts, FileNames, Graph, Lens, Protection, Refusal, Report, BEHAVIOUR, LOCAL,
     PROTECTION, SIZE, STATE, STRUCTURE,
 };
-use crate::adapters::driver::page_snapshot::{Stage, Status};
+use crate::dashboard::snapshot::{Stage, Status};
 use serde_json::Value;
 
 /// The commands the numbers are from, as a person would run them.

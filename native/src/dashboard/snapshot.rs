@@ -2,7 +2,7 @@
 //! the snapshot). The page draws from it and from nothing else, so every
 //! number and every sentence about the run is here and not in the page.
 
-use super::page_report::Report;
+use super::report::Report;
 use serde::Serialize;
 
 /// The version of this shape. A page reads only the version it was made for.

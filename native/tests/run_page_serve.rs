@@ -1,7 +1,7 @@
 //! The listener of the run page, asked with a plain client
 //! (`.kiro/specs/run-dashboard`, task 3.1).
 
-use lesscode_core::adapters::driver::page_serve::{Served, LOCAL};
+use lesscode_core::dashboard::serve::{Served, LOCAL};
 use std::io::{BufRead, BufReader, Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::sync::{Arc, Mutex};
