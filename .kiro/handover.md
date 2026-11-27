@@ -10,8 +10,20 @@ older ones are [handover-archive-2026-11-17.md](handover-archive-2026-11-17.md),
 
 Nothing is running. All working copies are removed.
 
+**Update 2026-11-27, later that morning: the owner decided the three corrections, `design.md` is
+corrected and waits for the owner's approval. Start here.**
+
+- Decided by the owner, all as recommended (D4 to D6 in the design): project name and title of a
+  report page come from `labels` in the notes file; names are searched only in the project's own
+  steps and in the notes, refused when distinctive and warned when an everyday word of the page
+  (requirement 3.5 carries a dated amendment); the set section composes the page's smaller parts
+  and `Result` stays.
+- **Next:** the owner approves the design (and looks at the two PDFs for G8), then
+  `kiro-spec-tasks report-set`. Tasks are not generated before that. Nothing is pushed.
+- The three points and the "Next" line in the update below are overtaken by this.
+
 **Update 2026-11-27, about 09:40: the prototype gate of `report-set` is run and says proceed; the
-design needs three corrections before the owner sees it. Start here.**
+design needs three corrections before the owner sees it.**
 
 - **The gate, R200** ([entry](../docs/research/2026-11-27/01-report-set-prototype-gate.md),
   [gate file](specs/report-set/prototype-gate.md)). G1 to G7 hold on the six reworks of R199: one

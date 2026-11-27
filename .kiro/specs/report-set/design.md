@@ -1,14 +1,13 @@
 # Design: the report set
 
 Generated 2026-11-26, about 18:50 (Europe/Berlin) from the approved
-[requirements](requirements.md). **Provisional**: the [prototype gate](prototype-gate.md) was run on
-2026-11-27 and says `proceed`
-([R200](../../../docs/research/2026-11-27/01-report-set-prototype-gate.md)), but it showed this text
-to be wrong at three points that are **not corrected here yet**: where a report page's project name
-and step title come from; the rule for names in notes and the last check on a written set
-(`page_set_names`); and the set section calling `Result`. It is not put forward for approval before
-they are corrected, and `-y` does not replace that. Discovery and decisions:
-[research.md](research.md).
+[requirements](requirements.md). The [prototype gate](prototype-gate.md) was run on 2026-11-27 and
+says `proceed` ([R200](../../../docs/research/2026-11-27/01-report-set-prototype-gate.md)). It showed
+this text to be wrong at three points. They were corrected on 2026-11-27 as the owner decided that
+day (D4 to D6 below): a report page's project name and step title come from the notes file; the
+rule for names searches only the project's own texts and refuses on distinctive names; the set
+section is built from the page's smaller parts. **Put forward for approval; not approved.**
+Discovery and decisions: [research.md](research.md).
 
 ## Overview
 
@@ -183,7 +182,7 @@ sequenceDiagram
     S->>I: read each input
     I-->>S: runs, step files, notes, or the first that cannot be read
     S->>B: build
-    B->>B: names out per project, then search the set and the notes for them
+    B->>B: names out per project, then search that project's steps and the notes for them
     B-->>S: the set, or a refusal that names the part
     S->>P: set.json, [set.html], where each was written; exit 0 or 3
 ```
@@ -223,11 +222,11 @@ sequenceDiagram
 | 2.7 | same inputs, same set | `page_set` | `as_of`; no clock; ordered maps | |
 | 2.8, 2.9 | refusals by exit code; no overwrite | `set`, `set_inputs` | `Refused`, `--force` | Making a set |
 | 3.1, 3.2, 3.3, 3.4 | names out of the set; counts kept; one number per name; said per project | `page_set_names`, `page_names` | `without_names`, `Project.counts_only` | Making a set |
-| 3.5 | a note that names what was left out | `page_set_names` | `notes_name` | Making a set |
+| 3.5, as amended 2026-11-27 | a note that names what was left out: refused for a distinctive name, warned for an everyday word | `page_set_names` | `names_in`, `Found` | Making a set |
 | 3.6 | page and PDF show only what the set holds | `run.html` | the page draws from the set alone | |
 | 4.1, 4.10 | the page written with the set, only when asked | `set`, `page_text` | `--page`, `page_text::set` | Making a set |
 | 4.2 | from disk, no request | `run.html` | no address in set mode | |
-| 4.3, 4.4, 4.6 | steps side by side; each step as a report; refused alike | `run.html` | `Set`, `Lenses`, `PerFunction`, `Graph`, `Shapes`, `Result` | |
+| 4.3, 4.4, 4.6 | steps side by side; each step as a report; refused alike | `run.html` | `Set`, `SetStep`, `Tiles`, `Lenses`, `PerFunction`, `Graph`, `Shapes` | |
 | 4.5, 4.7, 4.8 | marks; notes as text; versions and inputs | `run.html` | `Set`, text nodes only | |
 | 4.9 | both schemes, phone width, keyboard | `run.html`, `set.spec.mjs` | | |
 | 5.1, 5.2, 5.3, 5.5, 5.6 | load a set; say which is shown; refuse a bad file; counts only alike; reopen shows the first | `run.html` | `load`, `checkSet` | |
@@ -325,16 +324,29 @@ pub fn write(set: &ReportSet) -> Result<String, String>;   // the same bytes for
 ```rust
 /// Takes the names of `project` out of every step of it and gives them back.
 pub fn without_names(set: &mut ReportSet, project: &str) -> Vec<String>;
-/// The first note that holds one of `names`, and the word.
-pub fn notes_name(set: &ReportSet, names: &[String]) -> Option<(String, String)>;
-/// The first place in the written set where one of `names` still stands.
-pub fn still_named(written: &str, names: &[String]) -> Option<String>;
+pub struct Found { pub place: String, pub word: String, pub everyday: bool }
+/// Where names of `project` still stand as whole words: in the texts of its own steps and in the
+/// notes of the set. Never in the names of the format's parts, never in another project's steps.
+pub fn names_in(set: &ReportSet, project: &str, names: &[String], page: &str) -> Vec<Found>;
 ```
 - `without_names` calls `page_names::leave_out` per run and then makes the numbers agree across the
   steps of the project: the same name gets the same number in every step.
-- Names shorter than three characters, or that are common words of the page's own text, are matched
-  as whole words only, so that a function called `new` does not refuse every note.
-- `still_named` is the last check before a set is written; a hit is a refusal, never a warning.
+- A name is searched as a whole word: `run` is not found in `runtime`.
+- A name is **everyday** when it stands as a whole word in the text of the page inside the binary
+  (`page`), as `run` and `load` do. Every other name is **distinctive**.
+- `build` calls `names_in` last, before anything is written. A distinctive name is a refusal that
+  names the place and the word (3.5). An everyday name is a warning on standard error with the place
+  and the word, and the set is written.
+- Why not a search of the written set, as this design first had it (R200): `run` is the name of a
+  part of every step, and five of the 180 names of the gate's Python project are words the page
+  uses in its own sentences. A plain search refused every set of that project and the note "The
+  first run of the tests took longer."
+- Limit, accepted by the owner: a note may name a function whose name is an everyday word without
+  being refused. The warning is what the person gets. A word of ordinary language that the page
+  does not happen to use is treated as distinctive, and the refusal names it so that the note can
+  be worded another way.
+- The names of the input files stand in the head of a set. For a project shown by counts only they
+  are searched like a note.
 
 #### `page_pdf`
 
@@ -368,7 +380,7 @@ pub fn print(browser: &Path, page: &Path, pdf: &Path, seconds: u64) -> Result<()
 `page_text::data_of` reads it, a step file or a notes file when its `kind` says so.
 
 ```rust
-pub enum StepInput { Run { name: String, sha256: String, run: Snapshot }, Stated { name: String, sha256: String, step: StepFile } }
+pub enum StepInput { Run { name: String, sha256: String, run: Snapshot, label: Label }, Stated { name: String, sha256: String, step: StepFile } }
 
 #[serde(deny_unknown_fields)]
 pub struct StepFile {
@@ -382,9 +394,16 @@ pub struct StepFile {
     pub seconds: Option<f64>,
 }
 #[serde(deny_unknown_fields)]
-pub struct NotesFile { pub schema: u32, pub kind: String, pub notes: Vec<PlacedNote> }
+pub struct NotesFile { pub schema: u32, pub kind: String, pub notes: Vec<PlacedNote>, pub labels: Vec<Label> }   // "lesscode notes"
 pub struct PlacedNote { pub about: String, pub text: String, pub by: Option<String> }   // about: "set" or a step's number
+#[serde(deny_unknown_fields)]
+pub struct Label { pub about: String, pub project: String, pub title: String }          // about: the file name of a report page
 ```
+- A report page holds the path of a working copy and a branch, and neither the project's name nor
+  a title for the step (R200). Both come from a `Label` in the notes file, found by the page's file
+  name. A page without a label is refused, with the file named and what is missing. A label for a
+  file that is not among the inputs, and two labels for one file, are refused too.
+- A step file states its own project and title; a label for a step file is refused.
 - A run whose `ended` is false is refused (2.8). Two inputs with the same project, the same commits
   and different outcomes are refused as contradicting each other (2.8).
 - Where a step file names scope receipts, the drawing and the structure lens are taken from them and
@@ -425,8 +444,17 @@ lesscode-core step set-pdf <set.json> --out <report.pdf> [--browser <path>] [--s
   is present, and otherwise what it shows today.
 - `Set` shows, in this order: the head (which set, as of when, the tool's version, the inputs);
   the notes of the set; one table of the steps side by side, a row per step and a column per lens;
-  then per step a section with `Result`, the step's notes, `Lenses`, `PerFunction`, `Graph` and
-  `Shapes`, called with that step's run as they are called today.
+  then per step a section `SetStep`.
+- `SetStep` shows the step's outcome in its own words, the step's notes, the commits where the step
+  names them, and then `Tiles`, `Lenses`, `PerFunction`, `Graph` and `Shapes`, called with that
+  step's run as they are called today. It does not call `Result`: that part draws functions and
+  calls only where the run names the commit it compared with, and words the outcome by exit code,
+  and a stated step has neither (R200). `Result` and the page of one run stay as they are.
+- The outcome line says for a judged step which tool and command judged it, and for a stated step
+  "Stated in a step file, not judged in this set", with `outcome_from` where it is given. Both
+  stand in the same block.
+- Inside a set, a handed-in number is marked "handed in" and not "not measured by this run": a set
+  is not a run. `Lenses` and `Shapes` take the wording from the mode the page is in.
 - Every text of a set goes onto the page as a text node. No part of a set is used as markup, as an
   address or as a script.
 - The page asks for nothing from another machine in set mode: no address appears in it.
@@ -484,8 +512,10 @@ the exit code of its kind.
 | A page whose run did not end | the file | 3 |
 | Two inputs contradict each other about a step | both files, and what differs | 3 |
 | A note for a step that is not there | the note | 3 |
-| A note holds a name that was left out | the note and the word | 3 |
-| A name of a counts-only project still stands in the set | where | 3 |
+| A report page has no label, a label names no input or a step file, or two labels name one file | the file and what is missing or double | 3 |
+| A note or an input's file name holds a distinctive name that was left out | the note or file, and the word | 3 |
+| A distinctive name of a counts-only project still stands in a text of one of its steps | the step, the part and the word | 3 |
+| An everyday word that is also a name stands in a note or in a text of the project's steps | the place and the word, as a warning; the set is written | 0 |
 | A set with a newer format, a missing part or an unknown part | the part | 3 |
 | A file is in the way and `--force` is not given | the file | 3 |
 | No browser found | which were looked for, and where | 2 |
@@ -502,6 +532,9 @@ None. The commands print what they wrote and why they refused, on standard error
 - `page_set::build` gives `as_of` as the newest end, steps in the order of the inputs, and the same
   bytes when called twice (2.1, 2.7).
 - `page_set_names::without_names` gives one number per name across two steps of one project (3.3).
+- `page_set_names::names_in` finds a distinctive name in a note and in a text of the project's
+  step; marks a name that is a word of the page as everyday; finds nothing in the names of the
+  format's parts, in another project's step, or inside a longer word (3.5).
 - `page_pdf::find` takes `--browser` before the variable and the variable before the search path,
   and lists what it looked for when it finds none (7.4, 7.5).
 
@@ -512,8 +545,11 @@ None. The commands print what they wrote and why they refused, on standard error
   of the fixture's project differs afterwards (2.6); without `--page` no page is written (4.10);
   `step check --page` on the toy repository writes the same data with this feature (8.3, 8.4).
 - `report_set_names.rs`: with `--without-names-of`, no name of the fixture project is in the set or
-  the page; counts and edges are as before (3.1 to 3.4); a note with a left-out name ends with 3 and
-  names the word (3.5).
+  the page; counts and edges are as before (3.1 to 3.4); a note with a distinctive left-out name
+  ends with 3 and names the word; a note with a name that is an everyday word of the page ends with
+  0, writes the set and prints the warning (3.5). The fixture project has a function named `run`.
+- `report_set.rs` also: a report page without a label ends with 3 and names the file; with a label
+  the step carries the label's project and title.
 - `report_set_pdf.rs`: with a stand-in program as the browser: a PDF that appears is moved into
   place and the exit is 0; a stand-in that writes nothing gives 2; one that never ends is stopped at
   the time limit, leaves no process, and gives 2; no browser gives 2 with the list; a bad set gives
@@ -526,7 +562,8 @@ None. The commands print what they wrote and why they refused, on standard error
 - The page with `set-six.json` inside shows six rows and six sections, at 1,280 and 400 wide, light
   and dark, without sideways scrolling of the page (4.3, 4.4, 4.9).
 - A step not judged, a lens not measured and a handed-in number each carry their mark (4.5); a
-  refused step has the same block as an accepted one (4.6).
+  refused step has the same block as an accepted one (4.6). A stated step without a commit shows
+  its drawing; no step of a set says "this run".
 - A note that contains `<script>` and `<b>` shows those characters (4.7).
 - Picking a second set replaces the first and names the file; a file that is not a set leaves the
   first and shows a message with the part; reloading the page shows the first (5.1 to 5.3, 5.6).
@@ -563,6 +600,17 @@ All three were decided as recommended.
 | D2 | The commands are `step set` and `step set-pdf` | `step set` and `step set-pdf` |
 | D3 | The checks on Linux need a Chromium in the container that runs them | The PDF on Linux is shown once in a Linux container with a Chromium (see C4); the page's own checks stay Playwright on the host |
 
+## Decisions of the owner, 2026-11-27, after the gate
+
+All three were decided as recommended. Evidence for each:
+[R200](../../../docs/research/2026-11-27/01-report-set-prototype-gate.md).
+
+| # | Decision | Decided |
+| --- | --- | --- |
+| D4 | Where a report page's project name and step title come from. Alternatives: options on `step set`; options on `step check` that write them into the page | The notes file, under `labels` |
+| D5 | The rule that keeps the names of a counts-only project out. Alternatives: refuse on every name unless the word is listed as allowed; check the steps and leave notes unchecked | Search only that project's steps and the notes; refuse on distinctive names, warn on everyday words. Requirement 3.5 is amended to this |
+| D6 | How the set page draws a step. Alternative: change `Result` so that it draws stated steps too | The set section composes the smaller parts; `Result` stays |
+
 ## Contradictions and disposition
 
 Checked: [requirements](requirements.md), [brief](brief.md), `product.md`, `tech.md`,
@@ -575,8 +623,14 @@ Checked: [requirements](requirements.md), [brief](brief.md), `product.md`, `tech
 | C2 | Requirement 2.4 (a step from handed-in numbers is marked as not judged by the tool) against the fact that two of R199's reworks were judged by the tool and have no report page | requirements point 1; R173, R161 | The mark reads "not judged in this set", and the step may name its verdict in `outcome_from` | resolved by the owner, 2026-11-26: the step file, marked |
 | C3 | The brief leaves open whether the set page is a second page or a mode of an existing one; `run-dashboard` is complete and its page is checked | brief, 2026-11-26; `run-dashboard` validation | A mode of `run.html`. Its own checks run unchanged in the first task that touches it | resolved; revalidation named |
 | C4 | Owner's memory rule that a browser check runs through Playwright and never in a container, against Requirement 7.8 (the PDF on Linux) | owner rules; requirement 7.8 | The page's checks stay Playwright on the host. The PDF command on Linux is the tool's own behaviour and is shown once in a Linux container with a Chromium, as the opener of the run page was (R182) | resolved by the owner, 2026-11-26: once in a container |
-| C5 | Requirement 7.2 (every drawing in the PDF) against a browser that may print before the page's script has drawn | requirement 7.2 | Not resolvable on paper | open empirical risk, gate G5; `not-run` |
+| C5 | Requirement 7.2 (every drawing in the PDF) against a browser that may print before the page's script has drawn | requirement 7.2 | Not resolvable on paper | resolved by the gate, 2026-11-27 (G5): Edge on Windows and Chromium on Linux print all eight drawings as shapes with text. The page draws while it loads, and the browser prints after loading |
 | C6 | Requirement 6.3 (nothing cut across sheets) has no check | requirement 6.3 | Read by a person in the example's PDF; said under Testing Strategy | resolved as a stated limit |
 | C7 | `tech.md` on new dependencies against the browser | `tech.md` | No crate is added. The browser is a program the person already has, as `ssh-keygen` and `curl` are for `signed-approvals` | resolved |
 
-C5 keeps this design provisional until the gate is run. Nothing else is open.
+| C8 | Requirement 3.5 as approved (a note that contains a left-out name is refused) against the gate: five of 180 names are everyday words, and the note "The first run of the tests took longer." was refused | requirement 3.5; R200 | Refused for a distinctive name, warned for an everyday word; the requirement carries a dated amendment | resolved by the owner, 2026-11-27 (D5) |
+| C9 | Goal "the same parts of the page draw a step in a run's report and in a set" against `Result`, which cannot draw a stated step | this design; R200 | The shared parts are `Tiles`, `Lenses`, `PerFunction`, `Graph` and `Shapes`. The outcome block is the set's own | resolved by the owner, 2026-11-27 (D6) |
+| C10 | Research finding "a report page already holds its whole run … nothing new is needed" against the gate: the page holds no project name and no step title | research.md; R200 | Both are handed in with the notes file | resolved by the owner, 2026-11-27 (D4) |
+
+Nothing is open. Not shown by the gate and left to the first task: the tool's own page, changed in
+place, still passes `states.spec.mjs` and `list.spec.mjs`; and `page_names::leave_out`, which the
+prototype did not run, gives numbers that can be made to agree across two steps.

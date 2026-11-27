@@ -145,6 +145,11 @@ everything that leaves my machine, so that I can still show what a rework did to
 4. The report set shall say for each project whether it is shown by counts only.
 5. If a note contains a name that was left out of the set, then the tool shall refuse to make the
    set and shall name the note and the word.
+   *Amended 2026-11-27 by the owner, after the prototype gate
+   ([R200](../../../docs/research/2026-11-27/01-report-set-prototype-gate.md)):* where the name is
+   also an everyday word that the page uses in its own text, the tool shall make the set and shall
+   warn, naming the note and the word. As first written, the criterion refused the note "The first
+   run of the tests took longer." because the project has a function named `run`.
 6. While a set says that a project is shown by counts only, the set page and its PDF shall show for
    that project only what the set holds.
 
